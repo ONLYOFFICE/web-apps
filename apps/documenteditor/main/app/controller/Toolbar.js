@@ -1314,23 +1314,25 @@ define([
         },
 
         onMarkerSettingsClick: function(type) {
-            var me      = this,
-                props;
+            var me      = this;
 
-            var selectedElements = me.api.getSelectedElements();
-            if (selectedElements && _.isArray(selectedElements)) {
-                for (var i = 0; i< selectedElements.length; i++) {
-                    if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
-                        props = selectedElements[i].get_ObjectValue();
-                        break;
-                    }
-                }
-            }
-            if (props) {
+            // var selectedElements = me.api.getSelectedElements();
+            // if (selectedElements && _.isArray(selectedElements)) {
+            //     for (var i = 0; i< selectedElements.length; i++) {
+            //         if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+            //             props = selectedElements[i].get_ObjectValue();
+            //             break;
+            //         }
+            //     }
+            // }
+            var listId = me.api.asc_GetCurrentNumberingId(),
+                level = me.api.asc_GetCurrentNumberingLvl(),
+                props = (listId !== null) ? me.api.asc_GetNumberingPr(listId).get_Lvl(level) : null;
+            if (props && props.get_Format() == Asc.c_oAscNumberingFormat.Bullet) {
                 (new DE.Views.BulletSettingsDialog({
                     api: me.api,
                     props: props,
-                    type: type,
+                    level: level,
                     interfaceLang: me.mode.lang,
                     handler: function(result, value) {
                         if (result == 'ok') {
