@@ -575,6 +575,13 @@ define([
                 this.trigger('toggle', this, state);
         },
 
+        click: function(opts) {
+            if ( !this.disabled ) {
+                this.doToggle();
+                this.trigger('click', this, opts);
+            }
+        },
+
         isActive: function() {
             if (this.enableToggle)
                 return this.pressed;
@@ -641,6 +648,24 @@ define([
             this.iconCls = cls;
             btnIconEl.removeClass(oldCls);
             btnIconEl.addClass(cls || '');
+        },
+
+        changeIcon: function(opts) {
+            var me = this;
+            if ( opts && (opts.curr || opts.next)) {
+                !!opts.curr && (me.$icon.removeClass(opts.curr));
+                !!opts.next && !me.$icon.hasClass(opts.next) && (me.$icon.addClass(opts.next));
+
+                if ( !!me.options.signals ) {
+                    if ( !(me.options.signals.indexOf('icon:changed') < 0) ) {
+                        me.trigger('icon:changed', me, opts);
+                    }
+                }
+            }
+        },
+
+        hasIcon: function(iconcls) {
+            return this.$icon.hasClass(iconcls);
         },
 
         setVisible: function(visible) {
