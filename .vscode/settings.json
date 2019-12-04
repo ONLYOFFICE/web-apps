@@ -1,0 +1,10 @@
+{
+    "filewatcher.commands": [
+        {
+            "match": "app-(ios|material)\\.less",
+            "isAsync": true,
+            "cmd": "lessc --js --no-color '${file}' '${fileDirname}/../css/${fileBasenameNoExt}.css'",
+            "event": "onFileChange"
+        }
+    ]
+}
