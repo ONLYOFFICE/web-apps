@@ -759,12 +759,13 @@ define([
                         '<div>',
                             '<label class="checkbox-indeterminate" style="position:absolute;">',
                                 '<% if (check=="indeterminate") { %>',
-                                    '<input type="button" class="indeterminate img-commonctrl"/>',
+                                    '<input type="button" class="indeterminate button__checkbox">',
                                 '<% } else if (check) { %>',
-                                    '<input type="button" class="checked img-commonctrl"/>',
+                                    '<input type="button" class="checked button__checkbox">',
                                 '<% } else { %>',
-                                    '<input type="button" class="img-commonctrl"/>',
+                                    '<input type="button" class="button__checkbox">',
                                 '<% } %>',
+                                '<span class="checkmark"/>',
                             '</label>',
                             '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
                                 '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
@@ -1015,7 +1016,7 @@ define([
                     }
                 }
 
-                if (type === 'button' || isLabel) {
+                if (type === 'button' || isLabel || event.target.className.match('checkmark')) {
                     this.updateCellCheck(listView, record);
 
                     _.delay(function () {
