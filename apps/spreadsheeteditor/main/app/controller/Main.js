@@ -1477,7 +1477,7 @@ define([
                     }, this);
                 }
 
-                if ($('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
+                if (id == Asc.c_oAscError.ID.EditingError || $('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
                     Common.UI.alert(config);
                     Common.component.Analytics.trackEvent('Internal Error', id.toString());
                 }
