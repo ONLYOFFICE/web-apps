@@ -1068,7 +1068,7 @@ define([
                 var arrGradStop = [];
                 this.GradColor.values.forEach(function (item, index) {
                     var gradientStop = new Asc.asc_CGradientStop();
-                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(me.GradColor.colors[index]));
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index])));
                     gradientStop.asc_setPosition(me.GradColor.values[index]/100);
                     arrGradStop.push(gradientStop);
                 });
@@ -1124,7 +1124,7 @@ define([
                 var arrGradStop = [];
                 this.GradColor.colors.forEach(function (item, index) {
                     var gradientStop = new Asc.asc_CGradientStop();
-                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(me.GradColor.colors[index]));
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index])));
                     gradientStop.asc_setPosition(me.GradColor.values[index]/100);
                     arrGradStop.push(gradientStop);
                 });
