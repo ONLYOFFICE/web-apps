@@ -822,7 +822,7 @@ define([
                     var me = this;
                     var colors = fill.asc_getColors(),
                         positions = fill.asc_getPositions(),
-                        length = colors.length;
+                        length = colors ? colors.length : this.GradColor.colors.length;
                     this.sldrGradient.setThumbs(length);
                     if (this.GradColor.colors.length>length) {
                         this.GradColor.colors.splice(length, this.GradColor.colors.length - length);
