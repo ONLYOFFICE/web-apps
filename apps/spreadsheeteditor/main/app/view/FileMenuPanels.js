@@ -771,6 +771,12 @@ define([
                 labelText: this.strUseSeparatorsBasedOnRegionalSettings
             }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var checked = field.getValue() === 'checked';
+                if (checked) {
+                    var decimal = this.api.asc_getDecimalSeparator(),
+                        group = this.api.asc_getGroupSeparator();
+                    this.inputDecimalSeparator.setValue(decimal);
+                    this.inputThousandsSeparator.setValue(group);
+                }
                 this.inputDecimalSeparator.setDisabled(checked);
                 this.inputThousandsSeparator.setDisabled(checked);
             }, this));
@@ -892,14 +898,19 @@ define([
             }
             this.updateRegionalExample(value);
 
-            var decimal = this.api.asc_getDecimalSeparator();
-            this.inputDecimalSeparator.setValue(decimal ? decimal : '');
-
-            var group = this.api.asc_getGroupSeparator();
-            this.inputThousandsSeparator.setValue(group ? group : '');
-
-            var isBaseSettings = _.isUndefined(decimal) && _.isUndefined(group);
+            var isBaseSettings = Common.Utils.InternalSettings.get("sse-settings-use-base-separator");
             this.chSeparator.setValue(isBaseSettings);
+            var decimal,
+                group;
+            if (!isBaseSettings) {
+                decimal = Common.Utils.InternalSettings.get("sse-settings-decimal-separator") || this.api.asc_getDecimalSeparator() || '';
+                group = Common.Utils.InternalSettings.get("sse-settings-group-separator") || this.api.asc_getGroupSeparator() || '';
+            } else {
+                decimal = this.api.asc_getDecimalSeparator();
+                group = this.api.asc_getGroupSeparator();
+            }
+            this.inputDecimalSeparator.setValue(decimal);
+            this.inputThousandsSeparator.setValue(group);
             this.inputDecimalSeparator.setDisabled(isBaseSettings);
             this.inputThousandsSeparator.setDisabled(isBaseSettings);
         },
@@ -923,17 +934,22 @@ define([
             if (this.cmbRegSettings.getSelectedRecord())
                 Common.localStorage.setItem("sse-settings-reg-settings", this.cmbRegSettings.getValue());
 
-            var decimal,
-                group;
-            if (this.chSeparator.isChecked()) {
-                decimal = undefined;
-                group = undefined;
-            } else {
-                decimal = this.inputDecimalSeparator.getValue();
-                group = this.inputThousandsSeparator.getValue();
+            var value,
+                isChecked = this.chSeparator.isChecked();
+            if (!isChecked) {
+                value = this.inputDecimalSeparator.getValue();
+                if (value.length > 0) {
+                    Common.localStorage.setItem("sse-settings-decimal-separator", value);
+                    Common.Utils.InternalSettings.set("sse-settings-decimal-separator", value);
+                }
+                value = this.inputThousandsSeparator.getValue();
+                if (value.length > 0) {
+                    Common.localStorage.setItem("sse-settings-group-separator", value);
+                    Common.Utils.InternalSettings.set("sse-settings-group-separator", value);
+                }
             }
-            Common.localStorage.setItem("sse-settings-decimal-separator", decimal);
-            Common.localStorage.setItem("sse-settings-group-separator", group);
+            Common.localStorage.setBool("sse-settings-use-base-separator", isChecked);
+            Common.Utils.InternalSettings.set("sse-settings-use-base-separator", isChecked);
 
             Common.localStorage.save();
             if (this.menu) {

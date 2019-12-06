@@ -343,10 +343,10 @@ define([
                                 .setUserName(this.appOptions.user.fullname);
 
                 var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
+                    isUseBaseSeparator = Common.localStorage.getBool("sse-settings-use-base-separator", true),
                     decimal = Common.localStorage.getItem("sse-settings-decimal-separator"),
                     group = Common.localStorage.getItem("sse-settings-group-separator");
-                decimal = decimal === 'undefined' ? undefined : decimal;
-                group = group === 'undefined' ? undefined : group;
+                Common.Utils.InternalSettings.set("sse-settings-use-base-separator", isUseBaseSeparator);
                 if (reg!==null)
                     this.api.asc_setLocale(parseInt(reg), decimal, group);
                 else {
@@ -359,7 +359,7 @@ define([
                     this.api.asc_setLocale(reg, decimal, group);
                 }
 
-                value = Common.localStorage.getBool("sse-settings-r1c1");
+                var value = Common.localStorage.getBool("sse-settings-r1c1");
                 Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
                 this.api.asc_setR1C1Mode(value);
 

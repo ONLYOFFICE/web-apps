@@ -387,11 +387,16 @@ define([
             }
 
             var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
-                decimal = Common.localStorage.getItem("sse-settings-decimal-separator"),
-                group = Common.localStorage.getItem("sse-settings-group-separator");
-            decimal = decimal === 'undefined' ? undefined : decimal;
-            group = group === 'undefined' ? undefined : group;
-            if (reg!==null) this.api.asc_setLocale(parseInt(reg), decimal, group);
+                baseRegSettings = Common.Utils.InternalSettings.get("sse-settings-use-base-separator");
+            if (reg === null) {
+                reg = this.api.asc_getLocale();
+            }
+            if (baseRegSettings) {
+                this.api.asc_setLocale(parseInt(reg), undefined, undefined);
+            }
+            else {
+                this.api.asc_setLocale(parseInt(reg), Common.localStorage.getItem("sse-settings-decimal-separator"), Common.localStorage.getItem("sse-settings-group-separator"));
+            }
 
             menu.hide();
 
