@@ -14,17 +14,17 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="image-button-original-size" style="width:100px;"><%= scope.textOriginalSize %></button>
+            <button type="button" class="btn btn-text-default" id="image-button-original-size" style="min-width:100px;width: auto;"><%= scope.textOriginalSize %></button>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="image-button-fit-margins" style="width:100px;"><%= scope.textFitMargins %></button>
+            <button type="button" class="btn btn-text-default" id="image-button-fit-margins" style="min-width:100px;width: auto;"><%= scope.textFitMargins %></button>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <div id="image-button-crop" style="width: 100px;"></div>
+            <div id="image-button-crop" style="min-width: 100px;"></div>
         </td>
     </tr>
     <tr>

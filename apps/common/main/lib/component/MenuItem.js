@@ -183,6 +183,7 @@ define([
 
                     if (this.checkable && firstChild) {
                         firstChild.toggleClass('checkable', this.checkable);
+                        firstChild.toggleClass('no-checkmark', this.options.checkmark===false);
                         firstChild.toggleClass('checked', this.checked);
                         if (!_.isEmpty(this.iconCls)) {
                             firstChild.css('background-image', 'none');

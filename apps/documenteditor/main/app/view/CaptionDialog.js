@@ -255,6 +255,7 @@ define([
                 me.props.put_ExcludeLabel(newValue=='checked');
                 me.props.updateName();
                 me.txtCaption.setValue(me.props.get_Name());
+                me.positionCaption = me.txtCaption.getValue().length;
             });
 
             this.cmbNumbering = new Common.UI.ComboBox({
@@ -285,6 +286,7 @@ define([
                 me.props.put_IncludeChapterNumber(newValue=='checked');
                 me.props.updateName();
                 me.txtCaption.setValue(me.props.get_Name());
+                me.positionCaption = me.txtCaption.getValue().length;
                 me.cmbChapter.setDisabled(newValue!=='checked');
                 me.cmbSeparator.setDisabled(newValue!=='checked');
             });

@@ -204,6 +204,14 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             });
             this.spinners.push(this.spnMarginRight);
 
+            var itemsTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
+                    '<%= scope.getDisplayValue(item) %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join(''));
             this.cmbLayout = new Common.UI.ComboBox({
                 el          : $('#printadv-dlg-combo-layout'),
                 style       : 'width: 242px;',
@@ -215,8 +223,9 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     { value: 1, displayValue: this.textFitPage },
                     { value: 2, displayValue: this.textFitCols },
                     { value: 3, displayValue: this.textFitRows },
-                    { value: 4, displayValue: this.textCustomOptions}
-                ]
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ],
+                itemsTemplate: itemsTemplate
             });
 
             this.btnHide = new Common.UI.Button({
@@ -231,6 +240,27 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             var value = Common.localStorage.getItem("sse-hide-print-settings");
             this.extended = (value!==null && parseInt(value)==0);
             this.handlerShowDetails(this.btnHide);
+        },
+
+        addCustomScale: function (add) {
+            if (add) {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 4, displayValue: this.textCustom },
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ]);
+            } else {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ]);
+            }
         },
 
         setRange: function(value) {
@@ -324,7 +354,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         btnDownload:            'Save & Download',
         textRange:              'Range',
         textIgnore:             'Ignore Print Area',
-        textCustomOptions:      'Custom Options'
+        textCustomOptions:      'Custom Options',
+        textCustom:             'Custom'
 
     }, SSE.Views.PrintSettings || {}));
 });

@@ -355,7 +355,6 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onTransparencyChange: function(field, newValue, oldValue){
@@ -822,7 +821,7 @@ define([
                     var me = this;
                     var colors = fill.asc_getColors(),
                         positions = fill.asc_getPositions(),
-                        length = colors.length;
+                        length = colors ? colors.length : this.GradColor.colors.length;
                     this.sldrGradient.setThumbs(length);
                     if (this.GradColor.colors.length>length) {
                         this.GradColor.colors.splice(length, this.GradColor.colors.length - length);
@@ -850,6 +849,10 @@ define([
                         me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
                     }
+                    if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
+                        me.GradColor.currentIdx = 0;
+                    }
+                    me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1156,6 +1159,7 @@ define([
                 minValue: 0
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.lockedControls.push(this.numTransparency);
 
             this.sldrTransparency = new Common.UI.SingleSlider({
@@ -1256,6 +1260,16 @@ define([
                 me.OriginalFillType = null;
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
+            });
+            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
+                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+                me.GradColor.currentIdx = index;
+                me.sldrGradient.addNewThumb(index, color);
+            });
+            this.sldrGradient.on('removethumb', function(cmp, index){
+                me.sldrGradient.removeThumb(index);
+                me.GradColor.values.splice(index, 1);
+                me.sldrGradient.changeGradientStyle();
             });
             this.lockedControls.push(this.sldrGradient);
 

@@ -543,14 +543,14 @@ define([
 
             me.mnuGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
-                iconCls     : 'mnu-group',
+                iconCls     : 'menu__icon shape-group',
                 type        : 'group',
                 value       : 'grouping'
             });
 
             me.mnuUnGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtUngroup,
-                iconCls     : 'mnu-ungroup',
+                iconCls     : 'menu__icon shape-ungroup',
                 type        : 'group',
                 value       : 'ungrouping'
             });
@@ -630,25 +630,25 @@ define([
 
             me.mnuBringToFront = new Common.UI.MenuItem({
                 caption : this.textArrangeFront,
-                iconCls : 'mnu-arrange-front',
+                iconCls : 'menu__icon arrange-front',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.BringToFront
             });
             me.mnuSendToBack = new Common.UI.MenuItem({
                 caption : this.textArrangeBack,
-                iconCls : 'mnu-arrange-back',
+                iconCls : 'menu__icon arrange-back',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.SendToBack
             });
             me.mnuBringForward = new Common.UI.MenuItem({
                 caption : this.textArrangeForward,
-                iconCls : 'mnu-arrange-forward',
+                iconCls : 'menu__icon arrange-forward',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.BringForward
             });
             me.mnuSendBackward = new Common.UI.MenuItem({
                 caption: this.textArrangeBackward,
-                iconCls : 'mnu-arrange-backward',
+                iconCls : 'menu__icon arrange-backward',
                 type    : 'arrange',
                 value   : Asc.c_oAscDrawingLayerType.SendBackward
             });
@@ -675,38 +675,38 @@ define([
                     menuAlign: 'tl-tr',
                     items: [{
                         caption : me.textShapeAlignLeft,
-                        iconCls : 'mnu-img-align-left',
+                        iconCls : 'menu__icon shape-align-left',
                         value   : 0
                     }, {
                         caption : me.textShapeAlignCenter,
-                        iconCls : 'mnu-img-align-center',
+                        iconCls : 'menu__icon shape-align-center',
                         value   : 4
                     }, {
                         caption : me.textShapeAlignRight,
-                        iconCls : 'mnu-img-align-right',
+                        iconCls : 'menu__icon shape-align-right',
                         value   : 1
                     }, {
                         caption : me.textShapeAlignTop,
-                        iconCls : 'mnu-img-align-top',
+                        iconCls : 'menu__icon shape-align-top',
                         value   : 3
                     }, {
                         caption : me.textShapeAlignMiddle,
-                        iconCls : 'mnu-img-align-middle',
+                        iconCls : 'menu__icon shape-align-middle',
                         value   : 5
                     }, {
                         caption : me.textShapeAlignBottom,
-                        iconCls : 'mnu-img-align-bottom',
+                        iconCls : 'menu__icon shape-align-bottom',
                         value   : 2
                     },
                     {caption: '--'},
                     {
                         caption: me.txtDistribHor,
-                        iconCls: 'mnu-distrib-hor',
+                        iconCls: 'menu__icon shape-distribute-hor',
                         value: 6
                     },
                     {
                         caption: me.txtDistribVert,
-                        iconCls: 'mnu-distrib-vert',
+                        iconCls: 'menu__icon shape-distribute-vert',
                         value: 7
                     }]
                 })
@@ -798,24 +798,27 @@ define([
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'mnu-direct-horiz',
+                            iconCls     : 'menu__icon text-orient-hor',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.normal
                         }),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'mnu-direct-rdown',
+                            iconCls     : 'menu__icon text-orient-rdown',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert
                         }),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'mnu-direct-rup',
+                            iconCls     : 'menu__icon text-orient-rup',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert270
@@ -836,6 +839,10 @@ define([
                             checkable   : true,
                             checked     : false,
                             value       : -1
+                        }),
+                        me.mnuListSettings = new Common.UI.MenuItem({
+                            caption: me.textListSettings,
+                            value: 'settings'
                         })
                     ]
                 })
@@ -1057,7 +1064,7 @@ define([
         strDetails: 'Signature Details',
         strSetup: 'Signature Setup',
         strDelete: 'Remove Signature',
-        originalSizeText: 'Default Size',
+        originalSizeText: 'Actual Size',
         textReplace: 'Replace image',
         textFromUrl: 'From URL',
         textFromFile: 'From File',
@@ -1090,7 +1097,8 @@ define([
         textAlign: 'Align',
         textCrop: 'Crop',
         textCropFill: 'Fill',
-        textCropFit: 'Fit'
+        textCropFit: 'Fit',
+        textListSettings: 'List Settings'
 
     }, SSE.Views.DocumentHolder || {}));
 });

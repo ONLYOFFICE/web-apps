@@ -185,7 +185,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
             this.btnRatio = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'advanced-btn-ratio',
+                iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -2013,7 +2013,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textLeft:       'Left',
         textBottom:     'Bottom',
         textRight:      'Right',
-        textOriginalSize: 'Default Size',
+        textOriginalSize: 'Actual Size',
         textPosition:   'Position',
         textDistance:   'Distance From Text',
         textSize:       'Size',

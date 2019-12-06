@@ -42,8 +42,15 @@ define([
     'use strict';
 
     var Desktop = function () {
-        var config = {};
-        var app = window.AscDesktopEditor;
+        var config = {version:'{{PRODUCT_VERSION}}'};
+        var app = window.AscDesktopEditor,
+            webapp = window.DE || window.PE || window.SSE;
+        var titlebuttons;
+        var btnsave_icons = {
+            'btn-save': 'save',
+            'btn-save-coauth': 'coauth',
+            'btn-synch': 'synch' };
+
 
         if ( !!app ) {
             window.on_native_message = function (cmd, param) {
@@ -83,14 +90,79 @@ define([
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
-                    if ( param == 'request' )
-                        app.execCommand('editor:config', JSON.stringify({user: config.user, 'extraleft': $('#box-document-title #slot-btn-dt-save').parent().width()}));
+                    if ( param == 'request' ) {
+                        if ( !!titlebuttons ) {
+                            var opts = {
+                                user: config.user,
+                                title: { buttons: [] }
+                            };
+
+                            var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                            if ( header ) {
+                                for (var i in titlebuttons) {
+                                    opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
+                                }
+                            }
+
+                            app.execCommand('editor:config', JSON.stringify(opts));
+                        } else
+                        if ( !config.callback_editorconfig ) {
+                            config.callback_editorconfig = function() {
+                                setTimeout(function(){window.on_native_message(cmd, param);},0);
+                            }
+                        }
+                    }
+                } else
+                if (/button:click/.test(cmd)) {
+                    var obj = JSON.parse(param);
+                    if ( !!obj.action ) {
+                        titlebuttons[obj.action].btn.click();
+                    }
                 }
             };
 
-            app.execCommand('webapps:events', 'loading');
-            app.execCommand('window:features', 'request');
+            if ( !!window.native_message_cmd ) {
+                for ( var c in window.native_message_cmd ) {
+                    window.on_native_message(c, window.native_message_cmd[c]);
+                }
+            }
+
+            // app.execCommand('window:features', {version: config.version, action: 'request'});
+            app.execCommand('webapps:features', {version: config.version, eventloading:true, titlebuttons:true});
         }
+
+        var _serializeHeaderButton = function(action, config) {
+            return {
+                action: action,
+                icon: config.icon || undefined,
+                hint: config.btn.options.hint,
+                disabled: config.disabled
+            };
+        };
+
+        var _onTitleButtonDisabled = function (action, e, status) {
+            titlebuttons[action].disabled = status;
+            var _buttons = {};
+            _buttons[action] = status;
+            app.execCommand('title:button', JSON.stringify({disabled: _buttons}));
+        };
+
+        var _onSaveIconChanged = function (e, opts) {
+            app.execCommand('title:button', JSON.stringify({'icon:changed': {'save': btnsave_icons[opts.next]}}));
+        };
+
+        var _onModalDialog = function (status) {
+            if ( status == 'open' ) {
+                app.execCommand('title:button', JSON.stringify({disabled: {'all':true}}));
+            } else {
+                var _buttons = {};
+                for (var i in titlebuttons) {
+                    _buttons[i] = titlebuttons[i].disabled;
+                }
+
+                app.execCommand('title:button', JSON.stringify({'disabled': _buttons}));
+            }
+        };
 
         return {
             init: function (opts) {
@@ -112,6 +184,35 @@ define([
                         if ( config.canUndock ) {
                             Common.NotificationCenter.trigger('app:config', {canUndock: true});
                         }
+
+                        var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                        titlebuttons = {
+                            'save': {btn: header.btnSave, disabled:false},
+                            'print': {btn: header.btnPrint, disabled:false},
+                            'undo': {btn: header.btnUndo, disabled:false},
+                            'redo': {btn: header.btnRedo,  disabled:false}
+                        };
+
+                        for (var i in titlebuttons) {
+                            titlebuttons[i].btn.options.signals = ['disabled'];
+                            titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
+                        }
+
+                        header.btnSave.options.signals.push('icon:changed');
+                        header.btnSave.on('icon:changed', _onSaveIconChanged.bind(this));
+
+                        var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
+                        !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
+
+                        if ( !!config.callback_editorconfig ) {
+                            config.callback_editorconfig();
+                            delete config.callback_editorconfig;
+                        }
+                    });
+
+                    Common.NotificationCenter.on({
+                        'modal:show': _onModalDialog.bind(this, 'open'),
+                        'modal:close': _onModalDialog.bind(this, 'close')
                     });
                 }
             },

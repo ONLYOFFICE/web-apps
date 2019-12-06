@@ -80,6 +80,7 @@ define([
                 }));
 
                 this.editMode = false;
+                this.rangeSelectionMode = Asc.c_oAscSelectionDialogType.None;
 
                 this.btnZoomDown = new Common.UI.Button({
                     el: $('#status-btn-zoomdown',this.el),
@@ -182,18 +183,22 @@ define([
                             me.fireEvent('sheet:changename');
                         }
                     }, this),
-                    'tab:move'          : _.bind(function (tabIndex, index) {
+                    'tab:move'          : _.bind(function (selectTabs, index) {
                         me.tabBarScroll = {scrollLeft: me.tabbar.scrollX};
-
-                        if (_.isUndefined(index) || tabIndex === index) {
+                        if (_.isUndefined(selectTabs) || _.isUndefined(index) || selectTabs === index) {
                             return;
                         }
+                        if (_.isArray(selectTabs)) {
+                            me.fireEvent('sheet:move', [selectTabs, false, true, undefined, index]);
+                        } else {
+                            var tabIndex = selectTabs;
 
-                        if (tabIndex < index) {
-                            ++index;
+                            if (tabIndex < index) {
+                                ++index;
+                            }
+
+                            me.fireEvent('sheet:move', [undefined, false, true, tabIndex, index]);
                         }
-
-                        me.fireEvent('sheet:move', [false, true, tabIndex, index]);
 
                     }, this)
                 });
@@ -241,7 +246,10 @@ define([
                         {
                             caption: this.itemTabColor,
                             menu: menuColorItems
-                        }
+                        },
+                        { caption: '--' },
+                        {caption: this.selectAllSheets,  value: 'selectall'},
+                        {caption: this.ungroupSheets,  value: 'noselect'}
                     ]
                 }).on('render:after', function(btn) {
                         var colorVal = $('<div class="btn-color-value-line"></div>');
@@ -348,7 +356,7 @@ define([
                     if (!this.tabbar.isTabVisible(sindex))
                         this.tabbar.setTabVisible(sindex);
 
-                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked());
+                    this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.isCellEdited);
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     me.fireEvent('sheet:changed', [me, sindex]);
@@ -409,7 +417,8 @@ define([
                 // Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + this.api.asc_getActiveWorksheetId()], false); //  hide popover
             },
 
-            onTabMenu: function (o, index, tab) {
+            onTabMenu: function (o, index, tab, select) {
+                var me = this;
                 if (this.mode.isEdit && !this.isEditFormula && (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                                                (this.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable) &&
                     !this.mode.isDisconnected ) {
@@ -420,8 +429,18 @@ define([
 
                         if (!tab.isActive()) this.tabbar.setActive(tab);
 
-                        var issheetlocked   = this.api.asc_isWorksheetLockedOrDeleted(tab.sheetindex),
-                            isdoclocked     = this.api.asc_isWorkbookLocked();
+                        if (!_.isUndefined(select)) {
+                            var issheetlocked = false;
+                            select.forEach(function (item) {
+                                if (me.api.asc_isWorksheetLockedOrDeleted(item.sheetindex)) {
+                                    issheetlocked = true;
+                                }
+                            });
+                        } else {
+                            var issheetlocked = me.api.asc_isWorksheetLockedOrDeleted(tab.sheetindex);
+                        }
+
+                        var isdoclocked     = this.api.asc_isWorkbookLocked();
 
                         this.tabMenu.items[0].setDisabled(isdoclocked);
                         this.tabMenu.items[1].setDisabled(issheetlocked);
@@ -431,6 +450,15 @@ define([
                         this.tabMenu.items[5].setDisabled(issheetlocked);
                         this.tabMenu.items[6].setDisabled(isdoclocked);
                         this.tabMenu.items[7].setDisabled(issheetlocked);
+
+                        if (select.length === 1) {
+                            this.tabMenu.items[10].hide();
+                        } else {
+                            this.tabMenu.items[10].show();
+                        }
+
+                        this.tabMenu.items[9].setDisabled(issheetlocked);
+                        this.tabMenu.items[10].setDisabled(issheetlocked);
 
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
@@ -473,6 +501,11 @@ define([
             onTabMenuClick: function (o, item) {
                 if (item && this.api) {
                     this.enableKeyEvents = (item.value === 'ins' || item.value === 'hide');
+                    if (item.value === 'selectall') {
+                        this.tabbar.setSelectAll(true);
+                    } else if (item.value === 'noselect') {
+                        this.tabbar.setSelectAll(false);
+                    }
                 }
             },
 
@@ -538,13 +571,15 @@ define([
             textNoColor         : 'No Color',
             textNewColor        : 'Add New Custom Color',
             zoomText            : 'Zoom {0}%',
-            textSum             : 'SUM',
-            textCount           : 'COUNT',
-            textAverage         : 'AVERAGE',
-            textMin             : 'MIN',
-            textMax             : 'MAX',
+            textSum             : 'Sum',
+            textCount           : 'Count',
+            textAverage         : 'Average',
+            textMin             : 'Min',
+            textMax             : 'Max',
             filteredRecordsText : '{0} of {1} records filtered',
-            filteredText        : 'Filter mode'
+            filteredText        : 'Filter mode',
+            selectAllSheets     : 'Select All Sheets',
+            ungroupSheets       : 'Ungroup Sheets'
         }, SSE.Views.Statusbar || {}));
 
         SSE.Views.Statusbar.RenameDialog = Common.UI.Window.extend(_.extend({
@@ -552,8 +587,7 @@ define([
                 header: false,
                 width: 280,
                 cls: 'modal-dlg',
-                buttons: ['ok', 'cancel'],
-                footerCls: 'right'
+                buttons: ['ok', 'cancel']
             },
 
             template:   '<div class="box">' +
@@ -659,10 +693,8 @@ define([
         SSE.Views.Statusbar.CopyDialog = Common.UI.Window.extend(_.extend({
             options: {
                 width: 270,
-                height: 300,
                 cls: 'modal-dlg',
-                buttons: ['ok', 'cancel'],
-                footerCls: 'right'
+                buttons: ['ok', 'cancel']
             },
 
             template:   '<div class="box">' +

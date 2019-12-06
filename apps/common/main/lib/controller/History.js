@@ -81,6 +81,7 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             if (!mode.canHistoryClose) {
                 this.panelHistory.$el.find('#history-header').hide();
                 this.panelHistory.$el.find('#history-list').css('padding-top', 0);
@@ -163,6 +164,8 @@ define([
         },
 
         onSetHistoryData: function(opts) {
+            if (!this.mode.canUseHistory) return;
+
             if (opts.data.error) {
                  var config = {
                     title: this.notcriticalErrorTitle,
@@ -177,7 +180,7 @@ define([
                 if (historyStore && data!==null) {
                     var rev, revisions = historyStore.findRevisions(data.version),
                         urlGetTime = new Date();
-                    var diff = (this.currentChangeId===undefined) ? null : opts.data.changesUrl, // if revision has changes, but serverVersion !== app.buildVersion -> hide revision changes
+                    var diff = (!opts.data.previous || this.currentChangeId===undefined) ? null : opts.data.changesUrl, // if revision has changes, but serverVersion !== app.buildVersion -> hide revision changes
                         url = (!_.isEmpty(diff) && opts.data.previous) ? opts.data.previous.url : opts.data.url,
                         docId = opts.data.key ? opts.data.key : this.currentDocId,
                         docIdPrev = opts.data.previous && opts.data.previous.key ? opts.data.previous.key : this.currentDocIdPrev,

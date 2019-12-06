@@ -244,6 +244,7 @@ input, textarea {
   top: 0;
   bottom: 0;
   right: 0;
+  z-index: 1;
   position: absolute;
   padding-top: 22px;
 
@@ -253,7 +254,8 @@ input, textarea {
     justify-content: center;
     flex-grow: 1;
     width: 90%;
-    margin: 15px auto;
+    height: 100%;
+    margin: 0 auto;
   }
 
   .slide-v {
@@ -283,7 +285,7 @@ input, textarea {
 
       &:nth-child(1) {
         height: 30%;
-        margin: 120px 80px 0;
+        margin: 10% 80px 0;
       }
 
       &.empty {

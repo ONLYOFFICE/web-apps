@@ -1,0 +1,145 @@
+<div id="id-adv-control-settings-general" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textName %></label>
+                    <div id="control-settings-txt-name"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textTag %></label>
+                    <div id="control-settings-txt-tag"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div class="separator horizontal"></div>
+                </td>
+            </tr>
+        </table>
+        <table cols="2" style="width: auto;">
+            <tr>
+                <td class="padding-small" colspan="2">
+                    <label class="header"><%= scope.textAppearance %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label" style="margin-right: 10px;"><%= scope.textShowAs %></label>
+                </td>
+                <td class="padding-small">
+                    <div id="control-settings-combo-show" class="input-group-nr" style="display: inline-block; width:120px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label" style="margin-right: 10px;"><%= scope.textColor %></label>
+                </td>
+                <td class="padding-small">
+                    <div id="control-settings-color-btn" style="display: inline-block;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large" colspan="2">
+                    <button type="button" class="btn btn-text-default auto" id="control-settings-btn-all" style="min-width: 98px;"><%= scope.textApplyAll %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-control-settings-lock" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td class="padding-small">
+                    <div id="control-settings-chb-lock-delete"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="control-settings-chb-lock-edit"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-control-settings-list" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td>
+                    <label class="header" style="width: 99px;"><%= scope.textDisplayName %></label>
+                    <label class="header" style=""><%= scope.textValue %></label>
+                </td>
+                <td></td>
+            </tr>
+            <tr style="vertical-align: top;">
+                <td class="padding-small">
+                    <div id="control-settings-list" style="width:200px; height: 192px;margin-right: 10px;"></div>
+                </td>
+                <td class="padding-small">
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-add" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textAdd %></button>
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-change" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textChange %></button>
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-delete" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textDelete %></button>
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-up" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textUp %></button>
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-down" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textDown %></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-control-settings-date" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td>
+                    <label><%= scope.textFormat %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="control-settings-txt-format" style="width: 100%;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="control-settings-format" style="width: 100%; height: 165px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textLang %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="control-settings-lang"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-control-settings-checkbox" class="settings-panel">
+    <div class="inner-content">
+        <table cols="2" style="width: auto;">
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label" style="margin-right: 10px;"><%= scope.textChecked %></label>
+                </td>
+                <td class="padding-small">
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-checked-edit" style="width:53px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label" style="margin-right: 10px;"><%= scope.textUnchecked %></label>
+                </td>
+                <td class="padding-small">
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-unchecked-edit" style="width:53px"></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

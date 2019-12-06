@@ -102,10 +102,10 @@ define([
 
         updateMetricUnit: function() {
             var value = Common.Utils.Metric.fnRecalcFromMM(this._state.Width);
-            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+            this.labelWidth[0].innerHTML = this.textWidth + ': ' + value.toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
 
             value = Common.Utils.Metric.fnRecalcFromMM(this._state.Height);
-            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+            this.labelHeight[0].innerHTML = this.textHeight + ': ' + value.toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
         },
 
         createDelayedControls: function() {
@@ -143,6 +143,17 @@ define([
                 this.fireEvent('editcomplete', this);
             }, this));
 
+            this.btnFitSlide = new Common.UI.Button({
+                el: $('#image-button-fit-slide')
+            });
+            this.lockedControls.push(this.btnFitSlide);
+            this.btnFitSlide.on('click', _.bind(this.setFitSlide, this));
+
+            var w = Math.max(this.btnOriginalSize.cmpEl.width(), this.btnFitSlide.cmpEl.width());
+            this.btnOriginalSize.cmpEl.width(w);
+            this.btnFitSlide.cmpEl.width(w);
+
+            w = this.btnOriginalSize.cmpEl.outerWidth();
             this.btnCrop = new Common.UI.Button({
                 cls: 'btn-text-split-default',
                 caption: this.textCrop,
@@ -150,9 +161,9 @@ define([
                 enableToggle: true,
                 allowDepress: true,
                 pressed: this._state.cropMode,
-                width: 100,
+                width: w,
                 menu        : new Common.UI.Menu({
-                    style       : 'min-width: 100px;',
+                    style       : 'min-width:' + w + 'px;',
                     items: [
                         {
                             caption: this.textCrop,
@@ -178,7 +189,7 @@ define([
 
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-270',
+                iconCls: 'toolbar__icon btn-rotate-270',
                 value: 0,
                 hint: this.textHint270
             });
@@ -188,7 +199,7 @@ define([
 
             this.btnRotate90 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-90',
+                iconCls: 'toolbar__icon btn-rotate-90',
                 value: 1,
                 hint: this.textHint90
             });
@@ -198,7 +209,7 @@ define([
 
             this.btnFlipV = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-vert',
+                iconCls: 'toolbar__icon btn-flip-vert',
                 value: 0,
                 hint: this.textHintFlipV
             });
@@ -208,7 +219,7 @@ define([
 
             this.btnFlipH = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-hor',
+                iconCls: 'toolbar__icon btn-flip-hor',
                 value: 1,
                 hint: this.textHintFlipH
             });
@@ -238,13 +249,13 @@ define([
 
                 var value = props.get_Width();
                 if ( Math.abs(this._state.Width-value)>0.001 ) {
-                    this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                    this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
                     this._state.Width = value;
                 }
 
                 value = props.get_Height();
                 if ( Math.abs(this._state.Height-value)>0.001 ) {
-                    this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                    this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
                     this._state.Height = value;
                 }
 
@@ -280,8 +291,8 @@ define([
                 var w = imgsize.get_ImageWidth();
                 var h = imgsize.get_ImageHeight();
 
-                this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(w).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
-                this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(h).toFixed(1) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                this.labelWidth[0].innerHTML = this.textWidth + ': ' + Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
+                this.labelHeight[0].innerHTML = this.textHeight + ': ' + Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName();
 
                 var properties = new Asc.asc_CImgProperty();
                 properties.put_Width(w);
@@ -378,6 +389,11 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        setFitSlide:  function() {
+            this.api && this.api.asc_FitImagesToSlide();
+            this.fireEvent('editcomplete', this);
+        },
+
         onBtnRotateClick: function(btn) {
             var properties = new Asc.asc_CImgProperty();
             properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
@@ -415,7 +431,7 @@ define([
         textSize:       'Size',
         textWidth:      'Width',
         textHeight:     'Height',
-        textOriginalSize: 'Default Size',
+        textOriginalSize: 'Actual Size',
         textInsert:     'Replace Image',
         textFromUrl:    'From URL',
         textFromFile:   'From File',
@@ -431,7 +447,8 @@ define([
         textHintFlipH: 'Flip Horizontally',
         textCrop: 'Crop',
         textCropFill: 'Fill',
-        textCropFit: 'Fit'
+        textCropFit: 'Fit',
+        textFitSlide: 'Fit to Slide'
 
     }, PE.Views.ImageSettings || {}));
 });

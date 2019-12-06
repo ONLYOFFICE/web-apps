@@ -167,6 +167,22 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
+            this.menuAddAlign = function(menuRoot, left, top) {
+                var self = this;
+                if (!$window.hasClass('notransform')) {
+                    $window.addClass('notransform');
+                    menuRoot.addClass('hidden');
+                    setTimeout(function() {
+                        menuRoot.removeClass('hidden');
+                        menuRoot.css({left: left, top: top});
+                        self.options.additionalAlign = null;
+                    }, 300);
+                } else {
+                    menuRoot.css({left: left, top: top});
+                    self.options.additionalAlign = null;
+                }
+            };
+
             var me = this,
                 $window = this.getChild();
 
@@ -305,6 +321,7 @@ define([
                 menu: new Common.UI.Menu({
                     style: 'min-width: 110px;',
                     maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
                     items: data
                 })
             });
@@ -319,6 +336,7 @@ define([
                 menu: new Common.UI.Menu({
                     style: 'min-width: 110px;',
                     maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
                     items: data
                 })
             });
@@ -409,7 +427,7 @@ define([
             this.btnBold = [];
             this.btnBold.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-bold',
+                iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             }));
@@ -419,7 +437,7 @@ define([
 
             this.btnBold.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-bold',
+                iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             }));
@@ -430,7 +448,7 @@ define([
             this.btnItalic = [];
             this.btnItalic.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-italic',
+                iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             }));
@@ -440,7 +458,7 @@ define([
 
             this.btnItalic.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-italic',
+                iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             }));
@@ -451,7 +469,7 @@ define([
             this.btnUnderline = [];
             this.btnUnderline.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-underline',
+                iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             }));
@@ -461,7 +479,7 @@ define([
 
             this.btnUnderline.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-underline',
+                iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             }));
@@ -472,7 +490,7 @@ define([
             this.btnStrikeout = [];
             this.btnStrikeout.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-strikeout',
+                iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             }));
@@ -482,7 +500,7 @@ define([
 
             this.btnStrikeout.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-strikeout',
+                iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             }));
@@ -493,7 +511,7 @@ define([
             this.btnSuperscript = [];
             this.btnSuperscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-superscript',
+                iconCls: 'toolbar__icon btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSuperscript
@@ -504,7 +522,7 @@ define([
 
             this.btnSuperscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-superscript',
+                iconCls: 'toolbar__icon btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSuperscript
@@ -516,7 +534,7 @@ define([
             this.btnSubscript = [];
             this.btnSubscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-subscript',
+                iconCls: 'toolbar__icon btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSubscript
@@ -527,7 +545,7 @@ define([
 
             this.btnSubscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-subscript',
+                iconCls: 'toolbar__icon btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSubscript
@@ -556,10 +574,11 @@ define([
             this.btnTextColor = [];
             this.btnTextColor.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-fontcolor',
+                iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-h-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
@@ -574,10 +593,11 @@ define([
 
             this.btnTextColor.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-fontcolor',
+                iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-f-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
@@ -666,12 +686,14 @@ define([
             this.btnPresetsH.setMenu(new Common.UI.Menu({
                 style: 'min-width: 110px;',
                 maxHeight: 200,
+                additionalAlign: this.menuAddAlign,
                 items: presets
             }));
             this.btnPresetsH.menu.on('item:click', _.bind(this.onPresetSelect, this, false));
             this.btnPresetsF.setMenu(new Common.UI.Menu({
                 style: 'min-width: 110px;',
                 maxHeight: 200,
+                additionalAlign: this.menuAddAlign,
                 items: presets
             }));
             this.btnPresetsF.menu.on('item:click', _.bind(this.onPresetSelect, this, true));

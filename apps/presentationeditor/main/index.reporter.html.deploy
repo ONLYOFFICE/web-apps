@@ -70,13 +70,12 @@
             flex-grow: 1;
             max-width: 1350px;
             width: 100%;
-            margin: 0 auto 56px;
         }
         .loadmask > .placeholder .slide-v {
             display: flex;
             position: relative;
             flex-direction: column;
-            padding-bottom: 56.1333%;
+            padding-bottom: 80%;
         }
 
         .loadmask > .placeholder .slide-container {
@@ -105,7 +104,7 @@
 
         .loadmask > .placeholder .slide-container > .line:nth-child(1) {
             height: 30%;
-            margin: 120px 80px 0;
+            margin: 80px 80px 0;
         }
 
         @keyframes flickerAnimation {
@@ -199,7 +198,7 @@
     </style>
 </head>
 <body>
-    <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div><span class="circle"></span><span class="circle"></span><span class="circle"></span></div></div><div class="placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div></div>
+    <div id="loading-mask" class="loadmask"><div class="placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div></div>
     <div id="viewport"></div>
 
     <script>

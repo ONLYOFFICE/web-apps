@@ -1,0 +1,26 @@
+{{#spritesheet}}
+.btn {
+    &.x-huge {
+        &.active, &:active {
+            &:not(:disabled):not(.disabled) {
+                .toolbar__icon {
+                    @btn-active-icon-offset: -28px;
+                    background-position-x: @btn-active-icon-offset;
+                    --bgX: @btn-active-icon-offset;
+                }
+            }
+        }
+    }
+}
+.x-huge .toolbar__icon {
+    background-image: url(resources/{{{escaped_image}}});
+}
+{{/spritesheet}}
+{{#sprites}}
+{{#parselang name}}.x-huge .{{name}}{{/parselang}} {
+    background-position: {{px.offset_x}} {{px.offset_y}};
+
+    --bgX: {{px.offset_x}};
+    background-position: var(--bgX) {{px.offset_y}};
+}
+{{/sprites}}

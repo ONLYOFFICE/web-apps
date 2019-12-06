@@ -196,23 +196,23 @@ define([
 
                         me.commentsView.reply = replyId;
 
-                        this.autoHeightTextBox();
+                        picker.autoHeightTextBox();
 
                         readdresolves();
 
                         me.hookTextBox();
 
-                        this.autoScrollToEditButtons();
-                        this.setFocusToTextBox();
+                        picker.autoScrollToEditButtons();
+                        picker.setFocusToTextBox();
                     } else {
 
                         if (!showEditBox) {
                             me.fireEvent('comment:closeEditing');
                             record.set('editText', true);
 
-                            this.autoHeightTextBox();
+                            picker.autoHeightTextBox();
                             readdresolves();
-                            this.setFocusToTextBox();
+                            picker.setFocusToTextBox();
                             me.hookTextBox();
                         }
                     }
@@ -232,14 +232,14 @@ define([
 
                     readdresolves();
 
-                    this.autoHeightTextBox();
+                    picker.autoHeightTextBox();
                     me.hookTextBox();
 
-                    this.autoScrollToEditButtons();
-                    this.setFocusToTextBox();
+                    picker.autoScrollToEditButtons();
+                    picker.setFocusToTextBox();
                 } else if (btn.hasClass('btn-reply', false)) {
                     if (showReplyBox) {
-                        me.fireEvent('comment:addReply', [commentId, this.getActiveTextBoxVal()]);
+                        me.fireEvent('comment:addReply', [commentId, picker.getActiveTextBoxVal()]);
                         me.fireEvent('comment:closeEditing');
 
                         readdresolves();
@@ -250,10 +250,10 @@ define([
 
                 } else if (btn.hasClass('btn-inner-edit', false)) {
                     if (!_.isUndefined(me.commentsView.reply)) {
-                        me.fireEvent('comment:changeReply', [commentId, me.commentsView.reply, this.getActiveTextBoxVal()]);
+                        me.fireEvent('comment:changeReply', [commentId, me.commentsView.reply, picker.getActiveTextBoxVal()]);
                         me.commentsView.reply = undefined;
                     } else if (showEditBox) {
-                        me.fireEvent('comment:change', [commentId, this.getActiveTextBoxVal()]);
+                        me.fireEvent('comment:change', [commentId, picker.getActiveTextBoxVal()]);
                     }
 
                     me.fireEvent('comment:closeEditing');
@@ -559,9 +559,13 @@ define([
                 add = $('.new-comment-ct', this.el),
                 to = $('.add-link-ct', this.el),
                 msgs = $('.messages-ct', this.el);
-            msgs.toggleClass('stretch', !mode.canComments);
-            if (!mode.canComments) {
-                add.hide(); to.hide();
+            msgs.toggleClass('stretch', !mode.canComments || mode.compatibleFeatures);
+            if (!mode.canComments || mode.compatibleFeatures) {
+                if (mode.compatibleFeatures) {
+                    add.remove(); to.remove();
+                } else {
+                    add.hide(); to.hide();
+                }
                 this.layout.changeLayout([{el: msgs[0], rely: false, stretch: true}]);
             } else {
                 var container = $('#comments-box', this.el),
@@ -656,8 +660,6 @@ define([
 
         pickLink: function (message) {
             var arr = [], offset, len;
-            message = Common.Utils.String.htmlEncode(message);
-
             message.replace(Common.Utils.ipStrongRe, function(subStr) {
                 var result = /[\.,\?\+;:=!\(\)]+$/.exec(subStr);
                 if (result)
@@ -699,14 +701,13 @@ define([
 
             arr = _.sortBy(arr, function(item){ return item.start; });
 
-            var str_res = (arr.length>0) ? ( message.substring(0, arr[0].start) + arr[0].str) : message;
+            var str_res = (arr.length>0) ? ( Common.Utils.String.htmlEncode(message.substring(0, arr[0].start)) + arr[0].str) : Common.Utils.String.htmlEncode(message);
             for (var i=1; i<arr.length; i++) {
-                str_res += (message.substring(arr[i-1].end, arr[i].start) + arr[i].str);
+                str_res += (Common.Utils.String.htmlEncode(message.substring(arr[i-1].end, arr[i].start)) + arr[i].str);
             }
             if (arr.length>0) {
-                str_res += message.substring(arr[i-1].end, message.length);
+                str_res += Common.Utils.String.htmlEncode(message.substring(arr[i-1].end, message.length));
             }
-
             return str_res;
         },
 

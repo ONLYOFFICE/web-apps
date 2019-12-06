@@ -1,0 +1,128 @@
+@calendar-bg-color: @tabs-bg-color;
+
+.calendar-window {
+  border-radius: 0;
+  box-shadow: none;
+}
+.calendar-box {
+  width: 198px;
+  height: 220px;
+  border: 1px solid @calendar-bg-color;
+  .top-row {
+    padding: 0 5px;
+  }
+  .btn {
+    background-color: transparent;
+    border: none;
+    height: 20px;
+    width: 20px;
+    margin-top: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+      width: 16px;
+      height: 16px;
+      display: block;
+      position: relative;
+      &.arrow-prev {
+        background-position: -55px -96px;
+      }
+      &.arrow-next {
+        background-position: -52px -112px;
+      }
+    }
+    &:hover {
+      background-color: rgba(255,255,255,0.2);
+      cursor: pointer;
+    }
+  }
+  .calendar-header {
+    height: 50px;
+    background-color: @calendar-bg-color;
+    color: #FFFFFF;
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .bottom-row {
+      display: flex;
+      justify-content: space-around;
+      padding: 0;
+    }
+    .title {
+      width: 100%;
+      margin: 4px 6px 3px 6px;
+      text-align: center;
+      font-size: 13px;
+      label {
+        padding: 2px 10px 0;
+        display: block;
+        font-weight: bold;
+        &:not(:last-of-type) {
+          margin-right: 6px;
+        }
+      }
+      .button {
+        height: 100%;
+        width: 100%;
+        &:hover {
+          background-color: rgba(255,255,255,0.2);
+          cursor: pointer;
+          label {
+            cursor: pointer;
+          }
+        }
+      }
+
+    }
+  }
+  .calendar-content {
+    .item {
+      margin: 0;
+      padding: 0;
+      height: auto;
+      width: auto;
+      box-shadow: none;
+      border: 1px solid #fff;
+      .name-month, .name-year {
+        height: 40px;
+        width: 47px;
+        background-color: #F1F1F1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 13px;
+      }
+      .number-day {
+        height: 26px;
+        width: 26px;
+        background-color: #F1F1F1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      &.selected {
+        .number-day, .name-month, .name-year {
+          color: #fff;
+          background-color: #7D858C;
+        }
+      }
+      .weekend {
+        color: #D25252;
+      }
+      .no-current-month, .no-cur-year, .no-current-decade {
+        color: #A5A5A5;
+      }
+      &:not(.disabled):not(.selected) {
+        .number-day, .name-month, .name-year {
+          &:hover {
+            background-color: #D9D9D9;
+          }
+        }
+      }
+
+
+    }
+  }
+}

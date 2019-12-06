@@ -108,10 +108,11 @@ define([
                     '<div>',
                     '<label class="checkbox-indeterminate" style="position:absolute;">',
                     '<% if (check) { %>',
-                    '<input type="button" class="checked img-commonctrl"/>',
+                    '<input type="button" class="checked button__checkbox"/>',
                     '<% } else { %>',
-                    '<input type="button" class="img-commonctrl"/>',
+                    '<input type="button" class="button__checkbox"/>',
                     '<% } %>',
+                    '<span class="checkmark"/>',
                     '</label>',
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;"><span style="background-color: transparent;"><%= Common.Utils.String.htmlEncode(value) %></span></div>',
                     '<div class="listitem-icon img-commonctrl"></div>',
@@ -644,7 +645,7 @@ define([
                     }
                 }
 
-                if (type === 'button' || isLabel) {
+                if (type === 'button' || isLabel || event.target.className.match('checkmark')) {
                     this.updateFieldCheck(listView, record);
 
                     _.delay(function () {

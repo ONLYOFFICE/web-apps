@@ -48,8 +48,7 @@ define([
             width: 330,
             header: false,
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            footerCls: 'center'
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -94,7 +93,7 @@ define([
             var me = this;
             _.delay(function(){
                 me.getChild('input').focus();
-            },500);
+            },50);
         },
 
         onPrimary: function(event) {

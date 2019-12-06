@@ -69,12 +69,28 @@ define([
     };
 
     StateManager.prototype.attach = function (tab) {
-        tab.changeState = $.proxy(function () {
-            this.trigger('tab:change', tab);
-            this.bar.$el.find('ul > li.active').removeClass('active');
-            tab.activate();
+        tab.changeState = $.proxy(function (select) {
+            if (select) {
+                tab.toggleClass('selected');
+                var selectTab = _.find(this.bar.selectTabs, function (item) {return item.sheetindex === tab.sheetindex;});
+                if (selectTab) {
+                    this.bar.selectTabs = _.without(this.bar.selectTabs, selectTab);
+                } else {
+                    this.bar.selectTabs.push(tab);
+                }
+            } else {
+                if (!tab.isSelected()) {
+                    this.bar.$el.find('ul > li.selected').removeClass('selected');
+                    tab.addClass('selected');
+                    this.bar.selectTabs.length = 0;
+                    this.bar.selectTabs.push(tab);
+                }
+                this.trigger('tab:change', tab);
+                this.bar.$el.find('ul > li.active').removeClass('active');
+                tab.activate();
 
-            this.bar.trigger('tab:changed', this.bar, this.bar.tabs.indexOf(tab), tab);
+                this.bar.trigger('tab:changed', this.bar, this.bar.tabs.indexOf(tab), tab);
+            }
         }, this);
 
         var dragHelper = new (function() {
@@ -87,6 +103,8 @@ define([
                     var me = this,
                         length = me.bar.tabs.length,
                         barBounds = me.bar.$bar.get(0).getBoundingClientRect();
+                    me.leftBorder = barBounds.left;
+                    me.rightBorder = barBounds.right;
 
                     if (barBounds) {
                         me.bounds       = [];
@@ -96,6 +114,8 @@ define([
                         for (var i = 0; i < length; ++i) {
                             this.bounds.push(me.bar.tabs[i].$el.get(0).getBoundingClientRect());
                         }
+
+                        me.lastTabRight = me.bounds[length - 1].right;
 
                         me.tabBarLeft   = me.bounds[0].left;
                         me.tabBarRight  = me.bounds[length - 1].right;
@@ -278,17 +298,105 @@ define([
                             document.removeEventListener('dragstart',dragDropText);
                         });
                     }
+                },
+
+                setHookTabs: function (e, bar, tabs) {
+                    var me = this;
+                    function dragComplete() {
+                        if (!_.isUndefined(me.drag)) {
+                            bar.dragging = false;
+                            bar.$el.find('li.mousemove').removeClass('mousemove right');
+                            var arrSelectIndex = [];
+                            tabs.forEach(function (item) {
+                                arrSelectIndex.push(item.sheetindex);
+                            });
+                            if (!_.isUndefined(me.drag.place)) {
+                                me.bar.trigger('tab:move', arrSelectIndex, me.drag.place);
+                                me.bar.$bar.scrollLeft(me.scrollLeft);
+                                me.bar.scrollX = undefined;
+                            } else {
+                                me.bar.trigger('tab:move', arrSelectIndex);
+                                me.bar.$bar.scrollLeft(me.scrollLeft);
+                                me.bar.scrollX = undefined;
+                            }
+
+                            me.drag  = undefined;
+                        }
+                    }
+                    function dragMove (event) {
+                        if (!_.isUndefined(me.drag)) {
+                            me.drag.moveX = event.clientX*Common.Utils.zoom();
+                           if (me.drag.moveX < me.leftBorder) {
+                                me.scrollLeft -= 20;
+                                me.bar.$bar.scrollLeft(me.scrollLeft);
+                                me.calculateBounds();
+                           } else if (me.drag.moveX < me.tabBarRight && me.drag.moveX > me.tabBarLeft) {
+                                var name = $(event.target).parent().data('label'),
+                                    currentTab = _.findIndex(bar.tabs, {label: name});
+                                if (currentTab === -1) {
+                                    bar.$el.find('li.mousemove').removeClass('mousemove right');
+                                    me.drag.place = undefined;
+                                } else if (me.bounds[currentTab].left - me.scrollLeft >= me.tabBarLeft) {
+                                    me.drag.place = currentTab;
+                                    $(event.target).parent().parent().find('li.mousemove').removeClass('mousemove right');
+                                    $(event.target).parent().addClass('mousemove');
+                                }
+                           } else if (me.drag.moveX > me.lastTabRight && Math.abs(me.tabBarRight - me.bounds[me.bar.tabs.length - 1].right) < 1) { //move to end of list, right border of the right tab is visible
+                                bar.$el.find('li.mousemove').removeClass('mousemove right');
+                                bar.tabs[bar.tabs.length - 1].$el.addClass('mousemove right');
+                                me.drag.place = bar.tabs.length;
+                           } else if (me.drag.moveX - me.rightBorder > 3) {
+                               me.scrollLeft += 20;
+                               me.bar.$bar.scrollLeft(me.scrollLeft);
+                               me.calculateBounds();
+                           }
+                        }
+                    }
+                    if (!_.isUndefined(bar) && !_.isUndefined(tabs) && bar.tabs.length > 1) {
+                        me.bar      = bar;
+                        me.drag     = {tabs: tabs};
+                        bar.dragging = true;
+                        this.calculateBounds();
+
+                        $(document).on('mousemove.tabbar', dragMove);
+                        $(document).on('mouseup.tabbar', function (e) {
+                            dragComplete(e);
+                            $(document).off('mouseup.tabbar');
+                            $(document).off('mousemove.tabbar', dragMove);
+                        });
+                    }
                 }
             }
         });
 
         tab.$el.on({
-            click: $.proxy(function () {
-                if (!tab.disabled && !tab.$el.hasClass('active')) {
-                    if (tab.control == 'manual') {
-                        this.bar.trigger('tab:manual', this.bar, this.bar.tabs.indexOf(tab), tab);
-                    } else {
-                        tab.changeState();
+            click: $.proxy(function (event) {
+                if (!tab.disabled) {
+                    if (event.ctrlKey || event.metaKey) {
+                        if (!tab.isActive()) {
+                            tab.changeState(true);
+                        }
+                    } else if (event.shiftKey) {
+                        this.bar.$el.find('ul > li.selected').removeClass('selected');
+                        this.bar.selectTabs.length = 0;
+                        var $active = this.bar.$el.find('ul > li.active'),
+                            indexAct = $active.index(),
+                            indexCur = this.bar.tabs.indexOf(tab);
+                        var startIndex = (indexCur > indexAct) ? indexAct : indexCur,
+                            endIndex = (indexCur > indexAct) ? indexCur : indexAct;
+                        for (var i = startIndex; i <= endIndex; i++) {
+                            this.bar.tabs[i].changeState(true);
+                        }
+                    } else if (!tab.$el.hasClass('active')) {
+                        if (this.bar.tabs.length === this.bar.selectTabs.length) {
+                            this.bar.$el.find('ul > li.selected').removeClass('selected');
+                            this.bar.selectTabs.length = 0;
+                        }
+                        if (tab.control == 'manual') {
+                            this.bar.trigger('tab:manual', this.bar, this.bar.tabs.indexOf(tab), tab);
+                        } else {
+                            tab.changeState();
+                        }
                     }
                 }
                 !tab.disabled && Common.NotificationCenter.trigger('edit:complete', this.bar);
@@ -297,12 +405,16 @@ define([
                 this.trigger('tab:dblclick', this, this.tabs.indexOf(tab), tab);
             }, this.bar),
             contextmenu: $.proxy(function () {
-                this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab);
+                this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
             }, this.bar),
             mousedown: $.proxy(function (e) {
                 if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
                     if (!tab.isLockTheDrag) {
-                        dragHelper.setHook(e, this.bar, tab);
+                        if (this.bar.selectTabs.length > 1) {
+                            dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
+                        } else {
+                            dragHelper.setHook(e, this.bar, tab);
+                        }
                     }
                 }
             }, this)
@@ -322,6 +434,7 @@ define([
 
         tabs: [],
         template: _.template('<ul class="nav nav-tabs <%= placement %>" />'),
+        selectTabs: [],
 
         initialize : function (options) {
             _.extend(this.config, options);
@@ -397,6 +510,10 @@ define([
                                 me.$bar.append(tab.render().$el);
                                 me.tabs.push(tab);
                                 me.manager.attach(tab);
+                                if (tab.isActive()) {
+                                    me.selectTabs.length = 0;
+                                    me.selectTabs.push(tab);
+                                }
                             }
                         } else {
                             for (i = tabs.length; i-- > 0 ; ) {
@@ -408,6 +525,11 @@ define([
                                 } else {
                                     me.$bar.find('li:nth-child(' + index + ')').before(tab.render().$el);
                                     me.tabs.splice(index, 0, tab);
+                                }
+
+                                if (tab.isActive()) {
+                                    me.selectTabs.length = 0;
+                                    me.selectTabs.push(tab);
                                 }
 
                                 me.manager.attach(tab);
@@ -460,6 +582,27 @@ define([
             }
 
             this.checkInvisible();
+        },
+
+        setSelectAll: function(isSelect) {
+            var me = this;
+            me.selectTabs.length = 0;
+            if (isSelect) {
+                me.tabs.forEach(function(tab){
+                    if (!tab.isSelected()) {
+                        tab.addClass('selected');
+                    }
+                    me.selectTabs.push(tab);
+                });
+            } else {
+                me.tabs.forEach(function(tab){
+                    if (tab.isActive()) {
+                        me.selectTabs.push(tab);
+                    } else if (tab.isSelected()) {
+                        tab.removeClass('selected');
+                    }
+                });
+            }
         },
 
         getActive: function(iselem) {
@@ -575,7 +718,7 @@ define([
                 //left = tab.position().left;
                 //right = left + tab.width();
 
-                return !(left < leftbound) && !(right > rightbound);
+                return !(left < leftbound) && !(right - rightbound > 0.1);
             }
 
             return false;

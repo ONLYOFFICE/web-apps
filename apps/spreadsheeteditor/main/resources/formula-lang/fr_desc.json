@@ -1768,7 +1768,7 @@
 		"d": "fonctions logiques La fonction renvoie la valeur logique faux (FALSE) et n'exige aucun argument."
 	},
 	"IF": {
-		"a": "(test_logique, valeur_si_vrai, valeur_si_faux)",
+		"a": "( test_logique, valeur_si_vrai [ , valeur_si_faux ] )",
 		"d": "Fonction logique qui sert à analyser une expression logique et renvoyer une valeur si elle est vraie (TRUE) et une autre valeur si elle est fausse (FALSE)."
 	},
 	"IFS": {

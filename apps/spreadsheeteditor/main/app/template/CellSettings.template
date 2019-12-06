@@ -11,7 +11,7 @@
     </tr>
     <tr>
         <td>
-            <div id="cell-panel-color-fill" class="padding-small" style="width: 100%;">
+            <div id="cell-panel-color-fill" class="settings-hidden padding-small" style="width: 100%;">
                 <div id="cell-back-color-btn" style=""></div>
             </div>
             <div id="cell-panel-pattern-fill" class="settings-hidden padding-small" style="width: 100%;">
@@ -29,30 +29,19 @@
             <div id="cell-panel-gradient-fill" class="settings-hidden padding-small" style="width: 100%;">
                 <div style="height:80px;">
                     <div style="display: inline-block;">
-                        <label class="input-label" style=""><%= scope.textStyle %></label>
-                        <div id="cell-combo-grad-type" style="width: 90px;"></div>
+                        <label class="input-label" style=""><%= scope.textAngle %></label>
+                        <div id="cell-spin-gradient-angle" style="width: 90px;"></div>
                     </div>
                     <div style="display: inline-block;float: right;">
                         <label class="input-label" style=""><%= scope.textDirection %></label>
                         <div id="cell-button-direction" style=""></div>
                     </div>
                 </div>
-                <div style="height: 28px;">
-                    <div style="display: inline-block;">
-                        <label class="input-label" style="width: 90px; padding-top: 3px;"><%= scope.textBorderColor + " 1" %></label>
-                    </div>
-                    <div style="display: inline-block;float: right;">
-                        <div id="cell-grad-btn-color-1" style=""></div>
-                    </div>
+                <label class="header" style="display:block;margin-bottom: 5px;"><%= scope.textGradient %></label>
+                <div style="display: inline-block; margin-top: 3px;">
+                    <div id="cell-slider-gradient" style="display: inline-block; vertical-align: middle;"></div>
                 </div>
-                <div style="height: 28px;">
-                    <div style="display: inline-block;">
-                        <label class="input-label" style="width: 90px; padding-top: 3px;"><%= scope.textBorderColor + " 2" %></label>
-                    </div>
-                    <div style="display: inline-block;float: right;">
-                        <div id="cell-grad-btn-color-2" style=""></div>
-                    </div>
-                </div>
+                <div id="cell-gradient-color-btn" style="display: inline-block;float: right;"></div>
             </div>
         </td>
     </tr>

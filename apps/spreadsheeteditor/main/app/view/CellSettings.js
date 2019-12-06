@@ -75,11 +75,10 @@ define([
                 CellAngle: undefined,
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 CellColor: 'transparent',
-                FillType: Asc.c_oAscFill.FILL_TYPE_SOLID,
+                FillType: Asc.c_oAscFill.FILL_TYPE_NOFILL,
                 FGColor: '000000',
                 BGColor: 'ffffff',
-                GradColor1: '000000',
-                GradColor2: 'ffffff'
+                GradColor: '000000'
             };
             this.lockedControls = [];
             this._locked = true;
@@ -88,7 +87,7 @@ define([
             this.GradFillType = Asc.c_oAscFillGradType.GRAD_LINEAR;
             this.GradLinearDirectionType = 0;
             this.GradRadialDirectionIdx = 0;
-            this.GradColors = [];
+            this.GradColor = { values: [0, 100], colors: ['000000', 'ffffff'], currentIdx: 0};
 
             this.fillControls = [];
 
@@ -188,11 +187,26 @@ define([
                 editable: false,
                 data: this._arrFillSrc
             });
-            this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
+            this.cmbFillSrc.setValue(Asc.c_oAscFill.FILL_TYPE_NOFILL);
             this.fillControls.push(this.cmbFillSrc);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
 
-            this._arrGradType = [
+            this.numGradientAngle = new Common.UI.MetricSpinner({
+                el: $('#cell-spin-gradient-angle'),
+                step: 10,
+                width: 90,
+                defaultUnit : "°",
+                value: '0 °',
+                allowDecimal: true,
+                maxValue: 359.9,
+                minValue: 0,
+                disabled: this._locked
+            });
+            this.lockedControls.push(this.numGradientAngle);
+            this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
+            this.numGradientAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
+            /*this._arrGradType = [
                 {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
                 {displayValue: this.textRadial, value: Asc.c_oAscFillGradType.GRAD_PATH}
             ];
@@ -206,7 +220,7 @@ define([
             });
             this.cmbGradType.setValue(this._arrGradType[0].value);
             this.fillControls.push(this.cmbGradType);
-            this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
+            this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));*/
 
             this._viewDataLinear = [
                 { offsetx: 0,   offsety: 0,   type:45,  subtype:-1, iconcls:'gradient-left-top' },
@@ -217,10 +231,6 @@ define([
                 { offsetx: 0,   offsety: 100, type:315, subtype:2,  iconcls:'gradient-left-bottom'},
                 { offsetx: 50,  offsety: 100, type:270, subtype:3,  iconcls:'gradient-bottom'},
                 { offsetx: 100, offsety: 100, type:225, subtype:7,  iconcls:'gradient-right-bottom'}
-            ];
-
-            this._viewDataRadial = [
-                { offsetx: 100, offsety: 150, type:2, subtype:5, iconcls:'gradient-radial-center'}
             ];
 
             this.btnDirection = new Common.UI.Button({
@@ -246,6 +256,48 @@ define([
             this.btnDirection.render($('#cell-button-direction'));
             this.fillControls.push(this.btnDirection);
             this.mnuDirectionPicker.on('item:click', _.bind(this.onSelectGradient, this, this.btnDirection));
+
+            this.sldrGradient = new Common.UI.MultiSliderGradient({
+                el: $('#cell-slider-gradient'),
+                width: 125,
+                minValue: 0,
+                maxValue: 100,
+                values: [0, 100]
+            });
+            this.sldrGradient.on('change', _.bind(this.onGradientChange, this));
+            this.sldrGradient.on('changecomplete', _.bind(this.onGradientChangeComplete, this));
+            this.sldrGradient.on('thumbclick', function(cmp, index){
+                me.GradColor.currentIdx = index;
+                var color = me.GradColor.colors[me.GradColor.currentIdx];
+                me.btnGradColor.setColor(color);
+                me.colorsGrad.select(color,false);
+            });
+            this.sldrGradient.on('thumbdblclick', function(cmp){
+                me.btnGradColor.cmpEl.find('button').dropdown('toggle');
+            });
+            this.sldrGradient.on('sortthumbs', function(cmp, recalc_indexes){
+                var colors = [],
+                    currentIdx;
+                _.each (recalc_indexes, function(recalc_index, index) {
+                    colors.push(me.GradColor.colors[recalc_index]);
+                    if (me.GradColor.currentIdx == recalc_index)
+                        currentIdx = index;
+                });
+                me.OriginalFillType = null;
+                me.GradColor.colors = colors;
+                me.GradColor.currentIdx = currentIdx;
+            });
+            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
+                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+                me.GradColor.currentIdx = index;
+                me.sldrGradient.addNewThumb(index, color);
+            });
+            this.sldrGradient.on('removethumb', function(cmp, index){
+                me.sldrGradient.removeThumb(index);
+                me.GradColor.values.splice(index, 1);
+                me.sldrGradient.changeGradientStyle();
+            });
+            this.fillControls.push(this.sldrGradient);
 
             this.cmbPattern = new Common.UI.ComboDataView({
                 itemWidth: 28,
@@ -305,23 +357,23 @@ define([
             }
 
             var _arrBorderPosition = [
-                [Asc.c_oAscBorderOptions.Left,  'btn-borders-small btn-position-left',      'cell-button-border-left',        this.tipLeft],
-                [Asc.c_oAscBorderOptions.InnerV,'btn-borders-small btn-position-inner-vert','cell-button-border-inner-vert',  this.tipInnerVert],
-                [Asc.c_oAscBorderOptions.Right, 'btn-borders-small btn-position-right',     'cell-button-border-right',       this.tipRight],
-                [Asc.c_oAscBorderOptions.Top,   'btn-borders-small btn-position-top',       'cell-button-border-top',         this.tipTop],
-                [Asc.c_oAscBorderOptions.InnerH,'btn-borders-small btn-position-inner-hor', 'cell-button-border-inner-hor',   this.tipInnerHor],
-                [Asc.c_oAscBorderOptions.Bottom,'btn-borders-small btn-position-bottom',    'cell-button-border-bottom',      this.tipBottom],
-                [Asc.c_oAscBorderOptions.DiagU, 'btn-borders-small btn-position-diagu',    'cell-button-border-diagu',      this.tipDiagU],
-                [Asc.c_oAscBorderOptions.DiagD, 'btn-borders-small btn-position-diagd',    'cell-button-border-diagd',      this.tipDiagD],
-                ['inner',                       'btn-borders-small btn-position-inner',     'cell-button-border-inner',       this.tipInner],
-                ['outer',                       'btn-borders-small btn-position-outer',     'cell-button-border-outer',       this.tipOuter],
-                ['all',                         'btn-borders-small btn-position-all',       'cell-button-border-all',         this.tipAll],
-                ['none',                        'btn-borders-small btn-position-none',      'cell-button-border-none',        this.tipNone]
+                [Asc.c_oAscBorderOptions.Left,  'toolbar__icon btn-border-left',        'cell-button-border-left',      this.tipLeft],
+                [Asc.c_oAscBorderOptions.InnerV,'toolbar__icon btn-border-insidevert',  'cell-button-border-inner-vert',this.tipInnerVert],
+                [Asc.c_oAscBorderOptions.Right, 'toolbar__icon btn-border-right',       'cell-button-border-right',     this.tipRight],
+                [Asc.c_oAscBorderOptions.Top,   'toolbar__icon btn-border-top',         'cell-button-border-top',       this.tipTop],
+                [Asc.c_oAscBorderOptions.InnerH,'toolbar__icon btn-border-insidehor',   'cell-button-border-inner-hor', this.tipInnerHor],
+                [Asc.c_oAscBorderOptions.Bottom,'toolbar__icon btn-border-bottom',      'cell-button-border-bottom',    this.tipBottom],
+                [Asc.c_oAscBorderOptions.DiagU, 'toolbar__icon btn-border-diagup',      'cell-button-border-diagu',     this.tipDiagU],
+                [Asc.c_oAscBorderOptions.DiagD, 'toolbar__icon btn-border-diagdown',    'cell-button-border-diagd',     this.tipDiagD],
+                ['inner',                       'toolbar__icon btn-border-inside',      'cell-button-border-inner',     this.tipInner],
+                ['outer',                       'toolbar__icon btn-border-out',         'cell-button-border-outer',     this.tipOuter],
+                ['all',                         'toolbar__icon btn-border-all',         'cell-button-border-all',       this.tipAll],
+                ['none',                        'toolbar__icon btn-border-no',          'cell-button-border-none',      this.tipNone]
             ];
 
             _.each(_arrBorderPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar borders--small',
                     iconCls: item[1],
                     borderId:item[0],
                     hint: item[3],
@@ -387,6 +439,7 @@ define([
             });
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
+            this.spnAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
         },
 
         createDelayedElements: function() {
@@ -401,261 +454,296 @@ define([
 
             this.disableControls(this._locked);
 
-            if (props )
-            {
+            if (props ) {
                 this._noApply = true;
 
                 var value = props.asc_getAngle();
-                if ( Math.abs(this._state.CellAngle-value)>0.1 || (this._state.CellAngle===undefined)&&(this._state.CellAngle!==value)) {
+                if (Math.abs(this._state.CellAngle - value) > 0.1 || (this._state.CellAngle === undefined) && (this._state.CellAngle !== value)) {
                     this.spnAngle.setValue((value !== null) ? value : '', true);
-                    this._state.CellAngle=value;
+                    this._state.CellAngle = value;
                 }
                 this.fill = props.asc_getFill2();
-                this.pattern = this.fill.asc_getPatternFill();
-                this.gradient = this.fill.asc_getGradientFill();
-                if (this.pattern === null && this.gradient === null) {
-                    this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
-                    this.CellColor = {Value: 0, Color: 'transparent'};
-                    this.FGColor = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
-                    this.BGColor = {Value: 1, Color: 'ffffff'};
-                    this.GradColors[0] = {Value: 1, Color: {color: '4f81bd', effectId: 24}, Position: 0};
-                    this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
-                } else if (this.pattern !== null) {
-                    if(this.pattern.asc_getType() === -1) {
-                        var color = this.pattern.asc_getFgColor();
-                        if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                            this.CellColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() }};
-                        } else {
-                            this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())};
-                        }
-                        this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
-                        this.FGColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color)};
+                if (this.fill) {
+                    this.pattern = this.fill.asc_getPatternFill();
+                    this.gradient = this.fill.asc_getGradientFill();
+                    if (this.pattern === null && this.gradient === null) {
+                        this.CellColor = {Value: 0, Color: 'transparent'};
+                        this.FGColor = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
                         this.BGColor = {Value: 1, Color: 'ffffff'};
-                        this.GradColors[0] = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color), Position: 0};
-                        this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
-                    } else {
-                        this.PatternFillType = this.pattern.asc_getType();
-                        if (this._state.PatternFillType !== this.PatternFillType) {
-                            this.cmbPattern.suspendEvents();
-                            var rec = this.cmbPattern.menuPicker.store.findWhere({
-                                type: this.PatternFillType
-                            });
-                            this.cmbPattern.menuPicker.selectRecord(rec);
-                            this.cmbPattern.resumeEvents();
-                            this._state.PatternFillType = this.PatternFillType;
-                        }
-                        var color = this.pattern.asc_getFgColor();
-                        if (color) {
+                        this.sldrGradient.setThumbs(2);
+                        this.GradColor.colors.length = 0;
+                        this.GradColor.values.length = 0;
+                        this.GradColor.colors[0] = {color: '4f81bd', effectId: 24};
+                        this.GradColor.colors[1] = 'ffffff';
+                        this.GradColor.values = [0, 100];
+                        this.GradColor.currentIdx = 0;
+                        this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
+                    } else if (this.pattern !== null) {
+                        if (this.pattern.asc_getType() === -1) {
+                            var color = this.pattern.asc_getFgColor();
                             if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.FGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() }};
+                                this.CellColor = {
+                                    Value: 1,
+                                    Color: {
+                                        color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()),
+                                        effectValue: color.asc_getValue()
+                                    }
+                                };
                             } else {
-                                this.FGColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())};
+                                this.CellColor = {
+                                    Value: 1,
+                                    Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())
+                                };
                             }
-                        } else
-                            this.FGColor = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
-
-                        color = this.pattern.asc_getBgColor();
-                        if (color) {
-                            if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.BGColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()), effectValue: color.asc_getValue() }};
-                            } else {
-                                this.BGColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())};
-                            }
-                        } else
+                            this.FGColor = {
+                                Value: 1,
+                                Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color)
+                            };
                             this.BGColor = {Value: 1, Color: 'ffffff'};
-                        this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color)};
-                        this.GradColors[0] = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color), Position: 0};
-                        this.GradColors[1] = {Value: 1, Color: 'ffffff', Position: 1};
-                        this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_PATT;
-                    }
-                } else if (this.gradient !== null) {
-                    var gradFillType = this.gradient.asc_getType();
-                    if (this._state.GradFillType !== gradFillType || this.GradFillType !== gradFillType) {
-                        this.GradFillType = gradFillType;
-                        rec = undefined;
-                        if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR || this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
-                            this.cmbGradType.setValue(this.GradFillType);
-                            rec = this.cmbGradType.store.findWhere({value: this.GradFillType});
-                            this.onGradTypeSelect(this.cmbGradType, rec.attributes);
+                            this.sldrGradient.setThumbs(2);
+                            this.GradColor.colors.length = 0;
+                            this.GradColor.values.length = 0;
+                            this.GradColor.values = [0, 100];
+                            this.GradColor.colors[0] = Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color);
+                            this.GradColor.colors[1] = 'ffffff';
+                            this.GradColor.currentIdx = 0;
+                            this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
                         } else {
-                            this.cmbGradType.setValue('');
-                            this.btnDirection.setIconCls('');
+                            this.PatternFillType = this.pattern.asc_getType();
+                            if (this._state.PatternFillType !== this.PatternFillType) {
+                                this.cmbPattern.suspendEvents();
+                                var rec = this.cmbPattern.menuPicker.store.findWhere({
+                                    type: this.PatternFillType
+                                });
+                                this.cmbPattern.menuPicker.selectRecord(rec);
+                                this.cmbPattern.resumeEvents();
+                                this._state.PatternFillType = this.PatternFillType;
+                            }
+                            var color = this.pattern.asc_getFgColor();
+                            if (color) {
+                                if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                                    this.FGColor = {
+                                        Value: 1,
+                                        Color: {
+                                            color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()),
+                                            effectValue: color.asc_getValue()
+                                        }
+                                    };
+                                } else {
+                                    this.FGColor = {
+                                        Value: 1,
+                                        Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())
+                                    };
+                                }
+                            } else
+                                this.FGColor = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
+
+                            color = this.pattern.asc_getBgColor();
+                            if (color) {
+                                if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                                    this.BGColor = {
+                                        Value: 1,
+                                        Color: {
+                                            color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()),
+                                            effectValue: color.asc_getValue()
+                                        }
+                                    };
+                                } else {
+                                    this.BGColor = {
+                                        Value: 1,
+                                        Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())
+                                    };
+                                }
+                            } else
+                                this.BGColor = {Value: 1, Color: 'ffffff'};
+                            this.CellColor = {
+                                Value: 1,
+                                Color: Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color)
+                            };
+                            this.sldrGradient.setThumbs(2);
+                            this.GradColor.colors.length = 0;
+                            this.GradColor.values.length = 0;
+                            this.GradColor.values = [0, 100];
+                            this.GradColor.colors[0] = Common.Utils.ThemeColor.colorValue2EffectId(this.FGColor.Color);
+                            this.GradColor.colors[1] = 'ffffff';
+                            this.GradColor.currentIdx = 0;
+                            this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                         }
-                        this._state.GradFillType = this.GradFillType;
-                    }
-                    if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                        var value = this.gradient.asc_getDegree();
-                        if (Math.abs(this.GradLinearDirectionType-value)>0.001) {
-                            this.GradLinearDirectionType=value;
-                            var record = this.mnuDirectionPicker.store.findWhere({type: value});
-                            this.mnuDirectionPicker.selectRecord(record, true);
-                            if (record)
-                                this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
-                            else
+                    } else if (this.gradient !== null) {
+                        var gradFillType = this.gradient.asc_getType();
+                        if (this._state.GradFillType !== gradFillType || this.GradFillType !== gradFillType) {
+                            this.GradFillType = gradFillType;
+                            /*rec = undefined;
+                            if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR || this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
+                                this.cmbGradType.setValue(this.GradFillType);
+                                rec = this.cmbGradType.store.findWhere({value: this.GradFillType});
+                                this.onGradTypeSelect(this.cmbGradType, rec.attributes);
+                            } else {
+                                this.cmbGradType.setValue('');
                                 this.btnDirection.setIconCls('');
+                            }*/
+                            this._state.GradFillType = this.GradFillType;
                         }
+                        if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                            var value = this.gradient.asc_getDegree();
+                            if (Math.abs(this.GradLinearDirectionType - value) > 0.001) {
+                                this.GradLinearDirectionType = value;
+                                var record = this.mnuDirectionPicker.store.findWhere({type: value});
+                                this.mnuDirectionPicker.selectRecord(record, true);
+                                if (record)
+                                    this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
+                                else
+                                    this.btnDirection.setIconCls('');
+                                this.numGradientAngle.setValue(value);
+                            }
+                        }
+
+                        var me = this;
+
+
+                        var gradientStops;
+                        gradientStops = this.gradient.asc_getGradientStops();
+                        var length = gradientStops.length;
+                        this.sldrGradient.setThumbs(length);
+                        this.GradColor.colors.length = 0;
+                        this.GradColor.values.length = 0;
+                        gradientStops.forEach(function (color) {
+                            var clr = color.asc_getColor(),
+                                position = color.asc_getPosition();
+                            me.GradColor.colors.push( clr.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME ?
+                                {color: Common.Utils.ThemeColor.getHexColor(clr.asc_getR(), clr.asc_getG(), clr.asc_getB()), effectValue: clr.asc_getValue()} :
+                                Common.Utils.ThemeColor.getHexColor(clr.asc_getR(), clr.asc_getG(), clr.asc_getB()));
+                            me.GradColor.values.push(position*100);
+                        });
+                        for (var index=0; index<length; index++) {
+                            me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
+                            me.sldrGradient.setValue(index, me.GradColor.values[index]);
+                        }
+                        if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= me.GradColor.colors.length) {
+                            me.GradColor.currentIdx = 0;
+                        }
+                        me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
+
+                        this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
+                        this.FGColor = {
+                            Value: 1,
+                            Color: Common.Utils.ThemeColor.colorValue2EffectId(this.GradColor.colors[0])
+                        };
+                        this.BGColor = {Value: 1, Color: 'ffffff'};
+                        this.CellColor = {
+                            Value: 1,
+                            Color: Common.Utils.ThemeColor.colorValue2EffectId(this.GradColor.colors[0])
+                        };
                     }
 
-                    var gradientStops;
-                    this.GradColors.length = 0;
-                    gradientStops = this.gradient.asc_getGradientStops();
-                    gradientStops.forEach(function (color) {
-                        var clr = color.asc_getColor(),
-                            position = color.asc_getPosition(),
-                            itemColor;
-                        if (clr.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                            itemColor  = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(clr.asc_getR(), clr.asc_getG(), clr.asc_getB()), effectValue: clr.asc_getValue()}, Position: position};
+                    if (this._state.FillType !== this.OriginalFillType) {
+                        this.cmbFillSrc.setValue((this.OriginalFillType === null) ? '' : this.OriginalFillType);
+                        this._state.FillType = this.OriginalFillType;
+                        this.ShowHideElem(this.OriginalFillType);
+                    }
+
+                    // Color Back
+
+                    var type1 = typeof (this.CellColor.Color),
+                        type2 = typeof (this._state.CellColor);
+                    if ((type1 !== type2) || (type1 == 'object' &&
+                        (this.CellColor.Color.effectValue !== this._state.CellColor.effectValue || this._state.CellColor.color.indexOf(this.CellColor.Color) < 0)) ||
+                        (type1 != 'object' && this._state.CellColor !== undefined && this._state.CellColor.indexOf(this.CellColor.Color) < 0)) {
+
+                        this.btnBackColor.setColor(this.CellColor.Color);
+                        if (_.isObject(this.CellColor.Color)) {
+                            var isselected = false;
+                            for (var i = 0; i < 10; i++) {
+                                if (Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue) {
+                                    this.colorsBack.select(this.CellColor.Color, true);
+                                    isselected = true;
+                                    break;
+                                }
+                            }
+                            if (!isselected) this.colorsBack.clearSelection();
                         } else {
-                            itemColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(clr.asc_getR(), clr.asc_getG(), clr.asc_getB()), Position: position};
+                            this.colorsBack.select(this.CellColor.Color, true);
                         }
-                        me.GradColors.push(itemColor);
-                    });
-                    this.GradColors = _.sortBy(this.GradColors, 'Position');
-                    
-                    this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
-                    this.FGColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.GradColors[0].Color)};
-                    this.BGColor = {Value: 1, Color: 'ffffff'};
-                    this.CellColor = {Value: 1, Color: Common.Utils.ThemeColor.colorValue2EffectId(this.GradColors[0].Color)};
-                }
-
-                if ( this._state.FillType !== this.OriginalFillType ) {
-                    this.cmbFillSrc.setValue((this.OriginalFillType === null) ? '' : this.OriginalFillType);
-                    this._state.FillType = this.OriginalFillType;
-                    this.ShowHideElem(this.OriginalFillType);
-                }
-
-                // Color Back
-
-                var type1 = typeof(this.CellColor.Color),
-                    type2 = typeof(this._state.CellColor);
-                if ( (type1 !== type2) || (type1=='object' &&
-                    (this.CellColor.Color.effectValue!==this._state.CellColor.effectValue || this._state.CellColor.color.indexOf(this.CellColor.Color)<0)) ||
-                    (type1!='object' && this._state.CellColor!==undefined && this._state.CellColor.indexOf(this.CellColor.Color)<0 )) {
-
-                    this.btnBackColor.setColor(this.CellColor.Color);
-                    if (_.isObject(this.CellColor.Color)) {
-                        var isselected = false;
-                        for (var i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue) {
-                                this.colorsBack.select(this.CellColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBack.clearSelection();
-                    } else {
-                        this.colorsBack.select(this.CellColor.Color, true);
+                        this._state.CellColor = this.CellColor.Color;
                     }
-                    this._state.CellColor = this.CellColor.Color;
-                }
 
-                // Pattern colors
-                type1 = typeof(this.FGColor.Color);
-                type2 = typeof(this._state.FGColor);
+                    // Pattern colors
+                    type1 = typeof (this.FGColor.Color);
+                    type2 = typeof (this._state.FGColor);
 
-                if ( (type1 !== type2) || (type1=='object' &&
-                    (this.FGColor.Color.effectValue!==this._state.FGColor.effectValue || this._state.FGColor.color.indexOf(this.FGColor.Color.color)<0)) ||
-                    (type1!='object' && this._state.FGColor.indexOf(this.FGColor.Color)<0 )) {
+                    if ((type1 !== type2) || (type1 == 'object' &&
+                        (this.FGColor.Color.effectValue !== this._state.FGColor.effectValue || this._state.FGColor.color.indexOf(this.FGColor.Color.color) < 0)) ||
+                        (type1 != 'object' && this._state.FGColor.indexOf(this.FGColor.Color) < 0)) {
 
-                    this.btnFGColor.setColor(this.FGColor.Color);
-                    if ( typeof(this.FGColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.FGColor.Color.effectValue ) {
-                                this.colorsFG.select(this.FGColor.Color,true);
-                                isselected = true;
-                                break;
+                        this.btnFGColor.setColor(this.FGColor.Color);
+                        if (typeof (this.FGColor.Color) == 'object') {
+                            var isselected = false;
+                            for (var i = 0; i < 10; i++) {
+                                if (Common.Utils.ThemeColor.ThemeValues[i] == this.FGColor.Color.effectValue) {
+                                    this.colorsFG.select(this.FGColor.Color, true);
+                                    isselected = true;
+                                    break;
+                                }
                             }
-                        }
-                        if (!isselected) this.colorsFG.clearSelection();
-                    } else
-                        this.colorsFG.select(this.FGColor.Color,true);
+                            if (!isselected) this.colorsFG.clearSelection();
+                        } else
+                            this.colorsFG.select(this.FGColor.Color, true);
 
-                    this._state.FGColor = this.FGColor.Color;
-                }
+                        this._state.FGColor = this.FGColor.Color;
+                    }
 
-                type1 = typeof(this.BGColor.Color);
-                type2 = typeof(this._state.BGColor);
+                    type1 = typeof (this.BGColor.Color);
+                    type2 = typeof (this._state.BGColor);
 
-                if ( (type1 !== type2) || (type1=='object' &&
-                    (this.BGColor.Color.effectValue!==this._state.BGColor.effectValue || this._state.BGColor.color.indexOf(this.BGColor.Color.color)<0)) ||
-                    (type1!='object' && this._state.BGColor.indexOf(this.BGColor.Color)<0 )) {
+                    if ((type1 !== type2) || (type1 == 'object' &&
+                        (this.BGColor.Color.effectValue !== this._state.BGColor.effectValue || this._state.BGColor.color.indexOf(this.BGColor.Color.color) < 0)) ||
+                        (type1 != 'object' && this._state.BGColor.indexOf(this.BGColor.Color) < 0)) {
 
-                    this.btnBGColor.setColor(this.BGColor.Color);
-                    if ( typeof(this.BGColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.BGColor.Color.effectValue ) {
-                                this.colorsBG.select(this.BGColor.Color,true);
-                                isselected = true;
-                                break;
+                        this.btnBGColor.setColor(this.BGColor.Color);
+                        if (typeof (this.BGColor.Color) == 'object') {
+                            var isselected = false;
+                            for (var i = 0; i < 10; i++) {
+                                if (Common.Utils.ThemeColor.ThemeValues[i] == this.BGColor.Color.effectValue) {
+                                    this.colorsBG.select(this.BGColor.Color, true);
+                                    isselected = true;
+                                    break;
+                                }
                             }
-                        }
-                        if (!isselected) this.colorsBG.clearSelection();
-                    } else
-                        this.colorsBG.select(this.BGColor.Color,true);
+                            if (!isselected) this.colorsBG.clearSelection();
+                        } else
+                            this.colorsBG.select(this.BGColor.Color, true);
 
-                    this._state.BGColor = this.BGColor.Color;
-                }
+                        this._state.BGColor = this.BGColor.Color;
+                    }
 
-                // Gradient colors
-                var gradColor1 = this.GradColors[0];
-                if (!gradColor1) {
-                    gradColor1 = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
-                }
-                type1 = typeof(gradColor1.Color);
-                type2 = typeof(this._state.GradColor1);
+                    // Gradient colors
+                    var gradColor = this.GradColor.colors[this.GradColor.currentIdx];
+                    type1 = typeof (gradColor);
+                    type2 = typeof (this._state.GradColor);
 
-                if ( (type1 !== type2) || (type1=='object' &&
-                    (gradColor1.Color.effectValue!==this._state.GradColor1.effectValue || this._state.GradColor1.color.indexOf(gradColor1.Color.color)<0)) ||
-                    (type1!='object' && this._state.GradColor1.indexOf(gradColor1.Color)<0 )) {
+                    if ((type1 !== type2) || (type1 == 'object' &&
+                        (gradColor.effectValue !== this._state.GradColor.effectValue || this._state.GradColor.color.indexOf(gradColor.color) < 0)) ||
+                        (type1 != 'object' && this._state.GradColor.indexOf(gradColor) < 0)) {
 
-                    this.btnGradColor1.setColor(gradColor1.Color);
-                    if ( typeof(gradColor1.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == gradColor1.Color.effectValue ) {
-                                this.colorsGrad1.select(gradColor1.Color,true);
-                                isselected = true;
-                                break;
+                        this.btnGradColor.setColor(gradColor);
+                        if (typeof (gradColor) == 'object') {
+                            var isselected = false;
+                            for (var i = 0; i < 10; i++) {
+                                if (Common.Utils.ThemeColor.ThemeValues[i] == gradColor.effectValue) {
+                                    this.colorsGrad.select(gradColor, true);
+                                    isselected = true;
+                                    break;
+                                }
                             }
-                        }
-                        if (!isselected) this.colorsGrad1.clearSelection();
-                    } else
-                        this.colorsGrad1.select(gradColor1.Color,true);
+                            if (!isselected) this.colorsGrad.clearSelection();
+                        } else
+                            this.colorsGrad.select(gradColor, true);
 
-                    this._state.GradColor1 = gradColor1.Color;
+                        this._state.GradColor = gradColor;
+                    }
+
+                    this._noApply = false;
                 }
-
-                var gradColor2 = this.GradColors[1];
-                if (!gradColor2) {
-                    gradColor2 = {Value: 1, Color: 'ffffff'};
-                }
-                type1 = typeof(gradColor2.Color);
-                type2 = typeof(this._state.GradColor2);
-
-                if ( (type1 !== type2) || (type1=='object' &&
-                    (gradColor2.Color.effectValue!==this._state.GradColor2.effectValue || this._state.GradColor2.color.indexOf(gradColor2.Color.color)<0)) ||
-                    (type1!='object' && this._state.GradColor2.indexOf(gradColor2.Color)<0 )) {
-
-                    this.btnGradColor2.setColor(gradColor2.Color);
-                    if ( typeof(gradColor2.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == gradColor2.Color.effectValue ) {
-                                this.colorsGrad2.select(gradColor2.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsGrad2.clearSelection();
-                    } else
-                        this.colorsGrad2.select(gradColor2.Color,true);
-
-                    this._state.GradColor2 = gradColor2.Color;
-                }
-
-                this._noApply = false;
             }
         },
 
@@ -688,43 +776,24 @@ define([
                  this.btnBackColor.menu.items[1].on('click', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
                  this.fillControls.push(this.btnBackColor);
 
-                 this.btnGradColor1 = new Common.UI.ColorButton({
+                 this.btnGradColor = new Common.UI.ColorButton({
                      style: "width:45px;",
                      menu        : new Common.UI.Menu({
                          items: [
-                             { template: _.template('<div id="cell-gradient-color1-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                             { template: _.template('<a id="cell-gradient-color1-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                             { template: _.template('<div id="cell-gradient-color" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                             { template: _.template('<a id="cell-gradient-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                          ]
                      })
                  });
-                 this.btnGradColor1.render( $('#cell-grad-btn-color-1'));
-                 this.btnGradColor1.setColor('000000');
-                 this.colorsGrad1 = new Common.UI.ThemeColorPalette({
-                     el: $('#cell-gradient-color1-menu'),
+                 this.btnGradColor.render( $('#cell-gradient-color-btn'));
+                 this.btnGradColor.setColor('000000');
+                 this.colorsGrad = new Common.UI.ThemeColorPalette({
+                     el: $('#cell-gradient-color'),
                      value: '000000'
                  });
-                 this.colorsGrad1.on('select', _.bind(this.onColorsGradientSelect, this));
-                 this.btnGradColor1.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad1, this.btnGradColor1));
-                 this.fillControls.push(this.btnGradColor1);
-
-                 this.btnGradColor2 = new Common.UI.ColorButton({
-                     style: "width:45px;",
-                     menu        : new Common.UI.Menu({
-                         items: [
-                             { template: _.template('<div id="cell-gradient-color2-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                             { template: _.template('<a id="cell-gradient-color2-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                         ]
-                     })
-                 });
-                 this.btnGradColor2.render( $('#cell-grad-btn-color-2'));
-                 this.btnGradColor2.setColor('ffffff');
-                 this.colorsGrad2 = new Common.UI.ThemeColorPalette({
-                     el: $('#cell-gradient-color2-menu'),
-                     value: 'ffffff'
-                 });
-                 this.colorsGrad2.on('select', _.bind(this.onColorsGradientSelect, this));
-                 this.btnGradColor2.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad2, this.btnGradColor2));
-                 this.fillControls.push(this.btnGradColor2);
+                 this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
+                 this.btnGradColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
+                 this.fillControls.push(this.btnGradColor);
 
                  this.btnFGColor = new Common.UI.ColorButton({
                      style: "width:45px;",
@@ -767,8 +836,7 @@ define([
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.btnBorderColor.setColor(this.borderColor.getColor());
-             this.colorsGrad1.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-             this.colorsGrad2.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+             this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
@@ -830,21 +898,24 @@ define([
                             this.gradient.asc_setDegree(this.GradLinearDirectionType);
                         }
                         if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
-                            var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColors[0].Color).get_color().get_hex(),
-                                HexColor1 = Common.Utils.ThemeColor.getRgbColor(this.GradColors[1].Color).get_color().get_hex();
-
-                            if (HexColor0 === 'ffffff' && HexColor1 === 'ffffff') {
-                                this.GradColors[0].Color = {color: '4f81bd', effectId: 24};    // color accent1
+                            this.GradColor.currentIdx = 0;
+                            if (this.GradColor.colors.length === 2) {
+                                var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]).get_color().get_hex(),
+                                    HexColor1 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1]).get_color().get_hex();
+                                if (HexColor0 === 'ffffff' && HexColor1 === 'ffffff') {
+                                    this.GradColors.colors[0] = {color: '4f81bd', effectId: 24};    // color accent1
+                                }
                             }
                             var arrGradStop = [];
-                            this.GradColors.forEach(function (item) {
+                            this.GradColor.colors.forEach(function (item, index) {
                                 var gradientStop = new Asc.asc_CGradientStop();
-                                gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
-                                gradientStop.asc_setPosition(item.Position);
+                                gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(me.GradColor.colors[index]));
+                                gradientStop.asc_setPosition(me.GradColor.values[index]/100);
                                 arrGradStop.push(gradientStop);
                             });
                             this.gradient.asc_putGradientStops(arrGradStop);
                         }
+
                         this.fill.asc_setGradientFill(this.gradient);
                         this.api.asc_setCellFill(this.fill);
                     }
@@ -887,7 +958,7 @@ define([
             this.FillGradientContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_GRAD);
         },
 
-        onGradTypeSelect: function(combo, record) {
+        /*onGradTypeSelect: function(combo, record) {
             this.GradFillType = record.value;
 
             if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
@@ -935,7 +1006,7 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this);
-        },
+        },*/
 
         onSelectGradient: function(btn, picker, itemView, record) {
             var me = this;
@@ -956,7 +1027,8 @@ define([
             }
 
             this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
-            (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
+            this.GradLinearDirectionType = rawData.type;
+            this.numGradientAngle.setValue(rawData.type);
 
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
@@ -964,10 +1036,10 @@ define([
                         this.gradient = new Asc.asc_CGradientFill();
                         this.gradient.asc_setType(this.GradFillType);
                         var arrGradStop = [];
-                        this.GradColors.forEach(function (item) {
+                        this.GradColor.values.forEach(function (item, index) {
                             var gradientStop = new Asc.asc_CGradientStop();
-                            gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
-                            gradientStop.asc_setPosition(item.Position);
+                            gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(me.GradColor.colors[index]));
+                            gradientStop.asc_setPosition(me.GradColor.values[index]/100);
                             arrGradStop.push(gradientStop);
                         });
                         this.gradient.asc_putGradientStops(arrGradStop);
@@ -982,15 +1054,10 @@ define([
         },
 
         onColorsGradientSelect: function(picker, color) {
-            var me = this,
-                pickerId = picker.el.id;
-            if (pickerId === "cell-gradient-color1-menu") {
-                this.btnGradColor1.setColor(color);
-                this.GradColors[0].Color = color;
-            } else if (pickerId === "cell-gradient-color2-menu") {
-                this.btnGradColor2.setColor(color);
-                this.GradColors[1].Color = color;
-            }
+            var me = this;
+            this.btnGradColor.setColor(color);
+            this.GradColor.colors[this.GradColor.currentIdx] = color;
+            this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(color) == 'object') ? color.color : color));
 
             if (this.api && !this._noApply) {
                 if (this.gradient == null) {
@@ -1001,10 +1068,10 @@ define([
                     }
                 }
                 var arrGradStop = [];
-                this.GradColors.forEach(function (item) {
+                this.GradColor.values.forEach(function (item, index) {
                     var gradientStop = new Asc.asc_CGradientStop();
-                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(item.Color));
-                    gradientStop.asc_setPosition(item.Position);
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index])));
+                    gradientStop.asc_setPosition(me.GradColor.values[index]/100);
                     arrGradStop.push(gradientStop);
                 });
                 this.gradient.asc_putGradientStops(arrGradStop);
@@ -1013,6 +1080,63 @@ define([
                 this.api.asc_setCellFill(this.fill);
             }
             Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onGradientAngleChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api) {
+                if (this.gradient == null) {
+                    this.gradient = new Asc.asc_CGradientFill();
+                    this.gradient.asc_setType(this.GradFillType);
+                }
+                if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                    this.gradient.asc_setDegree(field.getNumberValue());
+                }
+                this.fill.asc_setGradientFill(this.gradient);
+                this.api.asc_setCellFill(this.fill);
+            }
+        },
+
+        onGradientChange: function(slider, newValue, oldValue) {
+            this.GradColor.values = slider.getValues();
+            this._sliderChanged = true;
+            if (this.api && !this._noApply) {
+                if (this._sendUndoPoint)  {
+                    this.api.setStartPointHistory();
+                    this._sendUndoPoint = false;
+                    this.updateslider = setInterval(_.bind(this._gradientApplyFunc, this), 100);
+                }
+            }
+        },
+
+        onGradientChangeComplete: function(slider, newValue, oldValue) {
+            clearInterval(this.updateslider);
+            this._sliderChanged = true;
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._gradientApplyFunc();
+            }
+            this._sendUndoPoint = true;
+        },
+
+        _gradientApplyFunc: function() {
+            if (this._sliderChanged) {
+                var me = this;
+                if (this.gradient == null)
+                    this.gradient = new Asc.asc_CGradientFill();
+                var arrGradStop = [];
+                this.GradColor.colors.forEach(function (item, index) {
+                    var gradientStop = new Asc.asc_CGradientStop();
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index])));
+                    gradientStop.asc_setPosition(me.GradColor.values[index]/100);
+                    arrGradStop.push(gradientStop);
+                });
+                this.gradient.asc_putGradientStops(arrGradStop);
+
+                this.fill.asc_setGradientFill(this.gradient);
+                this.api.asc_setCellFill(this.fill);
+
+                this._sliderChanged = false;
+            }
         },
 
         onPatternSelect: function(combo, record) {
@@ -1086,13 +1210,13 @@ define([
         textGradientFill:   'Gradient Fill',
         textPatternFill:    'Pattern',
         textColor:          'Color Fill',
-        textStyle:          'Style',
         textDirection:      'Direction',
         textLinear:         'Linear',
         textRadial:         'Radial',
         textPattern:        'Pattern',
         textForeground:     'Foreground color',
-        textBackground:     'Background color'
+        textBackground:     'Background color',
+        textGradient:       'Gradient'
 
     }, SSE.Views.CellSettings || {}));
 });

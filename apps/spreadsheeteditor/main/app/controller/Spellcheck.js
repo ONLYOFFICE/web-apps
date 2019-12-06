@@ -55,9 +55,16 @@ define([
                 'Spellcheck': {
                     'show': function() {
                         me._initSettings && me.loadLanguages();
+                        me.updateLanguages();
                         me.onClickNext();
                     },
                     'hide': function() {
+                        me.api && me.api.asc_cancelSpellCheck();
+                    }
+                },
+                'LeftMenu': {
+                    'spellcheck:update': function () {
+                        me.updateLanguages();
                     }
                 }
             });
@@ -120,23 +127,24 @@ define([
         setLanguages: function (array) {
             this.languages = array;
             this._initSettings = true;
+            if (this.panelSpellcheck.cmbDictionaryLanguage.store.length > 0) {
+                this.panelSpellcheck.cmbDictionaryLanguage.store.reset();
+            }
         },
 
         loadLanguages: function () {
-            var value = Common.localStorage.getItem("sse-spellcheck-locale");
-            if (value)
-                value = parseInt(value);
-            else
-                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+            var me = this;
+            if (this._initSettings) {
+                Common.Utils.InternalSettings.set("sse-spellcheck-locale", Common.localStorage.getItem("sse-spellcheck-locale"));
+            }
 
-            var combo = this.panelSpellcheck.cmbDictionaryLanguage;
             if (this.languages && this.languages.length>0) {
-                var langs = [], info,
-                    allLangs = Common.util.LanguageInfo.getLanguages();
+                var langs = [], info;
+                this.allLangs = Common.util.LanguageInfo.getLanguages();
                 this.languages.forEach(function (code) {
                     code = parseInt(code);
-                    if (allLangs.hasOwnProperty(code)) {
-                        info = allLangs[code];
+                    if (me.allLangs.hasOwnProperty(code)) {
+                        info = me.allLangs[code];
                         langs.push({
                             displayValue:   info[1],
                             shortName:      info[0],
@@ -149,29 +157,60 @@ define([
                     if (a.shortName > b.shortName) return 1;
                     return 0;
                 });
-                combo.setData(langs);
-                var item = combo.store.findWhere({value: value});
-                if (!item && allLangs[value]) {
-                    value = allLangs[value][0].split(/[\-\_]/)[0];
-                    item = combo.store.find(function(model){
-                                return model.get('shortName').indexOf(value)==0;
-                            });
+                this.langs = langs;
+            } else {
+                this.langs = undefined;
+            }
+            this._initSettings = false;
+
+            var change = this.panelSpellcheck.cmbDictionaryLanguage.store.length === 0;
+
+            return [this.allLangs, this.langs, change];
+        },
+
+        updateLanguages: function() {
+            var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
+                value,
+                isApply = false;
+            if (sessionValue)
+                value = parseInt(sessionValue);
+            else
+                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+            var combo = this.panelSpellcheck.cmbDictionaryLanguage;
+            if (this.langs && this.langs.length>0) {
+                if (combo.store.length === 0) {
+                    combo.setData(this.langs);
+                    isApply = true;
                 }
-                combo.setValue(item ? item.get('value') : langs[0].value);
+                var item = combo.store.findWhere({value: value});
+                if (!item && this.allLangs[value]) {
+                    value = this.allLangs[value][0].split(/[\-\_]/)[0];
+                    item = combo.store.find(function(model){
+                        return model.get('shortName').indexOf(value)==0;
+                    });
+                }
+                combo.setValue(item ? item.get('value') : this.langs[0].value);
                 value = combo.getValue();
             } else {
                 combo.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
                 combo.setDisabled(true);
             }
-            this.api.asc_setDefaultLanguage(value);
-            this._initSettings = false;
+            if (isApply && this.api) {
+                this.api.asc_setDefaultLanguage(value);
+                if (value !== parseInt(sessionValue)) {
+                    Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+                }
+                isApply = false;
+            }
         },
 
         onSelectLanguage: function (combo, record) {
             var lang = record.value;
             if (this.api && lang) {
                 this.api.asc_setDefaultLanguage(lang);
-                Common.localStorage.setItem("sse-spellcheck-locale", this.panelSpellcheck.cmbDictionaryLanguage.getValue());
+                var value = this.panelSpellcheck.cmbDictionaryLanguage.getValue();
+                Common.localStorage.setItem("sse-spellcheck-locale", value);
+                Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
             }
             Common.NotificationCenter.trigger('edit:complete', this, {restorefocus:true});
         },
@@ -245,7 +284,7 @@ define([
         onApiEditCell: function(state) {
             if (state == Asc.c_oAscCellEditorState.editEnd) {
                 this.panelSpellcheck.buttonNext.setDisabled(!this.panelSpellcheck.lblComplete.hasClass('hidden'));
-                this.panelSpellcheck.cmbDictionaryLanguage.setDisabled(false);
+                this.panelSpellcheck.cmbDictionaryLanguage.setDisabled((this.languages && this.languages.length > 0) ? false : true);
             } else {
                 this.panelSpellcheck.buttonNext.setDisabled(true);
                 this.panelSpellcheck.currentWord.setDisabled(true);

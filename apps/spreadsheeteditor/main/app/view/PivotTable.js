@@ -180,7 +180,7 @@ define([
 
                 this.btnAddPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-add-pivot',
+                    iconCls: 'toolbar__icon btn-add-pivot',
                     caption: this.txtCreate,
                     disabled    : false,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editPivot]
@@ -188,7 +188,7 @@ define([
 
                 this.btnPivotLayout = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-pivot-layout',
+                    iconCls     : 'toolbar__icon btn-pivot-layout',
                     caption     : this.capLayout,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
@@ -198,7 +198,7 @@ define([
 
                 this.btnPivotBlankRows = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-blank-rows',
+                    iconCls     : 'toolbar__icon btn-blank-rows',
                     caption     : this.capBlankRows,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
@@ -208,7 +208,7 @@ define([
 
                 this.btnPivotSubtotals = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-subtotals',
+                    iconCls     : 'toolbar__icon btn-subtotals',
                     caption     : this.capSubtotals,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
@@ -218,7 +218,7 @@ define([
 
                 this.btnPivotGrandTotals = new Common.UI.Button({
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'btn-grand-totals',
+                    iconCls     : 'toolbar__icon btn-grand-totals',
                     caption     : this.capGrandTotals,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
@@ -228,7 +228,7 @@ define([
 
                 this.btnRefreshPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-update-pivot',
+                    iconCls: 'toolbar__icon btn-update-pivot',
                     caption: this.txtRefresh,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
@@ -237,9 +237,9 @@ define([
 
                 this.btnSelectPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-select-pivot',
+                    iconCls: 'toolbar__icon btn-select-pivot',
                     caption: this.txtSelect,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
+                    lock: [_set.lostConnect, _set.coAuth, _set.noPivot]
                 });
                 this.lockedControls.push(this.btnSelectPivot);
 

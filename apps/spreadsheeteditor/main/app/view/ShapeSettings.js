@@ -360,7 +360,6 @@ define([
                 this.imgprops.asc_putShapeProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onTransparencyChange: function(field, newValue, oldValue){
@@ -546,17 +545,16 @@ define([
                 });
                 fill.asc_getFill().asc_putPositions(arr);
 
-                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
-                    if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                        fill.asc_getFill().asc_putLinearAngle(this.GradLinearDirectionType * 60000);
-                        fill.asc_getFill().asc_putLinearScale(true);
-                    }
-                    arr = [];
-                    this.GradColor.colors.forEach(function(item){
-                        arr.push(Common.Utils.ThemeColor.getRgbColor(item));
-                    });
-                    fill.asc_getFill().asc_putColors(arr);
+                if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                    fill.asc_getFill().asc_putLinearAngle(this.GradLinearDirectionType * 60000);
+                    fill.asc_getFill().asc_putLinearScale(true);
                 }
+                arr = [];
+                this.GradColor.colors.forEach(function(item){
+                    arr.push(Common.Utils.ThemeColor.getRgbColor(item));
+                });
+                fill.asc_getFill().asc_putColors(arr);
+
                 props.asc_putFill(fill);
                 this.imgprops.asc_putShapeProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
@@ -867,7 +865,7 @@ define([
                     var me = this;
                     var colors = fill.asc_getColors(),
                         positions = fill.asc_getPositions(),
-                        length = colors.length;
+                        length = colors ? colors.length : this.GradColor.colors.length;
                     this.sldrGradient.setThumbs(length);
                     if (this.GradColor.colors.length>length) {
                         this.GradColor.colors.splice(length, this.GradColor.colors.length - length);
@@ -895,6 +893,10 @@ define([
                         me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
                     }
+                    if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
+                        me.GradColor.currentIdx = 0;
+                    }
+                    me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1192,6 +1194,7 @@ define([
                 minValue: 0
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.fillControls.push(this.numTransparency);
 
             this.sldrTransparency = new Common.UI.SingleSlider({
@@ -1293,6 +1296,16 @@ define([
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
             });
+            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
+                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+                me.GradColor.currentIdx = index;
+                me.sldrGradient.addNewThumb(index, color);
+            });
+            this.sldrGradient.on('removethumb', function(cmp, index){
+                me.sldrGradient.removeThumb(index);
+                me.GradColor.values.splice(index, 1);
+                me.sldrGradient.changeGradientStyle();
+            });
             this.fillControls.push(this.sldrGradient);
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
@@ -1332,7 +1345,7 @@ define([
 
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-270',
+                iconCls: 'toolbar__icon btn-rotate-270',
                 value: 0,
                 hint: this.textHint270
             });
@@ -1342,7 +1355,7 @@ define([
 
             this.btnRotate90 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-90',
+                iconCls: 'toolbar__icon btn-rotate-90',
                 value: 1,
                 hint: this.textHint90
             });
@@ -1352,7 +1365,7 @@ define([
 
             this.btnFlipV = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-vert',
+                iconCls: 'toolbar__icon btn-flip-vert',
                 value: 0,
                 hint: this.textHintFlipV
             });
@@ -1362,7 +1375,7 @@ define([
 
             this.btnFlipH = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-hor',
+                iconCls: 'toolbar__icon btn-flip-hor',
                 value: 1,
                 hint: this.textHintFlipH
             });

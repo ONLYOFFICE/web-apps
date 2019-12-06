@@ -1,0 +1,12 @@
+{{#spritesheet}}
+@media only screen {
+    @media (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 2dppx), (min-resolution: 192dpi)
+    {
+        .toolbar__icon, .menu__icon {
+            background-image: url(resources/{{{escaped_image}}});
+            background-size: {{half width}}px auto;
+        }
+    }
+}
+{{/spritesheet}}

@@ -47,8 +47,7 @@ define([
             width: 330,
             header: false,
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            footerCls: 'right'
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -57,7 +56,7 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div class="input-row">',
-                        '<label>' + this.textUrl + '</label>',
+                        '<label>' + (this.options.title || this.textUrl) + '</label>',
                     '</div>',
                     '<div id="id-dlg-url" class="input-row"></div>',
                 '</div>'
@@ -93,7 +92,7 @@ define([
             var me = this;
             _.delay(function(){
                 me.getChild('input').focus();
-            },500);
+            },100);
         },
 
         onPrimary: function(event) {

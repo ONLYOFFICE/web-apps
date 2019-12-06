@@ -101,7 +101,6 @@ define([
                 return;
             if (this.api)
                 this.api.put_PrLineSpacing(this.cmbLineRule.getValue(), (this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-            this.fireEvent('editcomplete', this);
         },
 
         onNumSpacingBeforeChange: function(field, newValue, oldValue, eOpts){
@@ -112,8 +111,6 @@ define([
                 else
                     this.api.put_LineSpacingBeforeAfter(0, Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             }
-
-            this.fireEvent('editcomplete', this);
         },
 
         onNumSpacingAfterChange: function(field, newValue, oldValue, eOpts){
@@ -124,7 +121,6 @@ define([
                 else
                     this.api.put_LineSpacingBeforeAfter(1, Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             }
-            this.fireEvent('editcomplete', this);
         },
 
         onLineRuleSelect: function(combo, record) {
@@ -310,6 +306,9 @@ define([
             this.numLineHeight.on('change', _.bind(this.onNumLineHeightChange, this));
             this.numSpacingBefore.on('change', _.bind(this.onNumSpacingBeforeChange, this));
             this.numSpacingAfter.on('change', _.bind(this.onNumSpacingAfterChange, this));
+            this.numLineHeight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numSpacingBefore.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numSpacingAfter.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
             this.cmbLineRule.on('hide:after', _.bind(this.onHideMenus, this));
             $(this.el).on('click', '#paragraph-advanced-link', _.bind(this.openAdvancedSettings, this));

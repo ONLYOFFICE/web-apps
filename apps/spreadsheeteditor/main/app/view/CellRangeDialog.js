@@ -52,8 +52,7 @@ define([
             width   : 350,
             cls     : 'modal-dlg',
             modal   : false,
-            buttons: ['ok', 'cancel'],
-            footerCls: 'right'
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -156,7 +155,8 @@ define([
                     if (this.inputRange.checkValidate() !== true)
                         return;
                 }
-                this.options.handler.call(this, this, state);
+                if (this.options.handler.call(this, this, state))
+                    return;
             }
 
             this.close();
