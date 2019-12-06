@@ -12,6 +12,16 @@
     }
 }
 
+.color-transparent {
+    &:before {
+        content: '';
+        position: absolute;
+        border-right: 2px solid red;
+        height: 14px;
+        transform: translate(5px,-1px) rotate(45deg);
+    }
+}
+
 .palette-color-ext {
     padding: 10px;
     .palette-color-item {
@@ -46,8 +56,6 @@
     }
 
     .color-transparent {
-        background-position: @nocolor-offset-x @nocolor-offset-y;
-
         em span {
             border:solid 1px #C0C0C0;
         }
