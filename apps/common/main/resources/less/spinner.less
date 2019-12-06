@@ -8,6 +8,10 @@
         text-align: right;
         padding-left: 1px;
         padding-right: @trigger-width + 2px;
+
+        &:focus {
+            border-color: @gray-darker;
+        }
     }
 
     button {
@@ -34,7 +38,7 @@
     .spinner-buttons {
         position: absolute;
         top: 0;
-        right: 0;
+        right: 1px;
 
         i {
             display: inline-block;
