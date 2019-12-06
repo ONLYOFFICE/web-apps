@@ -251,7 +251,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                                     me.chSum.setValue(true);
                                     break;
                                 case Asc.c_oAscItemType.Count:
-                                    me.chCount.setValue(true);
+                                    me.chNum.setValue(true);
                                     break;
                                 case Asc.c_oAscItemType.Avg:
                                     me.chAve.setValue(true);
@@ -266,7 +266,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                                     me.chProduct.setValue(true);
                                     break;
                                 case Asc.c_oAscItemType.CountA:
-                                    me.chNum.setValue(true);
+                                    me.chCount.setValue(true);
                                     break;
                                 case Asc.c_oAscItemType.StdDev:
                                     me.chDev.setValue(true);
@@ -306,7 +306,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                 if (this.chSum.getValue() == 'checked') {
                     arr.push(Asc.c_oAscItemType.Sum);
                 }
-                if (this.chCount.getValue() == 'checked') {
+                if (this.chNum.getValue() == 'checked') {
                     arr.push(Asc.c_oAscItemType.Count);
                 }
                 if (this.chAve.getValue() == 'checked') {
@@ -321,7 +321,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                 if (this.chProduct.getValue() == 'checked') {
                     arr.push(Asc.c_oAscItemType.Product);
                 }
-                if (this.chNum.getValue() == 'checked') {
+                if (this.chCount.getValue() == 'checked') {
                     arr.push(Asc.c_oAscItemType.CountA);
                 }
                 if (this.chDev.getValue() == 'checked') {
