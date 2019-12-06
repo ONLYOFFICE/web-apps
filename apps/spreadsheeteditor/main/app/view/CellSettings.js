@@ -204,6 +204,7 @@ define([
             });
             this.lockedControls.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
+            this.numGradientAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
 
             /*this._arrGradType = [
                 {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
@@ -438,6 +439,7 @@ define([
             });
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
+            this.spnAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
         },
 
         createDelayedElements: function() {

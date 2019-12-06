@@ -112,6 +112,7 @@ define([
 
             this.render();
 
+            var me = this;
             this._arrFillSrc = [
                 {displayValue: this.textColor,          value: Asc.c_oAscFill.FILL_TYPE_SOLID},
                 {displayValue: this.textGradientFill,   value: Asc.c_oAscFill.FILL_TYPE_GRAD},
@@ -221,6 +222,7 @@ define([
                 disabled: true
             });
             this.numDuration.on('change', _.bind(this.onDurationChange, this));
+            this.numDuration.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.numDelay = new Common.UI.MetricSpinner({
                 el: $('#slide-spin-delay'),
@@ -233,6 +235,7 @@ define([
                 disabled: true
             });
             this.numDelay.on('change', _.bind(this.onDelayChange, this));
+            this.numDelay.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.chStartOnClick = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-start-click'),
@@ -1022,7 +1025,6 @@ define([
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
             }
-            this.fireEvent('editcomplete', this);
         },
 
         onDelayChange: function(field, newValue, oldValue, eOpts){
@@ -1033,7 +1035,6 @@ define([
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
             }
-            this.fireEvent('editcomplete', this);
         },
 
         onStartOnClickChange: function(field, newValue, oldValue, eOpts){

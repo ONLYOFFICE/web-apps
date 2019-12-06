@@ -355,7 +355,6 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onTransparencyChange: function(field, newValue, oldValue){
@@ -1160,6 +1159,7 @@ define([
                 minValue: 0
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.lockedControls.push(this.numTransparency);
 
             this.sldrTransparency = new Common.UI.SingleSlider({

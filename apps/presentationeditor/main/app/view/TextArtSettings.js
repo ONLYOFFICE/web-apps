@@ -354,7 +354,6 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.ShapeApply(this.shapeprops);
             }
-            this.fireEvent('editcomplete', this);
         },
 
         onTransparencyChange: function(field, newValue, oldValue){
@@ -1156,6 +1155,7 @@ define([
                 minValue: 0
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.lockedControls.push(this.numTransparency);
 
             this.sldrTransparency = new Common.UI.SingleSlider({

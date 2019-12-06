@@ -246,6 +246,8 @@ define([
         },
 
         createDelayedControls: function() {
+            var me = this;
+
             this.chHeader = new Common.UI.CheckBox({
                 el: $('#table-checkbox-header'),
                 labelText: this.textHeader
@@ -384,6 +386,7 @@ define([
 				_props.put_RowHeight(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));				
 				this.api.tblApply(_props);
             }, this));
+            this.numHeight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.lockedControls.push(this.numHeight);
             this.spinners.push(this.numHeight);
 
@@ -401,6 +404,7 @@ define([
 				_props.put_ColumnWidth(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
 				this.api.tblApply(_props);
             }, this));
+            this.numWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.lockedControls.push(this.numWidth);
             this.spinners.push(this.numWidth);
 

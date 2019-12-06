@@ -347,6 +347,7 @@ define([
                     var value = this.getRawValue();
                     if (this.value != value) {
                         this.onEnterValue();
+                        this.trigger('inputleave', this);
                         return (this.value == value);
                     }
                 } else {
@@ -355,6 +356,8 @@ define([
             } else {
                 this._fromKeyDown = true;
             }
+            if (e.keyCode==Common.UI.Keys.RETURN || e.keyCode==Common.UI.Keys.ESC)
+                this.trigger('inputleave', this);
         },
 
         onKeyUp: function (e) {
