@@ -144,6 +144,9 @@ define([
             el.on('input', '.form-control', _.bind(this.onInput, this));
             if (!this.options.allowDecimal)
                 el.on('keypress',   '.form-control', _.bind(this.onKeyPress, this));
+            el.on('focus', 'input.form-control', function() {
+                me.$input && me.$input.select();
+            });
 
             this.switches = {
                 count: 1,
@@ -480,6 +483,8 @@ define([
 
         _step: function (type, suspend) {
             (type) ? this._increase(suspend) : this._decrease(suspend);
+            if (this.options.hold && this.switches.fromKeyDown)
+                this.$input && this.$input.select();
         },
 
         _add: function (a, b, precision) {
