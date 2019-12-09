@@ -595,6 +595,18 @@ define([
                         '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
                         '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strSeparator %></label></td>',
+                    '<td class="right"><div id="fms-chb-separator-settings"/></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td class="left"></td>',
+                    '<td class="right"><div id="fms-decimal-separator"/><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strDecimalSeparator %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td class="left"></td>',
+                    '<td class="right"><div id="fms-thousands-separator"/><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strThousandsSeparator %></label></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"></td>',
                     '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
@@ -761,8 +773,60 @@ define([
                     '</span>'].join(''))
             }).on('selected', function(combo, record) {
                 me.updateRegionalExample(record.value);
+                var isBaseSettings = me.chSeparator.getValue();
+                if (isBaseSettings === 'checked') {
+                    me.inputDecimalSeparator.setValue(me.api.asc_getDecimalSeparator(record.value), true);
+                    me.inputThousandsSeparator.setValue(me.api.asc_getGroupSeparator(record.value), true);
+                }
             });
             if (this.cmbRegSettings.scroller) this.cmbRegSettings.scroller.update({alwaysVisibleY: true});
+
+            this.chSeparator = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-separator-settings'),
+                labelText: this.strUseSeparatorsBasedOnRegionalSettings
+            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = field.getValue() === 'checked';
+                if (checked) {
+                    var lang = this.cmbRegSettings.getValue(),
+                        decimal = this.api.asc_getDecimalSeparator(_.isNumber(lang) ? lang : undefined),
+                        group = this.api.asc_getGroupSeparator(_.isNumber(lang) ? lang : undefined);
+                    this.inputDecimalSeparator.setValue(decimal);
+                    this.inputThousandsSeparator.setValue(group);
+                }
+                this.inputDecimalSeparator.setDisabled(checked);
+                this.inputThousandsSeparator.setDisabled(checked);
+                if (checked) {
+                    this.$el.find('.label-separator').addClass('disabled');
+                } else {
+                    this.$el.find('.label-separator').removeClass('disabled');
+                }
+            }, this));
+
+            var keyDown = function(event){
+                var key = event.key,
+                    value = event.target.value;
+                if (key !== 'ArrowLeft' && key !== 'ArrowDown' && key !== 'ArrowUp' && key !== 'ArrowRight' &&
+                    key !== 'Home' && key !== 'End' && key !== 'Backspace' && key !== 'Delete' && value.length > 0 &&
+                    event.target.selectionEnd - event.target.selectionStart === 0) {
+                    event.preventDefault();
+                }
+            };
+
+            this.inputDecimalSeparator = new Common.UI.InputField({
+                el: $markup.findById('#fms-decimal-separator'),
+                style: 'width: 35px;',
+                validateOnBlur: false
+            });
+            var $decimalSeparatorInput = this.inputDecimalSeparator.$el.find('input');
+            $decimalSeparatorInput.on('keydown', keyDown);
+
+            this.inputThousandsSeparator = new Common.UI.InputField({
+                el: $markup.findById('#fms-thousands-separator'),
+                style: 'width: 35px;',
+                validateOnBlur: false
+            });
+            var $thousandsSeparatorInput = this.inputThousandsSeparator.$el.find('input');
+            $thousandsSeparatorInput.on('keydown', keyDown);
 
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-apply')
@@ -855,6 +919,28 @@ define([
                 this.cmbRegSettings.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
             }
             this.updateRegionalExample(value);
+
+            var isBaseSettings = Common.Utils.InternalSettings.get("sse-settings-use-base-separator");
+            this.chSeparator.setValue(isBaseSettings, true);
+            var decimal,
+                group;
+            if (!isBaseSettings) {
+                decimal = Common.Utils.InternalSettings.get("sse-settings-decimal-separator") || this.api.asc_getDecimalSeparator();
+                group = Common.Utils.InternalSettings.get("sse-settings-group-separator") || this.api.asc_getGroupSeparator();
+            } else {
+                var lang = this.cmbRegSettings.getValue();
+                decimal = this.api.asc_getDecimalSeparator(_.isNumber(lang) ? lang : undefined);
+                group = this.api.asc_getGroupSeparator(_.isNumber(lang) ? lang : undefined);
+            }
+            this.inputDecimalSeparator.setValue(decimal);
+            this.inputThousandsSeparator.setValue(group);
+            this.inputDecimalSeparator.setDisabled(isBaseSettings);
+            this.inputThousandsSeparator.setDisabled(isBaseSettings);
+            if (isBaseSettings) {
+                this.$el.find('.label-separator').addClass('disabled');
+            } else {
+                this.$el.find('.label-separator').removeClass('disabled');
+            }
         },
 
         applySettings: function() {
@@ -875,6 +961,23 @@ define([
             Common.localStorage.setItem("sse-settings-func-locale", this.cmbFuncLocale.getValue());
             if (this.cmbRegSettings.getSelectedRecord())
                 Common.localStorage.setItem("sse-settings-reg-settings", this.cmbRegSettings.getValue());
+
+            var value,
+                isChecked = this.chSeparator.isChecked();
+            if (!isChecked) {
+                value = this.inputDecimalSeparator.getValue();
+                if (value.length > 0) {
+                    Common.localStorage.setItem("sse-settings-decimal-separator", value);
+                    Common.Utils.InternalSettings.set("sse-settings-decimal-separator", value);
+                }
+                value = this.inputThousandsSeparator.getValue();
+                if (value.length > 0) {
+                    Common.localStorage.setItem("sse-settings-group-separator", value);
+                    Common.Utils.InternalSettings.set("sse-settings-group-separator", value);
+                }
+            }
+            Common.localStorage.setBool("sse-settings-use-base-separator", isChecked);
+            Common.Utils.InternalSettings.set("sse-settings-use-base-separator", isChecked);
 
             Common.localStorage.save();
             if (this.menu) {
@@ -955,7 +1058,11 @@ define([
         strForcesave: 'Always save to server (otherwise save to server on document close)',
         strResolvedComment: 'Turn on display of the resolved comments',
         textRefStyle: 'Reference Style',
-        strR1C1: 'Turn on R1C1 style'
+        strR1C1: 'Turn on R1C1 style',
+        strSeparator: 'Separator',
+        strUseSeparatorsBasedOnRegionalSettings: 'Use separators based on regional settings',
+        strDecimalSeparator: 'Decimal separator',
+        strThousandsSeparator: 'Thousands separator'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
