@@ -81,6 +81,7 @@ define([
                 allowBlank  : false,
                 blankError  : me.textNameError,
                 style       : 'width: 100%;',
+                maxLength   : 256,
                 validateOnBlur: false,
                 validation  : function(value) {
                     return value ? true : '';
@@ -99,6 +100,7 @@ define([
             me.inputValue = new Common.UI.InputField({
                 el          : $('#id-dlg-label-value'),
                 style       : 'width: 100%;',
+                maxLength   : 256,
                 validateOnBlur: false,
                 validation  : function(value) {
                     if (value!=='' && me.options.store) {
