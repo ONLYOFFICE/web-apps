@@ -551,6 +551,8 @@ define([
                     } else {
                         left = docW - menuW;
                     }
+                if (left < 0)
+                    left = 0;
 
                 if (this.options.restoreHeight) {
                     if (typeof (this.options.restoreHeight) == "number") {

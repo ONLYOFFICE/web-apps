@@ -171,6 +171,7 @@ define([
                 '<div id="id-settings-content" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
                     '<div id="panel-settings-general" style="width:100%; height:100%;" class="no-padding main-settings-panel active"></div>',
                     '<div id="panel-settings-print" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
+                    '<div id="panel-settings-spellcheck" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -192,11 +193,15 @@ define([
             this.printSettings.menu = this.menu;
             this.printSettings.render($markup.findById('#panel-settings-print'));
 
+            this.spellcheckSettings = new SSE.Views.FileMenuPanels.MainSpellCheckSettings({menu: this.menu});
+            this.spellcheckSettings.render($markup.findById('#panel-settings-spellcheck'));
+
             this.viewSettingsPicker = new Common.UI.DataView({
                 el: $markup.findById('#id-settings-menu'),
                 store: new Common.UI.DataViewStore([
-                    {name: this.txtGeneral, panel: this.generalSettings, iconCls:'mnu-settings-general', selected: true},
-                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'mnu-print'}
+                    {name: this.txtGeneral, panel: this.generalSettings, iconCls:'toolbar__icon btn-settings', selected: true},
+                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'toolbar__icon btn-print'},
+                    {name: this.txtSpellChecking, panel: this.spellcheckSettings, iconCls:'toolbar__icon btn-ic-docspell'}
                 ]),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="settings-item-wrap">',
@@ -227,6 +232,10 @@ define([
             if (!this.mode.canPrint)
                 this.viewSettingsPicker.store.pop();
             this.generalSettings && this.generalSettings.setMode(this.mode);
+            this.spellcheckSettings && this.spellcheckSettings.setMode(this.mode);
+            if (!this.mode.isEdit) {
+                $(this.viewSettingsPicker.dataViewItems[2].el).hide();
+            }
         },
 
         setApi: function(api) {
@@ -234,7 +243,8 @@ define([
         },
 
         txtGeneral: 'General',
-        txtPageSettings: 'Page Settings'
+        txtPageSettings: 'Page Settings',
+        txtSpellChecking: 'Spell checking'
     }, SSE.Views.FileMenuPanels.Settings || {}));
 
     SSE.Views.MainSettingsPrint = Common.UI.BaseView.extend(_.extend({
@@ -1037,6 +1047,154 @@ define([
         strThousandsSeparator: 'Thousands separator'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
+    SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-settings-spellcheck',
+        menu: undefined,
+
+        template: _.template([
+            '<table class="main"><tbody>',
+            '<tr>',
+                '<td class="left" style="padding-bottom: 8px;"><label><%= scope.strDictionaryLanguage %></label></td>',
+                '<td class="right" style="padding-bottom: 8px;"><span id="fms-cmb-dictionary-language" /></td>',
+            '</tr>',
+            '<tr>',
+                '<td class="left" style="padding-bottom: 8px;"></td>',
+                '<td class="right" style="padding-bottom: 8px;"><span id="fms-chb-ignore-uppercase-words" /></td>',
+            '</tr>',
+            '<tr>',
+                '<td class="left"></td>',
+                '<td class="right"><span id="fms-chb-ignore-numbers-words" /></td>',
+            '</tr>','<tr class="divider"></tr>',
+            '<tr>',
+                '<td class="left"></td>',
+                '<td class="right"><button id="fms-spellcheck-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+            '</tr>',
+            '</tbody></table>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function(node) {
+            var me = this;
+            var $markup = $(this.template({scope: this}));
+
+            this.chIgnoreUppercase = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
+                labelText: this.strIgnoreWordsInUPPERCASE
+            });
+
+            this.chIgnoreNumbers = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-numbers-words'),
+                labelText: this.strIgnoreWordsWithNumbers
+            });
+
+            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+                el:  $markup.findById('#fms-cmb-dictionary-language'),
+                cls: 'input-group-nr',
+                style: 'width: 267px;',
+                editable: false,
+                menuStyle: 'min-width: 267px; max-height: 209px;'
+            });
+
+            this.btnApply = new Common.UI.Button({
+                el: $markup.findById('#fms-spellcheck-btn-apply')
+            });
+
+            this.btnApply.on('click', _.bind(this.applySettings, this));
+
+            this.$el = $(node).html($markup);
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.$el,
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+
+            this.updateSettings();
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+        },
+
+        setApi: function(api) {
+            this.api = api;
+        },
+
+        updateSettings: function() {
+            var arrLang = SSE.getController('Spellcheck').loadLanguages(),
+                allLangs = arrLang[0],
+                langs = arrLang[1],
+                change = arrLang[2];
+            var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
+                value;
+            if (sessionValue)
+                value = parseInt(sessionValue);
+            else
+                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+            if (langs && langs.length > 0) {
+                if (this.cmbDictionaryLanguage.store.length === 0 || change) {
+                    this.cmbDictionaryLanguage.setData(langs);
+                }
+                var item = this.cmbDictionaryLanguage.store.findWhere({value: value});
+                if (!item && allLangs[value]) {
+                    value = allLangs[value][0].split(/[\-\_]/)[0];
+                    item = this.cmbDictionaryLanguage.store.find(function(model){
+                        return model.get('shortName').indexOf(value)==0;
+                    });
+                }
+                this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
+                value = this.cmbDictionaryLanguage.getValue();
+                if (value !== parseInt(sessionValue)) {
+                    Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+                }
+            } else {
+                this.cmbDictionaryLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
+                this.cmbDictionaryLanguage.setDisabled(true);
+            }
+
+            this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
+            this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
+        },
+
+        applySettings: function() {
+            var value = this.chIgnoreUppercase.isChecked();
+            Common.localStorage.setBool("sse-spellcheck-ignore-uppercase-words", value);
+            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", value);
+            value = this.chIgnoreNumbers.isChecked();
+            Common.localStorage.setBool("sse-spellcheck-ignore-numbers-words", value);
+            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", value);
+
+            if (!this.cmbDictionaryLanguage.isDisabled()) {
+                value = this.cmbDictionaryLanguage.getValue();
+                Common.localStorage.setItem("sse-spellcheck-locale", value);
+                Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+            }
+
+            Common.localStorage.save();
+            if (this.menu) {
+                this.menu.fireEvent('spellcheck:apply', [this.menu]);
+            }
+        },
+
+        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
+        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
+        strDictionaryLanguage: 'Dictionary language',
+        okButtonText: 'Apply'
+
+    }, SSE.Views.FileMenuPanels.MainSpellCheckSettings || {}));
+
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         el: '#panel-recentfiles',
         menu: undefined,
@@ -1400,7 +1558,7 @@ define([
             if (this.coreProps) {
                 var value = this.coreProps.asc_getCreated();
                 if (value)
-                    this.lblDate.text(value.toLocaleString());
+                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
         },
@@ -1426,7 +1584,7 @@ define([
                 var visible = false;
                 value = props.asc_getModified();
                 if (value)
-                    this.lblModifyDate.text(value.toLocaleString());
+                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
@@ -1612,7 +1770,7 @@ define([
                 if (doc.info.sharingSettings)
                     this.cntRights.html(this.templateRights({users: doc.info.sharingSettings}));
                 this._ShowHideInfoItem('rights', doc.info.sharingSettings!==undefined && doc.info.sharingSettings!==null && doc.info.sharingSettings.length>0);
-                this._ShowHideInfoItem('edit-rights', !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && this._readonlyRights!==true);
+                this._ShowHideInfoItem('edit-rights', (!!this.sharingSettingsUrl && this.sharingSettingsUrl.length || this.mode.canRequestSharingSettings) && this._readonlyRights!==true);
             } else
                 this._ShowHideDocInfo(false);
         },
@@ -1627,6 +1785,7 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             this.sharingSettingsUrl = mode.sharingSettingsUrl;
             return this;
         },

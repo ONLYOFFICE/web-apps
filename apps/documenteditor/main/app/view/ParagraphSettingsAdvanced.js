@@ -207,7 +207,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     this.Spacing = properties.get_Spacing();
                 }
-                this.Spacing.Before = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+                this.Spacing.put_Before(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             }, this));
             this.spinners.push(this.numSpacingBefore);
 
@@ -227,7 +227,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     this.Spacing = properties.get_Spacing();
                 }
-                this.Spacing.After = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+                this.Spacing.put_After(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             }, this));
             this.spinners.push(this.numSpacingAfter);
 
@@ -1362,13 +1362,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 this.Spacing = properties.get_Spacing();
             }
-            this.Spacing.LineRule = record.value;
-            if ( this.CurLineRuleIdx !== this.Spacing.LineRule ) {
+            this.Spacing.put_LineRule(record.value);
+            if ( this.CurLineRuleIdx !== this.Spacing.get_LineRule() ) {
                 this.numLineHeight.setDefaultUnit(this._arrLineRule[record.value].defaultUnit);
                 this.numLineHeight.setMinValue(this._arrLineRule[record.value].minValue);
                 this.numLineHeight.setStep(this._arrLineRule[record.value].step);
                 var value = this.numLineHeight.getNumberValue();
-                if (this.Spacing.LineRule === c_paragraphLinerule.LINERULE_AUTO) {
+                if (this.Spacing.get_LineRule() === c_paragraphLinerule.LINERULE_AUTO) {
                     this.numLineHeight.setValue(this._arrLineRule[record.value].defaultValue);
                 } else if (this.CurLineRuleIdx === c_paragraphLinerule.LINERULE_AUTO) {
                     this.numLineHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(this._arrLineRule[record.value].defaultValue));
@@ -1386,7 +1386,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 this.Spacing = properties.get_Spacing();
             }
-            this.Spacing.Line = (this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+            this.Spacing.put_Line((this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
         },
 
         onSpecialSelect: function(combo, record) {

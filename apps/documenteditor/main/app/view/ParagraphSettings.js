@@ -98,6 +98,8 @@ define([
                 scope: this
             }));
 
+            var me = this;
+
             // Short Size
             this.cmbLineRule = new Common.UI.ComboBox({
                 el: $markup.findById('#paragraph-combo-line-rule'),
@@ -170,6 +172,9 @@ define([
             this.numLineHeight.on('change', this.onNumLineHeightChange.bind(this));
             this.numSpacingBefore.on('change', this.onNumSpacingBeforeChange.bind(this));
             this.numSpacingAfter.on('change', this.onNumSpacingAfterChange.bind(this));
+            this.numLineHeight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numSpacingBefore.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.numSpacingAfter.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.chAddInterval.on('change', this.onAddIntervalChange.bind(this));
             this.cmbLineRule.on('selected', this.onLineRuleSelect.bind(this));
             this.cmbLineRule.on('hide:after', this.onHideMenus.bind(this));
@@ -199,7 +204,6 @@ define([
             var type = c_paragraphLinerule.LINERULE_AUTO;
             if (this.api)
                 this.api.put_PrLineSpacing(this.cmbLineRule.getValue(), (this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-            this.fireEvent('editcomplete', this);
         },
 
         onNumSpacingBeforeChange: function(field, newValue, oldValue, eOpts){
@@ -208,8 +212,6 @@ define([
                 this._state.LineSpacingBefore = (num<0) ? -1 : Common.Utils.Metric.fnRecalcToMM(num);
                 this.api.put_LineSpacingBeforeAfter(0, this._state.LineSpacingBefore);
             }
-
-            this.fireEvent('editcomplete', this);
         },
 
         onNumSpacingAfterChange: function(field, newValue, oldValue, eOpts){
@@ -218,7 +220,6 @@ define([
                 this._state.LineSpacingAfter = (num<0) ? -1 : Common.Utils.Metric.fnRecalcToMM(num);
                 this.api.put_LineSpacingBeforeAfter(1, this._state.LineSpacingAfter);
             }
-            this.fireEvent('editcomplete', this);
         },
 
         onAddIntervalChange: function(field, newValue, oldValue, eOpts){

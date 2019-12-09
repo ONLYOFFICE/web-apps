@@ -111,8 +111,6 @@ PE.ApplicationController = new(function(){
             }
 
             embedConfig.docTitle = docConfig.title;
-            if (!embedConfig.saveUrl && permissions.print === false)
-                $('#idt-copy').hide();
         }
     }
 
@@ -225,6 +223,9 @@ PE.ApplicationController = new(function(){
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -1);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
+        if (!embedConfig.saveUrl && permissions.print === false)
+            $('#idt-download').hide();
+
         if ( !embedConfig.shareUrl )
             $('#idt-share').hide();
 
@@ -233,6 +234,9 @@ PE.ApplicationController = new(function(){
 
         if ( !embedConfig.fullscreenUrl )
             $('#idt-fullscreen').hide();
+
+        if ( !embedConfig.saveUrl && permissions.print === false && !embedConfig.shareUrl && !embedConfig.embedUrl && !embedConfig.fullscreenUrl)
+            $('#box-tools').addClass('hidden');
 
         common.controller.modals.attach({
             share: '#idt-share',

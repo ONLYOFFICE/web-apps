@@ -231,7 +231,7 @@ define([
 
                 this.btnPreview = new Common.UI.Button({
                     cls: 'btn-toolbar',
-                    iconCls: 'btn-preview',
+                    iconCls: 'toolbar__icon btn-preview',
                     hint: this.tipPreview,
                     hintAnchor: 'top',
                     split: true,

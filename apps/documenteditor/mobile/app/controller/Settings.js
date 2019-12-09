@@ -86,7 +86,8 @@ define([
             _fileKey,
             templateInsert,
             _metricText = Common.Utils.Metric.getCurrentMetricName(),
-            _isEdit;
+            _isEdit,
+            _lang;
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -149,6 +150,7 @@ define([
                 _isReviewOnly = mode.isReviewOnly;
                 _fileKey = mode.fileKey;
                 _isEdit = mode.isEdit;
+                _lang = mode.lang;
             },
 
             initEvents: function () {
@@ -436,11 +438,11 @@ define([
                         value = props.asc_getDescription();
                         value ? $('#settings-doc-comment').html(value) : $('.display-comment').remove();
                         value = props.asc_getModified();
-                        value ? $('#settings-doc-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                        value ? $('#settings-doc-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
                         value = props.asc_getLastModifiedBy();
                         value ? $('#settings-doc-mod-by').html(value) : $('.display-mode-by').remove();
                         value = props.asc_getCreated();
-                        value ? $('#settings-doc-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                        value ? $('#settings-doc-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
                         value = props.asc_getCreator();
                         var templateCreator = "";
                         value && value.split(/\s*[,;]\s*/).forEach(function(item) {

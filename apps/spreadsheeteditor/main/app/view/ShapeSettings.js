@@ -360,7 +360,6 @@ define([
                 this.imgprops.asc_putShapeProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onTransparencyChange: function(field, newValue, oldValue){
@@ -866,7 +865,7 @@ define([
                     var me = this;
                     var colors = fill.asc_getColors(),
                         positions = fill.asc_getPositions(),
-                        length = colors.length;
+                        length = colors ? colors.length : this.GradColor.colors.length;
                     this.sldrGradient.setThumbs(length);
                     if (this.GradColor.colors.length>length) {
                         this.GradColor.colors.splice(length, this.GradColor.colors.length - length);
@@ -1195,6 +1194,7 @@ define([
                 minValue: 0
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.fillControls.push(this.numTransparency);
 
             this.sldrTransparency = new Common.UI.SingleSlider({
@@ -1345,7 +1345,7 @@ define([
 
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-270',
+                iconCls: 'toolbar__icon btn-rotate-270',
                 value: 0,
                 hint: this.textHint270
             });
@@ -1355,7 +1355,7 @@ define([
 
             this.btnRotate90 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-90',
+                iconCls: 'toolbar__icon btn-rotate-90',
                 value: 1,
                 hint: this.textHint90
             });
@@ -1365,7 +1365,7 @@ define([
 
             this.btnFlipV = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-vert',
+                iconCls: 'toolbar__icon btn-flip-vert',
                 value: 0,
                 hint: this.textHintFlipV
             });
@@ -1375,7 +1375,7 @@ define([
 
             this.btnFlipH = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-hor',
+                iconCls: 'toolbar__icon btn-flip-hor',
                 value: 1,
                 hint: this.textHintFlipH
             });

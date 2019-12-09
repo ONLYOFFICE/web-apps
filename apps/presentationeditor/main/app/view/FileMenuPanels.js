@@ -827,7 +827,7 @@ define([
             if (this.coreProps) {
                 var value = this.coreProps.asc_getCreated();
                 if (value)
-                    this.lblDate.text(value.toLocaleString());
+                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
         },
@@ -853,7 +853,7 @@ define([
                 var visible = false;
                 value = props.asc_getModified();
                 if (value)
-                    this.lblModifyDate.text(value.toLocaleString());
+                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
@@ -1042,7 +1042,7 @@ define([
                 if (doc.info.sharingSettings)
                     this.cntRights.html(this.templateRights({users: doc.info.sharingSettings}));
                 this._ShowHideInfoItem('rights', doc.info.sharingSettings!==undefined && doc.info.sharingSettings!==null && doc.info.sharingSettings.length>0);
-                this._ShowHideInfoItem('edit-rights', !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && this._readonlyRights!==true);
+                this._ShowHideInfoItem('edit-rights', (!!this.sharingSettingsUrl && this.sharingSettingsUrl.length || this.mode.canRequestSharingSettings) && this._readonlyRights!==true);
             } else
                 this._ShowHideDocInfo(false);
         },
@@ -1057,6 +1057,7 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             this.sharingSettingsUrl = mode.sharingSettingsUrl;
             return this;
         },

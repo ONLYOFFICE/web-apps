@@ -142,7 +142,7 @@ define([
 
             this.btnRatio = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'advanced-btn-ratio',
+                iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -183,6 +183,8 @@ define([
 
             this.spnWidth.on('change', _.bind(this.onWidthChange, this));
             this.spnHeight.on('change', _.bind(this.onHeightChange, this));
+            this.spnWidth.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+            this.spnHeight.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnInsertFromFile.on('click', _.bind(function(btn){
                 if (this._isFromFile) return;
@@ -235,7 +237,7 @@ define([
 
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-270',
+                iconCls: 'toolbar__icon btn-rotate-270',
                 value: 0,
                 hint: this.textHint270
             });
@@ -245,7 +247,7 @@ define([
 
             this.btnRotate90 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-90',
+                iconCls: 'toolbar__icon btn-rotate-90',
                 value: 1,
                 hint: this.textHint90
             });
@@ -255,7 +257,7 @@ define([
 
             this.btnFlipV = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-vert',
+                iconCls: 'toolbar__icon btn-flip-vert',
                 value: 0,
                 hint: this.textHintFlipV
             });
@@ -265,7 +267,7 @@ define([
 
             this.btnFlipH = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-hor',
+                iconCls: 'toolbar__icon btn-flip-hor',
                 value: 1,
                 hint: this.textHintFlipH
             });
@@ -392,7 +394,6 @@ define([
                 props.asc_putHeight(Common.Utils.Metric.fnRecalcToMM(h));
                 this.api.asc_setGraphicObjectProps(props);
             }
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onHeightChange: function(field, newValue, oldValue, eOpts){
@@ -412,7 +413,6 @@ define([
                 props.asc_putHeight(Common.Utils.Metric.fnRecalcToMM(h));
                 this.api.asc_setGraphicObjectProps(props);
             }
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         setOriginalSize:  function() {

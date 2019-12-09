@@ -2721,24 +2721,27 @@ define([
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'mnu-direct-horiz',
+                            iconCls     : 'menu__icon text-orient-hor',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.normal
                         }).on('click', _.bind(paragraphDirection, me)),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'mnu-direct-rdown',
+                            iconCls     : 'menu__icon text-orient-rdown',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert
                         }).on('click', _.bind(paragraphDirection, me)),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'mnu-direct-rup',
+                            iconCls     : 'menu__icon text-orient-rup',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert270
@@ -3490,7 +3493,7 @@ define([
 
             menu.alignPosition();
             _.delay(function() {
-                menu.cmpEl.focus();
+                menu.cmpEl.find('.dataview').focus();
             }, 10);
             this._fromShowPlaceholder = false;
         },
@@ -3748,7 +3751,7 @@ define([
         txtPrintSelection: 'Print Selection',
         addToLayoutText: 'Add to Layout',
         txtResetLayout: 'Reset Slide',
-        mniCustomTable: 'Insert custom table'
+        mniCustomTable: 'Insert Custom Table'
 
     }, PE.Views.DocumentHolder || {}));
 });

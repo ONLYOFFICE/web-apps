@@ -309,8 +309,6 @@ define([
                 toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, AscCommon.align_Center));
                 toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, AscCommon.align_Right));
                 toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Justify));
-                toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
-                toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
                 toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
                 toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
                 toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Top));
@@ -435,7 +433,7 @@ define([
         onSave: function(e) {
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = this.toolbar.btnCollabChanges && this.toolbar.btnCollabChanges.$icon.hasClass('btn-synch');
+                var isSyncButton = this.toolbar.btnCollabChanges && this.toolbar.btnCollabChanges.cmpEl.hasClass('notify');
                 if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
@@ -720,38 +718,6 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Horizontal align');
-        },
-
-        onHorizontalAlignMenu: function(menu, item) {
-            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
-
-            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
-            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
-            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
-
-            this._state.pralign = undefined;
-            if (this.api)
-                this.api.asc_setCellAlign(!item.checked ? null : item.value);
-
-            this.toolbar.btnWrap.allowDepress = !(item.value == AscCommon.align_Justify);
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Align');
-        },
-
-        onVerticalAlignMenu: function(menu, item) {
-            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
-
-            btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls);
-            btnVerticalAlign.options.icls = !item.checked ? 'btn-valign-bottom' : item.options.icls;
-            btnVerticalAlign.$icon.addClass(btnVerticalAlign.options.icls);
-
-            this._state.valign = undefined;
-            if (this.api)
-                this.api.asc_setCellVertAlign(!item.checked ? Asc.c_oAscVAlign.Bottom : item.value);
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Vertical Align');
         },
 
         onVerticalAlign: function(type, btn, e) {
@@ -2238,20 +2204,11 @@ define([
                             toolbar.btnAlignLeft.toggle(index===0, true);
                             toolbar.btnAlignCenter.toggle(index===1, true);
                             toolbar.btnAlignJust.toggle(index===3, true);
-                            toolbar.btnHorizontalAlign.menu.items[index].setChecked(true, false);
                         } else if (index == -255) {
                             toolbar.btnAlignRight.toggle(false, true);
                             toolbar.btnAlignLeft.toggle(false, true);
                             toolbar.btnAlignCenter.toggle(false, true);
                             toolbar.btnAlignJust.toggle(false, true);
-
-                            toolbar.btnHorizontalAlign.menu.clearAll();
-                        }
-
-                        var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
-                        if ( btnHorizontalAlign.rendered ) {
-                            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
-                            btnHorizontalAlign.options.icls = align;
                         }
                     }
 
@@ -2276,13 +2233,6 @@ define([
                             toolbar.btnAlignTop.toggle(index===0, true);
                             toolbar.btnAlignMiddle.toggle(index===1, true);
                             toolbar.btnAlignBottom.toggle(index===2, true);
-                            toolbar.btnVerticalAlign.menu.items[index].setChecked(true, false);
-
-                            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
-                            if ( btnVerticalAlign.rendered ) {
-                                btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls).addClass(align);
-                                btnVerticalAlign.options.icls = align;
-                            }
                         }
                     }
 
@@ -2313,7 +2263,7 @@ define([
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnTableTemplate, toolbar.btnInsertTable) });
+                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable) });
 
                 val = (formatTableInfo) ? formatTableInfo.asc_getTableStyleName() : null;
                 if (this._state.tablestylename !== val && this.toolbar.mnuTableTemplatePicker) {
@@ -2343,10 +2293,10 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
-                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsClearAutofilter, toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable)});
+                toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsClearAutofilter, toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable)});
 
                 need_disable = !this.appConfig.canModifyFilter;
-                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2],
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2],
                                                                                     toolbar.btnInsertTable)});
 
             }
@@ -3213,6 +3163,7 @@ define([
                     me.toolbar.btnsSortUp = datatab.getButtons('sort-up');
                     me.toolbar.btnsSetAutofilter = datatab.getButtons('set-filter');
                     me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
+                    me.toolbar.btnCustomSort = datatab.getButtons('sort-custom');
 
                     var formulatab = me.getApplication().getController('FormulaDialog');
                     formulatab.setConfig({toolbar: me});
@@ -3260,7 +3211,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = SSE.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'btn-menu-comments', this.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock, _set.editCell]);
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment, [_set.lostConnect, _set.commentLock, _set.editCell]);
 
                 if ( this.btnsComment.length ) {
                     var _comments = SSE.getController('Common.Controllers.Comments').getView();

@@ -174,7 +174,7 @@ define([
                 hint: this.tipChange
             });
             this.btnEdit.on('click', _.bind(this.onEditBullet, this));
-            this.btnEdit.cmpEl.css({'font-size': '12px'});
+            this.btnEdit.cmpEl.css({'font-size': '16px', 'line-height': '16px'});
 
             this.afterRender();
         },

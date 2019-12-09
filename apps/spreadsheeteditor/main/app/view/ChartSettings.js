@@ -703,10 +703,12 @@ define([
 
             this.spnWidth.on('change', _.bind(this.onWidthChange, this));
             this.spnHeight.on('change', _.bind(this.onHeightChange, this));
+            this.spnWidth.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+            this.spnHeight.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
 
             this.btnRatio = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'advanced-btn-ratio',
+                iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -848,8 +850,6 @@ define([
                 props.asc_putHeight(Common.Utils.Metric.fnRecalcToMM(h));
                 this.api.asc_setGraphicObjectProps(props);
             }
-
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onHeightChange: function(field, newValue, oldValue, eOpts){
@@ -869,8 +869,6 @@ define([
                 props.asc_putHeight(Common.Utils.Metric.fnRecalcToMM(h));
                 this.api.asc_setGraphicObjectProps(props);
             }
-
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         openAdvancedSettings:   function() {

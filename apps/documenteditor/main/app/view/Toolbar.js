@@ -124,7 +124,7 @@ define([
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-print no-mask',
+                        iconCls: 'toolbar__icon btn-print no-mask',
                         signals: ['disabled']
                     });
                     this.toolbarControls.push(this.btnPrint);
@@ -132,7 +132,7 @@ define([
                     this.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
                         cls: 'btn-toolbar',
-                        iconCls: 'no-mask ' + this.btnSaveCls,
+                        iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
                         signals: ['disabled']
                     });
                     this.toolbarControls.push(this.btnSave);
@@ -141,7 +141,7 @@ define([
                     this.btnUndo = new Common.UI.Button({
                         id: 'id-toolbar-btn-undo',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-undo',
+                        iconCls: 'toolbar__icon btn-undo',
                         signals: ['disabled']
                     });
                     this.toolbarControls.push(this.btnUndo);
@@ -149,7 +149,7 @@ define([
                     this.btnRedo = new Common.UI.Button({
                         id: 'id-toolbar-btn-redo',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-redo',
+                        iconCls: 'toolbar__icon btn-redo',
                         signals: ['disabled']
                     });
                     this.toolbarControls.push(this.btnRedo);
@@ -157,35 +157,35 @@ define([
                     this.btnCopy = new Common.UI.Button({
                         id: 'id-toolbar-btn-copy',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-copy'
+                        iconCls: 'toolbar__icon btn-copy'
                     });
                     this.toolbarControls.push(this.btnCopy);
 
                     this.btnPaste = new Common.UI.Button({
                         id: 'id-toolbar-btn-paste',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-paste'
+                        iconCls: 'toolbar__icon btn-paste'
                     });
                     this.paragraphControls.push(this.btnPaste);
 
                     this.btnIncFontSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-incfont',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-incfont'
+                        iconCls: 'toolbar__icon btn-incfont'
                     });
                     this.paragraphControls.push(this.btnIncFontSize);
 
                     this.btnDecFontSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-decfont',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-decfont'
+                        iconCls: 'toolbar__icon btn-decfont'
                     });
                     this.paragraphControls.push(this.btnDecFontSize);
 
                     this.btnBold = new Common.UI.Button({
                         id: 'id-toolbar-btn-bold',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-bold',
+                        iconCls: 'toolbar__icon btn-bold',
                         enableToggle: true
                     });
                     this.paragraphControls.push(this.btnBold);
@@ -193,7 +193,7 @@ define([
                     this.btnItalic = new Common.UI.Button({
                         id: 'id-toolbar-btn-italic',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-italic',
+                        iconCls: 'toolbar__icon btn-italic',
                         enableToggle: true
                     });
                     this.paragraphControls.push(this.btnItalic);
@@ -201,7 +201,7 @@ define([
                     this.btnUnderline = new Common.UI.Button({
                         id: 'id-toolbar-btn-underline',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-underline',
+                        iconCls: 'toolbar__icon btn-underline',
                         enableToggle: true
                     });
                     this.paragraphControls.push(this.btnUnderline);
@@ -209,7 +209,7 @@ define([
                     this.btnStrikeout = new Common.UI.Button({
                         id: 'id-toolbar-btn-strikeout',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-strikeout',
+                        iconCls: 'toolbar__icon btn-strikeout',
                         enableToggle: true
                     });
                     this.paragraphControls.push(this.btnStrikeout);
@@ -217,7 +217,7 @@ define([
                     this.btnSuperscript = new Common.UI.Button({
                         id: 'id-toolbar-btn-superscript',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-superscript',
+                        iconCls: 'toolbar__icon btn-superscript',
                         enableToggle: true,
                         toggleGroup: 'superscriptGroup'
                     });
@@ -226,7 +226,7 @@ define([
                     this.btnSubscript = new Common.UI.Button({
                         id: 'id-toolbar-btn-subscript',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-subscript',
+                        iconCls: 'toolbar__icon btn-subscript',
                         enableToggle: true,
                         toggleGroup: 'superscriptGroup'
                     });
@@ -235,7 +235,7 @@ define([
                     this.btnHighlightColor = new Common.UI.Button({
                         id: 'id-toolbar-btn-highlight',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-highlight',
+                        iconCls: 'toolbar__icon btn-highlight',
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -257,7 +257,7 @@ define([
                     this.btnFontColor = new Common.UI.Button({
                         id: 'id-toolbar-btn-fontcolor',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-fontcolor',
+                        iconCls: 'toolbar__icon btn-fontcolor',
                         split: true,
                         menu: new Common.UI.Menu({
                             items: [
@@ -277,7 +277,7 @@ define([
                     this.btnParagraphColor = new Common.UI.Button({
                         id: 'id-toolbar-btn-paracolor',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-paracolor',
+                        iconCls: 'toolbar__icon btn-paracolor',
                         split: true,
                         menu: new Common.UI.Menu({
                             items: [
@@ -292,7 +292,7 @@ define([
                     this.btnAlignLeft = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-left',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-align-left',
+                        iconCls: 'toolbar__icon btn-align-left',
                         enableToggle: true,
                         allowDepress: false,
                         toggleGroup: 'alignGroup'
@@ -302,7 +302,7 @@ define([
                     this.btnAlignCenter = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-center',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-align-center',
+                        iconCls: 'toolbar__icon btn-align-center',
                         enableToggle: true,
                         allowDepress: false,
                         toggleGroup: 'alignGroup'
@@ -312,7 +312,7 @@ define([
                     this.btnAlignRight = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-right',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-align-right',
+                        iconCls: 'toolbar__icon btn-align-right',
                         enableToggle: true,
                         allowDepress: false,
                         toggleGroup: 'alignGroup'
@@ -322,77 +322,32 @@ define([
                     this.btnAlignJust = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-just',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-align-just',
+                        iconCls: 'toolbar__icon btn-align-just',
                         enableToggle: true,
                         allowDepress: false,
                         toggleGroup: 'alignGroup'
                     });
                     this.paragraphControls.push(this.btnAlignJust);
 
-                    this.btnHorizontalAlign = new Common.UI.Button({
-                        id: 'id-toolbar-btn-halign',
-                        cls: 'btn-toolbar',
-                        iconCls: 'btn-align-left',
-                        icls: 'btn-align-left',
-                        menu: new Common.UI.Menu({
-                            cls: 'ppm-toolbar',
-                            items: [
-                                {
-                                    caption: this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
-                                    iconCls: 'mnu-align-left',
-                                    icls: 'btn-align-left',
-                                    checkable: true,
-                                    toggleGroup: 'halignGroup',
-                                    checked: true,
-                                    value: 1
-                                },
-                                {
-                                    caption: this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
-                                    iconCls: 'mnu-align-center',
-                                    icls: 'btn-align-center',
-                                    checkable: true,
-                                    toggleGroup: 'halignGroup',
-                                    value: 2
-                                },
-                                {
-                                    caption: this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
-                                    iconCls: 'mnu-align-right',
-                                    icls: 'btn-align-right',
-                                    checkable: true,
-                                    toggleGroup: 'halignGroup',
-                                    value: 0
-                                },
-                                {
-                                    caption: this.tipAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
-                                    iconCls: 'mnu-align-just',
-                                    icls: 'btn-align-just',
-                                    checkable: true,
-                                    toggleGroup: 'halignGroup',
-                                    value: 3
-                                }
-                            ]
-                        })
-                    });
-                    this.paragraphControls.push(this.btnHorizontalAlign);
 
                     this.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-decoffset'
+                        iconCls: 'toolbar__icon btn-decoffset'
                     });
                     this.paragraphControls.push(this.btnDecLeftOffset);
 
                     this.btnIncLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-incoffset',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-incoffset'
+                        iconCls: 'toolbar__icon btn-incoffset'
                     });
                     this.paragraphControls.push(this.btnIncLeftOffset);
 
                     this.btnLineSpace = new Common.UI.Button({
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-linespace',
+                        iconCls: 'toolbar__icon btn-linespace',
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
@@ -410,7 +365,7 @@ define([
                     this.btnShowHidenChars = new Common.UI.Button({
                         id: 'id-toolbar-btn-hidenchars',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-hidenchars',
+                        iconCls: 'toolbar__icon btn-paragraph',
                         enableToggle: true,
                         split: true,
                         menu: new Common.UI.Menu({
@@ -426,7 +381,7 @@ define([
                     this.btnMarkers = new Common.UI.Button({
                         id: 'id-toolbar-btn-markers',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-setmarkers',
+                        iconCls: 'toolbar__icon btn-setmarkers',
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -438,7 +393,7 @@ define([
                     this.btnNumbers = new Common.UI.Button({
                         id: 'id-toolbar-btn-numbering',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-numbering',
+                        iconCls: 'toolbar__icon btn-numbering',
                         enableToggle: true,
                         toggleGroup: 'markersGroup',
                         split: true,
@@ -450,7 +405,7 @@ define([
                     this.btnMultilevels = new Common.UI.Button({
                         id: 'id-toolbar-btn-multilevels',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-multilevels',
+                        iconCls: 'toolbar__icon btn-multilevels',
                         menu: true
                     });
                     this.paragraphControls.push(this.btnMultilevels);
@@ -475,7 +430,7 @@ define([
                     this.btnInsertTable = new Common.UI.Button({
                         id: 'tlbtn-inserttable',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-inserttable',
+                        iconCls: 'toolbar__icon btn-inserttable',
                         caption: me.capBtnInsTable,
                         menu: new Common.UI.Menu({
                             items: [
@@ -491,7 +446,7 @@ define([
                     this.btnInsertImage = new Common.UI.Button({
                         id: 'tlbtn-insertimage',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-insertimage',
+                        iconCls: 'toolbar__icon btn-insertimage',
                         caption: me.capBtnInsImage,
                         menu: new Common.UI.Menu({
                             items: [
@@ -507,7 +462,7 @@ define([
                         id: 'tlbtn-insertchart',
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: me.capBtnInsChart,
-                        iconCls: 'btn-insertchart',
+                        iconCls: 'toolbar__icon btn-insertchart',
                         menu: true
                     });
                     this.paragraphControls.push(this.btnInsertChart);
@@ -515,7 +470,7 @@ define([
                     this.btnInsertText = new Common.UI.Button({
                         id: 'tlbtn-inserttext',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-text',
+                        iconCls: 'toolbar__icon btn-text',
                         caption: me.capBtnInsTextbox,
                         enableToggle: true
                     });
@@ -523,7 +478,7 @@ define([
                     this.btnInsertTextArt = new Common.UI.Button({
                         id: 'tlbtn-inserttextart',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-textart',
+                        iconCls: 'toolbar__icon btn-textart',
                         caption: me.capBtnInsTextart,
                         menu: new Common.UI.Menu({
                             cls: 'menu-shapes',
@@ -537,7 +492,7 @@ define([
                     this.btnEditHeader = new Common.UI.Button({
                         id: 'id-toolbar-btn-editheader',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-editheader',
+                        iconCls: 'toolbar__icon btn-editheader',
                         caption: me.capBtnInsHeader,
                         menu: true
                     });
@@ -560,7 +515,7 @@ define([
                     this.btnBlankPage = new Common.UI.Button({
                         id: 'id-toolbar-btn-blankpage',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-blankpage',
+                        iconCls: 'toolbar__icon btn-blankpage',
                         caption: me.capBtnBlankPage
                     });
                     this.paragraphControls.push(this.btnBlankPage);
@@ -568,7 +523,7 @@ define([
                     this.btnInsertShape = new Common.UI.Button({
                         id: 'tlbtn-insertshape',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-insertshape',
+                        iconCls: 'toolbar__icon btn-insertshape',
                         caption: me.capBtnInsShape,
                         enableToggle: true,
                         menu: new Common.UI.Menu({cls: 'menu-shapes'})
@@ -578,7 +533,7 @@ define([
                     this.btnInsertEquation = new Common.UI.Button({
                         id: 'tlbtn-insertequation',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-insertequation',
+                        iconCls: 'toolbar__icon btn-insertequation',
                         caption: me.capBtnInsEquation,
                         split: true,
                         menu: new Common.UI.Menu({cls: 'menu-shapes'})
@@ -588,7 +543,7 @@ define([
                     this.btnInsertSymbol = new Common.UI.Button({
                         id: 'tlbtn-insertsymbol',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-symbol',
+                        iconCls: 'toolbar__icon btn-symbol',
                         caption: me.capBtnInsSymbol
                     });
                     this.paragraphControls.push(this.btnInsertSymbol);
@@ -596,30 +551,33 @@ define([
                     this.btnDropCap = new Common.UI.Button({
                         id: 'tlbtn-dropcap',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-dropcap',
+                        iconCls: 'toolbar__icon btn-dropcap',
                         caption: me.capBtnInsDropcap,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
                             items: [
                                 {
                                     caption: this.textNone,
-                                    iconCls: 'mnu-dropcap-none',
+                                    iconCls: 'menu__icon columns-one',
                                     checkable: true,
+                                    checkmark: false,
                                     toggleGroup: 'menuDropCap',
                                     value: Asc.c_oAscDropCap.None,
                                     checked: true
                                 },
                                 {
                                     caption: this.textInText,
-                                    iconCls: 'mnu-dropcap-intext',
+                                    iconCls: 'menu__icon dropcap-intext',
                                     checkable: true,
+                                    checkmark: false,
                                     toggleGroup: 'menuDropCap',
                                     value: Asc.c_oAscDropCap.Drop
                                 },
                                 {
                                     caption: this.textInMargin,
-                                    iconCls: 'mnu-dropcap-inmargin',
+                                    iconCls: 'menu__icon dropcap-inmargin',
                                     checkable: true,
+                                    checkmark: false,
                                     toggleGroup: 'menuDropCap',
                                     value: Asc.c_oAscDropCap.Margin
                                 },
@@ -633,19 +591,19 @@ define([
                     this.btnContentControls = new Common.UI.Button({
                         id: 'tlbtn-controls',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-controls',
+                        iconCls: 'toolbar__icon btn-controls',
                         caption: me.capBtnInsControls,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
                             items: [
                                 {
                                     caption: this.textPlainControl,
-                                    // iconCls: 'mnu-control-plain',
+                                    // iconCls: 'menu__icon cc-plaintext',
                                     value: 'plain'
                                 },
                                 {
                                     caption: this.textRichControl,
-                                    // iconCls: 'mnu-control-rich',
+                                    // iconCls: 'menu__icon cc-richtext',
                                     value: 'rich'
                                 },
                                 {
@@ -676,7 +634,7 @@ define([
                                 {caption: '--'},
                                 {
                                     caption: this.textRemoveControl,
-                                    // iconCls: 'mnu-control-remove',
+                                    // iconCls: 'menu__icon cc-remove',
                                     value: 'remove'
                                 },
                                 {caption: '--'},
@@ -709,42 +667,47 @@ define([
                     this.btnColumns = new Common.UI.Button({
                         id: 'tlbtn-columns',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-columns',
+                        iconCls: 'toolbar__icon btn-columns',
                         caption: me.capBtnColumns,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
                             items: [
                                 {
                                     caption: this.textColumnsOne,
-                                    iconCls: 'mnu-columns-one',
+                                    iconCls: 'menu__icon columns-one',
                                     checkable: true,
+                                    checkmark: false,
                                     toggleGroup: 'menuColumns',
                                     value: 0
                                 },
                                 {
                                     caption: this.textColumnsTwo,
-                                    iconCls: 'mnu-columns-two',
+                                    iconCls: 'menu__icon columns-two',
                                     checkable: true,
+                                    checkmark: false,
                                     toggleGroup: 'menuColumns',
                                     value: 1
                                 },
                                 {
                                     caption: this.textColumnsThree,
-                                    iconCls: 'mnu-columns-three',
+                                    iconCls: 'menu__icon columns-three',
                                     checkable: true,
+                                    checkmark: false,
                                     toggleGroup: 'menuColumns',
                                     value: 2
                                 },
                                 {
                                     caption: this.textColumnsLeft,
-                                    iconCls: 'mnu-columns-left',
+                                    iconCls: 'menu__icon columns-left',
+                                    checkmark: false,
                                     checkable: true,
                                     toggleGroup: 'menuColumns',
                                     value: 3
                                 },
                                 {
                                     caption: this.textColumnsRight,
-                                    iconCls: 'mnu-columns-right',
+                                    iconCls: 'menu__icon columns-right',
+                                    checkmark: false,
                                     checkable: true,
                                     toggleGroup: 'menuColumns',
                                     value: 4
@@ -759,22 +722,24 @@ define([
                     this.btnPageOrient = new Common.UI.Button({
                         id: 'tlbtn-pageorient',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-pageorient',
+                        iconCls: 'toolbar__icon btn-pageorient',
                         caption: me.capBtnPageOrient,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
                             items: [
                                 {
                                     caption: this.textPortrait,
-                                    iconCls: 'mnu-orient-portrait',
+                                    iconCls: 'menu__icon page-portrait',
                                     checkable: true,
+                                    checkmark: false,
                                     toggleGroup: 'menuOrient',
                                     value: true
                                 },
                                 {
                                     caption: this.textLandscape,
-                                    iconCls: 'mnu-orient-landscape',
+                                    iconCls: 'menu__icon page-landscape',
                                     checkable: true,
+                                    checkmark: false,
                                     toggleGroup: 'menuOrient',
                                     value: false
                                 }
@@ -795,7 +760,7 @@ define([
                     this.btnPageMargins = new Common.UI.Button({
                         id: 'tlbtn-pagemargins',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-pagemargins',
+                        iconCls: 'toolbar__icon btn-pagemargins',
                         caption: me.capBtnMargins,
                         menu: new Common.UI.Menu({
                             items: [
@@ -854,7 +819,7 @@ define([
                     this.btnPageSize = new Common.UI.Button({
                         id: 'tlbtn-pagesize',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-pagesize',
+                        iconCls: 'toolbar__icon btn-pagesize',
                         caption: me.capBtnPageSize,
                         menu: new Common.UI.Menu({
                             restoreHeight: true,
@@ -974,14 +939,14 @@ define([
                     this.btnClearStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-clearstyle',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-clearstyle'
+                        iconCls: 'toolbar__icon btn-clearstyle'
                     });
                     this.toolbarControls.push(this.btnClearStyle);
 
                     this.btnCopyStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-copystyle',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-copystyle',
+                        iconCls: 'toolbar__icon btn-copystyle',
                         enableToggle: true
                     });
                     this.toolbarControls.push(this.btnCopyStyle);
@@ -989,7 +954,7 @@ define([
                     this.btnColorSchemas = new Common.UI.Button({
                         id: 'id-toolbar-btn-colorschemas',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-colorschemas',
+                        iconCls: 'toolbar__icon btn-colorschemas',
                         menu: new Common.UI.Menu({
                             items: [],
                             restoreHeight: true
@@ -1000,46 +965,46 @@ define([
                     this.btnMailRecepients = new Common.UI.Button({
                         id: 'id-toolbar-btn-mailrecepients',
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-mailrecepients'
+                        iconCls: 'toolbar__icon btn-mailmerge'
                     });
 
                     me.btnImgAlign = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-img-align',
+                        iconCls: 'toolbar__icon btn-img-align',
                         caption: me.capImgAlign,
                         menu: true
                     });
 
                     me.btnImgGroup = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-img-group',
+                        iconCls: 'toolbar__icon btn-img-group',
                         caption: me.capImgGroup,
                         menu: true
                     });
                     me.btnImgForward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-img-frwd',
+                        iconCls: 'toolbar__icon btn-img-frwd',
                         caption: me.capImgForward,
                         split: true,
                         menu: true
                     });
                     me.btnImgBackward = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-img-bkwd',
+                        iconCls: 'toolbar__icon btn-img-bkwd',
                         caption: me.capImgBackward,
                         split: true,
                         menu: true
                     });
                     me.btnImgWrapping = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-img-wrap',
+                        iconCls: 'toolbar__icon btn-img-wrap',
                         caption: me.capImgWrapping,
                         menu: true
                     });
 
                     me.btnWatermark = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-watermark',
+                        iconCls: 'toolbar__icon btn-watermark',
                         caption: me.capBtnWatermark,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
@@ -1353,7 +1318,6 @@ define([
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-paracolor', this.btnParagraphColor);
                 _injectComponent('#slot-field-styles', this.listStyles);
-                _injectComponent('#slot-btn-halign', this.btnHorizontalAlign);
                 _injectComponent('#slot-btn-mailrecepients', this.btnMailRecepients);
                 _injectComponent('#slot-img-align', this.btnImgAlign);
                 _injectComponent('#slot-img-group', this.btnImgGroup);
@@ -1362,7 +1326,7 @@ define([
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
 
-                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true);
+                this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak, undefined, true, true);
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
 
                 return $host;
@@ -1404,11 +1368,11 @@ define([
                     me.btnImgForward.setMenu(new Common.UI.Menu({
                         items: [{
                                 caption : _holder_view.textArrangeFront,
-                                iconCls : 'mnu-arrange-front',
+                                iconCls : 'menu__icon arrange-front',
                                 valign  : Asc.c_oAscChangeLevel.BringToFront
                             }, {
                                 caption : _holder_view.textArrangeForward,
-                                iconCls : 'mnu-arrange-forward',
+                                iconCls : 'menu__icon arrange-forward',
                                 valign  : Asc.c_oAscChangeLevel.BringForward
                             }
                         ]})
@@ -1418,11 +1382,11 @@ define([
                     me.btnImgBackward.setMenu(new Common.UI.Menu({
                         items: [{
                                 caption : _holder_view.textArrangeBack,
-                                iconCls : 'mnu-arrange-back',
+                                iconCls : 'menu__icon arrange-back',
                                 valign  : Asc.c_oAscChangeLevel.SendToBack
                             }, {
                                 caption : _holder_view.textArrangeBackward,
-                                iconCls : 'mnu-arrange-backward',
+                                iconCls : 'menu__icon arrange-backward',
                                 valign  : Asc.c_oAscChangeLevel.BringBackward
                             }]
                     }));
@@ -1456,39 +1420,39 @@ define([
 
                     me.mniDistribHor = new Common.UI.MenuItem({
                         caption: me.txtDistribHor,
-                        iconCls: 'mnu-distrib-hor',
+                        iconCls: 'menu__icon shape-distribute-hor',
                         value: 6
                     });
                     me.mniDistribVert = new Common.UI.MenuItem({
                         caption: me.txtDistribVert,
-                        iconCls: 'mnu-distrib-vert',
+                        iconCls: 'menu__icon shape-distribute-vert',
                         value: 7
                     });
 
                     me.btnImgAlign.setMenu(new Common.UI.Menu({
                         items: [{
                                 caption : _holder_view.textShapeAlignLeft,
-                                iconCls : 'mnu-img-align-left',
+                                iconCls : 'menu__icon shape-align-left',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }, {
                                 caption : _holder_view.textShapeAlignCenter,
-                                iconCls : 'mnu-img-align-center',
+                                iconCls : 'menu__icon shape-align-center',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }, {
                                 caption : _holder_view.textShapeAlignRight,
-                                iconCls : 'mnu-img-align-right',
+                                iconCls : 'menu__icon shape-align-right',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }, {
                                 caption : _holder_view.textShapeAlignTop,
-                                iconCls : 'mnu-img-align-top',
+                                iconCls : 'menu__icon shape-align-top',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }, {
                                 caption : _holder_view.textShapeAlignMiddle,
-                                iconCls : 'mnu-img-align-middle',
+                                iconCls : 'menu__icon shape-align-middle',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }, {
                                 caption : _holder_view.textShapeAlignBottom,
-                                iconCls : 'mnu-img-align-bottom',
+                                iconCls : 'menu__icon shape-align-bottom',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                             },
                             {caption: '--'},
@@ -1505,11 +1469,11 @@ define([
                     me.btnImgGroup.setMenu(new Common.UI.Menu({
                         items: [{
                             caption : _holder_view.txtGroup,
-                            iconCls : 'mnu-arrange-group',
+                            iconCls : 'menu__icon shape-group',
                             groupval: 1
                         }, {
                             caption : _holder_view.txtUngroup,
-                            iconCls : 'mnu-arrange-ungroup',
+                            iconCls : 'menu__icon shape-ungroup',
                             groupval: -1
                         }]
                     }));
@@ -1519,45 +1483,52 @@ define([
                         cls: 'ppm-toolbar',
                         items: [{
                                 caption     : _holder_view.txtInline,
-                                iconCls     : 'mnu-wrap-inline',
+                                iconCls     : 'menu__icon wrap-inline',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Inline,
+                                checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtSquare,
-                                iconCls     : 'mnu-wrap-square',
+                                iconCls     : 'menu__icon wrap-square',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Square,
+                                checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTight,
-                                iconCls     : 'mnu-wrap-tight',
+                                iconCls     : 'menu__icon wrap-tight',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Tight,
+                                checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtThrough,
-                                iconCls     : 'mnu-wrap-through',
+                                iconCls     : 'menu__icon wrap-through',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Through,
+                                checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtTopAndBottom,
-                                iconCls     : 'mnu-wrap-topAndBottom',
+                                iconCls     : 'menu__icon wrap-topandbottom',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
+                                checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtInFront,
-                                iconCls     : 'mnu-wrap-inFront',
+                                iconCls     : 'menu__icon wrap-infront',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.InFront,
+                                checkmark   : false,
                                 checkable   : true
                             }, {
                                 caption     : _holder_view.txtBehind,
-                                iconCls     : 'mnu-wrap-behind',
+                                iconCls     : 'menu__icon wrap-behind',
                                 toggleGroup : 'imgwrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Behind,
+                                checkmark   : false,
                                 checkable   : true
                             }
                         ]
@@ -1598,7 +1569,6 @@ define([
                 this.btnAlignCenter.updateHint(this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'));
                 this.btnAlignRight.updateHint(this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'));
                 this.btnAlignJust.updateHint(this.tipAlignJust + Common.Utils.String.platformKey('Ctrl+J'));
-                this.btnHorizontalAlign.updateHint(this.tipHAligh);
                 this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft + Common.Utils.String.platformKey('Ctrl+M'));
                 this.btnLineSpace.updateHint(this.tipLineSpace);
@@ -2021,7 +1991,7 @@ define([
                 }
 
                 this._state.hasCollaborativeChanges = true;
-                this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass('btn-synch');
+                this.btnCollabChanges.cmpEl.addClass('notify');
                 if (this.showSynchTip) {
                     this.btnCollabChanges.updateHint('');
                     if (this.synchTooltip === undefined)
@@ -2057,8 +2027,8 @@ define([
                 if ( !this._state.previewmode && this.btnCollabChanges.rendered ) {
                     var me = this;
 
-                    if ( me.btnCollabChanges.$icon.hasClass('btn-synch') ) {
-                        me.btnCollabChanges.$icon.removeClass('btn-synch').addClass(me.btnSaveCls);
+                    if ( me.btnCollabChanges.cmpEl.hasClass('notify') ) {
+                        me.btnCollabChanges.cmpEl.removeClass('notify');
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
@@ -2081,12 +2051,8 @@ define([
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
                 if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
                     me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
-
-                    if ( !me.btnCollabChanges.$icon.hasClass('btn-synch') ) {
-                        me.btnCollabChanges.$icon.removeClass(me.btnSaveCls).addClass(cls);
-                        me.btnCollabChanges.updateHint(me.btnSaveTip);
-
-                    }
+                    me.btnCollabChanges.updateHint(me.btnSaveTip);
+                    me.btnCollabChanges.$icon.removeClass(me.btnSaveCls).addClass(cls);
                     me.btnSaveCls = cls;
                 }
             },
@@ -2193,7 +2159,6 @@ define([
             tipColorSchemas: 'Change Color Scheme',
             tipInsertText: 'Insert Text',
             tipInsertTextArt: 'Insert Text Art',
-            tipHAligh: 'Horizontal Align',
             mniEditDropCap: 'Drop Cap Settings',
             textNone: 'None',
             textInText: 'In Text',
@@ -2320,8 +2285,8 @@ define([
             capBtnAddComment: 'Add Comment',
             capBtnInsSymbol: 'Symbol',
             tipInsertSymbol: 'Insert symbol',
-            mniDrawTable: 'Draw table',
-            mniEraseTable: 'Erase table'
+            mniDrawTable: 'Draw Table',
+            mniEraseTable: 'Erase Table'
         }
     })(), DE.Views.Toolbar || {}));
 });

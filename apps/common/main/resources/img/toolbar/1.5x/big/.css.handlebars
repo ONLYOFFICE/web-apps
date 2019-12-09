@@ -1,0 +1,13 @@
+{{#spritesheet}}
+@media only screen {
+    @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+            (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+    {
+        .x-huge .toolbar__icon {
+            background-image: url(resources/{{{escaped_image}}});
+            background-size: {{scaled width 1.5}}px auto;
+        }
+    }
+}
+{{/spritesheet}}

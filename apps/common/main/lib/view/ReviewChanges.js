@@ -203,14 +203,14 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtAccept,
                         split: true,
-                        iconCls: 'review-save'
+                        iconCls: 'toolbar__icon btn-review-save'
                     });
 
                     this.btnReject = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtReject,
                         split: true,
-                        iconCls: 'review-deny'
+                        iconCls: 'toolbar__icon btn-review-deny'
                     });
 
                     if (this.appConfig.canFeatureComparison)
@@ -218,12 +218,12 @@ define([
                             cls         : 'btn-toolbar  x-huge icon-top',
                             caption     : this.txtCompare,
                             split       : true,
-                            iconCls: 'btn-compare'
+                            iconCls: 'toolbar__icon btn-compare'
                         });
 
                     this.btnTurnOn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-review',
+                        iconCls: 'toolbar__icon btn-ic-review',
                         caption: this.txtTurnon,
                         enableToggle: true
                     });
@@ -232,13 +232,13 @@ define([
                 if (this.appConfig.canViewReview) {
                     this.btnPrev = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'review-prev',
+                        iconCls: 'toolbar__icon btn-review-prev',
                         caption: this.txtPrev
                     });
 
                     this.btnNext = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'review-next',
+                        iconCls: 'toolbar__icon btn-review-next',
                         caption: this.txtNext
                     });
 
@@ -249,7 +249,7 @@ define([
 
                         this.btnReviewView = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'btn-ic-reviewview',
+                            iconCls: 'toolbar__icon btn-ic-reviewview',
                             caption: this.txtView,
                             menu: new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
@@ -287,10 +287,10 @@ define([
                     }
                 }
 
-                if (!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length && this._readonlyRights!==true) {
+                if ((!!this.appConfig.sharingSettingsUrl && this.appConfig.sharingSettingsUrl.length || this.appConfig.canRequestSharingSettings) && this._readonlyRights!==true) {
                     this.btnSharing = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-sharing',
+                        iconCls: 'toolbar__icon btn-ic-sharing',
                         caption: this.txtSharing
                     });
                 }
@@ -298,7 +298,7 @@ define([
                 if (this.appConfig.isEdit && !this.appConfig.isOffline && this.appConfig.canCoAuthoring) {
                     this.btnCoAuthMode = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-coedit',
+                        iconCls: 'toolbar__icon btn-ic-coedit',
                         caption: this.txtCoAuthMode,
                         menu: true
                     });
@@ -310,7 +310,7 @@ define([
                 if (this.appConfig.canUseHistory && !this.appConfig.isDisconnected) {
                     this.btnHistory = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-history',
+                        iconCls: 'toolbar__icon btn-ic-history',
                         caption: this.txtHistory
                     });
                 }
@@ -318,7 +318,7 @@ define([
                 if (this.appConfig.canCoAuthoring && this.appConfig.canChat) {
                     this.btnChat = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-chat',
+                        iconCls: 'toolbar__icon btn-ic-chat',
                         caption: this.txtChat,
                         enableToggle: true
                     });
@@ -329,7 +329,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtCommentRemove,
                         split: true,
-                        iconCls: 'btn-rem-comment'
+                        iconCls: 'toolbar__icon btn-rem-comment'
                     });
                 }
 
@@ -547,7 +547,7 @@ define([
                 if ( type == 'turn' && parent == 'statusbar' ) {
                     var button = new Common.UI.Button({
                         cls         : 'btn-toolbar',
-                        iconCls     : 'btn-ic-review',
+                        iconCls     : 'toolbar__icon btn-ic-review',
                         hintAnchor  : 'top',
                         hint        : this.tipReview,
                         enableToggle: true
@@ -560,7 +560,7 @@ define([
                 if ( type == 'spelling' ) {
                     button = new Common.UI.Button({
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-ic-docspell',
+                        iconCls: 'toolbar__icon btn-ic-docspell',
                         hintAnchor  : 'top',
                         hint: this.tipSetSpelling,
                         enableToggle: true
@@ -571,7 +571,7 @@ define([
                 } else if (type == 'doclang' && parent == 'statusbar' ) {
                     button = new Common.UI.Button({
                         cls: 'btn-toolbar',
-                        iconCls: 'btn-ic-doclang',
+                        iconCls: 'toolbar__icon btn-ic-doclang',
                         hintAnchor  : 'top',
                         hint: this.tipSetDocLang,
                         disabled: true

@@ -42,7 +42,8 @@
 define([
     'core',
     'spreadsheeteditor/main/app/view/DataTab',
-    'spreadsheeteditor/main/app/view/GroupDialog'
+    'spreadsheeteditor/main/app/view/GroupDialog',
+    'spreadsheeteditor/main/app/view/SortDialog'
 ], function () {
     'use strict';
 
@@ -86,7 +87,8 @@ define([
                     'data:tocolumns': this.onTextToColumn,
                     'data:show': this.onShowClick,
                     'data:hide': this.onHideClick,
-                    'data:groupsettings': this.onGroupSettings
+                    'data:groupsettings': this.onGroupSettings,
+                    'data:sortcustom': this.onCustomSort
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -212,9 +214,55 @@ define([
             this.api.asc_changeGroupDetails(false);
         },
 
+        onCustomSort: function() {
+            var me = this;
+            if (this.api) {
+                var res = this.api.asc_sortCellsRangeExpand();
+                if (res) {
+                    var config = {
+                        width: 500,
+                        title: this.toolbar.txtSorting,
+                        msg: this.toolbar.txtExpandSort,
+
+                        buttons: [  {caption: this.toolbar.txtExpand, primary: true, value: 'expand'},
+                            {caption: this.toolbar.txtSortSelected, primary: true, value: 'sort'},
+                            'cancel'],
+                        callback: function(btn){
+                            if (btn == 'expand' || btn == 'sort') {
+                                setTimeout(function(){
+                                    me.showCustomSort(btn == 'expand');
+                                },1);
+                            }
+                        }
+                    };
+                    Common.UI.alert(config);
+                } else
+                    me.showCustomSort(res !== null);
+            }
+        },
+
+        showCustomSort: function(expand) {
+            var me = this,
+                props = me.api.asc_getSortProps(expand);
+                // props = new Asc.CSortProperties();
+            if (props) {
+                (new SSE.Views.SortDialog({
+                    props: props,
+                    api: me.api,
+                    handler: function (result, settings) {
+                        if (result == 'ok') {
+                            if (me && me.api) {
+                                me.api.asc_setSortProps(settings);
+                            }
+                        }
+                    }
+                })).show();
+            }
+        },
+
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.btnGroup, this.view.btnUngroup]});
+                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
             }
         },
 

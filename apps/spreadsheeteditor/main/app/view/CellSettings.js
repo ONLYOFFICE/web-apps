@@ -75,7 +75,7 @@ define([
                 CellAngle: undefined,
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 CellColor: 'transparent',
-                FillType: Asc.c_oAscFill.FILL_TYPE_SOLID,
+                FillType: Asc.c_oAscFill.FILL_TYPE_NOFILL,
                 FGColor: '000000',
                 BGColor: 'ffffff',
                 GradColor: '000000'
@@ -193,7 +193,7 @@ define([
 
             this.numGradientAngle = new Common.UI.MetricSpinner({
                 el: $('#cell-spin-gradient-angle'),
-                step: 1,
+                step: 10,
                 width: 90,
                 defaultUnit : "°",
                 value: '0 °',
@@ -204,6 +204,7 @@ define([
             });
             this.lockedControls.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
+            this.numGradientAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
 
             /*this._arrGradType = [
                 {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
@@ -356,23 +357,23 @@ define([
             }
 
             var _arrBorderPosition = [
-                [Asc.c_oAscBorderOptions.Left,  'btn-borders-small btn-position-left',      'cell-button-border-left',        this.tipLeft],
-                [Asc.c_oAscBorderOptions.InnerV,'btn-borders-small btn-position-inner-vert','cell-button-border-inner-vert',  this.tipInnerVert],
-                [Asc.c_oAscBorderOptions.Right, 'btn-borders-small btn-position-right',     'cell-button-border-right',       this.tipRight],
-                [Asc.c_oAscBorderOptions.Top,   'btn-borders-small btn-position-top',       'cell-button-border-top',         this.tipTop],
-                [Asc.c_oAscBorderOptions.InnerH,'btn-borders-small btn-position-inner-hor', 'cell-button-border-inner-hor',   this.tipInnerHor],
-                [Asc.c_oAscBorderOptions.Bottom,'btn-borders-small btn-position-bottom',    'cell-button-border-bottom',      this.tipBottom],
-                [Asc.c_oAscBorderOptions.DiagU, 'btn-borders-small btn-position-diagu',    'cell-button-border-diagu',      this.tipDiagU],
-                [Asc.c_oAscBorderOptions.DiagD, 'btn-borders-small btn-position-diagd',    'cell-button-border-diagd',      this.tipDiagD],
-                ['inner',                       'btn-borders-small btn-position-inner',     'cell-button-border-inner',       this.tipInner],
-                ['outer',                       'btn-borders-small btn-position-outer',     'cell-button-border-outer',       this.tipOuter],
-                ['all',                         'btn-borders-small btn-position-all',       'cell-button-border-all',         this.tipAll],
-                ['none',                        'btn-borders-small btn-position-none',      'cell-button-border-none',        this.tipNone]
+                [Asc.c_oAscBorderOptions.Left,  'toolbar__icon btn-border-left',        'cell-button-border-left',      this.tipLeft],
+                [Asc.c_oAscBorderOptions.InnerV,'toolbar__icon btn-border-insidevert',  'cell-button-border-inner-vert',this.tipInnerVert],
+                [Asc.c_oAscBorderOptions.Right, 'toolbar__icon btn-border-right',       'cell-button-border-right',     this.tipRight],
+                [Asc.c_oAscBorderOptions.Top,   'toolbar__icon btn-border-top',         'cell-button-border-top',       this.tipTop],
+                [Asc.c_oAscBorderOptions.InnerH,'toolbar__icon btn-border-insidehor',   'cell-button-border-inner-hor', this.tipInnerHor],
+                [Asc.c_oAscBorderOptions.Bottom,'toolbar__icon btn-border-bottom',      'cell-button-border-bottom',    this.tipBottom],
+                [Asc.c_oAscBorderOptions.DiagU, 'toolbar__icon btn-border-diagup',      'cell-button-border-diagu',     this.tipDiagU],
+                [Asc.c_oAscBorderOptions.DiagD, 'toolbar__icon btn-border-diagdown',    'cell-button-border-diagd',     this.tipDiagD],
+                ['inner',                       'toolbar__icon btn-border-inside',      'cell-button-border-inner',     this.tipInner],
+                ['outer',                       'toolbar__icon btn-border-out',         'cell-button-border-outer',     this.tipOuter],
+                ['all',                         'toolbar__icon btn-border-all',         'cell-button-border-all',       this.tipAll],
+                ['none',                        'toolbar__icon btn-border-no',          'cell-button-border-none',      this.tipNone]
             ];
 
             _.each(_arrBorderPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar borders--small',
                     iconCls: item[1],
                     borderId:item[0],
                     hint: item[3],
@@ -438,6 +439,7 @@ define([
             });
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
+            this.spnAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
         },
 
         createDelayedElements: function() {
@@ -465,7 +467,6 @@ define([
                     this.pattern = this.fill.asc_getPatternFill();
                     this.gradient = this.fill.asc_getGradientFill();
                     if (this.pattern === null && this.gradient === null) {
-                        this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                         this.CellColor = {Value: 0, Color: 'transparent'};
                         this.FGColor = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
                         this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -476,6 +477,7 @@ define([
                         this.GradColor.colors[1] = 'ffffff';
                         this.GradColor.values = [0, 100];
                         this.GradColor.currentIdx = 0;
+                        this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                     } else if (this.pattern !== null) {
                         if (this.pattern.asc_getType() === -1) {
                             var color = this.pattern.asc_getFgColor();
@@ -1068,7 +1070,7 @@ define([
                 var arrGradStop = [];
                 this.GradColor.values.forEach(function (item, index) {
                     var gradientStop = new Asc.asc_CGradientStop();
-                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(me.GradColor.colors[index]));
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index])));
                     gradientStop.asc_setPosition(me.GradColor.values[index]/100);
                     arrGradStop.push(gradientStop);
                 });
@@ -1124,7 +1126,7 @@ define([
                 var arrGradStop = [];
                 this.GradColor.colors.forEach(function (item, index) {
                     var gradientStop = new Asc.asc_CGradientStop();
-                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(me.GradColor.colors[index]));
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index])));
                     gradientStop.asc_setPosition(me.GradColor.values[index]/100);
                     arrGradStop.push(gradientStop);
                 });

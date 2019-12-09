@@ -11,7 +11,7 @@
     </tr>
     <tr>
         <td>
-            <div id="cell-panel-color-fill" class="padding-small" style="width: 100%;">
+            <div id="cell-panel-color-fill" class="settings-hidden padding-small" style="width: 100%;">
                 <div id="cell-back-color-btn" style=""></div>
             </div>
             <div id="cell-panel-pattern-fill" class="settings-hidden padding-small" style="width: 100%;">

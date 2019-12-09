@@ -119,7 +119,9 @@ define([
                         'Date': this.txtDate,
                         'Time': this.txtTime,
                         'Tab': this.txtTab,
-                        'File': this.txtFile
+                        'File': this.txtFile,
+                        'Column': this.txtColumn,
+                        'Row': this.txtRow
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -337,6 +339,7 @@ define([
                 this.appOptions.canRequestSaveAs = this.editorConfig.canRequestSaveAs;
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
+                this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -694,6 +697,15 @@ define([
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
                 Common.Utils.InternalSettings.set("sse-settings-coauthmode", me._state.fastCoauth);
                 /** coauthoring end **/
+
+                /** spellcheck settings begin **/
+                var ignoreUppercase = Common.localStorage.getBool("sse-spellcheck-ignore-uppercase-words", true);
+                Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", ignoreUppercase);
+                this.api.asc_ignoreUppercase(ignoreUppercase);
+                var ignoreNumbers = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words", true);
+                Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", ignoreNumbers);
+                this.api.asc_ignoreNumbers(ignoreNumbers);
+                /** spellcheck settings end **/
 
                 me.api.asc_registerCallback('asc_onStartAction',        _.bind(me.onLongActionBegin, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',      _.bind(me.onConfirmAction, me));
@@ -1469,7 +1481,7 @@ define([
                     }, this);
                 }
 
-                if ($('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
+                if (id == Asc.c_oAscError.ID.EditingError || $('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
                     Common.UI.alert(config);
                     Common.component.Analytics.trackEvent('Internal Error', id.toString());
                 }
@@ -1555,7 +1567,7 @@ define([
                 Common.Gateway.setDocumentModified(change);
 
                 if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
-                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
+                    var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
                         cansave = this.api.asc_isDocumentCanSave(),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
@@ -1565,7 +1577,7 @@ define([
 
             onDocumentCanSaveChanged: function (isCanSave) {
                 if (this.toolbarView && this.toolbarView.btnCollabChanges) {
-                    var isSyncButton = this.toolbarView.btnCollabChanges.$icon.hasClass('btn-synch'),
+                    var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                     this.toolbarView.btnSave.setDisabled(isDisabled);
@@ -2453,6 +2465,8 @@ define([
             txtTab: 'Tab',
             txtFile: 'File',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            txtColumn: 'Column',
+            txtRow: 'Row',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
         }
     })(), SSE.Controllers.Main || {}))

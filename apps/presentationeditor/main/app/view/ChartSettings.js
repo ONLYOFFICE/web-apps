@@ -254,10 +254,12 @@ define([
 
             this.spnWidth.on('change', _.bind(this.onWidthChange, this));
             this.spnHeight.on('change', _.bind(this.onHeightChange, this));
+            this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.spnHeight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.btnRatio = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'advanced-btn-ratio',
+                iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
@@ -416,8 +418,6 @@ define([
                 props.put_Height(Common.Utils.Metric.fnRecalcToMM(h));
                 this.api.ChartApply(props);
             }
-
-            this.fireEvent('editcomplete', this);
         },
 
         onHeightChange: function(field, newValue, oldValue, eOpts){
@@ -437,8 +437,6 @@ define([
                 props.put_Height(Common.Utils.Metric.fnRecalcToMM(h));
                 this.api.ChartApply(props);
             }
-
-            this.fireEvent('editcomplete', this);
         },
 
         openAdvancedSettings: function(e) {

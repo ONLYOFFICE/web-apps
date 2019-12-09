@@ -47,6 +47,7 @@ define([
     'gateway',
     'common/main/lib/util/utils',
     'common/main/lib/component/Menu',
+    'common/main/lib/component/Calendar',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/CopyWarningDialog',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
@@ -1535,6 +1536,10 @@ define([
                     this.api.asc_registerCallback('asc_onFocusObject',                  _.bind(onFocusObject, this));
                     this.api.asc_registerCallback('asc_onShowSpecialPasteOptions',      _.bind(onShowSpecialPasteOptions, this));
                     this.api.asc_registerCallback('asc_onHideSpecialPasteOptions',      _.bind(onHideSpecialPasteOptions, this));
+                    if (this.mode.isEdit || this.mode.isRestrictedEdit && this.mode.canFillForms) {
+                        this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
+                        this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                    }
                 }
 
                 return this;
@@ -2089,43 +2094,43 @@ define([
                         items: [
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignLeft,
-                                iconCls : 'mnu-img-align-left',
+                                iconCls : 'menu__icon shape-align-left',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignCenter,
-                                iconCls : 'mnu-img-align-center',
+                                iconCls : 'menu__icon shape-align-center',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignRight,
-                                iconCls : 'mnu-img-align-right',
+                                iconCls : 'menu__icon shape-align-right',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignTop,
-                                iconCls : 'mnu-img-align-top',
+                                iconCls : 'menu__icon shape-align-top',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignMiddle,
-                                iconCls : 'mnu-img-align-middle',
+                                iconCls : 'menu__icon shape-align-middle',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textShapeAlignBottom,
-                                iconCls : 'mnu-img-align-bottom',
+                                iconCls : 'menu__icon shape-align-bottom',
                                 value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                             }).on('click', onItemClick),
                             {caption    : '--'},
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribHor,
-                                iconCls     : 'mnu-distrib-hor',
+                                iconCls     : 'menu__icon shape-distribute-hor',
                                 value       : 6
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribVert,
-                                iconCls     : 'mnu-distrib-vert',
+                                iconCls     : 'menu__icon shape-distribute-vert',
                                 value       : 7
                             }).on('click', onItemClick)
                         ]
@@ -2135,7 +2140,7 @@ define([
 
             var mnuGroup = new Common.UI.MenuItem({
                 caption : this.txtGroup,
-                iconCls : 'mnu-arrange-group'
+                iconCls : 'menu__icon shape-group'
             }).on('click', function(item, e) {
                 if (me.api) {
                     var properties = new Asc.asc_CImgProperty();
@@ -2146,7 +2151,7 @@ define([
             });
 
             var mnuUnGroup = new Common.UI.MenuItem({
-                iconCls : 'mnu-arrange-ungroup',
+                iconCls : 'menu__icon shape-ungroup',
                 caption : this.txtUngroup
             }).on('click', function(item, e) {
                 if (me.api) {
@@ -2175,22 +2180,22 @@ define([
                         items: [
                             new Common.UI.MenuItem({
                                 caption : me.textArrangeFront,
-                                iconCls : 'mnu-arrange-front',
+                                iconCls : 'menu__icon arrange-front',
                                 valign  : Asc.c_oAscChangeLevel.BringToFront
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textArrangeBack,
-                                iconCls : 'mnu-arrange-back',
+                                iconCls : 'menu__icon arrange-back',
                                 valign  : Asc.c_oAscChangeLevel.SendToBack
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textArrangeForward,
-                                iconCls : 'mnu-arrange-forward',
+                                iconCls : 'menu__icon arrange-forward',
                                 valign  : Asc.c_oAscChangeLevel.BringForward
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption : me.textArrangeBackward,
-                                iconCls : 'mnu-arrange-backward',
+                                iconCls : 'menu__icon arrange-backward',
                                 valign  : Asc.c_oAscChangeLevel.BringBackward
                             }).on('click', onItemClick),
                             { caption: '--' },
@@ -2243,51 +2248,58 @@ define([
                         items: [
                             new Common.UI.MenuItem({
                                 caption     : me.txtInline,
-                                iconCls     : 'mnu-wrap-inline',
+                                iconCls     : 'menu__icon wrap-inline',
                                 toggleGroup : 'popuppicturewrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Inline,
+                                checkmark   : false,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtSquare,
-                                iconCls     : 'mnu-wrap-square',
+                                iconCls     : 'menu__icon wrap-square',
                                 toggleGroup : 'popuppicturewrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Square,
+                                checkmark   : false,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtTight,
-                                iconCls     : 'mnu-wrap-tight',
+                                iconCls     : 'menu__icon wrap-tight',
                                 toggleGroup : 'popuppicturewrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Tight,
+                                checkmark   : false,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtThrough,
-                                iconCls     : 'mnu-wrap-through',
+                                iconCls     : 'menu__icon wrap-through',
                                 toggleGroup : 'popuppicturewrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Through,
+                                checkmark   : false,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtTopAndBottom,
-                                iconCls     : 'mnu-wrap-topAndBottom',
+                                iconCls     : 'menu__icon wrap-topandbottom',
                                 toggleGroup : 'popuppicturewrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
+                                checkmark   : false,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtInFront,
-                                iconCls     : 'mnu-wrap-inFront',
+                                iconCls     : 'menu__icon wrap-infront',
                                 toggleGroup : 'popuppicturewrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.InFront,
+                                checkmark   : false,
                                 checkable   : true
                             }).on('click', onItemClick),
                             new Common.UI.MenuItem({
                                 caption     : me.txtBehind,
-                                iconCls     : 'mnu-wrap-behind',
+                                iconCls     : 'menu__icon wrap-behind',
                                 toggleGroup : 'popuppicturewrapping',
                                 wrapType    : Asc.c_oAscWrapStyle2.Behind,
+                                checkmark   : false,
                                 checkable   : true
                             }).on('click', onItemClick),
                             { caption: '--' },
@@ -2915,24 +2927,27 @@ define([
                     items   : [
                         me.menuTableDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'mnu-direct-horiz',
+                            iconCls     : 'menu__icon text-orient-hor',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popuptabledirect',
                             direction      : Asc.c_oAscCellTextDirection.LRTB
                         }).on('click', _.bind(tableDirection, me)),
                         me.menuTableDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'mnu-direct-rdown',
+                            iconCls     : 'menu__icon text-orient-rdown',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popuptabledirect',
                             direction      : Asc.c_oAscCellTextDirection.TBRL
                         }).on('click', _.bind(tableDirection, me)),
                         me.menuTableDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'mnu-direct-rup',
+                            iconCls     : 'menu__icon text-orient-rup',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popuptabledirect',
                             direction      : Asc.c_oAscCellTextDirection.BTLR
@@ -3347,24 +3362,27 @@ define([
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
                             caption     : me.directHText,
-                            iconCls     : 'mnu-direct-horiz',
+                            iconCls     : 'menu__icon text-orient-hor',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.normal
                         }).on('click', _.bind(paragraphDirection, me)),
                         me.menuParagraphDirect90 = new Common.UI.MenuItem({
                             caption     : me.direct90Text,
-                            iconCls     : 'mnu-direct-rdown',
+                            iconCls     : 'menu__icon text-orient-rdown',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert
                         }).on('click', _.bind(paragraphDirection, me)),
                         me.menuParagraphDirect270 = new Common.UI.MenuItem({
                             caption     : me.direct270Text,
-                            iconCls     : 'mnu-direct-rup',
+                            iconCls     : 'menu__icon text-orient-rup',
                             checkable   : true,
+                            checkmark   : false,
                             checked     : false,
                             toggleGroup : 'popupparagraphdirect',
                             direction      : Asc.c_oAscVertDrawingText.vert270
@@ -3951,6 +3969,153 @@ define([
                 this.api.asc_FollowRevisionMove(item.value);
             }
             this.fireEvent('editcomplete', this);
+        },
+
+        onHideContentControlsActions: function() {
+            this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            var controlsContainer = this.cmpEl.find('#calendar-control-container');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
+        },
+
+        onShowDateActions: function(obj, x, y) {
+            var props = obj.pr,
+                specProps = props.get_DateTimePr(),
+                controlsContainer = this.cmpEl.find('#calendar-control-container'),
+                me = this;
+
+            this._dateObj = props;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                this.cmpEl.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            controlsContainer.css({left: x, top : y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendar) {
+                this.cmpCalendar = new Common.UI.Calendar({
+                    el: this.cmpEl.find('#id-document-calendar-control'),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+                this.cmpCalendar.on('date:click', function (cmp, date) {
+                    var props = me._dateObj,
+                        specProps = props.get_DateTimePr(),
+                        id = props.get_InternalId();
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetContentControlProperties(props, id);
+                    controlsContainer.hide();
+                    me.api.asc_UncheckContentControlButtons();
+                    me.fireEvent('editcomplete', me);
+                });
+                this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+            }
+            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
+
+            // align
+            var offset  = controlsContainer.offset(),
+                docW    = Common.Utils.innerWidth(),
+                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW   = this.cmpCalendar.cmpEl.outerWidth(),
+                menuH   = this.cmpCalendar.cmpEl.outerHeight(),
+                buttonOffset = 22,
+                left = offset.left - menuW,
+                top  = offset.top;
+            if (top + menuH > docH) {
+                top = docH - menuH;
+                left -= buttonOffset;
+            }
+            if (top < 0)
+                top = 0;
+            if (left + menuW > docW)
+                left = docW - menuW;
+            this.cmpCalendar.cmpEl.css({left: left, top : top});
+
+            this._preventClick = true;
+        },
+
+        onShowListActions: function(obj, x, y) {
+            var type = obj.type,
+                props = obj.pr,
+                specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
+                menu = this.listControlMenu,
+                menuContainer = menu ? this.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this._listObj = props;
+
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.listControlMenu = menu = new Common.UI.Menu({
+                    menuAlign: 'tr-bl',
+                    items: []
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        me.api.asc_SelectContentControlListItem(item.value, me._listObj.get_InternalId());
+                    }, 1);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    this.cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    me.listControlMenu.removeAll();
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            if (specProps) {
+                var count = specProps.get_ItemsCount();
+                for (var i=0; i<count; i++) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : specProps.get_ItemDisplayText(i),
+                        value       : specProps.get_ItemValue(i)
+                    }));
+                }
+            }
+
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onShowContentControlsActions: function(obj, x, y) {
+            var type = obj.type;
+            switch (type) {
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    this.api.asc_addImage(obj);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    this.onShowListActions(obj, x, y);
+                    break;
+            }
         },
 
         focus: function() {

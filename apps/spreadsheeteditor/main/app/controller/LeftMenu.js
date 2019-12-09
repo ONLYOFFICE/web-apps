@@ -75,6 +75,7 @@ define([
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
                     'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
                     'settings:apply': _.bind(this.applySettings, this),
+                    'spellcheck:apply': _.bind(this.applySpellcheckSettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
                 },
@@ -401,6 +402,23 @@ define([
             menu.hide();
 
             this.leftMenu.fireEvent('settings:apply');
+        },
+
+        applySpellcheckSettings: function(menu) {
+            if (this.mode.isEdit && this.api) {
+                var value = Common.localStorage.getBool("sse-spellcheck-ignore-uppercase-words");
+                this.api.asc_ignoreUppercase(value);
+                value = Common.localStorage.getBool("sse-spellcheck-ignore-numbers-words");
+                this.api.asc_ignoreNumbers(value);
+                value = Common.localStorage.getItem("sse-spellcheck-locale");
+                if (value) {
+                    this.api.asc_setDefaultLanguage(parseInt(value));
+                }
+            }
+
+            menu.hide();
+
+            this.leftMenu.fireEvent('spellcheck:update');
         },
 
         onCreateNew: function(menu, type) {

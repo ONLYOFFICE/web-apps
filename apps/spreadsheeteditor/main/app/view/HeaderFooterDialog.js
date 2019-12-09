@@ -427,7 +427,7 @@ define([
             this.btnBold = [];
             this.btnBold.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-bold',
+                iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             }));
@@ -437,7 +437,7 @@ define([
 
             this.btnBold.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-bold',
+                iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             }));
@@ -448,7 +448,7 @@ define([
             this.btnItalic = [];
             this.btnItalic.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-italic',
+                iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             }));
@@ -458,7 +458,7 @@ define([
 
             this.btnItalic.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-italic',
+                iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             }));
@@ -469,7 +469,7 @@ define([
             this.btnUnderline = [];
             this.btnUnderline.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-underline',
+                iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             }));
@@ -479,7 +479,7 @@ define([
 
             this.btnUnderline.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-underline',
+                iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             }));
@@ -490,7 +490,7 @@ define([
             this.btnStrikeout = [];
             this.btnStrikeout.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-strikeout',
+                iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             }));
@@ -500,7 +500,7 @@ define([
 
             this.btnStrikeout.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-strikeout',
+                iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             }));
@@ -511,7 +511,7 @@ define([
             this.btnSuperscript = [];
             this.btnSuperscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-superscript',
+                iconCls: 'toolbar__icon btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSuperscript
@@ -522,7 +522,7 @@ define([
 
             this.btnSuperscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-superscript',
+                iconCls: 'toolbar__icon btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSuperscript
@@ -534,7 +534,7 @@ define([
             this.btnSubscript = [];
             this.btnSubscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-subscript',
+                iconCls: 'toolbar__icon btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSubscript
@@ -545,7 +545,7 @@ define([
 
             this.btnSubscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-subscript',
+                iconCls: 'toolbar__icon btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSubscript
@@ -574,7 +574,7 @@ define([
             this.btnTextColor = [];
             this.btnTextColor.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-fontcolor',
+                iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
@@ -593,7 +593,7 @@ define([
 
             this.btnTextColor.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-fontcolor',
+                iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 split       : true,
                 menu        : new Common.UI.Menu({

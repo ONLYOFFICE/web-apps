@@ -86,35 +86,8 @@
     }
 }
 
-/*menuText*/
-.button-normal-icon(btn-menu-text,    37, @toolbar-icon-size);
-
-/*menuImage*/
-.button-normal-icon(btn-menu-image,   17, @toolbar-icon-size);
-
-/*menuTable*/
-.button-normal-icon(btn-menu-table,   18, @toolbar-icon-size);
-
-/*menuChart*/
-.button-normal-icon(btn-menu-chart,   45, @toolbar-icon-size);
-
-/*menuHeader*/
-.button-normal-icon(btn-menu-header,  39, @toolbar-icon-size);
-
-/*menuMailMerge*/
-.button-normal-icon(btn-menu-mail-merge, 40, @toolbar-icon-size);
-
-/*menuShape*/
-.button-normal-icon(btn-menu-shape,   43, @toolbar-icon-size);
-
-/*menuTextArt*/
-.button-normal-icon(btn-menu-textart,   54, @toolbar-icon-size);
-.button-normal-icon(btn-menu-signature, 78, @toolbar-icon-size);
-
-.button-otherstates-icon2(btn-category, @toolbar-icon-size);
-
 .icon-right-panel {
-    .background-ximage('@{app-image-path}/right-panels/RightPanelBigBtns.png', '@{app-image-path}/right-panels/RightPanelBigBtns@2x.png', 148px);
+    .background-ximage-v2('right-panels/RightPanelBigBtns.png', 148px, @commonimage: false);
 }
 
 .button-normal-icon(btn-colontitul-tl,    3, @huge-icon-size);
@@ -138,11 +111,12 @@
 .button-otherstates-icon(icon-right-panel, @huge-icon-size);
 
 .combo-wrap-item {
-    .background-ximage('@{app-image-path}/right-panels/right_panel_wrap_icons.png', '@{app-image-path}/right-panels/right_panel_wrap_icons@2x.png', 350px);
+    // TODO: dublicate .item-wrap
+    .background-ximage-v2('right-panels/right_panel_wrap_icons.png', 350px, @commonimage: false);
 }
 
 .item-wrap {
-    .background-ximage('@{app-image-path}/right-panels/right_panel_wrap_icons.png', '@{app-image-path}/right-panels/right_panel_wrap_icons@2x.png', 350px);
+    .background-ximage-v2('right-panels/right_panel_wrap_icons.png', 350px, @commonimage: false);
     width:50px;
     height:50px;
     background-size: cover !important;
@@ -176,26 +150,9 @@
     background-position: -250px 0;
 }
 
-.btn-toolbar:not(.x-huge) .icon:not(svg).btn-borders-small {
-   .background-ximage('@{common-image-path}/right-panels/SmallBorders.png', '@{common-image-path}/right-panels/SmallBorders@2x.png', 84px);
-}
-
-.button-normal-icon(btn-position-all,         0, 21px);
-.button-normal-icon(btn-position-inner,       1, 21px);
-.button-normal-icon(btn-position-bottom,      2, 21px);
-.button-normal-icon(btn-position-inner-hor,   3, 21px);
-.button-normal-icon(btn-position-top,         4, 21px);
-.button-normal-icon(btn-position-none,        5, 21px);
-.button-normal-icon(btn-position-outer,       6, 21px);
-.button-normal-icon(btn-position-left,        7, 21px);
-.button-normal-icon(btn-position-inner-vert,  8, 21px);
-.button-normal-icon(btn-position-right,       9, 21px);
-
-.button-otherstates-icon(btn-borders-small, 21px);
-
 .btn-edit-table,
 .btn-change-shape {
-    .background-ximage('@{common-image-path}/right-panels/rowscols_icon.png', '@{common-image-path}/right-panels/rowscols_icon@2x.png', 84px);
+    .background-ximage-v2('right-panels/rowscols_icon.png', 84px);
     margin-right: 2px !important;
     margin-bottom: 1px !important;
 }
@@ -213,7 +170,7 @@ button.active:not(.disabled) .btn-change-shape,
 button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -16px;}
 
 .combo-pattern-item {
-    .background-ximage('@{common-image-path}/right-panels/patterns.png', '@{common-image-path}/right-panels/patterns@2x.png', 112px);
+    .background-ximage-v2('right-panels/patterns.png', 112px);
 }
 
 .combo-dataview-menu {
@@ -229,7 +186,8 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 }
 
 .item-gradient {
-    .background-ximage('@{common-image-path}/right-panels/gradients.png', '@{common-image-path}/right-panels/gradients@2x.png', 150px);
+    .background-ximage-v2('right-panels/gradients.png', 150px);
+
     width:50px;
     height:50px;
 }
