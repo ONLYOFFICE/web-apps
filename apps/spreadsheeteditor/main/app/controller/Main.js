@@ -347,9 +347,13 @@ define([
 
                 var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
                     isUseBaseSeparator = Common.localStorage.getBool("sse-settings-use-base-separator", true),
-                    decimal = Common.localStorage.getItem("sse-settings-decimal-separator"),
-                    group = Common.localStorage.getItem("sse-settings-group-separator");
+                    decimal = undefined,
+                    group = undefined;
                 Common.Utils.InternalSettings.set("sse-settings-use-base-separator", isUseBaseSeparator);
+                if (!isUseBaseSeparator) {
+                    decimal = Common.localStorage.getItem("sse-settings-decimal-separator");
+                    group = Common.localStorage.getItem("sse-settings-group-separator");
+                }
                 if (reg!==null)
                     this.api.asc_setLocale(parseInt(reg), decimal, group);
                 else {

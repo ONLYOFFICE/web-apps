@@ -773,6 +773,11 @@ define([
                     '</span>'].join(''))
             }).on('selected', function(combo, record) {
                 me.updateRegionalExample(record.value);
+                var isBaseSettings = me.chSeparator.getValue();
+                if (isBaseSettings === 'checked') {
+                    me.inputDecimalSeparator.setValue(me.api.asc_getDecimalSeparator(record.value), true);
+                    me.inputThousandsSeparator.setValue(me.api.asc_getGroupSeparator(record.value), true);
+                }
             });
             if (this.cmbRegSettings.scroller) this.cmbRegSettings.scroller.update({alwaysVisibleY: true});
 
@@ -782,8 +787,9 @@ define([
             }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var checked = field.getValue() === 'checked';
                 if (checked) {
-                    var decimal = this.api.asc_getDecimalSeparator(),
-                        group = this.api.asc_getGroupSeparator();
+                    var lang = this.cmbRegSettings.getValue(),
+                        decimal = this.api.asc_getDecimalSeparator(_.isNumber(lang) ? lang : undefined),
+                        group = this.api.asc_getGroupSeparator(_.isNumber(lang) ? lang : undefined);
                     this.inputDecimalSeparator.setValue(decimal);
                     this.inputThousandsSeparator.setValue(group);
                 }
@@ -795,14 +801,15 @@ define([
                 var key = event.key,
                     value = event.target.value;
                 if (key !== 'ArrowLeft' && key !== 'ArrowDown' && key !== 'ArrowUp' && key !== 'ArrowRight' &&
-                    key !== 'Home' && key !== 'End' && key !== 'Backspace' && key !== 'Delete' && value.length > 0) {
+                    key !== 'Home' && key !== 'End' && key !== 'Backspace' && key !== 'Delete' && value.length > 0 &&
+                    event.target.selectionEnd - event.target.selectionStart === 0) {
                     event.preventDefault();
                 }
             };
 
             this.inputDecimalSeparator = new Common.UI.InputField({
                 el: $markup.findById('#fms-decimal-separator'),
-                style: 'width: 50px;',
+                style: 'width: 35px;',
                 validateOnBlur: false
             });
             var $decimalSeparatorInput = this.inputDecimalSeparator.$el.find('input');
@@ -810,7 +817,7 @@ define([
 
             this.inputThousandsSeparator = new Common.UI.InputField({
                 el: $markup.findById('#fms-thousands-separator'),
-                style: 'width: 50px;',
+                style: 'width: 35px;',
                 validateOnBlur: false
             });
             var $thousandsSeparatorInput = this.inputThousandsSeparator.$el.find('input');
@@ -909,15 +916,16 @@ define([
             this.updateRegionalExample(value);
 
             var isBaseSettings = Common.Utils.InternalSettings.get("sse-settings-use-base-separator");
-            this.chSeparator.setValue(isBaseSettings);
+            this.chSeparator.setValue(isBaseSettings, true);
             var decimal,
                 group;
             if (!isBaseSettings) {
-                decimal = Common.Utils.InternalSettings.get("sse-settings-decimal-separator") || this.api.asc_getDecimalSeparator() || '';
-                group = Common.Utils.InternalSettings.get("sse-settings-group-separator") || this.api.asc_getGroupSeparator() || '';
+                decimal = Common.Utils.InternalSettings.get("sse-settings-decimal-separator") || this.api.asc_getDecimalSeparator();
+                group = Common.Utils.InternalSettings.get("sse-settings-group-separator") || this.api.asc_getGroupSeparator();
             } else {
-                decimal = this.api.asc_getDecimalSeparator();
-                group = this.api.asc_getGroupSeparator();
+                var lang = this.cmbRegSettings.getValue();
+                decimal = this.api.asc_getDecimalSeparator(_.isNumber(lang) ? lang : undefined);
+                group = this.api.asc_getGroupSeparator(_.isNumber(lang) ? lang : undefined);
             }
             this.inputDecimalSeparator.setValue(decimal);
             this.inputThousandsSeparator.setValue(group);
