@@ -283,7 +283,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             var combo = new Common.UI.ComboBox({
                     el          : cmpEl.find('#sort-dialog-cmb-col-' + i),
                     editable    : false,
-                    cls         : 'input-group-nr',
+                    cls         : 'input-group-nr no-highlighted',
                     menuCls     : 'menu-absolute',
                     menuStyle   : 'max-height: 135px;',
                     data        : this.column_data
@@ -305,7 +305,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             combo = new Common.UI.ComboBox({
                 el          : cmpEl.find('#sort-dialog-cmb-sort-' + i),
                 editable    : false,
-                cls         : 'input-group-nr',
+                cls         : 'input-group-nr no-highlighted',
                 menuCls     : 'menu-absolute',
                 data        : this.sort_data
             }).on('selected', function(combo, record) {
@@ -322,6 +322,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     el          : cmpEl.find('#sort-dialog-btn-color-' + i),
                     editable    : false,
                     menuCls     : 'menu-absolute',
+                    cls         : 'no-highlighted',
                     menuStyle   : 'max-height: 135px;',
                     data        : level.color_data
                 }).on('selected', function(combo, record) {
@@ -337,7 +338,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             combo = new Common.UI.ComboBox({
                 el          : cmpEl.find('#sort-dialog-cmb-order-' + i),
                 editable    : false,
-                cls         : 'input-group-nr',
+                cls         : 'input-group-nr no-highlighted',
                 menuCls     : 'menu-absolute',
                 data        : level.order_data
             }).on('selected', function(combo, record) {

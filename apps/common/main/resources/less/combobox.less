@@ -21,11 +21,6 @@
 
     &.input-group-nr > .form-control {
         padding-right: 7px + 2 * @padding-base-horizontal;
-
-        &:focus,
-        &:focus ~ button.dropdown-toggle {
-            border-color: @gray-darker;
-        }
     }
 
     &.input-group-nr > .btn {
@@ -71,9 +66,16 @@
         border-color: @input-border;
     }
 
-    &.input-group-nr.open {
+    &.input-group-nr.open:not(.no-highlighted) {
         & > .form-control,
         & > .btn {
+            border-color: @gray-darker;
+        }
+    }
+
+    &.input-group-nr:not(.no-highlighted) > .form-control {
+        &:focus,
+        &:focus ~ button.dropdown-toggle {
             border-color: @gray-darker;
         }
     }
@@ -127,5 +129,14 @@
 
     .dropdown-menu.menu-absolute {
         position: fixed;
+    }
+}
+
+.open > .combobox.combo-dataview-menu {
+    &.input-group-nr:not(.no-highlighted) {
+        & > .form-control,
+        & > .btn {
+            border-color: @gray-darker;
+        }
     }
 }
