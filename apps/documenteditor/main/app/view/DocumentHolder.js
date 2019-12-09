@@ -4003,11 +4003,9 @@ define([
                     firstday: 1
                 });
                 this.cmpCalendar.on('date:click', function (cmp, date) {
-                    var props = me._dateObj,
-                        specProps = props.get_DateTimePr(),
-                        id = props.get_InternalId();
+                    var specProps = me._dateObj.get_DateTimePr();
                     specProps.put_FullDate(new  Date(date));
-                    me.api.asc_SetContentControlProperties(props, id);
+                    me.api.asc_SetContentControlDatePickerDate(specProps);
                     controlsContainer.hide();
                     me.api.asc_UncheckContentControlButtons();
                     me.fireEvent('editcomplete', me);
