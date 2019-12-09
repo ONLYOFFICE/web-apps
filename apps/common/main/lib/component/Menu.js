@@ -523,7 +523,7 @@ define([
                     menuParent  = this.menuAlignEl || menuRoot.parent(),
                     m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
                     offset      = menuParent.offset(),
-                    docW        = Common.Utils.innerWidth(),
+                    docW        = Common.Utils.innerWidth() - 10,
                     docH        = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                     menuW       = menuRoot.outerWidth(),
                     menuH       = menuRoot.outerHeight(),
