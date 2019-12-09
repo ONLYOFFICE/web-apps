@@ -1466,7 +1466,7 @@ define([
                 var me = this;
                 if (!me.binding.onShowBeforeAddSlide) {
                     me.binding.onShowBeforeAddSlide = function(menu) {
-                        var change = (this.iconCls == 'btn-changeslide');
+                        var change = (this.iconCls.indexOf('btn-changeslide')>-1);
                         var picker = new Common.UI.DataView({
                             el: $('.menu-layouts', menu.$el),
                             parentMenu: menu,
