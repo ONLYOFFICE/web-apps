@@ -601,11 +601,11 @@ define([
                 '</tr>',
                 '<tr class="edit">',
                     '<td class="left"></td>',
-                    '<td class="right"><div id="fms-decimal-separator"/><label style="margin-left: 10px; padding-top: 3px;"><%= scope.strDecimalSeparator %></label></td>',
+                    '<td class="right"><div id="fms-decimal-separator"/><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strDecimalSeparator %></label></td>',
                 '</tr>',
                 '<tr class="edit">',
                     '<td class="left"></td>',
-                    '<td class="right"><div id="fms-thousands-separator"/><label style="margin-left: 10px; padding-top: 3px;"><%= scope.strThousandsSeparator %></label></td>',
+                    '<td class="right"><div id="fms-thousands-separator"/><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strThousandsSeparator %></label></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"></td>',
@@ -795,6 +795,11 @@ define([
                 }
                 this.inputDecimalSeparator.setDisabled(checked);
                 this.inputThousandsSeparator.setDisabled(checked);
+                if (checked) {
+                    this.$el.find('.label-separator').addClass('disabled');
+                } else {
+                    this.$el.find('.label-separator').removeClass('disabled');
+                }
             }, this));
 
             var keyDown = function(event){
@@ -931,6 +936,11 @@ define([
             this.inputThousandsSeparator.setValue(group);
             this.inputDecimalSeparator.setDisabled(isBaseSettings);
             this.inputThousandsSeparator.setDisabled(isBaseSettings);
+            if (isBaseSettings) {
+                this.$el.find('.label-separator').addClass('disabled');
+            } else {
+                this.$el.find('.label-separator').removeClass('disabled');
+            }
         },
 
         applySettings: function() {
