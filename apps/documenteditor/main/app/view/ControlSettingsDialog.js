@@ -411,7 +411,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
             // for list controls
             if (this.type == Asc.c_oAscContentControlSpecificType.ComboBox || this.type == Asc.c_oAscContentControlSpecificType.DropDownList) {
-                var specProps = new AscCommon.CSdtComboBoxPr();
+                var specProps = (this.type == Asc.c_oAscContentControlSpecificType.ComboBox) ? this.props.get_ComboBoxPr() : this.props.get_DropDownListPr();
                 this.list.store.each(function (item, index) {
                     specProps.add_Item(item.get('name'), item.get('value'));
                 });
@@ -420,7 +420,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
             //for date picker
             if (this.type == Asc.c_oAscContentControlSpecificType.DateTime) {
-                var specProps = new AscCommon.CSdtDatePickerPr();
+                var specProps = this.props.get_DateTimePr();
                 specProps.put_DateFormat(this.txtDate.getValue());
                 specProps.put_LangId(this.cmbLang.getValue());
                 props.put_DateTimePr(specProps);
@@ -429,7 +429,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             // for check box
             if (this.type == Asc.c_oAscContentControlSpecificType.CheckBox) {
                 if (this.checkedBox && this.checkedBox.changed || this.uncheckedBox && this.uncheckedBox.changed) {
-                    var specProps = new AscCommon.CSdtCheckBoxPr();
+                    var specProps = this.props.get_CheckBoxPr();
                     if (this.checkedBox) {
                         specProps.put_CheckedSymbol(this.checkedBox.code);
                         specProps.put_CheckedFont(this.checkedBox.font);
