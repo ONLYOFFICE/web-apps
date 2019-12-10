@@ -4,21 +4,23 @@
     .font-size-normal();
     font-weight: normal;
     position: relative;
+    min-height: 1em;
 
-    input[type=button] {
-        background-position: @checkbox-offset-x @checkbox-offset-y;
-        margin-left: -22px;
-        margin-right: 6px;
-        width: 14px;
-        height: 14px;
-        cursor: default;
-        vertical-align: top;
-        margin-top: -1px;
-        background: #fff;
-        border: 1px solid @gray;
+    input[type=checkbox] {
+        display: none;
 
-        &.checked {
-            + span {
+        + label {
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border: 1px solid @gray;
+            position: absolute;
+            left: 0;
+            margin-top: auto;
+        }
+
+        &:checked:not(:indeterminate) {
+            + label {
                 &::before {
                     content: '';
                     position: absolute;
@@ -27,14 +29,14 @@
                     transform: rotate(45deg);
                     width: 6px;
                     height: 10px;
-                    left: 4px;
+                    left: 3px;
                     top: -1px;
                 }
             }
         }
 
-        &.indeterminate {
-            + span {
+        &:indeterminate {
+            + label {
                 &::before {
                     content: '';
                     position: absolute;
@@ -42,16 +44,17 @@
                     background: @gray-soft;
                     width: 8px;
                     height: 8px;
-                    left: 3px;
+                    left: 2px;
                     top: 2px;
                 }
             }
         }
 
-        &.disabled {
+        &.disabled,
+        &:disabled {
             opacity: .4;
 
-            + span {
+            + label {
                 &::before {
                     opacity: .4;
                 }
