@@ -364,6 +364,9 @@ define([
             } else {
                 this._fromKeyDown = true;
             }
+
+            if (e.keyCode == Common.UI.Keys.ESC)
+                this.setRawValue(this.value);
             if (e.keyCode==Common.UI.Keys.RETURN || e.keyCode==Common.UI.Keys.ESC)
                 this.trigger('inputleave', this);
         },
