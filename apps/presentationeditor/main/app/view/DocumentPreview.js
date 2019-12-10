@@ -72,9 +72,9 @@ define([
                 '<div id="presentation-preview" style="width:100%; height:100%"></div>',
                 '<div id="preview-controls-panel" class="preview-controls" style="position: absolute; bottom: 0;">',
                     '<div class="preview-group" style="">',
-                        '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
-                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
-                        '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
+                        '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-previtem">&nbsp;</span></button>',
+                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-preview-play">&nbsp;</span></button>',
+                        '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-nextitem">&nbsp;</span></button>',
                     '<div class="separator"/>',
                     '</div>',
                     '<div class="preview-group dropup">',
@@ -86,9 +86,9 @@ define([
                     '</div>',
                     '<div class="preview-group" style="">',
                         '<div class="separator"/>',
-                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
+                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-preview-fullscreen">&nbsp;</span></button>',
                         '<div class="separator fullscreen"/>',
-                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><span class="icon">&nbsp;</span></button>',
+                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-close">&nbsp;</span></button>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -129,13 +129,15 @@ define([
             });
             this.btnPlay.on('click', _.bind(function(btn) {
                 var iconEl = $('.icon', this.btnPlay.cmpEl);
-                if (iconEl.hasClass('btn-pause')) {
-                    iconEl.removeClass('btn-pause');
+                if (iconEl.hasClass('btn-preview-pause')) {
+                    iconEl.removeClass('btn-preview-pause');
+                    iconEl.addClass('btn-preview-play');
                     this.btnPlay.updateHint(this.txtPlay);
                     if (this.api)
                         this.api.DemonstrationPause();
                 } else {
-                    iconEl.addClass('btn-pause');
+                    iconEl.addClass('btn-preview-pause');
+                    iconEl.removeClass('btn-preview-play');
                     this.btnPlay.updateHint(this.txtPause);
                     if (this.api)
                         this.api.DemonstrationPlay ();
@@ -232,7 +234,8 @@ define([
 
             $(document).on("webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange",function(){
                 var fselem = (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement );
-                me.btnFullScreen.cmpEl.toggleClass('fullscreen', fselem !== undefined && fselem !== null);
+                $('.icon', me.btnFullScreen.cmpEl).toggleClass('btn-preview-exit-fullscreen', fselem !== undefined && fselem !== null);
+                $('.icon', me.btnFullScreen.cmpEl).toggleClass('btn-preview-fullscreen', fselem == undefined || fselem == null);
 
                 setTimeout( function() {
                     me.previewControls.css('display', '');
@@ -242,7 +245,7 @@ define([
                 if (Common.Utils.isIE) { // for tooltips in IE
                     me.btnFullScreen.updateHint( fselem ? '' : me.txtFullScreen);
                     me.btnPrev.updateHint( fselem ? '' : me.txtPrev);
-                    me.btnPlay.updateHint( fselem ? '' : ($('.icon', me.btnPlay.cmpEl).hasClass('btn-pause') ? me.txtPause : me.txtPlay));
+                    me.btnPlay.updateHint( fselem ? '' : ($('.icon', me.btnPlay.cmpEl).hasClass('btn-preview-pause') ? me.txtPause : me.txtPlay));
                     me.btnNext.updateHint( fselem ? '' : me.txtNext);
                     me.btnClose.updateHint( fselem ? '' : me.txtClose);
                 } else
@@ -275,8 +278,9 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             var iconEl = $('.icon', this.btnPlay.cmpEl);
-            if (!iconEl.hasClass('btn-pause')) {
-                iconEl.addClass('btn-pause');
+            if (!iconEl.hasClass('btn-preview-pause')) {
+                iconEl.addClass('btn-preview-pause');
+                iconEl.removeClass('btn-preview-play');
                 this.btnPlay.updateHint(this.txtPause);
             }
 
@@ -367,7 +371,8 @@ define([
 
         onDemonstrationStatus: function(status) {
             var iconEl = $('.icon', this.btnPlay.cmpEl);
-            iconEl.toggleClass('btn-pause', status=="play");
+            iconEl.toggleClass('btn-preivew-pause', status=="play");
+            iconEl.toggleClass('btn-preivew-play', status!=="play");
             this.btnPlay.updateHint((status=="play") ? this.txtPause : this.txtPlay);
         },
 
