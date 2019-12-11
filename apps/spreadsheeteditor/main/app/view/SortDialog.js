@@ -220,23 +220,32 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.levels = [];
 
             var arr = [];
+            if (!levels && this.column_data.length==1) {
+                levels = [{
+                    columnIndex: this.column_data[0].value,
+                    sort: Asc.c_oAscSortOptions.ByValue,
+                    order: Asc.c_oAscSortOptions.Ascending
+                }];
+            }
             if (levels) {
                 for (var i=0; i<levels.length; i++) {
                     var level = levels[i],
-                        levelProps = this.props.asc_getLevelProps(level.asc_getIndex()),
+                        columnIndex = level.asc_getIndex ? level.asc_getIndex() : level.columnIndex,
+                        levelProps = this.props.asc_getLevelProps(columnIndex),
+                        levelSort = level.asc_getSortBy ? level.asc_getSortBy() : level.sort,
                         istext = levelProps ? levelProps.asc_getIsTextData() : true,
-                        iscolor = (level.asc_getSortBy() !== Asc.c_oAscSortOptions.ByValue);
+                        iscolor = (levelSort !== Asc.c_oAscSortOptions.ByValue);
                     arr.push({
-                        columnIndex: level.asc_getIndex(),
+                        columnIndex: columnIndex,
                         levelIndex: i,
-                        sort: level.asc_getSortBy(),
-                        order: level.asc_getDescending(),
-                        color: level.asc_getColor()
+                        sort: levelSort,
+                        order: level.asc_getDescending ? level.asc_getDescending() : level.order,
+                        color: level.asc_getColor ? level.asc_getColor() : undefined
                     });
                     if (iscolor) {
-                        var color_data = [{ value: -1, displayValue: (level.asc_getSortBy()==Asc.c_oAscSortOptions.ByColorFill) ? this.textNone : this.textAuto , color: null}];
+                        var color_data = [{ value: -1, displayValue: (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? this.textNone : this.textAuto , color: null}];
                         if (levelProps) {
-                            var levelColors = (level.asc_getSortBy()==Asc.c_oAscSortOptions.ByColorFill) ? levelProps.asc_getColorsFill() : levelProps.asc_getColorsFont();
+                            var levelColors = (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? levelProps.asc_getColorsFill() : levelProps.asc_getColorsFont();
                             levelColors.forEach(function(item, index) {
                                 item && color_data.push({
                                     value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
@@ -402,10 +411,24 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
         onAddLevel: function() {
             var store = this.sortList.store,
-                rec = this.sortList.getSelectedRec();
+                rec = this.sortList.getSelectedRec(),
+                columnIndex = (this.column_data.length==1) ? this.column_data[0].value : null,
+                levelIndex = this.levels.length;
+            if (columnIndex!==null) {
+                var levelProps = this.props.asc_getLevelProps(columnIndex),
+                    istext = levelProps ? levelProps.asc_getIsTextData() : true;
+                this.levels[levelIndex] = {
+                    levelProps: levelProps,
+                    order_data: [
+                        { value: Asc.c_oAscSortOptions.Ascending, displayValue: (istext ? this.textAZ : this.textAsc) },
+                        { value: Asc.c_oAscSortOptions.Descending, displayValue: (istext ? this.textZA : this.textDesc)}
+                    ]
+                };
+            }
+
             rec = store.add({
-                columnIndex: null,
-                levelIndex: this.levels.length,
+                columnIndex: columnIndex,
+                levelIndex: levelIndex,
                 sort: Asc.c_oAscSortOptions.ByValue,
                 order: Asc.c_oAscSortOptions.Ascending
             }, {at: rec ? store.indexOf(rec)+1 : store.length});
