@@ -131,6 +131,8 @@ define([
 
         setRawValue: function(value) {
             var value = (value === true || value === 'true' || value === '1' || value === 1 );
+            $('input[type=radio][name=' + this.name + ']').removeClass('checked');
+            this.$radio.toggleClass('checked', value);
             this.$radio.prop('checked', value);
         },
 
@@ -146,7 +148,7 @@ define([
         },
 
         getValue: function() {
-            return this.$radio.hasClass('checked');
+            return this.$radio.is(':checked');
         },
 
         setCaption: function(text) {
