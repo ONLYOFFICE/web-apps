@@ -4061,7 +4061,7 @@ define([
                 });
                 menu.on('item:click', function(menu, item) {
                     setTimeout(function(){
-                        me.api.asc_SelectContentControlListItem(item.value, me._listObj.get_InternalId());
+                        (item.value!==-1) && me.api.asc_SelectContentControlListItem(item.value, me._listObj.get_InternalId());
                     }, 1);
                 });
 
@@ -4085,6 +4085,12 @@ define([
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
                         value       : specProps.get_ItemValue(i)
+                    }));
+                }
+                if (count<1) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : this.txtEmpty,
+                        value       : -1
                     }));
                 }
             }
@@ -4339,7 +4345,8 @@ define([
         txtPrintSelection: 'Print Selection',
         textCells: 'Cells',
         textSeveral: 'Several Rows/Columns',
-        txtInsertCaption: 'Insert Caption'
+        txtInsertCaption: 'Insert Caption',
+        txtEmpty: '(Empty)'
 
     }, DE.Views.DocumentHolder || {}));
 });

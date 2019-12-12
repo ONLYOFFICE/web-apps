@@ -1377,6 +1377,7 @@
   "DE.Views.DocumentHolder.txtUngroup": "Ungroup",
   "DE.Views.DocumentHolder.updateStyleText": "Update %1 style",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
+  "DE.Views.DocumentHolder.txtEmpty": "(Empty)",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
   "DE.Views.DropcapSettingsAdvanced.strDropcap": "Drop Cap",
   "DE.Views.DropcapSettingsAdvanced.strMargins": "Margins",
