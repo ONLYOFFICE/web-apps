@@ -633,7 +633,7 @@ define([
 
                     me.btnSpecialPaste = new Common.UI.Button({
                         cls         : 'btn-toolbar',
-                        iconCls     : 'btn-paste',
+                        iconCls     : 'toolbar__icon btn-paste',
                         menu        : new Common.UI.Menu({items: []})
                     });
                     me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
@@ -2804,7 +2804,7 @@ define([
 
             var langTemplate = _.template([
                 '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
-                '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                 '<%= caption %>',
                 '</a>'
             ].join(''));
@@ -4003,11 +4003,9 @@ define([
                     firstday: 1
                 });
                 this.cmpCalendar.on('date:click', function (cmp, date) {
-                    var props = me._dateObj,
-                        specProps = props.get_DateTimePr(),
-                        id = props.get_InternalId();
+                    var specProps = me._dateObj.get_DateTimePr();
                     specProps.put_FullDate(new  Date(date));
-                    me.api.asc_SetContentControlProperties(props, id);
+                    me.api.asc_SetContentControlDatePickerDate(specProps);
                     controlsContainer.hide();
                     me.api.asc_UncheckContentControlButtons();
                     me.fireEvent('editcomplete', me);
@@ -4063,7 +4061,7 @@ define([
                 });
                 menu.on('item:click', function(menu, item) {
                     setTimeout(function(){
-                        me.api.asc_SelectContentControlListItem(item.value, me._listObj.get_InternalId());
+                        (item.value!==-1) && me.api.asc_SelectContentControlListItem(item.value, me._listObj.get_InternalId());
                     }, 1);
                 });
 
@@ -4087,6 +4085,12 @@ define([
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
                         value       : specProps.get_ItemValue(i)
+                    }));
+                }
+                if (count<1) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : this.txtEmpty,
+                        value       : -1
                     }));
                 }
             }
@@ -4341,7 +4345,8 @@ define([
         txtPrintSelection: 'Print Selection',
         textCells: 'Cells',
         textSeveral: 'Several Rows/Columns',
-        txtInsertCaption: 'Insert Caption'
+        txtInsertCaption: 'Insert Caption',
+        txtEmpty: '(Empty)'
 
     }, DE.Views.DocumentHolder || {}));
 });

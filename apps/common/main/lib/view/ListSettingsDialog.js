@@ -248,7 +248,9 @@ define([
         _setDefaults: function (props) {
             if (props) {
                 this.spnSize.setValue(props.asc_getBulletSize() || '', true);
-                this.spnStart.setValue(props.get_NumStartAt() || '', true);
+                var value = props.get_NumStartAt();
+                this.spnStart.setValue(value || '', true);
+                this.spnStart.setDisabled(value===null);
                 var color = props.asc_getBulletColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {

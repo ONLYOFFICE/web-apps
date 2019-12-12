@@ -38,7 +38,8 @@ Common.Locale = new(function() {
     "use strict";
     var l10n = null;
     var loadcallback,
-        apply = false;
+        apply = false,
+        currentLang = 'en';
 
     var _applyLocalization = function(callback) {
         try {
@@ -78,6 +79,10 @@ Common.Locale = new(function() {
         return res || (scope ? eval(scope.name).prototype[prop] : '');
     };
 
+    var _getCurrentLanguage = function() {
+        return (currentLang || 'en');
+    };
+
     var _getUrlParameterByName = function(name) {
         name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -87,9 +92,11 @@ Common.Locale = new(function() {
 
     var _requireLang = function () {
         var lang = (_getUrlParameterByName('lang') || 'en').split(/[\-_]/)[0];
+        currentLang = lang;
         fetch('locale/' + lang + '.json')
             .then(function(response) {
                 if (!response.ok) {
+                    currentLang = 'en';
                     if (lang != 'en')
                         /* load default lang if fetch failed */
                         return fetch('locale/en.json');
@@ -130,7 +137,8 @@ Common.Locale = new(function() {
 
     return {
         apply: _applyLocalization,
-        get: _get
+        get: _get,
+        getCurrentLanguage: _getCurrentLanguage
     };
     
 })();

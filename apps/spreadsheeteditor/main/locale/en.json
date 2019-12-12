@@ -1632,6 +1632,10 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtPt": "Point",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtRu": "Russian",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWin": "as Windows",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strSeparator": "Separator",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strUseSeparatorsBasedOnRegionalSettings": "Use separators based on regional settings",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strDecimalSeparator": "Decimal separator",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strThousandsSeparator": "Thousands separator",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.strIgnoreWordsInUPPERCASE": "Ignore words in UPPERCASE",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.strIgnoreWordsWithNumbers": "Ignore words with numbers",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.strDictionaryLanguage": "Dictionary language",
@@ -2173,7 +2177,7 @@
   "SSE.Views.SortDialog.textLeft": "Left",
   "SSE.Views.SortDialog.textRight": "Right",
   "SSE.Views.SortDialog.errorEmpty": "All sort criteria must have a column or row specified.",
-  "SSE.Views.SortDialog.textAuto": "Automatic",
+  "SSE.Views.SortDialog.textAuto": "Auto",
   "SSE.Views.SortDialog.textNone": "None",
   "SSE.Views.SortDialog.errorNotOriginalCol": "The column you selected is not in the original selected range.",
   "SSE.Views.SortDialog.errorNotOriginalRow": "The row you selected is not in the original selected range.",
@@ -2184,6 +2188,8 @@
   "SSE.Views.SortDialog.textMoreCols": "(More columns...)",
   "SSE.Views.SortDialog.errorSameColumnValue": "%1 is being sorted by values more than once.<br>Delete the duplicate sort criteria and try again.",
   "SSE.Views.SortDialog.errorSameColumnColor": "%1 is being sorted by the same color more than once.<br>Delete the duplicate sort criteria and try again.",
+  "SSE.Views.SortDialog.textSortBy": "Sort by",
+  "SSE.Views.SortDialog.textThenBy": "Then by",
   "SSE.Views.SortOptionsDialog.textTitle": "Sort Options",
   "SSE.Views.SortOptionsDialog.textHeaders": "My data has headers",
   "SSE.Views.SortOptionsDialog.textCase": "Case sensitive",
@@ -2546,18 +2552,7 @@
   "SSE.Views.Top10FilterDialog.txtItems": "Item",
   "SSE.Views.Top10FilterDialog.txtPercent": "Percent",
   "SSE.Views.Top10FilterDialog.txtTitle": "Top 10 AutoFilter",
-<<<<<<< HEAD
   "SSE.Views.Top10FilterDialog.txtTop": "Top",
-  "SSE.Views.ScaleDialog.textTitle": "Scale Settings",
-  "SSE.Views.ScaleDialog.textWidth": "Width",
-  "SSE.Views.ScaleDialog.textHeight": "Height",
-  "SSE.Views.ScaleDialog.textAuto": "Auto",
-  "SSE.Views.ScaleDialog.textOnePage": "page",
-  "SSE.Views.ScaleDialog.textFewPages": "pages",
-  "SSE.Views.ScaleDialog.textManyPages": "pages",
-  "SSE.Views.ScaleDialog.textError": "The entered value is incorrect.",
-  "SSE.Views.ScaleDialog.textScaleTo": "Scale To",
-  "SSE.Views.ScaleDialog.textFitTo": "Fit To",
   "SSE.Views.ValueFieldSettingsDialog.textTitle": "Value Field Settings",
   "SSE.Views.ValueFieldSettingsDialog.txtSourceName": "Source name:",
   "SSE.Views.ValueFieldSettingsDialog.txtCustomName": "Custom name",
@@ -2586,7 +2581,4 @@
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfTotal": "Percent of Row",
   "SSE.Views.ValueFieldSettingsDialog.txtIndex": "Index",
   "SSE.Views.ValueFieldSettingsDialog.txtByField": "by field"
-=======
-  "SSE.Views.Top10FilterDialog.txtTop": "Top"
->>>>>>> develop
 }

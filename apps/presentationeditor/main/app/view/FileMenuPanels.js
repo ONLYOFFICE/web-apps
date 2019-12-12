@@ -827,7 +827,7 @@ define([
             if (this.coreProps) {
                 var value = this.coreProps.asc_getCreated();
                 if (value)
-                    this.lblDate.text(value.toLocaleString());
+                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
         },
@@ -853,7 +853,7 @@ define([
                 var visible = false;
                 value = props.asc_getModified();
                 if (value)
-                    this.lblModifyDate.text(value.toLocaleString());
+                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
