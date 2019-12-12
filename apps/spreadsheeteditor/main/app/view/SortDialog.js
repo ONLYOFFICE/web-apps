@@ -256,15 +256,19 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         color: level.asc_getColor ? level.asc_getColor() : undefined
                     });
                     if (iscolor) {
-                        var color_data = [{ value: -1, displayValue: (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? this.textNone : this.textAuto , color: null}];
+                        var color_data = [];
+                        var me = this;
                         if (levelProps) {
                             var levelColors = (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? levelProps.asc_getColorsFill() : levelProps.asc_getColorsFont();
                             levelColors.forEach(function(item, index) {
-                                item && color_data.push({
-                                    value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                    displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                    color: item
-                                });
+                                if (item)
+                                    color_data.push({
+                                        value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                        displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                        color: item
+                                    });
+                                else
+                                    color_data.unshift({ value: -1, displayValue: (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto , color: null});
                             });
                         }
                     }
@@ -325,7 +329,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     } else {
                         item.set('columnIndex', record.value);
                         level.levelProps = me.props.asc_getLevelProps(record.value);
-                        me.updateOrderList(i, item);
+                        me.updateOrderList(i, item, true);
                     }
                 });
             var val = item.get('columnIndex');
@@ -354,7 +358,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     menuCls     : 'menu-absolute',
                     cls         : 'no-highlighted',
                     menuStyle   : 'max-height: 135px;',
-                    data        : level.color_data
+                    data        : level.color_data,
+                    disabled    : !level.color_data || level.color_data.length<1
                 }).on('selected', function(combo, record) {
                     item.set('color', record.color);
                 });
@@ -396,9 +401,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         me.props.asc_setHasHeaders(settings.headers);
                         // me.props.asc_setCaseSensitive(settings.sensitive);
                         me.props.asc_setColumnSort(settings.sortcol);
-                        me.props.asc_updateSortList(me.sortOptions.sortcol == settings.sortcol);
+                        var saveOrient = (me.sortOptions.sortcol == settings.sortcol);
+                        me.props.asc_updateSortList(saveOrient);
                         me.sortOptions = settings;
-                        me.updateSortValues();
+                        me.updateSortValues(saveOrient);
                     }
                 }
             });
@@ -417,18 +423,19 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.column_data.push({ value: -1, displayValue: this.sortOptions.sortcol ? this.textMoreCols : this.textMoreRows });
         },
 
-        updateSortValues: function() {
+        updateSortValues: function(saveOrient) {
             this.fillSortValues();
             var me = this;
             this.sortList.store.each(function(item) {
-                var columnIndex = (item.get('sort')==Asc.c_oAscSortOptions.ByValue) ? null : 0,
+                var columnIndex = saveOrient ? item.get('columnIndex') : 0,
                     levelIndex = item.get('levelIndex');
-                item.set('columnIndex', columnIndex, {silent: true} );
-                item.set('order', Asc.c_oAscSortOptions.Ascending, {silent: true} );
-                item.set('color', null, {silent: true} );
+                if (!saveOrient) {
+                    item.set('columnIndex', columnIndex, {silent: true} );
+                    item.set('color', null, {silent: true} );
+                }
                 me.levels[levelIndex].levelProps = (columnIndex!==null) ? me.props.asc_getLevelProps(columnIndex) : undefined;
                 me.addControls(null, null, item);
-                me.updateOrderList(levelIndex, item);
+                me.updateOrderList(levelIndex, item, true);
             });
         },
 
@@ -519,7 +526,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.updateMoveButtons();
         },
 
-        updateOrderList: function(levelIndex, storeItem) {
+        updateOrderList: function(levelIndex, storeItem, saveColor) {
             var level = this.levels[levelIndex],
                 istext = level.levelProps ? level.levelProps.asc_getIsTextData() : true,
                 iscolor = (level.cmbSort.getValue() !== Asc.c_oAscSortOptions.ByValue),
@@ -532,22 +539,31 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             level.cmbOrder.setValue(order);
 
             if (iscolor) {
-                level.color_data = [{ value: -1, displayValue: (level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? this.textNone : this.textAuto , color: null}];
+                level.color_data = [];
+                var color = storeItem ? storeItem.get('color') : null,
+                    colorValue = color ? Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toLocaleUpperCase() : -1,
+                    current;
+
                 if (level.levelProps) {
+                    var me = this;
                     var levelColors = (level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? level.levelProps.asc_getColorsFill() : level.levelProps.asc_getColorsFont();
                     levelColors.forEach(function(item, index) {
-                        item && level.color_data.push({
-                                    value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                    displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                    color: item
-                                });
+                        var value = item ? Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase() : -1,
+                            color_data = {
+                                value: value,
+                                displayValue: item ? value : ((level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto),
+                                color: item
+                            };
+                        item ? level.color_data.push(color_data) : level.color_data.unshift(color_data);
+                        if (colorValue == color_data.value)
+                            current = colorValue;
                     });
                 }
                 level.cmbColor.setData(level.color_data);
                 level.cmbColor.setDisabled(level.color_data.length<1);
-                (level.color_data.length>0) && level.cmbColor.setValue(level.color_data[0].value);
-
-                storeItem && storeItem.set('color', null);
+                (level.color_data.length>0) && level.cmbColor.setValue(current && saveColor ? current : level.color_data[0].value);
+                var rec = level.cmbColor.getSelectedRecord();
+                rec && storeItem && storeItem.set('color', rec.color);
             }
         },
 
@@ -672,7 +688,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                             combo.setValue(index);
                             item.set('columnIndex', index);
                             me.levels[item.get('levelIndex')].levelProps = me.props.asc_getLevelProps(index);
-                            me.updateOrderList(item.get('levelIndex'), item);
+                            me.updateOrderList(item.get('levelIndex'), item, true);
                             return false;
                         } else if (isvalid == Asc.c_oAscError.ID.CustomSortMoreOneSelectedError)
                             Common.UI.warning({msg: me.sortOptions.sortcol ? me.errorMoreOneCol: me.errorMoreOneRow});
