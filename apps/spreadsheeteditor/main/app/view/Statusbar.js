@@ -200,6 +200,12 @@ define([
                             me.fireEvent('sheet:move', [undefined, false, true, tabIndex, index]);
                         }
 
+                    }, this),
+                    'tab:drag'          : _.bind(function (selectTabs) {
+
+                    }, this),
+                    'tab:drop'          : _.bind(function (selectTabs) {
+
                     }, this)
                 });
 

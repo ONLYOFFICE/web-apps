@@ -144,6 +144,7 @@ define([
                             }
 
                             me.drag  = undefined;
+                            me.bar.trigger('tab:drop', this);
                         }
                     }
                     function dragMove (event) {
@@ -187,6 +188,7 @@ define([
                             $(document).off('mouseup.tabbar');
                             $(document).off('mousemove.tabbar', dragMove);
                         });
+                        this.bar.trigger('tab:drag', this.bar.selectTabs);
                     }
                 }
             }
