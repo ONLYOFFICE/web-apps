@@ -213,6 +213,7 @@ define([
             },
 
             showStyle: function () {
+                var me = this;
                 var selector = '#edit-chart-style';
                 this.showPage(selector, true);
 

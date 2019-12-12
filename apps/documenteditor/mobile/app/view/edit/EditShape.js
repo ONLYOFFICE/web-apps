@@ -194,6 +194,7 @@ define([
             },
 
             showBorderColor: function () {
+                var me = this;
                 var selector = '#edit-shape-border-color-view';
                 this.showPage(selector, true);
 

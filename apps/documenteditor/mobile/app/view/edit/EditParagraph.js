@@ -144,6 +144,7 @@ define([
             },
 
             showColors: function () {
+                var me = this;
                 this.showPage('#edit-paragraph-color', true);
 
                 this.paletteBackgroundColor = new Common.UI.ThemeColorPalette({

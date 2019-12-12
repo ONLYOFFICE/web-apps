@@ -220,6 +220,7 @@ define([
             },
 
             showBorderColor: function () {
+                var me = this;
                 this.showPage('#edit-table-border-color-view', true);
 
                 this.paletteBorderColor = new Common.UI.ThemeColorPalette({

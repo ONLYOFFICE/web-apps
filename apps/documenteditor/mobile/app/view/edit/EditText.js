@@ -195,6 +195,7 @@ define([
             },
 
             showFontColor: function () {
+                var me = this;
                 this.showPage('#edit-text-color', true);
 
                 this.paletteTextColor = new Common.UI.ThemeColorPalette({
@@ -241,6 +242,7 @@ define([
             },
 
             showBackgroundColor: function () {
+                var me = this;
                 this.showPage('#edit-text-background', true);
 
                 this.paletteBackgroundColor = new Common.UI.ThemeColorPalette({
