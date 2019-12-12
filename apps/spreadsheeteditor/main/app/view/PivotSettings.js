@@ -107,19 +107,19 @@ define([
                 itemTemplate: _.template([
                     '<div>',
                     '<label class="checkbox-indeterminate" style="position:absolute;">',
-                    '<% if (check) { %>',
-                    '<input type="button" class="checked button__checkbox"/>',
-                    '<% } else { %>',
-                    '<input type="button" class="button__checkbox"/>',
-                    '<% } %>',
-                    '<span class="checkmark"/>',
+                        '<input id="pvcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
+                        '<label for="pvcheckbox-<%= id %>" class="checkbox__shape" />',
                     '</label>',
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;"><span style="background-color: transparent;"><%= Common.Utils.String.htmlEncode(value) %></span></div>',
                     '<div class="listitem-icon img-commonctrl"></div>',
                     '</div>'
                 ].join(''))
             });
-            this.fieldsList.on('item:click', _.bind(this.onFieldsCheck, this));
+            this.fieldsList.on({
+                'item:change': this.onItemChanged.bind(this),
+                'item:add': this.onItemChanged.bind(this),
+                'item:click': this.onFieldsCheck.bind(this)
+            });
             this.fieldsList.$el.on('dragenter', _.bind(this.onDragEnter, this));
             this.fieldsList.$el.on('dragover', _.bind(this.onDragOver, this, this.fieldsList));
             this.fieldsList.$el.on('dragleave', _.bind(this.onDragLeave, this, this.fieldsList));
@@ -546,7 +546,7 @@ define([
             // if (this.checkCellTrigerBlock)
             //     return;
 
-            var target = '', type = '', isLabel = false, bound = null;
+            var target = '', isLabel = false, bound = null;
 
             var event = window.event ? window.event : window._event;
             if (event) {
@@ -632,7 +632,6 @@ define([
                     return;
                 }
 
-                type = event.target.type;
                 target = $(event.currentTarget).find('.list-item');
 
                 if (target.length) {
@@ -645,7 +644,7 @@ define([
                     }
                 }
 
-                if (type === 'button' || isLabel || event.target.className.match('checkmark')) {
+                if (isLabel || event.target.className.match('checkbox')) {
                     this.updateFieldCheck(listView, record);
 
                     _.delay(function () {
@@ -657,7 +656,7 @@ define([
 
         updateFieldCheck: function (listView, record) {
             if (record && listView) {
-                listView.isSuspendEvents = true;
+                // listView.isSuspendEvents = true;
 
                 record.set('check', !record.get('check'));
                 if (this.api && !this._locked){
@@ -668,7 +667,7 @@ define([
                     }
                 }
 
-                listView.isSuspendEvents = false;
+                // listView.isSuspendEvents = false;
                 listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
@@ -967,6 +966,13 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
+        },
+
+        onItemChanged: function (view, record) {
+            var state = record.model.get('check');
+            if ( state == 'indeterminate' )
+                $('input[type=checkbox]', record.$el).prop('indeterminate', true);
+            else $('input[type=checkbox]', record.$el).prop({checked: state, indeterminate: false});
         },
 
         textFields:             'Select Fields',
