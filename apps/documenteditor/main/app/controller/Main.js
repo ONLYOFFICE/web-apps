@@ -135,7 +135,8 @@ define([
                     "Hyperlink": this.txtHyperlink,
                     "Error! Main Document Only.": this.txtMainDocOnly,
                     "Error! Not a valid bookmark self-reference.": this.txtNotValidBookmark,
-                    "Error! No text of specified style in document.": this.txtNoText
+                    "Error! No text of specified style in document.": this.txtNoText,
+                    "Choose an item.": this.txtChoose
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2509,7 +2510,8 @@ define([
             uploadDocSizeMessage: 'Maximum document size limit exceeded.',
             uploadDocExtMessage: 'Unknown document format.',
             uploadDocFileCountMessage: 'No documents uploaded.',
-            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+            txtChoose: 'Choose an item.'
         }
     })(), DE.Controllers.Main || {}))
 });
