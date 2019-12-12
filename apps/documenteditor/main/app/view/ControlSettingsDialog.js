@@ -412,6 +412,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             // for list controls
             if (this.type == Asc.c_oAscContentControlSpecificType.ComboBox || this.type == Asc.c_oAscContentControlSpecificType.DropDownList) {
                 var specProps = (this.type == Asc.c_oAscContentControlSpecificType.ComboBox) ? this.props.get_ComboBoxPr() : this.props.get_DropDownListPr();
+                specProps.clear();
                 this.list.store.each(function (item, index) {
                     specProps.add_Item(item.get('name'), item.get('value'));
                 });
