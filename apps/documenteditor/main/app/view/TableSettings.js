@@ -697,7 +697,7 @@ define([
                     cls         : 'btn-large-dataview template-table',
                     iconCls     : 'icon-template-table',
                     menu        : new Common.UI.Menu({
-                        style: 'width: 575px;height: 478px;',
+                        style: 'width: 575px;',
                         items: [
                             { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                         ]
@@ -707,10 +707,11 @@ define([
                     self.mnuTableTemplatePicker = new Common.UI.DataView({
                         el: $('#id-table-menu-template'),
                         parentMenu: btn.menu,
-                        restoreHeight: 421,
+                        restoreHeight: 350,
                         groups: new Common.UI.DataViewGroupStore(),
                         store: new Common.UI.DataViewStore(),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="50" width="70"></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="50" width="70"></div>'),
+                        style: 'max-height: 350px;'
                     });
                 });
                 this.btnTableTemplate.render($('#table-btn-template'));
