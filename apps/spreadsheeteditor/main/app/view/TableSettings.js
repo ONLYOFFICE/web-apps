@@ -408,7 +408,7 @@ define([
                     this.mnuTableTemplatePicker.selectRecord(rec, true);
                     this.btnTableTemplate.resumeEvents();
 
-                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '71px', 'background-position': 'center'});
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '48px', 'width': '63px', 'background-position': 'center'});
 
                     this._state.TemplateName=value;
                 }
@@ -430,10 +430,10 @@ define([
 
             if (!this.btnTableTemplate) {
                 this.btnTableTemplate = new Common.UI.Button({
-                    cls         : 'btn-large-dataview template-table',
+                    cls         : 'btn-large-dataview sheet-template-table',
                     iconCls     : 'icon-template-table',
                     menu        : new Common.UI.Menu({
-                        style: 'width: 575px;',
+                        style: 'width: 512px;',
                         items: [
                             { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                         ]
@@ -443,11 +443,11 @@ define([
                     self.mnuTableTemplatePicker = new Common.UI.DataView({
                         el: $('#id-table-menu-template'),
                         parentMenu: btn.menu,
-                        restoreHeight: 350,
+                        restoreHeight: 325,
                         groups: new Common.UI.DataViewGroupStore(),
                         store: new Common.UI.DataViewStore(),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="50" width="70"></div>'),
-                        style: 'max-height: 350px;'
+                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="46" width="61"></div>'),
+                        style: 'max-height: 325px;'
                     });
                 });
                 this.btnTableTemplate.render($('#table-btn-template'));
