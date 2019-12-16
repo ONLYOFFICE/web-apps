@@ -725,10 +725,11 @@ define([
                     var me = this,
                         value;
 
-                    // var value = Common.localStorage.getItem('pe-settings-unit');
-                    // value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
-                    // Common.Utils.Metric.setCurrentMetric(value);
-                    // me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+                    value = Common.localStorage.getItem('pe-mobile-settings-unit');
+                    value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.units ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.units.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+                    (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
+                    Common.Utils.Metric.setCurrentMetric(value);
+                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     // value = Common.localStorage.getItem('pe-hidden-rulers');
                     // if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(value===null || parseInt(value) === 0);
