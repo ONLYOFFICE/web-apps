@@ -272,8 +272,7 @@ define([
                 var me = this,
                     $unitMeasurement = $('.page[data-page=settings-application-view] input:radio[name=unit-of-measurement]');
                 $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
-                var value = Common.localStorage.getItem('pe-mobile-settings-unit');
-                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                var value = Common.Utils.Metric.getCurrentMetric();
                 $unitMeasurement.val([value]);
             },
 

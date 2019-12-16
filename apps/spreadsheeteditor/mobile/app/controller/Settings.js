@@ -371,10 +371,6 @@ define([
                 this.changeCurrentPageSize(opt.asc_getWidth(), opt.asc_getHeight());
                 $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
 
-                var valueUnit = Common.localStorage.getItem('se-mobile-settings-unit');
-                valueUnit = (valueUnit!==null) ? parseInt(valueUnit) : Common.Utils.Metric.getDefaultMetric();
-                Common.Utils.Metric.setCurrentMetric(valueUnit);
-
                 var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
                     sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
                     sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
@@ -570,8 +566,7 @@ define([
                 var me = this,
                     $unitMeasurement = $('.page[data-page=settings-application-view] input:radio[name=unit-of-measurement]');
                 $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
-                var value = Common.localStorage.getItem('se-mobile-settings-unit');
-                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                var value = Common.Utils.Metric.getCurrentMetric();
                 $unitMeasurement.val([value]);
 
                 //init formula language
