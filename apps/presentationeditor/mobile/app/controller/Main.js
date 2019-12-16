@@ -726,7 +726,7 @@ define([
                         value;
 
                     value = Common.localStorage.getItem('pe-mobile-settings-unit');
-                    value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.units ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.units.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+                    value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
                     (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
                     Common.Utils.Metric.setCurrentMetric(value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));

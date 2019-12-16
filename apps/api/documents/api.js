@@ -132,7 +132,7 @@
                     reviewDisplay: 'original',
                     spellcheck: true,
                     compatibleFeatures: false,
-                    units: 'cm' // cm, pt, inch
+                    unit: 'cm' // cm, pt, inch
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],

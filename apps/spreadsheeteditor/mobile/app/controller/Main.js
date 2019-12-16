@@ -753,7 +753,7 @@ define([
                     var me = this;
 
                     var value = Common.localStorage.getItem('se-mobile-settings-unit');
-                    value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.units ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.units.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+                    value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
                     (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
                     Common.Utils.Metric.setCurrentMetric(value);
 
