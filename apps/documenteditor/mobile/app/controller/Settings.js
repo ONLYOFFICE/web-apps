@@ -355,20 +355,21 @@ define([
             onSendThemeColorSchemes: function (schemas) {
                 templateInsert = "";
                 _.each(schemas, function (schema, index) {
-                    var colors = schema.get_colors();//schema.colors;
-                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    var colors = schema.get_colors(), //schema.colors;
+                        name = schema.get_name();
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + name + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
                     for (var j = 2; j < 7; j++) {
                         var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
                         templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
                     }
-                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                    templateInsert =  templateInsert + "</span><span class='text'>" + name + "</span></div></div></a>";
                 }, this);
             },
 
             onColorSchemaClick: function(event) {
                 if (this.api) {
-                    var ind = $(event.currentTarget).children('input').val();
-                    this.api.ChangeColorScheme(ind);
+                    var name = $(event.currentTarget).children('input').val();
+                    this.api.ChangeColorScheme(name);
                 }
             },
 
