@@ -601,6 +601,9 @@ define([
 
                 this.$window = $('#' + this.initConfig.id);
 
+                if (Common.Locale.getCurrentLanguage() !== 'en')
+                    this.$window.attr('applang', Common.Locale.getCurrentLanguage());
+
                 this.binding.keydown = _.bind(_keydown,this);
                // $(document).on('keydown', this.binding.keydown);
 

@@ -204,6 +204,7 @@ define([
             });
             this.lockedControls.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
+            this.numGradientAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
 
             /*this._arrGradType = [
                 {displayValue: this.textLinear, value: Asc.c_oAscFillGradType.GRAD_LINEAR},
@@ -438,6 +439,7 @@ define([
             });
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
+            this.spnAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
         },
 
         createDelayedElements: function() {
@@ -1068,7 +1070,7 @@ define([
                 var arrGradStop = [];
                 this.GradColor.values.forEach(function (item, index) {
                     var gradientStop = new Asc.asc_CGradientStop();
-                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(me.GradColor.colors[index]));
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index])));
                     gradientStop.asc_setPosition(me.GradColor.values[index]/100);
                     arrGradStop.push(gradientStop);
                 });
@@ -1124,7 +1126,7 @@ define([
                 var arrGradStop = [];
                 this.GradColor.colors.forEach(function (item, index) {
                     var gradientStop = new Asc.asc_CGradientStop();
-                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(me.GradColor.colors[index]));
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index])));
                     gradientStop.asc_setPosition(me.GradColor.values[index]/100);
                     arrGradStop.push(gradientStop);
                 });

@@ -90,7 +90,8 @@ define([
             _regDataCode = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
             { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
             { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }],
-            _regdata = [];
+            _regdata = [],
+            _lang;
 
 
         var mm2Cm = function(mm) {
@@ -151,6 +152,7 @@ define([
                 this.getView('Settings').setMode(mode);
                 if (mode.canBranding)
                     _licInfo = mode.customization;
+                _lang = mode.lang;
             },
 
             initEvents: function () {
@@ -291,11 +293,11 @@ define([
                     value = props.asc_getDescription();
                     value ? $('#settings-sse-comment').html(value) : $('.display-comment').remove();
                     value = props.asc_getModified();
-                    value ? $('#settings-sse-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                    value ? $('#settings-sse-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
                     value = props.asc_getLastModifiedBy();
                     value ? $('#settings-sse-mod-by').html(value) : $('.display-mode-by').remove();
                     value = props.asc_getCreated();
-                    value ? $('#settings-sse-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                    value ? $('#settings-sse-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
                     value = props.asc_getCreator();
                     var templateCreator = "";
                     value && value.split(/\s*[,;]\s*/).forEach(function(item) {
@@ -368,10 +370,6 @@ define([
                 var $pageSize = $('#settings-spreadsheet-format');
                 this.changeCurrentPageSize(opt.asc_getWidth(), opt.asc_getHeight());
                 $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
-
-                var valueUnit = Common.localStorage.getItem('se-mobile-settings-unit');
-                valueUnit = (valueUnit!==null) ? parseInt(valueUnit) : Common.Utils.Metric.getDefaultMetric();
-                Common.Utils.Metric.setCurrentMetric(valueUnit);
 
                 var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
                     sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
@@ -509,20 +507,21 @@ define([
             onSendThemeColorSchemes: function (schemas) {
                 templateInsert = "";
                 _.each(schemas, function (schema, index) {
-                    var colors = schema.get_colors();//schema.colors;
-                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    var colors = schema.get_colors(),//schema.colors;
+                        name = schema.get_name();
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + name + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
                     for (var j = 2; j < 7; j++) {
                         var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
                         templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
                     }
-                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                    templateInsert =  templateInsert + "</span><span class='text'>" + name + "</span></div></div></a>";
                 }, this);
             },
 
             onColorSchemaClick: function(event) {
                 if (this.api) {
-                    var ind = $(event.currentTarget).children('input').val();
-                    this.api.asc_ChangeColorScheme(ind);
+                    var name = $(event.currentTarget).children('input').val();
+                    this.api.asc_ChangeColorScheme(name);
                 }
             },
 
@@ -567,8 +566,7 @@ define([
                 var me = this,
                     $unitMeasurement = $('.page[data-page=settings-application-view] input:radio[name=unit-of-measurement]');
                 $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
-                var value = Common.localStorage.getItem('se-mobile-settings-unit');
-                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                var value = Common.Utils.Metric.getCurrentMetric();
                 $unitMeasurement.val([value]);
 
                 //init formula language

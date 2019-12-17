@@ -355,6 +355,7 @@ define([
                     return false;
                 }
                 else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
+                    this._input.val(this.lastValue);
                     this.closeMenu();
                     this.onAfterHideMenu(e);
                     return false;
@@ -420,6 +421,7 @@ define([
                 var me = this;
 
                 if (e.keyCode == Common.UI.Keys.ESC){
+                    this._input.val(this.lastValue);
                     this.closeMenu();
                     this.onAfterHideMenu(e);
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {

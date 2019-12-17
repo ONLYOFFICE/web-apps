@@ -736,7 +736,7 @@ define([
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.multiselect, _set.cantModifyFilter],
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 288px; height: 300px; margin: 0px 4px;"></div>') }
+                            { template: _.template('<div id="id-toolbar-menu-table-templates" style="width: 494px; height: 300px; margin: 0px 4px;"></div>') }
                         ]
                     })
                 });
@@ -1780,7 +1780,7 @@ define([
                             id          : 'id-toolbar-mnu-item-border-color',
                             caption     : this.textBordersColor,
                             iconCls     : 'mnu-icon-item mnu-border-color',
-                            template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 11px; height: 11px; margin: 2px 7px 0 -9px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
+                            template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items       : [

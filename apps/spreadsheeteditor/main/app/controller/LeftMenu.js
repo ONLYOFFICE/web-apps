@@ -387,8 +387,17 @@ define([
                 this.api.asc_setAutoSaveGap(value);
             }
 
-            value = Common.localStorage.getItem("sse-settings-reg-settings");
-            if (value!==null) this.api.asc_setLocale(parseInt(value));
+            var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
+                baseRegSettings = Common.Utils.InternalSettings.get("sse-settings-use-base-separator");
+            if (reg === null) {
+                reg = this.api.asc_getLocale();
+            }
+            if (baseRegSettings) {
+                this.api.asc_setLocale(parseInt(reg), undefined, undefined);
+            }
+            else {
+                this.api.asc_setLocale(parseInt(reg), Common.localStorage.getItem("sse-settings-decimal-separator"), Common.localStorage.getItem("sse-settings-group-separator"));
+            }
 
             menu.hide();
 

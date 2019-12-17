@@ -86,7 +86,8 @@ define([
             _fileKey,
             templateInsert,
             _metricText = Common.Utils.Metric.getCurrentMetricName(),
-            _isEdit;
+            _isEdit,
+            _lang;
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -149,6 +150,7 @@ define([
                 _isReviewOnly = mode.isReviewOnly;
                 _fileKey = mode.fileKey;
                 _isEdit = mode.isEdit;
+                _lang = mode.lang;
             },
 
             initEvents: function () {
@@ -353,20 +355,21 @@ define([
             onSendThemeColorSchemes: function (schemas) {
                 templateInsert = "";
                 _.each(schemas, function (schema, index) {
-                    var colors = schema.get_colors();//schema.colors;
-                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    var colors = schema.get_colors(), //schema.colors;
+                        name = schema.get_name();
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + name + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
                     for (var j = 2; j < 7; j++) {
                         var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
                         templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
                     }
-                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
+                    templateInsert =  templateInsert + "</span><span class='text'>" + name + "</span></div></div></a>";
                 }, this);
             },
 
             onColorSchemaClick: function(event) {
                 if (this.api) {
-                    var ind = $(event.currentTarget).children('input').val();
-                    this.api.ChangeColorScheme(ind);
+                    var name = $(event.currentTarget).children('input').val();
+                    this.api.ChangeColorScheme(name);
                 }
             },
 
@@ -374,8 +377,7 @@ define([
                 var me = this,
                     $unitMeasurement = $('.page[data-page=settings-advanced-view] input:radio[name=unit-of-measurement]');
                 $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
-                var value = Common.localStorage.getItem('de-mobile-settings-unit');
-                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                var value = Common.Utils.Metric.getCurrentMetric();
                 $unitMeasurement.val([value]);
                 var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
                 if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
@@ -436,11 +438,11 @@ define([
                         value = props.asc_getDescription();
                         value ? $('#settings-doc-comment').html(value) : $('.display-comment').remove();
                         value = props.asc_getModified();
-                        value ? $('#settings-doc-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                        value ? $('#settings-doc-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
                         value = props.asc_getLastModifiedBy();
                         value ? $('#settings-doc-mod-by').html(value) : $('.display-mode-by').remove();
                         value = props.asc_getCreated();
-                        value ? $('#settings-doc-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                        value ? $('#settings-doc-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
                         value = props.asc_getCreator();
                         var templateCreator = "";
                         value && value.split(/\s*[,;]\s*/).forEach(function(item) {
@@ -640,7 +642,6 @@ define([
                 Common.Utils.Metric.setCurrentMetric(value);
                 Common.localStorage.setItem("de-mobile-settings-unit", value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
-
             },
 
             onPageMarginsChange: function (align, e) {

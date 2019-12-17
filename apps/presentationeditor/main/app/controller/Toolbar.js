@@ -478,7 +478,10 @@ define([
                 switch(this._state.bullets.type) {
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
-                        this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
+                        if (this._state.bullets.subtype!==undefined)
+                            this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
+                        else
+                            this.toolbar.mnuMarkersPicker.deselectAll(true);
                         this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:

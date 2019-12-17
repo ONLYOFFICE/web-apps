@@ -422,6 +422,9 @@ define([
                         conf: {index: 0},
                         selectByIndex: function (idx) {
                             this.conf.index = idx;
+                        },
+                        deselectAll: function () {
+                            this.conf.index = -1;
                         }
                     };
                     this.mnuNumbersPicker = clone(this.mnuMarkersPicker);

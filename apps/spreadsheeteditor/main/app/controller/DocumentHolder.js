@@ -2278,7 +2278,7 @@ define([
 
                 me.btnSpecialPaste = new Common.UI.Button({
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-paste',
+                    iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
                 me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
@@ -2424,7 +2424,7 @@ define([
 
                 me.btnAutoCorrectPaste = new Common.UI.Button({
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-paste',
+                    iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
                 me.btnAutoCorrectPaste.render($('#id-document-holder-btn-autocorrect-paste')) ;

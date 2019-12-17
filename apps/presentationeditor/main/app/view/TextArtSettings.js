@@ -354,7 +354,6 @@ define([
                 this.shapeprops.put_TextArtProperties(props);
                 this.api.ShapeApply(this.shapeprops);
             }
-            this.fireEvent('editcomplete', this);
         },
 
         onTransparencyChange: function(field, newValue, oldValue){
@@ -818,7 +817,7 @@ define([
                     var me = this;
                     var colors = fill.get_colors(),
                         positions = fill.get_positions(),
-                        length = colors.length;
+                        length = colors ? colors.length : this.GradColor.colors.length;
                     this.sldrGradient.setThumbs(length);
                     if (this.GradColor.colors.length>length) {
                         this.GradColor.colors.splice(length, this.GradColor.colors.length - length);
@@ -1156,6 +1155,7 @@ define([
                 minValue: 0
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.lockedControls.push(this.numTransparency);
 
             this.sldrTransparency = new Common.UI.SingleSlider({

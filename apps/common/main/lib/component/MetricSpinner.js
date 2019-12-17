@@ -144,6 +144,14 @@ define([
             el.on('input', '.form-control', _.bind(this.onInput, this));
             if (!this.options.allowDecimal)
                 el.on('keypress',   '.form-control', _.bind(this.onKeyPress, this));
+            el.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.$input && me.$input.select();}, 1);
+            });
+            Common.Utils.isGecko && el.on('blur', 'input.form-control', function() {
+                setTimeout(function(){
+                    me.$input && (me.$input[0].selectionStart = me.$input[0].selectionEnd = 0);
+                }, 1);
+            });
 
             this.switches = {
                 count: 1,
@@ -347,6 +355,7 @@ define([
                     var value = this.getRawValue();
                     if (this.value != value) {
                         this.onEnterValue();
+                        this.trigger('inputleave', this);
                         return (this.value == value);
                     }
                 } else {
@@ -355,6 +364,11 @@ define([
             } else {
                 this._fromKeyDown = true;
             }
+
+            if (e.keyCode == Common.UI.Keys.ESC)
+                this.setRawValue(this.value);
+            if (e.keyCode==Common.UI.Keys.RETURN || e.keyCode==Common.UI.Keys.ESC)
+                this.trigger('inputleave', this);
         },
 
         onKeyUp: function (e) {
@@ -477,6 +491,8 @@ define([
 
         _step: function (type, suspend) {
             (type) ? this._increase(suspend) : this._decrease(suspend);
+            if (this.options.hold && this.switches.fromKeyDown)
+                this.$input && this.$input.select();
         },
 
         _add: function (a, b, precision) {

@@ -345,20 +345,28 @@ define([
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
                                 .setUserName(this.appOptions.user.fullname);
 
-                var value = Common.localStorage.getItem("sse-settings-reg-settings");
-                if (value!==null)
-                    this.api.asc_setLocale(parseInt(value));
+                var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
+                    isUseBaseSeparator = Common.localStorage.getBool("sse-settings-use-base-separator", true),
+                    decimal = undefined,
+                    group = undefined;
+                Common.Utils.InternalSettings.set("sse-settings-use-base-separator", isUseBaseSeparator);
+                if (!isUseBaseSeparator) {
+                    decimal = Common.localStorage.getItem("sse-settings-decimal-separator");
+                    group = Common.localStorage.getItem("sse-settings-group-separator");
+                }
+                if (reg!==null)
+                    this.api.asc_setLocale(parseInt(reg), decimal, group);
                 else {
-                    value = this.appOptions.region;
-                    value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
-                    if (value!==null)
-                        value = parseInt(value);
+                    reg = this.appOptions.region;
+                    reg = Common.util.LanguageInfo.getLanguages().hasOwnProperty(reg) ? reg : Common.util.LanguageInfo.getLocalLanguageCode(reg);
+                    if (reg!==null)
+                        reg = parseInt(reg);
                     else
-                        value = (this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409;
-                    this.api.asc_setLocale(value);
+                        reg = (this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409;
+                    this.api.asc_setLocale(reg, decimal, group);
                 }
 
-                value = Common.localStorage.getBool("sse-settings-r1c1");
+                var value = Common.localStorage.getBool("sse-settings-r1c1");
                 Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
                 this.api.asc_setR1C1Mode(value);
 
@@ -1098,7 +1106,8 @@ define([
                     this.toolbarView = toolbarController.getView('Toolbar');
 
                     var value = Common.localStorage.getItem('sse-settings-unit');
-                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                    value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+                    (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
                     Common.Utils.Metric.setCurrentMetric(value);
                     Common.Utils.InternalSettings.set("sse-settings-unit", value);
 
@@ -1477,7 +1486,7 @@ define([
                     }, this);
                 }
 
-                if ($('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
+                if (id == Asc.c_oAscError.ID.EditingError || $('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
                     Common.UI.alert(config);
                     Common.component.Analytics.trackEvent('Internal Error', id.toString());
                 }

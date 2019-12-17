@@ -47,6 +47,7 @@ define([
     'gateway',
     'common/main/lib/util/utils',
     'common/main/lib/component/Menu',
+    'common/main/lib/component/Calendar',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/CopyWarningDialog',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
@@ -632,7 +633,7 @@ define([
 
                     me.btnSpecialPaste = new Common.UI.Button({
                         cls         : 'btn-toolbar',
-                        iconCls     : 'btn-paste',
+                        iconCls     : 'toolbar__icon btn-paste',
                         menu        : new Common.UI.Menu({items: []})
                     });
                     me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
@@ -1535,6 +1536,10 @@ define([
                     this.api.asc_registerCallback('asc_onFocusObject',                  _.bind(onFocusObject, this));
                     this.api.asc_registerCallback('asc_onShowSpecialPasteOptions',      _.bind(onShowSpecialPasteOptions, this));
                     this.api.asc_registerCallback('asc_onHideSpecialPasteOptions',      _.bind(onHideSpecialPasteOptions, this));
+                    if (this.mode.isEdit || this.mode.isRestrictedEdit && this.mode.canFillForms) {
+                        this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
+                        this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                    }
                 }
 
                 return this;
@@ -2799,7 +2804,7 @@ define([
 
             var langTemplate = _.template([
                 '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
-                '<i class="icon <% if (spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                 '<%= caption %>',
                 '</a>'
             ].join(''));
@@ -3966,6 +3971,157 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onHideContentControlsActions: function() {
+            this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            var controlsContainer = this.cmpEl.find('#calendar-control-container');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
+        },
+
+        onShowDateActions: function(obj, x, y) {
+            var props = obj.pr,
+                specProps = props.get_DateTimePr(),
+                controlsContainer = this.cmpEl.find('#calendar-control-container'),
+                me = this;
+
+            this._dateObj = props;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                this.cmpEl.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            controlsContainer.css({left: x, top : y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendar) {
+                this.cmpCalendar = new Common.UI.Calendar({
+                    el: this.cmpEl.find('#id-document-calendar-control'),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+                this.cmpCalendar.on('date:click', function (cmp, date) {
+                    var specProps = me._dateObj.get_DateTimePr();
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetContentControlDatePickerDate(specProps);
+                    controlsContainer.hide();
+                    me.api.asc_UncheckContentControlButtons();
+                    me.fireEvent('editcomplete', me);
+                });
+                this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+            }
+            this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
+
+            // align
+            var offset  = controlsContainer.offset(),
+                docW    = Common.Utils.innerWidth(),
+                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW   = this.cmpCalendar.cmpEl.outerWidth(),
+                menuH   = this.cmpCalendar.cmpEl.outerHeight(),
+                buttonOffset = 22,
+                left = offset.left - menuW,
+                top  = offset.top;
+            if (top + menuH > docH) {
+                top = docH - menuH;
+                left -= buttonOffset;
+            }
+            if (top < 0)
+                top = 0;
+            if (left + menuW > docW)
+                left = docW - menuW;
+            this.cmpCalendar.cmpEl.css({left: left, top : top});
+
+            this._preventClick = true;
+        },
+
+        onShowListActions: function(obj, x, y) {
+            var type = obj.type,
+                props = obj.pr,
+                specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
+                menu = this.listControlMenu,
+                menuContainer = menu ? this.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this._listObj = props;
+
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.listControlMenu = menu = new Common.UI.Menu({
+                    menuAlign: 'tr-bl',
+                    items: []
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        (item.value!==-1) && me.api.asc_SelectContentControlListItem(item.value, me._listObj.get_InternalId());
+                    }, 1);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    this.cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    me.listControlMenu.removeAll();
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            if (specProps) {
+                var count = specProps.get_ItemsCount();
+                for (var i=0; i<count; i++) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : specProps.get_ItemDisplayText(i),
+                        value       : specProps.get_ItemValue(i)
+                    }));
+                }
+                if (count<1) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : this.txtEmpty,
+                        value       : -1
+                    }));
+                }
+            }
+
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onShowContentControlsActions: function(obj, x, y) {
+            var type = obj.type;
+            switch (type) {
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    this.api.asc_addImage(obj);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    this.onShowListActions(obj, x, y);
+                    break;
+            }
+        },
+
         focus: function() {
             var me = this;
             _.defer(function(){  me.cmpEl.focus(); }, 50);
@@ -4189,7 +4345,8 @@ define([
         txtPrintSelection: 'Print Selection',
         textCells: 'Cells',
         textSeveral: 'Several Rows/Columns',
-        txtInsertCaption: 'Insert Caption'
+        txtInsertCaption: 'Insert Caption',
+        txtEmpty: '(Empty)'
 
     }, DE.Views.DocumentHolder || {}));
 });

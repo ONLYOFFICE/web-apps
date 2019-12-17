@@ -267,7 +267,7 @@ define([
             if ( hide ) {
                 this.sheets.length == 1 ?
                     uiApp.alert(this.errorLastSheet) :
-                    this.api['asc_hideWorksheet'](index);
+                    this.api['asc_hideWorksheet']([index]);
             } else {
                 this.api['asc_showWorksheet'](index);
                 // this.loadTabColor(index);

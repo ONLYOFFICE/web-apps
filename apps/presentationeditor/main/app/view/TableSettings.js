@@ -128,7 +128,7 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onTableTemplateSelect: function(combo, record){
+        onTableTemplateSelect: function(btn, picker, itemView, record){
             if (this.api && !this._noApply) {
                 var properties = new Asc.CTableProp();
                 properties.put_TableStyle(record.get('templateId'));
@@ -367,6 +367,7 @@ define([
                 _props.put_RowHeight(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 this.api.tblApply(_props);
             }, this));
+            this.numHeight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.lockedControls.push(this.numHeight);
             this.spinners.push(this.numHeight);
 
@@ -384,6 +385,7 @@ define([
                 _props.put_ColumnWidth(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 this.api.tblApply(_props);
             }, this));
+            this.numWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.lockedControls.push(this.numWidth);
             this.spinners.push(this.numWidth);
 
@@ -434,20 +436,19 @@ define([
                 //for table-template
                 value = props.get_TableStyle();
                 if (this._state.TemplateId!==value || this._isTemplatesChanged) {
-                    this.cmbTableTemplate.suspendEvents();
-                    var rec = this.cmbTableTemplate.menuPicker.store.findWhere({
+                    var rec = this.mnuTableTemplatePicker.store.findWhere({
                         templateId: value
                     });
-                    this.cmbTableTemplate.menuPicker.selectRecord(rec);
-                    this.cmbTableTemplate.resumeEvents();
-
-                    if (this._isTemplatesChanged) {
-                        if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
-                        else
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
+                    if (!rec) {
+                        rec = this.mnuTableTemplatePicker.store.at(0);
                     }
-                    this._state.TemplateId=value;
+                    this.btnTableTemplate.suspendEvents();
+                    this.mnuTableTemplatePicker.selectRecord(rec, true);
+                    this.btnTableTemplate.resumeEvents();
+
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center'});
+
+                    this._state.TemplateId = value;
                 }
                 this._isTemplatesChanged = false;
 
@@ -658,29 +659,36 @@ define([
             var self = this;
             this._isTemplatesChanged = true;
 
-            if (!this.cmbTableTemplate) {
-                this.cmbTableTemplate = new Common.UI.ComboDataView({
-                    itemWidth: 70,
-                    itemHeight: 50,
-                    menuMaxHeight: 300,
-                    enableKeyEvents: true,
-                    cls: 'combo-template'
+            if (!this.btnTableTemplate) {
+                this.btnTableTemplate = new Common.UI.Button({
+                    cls         : 'btn-large-dataview template-table',
+                    iconCls     : 'icon-template-table',
+                    menu        : new Common.UI.Menu({
+                        style: 'width: 575px;',
+                        items: [
+                            { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        ]
+                    })
                 });
-                this.cmbTableTemplate.render($('#table-combo-template'));
-                this.cmbTableTemplate.openButton.menu.cmpEl.css({
-                    'min-width': 175,
-                    'max-width': 175
+                this.btnTableTemplate.on('render:after', function(btn) {
+                    self.mnuTableTemplatePicker = new Common.UI.DataView({
+                        el: $('#id-table-menu-template'),
+                        parentMenu: btn.menu,
+                        restoreHeight: 350,
+                        groups: new Common.UI.DataViewGroupStore(),
+                        store: new Common.UI.DataViewStore(),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="50" width="70"></div>'),
+                        style: 'max-height: 350px;'
+                    });
                 });
-                this.cmbTableTemplate.on('click', _.bind(this.onTableTemplateSelect, this));
-                this.cmbTableTemplate.openButton.menu.on('show:after', function () {
-                    self.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
-                });
-                this.lockedControls.push(this.cmbTableTemplate);
+                this.btnTableTemplate.render($('#table-btn-template'));
+                this.lockedControls.push(this.btnTableTemplate);
+                this.mnuTableTemplatePicker.on('item:click', _.bind(this.onTableTemplateSelect, this, this.btnTableTemplate));
             }
-            
-            var count = self.cmbTableTemplate.menuPicker.store.length;
+
+            var count = self.mnuTableTemplatePicker.store.length;
             if (count>0 && count==Templates.length) {
-                var data = self.cmbTableTemplate.menuPicker.store.models;
+                var data = self.mnuTableTemplatePicker.store.models;
                 _.each(Templates, function(template, index){
                     data[index].set('imageUrl', template.asc_getImage());
                 });
@@ -703,7 +711,7 @@ define([
                         tip    : tip
                     });
                 });
-                self.cmbTableTemplate.menuPicker.store.reset(arr);
+                self.mnuTableTemplatePicker.store.reset(arr);
             }
         },
 

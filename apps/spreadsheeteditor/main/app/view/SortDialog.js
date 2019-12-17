@@ -74,7 +74,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
 
         options: {
             alias: 'SortDialog',
-            contentWidth: 500,
+            contentWidth: 560,
             height: 294,
             buttons: ['ok', 'cancel']
         },
@@ -112,6 +112,14 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
+            var span = $('<span style="position: absolute; visibility: hidden;"/>');
+            me.$window.append(span);
+            span.text(this.textSortBy);
+            var captionWidth = span.width();
+            span.text(this.textThenBy);
+            captionWidth = Math.ceil(Math.max(captionWidth, span.width()))+10;
+            span.remove();
+
             this.sortList = new Common.UI.ListView({
                 el: $('#sort-dialog-list', this.$window),
                 store: new Common.UI.DataViewStore(),
@@ -119,15 +127,18 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 enableKeyEvents: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                        '<div class="list-item" style="width: 100%;display:inline-block;" id="sort-dialog-item-<%= levelIndex %>">',
-                            '<div style="width:33%;padding-right: 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-col-<%= levelIndex %>" class="input-group-nr"></div></div>',
-                            '<div style="width:33%;padding-right: 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-sort-<%= levelIndex %>" class="input-group-nr"></div></div>',
-                            '<% if (sort==Asc.c_oAscSortOptions.ByColorFill || sort==Asc.c_oAscSortOptions.ByColorFont) { %>',
-                                '<div style="width:17%;display: inline-block;vertical-align: top;"><div id="sort-dialog-btn-color-<%= levelIndex %>" class="input-group-nr"></div></div>',
-                                '<div style="width:17%;padding-left: 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-order-<%= levelIndex %>" class="input-group-nr" style="display: inline-block;"></div></div>',
-                            '<% } else { %>',
-                                '<div style="width:34%;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-order-<%= levelIndex %>" class="input-group-nr" style="display: inline-block;"></div></div>',
-                            '<% } %>',
+                        '<div class="list-item" style="width: 100%;display: flex;align-items:center;" id="sort-dialog-item-<%= levelIndex %>">',
+                            '<label class="level-caption" style="padding-right: 5px;width: ' + captionWidth + 'px;flex-shrink:0;cursor: pointer;"></label>',
+                            '<div style="display:inline-block;flex-grow: 1;">',
+                                '<div style="width: 33%;padding: 0 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-col-<%= levelIndex %>" class="input-group-nr" style=""></div></div>',
+                                '<div style="width: 33%;padding: 0 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-sort-<%= levelIndex %>" class="input-group-nr"></div></div>',
+                                '<% if (sort==Asc.c_oAscSortOptions.ByColorFill || sort==Asc.c_oAscSortOptions.ByColorFont) { %>',
+                                    '<div style="width: 17%;padding: 0 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-btn-color-<%= levelIndex %>" class="input-group-nr"></div></div>',
+                                    '<div style="width: 17%;padding: 0 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-order-<%= levelIndex %>" class="input-group-nr" style=""></div></div>',
+                                '<% } else { %>',
+                                    '<div style="width: 34%;padding: 0 5px;display: inline-block;vertical-align: top;"><div id="sort-dialog-cmb-order-<%= levelIndex %>" class="input-group-nr" style=""></div></div>',
+                                '<% } %>',
+                            '</div>',
                         '</div>'
                 ].join(''))
             });
@@ -177,6 +188,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
 
             this.lblColumn = $('#sort-dialog-label-column');
+            this.lblSort = $('#sort-dialog-label-sort');
 
             this.afterRender();
         },
@@ -213,6 +225,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.sortList.on('item:add', _.bind(this.addControls, this));
                 this.sortList.on('item:change', _.bind(this.addControls, this));
                 this.refreshList(props.asc_getLevels());
+                this.initListHeaders();
             }
         },
 
@@ -220,29 +233,42 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.levels = [];
 
             var arr = [];
+            if (!levels && this.column_data.length==1) {
+                levels = [{
+                    columnIndex: this.column_data[0].value,
+                    sort: Asc.c_oAscSortOptions.ByValue,
+                    order: Asc.c_oAscSortOptions.Ascending
+                }];
+            }
             if (levels) {
                 for (var i=0; i<levels.length; i++) {
                     var level = levels[i],
-                        levelProps = this.props.asc_getLevelProps(level.asc_getIndex()),
+                        columnIndex = level.asc_getIndex ? level.asc_getIndex() : level.columnIndex,
+                        levelProps = this.props.asc_getLevelProps(columnIndex),
+                        levelSort = level.asc_getSortBy ? level.asc_getSortBy() : level.sort,
                         istext = levelProps ? levelProps.asc_getIsTextData() : true,
-                        iscolor = (level.asc_getSortBy() !== Asc.c_oAscSortOptions.ByValue);
+                        iscolor = (levelSort !== Asc.c_oAscSortOptions.ByValue);
                     arr.push({
-                        columnIndex: level.asc_getIndex(),
+                        columnIndex: columnIndex,
                         levelIndex: i,
-                        sort: level.asc_getSortBy(),
-                        order: level.asc_getDescending(),
-                        color: level.asc_getColor()
+                        sort: levelSort,
+                        order: level.asc_getDescending ? level.asc_getDescending() : level.order,
+                        color: level.asc_getColor ? level.asc_getColor() : undefined
                     });
                     if (iscolor) {
-                        var color_data = [{ value: -1, displayValue: (level.asc_getSortBy()==Asc.c_oAscSortOptions.ByColorFill) ? this.textNone : this.textAuto , color: null}];
+                        var color_data = [];
+                        var me = this;
                         if (levelProps) {
-                            var levelColors = (level.asc_getSortBy()==Asc.c_oAscSortOptions.ByColorFill) ? levelProps.asc_getColorsFill() : levelProps.asc_getColorsFont();
+                            var levelColors = (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? levelProps.asc_getColorsFill() : levelProps.asc_getColorsFont();
                             levelColors.forEach(function(item, index) {
-                                item && color_data.push({
-                                    value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                    displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                    color: item
-                                });
+                                if (item)
+                                    color_data.push({
+                                        value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                        displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                        color: item
+                                    });
+                                else
+                                    color_data.unshift({ value: -1, displayValue: (levelSort==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto , color: null});
                             });
                         }
                     }
@@ -269,6 +295,14 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.updateButtons();
         },
 
+        initListHeaders: function() {
+            var pos = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0').position();
+            pos && this.lblColumn.width(Math.floor(pos.left)-3);
+            pos = this.sortList.cmpEl.find('#sort-dialog-btn-color-0').position();
+            !pos && (pos = this.sortList.cmpEl.find('#sort-dialog-cmb-order-0').position());
+            pos && this.lblSort.width(Math.floor(pos.left)-5 - this.lblColumn.width());
+        },
+
         addControls: function(listView, itemView, item) {
             if (!item) return;
 
@@ -283,7 +317,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             var combo = new Common.UI.ComboBox({
                     el          : cmpEl.find('#sort-dialog-cmb-col-' + i),
                     editable    : false,
-                    cls         : 'input-group-nr',
+                    cls         : 'input-group-nr no-highlighted',
                     menuCls     : 'menu-absolute',
                     menuStyle   : 'max-height: 135px;',
                     data        : this.column_data
@@ -295,7 +329,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     } else {
                         item.set('columnIndex', record.value);
                         level.levelProps = me.props.asc_getLevelProps(record.value);
-                        me.updateOrderList(i, item);
+                        me.updateOrderList(i, item, true);
                     }
                 });
             var val = item.get('columnIndex');
@@ -305,7 +339,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             combo = new Common.UI.ComboBox({
                 el          : cmpEl.find('#sort-dialog-cmb-sort-' + i),
                 editable    : false,
-                cls         : 'input-group-nr',
+                cls         : 'input-group-nr no-highlighted',
                 menuCls     : 'menu-absolute',
                 data        : this.sort_data
             }).on('selected', function(combo, record) {
@@ -322,8 +356,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                     el          : cmpEl.find('#sort-dialog-btn-color-' + i),
                     editable    : false,
                     menuCls     : 'menu-absolute',
+                    cls         : 'no-highlighted',
                     menuStyle   : 'max-height: 135px;',
-                    data        : level.color_data
+                    data        : level.color_data,
+                    disabled    : !level.color_data || level.color_data.length<1
                 }).on('selected', function(combo, record) {
                     item.set('color', record.color);
                 });
@@ -337,7 +373,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             combo = new Common.UI.ComboBox({
                 el          : cmpEl.find('#sort-dialog-cmb-order-' + i),
                 editable    : false,
-                cls         : 'input-group-nr',
+                cls         : 'input-group-nr no-highlighted',
                 menuCls     : 'menu-absolute',
                 data        : level.order_data
             }).on('selected', function(combo, record) {
@@ -350,6 +386,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             cmpEl.on('mousedown', '.combobox', function(){
                 me.sortList.selectRecord(item);
             });
+
+            this.updateLevelCaptions(true);
         },
 
         onOptions: function () {
@@ -363,9 +401,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         me.props.asc_setHasHeaders(settings.headers);
                         // me.props.asc_setCaseSensitive(settings.sensitive);
                         me.props.asc_setColumnSort(settings.sortcol);
-                        me.props.asc_updateSortList(me.sortOptions.sortcol == settings.sortcol);
+                        var saveOrient = (me.sortOptions.sortcol == settings.sortcol);
+                        me.props.asc_updateSortList(saveOrient);
                         me.sortOptions = settings;
-                        me.updateSortValues();
+                        me.updateSortValues(saveOrient);
                     }
                 }
             });
@@ -384,27 +423,42 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.column_data.push({ value: -1, displayValue: this.sortOptions.sortcol ? this.textMoreCols : this.textMoreRows });
         },
 
-        updateSortValues: function() {
+        updateSortValues: function(saveOrient) {
             this.fillSortValues();
             var me = this;
             this.sortList.store.each(function(item) {
-                var columnIndex = (item.get('sort')==Asc.c_oAscSortOptions.ByValue) ? null : 0,
+                var columnIndex = saveOrient ? item.get('columnIndex') : 0,
                     levelIndex = item.get('levelIndex');
-                item.set('columnIndex', columnIndex, {silent: true} );
-                item.set('order', Asc.c_oAscSortOptions.Ascending, {silent: true} );
-                item.set('color', null, {silent: true} );
+                if (!saveOrient) {
+                    item.set('columnIndex', columnIndex, {silent: true} );
+                    item.set('color', null, {silent: true} );
+                }
                 me.levels[levelIndex].levelProps = (columnIndex!==null) ? me.props.asc_getLevelProps(columnIndex) : undefined;
                 me.addControls(null, null, item);
-                me.updateOrderList(levelIndex, item);
+                me.updateOrderList(levelIndex, item, true);
             });
         },
 
         onAddLevel: function() {
             var store = this.sortList.store,
-                rec = this.sortList.getSelectedRec();
+                rec = this.sortList.getSelectedRec(),
+                columnIndex = (this.column_data.length==1) ? this.column_data[0].value : null,
+                levelIndex = this.levels.length;
+            if (columnIndex!==null) {
+                var levelProps = this.props.asc_getLevelProps(columnIndex),
+                    istext = levelProps ? levelProps.asc_getIsTextData() : true;
+                this.levels[levelIndex] = {
+                    levelProps: levelProps,
+                    order_data: [
+                        { value: Asc.c_oAscSortOptions.Ascending, displayValue: (istext ? this.textAZ : this.textAsc) },
+                        { value: Asc.c_oAscSortOptions.Descending, displayValue: (istext ? this.textZA : this.textDesc)}
+                    ]
+                };
+            }
+
             rec = store.add({
-                columnIndex: null,
-                levelIndex: this.levels.length,
+                columnIndex: columnIndex,
+                levelIndex: levelIndex,
                 sort: Asc.c_oAscSortOptions.ByValue,
                 order: Asc.c_oAscSortOptions.Ascending
             }, {at: rec ? store.indexOf(rec)+1 : store.length});
@@ -465,13 +519,14 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 this.sortList.scrollToRecord(rec);
             }
             this.updateMoveButtons();
+            this.updateLevelCaptions();
         },
 
         onSelectLevel: function(lisvView, itemView, record) {
             this.updateMoveButtons();
         },
 
-        updateOrderList: function(levelIndex, storeItem) {
+        updateOrderList: function(levelIndex, storeItem, saveColor) {
             var level = this.levels[levelIndex],
                 istext = level.levelProps ? level.levelProps.asc_getIsTextData() : true,
                 iscolor = (level.cmbSort.getValue() !== Asc.c_oAscSortOptions.ByValue),
@@ -484,22 +539,31 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             level.cmbOrder.setValue(order);
 
             if (iscolor) {
-                level.color_data = [{ value: -1, displayValue: (level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? this.textNone : this.textAuto , color: null}];
+                level.color_data = [];
+                var color = storeItem ? storeItem.get('color') : null,
+                    colorValue = color ? Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toLocaleUpperCase() : -1,
+                    current;
+
                 if (level.levelProps) {
+                    var me = this;
                     var levelColors = (level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? level.levelProps.asc_getColorsFill() : level.levelProps.asc_getColorsFont();
                     levelColors.forEach(function(item, index) {
-                        item && level.color_data.push({
-                                    value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                    displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                    color: item
-                                });
+                        var value = item ? Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase() : -1,
+                            color_data = {
+                                value: value,
+                                displayValue: item ? value : ((level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto),
+                                color: item
+                            };
+                        item ? level.color_data.push(color_data) : level.color_data.unshift(color_data);
+                        if (colorValue == color_data.value)
+                            current = colorValue;
                     });
                 }
                 level.cmbColor.setData(level.color_data);
                 level.cmbColor.setDisabled(level.color_data.length<1);
-                (level.color_data.length>0) && level.cmbColor.setValue(level.color_data[0].value);
-
-                storeItem && storeItem.set('color', null);
+                (level.color_data.length>0) && level.cmbColor.setValue(current && saveColor ? current : level.color_data[0].value);
+                var rec = level.cmbColor.getSelectedRecord();
+                rec && storeItem && storeItem.set('color', rec.color);
             }
         },
 
@@ -584,6 +648,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.btnCopy.setDisabled(this.sortList.store.length<1);
             this.btnDelete.setDisabled(this.sortList.store.length<1);
             this.updateMoveButtons();
+            this.updateLevelCaptions(true);
             this.sortList.scroller && this.sortList.scroller.update();
         },
 
@@ -592,6 +657,17 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 index = rec ? this.sortList.store.indexOf(rec) : -1;
             this.btnUp.setDisabled(index<1);
             this.btnDown.setDisabled(index<0 || index==this.sortList.store.length-1);
+        },
+
+        updateLevelCaptions: function(all) {
+            var captions = this.$window.find('.level-caption');
+            if (captions.length<1) return;
+
+            if (all)
+                captions.text(this.textThenBy);
+            else
+                (captions.length>1) && (captions[1].innerText = this.textThenBy);
+            captions[0].innerText = this.textSortBy;
         },
 
         onSelectOther: function(combo, item) {
@@ -612,7 +688,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                             combo.setValue(index);
                             item.set('columnIndex', index);
                             me.levels[item.get('levelIndex')].levelProps = me.props.asc_getLevelProps(index);
-                            me.updateOrderList(item.get('levelIndex'), item);
+                            me.updateOrderList(item.get('levelIndex'), item, true);
                             return false;
                         } else if (isvalid == Asc.c_oAscError.ID.CustomSortMoreOneSelectedError)
                             Common.UI.warning({msg: me.sortOptions.sortcol ? me.errorMoreOneCol: me.errorMoreOneRow});
@@ -664,7 +740,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         textLeft: 'Left',
         textRight: 'Right',
         errorEmpty: 'All sort criteria must have a column or row specified.',
-        textAuto: 'Automatic',
+        textAuto: 'Auto',
         textNone: 'None',
         errorNotOriginalCol: 'The column you selected is not in the original selected range.',
         errorNotOriginalRow: 'The row you selected is not in the original selected range.',
@@ -674,7 +750,8 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
         textMoreRows: '(More rows...)',
         textMoreCols: '(More columns...)',
         errorSameColumnValue: "%1 is being sorted by values more than once.<br>Delete the duplicate sort criteria and try again.",
-        errorSameColumnColor: "%1 is being sorted by the same color more than once.<br>Delete the duplicate sort criteria and try again."
-
+        errorSameColumnColor: "%1 is being sorted by the same color more than once.<br>Delete the duplicate sort criteria and try again.",
+        textSortBy: 'Sort by',
+        textThenBy: 'Then by'
     }, SSE.Views.SortDialog || {}));
 });

@@ -123,20 +123,19 @@ Common.Utils = _.extend(new(function() {
                 // считаем: 0 < window.devicePixelRatio < 2 => _devicePixelRatio = 1; zoom = window.devicePixelRatio / _devicePixelRatio;
                 // считаем: window.devicePixelRatio >= 2 => _devicePixelRatio = 2; zoom = window.devicePixelRatio / _devicePixelRatio;
                 if (window.devicePixelRatio > 0.1) {
-                    var _fraction = window.devicePixelRatio % 1;
-                    var _devicePixelRatio = Math.floor(window.devicePixelRatio);
-
-                    if ( !(_fraction < .5) ) {
-                        _devicePixelRatio += .5;
+                    if (window.devicePixelRatio < 1.99)
+                    {
+                        var _devicePixelRatio = 1;
+                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
                     }
-
-                    me.zoom = window.devicePixelRatio / _devicePixelRatio;
-                    document.firstElementChild.style.zoom = 1.0 / me.zoom;
-
-                    if ( _devicePixelRatio % 1 > 0 )
-                        $('#editor_sdk').css('zoom', 1.0 / _devicePixelRatio);
-                    else $('#editor_sdk').css('zoom', '');
-                }
+                    else
+                    {
+                        var _devicePixelRatio = 2;
+                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
+                    }
+                    // chrome 54.x: zoom = "reset" - clear retina zoom (windows)
+                    //document.firstElementChild.style.zoom = "reset";
+                    document.firstElementChild.style.zoom = 1.0 / me.zoom;                }
                 else
                     document.firstElementChild.style.zoom = "normal";
             }

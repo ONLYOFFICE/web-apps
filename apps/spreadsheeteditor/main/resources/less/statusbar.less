@@ -203,6 +203,12 @@
                 }
 
                 &.coauth-locked {
+                    vertical-align: top;
+                    &.active {
+                        > a {
+                            border-top-width: 1px;
+                        }
+                    }
                     > a {
                         outline: none;
                     }
@@ -235,11 +241,11 @@
 
                 &.mousemove {
                     > a {
-                        background: linear-gradient(to right, @black, @gray-light 1px);
+                        background: linear-gradient(to right, #49795d, @gray-light 3px);
                     }
                     &.right {
                         > a {
-                            background: linear-gradient(to left, @black, @gray-light 1px);
+                            background: linear-gradient(to left, #49795d, @gray-light 3px);
                         }
                     }
                 }

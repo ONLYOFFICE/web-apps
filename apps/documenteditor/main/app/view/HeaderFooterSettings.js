@@ -158,7 +158,6 @@ define([
         onNumPositionChange: function(field, newValue, oldValue, eOpts){
             if (this.api)
                 this.api.put_HeadersAndFootersDistance(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-            this.fireEvent('editcomplete', this);
         },
 
         onDiffFirstChange: function(field, newValue, oldValue, eOpts){
@@ -206,7 +205,6 @@ define([
                 this.radioFrom.setValue(true, true);
                 this.api.asc_SetSectionStartPage(field.getNumberValue());
             }
-            this.fireEvent('editcomplete', this);
         },
 
         updateMetricUnit: function() {
@@ -220,6 +218,7 @@ define([
         },
 
         createDelayedControls: function() {
+            var me = this;
             var _arrPosition = [
                 [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_LEFT,      'icon-right-panel btn-colontitul-tl', 'headerfooter-button-top-left', this.textTopLeft],
                 [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_CENTER,    'icon-right-panel btn-colontitul-tc', 'headerfooter-button-top-center', this.textTopCenter],
@@ -276,6 +275,7 @@ define([
             });
 
             this.numPosition.on('change', _.bind(this.onNumPositionChange, this));
+            this.numPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.chDiffFirst.on('change', _.bind(this.onDiffFirstChange, this));
             this.chDiffOdd.on('change', _.bind(this.onDiffOddChange, this));
             this.chSameAs.on('change', _.bind(this.onSameAsChange, this));
@@ -313,6 +313,7 @@ define([
             });
             this.lockedControls.push(this.numFrom);
             this.numFrom.on('change', _.bind(this.onNumFromChange, this));
+            this.numFrom.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
         },
         
         createDelayedElements: function() {

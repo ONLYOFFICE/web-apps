@@ -74,7 +74,7 @@ define([
             if ( this.isFolded ) {
                 if ( $(e.target).parents('.toolbar, #file-menu-panel').length ){
                 } else {
-                    this.collapse();
+                    optsFold.$bar && optsFold.$bar.hasClass('expanded') && this.collapse();
                 }
             }
         }

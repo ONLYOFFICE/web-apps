@@ -56,6 +56,11 @@
             display: block;
         }
     }
+
+    &.form-control:focus,
+    .form-control:focus {
+        border-color: @gray-darker;
+    }
 }
 
 input:required:focus:invalid,
@@ -84,4 +89,8 @@ input[type="password"] {
 input[type="text"]::selection, textarea::selection {
     background: #3494fb;
     color: white;
+}
+
+textarea.form-control:focus {
+    border-color: @gray-darker;
 }
