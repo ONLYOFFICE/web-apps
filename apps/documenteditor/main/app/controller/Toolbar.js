@@ -493,7 +493,11 @@ define([
                 switch(this._state.bullets.type) {
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
-                        this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
+                        if (this._state.bullets.subtype!==undefined)
+                            this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
+                        else
+                            this.toolbar.mnuMarkersPicker.deselectAll(true);
+                        this.toolbar.mnuMultilevelPicker.deselectAll(true);
                         break;
                     case 1:
                         var idx = 0;
@@ -521,7 +525,11 @@ define([
                                 break;
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
-                        this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
+                        if (this._state.bullets.subtype!==undefined)
+                            this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
+                        else
+                            this.toolbar.mnuNumbersPicker.deselectAll(true);
+                        this.toolbar.mnuMultilevelPicker.deselectAll(true);
                         break;
                     case 2:
                         this.toolbar.btnMultilevels.toggle(true, true);
