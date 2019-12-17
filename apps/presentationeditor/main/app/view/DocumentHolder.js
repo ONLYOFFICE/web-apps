@@ -2511,7 +2511,7 @@ define([
 
             var mnuGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
-                iconCls     : 'mnu-group'
+                iconCls     : 'menu__icon shape-group'
             }).on('click', function(item) {
                 if (me.api) {
                     me.api.groupShapes();
@@ -2523,7 +2523,7 @@ define([
 
             var mnuUnGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtUngroup,
-                iconCls     : 'mnu-ungroup'
+                iconCls     : 'menu__icon shape-ungroup'
             }).on('click', function(item) {
                 if (me.api) {
                     me.api.unGroupShapes();
@@ -2540,7 +2540,7 @@ define([
                     items: [
                         new Common.UI.MenuItem({
                             caption     : this.textArrangeFront,
-                            iconCls     : 'mnu-arrange-front'
+                            iconCls     : 'menu__icon arrange-front'
                         }).on('click', function(item) {
                             if (me.api) {
                                 me.api.shapes_bringToFront();
@@ -2551,7 +2551,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : this.textArrangeBack,
-                            iconCls     : 'mnu-arrange-back'
+                            iconCls     : 'menu__icon arrange-back'
                         }).on('click', function(item) {
                             if (me.api) {
                                 me.api.shapes_bringToBack();
@@ -2562,7 +2562,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : this.textArrangeForward,
-                            iconCls     : 'mnu-arrange-forward'
+                            iconCls     : 'menu__icon arrange-forward'
                         }).on('click', function(item) {
                             if (me.api) {
                                 me.api.shapes_bringForward();
@@ -2573,7 +2573,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : this.textArrangeBackward,
-                            iconCls     : 'mnu-arrange-backward'
+                            iconCls     : 'menu__icon arrange-backward'
                         }).on('click', function(item) {
                             if (me.api) {
                                 me.api.shapes_bringBackward();
@@ -2615,43 +2615,43 @@ define([
                         items: [
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignLeft,
-                                iconCls     : 'mnu-shape-align-left',
+                                iconCls     : 'menu__icon shape-align-left',
                                 value       : Asc.c_oAscAlignShapeType.ALIGN_LEFT
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignCenter,
-                                iconCls     : 'mnu-shape-align-center',
+                                iconCls     : 'menu__icon shape-align-center',
                                 value       : Asc.c_oAscAlignShapeType.ALIGN_CENTER
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignRight,
-                                iconCls     : 'mnu-shape-align-right',
+                                iconCls     : 'menu__icon shape-align-right',
                                 value       : Asc.c_oAscAlignShapeType.ALIGN_RIGHT
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignTop,
-                                iconCls     : 'mnu-shape-align-top',
+                                iconCls     : 'menu__icon shape-align-top',
                                 value       : Asc.c_oAscAlignShapeType.ALIGN_TOP
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignMiddle,
-                                iconCls     : 'mnu-shape-align-middle',
+                                iconCls     : 'menu__icon shape-align-middle',
                                 value       : Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.textShapeAlignBottom,
-                                iconCls     : 'mnu-shape-align-bottom',
+                                iconCls     : 'menu__icon shape-align-bottom',
                                 value       : Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
                             }).on('click', _.bind(onItemClick, me)),
                             {caption    : '--'},
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribHor,
-                                iconCls     : 'mnu-distrib-hor',
+                                iconCls     : 'menu__icon shape-distribute-hor',
                                 value       : 6
                             }).on('click', _.bind(onItemClick, me)),
                             new Common.UI.MenuItem({
                                 caption     : me.txtDistribVert,
-                                iconCls     : 'mnu-distrib-vert',
+                                iconCls     : 'menu__icon shape-distribute-vert',
                                 value       : 7
                             }).on('click', _.bind(onItemClick, me))
                         ]
