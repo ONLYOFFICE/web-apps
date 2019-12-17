@@ -495,7 +495,10 @@ define([
                 switch(this._state.bullets.type) {
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
-                        this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
+                        if (this._state.bullets.subtype!==undefined)
+                            this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
+                        else
+                            this.toolbar.mnuMarkersPicker.deselectAll(true);
                         break;
                     case 1:
                         var idx = 0;
@@ -1315,16 +1318,6 @@ define([
 
         onMarkerSettingsClick: function(type) {
             var me      = this;
-
-            // var selectedElements = me.api.getSelectedElements();
-            // if (selectedElements && _.isArray(selectedElements)) {
-            //     for (var i = 0; i< selectedElements.length; i++) {
-            //         if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
-            //             props = selectedElements[i].get_ObjectValue();
-            //             break;
-            //         }
-            //     }
-            // }
             var listId = me.api.asc_GetCurrentNumberingId(),
                 level = me.api.asc_GetCurrentNumberingLvl(),
                 props = (listId !== null) ? me.api.asc_GetNumberingPr(listId).get_Lvl(level) : null;
@@ -1337,7 +1330,7 @@ define([
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
-                                // me.api.paraApply(value);
+                                me.api.asc_ChangeNumberingLvl(listId, value, props.get_LvlNum());
                             }
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);

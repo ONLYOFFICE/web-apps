@@ -91,7 +91,7 @@ define([
                         '<tr>',
                             '<td colspan="2">',
                                 '<label>' + this.textPreview + '</label>',
-                                '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 100%; border: 1px solid #cfcfcf;"></div>',
+                                '<div id="bulleted-list-preview" style="margin-top: 2px; height: 120px; width: 100%; border: 1px solid #cfcfcf;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -120,7 +120,7 @@ define([
                         {
                             id: 'id-dlg-bullet-auto-color',
                             caption: this.textAuto,
-                            template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #dcdcdc;"></span><%= caption %></a>')
+                            template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #000;"></span><%= caption %></a>')
                         },
                         {caption: '--'},
                         { template: _.template('<div id="id-dlg-bullet-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
@@ -175,13 +175,13 @@ define([
                 if (this._changedProps)
                     this._changedProps.put_Align(record.value);
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
                 }
             }, this));
 
             this.cmbSize = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-bullet-size'),
-                menuStyle   : 'min-width: 100%;max-height: 310px;',
+                menuStyle   : 'min-width: 100%;max-height: 183px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
@@ -208,10 +208,10 @@ define([
             this.cmbSize.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps) {
                     if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                    this._changedProps.get_TextPr().put_FontSize(record.value);
+                    this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : null);
                 }
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
                 }
             }, this));
 
@@ -232,20 +232,33 @@ define([
         },
 
         onAutoColor: function(e) {
-            var color = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
+            var color = Common.Utils.ThemeColor.getHexColor(0, 0, 0);
             this.btnColor.setColor(color);
             this.colors.clearSelection();
             var clr_item = this.btnColor.menu.$el.find('#id-dlg-bullet-auto-color > a');
             !clr_item.hasClass('selected') && clr_item.addClass('selected');
             this.isAutoColor = true;
+            if (this._changedProps) {
+                if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
+                var color = new Asc.asc_CColor();
+                color.put_auto(true);
+                this._changedProps.get_TextPr().put_Color(color);
+            }
+            if (this.api) {
+                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+            }
         },
 
         onColorsSelect: function(picker, color) {
             this.btnColor.setColor(color);
             if (this._changedProps) {
-                // this._changedProps.asc_putBulletColor(Common.Utils.ThemeColor.getRgbColor(color));
+                if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
+                this._changedProps.get_TextPr().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
             }
             this.isAutoColor = false;
+            if (this.api) {
+                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+            }
         },
 
         onEditBullet: function() {
@@ -278,6 +291,9 @@ define([
                 });
             win.show();
             win.on('symbol:dblclick', handler);
+            if (this.api) {
+                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+            }
         },
 
         _handleInput: function(state) {
@@ -337,7 +353,7 @@ define([
                     this.btnColor.setColor(color);
                 }
             }
-            this._changedProps = new Asc.CAscNumberingLvl(this.level);
+            this._changedProps = props || new Asc.CAscNumberingLvl(this.level);
         },
 
         txtTitle: 'Define New Bullet',
