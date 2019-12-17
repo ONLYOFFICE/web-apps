@@ -59,7 +59,7 @@ define([
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/CompareSettingsDialog',
-    'documenteditor/main/app/view/BulletSettingsDialog'
+    'documenteditor/main/app/view/ListSettingsDialog'
 ], function () {
     'use strict';
 
@@ -1334,7 +1334,7 @@ define([
                 props = (listId !== null) ? me.api.asc_GetNumberingPr(listId).get_Lvl(level) : null;
             if (props) {
                 var type = props.get_Format();
-                (new DE.Views.BulletSettingsDialog({
+                (new DE.Views.ListSettingsDialog({
                     api: me.api,
                     props: props,
                     level: level,

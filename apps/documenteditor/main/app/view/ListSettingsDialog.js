@@ -32,7 +32,7 @@
  */
 
 /**
- *  BulletSettingsDialog.js
+ *  ListSettingsDialog.js
  *
  *  Created by Julia Radzhabova on 03.12.2019
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
@@ -50,7 +50,7 @@ define([
     'common/main/lib/view/SymbolTableDialog'
 ], function () { 'use strict';
 
-    DE.Views.BulletSettingsDialog = Common.UI.Window.extend(_.extend({
+    DE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: Asc.c_oAscNumberingFormat.Bullet,
             width: 300,
@@ -400,5 +400,5 @@ define([
         textPreview: 'Preview',
         txtType: 'Type',
         txtLikeText: 'Like a text'
-    }, DE.Views.BulletSettingsDialog || {}))
+    }, DE.Views.ListSettingsDialog || {}))
 });
