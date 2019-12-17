@@ -1635,7 +1635,12 @@ define([
                     new Common.UI.Menu({
                         style: 'min-width: 90px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 16px;"></div>')},
+                            this.mnuMultilevelSettings = new Common.UI.MenuItem({
+                                caption: this.textListSettings,
+                                disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
+                                value: 'settings'
+                            })
                         ]
                     })
                 );

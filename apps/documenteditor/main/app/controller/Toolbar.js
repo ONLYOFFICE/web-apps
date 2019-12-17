@@ -288,6 +288,7 @@ define([
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
             toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
             toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
+            toolbar.mnuMultilevelSettings.on('click',                   _.bind(this.onMarkerSettingsClick, this, 2));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
@@ -502,6 +503,7 @@ define([
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
                         this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
                         var idx;
@@ -538,6 +540,7 @@ define([
                             this.toolbar.mnuNumbersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
                         this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
+                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(idx==0);
                         break;
                     case 2:
                         this.toolbar.btnMultilevels.toggle(true, true);
@@ -1333,7 +1336,6 @@ define([
                 level = me.api.asc_GetCurrentNumberingLvl(),
                 props = (listId !== null) ? me.api.asc_GetNumberingPr(listId).get_Lvl(level) : null;
             if (props) {
-                var type = props.get_Format();
                 (new DE.Views.ListSettingsDialog({
                     api: me.api,
                     props: props,
@@ -2217,6 +2219,7 @@ define([
             this.toolbar.mnuMultilevelPicker.selectByIndex(0, true);
             this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
             this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
+            this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
         },
 
         _getApiTextSize: function () {

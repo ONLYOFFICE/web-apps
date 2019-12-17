@@ -52,7 +52,7 @@ define([
 
     DE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
-            type: Asc.c_oAscNumberingFormat.Bullet,
+            type: 0, // 0 - markers, 1 - numbers, 2 - multilevel
             width: 300,
             height: 334,
             style: 'min-width: 240px;',
@@ -62,7 +62,7 @@ define([
         },
 
         initialize : function(options) {
-            this.type = (options.type!==undefined) ? options.type : Asc.c_oAscNumberingFormat.Bullet;
+            this.type = options.type || 0;
 
             _.extend(this.options, {
                 title: this.txtTitle
@@ -73,7 +73,7 @@ define([
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td style="padding-right: 5px;">',
-                                '<% if (type == Asc.c_oAscNumberingFormat.Bullet) { %>',
+                                '<% if (type == 0) { %>',
                                 '<label class="input-label">' + this.txtBullet + '</label>',
                                 '<button type="button" class="btn btn-text-default" id="id-dlg-bullet-font" style="width: 100%;margin-bottom: 10px;">' + this.txtFont + '</button>',
                                 '<% } else { %>',
@@ -96,8 +96,14 @@ define([
                                 '<div id="id-dlg-bullet-color" style="margin-bottom: 10px;"></div>',
                             '</td>',
                         '</tr>',
+                '</table>',
+                '<table cols="2" style="width: 100%;">',
                         '<tr>',
-                            '<td colspan="2">',
+                            '<td class="<% if (type != 2) { %> hidden <% } %>" style="width: 50px; padding-right: 10px;">',
+                                '<label>' + this.textLevel + '</label>',
+                                '<div id="levels-list" style="width:100%; height: 120px;margin-top: 2px; "></div>',
+                            '</td>',
+                            '<td>',
                                 '<label>' + this.textPreview + '</label>',
                                 '<div id="bulleted-list-preview" style="margin-top: 2px; height: 120px; width: 100%; border: 1px solid #cfcfcf;"></div>',
                             '</td>',
@@ -108,6 +114,7 @@ define([
 
             this.props = options.props;
             this.level = options.level;
+            this.api = options.api;
             this.options.tpl = _.template(this.template)(this.options);
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
@@ -170,7 +177,7 @@ define([
 
             this.cmbFormat = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-numbering-format'),
-                menuStyle   : 'min-width: 100%;',
+                menuStyle   : 'min-width: 100%;max-height: 183px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
@@ -243,6 +250,15 @@ define([
                     //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
                 }
             }, this));
+
+            var levels = [];
+            for (var i=0; i<9; i++)
+                levels.push({value: i, levelProps: null});
+            this.levelsList = new Common.UI.ListView({
+                el: $('#levels-list', this.$window),
+                store: new Common.UI.DataViewStore(levels),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= (value+1) %></div>')
+            });
 
             this.afterRender();
         },
@@ -399,6 +415,7 @@ define([
         textAuto: 'Auto',
         textPreview: 'Preview',
         txtType: 'Type',
-        txtLikeText: 'Like a text'
+        txtLikeText: 'Like a text',
+        textLevel: 'Level'
     }, DE.Views.ListSettingsDialog || {}))
 });
