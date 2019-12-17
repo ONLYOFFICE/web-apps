@@ -52,6 +52,7 @@ define([
 
     DE.Views.BulletSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
+            type: Asc.c_oAscNumberingFormat.Bullet,
             width: 300,
             height: 334,
             style: 'min-width: 240px;',
@@ -61,6 +62,8 @@ define([
         },
 
         initialize : function(options) {
+            this.type = (options.type!==undefined) ? options.type : Asc.c_oAscNumberingFormat.Bullet;
+
             _.extend(this.options, {
                 title: this.txtTitle
             }, options || {});
@@ -70,8 +73,13 @@ define([
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td style="padding-right: 5px;">',
+                                '<% if (type == Asc.c_oAscNumberingFormat.Bullet) { %>',
                                 '<label class="input-label">' + this.txtBullet + '</label>',
                                 '<button type="button" class="btn btn-text-default" id="id-dlg-bullet-font" style="width: 100%;margin-bottom: 10px;">' + this.txtFont + '</button>',
+                                '<% } else { %>',
+                                '<label class="input-label">' + this.txtType + '</label>',
+                                '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                                '<% } %>',
                             '</td>',
                             '<td style="padding-left: 5px;">',
                                 '<label class="input-label">' + this.txtAlign + '</label>',
@@ -160,6 +168,27 @@ define([
             });
             this.btnEdit.on('click', _.bind(this.onEditBullet, this));
 
+            this.cmbFormat = new Common.UI.ComboBox({
+                el          : $window.find('#id-dlg-numbering-format'),
+                menuStyle   : 'min-width: 100%;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
+                    { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
+                    { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
+                    { displayValue: 'i, ii, iii,...',   value: Asc.c_oAscNumberingFormat.LowerRoman },
+                    { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
+                ]
+            });
+            this.cmbFormat.on('selected', _.bind(function (combo, record) {
+                if (this._changedProps)
+                    this._changedProps.put_Format(record.value);
+                if (this.api) {
+                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+                }
+            }, this));
+
             this.cmbAlign = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-bullet-align'),
                 menuStyle   : 'min-width: 100%;',
@@ -185,7 +214,7 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: -1, displayValue: this.textAuto },
+                    { value: -1, displayValue: this.txtLikeText },
                     { value: 8, displayValue: "8" },
                     { value: 9, displayValue: "9" },
                     { value: 10, displayValue: "10" },
@@ -316,6 +345,7 @@ define([
             this.bulletProps = {};
             if (props) {
                 this.cmbAlign.setValue(props.get_Align() || '');
+                this.cmbFormat.setValue(props.get_Format() || '');
                 var textPr = props.get_TextPr(),
                     text = props.get_Text();
                 if (text) {
@@ -356,7 +386,7 @@ define([
             this._changedProps = props || new Asc.CAscNumberingLvl(this.level);
         },
 
-        txtTitle: 'Define New Bullet',
+        txtTitle: 'List Settings',
         txtSize: 'Size',
         txtColor: 'Color',
         textNewColor: 'Add New Custom Color',
@@ -367,6 +397,8 @@ define([
         textCenter: 'Center',
         textRight: 'Right',
         textAuto: 'Auto',
-        textPreview: 'Preview'
+        textPreview: 'Preview',
+        txtType: 'Type',
+        txtLikeText: 'Like a text'
     }, DE.Views.BulletSettingsDialog || {}))
 });

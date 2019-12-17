@@ -1608,10 +1608,10 @@ define([
                     new Common.UI.Menu({
                         style: 'min-width: 139px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 5px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 16px;"></div>')},
                             this.mnuMarkerSettings = new Common.UI.MenuItem({
-                                caption: this.textBulletSettings,
-                                // disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
+                                caption: this.textListSettings,
+                                disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
                                 value: 'settings'
                             })
                         ]
@@ -1621,7 +1621,12 @@ define([
                 this.btnNumbers.setMenu(
                     new Common.UI.Menu({
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 16px;"></div>')},
+                            this.mnuNumberSettings = new Common.UI.MenuItem({
+                                caption: this.textListSettings,
+                                disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
+                                value: 'settings'
+                            })
                         ]
                     })
                 );
@@ -2295,7 +2300,7 @@ define([
             tipInsertSymbol: 'Insert symbol',
             mniDrawTable: 'Draw Table',
             mniEraseTable: 'Erase Table',
-            textBulletSettings: 'Define New Bullet'
+            textListSettings: 'List Settings'
         }
     })(), DE.Views.Toolbar || {}));
 });

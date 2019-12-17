@@ -287,6 +287,7 @@ define([
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
             toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
+            toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
@@ -500,10 +501,14 @@ define([
                         else
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
+                        this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
-                        var idx = 0;
+                        var idx;
                         switch(this._state.bullets.subtype) {
+                            case 0:
+                                idx = 0;
+                                break;
                             case 1:
                                 idx = 4;
                                 break;
@@ -527,11 +532,12 @@ define([
                                 break;
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
-                        if (this._state.bullets.subtype!==undefined)
+                        if (idx!==undefined)
                             this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
                         else
                             this.toolbar.mnuNumbersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
+                        this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
                         break;
                     case 2:
                         this.toolbar.btnMultilevels.toggle(true, true);
@@ -1326,11 +1332,13 @@ define([
             var listId = me.api.asc_GetCurrentNumberingId(),
                 level = me.api.asc_GetCurrentNumberingLvl(),
                 props = (listId !== null) ? me.api.asc_GetNumberingPr(listId).get_Lvl(level) : null;
-            if (props && props.get_Format() == Asc.c_oAscNumberingFormat.Bullet) {
+            if (props) {
+                var type = props.get_Format();
                 (new DE.Views.BulletSettingsDialog({
                     api: me.api,
                     props: props,
                     level: level,
+                    type: type,
                     interfaceLang: me.mode.lang,
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -2207,6 +2215,8 @@ define([
             this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
             this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
             this.toolbar.mnuMultilevelPicker.selectByIndex(0, true);
+            this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
+            this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
         },
 
         _getApiTextSize: function () {
