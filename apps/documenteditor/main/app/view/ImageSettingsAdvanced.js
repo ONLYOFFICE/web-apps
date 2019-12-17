@@ -398,7 +398,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             // Wrapping
 
             this.btnWrapInline = new Common.UI.Button({
-                cls: 'btn-options x-huge',
+                cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-inline',
                 posId: Asc.c_oAscWrapStyle2.Inline,
                 hint: this.textWrapInlineTooltip,
@@ -410,7 +410,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapInline.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapSquare = new Common.UI.Button({
-                cls: 'btn-options x-huge',
+                cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-square',
                 posId: Asc.c_oAscWrapStyle2.Square,
                 hint: this.textWrapSquareTooltip,
@@ -422,7 +422,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapSquare.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapTight = new Common.UI.Button({
-                cls: 'btn-options x-huge',
+                cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-tight',
                 posId: Asc.c_oAscWrapStyle2.Tight,
                 hint: this.textWrapTightTooltip,
@@ -434,7 +434,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapTight.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapThrough = new Common.UI.Button({
-                cls: 'btn-options x-huge',
+                cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-through',
                 posId: Asc.c_oAscWrapStyle2.Through,
                 hint: this.textWrapThroughTooltip,
@@ -446,7 +446,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapThrough.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapTopBottom = new Common.UI.Button({
-                cls: 'btn-options x-huge',
+                cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-topbottom',
                 posId: Asc.c_oAscWrapStyle2.TopAndBottom,
                 hint: this.textWrapTopbottomTooltip,
@@ -458,7 +458,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapTopBottom.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapBehind = new Common.UI.Button({
-                cls: 'btn-options x-huge',
+                cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-behind',
                 posId: Asc.c_oAscWrapStyle2.Behind,
                 hint: this.textWrapBehindTooltip,
@@ -470,7 +470,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.btnWrapBehind.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapInFront = new Common.UI.Button({
-                cls: 'btn-options x-huge',
+                cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-infront',
                 posId: Asc.c_oAscWrapStyle2.InFront,
                 hint: this.textWrapInFrontTooltip,

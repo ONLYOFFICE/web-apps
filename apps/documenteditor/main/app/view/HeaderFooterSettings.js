@@ -231,7 +231,7 @@ define([
             this._btnsPosition = [];
             _.each(_arrPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
-                    cls: 'btn-options huge',
+                    cls: 'btn-options huge bg-white',
                     iconCls: item[2],
                     posWhere:item[0],
                     posAlign:item[1],
