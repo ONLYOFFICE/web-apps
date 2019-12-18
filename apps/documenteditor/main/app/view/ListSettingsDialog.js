@@ -249,7 +249,7 @@ define([
                     }
                 }
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
                 }
             }, this));
 
@@ -268,7 +268,7 @@ define([
                 if (this._changedProps)
                     this._changedProps.put_Align(record.value);
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
                 }
             }, this));
 
@@ -304,7 +304,7 @@ define([
                     this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
                 }
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
                 }
             }, this));
 
@@ -348,7 +348,7 @@ define([
                 this._changedProps.get_TextPr().put_Color(color);
             }
             if (this.api) {
-                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
             }
         },
 
@@ -360,7 +360,7 @@ define([
             }
             this.isAutoColor = false;
             if (this.api) {
-                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
             }
         },
 
@@ -400,7 +400,7 @@ define([
             win.show();
             win.on('symbol:dblclick', handler);
             if (this.api) {
-                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
+                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
             }
         },
 
@@ -443,6 +443,9 @@ define([
                     this.fillLevelProps(this.levels[this.level]);
             }
             this._changedProps = this.levels[this.level];
+            if (this.api) {
+                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+            }
         },
 
         onSelectLevel: function(listView, itemView, record) {
