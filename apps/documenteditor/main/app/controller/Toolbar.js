@@ -497,7 +497,7 @@ define([
                 switch(this._state.bullets.type) {
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
-                        if (this._state.bullets.subtype!==undefined)
+                        if (this._state.bullets.subtype>0)
                             this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
                         else
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
@@ -508,9 +508,6 @@ define([
                     case 1:
                         var idx;
                         switch(this._state.bullets.subtype) {
-                            case 0:
-                                idx = 0;
-                                break;
                             case 1:
                                 idx = 4;
                                 break;
@@ -1334,7 +1331,7 @@ define([
             var me      = this;
             var listId = me.api.asc_GetCurrentNumberingId(),
                 level = me.api.asc_GetCurrentNumberingLvl(),
-                props = (listId !== null) ? me.api.asc_GetNumberingPr(listId).get_Lvl(level) : null;
+                props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
             if (props) {
                 (new DE.Views.ListSettingsDialog({
                     api: me.api,
@@ -1345,7 +1342,7 @@ define([
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
-                                me.api.asc_ChangeNumberingLvl(listId, value, props.get_LvlNum());
+                                me.api.asc_ChangeNumberingLvl(listId, value.props, value.num);
                             }
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);

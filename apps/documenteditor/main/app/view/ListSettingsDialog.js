@@ -47,6 +47,7 @@ define([
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
+    'common/main/lib/component/ComboBox',
     'common/main/lib/view/SymbolTableDialog'
 ], function () { 'use strict';
 
@@ -63,6 +64,7 @@ define([
 
         initialize : function(options) {
             this.type = options.type || 0;
+            this.height = this.type==2 ? 422 : 334;
 
             _.extend(this.options, {
                 title: this.txtTitle
@@ -101,11 +103,11 @@ define([
                         '<tr>',
                             '<td class="<% if (type != 2) { %> hidden <% } %>" style="width: 50px; padding-right: 10px;">',
                                 '<label>' + this.textLevel + '</label>',
-                                '<div id="levels-list" style="width:100%; height: 120px;margin-top: 2px; "></div>',
+                                '<div id="levels-list" style="width:100%; height: <% if (type == 2) { %>208<% } else { %>120<% } %>px;margin-top: 2px; "></div>',
                             '</td>',
                             '<td>',
                                 '<label>' + this.textPreview + '</label>',
-                                '<div id="bulleted-list-preview" style="margin-top: 2px; height: 120px; width: 100%; border: 1px solid #cfcfcf;"></div>',
+                                '<div id="bulleted-list-preview" style="margin-top: 2px; height: <% if (type == 2) { %>208<% } else { %>120<% } %>px; width: 100%; border: 1px solid #cfcfcf;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -113,9 +115,10 @@ define([
             ].join('');
 
             this.props = options.props;
-            this.level = options.level;
+            this.level = options.level || 0;
             this.api = options.api;
             this.options.tpl = _.template(this.template)(this.options);
+            this.levels = [];
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -175,22 +178,76 @@ define([
             });
             this.btnEdit.on('click', _.bind(this.onEditBullet, this));
 
-            this.cmbFormat = new Common.UI.ComboBox({
+            var itemsTemplate =
+                [
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
+                    '<%= item.displayValue %><% if (item.value === Asc.c_oAscNumberingFormat.Bullet) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span><% } %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ];
+            var template = [
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<div class="form-control" style="padding-top:3px; cursor: pointer; <%= style %>"></div>',
+                '<div style="display: table-cell;"></div>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
+                    '</ul>',
+                '</div>'
+            ]);
+            this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 183px;',
+                style       : "width: 129px;",
                 editable    : false,
-                cls         : 'input-group-nr',
+                template    : _.template(template.join('')),
+                itemsTemplate: _.template(itemsTemplate.join('')),
                 data        : [
                     { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
                     { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
                     { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
                     { displayValue: 'i, ii, iii,...',   value: Asc.c_oAscNumberingFormat.LowerRoman },
                     { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
-                ]
+                ],
+                updateFormControl: function(record) {
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record) {
+                        if (record.get('value')==Asc.c_oAscNumberingFormat.Bullet)
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
+                        else
+                            formcontrol[0].innerHTML = record.get('displayValue');
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
             });
             this.cmbFormat.on('selected', _.bind(function (combo, record) {
-                if (this._changedProps)
-                    this._changedProps.put_Format(record.value);
+                if (this._changedProps) {
+                    if (record.value == -1) {
+                        var callback = function(result) {
+                            var format = me._changedProps.get_Format();
+                            if (format == Asc.c_oAscNumberingFormat.Bullet) {
+                                var store = combo.store;
+                                if (!store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font}))
+                                    store.add({ displayValue: me.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font }, {at: store.length-1});
+                                combo.setData(store.models);
+                                combo.selectRecord(combo.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: me.bulletProps.symbol, font: me.bulletProps.font}));
+                            } else
+                                combo.setValue(format || '');
+                        };
+                        this.addNewBullet(callback);
+                    } else {
+                        this._changedProps.put_Format(record.value);
+                        if (record.value == Asc.c_oAscNumberingFormat.Bullet) {
+                            this.bulletProps.font = record.font;
+                            this.bulletProps.symbol = record.symbol;
+                            if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
+                            this._changedProps.get_TextPr().put_FontFamily(this.bulletProps.font);
+
+                            this._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
+                            this._changedProps.get_Text()[0].put_Value(this.bulletProps.symbol);
+                        }
+                    }
+                }
                 if (this.api) {
                     //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
                 }
@@ -244,7 +301,7 @@ define([
             this.cmbSize.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps) {
                     if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                    this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : null);
+                    this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
                 }
                 if (this.api) {
                     //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this._changedProps);
@@ -253,12 +310,13 @@ define([
 
             var levels = [];
             for (var i=0; i<9; i++)
-                levels.push({value: i, levelProps: null});
+                levels.push({value: i});
             this.levelsList = new Common.UI.ListView({
                 el: $('#levels-list', this.$window),
                 store: new Common.UI.DataViewStore(levels),
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= (value+1) %></div>')
             });
+            this.levelsList.on('item:select', _.bind(this.onSelectLevel, this));
 
             this.afterRender();
         },
@@ -306,7 +364,11 @@ define([
             }
         },
 
-        onEditBullet: function() {
+        onEditBullet: function(callback) {
+            this.addNewBullet();
+        },
+
+        addNewBullet: function(callback) {
             var me = this,
                 props = me.bulletProps,
                 handler = function(dlg, result, settings) {
@@ -316,14 +378,15 @@ define([
                         props.font = settings.font;
                         props.symbol = settings.symbol;
                         if (me._changedProps) {
+                            me._changedProps.put_Format(Asc.c_oAscNumberingFormat.Bullet);
                             if (!me._changedProps.get_TextPr()) me._changedProps.put_TextPr(new AscCommonWord.CTextPr());
                             me._changedProps.get_TextPr().put_FontFamily(props.font);
 
-                            if (!me._changedProps.get_Text()) me._changedProps.put_Text([]);
-                            if (me._changedProps.get_Text().length<1) me._changedProps.get_Text().push(new Asc.CAscNumberingLvlText());
+                            me._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
                             me._changedProps.get_Text()[0].put_Value(props.symbol);
                         }
                     }
+                    callback && callback.call(me, result);
                 },
                 win = new Common.Views.SymbolTableDialog({
                     api: me.options.api,
@@ -343,7 +406,13 @@ define([
 
         _handleInput: function(state) {
             if (this.options.handler) {
-                this.options.handler.call(this, state, this._changedProps);
+                var props = [], lvlnum = [];
+                for (var i=0; i<9; i++) {
+                    if (!this.levels[i]) continue;
+                    props.push(this.levels[i]);
+                    lvlnum.push(i);
+                }
+                this.options.handler.call(this, state, {props: (props.length==1) ? props[0] : props, num: (lvlnum.length==1) ? lvlnum[0] : lvlnum});
             }
             this.close();
         },
@@ -360,46 +429,80 @@ define([
         _setDefaults: function (props) {
             this.bulletProps = {};
             if (props) {
-                this.cmbAlign.setValue(props.get_Align() || '');
-                this.cmbFormat.setValue(props.get_Format() || '');
-                var textPr = props.get_TextPr(),
-                    text = props.get_Text();
-                if (text) {
-                    this.bulletProps.symbol = text[0].get_Value();
-                }
-                if (textPr) {
-                    this.cmbSize.setValue(textPr.get_FontSize() || -1);
-                    this.bulletProps.font = textPr.get_FontFamily();
+                var levelProps = props.get_Lvl(this.level);
+                (this.level<0) && (this.level = 0);
+                this.levels[this.level] = levelProps || new Asc.CAscNumberingLvl(this.level);
 
-                    var color = textPr.get_Color();
-                    if (color && !color.get_auto()) {
-                        if ( typeof(color) == 'object' ) {
-                            var isselected = false;
-                            for (var i=0; i<10; i++) {
-                                if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                                    this.colors.select(color,true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.colors.clearSelection();
-                            color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                        } else
-                            this.colors.select(color,true);
-                    } else {
-                        this.colors.clearSelection();
-                        if (color && color.get_auto()) {
-                            var clr_item = this.btnColor.menu.$el.find('#id-dlg-bullet-auto-color > a');
-                            !clr_item.hasClass('selected') && clr_item.addClass('selected');
-                            color = '000000';
-                            this.isAutoColor = true;
-                        } else
-                            color = 'transparent';
-                    }
-                    this.btnColor.setColor(color);
-                }
+                if (this.type==2) {
+                    var store = this.cmbFormat.store;
+                    store.unshift({ displayValue: this.txtNone,   value: Asc.c_oAscNumberingFormat.None });
+                    store.push({ displayValue: this.txtNewBullet, value: -1 });
+                    this.cmbFormat.setData(store.models);
+                    this.levelsList.selectByIndex(this.level);
+                } else
+                    this.fillLevelProps(this.levels[this.level]);
             }
-            this._changedProps = props || new Asc.CAscNumberingLvl(this.level);
+            this._changedProps = this.levels[this.level];
+        },
+
+        onSelectLevel: function(listView, itemView, record) {
+            this.level = record.get('value');
+            if (this.levels[this.level] === undefined)
+                this.levels[this.level] = this.props.get_Lvl(this.level);
+            this.fillLevelProps(this.levels[this.level]);
+            this._changedProps = this.levels[this.level];
+        },
+
+        fillLevelProps: function(levelProps) {
+            if (!levelProps) return;
+
+            this.cmbAlign.setValue(levelProps.get_Align() || '');
+            var format = levelProps.get_Format(),
+                textPr = levelProps.get_TextPr(),
+                text = levelProps.get_Text();
+            if (text && format == Asc.c_oAscNumberingFormat.Bullet) {
+                this.bulletProps.symbol = text[0].get_Value();
+            }
+            if (textPr) {
+                this.cmbSize.setValue(textPr.get_FontSize() || -1);
+                this.bulletProps.font = textPr.get_FontFamily();
+
+                var color = textPr.get_Color();
+                if (color && !color.get_auto()) {
+                    if ( typeof(color) == 'object' ) {
+                        var isselected = false;
+                        for (var i=0; i<10; i++) {
+                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
+                                this.colors.select(color,true);
+                                isselected = true;
+                                break;
+                            }
+                        }
+                        if (!isselected) this.colors.clearSelection();
+                        color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                    } else
+                        this.colors.select(color,true);
+                } else {
+                    this.colors.clearSelection();
+                    if (color && color.get_auto()) {
+                        var clr_item = this.btnColor.menu.$el.find('#id-dlg-bullet-auto-color > a');
+                        !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                        color = '000000';
+                        this.isAutoColor = true;
+                    } else
+                        color = 'ffffff';
+                }
+                this.btnColor.setColor(color);
+            }
+            if (this.type>0) {
+                if (format == Asc.c_oAscNumberingFormat.Bullet) {
+                    if (!this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
+                        this.cmbFormat.store.add({ displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbFormat.store.length-1});
+                    this.cmbFormat.setData(this.cmbFormat.store.models);
+                    this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                } else
+                    this.cmbFormat.setValue(format || '');
+            }
         },
 
         txtTitle: 'List Settings',
@@ -416,6 +519,9 @@ define([
         textPreview: 'Preview',
         txtType: 'Type',
         txtLikeText: 'Like a text',
-        textLevel: 'Level'
+        textLevel: 'Level',
+        txtNone: 'None',
+        txtNewBullet: 'New bullet...',
+        txtSymbol: 'Symbol'
     }, DE.Views.ListSettingsDialog || {}))
 });
