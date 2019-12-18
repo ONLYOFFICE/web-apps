@@ -136,6 +136,13 @@ define([
                     additionalAlign: this.menuAddAlign,
                     items: [
                         {
+                            id: 'id-dlg-bullet-text-color',
+                            caption: this.txtLikeText,
+                            checkable: true,
+                            toggleGroup: 'list-settings-color'
+                        },
+                        {caption: '--'},
+                        {
                             id: 'id-dlg-bullet-auto-color',
                             caption: this.textAuto,
                             template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #000;"></span><%= caption %></a>')
@@ -156,6 +163,7 @@ define([
             this.btnColor.render($window.find('#id-dlg-bullet-color'));
             $window.find('#id-dlg-bullet-color-new').on('click', _.bind(this.addNewColor, this, this.colors));
             $window.find('#id-dlg-bullet-auto-color').on('click', _.bind(this.onAutoColor, this));
+            $window.find('#id-dlg-bullet-text-color').on('click', _.bind(this.onLikeTextColor, this));
 
             this.menuAddAlign = function(menuRoot, left, top) {
                 var self = this;
@@ -341,11 +349,28 @@ define([
             var clr_item = this.btnColor.menu.$el.find('#id-dlg-bullet-auto-color > a');
             !clr_item.hasClass('selected') && clr_item.addClass('selected');
             this.isAutoColor = true;
+            this.btnColor.menu.items[0].setChecked(false, true);
             if (this._changedProps) {
                 if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
                 var color = new Asc.asc_CColor();
                 color.put_auto(true);
                 this._changedProps.get_TextPr().put_Color(color);
+            }
+            if (this.api) {
+                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+            }
+        },
+
+        onLikeTextColor: function(e) {
+            var color = Common.Utils.ThemeColor.getHexColor(255, 255, 255);
+            this.btnColor.setColor(color);
+            this.colors.clearSelection();
+            var clr_item = this.btnColor.menu.$el.find('#id-dlg-bullet-auto-color > a');
+            clr_item.removeClass('selected');
+            this.isAutoColor = false;
+            if (this._changedProps) {
+                if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
+                this._changedProps.get_TextPr().put_Color(undefined);
             }
             if (this.api) {
                 //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
@@ -359,6 +384,7 @@ define([
                 this._changedProps.get_TextPr().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
             }
             this.isAutoColor = false;
+            this.btnColor.menu.items[0].setChecked(false, true);
             if (this.api) {
                 //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
             }
@@ -471,6 +497,7 @@ define([
                 this.bulletProps.font = textPr.get_FontFamily();
 
                 var color = textPr.get_Color();
+                this.btnColor.menu.items[0].setChecked(color===undefined, true);
                 if (color && !color.get_auto()) {
                     if ( typeof(color) == 'object' ) {
                         var isselected = false;
@@ -492,8 +519,9 @@ define([
                         !clr_item.hasClass('selected') && clr_item.addClass('selected');
                         color = '000000';
                         this.isAutoColor = true;
-                    } else
+                    } else {
                         color = 'ffffff';
+                    }
                 }
                 this.btnColor.setColor(color);
             }
