@@ -211,6 +211,7 @@ define([
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 data        : [
+                    { displayValue: this.txtNone,       value: Asc.c_oAscNumberingFormat.None },
                     { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
                     { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
                     { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
@@ -461,7 +462,6 @@ define([
 
                 if (this.type==2) {
                     var store = this.cmbFormat.store;
-                    store.unshift({ displayValue: this.txtNone,   value: Asc.c_oAscNumberingFormat.None });
                     store.push({ displayValue: this.txtNewBullet, value: -1 });
                     this.cmbFormat.setData(store.models);
                     this.levelsList.selectByIndex(this.level);
@@ -485,7 +485,7 @@ define([
         fillLevelProps: function(levelProps) {
             if (!levelProps) return;
 
-            this.cmbAlign.setValue(levelProps.get_Align() || '');
+            this.cmbAlign.setValue((levelProps.get_Align()!==undefined) ? levelProps.get_Align() : '');
             var format = levelProps.get_Format(),
                 textPr = levelProps.get_TextPr(),
                 text = levelProps.get_Text();
@@ -532,7 +532,7 @@ define([
                     this.cmbFormat.setData(this.cmbFormat.store.models);
                     this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
                 } else
-                    this.cmbFormat.setValue(format || '');
+                    this.cmbFormat.setValue((format!==undefined) ? format : '');
             }
         },
 
