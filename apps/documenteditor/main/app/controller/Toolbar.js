@@ -1575,6 +1575,7 @@ define([
                     var win, props,
                         me = this;
                     win = new DE.Views.PageMarginsDialog({
+                        api: me.api,
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();

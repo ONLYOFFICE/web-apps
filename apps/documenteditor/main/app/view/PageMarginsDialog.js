@@ -110,6 +110,7 @@ define([
             this.spinners = [];
             this._noApply = false;
             this.maxMarginsW = this.maxMarginsH = 0;
+            this.api = this.options.api;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
