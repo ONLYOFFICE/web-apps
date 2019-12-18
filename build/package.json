@@ -19,7 +19,6 @@
     "grunt-jscoverage": "0.1.1",
     "grunt-json-minify": "^1.1.0",
     "grunt-mocha": "^1.0.0",
-    "grunt-replace": "^1.0.0",
     "grunt-spritesmith": "^6.8.0",
     "grunt-svgmin": "^6.0.0",
     "grunt-text-replace": "0.3.11",
