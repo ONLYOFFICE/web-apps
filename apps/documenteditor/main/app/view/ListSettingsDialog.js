@@ -103,7 +103,7 @@ define([
                         '<tr>',
                             '<td class="<% if (type != 2) { %> hidden <% } %>" style="width: 50px; padding-right: 10px;">',
                                 '<label>' + this.textLevel + '</label>',
-                                '<div id="levels-list" style="width:100%; height: <% if (type == 2) { %>208<% } else { %>120<% } %>px;margin-top: 2px; "></div>',
+                                '<div id="levels-list" class="no-borders" style="width:100%; height: <% if (type == 2) { %>208<% } else { %>120<% } %>px;margin-top: 2px; "></div>',
                             '</td>',
                             '<td>',
                                 '<label>' + this.textPreview + '</label>',
@@ -196,7 +196,7 @@ define([
                 ];
             var template = [
                 '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="padding-top:3px; cursor: pointer; <%= style %>"></div>',
+                '<div class="form-control" style="padding-top:3px; line-height: 14px; cursor: pointer; <%= style %>"></div>',
                 '<div style="display: table-cell;"></div>',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
@@ -222,7 +222,7 @@ define([
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
                         if (record.get('value')==Asc.c_oAscNumberingFormat.Bullet)
-                            formcontrol[0].innerHTML = record.get('displayValue') + '<div style="display:inline-block; height:100%; font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</div>';
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
                     } else
@@ -323,7 +323,7 @@ define([
             this.levelsList = new Common.UI.ListView({
                 el: $('#levels-list', this.$window),
                 store: new Common.UI.DataViewStore(levels),
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= (value+1) %></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;line-height: 15px;"><%= (value+1) %></div>')
             });
             this.levelsList.on('item:select', _.bind(this.onSelectLevel, this));
 
@@ -459,7 +459,17 @@ define([
 
                 if (this.type==2) {
                     var store = this.cmbFormat.store;
-                    store.push({ displayValue: this.txtNewBullet, value: -1 });
+                    store.push([
+                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "·", font: 'Symbol' },
+                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "o", font: 'Courier New' },
+                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "§", font: 'Wingdings' },
+                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "v", font: 'Wingdings' },
+                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "Ø", font: 'Wingdings' },
+                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "ü", font: 'Wingdings' },
+                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "¨", font: 'Symbol' },
+                            { displayValue: this.txtSymbol + ': ', value: Asc.c_oAscNumberingFormat.Bullet, symbol: "–", font: 'Arial' },
+                            { displayValue: this.txtNewBullet, value: -1 }
+                            ]);
                     this.cmbFormat.setData(store.models);
                     this.levelsList.selectByIndex(this.level);
                 } else
