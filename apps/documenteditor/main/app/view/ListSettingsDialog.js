@@ -222,7 +222,7 @@ define([
                     var formcontrol = $(this.el).find('.form-control');
                     if (record) {
                         if (record.get('value')==Asc.c_oAscNumberingFormat.Bullet)
-                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<div style="display:inline-block; height:100%; font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</div>';
                         else
                             formcontrol[0].innerHTML = record.get('displayValue');
                     } else
@@ -552,7 +552,7 @@ define([
         txtLikeText: 'Like a text',
         textLevel: 'Level',
         txtNone: 'None',
-        txtNewBullet: 'New bullet...',
+        txtNewBullet: 'New bullet',
         txtSymbol: 'Symbol'
     }, DE.Views.ListSettingsDialog || {}))
 });
