@@ -3,7 +3,7 @@
 	<head>
 		<title>Sort and filter data</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Sort your data in ascending or descending order in a spreadsheet" />
+		<meta name="description" content="Sort your data in ascending or descending order in a spreadsheet and use filters" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -20,13 +20,14 @@
 			<li><b>Ascending</b> is used to sort your data in ascending order - A to Z alphabetically or smallest to largest for numerical data.</li>
 			<li><b>Descending</b> is used to sort your data in descending order - Z to A alphabetically or largest to smallest for numerical data.</li>
 			</ul>
+            <p class="note"><b>Note</b>: the <b>Sort</b> options are accessible from both <b>Home</b> and <b>Data</b> tab.</p>
 			<p>To sort your data,</p>
 			<ol>
 				<li>select a range of cells you wish to sort (you can select a single cell in a range to sort the entire range),
                 </li>
-				<li>click the <b>Sort ascending</b> <img alt="Sort ascending icon" src="../images/sortatoz.png" /> icon situated at the <b>Home</b> tab of the top toolbar to sort your data in ascending order,
+				<li>click the <b>Sort ascending</b> <img alt="Sort ascending icon" src="../images/sortatoz.png" /> icon situated at the <b>Home</b> or <b>Data</b> tab of the top toolbar to sort your data in ascending order,
 					<br />OR<br />
-					click the <b>Sort descending</b> <img alt="Sort descending icon" src="../images/sortztoa.png" /> icon situated at the <b>Home</b> tab of the top toolbar to sort your data in descending order.
+					click the <b>Sort descending</b> <img alt="Sort descending icon" src="../images/sortztoa.png" /> icon situated at the <b>Home</b> or <b>Data</b> tab of the top toolbar to sort your data in descending order.
 				</li>
 			</ol>
             <p class="note"><b>Note</b>: if you select a single column/row within a cell range or a part of the column/row, you will be asked if you want to expand the selection to include adjacent cells or sort the selected data only.</p>
@@ -46,11 +47,12 @@
                         
 			<h3 id="filter">Filter Data</h3>
 			<p>To display only the rows that meet certain criteria and hide other ones, make use of the <b>Filter</b> option.</p>
+            <p class="note"><b>Note</b>: the <b>Filter</b> options are accessible from both <b>Home</b> and <b>Data</b> tab.</p>
             <b>To enable a filter,</b>
             <ol>
                 <li>Select a range of cells containing data to filter (you can select a single cell in a range to filter the entire range),</li>
                 <li>
-                    Click the <b>Filter</b> <img alt="Filter icon" src="../images/sortandfilter.png" /> icon situated at the <b>Home</b> tab of the top toolbar.
+                    Click the <b>Filter</b> <img alt="Filter icon" src="../images/sortandfilter.png" /> icon situated at the <b>Home</b> or <b>Data</b> tab of the top toolbar.
                     <p>The drop-down arrow <img alt="Drop-Down Arrow" src="../images/dropdownarrow.png" /> will appear in the first cell of each column of the selected cell range. It means that the filter is enabled.</p>
                 </li>
             </ol>
@@ -58,6 +60,7 @@
             <ol>
                 <li>Click the drop-down arrow <img alt="Drop-Down Arrow" src="../images/dropdownarrow.png" />. The <b>Filter</b> option list will open: 
                 <p><img alt="Filter window" src="../images/filterwindow.png" /></p>
+                <p class="note"><b>Note</b>: you can adjust the filter window size by dragging its right border to the right or to the left to display the data as convenient as possible.</p>
                 </li>
                 <li>
                 <p>Adjust the filter parameters. You can proceed in one of the following three ways: select the data to display, filter data by certain criteria or filter data by color.</p>
@@ -65,6 +68,7 @@
                         <li>
                             <b>Select the data to display</b>
                             <p>Uncheck the boxes near the data you need to hide. For your convenience all the data wintin the <b>Filter</b> option list are sorted in ascending order.</p>
+                            <p>The number of unique values in the filtered range is displayed to the right of each value within the filter window.</p>
                             <p class="note"><b>Note</b>: the <b>{Blanks}</b> check box corresponds to the empty cells. It is available if the selected range of cells contains at least one empty cell.</p>
                             <p>To facilitate the process make use of the search field on the top. Enter your query, entirely or partially, in the field <!--and press the Enter key--> - the values that include these characters will be displayed in the list below. The following two options will also be available:</p>
                             <ul>
@@ -149,6 +153,7 @@
 				<li>click the <b>OK</b> button to apply the selected template.</li>
 			</ol>
 			<p>The template will be applied to the selected range of cells and you will be able to edit the table headers and apply the filter to work with your data.</p>
+            <p>It's also possible to insert a formatted table using the <b>Table</b> button at the <b>Insert</b> tab. In this case, the default table template is applied.</p>
             <p class="note"><b>Note</b>: once you create a new formatted table, a <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">default name</a> (<em>Table1</em>, <em>Table2</em> etc.) will be automatically assigned to the table. You can change this name making it more meaningful and use it for further work.</p> 
             <p>If you enter a new value in a cell below the table last row (if the table does not have the Total row) or in a cell to the right of the table last column, the formatted table will be automatically extended to include a new row or column. If you do not want to expand the table, click the <img alt="Paste Special" src="../images/pastespecialbutton.png" /> button that appears and select the <b>Undo table autoexpansion</b> option. Once you undo this action, the <b>Redo table autoexpansion</b> option will be available in this menu.</p>
             <p><img alt="Undo table autoexpansion" src="../images/undoautoexpansion.png" /></p>
@@ -200,14 +205,14 @@
             <p>You can also proceed in the following way:</p>
 				<ol>
 					<li>select the range of cells containing the filtered data,</li>
-					<li>click the <b>Clear filter</b> <img alt="Clear filter icon" src="../images/clearfilter.png" /> icon situated at the <b>Home</b> tab of the top toolbar.</li>
+					<li>click the <b>Clear filter</b> <img alt="Clear filter icon" src="../images/clearfilter.png" /> icon situated at the <b>Home</b> or <b>Data</b> tab of the top toolbar.</li>
 				</ol>
             <p>The filter will remain enabled, but all the applied filter parameters will be removed, and the <b>Filter</b> <img alt="Filter button" src="../images/filterbutton.png" /> buttons in the first cells of the columns will change into the drop-down arrows <img alt="Drop-Down Arrow" src="../images/dropdownarrow.png" />.</p>
             <h3>Remove Filter</h3>
             <p>To remove the filter,</p>
             <ol>
                 <li>select the range of cells containing the filtered data,</li>
-                <li>click the <b>Filter</b> <img alt="Filter icon" src="../images/sortandfilter.png" /> icon situated at the <b>Home</b> tab of the top toolbar.</li>
+                <li>click the <b>Filter</b> <img alt="Filter icon" src="../images/sortandfilter.png" /> icon situated at the <b>Home</b> or <b>Data</b> tab of the top toolbar.</li>
             </ol>
             <p>The filter will be disabled, and the drop-down arrows <img alt="Drop-Down Arrow" src="../images/dropdownarrow.png" /> will disappear from the first cells of the columns.</p>
 		</div>
