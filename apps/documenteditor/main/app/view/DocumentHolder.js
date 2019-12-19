@@ -1734,6 +1734,7 @@ define([
                     win.setActiveCategory(type == 'indents' ? 0 : 3);
             } else if (type == 'margins') {
                 win = new DE.Views.PageMarginsDialog({
+                    api: me.api,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             var props = dlg.getSettings();
