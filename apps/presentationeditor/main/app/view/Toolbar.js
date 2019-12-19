@@ -1305,7 +1305,7 @@ define([
                             cls: 'color-schemas-menu',
                             colors: schemecolors,
                             caption: (index < 21) ? (me.SchemeNames[index] || name) : name,
-                            value: name,
+                            value: index,
                             checkable: true,
                             toggleGroup: 'menuSchema'
                         });

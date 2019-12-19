@@ -252,7 +252,7 @@ define([
                 _.each(schemas, function (schema, index) {
                     var colors = schema.get_colors(),//schema.colors;
                         name = schema.get_name();
-                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + name + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
+                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
                     for (var j = 2; j < 7; j++) {
                         var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
                         templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
@@ -264,7 +264,7 @@ define([
             onColorSchemaClick: function (event) {
                 if (this.api) {
                     var name = $(event.currentTarget).children('input').val();
-                    this.api.ChangeColorScheme(name);
+                    this.api.asc_ChangeColorSchemeByIdx(name);
                 }
             },
 
