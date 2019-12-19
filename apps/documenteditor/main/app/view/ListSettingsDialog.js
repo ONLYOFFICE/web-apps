@@ -130,6 +130,22 @@ define([
                 $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+            this.menuAddAlign = function(menuRoot, left, top) {
+                var self = this;
+                if (!$window.hasClass('notransform')) {
+                    $window.addClass('notransform');
+                    menuRoot.addClass('hidden');
+                    setTimeout(function() {
+                        menuRoot.removeClass('hidden');
+                        menuRoot.css({left: left, top: top});
+                        self.options.additionalAlign = null;
+                    }, 300);
+                } else {
+                    menuRoot.css({left: left, top: top});
+                    self.options.additionalAlign = null;
+                }
+            };
+
             this.btnColor = new Common.UI.ColorButton({
                 style: 'width:45px;',
                 menu        : new Common.UI.Menu({
@@ -141,11 +157,11 @@ define([
                             checkable: true,
                             toggleGroup: 'list-settings-color'
                         },
-                        {caption: '--'},
                         {
                             id: 'id-dlg-bullet-auto-color',
                             caption: this.textAuto,
-                            template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #000;"></span><%= caption %></a>')
+                            checkable: true,
+                            toggleGroup: 'list-settings-color'
                         },
                         {caption: '--'},
                         { template: _.template('<div id="id-dlg-bullet-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
@@ -162,24 +178,8 @@ define([
             });
             this.btnColor.render($window.find('#id-dlg-bullet-color'));
             $window.find('#id-dlg-bullet-color-new').on('click', _.bind(this.addNewColor, this, this.colors));
-            $window.find('#id-dlg-bullet-auto-color').on('click', _.bind(this.onAutoColor, this));
-            $window.find('#id-dlg-bullet-text-color').on('click', _.bind(this.onLikeTextColor, this));
-
-            this.menuAddAlign = function(menuRoot, left, top) {
-                var self = this;
-                if (!$window.hasClass('notransform')) {
-                    $window.addClass('notransform');
-                    menuRoot.addClass('hidden');
-                    setTimeout(function() {
-                        menuRoot.removeClass('hidden');
-                        menuRoot.css({left: left, top: top});
-                        self.options.additionalAlign = null;
-                    }, 300);
-                } else {
-                    menuRoot.css({left: left, top: top});
-                    self.options.additionalAlign = null;
-                }
-            };
+            this.btnColor.menu.items[0].on('toggle', _.bind(this.onLikeTextColor, this));
+            this.btnColor.menu.items[1].on('toggle', _.bind(this.onAutoColor, this));
 
             this.btnEdit = new Common.UI.Button({
                 el: $window.find('#id-dlg-bullet-font')
@@ -343,38 +343,35 @@ define([
             picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
         },
 
-        onAutoColor: function(e) {
-            var color = Common.Utils.ThemeColor.getHexColor(0, 0, 0);
-            this.btnColor.setColor(color);
-            this.colors.clearSelection();
-            var clr_item = this.btnColor.menu.$el.find('#id-dlg-bullet-auto-color > a');
-            !clr_item.hasClass('selected') && clr_item.addClass('selected');
-            this.isAutoColor = true;
-            this.btnColor.menu.items[0].setChecked(false, true);
-            if (this._changedProps) {
-                if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                var color = new Asc.asc_CColor();
-                color.put_auto(true);
-                this._changedProps.get_TextPr().put_Color(color);
-            }
-            if (this.api) {
-                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+        onAutoColor: function(item, state) {
+            if (!!state) {
+                var color = Common.Utils.ThemeColor.getHexColor(0, 0, 0);
+                this.btnColor.setColor(color);
+                this.colors.clearSelection();
+                if (this._changedProps) {
+                    if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
+                    var color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                    this._changedProps.get_TextPr().put_Color(color);
+                }
+                if (this.api) {
+                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                }
             }
         },
 
-        onLikeTextColor: function(e) {
-            var color = Common.Utils.ThemeColor.getHexColor(255, 255, 255);
-            this.btnColor.setColor(color);
-            this.colors.clearSelection();
-            var clr_item = this.btnColor.menu.$el.find('#id-dlg-bullet-auto-color > a');
-            clr_item.removeClass('selected');
-            this.isAutoColor = false;
-            if (this._changedProps) {
-                if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                this._changedProps.get_TextPr().put_Color(undefined);
-            }
-            if (this.api) {
-                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+        onLikeTextColor: function(item, state) {
+            if (!!state) {
+                var color = Common.Utils.ThemeColor.getHexColor(255, 255, 255);
+                this.btnColor.setColor(color);
+                this.colors.clearSelection();
+                if (this._changedProps) {
+                    if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
+                    this._changedProps.get_TextPr().put_Color(undefined);
+                }
+                if (this.api) {
+                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                }
             }
         },
 
@@ -384,8 +381,8 @@ define([
                 if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
                 this._changedProps.get_TextPr().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
             }
-            this.isAutoColor = false;
             this.btnColor.menu.items[0].setChecked(false, true);
+            this.btnColor.menu.items[1].setChecked(false, true);
             if (this.api) {
                 //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
             }
@@ -498,6 +495,7 @@ define([
 
                 var color = textPr.get_Color();
                 this.btnColor.menu.items[0].setChecked(color===undefined, true);
+                this.btnColor.menu.items[1].setChecked(!!color && color.get_auto(), true);
                 if (color && !color.get_auto()) {
                     if ( typeof(color) == 'object' ) {
                         var isselected = false;
@@ -514,14 +512,7 @@ define([
                         this.colors.select(color,true);
                 } else {
                     this.colors.clearSelection();
-                    if (color && color.get_auto()) {
-                        var clr_item = this.btnColor.menu.$el.find('#id-dlg-bullet-auto-color > a');
-                        !clr_item.hasClass('selected') && clr_item.addClass('selected');
-                        color = '000000';
-                        this.isAutoColor = true;
-                    } else {
-                        color = 'ffffff';
-                    }
+                    color = (color && color.get_auto()) ? '000000' : 'ffffff';
                 }
                 this.btnColor.setColor(color);
             }
@@ -546,7 +537,7 @@ define([
         textLeft: 'Left',
         textCenter: 'Center',
         textRight: 'Right',
-        textAuto: 'Auto',
+        textAuto: 'Automatic',
         textPreview: 'Preview',
         txtType: 'Type',
         txtLikeText: 'Like a text',
