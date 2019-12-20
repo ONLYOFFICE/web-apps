@@ -507,7 +507,7 @@ define([
                         ascComment.asc_addReply(addReply);
 
                         me.api.asc_changeComment(id, ascComment);
-                        me.mode && me.mode.canRequestUsers && me.view.pickEMail(ascComment.asc_getGuid(), replyVal);
+                        me.mode && me.mode.canRequestSendNotify && me.view.pickEMail(ascComment.asc_getGuid(), replyVal);
 
                         return true;
                     }
@@ -1363,7 +1363,7 @@ define([
 
                     this.api.asc_addComment(comment);
                     this.view.showEditContainer(false);
-                    this.mode && this.mode.canRequestUsers && this.view.pickEMail(comment.asc_getGuid(), commentVal);
+                    this.mode && this.mode.canRequestSendNotify && this.view.pickEMail(comment.asc_getGuid(), commentVal);
                     if (!_.isUndefined(this.api.asc_SetDocumentPlaceChangedEnabled)) {
                         this.api.asc_SetDocumentPlaceChangedEnabled(false);
                     }
