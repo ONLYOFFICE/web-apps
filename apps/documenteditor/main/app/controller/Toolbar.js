@@ -1607,6 +1607,7 @@ define([
                     var win, props,
                         me = this;
                     win = new DE.Views.PageMarginsDialog({
+                        api: me.api,
                         handler: function(dlg, result) {
                             if (result == 'ok') {
                                 props = dlg.getSettings();
@@ -1637,7 +1638,7 @@ define([
 
         onColorSchemaClick: function(menu, item) {
             if (this.api) {
-                this.api.ChangeColorScheme(item.value);
+                this.api.asc_ChangeColorSchemeByIdx(item.value);
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Color Scheme');
             }
@@ -1647,7 +1648,7 @@ define([
 
         onColorSchemaShow: function(menu) {
             if (this.api) {
-                var value = this.api.asc_GetCurrentColorSchemeName();
+                var value = this.api.asc_GetCurrentColorSchemeIndex();
                 var item = _.find(menu.items, function(item) { return item.value == value; });
                 (item) ? item.setChecked(true) : menu.clearAll();
             }

@@ -110,6 +110,7 @@ define([
             this.spinners = [];
             this._noApply = false;
             this.maxMarginsW = this.maxMarginsH = 0;
+            this.api = this.options.api;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -130,7 +131,7 @@ define([
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
                     this.properties.put_TopMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
             this.spinners.push(this.spnTop);
@@ -148,7 +149,7 @@ define([
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
                     this.properties.put_BottomMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
             this.spinners.push(this.spnBottom);
@@ -166,7 +167,7 @@ define([
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
                     this.properties.put_LeftMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
             this.spinners.push(this.spnLeft);
@@ -184,7 +185,7 @@ define([
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
                     this.properties.put_RightMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
             this.spinners.push(this.spnRight);
@@ -202,7 +203,7 @@ define([
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
                     this.properties.put_Gutter(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
             this.spinners.push(this.spnGutter);
@@ -222,7 +223,7 @@ define([
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
                     this.properties.put_GutterAtTop(record.value);
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
 
@@ -241,7 +242,7 @@ define([
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
                     this.properties.put_Orientation(record.value);
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
 
@@ -270,7 +271,7 @@ define([
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
                     this.properties.put_MirrorMargins(record.value);
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }, this));
 
@@ -340,7 +341,7 @@ define([
                 this.cmbGutterPosition.setDisabled(mirrorMargins);
 
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
                 }
             }
         },
