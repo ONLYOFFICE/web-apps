@@ -743,10 +743,10 @@ define([
             if (sh)
                 this.onParagraphColor(sh);
 
-            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : true,
-                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : true,
-                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : true,
-                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : true;
+            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
+                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
+                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
             var need_disable = paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock;
 
             if (this._state.prcontrolsdisable != need_disable) {
