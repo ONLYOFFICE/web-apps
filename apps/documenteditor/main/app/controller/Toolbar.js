@@ -58,7 +58,8 @@ define([
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/WatermarkSettingsDialog',
-    'documenteditor/main/app/view/CompareSettingsDialog'
+    'documenteditor/main/app/view/CompareSettingsDialog',
+    'documenteditor/main/app/view/ListSettingsDialog'
 ], function () {
     'use strict';
 
@@ -285,6 +286,9 @@ define([
             toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
+            toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
+            toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
+            toolbar.mnuMultilevelSettings.on('click',                   _.bind(this.onMarkerSettingsClick, this, 2));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
@@ -493,14 +497,16 @@ define([
                 switch(this._state.bullets.type) {
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
-                        if (this._state.bullets.subtype!==undefined)
+                        if (this._state.bullets.subtype>0)
                             this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
                         else
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
+                        this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
-                        var idx = 0;
+                        var idx;
                         switch(this._state.bullets.subtype) {
                             case 1:
                                 idx = 4;
@@ -525,11 +531,13 @@ define([
                                 break;
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
-                        if (this._state.bullets.subtype!==undefined)
+                        if (idx!==undefined)
                             this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
                         else
                             this.toolbar.mnuNumbersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
+                        this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
+                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(idx==0);
                         break;
                     case 2:
                         this.toolbar.btnMultilevels.toggle(true, true);
@@ -1310,13 +1318,37 @@ define([
                 btn.toggle(rawData.data.subtype > -1, true);
             }
 
-            this._state.bullets.type = rawData.data.type;
-            this._state.bullets.subtype = rawData.data.subtype;
+            this._state.bullets.type = undefined;
+            this._state.bullets.subtype = undefined;
             if (this.api)
                 this.api.put_ListType(rawData.data.type, rawData.data.subtype);
 
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onMarkerSettingsClick: function(type) {
+            var me      = this;
+            var listId = me.api.asc_GetCurrentNumberingId(),
+                level = me.api.asc_GetCurrentNumberingLvl(),
+                props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
+            if (props) {
+                (new DE.Views.ListSettingsDialog({
+                    api: me.api,
+                    props: props,
+                    level: level,
+                    type: type,
+                    interfaceLang: me.mode.lang,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.asc_ChangeNumberingLvl(listId, value.props, value.num);
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            }
         },
 
         onLineSpaceToggle: function(menu, item, state, e) {
@@ -2183,6 +2215,9 @@ define([
             this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
             this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
             this.toolbar.mnuMultilevelPicker.selectByIndex(0, true);
+            this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
+            this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
+            this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
         },
 
         _getApiTextSize: function () {
