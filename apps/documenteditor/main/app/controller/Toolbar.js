@@ -1318,8 +1318,8 @@ define([
                 btn.toggle(rawData.data.subtype > -1, true);
             }
 
-            this._state.bullets.type = rawData.data.type;
-            this._state.bullets.subtype = rawData.data.subtype;
+            this._state.bullets.type = undefined;
+            this._state.bullets.subtype = undefined;
             if (this.api)
                 this.api.put_ListType(rawData.data.type, rawData.data.subtype);
 
