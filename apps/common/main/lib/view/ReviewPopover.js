@@ -102,6 +102,7 @@ define([
             this.reviewStore = options.reviewStore;
             this.canRequestUsers = options.canRequestUsers;
             this.canRequestSendNotify = options.canRequestSendNotify;
+            this.mentionShare = options.mentionShare;
             this.externalUsers = [];
             this._state = {commentsVisible: false, reviewVisible: false};
 
@@ -244,7 +245,7 @@ define([
                                 textReply: me.textReply,
                                 textClose: me.textClose,
                                 maxCommLength: Asc.c_oAscMaxCellOrCommentLength,
-                                textMention: me.canRequestSendNotify ? me.textMention : ''
+                                textMention: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : ''
                             })
                         )
                     });
@@ -1184,6 +1185,7 @@ define([
         textResolve             : 'Resolve',
         textOpenAgain           : "Open Again",
         textFollowMove          : 'Follow Move',
-        textMention             : '+mention will provide access to the document and send an email'
+        textMention             : '+mention will provide access to the document and send an email',
+        textMentionNotify       : '+mention will notify the user via email'
     }, Common.Views.ReviewPopover || {}))
 });
