@@ -6372,12 +6372,8 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   display: block;
   background-color: #fff;
 }
-.color-schemes-menu .item-content {
-  padding-left: 0;
-}
 .color-schemes-menu .item-inner {
   justify-content: flex-start;
-  padding-left: 16px;
 }
 .color-schemes-menu .color-schema-block {
   display: flex;

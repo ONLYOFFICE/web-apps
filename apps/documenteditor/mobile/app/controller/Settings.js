@@ -84,7 +84,6 @@ define([
             _canReview = false,
             _isReviewOnly = false,
             _fileKey,
-            templateInsert,
             _metricText = Common.Utils.Metric.getCurrentMetricName(),
             _isEdit,
             _lang;
@@ -348,28 +347,21 @@ define([
             },
 
             initPageColorSchemes: function() {
-                $('#color-schemes-content').html(templateInsert);
-                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+                this.curSchemas = (this.api) ? this.api.asc_GetCurrentColorSchemeIndex() : 0;
+                this.getView('Settings').renderSchemaSettings(this.curSchemas, this.schemas);
+                $('.page[data-page=color-schemes-view] input:radio[name=color-schema]').single('change', _.bind(this.onColorSchemaChange, this));
+                Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view', '.page[data-page=color-schemes-view] .page-content');
             },
 
             onSendThemeColorSchemes: function (schemas) {
-                templateInsert = "";
-                _.each(schemas, function (schema, index) {
-                    var colors = schema.get_colors(), //schema.colors;
-                        name = schema.get_name();
-                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
-                    for (var j = 2; j < 7; j++) {
-                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
-                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
-                    }
-                    templateInsert =  templateInsert + "</span><span class='text'>" + name + "</span></div></div></a>";
-                }, this);
+                this.schemas = schemas;
             },
 
-            onColorSchemaClick: function(event) {
+            onColorSchemaChange: function(event) {
                 if (this.api) {
-                    var name = $(event.currentTarget).children('input').val();
-                    this.api.asc_ChangeColorSchemeByIdx(name);
+                    var ind = $(event.currentTarget).val();
+                    if (this.curSchemas !== ind)
+                        this.api.asc_ChangeColorSchemeByIdx(parseInt(ind));
                 }
             },
 
