@@ -4061,6 +4061,7 @@ define([
 
             if (!menu) {
                 this.listControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
                     menuAlign: 'tr-bl',
                     items: []
                 });
