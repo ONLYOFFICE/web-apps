@@ -258,7 +258,7 @@ define([
                     }
                 }
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
                 }
             }, this));
 
@@ -277,7 +277,7 @@ define([
                 if (this._changedProps)
                     this._changedProps.put_Align(record.value);
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
                 }
             }, this));
 
@@ -313,7 +313,7 @@ define([
                     this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
                 }
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
                 }
             }, this));
 
@@ -355,7 +355,7 @@ define([
                     this._changedProps.get_TextPr().put_Color(color);
                 }
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
                 }
             }
         },
@@ -370,7 +370,7 @@ define([
                     this._changedProps.get_TextPr().put_Color(undefined);
                 }
                 if (this.api) {
-                    //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
                 }
             }
         },
@@ -384,7 +384,7 @@ define([
             this.btnColor.menu.items[0].setChecked(false, true);
             this.btnColor.menu.items[1].setChecked(false, true);
             if (this.api) {
-                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
             }
         },
 
@@ -424,7 +424,7 @@ define([
             win.show();
             win.on('symbol:dblclick', handler);
             if (this.api) {
-                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
             }
         },
 
@@ -477,7 +477,7 @@ define([
             }
             this._changedProps = this.levels[this.level];
             if (this.api) {
-                //this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props);
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
             }
         },
 
