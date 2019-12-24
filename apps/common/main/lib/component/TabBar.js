@@ -233,14 +233,31 @@ define([
                 this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
             }, this.bar),
             mousedown: $.proxy(function (e) {
-                if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
+                /*if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
                     if (!tab.isLockTheDrag) {
                         if (!e.ctrlKey && !e.metaKey && !e.shiftKey)
                             tab.changeState();
                         dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
                     }
-                }
+                }*/
+                this.bar.trigger('tab:drag', this.bar.selectTabs);
             }, this)
+        });
+        tab.$el.children().on(
+            {dragstart: $.proxy(function (e) {
+                var event = e.originalEvent,
+                    img = document.createElement('div');
+                event.dataTransfer.setDragImage(img, 0, 0);
+                event.dataTransfer.effectAllowed = 'move';
+            }, this),
+            dragover: $.proxy(function (e) {
+                var event = e.originalEvent;
+                if (event.preventDefault) {
+                    event.preventDefault(); // Necessary. Allows us to drop.
+                }
+                event.dataTransfer.dropEffect = 'move';
+                return false;
+            }, this),
         });
     };
 
@@ -276,6 +293,16 @@ define([
 
             var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
             addEvent(this.$bar[0], eventname, _.bind(this._onMouseWheel,this));
+            addEvent(this.$bar[0], 'dragstart', _.bind(function (event) {
+                event.dataTransfer.effectAllowed = 'move';
+            }, this));
+            addEvent(this.$bar[0], 'dragover', _.bind(function (event) {
+                if (event.preventDefault) {
+                    event.preventDefault(); // Necessary. Allows us to drop.
+                }
+                event.dataTransfer.dropEffect = 'move';
+                return false;
+            }, this));
 
             this.manager = new StateManager({bar: this});
 

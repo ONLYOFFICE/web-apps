@@ -52,7 +52,7 @@ define([
         this.label      = 'Tab';
         this.cls        = '';
         this.template   = _.template(['<li class="<% if(active){ %>active selected<% } %> <% if(cls.length){%><%= cls %><%}%>" data-label="<%= label %>">',
-                                            '<a title="<%= label %>"><%- label %></a>',
+                                            '<a title="<%= label %>" draggable="true" oo_editor_input="true" tabindex="-1"><%- label %></a>',
                                         '</li>'].join(''));
 
         this.initialize.call(this, opts);
