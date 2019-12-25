@@ -54,7 +54,7 @@ define([
     DE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers, 2 - multilevel
-            width: 300,
+            width: 330,
             height: 334,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
@@ -64,7 +64,7 @@ define([
 
         initialize : function(options) {
             this.type = options.type || 0;
-            this.height = this.type==2 ? 422 : 334;
+            this.height = 422;
 
             _.extend(this.options, {
                 title: this.txtTitle
@@ -103,11 +103,11 @@ define([
                         '<tr>',
                             '<td class="<% if (type != 2) { %> hidden <% } %>" style="width: 50px; padding-right: 10px;">',
                                 '<label>' + this.textLevel + '</label>',
-                                '<div id="levels-list" class="no-borders" style="width:100%; height: <% if (type == 2) { %>208<% } else { %>120<% } %>px;margin-top: 2px; "></div>',
+                                '<div id="levels-list" class="no-borders" style="width:100%; height:208px;margin-top: 2px; "></div>',
                             '</td>',
                             '<td>',
                                 '<label>' + this.textPreview + '</label>',
-                                '<div id="bulleted-list-preview" style="margin-top: 2px; height: <% if (type == 2) { %>208<% } else { %>120<% } %>px; width: 100%; border: 1px solid #cfcfcf;"></div>',
+                                '<div id="bulleted-list-preview" style="margin-top: 2px; height:208px; width: 100%; border: 1px solid #cfcfcf;"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -206,7 +206,7 @@ define([
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 183px;',
-                style       : "width: 129px;",
+                style       : "width: 144px;",
                 editable    : false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
@@ -258,7 +258,7 @@ define([
                     }
                 }
                 if (this.api) {
-                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level);
                 }
             }, this));
 
@@ -277,7 +277,7 @@ define([
                 if (this._changedProps)
                     this._changedProps.put_Align(record.value);
                 if (this.api) {
-                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level);
                 }
             }, this));
 
@@ -313,7 +313,7 @@ define([
                     this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
                 }
                 if (this.api) {
-                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level);
                 }
             }, this));
 
@@ -333,6 +333,14 @@ define([
         afterRender: function() {
             this.updateThemeColors();
             this._setDefaults(this.props);
+            var me = this;
+            var onApiLevelChange = function(level) {
+                me.levelsList.selectByIndex(level);
+            };
+            this.api.asc_registerCallback('asc_onPreviewLevelChange', onApiLevelChange);
+            this.on('close', function(obj){
+                me.api.asc_unregisterCallback('asc_onPreviewLevelChange', onApiLevelChange);
+            });
         },
 
         updateThemeColors: function() {
@@ -355,7 +363,7 @@ define([
                     this._changedProps.get_TextPr().put_Color(color);
                 }
                 if (this.api) {
-                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level);
                 }
             }
         },
@@ -370,7 +378,7 @@ define([
                     this._changedProps.get_TextPr().put_Color(undefined);
                 }
                 if (this.api) {
-                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
+                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level);
                 }
             }
         },
@@ -384,7 +392,7 @@ define([
             this.btnColor.menu.items[0].setChecked(false, true);
             this.btnColor.menu.items[1].setChecked(false, true);
             if (this.api) {
-                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level);
             }
         },
 
@@ -424,7 +432,7 @@ define([
             win.show();
             win.on('symbol:dblclick', handler);
             if (this.api) {
-                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level);
             }
         },
 
@@ -476,9 +484,6 @@ define([
                     this.fillLevelProps(this.levels[this.level]);
             }
             this._changedProps = this.levels[this.level];
-            if (this.api) {
-                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.type==2);
-            }
         },
 
         onSelectLevel: function(listView, itemView, record) {
@@ -534,6 +539,9 @@ define([
                     this.cmbFormat.selectRecord(this.cmbFormat.store.findWhere({value: Asc.c_oAscNumberingFormat.Bullet, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
                 } else
                     this.cmbFormat.setValue((format!==undefined) ? format : '');
+            }
+            if (this.api) {
+                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level);
             }
         },
 
