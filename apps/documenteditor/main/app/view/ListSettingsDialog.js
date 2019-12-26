@@ -416,6 +416,9 @@ define([
 
                             me._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
                             me._changedProps.get_Text()[0].put_Value(props.symbol);
+                            if (me.api) {
+                                me.api.SetDrawImagePreviewBullet('bulleted-list-preview', me.props, me.level, me.type==2);
+                            }
                         }
                     }
                     callback && callback.call(me, result);
@@ -431,9 +434,6 @@ define([
                 });
             win.show();
             win.on('symbol:dblclick', handler);
-            if (this.api) {
-                this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
-            }
         },
 
         _handleInput: function(state) {
