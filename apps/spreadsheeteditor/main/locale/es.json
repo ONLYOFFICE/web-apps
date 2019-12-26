@@ -2301,6 +2301,7 @@
   "SSE.Views.Toolbar.txtTime": "Hora",
   "SSE.Views.Toolbar.txtUnmerge": "Separar celdas",
   "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Toolbar.txtAutosumTip": "Suma",
   "SSE.Views.Top10FilterDialog.textType": "Mostrar",
   "SSE.Views.Top10FilterDialog.txtBottom": "Inferior",
   "SSE.Views.Top10FilterDialog.txtItems": "Artículo",

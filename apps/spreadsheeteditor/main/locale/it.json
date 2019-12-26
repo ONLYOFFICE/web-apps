@@ -2481,6 +2481,7 @@
   "SSE.Views.Toolbar.txtTime": "Ora",
   "SSE.Views.Toolbar.txtUnmerge": "Dividi celle",
   "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Toolbar.txtAutosumTip": "Somma",
   "SSE.Views.Top10FilterDialog.textType": "Mostra",
   "SSE.Views.Top10FilterDialog.txtBottom": "In basso",
   "SSE.Views.Top10FilterDialog.txtItems": "Elemento",

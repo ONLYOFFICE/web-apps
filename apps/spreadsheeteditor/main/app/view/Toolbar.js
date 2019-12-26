@@ -1652,7 +1652,7 @@ define([
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
-            _updateHint(this.btnInsertFormula, this.txtFormula);
+            _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula]);
             _updateHint(this.btnNamedRange, this.txtNamedRange);
             _updateHint(this.btnClearStyle, this.tipClearStyle);
             _updateHint(this.btnCopyStyle, this.tipCopyStyle);
@@ -2383,6 +2383,7 @@ define([
         textMorePages: 'More pages',
         capBtnAddComment: 'Add Comment',
         capBtnInsSymbol: 'Symbol',
-        tipInsertSymbol: 'Insert symbol'
+        tipInsertSymbol: 'Insert symbol',
+        txtAutosumTip: 'Summation'
     }, SSE.Views.Toolbar || {}));
 });

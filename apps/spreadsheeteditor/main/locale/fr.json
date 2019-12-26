@@ -2373,6 +2373,7 @@
   "SSE.Views.Toolbar.txtTime": "Heure",
   "SSE.Views.Toolbar.txtUnmerge": "Annuler fusion des cellules",
   "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Toolbar.txtAutosumTip": "Somme",
   "SSE.Views.Top10FilterDialog.textType": "Afficher",
   "SSE.Views.Top10FilterDialog.txtBottom": "En bas",
   "SSE.Views.Top10FilterDialog.txtItems": "Element",
