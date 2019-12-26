@@ -364,6 +364,7 @@ define([
                 }
                 if(arrChangeReview.length == 0) {
                     $('#current-change').css('display','none');
+                    $('.accept-reject').find('a').addClass('disabled');
                 } else {
                     $('#current-change #date-change').html(arrChangeReview[0].date);
                     $('#current-change #user-name').html(arrChangeReview[0].user);
@@ -438,8 +439,10 @@ define([
                         $('#current-change').hide();
                         $('#btn-goto-change').hide();
                         $('#btn-delete-change').hide();
+                        $('.accept-reject').find('a').addClass('disabled');
                     } else {
                         $('#current-change').show();
+                        $('.accept-reject').find('a').removeClass('disabled');
                         this.initChange();
                     }
                 }
