@@ -54,8 +54,8 @@ define([
     DE.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers, 2 - multilevel
-            width: 330,
-            height: 334,
+            width: 300,
+            height: 422,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
@@ -64,14 +64,37 @@ define([
 
         initialize : function(options) {
             this.type = options.type || 0;
-            this.height = 422;
 
             _.extend(this.options, {
-                title: this.txtTitle
-            }, options || {});
+                title: this.txtTitle,
+                height: (this.type==2) ? 376 : 422,
+                width: (this.type==2) ? 430 : 300
+        }, options || {});
 
             this.template = [
                 '<div class="box">',
+                '<% if (type == 2) { %>',
+                    '<table cols="4" style="width: 100%;">',
+                        '<tr>',
+                            '<td style="padding-right: 5px;">',
+                                '<label class="input-label">' + this.txtType + '</label>',
+                                '<div id="id-dlg-numbering-format" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;padding-right: 5px;">',
+                                '<label class="input-label">' + this.txtAlign + '</label>',
+                                '<div id="id-dlg-bullet-align" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;padding-right: 5px;">',
+                                '<label class="input-label">' + this.txtSize + '</label>',
+                                '<div id="id-dlg-bullet-size" class="input-group-nr" style="width: 100%;margin-bottom: 10px;"></div>',
+                            '</td>',
+                            '<td style="padding-left: 5px;">',
+                                '<label class="input-label">' + this.txtColor + '</label>',
+                                '<div id="id-dlg-bullet-color" style="margin-bottom: 10px;"></div>',
+                            '</td>',
+                        '</tr>',
+                    '</table>',
+                '<% } else {%>',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td style="padding-right: 5px;">',
@@ -99,6 +122,7 @@ define([
                             '</td>',
                         '</tr>',
                 '</table>',
+                '<% } %>',
                 '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td class="<% if (type != 2) { %> hidden <% } %>" style="width: 50px; padding-right: 10px;">',
@@ -206,7 +230,7 @@ define([
             this.cmbFormat = new Common.UI.ComboBoxCustom({
                 el          : $window.find('#id-dlg-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 183px;',
-                style       : "width: 144px;",
+                style       : this.type==2 ? "width: 107px;" : "width: 129px;",
                 editable    : false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
