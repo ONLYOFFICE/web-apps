@@ -269,6 +269,7 @@ define([
                         };
                         this.addNewBullet(callback);
                     } else {
+                        var oldformat = this._changedProps.get_Format();
                         this._changedProps.put_Format(record.value);
                         if (record.value == Asc.c_oAscNumberingFormat.Bullet) {
                             this.bulletProps.font = record.font;
@@ -278,6 +279,13 @@ define([
 
                             this._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
                             this._changedProps.get_Text()[0].put_Value(this.bulletProps.symbol);
+                        } else if (record.value == Asc.c_oAscNumberingFormat.None || oldformat == Asc.c_oAscNumberingFormat.Bullet) {
+                            if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
+                            this._changedProps.get_TextPr().put_FontFamily(undefined);
+
+                            this._changedProps.put_Text([new Asc.CAscNumberingLvlText()]);
+                            this._changedProps.get_Text()[0].put_Type(Asc.c_oAscNumberingLvlTextType.Num);
+                            this._changedProps.get_Text()[0].put_Value(this.level);
                         }
                     }
                 }
