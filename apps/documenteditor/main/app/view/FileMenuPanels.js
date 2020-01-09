@@ -1293,6 +1293,7 @@ define([
 
             this.menu = options.menu;
             this.urlPref = 'resources/help/en/';
+            this.openUrl = null;
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Document Editor user interface", "headername": "Program Interface"},
@@ -1419,8 +1420,9 @@ define([
                         }
                     },
                     success: function () {
-                        var rec = store.at(0);
+                        var rec = (me.openUrl) ? store.findWhere({ src: me.openUrl }) || store.at(0) : store.at(0);
                         me.viewHelpPicker.selectRecord(rec);
+                        me.viewHelpPicker.scrollToRecord(rec);
                         me.iFrame.src = me.urlPref + rec.get('src');
                     }
                 };
@@ -1443,7 +1445,8 @@ define([
                 if (rec) {
                     this.viewHelpPicker.selectRecord(rec);
                     this.viewHelpPicker.scrollToRecord(rec);
-                }
+                } else
+                    this.openUrl = url;
             }
         }
     });
