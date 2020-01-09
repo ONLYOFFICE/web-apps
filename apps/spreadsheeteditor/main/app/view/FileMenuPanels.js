@@ -229,12 +229,17 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (!this.mode.canPrint)
-                this.viewSettingsPicker.store.pop();
+            if (!this.mode.canPrint) {
+                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
+                if (this.printSettings && this.printSettings.$el && this.printSettings.$el.hasClass('active'))
+                    this.viewSettingsPicker.selectByIndex(0);
+            }
             this.generalSettings && this.generalSettings.setMode(this.mode);
             this.spellcheckSettings && this.spellcheckSettings.setMode(this.mode);
             if (!this.mode.isEdit) {
                 $(this.viewSettingsPicker.dataViewItems[2].el).hide();
+                if (this.spellcheckSettings && this.spellcheckSettings.$el && this.spellcheckSettings.$el.hasClass('active'))
+                    this.viewSettingsPicker.selectByIndex(0);
             }
         },
 
