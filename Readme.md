@@ -4,7 +4,7 @@
 
 The frontend for [ONLYOFFICE Document Server][2]. Builds the program interface and allows the user create, edit, save and export text, spreadsheet and presentation documents using the common interface of a document editor.
 
-## Previos versions
+## Previous versions
 
 Until 2019-10-23 the repository was called web-apps-pro
 
