@@ -201,11 +201,19 @@ define([
                         }
 
                     }, this),
-                    'tab:drag'          : _.bind(function (selectTabs) {
-
+                    'tab:dragstart'          : _.bind(function (dataTransfer, selectTabs) {
+                        var tabs = selectTabs,
+                            arr = [];
+                        tabs.forEach(function (item) {
+                            arr.push(item.sheetindex);
+                        });
+                        dataTransfer.setData("onlyoffice", this.api.asc_StartMoveSheet(arr[0]));
+                        dataTransfer.setData("name", this.api.asc_getWorksheetName(selectTabs[0].sheetindex));
                     }, this),
-                    'tab:drop'          : _.bind(function (selectTabs) {
-
+                    'tab:drop'          : _.bind(function (dataTransfer, index) {
+                        var data = dataTransfer.getData("onlyoffice"),
+                            name = dataTransfer.getData("name");
+                        this.api.asc_EndMoveSheet(data, index, name);
                     }, this)
                 });
 
@@ -332,6 +340,7 @@ define([
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
                         tab = {
                             sheetindex    : i,
+                            index         : items.length,
                             active        : sindex == i,
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,

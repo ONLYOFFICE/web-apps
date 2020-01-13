@@ -249,6 +249,11 @@ define([
                     img = document.createElement('div');
                 event.dataTransfer.setDragImage(img, 0, 0);
                 event.dataTransfer.effectAllowed = 'move';
+                this.bar.trigger('tab:dragstart', event.dataTransfer, this.bar.selectTabs);
+            }, this),
+            dragenter: $.proxy(function (e) {
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                $(e.currentTarget).parent().addClass('mousemove');
             }, this),
             dragover: $.proxy(function (e) {
                 var event = e.originalEvent;
@@ -258,6 +263,15 @@ define([
                 event.dataTransfer.dropEffect = 'move';
                 return false;
             }, this),
+            dragend: $.proxy(function (e) {
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
+            }, this),
+            drop: $.proxy(function (e) {
+                var event = e.originalEvent,
+                    index = $(event.currentTarget).data('index');
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                this.bar.trigger('tab:drop', event.dataTransfer, index);
+            }, this)
         });
     };
 
@@ -273,7 +287,7 @@ define([
         },
 
         tabs: [],
-        template: _.template('<ul class="nav nav-tabs <%= placement %>" />'),
+        template: _.template('<ul id="statusbar_bottom" class="nav nav-tabs <%= placement %>"/>'),
         selectTabs: [],
 
         initialize : function (options) {
@@ -301,6 +315,7 @@ define([
                     event.preventDefault(); // Necessary. Allows us to drop.
                 }
                 event.dataTransfer.dropEffect = 'move';
+                this.tabs[this.tabs.length - 1].$el.addClass('mousemove right');
                 return false;
             }, this));
 

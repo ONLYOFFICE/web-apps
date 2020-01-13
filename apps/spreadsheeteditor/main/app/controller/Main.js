@@ -238,7 +238,7 @@ define([
                     }
                 }).on('dragover', function(e) {
                     var event = e.originalEvent;
-                    if (event.target && $(event.target).closest('#editor_sdk').length<1 ) {
+                    if (event.target && $(event.target).closest('#editor_sdk').length<1 && $(event.target).closest('#statusbar_bottom').length<1) {
                         event.preventDefault();
                         event.dataTransfer.dropEffect ="none";
                         return false;
