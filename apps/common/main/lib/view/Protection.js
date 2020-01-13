@@ -119,7 +119,7 @@ define([
                 if ( this.appConfig.isPasswordSupport ) {
                     this.btnAddPwd = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-protect',
+                        iconCls: 'toolbar__icon btn-ic-protect',
                         caption: this.txtEncrypt
                     });
                     this.btnsAddPwd.push(this.btnAddPwd);
@@ -135,7 +135,7 @@ define([
                 if (this.appConfig.isSignatureSupport) {
                     this.btnSignature = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'btn-ic-signature',
+                        iconCls: 'toolbar__icon btn-ic-signature',
                         caption: this.txtSignature,
                         menu: (this.appPrefix !== 'pe-')
                     });
