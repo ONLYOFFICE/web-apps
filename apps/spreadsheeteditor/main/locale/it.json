@@ -1193,7 +1193,6 @@
   "SSE.Views.CellSettings.textPatternFill": "Modello",
   "SSE.Views.CellSettings.textRadial": "Radiale",
   "SSE.Views.CellSettings.textSelectBorders": "Seleziona i bordi che desideri modificare applicando lo stile scelto sopra",
-  "SSE.Views.CellSettings.textStyle": "Stile",
   "SSE.Views.CellSettings.tipAll": "Imposta bordo esterno e tutte le linee interne",
   "SSE.Views.CellSettings.tipBottom": "Imposta solo bordo esterno inferiore",
   "SSE.Views.CellSettings.tipDiagD": "Imposta il bordo diagonale in basso",
