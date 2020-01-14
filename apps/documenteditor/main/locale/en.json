@@ -1692,6 +1692,8 @@
   "DE.Views.Links.tipContentsUpdate": "Refresh table of contents",
   "DE.Views.Links.tipInsertHyperlink": "Add hyperlink",
   "DE.Views.Links.tipNotes": "Insert or edit footnotes",
+  "DE.Views.Links.capBtnCaption": "Caption",
+  "DE.Views.Links.tipCaption": "Insert caption",
   "DE.Views.ListSettingsDialog.textAuto": "Automatic",
   "DE.Views.ListSettingsDialog.textCenter": "Center",
   "DE.Views.ListSettingsDialog.textLeft": "Left",
