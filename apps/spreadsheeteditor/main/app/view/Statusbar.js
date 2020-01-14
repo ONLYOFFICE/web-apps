@@ -203,17 +203,25 @@ define([
                     }, this),
                     'tab:dragstart'          : _.bind(function (dataTransfer, selectTabs) {
                         var tabs = selectTabs,
-                            arr = [];
+                            arrTabs = [],
+                            arrName = [],
+                            me = this;
                         tabs.forEach(function (item) {
-                            arr.push(item.sheetindex);
+                            arrTabs.push(item.sheetindex);
+                            arrName.push(me.api.asc_getWorksheetName(item.sheetindex));
                         });
-                        dataTransfer.setData("onlyoffice", this.api.asc_StartMoveSheet(arr[0]));
-                        dataTransfer.setData("name", this.api.asc_getWorksheetName(selectTabs[0].sheetindex));
+                        var stringSheet = this.api.asc_StartMoveSheet(arrTabs),
+                            stringSheetJson,
+                            stringNameJson;
+                        stringSheetJson = JSON.stringify(stringSheet);
+                        stringNameJson = JSON.stringify(arrName);
+                        dataTransfer.setData("onlyoffice", stringSheetJson);
+                        dataTransfer.setData("name", stringNameJson);
                     }, this),
                     'tab:drop'          : _.bind(function (dataTransfer, index) {
-                        var data = dataTransfer.getData("onlyoffice"),
-                            name = dataTransfer.getData("name");
-                        this.api.asc_EndMoveSheet(data, index, name);
+                        var arrSheets = dataTransfer.getData("onlyoffice"),
+                            arrNames = dataTransfer.getData("name");
+                        this.api.asc_EndMoveSheet(index, JSON.parse(arrNames), JSON.parse(arrSheets));
                     }, this)
                 });
 
