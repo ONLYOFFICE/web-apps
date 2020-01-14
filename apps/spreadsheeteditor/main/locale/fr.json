@@ -1166,7 +1166,6 @@
   "SSE.Views.CellSettings.textPatternFill": "Modèle",
   "SSE.Views.CellSettings.textRadial": "Radial",
   "SSE.Views.CellSettings.textSelectBorders": "Sélectionnez les bordures à modifier en appliquant le style choisi ci-dessus",
-  "SSE.Views.CellSettings.textStyle": "Style",
   "SSE.Views.CellSettings.tipAll": "Fixer bordure extérieure et la toutes lignes intérieures",
   "SSE.Views.CellSettings.tipBottom": "Fixer seulement bordure extérieure inférieure",
   "SSE.Views.CellSettings.tipDiagD": "Fixer Bordure Diagonale Basse",
