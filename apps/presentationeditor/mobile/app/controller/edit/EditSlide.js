@@ -396,10 +396,18 @@ define([
 
                     _themes = [];
 
-                    _.each(defaultThemes.concat(docThemes), function(theme) {
+                    _.each(defaultThemes, function(theme, index) {
+                        _themes.push({
+                            themeId : theme.get_Index(),
+                            offsety     : index * 38
+                        });
+                    });
+
+                    _.each(docThemes, function(theme) {
                         _themes.push({
                             imageUrl: theme.get_Image(),
-                            themeId : theme.get_Index()
+                            themeId : theme.get_Index(),
+                            offsety     : 0
                         });
                     });
 
