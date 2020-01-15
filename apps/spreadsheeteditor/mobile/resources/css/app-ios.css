@@ -7714,6 +7714,7 @@ html.pixel-ratio-3 .cell-styles.dataview .row li {
   left: 0;
   right: 0;
   bottom: 0;
+  font-size: 0;
 }
 .doc-placeholder > .columns {
   width: 100%;
@@ -7729,5 +7730,5 @@ html.pixel-ratio-3 .cell-styles.dataview .row li {
 .doc-placeholder > .columns:first-child {
   background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
   background-size: 20px 20px;
-  width: 35px;
+  width: 25px;
 }

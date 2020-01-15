@@ -23,7 +23,7 @@
 
         .loadmask > .brendpanel {
             width: 100%;
-            min-height: 32px;
+            min-height: 28px;
             background: #aa5252;
         }
 
@@ -252,14 +252,23 @@
 
     <script>
         var params = getUrlParams(),
+            notoolbar = params["toolbar"] == 'false',
             compact = params["compact"] == 'true',
             view = params["mode"] == 'view';
 
+        (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
+
         if (compact || view) {
-            document.querySelector('.brendpanel > :nth-child(2)').remove();
-            document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+            if (notoolbar) {
+                document.querySelector('.brendpanel > :nth-child(1)').remove();
+                document.querySelector('.brendpanel').remove();
+            } else
+                document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+        } else if (notoolbar) {
+            document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
         }
-        if (view) {
+
+        if (view || notoolbar) {
             document.querySelector('.sktoolbar').remove();
         }
 

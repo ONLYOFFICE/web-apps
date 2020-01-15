@@ -803,6 +803,9 @@
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
 
+        if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
+            params += "&toolbar=false";
+
         return params;
     }
 
