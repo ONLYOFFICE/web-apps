@@ -773,6 +773,11 @@ define([
                     me.hidePreloader();
                     me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                 }
+                if (me.appOptions.canBrandingExt && (me.editorConfig.customization && (me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))) {
+                    $('#editor-navbar #navbar-logo').hide();
+                    $('#editor-navbar').removeClass('logo-navbar');
+                    $('#editor_sdk').removeClass('with-logo');
+                }
             },
 
             applyModeCommonElements: function() {

@@ -27,7 +27,7 @@
             .loadmask > .brendpanel {
                 width: 100%;
                 position: absolute;
-                height: 44px;
+                height: 68px;
                 background-color: #e2e2e2;
                 opacity: 0;
             }
@@ -37,7 +37,7 @@
             }
 
             .loadmask > .brendpanel.android {
-                height: 56px;
+                height: 80px;
                 background: #40865c;
             }
 
@@ -76,11 +76,11 @@
                 font-size: 0;
                 border: 1px solid #dfdfdf;
                 white-space: nowrap;
-                padding-top: 43px;
+                padding-top: 67px;
             }
 
             .loadmask > .placeholder.android {
-                padding-top: 56px;
+                padding-top: 79px;
             }
 
             .loadmask > .placeholder > .columns {

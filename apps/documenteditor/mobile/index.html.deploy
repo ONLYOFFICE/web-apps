@@ -29,7 +29,7 @@
             .loadmask > .brendpanel {
                 width: 100%;
                 position: absolute;
-                height: 44px;
+                height: 68px;
                 background-color: #e2e2e2;
                 opacity: 0;
             }
@@ -39,7 +39,7 @@
             }
 
             .loadmask > .brendpanel.android {
-                height: 56px;
+                height: 80px;
                 background: #446995;
             }
 
@@ -75,8 +75,12 @@
                 background: #fbfbfb;
                 width: 100%;
                 height: 100%;
-                padding-top: 56px;
+                padding-top: 65px;
             }
+
+            .loadmask > .placeholder.android {
+                padding-top: 75px;
+             }
 
             .loadmask > .placeholder > .line {
                 height: 15px;
@@ -170,6 +174,10 @@
                     logo && (elem.setAttribute('src', logo));
                     elem.style.opacity = 1;
                 }
+                var placeholder = document.getElementsByClassName('placeholder')[0];
+                if (placeholder && /Android/.test(navigator.userAgent)) {
+                    placeholder.classList.add('android');
+                 }
             }
 
             window.requireTimeourError = function(){
