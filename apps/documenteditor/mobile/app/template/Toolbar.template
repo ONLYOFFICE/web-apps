@@ -1,4 +1,5 @@
-<div class="navbar" id="editor-navbar">
+<div class="navbar logo-navbar" id="editor-navbar">
+    <div id="navbar-logo" style="padding-top: 12px;display: flex;justify-content: center;"><i class="icon icon-logo"></i></div>
     <div class="navbar-inner">
         <div class="left">
             <a id="document-back" href="#" class="link" style="min-width: 22px; display: none;">

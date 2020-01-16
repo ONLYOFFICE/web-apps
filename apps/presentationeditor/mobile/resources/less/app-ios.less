@@ -63,6 +63,14 @@ input, textarea {
   }
 }
 
+.logo-navbar {
+  height: 68px;
+  .navbar-inner {
+    top: 24px;
+    height: 44px;
+  }
+}
+
 @import url('../../../../common/mobile/resources/less/_mixins.less');
 @import url('../../../../common/mobile/resources/less/ios/_container.less');
 @import url('../../../../common/mobile/resources/less/ios/_dataview.less');
@@ -92,6 +100,10 @@ input, textarea {
   height: auto;
   overflow: hidden;
   .transition(300ms);
+}
+
+#editor_sdk.with-logo {
+  top: 68px;
 }
 
 // Add Container
