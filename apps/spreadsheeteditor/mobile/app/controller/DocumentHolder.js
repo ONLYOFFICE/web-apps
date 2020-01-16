@@ -210,9 +210,9 @@ define([
 
             _initMenu: function (cellinfo) {
                 var me = this,
-                    _actionSheets = [],
                     arrItems = [],
                     arrItemsIcon = [];
+                _actionSheets.length = 0;
 
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
                 var iscelllocked    = cellinfo.asc_getLocked(),
