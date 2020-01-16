@@ -164,7 +164,7 @@
 
             var params = getUrlParams(),
                 lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-                logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+                logo = /*params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : */null,
                 logoOO = null;
             if (!logo) {
                 logoOO = /Android/.test(navigator.userAgent) ? "../../common/mobile/resources/img/header/header-logo-android.png" : "../../common/mobile/resources/img/header/header-logo-ios.png";
