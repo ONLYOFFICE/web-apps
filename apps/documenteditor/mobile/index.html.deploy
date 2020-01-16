@@ -54,6 +54,7 @@
                 height: 20px;
                 margin: 0 auto;
                 margin-top: 12px;
+                line-height: 14px;
             }
 
             .loadmask > .brendpanel .loading-logo > img {
@@ -75,6 +76,7 @@
 
             .loadmask > .brendpanel.android .circle {
                 margin-bottom: 12px;
+                background: rgba(255, 255, 255, 0.2);
             }
 
             .loadmask > .placeholder {
