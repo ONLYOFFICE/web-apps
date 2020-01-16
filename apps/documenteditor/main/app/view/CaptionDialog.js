@@ -157,7 +157,7 @@ define([
                     { displayValue: this.textAfter,   value: 0 }
                 ]
             });
-            this.cmbPosition.setValue(0);
+            this.cmbPosition.setValue(Common.Utils.InternalSettings.get("de-settings-label-position") || 0);
             this.cmbPosition.on('selected', function(combo, record) {
                 me.props.put_Before(!!record.value);
             });
@@ -257,6 +257,7 @@ define([
                 me.txtCaption.setValue(me.props.get_Name());
                 me.positionCaption = me.txtCaption.getValue().length;
             });
+            this.chExclude.setValue(!!Common.Utils.InternalSettings.get("de-settings-label-exclude"), true);
 
             this.cmbNumbering = new Common.UI.ComboBox({
                 el: $('#caption-combo-numbering'),
@@ -271,7 +272,9 @@ define([
                     { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman, maskExp: /[IVXLCDM]/, defValue: 'I' }
                 ]
             });
-            this.cmbNumbering.setValue(Asc.c_oAscNumberingFormat.Decimal);
+            var numbering = Common.Utils.InternalSettings.get("de-settings-label-numbering");
+            (numbering===undefined || numbering===null) && (numbering = Asc.c_oAscNumberingFormat.Decimal);
+            this.cmbNumbering.setValue(numbering);
             this.cmbNumbering.on('selected', function(combo, record) {
                 me.props.put_Format(record.value);
                 me.props.updateName();
@@ -290,6 +293,7 @@ define([
                 me.cmbChapter.setDisabled(newValue!=='checked');
                 me.cmbSeparator.setDisabled(newValue!=='checked');
             });
+            this.chChapter.setValue(!!Common.Utils.InternalSettings.get("de-settings-label-chapter-include"), true);
 
             var _main = DE.getController('Main');
             this._arrLevel = [];
@@ -304,7 +308,7 @@ define([
                 disabled: true,
                 data: this._arrLevel
             });
-            this.cmbChapter.setValue(0);
+            this.cmbChapter.setValue(Common.Utils.InternalSettings.get("de-settings-label-chapter") || 0);
             this.cmbChapter.on('selected', function(combo, record) {
                 me.props.put_HeadingLvl(record.value);
                 me.props.updateName();
@@ -325,7 +329,7 @@ define([
                     { displayValue: '–    (' + this.textDash + ')',       value: '–' }
                 ]
             });
-            this.cmbSeparator.setValue('-');
+            this.cmbSeparator.setValue(Common.Utils.InternalSettings.get("de-settings-label-separator") || '-');
             this.cmbSeparator.on('selected', function(combo, record) {
                 me.props.put_Separator(record.value);
                 me.props.updateName();
@@ -370,6 +374,8 @@ define([
             this.txtCaption.setValue(this.props.get_Name());
             this.currentLabel = valueLabel;
             this.positionCaption = this.txtCaption.getValue().length;
+            this.cmbChapter.setDisabled(this.chChapter.getValue()!=='checked');
+            this.cmbSeparator.setDisabled(this.chChapter.getValue()!=='checked');
         },
 
         getSettings: function () {
@@ -390,6 +396,12 @@ define([
             this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
             if (state == 'ok') {
                 Common.Utils.InternalSettings.set("de-settings-current-label", this.cmbLabel.getValue());
+                Common.Utils.InternalSettings.set("de-settings-label-position", this.cmbPosition.getValue());
+                Common.Utils.InternalSettings.set("de-settings-label-exclude", this.chExclude.getValue()=='checked');
+                Common.Utils.InternalSettings.set("de-settings-label-numbering", this.cmbNumbering.getValue());
+                Common.Utils.InternalSettings.set("de-settings-label-chapter-include", this.chChapter.getValue()=='checked');
+                Common.Utils.InternalSettings.set("de-settings-label-chapter", this.cmbChapter.getValue());
+                Common.Utils.InternalSettings.set("de-settings-label-separator", this.cmbSeparator.getValue());
             }
             this.close();
         },
