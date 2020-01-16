@@ -47,7 +47,7 @@
 
             .loadmask > .brendpanel > div {
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 height: 100%;
             }
 
@@ -55,6 +55,8 @@
                 max-width: 200px;
                 height: 20px;
                 margin: 0 auto;
+                margin-top: 12px;
+                line-height: 14px;
             }
 
             .loadmask > .brendpanel .loading-logo > img {
@@ -69,7 +71,14 @@
                 width: 28px;
                 height: 28px;
                 border-radius: 14px;
-                margin: 4px 10px;
+                margin: 0 16px;
+                margin-bottom: 10px;
+                align-self: flex-end;
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            .loadmask > .brendpanel.android .circle {
+                margin-bottom: 12px;
                 background: rgba(255, 255, 255, 0.2);
             }
 
@@ -136,7 +145,7 @@
             <div>
                 <div class="circle"></div>
                 <div class="loading-logo">
-                    <img src="../../common/mobile/resources/img/header/header-logo.png">
+                    <img src="">
                 </div>
                 <div class="circle"></div>
             </div>
@@ -172,6 +181,10 @@
             var params = getUrlParams(),
                 lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
                 logo = /*params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : */null;
+            var logoOO = null;
+            if (!logo) {
+                logoOO = /Android/.test(navigator.userAgent) ? "../../common/mobile/resources/img/header/header-logo-android.png" : "../../common/mobile/resources/img/header/header-logo-ios.png";
+            }
 
                 window.frameEditorId = params["frameEditorId"];
 
@@ -184,6 +197,7 @@
                 var elem = document.querySelector('.loading-logo img');
                 if (elem) {
                     logo && (elem.setAttribute('src', logo));
+                    logoOO && (elem.setAttribute('src', logoOO));
                     elem.style.opacity = 1;
                 }
             }
