@@ -269,7 +269,6 @@
             };
         </script>
 
-        <div id="viewport"></div>
         <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
     </body>
 </html>
