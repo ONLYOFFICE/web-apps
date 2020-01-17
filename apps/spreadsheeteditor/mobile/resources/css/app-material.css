@@ -5650,10 +5650,6 @@ textarea {
 .container-filter.popover {
   width: 360px;
 }
-.settings.popup .list-block,
-.settings.popover .list-block {
-  margin: 32px 0;
-}
 .settings.popup .list-block ul,
 .settings.popover .list-block ul {
   border-radius: 0;
