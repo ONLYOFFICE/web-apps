@@ -1532,6 +1532,10 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case Asc.c_oAscError.ID.DirectUrl:
+                        config.msg = this.errorDirectUrl;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2244,7 +2248,7 @@ define([
             txtXAxis: 'X Axis',
             txtYAxis: 'Y Axis',
             txtSeries: 'Seria',
-            errorMailMergeLoadFile: 'Loading failed',
+            errorMailMergeLoadFile: 'Loading the document failed. Please select a different file.',
             mailMergeLoadFileText: 'Loading Data Source...',
             mailMergeLoadFileTitle: 'Loading Data Source',
             errorMailMergeSaveFile: 'Merge failed.',
@@ -2513,7 +2517,8 @@ define([
             uploadDocExtMessage: 'Unknown document format.',
             uploadDocFileCountMessage: 'No documents uploaded.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            txtChoose: 'Choose an item.'
+            txtChoose: 'Choose an item.',
+            errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.'
         }
     })(), DE.Controllers.Main || {}))
 });
