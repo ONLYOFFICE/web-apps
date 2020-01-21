@@ -100,7 +100,8 @@ define([
 
                 var me = this,
                     styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
-                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text'],
+                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
+                                  'Caption'],
                 translate = {
                     'Series': this.txtSeries,
                     'Diagram Title': this.txtDiagramTitle,
@@ -2518,7 +2519,8 @@ define([
             uploadDocFileCountMessage: 'No documents uploaded.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
             txtChoose: 'Choose an item.',
-            errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.'
+            errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.',
+            txtStyle_Caption: 'Caption'
         }
     })(), DE.Controllers.Main || {}))
 });
