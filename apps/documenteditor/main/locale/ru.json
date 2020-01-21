@@ -692,6 +692,7 @@
   "DE.Controllers.Main.txtStyle_Quote": "Цитата",
   "DE.Controllers.Main.txtStyle_Subtitle": "Подзаголовок",
   "DE.Controllers.Main.txtStyle_Title": "Название",
+  "DE.Controllers.Main.txtStyle_Caption": "Название",
   "DE.Controllers.Main.txtSyntaxError": "Синтаксическая ошибка",
   "DE.Controllers.Main.txtTableInd": "Индекс таблицы не может быть нулевым",
   "DE.Controllers.Main.txtTableOfContents": "Оглавление",

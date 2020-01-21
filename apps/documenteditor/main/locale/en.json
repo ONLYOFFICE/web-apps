@@ -692,6 +692,7 @@
   "DE.Controllers.Main.txtStyle_Quote": "Quote",
   "DE.Controllers.Main.txtStyle_Subtitle": "Subtitle",
   "DE.Controllers.Main.txtStyle_Title": "Title",
+  "DE.Controllers.Main.txtStyle_Caption": "Caption",
   "DE.Controllers.Main.txtSyntaxError": "Syntax Error",
   "DE.Controllers.Main.txtTableInd": "Table Index Cannot be Zero",
   "DE.Controllers.Main.txtTableOfContents": "Table of Contents",
