@@ -2340,6 +2340,8 @@
   "SSE.Views.Toolbar.textRightBorders": "Правые границы",
   "SSE.Views.Toolbar.textRotateDown": "Повернуть текст вниз",
   "SSE.Views.Toolbar.textRotateUp": "Повернуть текст вверх",
+  "SSE.Views.Toolbar.textScaleCustom": "Особый",
+  "SSE.Views.Toolbar.textScale": "Масштаб",
   "SSE.Views.Toolbar.textSetPrintArea": "Задать область печати",
   "SSE.Views.Toolbar.textStrikeout": "Зачеркнутый",
   "SSE.Views.Toolbar.textSubscript": "Подстрочные знаки",

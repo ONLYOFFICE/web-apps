@@ -2340,6 +2340,8 @@
   "SSE.Views.Toolbar.textRightBorders": "Right Borders",
   "SSE.Views.Toolbar.textRotateDown": "Rotate Text Down",
   "SSE.Views.Toolbar.textRotateUp": "Rotate Text Up",
+  "SSE.Views.Toolbar.textScaleCustom": "Custom",
+  "SSE.Views.Toolbar.textScale": "Scale",
   "SSE.Views.Toolbar.textSetPrintArea": "Set Print Area",
   "SSE.Views.Toolbar.textStrikeout": "Strikeout",
   "SSE.Views.Toolbar.textSubscript": "Subscript",
