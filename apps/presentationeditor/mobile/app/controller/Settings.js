@@ -161,7 +161,7 @@ define([
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
                 $('#settings-spellcheck input:checkbox').single('change',   _.bind(me._onSpellcheck, me));
-                $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
+                $(modalView).find('.formats .page-content a').single('click',             _.bind(me._onSaveFormat, me));
                 $('#page-settings-view #slide-size-block li').single('click',           _.bind(me._onSlideSize, me));
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
                 $('#settings-collaboration').single('click',                _.bind(me.onCollaboration, me));
