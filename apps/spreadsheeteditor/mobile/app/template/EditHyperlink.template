@@ -3,11 +3,7 @@
     <div class="list-block">
         <ul>
             <li>
-                <a id="edit-link-type" class="item-link smart-select" data-back-on-select="true">
-                    <select name="edit-link-type">
-                        <option value="1" selected><%= scope.textExternalLink %></option>
-                        <option value="2"><%= scope.textInternalLink %></option>
-                    </select>
+                <a id="edit-link-type" class="item-link" data-page="#edit-link-type-view">
                     <div class="item-content">
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textLinkType %></div>
@@ -17,8 +13,7 @@
                 </a>
             </li>
             <li>
-                <a id="edit-link-sheet" class="item-link smart-select" data-back-on-select="true">
-                    <select name="edit-link-sheet"></select>
+                <a id="edit-link-sheet" class="item-link" data-page="#edit-link-sheet-view">
                     <div class="item-content">
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textSheet %></div>
@@ -91,5 +86,63 @@
             </li>
         </ul>
         <% } %>
+    </div>
+</div>
+
+<div id="edit-link-type-view">
+    <div class="navbar">
+        <div class="navbar-inner" data-page="edit-link-type-view">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textLinkType %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-link-type-view">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="link-type" value="1">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textExternalLink %></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="link-type" value="2">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textInternalLink %></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit-link-sheet-view">
+    <div class="navbar">
+        <div class="navbar-inner" data-page="edit-link-sheet-view">
+            <div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textSheet %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-link-sheet-view">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
