@@ -316,10 +316,13 @@ define([
             // API handlers
 
             onApiPageSize: function(width, height) {
-                for (var i = 0; i < _slideSizeArr.length; i++) {
-                    if (Math.abs(_slideSizeArr[i][0] - width) < 0.001 && Math.abs(_slideSizeArr[i][1] - height) < 0.001) {
-                        $('#page-settings-setup-view input').val([i]);
-                        break;
+                var $input = $('#page-settings-view input[name="slide-size"]');
+                if ($input.length > 0) {
+                    for (var i = 0; i < _slideSizeArr.length; i++) {
+                        if (Math.abs(_slideSizeArr[i][0] - width) < 0.001 && Math.abs(_slideSizeArr[i][1] - height) < 0.001) {
+                            $input.val([i]);
+                            break;
+                        }
                     }
                 }
             },
