@@ -210,18 +210,29 @@ define([
                             arrTabs.push(item.sheetindex);
                             arrName.push(me.api.asc_getWorksheetName(item.sheetindex));
                         });
-                        var stringSheet = this.api.asc_StartMoveSheet(arrTabs),
+                        var stringSheet,
                             stringSheetJson,
-                            stringNameJson;
+                            stringNameJson,
+                            stringIndexJson;
+                        stringIndexJson = JSON.stringify(arrTabs);
+                        stringSheet = this.api.asc_StartMoveSheet(arrTabs);
                         stringSheetJson = JSON.stringify(stringSheet);
                         stringNameJson = JSON.stringify(arrName);
                         dataTransfer.setData("onlyoffice", stringSheetJson);
                         dataTransfer.setData("name", stringNameJson);
+                        dataTransfer.setData("arrindex", stringIndexJson);
+                        dataTransfer.setData("key", Common.Utils.InternalSettings.get("sse-doc-info-key"));
                     }, this),
                     'tab:drop'          : _.bind(function (dataTransfer, index) {
-                        var arrSheets = dataTransfer.getData("onlyoffice"),
-                            arrNames = dataTransfer.getData("name");
-                        this.api.asc_EndMoveSheet(index, JSON.parse(arrNames), JSON.parse(arrSheets));
+                        var arrSheets = JSON.parse(dataTransfer.getData("onlyoffice")),
+                            arrNames = JSON.parse(dataTransfer.getData("name")),
+                            arrIndex = JSON.parse(dataTransfer.getData("arrindex")),
+                            key = dataTransfer.getData("key");
+                        if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
+                            this.api.asc_moveWorksheet(index, arrIndex);
+                        } else {
+                            this.api.asc_EndMoveSheet(index, arrNames, arrSheets);
+                        }
                     }, this)
                 });
 

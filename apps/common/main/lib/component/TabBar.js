@@ -233,6 +233,8 @@ define([
                 this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
             }, this.bar),
             mousedown: $.proxy(function (e) {
+                if ((3 !== e.which) && !e.ctrlKey && !e.metaKey && !e.shiftKey)
+                    tab.changeState();
                 /*if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
                     if (!tab.isLockTheDrag) {
                         if (!e.ctrlKey && !e.metaKey && !e.shiftKey)
@@ -261,7 +263,11 @@ define([
                     event.preventDefault(); // Necessary. Allows us to drop.
                 }
                 event.dataTransfer.dropEffect = 'move';
+                $(e.currentTarget).parent().addClass('mousemove');
                 return false;
+            }, this),
+            dragleave: $.proxy(function (e) {
+                $(e.currentTarget).parent().removeClass('mousemove right');
             }, this),
             dragend: $.proxy(function (e) {
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
@@ -317,6 +323,14 @@ define([
                 event.dataTransfer.dropEffect = 'move';
                 this.tabs[this.tabs.length - 1].$el.addClass('mousemove right');
                 return false;
+            }, this));
+            addEvent(this.$bar[0], 'dragleave', _.bind(function (event) {
+                this.tabs[this.tabs.length - 1].$el.removeClass('mousemove right');
+            }, this));
+            addEvent(this.$bar[0], 'drop', _.bind(function (event) {
+                var index = this.tabs.length;
+                this.$el.find('.mousemove').removeClass('mousemove right');
+                this.trigger('tab:drop', event.dataTransfer, index);
             }, this));
 
             this.manager = new StateManager({bar: this});
