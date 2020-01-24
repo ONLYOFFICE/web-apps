@@ -1761,6 +1761,8 @@ define([
         },
 
         onControlsSelect: function(menu, item) {
+            if (!(this.mode && this.mode.canFeatureContentControl)) return;
+
             if (item.value == 'settings' || item.value == 'remove') {
                 if (this.api.asc_IsContentControl()) {
                     var props = this.api.asc_GetContentControlProperties();
