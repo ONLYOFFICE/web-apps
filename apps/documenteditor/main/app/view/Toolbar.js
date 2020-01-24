@@ -1538,6 +1538,10 @@ define([
                     }));
 
                     me.btnWatermark.updateHint(me.tipWatermark);
+
+                    if (!config.canFeatureContentControl && me.btnContentControls.cmpEl) {
+                        me.btnContentControls.cmpEl.parents('.group').hide().prev('.separator').hide();
+                    }
                 });
             },
 
