@@ -844,7 +844,7 @@ define([
 
             toolbar.btnEditHeader.setDisabled(in_equation);
 
-            need_disable = paragraph_locked || header_locked || in_image || control_plain || rich_edit_lock || plain_edit_lock;
+            need_disable = paragraph_locked || header_locked || in_image || control_plain || rich_edit_lock || plain_edit_lock || this._state.lock_doc;
             if (need_disable != toolbar.btnColumns.isDisabled())
                 toolbar.btnColumns.setDisabled(need_disable);
 
@@ -904,6 +904,7 @@ define([
             if (this._state.lock_doc!==true) {
                 this.toolbar.btnPageOrient.setDisabled(true);
                 this.toolbar.btnPageSize.setDisabled(true);
+                this.toolbar.btnPageMargins.setDisabled(true);
                 if (this._state.activated) this._state.lock_doc = true;
             }
         },
@@ -912,6 +913,7 @@ define([
             if (this._state.lock_doc!==false) {
                 this.toolbar.btnPageOrient.setDisabled(false);
                 this.toolbar.btnPageSize.setDisabled(false);
+                this.toolbar.btnPageMargins.setDisabled(false);
                 if (this._state.activated) this._state.lock_doc = false;
             }
         },

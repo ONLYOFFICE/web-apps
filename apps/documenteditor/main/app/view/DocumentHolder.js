@@ -85,7 +85,7 @@ define([
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
-
+            me._state = {};
             var showPopupMenu = function(menu, value, event, docElement, eOpts){
                 if (!_.isUndefined(menu)  && menu !== null){
                     Common.UI.Menu.Manager.hideAll();
@@ -1525,6 +1525,8 @@ define([
                         this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
                         this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
                         this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
+                        this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
+                        this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
                     }
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',                      _.bind(onCoAuthoringDisconnect, this));
@@ -1733,6 +1735,7 @@ define([
                 if (win)
                     win.setActiveCategory(type == 'indents' ? 0 : 3);
             } else if (type == 'margins') {
+                if (me._state.lock_doc) return;
                 win = new DE.Views.PageMarginsDialog({
                     api: me.api,
                     handler: function(dlg, result) {
@@ -4126,6 +4129,14 @@ define([
                     this.onShowListActions(obj, x, y);
                     break;
             }
+        },
+
+        onApiLockDocumentProps: function() {
+            this._state.lock_doc = true;
+        },
+
+        onApiUnLockDocumentProps: function() {
+            this._state.lock_doc = false;
         },
 
         focus: function() {
