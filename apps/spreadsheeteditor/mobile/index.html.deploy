@@ -53,13 +53,13 @@
                 margin: 0 auto;
                 margin-top: 12px;
                 line-height: 14px;
+                opacity: 0;
             }
 
             .loadmask > .brendpanel .loading-logo > img {
                 display: inline-block;
                 max-width: 100px;
                 max-height: 20px;
-                opacity: 0;
             }
 
             .loadmask > .brendpanel .circle {
@@ -141,7 +141,6 @@
                 <div>
                     <div class="circle"></div>
                     <div class="loading-logo">
-                        <img src="">
                     </div>
                     <div class="circle"></div>
                 </div>
@@ -203,10 +202,10 @@
                     brendpanel.classList.add('android');
                 }
                 brendpanel.classList.add('visible');
-                var elem = document.querySelector('.loading-logo img');
+                var elem = document.querySelector('.loading-logo');
                 if (elem) {
-                    logo && (elem.setAttribute('src', logo));
-                    logoOO && (elem.setAttribute('src', logoOO));
+                    logo && (elem.innerHTML = '<img src=' + logo + '>');
+                    logoOO && (elem.innerHTML = '<img src=' + logoOO + '>');
                     elem.style.opacity = 1;
                 }
             }
