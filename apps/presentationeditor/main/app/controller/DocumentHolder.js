@@ -116,11 +116,14 @@ define([
                     }
                 }, this));
                 diagramEditor.on('hide', _.bind(function(cmp, message) {
-                    this.documentHolder.fireEvent('editcomplete', this.documentHolder);
                     if (this.api) {
                         this.api.asc_onCloseChartFrame();
                         this.api.asc_enableKeyEvents(true);
                     }
+                    var me = this;
+                    setTimeout(function(){
+                        me.documentHolder.fireEvent('editcomplete', me.documentHolder);
+                    }, 10);
                 }, this));
             }
         }
