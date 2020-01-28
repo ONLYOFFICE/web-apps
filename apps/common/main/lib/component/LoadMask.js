@@ -133,7 +133,8 @@ define([
                 if (ownerEl.height()<1 || ownerEl.width()<1)
                     loaderEl.css({visibility: 'hidden'});
 
-                Common.util.Shortcuts.suspendEvents();
+                if (ownerEl && ownerEl.closest('.asc-window.modal').length==0)
+                    Common.util.Shortcuts.suspendEvents();
 
                 return this;
             },
@@ -144,7 +145,8 @@ define([
                 loaderEl    && loaderEl.remove();
                 maskeEl  = null;
                 loaderEl = null;
-                Common.util.Shortcuts.resumeEvents();
+                if (ownerEl && ownerEl.closest('.asc-window.modal').length==0)
+                    Common.util.Shortcuts.resumeEvents();
             },
 
             setTitle: function(title) {
