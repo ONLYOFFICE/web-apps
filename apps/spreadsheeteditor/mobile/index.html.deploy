@@ -191,7 +191,7 @@
                 logo = /*params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : */null;
             var logoOO = null;
             if (!logo) {
-                logoOO = /Android/.test(navigator.userAgent) ? "../../common/mobile/resources/img/header/header-logo-android.png" : "../../common/mobile/resources/img/header/header-logo-ios.png";
+                logoOO = /Android/.test(navigator.userAgent) ? "../../../apps/spreadsheeteditor/mobile/resources/img/header/header-logo-android.png" : "../../../apps/spreadsheeteditor/mobile/resources/img/header/header-logo-ios.png";
             }
 
                 window.frameEditorId = params["frameEditorId"];
