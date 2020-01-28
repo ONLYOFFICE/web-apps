@@ -50,7 +50,7 @@ define([
 
         function isPhone() {
             var ua = navigator.userAgent,
-                isMobile = /Mobile(\/|\s)/.test(ua);
+                isMobile = /Mobile(\/|\s|;)/.test(ua);
 
             return /(iPhone|iPod)/.test(ua) ||
                 (!/(Silk)/.test(ua) && (/(Android)/.test(ua) && (/(Android 2)/.test(ua) || isMobile))) ||
