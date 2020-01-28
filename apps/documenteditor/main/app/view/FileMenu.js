@@ -296,7 +296,7 @@ define([
             this.miNew[this.mode.canCreateNew?'show':'hide']();
             this.miNew.$el.find('+.devider')[this.mode.canCreateNew?'show':'hide']();
 
-            this.miAccess[(!this.mode.isOffline && !this.mode.isReviewOnly && this.document&&this.document.info &&
+            this.miAccess[(!this.mode.isOffline && this.document&&this.document.info &&
                           (this.document.info.sharingSettings&&this.document.info.sharingSettings.length>0 ||
                           (this.mode.sharingSettingsUrl&&this.mode.sharingSettingsUrl.length || this.mode.canRequestSharingSettings)))?'show':'hide']();
 
