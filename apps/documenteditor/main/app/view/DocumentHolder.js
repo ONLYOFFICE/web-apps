@@ -2584,7 +2584,8 @@ define([
                         menuWrapPolygon.setDisabled(islocked || !me.api.CanChangeWrapPolygon());
                     }
 
-                    me.menuImageWrap.setDisabled(islocked || value.imgProps.value.get_FromGroup() || (notflow && menuWrapPolygon.isDisabled()));
+                    me.menuImageWrap.setDisabled(islocked || value.imgProps.value.get_FromGroup() || (notflow && menuWrapPolygon.isDisabled()) ||
+                                                (!!control_props && control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture));
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuImgCopy.setDisabled(!cancopy);

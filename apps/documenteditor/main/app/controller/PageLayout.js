@@ -147,7 +147,7 @@ define([
                         disable.align       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
                         disable.group       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
                         disable.arrange     = wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
-                        disable.wrapping    = islocked || props.get_FromGroup() || (notflow && !me.api.CanChangeWrapPolygon()) || content_locked;
+                        disable.wrapping    = islocked || props.get_FromGroup() || (notflow && !me.api.CanChangeWrapPolygon()) || content_locked || (!!control_props && control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture);
 
                         if ( !disable.group ) {
                             if (me.api.CanGroup() || me.api.CanUnGroup()) {

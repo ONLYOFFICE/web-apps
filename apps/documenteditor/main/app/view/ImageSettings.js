@@ -74,7 +74,8 @@ define([
                 FromGroup: false,
                 DisabledControls: false,
                 isOleObject: false,
-                cropMode: false
+                cropMode: false,
+                isPictureControl: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -308,10 +309,13 @@ define([
 
                 value = props.get_CanBeFlow() && !this._locked;
                 var fromgroup = props.get_FromGroup() || this._locked;
-                if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup) {
-                    this.cmbWrapType.setDisabled(!value || fromgroup);
+                var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                    isPictureControl = !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture) || this._locked;
+                if (this._state.CanBeFlow!==value || this._state.FromGroup!==fromgroup || this._state.isPictureControl!==isPictureControl) {
+                    this.cmbWrapType.setDisabled(!value || fromgroup || isPictureControl);
                     this._state.CanBeFlow=value;
                     this._state.FromGroup=fromgroup;
+                    this._state.isPictureControl=isPictureControl;
                 }
 
                 value = props.get_Width();
