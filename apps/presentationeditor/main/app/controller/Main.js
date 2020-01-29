@@ -98,7 +98,7 @@ define([
                 });
 
                 var me = this,
-                    themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle'],
+                    themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle', 'basic', 'office theme', 'green leaf'],
                     translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
@@ -2021,6 +2021,9 @@ define([
             txtTheme_dotted: 'Dotted',
             txtTheme_corner: 'Corner',
             txtTheme_turtle: 'Turtle',
+            txtTheme_basic: 'Basic',
+            txtTheme_green_leaf: 'Green leaf',
+            txtTheme_office_theme: 'Office Theme',
             warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
             warnNoLicenseUsers: 'This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
