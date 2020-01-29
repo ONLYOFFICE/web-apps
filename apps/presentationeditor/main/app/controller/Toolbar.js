@@ -2037,7 +2037,7 @@ define([
             if (themeStore) {
                 var arr1 = [], arr2 = [];
                 _.each(defaultThemes, function(theme, index) {
-                    var tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                    var tip = mainController.translationTable[(theme.get_Name() || '').toLocaleLowerCase()] || theme.get_Name();
                     arr1.push(new Common.UI.DataViewModel({
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
@@ -2053,7 +2053,7 @@ define([
                 });
                 _.each(docThemes, function(theme) {
                     var image = theme.get_Image(),
-                        tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                        tip = mainController.translationTable[(theme.get_Name() || '').toLocaleLowerCase()] || theme.get_Name();
                     arr1.push(new Common.UI.DataViewModel({
                         imageUrl: image,
                         uid     : Common.UI.getId(),
