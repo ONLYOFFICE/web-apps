@@ -663,12 +663,14 @@ define([
                 paragraph_locked = false,
                 header_locked = false,
                 image_locked = false,
-                in_image = false;
+                in_image = false,
+                frame_pr = undefined;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
 
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    frame_pr = selectedObjects[i].get_ObjectValue();
                     paragraph_locked = selectedObjects[i].get_ObjectValue().get_Locked();
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = selectedObjects[i].get_ObjectValue().get_Locked();
@@ -678,7 +680,12 @@ define([
                 }
             }
 
-            var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
+                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
+                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
+
+            var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked || rich_del_lock || rich_edit_lock || plain_del_lock || plain_edit_lock;
             if (this.mode.compatibleFeatures) {
                 need_disable = need_disable || in_image;
             }
