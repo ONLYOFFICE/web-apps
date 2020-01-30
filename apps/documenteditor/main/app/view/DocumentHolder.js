@@ -2014,6 +2014,12 @@ define([
 
                     if (me.mode.compatibleFeatures)
                         canComment = canComment && !isInShape;
+                    if (me.api.asc_IsContentControl()) {
+                        var control_props = me.api.asc_GetContentControlProperties(),
+                            spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+                        canComment = canComment && !(spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime);
+                    }
 
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
@@ -3080,13 +3086,6 @@ define([
                         menuAddHyperlinkTable.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkTable.hyperProps.value.put_Text(text);
                     }
-                    /** coauthoring begin **/
-                        // comments
-                    var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
-                                                            !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
-                    menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments && !control_lock);
-                    menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
-                    /** coauthoring end **/
 
                     // review move
                     var data = me.api.asc_GetRevisionsChangesStack(),
@@ -3137,6 +3136,8 @@ define([
                         me.clearEquationMenu(false, 7);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
 
+                    var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
+                                                            !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl();
                     menuTableControl.setVisible(in_control);
@@ -3145,8 +3146,18 @@ define([
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                         menuTableControlSettings.setVisible(me.mode.canEditContentControl);
+
+                        var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+                        control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                                        spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
                     }
                     menuTableTOC.setVisible(in_toc);
+
+                    /** coauthoring begin **/
+                        // comments
+                    menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments && !control_lock);
+                    menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
+                    /** coauthoring end **/
 
                     var in_field = me.api.asc_GetCurrentComplexField();
                     menuTableRefreshField.setVisible(!!in_field);
@@ -3659,17 +3670,6 @@ define([
                     if (me.api) {
                         text = me.api.can_AddHyperlink();
                     }
-                    /** coauthoring begin **/
-                    var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
-                                                            !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
-                    var isVisible = !isInChart && me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments && !control_lock;
-                    if (me.mode.compatibleFeatures)
-                        isVisible = isVisible && !isInShape;
-                    menuCommentSeparatorPara.setVisible(isVisible);
-                    menuAddCommentPara.setVisible(isVisible);
-                    menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
-                    /** coauthoring end **/
-
                     menuAddHyperlinkPara.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
                     menuHyperlinkParaSeparator.setVisible(menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
@@ -3754,6 +3754,9 @@ define([
                         me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
                     }
 
+                    var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
+                                                            !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
+
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl() ;
                     menuParaRemoveControl.setVisible(in_control);
@@ -3763,10 +3766,23 @@ define([
                         var control_props = me.api.asc_GetContentControlProperties(),
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+
+                        var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+                        control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                                        spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
                     }
                     menuParaTOCSettings.setVisible(in_toc);
                     menuParaTOCRefresh.setVisible(in_toc);
                     menuParaTOCSeparator.setVisible(in_toc);
+
+                    /** coauthoring begin **/
+                    var isVisible = !isInChart && me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments && !control_lock;
+                    if (me.mode.compatibleFeatures)
+                        isVisible = isVisible && !isInShape;
+                    menuCommentSeparatorPara.setVisible(isVisible);
+                    menuAddCommentPara.setVisible(isVisible);
+                    menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
+                    /** coauthoring end **/
 
                     var in_field = me.api.asc_GetCurrentComplexField();
                     menuParaRefreshField.setVisible(!!in_field);

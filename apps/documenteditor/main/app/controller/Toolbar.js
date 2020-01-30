@@ -689,6 +689,12 @@ define([
             if (this.mode.compatibleFeatures) {
                 need_disable = need_disable || in_image;
             }
+            if (this.api.asc_IsContentControl()) {
+                var control_props = this.api.asc_GetContentControlProperties(),
+                    spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+                need_disable = need_disable || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
+            }
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
         },
@@ -861,6 +867,11 @@ define([
             need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked || rich_del_lock || rich_edit_lock || plain_del_lock || plain_edit_lock;
             if (this.mode.compatibleFeatures) {
                 need_disable = need_disable || in_image;
+            }
+            if (control_props) {
+                var spectype = control_props.get_SpecificType();
+                need_disable = need_disable || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                                spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
             }
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
