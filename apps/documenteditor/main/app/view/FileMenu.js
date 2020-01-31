@@ -305,6 +305,10 @@ define([
 
             this.mode.canBack ? this.$el.find('#fm-btn-back').show().prev().show() :
                                     this.$el.find('#fm-btn-back').hide().prev().hide();
+            if (!this.customizationDone) {
+                this.customizationDone = true;
+                Common.Utils.applyCustomization(this.mode.customization, {goback: '#fm-btn-back > a'});
+            }
 
             this.panels['opts'].setMode(this.mode);
             this.panels['info'].setMode(this.mode);
