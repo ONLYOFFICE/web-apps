@@ -790,6 +790,11 @@ define([
                     Common.NotificationCenter.trigger('document:ready', 'main');
                 }
 
+                // TODO bug 43960
+                var dummyClass = ~~(1e6*Math.random());
+                $('.toolbar').prepend(Common.Utils.String.format('<div class="lazy-{0} x-huge"><div class="toolbar__icon" style="position: absolute; width: 1px; height: 1px;"></div>', dummyClass));
+                setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
+
                 if (this.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Presentation Editor');
 
