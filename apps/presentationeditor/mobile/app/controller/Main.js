@@ -553,6 +553,7 @@ define([
                 if (me.api) {
                     me.api.Resize();
                     me.api.zoomFitToPage();
+                    me.api.asc_GetDefaultTableStyles && _.defer(function () {me.api.asc_GetDefaultTableStyles()});
                 }
 
                 me.applyLicense();

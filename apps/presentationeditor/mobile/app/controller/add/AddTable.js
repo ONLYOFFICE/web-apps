@@ -76,13 +76,6 @@ define([
             initEvents: function () {
                 var me = this;
 
-                if (!_initDefaultStyles) {
-                    _initDefaultStyles = true;
-                    _styles = [];
-
-                    me.api.asc_GetDefaultTableStyles && me.api.asc_GetDefaultTableStyles();
-                }
-
                 $('#add-table li').single('click',  _.buffered(me.onStyleClick, 100, me));
             },
 
@@ -165,6 +158,10 @@ define([
             // API handlers
 
             onApiInitTemplates: function(templates){
+                if (!_initDefaultStyles) {
+                    _initDefaultStyles = true;
+                    _styles = [];
+                }
                 if (_styles.length < 1) {
                     _.each(templates, function(template){
                         _styles.push({
