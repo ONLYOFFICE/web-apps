@@ -62,6 +62,7 @@ define([
                     'contextmenu:click': this.onTabMenu
                 }
             });
+            this._moreAction = [];
         },
 
         events: function() {
@@ -521,6 +522,25 @@ define([
                 });
                 break;
             case 'ren': me.renameWorksheet(); break;
+            case 'showMore':
+                if (me._moreAction.length > 0) {
+                    _.delay(function () {
+                        _.each(me._moreAction, function (action) {
+                            action.text = action.caption;
+                            action.onClick = function () {
+                                me.onTabMenu(null, action.event, model)
+                            }
+                        });
+
+                        uiApp.actions([me._moreAction, [
+                            {
+                                text: me.cancelButtonText,
+                                bold: true
+                            }
+                        ]]);
+                    }, 100);
+                }
+                break;
             default:
                 var _re = /reveal\:(\d+)/.exec(event);
                 if ( _re && !!_re[1] ) {
@@ -532,7 +552,7 @@ define([
 
         _getTabMenuItems: function(model) {
             var wbLocked = this.api.asc_isWorkbookLocked();
-            var shLocked   = this.api.asc_isWorksheetLockedOrDeleted(model.get('index'));
+            var shLocked = this.api.asc_isWorksheetLockedOrDeleted(model.get('index'));
 
             var items = [{
                     caption: this.menuDuplicate,
@@ -560,6 +580,16 @@ define([
                 });
             }
 
+            if (Common.SharedSettings.get('phone') && items.length > 3) {
+                this._moreAction = items.slice(2);
+
+                items = items.slice(0, 2);
+                items.push({
+                    caption: this.menuMore,
+                    event: 'showMore'
+                });
+            }
+
             return items;
         },
 
@@ -578,7 +608,8 @@ define([
         strRenameSheet: 'Rename Sheet',
         strSheetName  : 'Sheet Name',
         cancelButtonText: 'Cancel',
-        notcriticalErrorTitle: 'Warning'
+        notcriticalErrorTitle: 'Warning',
+        menuMore: 'More'
 
     }, SSE.Controllers.Statusbar || {}));
 });

@@ -308,6 +308,7 @@
   "SSE.Controllers.Statusbar.strSheetName": "Sheet Name",
   "SSE.Controllers.Statusbar.textExternalLink": "External Link",
   "SSE.Controllers.Statusbar.warnDeleteSheet": "The selected worksheets might contain data. Are you sure you want to proceed?",
+  "SSE.Controllers.Statusbar.menuMore": "More",
   "SSE.Controllers.Toolbar.dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to await the autosave of the document. Click 'Leave this Page' to discard all the unsaved changes.",
   "SSE.Controllers.Toolbar.dlgLeaveTitleText": "You leave the application",
   "SSE.Controllers.Toolbar.leaveButtonText": "Leave this Page",
