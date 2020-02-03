@@ -188,7 +188,7 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
-                if ( !_isEdit || this.isDisconnected) return;
+                if (this.isDisconnected) return;
 
                 if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in, .actions-modal').length > 0) {
                     return;
@@ -230,127 +230,138 @@ define([
                     case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
                 }
 
-                if (!iscelllocked && (isimagemenu || isshapemenu || ischartmenu || istextshapemenu || istextchartmenu)) {
-                    this.api.asc_getGraphicObjectProps().every(function (object) {
-                        if (object.asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
-                            iscelllocked = object.asc_getObjectValue().asc_getLocked();
-                        }
+                if (!_isEdit) {
+                    if (iscellmenu || istextchartmenu || istextshapemenu) {
+                        arrItemsIcon = [{
+                            caption: me.menuCopy,
+                            event: 'copy',
+                            icon: 'icon-copy'
+                        }];
+                    }
+                    if (iscellmenu && cellinfo.asc_getHyperlink()) {
+                        arrItems.push({
+                            caption: me.menuOpenLink,
+                            event: 'openlink'
+                        });
+                    }
+                } else {
 
-                        return !iscelllocked;
-                    });
-                }
+                    if (!iscelllocked && (isimagemenu || isshapemenu || ischartmenu || istextshapemenu || istextchartmenu)) {
+                        this.api.asc_getGraphicObjectProps().every(function (object) {
+                            if (object.asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                                iscelllocked = object.asc_getObjectValue().asc_getLocked();
+                            }
 
-                if ( iscelllocked || this.api.isCellEdited ) {
-                    arrItemsIcon = [{
+                            return !iscelllocked;
+                        });
+                    }
+
+                    if (iscelllocked || this.api.isCellEdited) {
+                        arrItemsIcon = [{
                             caption: me.menuCopy,
                             event: 'copy',
                             icon: 'icon-copy'
                         }];
 
-                } else {
-                    var arrItemsIcon = [{
+                    } else {
+                        var arrItemsIcon = [{
                             caption: me.menuCut,
                             event: 'cut',
                             icon: 'icon-cut'
-                        },{
+                        }, {
                             caption: me.menuCopy,
                             event: 'copy',
                             icon: 'icon-copy'
-                        },{
+                        }, {
                             caption: me.menuPaste,
                             event: 'paste',
                             icon: 'icon-paste'
                         }];
-                    arrItems.push({
-                        caption: me.menuDelete,
-                        event: 'del'
-                    });
+                        arrItems.push({
+                            caption: me.menuDelete,
+                            event: 'del'
+                        });
 
                         // isTableLocked       = cellinfo.asc_getLockedTable()===true;
 
-                    if (isimagemenu || isshapemenu || ischartmenu ||
-                                istextshapemenu || istextchartmenu )
-                    {
-                        arrItems.push({
-                            caption: me.menuEdit,
-                            event: 'edit'
-                        });
-                    } else {
-                        if ( iscolmenu || isrowmenu) {
+                        if (isimagemenu || isshapemenu || ischartmenu ||
+                            istextshapemenu || istextchartmenu) {
                             arrItems.push({
+                                caption: me.menuEdit,
+                                event: 'edit'
+                            });
+                        } else {
+                            if (iscolmenu || isrowmenu) {
+                                arrItems.push({
                                     caption: me.menuHide,
                                     event: 'hide'
-                                },{
+                                }, {
                                     caption: me.menuShow,
                                     event: 'show'
                                 });
-                        } else
-                        if ( iscellmenu ) {
-                            !iscelllocked &&
-                            arrItems.push({
-                                caption: me.menuCell,
-                                event: 'edit'
-                            });
+                            } else if (iscellmenu) {
+                                !iscelllocked &&
+                                arrItems.push({
+                                    caption: me.menuCell,
+                                    event: 'edit'
+                                });
 
-                            (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
-                            arrItems.push({
-                                caption: me.menuMerge,
-                                event: 'merge'
-                            });
+                                (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
+                                arrItems.push({
+                                    caption: me.menuMerge,
+                                    event: 'merge'
+                                });
 
-                            (cellinfo.asc_getFlags().asc_getMerge() ==  Asc.c_oAscMergeOptions.Merge) &&
-                            arrItems.push({
-                                caption: me.menuUnmerge,
-                                event: 'unmerge'
-                            });
+                                (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.Merge) &&
+                                arrItems.push({
+                                    caption: me.menuUnmerge,
+                                    event: 'unmerge'
+                                });
 
-                            arrItems.push(
-                                cellinfo.asc_getFlags().asc_getWrapText() ?
-                                    {
-                                        caption: me.menuUnwrap,
-                                        event: 'unwrap'
-                                    } :
-                                    {
-                                        caption: me.menuWrap,
-                                        event: 'wrap'
+                                arrItems.push(
+                                    cellinfo.asc_getFlags().asc_getWrapText() ?
+                                        {
+                                            caption: me.menuUnwrap,
+                                            event: 'unwrap'
+                                        } :
+                                        {
+                                            caption: me.menuWrap,
+                                            event: 'wrap'
+                                        });
+
+                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
+                                    cellinfo.asc_getHyperlink().asc_getType() == Asc.c_oAscHyperlinkType.WebLink) {
+                                    arrItems.push({
+                                        caption: me.menuOpenLink,
+                                        event: 'openlink'
                                     });
-
-                            if ( cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
-                                cellinfo.asc_getHyperlink().asc_getType() == Asc.c_oAscHyperlinkType.WebLink )
-                            {
-                                arrItems.push({
-                                    caption: me.menuOpenLink,
-                                    event: 'openlink'
-                                });
-                            } else
-                            if ( !cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
-                                !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText() )
-                            {
-                                arrItems.push({
-                                    caption: me.menuAddLink,
-                                    event: 'addlink'
-                                });
+                                } else if (!cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
+                                    !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText()) {
+                                    arrItems.push({
+                                        caption: me.menuAddLink,
+                                        event: 'addlink'
+                                    });
+                                }
                             }
+
+                            arrItems.push({
+                                caption: this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? me.menuUnfreezePanes : me.menuFreezePanes,
+                                event: 'freezePanes'
+                            });
+
                         }
-
-                        arrItems.push({
-                            caption: this.api.asc_getSheetViewSettings().asc_getIsFreezePane() ? me.menuUnfreezePanes : me.menuFreezePanes,
-                            event: 'freezePanes'
-                        });
-
                     }
-                }
 
 
+                    if (Common.SharedSettings.get('phone') && arrItems.length > 2) {
+                        _actionSheets = arrItems.slice(2);
 
-                if (Common.SharedSettings.get('phone') && arrItems.length > 2) {
-                    _actionSheets = arrItems.slice(2);
-
-                    arrItems = arrItems.slice(0, 2);
-                    arrItems.push({
-                        caption: me.menuMore,
-                        event: 'showActionSheet'
-                    });
+                        arrItems = arrItems.slice(0, 2);
+                        arrItems.push({
+                            caption: me.menuMore,
+                            event: 'showActionSheet'
+                        });
+                    }
                 }
 
                 var menuItems = {itemsIcon: arrItemsIcon, items: arrItems};
