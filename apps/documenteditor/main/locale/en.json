@@ -2018,6 +2018,7 @@
   "DE.Views.TableOfContentsSettings.txtClassic": "Classic",
   "DE.Views.TableOfContentsSettings.txtCurrent": "Current",
   "DE.Views.TableOfContentsSettings.txtModern": "Modern",
+  "DE.Views.TableOfContentsSettings.txtOnline": "Online",
   "DE.Views.TableOfContentsSettings.txtSimple": "Simple",
   "DE.Views.TableOfContentsSettings.txtStandard": "Standard",
   "DE.Views.TableSettings.deleteColumnText": "Delete Column",

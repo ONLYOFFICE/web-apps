@@ -2018,6 +2018,7 @@
   "DE.Views.TableOfContentsSettings.txtClassic": "Классический",
   "DE.Views.TableOfContentsSettings.txtCurrent": "Текущий",
   "DE.Views.TableOfContentsSettings.txtModern": "Современный",
+  "DE.Views.TableOfContentsSettings.txtOnline": "Онлайн",
   "DE.Views.TableOfContentsSettings.txtSimple": "Простой",
   "DE.Views.TableOfContentsSettings.txtStandard": "Стандартный",
   "DE.Views.TableSettings.deleteColumnText": "Удалить столбец",
