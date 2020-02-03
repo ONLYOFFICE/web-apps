@@ -102,10 +102,10 @@ module.exports = function(grunt) {
     }
 
     function doRegisterInitializeAppTask(name, appName, configFile) {
-        if (!!process.env['BRANDING_PATH'] &&
-                grunt.file.exists('../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile))
+        if (!!process.env['OO_BRANDING'] &&
+                grunt.file.exists('../../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile))
         {
-            var _extConfig = require('../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile);
+            var _extConfig = require('../../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile);
         }
 
         function _merge(target, ...sources) {
