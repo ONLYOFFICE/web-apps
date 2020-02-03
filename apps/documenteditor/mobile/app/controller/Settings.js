@@ -392,18 +392,25 @@ define([
             initPageDocumentSettings: function () {
                 var me = this,
                     $pageOrientation = $('.page[data-page=settings-document-view] input:radio[name=doc-orientation]'),
-                    $pageSize = $('#settings-document-format');
+                    $pageSize = $('#settings-document-format'),
+                    curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
+                    sizeW,
+                    sizeH;
 
                 // Init orientation
                 $pageOrientation.val([_isPortrait]);
                 $pageOrientation.single('change', _.bind(me.onOrientationChange, me));
 
                 // Init format
-                $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
-                var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
-                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
+                if (_pageSizesIndex === -1) {
+                    $pageSize.find('.item-title').text(me.textCustomSize);
+                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizesCurrent[0]).toFixed(2));
+                    sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizesCurrent[1]).toFixed(2));
+                } else {
+                    $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
+                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2));
                     sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
-
+                }
                 var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
                 $pageSize.find('.item-subtitle').text(pageSizeTxt);
             },
@@ -745,12 +752,16 @@ define([
                 if (Math.abs(_pageSizesCurrent[0] - w) > 0.1 ||
                     Math.abs(_pageSizesCurrent[1] - h) > 0.1) {
                     _pageSizesCurrent = [w, h];
-
+                    var ind = -1;
                     _.find(_pageSizes, function(size, index) {
                         if (Math.abs(size.value[0] - w) < 0.1 && Math.abs(size.value[1] - h) < 0.1) {
                             _pageSizesIndex = index;
+                            ind = index;
                         }
                     }, this);
+                    if (ind === -1) {
+                        _pageSizesIndex = -1;
+                    }
                 }
 
                 this.initPageDocumentSettings();
@@ -764,7 +775,8 @@ define([
             txtLoading              : 'Loading...',
             notcriticalErrorTitle   : 'Warning',
             warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
-            warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
+            warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
+            textCustomSize          : 'Custom Size'
         }
     })(), DE.Controllers.Settings || {}))
 });
