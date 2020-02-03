@@ -103,9 +103,9 @@ module.exports = function(grunt) {
 
     function doRegisterInitializeAppTask(name, appName, configFile) {
         if (!!process.env['BRANDING_PATH'] &&
-                grunt.file.exists(process.env['BRANDING_PATH'] + '/web-apps-pro/build/' + configFile))
+                grunt.file.exists('../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile))
         {
-            var _extConfig = require(process.env['BRANDING_PATH'] + '/web-apps-pro/build/' + configFile);
+            var _extConfig = require('../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile);
         }
 
         function _merge(target, ...sources) {
