@@ -136,7 +136,7 @@ define([
             textFirst: 'First Slide',
             textLast: 'Last Slide',
             textNumber: 'Slide Number',
-            textEdit: 'Edit Link',
+            textEdit: 'Save Link',
             textRemove: 'Remove Link'
         }
     })(), PE.Views.EditLink || {}))
