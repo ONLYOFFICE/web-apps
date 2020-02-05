@@ -1506,8 +1506,12 @@ define([
                     },
                     'command+k,ctrl+k': function (e) {
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot &&
-                            !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible())
-                            me.onHyperlink();
+                            !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()) {
+                            var cellinfo = me.api.asc_getCellInfo(),
+                                selectionType = cellinfo.asc_getFlags().asc_getSelectionType();
+                            if (selectionType !== Asc.c_oAscSelectionType.RangeShapeText || me.api.asc_canAddShapeHyperlink()!==false)
+                                me.onHyperlink();
+                        }
                         e.preventDefault();
                     },
                     'command+1,ctrl+1': function(e) {
