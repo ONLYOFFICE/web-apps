@@ -360,9 +360,6 @@ define([
             initChange: function() {
                 var goto = false;
                 if(arrChangeReview.length == 0) {
-                    this.api.asc_GetNextRevisionsChange();
-                }
-                if(arrChangeReview.length == 0) {
                     $('#current-change').css('display','none');
                 } else {
                     $('#current-change #date-change').html(arrChangeReview[0].date);
