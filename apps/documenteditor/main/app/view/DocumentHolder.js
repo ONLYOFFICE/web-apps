@@ -4146,6 +4146,11 @@ define([
                     this.onShowDateActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
                     this.api.asc_addImage(obj);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
