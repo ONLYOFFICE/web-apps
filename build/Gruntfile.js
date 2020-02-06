@@ -179,6 +179,9 @@ module.exports = function(grunt) {
                       replacements: [{
                           from: /\{\{PRODUCT_VERSION\}\}/,
                           to: packageFile.version
+                      },{
+                          from: /\{\{COMPANY_NAME\}\}/g,
+                          to: process.env['COMPANY_NAME'] || 'ONLYOFFICE'
                       }]
                   }
             }
