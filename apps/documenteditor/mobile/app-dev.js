@@ -224,7 +224,11 @@ require([
             'common/mobile/lib/controller/Collaboration'
         ], function() {
             window.compareVersions = true;
-            app.start();
+            require(['documenteditor/mobile/app/controller/FeatureEdit'], function () {
+                app.start();
+            }, function (error) {
+                app.start();
+            });
         });
     });
 }, function(err) {
