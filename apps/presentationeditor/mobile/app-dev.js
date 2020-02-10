@@ -221,7 +221,11 @@ require([
 
         ], function() {
             window.compareVersions = true;
-            app.start();
+            require(['presentationeditor/mobile/app/controller/FeatureEdit'], function () {
+                app.start();
+            }, function (error) {
+                app.start();
+            });
         });
     });
 }, function(err) {
