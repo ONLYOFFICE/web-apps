@@ -579,8 +579,7 @@ define([
                     var value = Common.localStorage.getItem("pe-opensource-warning");
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
-                    if (now - value > 40) {
-                        // if (now - value > 86400000) {
+                    if (now - value > 86400000) {
                         Common.localStorage.setItem("pe-opensource-warning", now);
                         uiApp.modal({
                             title: me.notcriticalErrorTitle,
