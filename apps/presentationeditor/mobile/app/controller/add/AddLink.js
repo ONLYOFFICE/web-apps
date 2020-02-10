@@ -57,9 +57,6 @@ define([
                 First: 3,
                 Num: 4
             },
-            _linkType = c_oHyperlinkType.WebLink,
-            _slideLink = 0,
-            _slideNum = 0,
             _slidesCount = 0;
 
         return {
@@ -83,6 +80,10 @@ define([
                 uiApp.onPageBack('addlink-type addlink-slidenumber', function (page) {
                     me.initSettings();
                 });
+
+                this._linkType = c_oHyperlinkType.WebLink;
+                this._slideLink = 0;
+                this._slideNum = 0;
             },
 
             setApi: function (api) {
@@ -103,8 +104,8 @@ define([
                 var $target = $(e.currentTarget);
 
                 if ($target && $target.prop('id') === 'add-link') {
-                    _linkType = c_oHyperlinkType.WebLink;
-                    _slideLink = _slideNum = 0;
+                    this._linkType = c_oHyperlinkType.WebLink;
+                    this._slideLink = this._slideNum = 0;
                     var text = this.api.can_AddHyperlink();
                     if (text !== false) {
                         $('#add-link-display input').val((text !== null) ? text : this.textDefault);
@@ -119,17 +120,17 @@ define([
                 var me = this;
 
                 if (pageId == '#addlink-type') {
-                    $('#page-addlink-type input').val([_linkType]);
+                    $('#page-addlink-type input').val([this._linkType]);
                 } else if (pageId == '#addlink-slidenumber') {
                     _slidesCount = me.api.getCountPages();
-                    $('#page-addlink-slidenumber input').val([_slideLink]);
-                    $('#addlink-slide-number .item-after label').text(_slideNum+1);
+                    $('#page-addlink-slidenumber input').val([this._slideLink]);
+                    $('#addlink-slide-number .item-after label').text(this._slideNum+1);
                 } else {
-                    $('#add-link-type .item-after').text((_linkType==c_oHyperlinkType.WebLink) ? me.textExternalLink : me.textInternalLink);
-                    $('#add-link-url')[(_linkType==c_oHyperlinkType.WebLink) ? 'show' : 'hide']();
-                    $('#add-link-number')[(_linkType==c_oHyperlinkType.WebLink) ? 'hide' : 'show']();
+                    $('#add-link-type .item-after').text((this._linkType==c_oHyperlinkType.WebLink) ? me.textExternalLink : me.textInternalLink);
+                    $('#add-link-url')[(this._linkType==c_oHyperlinkType.WebLink) ? 'show' : 'hide']();
+                    $('#add-link-number')[(this._linkType==c_oHyperlinkType.WebLink) ? 'hide' : 'show']();
 
-                    if (_linkType==c_oHyperlinkType.WebLink) {
+                    if (this._linkType==c_oHyperlinkType.WebLink) {
                         $('#add-link-url input[type=url]').single('input', _.bind(function(e) {
                             $('#add-link-insert').toggleClass('disabled', _.isEmpty($('#add-link-url input').val()));
                         }, this));
@@ -138,7 +139,7 @@ define([
                         }, 1000);
                     } else {
                         var slidename = '';
-                        switch (_slideLink) {
+                        switch (this._slideLink) {
                             case 0:
                                 slidename = me.textNext;
                                 break;
@@ -152,13 +153,13 @@ define([
                                 slidename = me.textLast;
                                 break;
                             case 4:
-                                slidename = me.textSlide + ' ' + (_slideNum+1);
+                                slidename = me.textSlide + ' ' + (this._slideNum+1);
                                 break;
                         }
                         $('#add-link-number .item-after').text(slidename);
                     }
 
-                    $('#add-link-insert').toggleClass('disabled', (_linkType==c_oHyperlinkType.WebLink) && _.isEmpty($('#add-link-url input').val()));
+                    $('#add-link-insert').toggleClass('disabled', (this._linkType==c_oHyperlinkType.WebLink) && _.isEmpty($('#add-link-url input').val()));
                 }
             },
 
@@ -174,66 +175,6 @@ define([
             // Handlers
 
             onInsertLink: function (e) {
-                var me      = this,
-                    display = $('#add-link-display input').val(),
-                    tip     = $('#add-link-tip input').val(),
-                    props   = new Asc.CHyperlinkProperty(),
-                    def_display = '';
-
-                if (_linkType==c_oHyperlinkType.WebLink) {
-                    var url = $('#add-link-url input').val(),
-                        urltype = me.api.asc_getUrlType($.trim(url)),
-                        isEmail = (urltype == 2);
-                    if (urltype < 1) {
-                        uiApp.alert(me.txtNotUrl);
-                        return;
-                    }
-
-                    url = url.replace(/^\s+|\s+$/g,'');
-                    if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
-                        url = (isEmail ? 'mailto:' : 'http://' ) + url;
-                    url = url.replace(new RegExp("%20",'g')," ");
-
-                    props.put_Value( url );
-                    props.put_ToolTip(tip);
-                    def_display = url;
-                } else {
-                    var url = "ppaction://hlink";
-                    var slidetip = '';
-                    switch (_slideLink) {
-                        case 0:
-                            url = url + "showjump?jump=nextslide";
-                            slidetip = this.textNext;
-                            break;
-                        case 1:
-                            url = url + "showjump?jump=previousslide";
-                            slidetip = this.textPrev;
-                            break;
-                        case 2:
-                            url = url + "showjump?jump=firstslide";
-                            slidetip = this.textFirst;
-                            break;
-                        case 3:
-                            url = url + "showjump?jump=lastslide";
-                            slidetip = this.textLast;
-                            break;
-                        case 4:
-                            url = url + "sldjumpslide" + _slideNum;
-                            slidetip = this.textSlide + ' ' + (_slideNum+1);
-                            break;
-                    }
-                    props.put_Value( url );
-                    props.put_ToolTip(_.isEmpty(tip) ? slidetip : tip);
-                    def_display = slidetip;
-                }
-
-                if (!$('#add-link-display').hasClass('disabled')) {
-                    props.put_Text(_.isEmpty(display) ? def_display : display);
-                } else
-                    props.put_Text(null);
-
-                me.api.add_Hyperlink(props);
-
                 PE.getController('AddContainer').hideModal();
             },
 
@@ -241,7 +182,7 @@ define([
                 var $target = $(e.currentTarget).find('input');
 
                 if ($target && this.api) {
-                    _linkType = parseFloat($target.prop('value'));
+                    this._linkType = parseFloat($target.prop('value'));
                 }
             },
 
@@ -249,20 +190,20 @@ define([
                 var $target = $(e.currentTarget).find('input');
 
                 if ($target && this.api) {
-                    _slideLink = parseFloat($target.prop('value'));
+                    this._slideLink = parseFloat($target.prop('value'));
                 }
             },
 
             onSlideNumber: function (e) {
                 var $button = $(e.currentTarget),
-                    slide = _slideNum;
+                    slide = this._slideNum;
 
                 if ($button.hasClass('decrement')) {
                     slide = Math.max(0, --slide);
                 } else {
                     slide = Math.min(_slidesCount-1, ++slide);
                 }
-                _slideNum = slide;
+                this._slideNum = slide;
                 $('#addlink-slide-number .item-after label').text(slide+1);
             },
 

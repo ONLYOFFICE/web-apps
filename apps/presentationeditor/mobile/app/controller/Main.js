@@ -1115,7 +1115,6 @@ define([
             },
 
             onSendThemeColors: function(colors, standart_colors) {
-               Common.Utils.ThemeColor.setColors(colors, standart_colors);
             },
 
             onFocusObject: function(SelectedObjects) {
