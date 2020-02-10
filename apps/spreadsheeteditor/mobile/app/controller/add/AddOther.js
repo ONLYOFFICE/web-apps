@@ -112,10 +112,6 @@ define([
                     if (!_.isEmpty(url)) {
                         if ((/((^https?)|(^ftp)):\/\/.+/i.test(url))) {
                             SSE.getController('AddContainer').hideModal();
-
-                            _.defer(function () {
-                                me.api.asc_addImageDrawingObject(url);
-                            });
                         } else {
                             uiApp.alert(me.txtNotUrl);
                         }
@@ -124,7 +120,6 @@ define([
                     }
                 } else {
                     SSE.getController('AddContainer').hideModal();
-                    this.api.asc_addImage();
                 }
             },
 
@@ -133,11 +128,6 @@ define([
             },
 
             onInsertFilter: function(checked) {
-                var formatTableInfo = this.api.asc_getCellInfo().asc_getFormatTableInfo();
-                var tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
-                if (checked)
-                    this.api.asc_addAutoFilter(); else
-                    this.api.asc_changeAutoFilter(tablename, Asc.c_oAscChangeFilterOptions.filter, checked);
             },
 
             onError: function(id, level, errData) {

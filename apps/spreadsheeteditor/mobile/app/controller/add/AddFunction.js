@@ -69,6 +69,7 @@ define([
                         'function:info': me.onFunctionInfo.bind(me)
                     }
                 });
+                this.fd = fd;
             },
 
             setApi: function (api) {
@@ -111,40 +112,7 @@ define([
 
                 editorLang = (editorLang ? editorLang : 'en').split(/[\-\_]/)[0].toLowerCase();
 
-                var localizationFunctionsDesc = function (data) {
-                    var jsonDesc = {},
-                        view = me.getView('AddFunction');
-
-                    fd = data;
-
-                    try {
-                        jsonDesc = JSON.parse(fd);
-                    } catch (e) {
-                        jsonDesc = fd
-                    }
-
-                    var grouparr = me.api.asc_getFormulasInfo();
-                    for (var g in grouparr) {
-                        var group = grouparr[g];
-                        var groupname = group.asc_getGroupName();
-                        var funcarr = group.asc_getFormulasArray();
-
-                        for (var f in funcarr) {
-                            var func = funcarr[f];
-                            var _name = func.asc_getName();
-                            functions[_name] = {
-                                type:       _name,
-                                group:      groupname,
-                                caption:    func.asc_getLocaleName(),
-                                args:       (jsonDesc && jsonDesc[_name]) ? jsonDesc[_name].a : '',
-                                descr:      (jsonDesc && jsonDesc[_name]) ? jsonDesc[_name].d : ''
-                            };
-                        }
-                    }
-
-                    view.setFunctions(functions, editorLang);
-                    view.render();
-                };
+                var localizationFunctionsDesc = function (data) {};
 
                 $.getJSON(Common.Utils.String.format("{0}/{1}_desc.json", "resources/l10n/functions", editorLang), function(json) {
                     localizationFunctionsDesc(json);
@@ -155,8 +123,6 @@ define([
 
             onInsertFunction: function (type) {
                 SSE.getController('AddContainer').hideModal();
-
-                this.api.asc_insertFormula(this.api.asc_getFormulaLocaleName(type), Asc.c_oAscPopUpSelectorType.Func, true);
             },
 
             onFunctionInfo: function (type) {

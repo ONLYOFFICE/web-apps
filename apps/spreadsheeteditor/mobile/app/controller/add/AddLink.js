@@ -49,54 +49,6 @@ define([
         var cfgLink;
 
         // Handlers
-        function onInsertLink (args) {
-            var link = new Asc.asc_CHyperlink();
-
-            if ( args.type == 'ext' ) {
-                var url     = args.url,
-                    urltype = this.api.asc_getUrlType($.trim(url)),
-                    isEmail = (urltype == 2);
-
-                if (urltype < 1) {
-                    uiApp.alert(this.txtNotUrl);
-                    return;
-                }
-
-                url = url.replace(/^\s+|\s+$/g,'');
-
-                if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
-                    url = (isEmail ? 'mailto:' : 'http://' ) + url;
-
-                url = url.replace(new RegExp("%20",'g')," ");
-
-                link.asc_setType(Asc.c_oAscHyperlinkType.WebLink);
-                link.asc_setHyperlinkUrl(url);
-                display = url;
-            } else {
-                var isValid = /^[A-Z]+[1-9]\d*:[A-Z]+[1-9]\d*$/.test(args.url);
-
-                if (!isValid)
-                    isValid = /^[A-Z]+[1-9]\d*$/.test(args.url);
-
-                if (!isValid) {
-                    uiApp.alert(this.textInvalidRange);
-                    return;
-                }
-
-                link.asc_setType(Asc.c_oAscHyperlinkType.RangeLink);
-                link.asc_setSheet(args.sheet);
-                link.asc_setRange(args.url);
-
-                var display = args.sheet + '!' + args.url;
-            }
-
-            link.asc_setText(args.text == null ? null : !!args.text ? args.text : display);
-            link.asc_setTooltip(args.tooltip);
-
-            this.api.asc_insertHyperlink(link);
-
-            SSE.getController('AddContainer').hideModal();
-        }
 
         function onChangePanel (view, pageId) {
             var me = this;
@@ -142,7 +94,7 @@ define([
                 this.addListeners({
                     'AddLink': {
                         'panel:change' : onChangePanel.bind(this)
-                        , 'link:insert': onInsertLink.bind(this)
+                        , 'link:insert': this.onInsertLink.bind(this)
                         , 'link:changetype': onChangeLinkType.bind(this)
                         , 'link:changesheet': onChangeLinkSheet.bind(this)
                     }
@@ -216,6 +168,10 @@ define([
                 allowinternal && view.optionLinkType( cfgLink.type );
 
                 view.fireEvent('page:show', [this, '#addlink']);
+            },
+
+            onInsertLink: function(args){
+                SSE.getController('AddContainer').hideModal();
             },
 
             textInvalidRange    : 'ERROR! Invalid cells range',
