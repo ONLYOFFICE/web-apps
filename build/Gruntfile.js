@@ -65,7 +65,7 @@ module.exports = function(grunt) {
     if (!Array.isArray(addons))
         addons = [addons];
 
-    addons.forEach((element,index,self) => self[index] = '../../web-apps-' + element + '/build');
+    addons.forEach((element,index,self) => self[index] = path.join('../..', element, '/build'));
     addons = addons.filter(element => grunt.file.isDir(element));
 
     grunt.loadNpmTasks('grunt-contrib-clean');
