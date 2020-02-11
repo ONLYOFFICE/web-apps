@@ -241,28 +241,9 @@ define([
             },
 
             onReorder: function(e) {
-                var $target = $(e.currentTarget),
-                    type = $target.data('type'),
-                    ascType;
-
-                if (type == 'all-up') {
-                    ascType = Asc.c_oAscDrawingLayerType.BringToFront;
-                } else if (type == 'all-down') {
-                    ascType = Asc.c_oAscDrawingLayerType.SendToBack;
-                } else if (type == 'move-up') {
-                    ascType = Asc.c_oAscDrawingLayerType.BringForward;
-                } else {
-                    ascType = Asc.c_oAscDrawingLayerType.SendBackward;
-                }
-
-                this.api.asc_setSelectedDrawingObjectLayer(ascType);
             },
 
             onReplace: function (e) {
-                var $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                this.api.asc_changeShapeType(type);
             },
 
             onBorderSize: function (e) {

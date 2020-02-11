@@ -234,18 +234,6 @@ define([
             },
 
             onReorder: function (e) {
-                var $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                if ('all-up' == type) {
-                    this.api.shapes_bringToFront();
-                } else if ('all-down' == type) {
-                    this.api.shapes_bringToBack();
-                } else if ('move-up' == type) {
-                    this.api.shapes_bringForward();
-                } else if ('move-down' == type) {
-                    this.api.shapes_bringBackward();
-                }
             },
 
             onAlign: function (e) {
@@ -272,10 +260,6 @@ define([
             },
 
             onReplace: function (e) {
-                var $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                this.api.ChangeShapeType(type);
             },
 
             onBorderSize: function (e) {
