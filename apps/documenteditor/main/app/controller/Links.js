@@ -248,6 +248,7 @@ define([
                     props.put_Hyperlink(true);
                     props.put_ShowPageNumbers(false);
                     props.put_TabLeader( Asc.c_oAscTabLeader.None);
+                    props.put_StylesType(Asc.c_oAscTOCStylesType.Web);
                     (currentTOC) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 'settings':
