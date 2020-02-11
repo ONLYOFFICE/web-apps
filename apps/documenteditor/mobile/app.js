@@ -234,11 +234,7 @@ require([
             'documenteditor/mobile/app/controller/add/AddOther',
             'common/mobile/lib/controller/Collaboration'
         ], function() {
-            require(['documenteditor/mobile/app/controller/FeatureEdit'], function () {
-                app.start();
-            }, function (error) {
-                app.start();
-            });
+            app.start();
         });
     });
 }, function(err) {

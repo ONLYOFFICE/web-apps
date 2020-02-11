@@ -61,7 +61,8 @@ require.config({
         gateway         : 'common/Gateway',
         locale          : 'common/locale',
         irregularstack  : 'common/IrregularStack',
-        sharedsettings  : 'common/mobile/utils/SharedSettings'
+        sharedsettings  : 'common/mobile/utils/SharedSettings',
+        features        : '../../web-apps-mobile/slide/patch'
     },
 
     shim: {
@@ -221,11 +222,8 @@ require([
 
         ], function() {
             window.compareVersions = true;
-            require(['presentationeditor/mobile/app/controller/FeatureEdit'], function () {
-                app.start();
-            }, function (error) {
-                app.start();
-            });
+            var _s = app.start.bind(app);
+            require(['features'], _s, _s);
         });
     });
 }, function(err) {

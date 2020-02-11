@@ -61,7 +61,8 @@ require.config({
         gateway         : 'common/Gateway',
         locale          : 'common/locale',
         irregularstack  : 'common/IrregularStack',
-        sharedsettings  : 'common/mobile/utils/SharedSettings'
+        sharedsettings  : 'common/mobile/utils/SharedSettings',
+        features        : '../../web-apps-mobile/cell/patch'
     },
 
     shim: {
@@ -210,11 +211,8 @@ require([
             ,'common/mobile/lib/controller/Collaboration'
         ], function() {
             window.compareVersions = true;
-            require(['spreadsheeteditor/mobile/app/controller/FeatureEdit'], function () {
-                app.start();
-            }, function (error) {
-                app.start();
-            });
+            var _s = app.start.bind(app);
+            require(['features'], _s, _s);
         });
     });
 }, function(err) {

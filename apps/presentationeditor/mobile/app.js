@@ -230,11 +230,7 @@ require([
             'presentationeditor/mobile/app/controller/add/AddSlide',
             'common/mobile/lib/controller/Collaboration'
         ], function() {
-            require(['presentationeditor/mobile/app/controller/FeatureEdit'], function () {
-                app.start();
-            }, function (error) {
-                app.start();
-            });
+            app.start();
         });
     });
 }, function(err) {

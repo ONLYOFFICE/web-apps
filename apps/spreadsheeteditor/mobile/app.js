@@ -220,11 +220,7 @@ require([
             ,'spreadsheeteditor/mobile/app/controller/FilterOptions'
             ,'common/mobile/lib/controller/Collaboration'
         ], function() {
-            require(['spreadsheeteditor/mobile/app/controller/FeatureEdit'], function () {
-                app.start();
-            }, function (error) {
-                app.start();
-            });
+            app.start();
         });
     });
 }, function(err) {
