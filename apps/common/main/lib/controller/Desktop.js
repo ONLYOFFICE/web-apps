@@ -118,6 +118,13 @@ define([
                     if ( !!obj.action ) {
                         titlebuttons[obj.action].btn.click();
                     }
+                } else
+                if (/element:show/.test(cmd)) {
+                    var _mr = /title:(?:(true|show)|(false|hide))/.exec(param);
+                    if ( _mr ) {
+                        if (!!_mr[1]) $('#app-title').show();
+                        else if (!!_mr[2]) $('#app-title').hide();
+                    }
                 }
             };
 
