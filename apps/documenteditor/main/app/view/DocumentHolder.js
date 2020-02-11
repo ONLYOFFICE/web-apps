@@ -1998,6 +1998,10 @@ define([
             var menuSignatureRemove     = new Common.UI.MenuItem({caption: this.strDelete,    value: 3 }).on('click', _.bind(me.onSignatureClick, me));
             var menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
 
+            var menuViewPrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
+
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties())),
@@ -2032,10 +2036,13 @@ define([
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuViewCopy.setDisabled(!cancopy);
+                    menuViewPrint.setVisible(me.mode.canPrint);
+                    menuViewPrint.setDisabled(!cancopy);
                 },
                 items: [
                     menuViewCopy,
                     menuViewUndo,
+                    menuViewPrint,
                     menuViewCopySeparator,
                     menuSignatureViewSign,
                     menuSignatureDetails,
