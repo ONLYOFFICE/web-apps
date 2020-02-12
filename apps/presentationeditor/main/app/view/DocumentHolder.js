@@ -221,7 +221,7 @@ define([
             var onContextMenu = function(event){
                 _.delay(function(){
                     if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
-                        !me._isDisabled && showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
+                        showPopupMenu.call(me, (me.mode.isEdit && !me._isDisabled) ? me.slideMenu : me.viewModeMenuSlide, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
                     } else {
                         showObjectMenu.call(me, event);
                     }
@@ -1810,6 +1810,60 @@ define([
                 me.currentMenu = null;
             });
 
+            var mnuPreview = new Common.UI.MenuItem({
+                caption : me.txtPreview
+            }).on('click', function(item) {
+                var current = me.api.getCurrentPage();
+                Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
+            });
+
+            var mnuSelectAll = new Common.UI.MenuItem({
+                caption : me.txtSelectAll
+            }).on('click', function(item){
+                if (me.api){
+                    me.api.SelectAllSlides();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Select All Slides');
+                }
+            });
+
+            var mnuPrintSelection = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', function(item){
+                if (me.api){
+                    var printopt = new Asc.asc_CAdjustPrint();
+                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    opts.asc_setAdvancedOptions(printopt);
+                    me.api.asc_Print(opts);
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
+                }
+            });
+
+            this.viewModeMenuSlide = new Common.UI.Menu({
+                initMenu: function (value) {
+                    mnuSelectAll.setDisabled(me.slidesCount<2);
+                    mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
+                    mnuPrintSelection.setDisabled(me.slidesCount<1);
+                    mnuPreview.setDisabled(me.slidesCount<1);
+                },
+                items: [
+                    mnuSelectAll,
+                    mnuPrintSelection,
+                    {caption: '--'},
+                    mnuPreview
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+                me.currentMenu = null;
+            });
         },
 
         createDelayedElements: function(){
@@ -1956,7 +2010,7 @@ define([
                         me.slideMenu.items[i].setDisabled(locked);
                     }
                     mnuPreview.setDisabled(me.slidesCount<1);
-                    mnuSelectAll.setDisabled(locked || me.slidesCount<2);
+                    mnuSelectAll.setDisabled(me.slidesCount<2);
                     mnuDeleteSlide.setDisabled(lockedDeleted || locked);
                     mnuChangeSlide.setDisabled(lockedLayout || locked);
                     mnuResetSlide.setDisabled(lockedLayout || locked);
