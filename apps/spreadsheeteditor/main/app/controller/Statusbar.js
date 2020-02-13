@@ -159,6 +159,7 @@ define([
 //                        else item.reorderable = !this.api.asc_isWorksheetLockedOrDeleted(item.sheetindex);
                 } else {
                     item.disable(locked);
+                    item.$el.children(':first-child').attr('draggable', locked?'false':'true');
                 }
             }
         },
@@ -170,6 +171,7 @@ define([
                 if (index == tab.sheetindex) {
                     tab[locked?'addClass':'removeClass']('coauth-locked');
                     tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
+                    tab.$el.children(':first-child').attr('draggable', tab.isLockTheDrag?'false':'true');
                     break;
                 }
             }
@@ -550,7 +552,7 @@ define([
                     if ('transparent' === color) {
                         this.api.asc_setWorksheetTabColor(null, arrIndex);
                         selectTabs.forEach(function (tab) {
-                            tab.$el.find('a').css('box-shadow', '');
+                            tab.$el.find('span').css('box-shadow', '');
                         });
                     } else {
                         var asc_clr = Common.Utils.ThemeColor.getRgbColor(color);
@@ -681,9 +683,9 @@ define([
                         color = '0px 4px 0 ' + color + ' inset';
                     }
 
-                    tab.$el.find('a').css('box-shadow', color);
+                    tab.$el.find('span').css('box-shadow', color);
                 } else {
-                    tab.$el.find('a').css('box-shadow', '');
+                    tab.$el.find('span').css('box-shadow', '');
                 }
             }
         },

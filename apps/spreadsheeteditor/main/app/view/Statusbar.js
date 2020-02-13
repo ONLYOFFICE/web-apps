@@ -202,13 +202,27 @@ define([
 
                     }, this),
                     'tab:dragstart'          : _.bind(function (dataTransfer, selectTabs) {
-                        var tabs = selectTabs,
-                            arrTabs = [],
+                        var arrTabs = [],
                             arrName = [],
                             me = this;
-                        tabs.forEach(function (item) {
-                            arrTabs.push(item.sheetindex);
-                            arrName.push(me.api.asc_getWorksheetName(item.sheetindex));
+                        var wc = me.api.asc_getWorksheetsCount(), items = [], i = -1;
+                        while (++i < wc) {
+                            if (!this.api.asc_isWorksheetHidden(i)) {
+                                items.push({
+                                    value: me.api.asc_getWorksheetName(i),
+                                    inindex: i
+                                });
+                            }
+                        }
+                        var arrSelectIndex = [];
+                        selectTabs.forEach(function (item) {
+                            arrSelectIndex.push(item.sheetindex);
+                        });
+                        items.forEach(function (item) {
+                            if (arrSelectIndex.indexOf(item.inindex) !== -1) {
+                                arrTabs.push(item.inindex);
+                                arrName.push(item.value);
+                            }
                         });
                         var stringSheet,
                             stringSheetJson,
@@ -231,7 +245,30 @@ define([
                         if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
                             this.api.asc_moveWorksheet(index, arrIndex);
                         } else {
-                            this.api.asc_EndMoveSheet(index, arrNames, arrSheets);
+                            var names = [], wc = this.api.asc_getWorksheetsCount();
+                            while (wc--) {
+                                names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
+                            }
+                            var newNames = [];
+                            arrNames.forEach(function (name) {
+                                var ind = 0,
+                                    name = name;
+                                var first = name;
+                                if (names.indexOf(name.toLowerCase()) !== -1) {
+                                    while (true) {
+                                        if (names.indexOf(name.toLowerCase()) === -1) {
+                                            newNames.push(name);
+                                            break;
+                                        } else {
+                                            ind++;
+                                            name = first + '(' + ind + ')';
+                                        }
+                                    }
+                                } else {
+                                    newNames.push(name);
+                                }
+                            });
+                            this.api.asc_EndMoveSheet(index, newNames, arrSheets);
                         }
                     }, this)
                 });
@@ -391,6 +428,7 @@ define([
                         this.tabbar.setTabVisible(sindex);
 
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.isCellEdited);
+                    $('#status-addtabs-box').css('border-right', 'none');
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     me.fireEvent('sheet:changed', [me, sindex]);

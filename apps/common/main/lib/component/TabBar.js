@@ -233,15 +233,18 @@ define([
                 this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
             }, this.bar),
             mousedown: $.proxy(function (e) {
-                if ((3 !== e.which) && !e.ctrlKey && !e.metaKey && !e.shiftKey)
+                if ((3 !== e.which) && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                    var lockDrag = tab.isLockTheDrag;
+                    this.bar.selectTabs.forEach(function (item) {
+                        if (item.isLockTheDrag) {
+                            lockDrag = true;
+                        }
+                    });
+                    this.bar.$el.find('ul > li > span').attr('draggable', !lockDrag);
                     tab.changeState();
-                /*if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
-                    if (!tab.isLockTheDrag) {
-                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey)
-                            tab.changeState();
-                        dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
-                    }
-                }*/
+                } else {
+                    this.bar.$el.find('ul > li > span').attr('draggable', 'false');
+                }
                 this.bar.trigger('tab:drag', this.bar.selectTabs);
             }, this)
         });
@@ -263,6 +266,7 @@ define([
                     event.preventDefault(); // Necessary. Allows us to drop.
                 }
                 event.dataTransfer.dropEffect = 'move';
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
                 $(e.currentTarget).parent().addClass('mousemove');
                 return false;
             }, this),
