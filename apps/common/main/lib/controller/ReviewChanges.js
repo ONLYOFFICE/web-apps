@@ -417,9 +417,9 @@ define([
                         if (value.Get_WidowControl())
                             proptext += ((value.Get_WidowControl() ? me.textWidow : me.textNoWidow) + ', ');
                         if (value.Get_Tabs() !== undefined)
-                            proptext += proptext += (me.textTabs + ', ');
+                            proptext += (me.textTabs + ', ');
                         if (value.Get_NumPr() !== undefined)
-                            proptext += proptext += (me.textNum + ', ');
+                            proptext += (me.textNum + ', ');
                         if (value.Get_PStyle() !== undefined) {
                             var style = me.api.asc_GetStyleNameById(value.Get_PStyle());
                             if (!_.isEmpty(style)) proptext += (style + ', ');
