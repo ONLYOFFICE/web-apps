@@ -451,6 +451,11 @@ define([
             changeReview: function (data) {
                 if (data && data.length>0) {
                     var me = this, arr = [];
+                    var c_paragraphLinerule = {
+                        LINERULE_LEAST: 0,
+                        LINERULE_AUTO: 1,
+                        LINERULE_EXACT: 2
+                    };
                     _.each(data, function (item) {
                         var changetext = '', proptext = '',
                             value = item.get_Value(),
@@ -608,9 +613,9 @@ define([
                                 if (value.Get_WidowControl())
                                     proptext += ((value.Get_WidowControl() ? me.textWidow : me.textNoWidow) + ', ');
                                 if (value.Get_Tabs() !== undefined)
-                                    proptext += proptext += (me.textTabs + ', ');
+                                    proptext += (me.textTabs + ', ');
                                 if (value.Get_NumPr() !== undefined)
-                                    proptext += proptext += (me.textNum + ', ');
+                                    proptext += (me.textNum + ', ');
                                 if (value.Get_PStyle() !== undefined) {
                                     var style = me.api.asc_GetStyleNameById(value.Get_PStyle());
                                     if (!_.isEmpty(style)) proptext += (style + ', ');
