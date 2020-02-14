@@ -42,6 +42,8 @@
   "SSE.Controllers.DocumentHolder.menuWrap": "Wrap",
   "SSE.Controllers.DocumentHolder.sheetCancel": "Cancel",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Operation can destroy data in the selected cells.<br>Continue?",
+  "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Copy, Cut and Paste Actions",
+  "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Copy, cut and paste actions using the context menu will be performed within the current file only. You cannot copy or paste to or from other applications.",
   "SSE.Controllers.EditCell.textAuto": "Auto",
   "SSE.Controllers.EditCell.textFonts": "Fonts",
   "SSE.Controllers.EditCell.textPt": "pt",

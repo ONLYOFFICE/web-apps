@@ -108,6 +108,8 @@
   "DE.Controllers.DocumentHolder.textColumns": "Columns",
   "DE.Controllers.DocumentHolder.textGuest": "Guest",
   "DE.Controllers.DocumentHolder.textRows": "Rows",
+  "DE.Controllers.DocumentHolder.textCopyCutPasteActions": "Copy, Cut and Paste Actions",
+  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Copy, cut and paste actions using the context menu will be performed within the current file only. You cannot copy or paste to or from other applications.",
   "DE.Controllers.EditContainer.textChart": "Chart",
   "DE.Controllers.EditContainer.textFooter": "Footer",
   "DE.Controllers.EditContainer.textHeader": "Header",

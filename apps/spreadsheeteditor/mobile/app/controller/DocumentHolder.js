@@ -109,9 +109,39 @@ define([
                 var info = me.api.asc_getCellInfo();
 
                 switch (event) {
-                case 'cut': me.api.asc_Cut(); break;
-                case 'copy': me.api.asc_Copy(); break;
-                case 'paste': me.api.asc_Paste(); break;
+                case 'cut':
+                    var res = me.api.asc_Cut();
+                    if (!res) {
+                        me.view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text : me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
+                    break;
+                case 'copy':
+                    var res = me.api.asc_Copy();
+                    if (!res) {
+                        me.view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text : me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
+                    break;
+                case 'paste':
+                    var res = me.api.asc_Paste();
+                    if (!res) {
+                        me.view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text: me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
+                    break;
                 case 'del': me.api.asc_emptyCells(Asc.c_oAscCleanOptions.All); break;
                 case 'wrap': me.api.asc_setCellTextWrap(true); break;
                 case 'unwrap': me.api.asc_setCellTextWrap(false); break;
@@ -390,7 +420,9 @@ define([
             menuMore:       'More',
             sheetCancel:    'Cancel',
             menuFreezePanes: 'Freeze Panes',
-            menuUnfreezePanes: 'Unfreeze Panes'
+            menuUnfreezePanes: 'Unfreeze Panes',
+            textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
+            errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only. You cannot copy or paste to or from other applications.'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });
