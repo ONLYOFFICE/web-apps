@@ -166,7 +166,7 @@ define([
 
                 var value = Common.localStorage.getItem("de-settings-fontrender");
                 if (value === null)
-                    window.devicePixelRatio > 1 ? value = '1' : '0';
+                    value = '0';
                 Common.Utils.InternalSettings.set("de-settings-fontrender", value);
 
                 // Initialize api

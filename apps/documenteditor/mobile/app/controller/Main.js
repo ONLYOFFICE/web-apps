@@ -94,7 +94,7 @@ define([
                 var value = Common.localStorage.getItem("de-settings-fontrender");
 
                 if (value === null) {
-                    window.devicePixelRatio > 1 ? value = '1' : '0';
+                    value = window.devicePixelRatio > 1 ? '1' : '0';
                 }
 
                 // Initialize api

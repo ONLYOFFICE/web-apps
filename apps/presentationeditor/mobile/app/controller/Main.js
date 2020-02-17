@@ -134,6 +134,10 @@ define([
                 uiApp.params.notificationCloseButtonText = me.textClose;
 
                 if (me.api){
+                    var value = Common.localStorage.getItem("pe-settings-fontrender");
+                    if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                    me.api.SetFontRenderingMode(parseInt(value));
+
                     Common.Utils.Metric.setCurrentMetric(1); //pt
 
                     me.api.SetDrawingFreeze(true);

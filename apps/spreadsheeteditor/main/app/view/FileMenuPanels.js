@@ -893,7 +893,7 @@ define([
 
             value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
-            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
+            this.cmbFontRender.setValue(item ? item.get('value') : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling);
 
             value = Common.Utils.InternalSettings.get("sse-settings-unit");
             item = this.cmbUnit.store.findWhere({value: value});
