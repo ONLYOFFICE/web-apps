@@ -444,7 +444,7 @@ define([
 
             value = Common.Utils.InternalSettings.get("de-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
-            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? 1 : 0));
+            this.cmbFontRender.setValue(item ? item.get('value') : 0);
 
             value = Common.Utils.InternalSettings.get("de-settings-unit");
             item = this.cmbUnit.store.findWhere({value: value});

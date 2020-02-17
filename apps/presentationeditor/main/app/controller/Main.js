@@ -153,7 +153,7 @@ define([
                 }
 
                 var value = Common.localStorage.getItem("pe-settings-fontrender");
-                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                if (value===null) value = '3';
                 Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
 
                 // Initialize api

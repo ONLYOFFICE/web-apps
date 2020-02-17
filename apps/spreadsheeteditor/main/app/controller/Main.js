@@ -155,7 +155,7 @@ define([
                 }
 
                 var value = Common.localStorage.getItem("sse-settings-fontrender");
-                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                if (value===null) value = '3';
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
 
                 // Initialize api
