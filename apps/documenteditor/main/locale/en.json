@@ -493,7 +493,7 @@
   "DE.Controllers.Main.txtMissArg": "Missing Argument",
   "DE.Controllers.Main.txtMissOperator": "Missing Operator",
   "DE.Controllers.Main.txtNeedSynchronize": "You have updates",
-  "DE.Controllers.Main.txtNoTableOfContents": "No table of contents entries found.",
+  "DE.Controllers.Main.txtNoTableOfContents": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents.",
   "DE.Controllers.Main.txtNoText": "Error! No text of specified style in document.",
   "DE.Controllers.Main.txtNotInTable": "Is Not In Table",
   "DE.Controllers.Main.txtNotValidBookmark": "Error! Not a valid bookmark self-reference.",

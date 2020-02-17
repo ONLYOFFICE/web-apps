@@ -2318,7 +2318,7 @@ define([
             txtOddPage: "Odd Page",
             txtSameAsPrev: "Same as Previous",
             txtCurrentDocument: "Current Document",
-            txtNoTableOfContents: "No table of contents entries found.",
+            txtNoTableOfContents: "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents.",
             txtTableOfContents: "Table of Contents",
             errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
             warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
