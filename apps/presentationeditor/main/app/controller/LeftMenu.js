@@ -310,6 +310,10 @@ define([
             }
             /** coauthoring end **/
 
+            value = Common.localStorage.getBool("pe-settings-cachemode", true);
+            Common.Utils.InternalSettings.set("pe-settings-cachemode", value);
+            this.api.asc_setDefaultBlitMode(value);
+
             value = Common.localStorage.getItem("pe-settings-fontrender");
             Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
             this.api.SetFontRenderingMode(parseInt(value));

@@ -1600,6 +1600,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtPt": "Point",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtRu": "Russian",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWin": "as Windows",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCacheMode": "Default cache mode",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.okButtonText": "Apply",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.strDictionaryLanguage": "Dictionary language",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.strIgnoreWordsInUPPERCASE": "Ignore words in UPPERCASE",

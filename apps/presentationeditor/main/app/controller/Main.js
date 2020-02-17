@@ -152,10 +152,6 @@ define([
                     return;
                 }
 
-                var value = Common.localStorage.getItem("pe-settings-fontrender");
-                if (value===null) value = '3';
-                Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
-
                 // Initialize api
                 window["flat_desine"] = true;
                 this.api = this.getApplication().getController('Viewport').getApi();
@@ -163,6 +159,14 @@ define([
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
+
+                    var value = Common.localStorage.getBool("pe-settings-cachemode", true);
+                    Common.Utils.InternalSettings.set("pe-settings-cachemode", value);
+                    this.api.asc_setDefaultBlitMode(!!value);
+
+                    value = Common.localStorage.getItem("pe-settings-fontrender");
+                    if (value===null) value = '3';
+                    Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
                     this.api.SetFontRenderingMode(parseInt(value));
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));

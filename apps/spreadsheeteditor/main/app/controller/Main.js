@@ -154,12 +154,16 @@ define([
 //                    viewport.applicationUI.setVisible(true);
                 }
 
-                var value = Common.localStorage.getItem("sse-settings-fontrender");
-                if (value===null) value = '3';
-                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
-
                 // Initialize api
                 this.api = this.getApplication().getController('Viewport').getApi();
+
+                var value = Common.localStorage.getBool("sse-settings-cachemode", true);
+                Common.Utils.InternalSettings.set("sse-settings-cachemode", value);
+                this.api.asc_setDefaultBlitMode(!!value);
+
+                value = Common.localStorage.getItem("sse-settings-fontrender");
+                if (value===null) value = '3';
+                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));

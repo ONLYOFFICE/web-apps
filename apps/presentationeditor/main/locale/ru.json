@@ -1234,6 +1234,7 @@
   "PE.Views.FileMenuPanels.Settings.txtPt": "Пункт",
   "PE.Views.FileMenuPanels.Settings.txtSpellCheck": "Проверка орфографии",
   "PE.Views.FileMenuPanels.Settings.txtWin": "как Windows",
+  "PE.Views.FileMenuPanels.Settings.txtCacheMode": "Режим кэширования по умолчанию",
   "PE.Views.HeaderFooterDialog.applyAllText": "Применить ко всем",
   "PE.Views.HeaderFooterDialog.applyText": "Применить",
   "PE.Views.HeaderFooterDialog.diffLanguage": "Формат даты должен использовать тот же язык, что и образец слайдов.<br>Чтобы изменить образец, вместо кнопки 'Применить' нажмите кнопку 'Применить ко всем'",

@@ -164,17 +164,21 @@ define([
                     return;
                 }
 
-                var value = Common.localStorage.getItem("de-settings-fontrender");
-                if (value === null)
-                    value = '0';
-                Common.Utils.InternalSettings.set("de-settings-fontrender", value);
-
                 // Initialize api
                 window["flat_desine"] = true;
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
+
+                    var value = Common.localStorage.getBool("de-settings-cachemode", true);
+                    Common.Utils.InternalSettings.set("de-settings-cachemode", value);
+                    this.api.asc_setDefaultBlitMode(!!value);
+
+                    value = Common.localStorage.getItem("de-settings-fontrender");
+                    if (value === null)
+                        value = '0';
+                    Common.Utils.InternalSettings.set("de-settings-fontrender", value);
                     switch (value) {
                         case '0': this.api.SetFontRenderingMode(3); break;
                         case '1': this.api.SetFontRenderingMode(1); break;

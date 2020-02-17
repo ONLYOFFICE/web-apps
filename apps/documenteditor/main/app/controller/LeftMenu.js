@@ -470,6 +470,10 @@ define([
             this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
             /** coauthoring end **/
 
+            value = Common.localStorage.getBool("de-settings-cachemode", true);
+            Common.Utils.InternalSettings.set("de-settings-cachemode", value);
+            this.api.asc_setDefaultBlitMode(value);
+
             value = Common.localStorage.getItem("de-settings-fontrender");
             Common.Utils.InternalSettings.set("de-settings-fontrender", value);
             switch (value) {
