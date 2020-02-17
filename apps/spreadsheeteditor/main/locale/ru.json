@@ -1600,6 +1600,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtPt": "Пункт",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtRu": "Русский",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWin": "как Windows",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtCacheMode": "Режим кэширования по умолчанию",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.okButtonText": "Применить",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.strDictionaryLanguage": "Язык словаря",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.strIgnoreWordsInUPPERCASE": "Пропускать слова из ПРОПИСНЫХ БУКВ",

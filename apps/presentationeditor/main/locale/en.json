@@ -1234,6 +1234,7 @@
   "PE.Views.FileMenuPanels.Settings.txtPt": "Point",
   "PE.Views.FileMenuPanels.Settings.txtSpellCheck": "Spell Checking",
   "PE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
+  "PE.Views.FileMenuPanels.Settings.txtCacheMode": "Default cache mode",
   "PE.Views.HeaderFooterDialog.applyAllText": "Apply to all",
   "PE.Views.HeaderFooterDialog.applyText": "Apply",
   "PE.Views.HeaderFooterDialog.diffLanguage": "You can’t use a date format in a different language than the slide master.<br>To change the master, click 'Apply to all' instead of 'Apply'",

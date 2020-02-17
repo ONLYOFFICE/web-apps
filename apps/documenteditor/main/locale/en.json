@@ -1532,6 +1532,7 @@
   "DE.Views.FileMenuPanels.Settings.txtPt": "Point",
   "DE.Views.FileMenuPanels.Settings.txtSpellCheck": "Spell Checking",
   "DE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
+  "DE.Views.FileMenuPanels.Settings.txtCacheMode": "Default cache mode",
   "DE.Views.HeaderFooterSettings.textBottomCenter": "Bottom center",
   "DE.Views.HeaderFooterSettings.textBottomLeft": "Bottom left",
   "DE.Views.HeaderFooterSettings.textBottomPage": "Bottom of Page",
