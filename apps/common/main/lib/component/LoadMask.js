@@ -71,7 +71,9 @@ define([
         var ownerEl,
             maskeEl,
             loaderEl;
+        var timerId = 0;
 
+        maskeEl = $('<div class="asc-loadmask"></div>');
         return {
             options : {
                 cls     : '',
@@ -91,10 +93,15 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
                 this.template   = this.options.template || this.template;
-                this.cls        = this.options.cls;
-                this.style      = this.options.style;
                 this.title      = this.options.title;
-                this.owner      = this.options.owner;
+
+                ownerEl     = (this.options.owner instanceof Common.UI.BaseView) ? $(this.options.owner.el) : $(this.options.owner);
+                loaderEl    = $(this.template({
+                    id      : this.id,
+                    cls     : this.options.cls,
+                    style   : this.options.style,
+                    title   : this.title
+                }));
             },
 
             render: function() {
@@ -102,60 +109,61 @@ define([
             },
 
             show: function(){
-                if (maskeEl || loaderEl)
-                    return;
-
-                ownerEl = (this.owner instanceof Common.UI.BaseView) ? $(this.owner.el) : $(this.owner);
+                // if (maskeEl || loaderEl)
+                //     return;
 
                 // The owner is already masked
-                if (ownerEl.hasClass('masked'))
+                if (!!ownerEl.ismasked)
                     return this;
 
+                ownerEl.ismasked = true;
+
                 var me = this;
+                if (me.title != me.options.title) {
+                    me.options.title = me.title;
+                    $('.asc-loadmask-title', loaderEl).html(me.title);
+                }
 
-                maskeEl     = $('<div class="asc-loadmask"></div>');
-                loaderEl    = $(this.template({
-                    id      : me.id,
-                    cls     : me.cls,
-                    style   : me.style,
-                    title   : me.title
-                }));
+                // show mask after 500 ms if it wont be hided
+                timerId = setTimeout(function () {
+                    ownerEl.append(maskeEl);
+                    ownerEl.append(loaderEl);
 
-                ownerEl.addClass('masked');
-                ownerEl.append(maskeEl);
-                ownerEl.append(loaderEl);
+                    loaderEl.css({
+                        top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
+                        left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'
+                    });
+                    // if (ownerEl.height()<1 || ownerEl.width()<1)
+                    //     loaderEl.css({visibility: 'hidden'});
 
-                loaderEl.css({
-                    top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
-                    left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'
-
-                });
-                if (ownerEl.height()<1 || ownerEl.width()<1)
-                    loaderEl.css({visibility: 'hidden'});
-
-                if (ownerEl && ownerEl.closest('.asc-window.modal').length==0)
-                    Common.util.Shortcuts.suspendEvents();
+                    if (ownerEl && ownerEl.closest('.asc-window.modal').length==0)
+                        Common.util.Shortcuts.suspendEvents();
+                },500);
 
                 return this;
             },
 
             hide: function() {
-                ownerEl     && ownerEl.removeClass('masked');
-                maskeEl     && maskeEl.remove();
-                loaderEl    && loaderEl.remove();
-                maskeEl  = null;
-                loaderEl = null;
-                if (ownerEl && ownerEl.closest('.asc-window.modal').length==0)
-                    Common.util.Shortcuts.resumeEvents();
+                if (timerId) {
+                    clearTimeout(timerId);
+                    timerId = 0;
+                }
+                if (ownerEl && ownerEl.ismasked) {
+                    if (ownerEl.closest('.asc-window.modal').length==0)
+                        Common.util.Shortcuts.resumeEvents();
+
+                    maskeEl     && maskeEl.remove();
+                    loaderEl    && loaderEl.remove();
+                }
+                delete ownerEl.ismasked;
             },
 
             setTitle: function(title) {
                 this.title = title;
 
-                if (ownerEl && ownerEl.hasClass('masked') && loaderEl){
+                if (ownerEl && ownerEl.ismasked && loaderEl){
                     $('.asc-loadmask-title', loaderEl).html(title);
                 }
-
             },
 
             isVisible: function() {
@@ -163,7 +171,7 @@ define([
             },
 
             updatePosition: function() {
-                if (ownerEl && ownerEl.hasClass('masked') && loaderEl){
+                if (ownerEl && ownerEl.ismasked && loaderEl){
                     loaderEl.css({
                         top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
                         left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'
