@@ -1,5 +1,5 @@
 {
-  "Common.Controllers.Collaboration.textEditUser": "Документ редактируется несколькими пользователями.",
+  "Common.Controllers.Collaboration.textEditUser": "Пользователи, редактирующие документ:",
   "Common.UI.ThemeColorPalette.textCustomColors": "Пользовательские цвета",
   "Common.UI.ThemeColorPalette.textStandartColors": "Стандартные цвета",
   "Common.UI.ThemeColorPalette.textThemeColors": "Цвета темы",
@@ -153,7 +153,7 @@
   "SSE.Controllers.Main.errorKeyExpire": "Срок действия дескриптора ключа истек",
   "SSE.Controllers.Main.errorLockedAll": "Операция не может быть произведена, так как лист заблокирован другим пользователем.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "В настоящее время лист нельзя переименовать, так как его переименовывает другой пользователь",
-  "SSE.Controllers.Main.errorMailMergeLoadFile": "Сбой при загрузке",
+  "SSE.Controllers.Main.errorMailMergeLoadFile": "Загрузка документа не удалась. Выберите другой файл.",
   "SSE.Controllers.Main.errorMailMergeSaveFile": "Не удалось выполнить слияние.",
   "SSE.Controllers.Main.errorMaxPoints": "Максимальное число точек в серии для диаграммы составляет 4096.",
   "SSE.Controllers.Main.errorMoveRange": "Нельзя изменить часть объединенной ячейки",
@@ -172,6 +172,7 @@
   "SSE.Controllers.Main.errorTokenExpire": "Истек срок действия токена безопасности документа.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "SSE.Controllers.Main.errorUnexpectedGuid": "Внешняя ошибка.<br>Непредвиденный идентификатор GUID. Если ошибка повторяется, пожалуйста, обратитесь в службу поддержки.",
   "SSE.Controllers.Main.errorUpdateVersion": "Версия файла была изменена. Страница будет перезагружена.",
+  "SSE.Controllers.Main.errorUpdateVersionOnDisconnect": "Подключение к Интернету было восстановлено, и версия файла изменилась.<br>Прежде чем продолжить работу, надо скачать файл или скопировать его содержимое, чтобы обеспечить сохранность данных, а затем перезагрузить страницу.",
   "SSE.Controllers.Main.errorUserDrop": "В настоящий момент файл недоступен.",
   "SSE.Controllers.Main.errorUsersExceed": "Превышено количество пользователей, разрешенных согласно тарифному плану",
   "SSE.Controllers.Main.errorViewerDisconnect": "Подключение прервано. Вы по-прежнему можете просматривать документ,<br>но не сможете скачать его до восстановления подключения и обновления страницы.",

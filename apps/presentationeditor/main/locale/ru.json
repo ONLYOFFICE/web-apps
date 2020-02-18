@@ -83,7 +83,7 @@
   "Common.Views.ExternalDiagramEditor.textClose": "Закрыть",
   "Common.Views.ExternalDiagramEditor.textSave": "Сохранить и выйти",
   "Common.Views.ExternalDiagramEditor.textTitle": "Редактор диаграмм",
-  "Common.Views.Header.labelCoUsersDescr": "Документ редактируется несколькими пользователями.",
+  "Common.Views.Header.labelCoUsersDescr": "Пользователи, редактирующие документ:",
   "Common.Views.Header.textAdvSettings": "Дополнительные параметры",
   "Common.Views.Header.textBack": "Открыть расположение файла",
   "Common.Views.Header.textCompactView": "Скрыть панель инструментов",
