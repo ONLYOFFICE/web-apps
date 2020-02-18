@@ -231,11 +231,11 @@ define([
                         arr.push({type: 'names', value: arrName});
                         arr.push({type: 'key', value: Common.Utils.InternalSettings.get("sse-doc-info-key")});
                         var json = JSON.stringify(arr);
-                        dataTransfer.setData("text/plain", json);
+                        dataTransfer.setData("onlyoffice", json);
                         this.dropTabs = selectTabs;
                     }, this),
                     'tab:drop': _.bind(function (dataTransfer, index) {
-                         var data = dataTransfer.getData("text/plain");
+                         var data = dataTransfer.getData("onlyoffice");
                          if (data) {
                              var arrData = JSON.parse(data);
                              if (arrData[0].type === 'onlyoffice') {
