@@ -46,6 +46,19 @@
 						<li>Choose <b>Native</b> if you want your text to be displayed with the hinting embedded into font files.</li>
 					</ul>
 				</li>
+                <li>
+                    <b>Default cache mode</b> - allows to switch the font cache mode that is applied by default. It’s not recommended to switch the cache mode without any reason. It can be helpful in some cases only, when certain issues occur.
+                    <p>Spreadsheet Editor has two cache modes:</p>
+                    <ol>
+                        <li>In the <b>first cache mode</b>, each letter is cached as a separate picture.</li>
+                        <li>In the <b>second cache mode</b>, a picture of a certain size is selected where letters are placed dynamically and a mechanism of allocating/removing memory in this picture is also implemented. If there is not enough memory, a second picture is created, etc.</li>
+                    </ol>
+                    <p>The <b>Default cache mode</b> setting applies two above mentioned cache modes separately for different browsers:</p>
+                    <ul>
+                        <li>When the <b>Default cache mode</b> setting is enabled, Internet Explorer (v. 9,10,11) uses the <b>second cache mode</b>, other browsers use the <b>first cache mode</b>.</li>
+                        <li>When the <b>Default cache mode</b> setting is disabled, Internet Explorer (v. 9,10,11) uses the <b>first cache mode</b>, other browsers use the <b>second cache mode</b>.</li>
+                    </ul>
+                </li>
 				<li><b>Unit of Measurement</b> is used to specify what units are used for measuring elements parameters such as width, height, spacing, margins etc. You can select the <b>Centimeter</b>, <b>Point</b>, or <b>Inch</b> option.</li>
                 <li><b>Formula Language</b> is used to select the language for displaying and entering formula names.</li>
                 <li><b>Regional Settings</b> is used to select the default display format for currency and date and time.</li>
