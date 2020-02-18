@@ -208,6 +208,7 @@
   "Common.Views.ReviewPopover.textClose": "Chiudi",
   "Common.Views.ReviewPopover.textEdit": "OK",
   "Common.Views.ReviewPopover.textMention": "+mention fornirà l'accesso al documento e invierà un'e-mail",
+  "Common.Views.ReviewPopover.textMentionNotify": "+mention avviserà l'utente via e-mail",
   "Common.Views.ReviewPopover.textOpenAgain": "Apri di nuovo",
   "Common.Views.ReviewPopover.textReply": "Rispondi",
   "Common.Views.ReviewPopover.textResolve": "Risolvere",

@@ -83,7 +83,7 @@
   "Common.Views.ExternalDiagramEditor.textClose": "Close",
   "Common.Views.ExternalDiagramEditor.textSave": "Save & Exit",
   "Common.Views.ExternalDiagramEditor.textTitle": "Chart Editor",
-  "Common.Views.Header.labelCoUsersDescr": "Document is currently being edited by several users.",
+  "Common.Views.Header.labelCoUsersDescr": "Users who are editing the file:",
   "Common.Views.Header.textAdvSettings": "Advanced settings",
   "Common.Views.Header.textBack": "Open file location",
   "Common.Views.Header.textCompactView": "Hide Toolbar",
