@@ -274,6 +274,13 @@ define([
                 $(e.currentTarget).parent().removeClass('mousemove right');
             }, this),
             dragend: $.proxy(function (e) {
+                var event = e.originalEvent;
+                var data = event.dataTransfer.getData('status');
+                if (event.dataTransfer.dropEffect === 'move') {
+                    this.bar.trigger('tab:dragend', true);
+                } else {
+                    this.bar.trigger('tab:dragend', false);
+                }
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
             }, this),
             drop: $.proxy(function (e) {
@@ -281,6 +288,7 @@ define([
                     index = $(event.currentTarget).data('index');
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
                 this.bar.trigger('tab:drop', event.dataTransfer, index);
+                event.stopPropagation();
             }, this)
         });
     };
@@ -335,6 +343,7 @@ define([
                 var index = this.tabs.length;
                 this.$el.find('.mousemove').removeClass('mousemove right');
                 this.trigger('tab:drop', event.dataTransfer, index);
+                event.stopPropagation();
             }, this));
 
             this.manager = new StateManager({bar: this});

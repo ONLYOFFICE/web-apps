@@ -201,7 +201,7 @@ define([
                         }
 
                     }, this),
-                    'tab:dragstart'          : _.bind(function (dataTransfer, selectTabs) {
+                    'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
                         var arrTabs = [],
                             arrName = [],
                             me = this;
@@ -224,52 +224,65 @@ define([
                                 arrName.push(item.value);
                             }
                         });
-                        var stringSheet,
-                            stringSheetJson,
-                            stringNameJson,
-                            stringIndexJson;
-                        stringIndexJson = JSON.stringify(arrTabs);
-                        stringSheet = this.api.asc_StartMoveSheet(arrTabs);
-                        stringSheetJson = JSON.stringify(stringSheet);
-                        stringNameJson = JSON.stringify(arrName);
-                        dataTransfer.setData("onlyoffice", stringSheetJson);
-                        dataTransfer.setData("name", stringNameJson);
-                        dataTransfer.setData("arrindex", stringIndexJson);
-                        dataTransfer.setData("key", Common.Utils.InternalSettings.get("sse-doc-info-key"));
+                        var stringSheet, arr = [];
+                        stringSheet = this.api.asc_StartMoveSheet(_.clone(arrTabs));
+                        arr.push({type: 'onlyoffice', value: stringSheet});
+                        arr.push({type: 'indexes', value: arrTabs});
+                        arr.push({type: 'names', value: arrName});
+                        arr.push({type: 'key', value: Common.Utils.InternalSettings.get("sse-doc-info-key")});
+                        var json = JSON.stringify(arr);
+                        dataTransfer.setData("text/plain", json);
+                        this.dropTabs = selectTabs;
                     }, this),
-                    'tab:drop'          : _.bind(function (dataTransfer, index) {
-                        var arrSheets = JSON.parse(dataTransfer.getData("onlyoffice")),
-                            arrNames = JSON.parse(dataTransfer.getData("name")),
-                            arrIndex = JSON.parse(dataTransfer.getData("arrindex")),
-                            key = dataTransfer.getData("key");
-                        if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
-                            this.api.asc_moveWorksheet(index, arrIndex);
-                        } else {
-                            var names = [], wc = this.api.asc_getWorksheetsCount();
-                            while (wc--) {
-                                names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
+                    'tab:drop': _.bind(function (dataTransfer, index) {
+                         var data = dataTransfer.getData("text/plain");
+                         if (data) {
+                             var arrData = JSON.parse(data);
+                             if (arrData[0].type === 'onlyoffice') {
+                                 var key = _.findWhere(arrData, {type: 'key'}).value;
+                                 if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
+                                     this.api.asc_moveWorksheet(index, _.findWhere(arrData, {type: 'indexes'}).value);
+                                 } else {
+                                     var names = [], wc = this.api.asc_getWorksheetsCount();
+                                     while (wc--) {
+                                         names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
+                                     }
+                                     var newNames = [];
+                                     var arrNames = _.findWhere(arrData, {type: 'names'}).value;
+                                     arrNames.forEach(function (name) {
+                                         var ind = 0,
+                                             name = name;
+                                         var first = name;
+                                         if (names.indexOf(name.toLowerCase()) !== -1) {
+                                             while (true) {
+                                                 if (names.indexOf(name.toLowerCase()) === -1) {
+                                                     newNames.push(name);
+                                                     break;
+                                                 } else {
+                                                     ind++;
+                                                     name = first + '(' + ind + ')';
+                                                 }
+                                             }
+                                         } else {
+                                             newNames.push(name);
+                                         }
+                                     });
+                                     this.api.asc_EndMoveSheet(index, newNames, _.findWhere(arrData, {type: 'onlyoffice'}).value);
+                                 }
+                             }
+                         }
+                    }, this),
+                    'tab:dragend':  _.bind(function (cut) {
+                        if (cut) {
+                            if (this.dropTabs.length > 0) {
+                                var arr = [];
+                                this.dropTabs.forEach(function (tab) {
+                                    arr.push(tab.sheetindex);
+                                });
+                                me.api.asc_deleteWorksheet(arr);
                             }
-                            var newNames = [];
-                            arrNames.forEach(function (name) {
-                                var ind = 0,
-                                    name = name;
-                                var first = name;
-                                if (names.indexOf(name.toLowerCase()) !== -1) {
-                                    while (true) {
-                                        if (names.indexOf(name.toLowerCase()) === -1) {
-                                            newNames.push(name);
-                                            break;
-                                        } else {
-                                            ind++;
-                                            name = first + '(' + ind + ')';
-                                        }
-                                    }
-                                } else {
-                                    newNames.push(name);
-                                }
-                            });
-                            this.api.asc_EndMoveSheet(index, newNames, arrSheets);
                         }
+                        this.dropTabs = undefined;
                     }, this)
                 });
 
