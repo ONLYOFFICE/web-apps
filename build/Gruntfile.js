@@ -198,6 +198,9 @@ module.exports = function(grunt) {
                       },{
                           from: /\{\{COMPANY_NAME\}\}/g,
                           to: process.env['COMPANY_NAME'] || 'ONLYOFFICE'
+                      },{
+                          from: /\/\*\*[\s\S]+\.com\s+\*\//,
+                          to: copyright
                       }]
                   }
             }
