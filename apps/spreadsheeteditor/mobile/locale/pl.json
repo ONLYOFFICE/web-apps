@@ -293,7 +293,7 @@
   "SSE.Views.AddLink.textInsert": "Wstaw",
   "SSE.Views.AddLink.textInternalLink": "Wewnętrzny zakres danych",
   "SSE.Views.AddLink.textLink": "Połączyć",
-  "SSE.Views.AddLink.textLinkSettings": "Ustawienia linku",
+  "SSE.Views.AddOther.textLinkSettings": "Ustawienia linku",
   "SSE.Views.AddLink.textLinkType": "Typ linku",
   "SSE.Views.AddLink.textRange": "Zakres",
   "SSE.Views.AddLink.textRequired": "Wymagany",

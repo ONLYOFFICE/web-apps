@@ -330,7 +330,7 @@
   "SSE.Views.AddLink.textInsert": "Insérer",
   "SSE.Views.AddLink.textInternalLink": "Plage de données interne",
   "SSE.Views.AddLink.textLink": "Lien",
-  "SSE.Views.AddLink.textLinkSettings": "Paramètres de lien",
+  "SSE.Views.AddOther.textLinkSettings": "Paramètres de lien",
   "SSE.Views.AddLink.textLinkType": "Type de lien",
   "SSE.Views.AddLink.textRange": "Plage",
   "SSE.Views.AddLink.textRequired": "Requis",
