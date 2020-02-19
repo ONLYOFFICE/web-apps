@@ -2341,6 +2341,7 @@ define([
                                 var win = new DE.Views.ImageSettingsAdvanced({
                                     imageProps  : elValue,
                                     sizeOriginal: imgsizeOriginal,
+                                    api         : me.api,
                                     sectionProps: me.api.asc_GetSectionProps(),
                                     handler     : function(result, value) {
                                         if (result == 'ok') {

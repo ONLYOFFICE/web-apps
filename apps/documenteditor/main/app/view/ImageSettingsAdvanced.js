@@ -103,6 +103,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.sectionProps = this.options.sectionProps;
             this.pageWidth = this.options.sectionProps ? this.options.sectionProps.get_W() : 210;
             this.pageHeight = this.options.sectionProps ? this.options.sectionProps.get_H() : 297;
+            this.api = this.options.api;
             this._changedProps = null;
             this._changedShapeProps = null;
         },
@@ -1300,8 +1301,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
                 this.btnsCategory[5].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Shapes
                 this.btnsCategory[6].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Margins
-                this.btnsCategory[3].setDisabled(props.get_FromGroup()); // Wrapping
                 this.btnsCategory[2].setVisible(!chartprops && (pluginGuid === null || pluginGuid === undefined)); // Rotation
+
+                var control_props = this.api && this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+                this.btnsCategory[3].setDisabled(props.get_FromGroup() || !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture)); // Wrapping
 
                 if (shapeprops) {
                     this._objectType = Asc.c_oAscTypeSelectElement.Shape;
