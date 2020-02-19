@@ -196,8 +196,8 @@ module.exports = function(grunt) {
                           from: /\{\{PRODUCT_VERSION\}\}/,
                           to: packageFile.version
                       },{
-                          from: /\{\{COMPANY_NAME\}\}/g,
-                          to: process.env['COMPANY_NAME'] || 'ONLYOFFICE'
+                          from: /\{\{APP_CUSTOMER_NAME\}\}/g,
+                          to: process.env['APP_CUSTOMER_NAME'] || 'ONLYOFFICE'
                       }]
                   }
             }
