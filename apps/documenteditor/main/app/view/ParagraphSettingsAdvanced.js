@@ -729,7 +729,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             if (this._changedProps.get_Ind()!==null && this._changedProps.get_Ind()!==undefined) {
                 var left = this._changedProps.get_Ind().get_Left(),
                     first = this._changedProps.get_Ind().get_FirstLine();
-                if (first<0 || this.FirstLine<0) {
+                if ((left!==undefined || first!==undefined) && (first<0 || this.FirstLine<0)) {
                     if (first<0 || first===undefined || first===null) {
                         if (first === undefined || first === null)
                             first = this.FirstLine;
