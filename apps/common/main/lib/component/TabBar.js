@@ -259,13 +259,15 @@ define([
             dragenter: $.proxy(function (e) {
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
                 $(e.currentTarget).parent().addClass('mousemove');
+                var event = e.originalEvent;
+                var data = event.dataTransfer.getData("onlyoffice");
+                event.dataTransfer.dropEffect = data ? 'move' : 'none';
             }, this),
             dragover: $.proxy(function (e) {
                 var event = e.originalEvent;
                 if (event.preventDefault) {
                     event.preventDefault(); // Necessary. Allows us to drop.
                 }
-                event.dataTransfer.dropEffect = 'move';
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
                 $(e.currentTarget).parent().addClass('mousemove');
                 return false;
@@ -275,7 +277,6 @@ define([
             }, this),
             dragend: $.proxy(function (e) {
                 var event = e.originalEvent;
-                var data = event.dataTransfer.getData('status');
                 if (event.dataTransfer.dropEffect === 'move') {
                     this.bar.trigger('tab:dragend', true);
                 } else {
@@ -288,7 +289,7 @@ define([
                     index = $(event.currentTarget).data('index');
                 this.bar.$el.find('.mousemove').removeClass('mousemove right');
                 this.bar.trigger('tab:drop', event.dataTransfer, index);
-                event.stopPropagation();
+                this.bar.isDrop = true;
             }, this)
         });
     };
@@ -328,6 +329,10 @@ define([
             addEvent(this.$bar[0], 'dragstart', _.bind(function (event) {
                 event.dataTransfer.effectAllowed = 'move';
             }, this));
+            addEvent(this.$bar[0], 'dragenter', _.bind(function (event) {
+                var data = event.dataTransfer.getData("onlyoffice");
+                event.dataTransfer.dropEffect = data ? 'move' : 'none';
+            }, this));
             addEvent(this.$bar[0], 'dragover', _.bind(function (event) {
                 if (event.preventDefault) {
                     event.preventDefault(); // Necessary. Allows us to drop.
@@ -337,13 +342,17 @@ define([
                 return false;
             }, this));
             addEvent(this.$bar[0], 'dragleave', _.bind(function (event) {
+                event.dataTransfer.dropEffect = 'none';
                 this.tabs[this.tabs.length - 1].$el.removeClass('mousemove right');
             }, this));
             addEvent(this.$bar[0], 'drop', _.bind(function (event) {
                 var index = this.tabs.length;
                 this.$el.find('.mousemove').removeClass('mousemove right');
-                this.trigger('tab:drop', event.dataTransfer, index);
-                event.stopPropagation();
+                if (this.isDrop === undefined) {
+                    this.trigger('tab:drop', event.dataTransfer, index);
+                } else {
+                    this.isDrop = undefined;
+                }
             }, this));
 
             this.manager = new StateManager({bar: this});
