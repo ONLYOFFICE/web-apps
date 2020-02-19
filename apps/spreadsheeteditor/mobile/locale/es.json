@@ -326,7 +326,7 @@
   "SSE.Views.AddLink.textInsert": "Insertar",
   "SSE.Views.AddLink.textInternalLink": "Rango de datos interno",
   "SSE.Views.AddLink.textLink": "Enlace",
-  "SSE.Views.AddLink.textLinkSettings": "Ajustes de enlace",
+  "SSE.Views.AddOther.textLinkSettings": "Ajustes de enlace",
   "SSE.Views.AddLink.textLinkType": "Típo de enlace",
   "SSE.Views.AddLink.textRange": "Rango",
   "SSE.Views.AddLink.textRequired": "Necesario",

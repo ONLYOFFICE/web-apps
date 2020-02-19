@@ -330,7 +330,7 @@
   "SSE.Views.AddLink.textInsert": "Einfügen",
   "SSE.Views.AddLink.textInternalLink": "Interner Datenbereich",
   "SSE.Views.AddLink.textLink": "Link",
-  "SSE.Views.AddLink.textLinkSettings": "Verknüpfungseinstellungen",
+  "SSE.Views.AddOther.textLinkSettings": "Verknüpfungseinstellungen",
   "SSE.Views.AddLink.textLinkType": "Typ der Verknüpfung",
   "SSE.Views.AddLink.textRange": "Bereich",
   "SSE.Views.AddLink.textRequired": "Erforderlich",
