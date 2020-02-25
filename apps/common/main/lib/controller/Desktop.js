@@ -193,23 +193,30 @@ define([
                         }
 
                         var header = webapp.getController('Viewport').getView('Common.Views.Header');
-                        titlebuttons = {
-                            'save': {btn: header.btnSave, disabled:false},
-                            'print': {btn: header.btnPrint, disabled:false},
-                            'undo': {btn: header.btnUndo, disabled:false},
-                            'redo': {btn: header.btnRedo,  disabled:false}
-                        };
+                        titlebuttons = {};
+                        if ( !!header.btnSave ) {
+                            titlebuttons['save'] = {btn: header.btnSave, disabled:false};
+
+                            header.btnSave.options.signals.push('icon:changed');
+                            header.btnSave.on('icon:changed', _onSaveIconChanged.bind(this));
+
+                            var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
+                            !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
+                        }
+
+                        if ( !!header.btnPrint )
+                            titlebuttons['print'] = {btn: header.btnPrint, disabled:false};
+
+                        if ( !!header.btnUndo )
+                            titlebuttons['undo'] = {btn: header.btnUndo, disabled:false};
+
+                        if ( !!header.btnRedo )
+                            titlebuttons['redo'] = {btn: header.btnRedo,  disabled:false};
 
                         for (var i in titlebuttons) {
                             titlebuttons[i].btn.options.signals = ['disabled'];
                             titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
                         }
-
-                        header.btnSave.options.signals.push('icon:changed');
-                        header.btnSave.on('icon:changed', _onSaveIconChanged.bind(this));
-
-                        var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
-                        !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
 
                         if ( !!config.callback_editorconfig ) {
                             config.callback_editorconfig();
