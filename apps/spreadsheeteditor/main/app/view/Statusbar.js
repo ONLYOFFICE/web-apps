@@ -243,6 +243,7 @@ define([
                                  var key = _.findWhere(arrData, {type: 'key'}).value;
                                  if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
                                      this.api.asc_moveWorksheet(index, _.findWhere(arrData, {type: 'indexes'}).value);
+                                     Common.NotificationCenter.trigger('tabs:dragend', this);
                                  } else {
                                      var names = [], wc = this.api.asc_getWorksheetsCount();
                                      while (wc--) {
@@ -284,6 +285,7 @@ define([
                             }
                         }
                         this.dropTabs = undefined;
+                        Common.NotificationCenter.trigger('tabs:dragend', this);
                     }, this)
                 });
 
