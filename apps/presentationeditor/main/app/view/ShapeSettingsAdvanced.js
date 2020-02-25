@@ -64,7 +64,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     {panelId: 'id-adv-shape-width',      panelCaption: this.textSize},
                     {panelId: 'id-adv-shape-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
-                    {panelId: 'id-adv-shape-margins',    panelCaption: this.strMargins},
+                    {panelId: 'id-adv-shape-margins',    panelCaption: this.textTextBox},
                     {panelId: 'id-adv-shape-columns',    panelCaption: this.strColumns},
                     {panelId: 'id-adv-shape-alttext',    panelCaption: this.textAlt}
                 ],
@@ -231,6 +231,30 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 }
             }, this));
             this.spinners.push(this.spnMarginRight);
+
+            this.radioNofit = new Common.UI.RadioBox({
+                el: $('#shape-radio-nofit'),
+                name: 'asc-radio-fit',
+                labelText: this.textNofit,
+                value: AscFormat.text_fit_No
+            });
+            this.radioNofit.on('change', _.bind(this.onRadioFitChange, this));
+
+            this.radioShrink = new Common.UI.RadioBox({
+                el: $('#shape-radio-shrink'),
+                name: 'asc-radio-fit',
+                labelText: this.textShrink,
+                value: AscFormat.text_fit_NormAuto
+            });
+            this.radioShrink.on('change', _.bind(this.onRadioFitChange, this));
+
+            this.radioFit = new Common.UI.RadioBox({
+                el: $('#shape-radio-fit'),
+                name: 'asc-radio-fit',
+                labelText: this.textResizeFit,
+                value: AscFormat.text_fit_Auto
+            });
+            this.radioFit.on('change', _.bind(this.onRadioFitChange, this));
 
             // Rotation
             this.spnAngle = new Common.UI.MetricSpinner({
@@ -526,6 +550,18 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     val = margins.get_Bottom();
                     this.spnMarginBottom.setValue((null !== val && undefined !== val) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
                 }
+                value = props.asc_getTextFitType();
+                switch (value) {
+                    case AscFormat.text_fit_No:
+                        this.radioNofit.setValue(true, true);
+                        break;
+                    case AscFormat.text_fit_Auto:
+                        this.radioFit.setValue(true, true);
+                        break;
+                    case AscFormat.text_fit_NormAuto:
+                        this.radioShrink.setValue(true, true);
+                        break;
+                }
                 this.btnsCategory[3].setDisabled(null === margins);   // Margins
 
                 var shapetype = props.asc_getType();
@@ -734,6 +770,12 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this._selectStyleItem(this.btnEndSize, record);
         },
 
+        onRadioFitChange: function(field, newValue, eOpts) {
+            if (newValue && this._changedProps) {
+                this._changedProps.asc_putTextFitType(field.options.value);
+            }
+        },
+
         textRound:      'Round',
         textMiter:      'Miter',
         textSquare:     'Square',
@@ -770,7 +812,12 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         textAngle: 'Angle',
         textFlipped: 'Flipped',
         textHorizontally: 'Horizontally',
-        textVertically: 'Vertically'
+        textVertically: 'Vertically',
+        textTextBox: 'Text Box',
+        textAutofit: 'AutoFit',
+        textNofit: 'Do not Autofit',
+        textShrink: 'Shrink text on overflow',
+        textResizeFit: 'Resize shape to fit text'
 
     }, PE.Views.ShapeSettingsAdvanced || {}));
 });

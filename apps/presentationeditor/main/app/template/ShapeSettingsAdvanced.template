@@ -96,7 +96,35 @@
 </div>
 <div id="id-adv-shape-margins" class="settings-panel">
     <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td class="padding-small">
+                    <label class="header"><%= scope.textAutofit %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="shape-radio-nofit"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="shape-radio-shrink"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div id="shape-radio-fit"></div>
+                </td>
+            </tr>
+        </table>
+        <div class="separator horizontal padding-large"></div>
         <table cols="2" style="width: 100%;">
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <label class="header"><%= scope.strMargins %></label>
+                </td>
+            </tr>
             <tr>
                 <td class="padding-small" width="125px">
                     <label class="input-label"><%= scope.textTop %></label>
