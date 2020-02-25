@@ -240,6 +240,9 @@ define([
                             lockDrag = true;
                         }
                     });
+                    if (this.bar.selectTabs.length === this.bar.tabs.length || this.bar.tabs.length === 1) {
+                        lockDrag = true;
+                    }
                     this.bar.$el.find('ul > li > span').attr('draggable', !lockDrag);
                     tab.changeState();
                 } else {

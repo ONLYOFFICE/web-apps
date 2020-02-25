@@ -202,6 +202,7 @@ define([
 
                     }, this),
                     'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
+                        this.api.asc_closeCellEditor();
                         var arrTabs = [],
                             arrName = [],
                             me = this;
@@ -238,7 +239,7 @@ define([
                          var data = dataTransfer.getData("onlyoffice");
                          if (data) {
                              var arrData = JSON.parse(data);
-                             if (arrData[0].type === 'onlyoffice') {
+                             if (arrData) {
                                  var key = _.findWhere(arrData, {type: 'key'}).value;
                                  if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
                                      this.api.asc_moveWorksheet(index, _.findWhere(arrData, {type: 'indexes'}).value);
