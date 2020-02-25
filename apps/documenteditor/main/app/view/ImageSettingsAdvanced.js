@@ -68,7 +68,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     {panelId: 'id-adv-image-wrap',       panelCaption: this.textBtnWrap},
                     {panelId: 'id-adv-image-position',   panelCaption: this.textPosition},
                     {panelId: 'id-adv-image-shape',      panelCaption: this.textWeightArrows},
-                    {panelId: 'id-adv-image-margins',    panelCaption: this.strMargins},
+                    {panelId: 'id-adv-image-margins',    panelCaption: this.textTextBox},
                     {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
@@ -914,6 +914,16 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }, this));
             this.spinners.push(this.spnMarginRight);
 
+            this.chAutofit = new Common.UI.CheckBox({
+                el: $('#shape-checkbox-autofit'),
+                labelText: this.textResizeFit
+            });
+            this.chAutofit.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedShapeProps) {
+                    this._changedShapeProps.asc_putTextFitType(field.getValue()=='checked' ? AscFormat.text_fit_Auto : AscFormat.text_fit_No);
+                }
+            }, this));
+
             // Shape
             this._arrCapType = [
                 {displayValue: this.textFlat,   value: Asc.c_oAscLineCapType.Flat},
@@ -1366,6 +1376,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         val = margins.get_Bottom();
                         this.spnMarginBottom.setValue((null !== val && undefined !== val) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
                     }
+
+                    this.chAutofit.setValue(shapeprops.asc_getTextFitType()==AscFormat.text_fit_Auto);
 
                     this.btnsCategory[6].setDisabled(null === margins);   // Margins
                     this.btnsCategory[5].setDisabled(shapeprops.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
@@ -2083,7 +2095,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textAngle: 'Angle',
         textFlipped: 'Flipped',
         textHorizontally: 'Horizontally',
-        textVertically: 'Vertically'
+        textVertically: 'Vertically',
+        textTextBox: 'Text Box',
+        textAutofit: 'AutoFit',
+        textResizeFit: 'Resize shape to fit text'
 
     }, DE.Views.ImageSettingsAdvanced || {}));
 });
