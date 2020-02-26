@@ -197,9 +197,6 @@ define([
                         if ( !!header.btnSave ) {
                             titlebuttons['save'] = {btn: header.btnSave, disabled:false};
 
-                            header.btnSave.options.signals.push('icon:changed');
-                            header.btnSave.on('icon:changed', _onSaveIconChanged.bind(this));
-
                             var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
                             !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
                         }
@@ -216,6 +213,11 @@ define([
                         for (var i in titlebuttons) {
                             titlebuttons[i].btn.options.signals = ['disabled'];
                             titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
+                        }
+
+                        if (!!titlebuttons.save) {
+                            titlebuttons.save.btn.options.signals.push('icon:changed');
+                            titlebuttons.save.btn.on('icon:changed', _onSaveIconChanged.bind(this));
                         }
 
                         if ( !!config.callback_editorconfig ) {
