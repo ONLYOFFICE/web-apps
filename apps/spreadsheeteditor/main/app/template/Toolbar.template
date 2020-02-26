@@ -180,6 +180,10 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-named-range-huge"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-calculate"></span>
                 </div>
             </section>

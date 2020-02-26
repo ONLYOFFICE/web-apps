@@ -129,6 +129,10 @@ define([
                     'data:sort': this.onSortType,
                     'data:setfilter': this.onAutoFilter,
                     'data:clearfilter': this.onClearFilter
+                },
+                'FormulaTab': {
+                    'function:namedrange': this.onNamedRangeMenu,
+                    'function:namedrange-open': this.onNamedRangeMenuOpen
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -1284,10 +1288,10 @@ define([
             }
         },
 
-        onNamedRangeMenuOpen: function() {
-            if (this.api) {
+        onNamedRangeMenuOpen: function(menu) {
+            if (this.api && menu) {
                 var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook);
-                this.toolbar.btnNamedRange.menu.items[2].setDisabled(names.length<1);
+                menu.items[2].setDisabled(names.length<1);
             }
         },
 
@@ -1711,7 +1715,7 @@ define([
                             toolbar.btnClearStyle.menu.items[4],
                             toolbar.btnNamedRange.menu.items[0],
                             toolbar.btnNamedRange.menu.items[1]
-                        ],
+                        ].concat(toolbar.itemsNamedRange),
                         merge: true,
                         clear: [SSE.enumLock.editFormula, SSE.enumLock.editText]
                 });
@@ -3169,6 +3173,8 @@ define([
                     formulatab.setConfig({toolbar: me});
                     formulatab = formulatab.getView('FormulaTab');
                     me.toolbar.btnsFormula = formulatab.getButtons('formula');
+                    var namedRange = formulatab.getButtons('range');
+                    me.toolbar.itemsNamedRange = (namedRange && namedRange.menu && namedRange.menu.items) ? [namedRange.menu.items[0], namedRange.menu.items[1]] : [];
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
                     if ( !config.isOffline ) {
