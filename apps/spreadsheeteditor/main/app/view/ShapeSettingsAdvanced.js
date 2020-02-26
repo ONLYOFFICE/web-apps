@@ -261,6 +261,18 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 }
             }, this));
 
+            this.chOverflow = new Common.UI.CheckBox({
+                el: $('#shape-checkbox-overflow'),
+                labelText: this.textOverflow
+            });
+            this.chOverflow.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
+                        this._changedProps.asc_putShapeProperties(new Asc.asc_CShapeProperty());
+                    this._changedProps.asc_getShapeProperties().asc_putVertOverflowType(field.getValue()=='checked' ? AscFormat.nOTOwerflow : AscFormat.nOTClip);
+                }
+            }, this));
+
             // Rotation
             this.spnAngle = new Common.UI.MetricSpinner({
                 el: $('#shape-advanced-spin-angle'),
@@ -601,6 +613,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 this.btnsCategory[3].setDisabled(null === margins);   // Margins
 
                 this.chAutofit.setValue(shapeprops.asc_getTextFitType()==AscFormat.text_fit_Auto);
+                this.chOverflow.setValue(shapeprops.asc_getVertOverflowType()==AscFormat.nOTOwerflow);
 
                 var shapetype = shapeprops.asc_getType();
                 this.btnsCategory[4].setDisabled(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
@@ -880,7 +893,8 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
         textTwoCell: 'Move and size with cells',
         textTextBox: 'Text Box',
         textAutofit: 'AutoFit',
-        textResizeFit: 'Resize shape to fit text'
+        textResizeFit: 'Resize shape to fit text',
+        textOverflow: 'Allow text to overflow shape'
 
     }, SSE.Views.ShapeSettingsAdvanced || {}));
 });

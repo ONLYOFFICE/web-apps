@@ -2075,6 +2075,7 @@
   "SSE.Views.ShapeSettingsAdvanced.textTextBox": "Text Box",
   "SSE.Views.ShapeSettingsAdvanced.textAutofit": "AutoFit",
   "SSE.Views.ShapeSettingsAdvanced.textResizeFit": "Resize shape to fit text",
+  "SSE.Views.ShapeSettingsAdvanced.textOverflow": "Allow text to overflow shape",
   "SSE.Views.SignatureSettings.notcriticalErrorTitle": "Warning",
   "SSE.Views.SignatureSettings.strDelete": "Remove Signature",
   "SSE.Views.SignatureSettings.strDetails": "Signature Details",

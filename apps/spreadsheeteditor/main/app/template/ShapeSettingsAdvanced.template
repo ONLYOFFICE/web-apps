@@ -103,8 +103,13 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-large">
+                <td class="padding-small">
                     <div id="shape-checkbox-autofit"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div id="shape-checkbox-overflow"></div>
                 </td>
             </tr>
         </table>
