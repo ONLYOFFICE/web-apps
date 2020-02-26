@@ -3568,9 +3568,9 @@ define([
         onClickPlaceholder: function(type, obj, x, y) {
             if (!this.api) return;
             if (type == AscCommon.PlaceholderButtonType.Video) {
-                // this.api.addVideo(obj);
+                this.api.asc_AddVideo(obj);
             } else if (type == AscCommon.PlaceholderButtonType.Audio) {
-                // this.api.addAudio(obj);
+                this.api.asc_AddAudio(obj);
             }
             this.fireEvent('editcomplete', this);
         },
