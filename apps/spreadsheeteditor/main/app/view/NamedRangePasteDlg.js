@@ -95,7 +95,7 @@ define([
                 itemTemplate: _.template([
                     '<div style="pointer-events:none;">',
                         '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:inline-block;">',
-                            '<div class="listitem-icon <% if (isTable) {%>listitem-table<%} %>"></div>',
+                            '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":"btn-named-range") %>"></div>',
                             '<div style="width:186px;padding-right: 5px;"><%= name %></div>',
                         '</div>',
                     '</div>'
