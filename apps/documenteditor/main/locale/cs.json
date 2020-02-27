@@ -1763,7 +1763,7 @@
   "DE.Views.MailMergeSettings.warnProcessMailMerge": "Spuštění hromadné korespondence se nezdařilo",
   "DE.Views.Navigation.txtCollapse": "Sbalit vše",
   "DE.Views.Navigation.txtDemote": "Degradovat",
-  "DE.Views.Navigation.txtEmpty": "Tento dokument neobsahuje záhlaví",
+  "DE.Views.Navigation.txtEmpty": "V dokumentu nebyly nalezeny žádné nadpisy.<br>Použijte na ně v textu styly pro nadpisy, aby se objevily v tabulce obsahu.",
   "DE.Views.Navigation.txtEmptyItem": "Prázdné záhlaví",
   "DE.Views.Navigation.txtExpand": "Rozbalit vše",
   "DE.Views.Navigation.txtExpandToLevel": "Rozbalit po úroveň",
