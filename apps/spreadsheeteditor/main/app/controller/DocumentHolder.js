@@ -2329,7 +2329,7 @@ define([
                             setTimeout(function(){menu.hide();}, 100);
                         });
                         me._arrSpecialPaste[menuItem][2] = importText;
-                    } else {
+                    } else if (me._arrSpecialPaste[menuItem]) {
                         var mnu = new Common.UI.MenuItem({
                             caption: me._arrSpecialPaste[menuItem][0],
                             value: menuItem,

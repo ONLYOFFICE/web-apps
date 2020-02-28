@@ -176,102 +176,127 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
+            this.propControls = [];
             this.radioAll = new Common.UI.RadioBox({
                 el: $('#paste-radio-all'),
                 name: 'asc-radio-paste',
                 labelText: this.textAll,
                 value: Asc.c_oSpecialPasteProps.paste,
-                checked: true
+                checked: true,
+                disabled: true
             });
             this.radioAll.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.paste] = this.radioAll;
 
             this.radioFormulas = new Common.UI.RadioBox({
                 el: $('#paste-radio-formulas'),
                 name: 'asc-radio-paste',
                 labelText: this.textFormulas,
-                value: Asc.c_oSpecialPasteProps.pasteOnlyFormula
+                value: Asc.c_oSpecialPasteProps.pasteOnlyFormula,
+                disabled: true
             });
             this.radioFormulas.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.pasteOnlyFormula] = this.radioFormulas;
 
             this.radioValues = new Common.UI.RadioBox({
                 el: $('#paste-radio-values'),
                 name: 'asc-radio-paste',
                 labelText: this.textValues,
-                value: Asc.c_oSpecialPasteProps.pasteOnlyValues
+                value: Asc.c_oSpecialPasteProps.pasteOnlyValues,
+                disabled: true
             });
             this.radioValues.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.pasteOnlyValues] = this.radioValues;
 
             this.radioFormats = new Common.UI.RadioBox({
                 el: $('#paste-radio-formats'),
                 name: 'asc-radio-paste',
                 labelText: this.textFormats,
-                value: Asc.c_oSpecialPasteProps.pasteOnlyFormating
+                value: Asc.c_oSpecialPasteProps.pasteOnlyFormating,
+                disabled: true
             });
             this.radioFormats.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.pasteOnlyFormating] = this.radioFormats;
 
             this.radioComments = new Common.UI.RadioBox({
                 el: $('#paste-radio-comments'),
                 name: 'asc-radio-paste',
                 labelText: this.textComments,
-                value: Asc.c_oSpecialPasteProps.comments
+                value: Asc.c_oSpecialPasteProps.comments,
+                disabled: true
             });
             this.radioComments.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.comments] = this.radioComments;
 
             this.radioColWidth = new Common.UI.RadioBox({
                 el: $('#paste-radio-col-width'),
                 name: 'asc-radio-paste',
                 labelText: this.textColWidth,
-                value: Asc.c_oSpecialPasteProps.columnWidth
+                value: Asc.c_oSpecialPasteProps.columnWidth,
+                disabled: true
             });
             this.radioColWidth.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.columnWidth] = this.radioColWidth;
 
             this.radioWBorders = new Common.UI.RadioBox({
                 el: $('#paste-radio-without-borders'),
                 name: 'asc-radio-paste',
                 labelText: this.textWBorders,
-                value: Asc.c_oSpecialPasteProps.formulaWithoutBorders
+                value: Asc.c_oSpecialPasteProps.formulaWithoutBorders,
+                disabled: true
             });
             this.radioWBorders.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.formulaWithoutBorders] = this.radioWBorders;
 
             this.radioFFormat = new Common.UI.RadioBox({
                 el: $('#paste-radio-formula-formats'),
                 name: 'asc-radio-paste',
                 labelText: this.textFFormat,
-                value: Asc.c_oSpecialPasteProps.formulaAllFormatting
+                value: Asc.c_oSpecialPasteProps.formulaAllFormatting,
+                disabled: true
             });
             this.radioFFormat.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.formulaAllFormatting] = this.radioFFormat;
 
             this.radioFWidth = new Common.UI.RadioBox({
                 el: $('#paste-radio-formula-col-width'),
                 name: 'asc-radio-paste',
                 labelText: this.textFWidth,
-                value: Asc.c_oSpecialPasteProps.formulaColumnWidth
+                value: Asc.c_oSpecialPasteProps.formulaColumnWidth,
+                disabled: true
             });
             this.radioFWidth.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.formulaColumnWidth] = this.radioFWidth;
 
             this.radioFNFormat = new Common.UI.RadioBox({
                 el: $('#paste-radio-formula-num-format'),
                 name: 'asc-radio-paste',
                 labelText: this.textFNFormat,
-                value: Asc.c_oSpecialPasteProps.formulaNumberFormat
+                value: Asc.c_oSpecialPasteProps.formulaNumberFormat,
+                disabled: true
             });
             this.radioFNFormat.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.formulaNumberFormat] = this.radioFNFormat;
 
             this.radioVNFormat = new Common.UI.RadioBox({
                 el: $('#paste-radio-value-num-format'),
                 name: 'asc-radio-paste',
                 labelText: this.textVNFormat,
-                value: Asc.c_oSpecialPasteProps.valueNumberFormat
+                value: Asc.c_oSpecialPasteProps.valueNumberFormat,
+                disabled: true
             });
             this.radioVNFormat.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.valueNumberFormat] = this.radioVNFormat;
 
             this.radioVFormat = new Common.UI.RadioBox({
                 el: $('#paste-radio-value-formats'),
                 name: 'asc-radio-paste',
                 labelText: this.textVFormat,
-                value: Asc.c_oSpecialPasteProps.valueAllFormating
+                value: Asc.c_oSpecialPasteProps.valueAllFormating,
+                disabled: true
             });
             this.radioVFormat.on('change', _.bind(this.onRadioPasteChange, this));
+            this.propControls[Asc.c_oSpecialPasteProps.valueAllFormating] = this.radioVFormat;
 
             this.radioNone = new Common.UI.RadioBox({
                 el: $('#paste-radio-none'),
@@ -335,6 +360,11 @@ define([
         },
 
         _setDefaults: function (props) {
+            var me = this;
+            props && _.each(props, function(menuItem, index) {
+                me.propControls[menuItem] && me.propControls[menuItem].setDisabled(false);
+            });
+
             this._changedProps = new Asc.SpecialPasteProps();
             this._changedProps.asc_setProps(Asc.c_oSpecialPasteProps.paste);
             this._changedProps.asc_setOperation(Asc.c_oSpecialPasteOperation.none);
