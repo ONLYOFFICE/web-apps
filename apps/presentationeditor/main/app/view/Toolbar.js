@@ -610,6 +610,26 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnInsSlideNum);
 
+                    if (window["AscDesktopEditor"] && window["AscDesktopEditor"]["IsSupportMedia"] && window["AscDesktopEditor"]["IsSupportMedia"]()) {
+                        me.btnInsAudio = new Common.UI.Button({
+                            id: 'tlbtn-insaudio',
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-audio',
+                            caption: me.capInsertAudio,
+                            lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
+                        });
+                        me.slideOnlyControls.push(me.btnInsAudio);
+
+                        me.btnInsVideo = new Common.UI.Button({
+                            id: 'tlbtn-insvideo',
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-video',
+                            caption: me.capInsertVideo,
+                            lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
+                        });
+                        me.slideOnlyControls.push(me.btnInsVideo);
+                    }
+
                     me.btnColorSchemas = new Common.UI.Button({
                         id: 'id-toolbar-btn-colorschemas',
                         cls: 'btn-toolbar',
@@ -961,6 +981,12 @@ define([
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
 
+                this.btnInsAudio && _injectComponent('#slot-btn-insaudio', this.btnInsAudio);
+                this.btnInsVideo && _injectComponent('#slot-btn-insvideo', this.btnInsVideo);
+                if (!this.btnInsAudio && !this.btnInsVideo) {
+                    $host.find('#slot-btn-insaudio').parents('.group').hide().prev().hide();
+                }
+
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
                     [PE.enumLock.slideDeleted, PE.enumLock.lostConnect, PE.enumLock.noSlides, PE.enumLock.disableOnStart], false, true);
                 this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-text', this.capInsertText,
@@ -1064,6 +1090,8 @@ define([
                 this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
                 this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
+                this.btnInsAudio && this.btnInsAudio.updateHint(this.tipInsertAudio);
+                this.btnInsVideo && this.btnInsVideo.updateHint(this.tipInsertVideo);
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
@@ -1645,7 +1673,11 @@ define([
             textListSettings: 'List Settings',
             capBtnAddComment: 'Add Comment',
             capBtnInsSymbol: 'Symbol',
-            tipInsertSymbol: 'Insert symbol'
+            tipInsertSymbol: 'Insert symbol',
+            capInsertAudio: 'Audio',
+            capInsertVideo: 'Video',
+            tipInsertAudio: 'Insert audio',
+            tipInsertVideo: 'Insert video'
         }
     }()), PE.Views.Toolbar || {}));
 });

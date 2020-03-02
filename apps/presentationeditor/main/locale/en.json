@@ -1819,5 +1819,9 @@
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.capInsertAudio": "Audio",
+  "PE.Views.Toolbar.capInsertVideo": "Video",
+  "PE.Views.Toolbar.tipInsertAudio": "Insert audio",
+  "PE.Views.Toolbar.tipInsertVideo": "Insert video"
 }
