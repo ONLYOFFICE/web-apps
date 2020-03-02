@@ -95,6 +95,7 @@ define([
                     });
                 });
             }
+            me._isSetEvents = true;
         }
 
         return {
@@ -221,6 +222,7 @@ define([
             },
 
             getButton: function(type, parent) {
+                var me = this;
                 if ( type == 'signature' ) {
                     var button = new Common.UI.Button({
                         cls: 'btn-text-default',
@@ -229,7 +231,11 @@ define([
                         disabled: this._state.invisibleSignDisabled
                     });
                     this.btnsInvisibleSignature.push(button);
-
+                    if (this._isSetEvents) {
+                        button.on('click', function (b, e) {
+                            me.fireEvent('protect:signature', ['invisible']);
+                        });
+                    }
                     return button;
                 } else if ( type == 'add-password' ) {
                     var button = new Common.UI.Button({
@@ -240,7 +246,11 @@ define([
                         visible: !this._state.hasPassword
                     });
                     this.btnsAddPwd.push(button);
-
+                    if (this._isSetEvents) {
+                        button.on('click', function (b, e) {
+                            me.fireEvent('protect:password', [b, 'add']);
+                        });
+                    }
                     return button;
                 } else if ( type == 'del-password' ) {
                     var button = new Common.UI.Button({
@@ -251,7 +261,11 @@ define([
                         visible: this._state.hasPassword
                     });
                     this.btnsDelPwd.push(button);
-
+                    if (this._isSetEvents) {
+                        button.on('click', function (b, e) {
+                            me.fireEvent('protect:password', [b, 'delete']);
+                        });
+                    }
                     return button;
                 } else if ( type == 'change-password' ) {
                     var button = new Common.UI.Button({
@@ -262,7 +276,11 @@ define([
                         visible: this._state.hasPassword
                     });
                     this.btnsChangePwd.push(button);
-
+                    if (this._isSetEvents) {
+                        button.on('click', function (b, e) {
+                            me.fireEvent('protect:password', [b, 'add']);
+                        });
+                    }
                     return button;
                 }
             },
