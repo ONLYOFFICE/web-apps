@@ -61,7 +61,9 @@ define([
         };
 
         function onTabDblclick(e) {
-            this.fireEvent('change:compact', [$(e.target).data('tab')]);
+            var tab = $(e.target).data('tab');
+            if ( this.dblclick_el == tab )
+                this.fireEvent('change:compact', [tab]);
         }
 
         function onShowFullviewPanel(state) {
@@ -286,6 +288,13 @@ define([
                     if ( $tp.length ) {
                         $tp.addClass('active');
                     }
+
+                    if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
+                    me.dblclick_timer = setTimeout(function () {
+                        me.dblclick_el = tab;
+                        delete me.dblclick_timer;
+                    },300);
+
                     this.fireEvent('tab:active', [tab]);
                 }
             },
