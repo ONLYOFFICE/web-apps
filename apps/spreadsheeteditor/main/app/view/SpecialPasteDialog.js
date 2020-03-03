@@ -168,7 +168,7 @@ define([
             this.handler    = options.handler;
             this.props      = options.props;
             this._changedProps = null;
-            this.isTable = false;
+            this.isTable = !!options.isTable;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -183,7 +183,6 @@ define([
                 name: 'asc-radio-paste',
                 labelText: this.textAll,
                 value: Asc.c_oSpecialPasteProps.paste,
-                checked: true,
                 disabled: true
             });
             this.radioAll.on('change', _.bind(this.onRadioPasteChange, this));
@@ -361,18 +360,15 @@ define([
         },
 
         _setDefaults: function (props) {
-            if (props) {
-                var me = this;
-                var pasteItems = props.asc_getOptions();
-                pasteItems && _.each(pasteItems, function(menuItem, index) {
-                    me.propControls[menuItem] && me.propControls[menuItem].setDisabled(false);
-                });
-                this.isTable = !!props.asc_getContainTables();
-            }
-
+            var me = this;
+            props && _.each(props, function(menuItem, index) {
+                me.propControls[menuItem] && me.propControls[menuItem].setDisabled(false);
+            });
             this._changedProps = new Asc.SpecialPasteProps();
             this._changedProps.asc_setProps(Asc.c_oSpecialPasteProps.paste);
             this._changedProps.asc_setOperation(Asc.c_oSpecialPasteOperation.none);
+
+            this.radioAll.setValue(true);
         },
 
         getSettings: function () {

@@ -2248,7 +2248,8 @@ define([
                 documentHolderView  = me.documentHolder,
                 coord  = specialPasteShowOptions.asc_getCellCoord(),
                 pasteContainer = documentHolderView.cmpEl.find('#special-paste-container'),
-                pasteItems = specialPasteShowOptions.asc_getOptions();
+                pasteItems = specialPasteShowOptions.asc_getOptions(),
+                isTable = !!specialPasteShowOptions.asc_getContainTables();
             if (!pasteItems) return;
 
             // Prepare menu container
@@ -2372,15 +2373,16 @@ define([
                         value: 'special'
                     }).on('click', function(item, e) {
                         (new SSE.Views.SpecialPasteDialog({
-                            props: specialPasteShowOptions,
+                            props: pasteItems,
+                            isTable: isTable,
                             handler: function (result, settings) {
                                 if (result == 'ok') {
-                                    if (me && me.api) {
-                                        me.api.asc_SpecialPaste(settings);
-                                    }
                                     me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(false, true);
                                     me._state.lastSpecPasteChecked = settings && me._arrSpecialPaste[settings.asc_getProps()] ? me._arrSpecialPaste[settings.asc_getProps()][2] : null;
                                     me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
+                                    if (me && me.api) {
+                                        me.api.asc_SpecialPaste(settings);
+                                    }
                                 }
                             }
                         })).show();
