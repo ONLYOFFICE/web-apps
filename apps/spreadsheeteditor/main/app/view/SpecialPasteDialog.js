@@ -168,6 +168,7 @@ define([
             this.handler    = options.handler;
             this.props      = options.props;
             this._changedProps = null;
+            this.isTable = false;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -360,10 +361,14 @@ define([
         },
 
         _setDefaults: function (props) {
-            var me = this;
-            props && _.each(props, function(menuItem, index) {
-                me.propControls[menuItem] && me.propControls[menuItem].setDisabled(false);
-            });
+            if (props) {
+                var me = this;
+                var pasteItems = props.asc_getOptions();
+                pasteItems && _.each(pasteItems, function(menuItem, index) {
+                    me.propControls[menuItem] && me.propControls[menuItem].setDisabled(false);
+                });
+                this.isTable = !!props.asc_getContainTables();
+            }
 
             this._changedProps = new Asc.SpecialPasteProps();
             this._changedProps.asc_setProps(Asc.c_oSpecialPasteProps.paste);
@@ -396,12 +401,15 @@ define([
             if (newValue && this._changedProps) {
                 this._changedProps.asc_setProps(field.options.value);
                 var disable = field.options.value == Asc.c_oSpecialPasteProps.pasteOnlyFormating || field.options.value == Asc.c_oSpecialPasteProps.comments ||
-                              field.options.value == Asc.c_oSpecialPasteProps.columnWidth;
-                this.radioNone.setDisabled(disable);
-                this.radioAdd.setDisabled(disable);
-                this.radioDiv.setDisabled(disable);
-                this.radioSub.setDisabled(disable);
-                this.radioMult.setDisabled(disable);
+                              field.options.value == Asc.c_oSpecialPasteProps.columnWidth,
+                    disableTable = this.isTable && !!this._changedProps.asc_getTableAllowed();
+                this.radioNone.setDisabled(disable || disableTable);
+                this.radioAdd.setDisabled(disable || disableTable);
+                this.radioDiv.setDisabled(disable || disableTable);
+                this.radioSub.setDisabled(disable || disableTable);
+                this.radioMult.setDisabled(disable || disableTable);
+                this.chBlanks.setDisabled(disableTable);
+                this.chTranspose.setDisabled(disableTable);
             }
         },
 

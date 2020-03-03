@@ -2372,7 +2372,7 @@ define([
                         value: 'special'
                     }).on('click', function(item, e) {
                         (new SSE.Views.SpecialPasteDialog({
-                            props: pasteItems,
+                            props: specialPasteShowOptions,
                             handler: function (result, settings) {
                                 if (result == 'ok') {
                                     if (me && me.api) {
