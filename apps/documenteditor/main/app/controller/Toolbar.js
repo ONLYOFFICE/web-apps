@@ -58,7 +58,8 @@ define([
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/WatermarkSettingsDialog',
-    'documenteditor/main/app/view/CompareSettingsDialog'
+    'documenteditor/main/app/view/CompareSettingsDialog',
+    'documenteditor/main/app/view/DateTimeDialog'
 ], function () {
     'use strict';
 
@@ -318,6 +319,7 @@ define([
             toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
+            toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
             toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
             toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
@@ -829,6 +831,7 @@ define([
             toolbar.btnInsertEquation.setDisabled(need_disable);
 
             toolbar.btnInsertSymbol.setDisabled(!in_para || paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock);
+            toolbar.btnInsDateTime.setDisabled(!in_para || paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock);
 
             need_disable = paragraph_locked || header_locked || in_equation || rich_edit_lock || plain_edit_lock;
             toolbar.btnSuperscript.setDisabled(need_disable);
@@ -2972,6 +2975,23 @@ define([
 
         onTextLanguage: function(langId) {
             this._state.lang = langId;
+        },
+
+        onInsDateTimeClick: function() {
+            //insert date time
+            var me = this;
+            (new DE.Views.DateTimeDialog({
+                api: this.api,
+                lang: this._state.lang,
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            // me.api.asc_addDateTime(value);
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
