@@ -541,7 +541,7 @@ define([
                                     };
                                 }
                             } else
-                                this.FGColor = {Value: 1, Color: {color: '4f81bd', effectId: 24}};
+                                this.FGColor = {Value: 1, Color: {color: '000000', effectId: 24}};
 
                             color = this.pattern.asc_getBgColor();
                             if (color) {
