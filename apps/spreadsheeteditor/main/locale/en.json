@@ -1716,6 +1716,8 @@
   "SSE.Views.HyperlinkSettingsDialog.textTitle": "Hyperlink Settings",
   "SSE.Views.HyperlinkSettingsDialog.txtEmpty": "This field is required",
   "SSE.Views.HyperlinkSettingsDialog.txtNotUrl": "This field should be a URL in the \"http://www.example.com\" format",
+  "SSE.Views.HyperlinkSettingsDialog.textSheets": "Sheets",
+  "SSE.Views.HyperlinkSettingsDialog.textNames": "Defined names",
   "SSE.Views.ImageSettings.textAdvanced": "Show advanced settings",
   "SSE.Views.ImageSettings.textCrop": "Crop",
   "SSE.Views.ImageSettings.textCropFill": "Fill",
