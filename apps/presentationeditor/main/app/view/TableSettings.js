@@ -128,7 +128,7 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onTableTemplateSelect: function(combo, record){
+        onTableTemplateSelect: function(btn, picker, itemView, record){
             if (this.api && !this._noApply) {
                 var properties = new Asc.CTableProp();
                 properties.put_TableStyle(record.get('templateId'));
@@ -280,22 +280,22 @@ define([
             this.chColBanded.on('change', _.bind(this.onCheckTemplateChange, this, 5));
 
             var _arrBorderPosition = [
-                ['l', 'btn-borders-small btn-position-left', 'table-button-border-left',            this.tipLeft],
-                ['c','btn-borders-small btn-position-inner-vert', 'table-button-border-inner-vert', this.tipInnerVert],
-                ['r','btn-borders-small btn-position-right', 'table-button-border-right',           this.tipRight],
-                ['t','btn-borders-small btn-position-top', 'table-button-border-top',               this.tipTop],
-                ['m','btn-borders-small btn-position-inner-hor', 'table-button-border-inner-hor',   this.tipInnerHor],
-                ['b', 'btn-borders-small btn-position-bottom', 'table-button-border-bottom',        this.tipBottom],
-                ['cm', 'btn-borders-small btn-position-inner', 'table-button-border-inner',         this.tipInner],
-                ['lrtb', 'btn-borders-small btn-position-outer', 'table-button-border-outer',       this.tipOuter],
-                ['lrtbcm', 'btn-borders-small btn-position-all', 'table-button-border-all',         this.tipAll],
-                ['', 'btn-borders-small btn-position-none', 'table-button-border-none',             this.tipNone]
+                ['l', 'toolbar__icon btn-border-left', 'table-button-border-left',              this.tipLeft],
+                ['c', 'toolbar__icon btn-border-insidevert', 'table-button-border-inner-vert',  this.tipInnerVert],
+                ['r', 'toolbar__icon btn-border-right', 'table-button-border-right',            this.tipRight],
+                ['t', 'toolbar__icon btn-border-top', 'table-button-border-top',                this.tipTop],
+                ['m', 'toolbar__icon btn-border-insidehor', 'table-button-border-inner-hor',    this.tipInnerHor],
+                ['b', 'toolbar__icon btn-border-bottom', 'table-button-border-bottom',          this.tipBottom],
+                ['cm', 'toolbar__icon btn-border-inside', 'table-button-border-inner',          this.tipInner],
+                ['lrtb', 'toolbar__icon btn-border-out', 'table-button-border-outer',           this.tipOuter],
+                ['lrtbcm', 'toolbar__icon btn-border-all', 'table-button-border-all',           this.tipAll],
+                ['', 'toolbar__icon btn-border-no', 'table-button-border-none',                 this.tipNone]
             ];
 
             this._btnsBorderPosition = [];
             _.each(_arrBorderPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar borders--small',
                     iconCls: item[1],
                     strId   :item[0],
                     hint: item[3]
@@ -367,6 +367,7 @@ define([
                 _props.put_RowHeight(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 this.api.tblApply(_props);
             }, this));
+            this.numHeight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.lockedControls.push(this.numHeight);
             this.spinners.push(this.numHeight);
 
@@ -384,6 +385,7 @@ define([
                 _props.put_ColumnWidth(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 this.api.tblApply(_props);
             }, this));
+            this.numWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
             this.lockedControls.push(this.numWidth);
             this.spinners.push(this.numWidth);
 
@@ -434,20 +436,19 @@ define([
                 //for table-template
                 value = props.get_TableStyle();
                 if (this._state.TemplateId!==value || this._isTemplatesChanged) {
-                    this.cmbTableTemplate.suspendEvents();
-                    var rec = this.cmbTableTemplate.menuPicker.store.findWhere({
+                    var rec = this.mnuTableTemplatePicker.store.findWhere({
                         templateId: value
                     });
-                    this.cmbTableTemplate.menuPicker.selectRecord(rec);
-                    this.cmbTableTemplate.resumeEvents();
-
-                    if (this._isTemplatesChanged) {
-                        if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
-                        else
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
+                    if (!rec) {
+                        rec = this.mnuTableTemplatePicker.store.at(0);
                     }
-                    this._state.TemplateId=value;
+                    this.btnTableTemplate.suspendEvents();
+                    this.mnuTableTemplatePicker.selectRecord(rec, true);
+                    this.btnTableTemplate.resumeEvents();
+
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '52px', 'width': '72px', 'background-position': 'center', 'background-size': 'cover'});
+
+                    this._state.TemplateId = value;
                 }
                 this._isTemplatesChanged = false;
 
@@ -604,13 +605,14 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             this.UpdateThemeColors();
             this.updateMetricUnit();
-            this._initSettings = false;
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBorderColor = new Common.UI.ColorButton({
                     style: "width:45px;",
@@ -657,44 +659,59 @@ define([
             var self = this;
             this._isTemplatesChanged = true;
 
-            if (!this.cmbTableTemplate) {
-                this.cmbTableTemplate = new Common.UI.ComboDataView({
-                    itemWidth: 70,
-                    itemHeight: 50,
-                    menuMaxHeight: 300,
-                    enableKeyEvents: true,
-                    cls: 'combo-template'
+            if (!this.btnTableTemplate) {
+                this.btnTableTemplate = new Common.UI.Button({
+                    cls         : 'btn-large-dataview template-table',
+                    iconCls     : 'icon-template-table',
+                    menu        : new Common.UI.Menu({
+                        style: 'width: 575px;',
+                        items: [
+                            { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        ]
+                    })
                 });
-                this.cmbTableTemplate.render($('#table-combo-template'));
-                this.cmbTableTemplate.openButton.menu.cmpEl.css({
-                    'min-width': 175,
-                    'max-width': 175
+                this.btnTableTemplate.on('render:after', function(btn) {
+                    self.mnuTableTemplatePicker = new Common.UI.DataView({
+                        el: $('#id-table-menu-template'),
+                        parentMenu: btn.menu,
+                        restoreHeight: 350,
+                        groups: new Common.UI.DataViewGroupStore(),
+                        store: new Common.UI.DataViewStore(),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="50" width="70"></div>'),
+                        style: 'max-height: 350px;'
+                    });
                 });
-                this.cmbTableTemplate.on('click', _.bind(this.onTableTemplateSelect, this));
-                this.cmbTableTemplate.openButton.menu.on('show:after', function () {
-                    self.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
-                });
-                this.lockedControls.push(this.cmbTableTemplate);
+                this.btnTableTemplate.render($('#table-btn-template'));
+                this.lockedControls.push(this.btnTableTemplate);
+                this.mnuTableTemplatePicker.on('item:click', _.bind(this.onTableTemplateSelect, this, this.btnTableTemplate));
             }
-            
-            var count = self.cmbTableTemplate.menuPicker.store.length;
+
+            var count = self.mnuTableTemplatePicker.store.length;
             if (count>0 && count==Templates.length) {
-                var data = self.cmbTableTemplate.menuPicker.store.models;
+                var data = self.mnuTableTemplatePicker.store.models;
                 _.each(Templates, function(template, index){
                     data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
-                self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
+                    var tip = template.asc_getDisplayName();
+                    if (template.asc_getType()==0) {
+                        ['No Style', 'No Grid', 'Table Grid', 'Themed Style', 'Light Style', 'Medium Style', 'Dark Style', 'Accent'].forEach(function(item){
+                            var str = 'txtTable_' + item.replace(' ', '');
+                            if (self[str])
+                                tip = tip.replace(new RegExp(item, 'g'), self[str]);
+                        });
+
+                    }
                     arr.push({
                         imageUrl: template.asc_getImage(),
                         id     : Common.UI.getId(),
                         templateId: template.asc_getId(),
-                        tip    : template.asc_getDisplayName()
+                        tip    : tip
                     });
                 });
-                self.cmbTableTemplate.menuPicker.store.add(arr);
+                self.mnuTableTemplatePicker.store.reset(arr);
             }
         },
 
@@ -790,7 +807,15 @@ define([
         textHeight: 'Height',
         textWidth: 'Width',
         textDistributeRows: 'Distribute rows',
-        textDistributeCols: 'Distribute columns'
+        textDistributeCols: 'Distribute columns',
+        txtTable_NoStyle: 'No Style',
+        txtTable_NoGrid: 'No Grid',
+        txtTable_TableGrid: 'Table Grid',
+        txtTable_ThemedStyle: 'Themed Style',
+        txtTable_LightStyle: 'Light Style',
+        txtTable_MediumStyle: 'Medium Style',
+        txtTable_DarkStyle: 'Dark Style',
+        txtTable_Accent: 'Accent'
 
-    }, PE.Views.TableSettings || {}));
+}, PE.Views.TableSettings || {}));
 });

@@ -94,7 +94,8 @@ define([
         checked     : false,
         value       : 'unchecked',
 
-        template    : _.template('<label class="checkbox-indeterminate"><input type="button" class="img-commonctrl"><span><%= labelText %></span></label>'),
+        template    : _.template('<label class="checkbox-indeterminate"><input id="<%= id %>" type="checkbox" class="checkbox__native">' +
+                                    '<label for="<%= id %>" class="checkbox__shape" /><span><%= labelText %></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -104,27 +105,25 @@ define([
         },
 
         render: function (parentEl) {
-            var me = this,
-                el = $(this.el);
+            var me = this;
             if (!me.rendered) {
+                var elem = this.template({
+                    labelText: this.options.labelText,
+                    id: Common.UI.getId('chb-')
+                });
                 if (parentEl) {
                     this.setElement(parentEl, false);
-                    parentEl.html(this.template({
-                        labelText: this.options.labelText
-                    }));
-                    el = $(this.el);
+                    parentEl.html(elem);
                 } else {
-                    el.html(this.template({
-                        labelText: this.options.labelText
-                    }));
+                    me.$el.html(elem);
                 }
 
-                this.$chk = el.find('input[type=button]');
-                this.$label = el.find('label');
-                this.$chk.on('click', _.bind(this.onItemCheck, this));
-            }
+                this.$chk = me.$el.find('input[type=checkbox]');
+                this.$label = me.$el.find('label.checkbox-indeterminate');
+                this.$chk.on('click', this.onItemCheck.bind(this));
 
-            this.rendered = true;
+                this.rendered = true;
+            }
 
             if (this.options.disabled)
                 this.setDisabled(this.options.disabled);
@@ -168,18 +167,18 @@ define([
             this.checked = (value === true || value === 'true' || value === '1' || value === 1 || value === 'checked');
             this.indeterminate = (value === 'indeterminate');
 
-            this.$chk.toggleClass('checked', this.checked);
-            this.$chk.toggleClass('indeterminate', this.indeterminate);
-
             this.value = this.indeterminate ? 'indeterminate' : (this.checked ? 'checked' : 'unchecked');
+            this.$chk.prop({indeterminate: this.indeterminate, checked: this.checked});
         },
 
         setValue: function(value, suspendchange) {
             if (this.rendered) {
-                this.lastValue = this.value;
-                this.setRawValue(value);
-                if (suspendchange !== true && this.lastValue !== value)
-                    this.trigger('change', this, this.value, this.lastValue);
+                if ( value != this.value ) {
+                    this.lastValue = this.value;
+                    this.setRawValue(value);
+                    if (suspendchange !== true)
+                        this.trigger('change', this, this.value, this.lastValue);
+                }
             } else {
                 this.options.value = value;
             }

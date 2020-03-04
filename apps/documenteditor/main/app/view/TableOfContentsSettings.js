@@ -120,11 +120,7 @@ define([
                             '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
-                    '</div>'
+                    '<div class="separator horizontal"/>'
                 ].join('')
             }, options);
 
@@ -263,6 +259,7 @@ define([
                 data: [
                     { displayValue: this.txtCurrent,     value: Asc.c_oAscTOCStylesType.Current },
                     { displayValue: this.txtSimple,     value: Asc.c_oAscTOCStylesType.Simple },
+                    { displayValue: this.txtOnline,     value: Asc.c_oAscTOCStylesType.Web },
                     { displayValue: this.txtStandard,     value: Asc.c_oAscTOCStylesType.Standard },
                     { displayValue: this.txtModern,     value: Asc.c_oAscTOCStylesType.Modern },
                     { displayValue: this.txtClassic,     value: Asc.c_oAscTOCStylesType.Classic }
@@ -649,13 +646,12 @@ define([
         textRadioStyles: 'Selected styles',
         textStyle: 'Style',
         textLevel: 'Level',
-        cancelButtonText: 'Cancel',
-        okButtonText: 'Ok',
         txtCurrent: 'Current',
         txtSimple: 'Simple',
         txtStandard: 'Standard',
         txtModern: 'Modern',
-        txtClassic: 'Classic'
+        txtClassic: 'Classic',
+        txtOnline: 'Online'
 
     }, DE.Views.TableOfContentsSettings || {}))
 });

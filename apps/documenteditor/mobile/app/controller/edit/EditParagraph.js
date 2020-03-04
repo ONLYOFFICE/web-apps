@@ -51,12 +51,8 @@ define([
 
     DE.Controllers.EditParagraph = Backbone.Controller.extend(_.extend((function() {
         // Private
-        var _stack = [],
-            _paragraphInfo = {},
-            _paragraphObject = undefined,
+        var _paragraphInfo = {},
             _paragraphProperty = undefined,
-            _styles = [],
-            _styleThumbSize,
             _styleName,
             metricText = Common.Utils.Metric.getCurrentMetricName();
 
@@ -77,17 +73,15 @@ define([
                         'style:click'   : this.onStyleClick
                     }
                 });
+
+                this._styles = [];
+                this._styleThumbSize = undefined;
+                this._paragraphObject = undefined;
             },
 
             setApi: function (api) {
                 var me = this;
                 me.api = api;
-
-                me.api.asc_setParagraphStylesSizes(330, 38);
-
-                me.api.asc_registerCallback('asc_onInitEditorStyles',   _.bind(me.onApiInitEditorStyles, me));
-                me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onApiFocusObject, me));
-                me.api.asc_registerCallback('asc_onParaStyleName',      _.bind(me.onApiParagraphStyleChange, me));
             },
 
             onLaunch: function () {
@@ -148,23 +142,23 @@ define([
                     $('#paragraph-spin-first-line .item-after label').text(firstLineFix + ' ' + metricText);
                 }
 
-                if (_paragraphObject) {
-                    _paragraphInfo.spaceBefore = _paragraphObject.get_Spacing().get_Before() < 0 ? _paragraphObject.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_Before());
-                    _paragraphInfo.spaceAfter  = _paragraphObject.get_Spacing().get_After() < 0 ? _paragraphObject.get_Spacing().get_After() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_Spacing().get_After());
+                if (me._paragraphObject) {
+                    _paragraphInfo.spaceBefore = me._paragraphObject.get_Spacing().get_Before() < 0 ? me._paragraphObject.get_Spacing().get_Before() : Common.Utils.Metric.fnRecalcFromMM(me._paragraphObject.get_Spacing().get_Before());
+                    _paragraphInfo.spaceAfter  = me._paragraphObject.get_Spacing().get_After() < 0 ? me._paragraphObject.get_Spacing().get_After() : Common.Utils.Metric.fnRecalcFromMM(me._paragraphObject.get_Spacing().get_After());
                     var distanceBeforeFix = parseFloat(_paragraphInfo.spaceBefore.toFixed(2));
                     var distanceAfterFix = parseFloat(_paragraphInfo.spaceAfter.toFixed(2));
                     $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : distanceBeforeFix + ' ' + metricText);
                     $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : distanceAfterFix + ' ' + metricText);
 
-                    $('#paragraph-space input:checkbox').prop('checked', _paragraphObject.get_ContextualSpacing());
-                    $('#paragraph-page-break input:checkbox').prop('checked', _paragraphObject.get_PageBreakBefore());
-                    $('#paragraph-page-orphan input:checkbox').prop('checked', _paragraphObject.get_WidowControl());
-                    $('#paragraph-page-keeptogether input:checkbox').prop('checked', _paragraphObject.get_KeepLines());
-                    $('#paragraph-page-keepnext input:checkbox').prop('checked', _paragraphObject.get_KeepNext());
+                    $('#paragraph-space input:checkbox').prop('checked', me._paragraphObject.get_ContextualSpacing());
+                    $('#paragraph-page-break input:checkbox').prop('checked', me._paragraphObject.get_PageBreakBefore());
+                    $('#paragraph-page-orphan input:checkbox').prop('checked', me._paragraphObject.get_WidowControl());
+                    $('#paragraph-page-keeptogether input:checkbox').prop('checked', me._paragraphObject.get_KeepLines());
+                    $('#paragraph-page-keepnext input:checkbox').prop('checked', me._paragraphObject.get_KeepNext());
 
 
                     // Background color
-                    var shade = _paragraphObject.get_Shade(),
+                    var shade = me._paragraphObject.get_Shade(),
                         backColor = 'transparent';
 
                     if (!_.isNull(shade) && !_.isUndefined(shade) && shade.get_Value()===Asc.c_oAscShdClear) {
@@ -203,11 +197,11 @@ define([
 
             // Public
             getStyles: function () {
-                return _styles || [];
+                return this._styles || [];
             },
 
             getThumbSize: function () {
-                return _styleThumbSize || {width: 0, height: 0};
+                return this._styleThumbSize || {width: 0, height: 0};
             },
 
             // Handlers
@@ -368,48 +362,6 @@ define([
 
 
             // API handlers
-
-            onApiFocusObject: function (objects) {
-                _stack = objects;
-
-                var paragraphs = [];
-
-                _.each(_stack, function(object) {
-                    if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
-                        paragraphs.push(object);
-                    }
-                });
-
-                if (paragraphs.length > 0) {
-                    var object = paragraphs[paragraphs.length - 1]; // get top
-                    _paragraphObject = object.get_ObjectValue();
-                } else {
-                    _paragraphObject = undefined;
-                }
-            },
-
-            onApiInitEditorStyles: function (styles) {
-                window.styles_loaded = false;
-
-                if (styles.length < 1) {
-                    return;
-                }
-
-                _styles = [];
-                _styleThumbSize = {
-                    width   : styles.STYLE_THUMBNAIL_WIDTH,
-                    height  : styles.STYLE_THUMBNAIL_HEIGHT
-                };
-
-                _.each(styles.get_MergedStyles(), function(style){
-                    _styles.push({
-                        image   : style.asc_getImage(),
-                        name    : style.get_Name()
-                    });
-                });
-
-                window.styles_loaded = true;
-            },
 
             onApiParagraphStyleChange: function(name) {
                 _styleName = name;

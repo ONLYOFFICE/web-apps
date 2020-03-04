@@ -3,37 +3,61 @@
     margin-bottom: 0;
     .font-size-normal();
     font-weight: normal;
+    position: relative;
+    min-height: 1em;
 
-    input[type=button] {
-        background-color: transparent;
-        background-position: @checkbox-offset-x @checkbox-offset-y;
-        border: none;
-        margin-left: -22px;
-        margin-right: 6px;
-        padding-bottom: 4px;
-        width: 16px;
-        height: 16px;
-        cursor: default;
-        vertical-align: top;
-        margin-top: -1px;
+    input[type=checkbox] {
+        display: none;
 
-        &.checked {
-            background-position: @checkbox-offset-x @checkbox-offset-y - 16px;
+        + label {
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border: 1px solid @gray;
+            border-radius: 2px;
+            position: absolute;
+            left: 0;
+            margin-top: auto;
         }
 
-        &.indeterminate {
-            background-position: @checkbox-offset-x @checkbox-offset-y - 48px;
-        }
-
-        &.disabled {
-            background-position: @checkbox-offset-x - 48px @checkbox-offset-y;
-
-            &.checked {
-                background-position: @checkbox-offset-x - 48px @checkbox-offset-y - 16px;
+        &:checked:not(:indeterminate) {
+            + label {
+                &::before {
+                    content: '';
+                    position: absolute;
+                    border: solid @gray-deep;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                    width: 5px;
+                    height: 9px;
+                    left: 4px;
+                }
             }
+        }
 
-            &.indeterminate {
-                background-position: @checkbox-offset-x - 48px @checkbox-offset-y - 48px;
+        &:indeterminate {
+            + label {
+                &::before {
+                    content: '';
+                    position: absolute;
+                    border: 1px solid @gray-deep;
+                    background: @gray-soft;
+                    width: 8px;
+                    height: 8px;
+                    left: 2px;
+                    top: 2px;
+                }
+            }
+        }
+
+        &.disabled,
+        &:disabled {
+            opacity: .4;
+
+            + label {
+                &::before {
+                    opacity: .4;
+                }
             }
         }
     }

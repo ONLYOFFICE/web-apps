@@ -78,7 +78,7 @@ define([
             render: function() {
                 var me = this;
 
-                me.cmpEl = $(this.el);
+                me.cmpEl = me.$el || $(this.el);
 
                 if (!me.rendered) {
                     me.cmpEl.perfectScrollbar(_.extend({}, me.options));

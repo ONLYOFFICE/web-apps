@@ -49,7 +49,8 @@ define([
             width: 300,
             header: true,
             style: 'min-width: 216px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -69,11 +70,7 @@ define([
                         '<div id="custom-columns-separator"></div>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal"/>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
-                '</div>'
+                '<div class="separator horizontal"/>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -171,8 +168,6 @@ define([
         textTitle: 'Columns',
         textSpacing: 'Spacing between columns',
         textColumns: 'Number of columns',
-        textSeparator: 'Column divider',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok'
+        textSeparator: 'Column divider'
     }, DE.Views.CustomColumnsDialog || {}))
 });

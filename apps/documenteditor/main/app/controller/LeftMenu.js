@@ -62,7 +62,6 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
-                    'click:users': _.bind(this.clickStatusbarUsers, this),
                     'file:settings': _.bind(this.clickToolbarSettings,this),
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
@@ -468,7 +467,12 @@ define([
             if (this.mode.canViewComments && this.leftMenu.panelComments.isVisible())
                 value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
+            this.getApplication().getController('Common.Controllers.ReviewChanges').commentsShowHide(value ? 'show' : 'hide');
             /** coauthoring end **/
+
+            value = Common.localStorage.getBool("de-settings-cachemode", true);
+            Common.Utils.InternalSettings.set("de-settings-cachemode", value);
+            this.api.asc_setDefaultBlitMode(value);
 
             value = Common.localStorage.getItem("de-settings-fontrender");
             Common.Utils.InternalSettings.set("de-settings-fontrender", value);
@@ -532,10 +536,6 @@ define([
         },
 
         /** coauthoring begin **/
-        clickStatusbarUsers: function() {
-            this.leftMenu.menuFile.panels['rights'].changeAccessRights();
-        },
-
         onHideChat: function() {
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');

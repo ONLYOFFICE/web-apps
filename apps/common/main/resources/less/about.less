@@ -4,13 +4,17 @@
         margin-bottom: 5px;
 
         &:before {
-            content: data-uri('@{common-image-path}/about/logo.png');
+            content: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/about/logo.png')), ~"url('@{common-image-const-path}/about/logo.png')");
 
-            @media
-            only screen and (-webkit-min-device-pixel-ratio: 2),
-            only screen and (min-resolution: 2dppx),
-            only screen and (min-resolution: 192dpi) {
-                content: data-uri('@{common-image-path}/about/logo@2x.png');
+            @media only screen {
+                @media (-webkit-min-device-pixel-ratio: 2),
+                            (min-resolution: 2dppx),
+                            (min-resolution: 192dpi)
+                {
+                    content: ~"url('@{common-image-const-path}/about/logo@2x.png')";
+                    display: block;
+                    transform: scale(.5);
+                }
             }
         }
     }

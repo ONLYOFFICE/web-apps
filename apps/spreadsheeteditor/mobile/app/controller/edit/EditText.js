@@ -197,9 +197,7 @@ define([
             initTextColorPage: function () {
                 var me = this,
                     color = me._sdkToThemeColor(_fontInfo.color),
-                    palette = new Common.UI.ThemeColorPalette({
-                        el: $('.page[data-page=edit-text-color] .page-content')
-                    });
+                    palette = me.getView('EditText').paletteTextColor;
 
                 if (palette) {
                     palette.select(color);

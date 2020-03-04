@@ -57,6 +57,12 @@ define([
             me.btnFormula.on('click', function(){
                 me.fireEvent('function:apply', [{name: 'more', origin: 'more'}]);
             });
+            me.btnCalculate.on('click', function () {
+                me.fireEvent('function:calculate', [{type: Asc.c_oAscCalculateType.All}]);
+            });
+            me.btnCalculate.menu.on('item:click', function (menu, item, e) {
+                me.fireEvent('function:calculate', [{type: item.value}]);
+            });
         }
         return {
             options: {},
@@ -76,7 +82,7 @@ define([
 
                 this.btnFinancial = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-finance',
+                    iconCls: 'toolbar__icon btn-finance',
                     caption: formulaDialog.sCategoryFinancial,
                     hint: formulaDialog.sCategoryFinancial,
                     menu: true,
@@ -89,7 +95,7 @@ define([
 
                 this.btnLogical = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-logic',
+                    iconCls: 'toolbar__icon btn-logic',
                     caption: formulaDialog.sCategoryLogical,
                     hint: formulaDialog.sCategoryLogical,
                     menu: true,
@@ -102,7 +108,7 @@ define([
 
                 this.btnTextData = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-func-text',
+                    iconCls: 'toolbar__icon btn-func-text',
                     caption: formulaDialog.sCategoryTextAndData,
                     hint: formulaDialog.sCategoryTextAndData,
                     menu: true,
@@ -115,7 +121,7 @@ define([
 
                 this.btnDateTime = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-datetime',
+                    iconCls: 'toolbar__icon btn-datetime',
                     caption: formulaDialog.sCategoryDateAndTime,
                     hint: formulaDialog.sCategoryDateAndTime,
                     menu: true,
@@ -128,7 +134,7 @@ define([
 
                 this.btnReference = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-lookup',
+                    iconCls: 'toolbar__icon btn-lookup',
                     caption: formulaDialog.sCategoryLookupAndReference,
                     hint: formulaDialog.sCategoryLookupAndReference,
                     menu: true,
@@ -141,7 +147,7 @@ define([
 
                 this.btnMath = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-func-math',
+                    iconCls: 'toolbar__icon btn-func-math',
                     caption: formulaDialog.sCategoryMathematic,
                     hint: formulaDialog.sCategoryMathematic,
                     menu: true,
@@ -154,7 +160,7 @@ define([
 
                 this.btnRecent = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-recent',
+                    iconCls: 'toolbar__icon btn-recent',
                     caption: this.txtRecent,
                     hint: this.txtRecent,
                     menu: true,
@@ -167,9 +173,9 @@ define([
 
                 this.btnAutosum = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-autosum',
+                    iconCls: 'toolbar__icon btn-autosum',
                     caption: this.txtAutosum,
-                    hint: this.txtAutosumTip,
+                    hint: [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormulaTip],
                     split: true,
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
@@ -192,7 +198,7 @@ define([
 
                 this.btnFormula = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-ins-formula',
+                    iconCls: 'toolbar__icon btn-ins-formula',
                     caption: this.txtFormula,
                     hint: this.txtFormulaTip,
                     disabled: true,
@@ -203,7 +209,7 @@ define([
 
                 this.btnMore = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-more',
+                    iconCls: 'toolbar__icon btn-more',
                     caption: this.txtMore,
                     hint: this.txtMore,
                     menu: true,
@@ -213,6 +219,18 @@ define([
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-more'), this.btnMore);
                 this.lockedControls.push(this.btnMore);
+
+                this.btnCalculate = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-calculation',
+                    caption: this.txtCalculation,
+                    split: true,
+                    menu: true,
+                    disabled: true,
+                    lock: [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-calculate'), this.btnCalculate);
+                this.lockedControls.push(this.btnCalculate);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -226,6 +244,17 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
+                    me.btnCalculate.updateHint([me.tipCalculateTheEntireWorkbook + Common.Utils.String.platformKey('F9'), me.tipCalculate]);
+                    var _menu = new Common.UI.Menu({
+                        items: [
+                            {caption: me.textCalculateWorkbook, value: Asc.c_oAscCalculateType.All},
+                            {caption: me.textCalculateCurrentSheet, value: Asc.c_oAscCalculateType.ActiveSheet},
+                            //{caption: '--'},
+                            //{caption: me.textAutomatic, value: '', toggleGroup: 'menuCalcMode', checkable: true, checked: true},
+                            //{caption: me.textManual, value: '', toggleGroup: 'menuCalcMode', checkable: true, checked: false}
+                        ]
+                    });
+                    me.btnCalculate.setMenu(_menu);
                     setEvents.call(me);
                 });
             },
@@ -480,7 +509,14 @@ define([
             txtAdditional: 'Additional',
             txtFormula: 'Function',
             txtFormulaTip: 'Insert function',
-            txtMore: 'More functions'
+            txtMore: 'More functions',
+            txtCalculation: 'Calculation',
+            tipCalculate: 'Calculate',
+            textCalculateWorkbook: 'Calculate workbook',
+            textCalculateCurrentSheet: 'Calculate current sheet',
+            textAutomatic: 'Automatic',
+            textManual: 'Manual',
+            tipCalculateTheEntireWorkbook: 'Calculate the entire workbook'
         }
     }()), SSE.Views.FormulaTab || {}));
 });

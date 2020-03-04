@@ -33,7 +33,7 @@
 				<p><img alt="Color Fill" src="../images/fill_color.png" /></p>
 				<p id="color">Click the colored box below and select the necessary color from the available color sets or specify any color you like:</p>
 					<ul>
-						<li><b>Theme Colors</b> - the colors that correspond to the selected color scheme of the document.</li>
+						<li><b>Theme Colors</b> - the colors that correspond to the selected color scheme of the spreadsheet.</li>
 						<li><b>Standard Colors</b> - the default colors set.</li>
 						<li><b>Custom Color</b> - click this caption if there is no needed color in the available palettes. Select the necessary colors range moving the vertical color slider and set the specific color dragging the color picker within the large square color field. Once you select a color with the color picker, the appropriate RGB and sRGB color values will be displayed in the fields on the right. You can also specify a color on the base of the RGB color model entering the necessary numeric values into the <b>R</b>, <b>G</b>, <b>B</b> (red, green, blue) fields or enter the sRGB hexadecimal code into the field marked with the <b>#</b> sign. The selected color appears in the <b>New</b> preview box. If the object was previously filled with any custom color, this color is displayed in the <b>Current</b> box so you can compare the original and modified colors. When the color is specified, click the <b>Add</b> button. The custom color will be applied to your autoshape and added to the <b>Custom color</b> palette.</p>
 						</li>
@@ -92,8 +92,10 @@
                 </ul>
             </li>
 			<li><b>Change Autoshape</b> - use this section to replace the current autoshape with another one selected from the dropdown list.</li>
+            <li><b>Show shadow</b> - check this option to display shape with shadow.</li>
 			</ul>
 			<hr />
+            <h3>Adjust shape advanced settings</h3>
             <p id="shape_advanced">To change the <b>advanced settings</b> of the autoshape, use the <b>Show advanced settings</b> link at the right sidebar. The 'Shape - Advanced Settings' window will open:</p>
             <p><img alt="Shape - Advanced Settings" src="../images/shape_properties.png" /></p>
             <p>The <b>Size</b> tab contains the following parameters:</p>
@@ -130,12 +132,19 @@
 				</li>
 				<li><b>Arrows</b> - this option group is available if a shape from the <b>Lines</b> shape group is selected. It allows to set the arrow <b>Start</b> and <b>End Style</b> and <b>Size</b> by selecting the appropriate option from the dropdown lists.</li>
 			</ul>
-            <p><img alt="Shape - Advanced Settings" src="../images/shape_properties_2.png" /></p>
-			<p>The <b>Text Padding</b> tab allows to change the autoshape <b>Top</b>, <b>Bottom</b>, <b>Left</b> and <b>Right</b> internal margins (i.e. the distance between the text within the shape and the autoshape borders).</p>
+            <p id="internalmargins"><img alt="Shape - Advanced Settings" src="../images/shape_properties_2.png" /></p>
+            <p>The <b>Text Padding</b> tab allows to change the autoshape <b>Top</b>, <b>Bottom</b>, <b>Left</b> and <b>Right</b> internal margins (i.e. the distance between the text within the shape and the autoshape borders).</p>
             <p class="note"><b>Note</b>: this tab is only available if text is added within the autoshape, otherwise the tab is disabled.</p>
             <p id="columns"><img alt="Shape Properties - Columns tab" src="../images/shape_properties_4.png" /></p>
             <p>The <b>Columns</b> tab allows to add columns of text within the autoshape specifying the necessary <b>Number of columns</b> (up to 16) and <b>Spacing between columns</b>. Once you click <b>OK</b>, the text that already exists or any other text you enter within the autoshape will appear in columns and will flow from one column to another.</p>
-            <p><img alt="Shape - Advanced Settings" src="../images/shape_properties_3.png" /></p>
+            <p><img alt="Shape - Advanced Settings: Cell Snapping" src="../images/shape_properties_6.png" /></p>
+            <p>The <b>Cell Snapping</b> tab contains the following parameters:</p>
+            <ul>
+                <li><b>Move and size with cells</b> - this option allows to snap the shape to the cell behind it. If the cell moves (e.g. if you insert or delete some rows/columns), the shape will be moved together with the cell. If you increase or decrease the width or height of the cell, the shape will change its size as well.</li>
+                <li><b>Move but don't size with cells</b> - this option allows to snap the shape to the cell behind it preventing the image from being resized. If the cell moves, the shape will be moved together with the cell, but if you change the cell size, the shape dimensions remain unchanged.</li>
+                <li><b>Don't move or size with cells</b> - this option allows to prevent the shape from being moved or resized if the cell position or size was changed.</li>
+            </ul>
+            <p><img alt="Shape - Advanced Settings: Alternative Text" src="../images/shape_properties_3.png" /></p>
             <p>The <b>Alternative Text</b> tab allows to specify a <b>Title</b> and <b>Description</b> which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the shape.</p>            
 		    <hr />
 			<h3>Insert and format text within the autoshape</h3>

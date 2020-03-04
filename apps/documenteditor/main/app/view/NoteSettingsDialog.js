@@ -49,7 +49,8 @@ define([
     DE.Views.NoteSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 380
+            height: 380,
+            buttons: null
         },
 
         initialize : function(options) {
@@ -122,9 +123,9 @@ define([
                         '</div>',
                     '</div>',
                     '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="insert" style="margin-right: 10px;  width: 86px;">' + me.textInsert + '</button>',
-                    '<button id="note-settings-btn-apply" class="btn normal dlg-btn" result="apply" style="margin-right: 10px;  width: 86px;">' + me.textApply + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textCancel + '</button>',
+                    '<button class="btn normal dlg-btn primary" result="insert" style="width: 86px;">' + me.textInsert + '</button>',
+                    '<button id="note-settings-btn-apply" class="btn normal dlg-btn" result="apply" style="width: 86px;">' + me.textApply + '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
                     '</div>'
                 ].join('')
             }, options);
@@ -427,7 +428,6 @@ define([
         textSection: 'Current section',
         textApply: 'Apply',
         textInsert: 'Insert',
-        textCancel: 'Cancel',
         textCustom: 'Custom Mark'
 
     }, DE.Views.NoteSettingsDialog || {}))

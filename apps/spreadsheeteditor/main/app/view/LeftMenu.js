@@ -79,13 +79,11 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
-            el.html(this.template({
-            }));
+            var $markup = $(this.template({}));
 
             this.btnSearch = new Common.UI.Button({
                 action: 'search',
-                el: $('#left-btn-search', this.el),
+                el: $markup.elementById('#left-btn-search'),
                 hint: this.tipSearch + Common.Utils.String.platformKey('Ctrl+F'),
                 disabled: true,
                 enableToggle: true
@@ -93,7 +91,7 @@ define([
 
             this.btnAbout = new Common.UI.Button({
                 action: 'about',
-                el: $('#left-btn-about', this.el),
+                el: $markup.elementById('#left-btn-about'),
                 hint: this.tipAbout,
                 enableToggle: true,
                 disabled: true,
@@ -102,14 +100,14 @@ define([
 
             this.btnSupport = new Common.UI.Button({
                 action: 'support',
-                el: $('#left-btn-support', this.el),
+                el: $markup.elementById('#left-btn-support'),
                 hint: this.tipSupport,
                 disabled: true
             });
 
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
-                el: $('#left-btn-comments', this.el),
+                el: $markup.elementById('#left-btn-comments'),
                 hint: this.tipComments +  Common.Utils.String.platformKey('Ctrl+Shift+H'),
                 enableToggle: true,
                 disabled: true,
@@ -117,7 +115,7 @@ define([
             });
 
             this.btnChat = new Common.UI.Button({
-                el: $('#left-btn-chat', this.el),
+                el: $markup.elementById('#left-btn-chat'),
                 hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
                 enableToggle: true,
                 disabled: true,
@@ -127,13 +125,13 @@ define([
             this.btnComments.hide();
             this.btnChat.hide();
 
-            this.btnComments.on('click',        _.bind(this.onBtnMenuClick, this));
-            this.btnComments.on('toggle',       _.bind(this.onBtnCommentsToggle, this));
-            this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
+            this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
+            this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
+            this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
             /** coauthoring end **/
 
             this.btnPlugins = new Common.UI.Button({
-                el: $('#left-btn-plugins'),
+                el: $markup.elementById('#left-btn-plugins'),
                 hint: this.tipPlugins,
                 enableToggle: true,
                 disabled: true,
@@ -143,7 +141,7 @@ define([
             this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
 
             this.btnSpellcheck = new Common.UI.Button({
-                el: $('#left-btn-spellcheck'),
+                el: $markup.elementById('#left-btn-spellcheck'),
                 hint: this.tipSpellcheck,
                 enableToggle: true,
                 disabled: true,
@@ -156,8 +154,8 @@ define([
             this.btnAbout.on('toggle',          _.bind(this.onBtnMenuToggle, this));
 
             this.menuFile = new SSE.Views.FileMenu({});
-            this.menuFile.render();
-            this.btnAbout.panel = (new Common.Views.About({el: $('#about-menu-panel'), appName: 'Spreadsheet Editor'})).render();
+            this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: 'Spreadsheet Editor'}));
+            this.$el.html($markup);
 
             return this;
         },

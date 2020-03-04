@@ -105,6 +105,10 @@ define([
             this.btnBookmarks.on('click', function (b, e) {
                 me.fireEvent('links:bookmarks');
             });
+
+            this.btnCaption.on('click', function (b, e) {
+                me.fireEvent('links:caption');
+            });
         }
 
         return {
@@ -122,14 +126,14 @@ define([
                 var me = this,
                     $host = me.toolbar.$el;
 
-                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'btn-contents', me.capBtnInsContents, undefined, true, true );
-                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'btn-notes', me.capBtnInsFootnote, undefined, true, true);
-                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'btn-inserthyperlink', me.capBtnInsLink);
+                this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-contents', me.capBtnInsContents, undefined, true, true );
+                this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote, undefined, true, true);
+                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-inserthyperlink', me.capBtnInsLink);
                 Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 
                 this.btnContentsUpdate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-contents-update',
+                    iconCls: 'toolbar__icon btn-contents-update',
                     caption: this.capBtnContentsUpdate,
                     split: true,
                     menu: true,
@@ -140,12 +144,21 @@ define([
 
                 this.btnBookmarks = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'btn-bookmarks',
+                    iconCls: 'toolbar__icon btn-bookmarks',
                     caption: this.capBtnBookmarks,
                     disabled: true
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-bookmarks'), this.btnBookmarks);
                 this.paragraphControls.push(this.btnBookmarks);
+
+                this.btnCaption = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-caption',
+                    caption: this.capBtnCaption,
+                    disabled: true
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-caption'), this.btnCaption);
+                this.paragraphControls.push(this.btnCaption);
 
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -160,11 +173,12 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div style="background-position: 0 -<%= options.offsety %>px;" ></div></a>');
+                    var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div></div></a>');
                     me.btnsContents.forEach( function(btn) {
                         btn.updateHint( me.tipContents );
 
                         var _menu = new Common.UI.Menu({
+                            cls: 'toc-menu',
                             items: [
                                 {template: contentsTemplate, offsety: 0, value: 0},
                                 {template: contentsTemplate, offsety: 72, value: 1},
@@ -177,6 +191,7 @@ define([
                     });
 
                     me.contentsMenu = new Common.UI.Menu({
+                        cls: 'toc-menu',
                         items: [
                             {template: contentsTemplate, offsety: 0, value: 0},
                             {template: contentsTemplate, offsety: 72, value: 1},
@@ -214,8 +229,8 @@ define([
                                         'data-stopPropagation="true"',
                                         '<% } %>', '>',
                                         '<label class="title">' + me.textGotoFootnote + '</label>',
-                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon mmerge-next">&nbsp;</i></button>',
-                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon mmerge-prev">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-footnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
                                         '</div>'
                                     ].join('')),
                                     stopPropagation: true
@@ -242,6 +257,7 @@ define([
                     });
 
                     me.btnBookmarks.updateHint(me.tipBookmarks);
+                    me.btnCaption.updateHint(me.tipCaption);
 
                     setEvents.call(me);
                 });
@@ -283,7 +299,9 @@ define([
             capBtnInsLink: 'Hyperlink',
             tipInsertHyperlink: 'Add Hyperlink',
             capBtnBookmarks: 'Bookmark',
-            tipBookmarks: 'Create a bookmark'
+            tipBookmarks: 'Create a bookmark',
+            capBtnCaption: 'Caption',
+            tipCaption: 'Insert caption'
         }
     }()), DE.Views.Links || {}));
 });

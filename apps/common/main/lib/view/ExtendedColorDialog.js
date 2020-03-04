@@ -286,7 +286,6 @@ define([
             return false;
         },
 
-        cancelButtonText: 'Cancel',
         addButtonText: 'Add',
         textNew: 'New',
         textCurrent: 'Current',

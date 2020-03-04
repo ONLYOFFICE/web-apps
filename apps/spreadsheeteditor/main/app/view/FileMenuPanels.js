@@ -78,12 +78,12 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template({rows:this.formats}));
+            this.$el.html(this.template({rows:this.formats}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -139,12 +139,12 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template({rows:this.formats}));
+            this.$el.html(this.template({rows:this.formats}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -171,6 +171,7 @@ define([
                 '<div id="id-settings-content" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
                     '<div id="panel-settings-general" style="width:100%; height:100%;" class="no-padding main-settings-panel active"></div>',
                     '<div id="panel-settings-print" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
+                    '<div id="panel-settings-spellcheck" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -181,22 +182,26 @@ define([
             this.menu = options.menu;
         },
 
-        render: function() {
-            $(this.el).html(this.template());
+        render: function(node) {
+            var $markup = $(this.template({scope: this}));
 
             this.generalSettings = new SSE.Views.FileMenuPanels.MainSettingsGeneral({menu: this.menu});
             this.generalSettings.options = {alias:'MainSettingsGeneral'};
-            this.generalSettings.render();
+            this.generalSettings.render($markup.findById('#panel-settings-general'));
 
             this.printSettings = SSE.getController('Print').getView('MainSettingsPrint');
             this.printSettings.menu = this.menu;
-            this.printSettings.render($('#panel-settings-print'));
+            this.printSettings.render($markup.findById('#panel-settings-print'));
+
+            this.spellcheckSettings = new SSE.Views.FileMenuPanels.MainSpellCheckSettings({menu: this.menu});
+            this.spellcheckSettings.render($markup.findById('#panel-settings-spellcheck'));
 
             this.viewSettingsPicker = new Common.UI.DataView({
-                el: $('#id-settings-menu'),
+                el: $markup.findById('#id-settings-menu'),
                 store: new Common.UI.DataViewStore([
-                    {name: this.txtGeneral, panel: this.generalSettings, iconCls:'mnu-settings-general', selected: true},
-                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'mnu-print'}
+                    {name: this.txtGeneral, panel: this.generalSettings, iconCls:'toolbar__icon btn-settings', selected: true},
+                    {name: this.txtPageSettings, panel: this.printSettings, iconCls:'toolbar__icon btn-print'},
+                    {name: this.txtSpellChecking, panel: this.spellcheckSettings, iconCls:'toolbar__icon btn-ic-docspell'}
                 ]),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="settings-item-wrap">',
@@ -212,6 +217,7 @@ define([
                 panel.show();
             }, this));
 
+            this.$el = $(node).html($markup);
             return this;
         },
 
@@ -223,9 +229,18 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (!this.mode.canPrint)
-                this.viewSettingsPicker.store.pop();
+            if (!this.mode.canPrint) {
+                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
+                if (this.printSettings && this.printSettings.$el && this.printSettings.$el.hasClass('active'))
+                    this.viewSettingsPicker.selectByIndex(0);
+            }
             this.generalSettings && this.generalSettings.setMode(this.mode);
+            this.spellcheckSettings && this.spellcheckSettings.setMode(this.mode);
+            if (!this.mode.isEdit) {
+                $(this.viewSettingsPicker.dataViewItems[2].el).hide();
+                if (this.spellcheckSettings && this.spellcheckSettings.$el && this.spellcheckSettings.$el.hasClass('active'))
+                    this.viewSettingsPicker.selectByIndex(0);
+            }
         },
 
         setApi: function(api) {
@@ -233,7 +248,8 @@ define([
         },
 
         txtGeneral: 'General',
-        txtPageSettings: 'Page Settings'
+        txtPageSettings: 'Page Settings',
+        txtSpellChecking: 'Spell checking'
     }, SSE.Views.FileMenuPanels.Settings || {}));
 
     SSE.Views.MainSettingsPrint = Common.UI.BaseView.extend(_.extend({
@@ -303,12 +319,10 @@ define([
         },
 
         render: function(parentEl) {
-            if (parentEl)
-                this.setElement(parentEl, false);
-            $(this.el).html(this.template({scope: this}));
+            var $markup = $(this.template({scope: this}));
 
             this.cmbSheet = new Common.UI.ComboBox({
-                el          : $('#advsettings-print-combo-sheets'),
+                el          : $markup.findById('#advsettings-print-combo-sheets'),
                 style       : 'width: 242px;',
                 menuStyle   : 'min-width: 242px;max-height: 280px;',
                 editable    : false,
@@ -317,7 +331,7 @@ define([
             });
 
             this.cmbPaperSize = new Common.UI.ComboBox({
-                el          : $('#advsettings-print-combo-pages'),
+                el          : $markup.findById('#advsettings-print-combo-pages'),
                 style       : 'width: 242px;',
                 menuStyle   : 'max-height: 280px; min-width: 242px;',
                 editable    : false,
@@ -340,7 +354,7 @@ define([
             });
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
-                el          : $('#advsettings-print-combo-orient'),
+                el          : $markup.findById('#advsettings-print-combo-orient'),
                 style       : 'width: 132px;',
                 menuStyle   : 'min-width: 132px;',
                 editable    : false,
@@ -351,8 +365,16 @@ define([
                 ]
             });
 
+            var itemsTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "customoptions") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem">',
+                    '<%= scope.getDisplayValue(item) %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join(''));
             this.cmbLayout = new Common.UI.ComboBox({
-                el          : $('#advsettings-print-combo-layout'),
+                el          : $markup.findById('#advsettings-print-combo-layout'),
                 style       : 'width: 242px;',
                 menuStyle   : 'min-width: 242px;',
                 editable    : false,
@@ -361,22 +383,24 @@ define([
                     { value: 0, displayValue: this.textActualSize },
                     { value: 1, displayValue: this.textFitPage },
                     { value: 2, displayValue: this.textFitCols },
-                    { value: 3, displayValue: this.textFitRows }
-                ]
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ],
+                itemsTemplate: itemsTemplate
             });
 
             this.chPrintGrid = new Common.UI.CheckBox({
-                el: $('#advsettings-print-chb-grid'),
+                el: $markup.findById('#advsettings-print-chb-grid'),
                 labelText: this.textPrintGrid
             });
 
             this.chPrintRows = new Common.UI.CheckBox({
-                el: $('#advsettings-print-chb-rows'),
+                el: $markup.findById('#advsettings-print-chb-rows'),
                 labelText: this.textPrintHeadings
             });
 
             this.spnMarginTop = new Common.UI.MetricSpinner({
-                el: $('#advsettings-spin-margin-top'),
+                el: $markup.findById('#advsettings-spin-margin-top'),
                 step: .1,
                 width: 110,
                 defaultUnit : "cm",
@@ -387,7 +411,7 @@ define([
             this.spinners.push(this.spnMarginTop);
 
             this.spnMarginBottom = new Common.UI.MetricSpinner({
-                el: $('#advsettings-spin-margin-bottom'),
+                el: $markup.findById('#advsettings-spin-margin-bottom'),
                 step: .1,
                 width: 110,
                 defaultUnit : "cm",
@@ -398,7 +422,7 @@ define([
             this.spinners.push(this.spnMarginBottom);
 
             this.spnMarginLeft = new Common.UI.MetricSpinner({
-                el: $('#advsettings-spin-margin-left'),
+                el: $markup.findById('#advsettings-spin-margin-left'),
                 step: .1,
                 width: 110,
                 defaultUnit : "cm",
@@ -409,7 +433,7 @@ define([
             this.spinners.push(this.spnMarginLeft);
 
             this.spnMarginRight = new Common.UI.MetricSpinner({
-                el: $('#advsettings-spin-margin-right'),
+                el: $markup.findById('#advsettings-spin-margin-right'),
                 step: .1,
                 width: 110,
                 defaultUnit : "cm",
@@ -420,19 +444,43 @@ define([
             this.spinners.push(this.spnMarginRight);
 
             this.btnOk = new Common.UI.Button({
-                el: '#advsettings-print-button-save'
+                el: $markup.findById('#advsettings-print-button-save')
             });
+
+            // if (parentEl)
+            //     this.setElement(parentEl, false);
+            this.$el = $(parentEl).html($markup);
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
 
             this.fireEvent('render:after', this);
-
             return this;
+        },
+
+        addCustomScale: function (add) {
+            if (add) {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 4, displayValue: this.textCustom },
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ]);
+            } else {
+                this.cmbLayout.setData([
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows },
+                    { value: 'customoptions', displayValue: this.textCustomOptions }
+                ]);
+            }
         },
 
         updateMetricUnit: function() {
@@ -489,7 +537,9 @@ define([
         textActualSize:         'Actual Size',
         textFitPage:            'Fit Sheet on One Page',
         textFitCols:            'Fit All Columns on One Page',
-        textFitRows:            'Fit All Rows on One Page'
+        textFitRows:            'Fit All Rows on One Page',
+        textCustomOptions:      'Custom Options',
+        textCustom:             'Custom'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
@@ -550,6 +600,18 @@ define([
                         '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
                         '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strSeparator %></label></td>',
+                    '<td class="right"><div id="fms-chb-separator-settings"/></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td class="left"></td>',
+                    '<td class="right"><div id="fms-decimal-separator"/><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strDecimalSeparator %></label></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td class="left"></td>',
+                    '<td class="right"><div id="fms-thousands-separator"/><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strThousandsSeparator %></label></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"></td>',
                     '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
@@ -563,29 +625,30 @@ define([
             this.menu = options.menu;
         },
 
-        render: function() {
-            $(this.el).html(this.template({scope: this}));
+        render: function(node) {
+            var me = this;
+            var $markup = $(this.template({scope: this}));
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
-                el: $('#fms-chb-live-comment'),
+                el: $markup.findById('#fms-chb-live-comment'),
                 labelText: this.strLiveComment
-            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                this.chResolvedComment.setDisabled(field.getValue()!=='checked');
-            }, this));
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                me.chResolvedComment.setDisabled(field.getValue()!=='checked');
+            });
 
             this.chResolvedComment = new Common.UI.CheckBox({
-                el: $('#fms-chb-resolved-comment'),
+                el: $markup.findById('#fms-chb-resolved-comment'),
                 labelText: this.strResolvedComment
             });
 
             this.chR1C1Style = new Common.UI.CheckBox({
-                el: $('#fms-chb-r1c1-style'),
+                el: $markup.findById('#fms-chb-r1c1-style'),
                 labelText: this.strR1C1
             });
 
             this.cmbCoAuthMode = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-coauth-mode'),
+                el          : $markup.findById('#fms-cmb-coauth-mode'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -593,17 +656,17 @@ define([
                     { value: 1, displayValue: this.strFast, descValue: this.strCoAuthModeDescFast},
                     { value: 0, displayValue: this.strStrict, descValue: this.strCoAuthModeDescStrict }
                 ]
-            }).on('selected', _.bind(function(combo, record) {
-                if (record.value == 1 && (this.chAutosave.getValue()!=='checked'))
-                    this.chAutosave.setValue(1);
-                this.lblCoAuthMode.text(record.descValue);
-            }, this));
+            }).on('selected', function(combo, record) {
+                if (record.value == 1 && (me.chAutosave.getValue()!=='checked'))
+                    me.chAutosave.setValue(1);
+                me.lblCoAuthMode.text(record.descValue);
+            });
 
-            this.lblCoAuthMode = $('#fms-lbl-coauth-mode');
+            this.lblCoAuthMode = $markup.findById('#fms-lbl-coauth-mode');
             /** coauthoring end **/
 
             this.cmbZoom = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-zoom'),
+                el          : $markup.findById('#fms-cmb-zoom'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -623,36 +686,45 @@ define([
                 ]
             });
 
+            var itemsTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>'
+                ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-font-render'),
+                el          : $markup.findById('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
+                itemsTemplate: itemsTemplate,
                 data        : [
                     { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
                     { value: Asc.c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
-                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
+                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative },
+                    { value: 'custom', displayValue: this.txtCacheMode }
                 ]
             });
+            this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
             this.chAutosave = new Common.UI.CheckBox({
-                el: $('#fms-chb-autosave'),
+                el: $markup.findById('#fms-chb-autosave'),
                 labelText: this.strAutosave
-            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (field.getValue()!=='checked' && this.cmbCoAuthMode.getValue()) {
-                    this.cmbCoAuthMode.setValue(0);
-                    this.lblCoAuthMode.text(this.strCoAuthModeDescStrict);
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                if (field.getValue()!=='checked' && me.cmbCoAuthMode.getValue()) {
+                    me.cmbCoAuthMode.setValue(0);
+                    me.lblCoAuthMode.text(me.strCoAuthModeDescStrict);
                 }
-            }, this));
-            this.lblAutosave = $('#fms-lbl-autosave');
+            });
+            this.lblAutosave = $markup.findById('#fms-lbl-autosave');
 
             this.chForcesave = new Common.UI.CheckBox({
-                el: $('#fms-chb-forcesave'),
+                el: $markup.findById('#fms-chb-forcesave'),
                 labelText: this.strForcesave
             });
 
             this.cmbUnit = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-unit'),
+                el          : $markup.findById('#fms-cmb-unit'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -664,7 +736,7 @@ define([
             });
 
             this.cmbFuncLocale = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-func-locale'),
+                el          : $markup.findById('#fms-cmb-func-locale'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
@@ -677,12 +749,12 @@ define([
                     { value: 'ru', displayValue: this.txtRu, exampleValue: this.txtExampleRu },
                     { value: 'pl', displayValue: this.txtPl, exampleValue: this.txtExamplePl }
                 ]
-            }).on('selected', _.bind(function(combo, record) {
-                this.updateFuncExample(record.exampleValue);
-            }, this));
+            }).on('selected', function(combo, record) {
+                me.updateFuncExample(record.exampleValue);
+            });
 
             var regdata = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                            { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+                            { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                             { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             regdata.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
@@ -691,7 +763,7 @@ define([
             });
 
             this.cmbRegSettings = new Common.UI.ComboBox({
-                el          : $('#fms-cmb-reg-settings'),
+                el          : $markup.findById('#fms-cmb-reg-settings'),
                 style       : 'width: 160px;',
                 menuStyle: 'max-height: 185px;',
                 editable    : false,
@@ -713,20 +785,74 @@ define([
                             '<% }); %>',
                         '</ul>',
                     '</span>'].join(''))
-            }).on('selected', _.bind(function(combo, record) {
-                this.updateRegionalExample(record.value);
-            }, this));
+            }).on('selected', function(combo, record) {
+                me.updateRegionalExample(record.value);
+                var isBaseSettings = me.chSeparator.getValue();
+                if (isBaseSettings === 'checked') {
+                    me.inputDecimalSeparator.setValue(me.api.asc_getDecimalSeparator(record.value), true);
+                    me.inputThousandsSeparator.setValue(me.api.asc_getGroupSeparator(record.value), true);
+                }
+            });
             if (this.cmbRegSettings.scroller) this.cmbRegSettings.scroller.update({alwaysVisibleY: true});
 
+            this.chSeparator = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-separator-settings'),
+                labelText: this.strUseSeparatorsBasedOnRegionalSettings
+            }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = field.getValue() === 'checked';
+                if (checked) {
+                    var lang = this.cmbRegSettings.getValue(),
+                        decimal = this.api.asc_getDecimalSeparator(_.isNumber(lang) ? lang : undefined),
+                        group = this.api.asc_getGroupSeparator(_.isNumber(lang) ? lang : undefined);
+                    this.inputDecimalSeparator.setValue(decimal);
+                    this.inputThousandsSeparator.setValue(group);
+                }
+                this.inputDecimalSeparator.setDisabled(checked);
+                this.inputThousandsSeparator.setDisabled(checked);
+                if (checked) {
+                    this.$el.find('.label-separator').addClass('disabled');
+                } else {
+                    this.$el.find('.label-separator').removeClass('disabled');
+                }
+            }, this));
+
+            var keyDown = function(event){
+                var key = event.key,
+                    value = event.target.value;
+                if (key !== 'ArrowLeft' && key !== 'ArrowDown' && key !== 'ArrowUp' && key !== 'ArrowRight' &&
+                    key !== 'Home' && key !== 'End' && key !== 'Backspace' && key !== 'Delete' && value.length > 0 &&
+                    event.target.selectionEnd - event.target.selectionStart === 0) {
+                    event.preventDefault();
+                }
+            };
+
+            this.inputDecimalSeparator = new Common.UI.InputField({
+                el: $markup.findById('#fms-decimal-separator'),
+                style: 'width: 35px;',
+                validateOnBlur: false
+            });
+            var $decimalSeparatorInput = this.inputDecimalSeparator.$el.find('input');
+            $decimalSeparatorInput.on('keydown', keyDown);
+
+            this.inputThousandsSeparator = new Common.UI.InputField({
+                el: $markup.findById('#fms-thousands-separator'),
+                style: 'width: 35px;',
+                validateOnBlur: false
+            });
+            var $thousandsSeparatorInput = this.inputThousandsSeparator.$el.find('input');
+            $thousandsSeparatorInput.on('keydown', keyDown);
+
             this.btnApply = new Common.UI.Button({
-                el: '#fms-btn-apply'
+                el: $markup.findById('#fms-btn-apply')
             });
 
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
+            this.$el = $(node).html($markup);
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -776,7 +902,13 @@ define([
 
             value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
-            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
+            this.cmbFontRender.setValue(item ? item.get('value') : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling);
+            this._fontRender = this.cmbFontRender.getValue();
+
+            value = Common.Utils.InternalSettings.get("sse-settings-cachemode");
+            item = this.cmbFontRender.store.findWhere({value: 'custom'});
+            item && value && item.set('checked', !!value);
+            item && value && this.cmbFontRender.cmpEl.find('#' + item.get('id') + ' a').addClass('checked');
 
             value = Common.Utils.InternalSettings.get("sse-settings-unit");
             item = this.cmbUnit.store.findWhere({value: value});
@@ -807,6 +939,28 @@ define([
                 this.cmbRegSettings.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
             }
             this.updateRegionalExample(value);
+
+            var isBaseSettings = Common.Utils.InternalSettings.get("sse-settings-use-base-separator");
+            this.chSeparator.setValue(isBaseSettings, true);
+            var decimal,
+                group;
+            if (!isBaseSettings) {
+                decimal = Common.Utils.InternalSettings.get("sse-settings-decimal-separator") || this.api.asc_getDecimalSeparator();
+                group = Common.Utils.InternalSettings.get("sse-settings-group-separator") || this.api.asc_getGroupSeparator();
+            } else {
+                var lang = this.cmbRegSettings.getValue();
+                decimal = this.api.asc_getDecimalSeparator(_.isNumber(lang) ? lang : undefined);
+                group = this.api.asc_getGroupSeparator(_.isNumber(lang) ? lang : undefined);
+            }
+            this.inputDecimalSeparator.setValue(decimal);
+            this.inputThousandsSeparator.setValue(group);
+            this.inputDecimalSeparator.setDisabled(isBaseSettings);
+            this.inputThousandsSeparator.setDisabled(isBaseSettings);
+            if (isBaseSettings) {
+                this.$el.find('.label-separator').addClass('disabled');
+            } else {
+                this.$el.find('.label-separator').removeClass('disabled');
+            }
         },
 
         applySettings: function() {
@@ -820,6 +974,8 @@ define([
             /** coauthoring end **/
             Common.localStorage.setItem("sse-settings-r1c1", this.chR1C1Style.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
+            var item = this.cmbFontRender.store.findWhere({value: 'custom'});
+            Common.localStorage.setItem("sse-settings-cachemode", item && !item.get('checked') ? 0 : 1);
             Common.localStorage.setItem("sse-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("sse-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
@@ -827,6 +983,23 @@ define([
             Common.localStorage.setItem("sse-settings-func-locale", this.cmbFuncLocale.getValue());
             if (this.cmbRegSettings.getSelectedRecord())
                 Common.localStorage.setItem("sse-settings-reg-settings", this.cmbRegSettings.getValue());
+
+            var value,
+                isChecked = this.chSeparator.isChecked();
+            if (!isChecked) {
+                value = this.inputDecimalSeparator.getValue();
+                if (value.length > 0) {
+                    Common.localStorage.setItem("sse-settings-decimal-separator", value);
+                    Common.Utils.InternalSettings.set("sse-settings-decimal-separator", value);
+                }
+                value = this.inputThousandsSeparator.getValue();
+                if (value.length > 0) {
+                    Common.localStorage.setItem("sse-settings-group-separator", value);
+                    Common.Utils.InternalSettings.set("sse-settings-group-separator", value);
+                }
+            }
+            Common.localStorage.setBool("sse-settings-use-base-separator", isChecked);
+            Common.Utils.InternalSettings.set("sse-settings-use-base-separator", isChecked);
 
             Common.localStorage.save();
             if (this.menu) {
@@ -860,6 +1033,16 @@ define([
         
         updateFuncExample: function(text) {
             $('#fms-lbl-func-locale').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
+        },
+
+        onFontRenderSelected: function(combo, record) {
+            if (record.value == 'custom') {
+                var item = combo.store.findWhere({value: 'custom'});
+                item && item.set('checked', !record.checked);
+                combo.cmpEl.find('#' + record.id + ' a').toggleClass('checked', !record.checked);
+                combo.setValue(this._fontRender);
+            }
+            this._fontRender = combo.getValue();
         },
 
         strLiveComment: 'Turn on option',
@@ -907,8 +1090,161 @@ define([
         strForcesave: 'Always save to server (otherwise save to server on document close)',
         strResolvedComment: 'Turn on display of the resolved comments',
         textRefStyle: 'Reference Style',
-        strR1C1: 'Turn on R1C1 style'
+        strR1C1: 'Turn on R1C1 style',
+        strSeparator: 'Separator',
+        strUseSeparatorsBasedOnRegionalSettings: 'Use separators based on regional settings',
+        strDecimalSeparator: 'Decimal separator',
+        strThousandsSeparator: 'Thousands separator',
+        txtCacheMode: 'Default cache mode'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
+
+    SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-settings-spellcheck',
+        menu: undefined,
+
+        template: _.template([
+            '<table class="main"><tbody>',
+            '<tr>',
+                '<td class="left" style="padding-bottom: 8px;"><label><%= scope.strDictionaryLanguage %></label></td>',
+                '<td class="right" style="padding-bottom: 8px;"><span id="fms-cmb-dictionary-language" /></td>',
+            '</tr>',
+            '<tr>',
+                '<td class="left" style="padding-bottom: 8px;"></td>',
+                '<td class="right" style="padding-bottom: 8px;"><span id="fms-chb-ignore-uppercase-words" /></td>',
+            '</tr>',
+            '<tr>',
+                '<td class="left"></td>',
+                '<td class="right"><span id="fms-chb-ignore-numbers-words" /></td>',
+            '</tr>','<tr class="divider"></tr>',
+            '<tr>',
+                '<td class="left"></td>',
+                '<td class="right"><button id="fms-spellcheck-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+            '</tr>',
+            '</tbody></table>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+        },
+
+        render: function(node) {
+            var me = this;
+            var $markup = $(this.template({scope: this}));
+
+            this.chIgnoreUppercase = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-uppercase-words'),
+                labelText: this.strIgnoreWordsInUPPERCASE
+            });
+
+            this.chIgnoreNumbers = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-ignore-numbers-words'),
+                labelText: this.strIgnoreWordsWithNumbers
+            });
+
+            this.cmbDictionaryLanguage = new Common.UI.ComboBox({
+                el:  $markup.findById('#fms-cmb-dictionary-language'),
+                cls: 'input-group-nr',
+                style: 'width: 267px;',
+                editable: false,
+                menuStyle: 'min-width: 267px; max-height: 209px;'
+            });
+
+            this.btnApply = new Common.UI.Button({
+                el: $markup.findById('#fms-spellcheck-btn-apply')
+            });
+
+            this.btnApply.on('click', _.bind(this.applySettings, this));
+
+            this.$el = $(node).html($markup);
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.$el,
+                    suppressScrollX: true
+                });
+            }
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+
+            this.updateSettings();
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+        },
+
+        setApi: function(api) {
+            this.api = api;
+        },
+
+        updateSettings: function() {
+            var arrLang = SSE.getController('Spellcheck').loadLanguages(),
+                allLangs = arrLang[0],
+                langs = arrLang[1],
+                change = arrLang[2];
+            var sessionValue = Common.Utils.InternalSettings.get("sse-spellcheck-locale"),
+                value;
+            if (sessionValue)
+                value = parseInt(sessionValue);
+            else
+                value = this.mode.lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.mode.lang)) : 0x0409;
+            if (langs && langs.length > 0) {
+                if (this.cmbDictionaryLanguage.store.length === 0 || change) {
+                    this.cmbDictionaryLanguage.setData(langs);
+                }
+                var item = this.cmbDictionaryLanguage.store.findWhere({value: value});
+                if (!item && allLangs[value]) {
+                    value = allLangs[value][0].split(/[\-\_]/)[0];
+                    item = this.cmbDictionaryLanguage.store.find(function(model){
+                        return model.get('shortName').indexOf(value)==0;
+                    });
+                }
+                this.cmbDictionaryLanguage.setValue(item ? item.get('value') : langs[0].value);
+                value = this.cmbDictionaryLanguage.getValue();
+                if (value !== parseInt(sessionValue)) {
+                    Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+                }
+            } else {
+                this.cmbDictionaryLanguage.setValue(Common.util.LanguageInfo.getLocalLanguageName(value)[1]);
+                this.cmbDictionaryLanguage.setDisabled(true);
+            }
+
+            this.chIgnoreUppercase.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-uppercase-words"));
+            this.chIgnoreNumbers.setValue(Common.Utils.InternalSettings.get("sse-spellcheck-ignore-numbers-words"));
+        },
+
+        applySettings: function() {
+            var value = this.chIgnoreUppercase.isChecked();
+            Common.localStorage.setBool("sse-spellcheck-ignore-uppercase-words", value);
+            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-uppercase-words", value);
+            value = this.chIgnoreNumbers.isChecked();
+            Common.localStorage.setBool("sse-spellcheck-ignore-numbers-words", value);
+            Common.Utils.InternalSettings.set("sse-spellcheck-ignore-numbers-words", value);
+
+            if (!this.cmbDictionaryLanguage.isDisabled()) {
+                value = this.cmbDictionaryLanguage.getValue();
+                Common.localStorage.setItem("sse-spellcheck-locale", value);
+                Common.Utils.InternalSettings.set("sse-spellcheck-locale", value);
+            }
+
+            Common.localStorage.save();
+            if (this.menu) {
+                this.menu.fireEvent('spellcheck:apply', [this.menu]);
+            }
+        },
+
+        strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
+        strIgnoreWordsWithNumbers: 'Ignore words with numbers',
+        strDictionaryLanguage: 'Dictionary language',
+        okButtonText: 'Apply'
+
+    }, SSE.Views.FileMenuPanels.MainSpellCheckSettings || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         el: '#panel-recentfiles',
@@ -926,7 +1262,7 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template());
+            this.$el.html(this.template());
 
             this.viewRecentPicker = new Common.UI.DataView({
                 el: $('#id-recent-view'),
@@ -944,7 +1280,7 @@ define([
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -1006,14 +1342,14 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template({
+            this.$el.html(this.template({
                 scope: this,
                 docs: this.options[0].docs
             }));
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -1103,6 +1439,11 @@ define([
                             '</table>',
                         '</div></td>',
                     '</tr>',
+                    '<tr class="divider"></tr>',
+                    '<tr>',
+                        '<td class="left"></td>',
+                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                    '</tr>',
                 '</table>'
             ].join(''));
 
@@ -1112,15 +1453,14 @@ define([
             this._locked = false;
         },
 
-        render: function() {
-            $(this.el).html(this.template());
-
+        render: function(node) {
             var me = this;
+            var $markup = $(me.template({scope: me}));
 
             // server info
-            this.lblPlacement = $('#id-info-placement');
-            this.lblOwner = $('#id-info-owner');
-            this.lblUploaded = $('#id-info-uploaded');
+            this.lblPlacement = $markup.findById('#id-info-placement');
+            this.lblOwner = $markup.findById('#id-info-owner');
+            this.lblUploaded = $markup.findById('#id-info-uploaded');
 
             // edited info
             var keyDownBefore = function(input, e){
@@ -1135,97 +1475,83 @@ define([
             };
 
             this.inputTitle = new Common.UI.InputField({
-                el          : $('#id-info-title'),
+                el          : $markup.findById('#id-info-title'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue) {
-                if (newValue !== oldValue && me.coreProps && me.api) {
-                    me.coreProps.asc_putTitle(me.inputTitle.getValue());
-                    me.api.asc_setCoreProps(me.coreProps);
-                }
             }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
-                el          : $('#id-info-subject'),
+                el          : $markup.findById('#id-info-subject'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue) {
-                if (newValue !== oldValue && me.coreProps && me.api) {
-                    me.coreProps.asc_putSubject(me.inputSubject.getValue());
-                    me.api.asc_setCoreProps(me.coreProps);
-                }
             }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
-                el          : $('#id-info-comment'),
+                el          : $markup.findById('#id-info-comment'),
                 style       : 'width: 200px;',
                 placeHolder : this.txtAddText,
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue) {
-                if (newValue !== oldValue && me.coreProps && me.api) {
-                    me.coreProps.asc_putDescription(me.inputComment.getValue());
-                    me.api.asc_setCoreProps(me.coreProps);
-                }
             }).on('keydown:before', keyDownBefore);
 
             // modify info
-            this.lblModifyDate = $('#id-info-modify-date');
-            this.lblModifyBy = $('#id-info-modify-by');
+            this.lblModifyDate = $markup.findById('#id-info-modify-date');
+            this.lblModifyBy = $markup.findById('#id-info-modify-by');
 
             // creation info
-            this.lblDate = $('#id-info-date');
-            this.lblApplication = $('#id-info-appname');
-            this.tblAuthor = $('#id-info-author table');
-            this.trAuthor = $('#id-info-add-author').closest('tr');
+            this.lblDate = $markup.findById('#id-info-date');
+            this.lblApplication = $markup.findById('#id-info-appname');
+            this.tblAuthor = $markup.findById('#id-info-author table');
+            this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
             this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="close img-commonctrl"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
-                var btn = $(e.target);
+                var btn = $markup.find(e.target);
                 if (btn.hasClass('close') && !btn.hasClass('disabled')) {
                     var el = btn.closest('tr'),
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
                     me.authors.splice(idx, 1);
-                    if (me.coreProps && me.api) {
-                        me.coreProps.asc_putCreator(me.authors.join(';'));
-                        me.api.asc_setCoreProps(me.coreProps);
-                    }
                 }
             });
 
             this.inputAuthor = new Common.UI.InputField({
-                el          : $('#id-info-add-author'),
+                el          : $markup.findById('#id-info-add-author'),
                 style       : 'width: 200px;',
                 validateOnBlur: false,
                 placeHolder: this.txtAddAuthor
-            }).on('changed:after', function(input, newValue, oldValue) {
+            }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
 
                 var val = newValue.trim();
                 if (!!val && val !== oldValue.trim()) {
+                    var isFromApply = e && e.relatedTarget && (e.relatedTarget.id == 'fminfo-btn-apply');
                     val.split(/\s*[,;]\s*/).forEach(function(item){
                         var str = item.trim();
                         if (str) {
-                            var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
-                            me.trAuthor.before(div);
                             me.authors.push(item);
+                            if (!isFromApply) {
+                                var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
+                                me.trAuthor.before(div);
+                            }
                         }
                     });
-                    me.inputAuthor.setValue('');
-                    if (me.coreProps && me.api) {
-                        me.coreProps.asc_putCreator(me.authors.join(';'));
-                        me.api.asc_setCoreProps(me.coreProps);
-                    }
+                    !isFromApply && me.inputAuthor.setValue('');
                 }
             }).on('keydown:before', keyDownBefore);
+
+            this.btnApply = new Common.UI.Button({
+                el: $markup.findById('#fminfo-btn-apply')
+            });
+            this.btnApply.on('click', _.bind(this.applySettings, this));
 
             this.rendered = true;
 
             this.updateInfo(this.doc);
 
+            this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
@@ -1283,7 +1609,7 @@ define([
             if (this.coreProps) {
                 var value = this.coreProps.asc_getCreated();
                 if (value)
-                    this.lblDate.text(value.toLocaleString());
+                    this.lblDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
         },
@@ -1309,7 +1635,7 @@ define([
                 var visible = false;
                 value = props.asc_getModified();
                 if (value)
-                    this.lblModifyDate.text(value.toLocaleString());
+                    this.lblModifyDate.text(value.toLocaleString(this.mode.lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(this.mode.lang, {timeStyle: 'short'}));
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
@@ -1324,6 +1650,7 @@ define([
                 value = props.asc_getDescription();
                 this.inputComment.setValue(value || '');
 
+                this.inputAuthor.setValue('');
                 this.tblAuthor.find('tr:not(:last-of-type)').remove();
                 this.authors = [];
                 value = props.asc_getCreator();//"123\"\"\"\<\>,456";
@@ -1333,6 +1660,7 @@ define([
                     me.authors.push(item);
                 });
                 this.tblAuthor.find('.close').toggleClass('hidden', !this.mode.isEdit);
+                !this.mode.isEdit && this._ShowHideInfoItem(this.tblAuthor, !!this.authors.length);
             }
             this.SetDisabled();
         },
@@ -1351,7 +1679,14 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.inputAuthor.setVisible(mode.isEdit);
+            this.btnApply.setVisible(mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
+            if (!mode.isEdit) {
+                this.inputTitle._input.attr('placeholder', '');
+                this.inputSubject._input.attr('placeholder', '');
+                this.inputComment._input.attr('placeholder', '');
+                this.inputAuthor._input.attr('placeholder', '');
+            }
             this.SetDisabled();
             return this;
         },
@@ -1376,6 +1711,18 @@ define([
             this.inputAuthor.setDisabled(disable);
             this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
             this.tblAuthor.toggleClass('disabled', disable);
+            this.btnApply.setDisabled(this._locked);
+        },
+
+        applySettings: function() {
+            if (this.coreProps && this.api) {
+                this.coreProps.asc_putTitle(this.inputTitle.getValue());
+                this.coreProps.asc_putSubject(this.inputSubject.getValue());
+                this.coreProps.asc_putDescription(this.inputComment.getValue());
+                this.coreProps.asc_putCreator(this.authors.join(';'));
+                this.api.asc_setCoreProps(this.coreProps);
+            }
+            this.menu.hide();
         },
 
         txtPlacement: 'Location',
@@ -1391,7 +1738,8 @@ define([
         txtAuthor: 'Author',
         txtAddAuthor: 'Add Author',
         txtAddText: 'Add Text',
-        txtMinutes: 'min'
+        txtMinutes: 'min',
+        okButtonText: 'Apply'
     }, SSE.Views.FileMenuPanels.DocumentInfo || {}));
 
     SSE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
@@ -1428,12 +1776,12 @@ define([
             this.menu = options.menu;
         },
 
-        render: function() {
-            $(this.el).html(this.template());
+        render: function(node) {
+            var $markup = $(this.template());
 
-            this.cntRights = $('#id-info-rights');
+            this.cntRights = $markup.findById('#id-info-rights');
             this.btnEditRights = new Common.UI.Button({
-                el: '#id-info-btn-edit'
+                el: $markup.findById('#id-info-btn-edit')
             });
             this.btnEditRights.on('click', _.bind(this.changeAccessRights, this));
 
@@ -1441,15 +1789,16 @@ define([
 
             this.updateInfo(this.doc);
 
+            this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }
 
-            Common.NotificationCenter.on('collaboration:sharing', _.bind(this.changeAccessRights, this));
-            Common.NotificationCenter.on('collaboration:sharingdeny', _.bind(this.onLostEditRights, this));
+            Common.NotificationCenter.on('collaboration:sharingupdate', this.updateSharingSettings.bind(this));
+            Common.NotificationCenter.on('collaboration:sharingdeny', this.onLostEditRights.bind(this));
 
             return this;
         },
@@ -1472,7 +1821,7 @@ define([
                 if (doc.info.sharingSettings)
                     this.cntRights.html(this.templateRights({users: doc.info.sharingSettings}));
                 this._ShowHideInfoItem('rights', doc.info.sharingSettings!==undefined && doc.info.sharingSettings!==null && doc.info.sharingSettings.length>0);
-                this._ShowHideInfoItem('edit-rights', !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && this._readonlyRights!==true);
+                this._ShowHideInfoItem('edit-rights', (!!this.sharingSettingsUrl && this.sharingSettingsUrl.length || this.mode.canRequestSharingSettings) && this._readonlyRights!==true);
             } else
                 this._ShowHideDocInfo(false);
         },
@@ -1487,37 +1836,18 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             this.sharingSettingsUrl = mode.sharingSettingsUrl;
-            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('showsharingsettings', _.bind(this.changeAccessRights, this));
-            !!this.sharingSettingsUrl && this.sharingSettingsUrl.length && Common.Gateway.on('setsharingsettings', _.bind(this.setSharingSettings, this));
             return this;
         },
 
         changeAccessRights: function(btn,event,opts) {
-            if (this._docAccessDlg || this._readonlyRights) return;
-
-            var me = this;
-            me._docAccessDlg = new Common.Views.DocumentAccessDialog({
-                settingsurl: this.sharingSettingsUrl
-            });
-            me._docAccessDlg.on('accessrights', function(obj, rights){
-                me.updateSharingSettings(rights);
-            }).on('close', function(obj){
-                me._docAccessDlg = undefined;
-            });
-
-            me._docAccessDlg.show();
-        },
-
-        setSharingSettings: function(data) {
-            data && this.updateSharingSettings(data.sharingSettings);
+            Common.NotificationCenter.trigger('collaboration:sharing');
         },
 
         updateSharingSettings: function(rights) {
-            this.doc.info.sharingSettings = rights;
             this._ShowHideInfoItem('rights', this.doc.info.sharingSettings!==undefined && this.doc.info.sharingSettings!==null && this.doc.info.sharingSettings.length>0);
             this.cntRights.html(this.templateRights({users: this.doc.info.sharingSettings}));
-            Common.NotificationCenter.trigger('mentions:clearusers', this);
         },
 
         onLostEditRights: function() {
@@ -1594,7 +1924,7 @@ define([
 
         render: function() {
             var me = this;
-            $(this.el).html(this.template());
+            this.$el.html(this.template());
 
             this.viewHelpPicker = new Common.UI.DataView({
                 el: $('#id-help-contents'),
@@ -1725,7 +2055,7 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template({scope: this}));
+            this.$el.html(this.template({scope: this}));
 
             var protection = SSE.getController('Common.Controllers.Protection').getView();
 
@@ -1752,7 +2082,7 @@ define([
             this.cntSignatureView = $('#id-fms-signature-view');
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el),
+                    el: this.$el,
                     suppressScrollX: true
                 });
             }

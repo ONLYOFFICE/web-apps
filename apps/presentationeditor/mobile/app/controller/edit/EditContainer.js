@@ -365,7 +365,7 @@ define([
                         _settings.push('hyperlink');
                     }
                 });
-                if (!no_text)
+                if (!no_text && !_.contains(_settings, 'image'))
                     _settings.unshift('text');
 
                 // Exclude hyperlink if text is locked

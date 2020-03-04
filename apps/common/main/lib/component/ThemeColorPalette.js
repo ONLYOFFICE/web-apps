@@ -98,7 +98,7 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             var me = this,
-                el = $(this.el);
+                el = me.$el || $(this.el);
 
             this.colors = me.options.colors || this.generateColorData(me.options.themecolors, me.options.effects, me.options.standardcolors, me.options.transparent);
 
@@ -116,7 +116,7 @@ define([
         },
 
         render: function () {
-            $(this.el).html(this.template({colors: this.colors}));
+            this.$el.html(this.template({colors: this.colors}));
             return this;
         },
 
@@ -144,7 +144,7 @@ define([
         },
 
         updateCustomColors: function() {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             if (el) {
                 var selected = el.find('a.' + this.selectedCls),
                     color = (selected.length>0 && /color-dynamic/.test(selected[0].className)) ? selected.attr('color') : undefined;
@@ -221,7 +221,7 @@ define([
         },
 
         setCustomColor: function(color) {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             color = /#?([a-fA-F0-9]{6})/.exec(color);
             if (color) {
                 this.saveCustomColor(color[1]);
@@ -272,7 +272,7 @@ define([
         },
 
         select: function(color, suppressEvent) {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
 
             if (typeof(color) == 'object' ) {
@@ -321,7 +321,7 @@ define([
         },
 
         selectByRGB: function(rgb, suppressEvent) {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
 
             var color = (typeof(rgb) == 'object') ? rgb.color : rgb;
@@ -351,7 +351,7 @@ define([
             if (effectcolors===undefined || standartcolors===undefined) return;
 
             var me = this,
-                el = $(this.el);
+                el = me.$el || $(this.el);
 
             if (me.aColorElements === undefined) {
                 me.aColorElements = el.find('a.palette-color');
@@ -407,7 +407,7 @@ define([
             if (value)
                 this.select(value, true);
             else {
-                var selected = $(this.el).find('a.' + this.selectedCls);
+                var selected = el.find('a.' + this.selectedCls);
                 if (selected.length && selected.hasClass('palette-color-effect')) {
                     this.value = selected[0].className.match(this.colorRe)[1].toUpperCase();
                 }
@@ -416,7 +416,7 @@ define([
         },
 
         clearSelection: function(suppressEvent) {
-            $(this.el).find('a.' + this.selectedCls).removeClass(this.selectedCls);
+            this.$el.find('a.' + this.selectedCls).removeClass(this.selectedCls);
             this.value = undefined;
         },
 

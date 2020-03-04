@@ -422,6 +422,27 @@
         </table>
     </div>
 </div>
+<div id="id-chart-settings-dlg-snap" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1">
+            <tr>
+                <td class="padding-small">
+                    <div id="chart-dlg-radio-twocell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="chart-dlg-radio-onecell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="chart-dlg-radio-absolute"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 <div id="id-chart-settings-dlg-alttext" class="settings-panel">
     <div class="inner-content">
         <table cols="1" width="100%">

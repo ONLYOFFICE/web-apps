@@ -192,11 +192,11 @@ define([
                     url += '/';
                 }
                 if (Common.SharedSettings.get('sailfish')) {
-                    url+='mobile-applications/documents/sailfish/index.aspx';
+                    url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
                 } else if (Common.SharedSettings.get('android')) {
-                    url+='mobile-applications/documents/android/index.aspx';
+                    url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
                 } else {
-                    url+='mobile-applications/documents/index.aspx';
+                    url+='mobile-applications/documents/mobile-web-editors/ios/index.aspx';
                 }
                 window.open(url, "_blank");
                 PE.getController('Settings').hideModal();
@@ -223,6 +223,31 @@ define([
 
                     if (permissions.edit === false) {
                     }
+                }
+            },
+
+            renderSchemaSettings: function(currentSchema, arrSchemas) {
+                if (arrSchemas) {
+                    var templateInsert = "";
+                    _.each(arrSchemas, function (schema, index) {
+                        var colors = schema.get_colors(),//schema.colors;
+                            name = schema.get_name();
+                        templateInsert += '<li class="color-schemes-menu"><label class="label-radio item-content"><input type="radio" name="color-schema" value="' + index + '"';
+                        if (index === currentSchema) {
+                            templateInsert += ' checked="checked"'
+                        }
+                        templateInsert += '>';
+                        if (Framework7.prototype.device.android) {
+                            templateInsert += '<div class="item-media"><i class="icon icon-form-radio"></i></div>';
+                        }
+                        templateInsert += '<div class="item-inner"><span class="color-schema-block">';
+                        for (var j = 2; j < 7; j++) {
+                            var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
+                            templateInsert = templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
+                        }
+                        templateInsert += '</span><span class="text">' + name + '</span></div></label></li>';
+                    }, this);
+                    $('#color-schemes-content ul').html(templateInsert);
                 }
             },
 

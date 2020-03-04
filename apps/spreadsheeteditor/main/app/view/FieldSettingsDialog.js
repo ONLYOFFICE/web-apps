@@ -298,8 +298,6 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
         },
 
         textTitle: 'Field Settings',
-        textCancel: 'Cancel',
-        textOk: 'OK',
         strSubtotals: 'Subtotals',
         strLayout: 'Layout',
         txtSourceName: 'Source name: ',

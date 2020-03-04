@@ -77,6 +77,7 @@ define([
             this.imgprops = null;
             this._sendUndoPoint = true;
             this._sliderChanged = false;
+            this._texturearray = null;
 
             this.txtPt = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt);
 
@@ -96,7 +97,8 @@ define([
                 DisabledFillPanels: false,
                 DisabledControls: false,
                 HideShapeOnlySettings: false,
-                HideChangeTypeSettings: false
+                HideChangeTypeSettings: false,
+                isFromImage: false
             };
             this.lockedControls = [];
             this._locked = false;
@@ -358,7 +360,6 @@ define([
                 this.imgprops.asc_putShapeProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
             }
-            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onTransparencyChange: function(field, newValue, oldValue){
@@ -544,17 +545,16 @@ define([
                 });
                 fill.asc_getFill().asc_putPositions(arr);
 
-                if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_GRAD) {
-                    if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                        fill.asc_getFill().asc_putLinearAngle(this.GradLinearDirectionType * 60000);
-                        fill.asc_getFill().asc_putLinearScale(true);
-                    }
-                    arr = [];
-                    this.GradColor.colors.forEach(function(item){
-                        arr.push(Common.Utils.ThemeColor.getRgbColor(item));
-                    });
-                    fill.asc_getFill().asc_putColors(arr);
+                if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                    fill.asc_getFill().asc_putLinearAngle(this.GradLinearDirectionType * 60000);
+                    fill.asc_getFill().asc_putLinearScale(true);
                 }
+                arr = [];
+                this.GradColor.colors.forEach(function(item){
+                    arr.push(Common.Utils.ThemeColor.getRgbColor(item));
+                });
+                fill.asc_getFill().asc_putColors(arr);
+
                 props.asc_putFill(fill);
                 this.imgprops.asc_putShapeProperties(props);
                 this.api.asc_setGraphicObjectProps(this.imgprops);
@@ -697,8 +697,8 @@ define([
                     var elType, elValue;
                     for (var i = selectedElements.length - 1; i >= 0; i--) {
                         elType = selectedElements[i].asc_getObjectType();
-                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
-                            elValue = selectedElements[i].asc_getObjectValue();
+                        elValue = selectedElements[i].asc_getObjectValue();
+                        if (Asc.c_oAscTypeSelectElement.Image == elType && elValue.asc_getShapeProperties()) {
                             (new SSE.Views.ShapeSettingsAdvanced(
                                 {
                                     shapeProps: elValue,
@@ -741,7 +741,8 @@ define([
                     || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
                     || shapetype=='straightConnector1';
                 this.hideChangeTypeSettings(hidechangetype);
-                if (!hidechangetype) {
+                this._state.isFromImage = !!shapeprops.get_FromImage();
+                if (!hidechangetype && this.btnChangeShape.menu.items.length) {
                     this.btnChangeShape.menu.items[0].setVisible(shapeprops.get_FromImage());
                     this.btnChangeShape.menu.items[1].setVisible(!shapeprops.get_FromImage());
                 }
@@ -864,7 +865,7 @@ define([
                     var me = this;
                     var colors = fill.asc_getColors(),
                         positions = fill.asc_getPositions(),
-                        length = colors.length;
+                        length = colors ? colors.length : this.GradColor.colors.length;
                     this.sldrGradient.setThumbs(length);
                     if (this.GradColor.colors.length>length) {
                         this.GradColor.colors.splice(length, this.GradColor.colors.length - length);
@@ -892,6 +893,10 @@ define([
                         me.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(me.GradColor.colors[index]) == 'object') ? me.GradColor.colors[index].color : me.GradColor.colors[index]), index);
                         me.sldrGradient.setValue(index, me.GradColor.values[index]);
                     }
+                    if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= this.GradColor.colors.length) {
+                        me.GradColor.currentIdx = 0;
+                    }
+                    me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1189,6 +1194,7 @@ define([
                 minValue: 0
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.fillControls.push(this.numTransparency);
 
             this.sldrTransparency = new Common.UI.SingleSlider({
@@ -1290,6 +1296,16 @@ define([
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
             });
+            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
+                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+                me.GradColor.currentIdx = index;
+                me.sldrGradient.addNewThumb(index, color);
+            });
+            this.sldrGradient.on('removethumb', function(cmp, index){
+                me.sldrGradient.removeThumb(index);
+                me.GradColor.values.splice(index, 1);
+                me.sldrGradient.changeGradientStyle();
+            });
             this.fillControls.push(this.sldrGradient);
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
@@ -1329,7 +1345,7 @@ define([
 
             this.btnRotate270 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-270',
+                iconCls: 'toolbar__icon btn-rotate-270',
                 value: 0,
                 hint: this.textHint270
             });
@@ -1339,7 +1355,7 @@ define([
 
             this.btnRotate90 = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'rotate-90',
+                iconCls: 'toolbar__icon btn-rotate-90',
                 value: 1,
                 hint: this.textHint90
             });
@@ -1349,7 +1365,7 @@ define([
 
             this.btnFlipV = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-vert',
+                iconCls: 'toolbar__icon btn-flip-vert',
                 value: 0,
                 hint: this.textHintFlipV
             });
@@ -1359,7 +1375,7 @@ define([
 
             this.btnFlipH = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'flip-hor',
+                iconCls: 'toolbar__icon btn-flip-hor',
                 value: 1,
                 hint: this.textHintFlipH
             });
@@ -1379,6 +1395,7 @@ define([
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
             this.createDelayedControls();
             
             var global_hatch_menu_map = [
@@ -1412,36 +1429,17 @@ define([
                 this.PatternFillType = this.patternViewData[0].type;
             }
 
-            this.fillAutoShapes();
+            this.onInitStandartTextures();
+            this.onApiAutoShapes();
             this.UpdateThemeColors();
-            this._initSettings = false;
         },
 
         onInitStandartTextures: function(texture) {
             var me = this;
             if (texture && texture.length>0){
-                if (!this.btnTexture) {
-                    this.btnTexture = new Common.UI.ComboBox({
-                        el: $('#shape-combo-fill-texture'),
-                        template: _.template([
-                            '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
-                                '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
-                                '<div style="display: table-cell;"></div>',
-                                '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
-                            '</div>'
-                        ].join(''))
-                    });
-                    this.textureMenu = new Common.UI.Menu({
-                        items: [
-                            { template: _.template('<div id="id-shape-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
-                        ]
-                    });
-                    this.textureMenu.render($('#shape-combo-fill-texture'));
-                    this.fillControls.push(this.btnTexture);
-                }
-                var texturearray = [];
+                me._texturearray = [];
                 _.each(texture, function(item){
-                    texturearray.push({
+                    me._texturearray.push({
                         imageUrl: item.asc_getImage(),
                         name   : me.textureNames[item.asc_getId()],
                         type    : item.asc_getId(),
@@ -1449,15 +1447,41 @@ define([
                         selected: false
                     });
                 });
-                var mnuTexturePicker = new Common.UI.DataView({
-                    el: $('#id-shape-menu-texture'),
-                    restoreHeight: 174,
-                    parentMenu: me.textureMenu,
-                    showLast: false,
-                    store: new Common.UI.DataViewStore(texturearray),
-                    itemTemplate: _.template('<div class="item-texture"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+            }
+
+            if (!me._texturearray || me._texturearray.length<1) return;
+            if (!this._initSettings && !this.btnTexture) {
+                this.btnTexture = new Common.UI.ComboBox({
+                    el: $('#shape-combo-fill-texture'),
+                    template: _.template([
+                        '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
+                            '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
+                            '<div style="display: table-cell;"></div>',
+                            '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '</div>'
+                    ].join(''))
                 });
-                mnuTexturePicker.on('item:click', _.bind(this.onSelectTexture, this));
+                this.textureMenu = new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="id-shape-menu-texture" style="width: 233px; margin: 0 5px;"></div>') }
+                    ]
+                });
+                this.textureMenu.render($('#shape-combo-fill-texture'));
+                this.fillControls.push(this.btnTexture);
+
+                var onShowBefore = function(menu) {
+                    var mnuTexturePicker = new Common.UI.DataView({
+                        el: $('#id-shape-menu-texture'),
+                        restoreHeight: 174,
+                        parentMenu: menu,
+                        showLast: false,
+                        store: new Common.UI.DataViewStore(me._texturearray || []),
+                        itemTemplate: _.template('<div class="item-texture"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    });
+                    mnuTexturePicker.on('item:click', _.bind(me.onSelectTexture, me));
+                    menu.off('show:before', onShowBefore);
+                };
+                this.textureMenu.on('show:before', onShowBefore);
             }
         },
 
@@ -1481,11 +1505,46 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        onApiAutoShapes: function() {
+            var me = this;
+            var onShowBefore = function(menu) {
+                me.fillAutoShapes();
+                menu.off('show:before', onShowBefore);
+            };
+            me.btnChangeShape.menu.on('show:before', onShowBefore);
+        },
+
         fillAutoShapes: function() {
             var me = this,
-                shapesStore = this.application.getCollection('ShapeGroups');
+                shapesStore = this.application.getCollection('ShapeGroups'),
+                count = shapesStore.length;
 
-            var count = shapesStore.length;
+            var onShowAfter = function(menu) {
+                for (var i=-1; i<count-1 && count>0; i++) {
+                    var store = shapesStore.at(i > -1 ? i : 0).get('groupStore');
+                    if (i<0) {
+                        store = store.clone();
+                        store.shift();
+                    }
+                    var shapePicker = new Common.UI.DataViewSimple({
+                        el: $('#id-shape-menu-shapegroup' + (i+1), menu.items[i+1].$el),
+                        store: store,
+                        parentMenu: menu.items[i+1].menu,
+                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
+                    });
+                    shapePicker.on('item:click', function(picker, item, record, e) {
+                        if (me.api) {
+                            me.api.asc_changeShapeType(record.get('data').shapeType);
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                        if (e.type !== 'click')
+                            me.btnChangeShape.menu.hide();
+                    });
+                }
+                menu.off('show:after', onShowAfter);
+            };
+            me.btnChangeShape.menu.on('show:after', onShowAfter);
+
             for (var i=-1; i<count-1 && count>0; i++) {
                 var shapeGroup = shapesStore.at(i>-1 ? i : i+1);
                 var menuItem = new Common.UI.MenuItem({
@@ -1498,29 +1557,9 @@ define([
                     })
                 });
                 me.btnChangeShape.menu.addItem(menuItem);
-
-                var store = shapeGroup.get('groupStore');
-                if (i<0) {
-                    store = store.clone();
-                    store.shift();
-                }
-                var shapePicker = new Common.UI.DataView({
-                    el: $('#id-shape-menu-shapegroup' + (i+1)),
-                    store: store,
-                    parentMenu: menuItem.menu,
-                    showLast: false,
-                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
-                });
-
-                shapePicker.on('item:click', function(picker, item, record, e) {
-                    if (me.api) {
-                        me.api.asc_changeShapeType(record.get('data').shapeType);
-                        Common.NotificationCenter.trigger('edit:complete', me);
-                    }
-                    if (e.type !== 'click')
-                        me.btnChangeShape.menu.hide();
-                });
             }
+            me.btnChangeShape.menu.items[0].setVisible(me._state.isFromImage);
+            me.btnChangeShape.menu.items[1].setVisible(!me._state.isFromImage);
         },
 
         onBtnRotateClick: function(btn) {
@@ -1553,6 +1592,7 @@ define([
         },
 
         UpdateThemeColors: function() {
+            if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBackColor = new Common.UI.ColorButton({
                     style: "width:45px;",

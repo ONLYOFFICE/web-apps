@@ -124,9 +124,9 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             }
 
             this._arrTabAlign = [
-                { value: 1, displayValue: this.textTabLeft },
-                { value: 3, displayValue: this.textTabCenter },
-                { value: 2, displayValue: this.textTabRight }
+                { value: Asc.c_oAscTabType.Left, displayValue: this.textTabLeft },
+                { value: Asc.c_oAscTabType.Center, displayValue: this.textTabCenter },
+                { value: Asc.c_oAscTabType.Right, displayValue: this.textTabRight }
             ];
             this._arrKeyTabAlign = [];
             this._arrTabAlign.forEach(function(item) {
@@ -207,7 +207,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     this.Spacing = properties.get_Spacing();
                 }
-                this.Spacing.Before = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+                this.Spacing.put_Before(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             }, this));
             this.spinners.push(this.numSpacingBefore);
 
@@ -227,7 +227,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     this.Spacing = properties.get_Spacing();
                 }
-                this.Spacing.After = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+                this.Spacing.put_After(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
             }, this));
             this.spinners.push(this.numSpacingAfter);
 
@@ -577,7 +577,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 cls         : 'input-group-nr',
                 data        : this._arrTabAlign
             });
-            this.cmbAlign.setValue(1);
+            this.cmbAlign.setValue(Asc.c_oAscTabType.Left);
 
             this.cmbLeader = new Common.UI.ComboBox({
                 el          : $('#paraadv-cmb-leader'),
@@ -729,7 +729,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             if (this._changedProps.get_Ind()!==null && this._changedProps.get_Ind()!==undefined) {
                 var left = this._changedProps.get_Ind().get_Left(),
                     first = this._changedProps.get_Ind().get_FirstLine();
-                if (first<0 || this.FirstLine<0) {
+                if ((left!==undefined || first!==undefined) && (first<0 || this.FirstLine<0)) {
                     if (first<0 || first===undefined || first===null) {
                         if (first === undefined || first === null)
                             first = this.FirstLine;
@@ -1362,13 +1362,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 this.Spacing = properties.get_Spacing();
             }
-            this.Spacing.LineRule = record.value;
-            if ( this.CurLineRuleIdx !== this.Spacing.LineRule ) {
+            this.Spacing.put_LineRule(record.value);
+            if ( this.CurLineRuleIdx !== this.Spacing.get_LineRule() ) {
                 this.numLineHeight.setDefaultUnit(this._arrLineRule[record.value].defaultUnit);
                 this.numLineHeight.setMinValue(this._arrLineRule[record.value].minValue);
                 this.numLineHeight.setStep(this._arrLineRule[record.value].step);
                 var value = this.numLineHeight.getNumberValue();
-                if (this.Spacing.LineRule === c_paragraphLinerule.LINERULE_AUTO) {
+                if (this.Spacing.get_LineRule() === c_paragraphLinerule.LINERULE_AUTO) {
                     this.numLineHeight.setValue(this._arrLineRule[record.value].defaultValue);
                 } else if (this.CurLineRuleIdx === c_paragraphLinerule.LINERULE_AUTO) {
                     this.numLineHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(this._arrLineRule[record.value].defaultValue));
@@ -1386,7 +1386,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                 this.Spacing = properties.get_Spacing();
             }
-            this.Spacing.Line = (this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+            this.Spacing.put_Line((this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
         },
 
         onSpecialSelect: function(combo, record) {
@@ -1414,14 +1414,14 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
                     this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                 var value = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
-                if (this.CurSpecial === c_paragraphSpecial.HANGING) {
-                    value = -value;
-                } else if (this.CurSpecial === c_paragraphSpecial.NONE_SPECIAL && value > 0 )  {
+                if (this.CurSpecial === c_paragraphSpecial.NONE_SPECIAL && value > 0 )  {
                     this.CurSpecial = c_paragraphSpecial.FIRST_LINE;
                     this.cmbSpecial.setValue(c_paragraphSpecial.FIRST_LINE);
                 } else if (value === 0) {
                     this.CurSpecial = c_paragraphSpecial.NONE_SPECIAL;
                     this.cmbSpecial.setValue(c_paragraphSpecial.NONE_SPECIAL);
+                } else if (this.CurSpecial === c_paragraphSpecial.HANGING) {
+                    value = -value;
                 }
                 this._changedProps.get_Ind().put_FirstLine(value);
             }
@@ -1446,8 +1446,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textBorderColor:        'Border Color',
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
-        cancelButtonText:       'Cancel',
-        okButtonText:           'Ok',
         txtNoBorders:           'No borders',
         textNewColor:           'Add New Custom Color',
         textEffects: 'Effects',

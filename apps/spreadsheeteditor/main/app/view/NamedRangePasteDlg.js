@@ -74,11 +74,7 @@ define([
                             '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
-                    '</div>'
+                    '<div class="separator horizontal"></div>'
                 ].join('')
             }, options);
 
@@ -99,7 +95,7 @@ define([
                 itemTemplate: _.template([
                     '<div style="pointer-events:none;">',
                         '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:inline-block;">',
-                            '<div class="listitem-icon <% if (isTable) {%>listitem-table<%} %>"></div>',
+                            '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":"btn-named-range") %>"></div>',
                             '<div style="width:186px;padding-right: 5px;"><%= name %></div>',
                         '</div>',
                     '</div>'
@@ -171,8 +167,6 @@ define([
         },
 
         txtTitle: 'Paste Name',
-        cancelButtonText : 'Cancel',
-        okButtonText : 'Ok',
         textNames: 'Named Ranges'
     }, SSE.Views.NamedRangePasteDlg || {}));
 });

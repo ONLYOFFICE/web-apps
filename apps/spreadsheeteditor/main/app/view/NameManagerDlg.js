@@ -53,7 +53,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         options: {
             alias: 'NameManagerDlg',
             contentWidth: 510,
-            height: 353
+            height: 353,
+            buttons: null
         },
 
         initialize: function (options) {
@@ -120,7 +121,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
-                            '<div class="listitem-icon <% if (isTable) {%>listitem-table<%} %>"></div>',
+                            '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":"btn-named-range") %>"></div>',
                             '<div style="width:141px;padding-right: 5px;"><%= name %></div>',
                             '<div style="width:94px;padding-right: 5px;"><%= scopeName %></div>',
                             '<div style="width:212px;"><%= range %></div>',
@@ -408,7 +409,6 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         
         txtTitle: 'Name Manager',
         closeButtonText : 'Close',
-        okButtonText : 'Ok',
         textDataRange: 'Data Range',
         textNew: 'New',
         textEdit: 'Edit',

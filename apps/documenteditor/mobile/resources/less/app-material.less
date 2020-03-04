@@ -81,6 +81,14 @@ input, textarea {
   padding: 0 13px;
 }
 
+.logo-navbar {
+  height: 80px;
+  .navbar-inner {
+    top: 24px;
+    height: 56px;
+  }
+}
+
 // Top offset
 
 #editor_sdk {
@@ -92,6 +100,9 @@ input, textarea {
   height: auto;
   overflow: hidden;
   .transition(300ms);
+}
+#editor_sdk.with-logo {
+  top: 80px;
 }
 
 // Add Container
@@ -226,4 +237,29 @@ input, textarea {
 .modal.modal-in {
   max-height: 100%;
   overflow: auto;
+}
+
+// Skeleton of document
+
+.doc-placeholder {
+  background: #fbfbfb;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+
+  > .line {
+    height: 15px;
+    margin: 30px;
+    background: #e2e2e2;
+    overflow: hidden;
+    position: relative;
+
+    -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+    -moz-animation: flickerAnimation 2s infinite ease-in-out;
+    -o-animation: flickerAnimation 2s infinite ease-in-out;
+    animation: flickerAnimation 2s infinite ease-in-out;
+  }
 }

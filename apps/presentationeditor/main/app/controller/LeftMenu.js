@@ -62,8 +62,7 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Header': {
-                    'file:settings': _.bind(this.clickToolbarSettings,this),
-                    'click:users': _.bind(this.clickStatusbarUsers, this)
+                    'file:settings': _.bind(this.clickToolbarSettings,this)
                 },
                 'Common.Views.Plugins': {
                     'plugin:open': _.bind(this.onPluginOpen, this),
@@ -311,6 +310,10 @@ define([
             }
             /** coauthoring end **/
 
+            value = Common.localStorage.getBool("pe-settings-cachemode", true);
+            Common.Utils.InternalSettings.set("pe-settings-cachemode", value);
+            this.api.asc_setDefaultBlitMode(value);
+
             value = Common.localStorage.getItem("pe-settings-fontrender");
             Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
             this.api.SetFontRenderingMode(parseInt(value));
@@ -368,10 +371,6 @@ define([
         },
 
         /** coauthoring begin **/
-        clickStatusbarUsers: function() {
-            this.leftMenu.menuFile.panels['rights'].changeAccessRights();
-        },
-
         onHideChat: function() {
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -421,6 +420,10 @@ define([
                 this.dlgSearch = (new Common.UI.SearchDialog({
                     matchcase: true
                 }));
+                var me = this;
+                Common.NotificationCenter.on('preview:start', function() {
+                    me.dlgSearch.hide();
+                });
             }
 
             if (show) {

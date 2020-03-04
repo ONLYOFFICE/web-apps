@@ -9,6 +9,14 @@
         padding:  @padding-base-vertical @padding-base-horizontal;
         font-size:  @font-size-base;
         line-height: @line-height-base;
+
+        -o-transition: border-color ease-in-out .15s;
+        -webkit-transition: border-color ease-in-out .15s;
+        -moz-transition: border-color ease-in-out .15s;
+        transition: border-color ease-in-out .15s;
+
+        border-top-right-radius: 2px !important;
+        border-bottom-right-radius: 2px !important;
     }
 
     &.input-group-nr > .form-control {
@@ -34,7 +42,6 @@
     }
 
     .form-control {
-        .border-right-radius(0);
         border-right: 0;
         position: static;
         z-index: auto;
@@ -44,7 +51,6 @@
     .btn,
     .btn:hover,
     .btn:focus {
-        .border-left-radius(0);
         border-left: 0;
         border-color: @input-border;
         background-color: transparent;
@@ -58,6 +64,20 @@
     &.open .dropdown-toggle.btn-default {
         background-color: @input-bg;
         border-color: @input-border;
+    }
+
+    &.input-group-nr.open:not(.no-highlighted) {
+        & > .form-control,
+        & > .btn {
+            border-color: @gray-darker;
+        }
+    }
+
+    &.input-group-nr:not(.no-highlighted) > .form-control {
+        &:focus,
+        &:focus ~ button.dropdown-toggle {
+            border-color: @gray-darker;
+        }
     }
 
     li {
@@ -105,5 +125,18 @@
         margin: 0 0 0 -10px;
         padding-top: 0;
         padding-bottom: 0;
+    }
+
+    .dropdown-menu.menu-absolute {
+        position: fixed;
+    }
+}
+
+.open > .combobox.combo-dataview-menu {
+    &.input-group-nr:not(.no-highlighted) {
+        & > .form-control,
+        & > .btn {
+            border-color: @gray-darker;
+        }
     }
 }

@@ -51,25 +51,21 @@ define([
     options: {
         header: false,
         width: 350,
-        cls: 'modal-dlg'
+        cls: 'modal-dlg',
+        buttons: ['ok', 'cancel']
     },
 
     template:   '<div class="box">' +
-    '<div class="input-row">' +
-    '<label><%= label %></label>' +
-    '</div>' +
-    '<div class="input-row" id="id-document-language">' +
-    '</div>' +
-    '</div>' +
-    '<div class="footer right">' +
-    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;"><%= btns.ok %></button>'+
-    '<button class="btn normal dlg-btn" result="cancel"><%= btns.cancel %></button>'+
-    '</div>',
+        '<div class="input-row">' +
+        '<label><%= label %></label>' +
+        '</div>' +
+        '<div class="input-row" id="id-document-language">' +
+        '</div>' +
+        '</div>',
 
     initialize : function(options) {
         _.extend(this.options, options || {}, {
-            label: this.labelSelect,
-            btns: {ok: this.btnOk, cancel: this.btnCancel}
+            label: this.labelSelect
         });
         this.options.tpl = _.template(this.template)(this.options);
 
@@ -90,13 +86,13 @@ define([
             template: _.template([
                 '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control">',
-                    '<span class="icon input-icon spellcheck-lang img-toolbarmenu"></span>',
+                    '<span class="icon input-icon spellcheck-lang toolbar__icon btn-ic-docspell"></span>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>">',
                             '<a tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= item.value %>">',
-                                '<i class="icon <% if (item.spellcheck) { %> img-toolbarmenu spellcheck-lang <% } %>"></i>',
+                                '<i class="icon <% if (item.spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                                 '<%= scope.getDisplayValue(item) %>',
                             '</a>',
                         '</li>',
@@ -144,8 +140,6 @@ define([
         return false;
     },
 
-    labelSelect     : 'Select document language',
-    btnCancel       : 'Cancel',
-    btnOk           : 'Ok'
+    labelSelect     : 'Select document language'
     }, Common.Views.LanguageDialog || {}))
 });

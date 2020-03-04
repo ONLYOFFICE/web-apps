@@ -1,5 +1,5 @@
 .btn-borders-large {
-    .background-ximage('@{app-image-path}/right-panels/LargeBorders.png', '@{app-image-path}/right-panels/LargeBorders@2x.png', 124px);
+    .background-ximage-v2('right-panels/LargeBorders.png', 62px, @commonimage: false);
 }
 
 .button-normal-icon(btn-adv-paragraph-all,       0, 31px);
@@ -25,10 +25,8 @@
 .button-normal-icon(btn-adv-position-outer,       19, 31px);
 .button-otherstates-icon(btn-borders-large, 31px);
 
-.toolbar-btn-icon(advanced-btn-ratio, 52, 20px);
-
 .icon-advanced-wrap {
-    .background-ximage('@{app-image-path}/right-panels/right_panel_wrap_btns.png', '@{app-image-path}/right-panels/right_panel_wrap_btns@2x.png', 180px);
+    .background-ximage-v2('right-panels/right_panel_wrap_btns.png', 90px, @commonimage: false);
 }
 
 .button-normal-icon(btn-wrap-inline,      0, @x-huge-icon-size);
@@ -67,7 +65,7 @@
 }
 
 .img-arrows {
-    .background-ximage('@{common-image-path}/right-panels/Begin-EndStyle.png', '@{common-image-path}/right-panels/Begin-EndStyle@2x.png', 480px);
+    .background-ximage-v2('right-panels/Begin-EndStyle.png', 480px, @commonimage: true);
 }
 
 .item-arrow {

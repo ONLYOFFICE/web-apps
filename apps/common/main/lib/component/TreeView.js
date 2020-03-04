@@ -193,7 +193,7 @@ define([
                 });
 
                 if (view) {
-                    var innerEl = $(this.el).find('.inner').addBack().filter('.inner');
+                    var innerEl = (this.$el || $(this.el)).find('.inner').addBack().filter('.inner');
                     if (innerEl) {
                         (this.dataViewItems.length<1) && innerEl.find('.empty-text').remove();
 

@@ -60,6 +60,14 @@ module.exports = function(grunt) {
                     to: process.env['PLUGIN_LINK_MACROS'] || 'https://api.onlyoffice.com/plugin/macros'
                 }];
 
+    let path = require('path');
+    let addons = grunt.option('addon') || [];
+    if (!Array.isArray(addons))
+        addons = [addons];
+
+    addons.forEach((element,index,self) => self[index] = path.join('../..', element, '/build'));
+    addons = addons.filter(element => grunt.file.isDir(element));
+
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -102,14 +110,50 @@ module.exports = function(grunt) {
     }
 
     function doRegisterInitializeAppTask(name, appName, configFile) {
+        if (!!process.env['OO_BRANDING'] &&
+                grunt.file.exists('../../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile))
+        {
+            var _extConfig = require('../../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile);
+        }
+
+        function _merge(target, ...sources) {
+            if (!sources.length) return target;
+            const source = sources.shift();
+
+            if (_.isObject(target) && _.isObject(source)) {
+                for (const key in source) {
+                    if (_.isObject(source[key])) {
+                        if (!target[key]) Object.assign(target, { [key]: {} });
+                        else if (_.isArray(source[key])) target[key].push(...source[key]);
+                        else _merge(target[key], source[key]);
+                    } else {
+                        Object.assign(target, { [key]: source[key] });
+                    }
+                }
+            }
+
+            return _merge(target, ...sources);
+        }
+
         return grunt.registerTask('init-build-' + name, 'Initialize build ' + appName, function(){
             defaultConfig = configFile;
             packageFile = require('./' + defaultConfig);
 
-            if (packageFile)
+            if (packageFile) {
                 grunt.log.ok(appName + ' config loaded successfully'.green);
-            else
-                grunt.log.error().writeln('Could not load config file'.red);
+
+                addons.forEach(element => {
+                    let _path = path.join(element,configFile);
+                    if (grunt.file.exists(_path)) {
+                        _merge(packageFile, require(_path));
+                        grunt.log.ok('addon '.green + element + ' is merged successfully'.green);
+                    }
+                });
+
+                if ( !!_extConfig && _extConfig.name == packageFile.name ) {
+                    _merge(packageFile, _extConfig);
+                }
+            } else grunt.log.error().writeln('Could not load config file'.red);
         });
     }
 
@@ -151,6 +195,12 @@ module.exports = function(grunt) {
                       replacements: [{
                           from: /\{\{PRODUCT_VERSION\}\}/,
                           to: packageFile.version
+                      },{
+                          from: /\{\{APP_CUSTOMER_NAME\}\}/g,
+                          to: process.env['APP_CUSTOMER_NAME'] || 'ONLYOFFICE'
+                      },{
+                          from: /\/\*\*[\s\S]+\.com\s+\*\//,
+                          to: copyright
                       }]
                   }
             }
@@ -186,6 +236,11 @@ module.exports = function(grunt) {
                 }
             }
         }
+    });
+
+    grunt.registerTask('prebuild-icons-sprite', function() {
+        require('./sprites/Gruntfile.js')(grunt, '../');
+        grunt.task.run('all-icons-sprite');
     });
 
     grunt.registerTask('main-app-init', function() {
@@ -231,7 +286,7 @@ module.exports = function(grunt) {
                     src: ['<%= pkg.main.js.requirejs.options.out %>'],
                     overwrite: true,
                     replacements: [{
-                        from: /\{\{PRODUCT_VERSION\}\}/,
+                        from: /\{\{PRODUCT_VERSION\}\}/g,
                         to: packageFile.version
                     }]
                 },
@@ -283,9 +338,13 @@ module.exports = function(grunt) {
             },
 
             inline: {
-                dist: {
+                'index-page': {
                     src: packageFile.main.copy['index-page'][0].dest,
                     dest: packageFile.main.copy['index-page'][0].dest
+                },
+                'old-loader-page': {
+                    src: packageFile.main.copy['index-page'][1].dest,
+                    dest: packageFile.main.copy['index-page'][1].dest
                 }
             },
 
@@ -514,8 +573,8 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
 
-    grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean:prebuild', 'imagemin', 'less', 'requirejs', 'concat',
-                                                            'copy', 'svgmin', 'inline', 'json-minify',
+    grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
+                                                            'requirejs', 'concat', 'copy', 'svgmin', 'inline:index-page', 'inline:old-loader-page', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',

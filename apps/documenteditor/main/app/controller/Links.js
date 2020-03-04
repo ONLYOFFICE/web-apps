@@ -45,7 +45,8 @@ define([
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/TableOfContentsSettings',
-    'documenteditor/main/app/view/BookmarksDialog'
+    'documenteditor/main/app/view/BookmarksDialog',
+    'documenteditor/main/app/view/CaptionDialog'
 ], function () {
     'use strict';
 
@@ -66,7 +67,8 @@ define([
                     'links:update': this.onTableContentsUpdate,
                     'links:notes': this.onNotesClick,
                     'links:hyperlink': this.onHyperlinkClick,
-                    'links:bookmarks': this.onBookmarksClick
+                    'links:bookmarks': this.onBookmarksClick,
+                    'links:caption': this.onCaptionClick
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -76,7 +78,8 @@ define([
         },
         onLaunch: function () {
             this._state = {
-                prcontrolsdisable:undefined
+                prcontrolsdisable:undefined,
+                in_object: false
             };
             Common.Gateway.on('setactionlink', function (url) {
                 console.log('url with actions: ' + url);
@@ -92,7 +95,6 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
-
             }
             return this;
         },
@@ -125,7 +127,9 @@ define([
                 header_locked = false,
                 in_header = false,
                 in_equation = false,
-                in_image = false;
+                in_image = false,
+                in_table = false,
+                frame_pr = null;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -133,6 +137,7 @@ define([
 
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
+                    frame_pr = pr;
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
                     in_header = true;
@@ -140,19 +145,28 @@ define([
                     in_image = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Table) {
+                    in_table = true;
                 }
             }
-
             this._state.prcontrolsdisable = paragraph_locked || header_locked;
+            this._state.in_object = in_image || in_table || in_equation;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
+                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
+                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
 
-            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain;
+            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain || rich_edit_lock || plain_edit_lock;
             this.view.btnsNotes.setDisabled(need_disable);
 
             need_disable = paragraph_locked || header_locked || in_header || control_plain;
             this.view.btnBookmarks.setDisabled(need_disable);
+
+            need_disable = in_header || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
+            this.view.btnsContents.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -234,6 +248,7 @@ define([
                     props.put_Hyperlink(true);
                     props.put_ShowPageNumbers(false);
                     props.put_TabLeader( Asc.c_oAscTabLeader.None);
+                    props.put_StylesType(Asc.c_oAscTOCStylesType.Web);
                     (currentTOC) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 'settings':
@@ -332,8 +347,22 @@ define([
             })).show();
         },
 
-        onShowContentControlsActions: function(action, x, y) {
-            var menu = (action==1) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
+        onCaptionClick: function(btn) {
+            var me = this;
+            (new DE.Views.CaptionDialog({
+                isObject: this._state.in_object,
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                        me.api.asc_AddObjectCaption(settings);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
+        },
+
+        onShowTOCActions: function(obj, x, y) {
+            var action = obj.button,
+                menu = (action==AscCommon.CCButtonType.Toc) ? this.view.contentsUpdateMenu : this.view.contentsMenu,
                 documentHolderView  = this.getApplication().getController('DocumentHolder').documentHolder,
                 menuContainer = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)),
                 me = this;
@@ -372,6 +401,10 @@ define([
         onHideContentControlsActions: function() {
             this.view.contentsMenu && this.view.contentsMenu.hide();
             this.view.contentsUpdateMenu && this.view.contentsUpdateMenu.hide();
+        },
+
+        onShowContentControlsActions: function(obj, x, y) {
+            (obj.type == Asc.c_oAscContentControlSpecificType.TOC) && this.onShowTOCActions(obj, x, y);
         }
 
     }, DE.Controllers.Links || {}));

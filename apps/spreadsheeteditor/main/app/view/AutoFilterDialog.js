@@ -84,7 +84,7 @@ define([
                 '</div>',
                 '<div class="separator horizontal" style="width:100%"></div>',
                 '<div class="footer right" style="margin-left:-15px;">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
+                    '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
                     '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                 '</div>'
             ].join('');
@@ -276,7 +276,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
         capAnd              : "And",
         capCondition1       : "equals",
         capCondition10      : "does not end with",
@@ -312,7 +311,8 @@ define([
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
-                items           : []
+                items           : [],
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.template   =   options.template || [
@@ -332,11 +332,7 @@ define([
                         '</div>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal" style="width:100%"></div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right:10px;">', t.okButtonText, '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
-                '</div>'
+                '<div class="separator horizontal" style="width:100%"></div>'
             ].join('');
 
             this.api        =   options.api;
@@ -461,8 +457,6 @@ define([
             return false;
         },
 
-        cancelButtonText    : "Cancel",
-        okButtonText        : 'OK',
         txtTitle            : "Top 10 AutoFilter",
         textType            : 'Show',
         txtTop              : 'Top',
@@ -548,7 +542,6 @@ define([
             this.btnOk = new Common.UI.Button({
                 cls: 'btn normal dlg-btn primary',
                 caption : this.okButtonText,
-                style: 'margin-right:10px;',
                 enableToggle: false,
                 allowDepress: false
             });
@@ -765,13 +758,8 @@ define([
                     itemTemplate: _.template([
                         '<div>',
                             '<label class="checkbox-indeterminate" style="position:absolute;">',
-                                '<% if (check=="indeterminate") { %>',
-                                    '<input type="button" class="indeterminate img-commonctrl"/>',
-                                '<% } else if (check) { %>',
-                                    '<input type="button" class="checked img-commonctrl"/>',
-                                '<% } else { %>',
-                                    '<input type="button" class="img-commonctrl"/>',
-                                '<% } %>',
+                                '<input id="afcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
+                                '<label for="afcheckbox-<%= id %>" class="checkbox__shape" />',
                             '</label>',
                             '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
                                 '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
@@ -797,7 +785,11 @@ define([
                     if (n1==n2) return 0;
                     return (n2=='' || n1!=='' && n1<n2) ? -1 : 1;
                 };
-                this.cellsList.on('item:select', _.bind(this.onCellCheck, this));
+                this.cellsList.on({
+                    'item:change': this.onItemChanged.bind(this),
+                    'item:add': this.onItemChanged.bind(this),
+                    'item:select': this.onCellCheck.bind(this)
+                });
                 this.cellsList.onKeyDown = _.bind(this.onListKeyDown, this);
             }
 
@@ -1005,11 +997,10 @@ define([
             if (this.checkCellTrigerBlock)
                 return;
 
-            var target = '', type = '', isLabel = false, bound = null;
+            var target = '', isLabel = false, bound = null;
 
             var event = window.event ? window.event : window._event;
             if (event) {
-                type = event.target.type;
                 target = $(event.currentTarget).find('.list-item');
 
                 if (target.length) {
@@ -1022,7 +1013,7 @@ define([
                     }
                 }
 
-                if (type === 'button' || isLabel) {
+                if (isLabel || event.target.className.match('checkbox')) {
                     this.updateCellCheck(listView, record);
 
                     _.delay(function () {
@@ -1050,7 +1041,7 @@ define([
 
         updateCellCheck: function (listView, record) {
             if (record && listView) {
-                listView.isSuspendEvents = true;
+                // listView.isSuspendEvents = true;
 
                 var check = !record.get('check'),
                     me = this,
@@ -1083,7 +1074,7 @@ define([
                 this.btnOk.setDisabled(false);
                 this.configTo.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
 
-                listView.isSuspendEvents = false;
+                // listView.isSuspendEvents = false;
                 listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
@@ -1406,13 +1397,18 @@ define([
             Common.Utils.InternalSettings.set('sse-settings-size-filter-window', size);
         },
 
-        okButtonText        : 'Ok',
+        onItemChanged: function (view, record) {
+            var state = record.model.get('check');
+            if ( state == 'indeterminate' )
+                $('input[type=checkbox]', record.$el).prop('indeterminate', true);
+            else $('input[type=checkbox]', record.$el).prop({checked: state, indeterminate: false});
+        },
+
         btnCustomFilter     : 'Custom Filter',
         textSelectAll       : 'Select All',
         txtTitle            : 'Filter',
         warnNoSelected      : 'You must choose at least one value',
         textWarning         : 'Warning',
-        cancelButtonText    : 'Cancel',
         textEmptyItem       : '{Blanks}',
         txtEmpty            : 'Enter cell\'s filter',
         txtSortLow2High     : 'Sort Lowest to Highest',

@@ -45,11 +45,12 @@ define([
 
     DE.Views.PageMarginsDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 215,
+            width: 404,
             header: true,
-            style: 'min-width: 216px;',
+            style: 'min-width: 404px;',
             cls: 'modal-dlg',
-            id: 'window-page-margins'
+            id: 'window-page-margins',
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -58,34 +59,49 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 85px;">',
-                    '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
-                        '<tr>',
-                            '<td style="padding-right: 10px;padding-bottom: 8px;">',
+                '<div class="box" style="height: 245px;">',
+                    '<div style="float: left;">',
+                        '<label style="font-weight: bold;">' + this.textTitle + '</label>',
+                        '<div style="margin-top: 2px;">',
+                            '<div style="display: inline-block;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
                                 '<div id="page-margins-spin-top"></div>',
-                            '</td>',
-                            '<td style="padding-bottom: 8px;">',
+                            '</div>',
+                            '<div style="display: inline-block; margin-left: 8px;">',
                                 '<label class="input-label">' + this.textBottom + '</label>',
                                 '<div id="page-margins-spin-bottom"></div>',
-                            '</td>',
-                        '</tr>',
-                        '<tr>',
-                            '<td class="padding-small" style="padding-right: 10px;">',
-                                '<label class="input-label">' + this.textLeft + '</label>',
+                            '</div>',
+                        '</div>',
+                        '<div style="margin-top: 4px;">',
+                            '<div style="display: inline-block;">',
+                                '<label class="input-label" id="margin-left-label">' + this.textLeft + '</label>',
                                 '<div id="page-margins-spin-left"></div>',
-                            '</td>',
-                            '<td class="padding-small">',
-                                '<label class="input-label">' + this.textRight + '</label>',
+                            '</div>',
+                            '<div style="display: inline-block; margin-left: 8px;">',
+                                '<label class="input-label" id="margin-right-label">' + this.textRight + '</label>',
                                 '<div id="page-margins-spin-right"></div>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
-                '</div>',
-                '<div class="separator horizontal"/>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
+                            '</div>',
+                        '</div>',
+                        '<div style="margin-top: 10px;">',
+                            '<label style="font-weight: bold;">' + this.textGutterPosition + '</label>',
+                            '<div>',
+                                '<div style="display: inline-block;" id="page-margins-spin-gutter"></div>',
+                                '<div style="display: inline-block; margin-left: 8px;" id="page-margins-spin-gutter-position"></div>',
+                            '</div>',
+                        '</div>',
+                        '<div style="margin-top: 10px;">',
+                            '<label style="font-weight: bold;">' + this.textOrientation + '</label>',
+                            '<div id="page-margins-cmb-orientation"></div>',
+                        '</div>',
+                        '<div style="margin-top: 10px;">',
+                            '<label style="font-weight: bold;">' + this.textMultiplePages + '</label>',
+                            '<div id="page-margins-cmb-multiple-pages"></div>',
+                        '</div>',
+                    '</div>',
+                    '<div style="float: right;">',
+                        '<label style="font-weight: bold;">' + this.textPreview + '</label>',
+                        '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px; border: 1px solid #cfcfcf;"></div>',
+                    '</div>',
                 '</div>'
             ].join('');
 
@@ -94,6 +110,7 @@ define([
             this.spinners = [];
             this._noApply = false;
             this.maxMarginsW = this.maxMarginsH = 0;
+            this.api = this.options.api;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -110,6 +127,13 @@ define([
                 maxValue: 55.88,
                 minValue: -55.87
             });
+            this.spnTop.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_TopMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
             this.spinners.push(this.spnTop);
 
             this.spnBottom = new Common.UI.MetricSpinner({
@@ -121,6 +145,13 @@ define([
                 maxValue: 55.88,
                 minValue: -55.87
             });
+            this.spnBottom.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_BottomMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
             this.spinners.push(this.spnBottom);
 
             this.spnLeft = new Common.UI.MetricSpinner({
@@ -132,6 +163,13 @@ define([
                 maxValue: 55.88,
                 minValue: 0
             });
+            this.spnLeft.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_LeftMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
             this.spinners.push(this.spnLeft);
 
             this.spnRight = new Common.UI.MetricSpinner({
@@ -143,10 +181,126 @@ define([
                 maxValue: 55.88,
                 minValue: 0
             });
+            this.spnRight.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_RightMargin(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
             this.spinners.push(this.spnRight);
 
-            var $window = this.getChild();
-            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+            this.spnGutter = new Common.UI.MetricSpinner({
+                el: $('#page-margins-spin-gutter'),
+                step: .1,
+                width: 86,
+                defaultUnit : "cm",
+                value: '1 cm',
+                maxValue: 55.88,
+                minValue: 0
+            });
+            this.spnGutter.on('change', _.bind(function (field, newValue, oldValue) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_Gutter(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
+            this.spinners.push(this.spnGutter);
+
+            this.cmbGutterPosition = new Common.UI.ComboBox({
+                el          : $('#page-margins-spin-gutter-position'),
+                menuStyle   : 'min-width: 86px;',
+                style       : 'width: 86px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textLeft },
+                    { value: 1, displayValue: this.textTop }
+                ]
+            });
+            this.cmbGutterPosition.on('selected', _.bind(function (combo, record) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_GutterAtTop(record.value);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
+
+            this.cmbOrientation = new Common.UI.ComboBox({
+                el          : $('#page-margins-cmb-orientation'),
+                menuStyle   : 'min-width: 180px;',
+                style       : 'width: 180px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textPortrait },
+                    { value: 1, displayValue: this.textLandscape }
+                ]
+            });
+            this.cmbOrientation.on('selected', _.bind(function (combo, record) {
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+
+                    if (this.properties.get_Orientation() !== record.value) {
+                        this.properties.put_TopMargin(Common.Utils.Metric.fnRecalcToMM(record.value ? this.spnLeft.getNumberValue() : this.spnRight.getNumberValue()));
+                        this.properties.put_BottomMargin(Common.Utils.Metric.fnRecalcToMM(record.value ? this.spnRight.getNumberValue() : this.spnLeft.getNumberValue()));
+                        this.properties.put_LeftMargin(Common.Utils.Metric.fnRecalcToMM(record.value ? this.spnBottom.getNumberValue() : this.spnTop.getNumberValue()));
+                        this.properties.put_RightMargin(Common.Utils.Metric.fnRecalcToMM(record.value ? this.spnTop.getNumberValue() : this.spnBottom.getNumberValue()));
+
+                        var h = this.properties.get_H();
+                        this.properties.put_H(this.properties.get_W());
+                        this.properties.put_W(h);
+                        this.properties.put_Orientation(record.value);
+
+                        this.maxMarginsH = Common.Utils.Metric.fnRecalcFromMM(this.properties.get_H() - 2.6);
+                        this.maxMarginsW = Common.Utils.Metric.fnRecalcFromMM(this.properties.get_W() - 12.7);
+                        this.spnTop.setMaxValue(this.maxMarginsH);
+                        this.spnBottom.setMaxValue(this.maxMarginsH);
+                        this.spnLeft.setMaxValue(this.maxMarginsW);
+                        this.spnRight.setMaxValue(this.maxMarginsW);
+
+                        this.spnTop.setValue(Common.Utils.Metric.fnRecalcFromMM(this.properties.get_TopMargin()), true);
+                        this.spnBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(this.properties.get_BottomMargin()), true);
+                        this.spnLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(this.properties.get_LeftMargin()), true);
+                        this.spnRight.setValue(Common.Utils.Metric.fnRecalcFromMM(this.properties.get_RightMargin()), true);
+
+                        this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    }
+                }
+            }, this));
+
+            this.cmbMultiplePages = new Common.UI.ComboBox({
+                el          : $('#page-margins-cmb-multiple-pages'),
+                menuStyle   : 'min-width: 180px;',
+                style       : 'width: 180px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textNormal },
+                    { value: 1, displayValue: this.textMirrorMargins }
+                ]
+            });
+            this.cmbMultiplePages.on('selected', _.bind(function(combo, record) {
+                if (record.value === 0) {
+                    this.window.find('#margin-left-label').html(this.textLeft);
+                    this.window.find('#margin-right-label').html(this.textRight);
+                    this.cmbGutterPosition.setDisabled(false);
+                } else {
+                    this.window.find('#margin-left-label').html(this.textInside);
+                    this.window.find('#margin-right-label').html(this.textOutside);
+                    this.cmbGutterPosition.setValue(0);
+                    this.cmbGutterPosition.setDisabled(true);
+                }
+                if (this.api) {
+                    this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
+                    this.properties.put_MirrorMargins(record.value);
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
+            }, this));
+
+            this.window = this.getChild();
+            this.window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
         },
@@ -184,6 +338,7 @@ define([
 
         setSettings: function (props) {
             if (props) {
+                this.properties = props;
                 this.maxMarginsH = Common.Utils.Metric.fnRecalcFromMM(props.get_H() - 2.6);
                 this.maxMarginsW = Common.Utils.Metric.fnRecalcFromMM(props.get_W() - 12.7);
                 this.spnTop.setMaxValue(this.maxMarginsH);
@@ -195,6 +350,23 @@ define([
                 this.spnBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_BottomMargin()), true);
                 this.spnLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_LeftMargin()), true);
                 this.spnRight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_RightMargin()), true);
+                this.cmbOrientation.setValue(props.get_Orientation());
+
+                this.spnGutter.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Gutter()), true);
+                this.cmbGutterPosition.setValue(props.get_GutterAtTop() ? 1 : 0);
+                var mirrorMargins = props.get_MirrorMargins();
+                this.cmbMultiplePages.setValue(mirrorMargins ? 1 : 0);
+
+                if (mirrorMargins) {
+                    this.window.find('#margin-left-label').html(this.textInside);
+                    this.window.find('#margin-right-label').html(this.textOutside);
+                    this.cmbGutterPosition.setValue(0);
+                }
+                this.cmbGutterPosition.setDisabled(mirrorMargins);
+
+                if (this.api) {
+                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                }
             }
         },
 
@@ -204,6 +376,12 @@ define([
             props.put_BottomMargin(Common.Utils.Metric.fnRecalcToMM(this.spnBottom.getNumberValue()));
             props.put_LeftMargin(Common.Utils.Metric.fnRecalcToMM(this.spnLeft.getNumberValue()));
             props.put_RightMargin(Common.Utils.Metric.fnRecalcToMM(this.spnRight.getNumberValue()));
+            props.put_Orientation(this.cmbOrientation.getValue());
+            props.put_Gutter(Common.Utils.Metric.fnRecalcToMM(this.spnGutter.getNumberValue()));
+            props.put_GutterAtTop(this.cmbGutterPosition.getValue() ? true : false);
+            props.put_MirrorMargins(this.cmbMultiplePages.getValue() ? true : false);
+            props.put_H(this.properties.get_H());
+            props.put_W(this.properties.get_W());
             return props;
         },
 
@@ -222,10 +400,19 @@ define([
         textLeft: 'Left',
         textBottom: 'Bottom',
         textRight: 'Right',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height'
+        txtMarginsH: 'Top and bottom margins are too high for a given page height',
+        textMultiplePages: 'Multiple pages',
+        textGutter: 'Gutter',
+        textGutterPosition: 'Gutter position',
+        textOrientation: 'Orientation',
+        textPreview: 'Preview',
+        textPortrait: 'Portrait',
+        textLandscape: 'Landscape',
+        textMirrorMargins: 'Mirror margins',
+        textNormal: 'Normal',
+        textInside: 'Inside',
+        textOutside: 'Outside'
     }, DE.Views.PageMarginsDialog || {}))
 });

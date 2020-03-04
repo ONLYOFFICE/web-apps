@@ -140,10 +140,14 @@ define([
                             item.setDisabled(notflow);
                         });
 
-                        disable.align       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline;
-                        disable.group       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline;
-                        disable.arrange     = wrapping == Asc.c_oAscWrapStyle2.Inline;
-                        disable.wrapping    = islocked || props.get_FromGroup() || (notflow && !me.api.CanChangeWrapPolygon());
+                        var control_props = me.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                            content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+
+                        disable.align       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
+                        disable.group       = islocked || wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
+                        disable.arrange     = wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked;
+                        disable.wrapping    = islocked || props.get_FromGroup() || (notflow && !me.api.CanChangeWrapPolygon()) || content_locked || (!!control_props && control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture);
 
                         if ( !disable.group ) {
                             if (me.api.CanGroup() || me.api.CanUnGroup()) {

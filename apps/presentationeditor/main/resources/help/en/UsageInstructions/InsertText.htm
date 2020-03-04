@@ -60,6 +60,7 @@
 					</ul>
 				</li>
 			</ol>
+            <p class="note"><b>Note</b>: these parameters can also be found in the <a href="../UsageInstructions/InsertText.htm#textadvancedsettings" onclick="onhyperlinkclick(this)"><b>Paragraph - Advanced Settings</b></a> window.</p>
 			<p>The text is aligned vertically in three ways: top, middle or bottom. To do that:</p>
 			<ol>
 				<li>place the cursor to the position where you want the alignment to be applied (this can be a new line or already entered text),</li>
@@ -81,8 +82,8 @@
 			<p class="note"><b>Note</b>: in case you want to apply the formatting to the text already present in the presentation, select it with the mouse or <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">using the keyboard</a> and apply the formatting.</p>
 			<table>
 				<tr>
-					<td>Font</td>
-					<td><img alt="Font" src="../images/fontfamily.png" /></td>
+                    <td width="10%">Font</td>
+                    <td width="15%"><img alt="Font" src="../images/fontfamily.png" /></td>
 					<td>Is used to select one of the fonts from the list of the available ones. <span class="desktopDocumentFeatures">If a required font is not available in the list, you can download and install it on your operating system, after that the font will be available for use in the <em>desktop version</em>.</span></td>
 				</tr>
 				<tr>
@@ -144,12 +145,24 @@
 					</ul>
 				</li>
 			</ol>
+            <p class="note"><b>Note</b>: these parameters can also be found in the <a href="../UsageInstructions/InsertText.htm#textadvancedsettings" onclick="onhyperlinkclick(this)"><b>Paragraph - Advanced Settings</b></a> window.</p>
 			<p>To quickly change the current paragraph line spacing, you can also use the <b>Line spacing</b> <img alt="Line spacing" src="../images/linespacing.png" /> icon at the <b>Home</b> tab of the top toolbar selecting the needed value from the list: 1.0, 1.15, 1.5, 2.0, 2.5, or 3.0 lines.</p>
 		    <p>To change the paragraph offset from the left side of the text box, put the cursor within the paragraph you need, or select several paragraphs with the mouse and use the respective icons at the <b>Home</b> tab of the top toolbar: <b>Decrease indent</b> <img alt="Decrease indent" src="../images/decreaseindent.png" /> and <b>Increase indent</b> <img alt="Increase indent" src="../images/increaseindent.png" />.</p>
-		    <hr />
-		    <p>You can also change the <b>advanced settings</b> of the paragraph. Put the cursor within the paragraph you need - the <img alt="Text settings Icon" src="../images/text_settings_icon.png" /> <b>Text settings</b> tab will be activated at the right sidebar. Press the <b>Show advanced settings</b> link. The paragraph properties window will be opened:</p>
-			<img alt="Paragraph Properties - Indents & Placement tab" src="../images/textadvancedsettings1.png" />
-			<p>The <b>Indents & Placement</b> tab allows to change the <b>first line</b> offset from the left <a href="../UsageInstructions/InsertAutoshapes.htm#internalmargins" onclick="onhyperlinkclick(this)">internal margin</a> of the text box as well as the paragraph offset from the <b>left</b> and <b>right</b> internal margins of the text box.</p>
+            <h3 id="textadvancedsettings">Adjust paragraph advanced settings</h3>
+		    <p>To open the <b>Paragraph - Advanced Settings</b> window, right-click the text and choose the <b>Text Advanced Settings</b> option from the menu. It's also possible to put the cursor within the paragraph you need - the <img alt="Text settings Icon" src="../images/text_settings_icon.png" /> <b>Text settings</b> tab will be activated at the right sidebar. Press the <b>Show advanced settings</b> link. The paragraph properties window will be opened:</p>
+			<img alt="Paragraph Properties - Indents & Spacing tab" src="../images/textadvancedsettings1.png" />
+			<p>The <b>Indents & Spacing</b> tab allows to:</p>
+            <ul>
+                <li>change the <b>alignment</b> type for the paragraph text,</li>
+                <li>change the paragraph <b>indents</b> as related to <a href="../UsageInstructions/InsertAutoshapes.htm#internalmargins" onclick="onhyperlinkclick(this)">internal margins</a> of the text box,
+                    <ul>
+                        <li><b>Left</b> - set the paragraph offset from the <b>left</b> internal margin of the text box specifying the necessary numeric value,</li>
+                        <li><b>Right</b> - set the paragraph offset from the <b>right</b> internal margin of the text box specifying the necessary numeric value,</li>
+                        <li><b>Special</b> - set an indent for the <b>first line</b> of the paragraph: select the corresponding menu item (<b>(none)</b>, <b>First line</b>, <b>Hanging</b>) and change the default numeric value specified for <b>First Line</b> or <b>Hanging</b>,</li>
+                    </ul>
+                </li>
+                <li>change the paragraph <b>line spacing</b>.</li>
+            </ul>
             <p>You can also use the horizontal <b>ruler</b> to set indents.</p>
             <img alt="Ruler - Indent markers" src="../images/indents_ruler.png" />
             <p>Select the necessary paragraph(s) and drag the indent markers along the ruler.</p>
@@ -176,9 +189,9 @@
 			<img alt="Paragraph Properties - Tab tab" src="../images/textadvancedsettings3.png" />
 			<p>The <b>Tab</b> tab allows to change tab stops i.e. the position the cursor advances to when you press the <b>Tab</b> key on the keyboard.</p>
 			<ul>
-			    <li><b>Tab Position</b> - is used to set custom tab stops. Enter the necessary value in this box, adjust it more precisely using the arrow buttons and press the <b>Specify</b> button. Your custom tab position will be added to the list in the field below.</li>
-			    <li><b>Default Tab</b> is set at 1.25 cm. You can decrease or increase this value using the arrow buttons or enter the necessary one in the box.</li>
-			    <li><b>Alignment</b> - is used to set the necessary alignment type for each of the tab positions in the list above. Select the necessary tab position in the list, choose the <b>Left</b>, <b>Center</b> or <b>Right</b> radiobutton and press the <b>Specify</b> button.
+                <li><b>Default Tab</b> is set at 2.54 cm. You can decrease or increase this value using the arrow buttons or enter the necessary one in the box.</li>
+                <li><b>Tab Position</b> - is used to set custom tab stops. Enter the necessary value in this box, adjust it more precisely using the arrow buttons and press the <b>Specify</b> button. Your custom tab position will be added to the list in the field below.</li>
+			    <li><b>Alignment</b> - is used to set the necessary alignment type for each of the tab positions in the list above. Select the necessary tab position in the list, choose the <b>Left</b>, <b>Center</b> or <b>Right</b> option from the <b>Alignment</b> drop-down list and press the <b>Specify</b> button.
 			        <ul>
 			            <li><b>Left</b> - lines up your text by the left side at the tab stop position; the text moves to the right from the tab stop as you type. Such a tab stop will be indicated on the horizontal ruler by the <img alt="Left Tab Stop marker" src="../images/tabstopleft_marker.png" /> marker.</li>
 			            <li><b>Center</b> - centres the text at the tab stop position. Such a tab stop will be indicated on the horizontal ruler by the <img alt="Center Tab Stop marker" src="../images/tabstopcenter_marker.png" /> marker.</li>

@@ -63,6 +63,14 @@ input, textarea {
   }
 }
 
+.logo-navbar {
+  height: 68px;
+  .navbar-inner {
+    top: 24px;
+    height: 44px;
+  }
+}
+
 @import url('../../../../common/mobile/resources/less/_mixins.less');
 @import url('../../../../common/mobile/resources/less/ios/_container.less');
 @import url('../../../../common/mobile/resources/less/ios/_dataview.less');
@@ -92,6 +100,10 @@ input, textarea {
   height: auto;
   overflow: hidden;
   .transition(300ms);
+}
+
+#editor_sdk.with-logo {
+  top: 68px;
 }
 
 // Add Container
@@ -211,6 +223,10 @@ input, textarea {
       height: 38px;
     }
   }
+
+  .item-theme {
+    background-image: url('../../../../../../sdkjs/common/Images/themes_thumbnail.png');
+  }
 }
 
 // Charts
@@ -244,4 +260,65 @@ input, textarea {
 .modal.modal-in {
   max-height: 100%;
   overflow: auto;
+}
+
+// Skeleton of document
+
+.doc-placeholder {
+  background: #f5f5f5;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  position: absolute;
+  padding-top: 12px;
+
+  .slide-h {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .slide-v {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    padding-bottom: 56.1333%;
+  }
+
+  .slide-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #fbfbfb;
+    border: 1px solid #dfdfdf;
+
+    -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+    -moz-animation: flickerAnimation 2s infinite ease-in-out;
+    -o-animation: flickerAnimation 2s infinite ease-in-out;
+    animation: flickerAnimation 2s infinite ease-in-out;
+
+    > .line {
+      height: 20%;
+      margin: 0 120px;
+      border-radius: 6px;
+      background: #f5f5f5;
+
+      &:nth-child(1) {
+        height: 30%;
+        margin: 10% 80px 0;
+      }
+
+      &.empty {
+        background: transparent;
+      }
+    }
+  }
 }

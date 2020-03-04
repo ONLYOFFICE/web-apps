@@ -44,7 +44,7 @@
                     review: <can review>, // default = edit
                     print: <can print>, // default = true
                     rename: <can rename>, // default = false
-                    changeHistory: <can change history>, // default = false
+                    changeHistory: <can change history>, // default = false // must be deprecated, check onRequestRestore event instead
                     comment: <can comment in view mode> // default = edit,
                     modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                     modifyContentControl: <can modify content controls in documenteditor> // default = true
@@ -109,7 +109,8 @@
                     goback: {
                         url: 'http://...',
                         text: 'Go to London',
-                        blank: true
+                        blank: true,
+                        requestClose: false // if true - goback send onRequestClose event instead opening url
                     },
                     chat: true,
                     comments: true,
@@ -128,7 +129,11 @@
                     compactHeader: false,
                     toolbarNoTabs: false,
                     toolbarHideFileName: false,
-                    reviewDisplay: 'original'
+                    reviewDisplay: 'original',
+                    spellcheck: true,
+                    compatibleFeatures: false,
+                    unit: 'cm' // cm, pt, inch,
+                    mentionShare : true // customize tooltip for mention
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -205,6 +210,8 @@
         _config.editorConfig.canRequestSaveAs = _config.events && !!_config.events.onRequestSaveAs;
         _config.editorConfig.canRequestInsertImage = _config.events && !!_config.events.onRequestInsertImage;
         _config.editorConfig.canRequestMailMergeRecipients = _config.events && !!_config.events.onRequestMailMergeRecipients;
+        _config.editorConfig.canRequestCompareFile = _config.events && !!_config.events.onRequestCompareFile;
+        _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.frameEditorId = placeholderId;
 
         var onMouseUp = function (evt) {
@@ -574,6 +581,13 @@
             });
         };
 
+        var _setRevisedFile = function(data) {
+            _sendCommand({
+                command: 'setRevisedFile',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -618,7 +632,8 @@
             showSharingSettings : _showSharingSettings,
             setSharingSettings  : _setSharingSettings,
             insertImage         : _insertImage,
-            setMailMergeRecipients: _setMailMergeRecipients
+            setMailMergeRecipients: _setMailMergeRecipients,
+            setRevisedFile      : _setRevisedFile
         }
     };
 
@@ -729,14 +744,28 @@
             }
         }
 
+        var userAgent = navigator.userAgent.toLowerCase(),
+            check = function(regex){ return regex.test(userAgent); },
+            isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
+            isChrome = !isIE && check(/\bchrome\b/),
+            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0);
+
         path += app + "/";
-        path += config.type === "mobile"
+        path += (config.type === "mobile" || isSafari_mobile)
             ? "mobile"
             : config.type === "embedded"
                 ? "embed"
                 : "main";
-        path += "/index.html";
 
+        var index = "/index.html";
+        if (config.editorConfig) {
+            var customization = config.editorConfig.customization;
+            if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
+                                                        (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
+                index = "/index_loader.html";
+            }
+        }
+        path += index;
         return path;
     }
 
@@ -750,15 +779,33 @@
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderName) {
                 if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + config.editorConfig.customization.loaderName;
             } else
-                params += "&customer=ONLYOFFICE";
+                params += "&customer={{APP_CUSTOMER_NAME}}";
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
+            } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
+                if (config.type=='embedded' && config.editorConfig.customization.logo.imageEmbedded)
+                    params += "&headerlogo=" + config.editorConfig.customization.logo.imageEmbedded;
+                else if (config.type!='embedded' && config.editorConfig.customization.logo.image)
+                    params += "&headerlogo=" + config.editorConfig.customization.logo.image;
             }
         }
 
+        if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge'))
+            params += "&internal=true";
+
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
-        
+
+        if (config.editorConfig && config.editorConfig.mode == 'view' ||
+            config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review ))
+            params += "&mode=view";
+
+        if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
+            params += "&compact=true";
+
+        if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
+            params += "&toolbar=false";
+
         return params;
     }
 
@@ -774,7 +821,8 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-		
+        iframe.setAttribute("allow", "autoplay");
+        
 		if (config.type == "mobile")
 		{
 			iframe.style.position = "fixed";

@@ -64,6 +64,7 @@ define([
     'common/main/lib/util/Shortcuts',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/ListSettingsDialog',
     'spreadsheeteditor/main/app/view/DocumentHolder',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
@@ -213,7 +214,7 @@ define([
                 view.menuImageAlign.menu.on('item:click',           _.bind(me.onImgMenuAlign, me));
                 view.menuParagraphVAlign.menu.on('item:click',      _.bind(me.onParagraphVAlign, me));
                 view.menuParagraphDirection.menu.on('item:click',   _.bind(me.onParagraphDirection, me));
-                view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectNoneBullet, me));
+                view.menuParagraphBullets.menu.on('item:click',     _.bind(me.onSelectBulletMenu, me));
                 view.menuAddHyperlinkShape.on('click',              _.bind(me.onInsHyperlink, me));
                 view.menuEditHyperlinkShape.on('click',             _.bind(me.onInsHyperlink, me));
                 view.menuRemoveHyperlinkShape.on('click',           _.bind(me.onRemoveHyperlinkShape, me));
@@ -744,11 +745,39 @@ define([
             }
         },
 
-        onSelectNoneBullet: function(menu, item) {
-            if (this.api && item.options.value == -1) {
-                this.api.asc_setListType(item.options.value);
-                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
-                Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
+        onSelectBulletMenu: function(menu, item) {
+            if (this.api) {
+                if (item.options.value == -1) {
+                    this.api.asc_setListType(item.options.value);
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
+                } else if (item.options.value == 'settings') {
+                    var me      = this,
+                        props;
+                    var selectedObjects = me.api.asc_getGraphicObjectProps();
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                            props = selectedObjects[i].asc_getObjectValue();
+                            break;
+                        }
+                    }
+                    if (props) {
+                        (new Common.Views.ListSettingsDialog({
+                            api: me.api,
+                            props: props,
+                            type: me.api.asc_getCurrentListType().get_ListType(),
+                            interfaceLang: me.permissions.lang,
+                            handler: function(result, value) {
+                                if (result == 'ok') {
+                                    if (me.api) {
+                                        me.api.asc_setGraphicObjectProps(value);
+                                    }
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            }
+                        })).show();
+                    }
+                }
             }
         },
 
@@ -1645,6 +1674,7 @@ define([
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
 
                         documentHolder.menuParagraphBulletNone.setChecked(listtype.get_ListType() == -1);
+                        documentHolder.mnuListSettings.setDisabled(listtype.get_ListType() == -1);
                         var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype.get_ListType(), subtype: listtype.get_ListSubType() });
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
@@ -1659,10 +1689,12 @@ define([
                 var hyperinfo = cellinfo.asc_getHyperlink(),
                     can_add_hyperlink = this.api.asc_canAddShapeHyperlink();
 
+                documentHolder.menuParagraphBullets.setVisible(istextchartmenu!==true);
                 documentHolder.menuHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && hyperinfo);
                 documentHolder.menuAddHyperlinkShape.setVisible(istextshapemenu && can_add_hyperlink!==false && !hyperinfo);
                 documentHolder.menuParagraphVAlign.setVisible(istextchartmenu!==true && !isEquation); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.menuParagraphDirection.setVisible(istextchartmenu!==true && !isEquation); // убрать после того, как заголовок можно будет растягивать по вертикали!!
+                documentHolder.textInShapeMenu.items[3].setVisible(istextchartmenu!==true || istextshapemenu && can_add_hyperlink!==false);
                 documentHolder.pmiTextAdvanced.setVisible(documentHolder.pmiTextAdvanced.textInfo!==undefined);
 
                 _.each(documentHolder.textInShapeMenu.items, function(item) {
@@ -1801,6 +1833,8 @@ define([
                 documentHolder.menuParagraphDirection.setVisible(false); // убрать после того, как заголовок можно будет растягивать по вертикали!!
                 documentHolder.pmiTextAdvanced.setVisible(false);
                 documentHolder.textInShapeMenu.items[9].setVisible(false);
+                documentHolder.menuParagraphBullets.setVisible(false);
+                documentHolder.textInShapeMenu.items[3].setVisible(false);
                 documentHolder.pmiTextCopy.setDisabled(false);
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
             }
@@ -2244,7 +2278,7 @@ define([
 
                 me.btnSpecialPaste = new Common.UI.Button({
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-paste',
+                    iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
                 me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
@@ -2390,7 +2424,7 @@ define([
 
                 me.btnAutoCorrectPaste = new Common.UI.Button({
                     cls         : 'btn-toolbar',
-                    iconCls     : 'btn-paste',
+                    iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
                 me.btnAutoCorrectPaste.render($('#id-document-holder-btn-autocorrect-paste')) ;

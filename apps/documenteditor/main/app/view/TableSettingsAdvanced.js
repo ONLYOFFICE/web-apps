@@ -2131,8 +2131,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         textPreview:        'Preview',
         textBorderDesc:     'Click on diagramm or use buttons to select borders',
         textTableBackColor: 'Table Background',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         txtNoBorders:       'No borders',
         textNewColor:       'Add New Custom Color',
         textCenter: 'Center',

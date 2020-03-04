@@ -68,7 +68,7 @@ SSE.ApplicationController = new(function(){
 
         common.controller.modals.init(embedConfig);
 
-        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && config.customization.goback.url))
+        if (config.canBackToFolder === false || !(config.customization && config.customization.goback && (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose)))
             $('#id-btn-close').hide();
 
         // Docked toolbar
@@ -215,8 +215,12 @@ SSE.ApplicationController = new(function(){
             });
 
         $('#id-btn-close').on('click', function(){
-            if (config.customization && config.customization.goback && config.customization.goback.url)
-                window.parent.location.href = config.customization.goback.url;
+            if (config.customization && config.customization.goback) {
+                if (config.customization.goback.requestClose && config.canRequestClose)
+                    Common.Gateway.requestClose();
+                else if (config.customization.goback.url)
+                    window.parent.location.href = config.customization.goback.url;
+            }
         });
 
         $('#id-btn-zoom-in').on('click', function () {
@@ -410,6 +414,14 @@ SSE.ApplicationController = new(function(){
                 message = me.errorUserDrop;
                 break;
 
+            case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                message = me.errorFileSizeExceed;
+                break;
+
+            case Asc.c_oAscError.ID.UpdateVersion:
+                message = me.errorUpdateVersionOnDisconnect;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -421,7 +433,7 @@ SSE.ApplicationController = new(function(){
             Common.Gateway.reportError(id, message);
 
             $('#id-critical-error-title').text(me.criticalErrorTitle);
-            $('#id-critical-error-message').text(message);
+            $('#id-critical-error-message').html(message);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
             });
@@ -430,7 +442,7 @@ SSE.ApplicationController = new(function(){
             Common.Gateway.reportWarning(id, message);
 
             $('#id-critical-error-title').text(me.notcriticalErrorTitle);
-            $('#id-critical-error-message').text(message);
+            $('#id-critical-error-message').html(message);
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 $('#id-critical-error-dialog').modal('hide');
             });
@@ -576,6 +588,8 @@ SSE.ApplicationController = new(function(){
         downloadTextText: 'Downloading spreadsheet...',
         waitText: 'Please, wait...',
         textLoadingDocument: 'Loading spreadsheet',
-        txtClose: 'Close'
+        txtClose: 'Close',
+        errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+        errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
     }
 })();

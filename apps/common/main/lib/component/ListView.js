@@ -67,11 +67,15 @@ define([
                 this.trigger('items:reset', this);
             },
 
-            onAddItem: function(record, store, opts) {
-                var view = new Common.UI.DataViewItem({
+            createNewItem: function(record) {
+                return new Common.UI.DataViewItem({
                     template: this.itemTemplate,
                     model: record
                 });
+            },
+
+            onAddItem: function(record, store, opts) {
+                var view = this.createNewItem(record);
 
                 if (!this.innerEl)
                     this.innerEl = $(this.el).find('.inner');

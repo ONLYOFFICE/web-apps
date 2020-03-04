@@ -284,8 +284,6 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         },
 
         textTitle: 'Pivot Table - Advanced Settings',
-        textCancel: 'Cancel',
-        textOk: 'OK',
         strLayout: 'Name and Layout',
         txtName: 'Name',
         textGrandTotals: 'Grand Totals',

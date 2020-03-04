@@ -144,12 +144,31 @@ define([
             },
 
             showColors: function () {
+                var me = this;
                 this.showPage('#edit-paragraph-color', true);
 
                 this.paletteBackgroundColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-paragraph-color] .page-content'),
                     transparent: true
                 });
+                this.paletteBackgroundColor.on('customcolor', function () {
+                    me.showCustomColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-paragraph-add-custom-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-paragraph-color] .page-content').append(template({scope: this}));
+                $('#edit-paragraph-add-custom-color').single('click', _.bind(this.showCustomColor, this));
 
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-paragraph-color]', '.page[data-page=edit-paragraph-color] .page-content');
                 this.fireEvent('page:show', [this, '#edit-paragraph-color']);
@@ -158,6 +177,23 @@ define([
             showAdvanced: function () {
                 this.showPage('#edit-paragraph-advanced');
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-paragraph-advanced]', '.page[data-page=edit-paragraph-advanced] .page-content');
+            },
+
+            showCustomColor: function () {
+                var me = this,
+                    selector = '#edit-paragraph-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-paragraph-custom-color] .page-content'),
+                    color: me.paletteBackgroundColor.currentColor
+                });
+                me.customColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteBackgroundColor.addNewDynamicColor(colorPicker, color);
+                    DE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
             },
 
             textBackground: 'Background',
@@ -174,7 +210,9 @@ define([
             textPageBreak: 'Page Break Before',
             textOrphan: 'Orphan Control',
             textKeepLines: 'Keep Lines Together',
-            textKeepNext: 'Keep with Next'
+            textKeepNext: 'Keep with Next',
+            textAddCustomColor: 'Add Custom Color',
+            textCustomColor: 'Custom Color'
         }
     })(), DE.Views.EditParagraph || {}))
 });

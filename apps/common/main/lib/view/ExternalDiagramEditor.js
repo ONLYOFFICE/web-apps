@@ -61,7 +61,7 @@ define([
                 '</div>',
                 '<div class="separator horizontal"/>',
                 '<div class="footer" style="text-align: center;">',
-                    '<button id="id-btn-diagram-editor-apply" class="btn normal dlg-btn primary custom" result="ok" style="margin-right: 10px;">' + this.textSave + '</button>',
+                    '<button id="id-btn-diagram-editor-apply" class="btn normal dlg-btn primary custom" result="ok">' + this.textSave + '</button>',
                     '<button id="id-btn-diagram-editor-cancel" class="btn normal dlg-btn" result="cancel">' + this.textClose + '</button>',
                 '</div>'
             ].join('');
@@ -86,6 +86,11 @@ define([
             });
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onDlgBtnClick, this));
+        },
+
+        show: function() {
+            this.setPlaceholder();
+            Common.UI.Window.prototype.show.apply(this, arguments);
         },
 
         setChartData: function(data) {
@@ -141,6 +146,14 @@ define([
                 this.$window.css('left',left);
                 this.$window.css('top',top);
             }
+        },
+
+        setPlaceholder: function(placeholder) {
+            this._placeholder = placeholder;
+        },
+
+        getPlaceholder: function() {
+            return this._placeholder;
         },
 
         textSave: 'Save & Exit',

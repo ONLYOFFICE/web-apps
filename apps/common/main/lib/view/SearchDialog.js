@@ -87,10 +87,10 @@
                 '<div class="box">',
                     '<div class="input-row">',
                         '<span class="btn-placeholder" id="search-placeholder-btn-options"></span>',
-                        '<input type="text" id="sd-text-search" class="form-control" maxlength="255" placeholder="'+this.textSearchStart+'">',
+                        '<input type="text" id="sd-text-search" class="input-field form-control" maxlength="255" placeholder="'+this.textSearchStart+'">',
                     '</div>',
                     '<div class="input-row">',
-                        '<input type="text" id="sd-text-replace" class="form-control" maxlength="255" placeholder="'+this.textReplaceDef+'">',
+                        '<input type="text" id="sd-text-replace" class="input-field form-control" maxlength="255" placeholder="'+this.textReplaceDef+'">',
                     '</div>',
                     '<div class="input-row">',
                         '<label class="link" id="search-label-replace" result="replaceshow">'+this.txtBtnReplace+'</label>',
@@ -98,10 +98,10 @@
                 '</div>',
                 '<div class="separator horizontal"/>',
                 '<div class="footer right">',
-                    '<button class="btn normal dlg-btn" result="replace" style="margin-right: 6px;">'+this.txtBtnReplace+'</button>',
-                    '<button class="btn normal dlg-btn" result="replaceall" style="margin-right: 10px;">'+this.txtBtnReplaceAll+'</button>',
-                    '<button class="btn normal dlg-btn iconic" result="back" style="margin-right: 6px;"><span class="icon img-commonctrl back" /></button>',
-                    '<button class="btn normal dlg-btn iconic" result="next"><span class="icon img-commonctrl next" /></button>',
+                    '<button class="btn normal dlg-btn" result="replace">'+this.txtBtnReplace+'</button>',
+                    '<button class="btn normal dlg-btn" result="replaceall" style="margin-left: 6px;">'+this.txtBtnReplaceAll+'</button>',
+                    '<button class="btn normal dlg-btn iconic" result="back"><span class="icon img-commonctrl back" /></button>',
+                    '<button class="btn normal dlg-btn iconic" result="next" style="margin-left: 6px;"><span class="icon img-commonctrl next" /></button>',
                 '</div>'
             ].join('');
 
@@ -131,7 +131,7 @@
             this.btnOptions = new Common.UI.Button({
                 id          : 'search-btn-options',
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-settings',
+                iconCls     : 'toolbar__icon btn-settings',
 //                hint        : me.tipMerge,
                 menu        : new Common.UI.Menu({
                     items   : [

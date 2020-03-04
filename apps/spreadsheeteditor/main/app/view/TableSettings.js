@@ -100,7 +100,7 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
-        onTableTemplateSelect: function(combo, record){
+        onTableTemplateSelect: function(btn, picker, itemView, record){
             if (this.api && !this._noApply) {
                 this.api.asc_changeAutoFilter(this._state.TableName, Asc.c_oAscChangeFilterOptions.style, record.get('name'));
             }
@@ -398,19 +398,18 @@ define([
                 //for table-template
                 value = props.asc_getTableStyleName();
                 if (this._state.TemplateName!==value || this._isTemplatesChanged) {
-                    this.cmbTableTemplate.suspendEvents();
-                    var rec = this.cmbTableTemplate.menuPicker.store.findWhere({
+                    var rec = this.mnuTableTemplatePicker.store.findWhere({
                         name: value
                     });
-                    this.cmbTableTemplate.menuPicker.selectRecord(rec);
-                    this.cmbTableTemplate.resumeEvents();
-
-                    if (this._isTemplatesChanged) {
-                        if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
-                        else
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
+                    if (!rec) {
+                        rec = this.mnuTableTemplatePicker.store.at(0);
                     }
+                    this.btnTableTemplate.suspendEvents();
+                    this.mnuTableTemplatePicker.selectRecord(rec, true);
+                    this.btnTableTemplate.resumeEvents();
+
+                    this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '48px', 'width': '63px', 'background-position': 'center', 'background-size': 'cover'});
+
                     this._state.TemplateName=value;
                 }
                 this._isTemplatesChanged = false;
@@ -429,34 +428,42 @@ define([
             var self = this;
             this._isTemplatesChanged = true;
 
-            if (!this.cmbTableTemplate) {
-                this.cmbTableTemplate = new Common.UI.ComboDataView({
-                    itemWidth: 61,
-                    itemHeight: 46,
-                    menuMaxHeight: 300,
-                    enableKeyEvents: true
+            if (!this.btnTableTemplate) {
+                this.btnTableTemplate = new Common.UI.Button({
+                    cls         : 'btn-large-dataview sheet-template-table',
+                    iconCls     : 'icon-template-table',
+                    menu        : new Common.UI.Menu({
+                        style: 'width: 512px;',
+                        items: [
+                            { template: _.template('<div id="id-table-menu-template" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        ]
+                    })
                 });
-                this.cmbTableTemplate.render($('#table-combo-template'));
-                this.cmbTableTemplate.openButton.menu.cmpEl.css({
-                    'min-width': 175,
-                    'max-width': 175
+                this.btnTableTemplate.on('render:after', function(btn) {
+                    self.mnuTableTemplatePicker = new Common.UI.DataView({
+                        el: $('#id-table-menu-template'),
+                        parentMenu: btn.menu,
+                        restoreHeight: 325,
+                        groups: new Common.UI.DataViewGroupStore(),
+                        store: new Common.UI.DataViewStore(),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="46" width="61"></div>'),
+                        style: 'max-height: 325px;'
+                    });
                 });
-                this.cmbTableTemplate.on('click', _.bind(this.onTableTemplateSelect, this));
-                this.cmbTableTemplate.openButton.menu.on('show:after', function () {
-                    self.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
-                });
-                this.lockedControls.push(this.cmbTableTemplate);
-                if (this._locked) this.cmbTableTemplate.setDisabled(this._locked);
+                this.btnTableTemplate.render($('#table-btn-template'));
+                this.lockedControls.push(this.btnTableTemplate);
+                this.mnuTableTemplatePicker.on('item:click', _.bind(this.onTableTemplateSelect, this, this.btnTableTemplate));
+                if (this._locked) this.btnTableTemplate.setDisabled(this._locked);
             }
 
-            var count = self.cmbTableTemplate.menuPicker.store.length;
+
+            var count = self.mnuTableTemplatePicker.store.length;
             if (count>0 && count==Templates.length) {
-                var data = self.cmbTableTemplate.menuPicker.store.models;
+                var data = self.mnuTableTemplatePicker.store.models;
                 _.each(Templates, function(template, index){
                     data[index].set('imageUrl', template.asc_getImage());
                 });
             } else {
-                self.cmbTableTemplate.menuPicker.store.reset([]);
                 var arr = [];
                 _.each(Templates, function(template){
                     arr.push({
@@ -470,7 +477,7 @@ define([
                         tip         : template.asc_getDisplayName()
                     });
                 });
-                self.cmbTableTemplate.menuPicker.store.add(arr);
+                self.mnuTableTemplatePicker.store.reset(arr);
             }
         },
 
@@ -548,8 +555,6 @@ define([
         deleteRowText           : 'Delete Row',
         deleteColumnText        : 'Delete Column',
         deleteTableText         : 'Delete Table',
-        textOK                  : 'OK',
-        textCancel              : 'Cancel',
         textTemplate            : 'Select From Template',
         textRows                : 'Rows',
         textColumns             : 'Columns',

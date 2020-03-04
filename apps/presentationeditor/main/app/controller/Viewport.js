@@ -123,11 +123,20 @@ define([
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
         },
 
+        getApi: function() {
+            return this.api;
+        },
 
         // When our application is ready, lets get started
         onLaunch: function() {
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
+
+            this.api = new Asc.asc_docs_api({
+                'id-view'  : 'editor_sdk',
+                'translate': this.getApplication().getController('Main').translationTable
+            });
+
             this.header   = this.createView('Common.Views.Header', {
                 headerCaption: 'Presentation Editor',
                 storeUsers: PE.getCollection('Common.Collections.Users')
@@ -263,9 +272,9 @@ define([
                                 'data-stopPropagation="true"',
                             '<% } %>', '>',
                             '<label class="title">' + me.header.textZoom + '</label>',
-                            '<button id="hdr-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon btn-zoomin">&nbsp;</i></button>',
+                            '<button id="hdr-menu-zoom-in" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>',
                             '<label class="zoom"><%= options.value %>%</label>',
-                            '<button id="hdr-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon btn-zoomout">&nbsp;</i></button>',
+                            '<button id="hdr-menu-zoom-out" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>',
                         '</div>'
                     ].join('')),
                     stopPropagation: true,

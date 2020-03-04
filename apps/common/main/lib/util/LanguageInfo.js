@@ -363,6 +363,8 @@ Common.util.LanguageInfo = new(function() {
         0x380A : ["es-UY", "Español (Uruguay)", "Spanish (Uruguay)"],
         0x200A : ["es-VE", "Español (Republica Bolivariana de Venezuela)", "Spanish (Venezuela)"],
         0x040a : ["es-ES_tradnl", "Spanish"],
+        0x580a : ["es-419", "Español (América Latina y el Caribe)", "Spanish (Latin America and the Caribbean)"],
+        0x5C0a : ["es-CU",  "Español (Cuba)", "Spanish (Cuba)"],
         0x001D : ["sv", "Svenska"],
         0x081D : ["sv-FI", "Svenska (Finland)", "Swedish (Finland)"],
         0x041D : ["sv-SE", "Svenska (Sverige)", "Swedish (Sweden)"],

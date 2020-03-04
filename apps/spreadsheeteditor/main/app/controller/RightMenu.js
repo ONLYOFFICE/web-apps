@@ -299,10 +299,6 @@ define([
             this.rightmenu.imageSettings.updateMetricUnit();
         },
 
-        fillTextArt:  function() {
-            this.rightmenu.textartSettings.fillTextArt();
-        },
-
         createDelayedElements: function() {
             var me = this;
             if (this.api) {
@@ -310,7 +306,7 @@ define([
                 
                 this.api.asc_registerCallback('asc_onSelectionChanged', _.bind(this.onSelectionChanged, this));
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
-                this.rightmenu.shapeSettings.createDelayedElements();
+                // this.rightmenu.shapeSettings.createDelayedElements();
                 this.onSelectionChanged(this.api.asc_getCellInfo());
             }
         },

@@ -3,28 +3,48 @@
     margin-bottom: 0;
     .font-size-normal();
     font-weight: normal;
+    position: relative;
+    min-height: 1em;
 
-    input[type=button] {
-        background-position: @radio-offset-x @radio-offset-y;
-        background-color: transparent;
-        border: none;
-        margin-left: -22px;
-        margin-right: 6px;
-        padding-bottom: 4px;
-        width: 16px;
-        height: 16px;
-        cursor: default;
-        vertical-align: top;
+    input[type=radio] {
 
-        &.checked {
-            background-position: @radio-offset-x @radio-offset-y - 16px;
+        display: none;
+
+        + label {
+            position: absolute;
+            left: 0;
+            margin-top: auto;
+            padding-bottom: 4px;
+            width: 14px;
+            height: 14px;
+
+            background: #fff;
+            border: 1px solid @gray;
+            border-radius: 50%;
         }
 
-        &.disabled {
-            background-position: @radio-offset-x - 48px @radio-offset-y;
+        &:checked {
+            + label {
+                &::before {
+                    content: '';
+                    position: absolute;
+                    background: @gray-deep;
+                    border-radius: 50%;
+                    width: 8px;
+                    height: 8px;
+                    left: 2px;
+                    top: 2px;
+                }
+            }
+        }
 
-            &.checked {
-                background-position: @radio-offset-x - 48px @radio-offset-y - 16px;
+        &.disabled, &:disabled {
+            opacity: .4;
+
+            + label {
+                &::before {
+                    opacity: .4;
+                }
             }
         }
     }

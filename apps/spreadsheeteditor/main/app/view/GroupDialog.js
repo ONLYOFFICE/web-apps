@@ -45,9 +45,11 @@ define([
     SSE.Views.GroupDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 214,
+            height: 138,
             header: true,
             style: 'min-width: 214px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -55,11 +57,8 @@ define([
 
             this.template = [
                 '<div class="box">',
-                '<div id="group-radio-rows" style="margin-bottom: 5px;"></div>',
-                '<div id="group-radio-cols"></div>',
-                '<div class="footer center">',
-                '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
+                    '<div id="group-radio-rows" style="margin-bottom: 5px;"></div>',
+                    '<div id="group-radio-cols"></div>',
                 '</div>'
             ].join('');
 
@@ -111,8 +110,6 @@ define([
             return false;
         },
 
-        cancelButtonText: 'Cancel',
-        okButtonText:   'Ok',
         textRows: 'Rows',
         textColumns: 'Columns'
     }, SSE.Views.GroupDialog || {}))

@@ -134,6 +134,10 @@ define([
                 uiApp.params.notificationCloseButtonText = me.textClose;
 
                 if (me.api){
+                    var value = Common.localStorage.getItem("pe-settings-fontrender");
+                    if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
+                    me.api.SetFontRenderingMode(parseInt(value));
+
                     Common.Utils.Metric.setCurrentMetric(1); //pt
 
                     me.api.SetDrawingFreeze(true);
@@ -209,15 +213,19 @@ define([
                 me.appOptions.fileChoiceUrl   = me.editorConfig.fileChoiceUrl;
                 me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
                 me.appOptions.canAnalytics    = false;
+                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.customization   = me.editorConfig.customization;
-                me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object')
-                    && (typeof (me.editorConfig.customization.goback) == 'object') && !_.isEmpty(me.editorConfig.customization.goback.url);
+                me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object') && (typeof (me.editorConfig.customization.goback) == 'object')
+                    && (!_.isEmpty(me.editorConfig.customization.goback.url) || me.editorConfig.customization.goback.requestClose && me.appOptions.canRequestClose);
                 me.appOptions.canBack         = me.appOptions.canBackToFolder === true;
                 me.appOptions.canPlugins      = false;
                 me.plugins                    = me.editorConfig.plugins;
 
                 if (me.editorConfig.lang)
                     me.api.asc_setLocale(me.editorConfig.lang);
+
+                if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div>');
 
 //                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
 //                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
@@ -319,11 +327,15 @@ define([
             },
 
             goBack: function(current) {
-                var href = this.appOptions.customization.goback.url;
-                if (!current && this.appOptions.customization.goback.blank!==false) {
-                    window.open(href, "_blank");
+                if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose) {
+                    Common.Gateway.requestClose();
                 } else {
-                    parent.location.href = href;
+                    var href = this.appOptions.customization.goback.url;
+                    if (!current && this.appOptions.customization.goback.blank!==false) {
+                        window.open(href, "_blank");
+                    } else {
+                        parent.location.href = href;
+                    }
                 }
             },
 
@@ -497,7 +509,8 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.zoom ? parseInt(me.appOptions.customization.zoom) : -1);
                 (zf == -1) ? me.api.zoomFitToPage() : ((zf == -2) ? me.api.zoomFitToWidth() : me.api.zoom(zf>0 ? zf : 100));
 
-                value = Common.localStorage.getBool("pe-mobile-spellcheck", false);
+                value = Common.localStorage.getBool("pe-mobile-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
+                Common.Utils.InternalSettings.set("pe-mobile-spellcheck", value);
                 me.api.asc_setSpellCheck(value);
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
@@ -550,6 +563,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {
@@ -564,6 +579,22 @@ define([
 
             applyLicense: function() {
                 var me = this;
+                if (this.editorConfig.mode !== 'view' && !this.isSupportEditFeature()) {
+                    var value = Common.localStorage.getItem("pe-opensource-warning");
+                    value = (value!==null) ? parseInt(value) : 0;
+                    var now = (new Date).getTime();
+                    if (now - value > 86400000) {
+                        Common.localStorage.setItem("pe-opensource-warning", now);
+                        uiApp.modal({
+                            title: me.notcriticalErrorTitle,
+                            text : me.errorOpensource,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
+                    PE.getController('Toolbar').activateControls();
+                    return;
+                }
+
                 if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = [{text: 'OK'}];
@@ -656,15 +687,14 @@ define([
                 me.appOptions.isOffline       = me.api.asc_isOffline();
                 me.appOptions.isReviewOnly    = (me.permissions.review === true) && (me.permissions.edit === false);
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
-                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.canEdit         = (me.permissions.edit !== false || me.permissions.review === true) && // can edit or review
                     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
-                    (!me.appOptions.isReviewOnly || me.appOptions.canLicense); // if isReviewOnly==true -> canLicense must be true
+                    (!me.appOptions.isReviewOnly || me.appOptions.canLicense) && // if isReviewOnly==true -> canLicense must be true
+                    me.isSupportEditFeature();
                 me.appOptions.isEdit          = me.appOptions.canLicense && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
                 me.appOptions.canReview       = me.appOptions.canLicense && me.appOptions.isEdit && (me.permissions.review===true);
                 me.appOptions.canUseHistory   = me.appOptions.canLicense && !me.appOptions.isLightVersion && me.editorConfig.canUseHistory && me.appOptions.canCoAuthoring && !me.appOptions.isDesktopApp;
                 me.appOptions.canHistoryClose = me.editorConfig.canHistoryClose;
-                me.appOptions.canHistoryRestore= me.editorConfig.canHistoryRestore && !!me.permissions.changeHistory;
                 me.appOptions.canUseMailMerge = me.appOptions.canLicense && me.appOptions.canEdit && !me.appOptions.isDesktopApp;
                 me.appOptions.canSendEmailAddresses  = me.appOptions.canLicense && me.editorConfig.canSendEmailAddresses && me.appOptions.canEdit && me.appOptions.canCoAuthoring;
                 me.appOptions.canComments     = me.appOptions.canLicense && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
@@ -689,6 +719,12 @@ define([
                 if (!me.appOptions.isEdit) {
                     me.hidePreloader();
                     me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+                }
+
+                if (me.appOptions.canBrandingExt && (me.editorConfig.customization && (me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))) {
+                    $('#editor-navbar #navbar-logo').hide();
+                    $('#editor-navbar').removeClass('logo-navbar');
+                    $('#editor_sdk').removeClass('with-logo');
                 }
             },
 
@@ -716,10 +752,11 @@ define([
                     var me = this,
                         value;
 
-                    // var value = Common.localStorage.getItem('pe-settings-unit');
-                    // value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
-                    // Common.Utils.Metric.setCurrentMetric(value);
-                    // me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
+                    value = Common.localStorage.getItem('pe-mobile-settings-unit');
+                    value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+                    (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
+                    Common.Utils.Metric.setCurrentMetric(value);
+                    me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
                     // value = Common.localStorage.getItem('pe-hidden-rulers');
                     // if (me.api.asc_SetViewRulers) me.api.asc_SetViewRulers(value===null || parseInt(value) === 0);
@@ -861,7 +898,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.Warning:
-                        config.msg = this.errorConnectToServer.replace('%1', '{{API_URL_EDITING_CALLBACK}}');
+                        config.msg = this.errorConnectToServer;
                         break;
 
                     case Asc.c_oAscError.ID.UplImageUrl:
@@ -878,6 +915,14 @@ define([
 
                     case Asc.c_oAscError.ID.EditingError:
                         config.msg = this.errorEditingDownloadas;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                        config.msg = this.errorFileSizeExceed;
+                        break;
+
+                    case Asc.c_oAscError.ID.UpdateVersion:
+                        config.msg = this.errorUpdateVersionOnDisconnect;
                         break;
 
                     default:
@@ -1073,7 +1118,6 @@ define([
             },
 
             onSendThemeColors: function(colors, standart_colors) {
-               Common.Utils.ThemeColor.setColors(colors, standart_colors);
             },
 
             onFocusObject: function(SelectedObjects) {
@@ -1225,6 +1269,10 @@ define([
                 }
             },
 
+            isSupportEditFeature: function() {
+                return false;
+            },
+
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
@@ -1338,13 +1386,12 @@ define([
             txtYAxis: 'Y Axis',
             txtSeries: 'Seria',
             txtArt: 'Your text here',
-            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
-            'Find more information about connecting Document Server <a href=\"%1\" target=\"_blank\">here</a>',
+            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: '%1 open source version',
             textContactUs: 'Contact sales',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored and page is reloaded.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
@@ -1387,7 +1434,10 @@ define([
             errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download\' option to save the file backup copy to your computer hard drive.',
             textPaidFeature: 'Paid feature',
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
-            waitText: 'Please, wait...'
+            waitText: 'Please, wait...',
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+            errorOpensource: 'Files can be opened for viewing only. Mobile web editors are not available in the Open Source version.'
         }
     })(), PE.Controllers.Main || {}))
 });

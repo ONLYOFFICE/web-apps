@@ -57,7 +57,7 @@ define([
             infoObj,
             modalView,
             _licInfo,
-            templateInsert;
+            _lang;
 
         var _slideSizeArr = [
             [254, 190.5], [254, 143]
@@ -96,6 +96,7 @@ define([
                 this.getView('Settings').setMode(mode);
                 if (mode.canBranding)
                     _licInfo = mode.customization;
+                _lang = mode.lang;
             },
 
             initEvents: function () {
@@ -156,11 +157,11 @@ define([
 
             onPageShow: function(view, pageId) {
                 var me = this;
-                $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("pe-mobile-spellcheck", false));
+                $('#settings-spellcheck input:checkbox').attr('checked', Common.Utils.InternalSettings.get("pe-mobile-spellcheck"));
                 $('#settings-search').single('click',                       _.bind(me._onSearch, me));
                 $('#settings-readermode input:checkbox').single('change',   _.bind(me._onReaderMode, me));
                 $('#settings-spellcheck input:checkbox').single('change',   _.bind(me._onSpellcheck, me));
-                $(modalView).find('.formats a').single('click',             _.bind(me._onSaveFormat, me));
+                $(modalView).find('.formats .page-content a').single('click',             _.bind(me._onSaveFormat, me));
                 $('#page-settings-view #slide-size-block li').single('click',           _.bind(me._onSlideSize, me));
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
                 $('#settings-collaboration').single('click',                _.bind(me.onCollaboration, me));
@@ -221,11 +222,11 @@ define([
                     value = props.asc_getDescription();
                     value ? $('#settings-pe-comment').html(value) : $('.display-comment').remove();
                     value = props.asc_getModified();
-                    value ? $('#settings-pe-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                    value ? $('#settings-pe-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
                     value = props.asc_getLastModifiedBy();
                     value ? $('#settings-pe-mod-by').html(value) : $('.display-mode-by').remove();
                     value = props.asc_getCreated();
-                    value ? $('#settings-pe-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                    value ? $('#settings-pe-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
                     value = props.asc_getCreator();
                     var templateCreator = "";
                     value && value.split(/\s*[,;]\s*/).forEach(function(item) {
@@ -240,28 +241,22 @@ define([
                 PE.getController('Common.Controllers.Collaboration').showModal();
             },
 
-            initPageColorSchemes: function () {
-                $('#color-schemes-content').html(templateInsert);
-                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+            initPageColorSchemes: function() {
+                this.curSchemas = (this.api) ? this.api.asc_GetCurrentColorSchemeIndex() : 0;
+                this.getView('Settings').renderSchemaSettings(this.curSchemas, this.schemas);
+                $('.page[data-page=color-schemes-view] input:radio[name=color-schema]').single('change', _.bind(this.onColorSchemaChange, this));
+                Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view', '.page[data-page=color-schemes-view] .page-content');
             },
 
             onSendThemeColorSchemes: function (schemas) {
-                templateInsert = "";
-                _.each(schemas, function (schema, index) {
-                    var colors = schema.get_colors();//schema.colors;
-                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
-                    for (var j = 2; j < 7; j++) {
-                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
-                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
-                    }
-                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
-                }, this);
+                this.schemas = schemas;
             },
 
-            onColorSchemaClick: function (event) {
+            onColorSchemaChange: function(event) {
                 if (this.api) {
-                    var ind = $(event.currentTarget).children('input').val();
-                    this.api.ChangeColorScheme(ind);
+                    var ind = $(event.currentTarget).val();
+                    if (this.curSchemas !== ind)
+                        this.api.asc_ChangeColorSchemeByIdx(parseInt(ind));
                 }
             },
 
@@ -269,8 +264,7 @@ define([
                 var me = this,
                     $unitMeasurement = $('.page[data-page=settings-application-view] input:radio[name=unit-of-measurement]');
                 $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
-                var value = Common.localStorage.getItem('pe-mobile-settings-unit');
-                value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                var value = Common.Utils.Metric.getCurrentMetric();
                 $unitMeasurement.val([value]);
             },
 
@@ -322,10 +316,13 @@ define([
             // API handlers
 
             onApiPageSize: function(width, height) {
-                for (var i = 0; i < _slideSizeArr.length; i++) {
-                    if (Math.abs(_slideSizeArr[i][0] - width) < 0.001 && Math.abs(_slideSizeArr[i][1] - height) < 0.001) {
-                        $('#page-settings-setup-view input').val([i]);
-                        break;
+                var $input = $('#page-settings-view input[name="slide-size"]');
+                if ($input.length > 0) {
+                    for (var i = 0; i < _slideSizeArr.length; i++) {
+                        if (Math.abs(_slideSizeArr[i][0] - width) < 0.001 && Math.abs(_slideSizeArr[i][1] - height) < 0.001) {
+                            $input.val([i]);
+                            break;
+                        }
                     }
                 }
             },
@@ -357,6 +354,7 @@ define([
                 var $checkbox = $(e.currentTarget),
                     state = $checkbox.is(':checked');
                 Common.localStorage.setItem("pe-mobile-spellcheck", state ? 1 : 0);
+                Common.Utils.InternalSettings.set("pe-mobile-spellcheck", state);
                 this.api && this.api.asc_setSpellCheck(state);
             },
 

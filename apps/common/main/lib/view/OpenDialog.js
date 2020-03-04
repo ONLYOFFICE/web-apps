@@ -231,6 +231,9 @@ define([
                         delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
                         delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
                     (delimiter == -1) && (delimiter = null);
+                    if (!this.closable && this.type == Common.Utils.importTextType.TXT) { //save last encoding only for opening txt files
+                        Common.localStorage.setItem("de-settings-open-encoding", encoding);
+                    }
                     this.handler.call(this, state, encoding, delimiter, delimiterChar);
                 }
             }
@@ -284,11 +287,17 @@ define([
                     data: listItems,
                     editable: false,
                     disabled: true,
+                    search: true,
                     itemsTemplate: itemsTemplate
                 });
 
                 this.cmbEncoding.setDisabled(false);
-                this.cmbEncoding.setValue((this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : encodedata[0][0]);
+                var encoding = (this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : encodedata[0][0];
+                if (!this.closable && this.type == Common.Utils.importTextType.TXT) { // only for opening txt files
+                    var value = Common.localStorage.getItem("de-settings-open-encoding");
+                    value && (encoding = parseInt(value));
+                }
+                this.cmbEncoding.setValue(encoding);
                 if (this.preview)
                     this.cmbEncoding.on('selected', _.bind(this.onCmbEncodingSelect, this));
 
@@ -435,8 +444,6 @@ define([
             this.updatePreview();
         },
 
-        okButtonText       : "OK",
-        cancelButtonText   : "Cancel",
         txtDelimiter       : "Delimiter",
         txtEncoding        : "Encoding ",
         txtSpace           : "Space",

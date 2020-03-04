@@ -195,26 +195,98 @@ define([
             },
 
             showFontColor: function () {
+                var me = this;
                 this.showPage('#edit-text-color', true);
 
                 this.paletteTextColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-text-font-color] .page-content')
                 });
+                this.paletteTextColor.on('customcolor', function () {
+                    me.showCustomFontColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-text-add-custom-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-text-font-color] .page-content').append(template({scope: this}));
+                $('#edit-text-add-custom-color').single('click', _.bind(this.showCustomFontColor, this));
 
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-text-font-color]', '.page[data-page=edit-text-font-color] .page-content');
                 this.fireEvent('page:show', [this, '#edit-text-color']);
             },
 
+            showCustomFontColor: function () {
+                var me = this,
+                    selector = '#edit-text-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-text-custom-color] .page-content'),
+                    color: me.paletteTextColor.currentColor
+                });
+                me.customColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteTextColor.addNewDynamicColor(colorPicker, color);
+                    DE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
+            },
+
             showBackgroundColor: function () {
+                var me = this;
                 this.showPage('#edit-text-background', true);
 
                 this.paletteBackgroundColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-text-font-background] .page-content'),
                     transparent: true
                 });
+                this.paletteBackgroundColor.on('customcolor', function () {
+                    me.showCustomBackgroundColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-text-add-custom-background-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-text-font-background] .page-content').append(template({scope: this}));
+                $('#edit-text-add-custom-background-color').single('click', _.bind(this.showCustomBackgroundColor, this));
 
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-text-font-background]', '.page[data-page=edit-text-font-background] .page-content');
                 this.fireEvent('page:show', [this, '#edit-text-background']);
+            },
+
+            showCustomBackgroundColor: function () {
+                var me = this,
+                    selector = '#edit-text-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customBackgroundColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-text-custom-color] .page-content'),
+                    color: me.paletteBackgroundColor.currentColor
+                });
+                me.customBackgroundColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteBackgroundColor.addNewDynamicColor(colorPicker, color);
+                    DE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
             },
 
             showAdditional: function () {
@@ -259,7 +331,9 @@ define([
             textCharacterBold: 'B',
             textCharacterItalic: 'I',
             textCharacterUnderline: 'U',
-            textCharacterStrikethrough: 'S'
+            textCharacterStrikethrough: 'S',
+            textAddCustomColor: 'Add Custom Color',
+            textCustomColor: 'Custom Color'
         }
     })(), DE.Views.EditText || {}))
 });

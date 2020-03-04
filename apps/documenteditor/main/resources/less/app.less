@@ -118,6 +118,8 @@
 @import "../../../../common/main/resources/less/toolbar.less";
 @import "../../../../common/main/resources/less/language-dialog.less";
 @import "../../../../common/main/resources/less/winxp_fix.less";
+@import "../../../../common/main/resources/less/calendar.less";
+@import "../../../../common/main/resources/less/symboltable.less";
 
 // App
 // --------------------------------------------------
@@ -131,6 +133,13 @@
 @import "advanced-settings.less";
 @import "navigation.less";
 
+@import "sprites/iconssmall@1x";
+@import "sprites/iconsbig@1x";
+@import "sprites/iconssmall@2x";
+@import "sprites/iconsbig@2x";
+//@import "sprites/iconssmall@1.5x";
+//@import "sprites/iconsbig@1.5x";
+
 .font-size-small {
     .fontsize(@font-size-small);
 }
@@ -143,5 +152,27 @@
     .fontsize(@font-size-large);
 }
 
-@huge-icon-size: 37px;
-@x-huge-icon-size: 45px;
+// Skeleton of document
+
+.doc-placeholder {
+    background: #fbfbfb;
+    width: 794px;
+    margin: 46px auto;
+    height: 100%;
+    border: 1px solid #bebebe;
+    padding-top: 50px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+
+    > .line {
+        height: 15px;
+        margin: 30px 80px;
+        background: #e2e2e2;
+        overflow: hidden;
+        position: relative;
+    }
+}

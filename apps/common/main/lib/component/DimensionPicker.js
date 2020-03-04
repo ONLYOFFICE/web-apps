@@ -47,31 +47,6 @@ define([
     'use strict';
 
     Common.UI.DimensionPicker = Common.UI.BaseView.extend((function(){
-        var me,
-            rootEl,
-            areaMouseCatcher,
-            areaUnHighLighted,
-            areaHighLighted,
-            areaStatus,
-            curColumns = 0,
-            curRows = 0;
-
-        var onMouseMove = function(event){
-            me.setTableSize(
-                Math.ceil((event.offsetX === undefined ? event.originalEvent.layerX : event.offsetX*Common.Utils.zoom()) / me.itemSize),
-                Math.ceil((event.offsetY === undefined ? event.originalEvent.layerY : event.offsetY*Common.Utils.zoom()) / me.itemSize),
-                event
-            );
-        };
-
-        var onMouseLeave = function(event){
-            me.setTableSize(0, 0, event);
-        };
-
-        var onHighLightedMouseClick = function(e){
-            me.trigger('select', me, curColumns, curRows, e);
-        };
-
         return {
             options: {
                 itemSize    : 18,
@@ -95,9 +70,13 @@ define([
             initialize : function(options) {
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
-                me = this;
+                var me = this;
 
-                rootEl = $(this.el);
+                this.render();
+
+                this.cmpEl = me.$el || $(this.el);
+
+                var rootEl = this.cmpEl;
 
                 me.itemSize    = me.options.itemSize;
                 me.minRows     = me.options.minRows;
@@ -105,35 +84,52 @@ define([
                 me.maxRows     = me.options.maxRows;
                 me.maxColumns  = me.options.maxColumns;
 
-                this.render();
+                me.curColumns = 0;
+                me.curRows = 0;
+
+                var onMouseMove = function(event){
+                    me.setTableSize(
+                        Math.ceil((event.offsetX === undefined ? event.originalEvent.layerX : event.offsetX*Common.Utils.zoom()) / me.itemSize),
+                        Math.ceil((event.offsetY === undefined ? event.originalEvent.layerY : event.offsetY*Common.Utils.zoom()) / me.itemSize),
+                        event
+                    );
+                };
+
+                var onMouseLeave = function(event){
+                    me.setTableSize(0, 0, event);
+                };
+
+                var onHighLightedMouseClick = function(e){
+                    me.trigger('select', me, me.curColumns, me.curRows, e);
+                };
 
                 if (rootEl){
-                    areaMouseCatcher    = rootEl.find('.dimension-picker-mousecatcher');
-                    areaUnHighLighted   = rootEl.find('.dimension-picker-unhighlighted');
-                    areaHighLighted     = rootEl.find('.dimension-picker-highlighted');
-                    areaStatus          = rootEl.find('.dimension-picker-status');
+                    var areaMouseCatcher    = rootEl.find('.dimension-picker-mousecatcher');
+                    me.areaUnHighLighted   = rootEl.find('.dimension-picker-unhighlighted');
+                    me.areaHighLighted     = rootEl.find('.dimension-picker-highlighted');
+                    me.areaStatus          = rootEl.find('.dimension-picker-status');
 
                     rootEl.css({width: me.minColumns + 'em'});
                     areaMouseCatcher.css('z-index', 1);
                     areaMouseCatcher.width(me.maxColumns + 'em').height(me.maxRows + 'em');
-                    areaUnHighLighted.width(me.minColumns + 'em').height(me.minRows + 'em');
-                    areaStatus.html(curColumns + ' x ' + curRows);
-                    areaStatus.width(areaUnHighLighted.width());
-                }
+                    me.areaUnHighLighted.width(me.minColumns + 'em').height(me.minRows + 'em');
+                    me.areaStatus.html(me.curColumns + ' x ' + me.curRows);
+                    me.areaStatus.width(me.areaUnHighLighted.width());
 
-                areaMouseCatcher.on('mousemove', onMouseMove);
-                areaHighLighted.on('mousemove', onMouseMove);
-                areaUnHighLighted.on('mousemove', onMouseMove);
-                areaMouseCatcher.on('mouseleave', onMouseLeave);
-                areaHighLighted.on('mouseleave', onMouseLeave);
-                areaUnHighLighted.on('mouseleave', onMouseLeave);
-                areaMouseCatcher.on('click', onHighLightedMouseClick);
-                areaHighLighted.on('click', onHighLightedMouseClick);
-                areaUnHighLighted.on('click', onHighLightedMouseClick);
+                    areaMouseCatcher.on('mousemove', onMouseMove);
+                    me.areaHighLighted.on('mousemove', onMouseMove);
+                    me.areaUnHighLighted.on('mousemove', onMouseMove);
+                    areaMouseCatcher.on('mouseleave', onMouseLeave);
+                    me.areaHighLighted.on('mouseleave', onMouseLeave);
+                    me.areaUnHighLighted.on('mouseleave', onMouseLeave);
+                    areaMouseCatcher.on('click', onHighLightedMouseClick);
+                    me.areaHighLighted.on('click', onHighLightedMouseClick);
+                    me.areaUnHighLighted.on('click', onHighLightedMouseClick);
+                }
             },
 
             render: function() {
-                $(this.el).html(this.template());
+                (this.$el || $(this.el)).html(this.template());
 
                 return this;
             },
@@ -142,38 +138,38 @@ define([
                 if (columns > this.maxColumns)  columns = this.maxColumns;
                 if (rows > this.maxRows)        rows = this.maxRows;
 
-                if (curColumns != columns || curRows != rows){
-                    curColumns  = columns;
-                    curRows     = rows;
+                if (this.curColumns != columns || this.curRows != rows){
+                    this.curColumns  = columns;
+                    this.curRows     = rows;
 
-                    areaHighLighted.width(curColumns + 'em').height(curRows + 'em');
-                    areaUnHighLighted.width(
-                        ((curColumns < me.minColumns)
-                            ? me.minColumns
-                            : ((curColumns + 1 > me.maxColumns)
-                            ? me.maxColumns
-                            : curColumns + 1)) + 'em'
-                    ).height(((curRows < me.minRows)
-                            ? me.minRows
-                            : ((curRows + 1 > me.maxRows)
-                            ? me.maxRows
-                            : curRows + 1)) + 'em'
+                    this.areaHighLighted.width(this.curColumns + 'em').height(this.curRows + 'em');
+                    this.areaUnHighLighted.width(
+                        ((this.curColumns < this.minColumns)
+                            ? this.minColumns
+                            : ((this.curColumns + 1 > this.maxColumns)
+                            ? this.maxColumns
+                            : this.curColumns + 1)) + 'em'
+                    ).height(((this.curRows < this.minRows)
+                            ? this.minRows
+                            : ((this.curRows + 1 > this.maxRows)
+                            ? this.maxRows
+                            : this.curRows + 1)) + 'em'
                     );
 
-                    rootEl.width(areaUnHighLighted.width());
-                    areaStatus.html(curColumns + ' x ' + curRows);
-                    areaStatus.width(areaUnHighLighted.width());
+                    this.cmpEl.width(this.areaUnHighLighted.width());
+                    this.areaStatus.html(this.curColumns + ' x ' + this.curRows);
+                    this.areaStatus.width(this.areaUnHighLighted.width());
 
-                    me.trigger('change', me, curColumns, curRows, event);
+                    this.trigger('change', this, this.curColumns, this.curRows, event);
                 }
             },
 
             getColumnsCount: function() {
-                return curColumns;
+                return this.curColumns;
             },
 
             getRowsCount: function() {
-                return curRows;
+                return this.curRows;
             }
         }
     })())

@@ -187,8 +187,9 @@ define([
                 '<img src="<%= iconImg %>">' +
             '<% } else { %>' +
                 '<% if (/svgicon/.test(iconCls)) {' +
-                    'print(\'<svg width="26" height="26" class=\"icon\"><use href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
-                '} else ' +
+                    'print(\'<svg class=\"icon\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use>' +
+                                                    '<use class=\"zoom-grit\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'-150\"></use></svg>\');' +
+            '} else ' +
                     'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
             '<% } %>';
 
@@ -253,7 +254,8 @@ define([
                 // '<% if (iconCls != "") { print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); }} %>',
                 '<% if (iconCls != "") { ' +
                     ' if (/svgicon/.test(iconCls)) {' +
-                        'print(\'<svg class=\"icon\"><use xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use></svg>\');' +
+                        'print(\'<svg class=\"icon\"><use class=\"zoom-int\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'\"></use>' +
+                            '<use class=\"zoom-grit\" xlink:href=\"#\' + /svgicon\\s(\\S+)/.exec(iconCls)[1] + \'-150\"></use></svg>\');' +
                     '} else ' +
                         'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
                 '}} %>',
@@ -319,7 +321,7 @@ define([
 
             me.trigger('render:before', me);
 
-            me.cmpEl = $(me.el);
+            me.cmpEl = me.$el || $(me.el);
 
             if (parentEl) {
                 me.setElement(parentEl, false);
@@ -386,6 +388,18 @@ define([
                     if (modalParents.length > 0) {
                         me.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                         me.btnMenuEl && me.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                        var onModalClose = function(dlg) {
+                            if (modalParents[0] !== dlg.$window[0]) return;
+                            var tip = me.btnEl.data('bs.tooltip');
+                            if (tip) {
+                                if (tip.dontShow===undefined)
+                                    tip.dontShow = true;
+
+                                tip.hide();
+                            }
+                            Common.NotificationCenter.off({'modal:close': onModalClose});
+                        };
+                        Common.NotificationCenter.on({'modal:close': onModalClose});
                     }
                 }
 
@@ -561,6 +575,13 @@ define([
                 this.trigger('toggle', this, state);
         },
 
+        click: function(opts) {
+            if ( !this.disabled ) {
+                this.doToggle();
+                this.trigger('click', this, opts);
+            }
+        },
+
         isActive: function() {
             if (this.enableToggle)
                 return this.pressed;
@@ -627,6 +648,24 @@ define([
             this.iconCls = cls;
             btnIconEl.removeClass(oldCls);
             btnIconEl.addClass(cls || '');
+        },
+
+        changeIcon: function(opts) {
+            var me = this;
+            if ( opts && (opts.curr || opts.next)) {
+                !!opts.curr && (me.$icon.removeClass(opts.curr));
+                !!opts.next && !me.$icon.hasClass(opts.next) && (me.$icon.addClass(opts.next));
+
+                if ( !!me.options.signals ) {
+                    if ( !(me.options.signals.indexOf('icon:changed') < 0) ) {
+                        me.trigger('icon:changed', me, opts);
+                    }
+                }
+            }
+        },
+
+        hasIcon: function(iconcls) {
+            return this.$icon.hasClass(iconcls);
         },
 
         setVisible: function(visible) {
@@ -698,7 +737,7 @@ define([
                 this.caption = caption;
 
                 if (this.rendered) {
-                    var captionNode = this.cmpEl.find('button:first > .caption').addBack().filter('button > .caption');
+                    var captionNode = this.cmpEl.find('.caption');
 
                     if (captionNode.length > 0) {
                         captionNode.text(caption);

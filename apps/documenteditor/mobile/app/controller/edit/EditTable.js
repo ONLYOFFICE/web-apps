@@ -123,9 +123,6 @@ define([
             setApi: function (api) {
                 var me = this;
                 me.api = api;
-
-                me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onApiFocusObject, me));
-                me.api.asc_registerCallback('asc_onInitTableTemplates', _.bind(me.onApiInitTemplates, me));
             },
 
             onLaunch: function () {
@@ -134,15 +131,6 @@ define([
 
             initEvents: function () {
                 var me = this;
-
-                $('#table-remove-all').single('click',                  _.bind(function(){me.api.remTable(); me._closeIfNeed()}, me));
-                $('#insert-column-left').single('click',                _.bind(function(){me.api.addColumnLeft(); me._closeIfNeed()}, me));
-                $('#insert-column-right').single('click',               _.bind(function(){me.api.addColumnRight(); me._closeIfNeed()}, me));
-                $('#insert-row-above').single('click',                  _.bind(function(){me.api.addRowAbove(); me._closeIfNeed()}, me));
-                $('#insert-row-below').single('click',                  _.bind(function(){me.api.addRowBelow(); me._closeIfNeed()}, me));
-                $('#remove-column').single('click',                     _.bind(function(){me.api.remColumn(); me._closeIfNeed()}, me));
-                $('#remove-row').single('click',                        _.bind(function(){me.api.remRow(); me._closeIfNeed()}, me));
-
                 me.initSettings();
             },
 
@@ -648,19 +636,6 @@ define([
                 } else {
                     _tableObject = undefined;
                 }
-            },
-
-            onApiInitTemplates: function(templates) {
-                var styles = [];
-
-                _.each(templates, function(template){
-                    styles.push({
-                        imageUrl    : template.asc_getImage(),
-                        templateId  : template.asc_getId()
-                    });
-                });
-
-                this.getView('EditTable').updateStyles(styles);
             },
 
             // Helpers

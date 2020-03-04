@@ -93,11 +93,7 @@ define([
                             '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;  width: 86px;">' + me.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.cancelButtonText + '</button>',
-                    '</div>'
+                    '<div class="separator horizontal"></div>'
                 ].join('')
             }, options);
 
@@ -145,6 +141,10 @@ define([
                         }
                     }
                 }
+            });
+            this.inputName._input.on('input', function (input, value) {
+                me.isInputFirstChange && me.inputName.showError();
+                me.isInputFirstChange = false;
             });
 
             this.cmbScope = new Common.UI.ComboBox({
@@ -276,6 +276,7 @@ define([
                     checkrange = this.txtDataRange.checkValidate();
                 if (checkname !== true)  {
                     this.inputName.cmpEl.find('input').focus();
+                    this.isInputFirstChange = true;
                     return;
                 }
                 if (checkrange !== true) {
@@ -321,8 +322,6 @@ define([
 
         txtTitleNew: 'New Name',
         txtTitleEdit: 'Edit Name',
-        cancelButtonText : 'Cancel',
-        okButtonText : 'Ok',
         textSelectData: 'Select Data',
         textName: 'Name',
         textScope: 'Scope',

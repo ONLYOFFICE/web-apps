@@ -47,7 +47,8 @@ define([
             width: 330,
             header: false,
             cls: 'modal-dlg',
-            filename: ''
+            filename: '',
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -59,10 +60,6 @@ define([
                         '<label>' + this.textName + '</label>',
                     '</div>',
                     '<div id="id-dlg-newname" class="input-row"></div>',
-                '</div>',
-                '<div class="footer right">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -128,8 +125,6 @@ define([
         },
 
         textName        : 'File name',
-        cancelButtonText: 'Cancel',
-        okButtonText    : 'Ok',
         txtInvalidName  : 'The file name cannot contain any of the following characters: '
     }, Common.Views.RenameDialog || {}));
 });

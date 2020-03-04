@@ -115,6 +115,7 @@
 @import "../../../../common/main/resources/less/toolbar.less";
 @import "../../../../common/main/resources/less/language-dialog.less";
 @import "../../../../common/main/resources/less/winxp_fix.less";
+@import "../../../../common/main/resources/less/symboltable.less";
 
 // App
 // --------------------------------------------------
@@ -129,6 +130,13 @@
 @import "formuladialog.less";
 @import "filterdialog.less";
 
+@import "sprites/iconssmall@1x";
+@import "sprites/iconsbig@1x";
+@import "sprites/iconssmall@2x";
+@import "sprites/iconsbig@2x";
+//@import "sprites/iconssmall@1.5x";
+//@import "sprites/iconsbig@1.5x";
+
 .font-size-small {
     .fontsize(@font-size-small);
 }
@@ -141,5 +149,35 @@
     .fontsize(@font-size-large);
 }
 
-@huge-icon-size: 37px;
-@x-huge-icon-size: 45px;
+// Skeleton of workbook
+
+.doc-placeholder {
+    background: #fbfbfb;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+    border: 1px solid #dfdfdf;
+    white-space: nowrap;
+
+    -webkit-animation: flickerAnimation 2s infinite ease-in-out;
+    -moz-animation: flickerAnimation 2s infinite ease-in-out;
+    -o-animation: flickerAnimation 2s infinite ease-in-out;
+    animation: flickerAnimation 2s infinite ease-in-out;
+    
+    > .columns {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        background: linear-gradient(90deg, #d5d5d5 0px, rgba(0,0,0,0) 1px) 0 0,
+                    linear-gradient(rgba(0,0,0,0) 19px, #d5d5d5 20px) 0 0,
+                    linear-gradient( #f1f1f1 0px, #f1f1f1 20px) 0 0 repeat-x;
+        background-size: 80px 20px;
+
+        &:first-child {
+            background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
+            background-size: 20px 20px;
+            width: 25px;
+        }
+    }
+}

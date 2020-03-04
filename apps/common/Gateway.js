@@ -118,6 +118,10 @@ if (Common === undefined) {
 
             'setMailMergeRecipients': function(data) {
                 $me.trigger('setmailmergerecipients', data);
+            },
+
+            'setRevisedFile': function(data) {
+                $me.trigger('setrevisedfile', data);
             }
         };
 
@@ -289,23 +293,31 @@ if (Common === undefined) {
             },
 
             requestMakeActionLink: function (config) {
-                _postMessage({event:'onMakeActionLink', data: config})
+                _postMessage({event:'onMakeActionLink', data: config});
             },
 
             requestUsers:  function () {
-                _postMessage({event:'onRequestUsers'})
+                _postMessage({event:'onRequestUsers'});
             },
 
             requestSendNotify:  function (emails) {
-                _postMessage({event:'onRequestSendNotify', data: emails})
+                _postMessage({event:'onRequestSendNotify', data: emails});
             },
 
             requestInsertImage:  function () {
-                _postMessage({event:'onRequestInsertImage'})
+                _postMessage({event:'onRequestInsertImage'});
             },
 
             requestMailMergeRecipients:  function () {
-                _postMessage({event:'onRequestMailMergeRecipients'})
+                _postMessage({event:'onRequestMailMergeRecipients'});
+            },
+
+            requestCompareFile:  function () {
+                _postMessage({event:'onRequestCompareFile'});
+            },
+
+            requestSharingSettings:  function () {
+                _postMessage({event:'onRequestSharingSettings'});
             },
 
             on: function(event, handler){

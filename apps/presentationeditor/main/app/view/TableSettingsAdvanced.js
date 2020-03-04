@@ -426,8 +426,6 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
         textTitle:          'Table - Advanced Settings',
         textDefaultMargins: 'Default Margins',
         textCheckMargins:   'Use default margins',
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',

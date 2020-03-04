@@ -301,7 +301,7 @@ define([
             }, me));
 
             this.btnNone = new Common.UI.Button({
-                cls         : 'btn x-huge btn-options',
+                cls         : 'btn huge-1 btn-options',
                 iconCls     : 'icon-advanced-wrap btn-drop-none',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
@@ -316,7 +316,7 @@ define([
             }, me));
 
             this.btnInText = new Common.UI.Button({
-                cls         : 'btn x-huge btn-options',
+                cls         : 'btn huge-1 btn-options',
                 iconCls     : 'icon-advanced-wrap btn-drop-text',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
@@ -331,7 +331,7 @@ define([
             }, me));
 
             this.btnInMargin = new Common.UI.Button({
-                cls         : 'btn x-huge btn-options',
+                cls         : 'btn huge-1 btn-options',
                 iconCls     : 'icon-advanced-wrap btn-drop-margin',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
@@ -1164,8 +1164,6 @@ define([
         textBorderColor:        'Border Color',
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
-        cancelButtonText:       'Cancel',
-        okButtonText:           'Ok',
         txtNoBorders:           'No borders',
         textNewColor:           'Add New Custom Color',
         textPosition: 'Position',

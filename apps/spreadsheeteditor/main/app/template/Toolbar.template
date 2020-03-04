@@ -33,8 +33,8 @@
                     <div class="elset font-attr-top">
                         <span class="btn-slot" id="slot-field-fontname"></span>
                         <span class="btn-slot" id="slot-field-fontsize"></span>
-                        <span class="btn-slot border" id="slot-btn-incfont"></span>
-                        <span class="btn-slot border" id="slot-btn-decfont"></span>
+                        <span class="btn-slot" id="slot-btn-incfont"></span>
+                        <span class="btn-slot" id="slot-btn-decfont"></span>
                     </div>
                     <div class="elset font-attr">
                         <span class="btn-slot" id="slot-btn-bold"></span>
@@ -137,7 +137,12 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge slot-editheader"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inssymbol"></span>
                 </div>
             </section>
             <section class="panel" data-tab="layout">
@@ -146,7 +151,8 @@
                     <span class="btn-slot text x-huge" id="slot-btn-pageorient"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-printarea"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
+                    <span class="btn-slot text x-huge slot-editheader"></span>
+                    <span class="btn-slot text" id="slot-btn-scale"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -172,17 +178,24 @@
                     <span class="btn-slot text x-huge" id="slot-btn-math"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-more"></span>
                 </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-calculate"></span>
+                </div>
             </section>
             <section class="panel" data-tab="data">
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot split slot-sortdesc"></span>
-                        <span class="btn-slot slot-sortasc"></span>
+                        <span class="btn-slot split slot-btn-setfilter"></span>
+                        <span class="btn-slot slot-sortdesc"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split slot-btn-setfilter"></span>
-                        <span class="btn-slot slot-btn-clear-filter"></span>
+                        <span class="btn-slot split slot-btn-clear-filter"></span>
+                        <span class="btn-slot slot-sortasc"></span>
                     </div>
+                </div>
+                <div class="group" style="padding-left: 0;">
+                    <span class="btn-slot text x-huge" id="slot-btn-custom-sort"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

@@ -104,8 +104,7 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             me.width = me.options.width;
             me.minValue = me.options.minValue;
@@ -131,10 +130,10 @@ define([
                     this.setElement(parentEl, false);
                     parentEl.html(this.cmpEl);
                 } else {
-                    $(this.el).html(this.cmpEl);
+                    me.$el.html(this.cmpEl);
                 }
             } else {
-                this.cmpEl = $(this.el);
+                this.cmpEl = me.$el;
             }
 
             this.cmpEl.find('.track-center').width(me.options.width - 14);
@@ -299,8 +298,7 @@ define([
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             me.width = me.options.width;
             me.minValue = me.options.minValue;
@@ -326,10 +324,10 @@ define([
                     this.setElement(parentEl, false);
                     parentEl.html(this.cmpEl);
                 } else {
-                    $(this.el).html(this.cmpEl);
+                    this.$el.html(this.cmpEl);
                 }
             } else {
-                this.cmpEl = $(this.el);
+                this.cmpEl = this.$el;
             }
 
             var el = this.cmpEl;
@@ -349,17 +347,30 @@ define([
                     pos = Math.max(0, Math.min(100, position)),
                     value = pos/me.delta + me.minValue;
 
-                me.setThumbPosition(index, pos);
-                me.thumbs[index].value = value;
+                if (me.isRemoveThumb) {
+                    if (me.thumbs.length < 3) {
+                        $(document).off('mouseup', me.binding.onMouseUp);
+                        $(document).off('mousemove', me.binding.onMouseMove);
+                        me._dragstart = undefined;
+                        return;
+                    }
+                    me.trigger('removethumb', me, _.findIndex(me.thumbs, {index: index}));
+                    me.trigger('change', me, value, lastValue);
+                    me.trigger('changecomplete', me, value, lastValue);
+                } else {
+                    me.setThumbPosition(index, pos);
+                    me.thumbs[index].value = value;
 
-                if (need_sort)
-                    me.sortThumbs();
+                    if (need_sort)
+                        me.sortThumbs();
+                }
 
                 $(document).off('mouseup', me.binding.onMouseUp);
                 $(document).off('mousemove', me.binding.onMouseMove);
 
                 me._dragstart = undefined;
-                me.trigger('changecomplete', me, value, lastValue);
+                !me.isRemoveThumb && me.trigger('changecomplete', me, value, lastValue);
+                me.isRemoveThumb = undefined;
             };
 
             var onMouseMove = function (e) {
@@ -384,6 +395,10 @@ define([
                 if (need_sort)
                     me.sortThumbs();
 
+                var positionY = e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top;
+                me.isRemoveThumb = positionY > me.cmpEl.height() || positionY < 0;
+                me.setRemoveThumb(index, me.isRemoveThumb);
+
                 if (Math.abs(value-lastValue)>0.001)
                     me.trigger('change', me, value, lastValue);
             };
@@ -405,7 +420,25 @@ define([
                 $(document).on('mousemove', null, e.data, me.binding.onMouseMove);
             };
 
-            var onTrackMouseDown = function (e) {
+            var onTrackMouseUp = function (e) {
+                if ( me.disabled || !_.isUndefined(me._dragstart) || me.thumbs.length > 9) return;
+
+                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100)))),
+                    nearIndex = findThumb(pos),
+                    thumbColor = me.thumbs[nearIndex].colorValue,
+                    thumbValue = me.thumbs[nearIndex].value,
+                    value = pos/me.delta + me.minValue;
+                me.addThumb();
+                var index = me.thumbs.length - 1;
+                me.setThumbPosition(index, pos);
+                me.thumbs[index].value = value;
+                me.trigger('addthumb', me, index, nearIndex, thumbColor);
+
+                me.trigger('change', me);
+                me.trigger('changecomplete', me);
+            };
+
+            /*var onTrackMouseDown = function (e) {
                 if ( me.disabled ) return;
 
                 var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100)))),
@@ -418,7 +451,7 @@ define([
 
                 me.trigger('change', me, value, lastValue);
                 me.trigger('changecomplete', me, value, lastValue);
-            };
+            };*/
 
             var findThumb = function(pos) {
                 var nearest = 100,
@@ -464,7 +497,8 @@ define([
             me.setActiveThumb(0, true);
 
             if (!me.rendered) {
-                el.on('mousedown', '.track', onTrackMouseDown);
+                /*el.on('mousedown', '.track', onTrackMouseDown);*/
+                el.on('mouseup', '.track', onTrackMouseUp);
             }
 
             me.rendered = true;
@@ -474,9 +508,21 @@ define([
 
         setActiveThumb: function(index, suspend) {
             this.currentThumb = index;
+            this.$thumbs = this.cmpEl.find('.thumb');
             this.$thumbs.removeClass('active');
             this.thumbs[index].thumb.addClass('active');
             if (suspend!==true) this.trigger('thumbclick', this, index);
+        },
+
+        setRemoveThumb: function(index, remove) {
+            var ind = _.findIndex(this.thumbs, {index: index});
+            if (ind !== -1) {
+                if (remove && this.thumbs.length > 2) {
+                    this.$el.find('.active').addClass('remove');
+                } else {
+                    this.$el.find('.remove').removeClass('remove');
+                }
+            }
         },
 
         setThumbPosition: function(index, x) {

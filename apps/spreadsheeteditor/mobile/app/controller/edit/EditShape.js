@@ -161,11 +161,7 @@ define([
 
                 // Fill
 
-                var paletteFillColor = new Common.UI.ThemeColorPalette({
-                    el: $('#tab-shape-fill'),
-                    transparent: true
-                });
-
+                var paletteFillColor = me.getView('EditShape').paletteFillColor;
                 paletteFillColor.on('select', _.bind(me.onFillColor, me));
 
                 var fill = shapeProperties.asc_getFill(),
@@ -223,9 +219,7 @@ define([
 
             initBorderColorPage: function () {
                 var me = this,
-                    palette = new Common.UI.ThemeColorPalette({
-                        el: $('.page[data-page=edit-shape-border-color-view] .page-content')
-                    });
+                    palette = me.getView('EditShape').paletteBorderColor;
 
                 if (palette) {
                     palette.select(_borderInfo.color);
@@ -247,28 +241,9 @@ define([
             },
 
             onReorder: function(e) {
-                var $target = $(e.currentTarget),
-                    type = $target.data('type'),
-                    ascType;
-
-                if (type == 'all-up') {
-                    ascType = Asc.c_oAscDrawingLayerType.BringToFront;
-                } else if (type == 'all-down') {
-                    ascType = Asc.c_oAscDrawingLayerType.SendToBack;
-                } else if (type == 'move-up') {
-                    ascType = Asc.c_oAscDrawingLayerType.BringForward;
-                } else {
-                    ascType = Asc.c_oAscDrawingLayerType.SendBackward;
-                }
-
-                this.api.asc_setSelectedDrawingObjectLayer(ascType);
             },
 
             onReplace: function (e) {
-                var $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                this.api.asc_changeShapeType(type);
             },
 
             onBorderSize: function (e) {

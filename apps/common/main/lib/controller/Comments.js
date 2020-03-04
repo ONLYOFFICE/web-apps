@@ -126,6 +126,9 @@ define([
                     'comment:closeEditing':     _.bind(this.closeEditing, this),
                     'comment:disableHint':      _.bind(this.disableHint, this),
                     'comment:addDummyComment':  _.bind(this.onAddDummyComment, this)
+                },
+                'Common.Views.ReviewChanges': {
+                    'comment:removeComments':           _.bind(this.onRemoveComments, this)
                 }
             });
 
@@ -180,7 +183,7 @@ define([
                 this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
                 this.api.asc_registerCallback('asc_onRemoveComment', _.bind(this.onApiRemoveComment, this));
                 this.api.asc_registerCallback('asc_onChangeComments', _.bind(this.onChangeComments, this));
-                this.api.asc_registerCallback('asc_onRemoveComments', _.bind(this.onRemoveComments, this));
+                this.api.asc_registerCallback('asc_onRemoveComments', _.bind(this.onApiRemoveComments, this));
                 this.api.asc_registerCallback('asc_onChangeCommentData', _.bind(this.onApiChangeCommentData, this));
                 this.api.asc_registerCallback('asc_onLockComment', _.bind(this.onApiLockComment, this));
                 this.api.asc_registerCallback('asc_onUnLockComment', _.bind(this.onApiUnLockComment, this));
@@ -231,6 +234,11 @@ define([
         onRemoveComment: function (id) {
             if (this.api && id) {
                 this.api.asc_removeComment(id);
+            }
+        },
+        onRemoveComments: function (type) {
+            if (this.api) {
+                this.api.asc_RemoveAllComments(type=='my' || !this.mode.canEditComments, type=='current');// 1 param = true if remove only my comments, 2 param - remove current comments
             }
         },
         onResolveComment: function (uid) {
@@ -499,7 +507,7 @@ define([
                         ascComment.asc_addReply(addReply);
 
                         me.api.asc_changeComment(id, ascComment);
-                        me.mode && me.mode.canRequestUsers && me.view.pickEMail(ascComment.asc_getGuid(), replyVal);
+                        me.mode && me.mode.canRequestSendNotify && me.view.pickEMail(ascComment.asc_getGuid(), replyVal);
 
                         return true;
                     }
@@ -725,7 +733,7 @@ define([
 
             this.updateComments(true);
         },
-        onRemoveComments: function (data) {
+        onApiRemoveComments: function (data) {
             for (var i = 0; i < data.length; ++i) {
                 this.onApiRemoveComment(data[i], true);
             }
@@ -821,6 +829,7 @@ define([
             }
         },
         onApiShowComment: function (uids, posX, posY, leftX, opts, hint) {
+            var apihint = hint;
             var same_uids = (0 === _.difference(this.uids, uids).length) && (0 === _.difference(uids, this.uids).length);
             
             if (hint && this.isSelectedComment && same_uids && !this.isModeChanged) {
@@ -886,7 +895,7 @@ define([
                         this.animate = false;
                     }
 
-                    this.isSelectedComment = !hint || !this.hintmode;
+                    this.isSelectedComment = !apihint || !this.hintmode;
                     this.uids = _.clone(uids);
 
                     comments.push(comment);
@@ -1133,7 +1142,8 @@ define([
                     commentsStore : this.popoverComments,
                     renderTo : this.sdkViewName,
                     canRequestUsers: (this.mode) ? this.mode.canRequestUsers : undefined,
-                    canRequestSendNotify: (this.mode) ? this.mode.canRequestSendNotify : undefined
+                    canRequestSendNotify: (this.mode) ? this.mode.canRequestSendNotify : undefined,
+                    mentionShare: (this.mode) ? this.mode.mentionShare : true
                 });
                 this.popover.setCommentsStore(this.popoverComments);
             }
@@ -1354,7 +1364,7 @@ define([
 
                     this.api.asc_addComment(comment);
                     this.view.showEditContainer(false);
-                    this.mode && this.mode.canRequestUsers && this.view.pickEMail(comment.asc_getGuid(), commentVal);
+                    this.mode && this.mode.canRequestSendNotify && this.view.pickEMail(comment.asc_getGuid(), commentVal);
                     if (!_.isUndefined(this.api.asc_SetDocumentPlaceChangedEnabled)) {
                         this.api.asc_SetDocumentPlaceChangedEnabled(false);
                     }

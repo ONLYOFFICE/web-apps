@@ -104,11 +104,35 @@ define([
                 var me = this;
 
                 if ('cut' == eventName) {
-                    me.api.Cut();
+                    var res = me.api.Cut();
+                    if (!res) {
+                        _view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text : me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
                 } else if ('copy' == eventName) {
-                    me.api.Copy();
+                    var res = me.api.Copy();
+                    if (!res) {
+                        _view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text : me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
                 } else if ('paste' == eventName) {
-                    me.api.Paste();
+                    var res = me.api.Paste();
+                    if (!res) {
+                        _view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text: me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
                 } else if ('delete' == eventName) {
                     me.api.asc_Remove();
                 } else if ('edit' == eventName) {
@@ -329,7 +353,9 @@ define([
             menuAddLink: 'Add Link',
             menuOpenLink: 'Open Link',
             menuMore: 'More',
-            sheetCancel: 'Cancel'
+            sheetCancel: 'Cancel',
+            textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
+            errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only. You cannot copy or paste to or from other applications.'
         }
     })(), PE.Controllers.DocumentHolder || {}))
 });

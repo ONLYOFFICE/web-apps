@@ -24,7 +24,8 @@
                         <li><b>Turn on display of the resolved comments</b> - this feature is disabled by default so that the resolved comments were hidden on the sheet. You can view such comments only if you click the <b>Comments</b> <img alt="Comments icon" src="../images/commentsicon.png" /> icon at the left sidebar. Enable this option if you want to display resolved comments on the sheet.</li>
                     </ul>
                 </li>
-                <li><span class="onlineDocumentFeatures"><b>Autosave</b> is used in the <em>online version</em> to turn on/off automatic saving of changes you make while editing.</span> <span class="desktopDocumentFeatures"><b>Autorecover</b> - is used in the <em>desktop version</em> to turn on/off the option that allows to automatically recover spreadsheets in case of the unexpected program closing.</span></li>
+                <li><span class="onlineDocumentFeatures"><b>Autosave</b> is used in the <em>online version</em> to turn on/off automatic saving of changes you make while editing.</span></li>
+                <li><span class="desktopDocumentFeatures"><b>Autorecover</b> - is used in the <em>desktop version</em> to turn on/off the option that allows to automatically recover spreadsheets in case of the unexpected program closing.</span></li>
                 <li><b>Reference Style</b> is used to turn on/off the <b>R1C1 reference style</b>. By default, this option is disabled and the <b>A1 reference style</b> is used.
                 <p>When the <b>A1 reference style</b> is used, columns are designated by letters, and rows are designated by numbers. If you select the cell located in row 3 and column 2, its address displayed in the box to the left of the the formula bar looks like this: <b>B3</b>. If the <b>R1C1 reference style</b> is enabled, both rows and columns are designated by numbers. If you select the cell at the intersection of row 3 and column 2, its address will look like this: <b>R3C2</b>. Letter R indicates the row number and letter C indicates the column number.</p>
                 <p><img alt="Active cell" src="../images/activecell.png" /></p>
@@ -45,9 +46,23 @@
 						<li>Choose <b>Native</b> if you want your text to be displayed with the hinting embedded into font files.</li>
 					</ul>
 				</li>
+                <li>
+                    <b>Default cache mode</b> - used to select the cache mode for the font characters. It’s not recommended to switch it without any reason. It can be helpful in some cases only, for example, when an issue in the Google Chrome browser with the enabled hardware acceleration occurs.
+                    <p>Spreadsheet Editor has two cache modes:</p>
+                    <ol>
+                        <li>In the <b>first cache mode</b>, each letter is cached as a separate picture.</li>
+                        <li>In the <b>second cache mode</b>, a picture of a certain size is selected where letters are placed dynamically and a mechanism of allocating/removing memory in this picture is also implemented. If there is not enough memory, a second picture is created, etc.</li>
+                    </ol>
+                    <p>The <b>Default cache mode</b> setting applies two above mentioned cache modes separately for different browsers:</p>
+                    <ul>
+                        <li>When the <b>Default cache mode</b> setting is enabled, Internet Explorer (v. 9, 10, 11) uses the <b>second cache mode</b>, other browsers use the <b>first cache mode</b>.</li>
+                        <li>When the <b>Default cache mode</b> setting is disabled, Internet Explorer (v. 9, 10, 11) uses the <b>first cache mode</b>, other browsers use the <b>second cache mode</b>.</li>
+                    </ul>
+                </li>
 				<li><b>Unit of Measurement</b> is used to specify what units are used for measuring elements parameters such as width, height, spacing, margins etc. You can select the <b>Centimeter</b>, <b>Point</b>, or <b>Inch</b> option.</li>
                 <li><b>Formula Language</b> is used to select the language for displaying and entering formula names.</li>
                 <li><b>Regional Settings</b> is used to select the default display format for currency and date and time.</li>
+                <li><b>Separator</b> is used to specify the characters that you want to use as separators for decimals and thousands. The <b>Use separators based on regional settings</b> option is selected by default. If you want to use custom separators, uncheck this box and enter the necessary characters in the <b>Decimal separator</b> and <b>Thousands separator</b> fields below.</li>
 			</ul>
 			<p>To save the changes you made, click the <b>Apply</b> button.</p>
 		</div>

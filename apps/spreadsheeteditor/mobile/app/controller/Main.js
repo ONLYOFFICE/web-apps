@@ -125,6 +125,7 @@ define([
                     'translate': translate
                 });
 
+
                 // Localization uiApp params
                 uiApp.params.modalButtonOk = me.textOK;
                 uiApp.params.modalButtonCancel = me.textCancel;
@@ -216,9 +217,10 @@ define([
                 me.appOptions.fileChoiceUrl   = me.editorConfig.fileChoiceUrl;
                 me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
                 me.appOptions.canAnalytics    = false;
+                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.customization   = me.editorConfig.customization;
-                me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object')
-                    && (typeof (me.editorConfig.customization.goback) == 'object') && !_.isEmpty(me.editorConfig.customization.goback.url);
+                me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object') && (typeof (me.editorConfig.customization.goback) == 'object')
+                    && (!_.isEmpty(me.editorConfig.customization.goback.url) || me.editorConfig.customization.goback.requestClose && me.appOptions.canRequestClose);
                 me.appOptions.canBack         = me.appOptions.canBackToFolder === true;
                 me.appOptions.canPlugins      = false;
                 me.plugins                    = me.editorConfig.plugins;
@@ -238,6 +240,9 @@ define([
 
                if (me.appOptions.location == 'us' || me.appOptions.location == 'ca')
                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+
+                if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
+                    $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
             },
 
             loadDocument: function(data) {
@@ -334,11 +339,15 @@ define([
             },
 
             goBack: function(current) {
-                var href = this.appOptions.customization.goback.url;
-                if (!current && this.appOptions.customization.goback.blank!==false) {
-                    window.open(href, "_blank");
+                if (this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose) {
+                    Common.Gateway.requestClose();
                 } else {
-                    parent.location.href = href;
+                    var href = this.appOptions.customization.goback.url;
+                    if (!current && this.appOptions.customization.goback.blank!==false) {
+                        window.open(href, "_blank");
+                    } else {
+                        parent.location.href = href;
+                    }
                 }
             },
 
@@ -579,6 +588,8 @@ define([
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
+
+                $('.doc-placeholder').remove();
             },
 
             onLicenseChanged: function(params) {
@@ -595,6 +606,21 @@ define([
 
             applyLicense: function() {
                 var me = this;
+                if (this.editorConfig.mode !== 'view' && !this.isSupportEditFeature()) {
+                    var value = Common.localStorage.getItem("sse-opensource-warning");
+                    value = (value!==null) ? parseInt(value) : 0;
+                    var now = (new Date).getTime();
+                    if (now - value > 86400000) {
+                        Common.localStorage.setItem("sse-opensource-warning", now);
+                        uiApp.modal({
+                            title: me.notcriticalErrorTitle,
+                            text : me.errorOpensource,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
+                    SSE.getController('Toolbar').activateControls();
+                    return;
+                }
                 if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = [{text: 'OK'}];
@@ -700,10 +726,10 @@ define([
                 }
 
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
-                me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
                 me.appOptions.canEdit        = me.permissions.edit !== false && // can edit
-                    (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view'); // if mode=="view" -> canRequestEditRights must be defined
-                me.appOptions.isEdit         = (me.appOptions.canLicense || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && me.permissions.edit !== false && me.editorConfig.mode !== 'view';
+                    (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
+                    me.isSupportEditFeature();
+                me.appOptions.isEdit         = (me.appOptions.canLicense || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && me.permissions.edit !== false && me.editorConfig.mode !== 'view' && me.isSupportEditFeature();
                 me.appOptions.canDownload    = (me.permissions.download !== false);
                 me.appOptions.canPrint       = (me.permissions.print !== false);
 
@@ -716,6 +742,12 @@ define([
                 if (!me.appOptions.isEdit) {
                     me.hidePreloader();
                     me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+                }
+
+                if (me.appOptions.canBrandingExt && (me.editorConfig.customization && (me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))) {
+                    $('#editor-navbar #navbar-logo').hide();
+                    $('#editor-navbar').removeClass('logo-navbar');
+                    $('.page.editor').removeClass('with-logo');
                 }
             },
 
@@ -742,8 +774,10 @@ define([
                 if (this.appOptions.isEdit) {
                     var me = this;
 
-                    var value = Common.localStorage.getItem('sse-settings-unit');
-                    Common.Utils.Metric.setCurrentMetric((value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric());
+                    var value = Common.localStorage.getItem('se-mobile-settings-unit');
+                    value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+                    (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
+                    Common.Utils.Metric.setCurrentMetric(value);
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
@@ -974,7 +1008,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.Warning:
-                        config.msg = this.errorConnectToServer.replace('%1', '{{API_URL_EDITING_CALLBACK}}');
+                        config.msg = this.errorConnectToServer;
                         break;
 
                     case Asc.c_oAscError.ID.LockedWorksheetRename:
@@ -1032,6 +1066,14 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlMaxTextLength:
                         config.msg = this.errorFrmlMaxTextLength;
+                        break;
+
+                    case Asc.c_oAscError.ID.ConvertationOpenLimitError:
+                        config.msg = this.errorFileSizeExceed;
+                        break;
+
+                    case Asc.c_oAscError.ID.UpdateVersion:
+                        config.msg = this.errorUpdateVersionOnDisconnect;
                         break;
 
                     default:
@@ -1221,7 +1263,6 @@ define([
             },
 
             onSendThemeColors: function(colors, standart_colors) {
-               Common.Utils.ThemeColor.setColors(colors, standart_colors);
             },
 
             onAdvancedOptions: function(type, advOptions, mode, formatOptions) {
@@ -1434,6 +1475,10 @@ define([
                 }
             },
 
+            isSupportEditFeature: function() {
+                return false;
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -1513,15 +1558,14 @@ define([
             sendMergeTitle: 'Sending Merge',
             sendMergeText: 'Sending Merge...',
             txtArt: 'Your text here',
-            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.<br><br>' +
-                'Find more information about connecting Document Server <a href=\"%1\" target=\"_blank\">here</a>',
+            errorConnectToServer: ' The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
             textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
             textStrict: 'Strict mode',
             txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: '%1 open source version',
             textContactUs: 'Contact sales',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
+            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored and page is reloaded.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
             titleLicenseExp: 'License expired',
             openErrorText: 'An error has occurred while opening the file',
@@ -1615,7 +1659,10 @@ define([
             textPaidFeature: 'Paid feature',
             textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
             errorFrmlMaxTextLength: 'Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&)',
-            waitText: 'Please, wait...'
+            waitText: 'Please, wait...',
+            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+            errorOpensource: 'Files can be opened for viewing only. Mobile web editors are not available in the Open Source version.'
         }
     })(), SSE.Controllers.Main || {}))
 });

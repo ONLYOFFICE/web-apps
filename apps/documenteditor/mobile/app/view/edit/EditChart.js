@@ -213,6 +213,7 @@ define([
             },
 
             showStyle: function () {
+                var me = this;
                 var selector = '#edit-chart-style';
                 this.showPage(selector, true);
 
@@ -220,6 +221,24 @@ define([
                     el: $('#tab-chart-fill'),
                     transparent: true
                 });
+                this.paletteFillColor.on('customcolor', function () {
+                    me.showCustomFillColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-chart-add-custom-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('#tab-chart-fill').append(template({scope: this}));
+                $('#edit-chart-add-custom-color').single('click', _.bind(this.showCustomFillColor, this));
 
                 
                 this.fireEvent('page:show', [this, selector]);
@@ -236,14 +255,69 @@ define([
             },
 
             showBorderColor: function () {
+                var me = this;
                 var selector = '#edit-chart-border-color-view';
                 this.showPage(selector, true);
 
                 this.paletteBorderColor = new Common.UI.ThemeColorPalette({
                     el: $('.page[data-page=edit-chart-border-color] .page-content')
                 });
+                this.paletteBorderColor.on('customcolor', function () {
+                    me.showCustomBorderColor();
+                });
+                var template = _.template(['<div class="list-block">',
+                    '<ul>',
+                    '<li>',
+                    '<a id="edit-chart-add-custom-border-color" class="item-link">',
+                    '<div class="item-content">',
+                    '<div class="item-inner">',
+                    '<div class="item-title"><%= scope.textAddCustomColor %></div>',
+                    '</div>',
+                    '</div>',
+                    '</a>',
+                    '</li>',
+                    '</ul>',
+                    '</div>'].join(''));
+                $('.page[data-page=edit-chart-border-color] .page-content').append(template({scope: this}));
+                $('#edit-chart-add-custom-border-color').single('click', _.bind(this.showCustomBorderColor, this));
 
                 this.fireEvent('page:show', [this, selector]);
+            },
+
+            showCustomFillColor: function() {
+                var me = this,
+                    selector = '#edit-chart-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-chart-custom-color] .page-content'),
+                    color: me.paletteFillColor.currentColor
+                });
+                me.customColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteFillColor.addNewDynamicColor(colorPicker, color);
+                    DE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
+            },
+
+            showCustomBorderColor: function() {
+                var me = this,
+                    selector = '#edit-chart-custom-color-view';
+                me.showPage(selector, true);
+
+                me.customBorderColorPicker = new Common.UI.HsbColorPicker({
+                    el: $('.page[data-page=edit-chart-custom-color] .page-content'),
+                    color: me.paletteBorderColor.currentColor
+                });
+                me.customBorderColorPicker.on('addcustomcolor', function (colorPicker, color) {
+                    me.paletteBorderColor.addNewDynamicColor(colorPicker, color);
+                    me.paletteFillColor.updateDynamicColors();
+                    me.paletteFillColor.select(me.paletteFillColor.currentColor);
+                    DE.getController('EditContainer').rootView.router.back();
+                });
+
+                me.fireEvent('page:show', [me, selector]);
             },
 
             textStyle: 'Style',
@@ -270,7 +344,9 @@ define([
             textFill: 'Fill',
             textBorder: 'Border',
             textSize: 'Size',
-            textColor: 'Color'
+            textColor: 'Color',
+            textAddCustomColor: 'Add Custom Color',
+            textCustomColor: 'Custom Color'
         }
     })(), DE.Views.EditChart || {}))
 });

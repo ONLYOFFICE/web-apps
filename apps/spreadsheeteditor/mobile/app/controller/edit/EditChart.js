@@ -53,11 +53,9 @@ define([
 
     SSE.Controllers.EditChart = Backbone.Controller.extend(_.extend((function() {
         var _stack = [],
-            _chartObject = undefined,
             _shapeObject = undefined,
             _borderInfo = {color: '000000', width: 1},
-            _metricText = Common.Utils.Metric.getCurrentMetricName(),
-            _isEdit = false;
+            _metricText = Common.Utils.Metric.getCurrentMetricName();
 
         var borderSizeTransform = (function() {
             var _sizes = [0, 0.5, 1, 1.5, 2.25, 3, 4.5, 6];
@@ -101,23 +99,19 @@ define([
                         'page:show' : this.onPageShow
                     }
                 });
+                this._chartObject = undefined;
+                this._isEdit = false;
             },
 
             setApi: function (api) {
                 var me = this;
                 me.api = api;
 
-                me.api.asc_registerCallback('asc_onSelectionChanged',   _.bind(me.onApiSelectionChanged, me));
                 me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onApiFocusObject, me));
-
-                me.api.asc_registerCallback('asc_onUpdateChartStyles',  _.bind(me.onApiUpdateChartStyles, me));
-                // me.api.asc_registerCallback('asc_onSelectionChanged',           _.bind(me.onApiSelectionChanged, me));
-                // me.api.asc_registerCallback('asc_onEditorSelectionChanged',     _.bind(me.onApiEditorSelectionChanged, me));
-                // me.api.asc_registerCallback('asc_onInitEditorStyles',           _.bind(me.onApiInitEditorStyles, me)); // TODO: It does not work until the error in the SDK
             },
 
             setMode: function (mode) {
-                _isEdit = mode.isEdit;
+                this._isEdit = mode.isEdit;
             },
 
             onLaunch: function () {
@@ -178,15 +172,17 @@ define([
             initRootPage: function () {
                 $('#chart-remove').single('click', _.bind(this.onRemoveChart, this));
 
-                if (!_.isUndefined(_chartObject)) {
-                    this.updateAxisProps(_chartObject.get_ChartProperties().getType());
+                if (!_.isUndefined(this._chartObject)) {
+                    this.updateAxisProps(this._chartObject.get_ChartProperties().getType());
                 }
             },
 
             initStylePage: function () {
+                if (_.isUndefined(this._chartObject)) return;
+
                 var me = this,
                     color,
-                    chartProperties = _chartObject.get_ChartProperties(),
+                    chartProperties = me._chartObject.get_ChartProperties(),
                     shapeProperties = _shapeObject.get_ShapeProperties();
 
                 // Type
@@ -199,15 +195,12 @@ define([
                 // Styles
 
                 _.defer(function () {
-                    me._updateChartStyles(me.api.asc_getChartPreviews(_chartObject.get_ChartProperties().getType()));
+                    me._updateChartStyles(me.api.asc_getChartPreviews(me._chartObject.get_ChartProperties().getType()));
                 });
 
                 // Fill
 
-                var paletteFillColor = new Common.UI.ThemeColorPalette({
-                    el: $('#tab-chart-fill'),
-                    transparent: true
-                });
+                var paletteFillColor = this.getView('EditChart').paletteFillColor;
 
                 paletteFillColor.on('select', _.bind(me.onFillColor, me));
 
@@ -250,8 +243,10 @@ define([
             },
 
             initLayoutPage: function () {
+                if (_.isUndefined(this._chartObject)) return;
+
                 var me = this,
-                    chartProperties = _chartObject.get_ChartProperties(),
+                    chartProperties = me._chartObject.get_ChartProperties(),
                     chartType = chartProperties.getType(),
                     $layoutPage = $('.page[data-page=edit-chart-layout]');
 
@@ -533,9 +528,7 @@ define([
 
             initBorderColorPage: function () {
                 var me = this,
-                    palette = new Common.UI.ThemeColorPalette({
-                        el: $('.page[data-page=edit-chart-border-color] .page-content')
-                    });
+                    palette = me.getView('EditChart').paletteBorderColor;
 
                 if (palette) {
                     palette.select(_borderInfo.color);
@@ -569,41 +562,9 @@ define([
             },
 
             onType: function (e) {
-                var me = this,
-                    $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                $('.chart-types li').removeClass('active');
-                $target.addClass('active');
-
-                _.defer(function() {
-                    var image = new Asc.asc_CImgProperty(),
-                        chart = _chartObject.get_ChartProperties();
-
-                    chart.changeType(type);
-                    image.put_ChartProperties(chart);
-
-                    me.api.asc_setGraphicObjectProps(image);
-
-                    // Force update styles
-                    me._updateChartStyles(me.api.asc_getChartPreviews(chart.getType()));
-
-                    me.updateAxisProps(type);
-                });
             },
 
             onStyle: function (e) {
-                var me = this,
-                    $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                var image = new Asc.asc_CImgProperty(),
-                    chart = _chartObject.get_ChartProperties();
-
-                chart.putStyle(type);
-                image.put_ChartProperties(chart);
-
-                me.api.asc_setGraphicObjectProps(image);
             },
 
             onFillColor:function (palette, color) {
@@ -942,32 +903,10 @@ define([
 
             // API handlers
 
-            onApiUpdateChartStyles: function () {
-                if (this.api && _chartObject && _chartObject.get_ChartProperties()) {
-                    this._updateChartStyles(this.api.asc_getChartPreviews(_chartObject.get_ChartProperties().getType()));
-                }
-            },
-
-            onApiSelectionChanged: function(info) {
-                if (!_isEdit) {
-                    return;
-                }
-
-                var me = this,
-                    selectedObjects = [],
-                    selectType = info.asc_getFlags().asc_getSelectionType();
-
-                if (selectType == Asc.c_oAscSelectionType.RangeChart) {
-                    selectedObjects = me.api.asc_getGraphicObjectProps();
-                }
-
-                me.onApiFocusObject(selectedObjects);
-            },
-
             onApiFocusObject: function (objects) {
                 _stack = objects;
 
-                if (!_isEdit) {
+                if (!this._isEdit) {
                     return;
                 }
 
@@ -994,7 +933,7 @@ define([
                     }
                 };
 
-                _chartObject = getTopObject(charts);
+                this._chartObject = getTopObject(charts);
                 _shapeObject = getTopObject(shapes);
             },
 

@@ -12,6 +12,7 @@
   "PE.ApplicationController.errorAccessDeny": "Stai tentando di eseguire un'azione per la quale non disponi di permessi sufficienti.<br>Si prega di contattare l'amministratore del Server dei Documenti.",
   "PE.ApplicationController.errorDefaultMessage": "Codice errore: %1",
   "PE.ApplicationController.errorFilePassProtect": "Il file è protetto da una password. Impossibile aprirlo.",
+  "PE.ApplicationController.errorFileSizeExceed": "La dimensione del file supera la limitazione impostata per il tuo server.<br>Per i dettagli, contatta l'amministratore del Document server.",
   "PE.ApplicationController.errorUserDrop": "Impossibile accedere al file subito.",
   "PE.ApplicationController.notcriticalErrorTitle": "Avviso",
   "PE.ApplicationController.scriptLoadError": "La connessione è troppo lenta, alcuni componenti non possono essere caricati. Si prega di ricaricare la pagina.",

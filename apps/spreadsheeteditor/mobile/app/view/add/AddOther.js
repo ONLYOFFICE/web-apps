@@ -226,7 +226,8 @@ define([
             textFromURL: 'Picture from URL',
             textAddress: 'Address',
             textImageURL: 'Image URL',
-            textFilter: 'Filter'
+            textFilter: 'Filter',
+            textLinkSettings: 'Link Settings'
         }
     })(), SSE.Views.AddOther || {}))
 });

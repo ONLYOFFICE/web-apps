@@ -84,9 +84,9 @@ define([
             _canReview = false,
             _isReviewOnly = false,
             _fileKey,
-            templateInsert,
             _metricText = Common.Utils.Metric.getCurrentMetricName(),
-            _isEdit;
+            _isEdit,
+            _lang;
 
         var mm2Cm = function(mm) {
             return parseFloat((mm/10.).toFixed(2));
@@ -149,6 +149,7 @@ define([
                 _isReviewOnly = mode.isReviewOnly;
                 _fileKey = mode.fileKey;
                 _isEdit = mode.isEdit;
+                _lang = mode.lang;
             },
 
             initEvents: function () {
@@ -229,7 +230,7 @@ define([
                     Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
                 } else if ('#settings-advanced-view' == pageId) {
                     me.initPageAdvancedSettings();
-                    $('#settings-spellcheck input:checkbox').attr('checked', Common.localStorage.getBool("de-mobile-spellcheck", false));
+                    $('#settings-spellcheck input:checkbox').attr('checked', Common.Utils.InternalSettings.get("de-mobile-spellcheck"));
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
                     $('#settings-no-characters input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-no-characters") == 'true') ? true : false);
                     $('#settings-no-characters input:checkbox').single('change',   _.bind(me.onNoCharacters, me));
@@ -346,27 +347,21 @@ define([
             },
 
             initPageColorSchemes: function() {
-                $('#color-schemes-content').html(templateInsert);
-                $('.color-schemes-menu').on('click', _.bind(this.onColorSchemaClick, this));
+                this.curSchemas = (this.api) ? this.api.asc_GetCurrentColorSchemeIndex() : 0;
+                this.getView('Settings').renderSchemaSettings(this.curSchemas, this.schemas);
+                $('.page[data-page=color-schemes-view] input:radio[name=color-schema]').single('change', _.bind(this.onColorSchemaChange, this));
+                Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view', '.page[data-page=color-schemes-view] .page-content');
             },
 
             onSendThemeColorSchemes: function (schemas) {
-                templateInsert = "";
-                _.each(schemas, function (schema, index) {
-                    var colors = schema.get_colors();//schema.colors;
-                    templateInsert = templateInsert + "<a class='color-schemes-menu item-link no-indicator'><input type='hidden' value='" + index + "'><div class='item-content'><div class='item-inner'><span class='color-schema-block'>";
-                    for (var j = 2; j < 7; j++) {
-                        var clr = '#' + Common.Utils.ThemeColor.getHexColor(colors[j].get_r(), colors[j].get_g(), colors[j].get_b());
-                        templateInsert =  templateInsert + "<span class='color' style='background: " + clr + ";'></span>"
-                    }
-                    templateInsert =  templateInsert + "</span><span class='text'>" + schema.get_name() + "</span></div></div></a>";
-                }, this);
+                this.schemas = schemas;
             },
 
-            onColorSchemaClick: function(event) {
+            onColorSchemaChange: function(event) {
                 if (this.api) {
-                    var ind = $(event.currentTarget).children('input').val();
-                    this.api.ChangeColorScheme(ind);
+                    var ind = $(event.currentTarget).val();
+                    if (this.curSchemas !== ind)
+                        this.api.asc_ChangeColorSchemeByIdx(parseInt(ind));
                 }
             },
 
@@ -374,8 +369,7 @@ define([
                 var me = this,
                     $unitMeasurement = $('.page[data-page=settings-advanced-view] input:radio[name=unit-of-measurement]');
                 $unitMeasurement.single('change', _.bind(me.unitMeasurementChange, me));
-                var value = Common.localStorage.getItem('de-mobile-settings-unit');
-                    value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
+                var value = Common.Utils.Metric.getCurrentMetric();
                 $unitMeasurement.val([value]);
                 var _stateDisplayMode = DE.getController('Common.Controllers.Collaboration').getDisplayMode();
                 if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
@@ -436,11 +430,11 @@ define([
                         value = props.asc_getDescription();
                         value ? $('#settings-doc-comment').html(value) : $('.display-comment').remove();
                         value = props.asc_getModified();
-                        value ? $('#settings-doc-last-mod').html(value.toLocaleString()) : $('.display-last-mode').remove();
+                        value ? $('#settings-doc-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
                         value = props.asc_getLastModifiedBy();
                         value ? $('#settings-doc-mod-by').html(value) : $('.display-mode-by').remove();
                         value = props.asc_getCreated();
-                        value ? $('#settings-doc-date').html(value.toLocaleString()) : $('.display-created-date').remove();
+                        value ? $('#settings-doc-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
                         value = props.asc_getCreator();
                         var templateCreator = "";
                         value && value.split(/\s*[,;]\s*/).forEach(function(item) {
@@ -543,6 +537,7 @@ define([
                 var $checkbox = $(e.currentTarget),
                     state = $checkbox.is(':checked');
                 Common.localStorage.setItem("de-mobile-spellcheck", state ? 1 : 0);
+                Common.Utils.InternalSettings.set("de-mobile-spellcheck", state);
                 this.api && this.api.asc_setSpellCheck(state);
             },
 
@@ -558,11 +553,11 @@ define([
                     url += '/';
                 }
                 if (Common.SharedSettings.get('sailfish')) {
-                    url+='mobile-applications/documents/sailfish/index.aspx';
+                    url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
                 } else if (Common.SharedSettings.get('android')) {
-                    url+='mobile-applications/documents/android/index.aspx';
+                    url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
                 } else {
-                    url+='mobile-applications/documents/index.aspx';
+                    url+='mobile-applications/documents/mobile-web-editors/ios/index.aspx';
                 }
                 window.open(url, "_blank");
                 this.hideModal();
@@ -639,7 +634,6 @@ define([
                 Common.Utils.Metric.setCurrentMetric(value);
                 Common.localStorage.setItem("de-mobile-settings-unit", value);
                 this.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
-
             },
 
             onPageMarginsChange: function (align, e) {

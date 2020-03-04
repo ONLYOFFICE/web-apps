@@ -129,6 +129,7 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insertequation"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inssymbol"></span>
                 </div>
             </section>
         </section>

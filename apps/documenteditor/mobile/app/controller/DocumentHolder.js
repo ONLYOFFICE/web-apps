@@ -118,11 +118,35 @@ define([
                 var me = this;
 
                 if ('cut' == eventName) {
-                    me.api.Cut();
+                    var res = me.api.Cut();
+                    if (!res) {
+                        _view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text : me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
                 } else if ('copy' == eventName) {
-                    me.api.Copy();
+                    var res = me.api.Copy();
+                    if (!res) {
+                        _view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text : me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
                 } else if ('paste' == eventName) {
-                    me.api.Paste();
+                    var res = me.api.Paste();
+                    if (!res) {
+                        _view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text: me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
                 } else if ('merge' == eventName) {
                     me.api.MergeCells();
                 } else if ('split' == eventName) {
@@ -559,7 +583,9 @@ define([
             menuMerge: 'Merge Cells',
             menuSplit: 'Split Cell',
             menuDeleteTable: 'Delete Table',
-            menuReviewChange: 'Review Change'
+            menuReviewChange: 'Review Change',
+            textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
+            errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only. You cannot copy or paste to or from other applications.'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });

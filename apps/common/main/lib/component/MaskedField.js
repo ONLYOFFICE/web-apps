@@ -48,7 +48,7 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             var me = this,
-                el = $(this.el);
+                el = me.$el || $(this.el);
 
             el.addClass('masked-field user-select');
             el.attr('maxlength', me.options.maxLength);
@@ -75,11 +75,11 @@ define([
 
         setValue: function(value) {
             if (this.options.maskExp.test(value) && value.length<=this.options.maxLength)
-                $(this.el).val(value);
+                this.$el.val(value);
         },
 
         getValue: function() {
-            $(this.el).val();
+            this.$el.val();
         }
     });
 });

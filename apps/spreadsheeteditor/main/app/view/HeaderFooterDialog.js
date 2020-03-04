@@ -48,10 +48,11 @@ define([
 
     SSE.Views.HeaderFooterDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 647,
+            width: 650,
             style: 'min-width: 350px;',
             cls: 'modal-dlg enable-key-events',
-            animate: {mask: false}
+            animate: {mask: false},
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -75,7 +76,7 @@ define([
                 subscript: undefined,
                 superscript: undefined,
                 fontsize: undefined,
-                fontname: 'Arial'
+                fontname: ''
             };
 
             this.template = [
@@ -113,23 +114,21 @@ define([
                     '<div id="id-dlg-h-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-italic" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-h-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div style="margin-top: 7px;">',
-                        '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                    '</div>',
                     '<label style="display: block; margin-top: 10px;margin-bottom: 3px;">' + this.textFooter + '</label>',
                     '<div id="id-dlg-f-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
                     '<div id="id-dlg-f-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
@@ -139,27 +138,21 @@ define([
                     '<div id="id-dlg-f-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-italic" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-f-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div style="margin-top: 7px;">',
-                        '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                    '</div>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -169,6 +162,22 @@ define([
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
+
+            this.menuAddAlign = function(menuRoot, left, top) {
+                var self = this;
+                if (!$window.hasClass('notransform')) {
+                    $window.addClass('notransform');
+                    menuRoot.addClass('hidden');
+                    setTimeout(function() {
+                        menuRoot.removeClass('hidden');
+                        menuRoot.css({left: left, top: top});
+                        self.options.additionalAlign = null;
+                    }, 300);
+                } else {
+                    menuRoot.css({left: left, top: top});
+                    self.options.additionalAlign = null;
+                }
+            };
 
             var me = this,
                 $window = this.getChild();
@@ -276,62 +285,60 @@ define([
             });
             this.btnFirst.on('toggle', _.bind(this.onPageTypeToggle, this, Asc.c_oAscHeaderFooterType.first));
 
-            this.cmbPresetsH = new Common.UI.ComboBox({
-                el          : $('#id-dlg-h-presets'),
-                cls         : 'input-group-nr',
-                style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-height: 200px;',
-                editable    : false,
-                scrollAlwaysVisible: true,
-                data: []
+            this.btnPresetsH = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textPresets,
+                style: 'width: 110px;',
+                menu: true
             });
-            this.cmbPresetsH.on('selected', _.bind(this.onPresetSelect, this, false));
-            this.cmbPresetsH.setValue(this.textPresets);
+            this.btnPresetsH.render( $('#id-dlg-h-presets')) ;
 
-            this.cmbPresetsF = new Common.UI.ComboBox({
-                el          : $('#id-dlg-f-presets'),
-                cls         : 'input-group-nr',
-                style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-height: 200px;',
-                editable    : false,
-                scrollAlwaysVisible: true,
-                data: []
+            this.btnPresetsF = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textPresets,
+                style: 'width: 110px;',
+                menu: true
             });
-            this.cmbPresetsF.on('selected', _.bind(this.onPresetSelect, this, true));
-            this.cmbPresetsF.setValue(this.textPresets);
+            this.btnPresetsF.render( $('#id-dlg-f-presets')) ;
 
             var data = [
-                {displayValue: this.textPageNum, value: Asc.c_oAscHeaderFooterField.pageNumber},
-                {displayValue: this.textPageCount, value: Asc.c_oAscHeaderFooterField.pageCount},
-                {displayValue: this.textDate, value: Asc.c_oAscHeaderFooterField.date},
-                {displayValue: this.textTime, value: Asc.c_oAscHeaderFooterField.time},
-                {displayValue: this.textFileName, value: Asc.c_oAscHeaderFooterField.fileName},
-                {displayValue: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName}
+                {caption: this.textPageNum, value: Asc.c_oAscHeaderFooterField.pageNumber},
+                {caption: this.textPageCount, value: Asc.c_oAscHeaderFooterField.pageCount},
+                {caption: this.textDate, value: Asc.c_oAscHeaderFooterField.date},
+                {caption: this.textTime, value: Asc.c_oAscHeaderFooterField.time},
+                {caption: this.textFileName, value: Asc.c_oAscHeaderFooterField.fileName},
+                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName}
             ];
 
-            this.cmbInsertH = new Common.UI.ComboBox({
-                el          : $('#id-dlg-h-insert'),
-                cls         : 'input-group-nr',
-                style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
-                editable    : false,
-                data: data
+            this.btnInsertH = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textInsert,
+                style: 'width: 110px;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 110px;',
+                    maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
+                    items: data
+                })
             });
-            this.cmbInsertH.on('selected', _.bind(this.onObjectSelect, this));
-            this.cmbInsertH.setValue(this.textInsert);
-            this.headerControls.push(this.cmbInsertH);
+            this.btnInsertH.render( $('#id-dlg-h-insert')) ;
+            this.btnInsertH.menu.on('item:click', _.bind(this.onObjectSelect, this));
+            this.headerControls.push(this.btnInsertH);
 
-            this.cmbInsertF = new Common.UI.ComboBox({
-                el          : $('#id-dlg-f-insert'),
-                cls         : 'input-group-nr',
-                style       : 'width: 110px;',
-                menuStyle   : 'min-width: 100%; max-heigh: 100px;',
-                editable    : false,
-                data: data
+            this.btnInsertF = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textInsert,
+                style: 'width: 110px;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 110px;',
+                    maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
+                    items: data
+                })
             });
-            this.cmbInsertF.on('selected', _.bind(this.onObjectSelect, this));
-            this.cmbInsertF.setValue(this.textInsert);
-            this.footerControls.push(this.cmbInsertF);
+            this.btnInsertF.render( $('#id-dlg-f-insert')) ;
+            this.btnInsertF.menu.on('item:click', _.bind(this.onObjectSelect, this));
+            this.footerControls.push(this.btnInsertF);
 
             this.cmbFonts = [];
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
@@ -345,6 +352,7 @@ define([
                 hint        : this.tipFontName
             }));
             this.cmbFonts[0].on('selected', _.bind(this.onFontSelect, this));
+            this.cmbFonts[0].setValue(this._state.fontname);
             this.headerControls.push(this.cmbFonts[0]);
 
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
@@ -358,6 +366,7 @@ define([
                 hint        : this.tipFontName
             }));
             this.cmbFonts[1].on('selected', _.bind(this.onFontSelect, this));
+            this.cmbFonts[1].setValue(this._state.fontname);
             this.footerControls.push(this.cmbFonts[1]);
             Common.NotificationCenter.on('fonts:change', _.bind(this.onApiChangeFont, this));
 
@@ -414,7 +423,7 @@ define([
             this.btnBold = [];
             this.btnBold.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-bold',
+                iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             }));
@@ -424,7 +433,7 @@ define([
 
             this.btnBold.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-bold',
+                iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             }));
@@ -435,7 +444,7 @@ define([
             this.btnItalic = [];
             this.btnItalic.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-italic',
+                iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             }));
@@ -445,7 +454,7 @@ define([
 
             this.btnItalic.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-italic',
+                iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             }));
@@ -456,7 +465,7 @@ define([
             this.btnUnderline = [];
             this.btnUnderline.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-underline',
+                iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             }));
@@ -466,7 +475,7 @@ define([
 
             this.btnUnderline.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-underline',
+                iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             }));
@@ -477,7 +486,7 @@ define([
             this.btnStrikeout = [];
             this.btnStrikeout.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-strikeout',
+                iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             }));
@@ -487,7 +496,7 @@ define([
 
             this.btnStrikeout.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-strikeout',
+                iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             }));
@@ -498,7 +507,7 @@ define([
             this.btnSuperscript = [];
             this.btnSuperscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-superscript',
+                iconCls: 'toolbar__icon btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSuperscript
@@ -509,7 +518,7 @@ define([
 
             this.btnSuperscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-superscript',
+                iconCls: 'toolbar__icon btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSuperscript
@@ -521,7 +530,7 @@ define([
             this.btnSubscript = [];
             this.btnSubscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-subscript',
+                iconCls: 'toolbar__icon btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSubscript
@@ -532,7 +541,7 @@ define([
 
             this.btnSubscript.push(new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'btn-subscript',
+                iconCls: 'toolbar__icon btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSubscript
@@ -561,10 +570,11 @@ define([
             this.btnTextColor = [];
             this.btnTextColor.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-fontcolor',
+                iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-h-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
@@ -579,10 +589,11 @@ define([
 
             this.btnTextColor.push(new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-fontcolor',
+                iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 split       : true,
                 menu        : new Common.UI.Menu({
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-f-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
@@ -650,9 +661,7 @@ define([
             this.api.asc_registerCallback('asc_updateEditorCursorPosition', this.wrapEvents.onUpdateEditorCursorPosition);
 
             this.cmbFonts[0].fillFonts(this.fontStore);
-            this.cmbFonts[0].selectRecord(this.fontStore.findWhere({name: this._state.fontname}) || this.fontStore.at(0));
             this.cmbFonts[1].fillFonts(this.fontStore);
-            this.cmbFonts[1].selectRecord(this.fontStore.findWhere({name: this._state.fontname}) || this.fontStore.at(0));
             this.updateThemeColors();
 
             this.HFObject = new AscCommonExcel.CHeaderFooterEditor(['header-left-img', 'header-center-img', 'header-right-img', 'footer-left-img', 'footer-center-img', 'footer-right-img'], 205);
@@ -667,12 +676,23 @@ define([
         _setDefaults: function (props) {
             var presets = [];
             this.HFObject.getTextPresetsArr().forEach(function(item, index){
-                presets.push({displayValue: item, value: index});
+                presets.push({caption: item, value: index});
             });
-            this.cmbPresetsH.setData(presets);
-            this.cmbPresetsH.setValue(this.textPresets);
-            this.cmbPresetsF.setData(presets);
-            this.cmbPresetsF.setValue(this.textPresets);
+
+            this.btnPresetsH.setMenu(new Common.UI.Menu({
+                style: 'min-width: 110px;',
+                maxHeight: 200,
+                additionalAlign: this.menuAddAlign,
+                items: presets
+            }));
+            this.btnPresetsH.menu.on('item:click', _.bind(this.onPresetSelect, this, false));
+            this.btnPresetsF.setMenu(new Common.UI.Menu({
+                style: 'min-width: 110px;',
+                maxHeight: 200,
+                additionalAlign: this.menuAddAlign,
+                items: presets
+            }));
+            this.btnPresetsF.menu.on('item:click', _.bind(this.onPresetSelect, this, true));
 
             this.chOddPage.setValue(this.HFObject.getDifferentOddEven());
             this.chFirstPage.setValue(this.HFObject.getDifferentFirst());
@@ -797,17 +817,15 @@ define([
             }
         },
 
-        onPresetSelect: function(footer, combo, record) {
-            combo.setValue(this.textPresets);
+        onPresetSelect: function(footer, menu, item) {
             if (this.HFObject)
-                this.HFObject.applyPreset(record.value, !!footer);
+                this.HFObject.applyPreset(item.value, !!footer);
             this.onCanvasClick(footer ? '#footer-left-img' : '#header-left-img');
         },
 
-        onObjectSelect: function(combo, record) {
-            combo.setValue(this.textInsert);
+        onObjectSelect: function(menu, item) {
             if (this.HFObject)
-                this.HFObject.addField(record.value);
+                this.HFObject.addField(item.value);
             this.onCanvasClick(this.currentCanvas);
         },
 
@@ -1015,8 +1033,6 @@ define([
             }
         },
 
-        cancelButtonText:   'Cancel',
-        okButtonText:       'Ok',
         tipFontName: 'Font',
         tipFontSize: 'Font size',
         textBold:    'Bold',

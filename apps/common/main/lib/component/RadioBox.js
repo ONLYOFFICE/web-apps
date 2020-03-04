@@ -71,13 +71,13 @@ define([
         disabled    : false,
         rendered    : false,
 
-        template    : _.template('<label class="radiobox"><input type="button" name="<%= name %>" class="img-commonctrl"><%= labelText %></label>'),
+        template    : _.template('<label class="radiobox"><input type="radio" name="<%= name %>" id="<%= id %>" class="button__radiobox">' +
+                                    '<label for="<%= id %>" class="radiobox__shape" /><span><%= labelText %></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
-            var me = this,
-                el = $(this.el);
+            var me = this;
 
             this.name =  this.options.name || Common.UI.getId();
 
@@ -94,13 +94,15 @@ define([
         },
 
         render: function () {
-            var el = $(this.el);
+            var el = this.$el || $(this.el);
             el.html(this.template({
                 labelText: this.options.labelText,
-                name: this.name
+                name: this.name,
+                id: Common.UI.getId('rdb-')
             }));
 
-            this.$radio = el.find('input[type=button]');
+            this.$radio = el.find('input[type=radio]');
+            this.$label = el.find('label.radiobox');
             this.rendered = true;
 
             return this;
@@ -111,6 +113,7 @@ define([
                 return;
 
             if (disabled !== this.disabled) {
+                this.$label.toggleClass('disabled', disabled);
                 this.$radio.toggleClass('disabled', disabled);
                 (disabled) ? this.$radio.attr({disabled: disabled}) : this.$radio.removeAttr('disabled');
             }
@@ -128,8 +131,9 @@ define([
 
         setRawValue: function(value) {
             var value = (value === true || value === 'true' || value === '1' || value === 1 );
-            $('input[type=button][name=' + this.name + ']').removeClass('checked');
+            $('input[type=radio][name=' + this.name + ']').removeClass('checked');
             this.$radio.toggleClass('checked', value);
+            this.$radio.prop('checked', value);
         },
 
         setValue: function(value, suspendchange) {
@@ -137,14 +141,18 @@ define([
                 var lastValue = this.$radio.hasClass('checked');
                 this.setRawValue(value);
                 if (suspendchange !== true && lastValue !== value)
-                    this.trigger('change', this, this.$radio.hasClass('checked'));
+                    this.trigger('change', this, this.$radio.is(':checked'));
             } else {
                 this.options.checked = value;
             }
         },
 
         getValue: function() {
-            return this.$radio.hasClass('checked');
+            return this.$radio.is(':checked');
+        },
+
+        setCaption: function(text) {
+            this.$label.find('span').text(text);
         }
     });
 });

@@ -53,7 +53,6 @@ define([
         // Private
         var _stack = [],
             _slideObject = undefined,
-            _themes = [],
             _themeId = -1,
             _effect = Asc.c_oAscSlideTransitionTypes.None,
             _effectType = -1,
@@ -81,6 +80,7 @@ define([
                 uiApp.onPageBack('editslide-effect-type editslide-effect', function (page) {
                     me.initSettings('#edit-slide-transition');
                 });
+                this._themes = [];
             },
 
             setApi: function (api) {
@@ -88,7 +88,6 @@ define([
                 me.api = api;
 
                 me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onApiFocusObject, me));
-                me.api.asc_registerCallback('asc_onInitEditorStyles',   _.bind(me.onApiInitEditorStyles, me));
                 me.api.asc_registerCallback('asc_onUpdateThemeIndex',   _.bind(me.onApiUpdateThemeIndex, me));
             },
 
@@ -210,28 +209,15 @@ define([
             },
 
             getThemes: function () {
-                return _themes || [];
+                return this._themes || [];
             },
 
             // Handlers
 
             onLayoutClick: function (e) {
-                var me = this,
-                    $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                me.api.ChangeLayout(type);
             },
 
             onThemeClick: function (e) {
-                var me = this,
-                    $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                $('.container-edit .slide-theme div').removeClass('active');
-                $target.addClass('active');
-
-                me.api.ChangeTheme(type);
             },
 
             onRemoveSlide: function () {
@@ -383,27 +369,6 @@ define([
                     _slideObject = object.get_ObjectValue();
                 } else {
                     _slideObject = undefined;
-                }
-            },
-
-            onApiInitEditorStyles: function(themes) {
-                if (themes) {
-                    window.styles_loaded = false;
-
-                    var me = this,
-                        defaultThemes = themes[0] || [],
-                        docThemes     = themes[1] || [];
-
-                    _themes = [];
-
-                    _.each(defaultThemes.concat(docThemes), function(theme) {
-                        _themes.push({
-                            imageUrl: theme.get_Image(),
-                            themeId : theme.get_Index()
-                        });
-                    });
-
-                    window.styles_loaded = true;
                 }
             },
 
