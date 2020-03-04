@@ -46,7 +46,8 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
+    'common/main/lib/component/Window',
+    'common/main/lib/component/TreeView'
 ], function () { 'use strict';
 
     SSE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
@@ -63,7 +64,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box">',
+                '<div class="box" style="height: 290px;">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternalLink,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternalLink,'</button>',
@@ -76,13 +77,10 @@ define([
                     '</div>',
                     '<div id="id-internal-link" class="hidden">',
                         '<div class="input-row">',
-                            '<label style="width: 50%;">' + this.strSheet + '</label>',
-                            '<label style="width: 50%;">' + this.strRange + ' *</label>',
+                            '<label>' + this.strRange + ' *</label>',
                         '</div>',
-                        '<div class="input-row" style="margin-bottom: 5px;">',
-                            '<div id="id-dlg-hyperlink-sheet" style="display: inline-block; width: 50%; padding-right: 10px; float: left;"></div>',
-                            '<div id="id-dlg-hyperlink-range" style="display: inline-block; width: 50%;"></div>',
-                        '</div>',
+                        '<div id="id-dlg-hyperlink-range" class="input-row" style="margin-bottom: 5px;"></div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;border: 1px solid #cfcfcf;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.strDisplay + '</label>',
@@ -123,13 +121,6 @@ define([
                 allowDepress: false
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, Asc.c_oAscHyperlinkType.RangeLink));
-
-            me.cmbSheets = new Common.UI.ComboBox({
-                el      : $('#id-dlg-hyperlink-sheet'),
-                cls     : 'input-group-nr',
-                editable: false,
-                menuStyle: 'min-width: 100%;max-height: 150px;'
-            });
 
             me.inputUrl = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-url'),
@@ -175,8 +166,19 @@ define([
                 maxLength   : Asc.c_oAscMaxTooltipLength
             });
 
-            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+            me.internalList = new Common.UI.TreeView({
+                el: $('#id-dlg-hyperlink-list'),
+                store: new Common.UI.TreeViewStore(),
+                enableKeyEvents: true
+            });
+            me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
+            me.btnOk = new Common.UI.Button({
+                el: $window.find('.primary')
+            });
+
+            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+            me.internalList.on('entervalue', _.bind(me.onPrimary, me));
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
         },
@@ -193,32 +195,32 @@ define([
         setSettings: function(settings) {
             if (settings) {
                 var me = this;
+                me.settings = settings;
 
-                this.cmbSheets.setData(settings.sheets);
                 var type = (settings.props) ? settings.props.asc_getType() : Asc.c_oAscHyperlinkType.WebLink;
                 (type == Asc.c_oAscHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
                 me.ShowHideElem(type);
                 me.btnInternal.setDisabled(!settings.allowInternal && (type == Asc.c_oAscHyperlinkType.WebLink));
                 me.btnExternal.setDisabled(!settings.allowInternal && (type == Asc.c_oAscHyperlinkType.RangeLink));
 
+                var sheet = settings.currentSheet;
                 if (!settings.props) {
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.text);
                     this.focusedInput = this.inputUrl.cmpEl.find('input');
-                    this.cmbSheets.setValue(settings.currentSheet);
                 } else {
                     if (type == Asc.c_oAscHyperlinkType.RangeLink) {
-                        this.cmbSheets.setValue(settings.props.asc_getSheet());
+                        sheet = settings.props.asc_getSheet();
                         this.inputRange.setValue(settings.props.asc_getRange());
                         this.focusedInput = this.inputRange.cmpEl.find('input');
                     } else {
                         this.inputUrl.setValue(settings.props.asc_getHyperlinkUrl().replace(new RegExp(" ",'g'), "%20"));
                         this.focusedInput = this.inputUrl.cmpEl.find('input');
-                        this.cmbSheets.setValue(settings.currentSheet);
                     }
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.props.asc_getText());
                     this.inputTip.setValue(settings.props.asc_getTooltip());
                 }
-
+                var rec = this.internalList.store.findWhere({name: sheet });
+                rec && this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
                 this.inputDisplay.setDisabled(settings.isLock);
             }
         },
@@ -229,9 +231,12 @@ define([
             props.asc_setType(this.btnInternal.isActive() ? Asc.c_oAscHyperlinkType.RangeLink : Asc.c_oAscHyperlinkType.WebLink);
 
             if (this.btnInternal.isActive()) {
-                props.asc_setSheet(this.cmbSheets.getValue());
-                props.asc_setRange(this.inputRange.getValue());
-                def_display = this.cmbSheets.getValue() + '!' + this.inputRange.getValue();
+                var rec = this.internalList.getSelectedRec();
+                if (rec) {
+                    props.asc_setSheet(rec.get('name'));
+                    props.asc_setRange(this.inputRange.getValue());
+                    def_display = rec.get('name') + '!' + this.inputRange.getValue();
+                }
             } else {
                 var url = this.inputUrl.getValue().replace(/^\s+|\s+$/g,'');
                 if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
@@ -292,14 +297,78 @@ define([
         ShowHideElem: function(value) {
             this.externalPanel.toggleClass('hidden', value !== Asc.c_oAscHyperlinkType.WebLink);
             this.internalPanel.toggleClass('hidden', value !== Asc.c_oAscHyperlinkType.RangeLink);
+            var store = this.internalList.store;
+            if (value==Asc.c_oAscHyperlinkType.RangeLink) {
+                if (store.length<1 && this.settings) {
+                    var sheets = this.settings.sheets,
+                        count = sheets.length,
+                        arr = [];
+                    arr.push(new Common.UI.TreeViewModel({
+                        name : this.textSheets,
+                        level: 0,
+                        index: 0,
+                        hasParent: false,
+                        isEmptyItem: false,
+                        isNotHeader: true,
+                        hasSubItems: true
+                    }));
+                    for (var i=0; i<count; i++) {
+                        arr.push(new Common.UI.TreeViewModel({
+                            name : sheets[i],
+                            level: 1,
+                            index: i+1,
+                            type: 0, // sheet
+                            hasParent: true
+                        }));
+                    }
+                    arr.push(new Common.UI.TreeViewModel({
+                        name : this.textNames,
+                        level: 0,
+                        index: arr.length,
+                        hasParent: false,
+                        isEmptyItem: false,
+                        isNotHeader: false,
+                        hasSubItems: false
+                    }));
+                    var ranges = this.settings.ranges,
+                        prev_level = 0;
+                    count = ranges.length;
+                    for (var i=0; i<count; i++) {
+                        var range = ranges[i];
+                        if (!range.asc_getIsTable()) {
+                            if (prev_level<1)
+                                arr[arr.length-1].set('hasSubItems', true);
+                            arr.push(new Common.UI.TreeViewModel({
+                                name : range.asc_getName(),
+                                level: 1,
+                                index: arr.length,
+                                type: 1, // defined name
+                                hasParent: true
+                            }));
+                            prev_level = 1;
+                        }
+                    }
+                    store.reset(arr);
+                }
+                var rec = this.internalList.store.findWhere({name: this.settings.currentSheet });
+                rec && this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                this.btnOk.setDisabled(!rec || rec.get('level')==0);
+
+            } else
+                this.btnOk.setDisabled(false);
         },
 
         onLinkTypeClick: function(type, btn, event) {
             this.ShowHideElem(type);
         },
 
+        onSelectItem: function(picker, item, record, e){
+            this.btnOk.setDisabled(record.get('level')==0);
+            this.inputRange.setDisabled(record.get('type')==1 || record.get('level')==0);
+        },
+
         textTitle:          'Hyperlink Settings',
-        textInternalLink:   'Internal Data Range',
+        textInternalLink:   'Place in Document',
         textExternalLink:   'Web Link',
         textEmptyLink:      'Enter link here',
         textEmptyDesc:      'Enter caption here',
@@ -312,6 +381,8 @@ define([
         txtEmpty:           'This field is required',
         textInvalidRange:   'ERROR! Invalid cells range',
         txtNotUrl:          'This field should be a URL in the format \"http://www.example.com\"',
-        textDefault:        'Selected range'
+        textDefault:        'Selected range',
+        textSheets:         'Sheets',
+        textNames:          'Defined names'
     }, SSE.Views.HyperlinkSettingsDialog || {}))
 });
