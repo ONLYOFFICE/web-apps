@@ -71,13 +71,13 @@ define([
                     '</div>',
                     '<div id="id-external-link">',
                         '<div class="input-row">',
-                            '<label>' + this.strLinkTo + ' *</label>',
+                            '<label>' + this.strLinkTo + '</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
                     '</div>',
                     '<div id="id-internal-link" class="hidden">',
                         '<div class="input-row">',
-                            '<label>' + this.strRange + ' *</label>',
+                            '<label>' + this.strRange + '</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-range" class="input-row" style="margin-bottom: 5px;"></div>',
                         '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;border: 1px solid #cfcfcf;"></div>',
@@ -134,6 +134,9 @@ define([
                     return (urltype>0) ? true : me.txtNotUrl;
                 }
             });
+            me.inputUrl._input.on('input', function (e) {
+                me.btnOk.setDisabled($.trim($(e.target).val())=='');
+            });
 
             me.inputRange = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-range'),
@@ -151,6 +154,9 @@ define([
                         return me.textInvalidRange;
                     }
                 }
+            });
+            me.inputRange._input.on('input', function (e) {
+                me.btnOk.setDisabled($.trim($(e.target).val())=='');
             });
 
             me.inputDisplay = new Common.UI.InputField({
@@ -328,6 +334,7 @@ define([
                         hasParent: false,
                         isEmptyItem: false,
                         isNotHeader: false,
+                        isExpanded: false,
                         hasSubItems: false
                     }));
                     var ranges = this.settings.ranges,
@@ -343,6 +350,7 @@ define([
                                 level: 1,
                                 index: arr.length,
                                 type: 1, // defined name
+                                isVisible: false,
                                 hasParent: true
                             }));
                             prev_level = 1;
@@ -352,10 +360,10 @@ define([
                 }
                 var rec = this.internalList.store.findWhere({name: this.settings.currentSheet });
                 rec && this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
-                this.btnOk.setDisabled(!rec || rec.get('level')==0);
+                this.btnOk.setDisabled(!rec || rec.get('level')==0 || rec.get('type')==0 && $.trim(this.inputRange.getValue())=='');
 
             } else
-                this.btnOk.setDisabled(false);
+                this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
         },
 
         onLinkTypeClick: function(type, btn, event) {
@@ -363,7 +371,7 @@ define([
         },
 
         onSelectItem: function(picker, item, record, e){
-            this.btnOk.setDisabled(record.get('level')==0);
+            this.btnOk.setDisabled(record.get('level')==0 || record.get('type')==0 && $.trim(this.inputRange.getValue())=='');
             this.inputRange.setDisabled(record.get('type')==1 || record.get('level')==0);
         },
 

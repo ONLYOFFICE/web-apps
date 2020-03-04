@@ -67,19 +67,22 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 260px;">',
+                '<div class="box" style="height: 263px;">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternal,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternal,'</button>',
                     '</div>',
                     '<div id="id-external-link">',
                         '<div class="input-row">',
-                            '<label>' + this.textUrl + ' *</label>',
+                            '<label>' + this.textUrl + '</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
                     '</div>',
                     '<div id="id-internal-link">',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 130px;border: 1px solid #cfcfcf;"></div>',
+                        '<div class="input-row">',
+                            '<label>' + this.textUrl + '</label>',
+                        '</div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;border: 1px solid #cfcfcf;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.textDisplay + '</label>',
@@ -133,6 +136,9 @@ define([
                     me.isEmail = (urltype==2);
                     return (urltype>0) ? true : me.txtNotUrl;
                 }
+            });
+            me.inputUrl._input.on('input', function (e) {
+                me.btnOk.setDisabled($.trim($(e.target).val())=='');
             });
 
             me.inputDisplay = new Common.UI.InputField({
@@ -247,12 +253,13 @@ define([
                         }
                     }
                     store.reset(arr);
+                    this.internalList.collapseAll();
                 }
                 var rec = this.internalList.getSelectedRec();
                 this.btnOk.setDisabled(!rec || rec.get('level')==0 && rec.get('index')>0);
 
             } else
-                this.btnOk.setDisabled(false);
+                this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
         },
 
         onLinkTypeClick: function(type, btn, event) {
