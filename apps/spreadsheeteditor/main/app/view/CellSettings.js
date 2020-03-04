@@ -481,24 +481,29 @@ define([
                     } else if (this.pattern !== null) {
                         if (this.pattern.asc_getType() === -1) {
                             var color = this.pattern.asc_getFgColor();
-                            if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                                this.CellColor = {
+                            if (color) {
+                                if (color.asc_getType() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                                    this.CellColor = {
+                                        Value: 1,
+                                        Color: {
+                                            color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()),
+                                            effectValue: color.asc_getValue()
+                                        }
+                                    };
+                                } else {
+                                    this.CellColor = {
+                                        Value: 1,
+                                        Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())
+                                    };
+                                }
+                                this.FGColor = {
                                     Value: 1,
-                                    Color: {
-                                        color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB()),
-                                        effectValue: color.asc_getValue()
-                                    }
+                                    Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color)
                                 };
                             } else {
-                                this.CellColor = {
-                                    Value: 1,
-                                    Color: Common.Utils.ThemeColor.getHexColor(color.asc_getR(), color.asc_getG(), color.asc_getB())
-                                };
+                                this.FGColor = this.CellColor = {Value: 1, Color: 'ffffff'};
                             }
-                            this.FGColor = {
-                                Value: 1,
-                                Color: Common.Utils.ThemeColor.colorValue2EffectId(this.CellColor.Color)
-                            };
+
                             this.BGColor = {Value: 1, Color: 'ffffff'};
                             this.sldrGradient.setThumbs(2);
                             this.GradColor.colors.length = 0;
