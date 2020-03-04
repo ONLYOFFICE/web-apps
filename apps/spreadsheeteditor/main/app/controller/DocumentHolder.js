@@ -70,7 +70,8 @@ define([
     'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
     'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
     'spreadsheeteditor/main/app/view/SetValueDialog',
-    'spreadsheeteditor/main/app/view/AutoFilterDialog'
+    'spreadsheeteditor/main/app/view/AutoFilterDialog',
+    'spreadsheeteditor/main/app/view/SpecialPasteDialog'
 ], function () {
     'use strict';
 
@@ -2247,7 +2248,8 @@ define([
                 documentHolderView  = me.documentHolder,
                 coord  = specialPasteShowOptions.asc_getCellCoord(),
                 pasteContainer = documentHolderView.cmpEl.find('#special-paste-container'),
-                pasteItems = specialPasteShowOptions.asc_getOptions();
+                pasteItems = specialPasteShowOptions.asc_getOptions(),
+                isTable = !!specialPasteShowOptions.asc_getContainTables();
             if (!pasteItems) return;
 
             // Prepare menu container
@@ -2327,7 +2329,8 @@ define([
                             })).show();
                             setTimeout(function(){menu.hide();}, 100);
                         });
-                    } else {
+                        me._arrSpecialPaste[menuItem][2] = importText;
+                    } else if (me._arrSpecialPaste[menuItem]) {
                         var mnu = new Common.UI.MenuItem({
                             caption: me._arrSpecialPaste[menuItem][0],
                             value: menuItem,
@@ -2342,6 +2345,7 @@ define([
                             setTimeout(function(){menu.hide();}, 100);
                         });
                         groups[me._arrSpecialPaste[menuItem][1]].push(mnu);
+                        me._arrSpecialPaste[menuItem][2] = mnu;
                     }
                 });
                 var newgroup = false;
@@ -2361,6 +2365,30 @@ define([
                 if (importText) {
                     menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
                     menu.addItem(importText);
+                }
+                if (menu.items.length>0 && specialPasteShowOptions.asc_getShowPasteSpecial()) {
+                    menu.addItem(new Common.UI.MenuItem({ caption: '--' }));
+                    var mnu = new Common.UI.MenuItem({
+                        caption: me.textPasteSpecial,
+                        value: 'special'
+                    }).on('click', function(item, e) {
+                        (new SSE.Views.SpecialPasteDialog({
+                            props: pasteItems,
+                            isTable: isTable,
+                            handler: function (result, settings) {
+                                if (result == 'ok') {
+                                    me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(false, true);
+                                    me._state.lastSpecPasteChecked = settings && me._arrSpecialPaste[settings.asc_getProps()] ? me._arrSpecialPaste[settings.asc_getProps()][2] : null;
+                                    me._state.lastSpecPasteChecked && me._state.lastSpecPasteChecked.setChecked(true, true);
+                                    if (me && me.api) {
+                                        me.api.asc_SpecialPaste(settings);
+                                    }
+                                }
+                            }
+                        })).show();
+                        setTimeout(function(){menu.hide();}, 100);
+                    });
+                    menu.addItem(mnu);
                 }
             }
 
@@ -3334,16 +3362,16 @@ define([
         txtSorting: 'Sorting',
         txtSortSelected: 'Sort selected',
         txtPaste: 'Paste',
-        txtPasteFormulas: 'Paste only formula',
-        txtPasteFormulaNumFormat: 'Formula + number format',
-        txtPasteKeepSourceFormat: 'Formula + all formatting',
-        txtPasteBorders: 'Formula without borders',
-        txtPasteColWidths: 'Formula + column width',
+        txtPasteFormulas: 'Formulas',
+        txtPasteFormulaNumFormat: 'Formulas & number formats',
+        txtPasteKeepSourceFormat: 'Formulas & formatting',
+        txtPasteBorders: 'All except borders',
+        txtPasteColWidths: 'Formulas & column widths',
         txtPasteMerge: 'Merge conditional formatting',
         txtPasteTranspose: 'Transpose',
-        txtPasteValues: 'Paste only value',
-        txtPasteValNumFormat: 'Value + number format',
-        txtPasteValFormat: 'Value + all formatting',
+        txtPasteValues: 'Values',
+        txtPasteValNumFormat: 'Values & number formats',
+        txtPasteValFormat: 'Values & formatting',
         txtPasteFormat: 'Paste only formatting',
         txtPasteLink: 'Paste Link',
         txtPastePicture: 'Picture',
@@ -3379,7 +3407,8 @@ define([
         txtAll: '(All)',
         txtBlanks: '(Blanks)',
         txtColumn: 'Column',
-        txtImportWizard: 'Text Import Wizard'
+        txtImportWizard: 'Text Import Wizard',
+        textPasteSpecial: 'Paste special'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });
