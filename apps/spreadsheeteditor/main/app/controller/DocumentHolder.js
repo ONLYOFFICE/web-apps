@@ -150,6 +150,7 @@ define([
             Common.NotificationCenter.on({
                 'window:show': function(e){
                     me.hideHyperlinkTip();
+                    me.permissions && me.permissions.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
                 },
                 'modal:show': function(e){
                     me.hideCoAuthTips();
