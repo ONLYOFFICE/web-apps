@@ -60,6 +60,7 @@ define([
             _isEdit = false,
             _canReview = false,
             _inRevisionChange = false,
+            _isComments = false,
             _menuPos = [],
             _timer = 0;
 
@@ -95,6 +96,8 @@ define([
                 Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_registerCallback('asc_onCoAuthoringDisconnect',  _.bind(me.onCoAuthoringDisconnect,me));
                 me.api.asc_registerCallback('asc_onShowRevisionsChange',    _.bind(me.onApiShowChange, me));
+                me.api.asc_registerCallback('asc_onShowComment',            _.bind(me.onApiShowComment, me));
+                me.api.asc_registerCallback('asc_onHideComment',            _.bind(me.onApiHideComment, me));
                 me.api.asc_coAuthoringGetUsers();
             },
 
@@ -157,6 +160,15 @@ define([
                     getCollaboration.showModal();
                     getCollaboration.getView('Common.Views.Collaboration').showPage('#reviewing-settings-view', false);
                     getCollaboration.getView('Common.Views.Collaboration').showPage('#change-view', false);
+                } else if ('viewcomment' == eventName) {
+                    var getCollaboration = DE.getController('Common.Controllers.Collaboration');
+                    getCollaboration.showCommentModal();
+                } else if ('addcomment' == eventName) {
+                    var getCollaboration = DE.getController('Common.Controllers.Collaboration');
+                    /*if (this.api && this.mode.canCoAuthoring && this.mode.canComments) {
+
+                    }*/
+                    getCollaboration.showAddCommentModal();
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
@@ -365,6 +377,14 @@ define([
                 _inRevisionChange = sdkchange && sdkchange.length>0;
             },
 
+            onApiShowComment: function(comments) {
+                _isComments = comments && comments.length>0;
+            },
+
+            onApiHideComment: function() {
+                _isComments = false;
+            },
+
             // Internal
 
             _openLink: function(url) {
@@ -513,6 +533,18 @@ define([
                                 });
                             }
                         }
+
+                        if (1/*_isComments*/) {
+                            arrItems.push({
+                                caption: me.menuViewComment,
+                                event: 'viewcomment'
+                            });
+                        }
+
+                        arrItems.push({
+                            caption: me.menuAddComment,
+                            event: 'addcomment'
+                        });
                     }
                 }
 
@@ -559,7 +591,9 @@ define([
             menuMerge: 'Merge Cells',
             menuSplit: 'Split Cell',
             menuDeleteTable: 'Delete Table',
-            menuReviewChange: 'Review Change'
+            menuReviewChange: 'Review Change',
+            menuViewComment: 'View Comment',
+            menuAddComment: 'Add Comment'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });

@@ -123,6 +123,17 @@ define([
                 return '';
             },
 
+            rootCommentLayout: function() {
+                if (this.layout) {
+                    var $layour = this.layout.find('#comment-view'),
+                        isPhone = Common.SharedSettings.get('phone');
+
+                    return $layour.html();
+                }
+
+                return '';
+            },
+
             showPage: function(templateId, animate) {
                 var me = this;
                 var prefix = !!window.DE ? DE : !!window.PE ? PE : SSE;
@@ -144,6 +155,10 @@ define([
 
                     this.fireEvent('page:show', [this, templateId]);
                 }
+            },
+
+            renderViewComments: function(comments) {
+
             },
 
             renderComments: function (comments) {

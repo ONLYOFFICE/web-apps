@@ -92,7 +92,7 @@
 }
 
 //Comments
-.page-comments {
+.page-comments, .page-add-comment {
   .list-block .item-inner {
     display: block;
     padding: 16px 0;
@@ -151,7 +151,61 @@
     margin: 5px 0;
     font-size: 15px;
   }
+
+  //add comment
+  .wrap-comment {
+    padding: 16px 16px 0 16px;
+  }
+  .comment-textarea {
+    margin-top: 10px;
+    background:transparent;
+    border:none;
+    outline:none;
+    width: 100%;
+    min-height: 200px;
+  }
 }
 .settings.popup .list-block ul.list-reply:last-child:after, .settings.popover .list-block ul.list-reply:last-child:after {
   display: none;
+}
+
+//view comment
+.container-view-comment {
+  -webkit-transition: height 100ms;
+  transition: height 100ms;
+  background-color: #FFFFFF;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  height: 50%;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+  .toolbar {
+    position: absolute;
+  }
+  .swipe-container {
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    .icon-swipe {
+      margin-top: 8px;
+      width: 40px;
+      height: 4px;
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 2px;
+    }
+  }
+  .page-content {
+    padding: 0 16px 80px;
+  }
+}
+
+.container-view-add-comment {
+  height: 100%;
+  .navbar {
+    a.link i + span {
+      margin-left: 0;
+    }
+  }
+  .page-add-comment {
+    background-color: #FFFFFF;
+  }
 }

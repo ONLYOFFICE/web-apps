@@ -6479,15 +6479,18 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 #user-list ul:before {
   content: none;
 }
-.page-comments .list-block .item-inner {
+.page-comments .list-block .item-inner,
+.page-add-comment .list-block .item-inner {
   display: block;
   padding: 16px 0;
   word-wrap: break-word;
 }
-.page-comments p {
+.page-comments p,
+.page-add-comment p {
   margin: 0;
 }
-.page-comments .user-name {
+.page-comments .user-name,
+.page-add-comment .user-name {
   font-size: 17px;
   line-height: 22px;
   color: #000000;
@@ -6495,7 +6498,9 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   font-weight: bold;
 }
 .page-comments .comment-date,
-.page-comments .reply-date {
+.page-add-comment .comment-date,
+.page-comments .reply-date,
+.page-add-comment .reply-date {
   font-size: 12px;
   line-height: 18px;
   color: #6d6d72;
@@ -6503,7 +6508,9 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   margin-top: 0px;
 }
 .page-comments .comment-text,
-.page-comments .reply-text {
+.page-add-comment .comment-text,
+.page-comments .reply-text,
+.page-add-comment .reply-text {
   color: #000000;
   font-size: 15px;
   line-height: 25px;
@@ -6511,13 +6518,16 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   max-width: 100%;
   padding-right: 15px;
 }
-.page-comments .reply-item {
+.page-comments .reply-item,
+.page-add-comment .reply-item {
   margin-top: 15px;
 }
-.page-comments .reply-item .user-name {
+.page-comments .reply-item .user-name,
+.page-add-comment .reply-item .user-name {
   padding-top: 16px;
 }
-.page-comments .reply-item:before {
+.page-comments .reply-item:before,
+.page-add-comment .reply-item:before {
   content: '';
   position: absolute;
   left: auto;
@@ -6532,16 +6542,66 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   -webkit-transform-origin: 50% 100%;
   transform-origin: 50% 100%;
 }
-.page-comments .comment-quote {
+.page-comments .comment-quote,
+.page-add-comment .comment-quote {
   color: #40865c;
   border-left: 1px solid #40865c;
   padding-left: 10px;
   margin: 5px 0;
   font-size: 15px;
 }
+.page-comments .wrap-comment,
+.page-add-comment .wrap-comment {
+  padding: 16px 16px 0 16px;
+}
+.page-comments .comment-textarea,
+.page-add-comment .comment-textarea {
+  margin-top: 10px;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  min-height: 200px;
+}
 .settings.popup .list-block ul.list-reply:last-child:after,
 .settings.popover .list-block ul.list-reply:last-child:after {
   display: none;
+}
+.container-view-comment {
+  -webkit-transition: height 100ms;
+  transition: height 100ms;
+  background-color: #FFFFFF;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  height: 50%;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+}
+.container-view-comment .toolbar {
+  position: absolute;
+}
+.container-view-comment .swipe-container {
+  display: flex;
+  justify-content: center;
+  height: 40px;
+}
+.container-view-comment .swipe-container .icon-swipe {
+  margin-top: 8px;
+  width: 40px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+}
+.container-view-comment .page-content {
+  padding: 0 16px 80px;
+}
+.container-view-add-comment {
+  height: 100%;
+}
+.container-view-add-comment .navbar a.link i + span {
+  margin-left: 0;
+}
+.container-view-add-comment .page-add-comment {
+  background-color: #FFFFFF;
 }
 i.icon.icon-search {
   width: 24px;

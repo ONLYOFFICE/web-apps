@@ -679,6 +679,179 @@ define([
 
             //Comments
 
+            showCommentModal: function() {
+                var me = this,
+                    isAndroid = Framework7.prototype.device.android === true,
+                    modalView,
+                    appPrefix = !!window.DE ? DE : !!window.PE ? PE : SSE,
+                    mainView = appPrefix.getController('Editor').getView('Editor').f7View;
+
+                uiApp.closeModal();
+
+                if (Common.SharedSettings.get('phone')) {
+                    modalView = $$(uiApp.pickerModal(
+                        '<div class="picker-modal container-view-comment">' +
+                            this.getView('Common.Views.Collaboration').rootCommentLayout() +
+                        '</div>'
+                    )).on('opened', function () {
+                        if (_.isFunction(me.api.asc_OnShowContextMenu)) {
+                            me.api.asc_OnShowContextMenu()
+                        }
+                    }).on('close', function (e) {
+                        mainView.showNavbar();
+                    }).on('closed', function () {
+                        if (_.isFunction(me.api.asc_OnHideContextMenu)) {
+                            me.api.asc_OnHideContextMenu()
+                        }
+                    });
+                    mainView.hideNavbar();
+                } else {
+                }
+
+                appPrefix.getController('Toolbar').getView('Toolbar').hideSearch();
+
+                //swipe modal window
+                me.swipeFull = false;
+                var $swipeContainer = $('.swipe-container');
+                $swipeContainer.single('touchstart', _.bind(function(e){
+                    var touchobj = e.changedTouches[0];
+                    me.swipeStart = parseInt(touchobj.clientY);
+                    e.preventDefault();
+                }, me));
+                $swipeContainer.single('touchend', _.bind(function (e) {
+                    var touchobj = e.changedTouches[0];
+                    var swipeEnd = parseInt(touchobj.clientY);
+                    var dist = swipeEnd - me.swipeStart;
+                    if (dist > 20) {
+                        if (me.swipeFull) {
+                            $('.container-view-comment').css('height', '50%');
+                            me.swipeFull = false;
+                        } else {
+                            uiApp.closeModal();
+                        }
+                    } else if (dist < 0) {
+                        $('.container-view-comment').css('height', '100%');
+                        me.swipeFull = true;
+                    } else {
+                        $('.container-view-comment').css('height', '50%');
+                    }
+                }, me));
+            },
+
+            showAddCommentModal: function() {
+                var me = this,
+                    isAndroid = Framework7.prototype.device.android === true,
+                    modalView,
+                    appPrefix = !!window.DE ? DE : !!window.PE ? PE : SSE,
+                    mainView = appPrefix.getController('Editor').getView('Editor').f7View;
+
+                uiApp.closeModal();
+
+                var date = new Date();
+                _.each(editUsers, function(item){
+                    if (item.asc_getIdOriginal() === _userId) {
+                        me.currentUser = item;
+                    }
+                });
+                if (!me.currentUser) return;
+                var comment = {
+                    time: date.getTime(),
+                    date: me.dateToLocaleTimeString(date),
+                    userid: _userId,
+                    username: me.currentUser.asc_getUserName(),
+                    usercolor: me.currentUser.asc_getColor()
+                };
+
+                if (Common.SharedSettings.get('phone')) {
+                    modalView = $$(uiApp.pickerModal(
+                        '<div class="picker-modal container-view-add-comment">' +
+                            '<div class="navbar">' +
+                                '<div class="navbar-inner">' +
+                                    '<div class="left sliding"><a href="#" class="back link close-picker"> <i class="icon icon-close"></i>' +  (!isAndroid ? '<span>' + me.textCancel + '</span>' : '') + '</a></div>' +
+                                    '<div class="center sliding">' + me.textAddComment + '</div>' +
+                                    '<div class="right sliding"><a href="#" class="link" id="add-comment"><i class="icon icon-done"></i>' + (!isAndroid ? '<span>' + me.textDone + '</span>' : '') + '</a></div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="pages">' +
+                                '<div class="page page-add-comment">' +
+                                    '<div class="page-content">' +
+                                        '<div class="wrap-comment">' +
+                                            '<div class="user-name">' + comment.username + '</div>' +
+                                            '<div class="comment-date">' + comment.date + '</div>' +
+                                            '<div><textarea id="comment-text" class="comment-textarea"></textarea></div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>'
+                    )).on('opened', function () {
+                        if (_.isFunction(me.api.asc_OnShowContextMenu)) {
+                            me.api.asc_OnShowContextMenu()
+                        }
+                    }).on('close', function (e) {
+                        mainView.showNavbar();
+                    }).on('closed', function () {
+                        if (_.isFunction(me.api.asc_OnHideContextMenu)) {
+                            me.api.asc_OnHideContextMenu()
+                        }
+                    });
+                    mainView.hideNavbar();
+                } else {
+                }
+
+                _.delay(function(){
+                    $('#comment-text').focus();
+                },200);
+
+                appPrefix.getController('Toolbar').getView('Toolbar').hideSearch();
+
+                $('#add-comment').single('click', _.bind(me.onAddNewComment, me));
+            },
+
+            onAddNewComment: function() {
+                var comment;
+                if (typeof Asc.asc_CCommentDataWord !== 'undefined') {
+                    comment = new Asc.asc_CCommentDataWord(null);
+                } else {
+                    comment = new Asc.asc_CCommentData(null);
+                }
+
+                var textComment = $('#comment-text').val();
+
+                if (textComment.length > 0) {
+                    comment.asc_putText(textComment);
+                    comment.asc_putTime(this.utcDateToString(new Date()));
+                    comment.asc_putOnlyOfficeTime(this.ooDateToString(new Date()));
+                    comment.asc_putUserId(this.currentUser.asc_getIdOriginal());
+                    comment.asc_putUserName(this.currentUser.asc_getUserName());
+                    comment.asc_putSolved(false);
+
+                    if (!_.isUndefined(comment.asc_putDocumentFlag))
+                        comment.asc_putDocumentFlag(false);
+
+                    this.api.asc_addComment(comment);
+
+                    uiApp.closeModal();
+                }
+            },
+
+            // utils
+            timeZoneOffsetInMs: (new Date()).getTimezoneOffset() * 60000,
+            utcDateToString: function (date) {
+                if (Object.prototype.toString.call(date) === '[object Date]')
+                    return (date.getTime() - this.timeZoneOffsetInMs).toString();
+
+                return '';
+            },
+            ooDateToString: function (date) {
+                if (Object.prototype.toString.call(date) === '[object Date]')
+                    return (date.getTime()).toString();
+
+                return '';
+            },
+            //end utils
+
+
             groupCollectionComments: [],
             collectionComments: [],
             groupCollectionFilter: [],
@@ -953,7 +1126,10 @@ define([
             textParaMoveTo: '<b>Moved:</b>',
             textParaMoveFromUp: '<b>Moved Up:</b>',
             textParaMoveFromDown: '<b>Moved Down:</b>',
-            textEditUser: 'Document is currently being edited by several users.'
+            textEditUser: 'Document is currently being edited by several users.',
+            textAddComment: "Add Comment",
+            textCancel: "Cancel",
+            textDone: "Done"
 
         }
     })(), Common.Controllers.Collaboration || {}))
