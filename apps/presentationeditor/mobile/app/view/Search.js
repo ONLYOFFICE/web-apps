@@ -155,6 +155,11 @@ define([
 
                     searchBar = $$('.searchbar.document');
 
+                    if ($('.logo-navbar').length > 0) {
+                        var top = Common.SharedSettings.get('android') ? '80px' : '68px';
+                        $('.navbar-through .page > .searchbar').css('top', top);
+                    }
+
                     _.defer(function() {
                         uiApp.showNavbar(searchBar);
 

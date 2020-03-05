@@ -233,9 +233,10 @@ define([
             mousedown: $.proxy(function (e) {
                 if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
                     if (!tab.isLockTheDrag) {
-                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey)
+                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
                             tab.changeState();
-                        dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
+                            dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
+                        }
                     }
                 }
             }, this)

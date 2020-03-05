@@ -241,8 +241,32 @@ define([
             this.cmbOrientation.on('selected', _.bind(function (combo, record) {
                 if (this.api) {
                     this.properties = (this.properties) ? this.properties : new Asc.CDocumentSectionProps();
-                    this.properties.put_Orientation(record.value);
-                    this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+
+                    if (this.properties.get_Orientation() !== record.value) {
+                        this.properties.put_TopMargin(Common.Utils.Metric.fnRecalcToMM(record.value ? this.spnLeft.getNumberValue() : this.spnRight.getNumberValue()));
+                        this.properties.put_BottomMargin(Common.Utils.Metric.fnRecalcToMM(record.value ? this.spnRight.getNumberValue() : this.spnLeft.getNumberValue()));
+                        this.properties.put_LeftMargin(Common.Utils.Metric.fnRecalcToMM(record.value ? this.spnBottom.getNumberValue() : this.spnTop.getNumberValue()));
+                        this.properties.put_RightMargin(Common.Utils.Metric.fnRecalcToMM(record.value ? this.spnTop.getNumberValue() : this.spnBottom.getNumberValue()));
+
+                        var h = this.properties.get_H();
+                        this.properties.put_H(this.properties.get_W());
+                        this.properties.put_W(h);
+                        this.properties.put_Orientation(record.value);
+
+                        this.maxMarginsH = Common.Utils.Metric.fnRecalcFromMM(this.properties.get_H() - 2.6);
+                        this.maxMarginsW = Common.Utils.Metric.fnRecalcFromMM(this.properties.get_W() - 12.7);
+                        this.spnTop.setMaxValue(this.maxMarginsH);
+                        this.spnBottom.setMaxValue(this.maxMarginsH);
+                        this.spnLeft.setMaxValue(this.maxMarginsW);
+                        this.spnRight.setMaxValue(this.maxMarginsW);
+
+                        this.spnTop.setValue(Common.Utils.Metric.fnRecalcFromMM(this.properties.get_TopMargin()), true);
+                        this.spnBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(this.properties.get_BottomMargin()), true);
+                        this.spnLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(this.properties.get_LeftMargin()), true);
+                        this.spnRight.setValue(Common.Utils.Metric.fnRecalcFromMM(this.properties.get_RightMargin()), true);
+
+                        this.api.SetDrawImagePreviewMargins('page-margins-preview', this.properties);
+                    }
                 }
             }, this));
 
@@ -356,6 +380,8 @@ define([
             props.put_Gutter(Common.Utils.Metric.fnRecalcToMM(this.spnGutter.getNumberValue()));
             props.put_GutterAtTop(this.cmbGutterPosition.getValue() ? true : false);
             props.put_MirrorMargins(this.cmbMultiplePages.getValue() ? true : false);
+            props.put_H(this.properties.get_H());
+            props.put_W(this.properties.get_W());
             return props;
         },
 

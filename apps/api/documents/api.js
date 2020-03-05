@@ -132,7 +132,8 @@
                     reviewDisplay: 'original',
                     spellcheck: true,
                     compatibleFeatures: false,
-                    unit: 'cm' // cm, pt, inch
+                    unit: 'cm' // cm, pt, inch,
+                    mentionShare : true // customize tooltip for mention
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -778,7 +779,7 @@
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderName) {
                 if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + config.editorConfig.customization.loaderName;
             } else
-                params += "&customer=ONLYOFFICE";
+                params += "&customer={{APP_CUSTOMER_NAME}}";
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
             } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
@@ -801,6 +802,9 @@
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
+
+        if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
+            params += "&toolbar=false";
 
         return params;
     }

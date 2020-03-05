@@ -58,7 +58,8 @@ define([
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/WatermarkSettingsDialog',
-    'documenteditor/main/app/view/CompareSettingsDialog'
+    'documenteditor/main/app/view/CompareSettingsDialog',
+    'documenteditor/main/app/view/ListSettingsDialog'
 ], function () {
     'use strict';
 
@@ -285,6 +286,9 @@ define([
             toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
             toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
             toolbar.mnuMultilevelPicker.on('item:click',                _.bind(this.onSelectBullets, this, toolbar.btnMultilevels));
+            toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
+            toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
+            toolbar.mnuMultilevelSettings.on('click',                   _.bind(this.onMarkerSettingsClick, this, 2));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
@@ -493,14 +497,16 @@ define([
                 switch(this._state.bullets.type) {
                     case 0:
                         this.toolbar.btnMarkers.toggle(true, true);
-                        if (this._state.bullets.subtype!==undefined)
+                        if (this._state.bullets.subtype>0)
                             this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
                         else
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
+                        this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
-                        var idx = 0;
+                        var idx;
                         switch(this._state.bullets.subtype) {
                             case 1:
                                 idx = 4;
@@ -525,11 +531,13 @@ define([
                                 break;
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
-                        if (this._state.bullets.subtype!==undefined)
+                        if (idx!==undefined)
                             this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
                         else
                             this.toolbar.mnuNumbersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
+                        this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
+                        this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(idx==0);
                         break;
                     case 2:
                         this.toolbar.btnMultilevels.toggle(true, true);
@@ -655,12 +663,14 @@ define([
                 paragraph_locked = false,
                 header_locked = false,
                 image_locked = false,
-                in_image = false;
+                in_image = false,
+                frame_pr = undefined;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
 
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    frame_pr = selectedObjects[i].get_ObjectValue();
                     paragraph_locked = selectedObjects[i].get_ObjectValue().get_Locked();
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = selectedObjects[i].get_ObjectValue().get_Locked();
@@ -670,9 +680,20 @@ define([
                 }
             }
 
-            var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked;
+            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
+                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
+                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
+
+            var need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked || rich_del_lock || rich_edit_lock || plain_del_lock || plain_edit_lock;
             if (this.mode.compatibleFeatures) {
                 need_disable = need_disable || in_image;
+            }
+            if (this.api.asc_IsContentControl()) {
+                var control_props = this.api.asc_GetContentControlProperties(),
+                    spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+                need_disable = need_disable || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
             }
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
@@ -735,10 +756,10 @@ define([
             if (sh)
                 this.onParagraphColor(sh);
 
-            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : true,
-                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : true,
-                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : true,
-                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : true;
+            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
+                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
+                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
             var need_disable = paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock;
 
             if (this._state.prcontrolsdisable != need_disable) {
@@ -836,7 +857,7 @@ define([
 
             toolbar.btnEditHeader.setDisabled(in_equation);
 
-            need_disable = paragraph_locked || header_locked || in_image || control_plain || rich_edit_lock || plain_edit_lock;
+            need_disable = paragraph_locked || header_locked || in_image || control_plain || rich_edit_lock || plain_edit_lock || this._state.lock_doc;
             if (need_disable != toolbar.btnColumns.isDisabled())
                 toolbar.btnColumns.setDisabled(need_disable);
 
@@ -846,6 +867,11 @@ define([
             need_disable = !this.api.can_AddQuotedComment() || paragraph_locked || header_locked || image_locked || rich_del_lock || rich_edit_lock || plain_del_lock || plain_edit_lock;
             if (this.mode.compatibleFeatures) {
                 need_disable = need_disable || in_image;
+            }
+            if (control_props) {
+                var spectype = control_props.get_SpecificType();
+                need_disable = need_disable || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                                spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
             }
             if ( this.btnsComment && this.btnsComment.length > 0 )
                 this.btnsComment.setDisabled(need_disable);
@@ -896,6 +922,7 @@ define([
             if (this._state.lock_doc!==true) {
                 this.toolbar.btnPageOrient.setDisabled(true);
                 this.toolbar.btnPageSize.setDisabled(true);
+                this.toolbar.btnPageMargins.setDisabled(true);
                 if (this._state.activated) this._state.lock_doc = true;
             }
         },
@@ -904,6 +931,7 @@ define([
             if (this._state.lock_doc!==false) {
                 this.toolbar.btnPageOrient.setDisabled(false);
                 this.toolbar.btnPageSize.setDisabled(false);
+                this.toolbar.btnPageMargins.setDisabled(false);
                 if (this._state.activated) this._state.lock_doc = false;
             }
         },
@@ -1310,13 +1338,37 @@ define([
                 btn.toggle(rawData.data.subtype > -1, true);
             }
 
-            this._state.bullets.type = rawData.data.type;
-            this._state.bullets.subtype = rawData.data.subtype;
+            this._state.bullets.type = undefined;
+            this._state.bullets.subtype = undefined;
             if (this.api)
                 this.api.put_ListType(rawData.data.type, rawData.data.subtype);
 
             Common.component.Analytics.trackEvent('ToolBar', 'List Type');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onMarkerSettingsClick: function(type) {
+            var me      = this;
+            var listId = me.api.asc_GetCurrentNumberingId(),
+                level = me.api.asc_GetCurrentNumberingLvl(),
+                props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
+            if (props) {
+                (new DE.Views.ListSettingsDialog({
+                    api: me.api,
+                    props: props,
+                    level: level,
+                    type: type,
+                    interfaceLang: me.mode.lang,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.asc_ChangeNumberingLvl(listId, value.props, value.num);
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            }
         },
 
         onLineSpaceToggle: function(menu, item, state, e) {
@@ -1729,6 +1781,8 @@ define([
         },
 
         onControlsSelect: function(menu, item) {
+            if (!(this.mode && this.mode.canFeatureContentControl)) return;
+
             if (item.value == 'settings' || item.value == 'remove') {
                 if (this.api.asc_IsContentControl()) {
                     var props = this.api.asc_GetContentControlProperties();
@@ -2183,6 +2237,9 @@ define([
             this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
             this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
             this.toolbar.mnuMultilevelPicker.selectByIndex(0, true);
+            this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
+            this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
+            this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
         },
 
         _getApiTextSize: function () {

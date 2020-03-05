@@ -254,7 +254,6 @@ define([
             textDisplay: 'Display',
             textTip: 'Screen Tip',
             textInsert: 'Insert',
-            textLinkSettings: 'Link Settings',
             textAddress: 'Address',
             textLinkType: 'Link Type',
             textExternalLink: 'External Link',

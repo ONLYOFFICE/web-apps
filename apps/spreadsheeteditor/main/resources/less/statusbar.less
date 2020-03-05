@@ -241,11 +241,21 @@
 
                 &.mousemove {
                     > a {
-                        background: linear-gradient(to right, #49795d, @gray-light 3px);
+                        background: linear-gradient(to right, @gray-deep 0px, @gray-deep 2px, @gray-light 2px);
                     }
                     &.right {
                         > a {
-                            background: linear-gradient(to left, #49795d, @gray-light 3px);
+                            background: linear-gradient(to left, @gray-deep 0px, @gray-deep 2px, @gray-light 2px);
+                        }
+                    }
+                    &.selected {
+                        > a {
+                            background: linear-gradient(to right, @gray-deep 0px, @gray-deep 2px, #FFFFFF 2px);
+                        }
+                        &.right {
+                            > a {
+                                background: linear-gradient(to left, @gray-deep 0px, @gray-deep 2px, #FFFFFF 2px);
+                            }
                         }
                     }
                 }

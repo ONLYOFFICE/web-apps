@@ -154,10 +154,10 @@ define([
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
-            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : true,
-                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : true,
-                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : true,
-                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : true;
+            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
+                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
+                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
+                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
 
             var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain || rich_edit_lock || plain_edit_lock;
             this.view.btnsNotes.setDisabled(need_disable);
@@ -251,6 +251,7 @@ define([
                     props.put_Hyperlink(true);
                     props.put_ShowPageNumbers(false);
                     props.put_TabLeader( Asc.c_oAscTabLeader.None);
+                    props.put_StylesType(Asc.c_oAscTOCStylesType.Web);
                     (currentTOC) ? this.api.asc_SetTableOfContentsPr(props) : this.api.asc_AddTableOfContents(null, props);
                     break;
                 case 'settings':

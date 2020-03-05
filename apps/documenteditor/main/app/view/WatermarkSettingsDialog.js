@@ -284,7 +284,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             this.btnUnderline = new Common.UI.Button({
                 cls         : 'btn-toolbar',
-                iconCls     : 'btn-underline',
+                iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             });

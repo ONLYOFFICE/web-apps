@@ -666,4 +666,24 @@ define([
             }
         }
     })());
+
+    Common.UI.ComboBoxCustom = Common.UI.ComboBox.extend(_.extend({
+        itemClicked: function (e) {
+            Common.UI.ComboBox.prototype.itemClicked.call(this, e);
+            if (this.options.updateFormControl)
+                this.options.updateFormControl.call(this, this._selectedItem);
+        },
+
+        setValue: function(value) {
+            Common.UI.ComboBox.prototype.setValue.call(this, value);
+            if (this.options.updateFormControl)
+                this.options.updateFormControl.call(this, this._selectedItem);
+        },
+
+        selectRecord: function(record) {
+            Common.UI.ComboBox.prototype.selectRecord.call(this, record);
+            if (this.options.updateFormControl)
+                this.options.updateFormControl.call(this, this._selectedItem);
+        }
+    }, Common.UI.ComboBoxCustom || {}));
 });

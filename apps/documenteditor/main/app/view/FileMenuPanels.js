@@ -355,17 +355,26 @@ define([
             this.lblCoAuthMode = $markup.findById('#fms-lbl-coauth-mode');
             /** coauthoring end **/
 
+            var itemsTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>'
+                ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
                 el          : $markup.find('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
+                itemsTemplate: itemsTemplate,
                 data        : [
                     { value: 0, displayValue: this.txtWin },
                     { value: 1, displayValue: this.txtMac },
-                    { value: 2, displayValue: this.txtNative }
+                    { value: 2, displayValue: this.txtNative },
+                    { value: 'custom', displayValue: this.txtCacheMode }
                 ]
             });
+            this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-unit'),
@@ -444,7 +453,13 @@ define([
 
             value = Common.Utils.InternalSettings.get("de-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
-            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? 1 : 0));
+            this.cmbFontRender.setValue(item ? item.get('value') : 0);
+            this._fontRender = this.cmbFontRender.getValue();
+
+            value = Common.Utils.InternalSettings.get("de-settings-cachemode");
+            item = this.cmbFontRender.store.findWhere({value: 'custom'});
+            item && value && item.set('checked', !!value);
+            item && value && this.cmbFontRender.cmpEl.find('#' + item.get('id') + ' a').addClass('checked');
 
             value = Common.Utils.InternalSettings.get("de-settings-unit");
             item = this.cmbUnit.store.findWhere({value: value});
@@ -476,6 +491,8 @@ define([
             }
             /** coauthoring end **/
             Common.localStorage.setItem("de-settings-fontrender", this.cmbFontRender.getValue());
+            var item = this.cmbFontRender.store.findWhere({value: 'custom'});
+            Common.localStorage.setItem("de-settings-cachemode", item && !item.get('checked') ? 0 : 1);
             Common.localStorage.setItem("de-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("de-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
@@ -506,6 +523,16 @@ define([
             this.lblCoAuthMode.text(record.descValue);
             this.fillShowChanges(record.value == 1);
             this.cmbShowChanges.setValue((record.value == 1) ? 'none' : 'last');
+        },
+
+        onFontRenderSelected: function(combo, record) {
+            if (record.value == 'custom') {
+                var item = combo.store.findWhere({value: 'custom'});
+                item && item.set('checked', !record.checked);
+                combo.cmpEl.find('#' + record.id + ' a').toggleClass('checked', !record.checked);
+                combo.setValue(this._fontRender);
+            }
+            this._fontRender = combo.getValue();
         },
 
         strLiveComment: 'Turn on option',
@@ -547,7 +574,8 @@ define([
         strForcesave: 'Always save to server (otherwise save to server on document close)',
         strResolvedComment: 'Turn on display of the resolved comments',
         textCompatible: 'Compatibility',
-        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX'
+        textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX',
+        txtCacheMode: 'Default cache mode'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -1293,6 +1321,7 @@ define([
 
             this.menu = options.menu;
             this.urlPref = 'resources/help/en/';
+            this.openUrl = null;
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Document Editor user interface", "headername": "Program Interface"},
@@ -1419,8 +1448,9 @@ define([
                         }
                     },
                     success: function () {
-                        var rec = store.at(0);
+                        var rec = (me.openUrl) ? store.findWhere({ src: me.openUrl }) || store.at(0) : store.at(0);
                         me.viewHelpPicker.selectRecord(rec);
+                        me.viewHelpPicker.scrollToRecord(rec);
                         me.iFrame.src = me.urlPref + rec.get('src');
                     }
                 };
@@ -1443,7 +1473,8 @@ define([
                 if (rec) {
                     this.viewHelpPicker.selectRecord(rec);
                     this.viewHelpPicker.scrollToRecord(rec);
-                }
+                } else
+                    this.openUrl = url;
             }
         }
     });

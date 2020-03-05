@@ -259,6 +259,7 @@ define([
                 data: [
                     { displayValue: this.txtCurrent,     value: Asc.c_oAscTOCStylesType.Current },
                     { displayValue: this.txtSimple,     value: Asc.c_oAscTOCStylesType.Simple },
+                    { displayValue: this.txtOnline,     value: Asc.c_oAscTOCStylesType.Web },
                     { displayValue: this.txtStandard,     value: Asc.c_oAscTOCStylesType.Standard },
                     { displayValue: this.txtModern,     value: Asc.c_oAscTOCStylesType.Modern },
                     { displayValue: this.txtClassic,     value: Asc.c_oAscTOCStylesType.Classic }
@@ -649,7 +650,8 @@ define([
         txtSimple: 'Simple',
         txtStandard: 'Standard',
         txtModern: 'Modern',
-        txtClassic: 'Classic'
+        txtClassic: 'Classic',
+        txtOnline: 'Online'
 
     }, DE.Views.TableOfContentsSettings || {}))
 });

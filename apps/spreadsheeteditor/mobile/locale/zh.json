@@ -314,7 +314,7 @@
   "SSE.Views.AddLink.textInsert": "插入",
   "SSE.Views.AddLink.textInternalLink": "内部数据范围",
   "SSE.Views.AddLink.textLink": "链接",
-  "SSE.Views.AddLink.textLinkSettings": "链接设置",
+  "SSE.Views.AddOther.textLinkSettings": "链接设置",
   "SSE.Views.AddLink.textLinkType": "链接类型",
   "SSE.Views.AddLink.textRange": "范围",
   "SSE.Views.AddLink.textRequired": "需要",

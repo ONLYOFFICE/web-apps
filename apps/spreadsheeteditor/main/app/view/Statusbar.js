@@ -185,7 +185,7 @@ define([
                     }, this),
                     'tab:move'          : _.bind(function (selectTabs, index) {
                         me.tabBarScroll = {scrollLeft: me.tabbar.scrollX};
-                        if (_.isUndefined(selectTabs) || _.isUndefined(index) || selectTabs === index) {
+                        if (_.isUndefined(selectTabs) || _.isUndefined(index) || (selectTabs && selectTabs.length === 1 && selectTabs[0] === index)) {
                             return;
                         }
                         if (_.isArray(selectTabs)) {

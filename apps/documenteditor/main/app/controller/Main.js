@@ -100,7 +100,8 @@ define([
 
                 var me = this,
                     styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
-                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text'],
+                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
+                                  'Caption'],
                 translate = {
                     'Series': this.txtSeries,
                     'Diagram Title': this.txtDiagramTitle,
@@ -163,17 +164,21 @@ define([
                     return;
                 }
 
-                var value = Common.localStorage.getItem("de-settings-fontrender");
-                if (value === null)
-                    window.devicePixelRatio > 1 ? value = '1' : '0';
-                Common.Utils.InternalSettings.set("de-settings-fontrender", value);
-
                 // Initialize api
                 window["flat_desine"] = true;
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
+
+                    var value = Common.localStorage.getBool("de-settings-cachemode", true);
+                    Common.Utils.InternalSettings.set("de-settings-cachemode", value);
+                    this.api.asc_setDefaultBlitMode(!!value);
+
+                    value = Common.localStorage.getItem("de-settings-fontrender");
+                    if (value === null)
+                        value = '0';
+                    Common.Utils.InternalSettings.set("de-settings-fontrender", value);
                     switch (value) {
                         case '0': this.api.SetFontRenderingMode(3); break;
                         case '1': this.api.SetFontRenderingMode(1); break;
@@ -358,6 +363,8 @@ define([
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
+                this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-сontrols");
+                this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -744,7 +751,8 @@ define([
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
-                    !( id == Asc.c_oAscAsyncAction['ApplyChanges'] && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl)) ) {
+                    (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
+                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -1052,6 +1060,11 @@ define([
                     documentHolderController.getView().createDelayedElementsViewer();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                 }
+
+                // TODO bug 43960
+                var dummyClass = ~~(1e6*Math.random());
+                $('.toolbar').prepend(Common.Utils.String.format('<div class="lazy-{0} x-huge"><div class="toolbar__icon" style="position: absolute; width: 1px; height: 1px;"></div>', dummyClass));
+                setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
 
                 if (this.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Document Editor');
@@ -1529,6 +1542,10 @@ define([
                    case Asc.c_oAscError.ID.UpdateVersion:
                         config.msg = this.errorUpdateVersionOnDisconnect;
                         config.maxwidth = 600;
+                        break;
+
+                    case Asc.c_oAscError.ID.DirectUrl:
+                        config.msg = this.errorDirectUrl;
                         break;
 
                     default:
@@ -2243,7 +2260,7 @@ define([
             txtXAxis: 'X Axis',
             txtYAxis: 'Y Axis',
             txtSeries: 'Seria',
-            errorMailMergeLoadFile: 'Loading failed',
+            errorMailMergeLoadFile: 'Loading the document failed. Please select a different file.',
             mailMergeLoadFileText: 'Loading Data Source...',
             mailMergeLoadFileTitle: 'Loading Data Source',
             errorMailMergeSaveFile: 'Merge failed.',
@@ -2305,7 +2322,7 @@ define([
             txtOddPage: "Odd Page",
             txtSameAsPrev: "Same as Previous",
             txtCurrentDocument: "Current Document",
-            txtNoTableOfContents: "No table of contents entries found.",
+            txtNoTableOfContents: "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents.",
             txtTableOfContents: "Table of Contents",
             errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
             warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
@@ -2512,7 +2529,9 @@ define([
             uploadDocExtMessage: 'Unknown document format.',
             uploadDocFileCountMessage: 'No documents uploaded.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            txtChoose: 'Choose an item.'
+            txtChoose: 'Choose an item.',
+            errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.',
+            txtStyle_Caption: 'Caption'
         }
     })(), DE.Controllers.Main || {}))
 });

@@ -48,9 +48,6 @@ define([
     'use strict';
 
     PE.Controllers.AddTable = Backbone.Controller.extend(_.extend((function() {
-        var _styles = [],
-            _initDefaultStyles = false;
-
         return {
             models: [],
             collections: [],
@@ -60,13 +57,13 @@ define([
 
             initialize: function () {
                 Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
+                this._styles = [];
+                this._initDefaultStyles = false;
             },
 
             setApi: function (api) {
                 var me = this;
                 me.api = api;
-
-                me.api.asc_registerCallback('asc_onInitTableTemplates', _.bind(me.onApiInitTemplates, me));
             },
 
             onLaunch: function () {
@@ -75,7 +72,6 @@ define([
 
             initEvents: function () {
                 var me = this;
-
                 $('#add-table li').single('click',  _.buffered(me.onStyleClick, 100, me));
             },
 
@@ -152,30 +148,10 @@ define([
             // Public
 
             getStyles: function () {
-                return _styles;
+                return this._styles;
             },
 
             // API handlers
-
-            onApiInitTemplates: function(templates){
-                if (!_initDefaultStyles) {
-                    _initDefaultStyles = true;
-                    _styles = [];
-                }
-                if (_styles.length < 1) {
-                    _.each(templates, function(template){
-                        _styles.push({
-                            imageUrl    : template.asc_getImage(),
-                            templateId  : template.asc_getId()
-                        });
-                    });
-
-                    this.getView('AddTable').render();
-                }
-
-                Common.SharedSettings.set('tablestyles', _styles);
-                Common.NotificationCenter.trigger('tablestyles:load', _styles);
-            },
 
             textTableSize: 'Table Size',
             textColumns: 'Columns',

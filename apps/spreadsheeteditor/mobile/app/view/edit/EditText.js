@@ -142,7 +142,7 @@ define([
                     transparent: true
                 });
                 this.paletteTextColor.on('customcolor', function () {
-                    me.showCustomFillColor();
+                    me.showCustomTextColor();
                 });
                 var template = _.template(['<div class="list-block">',
                     '<ul>',

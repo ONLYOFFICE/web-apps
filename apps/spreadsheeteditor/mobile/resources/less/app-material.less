@@ -86,6 +86,21 @@ input, textarea {
   padding: 0 13px;
 }
 
+.logo-navbar {
+  height: 80px;
+  .navbar-inner {
+    top: 24px;
+    height: 56px;
+  }
+}
+
+.navbar-through > .page.editor.with-logo {
+  padding-top: 80px;
+}
+.navbar-hidden + .navbar-through > .page.editor.with-logo {
+  padding-top: 0;
+}
+
 // Add Container
 
 #add-table,
@@ -293,6 +308,7 @@ input, textarea {
   left: 0;
   right: 0;
   bottom: 0;
+  font-size: 0;
 
   > .columns {
     width: 100%;
@@ -311,7 +327,7 @@ input, textarea {
     &:first-child {
       background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
       background-size: 20px 20px;
-      width: 35px;
+      width: 25px;
     }
   }
 }

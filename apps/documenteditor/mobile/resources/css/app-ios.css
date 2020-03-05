@@ -5844,6 +5844,13 @@ html:not(.phone) #editor-navbar.navbar .right a + a,
 html:not(.phone) #editor-navbar.navbar .left a + a {
   margin-left: 10px;
 }
+.logo-navbar {
+  height: 68px;
+}
+.logo-navbar .navbar-inner {
+  top: 24px;
+  height: 44px;
+}
 .phone.ios .container-edit .navbar:before,
 .phone.ios .container-collaboration .navbar:before,
 .phone.ios .container-filter .navbar:before {
@@ -6372,12 +6379,8 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   display: block;
   background-color: #fff;
 }
-.color-schemes-menu .item-content {
-  padding-left: 0;
-}
 .color-schemes-menu .item-inner {
   justify-content: flex-start;
-  padding-left: 16px;
 }
 .color-schemes-menu .color-schema-block {
   display: flex;
@@ -6614,6 +6617,11 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 }
 .searchbar.document {
   background: #e4e4e6;
+}
+i.icon.icon-logo {
+  width: 100px;
+  height: 14px;
+  background: url('../../../../common/mobile/resources/img/header/logo-ios.svg') no-repeat center;
 }
 i.icon.icon-search {
   width: 22px;
@@ -7097,6 +7105,9 @@ i.icon.icon-paste {
   overflow: hidden;
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
+}
+#editor_sdk.with-logo {
+  top: 68px;
 }
 #add-table .page,
 #add-shape .page {

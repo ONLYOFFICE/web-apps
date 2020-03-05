@@ -6372,12 +6372,8 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   display: block;
   background-color: #fff;
 }
-.color-schemes-menu .item-content {
-  padding-left: 0;
-}
 .color-schemes-menu .item-inner {
   justify-content: flex-start;
-  padding-left: 16px;
 }
 .color-schemes-menu .color-schema-block {
   display: flex;
@@ -6542,6 +6538,11 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .settings.popup .list-block ul.list-reply:last-child:after,
 .settings.popover .list-block ul.list-reply:last-child:after {
   display: none;
+}
+i.icon.icon-logo {
+  width: 100px;
+  height: 14px;
+  background: url('../../../../common/mobile/resources/img/header/logo-ios.svg') no-repeat center;
 }
 i.icon.icon-search {
   width: 24px;
@@ -7417,6 +7418,19 @@ html.pixel-ratio-3 .box-tabs ul > li:after {
 .searchbar.document {
   background: #e4e4e6;
 }
+.logo-navbar {
+  height: 68px;
+}
+.logo-navbar .navbar-inner {
+  top: 24px;
+  height: 44px;
+}
+.navbar-through > .page.editor.with-logo {
+  padding-top: 68px;
+}
+.navbar-hidden + .navbar-through > .page.editor.with-logo {
+  padding-top: 0;
+}
 .label-switch input[type="checkbox"]:checked + .checkbox {
   background: #40865c;
 }
@@ -7718,6 +7732,7 @@ html.pixel-ratio-3 .cell-styles.dataview .row li {
   left: 0;
   right: 0;
   bottom: 0;
+  font-size: 0;
 }
 .doc-placeholder > .columns {
   width: 100%;
@@ -7733,5 +7748,5 @@ html.pixel-ratio-3 .cell-styles.dataview .row li {
 .doc-placeholder > .columns:first-child {
   background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
   background-size: 20px 20px;
-  width: 35px;
+  width: 25px;
 }

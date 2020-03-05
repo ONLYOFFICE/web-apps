@@ -48,8 +48,6 @@ define([
     'use strict';
 
     PE.Controllers.AddSlide = Backbone.Controller.extend(_.extend((function() {
-        var _layouts = [];
-
         return {
             models: [],
             collections: [],
@@ -59,12 +57,12 @@ define([
 
             initialize: function () {
                 Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
+                this._layouts = [];
             },
 
             setApi: function (api) {
                 var me = this;
                 me.api = api;
-                me.api.asc_registerCallback('asc_onUpdateLayout', _.bind(me.onUpdateLayout, me));
             },
 
             onLaunch: function () {
@@ -73,49 +71,18 @@ define([
 
             initEvents: function () {
                 var me = this;
-                me.getView('AddSlide').updateLayouts(_layouts);
+                me.getView('AddSlide').updateLayouts(this._layouts);
                 $('#add-slide .slide-layout li').single('click',  _.buffered(me.onLayoutClick, 100, me));
             },
 
             onLayoutClick: function (e) {
-                var me = this,
-                    $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                me.api.AddSlide(type);
-
                 PE.getController('AddContainer').hideModal();
             },
 
             // Public
 
             getLayouts: function () {
-                return _layouts;
-            },
-
-            // API handlers
-
-            onUpdateLayout: function(layouts){
-                var me = this;
-                _layouts = [];
-                if (!_.isEmpty(layouts)){
-                    _.each(layouts, function(layout){
-                        var name = layout.get_Name();
-                        _layouts.push({
-                            imageUrl    : layout.get_Image(),
-                            title       : (name !== '') ? name : PE.getController('Main').layoutNames[layout.getType()],
-                            itemWidth   : layout.get_Width(),
-                            itemHeight  : layout.get_Height(),
-                            idx         : layout.getIndex()
-                        });
-                    });
-                }
-
-                Common.SharedSettings.set('slidelayouts', _layouts);
-                Common.NotificationCenter.trigger('slidelayouts:load', _layouts);
-
-                this.getView('AddSlide').updateLayouts(_layouts);
-                $('#add-slide .slide-layout li').single('click',  _.buffered(me.onLayoutClick, 100, me));
+                return this._layouts;
             }
         }
     })(), PE.Controllers.AddSlide || {}))

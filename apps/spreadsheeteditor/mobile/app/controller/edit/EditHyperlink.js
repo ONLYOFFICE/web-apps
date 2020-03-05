@@ -61,6 +61,12 @@ define([
 
             initialize: function () {
                 Common.NotificationCenter.on('editcontainer:show', _.bind(this.initEvents, this));
+
+                this.addListeners({
+                    'EditHyperlink': {
+                        'page:show'     : this.onPageShow
+                    }
+                });
             },
 
             setApi: function (api) {
@@ -84,80 +90,105 @@ define([
                 me.initSettings();
             },
 
+            onPageShow: function (view, pageId) {
+                var me = this;
 
-            initSettings: function () {
-                var me = this,
-                    cellInfo = me.api.asc_getCellInfo(),
-                    linkInfo = cellInfo.asc_getHyperlink(),
-                    sheetCount = me.api.asc_getWorksheetsCount(),
-                    isLock = cellInfo.asc_getFlags().asc_getLockText(),
-                    i = -1,
-                    sheets = [];
+                me.initSettings(pageId);
+            },
 
-                while (++i < sheetCount) {
-                    if (!me.api.asc_isWorksheetHidden(i)) {
-                        sheets.push(Common.Utils.String.format('<option value="{0}">{1}</option>', me.api.asc_getWorksheetName(i), me.api.asc_getWorksheetName(i)));
+            initSettings: function (pageId) {
+                var me = this;
+
+                if ('#edit-link-type-view' == pageId) {
+                    var $radioLinkType = $('.page[data-page=edit-link-type-view]').find('input:radio[name=link-type]');
+                    $radioLinkType.val([me.linkType]);
+                    $radioLinkType.single('change',       _.bind(me.onTypeChange, me));
+                } else if ('#edit-link-sheet-view' == pageId) {
+                    var sheetCount = me.api.asc_getWorksheetsCount(),
+                        i = -1,
+                        template = '';
+                    while (++i < sheetCount) {
+                        if (!me.api.asc_isWorksheetHidden(i)) {
+                            template += '<li>' +
+                                '<label class="label-radio item-content">' +
+                                '<input type="radio" name="link-sheet" value="' + me.api.asc_getWorksheetName(i) + '">';
+                            if (Common.SharedSettings.get('android')) {
+                                template += '<div class="item-media"><i class="icon icon-form-radio"></i></div>';
+                            }
+                            template += '<div class="item-inner">' +
+                                '<div class="item-title">' + me.api.asc_getWorksheetName(i) + '</div>' +
+                                '</div>' +
+                                '</label>' +
+                                '</li>';
+                        }
                     }
+                    $('.page[data-page="edit-link-sheet-view"] .page-content .list-block ul').html(_.template([template].join('')));
+                    var $radioLinkSheet = $('.page[data-page=edit-link-sheet-view]').find('input:radio[name=link-sheet]');
+                    $radioLinkSheet.val([me.linkSheet]);
+                    $radioLinkSheet.single('change',       _.bind(function (e) {
+                        me.linkSheet = $(e.currentTarget).prop('value');
+                        $('#edit-link-sheet .item-after').text(me.linkSheet);
+                    }, me));
+                } else {
+
+                    var cellInfo = me.api.asc_getCellInfo(),
+                        linkInfo = cellInfo.asc_getHyperlink(),
+                        isLock = cellInfo.asc_getFlags().asc_getLockText();
+
+                    me.linkType = linkInfo.asc_getType();
+                    $('#edit-link-type .item-after').text((me.linkType == Asc.c_oAscHyperlinkType.RangeLink) ? me.textInternalLink : me.textExternalLink);
+
+                    $('#edit-link-sheet, #edit-link-range').css('display', (linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? 'block' : 'none');
+                    $('#edit-link-link').css('display', (linkInfo.asc_getType() != Asc.c_oAscHyperlinkType.RangeLink) ? 'block' : 'none');
+
+                    me.currentSheet = me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex());
+                    me.linkSheet = (linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? linkInfo.asc_getSheet() : me.currentSheet;
+                    $('#edit-link-sheet .item-after').text(me.linkSheet);
+
+                    $('#edit-link-range input').val(linkInfo.asc_getRange());
+
+                    $('#edit-link-link input').val(linkInfo.asc_getHyperlinkUrl() ? linkInfo.asc_getHyperlinkUrl().replace(new RegExp(" ", 'g'), "%20") : '');
+
+                    $('#edit-link-display input').val(isLock ? me.textDefault : linkInfo.asc_getText());
+                    $('#edit-link-display input').toggleClass('disabled', isLock);
+
+                    $('#edit-link-tip input').val(linkInfo.asc_getTooltip());
+
+                    var focusInput = ((linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? $('#edit-link-range input') : $('#edit-link-link input'));
+                    $('#edit-link-edit').toggleClass('disabled', _.isEmpty(focusInput.val()));
+
+                    $('#edit-link-link input, #edit-link-range input').single('input', _.bind(function (e) {
+                        $('#edit-link-edit').toggleClass('disabled', _.isEmpty($(e.currentTarget).val()));
+                    }, me));
+
+                    $('#edit-link-edit').single('click', _.bind(me.onEdit, me));
+                    $('#edit-link-remove').single('click', _.bind(me.onRemove, me));
+
                 }
-
-                $('#edit-link-sheet select').html(sheets.join(''));
-
-                $('#edit-link-type select').val(linkInfo.asc_getType());
-                $('#edit-link-type .item-after').text((linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? me.textInternalLink : me.textExternalLink);
-
-                $('#edit-link-sheet, #edit-link-range').css('display', (linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? 'block' : 'none');
-                $('#edit-link-link').css('display', (linkInfo.asc_getType() != Asc.c_oAscHyperlinkType.RangeLink) ? 'block' : 'none');
-
-                var currentSheet = me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex());
-                $('#edit-link-sheet select').val((linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? linkInfo.asc_getSheet(): currentSheet);
-                $('#edit-link-sheet .item-after').text((linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? linkInfo.asc_getSheet(): currentSheet);
-
-                $('#edit-link-range input').val(linkInfo.asc_getRange());
-
-                $('#edit-link-link input').val(linkInfo.asc_getHyperlinkUrl() ? linkInfo.asc_getHyperlinkUrl().replace(new RegExp(" ",'g'), "%20") : '');
-
-                $('#edit-link-display input').val(isLock ? me.textDefault : linkInfo.asc_getText());
-                $('#edit-link-display input').toggleClass('disabled', isLock);
-
-                $('#edit-link-tip input').val(linkInfo.asc_getTooltip());
-
-                var focusInput = ((linkInfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) ? $('#edit-link-range input') : $('#edit-link-link input'));
-                $('#edit-link-edit').toggleClass('disabled', _.isEmpty(focusInput.val()));
-
-                $('#edit-link-link input, #edit-link-range input').single('input', _.bind(function(e) {
-                    $('#edit-link-edit').toggleClass('disabled', _.isEmpty($(e.currentTarget).val()));
-                }, me));
-
-                $('#edit-link-edit').single('click',    _.bind(me.onEdit, me));
-                $('#edit-link-remove').single('click',  _.bind(me.onRemove, me));
-
-                $('#edit-link-type select').single('change', _.bind(me.onTypeChange, me));
             },
 
             // Handlers
 
             onTypeChange: function (e) {
-                var val = parseInt($(e.currentTarget).val());
+                var val = parseInt($(e.currentTarget).prop('value'));
+                this.linkType = val;
 
                 $('#edit-link-sheet, #edit-link-range').css('display', (val == Asc.c_oAscHyperlinkType.RangeLink) ? 'block' : 'none');
                 $('#edit-link-link').css('display', (val != Asc.c_oAscHyperlinkType.RangeLink) ? 'block' : 'none');
 
-                var requireInput = (val == Asc.c_oAscHyperlinkType.RangeLink) ? $('#edit-link-range input') : $('#edit-link-link input');
-
-                $('#edit-link-edit').toggleClass('disabled', _.isEmpty(requireInput.val()));
+                $('#edit-link-type .item-after').text((this.linkType == Asc.c_oAscHyperlinkType.RangeLink) ? this.textInternalLink : this.textExternalLink);
             },
 
             onEdit: function () {
                 var me = this,
                     linkProps = new Asc.asc_CHyperlink(),
                     defaultDisplay = "",
-                    $type = $('#edit-link-type select'),
-                    $sheet = $('#edit-link-sheet select'),
+                    sheet = this.linkSheet,
                     $range = $('#edit-link-range input'),
                     $link = $('#edit-link-link input'),
                     $display = $('#edit-link-display input'),
                     $tip = $('#edit-link-tip input'),
-                    type = parseInt($type.val());
+                    type = parseInt(this.linkType);
 
                 linkProps.asc_setType(type);
 
@@ -173,9 +204,9 @@ define([
                         return;
                     }
 
-                    linkProps.asc_setSheet($sheet.val());
+                    linkProps.asc_setSheet(sheet);
                     linkProps.asc_setRange(range);
-                    defaultDisplay = $sheet.val() + '!' + range;
+                    defaultDisplay = sheet + '!' + range;
                 } else {
                     var url = $link.val().replace(/^\s+|\s+$/g,'');
 

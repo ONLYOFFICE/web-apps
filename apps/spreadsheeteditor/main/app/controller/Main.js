@@ -154,12 +154,16 @@ define([
 //                    viewport.applicationUI.setVisible(true);
                 }
 
-                var value = Common.localStorage.getItem("sse-settings-fontrender");
-                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
-                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
-
                 // Initialize api
                 this.api = this.getApplication().getController('Viewport').getApi();
+
+                var value = Common.localStorage.getBool("sse-settings-cachemode", true);
+                Common.Utils.InternalSettings.set("sse-settings-cachemode", value);
+                this.api.asc_setDefaultBlitMode(!!value);
+
+                value = Common.localStorage.getItem("sse-settings-fontrender");
+                if (value===null) value = '3';
+                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
@@ -340,6 +344,7 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
+                this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -823,6 +828,12 @@ define([
                 } else {
                     documentHolderView.createDelayedElementsViewer();
                     Common.NotificationCenter.trigger('document:ready', 'main');
+                }
+                // TODO bug 43960
+                if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
+                    var dummyClass = ~~(1e6*Math.random());
+                    $('.toolbar').prepend(Common.Utils.String.format('<div class="lazy-{0} x-huge"><div class="toolbar__icon" style="position: absolute; width: 1px; height: 1px;"></div>', dummyClass));
+                    setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
                 }
 
                 if (me.appOptions.canAnalytics && false)

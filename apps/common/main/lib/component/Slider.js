@@ -351,6 +351,7 @@ define([
                     if (me.thumbs.length < 3) {
                         $(document).off('mouseup', me.binding.onMouseUp);
                         $(document).off('mousemove', me.binding.onMouseMove);
+                        me._dragstart = undefined;
                         return;
                     }
                     me.trigger('removethumb', me, _.findIndex(me.thumbs, {index: index}));

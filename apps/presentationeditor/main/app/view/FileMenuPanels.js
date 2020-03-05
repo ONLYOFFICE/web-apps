@@ -298,17 +298,26 @@ define([
                 labelText: this.strAlignGuides
             });
 
+            var itemsTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>'
+                ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
+                itemsTemplate: itemsTemplate,
                 data        : [
                     { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
                     { value: Asc.c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
-                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
+                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative },
+                    { value: 'custom', displayValue: this.txtCacheMode }
                 ]
             });
+            this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-unit'),
@@ -379,7 +388,13 @@ define([
 
             value = Common.Utils.InternalSettings.get("pe-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
-            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
+            this.cmbFontRender.setValue(item ? item.get('value') : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling);
+            this._fontRender = this.cmbFontRender.getValue();
+
+            value = Common.Utils.InternalSettings.get("pe-settings-cachemode");
+            item = this.cmbFontRender.store.findWhere({value: 'custom'});
+            item && value && item.set('checked', !!value);
+            item && value && this.cmbFontRender.cmpEl.find('#' + item.get('id') + ' a').addClass('checked');
 
             value = Common.Utils.InternalSettings.get("pe-settings-unit");
             item = this.cmbUnit.store.findWhere({value: value});
@@ -407,6 +422,8 @@ define([
             }
             /** coauthoring end **/
             Common.localStorage.setItem("pe-settings-fontrender", this.cmbFontRender.getValue());
+            var item = this.cmbFontRender.store.findWhere({value: 'custom'});
+            Common.localStorage.setItem("pe-settings-cachemode", item && !item.get('checked') ? 0 : 1);
             Common.localStorage.setItem("pe-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("pe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
@@ -421,6 +438,16 @@ define([
                 if (this._oldUnits !== this.cmbUnit.getValue())
                     Common.NotificationCenter.trigger('settings:unitschanged', this);
             }
+        },
+
+        onFontRenderSelected: function(combo, record) {
+            if (record.value == 'custom') {
+                var item = combo.store.findWhere({value: 'custom'});
+                item && item.set('checked', !record.checked);
+                combo.cmpEl.find('#' + record.id + ' a').toggleClass('checked', !record.checked);
+                combo.setValue(this._fontRender);
+            }
+            this._fontRender = combo.getValue();
         },
 
         strInputMode:   'Turn on hieroglyphs',
@@ -456,7 +483,8 @@ define([
         textForceSave: 'Save to Server',
         strForcesave: 'Always save to server (otherwise save to server on document close)',
         txtSpellCheck: 'Spell Checking',
-        strSpellCheckMode: 'Turn on spell checking option'
+        strSpellCheckMode: 'Turn on spell checking option',
+        txtCacheMode: 'Default cache mode'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

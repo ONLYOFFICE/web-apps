@@ -984,7 +984,7 @@ define([
                     if (props) {
                         (ischartedit) ? props.changeType(type) : props.putType(type);
                         var range = props.getRange(),
-                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType());
+                            isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType()) : Asc.c_oAscError.ID.No;
                         if (isvalid == Asc.c_oAscError.ID.No) {
                             (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
                         } else {
@@ -1510,8 +1510,12 @@ define([
                     },
                     'command+k,ctrl+k': function (e) {
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot &&
-                            !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible())
-                            me.onHyperlink();
+                            !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()) {
+                            var cellinfo = me.api.asc_getCellInfo(),
+                                selectionType = cellinfo.asc_getFlags().asc_getSelectionType();
+                            if (selectionType !== Asc.c_oAscSelectionType.RangeShapeText || me.api.asc_canAddShapeHyperlink()!==false)
+                                me.onHyperlink();
+                        }
                         e.preventDefault();
                     },
                     'command+1,ctrl+1': function(e) {

@@ -127,7 +127,7 @@ define([
         setLanguages: function (array) {
             this.languages = array;
             this._initSettings = true;
-            if (this.panelSpellcheck.cmbDictionaryLanguage.store.length > 0) {
+            if (this.panelSpellcheck.cmbDictionaryLanguage && this.panelSpellcheck.cmbDictionaryLanguage.store.length > 0) {
                 this.panelSpellcheck.cmbDictionaryLanguage.store.reset();
             }
         },
