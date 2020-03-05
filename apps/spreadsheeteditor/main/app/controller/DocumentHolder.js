@@ -162,7 +162,8 @@ define([
                 },
                 'cells:range': function(status){
                     me.onCellsRange(status);
-                }
+                },
+                'tabs:dragend': _.bind(me.onDragEndMouseUp, me)
             });
 
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
@@ -1524,6 +1525,10 @@ define([
 
         onProcessMouse: function(data) {
             (data.type == 'mouseup') && (this.mouse.isLeftButtonDown = false);
+        },
+
+        onDragEndMouseUp: function() {
+            this.mouse.isLeftButtonDown = false;
         },
 
         onDocumentMouseMove: function(e) {

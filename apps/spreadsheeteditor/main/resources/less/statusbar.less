@@ -159,11 +159,7 @@
             > li {
                 background-color: @gray-light;
 
-                &:first-child > a {
-                    border-left: 0 none;
-                }
-
-                > a {
+                > span {
                     display: inline-block;
                     .border-radius(0);
                     padding: 0 10px 0;
@@ -171,9 +167,9 @@
                     margin-right: -1px;
                     background-color: @gray-light;
                     outline: none;
-                    border-left-color: @gray-dark;
-                    border-right-color: @gray-dark;
-                    border-top-color: @gray-dark;
+                    border-left: 1px solid @gray-dark;
+                    border-right: 1px solid @gray-dark;
+                    border-top: 1px solid @gray-dark;
 
                     &:hover {
                         border-top-color: @gray-dark;
@@ -183,7 +179,7 @@
                 }
 
                 &.active {
-                    > a {
+                    > span {
                         border-bottom-color: @body-bg;
                         background-color: @body-bg;
                         outline: none;
@@ -195,7 +191,7 @@
                 }
 
                 &.selected {
-                    > a {
+                    > span {
                         border-bottom-color: @body-bg;
                         background-color: @body-bg;
                         box-shadow: 0px 4px 0 #49795d inset;
@@ -205,14 +201,14 @@
                 &.coauth-locked {
                     vertical-align: top;
                     &.active {
-                        > a {
+                        > span {
                             border-top-width: 1px;
                         }
                     }
-                    > a {
+                    > span {
                         outline: none;
                     }
-                    > a:after {
+                    > span:after {
                         position: absolute;
                         content: '';
                         width: 7px;
@@ -228,34 +224,29 @@
                 &.disabled {
                     opacity: 0.5;
 
-                    > a {
+                    > span {
                         cursor: default;
                     }
                 }
 
                 &:not(.active) {
-                    > a {
+                    > span {
                         color: @gray-darker;
                     }
                 }
 
                 &.mousemove {
-                    > a {
-                        background: linear-gradient(to right, @gray-deep 0px, @gray-deep 2px, @gray-light 2px);
+
+                    > span {
+                        border-left: 3px solid #49795d;
+                        padding-left: 8px;
                     }
                     &.right {
-                        > a {
-                            background: linear-gradient(to left, @gray-deep 0px, @gray-deep 2px, @gray-light 2px);
-                        }
-                    }
-                    &.selected {
-                        > a {
-                            background: linear-gradient(to right, @gray-deep 0px, @gray-deep 2px, #FFFFFF 2px);
-                        }
-                        &.right {
-                            > a {
-                                background: linear-gradient(to left, @gray-deep 0px, @gray-deep 2px, #FFFFFF 2px);
-                            }
+                        > span {
+                            border-left: 1px solid @gray-dark;
+                            border-right: 3px solid #49795d;
+                            padding-right: 8px;
+                            padding-left: 10px;
                         }
                     }
                 }
@@ -313,7 +304,7 @@
             li {
                 text-align: center;
 
-                > a {
+                > span {
                       padding-left: 15px;
                       padding-right: 15px;
                 }

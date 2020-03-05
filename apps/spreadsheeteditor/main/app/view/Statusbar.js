@@ -200,6 +200,92 @@ define([
                             me.fireEvent('sheet:move', [undefined, false, true, tabIndex, index]);
                         }
 
+                    }, this),
+                    'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
+                        this.api.asc_closeCellEditor();
+                        var arrTabs = [],
+                            arrName = [],
+                            me = this;
+                        var wc = me.api.asc_getWorksheetsCount(), items = [], i = -1;
+                        while (++i < wc) {
+                            if (!this.api.asc_isWorksheetHidden(i)) {
+                                items.push({
+                                    value: me.api.asc_getWorksheetName(i),
+                                    inindex: i
+                                });
+                            }
+                        }
+                        var arrSelectIndex = [];
+                        selectTabs.forEach(function (item) {
+                            arrSelectIndex.push(item.sheetindex);
+                        });
+                        items.forEach(function (item) {
+                            if (arrSelectIndex.indexOf(item.inindex) !== -1) {
+                                arrTabs.push(item.inindex);
+                                arrName.push(item.value);
+                            }
+                        });
+                        var stringSheet, arr = [];
+                        stringSheet = this.api.asc_StartMoveSheet(_.clone(arrTabs));
+                        arr.push({type: 'onlyoffice', value: stringSheet});
+                        arr.push({type: 'indexes', value: arrTabs});
+                        arr.push({type: 'names', value: arrName});
+                        arr.push({type: 'key', value: Common.Utils.InternalSettings.get("sse-doc-info-key")});
+                        var json = JSON.stringify(arr);
+                        dataTransfer.setData("onlyoffice", json);
+                        this.dropTabs = selectTabs;
+                    }, this),
+                    'tab:drop': _.bind(function (dataTransfer, index) {
+                         var data = dataTransfer.getData("onlyoffice");
+                         if (data) {
+                             var arrData = JSON.parse(data);
+                             if (arrData) {
+                                 var key = _.findWhere(arrData, {type: 'key'}).value;
+                                 if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
+                                     this.api.asc_moveWorksheet(index, _.findWhere(arrData, {type: 'indexes'}).value);
+                                     Common.NotificationCenter.trigger('tabs:dragend', this);
+                                 } else {
+                                     var names = [], wc = this.api.asc_getWorksheetsCount();
+                                     while (wc--) {
+                                         names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
+                                     }
+                                     var newNames = [];
+                                     var arrNames = _.findWhere(arrData, {type: 'names'}).value;
+                                     arrNames.forEach(function (name) {
+                                         var ind = 0,
+                                             name = name;
+                                         var first = name;
+                                         if (names.indexOf(name.toLowerCase()) !== -1) {
+                                             while (true) {
+                                                 if (names.indexOf(name.toLowerCase()) === -1) {
+                                                     newNames.push(name);
+                                                     break;
+                                                 } else {
+                                                     ind++;
+                                                     name = first + '(' + ind + ')';
+                                                 }
+                                             }
+                                         } else {
+                                             newNames.push(name);
+                                         }
+                                     });
+                                     this.api.asc_EndMoveSheet(index, newNames, _.findWhere(arrData, {type: 'onlyoffice'}).value);
+                                 }
+                             }
+                         }
+                    }, this),
+                    'tab:dragend':  _.bind(function (cut) {
+                        if (cut) {
+                            if (this.dropTabs.length > 0) {
+                                var arr = [];
+                                this.dropTabs.forEach(function (tab) {
+                                    arr.push(tab.sheetindex);
+                                });
+                                me.api.asc_deleteWorksheet(arr);
+                            }
+                        }
+                        this.dropTabs = undefined;
+                        Common.NotificationCenter.trigger('tabs:dragend', this);
                     }, this)
                 });
 
@@ -326,6 +412,7 @@ define([
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
                         tab = {
                             sheetindex    : i,
+                            index         : items.length,
                             active        : sindex == i,
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
@@ -357,6 +444,7 @@ define([
                         this.tabbar.setTabVisible(sindex);
 
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.isCellEdited);
+                    $('#status-addtabs-box').css('border-right', 'none');
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     me.fireEvent('sheet:changed', [me, sindex]);

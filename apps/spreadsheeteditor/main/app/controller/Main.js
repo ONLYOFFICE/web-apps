@@ -242,7 +242,7 @@ define([
                     }
                 }).on('dragover', function(e) {
                     var event = e.originalEvent;
-                    if (event.target && $(event.target).closest('#editor_sdk').length<1 ) {
+                    if (event.target && $(event.target).closest('#editor_sdk').length<1 && !($(event.target).is('#statusbar_bottom') || $.contains($('#statusbar_bottom'), $(event.target))) ) {
                         event.preventDefault();
                         event.dataTransfer.dropEffect ="none";
                         return false;
@@ -415,6 +415,8 @@ define([
                     docInfo.put_Permissions(_permissions);
 
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
+
+                    Common.Utils.InternalSettings.set("sse-doc-info-key", data.doc.key);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));

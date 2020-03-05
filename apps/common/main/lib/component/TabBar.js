@@ -144,6 +144,7 @@ define([
                             }
 
                             me.drag  = undefined;
+                            me.bar.trigger('tab:drop', this);
                         }
                     }
                     function dragMove (event) {
@@ -187,6 +188,7 @@ define([
                             $(document).off('mouseup.tabbar');
                             $(document).off('mousemove.tabbar', dragMove);
                         });
+                        this.bar.trigger('tab:drag', this.bar.selectTabs);
                     }
                 }
             }
@@ -231,14 +233,66 @@ define([
                 this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
             }, this.bar),
             mousedown: $.proxy(function (e) {
-                if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
-                    if (!tab.isLockTheDrag) {
-                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
-                            tab.changeState();
-                            dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
+                if ((3 !== e.which) && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                    var lockDrag = tab.isLockTheDrag;
+                    this.bar.selectTabs.forEach(function (item) {
+                        if (item.isLockTheDrag) {
+                            lockDrag = true;
                         }
+                    });
+                    if (this.bar.selectTabs.length === this.bar.tabs.length || this.bar.tabs.length === 1) {
+                        lockDrag = true;
                     }
+                    this.bar.$el.find('ul > li > span').attr('draggable', !lockDrag);
+                    tab.changeState();
+                } else {
+                    this.bar.$el.find('ul > li > span').attr('draggable', 'false');
                 }
+                this.bar.trigger('tab:drag', this.bar.selectTabs);
+            }, this)
+        });
+        tab.$el.children().on(
+            {dragstart: $.proxy(function (e) {
+                var event = e.originalEvent,
+                    img = document.createElement('div');
+                event.dataTransfer.setDragImage(img, 0, 0);
+                event.dataTransfer.effectAllowed = 'move';
+                this.bar.trigger('tab:dragstart', event.dataTransfer, this.bar.selectTabs);
+            }, this),
+            dragenter: $.proxy(function (e) {
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                $(e.currentTarget).parent().addClass('mousemove');
+                var event = e.originalEvent;
+                var data = event.dataTransfer.getData("onlyoffice");
+                event.dataTransfer.dropEffect = data ? 'move' : 'none';
+            }, this),
+            dragover: $.proxy(function (e) {
+                var event = e.originalEvent;
+                if (event.preventDefault) {
+                    event.preventDefault(); // Necessary. Allows us to drop.
+                }
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                $(e.currentTarget).parent().addClass('mousemove');
+                return false;
+            }, this),
+            dragleave: $.proxy(function (e) {
+                $(e.currentTarget).parent().removeClass('mousemove right');
+            }, this),
+            dragend: $.proxy(function (e) {
+                var event = e.originalEvent;
+                if (event.dataTransfer.dropEffect === 'move') {
+                    this.bar.trigger('tab:dragend', true);
+                } else {
+                    this.bar.trigger('tab:dragend', false);
+                }
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
+            }, this),
+            drop: $.proxy(function (e) {
+                var event = e.originalEvent,
+                    index = $(event.currentTarget).data('index');
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                this.bar.trigger('tab:drop', event.dataTransfer, index);
+                this.bar.isDrop = true;
             }, this)
         });
     };
@@ -255,7 +309,7 @@ define([
         },
 
         tabs: [],
-        template: _.template('<ul class="nav nav-tabs <%= placement %>" />'),
+        template: _.template('<ul id="statusbar_bottom" class="nav nav-tabs <%= placement %>"/>'),
         selectTabs: [],
 
         initialize : function (options) {
@@ -275,6 +329,34 @@ define([
 
             var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
             addEvent(this.$bar[0], eventname, _.bind(this._onMouseWheel,this));
+            addEvent(this.$bar[0], 'dragstart', _.bind(function (event) {
+                event.dataTransfer.effectAllowed = 'move';
+            }, this));
+            addEvent(this.$bar[0], 'dragenter', _.bind(function (event) {
+                var data = event.dataTransfer.getData("onlyoffice");
+                event.dataTransfer.dropEffect = data ? 'move' : 'none';
+            }, this));
+            addEvent(this.$bar[0], 'dragover', _.bind(function (event) {
+                if (event.preventDefault) {
+                    event.preventDefault(); // Necessary. Allows us to drop.
+                }
+                event.dataTransfer.dropEffect = 'move';
+                this.tabs[this.tabs.length - 1].$el.addClass('mousemove right');
+                return false;
+            }, this));
+            addEvent(this.$bar[0], 'dragleave', _.bind(function (event) {
+                event.dataTransfer.dropEffect = 'none';
+                this.tabs[this.tabs.length - 1].$el.removeClass('mousemove right');
+            }, this));
+            addEvent(this.$bar[0], 'drop', _.bind(function (event) {
+                var index = this.tabs.length;
+                this.$el.find('.mousemove').removeClass('mousemove right');
+                if (this.isDrop === undefined) {
+                    this.trigger('tab:drop', event.dataTransfer, index);
+                } else {
+                    this.isDrop = undefined;
+                }
+            }, this));
 
             this.manager = new StateManager({bar: this});
 
