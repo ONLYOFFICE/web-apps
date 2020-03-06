@@ -1725,6 +1725,8 @@ define([
         },
 
         onRulerDblClick: function(type) {
+            Common.UI.Menu.Manager.hideAll();
+
             var win, me = this;
             if (type == 'tables') {
                 win = this.advancedTableClick();
