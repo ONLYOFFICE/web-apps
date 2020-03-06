@@ -173,7 +173,7 @@ define([
         },
 
         _setDefaults: function () {
-            // this.props = new AscCommonSlide.CAscDateTime();
+            this.props = new Asc.CAscDateTime();
             if (this.lang) {
                 var item = this.cmbLang.store.findWhere({value: this.lang});
                 item = item ? item.get('value') : 0x0409;
@@ -187,20 +187,18 @@ define([
         },
 
         updateFormats: function(lang) {
-            return;
             this.props.put_Lang(lang);
-            var data = this.props.get_DateTimeExamples(),
+            var formats = this.props.get_FormatsExamples(),
                 arr = [];
             var store = this.listFormats.store;
-            for (var name in data) {
-                if (data[name])  {
-                    var rec = new Common.UI.DataViewModel();
-                    rec.set({
-                        format: name,
-                        value: data[name]
-                    });
-                    arr.push(rec);
-                }
+            for (var i = 0, len = formats.length; i < len; i++)
+            {
+                var rec = new Common.UI.DataViewModel();
+                rec.set({
+                    format: formats[i],
+                    value: this.props.get_String(formats[i], undefined, lang)
+                });
+                arr.push(rec);
             }
             store.reset(arr);
             var format = this.defaultFormats[lang];
@@ -211,14 +209,9 @@ define([
         },
 
         onSelectFormat: function(lisvView, itemView, record) {
-            return;
             if (!record) return;
-            if (this.chUpdate.getValue()=='checked') {
-                this.props.put_DateTime(record.get('format'));
-            } else {
-                this.props.put_DateTime(null);
-                this.props.put_CustomDateTime(record.get('value'));
-            }
+            this.props.put_Format(record.get('format'));
+            this.props.put_Update(this.chUpdate.getValue()=='checked');
         },
 
         onBtnClick: function(event) {

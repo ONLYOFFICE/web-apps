@@ -2986,7 +2986,7 @@ define([
                 handler: function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
-                            // me.api.asc_addDateTime(value);
+                            me.api.asc_addDateTime(value);
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
