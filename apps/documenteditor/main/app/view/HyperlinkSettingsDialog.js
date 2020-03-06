@@ -257,7 +257,6 @@ define([
                 }
                 var rec = this.internalList.getSelectedRec();
                 this.btnOk.setDisabled(!rec || rec.get('level')==0 && rec.get('index')>0);
-
             } else
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
         },

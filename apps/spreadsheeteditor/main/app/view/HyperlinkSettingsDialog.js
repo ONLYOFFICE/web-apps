@@ -180,7 +180,8 @@ define([
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
             me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
+                el: $window.find('.primary'),
+                disabled: true
             });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -216,17 +217,23 @@ define([
                 } else {
                     if (type == Asc.c_oAscHyperlinkType.RangeLink) {
                         sheet = settings.props.asc_getSheet();
-                        this.inputRange.setValue(settings.props.asc_getRange());
+                        if (sheet) {
+                            this.inputRange.setValue(settings.props.asc_getRange());
+                        } else {// named range
+                            sheet = settings.props.asc_getRange();
+                            this.inputRange.setDisabled(true);
+                        }
                         this.focusedInput = this.inputRange.cmpEl.find('input');
+                        var rec = this.internalList.store.findWhere({name: sheet });
+                        rec && this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
                     } else {
                         this.inputUrl.setValue(settings.props.asc_getHyperlinkUrl().replace(new RegExp(" ",'g'), "%20"));
                         this.focusedInput = this.inputUrl.cmpEl.find('input');
+                        this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
                     }
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.props.asc_getText());
                     this.inputTip.setValue(settings.props.asc_getTooltip());
                 }
-                var rec = this.internalList.store.findWhere({name: sheet });
-                rec && this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
                 this.inputDisplay.setDisabled(settings.isLock);
             }
         },
@@ -238,10 +245,16 @@ define([
 
             if (this.btnInternal.isActive()) {
                 var rec = this.internalList.getSelectedRec();
-                if (rec) {
-                    props.asc_setSheet(rec.get('name'));
-                    props.asc_setRange(this.inputRange.getValue());
-                    def_display = rec.get('name') + '!' + this.inputRange.getValue();
+                if (rec && rec.get('level')>0) {
+                    if (rec.get('type')) {// named range
+                        props.asc_setSheet(null);
+                        props.asc_setRange(rec.get('name'));
+                        def_display = rec.get('name');
+                    } else {
+                        props.asc_setSheet(rec.get('name'));
+                        props.asc_setRange(this.inputRange.getValue());
+                        def_display = rec.get('name') + '!' + this.inputRange.getValue();
+                    }
                 }
             } else {
                 var url = this.inputUrl.getValue().replace(/^\s+|\s+$/g,'');
@@ -361,7 +374,6 @@ define([
                 var rec = this.internalList.store.findWhere({name: this.settings.currentSheet });
                 rec && this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
                 this.btnOk.setDisabled(!rec || rec.get('level')==0 || rec.get('type')==0 && $.trim(this.inputRange.getValue())=='');
-
             } else
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
         },
