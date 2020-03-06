@@ -234,7 +234,7 @@ define([
 
                 var type = me.parseUrl(props.get_Value());
                 (type == c_oHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
-                me.ShowHideElem(type);
+                me.ShowHideElem(type, props.get_Value());
                 
                 if (props.get_Text()!==null) {
                     me.inputDisplay.setValue(props.get_Text());
@@ -322,28 +322,13 @@ define([
             this.close();
         },
 
-        ShowHideElem: function(value) {
+        ShowHideElem: function(value, url) {
             this.externalPanel.toggleClass('hidden', value !== c_oHyperlinkType.WebLink);
             this.internalPanel.toggleClass('hidden', value !== c_oHyperlinkType.InternalLink);
             if (value==c_oHyperlinkType.InternalLink) {
-                var rec = this.internalList.getSelectedRec();
-                this.btnOk.setDisabled(!rec || rec.get('index')==4);
-            } else
-                this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
-        },
-
-        onLinkTypeClick: function(type, btn, event) {
-            this.ShowHideElem(type);
-        },
-
-        parseUrl: function(url) {
-            if (url===null || url===undefined || url=='' )
-                return c_oHyperlinkType.WebLink;
-
-            var store = this.internalList.store;
-            var indAction = url.indexOf("ppaction://hlink");
-            if (0 == indAction)
-            {
+                if (url===null || url===undefined || url=='' )
+                    url = "ppaction://hlinkshowjump?jump=firstslide";
+                var store = this.internalList.store;
                 if (store.length<1) {
                     var arr = [], i = 0;
                     arr.push(new Common.UI.TreeViewModel({
@@ -420,7 +405,25 @@ define([
                             selected: i==slideNum
                         }));
                     }
+                    store.reset(arr);
                 }
+                var rec = this.internalList.getSelectedRec();
+                this.btnOk.setDisabled(!rec || rec.get('index')==4);
+            } else
+                this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
+        },
+
+        onLinkTypeClick: function(type, btn, event) {
+            this.ShowHideElem(type);
+        },
+
+        parseUrl: function(url) {
+            if (url===null || url===undefined || url=='' )
+                return c_oHyperlinkType.WebLink;
+
+            var indAction = url.indexOf("ppaction://hlink");
+            if (0 == indAction)
+            {
                 return c_oHyperlinkType.InternalLink;
             } else  {
                 this.inputUrl.setValue(url ? url.replace(new RegExp(" ",'g'), "%20") : '');
