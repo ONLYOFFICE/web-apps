@@ -158,58 +158,6 @@ define([
                 maxLength   : Asc.c_oAscMaxTooltipLength
             });
 
-            // me.radioNext = new Common.UI.RadioBox({
-            //     el: $('#id-dlg-hyperlink-radio-next'),
-            //     labelText: this.txtNext,
-            //     name: 'asc-radio-slide',
-            //     checked: true
-            // });
-            //
-            // me.radioPrev = new Common.UI.RadioBox({
-            //     el: $('#id-dlg-hyperlink-radio-prev'),
-            //     labelText: this.txtPrev,
-            //     name: 'asc-radio-slide'
-            // });
-            //
-            // me.radioFirst = new Common.UI.RadioBox({
-            //     el: $('#id-dlg-hyperlink-radio-first'),
-            //     labelText: this.txtFirst,
-            //     name: 'asc-radio-slide'
-            // });
-            //
-            // me.radioLast = new Common.UI.RadioBox({
-            //     el: $('#id-dlg-hyperlink-radio-last'),
-            //     labelText: this.txtLast,
-            //     name: 'asc-radio-slide'
-            // });
-            //
-            // me.radioSlide = new Common.UI.RadioBox({
-            //     el: $('#id-dlg-hyperlink-radio-slide'),
-            //     labelText: this.txtSlide,
-            //     name: 'asc-radio-slide'
-            // });
-            //
-            // me.cmbSlides = new Common.UI.ComboBox({
-            //     el: $('#id-dlg-hyperlink-slide'),
-            //     cls: 'input-group-nr',
-            //     style: 'width: 50px;',
-            //     menuStyle: 'min-width: 50px; max-height: 200px;',
-            //     data: this.slides
-            // });
-            // me.cmbSlides.setValue(0);
-            // me.cmbSlides.on('selected', _.bind(function(combo, record) {
-            //     me.radioSlide.setValue(true);
-            // }, me))
-            // .on('changed:after', _.bind(function(combo, record) {
-            //     me.radioSlide.setValue(true);
-            //     if (record.value>me.slides.length)
-            //         combo.setValue(me.slides.length-1);
-            //     else if (record.value<1)
-            //         combo.setValue(0);
-            //     else
-            //         combo.setValue(record.value-1);
-            // }, me));
-
             me.internalList = new Common.UI.TreeView({
                 el: $('#id-dlg-hyperlink-list'),
                 store: new Common.UI.TreeViewStore(),
@@ -408,6 +356,7 @@ define([
                     store.reset(arr);
                 }
                 var rec = this.internalList.getSelectedRec();
+                rec && this.internalList.scrollToRecord(rec);
                 this.btnOk.setDisabled(!rec || rec.get('index')==4);
             } else
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');

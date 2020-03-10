@@ -206,26 +206,21 @@ define([
 
                 var type = (settings.props) ? settings.props.asc_getType() : Asc.c_oAscHyperlinkType.WebLink;
                 (type == Asc.c_oAscHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
-                me.ShowHideElem(type);
+                me.ShowHideElem(type, settings.props);
                 me.btnInternal.setDisabled(!settings.allowInternal && (type == Asc.c_oAscHyperlinkType.WebLink));
                 me.btnExternal.setDisabled(!settings.allowInternal && (type == Asc.c_oAscHyperlinkType.RangeLink));
 
-                var sheet = settings.currentSheet;
                 if (!settings.props) {
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.text);
                     this.focusedInput = this.inputUrl.cmpEl.find('input');
                 } else {
                     if (type == Asc.c_oAscHyperlinkType.RangeLink) {
-                        sheet = settings.props.asc_getSheet();
-                        if (sheet) {
+                        if (settings.props.asc_getSheet()) {
                             this.inputRange.setValue(settings.props.asc_getRange());
                         } else {// named range
-                            sheet = settings.props.asc_getRange();
                             this.inputRange.setDisabled(true);
                         }
                         this.focusedInput = this.inputRange.cmpEl.find('input');
-                        var rec = this.internalList.store.findWhere({name: sheet });
-                        rec && this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
                     } else {
                         this.inputUrl.setValue(settings.props.asc_getHyperlinkUrl().replace(new RegExp(" ",'g'), "%20"));
                         this.focusedInput = this.inputUrl.cmpEl.find('input');
@@ -248,7 +243,7 @@ define([
                 if (rec && rec.get('level')>0) {
                     if (rec.get('type')) {// named range
                         props.asc_setSheet(null);
-                        props.asc_setRange(rec.get('name'));
+                        props.asc_setLocation(rec.get('name'));
                         def_display = rec.get('name');
                     } else {
                         props.asc_setSheet(rec.get('name'));
@@ -313,7 +308,7 @@ define([
             this.close();
         },
 
-        ShowHideElem: function(value) {
+        ShowHideElem: function(value, props) {
             this.externalPanel.toggleClass('hidden', value !== Asc.c_oAscHyperlinkType.WebLink);
             this.internalPanel.toggleClass('hidden', value !== Asc.c_oAscHyperlinkType.RangeLink);
             var store = this.internalList.store;
@@ -329,6 +324,7 @@ define([
                         hasParent: false,
                         isEmptyItem: false,
                         isNotHeader: true,
+                        isExpanded: false,
                         hasSubItems: true
                     }));
                     for (var i=0; i<count; i++) {
@@ -337,6 +333,7 @@ define([
                             level: 1,
                             index: i+1,
                             type: 0, // sheet
+                            isVisible: false,
                             hasParent: true
                         }));
                     }
@@ -350,29 +347,33 @@ define([
                         isExpanded: false,
                         hasSubItems: false
                     }));
+                    var definedNames = arr[arr.length-1];
                     var ranges = this.settings.ranges,
                         prev_level = 0;
                     count = ranges.length;
                     for (var i=0; i<count; i++) {
                         var range = ranges[i];
-                        if (!range.asc_getIsTable()) {
-                            if (prev_level<1)
-                                arr[arr.length-1].set('hasSubItems', true);
-                            arr.push(new Common.UI.TreeViewModel({
-                                name : range.asc_getName(),
-                                level: 1,
-                                index: arr.length,
-                                type: 1, // defined name
-                                isVisible: false,
-                                hasParent: true
-                            }));
-                            prev_level = 1;
-                        }
+                        if (prev_level<1)
+                            arr[arr.length-1].set('hasSubItems', true);
+                        arr.push(new Common.UI.TreeViewModel({
+                            name : range.asc_getName(),
+                            level: 1,
+                            index: arr.length,
+                            type: 1, // defined name
+                            isVisible: false,
+                            hasParent: true
+                        }));
+                        prev_level = 1;
                     }
                     store.reset(arr);
+                    var sheet = props ? (props.asc_getSheet() || props.asc_getLocation()) : this.settings.currentSheet,
+                        rec = store.findWhere({name: sheet });
+                    if (rec) {
+                        this.internalList.expandRecord(rec.get('type') ? definedNames : store.at(0));
+                        this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                    }
                 }
-                var rec = this.internalList.store.findWhere({name: this.settings.currentSheet });
-                rec && this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                var rec = this.internalList.getSelectedRec();
                 this.btnOk.setDisabled(!rec || rec.get('level')==0 || rec.get('type')==0 && $.trim(this.inputRange.getValue())=='');
             } else
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');

@@ -200,6 +200,7 @@ define([
                         hasParent: false,
                         isEmptyItem: false,
                         isNotHeader: false,
+                        type: Asc.c_oAscHyperlinkAnchor.Heading,
                         hasSubItems: false
                     }));
 
@@ -232,6 +233,7 @@ define([
                         hasParent: false,
                         isEmptyItem: false,
                         isNotHeader: false,
+                        type: Asc.c_oAscHyperlinkAnchor.Bookmark,
                         hasSubItems: false
                     }));
 
@@ -294,19 +296,25 @@ define([
                     } else {
                         me.inputUrl.setValue('');
                     }
+                    this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
                 } else {
                     if (props.is_TopOfDocument())
                         this.internalList.selectByIndex(0);
                     else if (props.is_Heading()) {
-                        var heading = props.get_Heading(),
-                            rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Heading, headingParagraph: heading });
-                        if (rec)
+                        var rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Heading, headingParagraph: props.get_Heading() });
+                        if (rec) {
+                            this.internalList.expandRecord(this.internalList.store.at(1));
                             this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                        }
                     } else {
                         var rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Bookmark, name: bookmark});
-                        if (rec)
+                        if (rec) {
+                            this.internalList.expandRecord(this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Bookmark, level: 0}));
                             this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                        }
                     }
+                    var rec = this.internalList.getSelectedRec();
+                    this.btnOk.setDisabled(!rec || rec.get('level')==0 && rec.get('index')>0);
                 }
 
                 if (props.get_Text() !== null) {
