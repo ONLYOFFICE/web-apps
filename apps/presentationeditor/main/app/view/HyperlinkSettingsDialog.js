@@ -143,7 +143,10 @@ define([
                 me.isInputFirstChange && me.inputUrl.showError();
                 me.isInputFirstChange = false;
                 var val = $(e.target).val();
-                me.isAutoUpdate && me.inputDisplay.setValue(val);
+                if (me.isAutoUpdate) {
+                    me.inputDisplay.setValue(val);
+                    me.isTextChanged = true;
+                }
                 me.btnOk.setDisabled($.trim(val)=='');
             });
 
@@ -194,7 +197,7 @@ define([
                 if (props.get_Text()!==null) {
                     me.inputDisplay.setValue(props.get_Text());
                     me.inputDisplay.setDisabled(false);
-                    me.isAutoUpdate = (me.inputDisplay.getValue()=='');
+                    me.isAutoUpdate = (me.inputDisplay.getValue()=='' || type == c_oHyperlinkType.WebLink && me.inputUrl.getValue()==me.inputDisplay.getValue());
                 } else {
                     this.inputDisplay.setValue(this.textDefault);
                     this.inputDisplay.setDisabled(true);
@@ -213,8 +216,9 @@ define([
         getSettings: function () {
             var me      = this,
                 props   = new Asc.CHyperlinkProperty();
-            var def_display = '';
-            if (this.btnInternal.isActive()) {//InternalLink
+            var def_display = '',
+                type = this.btnExternal.isActive() ? c_oHyperlinkType.WebLink : c_oHyperlinkType.InternalLink;
+            if (type==c_oHyperlinkType.InternalLink) {//InternalLink
                 var url = "ppaction://hlink";
                 var tip = '';
                 var txttip = me.inputTip.getValue();
@@ -237,7 +241,7 @@ define([
             }
 
             if (!me.inputDisplay.isDisabled() && (me.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
-                if (_.isEmpty(me.inputDisplay.getValue()))
+                if (_.isEmpty(me.inputDisplay.getValue()) || type==c_oHyperlinkType.WebLink && me.isAutoUpdate)
                     me.inputDisplay.setValue(def_display);
                 props.put_Text(me.inputDisplay.getValue());
             }
@@ -380,6 +384,7 @@ define([
                 } else {
                     this.inputDisplay.setValue(this.inputUrl.getValue());
                 }
+                this.isTextChanged = true;
             }
         },
 
@@ -399,7 +404,10 @@ define([
 
         onSelectItem: function(picker, item, record, e){
             this.btnOk.setDisabled(record.get('index')==4);
-            this.isAutoUpdate && this.inputDisplay.setValue((record.get('level') || record.get('index')<4) ? record.get('name') : '');
+            if (this.isAutoUpdate) {
+                this.inputDisplay.setValue((record.get('level') || record.get('index')<4) ? record.get('name') : '');
+                this.isTextChanged = true;
+            }
         },
 
         textTitle:          'Hyperlink Settings',

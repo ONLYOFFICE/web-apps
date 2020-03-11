@@ -243,16 +243,17 @@ define([
                     this.inputTip.setValue(settings.props.asc_getTooltip());
                 }
                 this.inputDisplay.setDisabled(settings.isLock);
-                !settings.isLock && (this.isAutoUpdate = (this.inputDisplay.getValue()==''));
+                !settings.isLock && (this.isAutoUpdate = (this.inputDisplay.getValue()=='' || type == Asc.c_oAscHyperlinkType.WebLink && me.inputUrl.getValue()==me.inputDisplay.getValue()));
             }
         },
 
         getSettings: function() {
             var props = new Asc.asc_CHyperlink(),
-                def_display = "";
-            props.asc_setType(this.btnInternal.isActive() ? Asc.c_oAscHyperlinkType.RangeLink : Asc.c_oAscHyperlinkType.WebLink);
+                def_display = "",
+                type = this.btnInternal.isActive() ? Asc.c_oAscHyperlinkType.RangeLink : Asc.c_oAscHyperlinkType.WebLink;
+            props.asc_setType(type);
 
-            if (this.btnInternal.isActive()) {
+            if (type==Asc.c_oAscHyperlinkType.RangeLink) {
                 var rec = this.internalList.getSelectedRec();
                 if (rec && rec.get('level')>0) {
                     if (rec.get('type')) {// named range
@@ -277,7 +278,7 @@ define([
             if (this.inputDisplay.isDisabled())
                 props.asc_setText(null);
             else {
-                if (_.isEmpty(this.inputDisplay.getValue()))
+                if (_.isEmpty(this.inputDisplay.getValue()) || type==Asc.c_oAscHyperlinkType.WebLink && this.isAutoUpdate)
                     this.inputDisplay.setValue(def_display);
                 props.asc_setText(this.inputDisplay.getValue());
             }

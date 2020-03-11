@@ -141,7 +141,10 @@ define([
                 me.isInputFirstChange && me.inputUrl.showError();
                 me.isInputFirstChange = false;
                 var val = $(e.target).val();
-                me.isAutoUpdate && me.inputDisplay.setValue(val);
+                if (me.isAutoUpdate) {
+                    me.inputDisplay.setValue(val);
+                    me.isTextChanged = true;
+                }
                 me.btnOk.setDisabled($.trim(val)=='');
             });
 
@@ -279,12 +282,16 @@ define([
                 } else {
                     this.inputDisplay.setValue(this.inputUrl.getValue());
                 }
+                this.isTextChanged = true;
             }
         },
 
         onSelectItem: function(picker, item, record, e){
             this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
-            this.isAutoUpdate && this.inputDisplay.setValue((record.get('level') || record.get('index')==0) ? record.get('name') : '');
+            if (this.isAutoUpdate) {
+                this.inputDisplay.setValue((record.get('level') || record.get('index')==0) ? record.get('name') : '');
+                this.isTextChanged = true;
+            }
         },
 
         show: function() {
@@ -336,7 +343,7 @@ define([
                 if (props.get_Text() !== null) {
                     me.inputDisplay.setValue(props.get_Text());
                     me.inputDisplay.setDisabled(false);
-                    me.isAutoUpdate = (me.inputDisplay.getValue()=='');
+                    me.isAutoUpdate = (me.inputDisplay.getValue()=='' || type == c_oHyperlinkType.WebLink && me.inputUrl.getValue()==me.inputDisplay.getValue());
                 } else {
                     me.inputDisplay.setValue(this.textDefault);
                     me.inputDisplay.setDisabled(true);
@@ -352,9 +359,10 @@ define([
         getSettings: function () {
             var me      = this,
                 props   = new Asc.CHyperlinkProperty(),
-                display = '';
+                display = '',
+                type = this.btnExternal.isActive() ? c_oHyperlinkType.WebLink : c_oHyperlinkType.InternalLink;
 
-            if (this.btnExternal.isActive()) {//WebLink
+            if (type==c_oHyperlinkType.WebLink) {//WebLink
                 var url     = $.trim(me.inputUrl.getValue());
 
                 if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
@@ -377,8 +385,8 @@ define([
                 }
             }
 
-            if (!me.inputDisplay.isDisabled() && ( this.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
-                if (_.isEmpty(me.inputDisplay.getValue()))
+            if (!me.inputDisplay.isDisabled() && ( me.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
+                if (_.isEmpty(me.inputDisplay.getValue()) || type==c_oHyperlinkType.WebLink && me.isAutoUpdate)
                     me.inputDisplay.setValue(display);
                 props.put_Text(me.inputDisplay.getValue());
             } else {
