@@ -1392,6 +1392,14 @@ define([
                         config.msg = this.errorLockedCellPivot;
                         break;
 
+                    case Asc.c_oAscError.ID.PivotLabledColumns:
+                        config.msg = this.errorLabledColumnsPivot;
+                        break;
+
+                    case Asc.c_oAscError.ID.PivotOverlap:
+                        config.msg = this.errorPivotOverlap;
+                        break;
+
                     case Asc.c_oAscError.ID.ForceSaveButton:
                         config.msg = this.errorForceSave;
                         break;
@@ -2491,6 +2499,8 @@ define([
             txtTab: 'Tab',
             txtFile: 'File',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            errorLabledColumnsPivot: 'To create a pivot table report, you must use data that is organized as a list with labeled columns.',
+            errorPivotOverlap: 'A pivot table report cannot overlap a table.',
             txtColumn: 'Column',
             txtRow: 'Row',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
