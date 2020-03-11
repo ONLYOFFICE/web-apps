@@ -140,7 +140,9 @@ define([
             me.inputUrl._input.on('input', function (e) {
                 me.isInputFirstChange && me.inputUrl.showError();
                 me.isInputFirstChange = false;
-                me.btnOk.setDisabled($.trim($(e.target).val())=='');
+                var val = $(e.target).val();
+                me.isAutoUpdate && me.inputDisplay.setValue(val);
+                me.btnOk.setDisabled($.trim(val)=='');
             });
 
             me.inputDisplay = new Common.UI.InputField({
@@ -150,6 +152,9 @@ define([
                 style       : 'width: 100%;'
             }).on('changed:after', function() {
                 me.isTextChanged = true;
+            });
+            me.inputDisplay._input.on('input', function (e) {
+                me.isAutoUpdate = ($(e.target).val()=='');
             });
 
             me.inputTip = new Common.UI.InputField({
@@ -267,10 +272,19 @@ define([
 
         onLinkTypeClick: function(type, btn, event) {
             this.ShowHideElem(type);
+            if (this.isAutoUpdate) {
+                if (type==c_oHyperlinkType.InternalLink) {
+                    var rec = this.internalList.getSelectedRec();
+                    this.inputDisplay.setValue(rec && (rec.get('level') || rec.get('index')==0)? rec.get('name') : '');
+                } else {
+                    this.inputDisplay.setValue(this.inputUrl.getValue());
+                }
+            }
         },
 
         onSelectItem: function(picker, item, record, e){
             this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
+            this.isAutoUpdate && this.inputDisplay.setValue((record.get('level') || record.get('index')==0) ? record.get('name') : '');
         },
 
         show: function() {
@@ -322,6 +336,7 @@ define([
                 if (props.get_Text() !== null) {
                     me.inputDisplay.setValue(props.get_Text());
                     me.inputDisplay.setDisabled(false);
+                    me.isAutoUpdate = (me.inputDisplay.getValue()=='');
                 } else {
                     me.inputDisplay.setValue(this.textDefault);
                     me.inputDisplay.setDisabled(true);

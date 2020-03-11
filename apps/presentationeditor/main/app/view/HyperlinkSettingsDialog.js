@@ -142,7 +142,9 @@ define([
             me.inputUrl._input.on('input', function (e) {
                 me.isInputFirstChange && me.inputUrl.showError();
                 me.isInputFirstChange = false;
-                me.btnOk.setDisabled($.trim($(e.target).val())=='');
+                var val = $(e.target).val();
+                me.isAutoUpdate && me.inputDisplay.setValue(val);
+                me.btnOk.setDisabled($.trim(val)=='');
             });
 
             me.inputDisplay = new Common.UI.InputField({
@@ -152,6 +154,9 @@ define([
                 style       : 'width: 100%;'
             }).on('changed:after', function() {
                 me.isTextChanged = true;
+            });
+            me.inputDisplay._input.on('input', function (e) {
+                me.isAutoUpdate = ($(e.target).val()=='');
             });
 
             me.inputTip = new Common.UI.InputField({
@@ -189,6 +194,7 @@ define([
                 if (props.get_Text()!==null) {
                     me.inputDisplay.setValue(props.get_Text());
                     me.inputDisplay.setDisabled(false);
+                    me.isAutoUpdate = (me.inputDisplay.getValue()=='');
                 } else {
                     this.inputDisplay.setValue(this.textDefault);
                     this.inputDisplay.setDisabled(true);
@@ -367,6 +373,14 @@ define([
 
         onLinkTypeClick: function(type, btn, event) {
             this.ShowHideElem(type);
+            if (this.isAutoUpdate) {
+                if (type==c_oHyperlinkType.InternalLink) {
+                    var rec = this.internalList.getSelectedRec();
+                    this.inputDisplay.setValue(rec && (rec.get('level') || rec.get('index')<4) ? rec.get('name') : '');
+                } else {
+                    this.inputDisplay.setValue(this.inputUrl.getValue());
+                }
+            }
         },
 
         parseUrl: function(url) {
@@ -385,6 +399,7 @@ define([
 
         onSelectItem: function(picker, item, record, e){
             this.btnOk.setDisabled(record.get('index')==4);
+            this.isAutoUpdate && this.inputDisplay.setValue((record.get('level') || record.get('index')<4) ? record.get('name') : '');
         },
 
         textTitle:          'Hyperlink Settings',

@@ -137,7 +137,9 @@ define([
             me.inputUrl._input.on('input', function (e) {
                 me.isInputFirstChange_url && me.inputUrl.showError();
                 me.isInputFirstChange_url = false;
-                me.btnOk.setDisabled($.trim($(e.target).val())=='');
+                var val = $(e.target).val();
+                me.isAutoUpdate && me.inputDisplay.setValue(val);
+                me.btnOk.setDisabled($.trim(val)=='');
             });
 
             me.inputRange = new Common.UI.InputField({
@@ -162,7 +164,9 @@ define([
             me.inputRange._input.on('input', function (e) {
                 me.isInputFirstChange_range && me.inputRange.showError();
                 me.isInputFirstChange_range = false;
-                me.btnOk.setDisabled($.trim($(e.target).val())=='');
+                var val = $(e.target).val();
+                me.isAutoUpdate && me.inputDisplay.setValue(me.internalList.getSelectedRec().get('name') + (val!=='' ? '!' + val : ''));
+                me.btnOk.setDisabled($.trim(val)=='');
             });
 
             me.inputDisplay = new Common.UI.InputField({
@@ -170,6 +174,9 @@ define([
                 allowBlank  : true,
                 validateOnBlur: false,
                 style       : 'width: 100%;'
+            });
+            me.inputDisplay._input.on('input', function (e) {
+                me.isAutoUpdate = ($(e.target).val()=='');
             });
 
             me.inputTip = new Common.UI.InputField({
@@ -236,6 +243,7 @@ define([
                     this.inputTip.setValue(settings.props.asc_getTooltip());
                 }
                 this.inputDisplay.setDisabled(settings.isLock);
+                !settings.isLock && (this.isAutoUpdate = (this.inputDisplay.getValue()==''));
             }
         },
 
@@ -389,11 +397,35 @@ define([
 
         onLinkTypeClick: function(type, btn, event) {
             this.ShowHideElem(type);
+            if (this.isAutoUpdate) {
+                if (type==Asc.c_oAscHyperlinkType.RangeLink) {
+                    var rec = this.internalList.getSelectedRec(),
+                        list = rec && rec.get('level') ? rec.get('name') : '';
+                    if (rec && rec.get('type')==1) {
+                        this.inputDisplay.setValue(list);
+                    } else {
+                        var val = this.inputRange.getValue();
+                        this.inputDisplay.setValue(list + (list!=='' || val!=='' ? '!' : '') + val);
+                    }
+
+                } else {
+                    this.inputDisplay.setValue(this.inputUrl.getValue());
+                }
+            }
         },
 
         onSelectItem: function(picker, item, record, e){
             this.btnOk.setDisabled(record.get('level')==0 || record.get('type')==0 && $.trim(this.inputRange.getValue())=='');
             this.inputRange.setDisabled(record.get('type')==1 || record.get('level')==0);
+            if (this.isAutoUpdate) {
+                var list = record.get('level') ? record.get('name') : '';
+                if (record.get('type')==1) {
+                    this.inputDisplay.setValue(list);
+                } else {
+                    var val = this.inputRange.getValue();
+                    this.inputDisplay.setValue(list + ((list!=='' && val!=='') ? '!' : '') + val);
+                }
+            }
         },
 
         textTitle:          'Hyperlink Settings',
