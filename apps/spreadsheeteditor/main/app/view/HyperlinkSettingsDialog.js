@@ -135,6 +135,8 @@ define([
                 }
             });
             me.inputUrl._input.on('input', function (e) {
+                me.isInputFirstChange_url && me.inputUrl.showError();
+                me.isInputFirstChange_url = false;
                 me.btnOk.setDisabled($.trim($(e.target).val())=='');
             });
 
@@ -147,6 +149,8 @@ define([
                 validateOnBlur: false,
                 value: Common.Utils.InternalSettings.get("sse-settings-r1c1") ? 'R1C1' : 'A1',
                 validation  : function(value) {
+                    if (me.inputRange.isDisabled()) // named range
+                        return true;
                     var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.FormatTable, value, false);
                     if (isvalid == Asc.c_oAscError.ID.No) {
                         return true;
@@ -156,6 +160,8 @@ define([
                 }
             });
             me.inputRange._input.on('input', function (e) {
+                me.isInputFirstChange_range && me.inputRange.showError();
+                me.isInputFirstChange_range = false;
                 me.btnOk.setDisabled($.trim($(e.target).val())=='');
             });
 
@@ -217,10 +223,10 @@ define([
                     if (type == Asc.c_oAscHyperlinkType.RangeLink) {
                         if (settings.props.asc_getSheet()) {
                             this.inputRange.setValue(settings.props.asc_getRange());
+                            this.focusedInput = this.inputRange.cmpEl.find('input');
                         } else {// named range
                             this.inputRange.setDisabled(true);
                         }
-                        this.focusedInput = this.inputRange.cmpEl.find('input');
                     } else {
                         this.inputUrl.setValue(settings.props.asc_getHyperlinkUrl().replace(new RegExp(" ",'g'), "%20"));
                         this.focusedInput = this.inputUrl.cmpEl.find('input');
@@ -290,10 +296,12 @@ define([
                         checkdisp = this.inputDisplay.checkValidate();
                     if (checkurl !== true)  {
                         this.inputUrl.cmpEl.find('input').focus();
+                        this.isInputFirstChange_url = true;
                         return;
                     }
                     if (checkrange !== true)  {
                         this.inputRange.cmpEl.find('input').focus();
+                        this.isInputFirstChange_range = true;
                         return;
                     }
                     if (checkdisp !== true) {

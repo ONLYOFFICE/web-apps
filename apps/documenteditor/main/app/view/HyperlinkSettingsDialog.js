@@ -138,6 +138,8 @@ define([
                 }
             });
             me.inputUrl._input.on('input', function (e) {
+                me.isInputFirstChange && me.inputUrl.showError();
+                me.isInputFirstChange = false;
                 me.btnOk.setDisabled($.trim($(e.target).val())=='');
             });
 
@@ -388,6 +390,7 @@ define([
                 if (state == 'ok') {
                     if (this.btnExternal.isActive()) {//WebLink
                         if (this.inputUrl.checkValidate() !== true)  {
+                            this.isInputFirstChange = true;
                             this.inputUrl.cmpEl.find('input').focus();
                             return;
                         }

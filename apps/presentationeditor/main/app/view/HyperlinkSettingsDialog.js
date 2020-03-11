@@ -140,6 +140,8 @@ define([
                 }
             });
             me.inputUrl._input.on('input', function (e) {
+                me.isInputFirstChange && me.inputUrl.showError();
+                me.isInputFirstChange = false;
                 me.btnOk.setDisabled($.trim($(e.target).val())=='');
             });
 
@@ -255,6 +257,7 @@ define([
                     var checkurl = (this.btnExternal.isActive()) ? this.inputUrl.checkValidate() : true,
                         checkdisp = this.inputDisplay.checkValidate();
                     if (checkurl !== true)  {
+                        this.isInputFirstChange = true;
                         this.inputUrl.cmpEl.find('input').focus();
                         return;
                     }
