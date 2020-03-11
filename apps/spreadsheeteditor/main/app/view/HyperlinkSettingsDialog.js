@@ -223,6 +223,7 @@ define([
                 me.btnInternal.setDisabled(!settings.allowInternal && (type == Asc.c_oAscHyperlinkType.WebLink));
                 me.btnExternal.setDisabled(!settings.allowInternal && (type == Asc.c_oAscHyperlinkType.RangeLink));
 
+                var defrange = '';
                 if (!settings.props) {
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.text);
                     this.focusedInput = this.inputUrl.cmpEl.find('input');
@@ -231,8 +232,10 @@ define([
                         if (settings.props.asc_getSheet()) {
                             this.inputRange.setValue(settings.props.asc_getRange());
                             this.focusedInput = this.inputRange.cmpEl.find('input');
+                            defrange = settings.props.asc_getSheet() + '!' +  settings.props.asc_getRange();
                         } else {// named range
                             this.inputRange.setDisabled(true);
+                            defrange = settings.props.asc_getLocation();
                         }
                     } else {
                         this.inputUrl.setValue(settings.props.asc_getHyperlinkUrl().replace(new RegExp(" ",'g'), "%20"));
@@ -243,7 +246,8 @@ define([
                     this.inputTip.setValue(settings.props.asc_getTooltip());
                 }
                 this.inputDisplay.setDisabled(settings.isLock);
-                !settings.isLock && (this.isAutoUpdate = (this.inputDisplay.getValue()=='' || type == Asc.c_oAscHyperlinkType.WebLink && me.inputUrl.getValue()==me.inputDisplay.getValue()));
+                !settings.isLock && (this.isAutoUpdate = (this.inputDisplay.getValue()=='' || type == Asc.c_oAscHyperlinkType.WebLink && me.inputUrl.getValue()==me.inputDisplay.getValue()) ||
+                                                                                              type == Asc.c_oAscHyperlinkType.RangeLink && defrange==me.inputDisplay.getValue());
             }
         },
 
