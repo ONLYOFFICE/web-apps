@@ -410,7 +410,7 @@ define([
                         this.inputDisplay.setValue(list);
                     } else {
                         var val = this.inputRange.getValue();
-                        this.inputDisplay.setValue(list + (list!=='' || val!=='' ? '!' : '') + val);
+                        this.inputDisplay.setValue(list + (list!=='' && val!=='' ? '!' : '') + val);
                     }
 
                 } else {
