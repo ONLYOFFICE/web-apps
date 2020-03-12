@@ -140,14 +140,14 @@ define([
                     callback: _.bind(function(btn) {
                         if (btn == 'yes') {
                             this.defaultFormats[this.cmbLang.getValue()] = rec ? rec.get('format') : '';
-                            this.api.asc_setDefaultDateTimeFormat(this.defaultFormats);
+                            // this.api.asc_setDefaultDateTimeFormat(this.defaultFormats);
                             var arr = [];
                             for (var name in this.defaultFormats) {
                                 if (name) {
-                                    arr.push(name + ' ' + this.defaultFormats[name]);
+                                    arr.push({lang: name, format: this.defaultFormats[name]});
                                 }
                             }
-                            var value = arr.join(';');
+                            var value = JSON.stringify(arr);
                             Common.localStorage.setItem("de-settings-datetime-default", value);
                             Common.Utils.InternalSettings.set("de-settings-datetime-default", value);
                         }
@@ -162,11 +162,11 @@ define([
         afterRender: function() {
             var me = this,
                 value =  Common.Utils.InternalSettings.get("de-settings-datetime-default"),
-                arr = (value) ? value.split(';') : [];
+                arr = value ? JSON.parse(value) : [];
             this.defaultFormats = [];
             arr.forEach(function(item){
-                var pair = item.split(' ');
-                me.defaultFormats[parseInt(pair[0])] = pair[1];
+                if (item.lang)
+                    me.defaultFormats[parseInt(item.lang)] = item.format;
             });
 
             this._setDefaults();
