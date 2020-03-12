@@ -67,19 +67,22 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 260px;">',
+                '<div class="box" style="height: 263px;">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternal,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternal,'</button>',
                     '</div>',
                     '<div id="id-external-link">',
                         '<div class="input-row">',
-                            '<label>' + this.textUrl + ' *</label>',
+                            '<label>' + this.textUrl + '</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
                     '</div>',
                     '<div id="id-internal-link">',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 130px;border: 1px solid #cfcfcf;"></div>',
+                        '<div class="input-row">',
+                            '<label>' + this.textUrl + '</label>',
+                        '</div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;border: 1px solid #cfcfcf;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.textDisplay + '</label>',
@@ -134,6 +137,16 @@ define([
                     return (urltype>0) ? true : me.txtNotUrl;
                 }
             });
+            me.inputUrl._input.on('input', function (e) {
+                me.isInputFirstChange && me.inputUrl.showError();
+                me.isInputFirstChange = false;
+                var val = $(e.target).val();
+                if (me.isAutoUpdate) {
+                    me.inputDisplay.setValue(val);
+                    me.isTextChanged = true;
+                }
+                me.btnOk.setDisabled($.trim(val)=='');
+            });
 
             me.inputDisplay = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-display'),
@@ -142,6 +155,9 @@ define([
                 style       : 'width: 100%;'
             }).on('changed:after', function() {
                 me.isTextChanged = true;
+            });
+            me.inputDisplay._input.on('input', function (e) {
+                me.isAutoUpdate = ($(e.target).val()=='');
             });
 
             me.inputTip = new Common.UI.InputField({
@@ -194,6 +210,7 @@ define([
                         hasParent: false,
                         isEmptyItem: false,
                         isNotHeader: false,
+                        type: Asc.c_oAscHyperlinkAnchor.Heading,
                         hasSubItems: false
                     }));
 
@@ -226,6 +243,7 @@ define([
                         hasParent: false,
                         isEmptyItem: false,
                         isNotHeader: false,
+                        type: Asc.c_oAscHyperlinkAnchor.Bookmark,
                         hasSubItems: false
                     }));
 
@@ -247,20 +265,33 @@ define([
                         }
                     }
                     store.reset(arr);
+                    this.internalList.collapseAll();
                 }
                 var rec = this.internalList.getSelectedRec();
                 this.btnOk.setDisabled(!rec || rec.get('level')==0 && rec.get('index')>0);
-
             } else
-                this.btnOk.setDisabled(false);
+                this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
         },
 
         onLinkTypeClick: function(type, btn, event) {
             this.ShowHideElem(type);
+            if (this.isAutoUpdate) {
+                if (type==c_oHyperlinkType.InternalLink) {
+                    var rec = this.internalList.getSelectedRec();
+                    this.inputDisplay.setValue(rec && (rec.get('level') || rec.get('index')==0)? rec.get('name') : '');
+                } else {
+                    this.inputDisplay.setValue(this.inputUrl.getValue());
+                }
+                this.isTextChanged = true;
+            }
         },
 
         onSelectItem: function(picker, item, record, e){
             this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
+            if (this.isAutoUpdate) {
+                this.inputDisplay.setValue((record.get('level') || record.get('index')==0) ? record.get('name') : '');
+                this.isTextChanged = true;
+            }
         },
 
         show: function() {
@@ -288,24 +319,31 @@ define([
                     } else {
                         me.inputUrl.setValue('');
                     }
+                    this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
                 } else {
                     if (props.is_TopOfDocument())
                         this.internalList.selectByIndex(0);
                     else if (props.is_Heading()) {
-                        var heading = props.get_Heading(),
-                            rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Heading, headingParagraph: heading });
-                        if (rec)
+                        var rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Heading, headingParagraph: props.get_Heading() });
+                        if (rec) {
+                            this.internalList.expandRecord(this.internalList.store.at(1));
                             this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                        }
                     } else {
                         var rec = this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Bookmark, name: bookmark});
-                        if (rec)
+                        if (rec) {
+                            this.internalList.expandRecord(this.internalList.store.findWhere({type: Asc.c_oAscHyperlinkAnchor.Bookmark, level: 0}));
                             this.internalList.scrollToRecord(this.internalList.selectRecord(rec));
+                        }
                     }
+                    var rec = this.internalList.getSelectedRec();
+                    this.btnOk.setDisabled(!rec || rec.get('level')==0 && rec.get('index')>0);
                 }
 
                 if (props.get_Text() !== null) {
                     me.inputDisplay.setValue(props.get_Text());
                     me.inputDisplay.setDisabled(false);
+                    me.isAutoUpdate = (me.inputDisplay.getValue()=='' || type == c_oHyperlinkType.WebLink && me.inputUrl.getValue()==me.inputDisplay.getValue());
                 } else {
                     me.inputDisplay.setValue(this.textDefault);
                     me.inputDisplay.setDisabled(true);
@@ -321,9 +359,10 @@ define([
         getSettings: function () {
             var me      = this,
                 props   = new Asc.CHyperlinkProperty(),
-                display = '';
+                display = '',
+                type = this.btnExternal.isActive() ? c_oHyperlinkType.WebLink : c_oHyperlinkType.InternalLink;
 
-            if (this.btnExternal.isActive()) {//WebLink
+            if (type==c_oHyperlinkType.WebLink) {//WebLink
                 var url     = $.trim(me.inputUrl.getValue());
 
                 if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
@@ -346,8 +385,8 @@ define([
                 }
             }
 
-            if (!me.inputDisplay.isDisabled() && ( this.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
-                if (_.isEmpty(me.inputDisplay.getValue()))
+            if (!me.inputDisplay.isDisabled() && ( me.isTextChanged || _.isEmpty(me.inputDisplay.getValue()))) {
+                if (_.isEmpty(me.inputDisplay.getValue()) || type==c_oHyperlinkType.WebLink && me.isAutoUpdate)
                     me.inputDisplay.setValue(display);
                 props.put_Text(me.inputDisplay.getValue());
             } else {
@@ -374,6 +413,7 @@ define([
                 if (state == 'ok') {
                     if (this.btnExternal.isActive()) {//WebLink
                         if (this.inputUrl.checkValidate() !== true)  {
+                            this.isInputFirstChange = true;
                             this.inputUrl.cmpEl.find('input').focus();
                             return;
                         }

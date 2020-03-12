@@ -47,19 +47,19 @@
         position: relative;
     }
 
-    &.error {
-        input {
-            border-color: @brand-danger;
-        }
-
-        .input-error {
-            display: block;
-        }
-    }
-
     &.form-control:focus,
     .form-control:focus {
         border-color: @gray-darker;
+    }
+
+    &.error {
+        input:not([disabled]) {
+            border-color: @brand-danger;
+        }
+
+        input:not([disabled]) + .input-error {
+            display: block;
+        }
     }
 }
 

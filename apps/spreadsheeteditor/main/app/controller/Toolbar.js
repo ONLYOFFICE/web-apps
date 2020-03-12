@@ -881,7 +881,7 @@ define([
 
                 while (++i < wc) {
                     if (!this.api.asc_isWorksheetHidden(i)) {
-                        items.push({displayValue: me.api.asc_getWorksheetName(i), value: me.api.asc_getWorksheetName(i)});
+                        items.push(me.api.asc_getWorksheetName(i));
                     }
                 }
 
@@ -905,6 +905,7 @@ define([
                 win.show();
                 win.setSettings({
                     sheets  : items,
+                    ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All),
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
