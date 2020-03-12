@@ -779,6 +779,12 @@
   "SSE.Controllers.Main.warnNoLicense": "This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "SSE.Controllers.Main.txtByField": "%1 of %2",
+  "SSE.Controllers.Main.txtAll": "(All)",
+  "SSE.Controllers.Main.txtValues": "Values",
+  "SSE.Controllers.Main.txtGrandTotal": "Grand Total",
+  "SSE.Controllers.Main.txtRowLbls": "Row Labels",
+  "SSE.Controllers.Main.txtColLbls": "Column Labels",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textWarning": "Warning",
   "SSE.Controllers.Print.txtCustom": "Custom",
@@ -2614,5 +2620,5 @@
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfCol": "Percent of Column",
   "SSE.Views.ValueFieldSettingsDialog.txtPercentOfTotal": "Percent of Row",
   "SSE.Views.ValueFieldSettingsDialog.txtIndex": "Index",
-  "SSE.Views.ValueFieldSettingsDialog.txtByField": "by field"
+  "SSE.Views.ValueFieldSettingsDialog.txtByField": "%1 of %2"
 }

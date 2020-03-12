@@ -121,7 +121,13 @@ define([
                         'Tab': this.txtTab,
                         'File': this.txtFile,
                         'Column': this.txtColumn,
-                        'Row': this.txtRow
+                        'Row': this.txtRow,
+                        '%1 of %2': this.txtByField,
+                        '(All)': this.txtAll,
+                        'Values': this.txtValues,
+                        'Grand Total': this.txtGrandTotal,
+                        'Row Labels': this.txtRowLbls,
+                        'Column Labels': this.txtColLbls
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2505,7 +2511,13 @@ define([
             txtRow: 'Row',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
             errorFTChangeTableRangeError: 'Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.',
-            errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.'
+            errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.',
+            txtByField: '%1 of %2',
+            txtAll: '(All)',
+            txtValues: 'Values',
+            txtGrandTotal: 'Grand Total',
+            txtRowLbls: 'Row Labels',
+            txtColLbls: 'Column Labels'
         }
     })(), SSE.Controllers.Main || {}))
 });

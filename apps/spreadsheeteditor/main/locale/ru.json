@@ -2496,5 +2496,6 @@
   "SSE.Views.Top10FilterDialog.txtItems": "Элемент",
   "SSE.Views.Top10FilterDialog.txtPercent": "Процент",
   "SSE.Views.Top10FilterDialog.txtTitle": "Наложение условия по списку",
-  "SSE.Views.Top10FilterDialog.txtTop": "Наибольшие"
+  "SSE.Views.Top10FilterDialog.txtTop": "Наибольшие",
+  "SSE.Views.ValueFieldSettingsDialog.txtByField": "%1 по полю %2"
 }
