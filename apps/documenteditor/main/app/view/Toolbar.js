@@ -515,6 +515,14 @@ define([
                     this.paragraphControls.push(this.mnuInsertPageCount);
                     this.toolbarControls.push(this.btnEditHeader);
 
+                    this.btnInsDateTime = new Common.UI.Button({
+                        id: 'id-toolbar-btn-datetime',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-datetime',
+                        caption: me.capBtnDateTime
+                    });
+                    this.paragraphControls.push(this.btnInsDateTime);
+
                     this.btnBlankPage = new Common.UI.Button({
                         id: 'id-toolbar-btn-blankpage',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1309,6 +1317,7 @@ define([
                 _injectComponent('#slot-btn-controls', this.btnContentControls);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
+                _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-insequation', this.btnInsertEquation);
@@ -1589,6 +1598,7 @@ define([
                 this.btnInsertText.updateHint(this.tipInsertText);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnEditHeader.updateHint(this.tipEditHeader);
+                this.btnInsDateTime.updateHint(this.tipDateTime);
                 this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
@@ -2309,7 +2319,9 @@ define([
             tipInsertSymbol: 'Insert symbol',
             mniDrawTable: 'Draw Table',
             mniEraseTable: 'Erase Table',
-            textListSettings: 'List Settings'
+            textListSettings: 'List Settings',
+            capBtnDateTime: 'Date & Time',
+            tipDateTime: 'Insert current date and time'
         }
     })(), DE.Views.Toolbar || {}));
 });
