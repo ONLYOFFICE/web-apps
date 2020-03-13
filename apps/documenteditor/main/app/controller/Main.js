@@ -1546,8 +1546,12 @@ define([
                         config.maxwidth = 600;
                         break;
 
-                    case Asc.c_oAscError.ID.DirectUrl:
+                   case Asc.c_oAscError.ID.DirectUrl:
                         config.msg = this.errorDirectUrl;
+                        break;
+
+                   case Asc.c_oAscError.ID.CannotCompareInCoEditing:
+                        config.msg = this.errorCompare;
                         break;
 
                     default:
@@ -2533,7 +2537,8 @@ define([
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
             txtChoose: 'Choose an item.',
             errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.',
-            txtStyle_Caption: 'Caption'
+            txtStyle_Caption: 'Caption',
+            errorCompare: 'The Compare documents feature is not available in the co-editing mode.'
         }
     })(), DE.Controllers.Main || {}))
 });
