@@ -1042,7 +1042,7 @@ define([
                             linkstr = props.asc_getHyperlinkUrl() + '<br><b>' + me.textCtrlClick + '</b>';
                         }
                     } else {
-                        linkstr = props.asc_getTooltip() || (props.asc_getLocation());
+                        linkstr = Common.Utils.String.htmlEncode(props.asc_getTooltip() || (props.asc_getLocation()));
                         linkstr += '<br><b>' + me.textCtrlClick + '</b>';
                     }
 

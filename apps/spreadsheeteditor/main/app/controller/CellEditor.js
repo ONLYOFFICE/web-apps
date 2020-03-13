@@ -266,7 +266,7 @@ define([
                 (new SSE.Views.NameManagerDlg({
                     api: this.api,
                     handler: function(result) {
-                        Common.NotificationCenter.trigger('edit:complete', this.editor);
+                        Common.NotificationCenter.trigger('edit:complete', me.editor);
                     },
                     locked: this.namedrange_locked,
                     sheets: items,
