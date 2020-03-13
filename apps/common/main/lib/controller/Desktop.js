@@ -148,12 +148,11 @@ define([
                 action: action,
                 icon: config.icon || undefined,
                 hint: config.btn.options.hint,
-                disabled: config.disabled
+                disabled: config.btn.isDisabled()
             };
         };
 
         var _onTitleButtonDisabled = function (action, e, status) {
-            titlebuttons[action].disabled = status;
             var _buttons = {};
             _buttons[action] = status;
             native.execCommand('title:button', JSON.stringify({disabled: _buttons}));
@@ -169,7 +168,7 @@ define([
             } else {
                 var _buttons = {};
                 for (var i in titlebuttons) {
-                    _buttons[i] = titlebuttons[i].disabled;
+                    _buttons[i] = titlebuttons[i].btn.isDisabled();
                 }
 
                 native.execCommand('title:button', JSON.stringify({'disabled': _buttons}));
@@ -200,20 +199,20 @@ define([
                         var header = webapp.getController('Viewport').getView('Common.Views.Header');
                         titlebuttons = {};
                         if ( !!header.btnSave ) {
-                            titlebuttons['save'] = {btn: header.btnSave, disabled:false};
+                            titlebuttons['save'] = {btn: header.btnSave};
 
                             var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
                             !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
                         }
 
                         if ( !!header.btnPrint )
-                            titlebuttons['print'] = {btn: header.btnPrint, disabled:false};
+                            titlebuttons['print'] = {btn: header.btnPrint};
 
                         if ( !!header.btnUndo )
-                            titlebuttons['undo'] = {btn: header.btnUndo, disabled:false};
+                            titlebuttons['undo'] = {btn: header.btnUndo};
 
                         if ( !!header.btnRedo )
-                            titlebuttons['redo'] = {btn: header.btnRedo,  disabled:false};
+                            titlebuttons['redo'] = {btn: header.btnRedo};
 
                         for (var i in titlebuttons) {
                             titlebuttons[i].btn.options.signals = ['disabled'];
