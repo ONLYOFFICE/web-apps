@@ -91,6 +91,8 @@ define([
                 this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
                 this.api.asc_registerCallback('asc_onChangeCommentData', _.bind(this.onApiChangeCommentData, this));
                 this.api.asc_registerCallback('asc_onRemoveComment', _.bind(this.onApiRemoveComment, this));
+                this.api.asc_registerCallback('asc_onRemoveComments', _.bind(this.onApiRemoveComments, this));
+                this.api.asc_registerCallback('asc_onShowComment', _.bind(this.apiShowComments, this));
                 if (editor === 'DE') {
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.changeReview, this));
                 }
@@ -679,19 +681,80 @@ define([
 
             //Comments
 
+            findComment: function(uid) {
+                var comment;
+                if (this.groupCollectionFilter.length !== 0) {
+                    comment = me.findCommentInGroup(uid);
+                } else if (this.collectionComments.length !== 0) {
+                    comment = _.findWhere(this.collectionComments, {uid: uid});
+                }
+                return comment;
+            },
+
+            apiShowComments: function(uid) {
+                var comments,
+                    me = this;
+                me.showComments = [];
+                if (this.groupCollectionFilter.length !== 0) {
+                    comments = this.groupCollectionFilter;
+                    _.each(uid, function (id) {
+                        var comment = me.findCommentInGroup(uid);
+                        if (comment) {
+                            me.showComments.push(comment);
+                        }
+                    });
+                } else if (this.collectionComments.length !== 0) {
+                    comments = this.collectionComments;
+                    _.each(uid, function (id) {
+                        var comment = _.findWhere(comments, {uid: id});
+                        if (comment) {
+                            me.showComments.push(comment);
+                        }
+                    });
+                }
+            },
+
+            updateViewComment: function() {
+                DE.getController('Common.Controllers.Collaboration').getView('Common.Views.Collaboration').renderViewComments(this.showComments, this.indexCurrentComment);
+                $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
+                $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
+                $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this));
+            },
+
             showCommentModal: function() {
                 var me = this,
                     isAndroid = Framework7.prototype.device.android === true,
-                    modalView,
                     appPrefix = !!window.DE ? DE : !!window.PE ? PE : SSE,
-                    mainView = appPrefix.getController('Editor').getView('Editor').f7View;
+                    mainView = appPrefix.getController('Editor').getView('Editor').f7View,
+                    viewCollaboration = appPrefix.getController('Common.Controllers.Collaboration').getView('Common.Views.Collaboration');
+
+                me.indexCurrentComment = 0;
 
                 uiApp.closeModal();
 
                 if (Common.SharedSettings.get('phone')) {
-                    modalView = $$(uiApp.pickerModal(
+                    me.modalViewComment = $$(uiApp.pickerModal(
                         '<div class="picker-modal container-view-comment">' +
-                            this.getView('Common.Views.Collaboration').rootCommentLayout() +
+                            '<div class="swipe-container">' +
+                                '<div class="icon-swipe"></div>' +
+                            '</div>' +
+                            '<div class="toolbar toolbar-bottom">' +
+                                '<div class="toolbar-inner">' +
+                                    '<div class="button-left">' +
+                                        '<a href="#" class="link add-reply">' + me.textAddReply + '</a>' +
+                                    '</div>' +
+                                    '<div class="button-right">' +
+                                        '<a href="#" class="link prev-comment"><i class="icon-arrow-comment left"></i></a>' +
+                                        '<a href="#" class="link next-comment"><i class="icon-arrow-comment right"></i></a>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="pages">' +
+                                '<div class="page page-view-comments" data-page="comments-view">' +
+                                    '<div class="page-content">' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>'+
                         '</div>'
                     )).on('opened', function () {
                         if (_.isFunction(me.api.asc_OnShowContextMenu)) {
@@ -709,6 +772,8 @@ define([
                 }
 
                 appPrefix.getController('Toolbar').getView('Toolbar').hideSearch();
+
+                viewCollaboration.renderViewComments(me.showComments, me.indexCurrentComment);
 
                 //swipe modal window
                 me.swipeFull = false;
@@ -736,6 +801,135 @@ define([
                         $('.container-view-comment').css('height', '50%');
                     }
                 }, me));
+
+                $('.prev-comment').single('click', _.bind(me.onViewPrevComment, me));
+                $('.next-comment').single('click', _.bind(me.onViewNextComment, me));
+                $('.comment-menu').single('click', _.bind(me.initMenuComments, me));
+                $('.add-reply').single('click', _.bind(me.onClickAddReply, me));
+                $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));
+                $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me));
+            },
+
+            onViewPrevComment: function() {
+                if (this.indexCurrentComment - 1 >= 0 && this.showComments.length > 0) {
+                    this.indexCurrentComment -= 1;
+                    DE.getController('Common.Controllers.Collaboration').getView('Common.Views.Collaboration').renderViewComments(this.showComments, this.indexCurrentComment);
+                    $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
+                    $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
+                    $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this));
+                }
+            },
+
+            onViewNextComment: function() {
+                if (this.indexCurrentComment + 1 < this.showComments.length) {
+                    this.indexCurrentComment += 1;
+                    DE.getController('Common.Controllers.Collaboration').getView('Common.Views.Collaboration').renderViewComments(this.showComments, this.indexCurrentComment);
+                    $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
+                    $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
+                    $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this));
+                }
+            },
+
+            onClickAddReply: function() {
+                var me = this;
+                if (this.indexCurrentComment > -1 && this.indexCurrentComment < this.showComments.length) {
+                    var addReplyView,
+                        comment = this.showComments[this.indexCurrentComment];
+                    if (Common.SharedSettings.get('phone')) {
+                        addReplyView = uiApp.popup(
+                            '<div class="popup container-add-reply">' +
+                            '<div class="navbar">' +
+                            '<div class="navbar-inner">' +
+                            '<div class="left sliding"><a href="#" class="back link close-popup"> <i class="icon icon-close"></i>' + '<span>' + me.textCancel + '</span>'+ '</a></div>' +
+                            '<div class="center sliding">' + me.textAddReply + '</div>' +
+                            '<div class="right sliding"><a href="#" class="link done-reply"><i class="icon icon-done"></i>' + '<span>' + me.textDone + '</span>' + '</a></div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="wrap-comment">' +
+                            '<div class="user-name">' + comment.username + '</div>' +
+                            '<div class="comment-date">' + comment.date + '</div>' +
+                            '<div><textarea class="reply-textarea">'+ '</textarea></div>' +
+                            '</div>' +
+                            '</div>'
+                        );
+                        $('.popup').css('z-index', '20000');
+                        _.delay(function () {
+                            var $textarea = $('.reply-textarea')[0];
+                            $textarea.focus();
+                        },100);
+                        $('.done-reply').single('click', _.bind(function (uid) {
+                            var reply = $('.reply-textarea')[0].value;
+                            if (reply && reply.length > 0) {
+                                this.addReply(uid, reply);
+                                uiApp.closeModal($$(addReplyView));
+                                this.updateViewComment(this.showComments, this.indexCurrentComment);
+                            }
+                        }, me, comment.uid));
+                    } else {
+
+                    }
+                }
+            },
+
+            addReply: function(id, replyVal) {
+                if (replyVal.length > 0) {
+                    var me = this,
+                        reply = null,
+                        addReply = null,
+                        ascComment = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null)),
+                        comment = _.findWhere(this.collectionComments, {uid: id});
+
+                    if (ascComment && comment) {
+
+                        ascComment.asc_putText(comment.comment);
+                        ascComment.asc_putQuoteText(comment.quote);
+                        ascComment.asc_putTime(me.utcDateToString(new Date(comment.time)));
+                        ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.time)));
+                        ascComment.asc_putUserId(comment.userid);
+                        ascComment.asc_putUserName(comment.username);
+                        ascComment.asc_putSolved(comment.resolved);
+                        ascComment.asc_putGuid(comment.guid);
+
+                        if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
+                            ascComment.asc_putDocumentFlag(comment.unattached);
+                        }
+
+                        reply = comment.replys;
+                        if (reply && reply.length) {
+                            reply.forEach(function (reply) {
+
+                                addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                                if (addReply) {
+                                    addReply.asc_putText(reply.reply);
+                                    addReply.asc_putTime(me.utcDateToString(new Date(reply.time)));
+                                    addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.time)));
+                                    addReply.asc_putUserId(reply.userid);
+                                    addReply.asc_putUserName(reply.username);
+
+                                    ascComment.asc_addReply(addReply);
+                                }
+                            });
+                        }
+
+                        addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                        if (addReply) {
+                            addReply.asc_putText(replyVal);
+                            addReply.asc_putTime(me.utcDateToString(new Date()));
+                            addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date()));
+                            _.each(editUsers, function(item){
+                                if (item.asc_getIdOriginal() === _userId) {
+                                    me.currentUser = item;
+                                }
+                            });
+                            addReply.asc_putUserId(_userId);
+                            addReply.asc_putUserName(me.currentUser.asc_getUserName());
+
+                            ascComment.asc_addReply(addReply);
+
+                            me.api.asc_changeComment(id, ascComment);
+                        }
+                    }
+                }
             },
 
             showAddCommentModal: function() {
@@ -835,6 +1029,335 @@ define([
                 }
             },
 
+            initMenuComments: function() {
+                var me = this;
+                _.delay(function () {
+                    var _menuItems = [];
+                    _menuItems.push({
+                        caption: me.textEdit,
+                        event: 'edit'
+                    });
+                    if (!me.showComments[me.indexCurrentComment].resolved) {
+                        _menuItems.push({
+                            caption: me.textResolve,
+                            event: 'resolve'
+                        });
+                    } else {
+                        _menuItems.push({
+                            caption: me.textReopen,
+                            event: 'resolve'
+                        });
+                    }
+                    _menuItems.push({
+                        caption: me.textDeleteComment,
+                        event: 'delete'
+                    });
+                    _.each(_menuItems, function (item) {
+                        item.text = item.caption;
+                        item.onClick = function () {
+                            me.onCommentMenuClick(item.event)
+                        }
+                    });
+
+                    uiApp.actions([_menuItems, [
+                        {
+                            text: me.textCancel,
+                            bold: true
+                        }
+                    ]]);
+                }, 100);
+            },
+
+            initReplyMenu: function(event) {
+                var me = this;
+                var ind = $(event.currentTarget).parent().parent().data('ind');
+                _.delay(function () {
+                    var _menuItems = [];
+                    _menuItems.push({
+                        caption: me.textEdit,
+                        event: 'editreply'
+                    });
+                    _menuItems.push({
+                        caption: me.textDeleteReply,
+                        event: 'deletereply'
+                    });
+                    _.each(_menuItems, function (item) {
+                        item.text = item.caption;
+                        item.onClick = function () {
+                            me.onCommentMenuClick(item.event, ind);
+                        }
+                    });
+
+                    uiApp.actions([_menuItems, [
+                        {
+                            text: me.textCancel,
+                            bold: true
+                        }
+                    ]]);
+                }, 100);
+            },
+
+            onCommentMenuClick: function(action, indReply) {
+                var me = this;
+                switch (action) {
+                    case 'edit': me.showEditCommentModal(); break;
+                    case 'resolve': me.onClickResolveComment(); break;
+                    case 'delete': me.onDeleteComment(me.indexCurrentComment); break;
+                    case 'editreply': me.showEditReplyModal(me.indexCurrentComment, indReply); break;
+                    case 'deletereply': me.onDeleteReply(me.indexCurrentComment, indReply); break;
+                }
+            },
+
+            onChangeComment: function(comment) {
+                if (this.api) {
+                    var ascComment,
+                        me = this;
+                    if (typeof Asc.asc_CCommentDataWord !== 'undefined') {
+                        ascComment = new Asc.asc_CCommentDataWord(null);
+                    } else {
+                        ascComment = new Asc.asc_CCommentData(null);
+                    }
+
+                    if (ascComment && comment) {
+                        var uid = comment.uid;
+                        ascComment.asc_putText(comment.comment);
+                        ascComment.asc_putQuoteText(comment.quote);
+                        ascComment.asc_putTime(me.utcDateToString(new Date(comment.time)));
+                        ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.time)));
+                        ascComment.asc_putUserId(comment.userid);
+                        ascComment.asc_putUserName(comment.username);
+                        ascComment.asc_putSolved(!comment.resolved);
+                        ascComment.asc_putGuid(comment.guid);
+
+                        if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
+                            ascComment.asc_putDocumentFlag(comment.unattached);
+                        }
+
+                        var reply = comment.replys;
+                        if (reply && reply.length > 0) {
+                            reply.forEach(function (reply) {
+                                var addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                                if (addReply) {
+                                    addReply.asc_putText(reply.reply);
+                                    addReply.asc_putTime(me.utcDateToString(new Date(reply.time)));
+                                    addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.time)));
+                                    addReply.asc_putUserId(reply.userid);
+                                    addReply.asc_putUserName(reply.username);
+
+                                    ascComment.asc_addReply(addReply);
+                                }
+                            });
+                        }
+
+                        this.api.asc_changeComment(uid, ascComment);
+                    }
+                }
+            },
+
+            onDeleteComment: function(ind) {
+                if (this.api && !_.isUndefined(ind) && !_.isUndefined(this.showComments)) {
+                    this.api.asc_removeComment(this.showComments[ind].uid);
+                    if (this.showComments.length === 0) {
+                        uiApp.closeModal();
+                    } else {
+                        this.indexCurrentComment = this.indexCurrentComment - 1 > -1 ? this.indexCurrentComment - 1 : 0;
+                        this.updateViewComment();
+                    }
+                }
+            },
+
+            onDeleteReply: function(indComment, indReply) {
+                if (!_.isUndefined(indComment) && !_.isUndefined(indReply)) {
+                    var me = this,
+                        replies = null,
+                        addReply = null,
+                        ascComment = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null)),
+                        comment = me.showComments[indComment];
+
+                    if (ascComment && comment) {
+                        var id = comment.uid;
+                        ascComment.asc_putText(comment.comment);
+                        ascComment.asc_putQuoteText(comment.quote);
+                        ascComment.asc_putTime(me.utcDateToString(new Date(comment.time)));
+                        ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.time)));
+                        ascComment.asc_putUserId(comment.userid);
+                        ascComment.asc_putUserName(comment.username);
+                        ascComment.asc_putSolved(comment.resolved);
+                        ascComment.asc_putGuid(comment.guid);
+
+                        if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
+                            ascComment.asc_putDocumentFlag(comment.unattached);
+                        }
+
+                        replies = comment.replys;
+                        if (replies && replies.length) {
+                            replies.forEach(function (reply) {
+                                if (reply.ind !== indReply) {
+                                    addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                                    if (addReply) {
+                                        addReply.asc_putText(reply.reply);
+                                        addReply.asc_putTime(me.utcDateToString(new Date(reply.time)));
+                                        addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.time)));
+                                        addReply.asc_putUserId(reply.userid);
+                                        addReply.asc_putUserName(reply.username);
+
+                                        ascComment.asc_addReply(addReply);
+                                    }
+                                }
+                            });
+                        }
+
+                        me.api.asc_changeComment(id, ascComment);
+                        me.updateViewComment();
+                    }
+                }
+            },
+
+            showEditCommentModal: function() {
+                var me = this;
+                if (this.indexCurrentComment > -1 && this.indexCurrentComment < this.showComments.length) {
+                    var comment = this.showComments[this.indexCurrentComment];
+                    if (Common.SharedSettings.get('phone')) {
+                        me.editView = uiApp.popup(
+                            '<div class="popup container-edit-comment">' +
+                            '<div class="navbar">' +
+                            '<div class="navbar-inner">' +
+                            '<div class="left sliding"><a href="#" class="back link close-popup"> <i class="icon icon-close"></i>' + '<span>' + me.textCancel + '</span>'+ '</a></div>' +
+                            '<div class="center sliding">' + me.textEditComment + '</div>' +
+                            '<div class="right sliding"><a href="#" class="link" id="edit-comment"><i class="icon icon-done"></i>' + '<span>' + me.textDone + '</span>' + '</a></div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="wrap-comment">' +
+                            '<div class="user-name">' + comment.username + '</div>' +
+                            '<div class="comment-date">' + comment.date + '</div>' +
+                            '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
+                            '</div>' +
+                            '</div>'
+                        );
+                        $('.popup').css('z-index', '20000');
+                        _.delay(function () {
+                            var $textarea = $('.comment-textarea')[0];
+                            $textarea.focus();
+                            $textarea.selectionStart = $textarea.value.length;
+                        },100);
+                        $('#edit-comment').single('click', _.bind(function (comment) {
+                            var value = $('.comment-textarea')[0].value;
+                            if (value && value.length > 0) {
+                                comment.comment = value;
+                                this.showComments[this.indexCurrentComment] = comment;
+                                this.onChangeComment(comment);
+                                uiApp.closeModal($$(me.editView));
+                                this.updateViewComment();
+                            }
+                        }, me, comment));
+                    } else {
+
+                    }
+                }
+            },
+
+            showEditReplyModal: function(indComment, indReply) {
+                var me = this;
+                if (indComment > -1 && indComment < this.showComments.length) {
+                    var editView,
+                        comment,
+                        replies,
+                        reply;
+                    this.showComments && (comment = this.showComments[indComment]);
+                    comment && (replies = comment.replys);
+                    replies && (reply = replies[indReply]);
+                    if (reply) {
+                        if (Common.SharedSettings.get('phone')) {
+                            editView = uiApp.popup(
+                                '<div class="popup container-edit-comment">' +
+                                '<div class="navbar">' +
+                                '<div class="navbar-inner">' +
+                                '<div class="left sliding"><a href="#" class="back link close-popup"> <i class="icon icon-close"></i>' + '<span>' + me.textCancel + '</span>' + '</a></div>' +
+                                '<div class="center sliding">' + me.textEditReply + '</div>' +
+                                '<div class="right sliding"><a href="#" class="link" id="edit-reply"><i class="icon icon-done"></i>' + '<span>' + me.textDone + '</span>' + '</a></div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="wrap-comment">' +
+                                '<div class="user-name">' + reply.username + '</div>' +
+                                '<div class="comment-date">' + reply.date + '</div>' +
+                                '<div><textarea id="comment-text" class="reply-textarea">' + reply.reply + '</textarea></div>' +
+                                '</div>' +
+                                '</div>'
+                            );
+                            $('.popup').css('z-index', '20000');
+                            _.delay(function () {
+                                var $textarea = $('.reply-textarea')[0];
+                                $textarea.focus();
+                                $textarea.selectionStart = $textarea.value.length;
+                            },100);
+                        }
+                        $('#edit-reply').single('click', _.bind(function (comment, indReply) {
+                            var value = $('.reply-textarea')[0].value;
+                            if (value && value.length > 0) {
+                                comment.replys[indReply].reply = value;
+                                this.onChangeComment(comment);
+                                uiApp.closeModal($$(editView));
+                                this.updateViewComment();
+                            }
+                        }, me, comment, indReply));
+                    }
+                }
+            },
+
+            onClickResolveComment: function() {
+                if (!_.isUndefined(this.indexCurrentComment) && !_.isUndefined(this.showComments)) {
+                    var comment = this.showComments[this.indexCurrentComment];
+                    if (comment) {
+                        if (this.resolveComment(comment.uid)) {
+                            $('.comment-resolve .icon-resolve-comment').toggleClass('check');
+                        }
+                    }
+                }
+            },
+
+            resolveComment: function (uid) {
+                var me = this,
+                    reply = null,
+                    addReply = null,
+                    ascComment = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null)),
+                    comment = me.findComment(uid);
+
+                if (ascComment && comment && me.api) {
+                    ascComment.asc_putText(comment.comment);
+                    ascComment.asc_putQuoteText(comment.quote);
+                    ascComment.asc_putTime(me.utcDateToString(new Date(comment.time)));
+                    ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.time)));
+                    ascComment.asc_putUserId(comment.userid);
+                    ascComment.asc_putUserName(comment.username);
+                    ascComment.asc_putSolved(!comment.resolved);
+                    ascComment.asc_putGuid(comment.guid);
+
+                    if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
+                        ascComment.asc_putDocumentFlag(comment.unattached);
+                    }
+
+                    reply = comment.replys;
+                    if (reply && reply.length) {
+                        reply.forEach(function (reply) {
+                            addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                            if (addReply) {
+                                addReply.asc_putText(reply.reply);
+                                addReply.asc_putTime(me.utcDateToString(new Date(reply.time)));
+                                addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.time)));
+                                addReply.asc_putUserId(reply.userid);
+                                addReply.asc_putUserName(reply.username);
+
+                                ascComment.asc_addReply(addReply);
+                            }
+                        });
+                    }
+
+                    me.api.asc_changeComment(uid, ascComment);
+                    return true;
+                }
+                return false;
+            },
+
             // utils
             timeZoneOffsetInMs: (new Date()).getTimezoneOffset() * 60000,
             utcDateToString: function (date) {
@@ -874,6 +1397,7 @@ define([
 
                         var user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
                         replies.push({
+                            ind                  : i,
                             userid              : data.asc_getReply(i).asc_getUserId(),
                             username            : data.asc_getReply(i).asc_getUserName(),
                             usercolor           : (user) ? user.asc_getColor() : null,
@@ -950,6 +1474,7 @@ define([
 
                         user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
                         replies.push({
+                            ind                 : i,
                             userid              : data.asc_getReply(i).asc_getUserId(),
                             username            : data.asc_getReply(i).asc_getUserName(),
                             usercolor           : (user) ? user.asc_getColor() : null,
@@ -961,6 +1486,13 @@ define([
                     comment.replys = replies;
                     if($('.page-comments').length > 0) {
                         this.initComments();
+                    }
+
+                    if (this.showComments && this.showComments.length > 0) {
+                        var showComment = _.findWhere(this.showComments, {uid: id});
+                        if (showComment) {
+                            showComment = comment;
+                        }
                     }
                 }
             },
@@ -1016,7 +1548,7 @@ define([
                 }
             },
 
-            onApiRemoveComment: function (id) {
+            onApiRemoveComment: function (id, silentUpdate) {
                 function remove (collection, key) {
                     if(collection instanceof Array) {
                         var index = collection.indexOf(key);
@@ -1025,7 +1557,7 @@ define([
                         }
                     }
                 }
-                if (this.groupCollectionComments) {
+                if (this.groupCollectionComments.length > 0) {
                     for (var name in this.groupCollectionComments) {
                         var store = this.groupCollectionComments[name],
                             comment = _.findWhere(store, {uid: id});
@@ -1043,8 +1575,21 @@ define([
                         remove(this.collectionComments, comment);
                     }
                 }
-                if($('.page-comments').length > 0) {
+                if(!silentUpdate && $('.page-comments').length > 0) {
                     this.initComments();
+                }
+
+                if (this.showComments && this.showComments.length > 0) {
+                    var removeComment = _.findWhere(this.showComments, {uid: id});
+                    if (removeComment) {
+                        this.showComments = _.without(this.showComments, removeComment);
+                    }
+                }
+            },
+
+            onApiRemoveComments: function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    this.onApiRemoveComment(data[i], true);
                 }
             },
 
@@ -1129,7 +1674,15 @@ define([
             textEditUser: 'Document is currently being edited by several users.',
             textAddComment: "Add Comment",
             textCancel: "Cancel",
-            textDone: "Done"
+            textDone: "Done",
+            textAddReply: "Add Reply",
+            textEdit: 'Edit',
+            textResolve: 'Resolve',
+            textDeleteComment: 'Delete comment',
+            textEditComment: 'Edit comment',
+            textDeleteReply: 'Delete reply',
+            textEditReply: 'Edit reply',
+            textReopen: 'Reopen'
 
         }
     })(), Common.Controllers.Collaboration || {}))

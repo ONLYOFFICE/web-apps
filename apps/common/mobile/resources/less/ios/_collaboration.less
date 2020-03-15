@@ -92,7 +92,7 @@
 }
 
 //Comments
-.page-comments, .page-add-comment {
+.page-comments, .page-add-comment, .page-view-comments, .container-edit-comment, .container-add-reply {
   .list-block .item-inner {
     display: block;
     padding: 16px 0;
@@ -100,6 +100,7 @@
   }
   p {
     margin: 0;
+    word-break: break-word;
   }
   .user-name {
     font-size: 17px;
@@ -125,8 +126,14 @@
   }
   .reply-item {
     margin-top: 15px;
+    padding-right: 16px;
+    padding-top: 13px;
+    .header-reply {
+      display: flex;
+      justify-content: space-between;
+    }
     .user-name {
-      padding-top: 16px;
+      padding-top: 3px;
     }
     &:before {
       content: '';
@@ -152,21 +159,27 @@
     font-size: 15px;
   }
 
-  //add comment
   .wrap-comment {
     padding: 16px 16px 0 16px;
   }
-  .comment-textarea {
+  .comment-textarea, .reply-textarea {
     margin-top: 10px;
     background:transparent;
     border:none;
     outline:none;
     width: 100%;
     min-height: 200px;
+    font-size: 15px;
   }
 }
 .settings.popup .list-block ul.list-reply:last-child:after, .settings.popover .list-block ul.list-reply:last-child:after {
   display: none;
+}
+
+.container-edit-comment {
+  .navbar {
+    background-color: #FFFFFF;
+  }
 }
 
 //view comment
@@ -178,8 +191,52 @@
   border-top-right-radius: 4px;
   height: 50%;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+  .page-view-comments {
+    background-color: #FFFFFF;
+    .list-block {
+      margin-bottom: 100px;
+      ul:before, ul:after {
+        content: none;
+      }
+      .item-inner {
+        padding: 0;
+        .header-comment {
+          display: flex;
+          justify-content: space-between;
+          padding-right: 16px;
+          .comment-right {
+            display: flex;
+            justify-content: space-between;
+            width: 70px;
+          }
+        }
+      }
+    }
+
+  }
   .toolbar {
     position: absolute;
+    background-color: #FFFFFF;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+    &:before {
+      content: none;
+    }
+    .toolbar-inner {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 16px;
+      .button-left {
+        min-width: 80px;
+      }
+      .button-right {
+        min-width: 62px;
+        display: flex;
+        justify-content: space-between;
+        a {
+          padding: 0 8px;
+        }
+      }
+    }
   }
   .swipe-container {
     display: flex;
@@ -193,19 +250,52 @@
       border-radius: 2px;
     }
   }
-  .page-content {
-    padding: 0 16px 80px;
+  .list-block {
+    margin-top: 0;
   }
 }
 
 .container-view-add-comment {
   height: 100%;
   .navbar {
+    background-color: #FFFFFF;
     a.link i + span {
       margin-left: 0;
     }
   }
   .page-add-comment {
     background-color: #FFFFFF;
+    .page-content {
+      padding: 0 16px 80px;
+    }
+  }
+}
+
+.container-add-reply {
+  height: 100%;
+  .navbar {
+    background-color: #FFFFFF;
+    a.link i + span {
+      margin-left: 0;
+    }
+  }
+}
+
+.icon-arrow-comment {
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  border-color: @themeColor;
+  height: 12px;
+  width: 12px;
+  display: inline-block;
+  padding: 0;
+  &.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+
+  &.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
   }
 }

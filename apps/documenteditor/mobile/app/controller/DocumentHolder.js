@@ -534,7 +534,7 @@ define([
                             }
                         }
 
-                        if (1/*_isComments*/) {
+                        if (_isComments) {
                             arrItems.push({
                                 caption: me.menuViewComment,
                                 event: 'viewcomment'

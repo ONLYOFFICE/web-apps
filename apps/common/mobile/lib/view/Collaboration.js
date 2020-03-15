@@ -123,17 +123,6 @@ define([
                 return '';
             },
 
-            rootCommentLayout: function() {
-                if (this.layout) {
-                    var $layour = this.layout.find('#comment-view'),
-                        isPhone = Common.SharedSettings.get('phone');
-
-                    return $layour.html();
-                }
-
-                return '';
-            },
-
             showPage: function(templateId, animate) {
                 var me = this;
                 var prefix = !!window.DE ? DE : !!window.PE ? PE : SSE;
@@ -157,8 +146,52 @@ define([
                 }
             },
 
-            renderViewComments: function(comments) {
+            //Comments
 
+            renderViewComments: function(comments, indCurComment) {
+                if ($('.page-view-comments .page-content').length > 0) {
+                    var template = '';
+                    if (comments && comments.length > 0) {
+                        template = '<div class="list-block">' +
+                            '<ul id="comments-list">';
+                        var comment = comments[indCurComment];
+                        template += '<li class="comment item-content">' +
+                            '<div class="item-inner">' +
+                            '<div class="header-comment"><div>' +
+                            '<p class="user-name">' + comment.username + '</p>' +
+                            '<p class="comment-date">' + comment.date + '</p>';
+                        if (comment.quote) template += '<p class="comment-quote" data-ind="' + comment.uid + '">' + comment.quote + '</p>';
+                        template += '</div>';
+                        template += '<div class="comment-right">' +
+                            '<div class="comment-resolve"><i class="icon icon-resolve-comment' + (comment.resolved ? ' check' : '') + '"></i></div>' +
+                            '<div class="comment-menu"><i class="icon icon-menu-comment"></i></div>' +
+                            '</div>' +
+                            '</div>';
+
+                        template += '<p class="comment-text">' + comment.comment + '</p>';
+                        if (comment.replys.length > 0) {
+                            template += '<ul class="list-reply">';
+                            _.each(comment.replys, function (reply) {
+                                template += '<li class="reply-item" data-ind="' + reply.ind + '">' +
+                                    '<div class="header-reply">' +
+                                    '<div>' +
+                                    '<p class="user-name">' + reply.username + '</p>' +
+                                    '<p class="reply-date">' + reply.date + '</p>' +
+                                    '</div>' +
+                                    '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>' +
+                                    '</div>' +
+                                    '<p class="reply-text">' + reply.reply + '</p>' +
+                                    '</li>';
+                            });
+                            template += '</ul>'
+                        }
+
+                        template += '</div>' +
+                            '</li>';
+                        template += '</ul></div>';
+                        $('.page-view-comments .page-content').html(template);
+                    }
+                }
             },
 
             renderComments: function (comments) {
@@ -205,7 +238,7 @@ define([
                             replys: comment.replys.length,
                         }));
                     });
-                    $listComments.html(items);
+                    $listComments.html(items.join(''));
                 }
             },
 
