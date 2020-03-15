@@ -87,6 +87,10 @@ define([
                                 Common.NotificationCenter.trigger('app:config', {canUndock:true});
                         }
                     }
+
+                    if (_.isNumber(obj.skiptoparea)) {
+                        Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
+                    }
                 } else
                 if (/window:status/.test(cmd)) {
                     var obj = JSON.parse(param);

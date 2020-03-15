@@ -236,7 +236,8 @@ define([
 
             var win_width = (this.initConfig.width=='auto') ? parseInt(this.$window.find('.body').css('width')) : this.initConfig.width;
             
-            var top  = Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
+            var top  = Common.Utils.InternalSettings.get('window-inactive-area-top') +
+                        Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
             this.$window.css('left',left);
@@ -311,10 +312,11 @@ define([
             if (this.dragging.enabled) {
                 var zoom = (event instanceof jQuery.Event) ? Common.Utils.zoom() : 1,
                     left    = event.pageX*zoom - this.dragging.initx,
-                    top     = event.pageY*zoom - this.dragging.inity;
+                    top     = event.pageY*zoom - this.dragging.inity,
+                    topedge = Common.Utils.InternalSettings.get('window-inactive-area-top');
 
                 left < 0 ? (left = 0) : left > this.dragging.maxx && (left = this.dragging.maxx);
-                top < 0 ? (top = 0) : top > this.dragging.maxy && (top = this.dragging.maxy);
+                top < topedge ? (top = topedge) : top > this.dragging.maxy && (top = this.dragging.maxy);
 
                 this.$window.css({left: left, top: top});
             }
