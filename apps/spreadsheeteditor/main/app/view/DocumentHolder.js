@@ -968,14 +968,6 @@ define([
                 mnu.cmpEl.removeAttr('oo_editor_input').attr('oo_editor_keyboard', true);
             });
 
-            this.validationMenu = new Common.UI.Menu({
-                maxHeight: 200,
-                cyclic: false,
-                items: []
-            }).on('show:after', function () {
-                this.scroller.update({alwaysVisibleY: true});
-            });
-
             me.fireEvent('createdelayedelements', [me]);
         },
 

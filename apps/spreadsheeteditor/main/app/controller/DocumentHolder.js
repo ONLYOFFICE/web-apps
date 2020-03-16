@@ -303,7 +303,8 @@ define([
                 this.api.asc_registerCallback('asc_onSetAFDialog',          _.bind(this.onApiAutofilter, this));
                 this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
                 this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
-                this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this)); // Alt + Down
+                this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this, true)); // Alt + Down
+                this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onEntriesListMenu, this, false));
                 this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onFormulaCompleteMenu, this));
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
@@ -311,7 +312,6 @@ define([
                 this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
                 this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
-                this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onValidationListMenu, this));
             }
             return this;
         },
@@ -1944,7 +1944,7 @@ define([
             }
         },
 
-        onEntriesListMenu: function(textarr) {
+        onEntriesListMenu: function(warning, textarr) {
             if (textarr && textarr.length>0) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
@@ -1991,7 +1991,7 @@ define([
                 }, 10);
             } else {
                 this.documentHolder.entriesMenu.hide();
-                Common.UI.warning({
+                warning && Common.UI.warning({
                     title: this.notcriticalErrorTitle,
                     maxwidth: 600,
                     msg  : this.txtNoChoices,
@@ -3228,56 +3228,6 @@ define([
                     $(mnu.el).find('label').text(mnu.options.exampleval);
                     mnu.setChecked(val == mnu.value);
                 }
-            }
-        },
-
-        onValidationListMenu: function(textarr) {
-            if (textarr && textarr.length>0) {
-                var me                  = this,
-                    documentHolderView  = me.documentHolder,
-                    menu                = documentHolderView.validationMenu,
-                    menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
-
-                for (var i = 0; i < menu.items.length; i++) {
-                    menu.removeItem(menu.items[i]);
-                    i--;
-                }
-
-                _.each(textarr, function(menuItem, index) {
-                    var mnu = new Common.UI.MenuItem({
-                        caption     : menuItem
-                    }).on('click', function(item, e) {
-                        // me.api.asc_selectFromList(item.caption);
-                    });
-                    menu.addItem(mnu);
-                });
-
-                Common.UI.Menu.Manager.hideAll();
-
-                if (!menu.rendered) {
-                    // Prepare menu container
-                    if (menuContainer.length < 1) {
-                        menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
-                        documentHolderView.cmpEl.append(menuContainer);
-                    }
-
-                    menu.render(menuContainer);
-                    menu.cmpEl.attr({tabindex: "-1"});
-                }
-
-                var coord  = me.api.asc_getActiveCellCoord(),
-                    offset = {left:0,top:0},
-                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
-                menuContainer.css({left: showPoint[0], top : showPoint[1]});
-
-                menu.show();
-
-                menu.alignPosition();
-                _.delay(function() {
-                    menu.cmpEl.focus();
-                }, 10);
-            } else {
-                this.documentHolder.validationMenu.hide();
             }
         },
 
