@@ -287,7 +287,7 @@ define([
             }
 
             this.dragging.maxx  = main_width - this.getWidth();
-            this.dragging.maxy  = main_height - this.getHeight();
+            this.dragging.maxy  = main_height - this.getHeight() + Common.Utils.InternalSettings.get('window-inactive-area-top');
 
             $(document).on('mousemove', this.binding.drag);
             $(document).on('mouseup', this.binding.dragStop);
