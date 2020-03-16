@@ -880,9 +880,7 @@ define([
                     items = [];
 
                 while (++i < wc) {
-                    if (!this.api.asc_isWorksheetHidden(i)) {
-                        items.push(me.api.asc_getWorksheetName(i));
-                    }
+                    items.push({name: me.api.asc_getWorksheetName(i), hidden: me.api.asc_isWorksheetHidden(i)});
                 }
 
                 var handlerDlg = function(dlg, result) {

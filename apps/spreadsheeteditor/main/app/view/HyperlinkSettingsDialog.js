@@ -64,7 +64,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 290px;">',
+                '<div class="box" style="height: 313px;">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternalLink,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternalLink,'</button>',
@@ -77,10 +77,13 @@ define([
                     '</div>',
                     '<div id="id-internal-link" class="hidden">',
                         '<div class="input-row">',
+                            '<label>' + this.strLinkTo + '</label>',
+                        '</div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;border: 1px solid #cfcfcf;"></div>',
+                        '<div class="input-row">',
                             '<label>' + this.strRange + '</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-range" class="input-row" style="margin-bottom: 5px;"></div>',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;border: 1px solid #cfcfcf;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.strDisplay + '</label>',
@@ -349,8 +352,8 @@ define([
                         hasSubItems: true
                     }));
                     for (var i=0; i<count; i++) {
-                        arr.push(new Common.UI.TreeViewModel({
-                            name : sheets[i],
+                        !sheets[i].hidden && arr.push(new Common.UI.TreeViewModel({
+                            name : sheets[i].name,
                             level: 1,
                             index: i+1,
                             type: 0, // sheet
@@ -373,18 +376,21 @@ define([
                         prev_level = 0;
                     count = ranges.length;
                     for (var i=0; i<count; i++) {
-                        var range = ranges[i];
-                        if (prev_level<1)
-                            arr[arr.length-1].set('hasSubItems', true);
-                        arr.push(new Common.UI.TreeViewModel({
-                            name : range.asc_getName(),
-                            level: 1,
-                            index: arr.length,
-                            type: 1, // defined name
-                            isVisible: false,
-                            hasParent: true
-                        }));
-                        prev_level = 1;
+                        var range = ranges[i],
+                            scope = range.asc_getScope();
+                        if (!range.asc_getIsHidden()) {
+                            if (prev_level<1)
+                                arr[arr.length-1].set('hasSubItems', true);
+                            arr.push(new Common.UI.TreeViewModel({
+                                name : (range.asc_getIsXlnm() && sheets[scope] ? sheets[scope].name + '!' : '') + range.asc_getName(), // add sheet name for print area
+                                level: 1,
+                                index: arr.length,
+                                type: 1, // defined name
+                                isVisible: false,
+                                hasParent: true
+                            }));
+                            prev_level = 1;
+                        }
                     }
                     store.reset(arr);
                     var sheet = props ? (props.asc_getSheet() || props.asc_getLocation()) : this.settings.currentSheet,
