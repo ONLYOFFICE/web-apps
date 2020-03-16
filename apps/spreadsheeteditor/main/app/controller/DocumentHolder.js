@@ -303,8 +303,8 @@ define([
                 this.api.asc_registerCallback('asc_onSetAFDialog',          _.bind(this.onApiAutofilter, this));
                 this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
                 this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
-                this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this, true)); // Alt + Down
-                this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onEntriesListMenu, this, false));
+                this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this, false)); // Alt + Down
+                this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onEntriesListMenu, this, true));
                 this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onFormulaCompleteMenu, this));
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
@@ -1944,12 +1944,17 @@ define([
             }
         },
 
-        onEntriesListMenu: function(warning, textarr) {
+        onEntriesListMenu: function(validation, textarr) {
             if (textarr && textarr.length>0) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.entriesMenu,
                     menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
+
+                if (validation && menu.isVisible()) {
+                    menu.hide();
+                    return;
+                }
 
                 for (var i = 0; i < menu.items.length; i++) {
                     menu.removeItem(menu.items[i]);
@@ -1991,7 +1996,7 @@ define([
                 }, 10);
             } else {
                 this.documentHolder.entriesMenu.hide();
-                warning && Common.UI.warning({
+                !validation && Common.UI.warning({
                     title: this.notcriticalErrorTitle,
                     maxwidth: 600,
                     msg  : this.txtNoChoices,
