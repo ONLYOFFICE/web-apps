@@ -67,7 +67,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 263px;">',
+                '<div class="box" style="height: 319px;">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textExternal,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textInternal,'</button>',
@@ -82,7 +82,7 @@ define([
                         '<div class="input-row">',
                             '<label>' + this.textUrl + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;border: 1px solid #cfcfcf;"></div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;border: 1px solid #cfcfcf;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.textDisplay + '</label>',
