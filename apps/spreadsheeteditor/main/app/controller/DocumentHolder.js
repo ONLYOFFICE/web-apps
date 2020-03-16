@@ -255,7 +255,10 @@ define([
                         if (me.api) {
                             me.api.isTextAreaBlur = false;
                             if (e.target.localName == 'canvas' && !me.isEditFormula) {
-                                documentHolderEl.focus();
+                                if (me._preventClick)
+                                    me._preventClick = false;
+                                else
+                                    documentHolderEl.focus();
                             }
                         }
                     }
@@ -1988,6 +1991,8 @@ define([
                     showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
                 menuContainer.css({left: showPoint[0], top : showPoint[1]});
 
+                me._preventClick = validation;
+                validation && menuContainer.attr('data-value', 'prevent-canvas-click');
                 menu.show();
 
                 menu.alignPosition();
