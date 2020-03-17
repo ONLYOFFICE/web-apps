@@ -308,7 +308,7 @@ define([
                 var me = this;
 
                 var bookmark = props.get_Bookmark(),
-                    type = (bookmark === null || bookmark=='') ? c_oHyperlinkType.WebLink : c_oHyperlinkType.InternalLink;
+                    type = (bookmark === null || bookmark=='') ? ((props.get_Value() || !Common.Utils.InternalSettings.get("de-settings-link-type")) ? c_oHyperlinkType.WebLink : c_oHyperlinkType.InternalLink) : c_oHyperlinkType.InternalLink;
 
                 (type == c_oHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
                 me.ShowHideElem(type);
@@ -426,6 +426,7 @@ define([
                         this.inputDisplay.cmpEl.find('input').focus();
                         return;
                     }
+                    (!this._originalProps.get_Bookmark() && !this._originalProps.get_Value()) &&  Common.Utils.InternalSettings.set("de-settings-link-type", this.btnInternal.isActive()); // save last added hyperlink
                 }
 
                 this.options.handler.call(this, this, state);

@@ -210,6 +210,7 @@ define([
                         me.inputUrl.cmpEl.find('input').focus();
                     },50);
                 }
+                me._originalProps = props;
             }
         },
 
@@ -275,8 +276,8 @@ define([
                         this.inputDisplay.cmpEl.find('input').focus();
                         return;
                     }
+                    !this._originalProps.get_Value() &&  Common.Utils.InternalSettings.set("pe-settings-link-type", this.btnInternal.isActive());
                 }
-
                 this.options.handler.call(this, this, state);
             }
 
@@ -390,7 +391,7 @@ define([
 
         parseUrl: function(url) {
             if (url===null || url===undefined || url=='' )
-                return c_oHyperlinkType.WebLink;
+                return Common.Utils.InternalSettings.get("pe-settings-link-type") ? c_oHyperlinkType.InternalLink : c_oHyperlinkType.WebLink;
 
             var indAction = url.indexOf("ppaction://hlink");
             if (0 == indAction)
