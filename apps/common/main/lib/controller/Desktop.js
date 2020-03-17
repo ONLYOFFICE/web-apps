@@ -145,6 +145,11 @@ define([
             }
 
             native.execCommand('webapps:features', JSON.stringify({version: config.version, eventloading:true, titlebuttons:true}));
+
+            // hide mask for modal window
+            var style = document.createElement('style');
+            style.appendChild(document.createTextNode('.modals-mask{opacity:0;}'));
+            document.getElementsByTagName('head')[0].appendChild(style);
         }
 
         var _serializeHeaderButton = function(action, config) {
