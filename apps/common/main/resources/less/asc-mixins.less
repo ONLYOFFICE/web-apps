@@ -180,13 +180,13 @@
     @2ximage: replace(@imagepath, '\.png$', '@2x.png');
 
     @media only screen {
-        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
-            (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
-                (min-resolution: 144dpi) and (max-resolution: 191dpi)
-        {
-            background-image: ~"url(@{1d5ximage})";
-            background-size: @w @h;
-        }
+        // @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+        //     (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+        //         (min-resolution: 144dpi) and (max-resolution: 191dpi)
+        // {
+        //     background-image: ~"url(@{1d5ximage})";
+        //     background-size: @w @h;
+        // }
 
         @media (-webkit-min-device-pixel-ratio: 2),
             (min-resolution: 2dppx),
