@@ -3461,6 +3461,7 @@ define([
                     me = this;
                 win = new SSE.Views.PrintTitlesDialog({
                     api: me.api,
+                    sheet: me.api.asc_getActiveWorksheetIndex(),
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();

@@ -94,6 +94,7 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
+            this.sheet = this.options.sheet;
             Common.UI.Window.prototype.initialize.call(this, this.options);
             this.dataRangeTop = '';
             this.dataRangeLeft = '';
@@ -260,9 +261,9 @@ define([
             } else {
                 var value = '';
                 if (item.value == 'frozen')
-                    value = this.api.asc_getFrozen(type=='top');
+                    value = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, type=='left', this.sheet);
                 else if (item.value == 'first')
-                    value = this.api.asc_getFirst(type=='top');
+                    value = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, type=='left', this.sheet);
                 txtRange.setValue(value);
                 txtRange.checkValidate();
                 if (type=='top')

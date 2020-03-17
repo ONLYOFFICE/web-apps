@@ -497,9 +497,9 @@ define([
             } else {
                 var value = '';
                 if (item.value == 'frozen')
-                    value = this.api.asc_getFrozen(type=='top');
+                    value = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, type=='left', panel.cmbSheet.getValue());
                 else if (item.value == 'first')
-                    value = this.api.asc_getFirst(type=='top');
+                    value = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, type=='left', panel.cmbSheet.getValue());
                 txtRange.setValue(value);
                 txtRange.checkValidate();
                 if (type=='top')
