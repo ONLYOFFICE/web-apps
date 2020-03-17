@@ -51,7 +51,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 475,
+            height: 575,
             buttons: null
         },
 
@@ -67,6 +67,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageSize + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
                             '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageScaling + '</div>',
+                            '<div style="height: 98px; line-height: 33px;" class="div-category">' + this.strPrintTitles + '</div>',
                             '<div style="height: 108px; line-height: 33px;" class="div-category">' + this.strMargins + '</div>',
                             '<div style="height: 58px; line-height: 40px;" class="div-category">' + ((this.type == 'print') ? this.strPrint : this.strShow) + '</div>',
                         '</div>',
@@ -228,6 +229,36 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 itemsTemplate: itemsTemplate
             });
 
+            this.txtRangeTop = new Common.UI.InputField({
+                el          : $('#printadv-dlg-txt-top'),
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsTop = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 95px;',
+                menu: true
+            });
+            this.btnPresetsTop.render( $('#printadv-dlg-presets-top')) ;
+
+            this.txtRangeLeft = new Common.UI.InputField({
+                el          : $('#printadv-dlg-txt-left'),
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsLeft = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 95px;',
+                menu: true
+            });
+            this.btnPresetsLeft.render( $('#printadv-dlg-presets-left')) ;
+
             this.btnHide = new Common.UI.Button({
                 el: $('#printadv-dlg-btn-hide')
             });
@@ -314,7 +345,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(475);
+                this.setHeight(585);
                 btn.setCaption(this.textHideDetails);
                 Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
@@ -355,7 +386,11 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textRange:              'Range',
         textIgnore:             'Ignore Print Area',
         textCustomOptions:      'Custom Options',
-        textCustom:             'Custom'
+        textCustom:             'Custom',
+        strPrintTitles:         'Print Titles',
+        textRepeatTop:          'Repeat rows at top',
+        textRepeatLeft:         'Repeat columns at left',
+        textRepeat:             'Repeat...'
 
     }, SSE.Views.PrintSettings || {}));
 });

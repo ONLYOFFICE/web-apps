@@ -72,6 +72,7 @@ define([
         onAfterRender: function(view) {
             this.printSettings.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettings));
             this.printSettings.btnOk.on('click', _.bind(this.querySavePrintSettings, this));
+            this.fillComponents(this.printSettings);
             this.registerControlEvents(this.printSettings);
         },
 
@@ -157,6 +158,14 @@ define([
 
             panel.chPrintGrid.setValue(props.asc_getGridLines(), true);
             panel.chPrintRows.setValue(props.asc_getHeadings(), true);
+
+            // var value = props.asc_getPrintTitlesWidth();
+            // panel.txtRangeTop.setValue((value) ? value : '');
+            // panel.dataRangeTop = value;
+            //
+            // value = props.asc_getPrintTitlesHeight();
+            // panel.txtRangeLeft.setValue((value) ? value : '');
+            // panel.dataRangeLeft = value;
         },
 
         fillPrintOptions: function(props) {
@@ -214,6 +223,9 @@ define([
 
             props.asc_setPageMargins(opt);
 
+            props.asc_setPrintTitlesWidth(panel.txtRangeTop.getValue());
+            props.asc_setPrintTitlesHeight(panel.txtRangeLeft.getValue());
+
             return props;
         },
 
@@ -253,6 +265,7 @@ define([
                         this._changedProps = [];
                         this.updateSettings(this.printSettingsDlg);
                         this.printSettingsDlg.cmbSheet.on('selected', _.bind(this.comboSheetsChange, this, this.printSettingsDlg));
+                        this.fillComponents(this.printSettingsDlg, true);
                         this.fillPrintOptions(this.adjPrintParams);
                         this.registerControlEvents(this.printSettingsDlg);
                     },this)
@@ -353,6 +366,8 @@ define([
             panel.spnMarginRight.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
+            panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
+            panel.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'left'));
         },
 
         propertyChange: function(panel, scale, combo, record) {
@@ -407,9 +422,104 @@ define([
             panel.cmbLayout.setValue(value, true);
         },
 
+        fillComponents: function(panel, selectdata) {
+            var me = this;
+            panel.txtRangeTop.validation = function(value) {
+                if (_.isEmpty(value)) {
+                    return true;
+                }
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+            };
+            panel.txtRangeLeft.validation = function(value) {
+                if (_.isEmpty(value)) {
+                    return true;
+                }
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+            };
+            var data = ((selectdata) ? [{caption: this.textSelectRange, value: 'select'}] : []).concat([
+                {caption: this.textFrozenRows, value: 'frozen'},
+                {caption: this.textFirstRow, value: 'first'},
+                {caption: '--'},
+                {caption: this.textNoRepeat, value: 'empty'}
+            ]);
+            panel.btnPresetsTop.setMenu(new Common.UI.Menu({
+                style: 'min-width: 100px;',
+                maxHeight: 200,
+                items: data
+            }));
+            data = ((selectdata) ? [{caption: this.textSelectRange, value: 'select'}] : []).concat([
+                {caption: this.textFrozenCols, value: 'frozen'},
+                {caption: this.textFirstCol, value: 'first'},
+                {caption: '--'},
+                {caption: this.textNoRepeat, value: 'empty'}
+            ]);
+            panel.btnPresetsLeft.setMenu(new Common.UI.Menu({
+                style: 'min-width: 100px;',
+                maxHeight: 200,
+                items: data
+            }));
+        },
+
+        onPresetSelect: function(panel, type, menu, item) {
+            var txtRange = (type=='top') ? panel.txtRangeTop : panel.txtRangeLeft;
+            if (item.value == 'select') {
+                var me = this;
+                if (me.api) {
+                    var handlerDlg = function(dlg, result) {
+                        if (result == 'ok') {
+                            var valid = dlg.getSettings();
+                            if (type=='top')
+                                panel.dataRangeTop = valid;
+                            else
+                                panel.dataRangeLeft = valid;
+                            txtRange.setValue(valid);
+                            txtRange.checkValidate();
+                        }
+                    };
+
+                    var win = new SSE.Views.CellRangeDialog({
+                        handler: handlerDlg
+                    }).on('close', function() {
+                        panel.show();
+                    });
+
+                    var xy = panel.$window.offset();
+                    panel.hide();
+                    win.show(xy.left + 160, xy.top + 125);
+                    win.setSettings({
+                        api     : me.api,
+                        range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? panel.dataRangeTop : panel.dataRangeLeft),
+                        type    : Asc.c_oAscSelectionDialogType.Chart
+                    });
+                }
+            } else {
+                var value = '';
+                if (item.value == 'frozen')
+                    value = this.api.asc_getFrozen(type=='top');
+                else if (item.value == 'first')
+                    value = this.api.asc_getFirst(type=='top');
+                txtRange.setValue(value);
+                txtRange.checkValidate();
+                if (type=='top')
+                    panel.dataRangeTop = value;
+                else
+                    panel.dataRangeLeft = value;
+            }
+        },
+
         warnCheckMargings:      'Margins are incorrect',
         strAllSheets:           'All Sheets',
         textWarning: 'Warning',
-        txtCustom: 'Custom'
+        txtCustom: 'Custom',
+        textInvalidRange:   'ERROR! Invalid cells range',
+        textRepeat: 'Repeat...',
+        textNoRepeat: 'Not repeat',
+        textSelectRange: 'Select range...',
+        textFrozenRows: 'Frozen rows',
+        textFrozenCols: 'Frozen columns',
+        textFirstRow: 'First row',
+        textFirstCol: 'First column'
     }, SSE.Controllers.Print || {}));
 });

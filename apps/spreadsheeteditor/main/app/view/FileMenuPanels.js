@@ -274,6 +274,27 @@ define([
                     '<td class="right"><span id="advsettings-print-combo-layout" /></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
+                    '<td class="left" style="vertical-align: top;"><label><%= scope.strPrintTitles %></label></td>',
+                    '<td class="right" style="vertical-align: top;"><div id="advsettings-margins">',
+                        '<table cols="2" class="no-padding">',
+                            '<tr>',
+                                '<td colspan="2" ><label><%= scope.textRepeatTop %></label></td>',
+                                '</tr>',
+                                '<tr>',
+                                '<td class="padding-small"><div id="advsettings-txt-top" style="margin-right: 10px;"></div></td>',
+                            '<td class="padding-small"><div id="advsettings-presets-top"></div></td>',
+                            '</tr>',
+                            '<tr>',
+                            '<td colspan="2" ><label><%= scope.textRepeatLeft %></label></td>',
+                                '</tr>',
+                                '<tr>',
+                                '<td class="padding-small"><div id="advsettings-txt-left" style="margin-right: 10px;"></div></td>',
+                            '<td class="padding-small"><div id="advsettings-presets-left"></div></td>',
+                            '</tr>',
+                        '</table>',
+                    '</div></td>',
+                '</tr>','<tr class="divider"></tr>',
+                '<tr>',
                     '<td class="left" style="vertical-align: top;"><label><%= scope.strMargins %></label></td>',
                     '<td class="right" style="vertical-align: top;"><div id="advsettings-margins">',
                         '<table cols="2" class="no-padding">',
@@ -443,6 +464,36 @@ define([
             });
             this.spinners.push(this.spnMarginRight);
 
+            this.txtRangeTop = new Common.UI.InputField({
+                el          : $markup.findById('#advsettings-txt-top'),
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsTop = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 95px;',
+                menu: true
+            });
+            this.btnPresetsTop.render( $markup.findById('#advsettings-presets-top')) ;
+
+            this.txtRangeLeft = new Common.UI.InputField({
+                el          : $markup.findById('#advsettings-txt-left'),
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsLeft = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 95px;',
+                menu: true
+            });
+            this.btnPresetsLeft.render( $markup.findById('#advsettings-presets-left')) ;
+
             this.btnOk = new Common.UI.Button({
                 el: $markup.findById('#advsettings-print-button-save')
             });
@@ -539,7 +590,11 @@ define([
         textFitCols:            'Fit All Columns on One Page',
         textFitRows:            'Fit All Rows on One Page',
         textCustomOptions:      'Custom Options',
-        textCustom:             'Custom'
+        textCustom:             'Custom',
+        strPrintTitles:         'Print Titles',
+        textRepeatTop:          'Repeat rows at top',
+        textRepeatLeft:         'Repeat columns at left',
+        textRepeat:             'Repeat...'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
