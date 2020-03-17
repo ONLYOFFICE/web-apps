@@ -3464,7 +3464,7 @@ define([
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();
-                            me.api.asc_changePrintTitles(props);
+                            me.api.asc_changePrintTitles(props.width, props.height, me.api.asc_getActiveWorksheetIndex());
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     }

@@ -222,10 +222,7 @@ define([
         },
 
         getSettings: function() {
-            var props = new Asc.asc_CPageOptions();
-            props.asc_setPrintTitlesWidth(this.txtRangeTop.getValue());
-            props.asc_setPrintTitlesHeight(this.txtRangeLeft.getValue());
-            return props;
+            return {width: this.txtRangeTop.getValue(), height: this.txtRangeLeft.getValue()};
         },
 
         onPresetSelect: function(type, menu, item) {
