@@ -143,8 +143,8 @@ define([
                     additionalAlign: this.menuAddAlign,
                     items: [
                         {caption: this.textSelectRange, value: 'select'},
-                        {caption: this.textFrozenRows, value: Asc.c_oAscHeaderFooterField.pageCount},
-                        {caption: this.textFirstRow, value: Asc.c_oAscHeaderFooterField.date},
+                        {caption: this.textFrozenRows, value: 'frozen'},
+                        {caption: this.textFirstRow, value: 'first'},
                         {caption: '--'},
                         {caption: this.textNoRepeat, value: 'empty'}
                     ]
@@ -177,8 +177,8 @@ define([
                     additionalAlign: this.menuAddAlign,
                     items: [
                         {caption: this.textSelectRange, value: 'select'},
-                        {caption: this.textFrozenCols, value: Asc.c_oAscHeaderFooterField.pageCount},
-                        {caption: this.textFirstCol, value: Asc.c_oAscHeaderFooterField.date},
+                        {caption: this.textFrozenCols, value: 'frozen'},
+                        {caption: this.textFirstCol, value: 'first'},
                         {caption: '--'},
                         {caption: this.textNoRepeat, value: 'empty'}
                     ]
@@ -226,13 +226,7 @@ define([
         },
 
         onPresetSelect: function(type, menu, item) {
-            var txtRange = (type=='top') ? this.txtRangeTop : this.txtRangeLeft,
-                dataRangeValid = (type=='top') ? this.dataRangeTop : this.dataRangeLeft;
-            if (type=='top') {
-
-            } else {
-
-            }
+            var txtRange = (type=='top') ? this.txtRangeTop : this.txtRangeLeft;
             if (item.value == 'select') {
                 var me = this;
                 if (me.api) {
@@ -259,16 +253,22 @@ define([
                     win.show(xy.left + 160, xy.top + 125);
                     win.setSettings({
                         api     : me.api,
-                        range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : dataRangeValid,
+                        range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? me.dataRangeTop : me.dataRangeLeft),
                         type    : Asc.c_oAscSelectionDialogType.Chart
                     });
                 }
-            } else if (item.value == 'empty') {
-                txtRange.setValue('');
+            } else {
+                var value = '';
+                if (item.value == 'frozen')
+                    value = this.api.asc_getFrozen(type=='top');
+                else if (item.value == 'first')
+                    value = this.api.asc_getFirst(type=='top');
+                txtRange.setValue(value);
+                txtRange.checkValidate();
                 if (type=='top')
-                    this.dataRangeTop = '';
+                    this.dataRangeTop = value;
                 else
-                    this.dataRangeLeft = '';
+                    this.dataRangeLeft = value;
             }
         },
 
