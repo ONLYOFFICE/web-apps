@@ -57,6 +57,7 @@ define([
     'spreadsheeteditor/main/app/view/FormatSettingsDialog',
     'spreadsheeteditor/main/app/view/PageMarginsDialog',
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
+    'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog'
 ], function () { 'use strict';
 
@@ -380,6 +381,7 @@ define([
                 toolbar.btnsEditHeader.forEach(function(button) {
                     button.on('click', _.bind(me.onEditHeaderClick, me));
                 });
+                toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
 
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
@@ -1878,14 +1880,14 @@ define([
 
         onApiLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==true && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale]});
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
                 this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==false && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale]});
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
                 this._state.lock_doc = false;
             }
         },
@@ -3448,6 +3450,29 @@ define([
                     });
                     win.show();
                 }
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPrintTitlesClick: function(btn) {
+            if (this.api) {
+                var win, props,
+                    me = this;
+                win = new SSE.Views.PrintTitlesDialog({
+                    api: me.api,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            props = dlg.getSettings();
+                            me.api.asc_changePrintTitles(props);
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    }
+                });
+                win.show();
+                win.setSettings(me.api.asc_getPageOptions(me.api.asc_getActiveWorksheetIndex()));
+
+                Common.component.Analytics.trackEvent('ToolBar', 'Print Titles');
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

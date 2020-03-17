@@ -1,0 +1,291 @@
+/*
+ *
+ * (c) Copyright Ascensio System SIA 2010-2020
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
+
+/**
+ *  PrintTitlesDialog.js
+ *
+ *  Created by Julia Radzhabova on 17.03.2020
+ *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *
+ */
+define([
+    'common/main/lib/component/Window',
+    'common/main/lib/component/MetricSpinner'
+], function () { 'use strict';
+
+    SSE.Views.PrintTitlesDialog = Common.UI.Window.extend(_.extend({
+        options: {
+            width: 300,
+            header: true,
+            style: 'min-width: 216px;',
+            cls: 'modal-dlg',
+            id: 'window-page-margins',
+            buttons: ['ok', 'cancel']
+        },
+
+        initialize : function(options) {
+            _.extend(this.options, {
+                title: this.textTitle
+            }, options || {});
+
+            this.template = [
+                '<div class="box" style="height: 100px;">',
+                '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
+                    '<tr>',
+                        '<td colspan="2" style="padding-right: 10px;">',
+                            '<label class="input-label">' + this.textTop + '</label>',
+                        '</td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td style="padding-right: 10px;padding-bottom: 16px;">',
+                            '<div id="print-titles-txt-top"></div>',
+                        '</td>',
+                        '<td style="padding-bottom: 16px;">',
+                            '<div id="print-titles-presets-top"></div>',
+                        '</td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td colspan="2" style="padding-right: 10px;">',
+                            '<label class="input-label">' + this.textLeft + '</label>',
+                        '</td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td style="padding-right: 10px;">',
+                            '<div id="print-titles-txt-left"></div>',
+                        '</td>',
+                        '<td>',
+                            '<div id="print-titles-presets-left"></div>',
+                        '</td>',
+                    '</tr>',
+                '</table>',
+                '</div>',
+                '<div class="separator horizontal"/>'
+            ].join('');
+
+            this.options.tpl = _.template(this.template)(this.options);
+            this.api = this.options.api;
+            Common.UI.Window.prototype.initialize.call(this, this.options);
+            this.dataRangeTop = '';
+            this.dataRangeLeft = '';
+        },
+
+        render: function() {
+            Common.UI.Window.prototype.render.call(this);
+
+            var me = this;
+            this.menuAddAlign = function(menuRoot, left, top) {
+                var self = this;
+                if (!$window.hasClass('notransform')) {
+                    $window.addClass('notransform');
+                    menuRoot.addClass('hidden');
+                    setTimeout(function() {
+                        menuRoot.removeClass('hidden');
+                        menuRoot.css({left: left, top: top});
+                        self.options.additionalAlign = null;
+                    }, 300);
+                } else {
+                    menuRoot.css({left: left, top: top});
+                    self.options.additionalAlign = null;
+                }
+            };
+
+            this.txtRangeTop = new Common.UI.InputField({
+                el          : $('#print-titles-txt-top'),
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                validateOnChange: true,
+                validation  : function(value) {
+                    if (_.isEmpty(value)) {
+                        return true;
+                    }
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                }
+            });
+
+            this.btnPresetsTop = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 95px;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 100px;',
+                    maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
+                    items: [
+                        {caption: this.textSelectRange, value: 'select'},
+                        {caption: this.textFrozenRows, value: Asc.c_oAscHeaderFooterField.pageCount},
+                        {caption: this.textFirstRow, value: Asc.c_oAscHeaderFooterField.date},
+                        {caption: '--'},
+                        {caption: this.textNoRepeat, value: 'empty'}
+                    ]
+                })
+            });
+            this.btnPresetsTop.render( $('#print-titles-presets-top')) ;
+            this.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, 'top'));
+
+            this.txtRangeLeft = new Common.UI.InputField({
+                el          : $('#print-titles-txt-left'),
+                style       : 'width: 100%;',
+                allowBlank  : true,
+                validateOnChange: true,
+                validation  : function(value) {
+                    if (_.isEmpty(value)) {
+                        return true;
+                    }
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                }
+            });
+
+            this.btnPresetsLeft = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 95px;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 100px;',
+                    maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
+                    items: [
+                        {caption: this.textSelectRange, value: 'select'},
+                        {caption: this.textFrozenCols, value: Asc.c_oAscHeaderFooterField.pageCount},
+                        {caption: this.textFirstCol, value: Asc.c_oAscHeaderFooterField.date},
+                        {caption: '--'},
+                        {caption: this.textNoRepeat, value: 'empty'}
+                    ]
+                })
+            });
+            this.btnPresetsLeft.render( $('#print-titles-presets-left')) ;
+            this.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, 'left'));
+
+            var $window = this.getChild();
+            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+            $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+        },
+
+        _handleInput: function(state) {
+            if (this.options.handler)
+                this.options.handler.call(this, this, state);
+
+            this.close();
+        },
+
+        onBtnClick: function(event) {
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onKeyPress: function(event) {
+            if (event.keyCode == Common.UI.Keys.RETURN) {
+                this._handleInput('ok');
+            }
+        },
+
+        setSettings: function (props) {
+            if (props) {
+                // var value = props.asc_getPrintTitlesWidth();
+                // this.txtRangeTop.setValue((value) ? value : '');
+                // this.dataRangeTop = value;
+                //
+                // value = props.asc_getPrintTitlesHeight();
+                // this.txtRangeLeft.setValue((value) ? value : '');
+                // this.dataRangeLeft = value;
+            }
+        },
+
+        getSettings: function() {
+            var props = new Asc.asc_CPageOptions();
+            props.asc_setPrintTitlesWidth(this.txtRangeTop.getValue());
+            props.asc_setPrintTitlesHeight(this.txtRangeLeft.getValue());
+            return props;
+        },
+
+        onPresetSelect: function(type, menu, item) {
+            var txtRange = (type=='top') ? this.txtRangeTop : this.txtRangeLeft,
+                dataRangeValid = (type=='top') ? this.dataRangeTop : this.dataRangeLeft;
+            if (type=='top') {
+
+            } else {
+
+            }
+            if (item.value == 'select') {
+                var me = this;
+                if (me.api) {
+                    var handlerDlg = function(dlg, result) {
+                        if (result == 'ok') {
+                            var valid = dlg.getSettings();
+                            if (type=='top')
+                                me.dataRangeTop = valid;
+                            else
+                                me.dataRangeLeft = valid;
+                            txtRange.setValue(valid);
+                            txtRange.checkValidate();
+                        }
+                    };
+
+                    var win = new SSE.Views.CellRangeDialog({
+                        handler: handlerDlg
+                    }).on('close', function() {
+                        me.show();
+                    });
+
+                    var xy = me.$window.offset();
+                    me.hide();
+                    win.show(xy.left + 160, xy.top + 125);
+                    win.setSettings({
+                        api     : me.api,
+                        range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : dataRangeValid,
+                        type    : Asc.c_oAscSelectionDialogType.Chart
+                    });
+                }
+            } else if (item.value == 'empty') {
+                txtRange.setValue('');
+                if (type=='top')
+                    this.dataRangeTop = '';
+                else
+                    this.dataRangeLeft = '';
+            }
+        },
+
+        textTitle: 'Print Titles',
+        textTop: 'Repeat rows at top',
+        textLeft: 'Repeat columns at left',
+        textRepeat: 'Repeat...',
+        textNoRepeat: 'Not repeat',
+        textSelectRange: 'Select range...',
+        textFrozenRows: 'Frozen rows',
+        textFrozenCols: 'Frozen columns',
+        textFirstRow: 'First row',
+        textFirstCol: 'First column',
+        textInvalidRange:   'ERROR! Invalid cells range'
+
+    }, SSE.Views.PrintTitlesDialog || {}))
+});

@@ -1338,6 +1338,14 @@ define([
                 me.mnuScale = me.btnScale.menu;
                 me.mnuScale.on('show:after', _.bind(me.onAfterShowMenuScale, me));
 
+                me.btnPrintTitles = new Common.UI.Button({
+                    id: 'tlbtn-printtitles',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-printtitles',
+                    caption: me.capBtnPrintTitles,
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth]
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-img-align',
@@ -1393,7 +1401,7 @@ define([
                     me.btnInsertChart, me.btnColorSchemas,
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -1588,6 +1596,7 @@ define([
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
             _injectComponent('#slot-btn-printarea',      this.btnPrintArea);
+            _injectComponent('#slot-btn-printtitles',    this.btnPrintTitles);
             _injectComponent('#slot-img-align',         this.btnImgAlign);
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
@@ -1664,6 +1673,7 @@ define([
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
             _updateHint(this.btnPrintArea, this.tipPrintArea);
+            _updateHint(this.btnPrintTitles, this.tipPrintTitles);
             _updateHint(this.btnScale, this.tipScale);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
@@ -2381,6 +2391,8 @@ define([
         capBtnAddComment: 'Add Comment',
         capBtnInsSymbol: 'Symbol',
         tipInsertSymbol: 'Insert symbol',
-        txtAutosumTip: 'Summation'
+        txtAutosumTip: 'Summation',
+        capBtnPrintTitles: 'Print Titles',
+        tipPrintTitles: 'Print titles'
     }, SSE.Views.Toolbar || {}));
 });
