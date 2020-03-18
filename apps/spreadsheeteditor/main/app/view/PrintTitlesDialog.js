@@ -129,7 +129,7 @@ define([
                     if (_.isEmpty(value)) {
                         return true;
                     }
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, value, false);
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, value, false);
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 }
             });
@@ -164,7 +164,7 @@ define([
                     if (_.isEmpty(value)) {
                         return true;
                     }
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, value, false);
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, value, false);
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 }
             });
@@ -198,11 +198,11 @@ define([
         },
 
         isRangeValid: function() {
-            if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, this.txtRangeTop.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
+            if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, this.txtRangeTop.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
                 this.txtRangeTop.cmpEl.find('input').focus();
                 return false;
             }
-            if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, this.txtRangeLeft.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
+            if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, this.txtRangeLeft.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
                 this.txtRangeLeft.cmpEl.find('input').focus();
                 return false;
             }
@@ -244,7 +244,7 @@ define([
         },
 
         getSettings: function() {
-            return {width: this.txtRangeTop.getValue(), height: this.txtRangeLeft.getValue()};
+            return {width: this.txtRangeLeft.getValue(), height: this.txtRangeTop.getValue()};
         },
 
         onPresetSelect: function(type, menu, item) {
@@ -276,7 +276,7 @@ define([
                     win.setSettings({
                         api     : me.api,
                         range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? me.dataRangeTop : me.dataRangeLeft),
-                        type    : Asc.c_oAscSelectionDialogType.Chart
+                        type    : Asc.c_oAscSelectionDialogType.PrintTitles
                     });
                 }
             } else {

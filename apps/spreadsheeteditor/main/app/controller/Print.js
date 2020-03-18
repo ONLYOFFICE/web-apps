@@ -111,7 +111,7 @@ define([
         },
 
         comboSheetsChange: function(panel, combo, record) {
-            this.fillPageOptions(panel, this._changedProps[record.value] ? this._changedProps[record.value] : this.api.asc_getPageOptions(record.value), record.value);
+            this.fillPageOptions(panel, this._changedProps[record.value] ? this._changedProps[record.value] : this.api.asc_getPageOptions(record.value, true), record.value);
         },
 
         fillPageOptions: function(panel, props, sheet) {
@@ -159,12 +159,12 @@ define([
             panel.chPrintGrid.setValue(props.asc_getGridLines(), true);
             panel.chPrintRows.setValue(props.asc_getHeadings(), true);
 
-            var value = props.asc_getPrintTitlesWidth();
+            var value = props.asc_getPrintTitlesHeight();
             panel.txtRangeTop.setValue((value) ? value : '');
             panel.txtRangeTop.checkValidate();
             panel.dataRangeTop = value;
 
-            value = props.asc_getPrintTitlesHeight();
+            value = props.asc_getPrintTitlesWidth();
             panel.txtRangeLeft.setValue((value) ? value : '');
             panel.txtRangeLeft.checkValidate();
             panel.dataRangeLeft = value;
@@ -228,11 +228,11 @@ define([
 
             props.asc_setPageMargins(opt);
 
-            var check = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, panel.txtRangeTop.getValue(), false) !== Asc.c_oAscError.ID.DataRangeError;
-            props.asc_setPrintTitlesWidth(check ? panel.txtRangeTop.getValue() : panel.dataRangeTop);
+            var check = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, panel.txtRangeTop.getValue(), false) !== Asc.c_oAscError.ID.DataRangeError;
+            props.asc_setPrintTitlesHeight(check ? panel.txtRangeTop.getValue() : panel.dataRangeTop);
 
-            check = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, panel.txtRangeLeft.getValue(), false) !== Asc.c_oAscError.ID.DataRangeError;
-            props.asc_setPrintTitlesHeight(check ? panel.txtRangeLeft.getValue() : panel.dataRangeLeft);
+            check = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, panel.txtRangeLeft.getValue(), false) !== Asc.c_oAscError.ID.DataRangeError;
+            props.asc_setPrintTitlesWidth(check ? panel.txtRangeLeft.getValue() : panel.dataRangeLeft);
 
             return props;
         },
@@ -383,7 +383,7 @@ define([
         propertyChange: function(panel, scale, combo, record) {
             if (scale === 'scale' && record.value === 'customoptions') {
                 var me = this,
-                    props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue());
+                    props = (me._changedProps.length > 0 && me._changedProps[panel.cmbSheet.getValue()]) ? me._changedProps[panel.cmbSheet.getValue()] : me.api.asc_getPageOptions(panel.cmbSheet.getValue(), true);
                 var win = new SSE.Views.ScaleDialog({
                     api: me.api,
                     props: props,
@@ -439,7 +439,7 @@ define([
                 if (_.isEmpty(value)) {
                     return true;
                 }
-                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, value, false);
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
             panel.txtRangeLeft.validation = function(value) {
@@ -447,7 +447,7 @@ define([
                 if (_.isEmpty(value)) {
                     return true;
                 }
-                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, value, false);
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
             var data = ((selectdata) ? [{caption: this.textSelectRange, value: 'select'}] : []).concat([
@@ -503,7 +503,7 @@ define([
                     win.setSettings({
                         api     : me.api,
                         range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? panel.dataRangeTop : panel.dataRangeLeft),
-                        type    : Asc.c_oAscSelectionDialogType.Chart
+                        type    : Asc.c_oAscSelectionDialogType.PrintTitles
                     });
                 }
             } else {
