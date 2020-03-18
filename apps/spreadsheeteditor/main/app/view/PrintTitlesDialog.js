@@ -134,6 +134,7 @@ define([
                 }
             });
 
+            var frozen = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, false, this.sheet);
             this.btnPresetsTop = new Common.UI.Button({
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
@@ -144,10 +145,10 @@ define([
                     additionalAlign: this.menuAddAlign,
                     items: [
                         {caption: this.textSelectRange, value: 'select'},
-                        {caption: this.textFrozenRows, value: 'frozen'},
-                        {caption: this.textFirstRow, value: 'first'},
+                        {caption: this.textFrozenRows, value: 'frozen', range: frozen, disabled: !frozen},
+                        {caption: this.textFirstRow, value: 'first', range: this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, false, this.sheet)},
                         {caption: '--'},
-                        {caption: this.textNoRepeat, value: 'empty'}
+                        {caption: this.textNoRepeat, value: 'empty', range: ''}
                     ]
                 })
             });
@@ -168,6 +169,7 @@ define([
                 }
             });
 
+            frozen = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, true, this.sheet);
             this.btnPresetsLeft = new Common.UI.Button({
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
@@ -178,10 +180,10 @@ define([
                     additionalAlign: this.menuAddAlign,
                     items: [
                         {caption: this.textSelectRange, value: 'select'},
-                        {caption: this.textFrozenCols, value: 'frozen'},
-                        {caption: this.textFirstCol, value: 'first'},
+                        {caption: this.textFrozenCols, value: 'frozen', range: frozen, disabled: !frozen},
+                        {caption: this.textFirstCol, value: 'first', range: this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, true, this.sheet)},
                         {caption: '--'},
-                        {caption: this.textNoRepeat, value: 'empty'}
+                        {caption: this.textNoRepeat, value: 'empty', range: ''}
                     ]
                 })
             });
@@ -195,9 +197,26 @@ define([
             this.setSettings();
         },
 
+        isRangeValid: function() {
+            if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, this.txtRangeTop.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
+                this.txtRangeTop.cmpEl.find('input').focus();
+                return false;
+            }
+            if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, this.txtRangeLeft.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
+                this.txtRangeLeft.cmpEl.find('input').focus();
+                return false;
+            }
+            return true;
+        },
+
         _handleInput: function(state) {
-            if (this.options.handler)
+            if (this.options.handler) {
+                if (state == 'ok') {
+                    if (!this.isRangeValid())
+                        return;
+                }
                 this.options.handler.call(this, this, state);
+            }
 
             this.close();
         },
@@ -257,15 +276,11 @@ define([
                     win.setSettings({
                         api     : me.api,
                         range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? me.dataRangeTop : me.dataRangeLeft),
-                        type    : Asc.c_oAscSelectionDialogType.None
+                        type    : Asc.c_oAscSelectionDialogType.Chart
                     });
                 }
             } else {
-                var value = '';
-                if (item.value == 'frozen')
-                    value = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, type=='left', this.sheet);
-                else if (item.value == 'first')
-                    value = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, type=='left', this.sheet);
+                var value = item.options.range || '';
                 txtRange.setValue(value);
                 txtRange.checkValidate();
                 if (type=='top')

@@ -111,10 +111,10 @@ define([
         },
 
         comboSheetsChange: function(panel, combo, record) {
-            this.fillPageOptions(panel, this._changedProps[record.value] ? this._changedProps[record.value] : this.api.asc_getPageOptions(record.value));
+            this.fillPageOptions(panel, this._changedProps[record.value] ? this._changedProps[record.value] : this.api.asc_getPageOptions(record.value), record.value);
         },
 
-        fillPageOptions: function(panel, props) {
+        fillPageOptions: function(panel, props, sheet) {
             var opt = props.asc_getPageSetup();
             this._originalPageSettings = opt;
 
@@ -159,13 +159,18 @@ define([
             panel.chPrintGrid.setValue(props.asc_getGridLines(), true);
             panel.chPrintRows.setValue(props.asc_getHeadings(), true);
 
-            // var value = props.asc_getPrintTitlesWidth();
-            // panel.txtRangeTop.setValue((value) ? value : '');
-            // panel.dataRangeTop = value;
-            //
-            // value = props.asc_getPrintTitlesHeight();
-            // panel.txtRangeLeft.setValue((value) ? value : '');
-            // panel.dataRangeLeft = value;
+            var value = props.asc_getPrintTitlesWidth();
+            panel.txtRangeTop.setValue((value) ? value : '');
+            panel.txtRangeTop.checkValidate();
+            panel.dataRangeTop = value;
+
+            value = props.asc_getPrintTitlesHeight();
+            panel.txtRangeLeft.setValue((value) ? value : '');
+            panel.txtRangeLeft.checkValidate();
+            panel.dataRangeLeft = value;
+
+            panel.btnPresetsTop.menu.items[panel.btnPresetsTop.menu.items[0].value == 'frozen' ? 0 : 1].setDisabled(!this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, false, sheet));
+            panel.btnPresetsLeft.menu.items[panel.btnPresetsLeft.menu.items[0].value == 'frozen' ? 0 : 1].setDisabled(!this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, true, sheet));
         },
 
         fillPrintOptions: function(props) {
@@ -223,8 +228,11 @@ define([
 
             props.asc_setPageMargins(opt);
 
-            props.asc_setPrintTitlesWidth(panel.txtRangeTop.getValue());
-            props.asc_setPrintTitlesHeight(panel.txtRangeLeft.getValue());
+            var check = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, panel.txtRangeTop.getValue(), false) !== Asc.c_oAscError.ID.DataRangeError;
+            props.asc_setPrintTitlesWidth(check ? panel.txtRangeTop.getValue() : panel.dataRangeTop);
+
+            check = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, panel.txtRangeLeft.getValue(), false) !== Asc.c_oAscError.ID.DataRangeError;
+            props.asc_setPrintTitlesHeight(check ? panel.txtRangeLeft.getValue() : panel.dataRangeLeft);
 
             return props;
         },
@@ -366,6 +374,8 @@ define([
             panel.spnMarginRight.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
+            panel.txtRangeTop.on('changing', _.bind(this.propertyChange, this, panel));
+            panel.txtRangeLeft.on('changing', _.bind(this.propertyChange, this, panel));
             panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
             panel.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'left'));
         },
@@ -425,6 +435,7 @@ define([
         fillComponents: function(panel, selectdata) {
             var me = this;
             panel.txtRangeTop.validation = function(value) {
+                me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }
@@ -432,6 +443,7 @@ define([
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
             panel.txtRangeLeft.validation = function(value) {
+                me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }
@@ -491,7 +503,7 @@ define([
                     win.setSettings({
                         api     : me.api,
                         range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? panel.dataRangeTop : panel.dataRangeLeft),
-                        type    : Asc.c_oAscSelectionDialogType.None
+                        type    : Asc.c_oAscSelectionDialogType.Chart
                     });
                 }
             } else {

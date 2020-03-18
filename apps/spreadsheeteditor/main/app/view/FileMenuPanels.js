@@ -275,21 +275,21 @@ define([
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left" style="vertical-align: top;"><label><%= scope.strPrintTitles %></label></td>',
-                    '<td class="right" style="vertical-align: top;"><div id="advsettings-margins">',
+                    '<td class="right" style="vertical-align: top;"><div id="advsettings-print-titles">',
                         '<table cols="2" class="no-padding">',
                             '<tr>',
                                 '<td colspan="2" ><label><%= scope.textRepeatTop %></label></td>',
-                                '</tr>',
-                                '<tr>',
-                                '<td class="padding-small"><div id="advsettings-txt-top" style="margin-right: 10px;"></div></td>',
-                            '<td class="padding-small"><div id="advsettings-presets-top"></div></td>',
                             '</tr>',
                             '<tr>',
-                            '<td colspan="2" ><label><%= scope.textRepeatLeft %></label></td>',
-                                '</tr>',
-                                '<tr>',
-                                '<td class="padding-small"><div id="advsettings-txt-left" style="margin-right: 10px;"></div></td>',
-                            '<td class="padding-small"><div id="advsettings-presets-left"></div></td>',
+                                '<td class="padding-small" style="padding-right: 10px;"><div id="advsettings-txt-top"></div></td>',
+                                '<td class="padding-small"><div id="advsettings-presets-top"></div></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td colspan="2" ><label><%= scope.textRepeatLeft %></label></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td class="padding-small" style="padding-right: 10px;"><div id="advsettings-txt-left"></div></td>',
+                                '<td class="padding-small"><div id="advsettings-presets-left"></div></td>',
                             '</tr>',
                         '</table>',
                     '</div></td>',
@@ -466,7 +466,7 @@ define([
 
             this.txtRangeTop = new Common.UI.InputField({
                 el          : $markup.findById('#advsettings-txt-top'),
-                style       : 'width: 100%;',
+                style       : 'width: 147px',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -474,14 +474,14 @@ define([
             this.btnPresetsTop = new Common.UI.Button({
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 95px;',
+                style: 'width: 85px;',
                 menu: true
             });
             this.btnPresetsTop.render( $markup.findById('#advsettings-presets-top')) ;
 
             this.txtRangeLeft = new Common.UI.InputField({
                 el          : $markup.findById('#advsettings-txt-left'),
-                style       : 'width: 100%;',
+                style       : 'width: 147px',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -489,7 +489,7 @@ define([
             this.btnPresetsLeft = new Common.UI.Button({
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 95px;',
+                style: 'width: 85px;',
                 menu: true
             });
             this.btnPresetsLeft.render( $markup.findById('#advsettings-presets-left')) ;

@@ -231,7 +231,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
             this.txtRangeTop = new Common.UI.InputField({
                 el          : $('#printadv-dlg-txt-top'),
-                style       : 'width: 100%;',
+                style       : 'width: 147px;',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -239,14 +239,14 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.btnPresetsTop = new Common.UI.Button({
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 95px;',
+                style: 'width: 85px;',
                 menu: true
             });
             this.btnPresetsTop.render( $('#printadv-dlg-presets-top')) ;
 
             this.txtRangeLeft = new Common.UI.InputField({
                 el          : $('#printadv-dlg-txt-left'),
-                style       : 'width: 100%;',
+                style       : 'width: 147px;',
                 allowBlank  : true,
                 validateOnChange: true
             });
@@ -254,7 +254,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.btnPresetsLeft = new Common.UI.Button({
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
-                style: 'width: 95px;',
+                style: 'width: 85px;',
                 menu: true
             });
             this.btnPresetsLeft.render( $('#printadv-dlg-presets-left')) ;
