@@ -428,14 +428,14 @@ define([
                 if (_.isEmpty(value)) {
                     return true;
                 }
-                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
             panel.txtRangeLeft.validation = function(value) {
                 if (_.isEmpty(value)) {
                     return true;
                 }
-                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
             var data = ((selectdata) ? [{caption: this.textSelectRange, value: 'select'}] : []).concat([
@@ -491,7 +491,7 @@ define([
                     win.setSettings({
                         api     : me.api,
                         range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? panel.dataRangeTop : panel.dataRangeLeft),
-                        type    : Asc.c_oAscSelectionDialogType.Chart
+                        type    : Asc.c_oAscSelectionDialogType.None
                     });
                 }
             } else {

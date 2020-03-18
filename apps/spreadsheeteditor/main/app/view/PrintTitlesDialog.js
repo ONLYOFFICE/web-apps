@@ -129,7 +129,7 @@ define([
                     if (_.isEmpty(value)) {
                         return true;
                     }
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, value, false);
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 }
             });
@@ -163,7 +163,7 @@ define([
                     if (_.isEmpty(value)) {
                         return true;
                     }
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.None, value, false);
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 }
             });
@@ -191,6 +191,8 @@ define([
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+
+            this.setSettings();
         },
 
         _handleInput: function(state) {
@@ -211,14 +213,14 @@ define([
         },
 
         setSettings: function (props) {
-            if (props) {
-                // var value = props.asc_getPrintTitlesWidth();
-                // this.txtRangeTop.setValue((value) ? value : '');
-                // this.dataRangeTop = value;
-                //
-                // value = props.asc_getPrintTitlesHeight();
-                // this.txtRangeLeft.setValue((value) ? value : '');
-                // this.dataRangeLeft = value;
+            if (this.api) {
+                var value = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.current, false, this.sheet);
+                this.txtRangeTop.setValue((value) ? value : '');
+                this.dataRangeTop = value;
+
+                value = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.current, true, this.sheet);
+                this.txtRangeLeft.setValue((value) ? value : '');
+                this.dataRangeLeft = value;
             }
         },
 
@@ -255,7 +257,7 @@ define([
                     win.setSettings({
                         api     : me.api,
                         range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? me.dataRangeTop : me.dataRangeLeft),
-                        type    : Asc.c_oAscSelectionDialogType.Chart
+                        type    : Asc.c_oAscSelectionDialogType.None
                     });
                 }
             } else {

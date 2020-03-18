@@ -3471,7 +3471,6 @@ define([
                     }
                 });
                 win.show();
-                win.setSettings(me.api.asc_getPageOptions(me.api.asc_getActiveWorksheetIndex()));
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Print Titles');
             }
