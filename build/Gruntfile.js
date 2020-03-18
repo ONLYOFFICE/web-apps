@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                     to: process.env['PUBLISHER_URL'] || 'https://www.onlyoffice.com'
                 },{
                     from: /\{\{PUBLISHER_PHONE\}\}/,
-                    to: process.env['PUBLISHER_PHONE'] || '+371 660-16425'
+                    to: process.env['PUBLISHER_PHONE'] || '+371 633-99867'
                 },{
                     from: /\{\{PUBLISHER_NAME\}\}/g,
                     to: process.env['PUBLISHER_NAME'] || 'Ascensio System SIA'
