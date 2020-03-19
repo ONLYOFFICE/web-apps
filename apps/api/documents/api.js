@@ -213,6 +213,7 @@
         _config.editorConfig.canRequestCompareFile = _config.events && !!_config.events.onRequestCompareFile;
         _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.frameEditorId = placeholderId;
+        _config.parentOrigin = window.location.origin;
 
         var onMouseUp = function (evt) {
             _processMouse(evt);
@@ -395,6 +396,10 @@
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
+            if (iframe.src) {
+                var pathArray = iframe.src.split('/');
+                this.frameOrigin = pathArray[0] + '//' + pathArray[2];
+            }
             target.parentNode && target.parentNode.replaceChild(iframe, target);
             var _msgDispatcher = new MessageDispatcher(_onMessage, this);
         }
@@ -683,7 +688,7 @@
 
         var _onMessage = function(msg) {
             // TODO: check message origin
-            if (msg && window.JSON) {
+            if (msg && window.JSON && _scope.frameOrigin==msg.origin ) {
 
                 try {
                     var msg = window.JSON.parse(msg.data);
@@ -805,6 +810,9 @@
 
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";
+
+        if (config.parentOrigin)
+            params += "&parentOrigin=" + config.parentOrigin;
 
         return params;
     }

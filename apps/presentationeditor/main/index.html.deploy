@@ -236,6 +236,7 @@
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
 
         window.frameEditorId = params["frameEditorId"];
+        window.parentOrigin = params["parentOrigin"];
 
         if ( window.AscDesktopEditor ) {
             window.on_native_message = function (cmd, param) {

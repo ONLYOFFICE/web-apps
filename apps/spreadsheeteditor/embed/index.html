@@ -188,6 +188,7 @@
               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
 
           window.frameEditorId = params["frameEditorId"];
+          window.parentOrigin = params["parentOrigin"];
 
           var elem = document.querySelector('.loading-logo');
           if (elem && logo) {
