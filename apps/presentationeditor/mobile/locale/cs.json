@@ -30,7 +30,7 @@
   "PE.Controllers.AddTable.textColumns": "Sloupce",
   "PE.Controllers.AddTable.textRows": "Řádky",
   "PE.Controllers.AddTable.textTableSize": "Velikost tabulky",
-  "PE.Controllers.DocumentHolder.errorCopyCutPaste": "Akce kopírovat, vyjmout a vložit použitím kontextové nabídky budou prováděny pouze v rámci právě otevřeného souboru. Není možné kopírovat do nebo vkládat z ostatních aplikací.",
+  "PE.Controllers.DocumentHolder.errorCopyCutPaste": "Akce kopírovat, vyjmout a vložit použitím kontextové nabídky budou prováděny pouze v rámci právě otevřeného souboru.",
   "PE.Controllers.DocumentHolder.menuAddLink": "Přidat odkaz",
   "PE.Controllers.DocumentHolder.menuCopy": "Kopírovat",
   "PE.Controllers.DocumentHolder.menuCut": "Vyjmout",

@@ -30,7 +30,7 @@
   "PE.Controllers.AddTable.textColumns": "Columnas",
   "PE.Controllers.AddTable.textRows": "Filas",
   "PE.Controllers.AddTable.textTableSize": "Tamaño de tabla",
-  "PE.Controllers.DocumentHolder.errorCopyCutPaste": "Las acciones de copiar, cortar y pegar utilizando el menú contextual se realizarán sólo dentro del archivo actual. No se puede copiar o pegar en o desde otras aplicaciones.",
+  "PE.Controllers.DocumentHolder.errorCopyCutPaste": "Las acciones de copiar, cortar y pegar utilizando el menú contextual se realizarán sólo dentro del archivo actual.",
   "PE.Controllers.DocumentHolder.menuAddLink": "Añadir enlace ",
   "PE.Controllers.DocumentHolder.menuCopy": "Copiar ",
   "PE.Controllers.DocumentHolder.menuCut": "Cortar",

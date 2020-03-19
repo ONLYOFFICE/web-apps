@@ -24,7 +24,7 @@
   "SSE.Controllers.AddOther.textEmptyImgUrl": "You need to specify image URL.",
   "SSE.Controllers.AddOther.txtNotUrl": "This field should be a URL in the format 'http://www.example.com'",
   "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Copy, cut and paste actions using the context menu will be performed within the current file only.",
-  "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Do not show again",
+  "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Don't show again",
   "SSE.Controllers.DocumentHolder.menuAddLink": "Add Link",
   "SSE.Controllers.DocumentHolder.menuCell": "Cell",
   "SSE.Controllers.DocumentHolder.menuCopy": "Copy",

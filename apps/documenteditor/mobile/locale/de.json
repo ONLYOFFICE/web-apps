@@ -90,7 +90,7 @@
   "DE.Controllers.AddTable.textColumns": "Spalten",
   "DE.Controllers.AddTable.textRows": "Zeilen",
   "DE.Controllers.AddTable.textTableSize": "Tabellengröße",
-  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Funktionen 'Kopieren', 'Ausschneiden' und 'Einfügen' über das Kontextmenü werden nur in der aktuellen Datei ausgeführt. Sie können nicht in oder aus anderen Anwendungen kopieren oder einfügen.",
+  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Funktionen 'Kopieren', 'Ausschneiden' und 'Einfügen' über das Kontextmenü werden nur in der aktuellen Datei ausgeführt.",
   "DE.Controllers.DocumentHolder.menuAddLink": "Link hinzufügen",
   "DE.Controllers.DocumentHolder.menuCopy": "Kopieren",
   "DE.Controllers.DocumentHolder.menuCut": "Ausschneiden",

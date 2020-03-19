@@ -628,7 +628,7 @@ define([
             menuReviewChange: 'Review Change',
             textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
             errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only.',
-            textDoNotShowAgain: 'Do not show again'
+            textDoNotShowAgain: 'Don\'t show again'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });

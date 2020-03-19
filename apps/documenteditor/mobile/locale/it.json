@@ -90,7 +90,7 @@
   "DE.Controllers.AddTable.textColumns": "Colonne",
   "DE.Controllers.AddTable.textRows": "Righe",
   "DE.Controllers.AddTable.textTableSize": "Dimensioni tabella",
-  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Le azioni di copia, taglia e incolla utilizzando il menu di scelta rapida verranno eseguite solo all'interno del file corrente. Non è possibile copiare o incollare in o da altre applicazioni.",
+  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Le azioni di copia, taglia e incolla utilizzando il menu di scelta rapida verranno eseguite solo all'interno del file corrente.",
   "DE.Controllers.DocumentHolder.menuAddLink": "Aggiungi collegamento",
   "DE.Controllers.DocumentHolder.menuCopy": "Copia",
   "DE.Controllers.DocumentHolder.menuCut": "Taglia",

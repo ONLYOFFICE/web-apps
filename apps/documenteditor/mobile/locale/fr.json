@@ -90,7 +90,7 @@
   "DE.Controllers.AddTable.textColumns": "Colonnes",
   "DE.Controllers.AddTable.textRows": "Lignes",
   "DE.Controllers.AddTable.textTableSize": "Taille du tableau",
-  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Les actions de Copier, Couper et Coller du menu contextuel seront appliquées seulement au fichier actuel. Vous n'êtes pas en mesure de copier ou coller à partir ou vers une autre application.",
+  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Les actions de Copier, Couper et Coller du menu contextuel seront appliquées seulement au fichier actuel.",
   "DE.Controllers.DocumentHolder.menuAddLink": "Ajouter le lien",
   "DE.Controllers.DocumentHolder.menuCopy": "Copier",
   "DE.Controllers.DocumentHolder.menuCut": "Couper",

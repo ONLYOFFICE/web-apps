@@ -90,7 +90,7 @@
   "DE.Controllers.AddTable.textColumns": "Sloupce",
   "DE.Controllers.AddTable.textRows": "Řádky",
   "DE.Controllers.AddTable.textTableSize": "Velikost tabulky",
-  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Akce kopírovat, vyjmout a vložit použitím kontextové nabídky budou prováděny pouze v rámci právě otevřeného souboru. Není možné kopírovat do nebo vkládat z ostatních aplikací.",
+  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Akce kopírovat, vyjmout a vložit použitím kontextové nabídky budou prováděny pouze v rámci právě otevřeného souboru.",
   "DE.Controllers.DocumentHolder.menuAddLink": "Přidat odkaz",
   "DE.Controllers.DocumentHolder.menuCopy": "Kopírovat",
   "DE.Controllers.DocumentHolder.menuCut": "Vyjmout",

@@ -17,7 +17,7 @@
   "SSE.Controllers.AddLink.txtNotUrl": "To pole powinno być w formacie adresu URL np.: \"http://www.example.com\"",
   "SSE.Controllers.AddOther.textEmptyImgUrl": "Musisz podać adres URL obrazu.",
   "SSE.Controllers.AddOther.txtNotUrl": "To pole powinno być w formacie adresu URL np.: \"http://www.example.com\"",
-  "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Akcje kopiuj, wytnij i wklej wywołane z menu kontekstowego zostanie wykonane w obrębie bieżącego pliku. Nie można skopiować, wkleić do lub z innych aplikacji. ",
+  "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Akcje kopiuj, wytnij i wklej wywołane z menu kontekstowego zostanie wykonane w obrębie bieżącego pliku.",
   "SSE.Controllers.DocumentHolder.menuAddLink": "Dodaj link",
   "SSE.Controllers.DocumentHolder.menuCell": "Komórka",
   "SSE.Controllers.DocumentHolder.menuCopy": "Kopiuj",

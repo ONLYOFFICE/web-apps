@@ -89,7 +89,7 @@
   "DE.Controllers.AddTable.textColumns": "Columnas",
   "DE.Controllers.AddTable.textRows": "Filas",
   "DE.Controllers.AddTable.textTableSize": "Tamaño de tabla",
-  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Acciones Copiar, Cortar y Pegar",
+  "DE.Controllers.DocumentHolder.errorCopyCutPaste": "Las acciones de copiar, cortar y pegar utilizando el menú contextual se realizarán sólo dentro del archivo actual.",
   "DE.Controllers.DocumentHolder.menuAddLink": "Añadir enlace ",
   "DE.Controllers.DocumentHolder.menuCopy": "Copiar ",
   "DE.Controllers.DocumentHolder.menuCut": "Cortar",

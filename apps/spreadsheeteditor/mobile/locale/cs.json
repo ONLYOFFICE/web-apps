@@ -23,7 +23,7 @@
   "SSE.Controllers.AddLink.txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu 'http://www.example.com'",
   "SSE.Controllers.AddOther.textEmptyImgUrl": "Musíte upřesnit URL obrázku.",
   "SSE.Controllers.AddOther.txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu 'http://www.example.com'",
-  "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Akce kopírovat, vyjmout a vložit použitím kontextové nabídky budou prováděny pouze v rámci právě otevřeného souboru. Není možné kopírovat do nebo vkládat z ostatních aplikací.",
+  "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Akce kopírovat, vyjmout a vložit použitím kontextové nabídky budou prováděny pouze v rámci právě otevřeného souboru.",
   "SSE.Controllers.DocumentHolder.menuAddLink": "Přidat odkaz",
   "SSE.Controllers.DocumentHolder.menuCell": "Buňka",
   "SSE.Controllers.DocumentHolder.menuCopy": "Kopírovat",
