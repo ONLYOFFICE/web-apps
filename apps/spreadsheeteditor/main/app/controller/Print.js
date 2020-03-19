@@ -169,6 +169,10 @@ define([
             panel.txtRangeLeft.checkValidate();
             panel.dataRangeLeft = value;
 
+            value = (this.api.asc_getActiveWorksheetIndex()==sheet);
+            (panel.btnPresetsTop.menu.items[0].value == 'select') && panel.btnPresetsTop.menu.items[0].setVisible(value);
+            (panel.btnPresetsLeft.menu.items[0].value == 'select') && panel.btnPresetsLeft.menu.items[0].setVisible(value);
+
             panel.btnPresetsTop.menu.items[panel.btnPresetsTop.menu.items[0].value == 'frozen' ? 0 : 1].setDisabled(!this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, false, sheet));
             panel.btnPresetsLeft.menu.items[panel.btnPresetsLeft.menu.items[0].value == 'frozen' ? 0 : 1].setDisabled(!this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, true, sheet));
         },
