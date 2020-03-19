@@ -398,7 +398,7 @@ define([
             sheetCancel: 'Cancel',
             textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
             errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only.',
-            textDoNotShowAgain: 'Don\'t show again'
+            textDoNotShowAgain: 'Do not show again'
         }
     })(), PE.Controllers.DocumentHolder || {}))
 });
