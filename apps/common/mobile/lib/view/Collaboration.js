@@ -149,6 +149,7 @@ define([
             //Comments
 
             renderViewComments: function(comments, indCurComment) {
+                var isAndroid = Framework7.prototype.device.android === true;
                 if ($('.page-view-comments .page-content').length > 0) {
                     var template = '';
                     if (comments && comments.length > 0) {
@@ -157,10 +158,15 @@ define([
                         var comment = comments[indCurComment];
                         template += '<li class="comment item-content">' +
                             '<div class="item-inner">' +
-                            '<div class="header-comment"><div>' +
-                            '<p class="user-name">' + comment.username + '</p>' +
+                            '<div class="header-comment"><div class="comment-left">';
+                        if (isAndroid) {
+                            template += '<div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>';
+                        }
+                        template += '<p class="user-name">' + comment.username + '</p>' +
                             '<p class="comment-date">' + comment.date + '</p>';
-                        if (comment.quote) template += '<p class="comment-quote" data-ind="' + comment.uid + '">' + comment.quote + '</p>';
+                        if (isAndroid) {
+                            template += '</div>';
+                        }
                         template += '</div>';
                         template += '<div class="comment-right">' +
                             '<div class="comment-resolve"><i class="icon icon-resolve-comment' + (comment.resolved ? ' check' : '') + '"></i></div>' +
@@ -168,17 +174,24 @@ define([
                             '</div>' +
                             '</div>';
 
+                        if (comment.quote) template += '<p class="comment-quote" data-ind="' + comment.uid + '">' + comment.quote + '</p>';
                         template += '<p class="comment-text">' + comment.comment + '</p>';
                         if (comment.replys.length > 0) {
                             template += '<ul class="list-reply">';
                             _.each(comment.replys, function (reply) {
                                 template += '<li class="reply-item" data-ind="' + reply.ind + '">' +
                                     '<div class="header-reply">' +
-                                    '<div>' +
-                                    '<p class="user-name">' + reply.username + '</p>' +
+                                    '<div class="reply-left">';
+                                if (isAndroid) {
+                                    template += '<div class="initials-reply" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>'
+                                }
+                                template += '<p class="user-name">' + reply.username + '</p>' +
                                     '<p class="reply-date">' + reply.date + '</p>' +
-                                    '</div>' +
-                                    '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>' +
+                                    '</div>';
+                                if (isAndroid) {
+                                    template += '</div>';
+                                }
+                                template += '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>' +
                                     '</div>' +
                                     '<p class="reply-text">' + reply.reply + '</p>' +
                                     '</li>';

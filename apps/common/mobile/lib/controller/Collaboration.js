@@ -223,7 +223,7 @@ define([
                 editUsers = users;
             },
 
-            initEditUsers: function() {
+            getUsersInfo: function() {
                 var usersArray = [];
                 _.each(editUsers, function(item){
                     var fio = item.asc_getUserName().split(' ');
@@ -248,6 +248,11 @@ define([
                     }
                 });
                 var userSort = _.chain(usersArray).groupBy('idOriginal').value();
+                return userSort;
+            },
+
+            initEditUsers: function() {
+                var users = this.getUsersInfo();
                 var templateUserItem = _.template([
                     '<%  _.each(users, function (user) { %>',
                     '<li id="<%= user[0].id %>" class="<% if (user[0].view) {%> viewmode <% } %> item-content">' +
@@ -263,7 +268,7 @@ define([
                     this.textEditUser +
                     '</div></div>' +
                     '<ul>' +
-                    templateUserItem({users: userSort}) +
+                    templateUserItem({users: users}) +
                     '</ul>');
                 $('#user-list').html(templateUserList());
             },
@@ -680,6 +685,14 @@ define([
             },
 
             //Comments
+            getInitials: function(name) {
+                var fio = name.split(' ');
+                var initials = fio[0].substring(0, 1).toUpperCase();
+                if (fio.length > 1) {
+                    initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
+                }
+                return initials;
+            },
 
             findComment: function(uid) {
                 var comment;
@@ -738,14 +751,14 @@ define([
                             '<div class="swipe-container">' +
                                 '<div class="icon-swipe"></div>' +
                             '</div>' +
-                            '<div class="toolbar toolbar-bottom">' +
+                            '<div class="toolbar toolbar-bottom" style="bottom: 0;">' +
                                 '<div class="toolbar-inner">' +
                                     '<div class="button-left">' +
                                         '<a href="#" class="link add-reply">' + me.textAddReply + '</a>' +
                                     '</div>' +
                                     '<div class="button-right">' +
-                                        '<a href="#" class="link prev-comment"><i class="icon-arrow-comment left"></i></a>' +
-                                        '<a href="#" class="link next-comment"><i class="icon-arrow-comment right"></i></a>' +
+                                        '<a href="#" class="link prev-comment"><i class="icon icon-arrow-comment left"></i></a>' +
+                                        '<a href="#" class="link next-comment"><i class="icon icon-arrow-comment right"></i></a>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -781,25 +794,46 @@ define([
                 $swipeContainer.single('touchstart', _.bind(function(e){
                     var touchobj = e.changedTouches[0];
                     me.swipeStart = parseInt(touchobj.clientY);
+                    me.swipeChange = parseInt(touchobj.clientY);
+                    me.swipeHeight = parseInt($('.container-view-comment').css('height'));
+                    e.preventDefault();
+                }, me));
+                $swipeContainer.single('touchmove', _.bind(function(e){
+                    var touchobj = e.changedTouches[0];
+                    var dist = parseInt(touchobj.clientY) - me.swipeStart;
+                    var newHeight;
+                    if (dist < 0) {
+                        newHeight = '100%';
+                        me.swipeFull = true;
+                        me.closeCommentPicker = false;
+                        $('.container-view-comment').css('opacity', '1');
+                    } else if (dist < 100) {
+                        newHeight = '50%';
+                        me.swipeFull = false;
+                        me.closeCommentPicker = false;
+                        $('.container-view-comment').css('opacity', '1');
+                    } else {
+                        me.closeCommentPicker = true;
+                        $('.container-view-comment').css('opacity', '0.6');
+                    }
+                    $('.container-view-comment').css('height', newHeight);
+                    me.swipeHeight = newHeight;
                     e.preventDefault();
                 }, me));
                 $swipeContainer.single('touchend', _.bind(function (e) {
                     var touchobj = e.changedTouches[0];
                     var swipeEnd = parseInt(touchobj.clientY);
                     var dist = swipeEnd - me.swipeStart;
-                    if (dist > 20) {
-                        if (me.swipeFull) {
+                    if (me.closeCommentPicker) {
+                        uiApp.closeModal();
+                    } else if (me.swipeFull) {
+                        if (dist > 20) {
                             $('.container-view-comment').css('height', '50%');
-                            me.swipeFull = false;
-                        } else {
-                            uiApp.closeModal();
                         }
-                    } else if (dist < 0) {
-                        $('.container-view-comment').css('height', '100%');
-                        me.swipeFull = true;
-                    } else {
-                        $('.container-view-comment').css('height', '50%');
                     }
+                    me.swipeHeight = undefined;
+                    me.swipeChange = undefined;
+                    me.closeCommentPicker = undefined;
                 }, me));
 
                 $('.prev-comment').single('click', _.bind(me.onViewPrevComment, me));
@@ -808,6 +842,21 @@ define([
                 $('.add-reply').single('click', _.bind(me.onClickAddReply, me));
                 $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));
                 $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me));
+
+                me.updateDisabledCommentArrow();
+            },
+
+            updateDisabledCommentArrow: function() {
+                if (this.indexCurrentComment === 0) {
+                    $('.prev-comment').addClass('disabled');
+                } else {
+                    $('.prev-comment').removeClass('disabled');
+                }
+                if (this.indexCurrentComment + 1 === this.showComments.length) {
+                    $('.next-comment').addClass('disabled');
+                } else {
+                    $('.next-comment').removeClass('disabled');
+                }
             },
 
             onViewPrevComment: function() {
@@ -817,6 +866,7 @@ define([
                     $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
                     $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
                     $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this));
+                    this.updateDisabledCommentArrow();
                 }
             },
 
@@ -827,11 +877,13 @@ define([
                     $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
                     $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
                     $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this));
+                    this.updateDisabledCommentArrow();
                 }
             },
 
             onClickAddReply: function() {
                 var me = this;
+                var isAndroid = Framework7.prototype.device.android === true;
                 if (this.indexCurrentComment > -1 && this.indexCurrentComment < this.showComments.length) {
                     var addReplyView,
                         comment = this.showComments[this.indexCurrentComment];
@@ -840,15 +892,23 @@ define([
                             '<div class="popup container-add-reply">' +
                             '<div class="navbar">' +
                             '<div class="navbar-inner">' +
-                            '<div class="left sliding"><a href="#" class="back link close-popup"> <i class="icon icon-close"></i>' + '<span>' + me.textCancel + '</span>'+ '</a></div>' +
+                            '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? '<i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>') + '</a></div>' +
                             '<div class="center sliding">' + me.textAddReply + '</div>' +
-                            '<div class="right sliding"><a href="#" class="link done-reply"><i class="icon icon-done"></i>' + '<span>' + me.textDone + '</span>' + '</a></div>' +
+                            '<div class="right sliding"><a href="#" class="link done-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
                             '</div>' +
                             '</div>' +
+                            '<div class="pages">' +
+                            '<div class="page page-add-comment">' +
+                            '<div class="page-content">' +
                             '<div class="wrap-comment">' +
+                            (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: '+ comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
                             '<div class="user-name">' + comment.username + '</div>' +
                             '<div class="comment-date">' + comment.date + '</div>' +
+                            (isAndroid ? '</div></div>' : '') +
                             '<div><textarea class="reply-textarea">'+ '</textarea></div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
                             '</div>' +
                             '</div>'
                         );
@@ -953,25 +1013,28 @@ define([
                     date: me.dateToLocaleTimeString(date),
                     userid: _userId,
                     username: me.currentUser.asc_getUserName(),
-                    usercolor: me.currentUser.asc_getColor()
+                    usercolor: me.currentUser.asc_getColor(),
+                    userInitials: me.getInitials(me.currentUser.asc_getUserName())
                 };
 
                 if (Common.SharedSettings.get('phone')) {
-                    modalView = $$(uiApp.pickerModal(
-                        '<div class="picker-modal container-view-add-comment">' +
+                    modalView = $$(uiApp.popup(
+                        '<div class="popup container-view-add-comment">' +
                             '<div class="navbar">' +
                                 '<div class="navbar-inner">' +
-                                    '<div class="left sliding"><a href="#" class="back link close-picker"> <i class="icon icon-close"></i>' +  (!isAndroid ? '<span>' + me.textCancel + '</span>' : '') + '</a></div>' +
+                                    '<div class="left sliding"><a href="#" class="back link close-picker"> <i class="icon icon-close-comment"></i>' +  (!isAndroid ? '<span>' + me.textCancel + '</span>' : '') + '</a></div>' +
                                     '<div class="center sliding">' + me.textAddComment + '</div>' +
-                                    '<div class="right sliding"><a href="#" class="link" id="add-comment"><i class="icon icon-done"></i>' + (!isAndroid ? '<span>' + me.textDone + '</span>' : '') + '</a></div>' +
+                                    '<div class="right sliding"><a href="#" class="link" id="add-comment"><i class="icon icon-done-comment"></i>' + (!isAndroid ? '<span>' + me.textDone + '</span>' : '') + '</a></div>' +
                                 '</div>' +
                             '</div>' +
                             '<div class="pages">' +
                                 '<div class="page page-add-comment">' +
                                     '<div class="page-content">' +
                                         '<div class="wrap-comment">' +
+                                            (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: '+ comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
                                             '<div class="user-name">' + comment.username + '</div>' +
                                             '<div class="comment-date">' + comment.date + '</div>' +
+                                            (isAndroid ? '</div></div>' : '') +
                                             '<div><textarea id="comment-text" class="comment-textarea"></textarea></div>' +
                                         '</div>' +
                                     '</div>' +
@@ -1050,7 +1113,8 @@ define([
                     }
                     _menuItems.push({
                         caption: me.textDeleteComment,
-                        event: 'delete'
+                        event: 'delete',
+                        color: 'red'
                     });
                     _.each(_menuItems, function (item) {
                         item.text = item.caption;
@@ -1079,7 +1143,8 @@ define([
                     });
                     _menuItems.push({
                         caption: me.textDeleteReply,
-                        event: 'deletereply'
+                        event: 'deletereply',
+                        color: 'red'
                     });
                     _.each(_menuItems, function (item) {
                         item.text = item.caption;
@@ -1214,7 +1279,8 @@ define([
             },
 
             showEditCommentModal: function() {
-                var me = this;
+                var me = this,
+                    isAndroid = Framework7.prototype.device.android === true;
                 if (this.indexCurrentComment > -1 && this.indexCurrentComment < this.showComments.length) {
                     var comment = this.showComments[this.indexCurrentComment];
                     if (Common.SharedSettings.get('phone')) {
@@ -1222,15 +1288,23 @@ define([
                             '<div class="popup container-edit-comment">' +
                             '<div class="navbar">' +
                             '<div class="navbar-inner">' +
-                            '<div class="left sliding"><a href="#" class="back link close-popup"> <i class="icon icon-close"></i>' + '<span>' + me.textCancel + '</span>'+ '</a></div>' +
+                            '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? ' <i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>')+ '</a></div>' +
                             '<div class="center sliding">' + me.textEditComment + '</div>' +
-                            '<div class="right sliding"><a href="#" class="link" id="edit-comment"><i class="icon icon-done"></i>' + '<span>' + me.textDone + '</span>' + '</a></div>' +
+                            '<div class="right sliding"><a href="#" class="link" id="edit-comment">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
                             '</div>' +
                             '</div>' +
+                            '<div class="pages">' +
+                            '<div class="page page-add-comment">' +
+                            '<div class="page-content">' +
                             '<div class="wrap-comment">' +
+                            (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: '+ comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
                             '<div class="user-name">' + comment.username + '</div>' +
                             '<div class="comment-date">' + comment.date + '</div>' +
+                            (isAndroid ? '</div></div>' : '') +
                             '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
                             '</div>' +
                             '</div>'
                         );
@@ -1263,6 +1337,7 @@ define([
                         comment,
                         replies,
                         reply;
+                    var isAndroid = Framework7.prototype.device.android === true;
                     this.showComments && (comment = this.showComments[indComment]);
                     comment && (replies = comment.replys);
                     replies && (reply = replies[indReply]);
@@ -1272,15 +1347,23 @@ define([
                                 '<div class="popup container-edit-comment">' +
                                 '<div class="navbar">' +
                                 '<div class="navbar-inner">' +
-                                '<div class="left sliding"><a href="#" class="back link close-popup"> <i class="icon icon-close"></i>' + '<span>' + me.textCancel + '</span>' + '</a></div>' +
+                                '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? '<i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>') + '</a></div>' +
                                 '<div class="center sliding">' + me.textEditReply + '</div>' +
-                                '<div class="right sliding"><a href="#" class="link" id="edit-reply"><i class="icon icon-done"></i>' + '<span>' + me.textDone + '</span>' + '</a></div>' +
+                                '<div class="right sliding"><a href="#" class="link" id="edit-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
                                 '</div>' +
                                 '</div>' +
+                                '<div class="pages">' +
+                                '<div class="page page-add-comment">' +
+                                '<div class="page-content">' +
                                 '<div class="wrap-comment">' +
+                                (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: '+ comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
                                 '<div class="user-name">' + reply.username + '</div>' +
                                 '<div class="comment-date">' + reply.date + '</div>' +
+                                (isAndroid ? '</div></div>' : '') +
                                 '<div><textarea id="comment-text" class="reply-textarea">' + reply.reply + '</textarea></div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
                                 '</div>' +
                                 '</div>'
                             );
@@ -1396,14 +1479,16 @@ define([
                             ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
                         var user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        var username = data.asc_getReply(i).asc_getUserName();
                         replies.push({
                             ind                  : i,
                             userid              : data.asc_getReply(i).asc_getUserId(),
-                            username            : data.asc_getReply(i).asc_getUserName(),
+                            username            : username,
                             usercolor           : (user) ? user.asc_getColor() : null,
                             date                : this.dateToLocaleTimeString(date),
                             reply               : data.asc_getReply(i).asc_getText(),
-                            time                : date.getTime()
+                            time                : date.getTime(),
+                            userInitials        : this.getInitials(username)
                         });
                     }
                 }
@@ -1415,10 +1500,11 @@ define([
                     ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
                 var user = _.findWhere(editUsers, {idOriginal: data.asc_getUserId()}),
                     groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
+                var username = data.asc_getUserName();
                 var comment = {
                     uid                 : id,
                     userid              : data.asc_getUserId(),
-                    username            : data.asc_getUserName(),
+                    username            : username,
                     usercolor           : (user) ? user.asc_getColor() : null,
                     date                : this.dateToLocaleTimeString(date),
                     quote               : data.asc_getQuoteText(),
@@ -1427,7 +1513,8 @@ define([
                     unattached          : !_.isUndefined(data.asc_getDocumentFlag) ? data.asc_getDocumentFlag() : false,
                     time                : date.getTime(),
                     replys              : [],
-                    groupName           : (groupname && groupname.length>1) ? groupname[1] : null
+                    groupName           : (groupname && groupname.length>1) ? groupname[1] : null,
+                    userInitials        : this.getInitials(username)
                 };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
@@ -1473,14 +1560,16 @@ define([
                             ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
                         user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        var username = data.asc_getReply(i).asc_getUserName();
                         replies.push({
                             ind                 : i,
                             userid              : data.asc_getReply(i).asc_getUserId(),
-                            username            : data.asc_getReply(i).asc_getUserName(),
+                            username            : username,
                             usercolor           : (user) ? user.asc_getColor() : null,
                             date                : me.dateToLocaleTimeString(dateReply),
                             reply               : data.asc_getReply(i).asc_getText(),
-                            time                : dateReply.getTime()
+                            time                : dateReply.getTime(),
+                            userInitials        : me.getInitials(username)
                         });
                     }
                     comment.replys = replies;

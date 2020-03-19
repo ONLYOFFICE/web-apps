@@ -6626,9 +6626,12 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .container-edit-comment .navbar {
   background-color: #FFFFFF;
 }
+.container-edit-comment .page {
+  background-color: #FFFFFF;
+}
 .container-view-comment {
   -webkit-transition: height 100ms;
-  transition: height 100ms;
+  transition: height 120ms;
   background-color: #FFFFFF;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -6721,6 +6724,9 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .container-add-reply .navbar a.link i + span {
   margin-left: 0;
 }
+.container-add-reply .page {
+  background-color: #FFFFFF;
+}
 .icon-arrow-comment {
   border: solid black;
   border-width: 0 2px 2px 0;
@@ -6737,6 +6743,9 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .icon-arrow-comment.left {
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
+}
+.actions-modal-button.color-red {
+  color: #ff3b30;
 }
 .tablet .searchbar.document.replace .center .searchbar:first-child {
   margin-right: 10px;

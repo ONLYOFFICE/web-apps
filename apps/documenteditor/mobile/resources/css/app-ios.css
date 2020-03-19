@@ -6626,9 +6626,12 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .container-edit-comment .navbar {
   background-color: #FFFFFF;
 }
+.container-edit-comment .page {
+  background-color: #FFFFFF;
+}
 .container-view-comment {
   -webkit-transition: height 100ms;
-  transition: height 100ms;
+  transition: height 120ms;
   background-color: #FFFFFF;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -6721,6 +6724,9 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .container-add-reply .navbar a.link i + span {
   margin-left: 0;
 }
+.container-add-reply .page {
+  background-color: #FFFFFF;
+}
 .icon-arrow-comment {
   border: solid black;
   border-width: 0 2px 2px 0;
@@ -6737,6 +6743,9 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .icon-arrow-comment.left {
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
+}
+.actions-modal-button.color-red {
+  color: #ff3b30;
 }
 .tablet .searchbar.document.replace .center .searchbar:first-child {
   margin-right: 10px;
@@ -7292,7 +7301,7 @@ i.icon.icon-resolve-comment {
 i.icon.icon-resolve-comment.check {
   width: 30px;
   height: 30px;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M0%200H30V30H0V0Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M11.6195%2020.8555C11.8237%2021.0673%2012.1658%2021.0577%2012.358%2020.8349L22.516%209.05783C22.7843%208.74676%2022.7528%208.27781%2022.4453%208.00545V8.00545C22.1315%207.72756%2021.651%207.7604%2021.3779%208.07839L12.3546%2018.587C12.1638%2018.8092%2011.8238%2018.8206%2011.6186%2018.6117L8.10643%2015.0366C7.81575%2014.7407%207.34084%2014.7345%207.04258%2015.0228V15.0228C6.74283%2015.3125%206.73444%2015.7903%207.02383%2016.0904L11.6195%2020.8555Z%22%20fill%3D%22%235B9F27%22%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M0%200H30V30H0V0Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M11.6195%2020.8555C11.8237%2021.0673%2012.1658%2021.0577%2012.358%2020.8349L22.516%209.05783C22.7843%208.74676%2022.7528%208.27781%2022.4453%208.00545V8.00545C22.1315%207.72756%2021.651%207.7604%2021.3779%208.07839L12.3546%2018.587C12.1638%2018.8092%2011.8238%2018.8206%2011.6186%2018.6117L8.10643%2015.0366C7.81575%2014.7407%207.34084%2014.7345%207.04258%2015.0228V15.0228C6.74283%2015.3125%206.73444%2015.7903%207.02383%2016.0904L11.6195%2020.8555Z%22%20fill%3D%22%234cd964%22%2F%3E%3C%2Fsvg%3E");
 }
 .label-switch input[type="checkbox"]:checked + .checkbox {
   background: #446995;
