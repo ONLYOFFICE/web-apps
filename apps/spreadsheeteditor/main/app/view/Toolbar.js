@@ -1341,7 +1341,7 @@ define([
                 me.btnPrintTitles = new Common.UI.Button({
                     id: 'tlbtn-printtitles',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-printtitles',
+                    iconCls: 'toolbar__icon btn-print-titles',
                     caption: me.capBtnPrintTitles,
                     lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth]
                 });
