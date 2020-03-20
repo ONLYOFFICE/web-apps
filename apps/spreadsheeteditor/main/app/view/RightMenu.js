@@ -213,7 +213,7 @@ define([
                 this.signatureSettings = new SSE.Views.SignatureSettings();
             }
 
-            if (mode && !mode.isDesktopApp)
+            if (mode && mode.canFeaturePivot)
                 this.btnPivot.setVisible(true);
 
             if (_.isUndefined(this.scroller)) {

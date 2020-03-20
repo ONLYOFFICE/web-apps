@@ -200,7 +200,7 @@ define([
                 this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
             }
 
-            if (pivotInfo && !this.rightmenu.mode.isDesktopApp) {
+            if (pivotInfo && this.rightmenu.mode.canFeaturePivot) {
                 settingsType = Common.Utils.documentSettingsType.Pivot;
                 this._settings[settingsType].props = pivotInfo;
                 this._settings[settingsType].locked = isPivotLocked; // disable pivot settings
