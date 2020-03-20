@@ -244,7 +244,8 @@ define([
                         lockDrag = true;
                     }
                     this.bar.$el.find('ul > li > span').attr('draggable', !lockDrag);
-                    tab.changeState();
+                    if (!lockDrag)
+                        tab.changeState();
                 } else {
                     this.bar.$el.find('ul > li > span').attr('draggable', 'false');
                 }
