@@ -1771,6 +1771,8 @@
   "SSE.Views.HyperlinkSettingsDialog.txtNotUrl": "This field should be a URL in the \"http://www.example.com\" format",
   "SSE.Views.HyperlinkSettingsDialog.textSheets": "Sheets",
   "SSE.Views.HyperlinkSettingsDialog.textNames": "Defined names",
+  "SSE.Views.HyperlinkSettingsDialog.textGetLink": "Get Link",
+  "SSE.Views.HyperlinkSettingsDialog.textCopy": "Copy",
   "SSE.Views.ImageSettings.textAdvanced": "Show advanced settings",
   "SSE.Views.ImageSettings.textCrop": "Crop",
   "SSE.Views.ImageSettings.textCropFill": "Fill",

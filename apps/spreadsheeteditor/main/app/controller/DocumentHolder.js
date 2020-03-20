@@ -530,6 +530,7 @@ define([
 
                 win = new SSE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.permissions,
                     handler: handlerDlg
                 });
 

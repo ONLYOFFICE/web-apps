@@ -899,6 +899,7 @@ define([
                 props = cell.asc_getHyperlink();
                 win = new SSE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.appOptions,
                     handler: handlerDlg
                 });
 

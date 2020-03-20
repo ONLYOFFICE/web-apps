@@ -78,6 +78,13 @@ define([
                     '<div id="id-internal-link" class="hidden">',
                         '<div class="input-row">',
                             '<label>' + this.strLinkTo + '</label>',
+                            '<div style="display: inline-block; position: relative;min-width: 150px;float: right;">',
+                                '<label class="link dropdown-toggle" data-toggle="dropdown" id="id-dlg-hyperlink-get-link" style="line-height: 14px; margin-top: 3px;float: right;">' + this.textGetLink + '</label>',
+                                '<div id="id-clip-copy-box" class="dropdown-menu" style="width: 291px; left: -139px; padding: 10px;">',
+                                    '<div id="id-dlg-clip-copy"></div>',
+                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default" style="margin-left: 5px; width: 86px;">' + this.textCopy + '</button>',
+                                '</div>',
+                            '</div>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;border: 1px solid #cfcfcf;"></div>',
                         '<div class="input-row">',
@@ -98,6 +105,7 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
+            this.appOptions = options.appOptions;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -195,6 +203,37 @@ define([
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
+            if (me.appOptions && me.appOptions.canMakeActionLink) {
+                var inputCopy = new Common.UI.InputField({
+                    el          : $('#id-dlg-clip-copy'),
+                    editable    : false,
+                    style       : 'width: 176px;'
+                });
+
+                var copyBox = $window.find('#id-clip-copy-box');
+                copyBox.on('click', _.bind(function() {
+                    return false;
+                }, this));
+                copyBox.parent().on({
+                    'shown.bs.dropdown': function () {
+                        _.delay(function(){
+                            inputCopy._input.select().focus();
+                        },100);
+                    }
+                });
+                copyBox.find('button').on('click', function() {
+                    inputCopy._input.select();
+                    document.execCommand("copy");
+                });
+
+                Common.Gateway.on('setactionlink', function (url) {
+                    inputCopy.setValue(url);
+                });
+            }
+
+            me.linkGetLink = $('#id-dlg-hyperlink-get-link');
+            me.linkGetLink.toggleClass('hidden', !(me.appOptions && me.appOptions.canMakeActionLink));
+
             me.btnOk = new Common.UI.Button({
                 el: $window.find('.primary'),
                 disabled: true
@@ -202,6 +241,8 @@ define([
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
+            $window.on('click', '#id-dlg-hyperlink-get-link', _.bind(me.getLink, me));
+
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
         },
@@ -438,6 +479,27 @@ define([
                     this.inputDisplay.setValue(list + ((list!=='' && val!=='') ? '!' : '') + val);
                 }
             }
+            this.linkGetLink.toggleClass('disabled', record.get('level')==0);
+        },
+
+        getLink: function(btn) {
+            if (btn.cmpEl && btn.cmpEl.parent().hasClass('open')) return;
+
+            var record = this.internalList.getSelectedRec();
+            if (record && record.get('level')) {
+                var name = record.get('name');
+                if (record.get('type')==1) {
+                    this.inputDisplay.setValue(name);
+                } else {
+                    var val = this.inputRange.getValue();
+                    name = (name + ((name!=='' && val!=='') ? '!' : '') + val);
+                }
+                name && Common.Gateway.requestMakeActionLink({
+                    action: {
+                        type: "internalLink", data: name
+                    }
+                });
+            }
         },
 
         textTitle:          'Hyperlink Settings',
@@ -456,6 +518,8 @@ define([
         txtNotUrl:          'This field should be a URL in the format \"http://www.example.com\"',
         textDefault:        'Selected range',
         textSheets:         'Sheets',
-        textNames:          'Defined names'
+        textNames:          'Defined names',
+        textGetLink: 'Get Link',
+        textCopy: 'Copy'
     }, SSE.Views.HyperlinkSettingsDialog || {}))
 });
