@@ -496,7 +496,7 @@ define([
                 }
                 name && Common.Gateway.requestMakeActionLink({
                     action: {
-                        type: "internalLink", data: name
+                        type: "internallink", data: name
                     }
                 });
             }
