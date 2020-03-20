@@ -131,6 +131,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Pivot,
                 enableToggle: true,
                 disabled: true,
+                visible: false,
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -211,6 +212,9 @@ define([
                 this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
                 this.signatureSettings = new SSE.Views.SignatureSettings();
             }
+
+            if (mode && !mode.isDesktopApp)
+                this.btnPivot.setVisible(true);
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({

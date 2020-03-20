@@ -3183,7 +3183,7 @@ define([
                     me.toolbar.itemsNamedRange = (namedRange && namedRange.menu && namedRange.menu.items) ? [namedRange.menu.items[0], namedRange.menu.items[1]] : [];
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
-                    if ( !config.isOffline ) {
+                    if ( !config.isDesktopApp && !config.isOffline ) {
                         tab = {action: 'pivot', caption: me.textPivot};
                         var pivottab = me.getApplication().getController('PivotTable');
                         $panel = pivottab.createToolbarPanel();
