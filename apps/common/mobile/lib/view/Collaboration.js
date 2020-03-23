@@ -150,7 +150,7 @@ define([
 
             renderViewComments: function(comments, indCurComment) {
                 var isAndroid = Framework7.prototype.device.android === true;
-                if ($('.page-view-comments .page-content').length > 0) {
+                if ($('.view-comment .page-content').length > 0) {
                     var template = '';
                     if (comments && comments.length > 0) {
                         template = '<div class="list-block">' +
@@ -175,7 +175,7 @@ define([
                             '</div>';
 
                         if (comment.quote) template += '<p class="comment-quote" data-ind="' + comment.uid + '">' + comment.quote + '</p>';
-                        template += '<p class="comment-text">' + comment.comment + '</p>';
+                        template += '<div class="comment-text"><span>' + comment.comment + '</span></div>';
                         if (comment.replys.length > 0) {
                             template += '<ul class="list-reply">';
                             _.each(comment.replys, function (reply) {
@@ -202,9 +202,10 @@ define([
                         template += '</div>' +
                             '</li>';
                         template += '</ul></div>';
-                        $('.page-view-comments .page-content').html(template);
+                        $('.view-comment .page-content').html(template);
                     }
                 }
+                Common.Utils.addScrollIfNeed('.view-comment.page', '.view-comment .page-content');
             },
 
             renderComments: function (comments) {

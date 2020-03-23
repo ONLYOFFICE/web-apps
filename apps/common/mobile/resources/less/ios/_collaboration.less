@@ -92,7 +92,7 @@
 }
 
 //Comments
-.page-comments, .page-add-comment, .page-view-comments, .container-edit-comment, .container-add-reply {
+.page-comments, .add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .view-comment {
   .list-block .item-inner {
     display: block;
     padding: 16px 0;
@@ -194,7 +194,7 @@
   border-top-right-radius: 4px;
   height: 50%;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
-  .page-view-comments {
+  .page-view-comments, .view-comment {
     background-color: #FFFFFF;
     .list-block {
       margin-bottom: 100px;
@@ -236,7 +236,7 @@
         display: flex;
         justify-content: space-between;
         a {
-          padding: 0 8px;
+          padding: 0 12px;
         }
       }
     }
@@ -256,6 +256,52 @@
   .list-block {
     margin-top: 0;
   }
+  &.popover {
+    border-radius: 4px;
+    min-height: 170px;
+    height: 400px;
+    max-height: 600px;
+
+    .toolbar {
+      border-radius: 0 0 4px 4px;
+      .toolbar-inner {
+        padding-right: 0;
+      }
+    }
+
+    .page {
+      border-radius: 13px;
+      .page-content {
+        padding: 16px;
+        padding-bottom: 80px;
+
+        .list-block {
+          margin-bottom: 0px;
+
+          .item-content {
+            padding-left: 0;
+
+            .header-comment, .reply-item {
+              padding-right: 0;
+            }
+          }
+        }
+
+        .block-reply {
+          width: 260px;
+          margin-top: 10px;
+          .reply-textarea {
+            min-height: 70px;
+            width: 260px;
+            border: 1px solid #c4c4c4;
+            border-radius: 13px;
+            padding: 5px;
+          }
+        }
+      }
+    }
+
+  }
 }
 
 .container-view-add-comment {
@@ -266,10 +312,31 @@
       margin-left: 0;
     }
   }
-  .page-add-comment {
+  .page {
     background-color: #FFFFFF;
     .page-content {
       padding: 0 16px 80px;
+    }
+  }
+}
+.popover {
+  &.add-comment {
+    .toolbar {
+      border-radius: 0 0 13px 13px;
+    }
+    .toolbar-bottom {
+      position: absolute;
+      bottom: 0;
+    }
+    .wrap-comment {
+      padding-bottom: 55px;
+    }
+    .comment-textarea {
+      border: 1px solid #c4c4c4;
+      border-radius: 5px;
+      min-height: 150px;
+      max-height: 300px;
+      width: 280px;
     }
   }
 }
@@ -284,25 +351,6 @@
   }
   .page {
     background-color: #FFFFFF;
-  }
-}
-
-.icon-arrow-comment {
-  border: solid black;
-  border-width: 0 2px 2px 0;
-  border-color: @themeColor;
-  height: 12px;
-  width: 12px;
-  display: inline-block;
-  padding: 0;
-  &.right {
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-  }
-
-  &.left {
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
   }
 }
 

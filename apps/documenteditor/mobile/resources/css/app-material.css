@@ -6853,12 +6853,12 @@ i.icon.icon-resolve-comment.check {
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M9%2016.1719L19.5938%205.57812L21%206.98438L9%2018.9844L3.42188%2013.4062L4.82812%2012L9%2016.1719Z%22%20fill%3D%22%2340865C%22%20fill-opacity%3D%220.6%22%2F%3E%3C%2Fsvg%3E");
 }
-i.icon.icon-arrow-comment.left {
+i.icon.icon-prev-comment {
   width: 24px;
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M15.4219%207.40625L10.8281%2012L15.4219%2016.5938L14.0156%2018L8.01562%2012L14.0156%206L15.4219%207.40625Z%22%20fill%3D%22%23446995%22%2F%3E%3C%2Fsvg%3E");
 }
-i.icon.icon-arrow-comment.right {
+i.icon.icon-next-comment {
   width: 24px;
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M9.98438%206L15.9844%2012L9.98438%2018L8.57812%2016.5938L13.1719%2012L8.57812%207.40625L9.98438%206Z%22%20fill%3D%22%23446995%22%2F%3E%3C%2Fsvg%3E");
