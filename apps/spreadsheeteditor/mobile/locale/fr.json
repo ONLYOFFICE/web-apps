@@ -23,7 +23,7 @@
   "SSE.Controllers.AddLink.txtNotUrl": "Ce champ doit être une URL au format 'http://www.example.com'",
   "SSE.Controllers.AddOther.textEmptyImgUrl": "Spécifiez l'URL de l'image",
   "SSE.Controllers.AddOther.txtNotUrl": "Ce champ doit être une URL au format 'http://www.example.com'",
-  "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Les actions de Copier, Couper et Coller du menu contextuel seront appliquées seulement au fichier actuel. Vous n'êtes pas en mesure de copier ou coller à partir ou vers une autre application.",
+  "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Les actions de Copier, Couper et Coller du menu contextuel seront appliquées seulement au fichier actuel.",
   "SSE.Controllers.DocumentHolder.menuAddLink": "Ajouter le lien",
   "SSE.Controllers.DocumentHolder.menuCell": "Cellule",
   "SSE.Controllers.DocumentHolder.menuCopy": "Copier",

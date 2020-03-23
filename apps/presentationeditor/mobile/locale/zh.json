@@ -30,7 +30,7 @@
   "PE.Controllers.AddTable.textColumns": "列",
   "PE.Controllers.AddTable.textRows": "行",
   "PE.Controllers.AddTable.textTableSize": "表格大小",
-  "PE.Controllers.DocumentHolder.errorCopyCutPaste": "使用上下文菜单的复制、剪切和粘贴操作将仅在当前文件中执行。不能在其他应用程序中复制或粘贴。",
+  "PE.Controllers.DocumentHolder.errorCopyCutPaste": "使用上下文菜单的复制、剪切和粘贴操作将仅在当前文件中执行。",
   "PE.Controllers.DocumentHolder.menuAddLink": "增加链接",
   "PE.Controllers.DocumentHolder.menuCopy": "复制",
   "PE.Controllers.DocumentHolder.menuCut": "剪切",

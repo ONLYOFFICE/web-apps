@@ -12,6 +12,8 @@
   "PE.ApplicationController.errorAccessDeny": "Usted no tiene permisos para realizar la acción que está intentando hacer.<br> Por favor, contacte con su Administrador del Servidor de Documentos.",
   "PE.ApplicationController.errorDefaultMessage": "Código de error: %1",
   "PE.ApplicationController.errorFilePassProtect": "El archivo está protegido por una contraseña y no puede ser abierto.",
+  "PE.ApplicationController.errorFileSizeExceed": "El tamaño del archivo excede la limitación establecida para su servidor. Póngase en contacto con el administrador del Servidor de documentos para obtener más información.",
+  "PE.ApplicationController.errorUpdateVersionOnDisconnect": "La conexión a Internet ha sido restaurada, y la versión del archivo ha sido cambiada. Antes de poder seguir trabajando, es necesario descargar el archivo o copiar su contenido para asegurarse de que no se pierda nada, y luego recargar esta página. ",
   "PE.ApplicationController.errorUserDrop": "No se puede acceder al archivo ahora mismo.",
   "PE.ApplicationController.notcriticalErrorTitle": "Aviso",
   "PE.ApplicationController.scriptLoadError": "La conexión a Internet es demasiado lenta, no se podía cargar algunos componentes. Por favor, recargue la página.",

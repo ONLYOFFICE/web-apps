@@ -1763,7 +1763,7 @@
   "DE.Views.MailMergeSettings.warnProcessMailMerge": "Starting merge failed",
   "DE.Views.Navigation.txtCollapse": "Comprimi tutto",
   "DE.Views.Navigation.txtDemote": "Retrocedere",
-  "DE.Views.Navigation.txtEmpty": "Questo documento non contiene intestazioni",
+  "DE.Views.Navigation.txtEmpty": "Non ci sono titoli nel documento.<br>Applica uno stile di titolo al testo in modo che appaia nel sommario.",
   "DE.Views.Navigation.txtEmptyItem": "Intestazione vuota",
   "DE.Views.Navigation.txtExpand": "Espandi tutto",
   "DE.Views.Navigation.txtExpandToLevel": "Espandi al livello",

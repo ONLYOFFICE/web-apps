@@ -43,6 +43,7 @@
   "SSE.Controllers.DocumentHolder.menuWrap": "Envoltura",
   "SSE.Controllers.DocumentHolder.sheetCancel": "Cancelar",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Acciones de Copiar, Cortar y Pegar",
+  "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "No mostrar otra vez",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Operación puede destruir datos en las celdas seleccionadas.<br>¿Continuar?",
   "SSE.Controllers.EditCell.textAuto": "Auto",
   "SSE.Controllers.EditCell.textFonts": "Fuentes",

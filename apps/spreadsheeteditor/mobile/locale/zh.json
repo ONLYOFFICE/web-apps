@@ -23,7 +23,7 @@
   "SSE.Controllers.AddLink.txtNotUrl": "此字段应为格式为“http://www.example.com”的网址",
   "SSE.Controllers.AddOther.textEmptyImgUrl": "您需要指定图像URL。",
   "SSE.Controllers.AddOther.txtNotUrl": "此字段应为格式为“http://www.example.com”的网址",
-  "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "使用上下文菜单的复制、剪切和粘贴操作将仅在当前文件中执行。不能在其他应用程序中复制或粘贴。",
+  "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "使用上下文菜单的复制、剪切和粘贴操作将仅在当前文件中执行。",
   "SSE.Controllers.DocumentHolder.menuAddLink": "增加链接",
   "SSE.Controllers.DocumentHolder.menuCell": "元件",
   "SSE.Controllers.DocumentHolder.menuCopy": "复制",
