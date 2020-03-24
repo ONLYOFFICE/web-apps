@@ -1207,7 +1207,7 @@
   "SSE.Views.ShapeSettings.textDirection": "Suunta",
   "SSE.Views.ShapeSettings.textEmptyPattern": "Ei kuviota",
   "SSE.Views.ShapeSettings.textFromFile": "Tiedostosta",
-  "SSE.Views.ShapeSettings.textFromUrl": "Verkko-osoitteesta",
+  "SSE.Views.ShapeSettings.textFromUrl": "URL-osoitteesta",
   "SSE.Views.ShapeSettings.textGradient": "Kalteva",
   "SSE.Views.ShapeSettings.textGradientFill": "Kalteva täyttö",
   "SSE.Views.ShapeSettings.textImageTexture": "Kuva tai pintarakenne",

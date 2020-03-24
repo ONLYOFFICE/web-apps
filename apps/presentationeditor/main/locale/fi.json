@@ -1031,7 +1031,7 @@
   "PE.Views.ShapeSettings.textDirection": "Suunta",
   "PE.Views.ShapeSettings.textEmptyPattern": "Ei kuviota",
   "PE.Views.ShapeSettings.textFromFile": "Tiedostosta",
-  "PE.Views.ShapeSettings.textFromUrl": "Verkko-osoitteesta",
+  "PE.Views.ShapeSettings.textFromUrl": "URL-osoitteesta",
   "PE.Views.ShapeSettings.textGradient": "Kalteva",
   "PE.Views.ShapeSettings.textGradientFill": "Kalteva täyttö",
   "PE.Views.ShapeSettings.textImageTexture": "Kuva tai pintarakenne",
