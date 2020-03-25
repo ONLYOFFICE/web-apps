@@ -193,7 +193,10 @@
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   height: 50%;
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12);
+  .pages {
+    background-color: #FFFFFF;
+  }
   .page-view-comments, .view-comment {
     background-color: #FFFFFF;
     .list-block {
@@ -288,14 +291,35 @@
         }
 
         .block-reply {
-          width: 260px;
           margin-top: 10px;
           .reply-textarea {
             min-height: 70px;
-            width: 260px;
+            width: 278px;
             border: 1px solid #c4c4c4;
-            border-radius: 13px;
+            border-radius: 6px;
             padding: 5px;
+          }
+        }
+
+        .edit-reply-textarea {
+          min-height: 60px;
+          width: 100%;
+          border: 1px solid #c4c4c4;
+          border-radius: 6px;
+          padding: 5px;
+          height: 60px;
+          margin-top: 10px;
+        }
+
+        .comment-text {
+          padding-right: 0;
+
+          .comment-textarea {
+            border: 1px solid #c4c4c4;
+            border-radius: 6px;
+            padding: 8px;
+            min-height: 80px;
+            height: 80px;
           }
         }
       }
@@ -321,20 +345,31 @@
 }
 .popover {
   &.add-comment {
-    .toolbar {
-      border-radius: 0 0 13px 13px;
-    }
     .toolbar-bottom {
       position: absolute;
       bottom: 0;
     }
+    .toolbar {
+      position: absolute;
+      background-color: #FFFFFF;
+      box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+      border-radius: 0 0 13px 13px;
+      &:before {
+        content: none;
+      }
+      .toolbar-inner {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 16px;
+      }
+    }
     .wrap-comment {
-      padding-bottom: 55px;
+      padding-bottom: 80px;
     }
     .comment-textarea {
       border: 1px solid #c4c4c4;
       border-radius: 5px;
-      min-height: 150px;
+      min-height: 80px;
       max-height: 300px;
       width: 280px;
     }
