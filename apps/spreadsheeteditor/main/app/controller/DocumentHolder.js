@@ -1295,8 +1295,9 @@ define([
                 me.tooltips.filter.text = '';
                 me.tooltips.filter.isHidden = true;
             }
-            if (me.permissions.isEdit && !me.dlgFilter) {
-                me.dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
+            if (me.permissions.isEdit) {
+                if (!me.dlgFilter) {
+                    me.dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
                         'close': function () {
                             if (me.api) {
                                 me.api.asc_enableKeyEvents(true);
@@ -1305,23 +1306,25 @@ define([
                         }
                     });
 
-                if (me.api) {
-                    me.api.asc_enableKeyEvents(false);
-                }
+                    if (me.api) {
+                        me.api.asc_enableKeyEvents(false);
+                    }
 
-                Common.UI.Menu.Manager.hideAll();
-                me.dlgFilter.setSettings(config);
-                var offset = me.documentHolder.cmpEl.offset(),
-                    rect = config.asc_getCellCoord(),
-                    x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
-                    y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
-                var docwidth = Common.Utils.innerWidth(),
-                    docheight = Common.Utils.innerHeight();
-                if (x+me.dlgFilter.options.width > docwidth)
-                    x = docwidth - me.dlgFilter.options.width - 5;
-                if (y+me.dlgFilter.options.height > docheight)
-                    y = docheight - me.dlgFilter.options.height - 5;
-                me.dlgFilter.show(x, y);
+                    Common.UI.Menu.Manager.hideAll();
+                    me.dlgFilter.setSettings(config);
+                    var offset = me.documentHolder.cmpEl.offset(),
+                        rect = config.asc_getCellCoord(),
+                        x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
+                        y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
+                    var docwidth = Common.Utils.innerWidth(),
+                        docheight = Common.Utils.innerHeight();
+                    if (x+me.dlgFilter.options.width > docwidth)
+                        x = docwidth - me.dlgFilter.options.width - 5;
+                    if (y+me.dlgFilter.options.height > docheight)
+                        y = docheight - me.dlgFilter.options.height - 5;
+                    me.dlgFilter.show(x, y);
+                } else
+                    me.dlgFilter.close();
             }
         },
 
