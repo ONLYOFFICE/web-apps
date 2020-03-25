@@ -352,7 +352,7 @@ define([
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
-                this.appOptions.canFeaturePivot = !!this.api.asc_isSupportFeature("pivot");
+                this.appOptions.canFeaturePivot = !!this.api.asc_isSupportFeature("pivot-tables");
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
