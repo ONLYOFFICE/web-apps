@@ -1343,6 +1343,7 @@ define([
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
+                    me.api.asc_registerCallback('asc_onConvertEquationToMath',_.bind(me.onConvertEquationToMath, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -2192,6 +2193,30 @@ define([
                 this.appOptions.canUseHistory = false;
             },
 
+            onConvertEquationToMath: function(equation) {
+                var me = this,
+                    win;
+                var msg = this.textConvertEquation + '<br><br><a id="id-equation-convert-help" style="cursor: pointer;">' + this.textLearnMore + '</a>';
+                win = Common.UI.warning({
+                    width: 500,
+                    msg: msg,
+                    buttons: ['yes', 'cancel'],
+                    primary: 'yes',
+                    dontshow: true,
+                    textDontShow: this.textApplyAll,
+                    callback: _.bind(function(btn, dontshow){
+                        if (btn == 'yes') {
+                            this.api.asc_ConvertEquationToMath(equation, dontshow);
+                        }
+                        this.onEditComplete();
+                    }, this)
+                });
+                win.$window.find('#id-equation-convert-help').on('click', function (e) {
+                    win && win.close();
+                    me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm');
+                })
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -2538,7 +2563,10 @@ define([
             txtChoose: 'Choose an item.',
             errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.',
             txtStyle_Caption: 'Caption',
-            errorCompare: 'The Compare documents feature is not available in the co-editing mode.'
+            errorCompare: 'The Compare documents feature is not available in the co-editing mode.',
+            textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
+            textApplyAll: 'Apply to all equations',
+            textLearnMore: 'Learn More'
         }
     })(), DE.Controllers.Main || {}))
 });
