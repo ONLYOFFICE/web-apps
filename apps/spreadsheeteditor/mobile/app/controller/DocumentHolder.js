@@ -179,7 +179,10 @@ define([
                 case 'openlink':
                     var linkinfo = info.asc_getHyperlink();
                     if ( linkinfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink ) {
-                        /* not implemented in sdk */
+                        var nameSheet = linkinfo.asc_getSheet();
+                        var curActiveSheet = this.api.asc_getActiveWorksheetIndex();
+                        me.api.asc_setWorksheetRange(linkinfo);
+                        SSE.getController('Statusbar').onLinkWorksheetRange(nameSheet, curActiveSheet);
                     } else {
                         var url = linkinfo.asc_getHyperlinkUrl().replace(/\s/g, "%20");
                         me.api.asc_getUrlType(url) > 0 && openLink(url);
@@ -359,8 +362,7 @@ define([
                                             event: 'wrap'
                                         });
 
-                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
-                                    cellinfo.asc_getHyperlink().asc_getType() == Asc.c_oAscHyperlinkType.WebLink) {
+                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect()) {
                                     arrItems.push({
                                         caption: me.menuOpenLink,
                                         event: 'openlink'
