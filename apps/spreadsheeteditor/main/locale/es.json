@@ -2121,7 +2121,7 @@
   "SSE.Views.TableSettings.textLast": "Último",
   "SSE.Views.TableSettings.textLongOperation": "Operación larga",
   "SSE.Views.TableSettings.textReservedName": "El nombre que está tratando de usar ya se hace referencia en las fórmulas de celda. Por favor seleccione otro nombre.",
-  "SSE.Views.TableSettings.textResize": "Cambiar el tamaño de la tabla",
+  "SSE.Views.TableSettings.textResize": "Tamaño de tabla",
   "SSE.Views.TableSettings.textRows": "Filas",
   "SSE.Views.TableSettings.textSelectData": "Seleccionar datos",
   "SSE.Views.TableSettings.textTableName": "Nombre de la tabla",
