@@ -1773,6 +1773,7 @@
   "SSE.Views.HyperlinkSettingsDialog.textNames": "Defined names",
   "SSE.Views.HyperlinkSettingsDialog.textGetLink": "Get Link",
   "SSE.Views.HyperlinkSettingsDialog.textCopy": "Copy",
+  "SSE.Views.HyperlinkSettingsDialog.textSelectData": "Select Data",
   "SSE.Views.ImageSettings.textAdvanced": "Show advanced settings",
   "SSE.Views.ImageSettings.textCrop": "Crop",
   "SSE.Views.ImageSettings.textCropFill": "Fill",
