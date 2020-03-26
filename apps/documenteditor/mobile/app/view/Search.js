@@ -144,7 +144,11 @@ define([
                     searchBar = $$('.searchbar.document');
 
                 if (searchBar.length < 1) {
-                    $(me.el).find('.pages .page').first().prepend(_layout.find('#search-panel-view').html());
+                    $(_layout.find('#search-panel-view').html()).insertAfter($(me.el).find('.pages'));
+                    if ($('.logo-navbar').length > 0) {
+                        $('.searchbar.document').css('margin-top', '27px');
+                    }
+                    //$(me.el).find('.pages .page').first().prepend(_layout.find('#search-panel-view').html());
 
                     // Show replace mode if needed
                     var isReplace = Common.SharedSettings.get('search-is-replace');
@@ -160,15 +164,10 @@ define([
                         $('.navbar-through .page > .searchbar').css('top', top);
                     }
 
-                    _.defer(function() {
-                        uiApp.showNavbar(searchBar);
-
-                        searchBar.transitionEnd(function () {
-                            if (!searchBar.hasClass('navbar-hidden')) {
-                                $('.searchbar.search input').focus();
-                            }
-                        });
-                    }, 10);
+                    uiApp.showNavbar(searchBar);
+                    if (!searchBar.hasClass('navbar-hidden')) {
+                        $('.searchbar.search input').focus();
+                    }
                 }
             },
 
@@ -182,14 +181,10 @@ define([
                         return;
                     }
 
-                    _.defer(function() {
-                        searchBar.transitionEnd(function () {
-                            me.fireEvent('searchbar:hide', me);
-                            searchBar.remove();
-                        });
+                    me.fireEvent('searchbar:hide', me);
+                    searchBar.remove();
+                    uiApp.hideNavbar(searchBar);
 
-                        uiApp.hideNavbar(searchBar);
-                    }, 10);
                 }
             },
 

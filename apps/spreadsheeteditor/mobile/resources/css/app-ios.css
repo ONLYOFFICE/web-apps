@@ -7416,7 +7416,7 @@ html.pixel-ratio-3 .box-tabs ul > li:after {
   display: none;
 }
 .searchbar.document {
-  background: #e4e4e6;
+  background-color: #f7f7f8;
 }
 .logo-navbar {
   height: 68px;

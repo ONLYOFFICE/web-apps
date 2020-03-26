@@ -6616,7 +6616,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   display: none;
 }
 .searchbar.document {
-  background: #e4e4e6;
+  background-color: #f7f7f8;
 }
 i.icon.icon-logo {
   width: 100px;
