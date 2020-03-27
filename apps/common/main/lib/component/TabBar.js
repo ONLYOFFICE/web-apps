@@ -142,6 +142,7 @@ define([
                                 me.bar.$bar.scrollLeft(me.scrollLeft);
                                 me.bar.scrollX = undefined;
                             }
+                            me.bar.checkInvisible();
 
                             me.drag  = undefined;
                         }
@@ -459,7 +460,7 @@ define([
                 this.checkInvisible(suppress);
             } else if ( index >= (this.tabs.length - 1) || index == 'last') {
                 var tab = this.tabs[this.tabs.length-1].$el;
-                this.$bar.scrollLeft(this.$bar.scrollLeft() + (tab.position().left + parseInt(tab.css('width')) - this.$bar.width()) + 1);
+                this.$bar.scrollLeft(this.$bar.scrollLeft() + (tab.position().left + parseInt(tab.css('width')) - this.$bar.width()) + 20);
                 this.checkInvisible(suppress);
             } else {
                 var rightbound = this.$bar.width(),
