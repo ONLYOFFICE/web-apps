@@ -2245,7 +2245,8 @@ define([
 
                 inputtip.ref.getBSTip().$tip.css({
                     top : showPoint[1] + 'px',
-                    left: showPoint[0] + 'px'
+                    left: showPoint[0] + 'px',
+                    'z-index': 900
                 });
             } else {
                 if (!inputtip.isHidden && inputtip.ref) {
