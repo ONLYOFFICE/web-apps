@@ -66,6 +66,9 @@ define([
                 },
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
+                },
+                'PivotTable': {
+                    'insertpivot': this.onInsertPivot
                 }
             });
         },
@@ -103,8 +106,21 @@ define([
             this.editMode = mode.isEdit;
         },
 
-        onRightMenuClick: function(menu, type, minimized) {
+        onRightMenuClick: function(menu, type, minimized, event) {
             if (!minimized && this.editMode) {
+                if (event) { // user click event
+                    if (type == Common.Utils.documentSettingsType.Table)
+                        Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 1);
+                    else if (type == Common.Utils.documentSettingsType.Pivot)
+                        Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 1);
+                    else if (Common.Utils.documentSettingsType.Cell) {
+                        if (!this._settings[Common.Utils.documentSettingsType.Table].hidden)
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 0);
+                        if (!this._settings[Common.Utils.documentSettingsType.Pivot].hidden)
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 0);
+                    }
+                }
+
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
@@ -239,6 +255,14 @@ define([
             if (!this.rightmenu.minimizedMode || this._openRightMenu) {
                 var active;
 
+                if (priorityactive<0 && !this._settings[Common.Utils.documentSettingsType.Cell].hidden &&
+                                        (!this._settings[Common.Utils.documentSettingsType.Table].hidden || !this._settings[Common.Utils.documentSettingsType.Pivot].hidden)) {
+                    if (!this._settings[Common.Utils.documentSettingsType.Table].hidden)
+                        priorityactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-table")==0 ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Table;
+                    if (!this._settings[Common.Utils.documentSettingsType.Pivot].hidden)
+                        priorityactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-pivot")==0 ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Pivot;
+                }
+
                 if (priorityactive>-1) active = priorityactive;
                 else if (lastactive>=0 && currentactive<0) active = lastactive;
                 else if (currentactive>=0) active = currentactive;
@@ -259,6 +283,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
             this._settings[Common.Utils.documentSettingsType.Chart].needShow = false;
             this._settings[Common.Utils.documentSettingsType.Table].needShow = false;
+            this._settings[Common.Utils.documentSettingsType.Pivot].needShow = false;
         },
 
         onCoAuthoringDisconnect: function() {
@@ -283,7 +308,11 @@ define([
         },
 
         onInsertTable:  function() {
-            this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
+            // this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
+        },
+
+        onInsertPivot:  function() {
+            // this._settings[Common.Utils.documentSettingsType.Pivot].needShow = true;
         },
 
         UpdateThemeColors:  function() {

@@ -163,6 +163,7 @@ define([
                             api: me.api,
                             handler: function(result, settings) {
                                 if (result == 'ok' && settings) {
+                                    me.view && me.view.fireEvent('insertpivot', me.view);
                                     if (settings.destination)
                                         me.api.asc_insertPivotExistingWorksheet(settings.source, settings.destination);
                                     else
