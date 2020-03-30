@@ -685,6 +685,32 @@ define([
             },
 
             //Comments
+            getCurrentUser: function () {
+                var me = this;
+                _.each(editUsers, function(item){
+                    if (item.asc_getIdOriginal() === _userId) {
+                        me.currentUser = item;
+                    }
+                });
+                return me.currentUser;
+            },
+
+            getCommentInfo: function () {
+                this.getCurrentUser();
+                if (this.currentUser) {
+                    var date = new Date();
+                    var comment = {
+                        time: date.getTime(),
+                        date: this.dateToLocaleTimeString(date),
+                        userid: _userId,
+                        username: this.currentUser.asc_getUserName(),
+                        usercolor: this.currentUser.asc_getColor(),
+                        userInitials: this.getInitials(this.currentUser.asc_getUserName())
+                    };
+                    return comment;
+                }
+            },
+
             getInitials: function(name) {
                 var fio = name.split(' ');
                 var initials = fio[0].substring(0, 1).toUpperCase();
@@ -1014,11 +1040,7 @@ define([
                             addReply.asc_putText(replyVal);
                             addReply.asc_putTime(me.utcDateToString(new Date()));
                             addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date()));
-                            _.each(editUsers, function(item){
-                                if (item.asc_getIdOriginal() === _userId) {
-                                    me.currentUser = item;
-                                }
-                            });
+                            me.getCurrentUser();
                             addReply.asc_putUserId(_userId);
                             addReply.asc_putUserName(me.currentUser.asc_getUserName());
 
@@ -1030,104 +1052,7 @@ define([
                 }
             },
 
-            showAddCommentModal: function() {
-                var me = this,
-                    isAndroid = Framework7.prototype.device.android === true,
-                    modalView,
-                    appPrefix = !!window.DE ? DE : !!window.PE ? PE : SSE,
-                    mainView = appPrefix.getController('Editor').getView('Editor').f7View;
-
-                uiApp.closeModal();
-
-                var date = new Date();
-                _.each(editUsers, function(item){
-                    if (item.asc_getIdOriginal() === _userId) {
-                        me.currentUser = item;
-                    }
-                });
-                if (!me.currentUser) return;
-                var comment = {
-                    time: date.getTime(),
-                    date: me.dateToLocaleTimeString(date),
-                    userid: _userId,
-                    username: me.currentUser.asc_getUserName(),
-                    usercolor: me.currentUser.asc_getColor(),
-                    userInitials: me.getInitials(me.currentUser.asc_getUserName())
-                };
-
-                if (Common.SharedSettings.get('phone')) {
-                    modalView = $$(uiApp.popup(
-                        '<div class="popup container-view-add-comment">' +
-                            '<div class="navbar">' +
-                                '<div class="navbar-inner">' +
-                                    '<div class="left sliding"><a href="#" class="back link close-picker"> <i class="icon icon-close-comment"></i>' +  (!isAndroid ? '<span>' + me.textCancel + '</span>' : '') + '</a></div>' +
-                                    '<div class="center sliding">' + me.textAddComment + '</div>' +
-                                    '<div class="right sliding"><a href="#" class="link" id="add-comment"><i class="icon icon-done-comment"></i>' + (!isAndroid ? '<span>' + me.textDone + '</span>' : '') + '</a></div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="pages">' +
-                                '<div class="page add-comment">' +
-                                    '<div class="page-content">' +
-                                        '<div class="wrap-comment">' +
-                                            (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: '+ comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
-                                            '<div class="user-name">' + comment.username + '</div>' +
-                                            '<div class="comment-date">' + comment.date + '</div>' +
-                                            (isAndroid ? '</div></div>' : '') +
-                                            '<div><textarea id="comment-text" class="comment-textarea" autofocus></textarea></div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>'
-                    )).on('opened', function () {
-                        if (_.isFunction(me.api.asc_OnShowContextMenu)) {
-                            me.api.asc_OnShowContextMenu()
-                        }
-                    }).on('close', function (e) {
-                        mainView.showNavbar();
-                    }).on('closed', function () {
-                        if (_.isFunction(me.api.asc_OnHideContextMenu)) {
-                            me.api.asc_OnHideContextMenu()
-                        }
-                    });
-                    mainView.hideNavbar();
-                } else {
-                    modalView = uiApp.popover(
-                        '<div class="popover add-comment">' +
-                            '<div class="popover-inner">' +
-                                '<div class="toolbar toolbar-bottom" style="bottom: 0;">' +
-                                    '<div class="toolbar-inner">' +
-                                        '<div class="button-left">' +
-                                            '<a href="#" class="link close-popover">' + me.textCancel + '</a>' +
-                                        '</div>' +
-                                    '<div class="button-right">' +
-                                        '<a href="#" class="link add-done" id="add-comment">' + me.textAddComment + '</a>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="wrap-comment">' +
-                                (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: '+ comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
-                                '<div class="user-name">' + comment.username + '</div>' +
-                                    '<div class="comment-date">' + comment.date + '</div>' +
-                                (isAndroid ? '</div></div>' : '') +
-                                '<div><textarea oo_editor_input="true" id="comment-text" class="comment-textarea" autofocus></textarea></div>' +
-                            '</div>' +
-                            '</div>' +
-                        '</div>',
-                        $$('#toolbar-collaboration')
-                    );
-                }
-
-                appPrefix.getController('Toolbar').getView('Toolbar').hideSearch();
-
-                $('#add-comment').single('click', _.bind(me.onAddNewComment, me));
-
-                _.defer(function(){
-                    $('#comment-text').focus();
-                });
-            },
-
-            onAddNewComment: function() {
+            onAddNewComment: function(value) {
                 var comment;
                 if (typeof Asc.asc_CCommentDataWord !== 'undefined') {
                     comment = new Asc.asc_CCommentDataWord(null);
@@ -1135,7 +1060,7 @@ define([
                     comment = new Asc.asc_CCommentData(null);
                 }
 
-                var textComment = $('#comment-text').val();
+                var textComment = value;
 
                 if (textComment.length > 0) {
                     comment.asc_putText(textComment);

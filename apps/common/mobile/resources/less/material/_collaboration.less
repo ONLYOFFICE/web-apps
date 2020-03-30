@@ -100,6 +100,9 @@
     margin: 0;
     word-break: break-word;
   }
+  .list-reply {
+    padding-left: 32px;
+  }
   .user-name {
     font-size: 16px;
     line-height: 22px;
@@ -282,7 +285,35 @@
   }
 }
 
-.container-view-add-comment, .container-edit-comment, .container-add-reply, container-edit-comment {
+#done-comment {
+  padding: 0 16px;
+}
+.page-add-comment {
+  .wrap-comment {
+    padding: 16px 16px 0 16px;
+    .header-comment {
+      justify-content: flex-start;
+    }
+    .user-name {
+      font-weight: bold;
+    }
+    .comment-date {
+      font-size: 12px;
+      color: #6d6d72;
+    }
+    .wrap-textarea {
+      padding-right: 6px;
+      .comment-textarea {
+        border: 1px solid #c4c4c4;
+        margin-top: 0;
+        min-height: 100px;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.container-edit-comment, .container-add-reply, container-edit-comment {
   height: 100%;
   .navbar {
     background-color: #FFFFFF;

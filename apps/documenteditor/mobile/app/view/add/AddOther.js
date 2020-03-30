@@ -70,6 +70,7 @@ define([
                 $('#add-other-link').single('click',        _.bind(me.showLink, me));
                 $('#add-other-pagenumber').single('click',  _.bind(me.showPagePosition, me));
                 $('#add-other-footnote').single('click',    _.bind(me.showPageFootnote, me));
+                $('#add-other-comment').single('click',     _.bind(me.showPageComment, me));
 
                 me.initControls();
             },
@@ -141,6 +142,26 @@ define([
 
             showPageFootnote: function () {
                 this.showPage('#addother-insert-footnote');
+            },
+
+            showPageComment: function(animate) {
+                this.showPage('#addother-insert-comment', animate);
+            },
+
+            renderComment: function(comment) {
+                var $commentInfo = $('#comment-info');
+                var template = [
+                    '<% if (android) { %><div class="header-comment"><div class="initials-comment" style="background-color: <%= comment.usercolor %>;"><%= comment.userInitials %></div><div><% } %>',
+                    '<div class="user-name"><%= comment.username %></div>',
+                    '<div class="comment-date"><%= comment.date %></div>',
+                    '<% if (android) { %></div></div><% } %>',
+                    '<div class="wrap-textarea"><textarea id="comment-text" class="comment-textarea" autofocus></textarea></div>'
+                ].join('');
+                var insert = _.template(template)({
+                    android: Framework7.prototype.device.android,
+                    comment: comment
+                });
+                $commentInfo.html(insert);
             },
 
             renderNumFormat: function (dataFormat, selectFormat) {
@@ -221,8 +242,10 @@ define([
             textInsertFootnote: 'Insert Footnote',
             textFormat: 'Format',
             textStartFrom: 'Start At',
-            textLocation: 'Location'
-        
+            textLocation: 'Location',
+            textComment: 'Comment',
+            textAddComment: 'Add Comment',
+            textDone: 'Done'
         
         }
     })(), DE.Views.AddOther || {}))

@@ -111,10 +111,27 @@ define([
                     }
                 } else if (pageId == '#addother-insert-footnote') {
                     me.initInsertFootnote();
+                } else if (pageId === "#addother-insert-comment") {
+                    me.initInsertComment();
                 }
             },
 
             // Handlers
+            initInsertComment: function () {
+                var comment = DE.getController('Common.Controllers.Collaboration').getCommentInfo();
+                if (comment) {
+                    this.getView('AddOther').renderComment(comment);
+                    $('#done-comment').single('click', _.bind(this.onDoneComment, this));
+                }
+            },
+
+            onDoneComment: function() {
+                var value = $('#comment-text').val();
+                if (value.length > 0) {
+                    DE.getController('Common.Controllers.Collaboration').onAddNewComment(value);
+                    DE.getController('AddContainer').hideModal();
+                }
+            },
 
             initInsertFootnote: function () {
                 var me = this,

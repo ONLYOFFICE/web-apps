@@ -6498,6 +6498,14 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   margin: 0;
   word-break: break-word;
 }
+.page-comments .list-reply,
+.add-comment .list-reply,
+.page-view-comments .list-reply,
+.container-edit-comment .list-reply,
+.container-add-reply .list-reply,
+.view-comment .list-reply {
+  padding-left: 32px;
+}
 .page-comments .user-name,
 .add-comment .user-name,
 .page-view-comments .user-name,
@@ -6783,48 +6791,35 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   min-height: 80px;
   height: 80px;
 }
-.container-view-add-comment {
-  height: 100%;
+#done-comment {
+  color: #40865c;
 }
-.container-view-add-comment .navbar {
+.page-add-comment {
   background-color: #FFFFFF;
 }
-.container-view-add-comment .navbar a.link i + span {
-  margin-left: 0;
+.page-add-comment .wrap-comment {
+  padding: 16px 16px 0 16px;
 }
-.container-view-add-comment .page {
-  background-color: #FFFFFF;
+.page-add-comment .wrap-comment .header-comment {
+  justify-content: flex-start;
 }
-.container-view-add-comment .page .page-content {
-  padding: 0 16px 80px;
+.page-add-comment .wrap-comment .user-name {
+  font-weight: bold;
 }
-.popover.add-comment .toolbar-bottom {
-  position: absolute;
-  bottom: 0;
+.page-add-comment .wrap-comment .comment-date {
+  font-size: 12px;
+  color: #6d6d72;
 }
-.popover.add-comment .toolbar {
-  position: absolute;
-  background-color: #FFFFFF;
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
-  border-radius: 0 0 13px 13px;
+.page-add-comment .wrap-comment .wrap-textarea {
+  margin-top: 16px;
+  padding-right: 6px;
 }
-.popover.add-comment .toolbar:before {
-  content: none;
-}
-.popover.add-comment .toolbar .toolbar-inner {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 16px;
-}
-.popover.add-comment .wrap-comment {
-  padding-bottom: 80px;
-}
-.popover.add-comment .comment-textarea {
+.page-add-comment .wrap-comment .wrap-textarea .comment-textarea {
   border: 1px solid #c4c4c4;
-  border-radius: 5px;
-  min-height: 80px;
-  max-height: 300px;
-  width: 280px;
+  margin-top: 0;
+  min-height: 100px;
+  border-radius: 4px;
+  width: 100%;
 }
 .container-add-reply {
   height: 100%;

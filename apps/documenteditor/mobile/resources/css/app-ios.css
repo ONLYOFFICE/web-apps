@@ -6498,6 +6498,14 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   margin: 0;
   word-break: break-word;
 }
+.page-comments .list-reply,
+.add-comment .list-reply,
+.page-view-comments .list-reply,
+.container-edit-comment .list-reply,
+.container-add-reply .list-reply,
+.view-comment .list-reply {
+  padding-left: 32px;
+}
 .page-comments .user-name,
 .add-comment .user-name,
 .page-view-comments .user-name,
@@ -6783,48 +6791,35 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   min-height: 80px;
   height: 80px;
 }
-.container-view-add-comment {
-  height: 100%;
+#done-comment {
+  color: #446995;
 }
-.container-view-add-comment .navbar {
+.page-add-comment {
   background-color: #FFFFFF;
 }
-.container-view-add-comment .navbar a.link i + span {
-  margin-left: 0;
+.page-add-comment .wrap-comment {
+  padding: 16px 16px 0 16px;
 }
-.container-view-add-comment .page {
-  background-color: #FFFFFF;
+.page-add-comment .wrap-comment .header-comment {
+  justify-content: flex-start;
 }
-.container-view-add-comment .page .page-content {
-  padding: 0 16px 80px;
+.page-add-comment .wrap-comment .user-name {
+  font-weight: bold;
 }
-.popover.add-comment .toolbar-bottom {
-  position: absolute;
-  bottom: 0;
+.page-add-comment .wrap-comment .comment-date {
+  font-size: 12px;
+  color: #6d6d72;
 }
-.popover.add-comment .toolbar {
-  position: absolute;
-  background-color: #FFFFFF;
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
-  border-radius: 0 0 13px 13px;
+.page-add-comment .wrap-comment .wrap-textarea {
+  margin-top: 16px;
+  padding-right: 6px;
 }
-.popover.add-comment .toolbar:before {
-  content: none;
-}
-.popover.add-comment .toolbar .toolbar-inner {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 16px;
-}
-.popover.add-comment .wrap-comment {
-  padding-bottom: 80px;
-}
-.popover.add-comment .comment-textarea {
+.page-add-comment .wrap-comment .wrap-textarea .comment-textarea {
   border: 1px solid #c4c4c4;
-  border-radius: 5px;
-  min-height: 80px;
-  max-height: 300px;
-  width: 280px;
+  margin-top: 0;
+  min-height: 100px;
+  border-radius: 4px;
+  width: 100%;
 }
 .container-add-reply {
   height: 100%;
@@ -7398,6 +7393,11 @@ i.icon.icon-resolve-comment.check {
   width: 30px;
   height: 30px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M0%200H30V30H0V0Z%22%20fill%3D%22white%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M11.6195%2020.8555C11.8237%2021.0673%2012.1658%2021.0577%2012.358%2020.8349L22.516%209.05783C22.7843%208.74676%2022.7528%208.27781%2022.4453%208.00545V8.00545C22.1315%207.72756%2021.651%207.7604%2021.3779%208.07839L12.3546%2018.587C12.1638%2018.8092%2011.8238%2018.8206%2011.6186%2018.6117L8.10643%2015.0366C7.81575%2014.7407%207.34084%2014.7345%207.04258%2015.0228V15.0228C6.74283%2015.3125%206.73444%2015.7903%207.02383%2016.0904L11.6195%2020.8555Z%22%20fill%3D%22%234cd964%22%2F%3E%3C%2Fsvg%3E");
+}
+i.icon.icon-insert-comment {
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M20.1538%209.00708H11.8462C10.8266%209.00708%2010%209.83461%2010%2010.8554V15.1694C10%2016.1902%2010.8266%2017.0177%2011.8462%2017.0177H13.8329C13.9409%2017.0177%2014.0454%2017.0556%2014.1284%2017.1248L18.243%2020.392C18.5436%2020.6428%2019%2020.4288%2019%2020.037V17.4798C19%2017.2246%2019.2066%2017.0177%2019.4615%2017.0177H20.1538C21.1734%2017.0177%2022%2016.1902%2022%2015.1694V10.8554C22%209.83461%2021.1734%209.00708%2020.1538%209.00708ZM20%2010.0083C20.5523%2010.0083%2021%2010.4565%2021%2011.0095V15.0154C21%2015.5683%2020.5523%2016.0165%2020%2016.0165H18.0025L18%2018.8995C18%2019.2912%2018%2019%2018%2019L14.5%2016.0165H12C11.4477%2016.0165%2011%2015.5683%2011%2015.0154V11.0095C11%2010.4565%2011.4477%2010.0083%2012%2010.0083H20Z%22%20fill%3D%22%23446995%22%2F%3E%3Cpath%20d%3D%22M14.5%203H4.5C3.18908%203%202%204.2153%202%205.50295V12.0346C2%2013.3222%203.18908%2014.013%204.5%2014.013H5.5C5.82773%2014.013%206%2014.1917%206%2014.5136V17.5183C6%2018.0125%206.6135%2018.3352%207%2018.0189L11%2014.9858V13.5L7%2016.5V13.0118H4.5C3.78992%2013.0118%203%2012.732%203%2012.0346V5.50295C3%204.80547%203.78992%204.00118%204.5%204.00118H14.5C15.2101%204.00118%2016%204.80547%2016%205.50295V8.0059H17V5.50295C17%204.2153%2015.8109%203%2014.5%203Z%22%20fill%3D%22%23446995%22%2F%3E%3C%2Fsvg%3E");
 }
 .label-switch input[type="checkbox"]:checked + .checkbox {
   background: #446995;

@@ -6091,6 +6091,13 @@ html.phone .document-menu .list-block .item-link {
   margin: 0;
   word-break: break-word;
 }
+.page-comments .list-reply,
+.page-add-comment .list-reply,
+.page-view-comments .list-reply,
+.container-edit-comment .list-reply,
+.container-add-reply .list-reply {
+  padding-left: 32px;
+}
 .page-comments .user-name,
 .page-add-comment .user-name,
 .page-view-comments .user-name,
@@ -6336,20 +6343,42 @@ html.phone .document-menu .list-block .item-link {
 .container-view-comment .list-block {
   margin-top: 0;
 }
-.container-view-add-comment,
+#done-comment {
+  padding: 0 16px;
+}
+.page-add-comment .wrap-comment {
+  padding: 16px 16px 0 16px;
+}
+.page-add-comment .wrap-comment .header-comment {
+  justify-content: flex-start;
+}
+.page-add-comment .wrap-comment .user-name {
+  font-weight: bold;
+}
+.page-add-comment .wrap-comment .comment-date {
+  font-size: 12px;
+  color: #6d6d72;
+}
+.page-add-comment .wrap-comment .wrap-textarea {
+  padding-right: 6px;
+}
+.page-add-comment .wrap-comment .wrap-textarea .comment-textarea {
+  border: 1px solid #c4c4c4;
+  margin-top: 0;
+  min-height: 100px;
+  border-radius: 4px;
+}
 .container-edit-comment,
 .container-add-reply,
 container-edit-comment {
   height: 100%;
 }
-.container-view-add-comment .navbar,
 .container-edit-comment .navbar,
 .container-add-reply .navbar,
 container-edit-comment .navbar {
   background-color: #FFFFFF;
   color: #000;
 }
-.container-view-add-comment .navbar:after,
 .container-edit-comment .navbar:after,
 .container-add-reply .navbar:after,
 container-edit-comment .navbar:after {
@@ -6367,43 +6396,36 @@ container-edit-comment .navbar:after {
   -webkit-transform-origin: 50% 100%;
   transform-origin: 50% 100%;
 }
-.container-view-add-comment .navbar .navbar-inner,
 .container-edit-comment .navbar .navbar-inner,
 .container-add-reply .navbar .navbar-inner,
 container-edit-comment .navbar .navbar-inner {
   justify-content: space-between;
 }
-.container-view-add-comment .navbar a.link i + span,
 .container-edit-comment .navbar a.link i + span,
 .container-add-reply .navbar a.link i + span,
 container-edit-comment .navbar a.link i + span {
   margin-left: 0;
 }
-.container-view-add-comment .navbar .center,
 .container-edit-comment .navbar .center,
 .container-add-reply .navbar .center,
 container-edit-comment .navbar .center {
   font-size: 18px;
 }
-.container-view-add-comment .navbar .right,
 .container-edit-comment .navbar .right,
 .container-add-reply .navbar .right,
 container-edit-comment .navbar .right {
   margin-left: 0;
 }
-.container-view-add-comment .page-add-comment,
 .container-edit-comment .page-add-comment,
 .container-add-reply .page-add-comment,
 container-edit-comment .page-add-comment {
   background-color: #FFFFFF;
 }
-.container-view-add-comment .page-add-comment .page-content,
 .container-edit-comment .page-add-comment .page-content,
 .container-add-reply .page-add-comment .page-content,
 container-edit-comment .page-add-comment .page-content {
   padding: 0 16px 80px;
 }
-.container-view-add-comment .header-comment,
 .container-edit-comment .header-comment,
 .container-add-reply .header-comment,
 container-edit-comment .header-comment {

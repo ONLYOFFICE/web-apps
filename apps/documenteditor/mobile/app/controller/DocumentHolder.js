@@ -164,11 +164,9 @@ define([
                     var getCollaboration = DE.getController('Common.Controllers.Collaboration');
                     getCollaboration.showCommentModal();
                 } else if ('addcomment' == eventName) {
-                    var getCollaboration = DE.getController('Common.Controllers.Collaboration');
-                    /*if (this.api && this.mode.canCoAuthoring && this.mode.canComments) {
-
-                    }*/
-                    getCollaboration.showAddCommentModal();
+                    _view.hideMenu();
+                    DE.getController('AddContainer').showModal();
+                    DE.getController('AddOther').getView('AddOther').showPageComment(false);
                 } else if ('showActionSheet' == eventName && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
