@@ -1969,7 +1969,8 @@ define([
 
                 _.each(textarr, function(menuItem, index) {
                     var mnu = new Common.UI.MenuItem({
-                        caption     : menuItem
+                        caption     : menuItem,
+                        style: (typeof menuItem == 'string' && _.isEmpty(menuItem.trim())) ? 'min-height: 25px;' : ''
                     }).on('click', function(item, e) {
                         me.api.asc_insertFormula(item.caption, Asc.c_oAscPopUpSelectorType.None, false );
                     });
