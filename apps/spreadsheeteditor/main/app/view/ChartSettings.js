@@ -1138,7 +1138,7 @@ define([
         },
         
         applyBorderSize: function(value) {
-            value = parseFloat(value);
+            value = Common.Utils.String.parseFloat(value);
             value = isNaN(value) ? 1 : Math.max(0.01, Math.min(1584, value));
 
             this.BorderSize = value;

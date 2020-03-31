@@ -585,6 +585,11 @@ Common.Utils.String = new (function() {
             }
 
             return Common.Utils.String.format(template, string);
+        },
+
+        parseFloat: function(string) {
+            (typeof string === 'string') && (string = string.replace(',', '.'));
+            return parseFloat(string)
         }
     }
 })();

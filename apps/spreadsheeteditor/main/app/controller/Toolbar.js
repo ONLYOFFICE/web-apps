@@ -1405,7 +1405,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*\.?\d+)$|^\+?(\d+\.?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
 
                     if (!value) {
                         value = this._getApiTextSize();
@@ -1426,7 +1426,7 @@ define([
                     }
                 }
             } else {
-                value = parseFloat(record.value);
+                value = Common.Utils.String.parseFloat(record.value);
                 value = value > 409 ? 409 :
                     value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
 
