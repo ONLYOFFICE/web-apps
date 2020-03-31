@@ -434,7 +434,7 @@ define([
             });
 
             var onHyperlinkClick = function(url) {
-                if (url && me.api.asc_getUrlType(url)>0) {
+                if (url /*&& me.api.asc_getUrlType(url)>0*/) {
                     window.open(url);
                 }
             };

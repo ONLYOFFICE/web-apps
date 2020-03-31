@@ -1277,11 +1277,11 @@ define([
                 });
                 return;
             }
-            if (this.api.asc_getUrlType(url)>0) {
+            // if (this.api.asc_getUrlType(url)>0) {
                 var newDocumentPage = window.open(url, '_blank');
                 if (newDocumentPage)
                     newDocumentPage.focus();
-            }
+            // }
         },
 
         onApiAutofilter: function(config) {
