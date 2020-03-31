@@ -6068,7 +6068,8 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .list-block .item-inner,
 .page-view-comments .list-block .item-inner,
 .container-edit-comment .list-block .item-inner,
-.container-add-reply .list-block .item-inner {
+.container-add-reply .list-block .item-inner,
+.view-comment .list-block .item-inner {
   display: block;
   padding: 16px 0;
   word-wrap: break-word;
@@ -6077,7 +6078,8 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment p,
 .page-view-comments p,
 .container-edit-comment p,
-.container-add-reply p {
+.container-add-reply p,
+.view-comment p {
   margin: 0;
   word-break: break-word;
 }
@@ -6085,14 +6087,16 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .list-reply,
 .page-view-comments .list-reply,
 .container-edit-comment .list-reply,
-.container-add-reply .list-reply {
-  padding-left: 32px;
+.container-add-reply .list-reply,
+.view-comment .list-reply {
+  padding-left: 26px;
 }
 .page-comments .user-name,
 .page-add-comment .user-name,
 .page-view-comments .user-name,
 .container-edit-comment .user-name,
-.container-add-reply .user-name {
+.container-add-reply .user-name,
+.view-comment .user-name {
   font-size: 16px;
   line-height: 22px;
   color: #000000;
@@ -6103,11 +6107,13 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .comment-date,
 .container-edit-comment .comment-date,
 .container-add-reply .comment-date,
+.view-comment .comment-date,
 .page-comments .reply-date,
 .page-add-comment .reply-date,
 .page-view-comments .reply-date,
 .container-edit-comment .reply-date,
-.container-add-reply .reply-date {
+.container-add-reply .reply-date,
+.view-comment .reply-date {
   font-size: 12px;
   line-height: 18px;
   color: #6d6d72;
@@ -6119,11 +6125,13 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .comment-text,
 .container-edit-comment .comment-text,
 .container-add-reply .comment-text,
+.view-comment .comment-text,
 .page-comments .reply-text,
 .page-add-comment .reply-text,
 .page-view-comments .reply-text,
 .container-edit-comment .reply-text,
-.container-add-reply .reply-text {
+.container-add-reply .reply-text,
+.view-comment .reply-text {
   color: #000000;
   font-size: 15px;
   line-height: 25px;
@@ -6135,7 +6143,8 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .reply-item,
 .page-view-comments .reply-item,
 .container-edit-comment .reply-item,
-.container-add-reply .reply-item {
+.container-add-reply .reply-item,
+.view-comment .reply-item {
   padding-right: 16px;
   padding-top: 13px;
 }
@@ -6143,7 +6152,8 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .reply-item .header-reply,
 .page-view-comments .reply-item .header-reply,
 .container-edit-comment .reply-item .header-reply,
-.container-add-reply .reply-item .header-reply {
+.container-add-reply .reply-item .header-reply,
+.view-comment .reply-item .header-reply {
   display: flex;
   justify-content: space-between;
 }
@@ -6151,14 +6161,16 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .reply-item .user-name,
 .page-view-comments .reply-item .user-name,
 .container-edit-comment .reply-item .user-name,
-.container-add-reply .reply-item .user-name {
+.container-add-reply .reply-item .user-name,
+.view-comment .reply-item .user-name {
   padding-top: 3px;
 }
 .page-comments .comment-quote,
 .page-add-comment .comment-quote,
 .page-view-comments .comment-quote,
 .container-edit-comment .comment-quote,
-.container-add-reply .comment-quote {
+.container-add-reply .comment-quote,
+.view-comment .comment-quote {
   color: #446995;
   border-left: 1px solid #446995;
   padding-left: 10px;
@@ -6169,42 +6181,53 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .wrap-comment,
 .page-view-comments .wrap-comment,
 .container-edit-comment .wrap-comment,
-.container-add-reply .wrap-comment {
-  padding: 16px 0 0 0;
+.container-add-reply .wrap-comment,
+.view-comment .wrap-comment {
+  padding: 16px 24px 0 16px;
 }
 .page-comments .comment-textarea,
 .page-add-comment .comment-textarea,
 .page-view-comments .comment-textarea,
 .container-edit-comment .comment-textarea,
 .container-add-reply .comment-textarea,
+.view-comment .comment-textarea,
 .page-comments .reply-textarea,
 .page-add-comment .reply-textarea,
 .page-view-comments .reply-textarea,
 .container-edit-comment .reply-textarea,
-.container-add-reply .reply-textarea {
+.container-add-reply .reply-textarea,
+.view-comment .reply-textarea,
+.page-comments .edit-reply-textarea,
+.page-add-comment .edit-reply-textarea,
+.page-view-comments .edit-reply-textarea,
+.container-edit-comment .edit-reply-textarea,
+.container-add-reply .edit-reply-textarea,
+.view-comment .edit-reply-textarea {
   margin-top: 10px;
   background: transparent;
-  border: none;
   outline: none;
   width: 100%;
-  min-height: 200px;
   font-size: 15px;
+  border: 1px solid #c4c4c4;
+  border-radius: 3px;
+  min-height: 100px;
 }
 .page-comments .header-comment,
 .page-add-comment .header-comment,
 .page-view-comments .header-comment,
 .container-edit-comment .header-comment,
-.container-add-reply .header-comment {
+.container-add-reply .header-comment,
+.view-comment .header-comment {
   display: flex;
   justify-content: space-between;
   padding-right: 16px;
-  margin-bottom: 13px;
 }
 .page-comments .header-comment .comment-right,
 .page-add-comment .header-comment .comment-right,
 .page-view-comments .header-comment .comment-right,
 .container-edit-comment .header-comment .comment-right,
-.container-add-reply .header-comment .comment-right {
+.container-add-reply .header-comment .comment-right,
+.view-comment .header-comment .comment-right {
   display: flex;
   justify-content: space-between;
   width: 70px;
@@ -6213,7 +6236,8 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .header-comment .comment-left,
 .page-view-comments .header-comment .comment-left,
 .container-edit-comment .header-comment .comment-left,
-.container-add-reply .header-comment .comment-left {
+.container-add-reply .header-comment .comment-left,
+.view-comment .header-comment .comment-left {
   display: flex;
   justify-content: space-between;
 }
@@ -6221,7 +6245,8 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .header-comment .initials-comment,
 .page-view-comments .header-comment .initials-comment,
 .container-edit-comment .header-comment .initials-comment,
-.container-add-reply .header-comment .initials-comment {
+.container-add-reply .header-comment .initials-comment,
+.view-comment .header-comment .initials-comment {
   height: 40px;
   width: 40px;
   border-radius: 50px;
@@ -6236,7 +6261,8 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .header-reply .reply-left,
 .page-view-comments .header-reply .reply-left,
 .container-edit-comment .header-reply .reply-left,
-.container-add-reply .header-reply .reply-left {
+.container-add-reply .header-reply .reply-left,
+.view-comment .header-reply .reply-left {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -6245,7 +6271,8 @@ html.phone .document-menu .list-block .item-link {
 .page-add-comment .header-reply .initials-reply,
 .page-view-comments .header-reply .initials-reply,
 .container-edit-comment .header-reply .initials-reply,
-.container-add-reply .header-reply .initials-reply {
+.container-add-reply .header-reply .initials-reply,
+.view-comment .header-reply .initials-reply {
   width: 24px;
   height: 24px;
   color: #FFFFFF;
@@ -6274,17 +6301,22 @@ html.phone .document-menu .list-block .item-link {
   height: 50%;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
 }
-.container-view-comment .page-view-comments {
+.container-view-comment .page-view-comments,
+.container-view-comment .view-comment {
   background-color: #FFFFFF;
 }
-.container-view-comment .page-view-comments .list-block {
+.container-view-comment .page-view-comments .list-block,
+.container-view-comment .view-comment .list-block {
   margin-bottom: 120px;
 }
 .container-view-comment .page-view-comments .list-block ul:before,
-.container-view-comment .page-view-comments .list-block ul:after {
+.container-view-comment .view-comment .list-block ul:before,
+.container-view-comment .page-view-comments .list-block ul:after,
+.container-view-comment .view-comment .list-block ul:after {
   content: none;
 }
-.container-view-comment .page-view-comments .list-block .item-inner {
+.container-view-comment .page-view-comments .list-block .item-inner,
+.container-view-comment .view-comment .list-block .item-inner {
   padding: 0;
 }
 .container-view-comment .toolbar {
@@ -6333,11 +6365,69 @@ html.phone .document-menu .list-block .item-link {
 .container-view-comment .list-block {
   margin-top: 0;
 }
+.container-view-comment.popover {
+  border-radius: 4px;
+  min-height: 170px;
+  height: 400px;
+  max-height: 600px;
+}
+.container-view-comment.popover .toolbar {
+  border-radius: 0 0 4px 4px;
+}
+.container-view-comment.popover .toolbar .toolbar-inner {
+  padding-right: 0;
+}
+.container-view-comment.popover .page {
+  border-radius: 13px;
+}
+.container-view-comment.popover .page .page-content {
+  padding: 16px;
+  padding-bottom: 80px;
+}
+.container-view-comment.popover .page .page-content .list-block {
+  margin-bottom: 0px;
+}
+.container-view-comment.popover .page .page-content .list-block .item-content {
+  padding-left: 0;
+}
+.container-view-comment.popover .page .page-content .list-block .item-content .header-comment,
+.container-view-comment.popover .page .page-content .list-block .item-content .reply-item {
+  padding-right: 0;
+}
+.container-view-comment.popover .page .page-content .block-reply {
+  margin-top: 10px;
+}
+.container-view-comment.popover .page .page-content .block-reply .reply-textarea {
+  min-height: 70px;
+  width: 278px;
+  border: 1px solid #c4c4c4;
+  border-radius: 6px;
+  padding: 5px;
+}
+.container-view-comment.popover .page .page-content .edit-reply-textarea {
+  min-height: 60px;
+  width: 100%;
+  border: 1px solid #c4c4c4;
+  border-radius: 6px;
+  padding: 5px;
+  height: 60px;
+  margin-top: 10px;
+}
+.container-view-comment.popover .page .page-content .comment-text {
+  padding-right: 0;
+}
+.container-view-comment.popover .page .page-content .comment-text .comment-textarea {
+  border: 1px solid #c4c4c4;
+  border-radius: 6px;
+  padding: 8px;
+  min-height: 80px;
+  height: 80px;
+}
 #done-comment {
   padding: 0 16px;
 }
 .page-add-comment .wrap-comment {
-  padding: 16px 16px 0 16px;
+  padding: 16px 24px 0 16px;
 }
 .page-add-comment .wrap-comment .header-comment {
   justify-content: flex-start;
@@ -6410,11 +6500,6 @@ container-edit-comment .navbar .right {
 .container-add-reply .page-add-comment,
 container-edit-comment .page-add-comment {
   background-color: #FFFFFF;
-}
-.container-edit-comment .page-add-comment .page-content,
-.container-add-reply .page-add-comment .page-content,
-container-edit-comment .page-add-comment .page-content {
-  padding: 0 16px 80px;
 }
 .container-edit-comment .header-comment,
 .container-add-reply .header-comment,
@@ -6888,7 +6973,7 @@ i.icon.icon-next-comment {
 i.icon.icon-close-comment {
   width: 24px;
   height: 24px;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M18.9844%206.42188L13.4062%2012L18.9844%2017.5781L17.5781%2018.9844L12%2013.4062L6.42188%2018.9844L5.01562%2017.5781L10.5938%2012L5.01562%206.42188L6.42188%205.01562L12%2010.5938L17.5781%205.01562L18.9844%206.42188Z%22%20fill%3D%22%23446995%22%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M18.9844%206.42188L13.4062%2012L18.9844%2017.5781L17.5781%2018.9844L12%2013.4062L6.42188%2018.9844L5.01562%2017.5781L10.5938%2012L5.01562%206.42188L6.42188%205.01562L12%2010.5938L17.5781%205.01562L18.9844%206.42188Z%22%20fill%3D%22rgba(0%2C%200%2C%200%2C%200.6)%22%2F%3E%3C%2Fsvg%3E");
 }
 i.icon.icon-done-comment {
   width: 24px;
@@ -6900,7 +6985,7 @@ i.icon.icon-insert-comment {
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M20.1538%209.00708H11.8462C10.8266%209.00708%2010%209.83461%2010%2010.8554V15.1694C10%2016.1902%2010.8266%2017.0177%2011.8462%2017.0177H13.8329C13.9409%2017.0177%2014.0454%2017.0556%2014.1284%2017.1248L18.243%2020.392C18.5436%2020.6428%2019%2020.4288%2019%2020.037V17.4798C19%2017.2246%2019.2066%2017.0177%2019.4615%2017.0177H20.1538C21.1734%2017.0177%2022%2016.1902%2022%2015.1694V10.8554C22%209.83461%2021.1734%209.00708%2020.1538%209.00708ZM20%2010.0083C20.5523%2010.0083%2021%2010.4565%2021%2011.0095V15.0154C21%2015.5683%2020.5523%2016.0165%2020%2016.0165H18.0025L18%2018.8995C18%2019.2912%2018%2019%2018%2019L14.5%2016.0165H12C11.4477%2016.0165%2011%2015.5683%2011%2015.0154V11.0095C11%2010.4565%2011.4477%2010.0083%2012%2010.0083H20Z%22%20fill%3D%22%23446995%22%2F%3E%3Cpath%20d%3D%22M14.5%203H4.5C3.18908%203%202%204.2153%202%205.50295V12.0346C2%2013.3222%203.18908%2014.013%204.5%2014.013H5.5C5.82773%2014.013%206%2014.1917%206%2014.5136V17.5183C6%2018.0125%206.6135%2018.3352%207%2018.0189L11%2014.9858V13.5L7%2016.5V13.0118H4.5C3.78992%2013.0118%203%2012.732%203%2012.0346V5.50295C3%204.80547%203.78992%204.00118%204.5%204.00118H14.5C15.2101%204.00118%2016%204.80547%2016%205.50295V8.0059H17V5.50295C17%204.2153%2015.8109%203%2014.5%203Z%22%20fill%3D%22%23446995%22%2F%3E%3C%2Fsvg%3E");
 }
-i.icon.icon-done-comment {
+i.icon.icon-done-comment-white {
   width: 24px;
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M9%2016.1719L19.5938%205.57812L21%206.98438L9%2018.9844L3.42188%2013.4062L4.82812%2012L9%2016.1719Z%22%20fill%3D%22%23FFFFFF%22%2F%3E%3C%2Fsvg%3E");

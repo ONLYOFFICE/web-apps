@@ -103,7 +103,7 @@
     word-break: break-word;
   }
   .list-reply {
-    padding-left: 32px;
+    padding-left: 26px;
   }
   .user-name {
     font-size: 17px;
@@ -163,16 +163,17 @@
   }
 
   .wrap-comment {
-    padding: 16px 16px 0 16px;
+    padding: 16px 24px 0 16px;
   }
-  .comment-textarea, .reply-textarea {
+  .comment-textarea, .reply-textarea, .edit-reply-textarea {
     margin-top: 10px;
     background:transparent;
-    border:none;
     outline:none;
     width: 100%;
-    min-height: 200px;
     font-size: 15px;
+    border: 1px solid #c4c4c4;
+    border-radius: 3px;
+    min-height: 100px;
   }
 }
 .settings.popup .list-block ul.list-reply:last-child:after, .settings.popover .list-block ul.list-reply:last-child:after {
@@ -337,7 +338,7 @@
 .page-add-comment {
   background-color: #FFFFFF;
   .wrap-comment {
-    padding: 16px 16px 0 16px;
+    padding: 16px 24px 0 16px;
     .header-comment {
       justify-content: flex-start;
     }

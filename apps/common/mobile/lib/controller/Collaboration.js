@@ -828,6 +828,20 @@ define([
                         '</div>',
                         $$('#toolbar-collaboration')
                     );
+                    this.picker = $$(me.modalViewComment);
+                    var $overlay = $('.modal-overlay');
+
+                    $$(this.picker).on('opened', function () {
+                        $overlay.on('removeClass', function () {
+                            if (!$overlay.hasClass('modal-overlay-visible')) {
+                                $overlay.addClass('modal-overlay-visible')
+                            }
+                        });
+                    }).on('close', function () {
+                        $overlay.off('removeClass');
+                        $overlay.removeClass('modal-overlay-visible');
+                        $('.popover').remove();
+                    });
                 }
                 me.getView('Common.Views.Collaboration').renderViewComments(me.showComments, me.indexCurrentComment);
                 $('.prev-comment').single('click', _.bind(me.onViewPrevComment, me));

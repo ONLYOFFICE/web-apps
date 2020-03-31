@@ -6504,7 +6504,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .container-edit-comment .list-reply,
 .container-add-reply .list-reply,
 .view-comment .list-reply {
-  padding-left: 32px;
+  padding-left: 26px;
 }
 .page-comments .user-name,
 .add-comment .user-name,
@@ -6620,7 +6620,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .container-edit-comment .wrap-comment,
 .container-add-reply .wrap-comment,
 .view-comment .wrap-comment {
-  padding: 16px 16px 0 16px;
+  padding: 16px 24px 0 16px;
 }
 .page-comments .comment-textarea,
 .add-comment .comment-textarea,
@@ -6633,14 +6633,21 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .page-view-comments .reply-textarea,
 .container-edit-comment .reply-textarea,
 .container-add-reply .reply-textarea,
-.view-comment .reply-textarea {
+.view-comment .reply-textarea,
+.page-comments .edit-reply-textarea,
+.add-comment .edit-reply-textarea,
+.page-view-comments .edit-reply-textarea,
+.container-edit-comment .edit-reply-textarea,
+.container-add-reply .edit-reply-textarea,
+.view-comment .edit-reply-textarea {
   margin-top: 10px;
   background: transparent;
-  border: none;
   outline: none;
   width: 100%;
-  min-height: 200px;
   font-size: 15px;
+  border: 1px solid #c4c4c4;
+  border-radius: 3px;
+  min-height: 100px;
 }
 .settings.popup .list-block ul.list-reply:last-child:after,
 .settings.popover .list-block ul.list-reply:last-child:after {
@@ -6798,7 +6805,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   background-color: #FFFFFF;
 }
 .page-add-comment .wrap-comment {
-  padding: 16px 16px 0 16px;
+  padding: 16px 24px 0 16px;
 }
 .page-add-comment .wrap-comment .header-comment {
   justify-content: flex-start;
