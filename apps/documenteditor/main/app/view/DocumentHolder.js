@@ -4058,6 +4058,13 @@ define([
                         me.api.asc_UncheckContentControlButtons();
                     }
                 });
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+
             }
             this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
 
