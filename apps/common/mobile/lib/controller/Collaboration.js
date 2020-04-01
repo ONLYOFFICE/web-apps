@@ -723,7 +723,7 @@ define([
             findComment: function(uid) {
                 var comment;
                 if (this.groupCollectionFilter.length !== 0) {
-                    comment = me.findCommentInGroup(uid);
+                    comment = this.findCommentInGroup(uid);
                 } else if (this.collectionComments.length !== 0) {
                     comment = _.findWhere(this.collectionComments, {uid: uid});
                 }
@@ -757,7 +757,7 @@ define([
                 DE.getController('Common.Controllers.Collaboration').getView('Common.Views.Collaboration').renderViewComments(this.showComments, this.indexCurrentComment);
                 $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
                 $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
-                $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this));
+                $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this, false));
             },
 
             showCommentModal: function() {
@@ -847,9 +847,9 @@ define([
                 $('.prev-comment').single('click', _.bind(me.onViewPrevComment, me));
                 $('.next-comment').single('click', _.bind(me.onViewNextComment, me));
                 $('.comment-menu').single('click', _.bind(me.initMenuComments, me));
-                $('.add-reply').single('click', _.bind(me.onClickAddReply, me));
+                $('.add-reply').single('click', _.bind(me.onClickAddReply, me, false));
                 $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));
-                $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me));
+                $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me, false));
 
                 if (me.showComments.length === 1) {
                     $('.prev-comment, .next-comment').addClass('disabled');
@@ -921,7 +921,7 @@ define([
                     _.defer(function () {
                         $('.comment-menu').single('click', _.bind(me.initMenuComments, me));
                         $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));
-                        $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me));
+                        $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me, false));
                     });
                 }
             },
@@ -938,64 +938,84 @@ define([
                     _.defer(function () {
                         $('.comment-menu').single('click', _.bind(me.initMenuComments, me));
                         $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));
-                        $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me));
+                        $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me, false));
                     });
                 }
             },
 
-            onClickAddReply: function() {
+            onClickAddReply: function(id) {
                 var me = this;
                 var isAndroid = Framework7.prototype.device.android === true,
                     phone = Common.SharedSettings.get('phone');
-                if (this.indexCurrentComment > -1 && this.indexCurrentComment < this.showComments.length) {
-                    var addReplyView,
-                        comment = this.showComments[this.indexCurrentComment];
-                    if (phone) {
-                        addReplyView = uiApp.popup(
-                            '<div class="popup container-add-reply">' +
-                            '<div class="navbar">' +
-                            '<div class="navbar-inner">' +
-                            '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? '<i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>') + '</a></div>' +
-                            '<div class="center sliding">' + me.textAddReply + '</div>' +
-                            '<div class="right sliding"><a href="#" class="link done-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="pages">' +
-                            '<div class="page page-add-comment">' +
-                            '<div class="page-content">' +
-                            '<div class="wrap-comment">' +
-                            (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: '+ comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
-                            '<div class="user-name">' + comment.username + '</div>' +
-                            '<div class="comment-date">' + comment.date + '</div>' +
-                            (isAndroid ? '</div></div>' : '') +
-                            '<div><textarea class="reply-textarea">'+ '</textarea></div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>'
-                        );
-                        $('.popup').css('z-index', '20000');
-                    } else {
-                        $('.container-view-comment .toolbar').find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
-                        var template = _.template('<a href="#" class="link done-reply">' + me.textDone + '</a>');
-                        $('.container-view-comment .button-right').append(template);
-                        template = _.template('<a href="#" class="link cancel-reply">' + me.textCancel + '</a>');
-                        $('.container-view-comment .button-left').append(template);
-                        template = _.template('<div class="block-reply"><textarea class="reply-textarea" autofocus placeholder="' + me.textAddReply + '"></textarea></div>');
-                        $('.view-comment .page-content').append(template);
+                var idComment;
+                if (!id) {
+                    idComment = $('.view-comment').find('.comment').data('uid');
+                } else {
+                    idComment = id;
+                }
+                var comment = me.findComment(idComment);
+                me.getCurrentUser();
+                var date = me.dateToLocaleTimeString(new Date());
+                if (comment) {
+                    var addReplyView;
+                    if ($('.container-view-comment').length > 0) {
+                        if (phone) {
+                            addReplyView = uiApp.popup(
+                                '<div class="popup container-add-reply">' +
+                                '<div class="navbar">' +
+                                '<div class="navbar-inner">' +
+                                '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? '<i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>') + '</a></div>' +
+                                '<div class="center sliding">' + me.textAddReply + '</div>' +
+                                '<div class="right sliding"><a href="#" class="link done-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="pages">' +
+                                '<div class="page page-add-comment">' +
+                                '<div class="page-content">' +
+                                '<div class="wrap-reply">' +
+                                (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + me.currentUser.asc_getColor() + ';">' + me.getInitials(me.currentUser.asc_getUserName()) + '</div><div>' : '') +
+                                '<div class="user-name">' + me.currentUser.asc_getUserName() + '</div>' +
+                                '<div class="comment-date">' + date + '</div>' +
+                                (isAndroid ? '</div></div>' : '') +
+                                '<div><textarea class="reply-textarea">' + '</textarea></div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>'
+                            );
+                            $('.popup').css('z-index', '20000');
+                        } else {
+                            $('.container-view-comment .toolbar').find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
+                            var template = _.template('<a href="#" class="link done-reply">' + me.textDone + '</a>');
+                            $('.container-view-comment .button-right').append(template);
+                            template = _.template('<a href="#" class="link cancel-reply">' + me.textCancel + '</a>');
+                            $('.container-view-comment .button-left').append(template);
+                            template = _.template('<div class="block-reply"><textarea class="reply-textarea" autofocus placeholder="' + me.textAddReply + '"></textarea></div>');
+                            $('.view-comment .page-content').append(template);
+                        }
+                    } else if ($('.container-collaboration').length > 0) {
+                        me.getView('Common.Views.Collaboration').showPage('#comments-add-reply-view');
+                        var name = me.currentUser.asc_getUserName(),
+                            color = me.currentUser.asc_getColor();
+                        me.getView('Common.Views.Collaboration').renderAddReply(name, color, me.getInitials(name), date);
                     }
                     $('.done-reply').single('click', _.bind(function (uid) {
                         var reply = $('.reply-textarea')[0].value;
-                        var $viewComment = $('.container-view-comment');
-                        if (reply && reply.length > 0) {
-                            this.addReply(uid, reply);
-                            uiApp.closeModal($$(addReplyView));
-                            this.updateViewComment(this.showComments, this.indexCurrentComment);
-                            if (!phone) {
-                                $viewComment.find('a.done-reply, a.cancel-reply').css('display', 'none');
-                                $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
+                        if ($('.container-view-comment').length > 0) {
+                            var $viewComment = $('.container-view-comment');
+                            if (reply && reply.length > 0) {
+                                this.addReply(uid, reply);
+                                uiApp.closeModal($$(addReplyView));
+                                this.updateViewComment(this.showComments, this.indexCurrentComment);
+                                if (!phone) {
+                                    $viewComment.find('a.done-reply, a.cancel-reply').css('display', 'none');
+                                    $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
+                                }
                             }
+                        } else if ($('.container-collaboration').length > 0) {
+                            this.addReply(uid, reply);
+                            rootView.router.back();
                         }
                     }, me, comment.uid));
                     $('.cancel-reply').single('click', _.bind(function () {
@@ -1093,8 +1113,11 @@ define([
                 }
             },
 
-            initMenuComments: function() {
-                if ($('.actions-modal').length === 0) {
+            initMenuComments: function(e) {
+                var $comment = $(e.currentTarget).closest('.comment');
+                var idComment = $comment.data('uid');
+                var comment = this.findComment(idComment);
+                if ($('.actions-modal').length === 0 && comment) {
                     var me = this;
                     _.delay(function () {
                         var _menuItems = [];
@@ -1102,7 +1125,7 @@ define([
                             caption: me.textEdit,
                             event: 'edit'
                         });
-                        if (!me.showComments[me.indexCurrentComment].resolved) {
+                        if (!comment.resolved) {
                             _menuItems.push({
                                 caption: me.textResolve,
                                 event: 'resolve'
@@ -1113,6 +1136,12 @@ define([
                                 event: 'resolve'
                             });
                         }
+                        if ($('.container-collaboration').length > 0) {
+                            _menuItems.push({
+                                caption: me.textAddReply,
+                                event: 'addreply'
+                            });
+                        }
                         _menuItems.push({
                             caption: me.textDeleteComment,
                             event: 'delete',
@@ -1121,7 +1150,7 @@ define([
                         _.each(_menuItems, function (item) {
                             item.text = item.caption;
                             item.onClick = function () {
-                                me.onCommentMenuClick(item.event)
+                                me.onCommentMenuClick(item.event, idComment)
                             }
                         });
 
@@ -1141,6 +1170,7 @@ define([
             initReplyMenu: function(event) {
                 var me = this;
                 var ind = $(event.currentTarget).parent().parent().data('ind');
+                var idComment = $(event.currentTarget).closest('.comment').data('uid');
                 _.delay(function () {
                     var _menuItems = [];
                     _menuItems.push({
@@ -1155,7 +1185,7 @@ define([
                     _.each(_menuItems, function (item) {
                         item.text = item.caption;
                         item.onClick = function () {
-                            me.onCommentMenuClick(item.event, ind);
+                            me.onCommentMenuClick(item.event, idComment, ind);
                         }
                     });
                     uiApp.actions([_menuItems, [
@@ -1170,7 +1200,7 @@ define([
                 }, 100);
             },
 
-            onCommentMenuClick: function(action, indReply) {
+            onCommentMenuClick: function(action, idComment, indReply) {
                 var me = this;
                 function addOverlay () {
                     if (!Common.SharedSettings.get('phone')) {
@@ -1183,24 +1213,27 @@ define([
                 switch (action) {
                     case 'edit':
                         addOverlay();
-                        me.showEditComment();
+                        me.showEditComment(idComment);
                         break;
                     case 'resolve':
                         addOverlay();
-                        me.onClickResolveComment();
+                        me.onClickResolveComment(idComment);
                         break;
                     case 'delete':
                         addOverlay();
-                        me.onDeleteComment(me.indexCurrentComment);
+                        me.onDeleteComment(idComment);
                         break;
                     case 'editreply':
                         addOverlay();
-                        me.showEditReplyModal(me.indexCurrentComment, indReply);
+                        me.showEditReply(idComment, indReply);
                         break;
                     case 'deletereply':
                         addOverlay();
-                        me.onDeleteReply(me.indexCurrentComment, indReply);
+                        me.onDeleteReply(idComment, indReply);
                         break;
+                    case 'addreply':
+                        addOverlay();
+                        me.onClickAddReply(idComment);
                     default:
                         addOverlay();
                         break;
@@ -1249,29 +1282,34 @@ define([
                         }
 
                         this.api.asc_changeComment(uid, ascComment);
+                        return true;
+                    }
+                }
+                return  false;
+            },
+
+            onDeleteComment: function(uid) {
+                var comment = this.findComment(uid);
+                if (this.api && comment) {
+                    this.api.asc_removeComment(uid);
+                    if ($('.container-view-comment').length > 0) {
+                        if (this.showComments.length === 0) {
+                            uiApp.closeModal();
+                        } else {
+                            this.indexCurrentComment = this.indexCurrentComment - 1 > -1 ? this.indexCurrentComment - 1 : 0;
+                            this.updateViewComment();
+                        }
                     }
                 }
             },
 
-            onDeleteComment: function(ind) {
-                if (this.api && !_.isUndefined(ind) && !_.isUndefined(this.showComments)) {
-                    this.api.asc_removeComment(this.showComments[ind].uid);
-                    if (this.showComments.length === 0) {
-                        uiApp.closeModal();
-                    } else {
-                        this.indexCurrentComment = this.indexCurrentComment - 1 > -1 ? this.indexCurrentComment - 1 : 0;
-                        this.updateViewComment();
-                    }
-                }
-            },
-
-            onDeleteReply: function(indComment, indReply) {
-                if (!_.isUndefined(indComment) && !_.isUndefined(indReply)) {
+            onDeleteReply: function(idComment, indReply) {
+                if (!_.isUndefined(idComment) && !_.isUndefined(indReply)) {
                     var me = this,
                         replies = null,
                         addReply = null,
                         ascComment = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null)),
-                        comment = me.showComments[indComment];
+                        comment = me.findComment(idComment);
 
                     if (ascComment && comment) {
                         var id = comment.uid;
@@ -1307,123 +1345,38 @@ define([
                         }
 
                         me.api.asc_changeComment(id, ascComment);
-                        me.updateViewComment();
+                        if($('.container-view-comment').length > 0) {
+                            me.updateViewComment();
+                        }
                     }
                 }
             },
 
-            showEditComment: function() {
+            showEditComment: function(idComment) {
                 var me = this,
                     isAndroid = Framework7.prototype.device.android === true;
-                if (this.indexCurrentComment > -1 && this.indexCurrentComment < this.showComments.length) {
-                    var comment = this.showComments[this.indexCurrentComment];
-                    if (Common.SharedSettings.get('phone')) {
-                        me.editView = uiApp.popup(
-                            '<div class="popup container-edit-comment">' +
-                            '<div class="navbar">' +
-                            '<div class="navbar-inner">' +
-                            '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? ' <i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>')+ '</a></div>' +
-                            '<div class="center sliding">' + me.textEditComment + '</div>' +
-                            '<div class="right sliding"><a href="#" class="link" id="edit-comment">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="pages">' +
-                            '<div class="page add-comment">' +
-                            '<div class="page-content">' +
-                            '<div class="wrap-comment">' +
-                            (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: '+ comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
-                            '<div class="user-name">' + comment.username + '</div>' +
-                            '<div class="comment-date">' + comment.date + '</div>' +
-                            (isAndroid ? '</div></div>' : '') +
-                            '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>'
-                        );
-                        $('.popup').css('z-index', '20000');
-                        _.delay(function () {
-                            var $textarea = $('.comment-textarea')[0];
-                            $textarea.focus();
-                            $textarea.selectionStart = $textarea.value.length;
-                        },100);
-                    } else {
-                        if ($('.comment-textarea').length === 0) {
-                            var $viewComment = $('.container-view-comment');
-                            var oldComment = $viewComment.find('.comment-text span').text();
-                            $viewComment.find('.comment-text span').css('display', 'none');
-                            var template = _.template('<textarea id="comment-text" class="comment-textarea">' + oldComment + '</textarea>');
-                            $viewComment.find('.comment-text').append(template);
-                            $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
-                            template = _.template('<a href="#" class="link done-reply" id="edit-comment">' + me.textDone + '</a>');
-                            $viewComment.find('.button-right').append(template);
-                            template = _.template('<a href="#" class="link cancel-reply">' + me.textCancel + '</a>');
-                            $viewComment.find('.button-left').append(template);
-
-                            _.delay(function () {
-                                var $textarea = $viewComment.find('.comment-textarea')[0];
-                                $textarea.focus();
-                                $textarea.selectionStart = $textarea.value.length;
-                            }, 50);
-                        }
-                    }
-                    $('#edit-comment').single('click', _.bind(function (comment) {
-                        var value = $('#comment-text')[0].value;
-                        if (value && value.length > 0) {
-                            comment.comment = value;
-                            this.showComments[this.indexCurrentComment] = comment;
-                            this.onChangeComment(comment);
-                            if (Common.SharedSettings.get('phone')) {
-                                uiApp.closeModal($$(me.editView));
-                            } else {
-                                var $viewComment = $('.container-view-comment');
-                                $viewComment.find('a.done-reply, a.cancel-reply').remove();
-                                $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
-                            }
-                            this.updateViewComment();
-                        }
-                    }, me, comment));
-                    $('.cancel-reply').single('click', _.bind(function () {
-                        var $viewComment = $('.container-view-comment');
-                        $viewComment.find('a.done-reply, a.cancel-reply, .comment-textarea').remove();
-                        $viewComment.find('.comment-text span').css('display', 'block');
-                        $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
-                    }, me));
-                }
-            },
-
-            showEditReplyModal: function(indComment, indReply) {
-                var me = this;
-                if (indComment > -1 && indComment < this.showComments.length) {
-                    var editView,
-                        comment,
-                        replies,
-                        reply;
-                    var isAndroid = Framework7.prototype.device.android === true;
-                    this.showComments && (comment = this.showComments[indComment]);
-                    comment && (replies = comment.replys);
-                    replies && (reply = replies[indReply]);
-                    if (reply) {
+                if (idComment) {
+                    var comment = this.findComment(idComment);
+                    if ($('.container-view-comment').length > 0) {
                         if (Common.SharedSettings.get('phone')) {
-                            editView = uiApp.popup(
+                            me.editView = uiApp.popup(
                                 '<div class="popup container-edit-comment">' +
                                 '<div class="navbar">' +
                                 '<div class="navbar-inner">' +
-                                '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? '<i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>') + '</a></div>' +
-                                '<div class="center sliding">' + me.textEditReply + '</div>' +
-                                '<div class="right sliding"><a href="#" class="link" id="edit-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
+                                '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? ' <i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>') + '</a></div>' +
+                                '<div class="center sliding">' + me.textEditComment + '</div>' +
+                                '<div class="right sliding"><a href="#" class="link" id="edit-comment">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
                                 '</div>' +
                                 '</div>' +
                                 '<div class="pages">' +
                                 '<div class="page add-comment">' +
                                 '<div class="page-content">' +
                                 '<div class="wrap-comment">' +
-                                (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: '+ comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
-                                '<div class="user-name">' + reply.username + '</div>' +
-                                '<div class="comment-date">' + reply.date + '</div>' +
+                                (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
+                                '<div class="user-name">' + comment.username + '</div>' +
+                                '<div class="comment-date">' + comment.date + '</div>' +
                                 (isAndroid ? '</div></div>' : '') +
-                                '<div><textarea id="comment-text" class="edit-reply-textarea">' + reply.reply + '</textarea></div>' +
+                                '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
                                 '</div>' +
                                 '</div>' +
                                 '</div>' +
@@ -1432,40 +1385,139 @@ define([
                             );
                             $('.popup').css('z-index', '20000');
                             _.delay(function () {
-                                var $textarea = $('.edit-reply-textarea')[0];
+                                var $textarea = $('.comment-textarea')[0];
                                 $textarea.focus();
                                 $textarea.selectionStart = $textarea.value.length;
-                            },100);
+                            }, 100);
                         } else {
-                            var $reply = $('.reply-item[data-ind=' + indReply + ']');
-                            var $viewComment = $('.container-view-comment');
-                            $reply.find('.reply-text').css('display', 'none');
-                            $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
-                            var template = _.template('<textarea class="edit-reply-textarea">' + reply.reply + '</textarea>');
-                            $reply.append(template);
-                            template = _.template('<a href="#" class="link done-reply" id="edit-reply">' + me.textDone + '</a>');
-                            $viewComment.find('.button-right').append(template);
-                            template = _.template('<a href="#" class="link cancel-reply">' + me.textCancel + '</a>');
-                            $viewComment.find('.button-left').append(template);
-
-                            _.delay(function () {
-                                var $textarea = $viewComment.find('.edit-reply-textarea')[0];
-                                $textarea.focus();
-                                $textarea.selectionStart = $textarea.value.length;
-                            }, 50);
+                            if ($('.comment-textarea').length === 0) {
+                                var $viewComment = $('.container-view-comment');
+                                var oldComment = $viewComment.find('.comment-text span').text();
+                                $viewComment.find('.comment-text span').css('display', 'none');
+                                var template = _.template('<textarea id="comment-text" class="comment-textarea">' + oldComment + '</textarea>');
+                                $viewComment.find('.comment-text').append(template);
+                                $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
+                                template = _.template('<a href="#" class="link done-edit-comment" id="edit-comment">' + me.textDone + '</a>');
+                                $viewComment.find('.button-right').append(template);
+                                template = _.template('<a href="#" class="link cancel-edit-comment">' + me.textCancel + '</a>');
+                                $viewComment.find('.button-left').append(template);
+                            }
                         }
-                        $('#edit-reply').single('click', _.bind(function (comment, indReply) {
-                            var value = $('.edit-reply-textarea')[0].value;
-                            if (value && value.length > 0) {
-                                comment.replys[indReply].reply = value;
-                                this.onChangeComment(comment);
+                    } else if ($('.container-collaboration').length > 0) {
+                        this.getView('Common.Views.Collaboration').showPage('#comments-edit-view');
+                        this.getView('Common.Views.Collaboration').renderEditComment(comment);
+                    }
+                    _.defer(function () {
+                        var $textarea = $('.comment-textarea')[0];
+                        $textarea.focus();
+                        $textarea.selectionStart = $textarea.value.length;
+                    });
+                    $('#edit-comment').single('click', _.bind(function (comment) {
+                        var value = $('#comment-text')[0].value;
+                        if (value && value.length > 0) {
+                            comment.comment = value;
+                            if (!this.onChangeComment(comment)) return;
+                            if ($('.container-view-comment').length > 0) {
+                                this.showComments[this.indexCurrentComment] = comment;
                                 if (Common.SharedSettings.get('phone')) {
-                                    uiApp.closeModal($$(editView));
+                                    uiApp.closeModal($$(me.editView));
                                 } else {
-                                    $viewComment.find('a.done-reply, a.cancel-reply').remove();
+                                    var $viewComment = $('.container-view-comment');
+                                    $viewComment.find('a.done-edit-comment, a.cancel-edit-comment').remove();
                                     $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
                                 }
                                 this.updateViewComment();
+                            } else if ($('.container-collaboration').length > 0) {
+                                rootView.router.back();
+                            }
+                        }
+                    }, me, comment));
+                    $('.cancel-edit-comment').single('click', _.bind(function () {
+                        var $viewComment = $('.container-view-comment');
+                        $viewComment.find('a.done-edit-comment, a.cancel-edit-comment, .comment-textarea').remove();
+                        $viewComment.find('.comment-text span').css('display', 'block');
+                        $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
+                    }, me));
+                }
+            },
+
+            showEditReply: function(idComment, indReply) {
+                var me = this;
+                var comment = me.findComment(idComment);
+                if (comment) {
+                    var editView,
+                        replies,
+                        reply;
+                    var isAndroid = Framework7.prototype.device.android === true;
+                    replies = comment.replys;
+                    reply = replies[indReply];
+                    if (reply) {
+                        if ($('.container-view-comment').length > 0) {
+                            if (Common.SharedSettings.get('phone')) {
+                                editView = uiApp.popup(
+                                    '<div class="popup container-edit-comment">' +
+                                    '<div class="navbar">' +
+                                    '<div class="navbar-inner">' +
+                                    '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? '<i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>') + '</a></div>' +
+                                    '<div class="center sliding">' + me.textEditReply + '</div>' +
+                                    '<div class="right sliding"><a href="#" class="link" id="edit-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="pages">' +
+                                    '<div class="page add-comment">' +
+                                    '<div class="page-content">' +
+                                    '<div class="wrap-comment">' +
+                                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>' : '') +
+                                    '<div class="user-name">' + reply.username + '</div>' +
+                                    '<div class="comment-date">' + reply.date + '</div>' +
+                                    (isAndroid ? '</div></div>' : '') +
+                                    '<div><textarea id="comment-text" class="edit-reply-textarea">' + reply.reply + '</textarea></div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>'
+                                );
+                                $('.popup').css('z-index', '20000');
+                            } else {
+                                var $reply = $('.reply-item[data-ind=' + indReply + ']');
+                                var $viewComment = $('.container-view-comment');
+                                $reply.find('.reply-text').css('display', 'none');
+                                $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
+                                var template = _.template('<textarea class="edit-reply-textarea">' + reply.reply + '</textarea>');
+                                $reply.append(template);
+                                template = _.template('<a href="#" class="link done-reply" id="edit-reply">' + me.textDone + '</a>');
+                                $viewComment.find('.button-right').append(template);
+                                template = _.template('<a href="#" class="link cancel-reply">' + me.textCancel + '</a>');
+                                $viewComment.find('.button-left').append(template);
+                            }
+                        } else if ($('.container-collaboration').length > 0) {
+                            me.getView('Common.Views.Collaboration').showPage('#comments-edit-reply-view');
+                            me.getView('Common.Views.Collaboration').renderEditReply(reply);
+                        }
+                        _.delay(function () {
+                            var $textarea = $('.edit-reply-textarea')[0];
+                            $textarea.focus();
+                            $textarea.selectionStart = $textarea.value.length;
+                        }, 100);
+                        $('#edit-reply').single('click', _.bind(function (comment, indReply) {
+                            var value = $('.edit-reply-textarea')[0].value;
+                            if (value && value.length > 0) {
+                                if ($('.container-view-comment').length > 0) {
+                                    comment.replys[indReply].reply = value;
+                                    this.onChangeComment(comment);
+                                    if (Common.SharedSettings.get('phone')) {
+                                        uiApp.closeModal($$(editView));
+                                    } else {
+                                        $viewComment.find('a.done-reply, a.cancel-reply').remove();
+                                        $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
+                                    }
+                                    this.updateViewComment();
+                                } else {
+                                    comment.replys[indReply].reply = value;
+                                    this.onChangeComment(comment);
+                                    rootView.router.back();
+                                }
                             }
                         }, me, comment, indReply));
                         $('.cancel-reply').single('click', _.bind(function () {
@@ -1477,12 +1529,19 @@ define([
                 }
             },
 
-            onClickResolveComment: function() {
-                if (!_.isUndefined(this.indexCurrentComment) && !_.isUndefined(this.showComments)) {
-                    var comment = this.showComments[this.indexCurrentComment];
-                    if (comment) {
-                        if (this.resolveComment(comment.uid)) {
-                            $('.comment-resolve .icon-resolve-comment').toggleClass('check');
+            onClickResolveComment: function(uid, e) {
+                var idComment;
+                if (!uid) {
+                    var $comment = $(e.currentTarget).closest('.comment');
+                    idComment = $comment.data('uid');
+                } else {
+                    idComment = uid;
+                }
+                var comment = this.findComment(idComment);
+                if (comment) {
+                    if (this.resolveComment(comment.uid)) {
+                        if ($('.container-view-comment').length > 0) {
+                            $('.comment[data-uid=' + idComment + '] .comment-resolve .icon-resolve-comment').toggleClass('check');
                         }
                     }
                 }
@@ -1555,6 +1614,9 @@ define([
 
             initComments: function() {
                 this.getView('Common.Views.Collaboration').renderComments((this.groupCollectionFilter.length !== 0) ? this.groupCollectionFilter : (this.collectionComments.length !== 0) ? this.collectionComments : false);
+                $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
+                $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
+                $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this, false));
                 $('.comment-quote').single('click', _.bind(this.onSelectComment, this));
             },
 

@@ -156,7 +156,7 @@ define([
                         template = '<div class="list-block">' +
                             '<ul id="comments-list">';
                         var comment = comments[indCurComment];
-                        template += '<li class="comment item-content">' +
+                        template += '<li class="comment item-content" data-uid="' + comment.uid + '">' +
                             '<div class="item-inner">' +
                             '<div class="header-comment"><div class="comment-left">';
                         if (isAndroid) {
@@ -224,21 +224,37 @@ define([
                         items = [];
                     _.each(comments, function (comment) {
                         var itemTemplate = [
-                            '<li class="comment item-content">',
+                            '<li class="comment item-content" data-uid="<%= item.uid %>">',
                             '<div class="item-inner">',
+                            '<div class="header-comment"><div class="comment-left">',
+                            '<% if (android) { %><div class="initials-comment" style="background-color:<%= item.usercolor %> "> <%= item.userInitials %></div><div><% } %>',
                             '<p class="user-name"><%= item.username %></p>',
                             '<p class="comment-date"><%= item.date %></p>',
+                            '<% if (android) { %></div><% } %>',
+                            '</div>',
+                            '<div class="comment-right">',
+                            '<div class="comment-resolve"><i class="icon icon-resolve-comment <% if (item.resolved) { %> check <% } %>"></i></div>',
+                            '<div class="comment-menu"><i class="icon icon-menu-comment"></i></div>',
+                            '</div>',
+                            '</div>',
                             '<% if(item.quote) {%>',
                             '<p class="comment-quote" data-id="<%= item.uid %>"><%= item.quote %></p>',
                             '<% } %>',
-                            '<p class="comment-text"><%= item.comment %></p>',
+                            '<p class="comment-text"><span><%= item.comment %></span></p>',
                             '<% if(replys > 0) {%>',
                             '<ul class="list-reply">',
                             '<% _.each(item.replys, function (reply) { %>',
-                            '<li class="reply-item">',
-                            '<p class="user-name"><%= reply.username %></p>',
-                            '<p class="reply-date"><%= reply.date %></p>',
-                            '<p class="reply-text"><%= reply.reply %></p>',
+                            '<li class="reply-item" data-ind="<%= reply.ind %>">',
+                                '<div class="header-reply">',
+                                    '<div class="reply-left">',
+                                        '<% if (android) { %><div class="initials-reply" style="background-color: <%= reply.usercolor %>;"><%= reply.userInitials %></div><div><% } %>',
+                                        '<p class="user-name"><%= reply.username %></p>',
+                                        '<p class="reply-date"><%= reply.date %></p>',
+                                    '</div>',
+                                    '<% if (android) { %></div><% } %>',
+                                    '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>',
+                                '</div>',
+                                 '<p class="reply-text"><%= reply.reply %></p>',
                             '</li>',
                             '<% }); %>',
                             '</ul>',
@@ -256,7 +272,44 @@ define([
                 }
             },
 
+            renderEditComment: function(comment) {
+                var $pageEdit = $('.page-edit-comment .page-content');
+                var isAndroid = Framework7.prototype.device.android === true;
+                var template = '<div class="wrap-comment">' +
+                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
+                    '<div class="user-name">' + comment.username + '</div>' +
+                    '<div class="comment-date">' + comment.date + '</div>' +
+                    (isAndroid ? '</div></div>' : '') +
+                    '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
+                    '</div>';
+                $pageEdit.html(_.template(template));
+            },
 
+            renderAddReply: function(name, color, initials, date) {
+                var $pageAdd = $('.page-add-reply .page-content');
+                var isAndroid = Framework7.prototype.device.android === true;
+                var template = '<div class="wrap-reply">' +
+                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + color + ';">' + initials + '</div><div>' : '') +
+                    '<div class="user-name">' + name + '</div>' +
+                    '<div class="comment-date">' + date + '</div>' +
+                    (isAndroid ? '</div></div>' : '') +
+                    '<div><textarea class="reply-textarea">' + '</textarea></div>' +
+                    '</div>';
+                $pageAdd.html(_.template(template));
+            },
+
+            renderEditReply: function(reply) {
+                var $pageEdit = $('.page-edit-reply .page-content');
+                var isAndroid = Framework7.prototype.device.android === true;
+                var template = '<div class="wrap-comment">' +
+                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>' : '') +
+                    '<div class="user-name">' + reply.username + '</div>' +
+                    '<div class="comment-date">' + reply.date + '</div>' +
+                    (isAndroid ? '</div></div>' : '') +
+                    '<div><textarea id="comment-text" class="edit-reply-textarea">' + reply.reply + '</textarea></div>' +
+                    '</div>';
+                $pageEdit.html(_.template(template));
+            },
 
             textCollaboration: 'Collaboration',
             textReviewing: 'Review',
@@ -271,7 +324,11 @@ define([
             textOriginal: 'Original',
             textChange: 'Review Change',
             textEditUsers: 'Users',
-            textNoComments: "This document doesn\'t contain comments"
+            textNoComments: "This document doesn\'t contain comments",
+            textEditСomment: "Edit Comment",
+            textDone: "Done",
+            textAddReply: "Add Reply",
+            textEditReply: "Edit Reply"
         }
     })(), Common.Views.Collaboration || {}))
 });

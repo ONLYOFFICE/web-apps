@@ -92,7 +92,17 @@
 }
 
 //Comments
-.page-comments, .add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .view-comment {
+.page-comments, .add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .view-comment, .page-edit-comment, .page-add-reply, .page-edit-reply {
+  .header-comment {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 16px;
+    .comment-right {
+      display: flex;
+      justify-content: space-between;
+      width: 70px;
+    }
+  }
   .list-block .item-inner {
     display: block;
     padding: 16px 0;
@@ -162,7 +172,7 @@
     font-size: 15px;
   }
 
-  .wrap-comment {
+  .wrap-comment, .wrap-reply {
     padding: 16px 24px 0 16px;
   }
   .comment-textarea, .reply-textarea, .edit-reply-textarea {
@@ -210,16 +220,6 @@
       }
       .item-inner {
         padding: 0;
-        .header-comment {
-          display: flex;
-          justify-content: space-between;
-          padding-right: 16px;
-          .comment-right {
-            display: flex;
-            justify-content: space-between;
-            width: 70px;
-          }
-        }
       }
     }
 
@@ -337,7 +337,7 @@
 }
 .page-add-comment {
   background-color: #FFFFFF;
-  .wrap-comment {
+  .wrap-comment, .wrap-reply {
     padding: 16px 24px 0 16px;
     .header-comment {
       justify-content: flex-start;
@@ -378,3 +378,23 @@
 .actions-modal-button.color-red {
   color: @red;
 }
+
+.page-edit-comment, .page-add-reply, .page-edit-reply {
+  background-color: #FFFFFF;
+  .header-comment {
+    justify-content: flex-start;
+  }
+  .navbar {
+    .right {
+      height: 100%;
+      .done-reply {
+        display: flex;
+        align-items: center;
+        padding-left: 16px;
+        padding-right: 16px;
+        height: 100%;
+      }
+    }
+  }
+}
+

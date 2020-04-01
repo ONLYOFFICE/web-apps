@@ -6064,22 +6064,59 @@ html.phone .document-menu .list-block .item-link {
 #user-list ul:before {
   content: none;
 }
+.page-comments .list-block ul:before,
+.page-add-comment .list-block ul:before,
+.page-view-comments .list-block ul:before,
+.container-edit-comment .list-block ul:before,
+.container-add-reply .list-block ul:before,
+.view-comment .list-block ul:before,
+.page-edit-comment .list-block ul:before,
+.page-add-reply .list-block ul:before,
+.page-edit-reply .list-block ul:before,
+.page-comments .list-block ul:after,
+.page-add-comment .list-block ul:after,
+.page-view-comments .list-block ul:after,
+.container-edit-comment .list-block ul:after,
+.container-add-reply .list-block ul:after,
+.view-comment .list-block ul:after,
+.page-edit-comment .list-block ul:after,
+.page-add-reply .list-block ul:after,
+.page-edit-reply .list-block ul:after {
+  content: none;
+}
 .page-comments .list-block .item-inner,
 .page-add-comment .list-block .item-inner,
 .page-view-comments .list-block .item-inner,
 .container-edit-comment .list-block .item-inner,
 .container-add-reply .list-block .item-inner,
-.view-comment .list-block .item-inner {
+.view-comment .list-block .item-inner,
+.page-edit-comment .list-block .item-inner,
+.page-add-reply .list-block .item-inner,
+.page-edit-reply .list-block .item-inner {
   display: block;
   padding: 16px 0;
   word-wrap: break-word;
+}
+.page-comments .list-block .item-inner:after,
+.page-add-comment .list-block .item-inner:after,
+.page-view-comments .list-block .item-inner:after,
+.container-edit-comment .list-block .item-inner:after,
+.container-add-reply .list-block .item-inner:after,
+.view-comment .list-block .item-inner:after,
+.page-edit-comment .list-block .item-inner:after,
+.page-add-reply .list-block .item-inner:after,
+.page-edit-reply .list-block .item-inner:after {
+  content: none;
 }
 .page-comments p,
 .page-add-comment p,
 .page-view-comments p,
 .container-edit-comment p,
 .container-add-reply p,
-.view-comment p {
+.view-comment p,
+.page-edit-comment p,
+.page-add-reply p,
+.page-edit-reply p {
   margin: 0;
   word-break: break-word;
 }
@@ -6088,7 +6125,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .list-reply,
 .container-edit-comment .list-reply,
 .container-add-reply .list-reply,
-.view-comment .list-reply {
+.view-comment .list-reply,
+.page-edit-comment .list-reply,
+.page-add-reply .list-reply,
+.page-edit-reply .list-reply {
   padding-left: 26px;
 }
 .page-comments .user-name,
@@ -6096,7 +6136,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .user-name,
 .container-edit-comment .user-name,
 .container-add-reply .user-name,
-.view-comment .user-name {
+.view-comment .user-name,
+.page-edit-comment .user-name,
+.page-add-reply .user-name,
+.page-edit-reply .user-name {
   font-size: 16px;
   line-height: 22px;
   color: #000000;
@@ -6108,12 +6151,18 @@ html.phone .document-menu .list-block .item-link {
 .container-edit-comment .comment-date,
 .container-add-reply .comment-date,
 .view-comment .comment-date,
+.page-edit-comment .comment-date,
+.page-add-reply .comment-date,
+.page-edit-reply .comment-date,
 .page-comments .reply-date,
 .page-add-comment .reply-date,
 .page-view-comments .reply-date,
 .container-edit-comment .reply-date,
 .container-add-reply .reply-date,
-.view-comment .reply-date {
+.view-comment .reply-date,
+.page-edit-comment .reply-date,
+.page-add-reply .reply-date,
+.page-edit-reply .reply-date {
   font-size: 12px;
   line-height: 18px;
   color: #6d6d72;
@@ -6126,12 +6175,18 @@ html.phone .document-menu .list-block .item-link {
 .container-edit-comment .comment-text,
 .container-add-reply .comment-text,
 .view-comment .comment-text,
+.page-edit-comment .comment-text,
+.page-add-reply .comment-text,
+.page-edit-reply .comment-text,
 .page-comments .reply-text,
 .page-add-comment .reply-text,
 .page-view-comments .reply-text,
 .container-edit-comment .reply-text,
 .container-add-reply .reply-text,
-.view-comment .reply-text {
+.view-comment .reply-text,
+.page-edit-comment .reply-text,
+.page-add-reply .reply-text,
+.page-edit-reply .reply-text {
   color: #000000;
   font-size: 15px;
   line-height: 25px;
@@ -6144,7 +6199,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-item,
 .container-edit-comment .reply-item,
 .container-add-reply .reply-item,
-.view-comment .reply-item {
+.view-comment .reply-item,
+.page-edit-comment .reply-item,
+.page-add-reply .reply-item,
+.page-edit-reply .reply-item {
   padding-right: 16px;
   padding-top: 13px;
 }
@@ -6153,7 +6211,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-item .header-reply,
 .container-edit-comment .reply-item .header-reply,
 .container-add-reply .reply-item .header-reply,
-.view-comment .reply-item .header-reply {
+.view-comment .reply-item .header-reply,
+.page-edit-comment .reply-item .header-reply,
+.page-add-reply .reply-item .header-reply,
+.page-edit-reply .reply-item .header-reply {
   display: flex;
   justify-content: space-between;
 }
@@ -6162,7 +6223,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-item .user-name,
 .container-edit-comment .reply-item .user-name,
 .container-add-reply .reply-item .user-name,
-.view-comment .reply-item .user-name {
+.view-comment .reply-item .user-name,
+.page-edit-comment .reply-item .user-name,
+.page-add-reply .reply-item .user-name,
+.page-edit-reply .reply-item .user-name {
   padding-top: 3px;
 }
 .page-comments .comment-quote,
@@ -6170,7 +6234,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .comment-quote,
 .container-edit-comment .comment-quote,
 .container-add-reply .comment-quote,
-.view-comment .comment-quote {
+.view-comment .comment-quote,
+.page-edit-comment .comment-quote,
+.page-add-reply .comment-quote,
+.page-edit-reply .comment-quote {
   color: #446995;
   border-left: 1px solid #446995;
   padding-left: 10px;
@@ -6182,7 +6249,19 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .wrap-comment,
 .container-edit-comment .wrap-comment,
 .container-add-reply .wrap-comment,
-.view-comment .wrap-comment {
+.view-comment .wrap-comment,
+.page-edit-comment .wrap-comment,
+.page-add-reply .wrap-comment,
+.page-edit-reply .wrap-comment,
+.page-comments .wrap-reply,
+.page-add-comment .wrap-reply,
+.page-view-comments .wrap-reply,
+.container-edit-comment .wrap-reply,
+.container-add-reply .wrap-reply,
+.view-comment .wrap-reply,
+.page-edit-comment .wrap-reply,
+.page-add-reply .wrap-reply,
+.page-edit-reply .wrap-reply {
   padding: 16px 24px 0 16px;
 }
 .page-comments .comment-textarea,
@@ -6191,18 +6270,27 @@ html.phone .document-menu .list-block .item-link {
 .container-edit-comment .comment-textarea,
 .container-add-reply .comment-textarea,
 .view-comment .comment-textarea,
+.page-edit-comment .comment-textarea,
+.page-add-reply .comment-textarea,
+.page-edit-reply .comment-textarea,
 .page-comments .reply-textarea,
 .page-add-comment .reply-textarea,
 .page-view-comments .reply-textarea,
 .container-edit-comment .reply-textarea,
 .container-add-reply .reply-textarea,
 .view-comment .reply-textarea,
+.page-edit-comment .reply-textarea,
+.page-add-reply .reply-textarea,
+.page-edit-reply .reply-textarea,
 .page-comments .edit-reply-textarea,
 .page-add-comment .edit-reply-textarea,
 .page-view-comments .edit-reply-textarea,
 .container-edit-comment .edit-reply-textarea,
 .container-add-reply .edit-reply-textarea,
-.view-comment .edit-reply-textarea {
+.view-comment .edit-reply-textarea,
+.page-edit-comment .edit-reply-textarea,
+.page-add-reply .edit-reply-textarea,
+.page-edit-reply .edit-reply-textarea {
   margin-top: 10px;
   background: transparent;
   outline: none;
@@ -6217,7 +6305,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-comment,
 .container-edit-comment .header-comment,
 .container-add-reply .header-comment,
-.view-comment .header-comment {
+.view-comment .header-comment,
+.page-edit-comment .header-comment,
+.page-add-reply .header-comment,
+.page-edit-reply .header-comment {
   display: flex;
   justify-content: space-between;
   padding-right: 16px;
@@ -6227,7 +6318,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-comment .comment-right,
 .container-edit-comment .header-comment .comment-right,
 .container-add-reply .header-comment .comment-right,
-.view-comment .header-comment .comment-right {
+.view-comment .header-comment .comment-right,
+.page-edit-comment .header-comment .comment-right,
+.page-add-reply .header-comment .comment-right,
+.page-edit-reply .header-comment .comment-right {
   display: flex;
   justify-content: space-between;
   width: 70px;
@@ -6237,7 +6331,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-comment .comment-left,
 .container-edit-comment .header-comment .comment-left,
 .container-add-reply .header-comment .comment-left,
-.view-comment .header-comment .comment-left {
+.view-comment .header-comment .comment-left,
+.page-edit-comment .header-comment .comment-left,
+.page-add-reply .header-comment .comment-left,
+.page-edit-reply .header-comment .comment-left {
   display: flex;
   justify-content: space-between;
 }
@@ -6246,7 +6343,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-comment .initials-comment,
 .container-edit-comment .header-comment .initials-comment,
 .container-add-reply .header-comment .initials-comment,
-.view-comment .header-comment .initials-comment {
+.view-comment .header-comment .initials-comment,
+.page-edit-comment .header-comment .initials-comment,
+.page-add-reply .header-comment .initials-comment,
+.page-edit-reply .header-comment .initials-comment {
   height: 40px;
   width: 40px;
   border-radius: 50px;
@@ -6262,7 +6362,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-reply .reply-left,
 .container-edit-comment .header-reply .reply-left,
 .container-add-reply .header-reply .reply-left,
-.view-comment .header-reply .reply-left {
+.view-comment .header-reply .reply-left,
+.page-edit-comment .header-reply .reply-left,
+.page-add-reply .header-reply .reply-left,
+.page-edit-reply .header-reply .reply-left {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -6272,7 +6375,10 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-reply .initials-reply,
 .container-edit-comment .header-reply .initials-reply,
 .container-add-reply .header-reply .initials-reply,
-.view-comment .header-reply .initials-reply {
+.view-comment .header-reply .initials-reply,
+.page-edit-comment .header-reply .initials-reply,
+.page-add-reply .header-reply .initials-reply,
+.page-edit-reply .header-reply .initials-reply {
   width: 24px;
   height: 24px;
   color: #FFFFFF;
@@ -6426,42 +6532,46 @@ html.phone .document-menu .list-block .item-link {
 #done-comment {
   padding: 0 16px;
 }
-.page-add-comment .wrap-comment {
+.page-add-comment .wrap-comment,
+.page-add-comment .wrap-reply {
   padding: 16px 24px 0 16px;
 }
-.page-add-comment .wrap-comment .header-comment {
+.page-add-comment .wrap-comment .header-comment,
+.page-add-comment .wrap-reply .header-comment {
   justify-content: flex-start;
 }
-.page-add-comment .wrap-comment .user-name {
+.page-add-comment .wrap-comment .user-name,
+.page-add-comment .wrap-reply .user-name {
   font-weight: bold;
 }
-.page-add-comment .wrap-comment .comment-date {
+.page-add-comment .wrap-comment .comment-date,
+.page-add-comment .wrap-reply .comment-date {
   font-size: 12px;
   color: #6d6d72;
 }
-.page-add-comment .wrap-comment .wrap-textarea {
+.page-add-comment .wrap-comment .wrap-textarea,
+.page-add-comment .wrap-reply .wrap-textarea {
+  margin-top: 16px;
   padding-right: 6px;
 }
-.page-add-comment .wrap-comment .wrap-textarea .comment-textarea {
+.page-add-comment .wrap-comment .wrap-textarea .comment-textarea,
+.page-add-comment .wrap-reply .wrap-textarea .comment-textarea {
   border: 1px solid #c4c4c4;
   margin-top: 0;
   min-height: 100px;
   border-radius: 4px;
 }
 .container-edit-comment,
-.container-add-reply,
-container-edit-comment {
+.container-add-reply {
   height: 100%;
 }
 .container-edit-comment .navbar,
-.container-add-reply .navbar,
-container-edit-comment .navbar {
+.container-add-reply .navbar {
   background-color: #FFFFFF;
   color: #000;
 }
 .container-edit-comment .navbar:after,
-.container-add-reply .navbar:after,
-container-edit-comment .navbar:after {
+.container-add-reply .navbar:after {
   content: '';
   position: absolute;
   left: 0;
@@ -6477,37 +6587,55 @@ container-edit-comment .navbar:after {
   transform-origin: 50% 100%;
 }
 .container-edit-comment .navbar .navbar-inner,
-.container-add-reply .navbar .navbar-inner,
-container-edit-comment .navbar .navbar-inner {
+.container-add-reply .navbar .navbar-inner {
   justify-content: space-between;
 }
 .container-edit-comment .navbar a.link i + span,
-.container-add-reply .navbar a.link i + span,
-container-edit-comment .navbar a.link i + span {
+.container-add-reply .navbar a.link i + span {
   margin-left: 0;
 }
 .container-edit-comment .navbar .center,
-.container-add-reply .navbar .center,
-container-edit-comment .navbar .center {
+.container-add-reply .navbar .center {
   font-size: 18px;
 }
 .container-edit-comment .navbar .right,
-.container-add-reply .navbar .right,
-container-edit-comment .navbar .right {
+.container-add-reply .navbar .right {
   margin-left: 0;
 }
 .container-edit-comment .page-add-comment,
-.container-add-reply .page-add-comment,
-container-edit-comment .page-add-comment {
+.container-add-reply .page-add-comment {
   background-color: #FFFFFF;
 }
 .container-edit-comment .header-comment,
-.container-add-reply .header-comment,
-container-edit-comment .header-comment {
+.container-add-reply .header-comment {
   justify-content: flex-start;
 }
 .actions-modal-button.color-red {
   color: #f44336;
+}
+.page-edit-comment,
+.page-add-reply,
+.page-edit-reply {
+  background-color: #FFFFFF;
+}
+.page-edit-comment .header-comment,
+.page-add-reply .header-comment,
+.page-edit-reply .header-comment {
+  justify-content: flex-start;
+}
+.page-edit-comment .navbar .right,
+.page-add-reply .navbar .right,
+.page-edit-reply .navbar .right {
+  height: 100%;
+}
+.page-edit-comment .navbar .right .done-reply,
+.page-add-reply .navbar .right .done-reply,
+.page-edit-reply .navbar .right .done-reply {
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 100%;
 }
 .tablet .searchbar.document.replace .center > .replace {
   display: flex;

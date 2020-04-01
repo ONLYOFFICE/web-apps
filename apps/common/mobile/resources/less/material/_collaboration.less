@@ -90,11 +90,21 @@
 }
 
 //Comments
-.page-comments, .page-add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .view-comment {
-  .list-block .item-inner {
-    display: block;
-    padding: 16px 0;
-    word-wrap: break-word;
+.page-comments, .page-add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .view-comment, .page-edit-comment, .page-add-reply, .page-edit-reply {
+  .list-block {
+    ul {
+      &:before, &:after {
+        content: none;
+      }
+    }
+    .item-inner {
+      display: block;
+      padding: 16px 0;
+      word-wrap: break-word;
+      &:after {
+        content: none;
+      }
+    }
   }
   p {
     margin: 0;
@@ -143,7 +153,7 @@
     font-size: 15px;
   }
 
-  .wrap-comment {
+  .wrap-comment, .wrap-reply {
     padding: 16px 24px 0 16px;
   }
   .comment-textarea, .reply-textarea, .edit-reply-textarea {
@@ -356,7 +366,7 @@
   padding: 0 16px;
 }
 .page-add-comment {
-  .wrap-comment {
+  .wrap-comment, .wrap-reply {
     padding: 16px 24px 0 16px;
     .header-comment {
       justify-content: flex-start;
@@ -369,6 +379,7 @@
       color: #6d6d72;
     }
     .wrap-textarea {
+      margin-top: 16px;
       padding-right: 6px;
       .comment-textarea {
         border: 1px solid #c4c4c4;
@@ -380,7 +391,7 @@
   }
 }
 
-.container-edit-comment, .container-add-reply, container-edit-comment {
+.container-edit-comment, .container-add-reply {
   height: 100%;
   .navbar {
     background-color: #FFFFFF;
@@ -423,4 +434,23 @@
 
 .actions-modal-button.color-red {
   color: @red;
+}
+
+.page-edit-comment, .page-add-reply, .page-edit-reply {
+  background-color: #FFFFFF;
+  .header-comment {
+    justify-content: flex-start;
+  }
+  .navbar {
+    .right {
+      height: 100%;
+      .done-reply {
+        display: flex;
+        align-items: center;
+        padding-left: 16px;
+        padding-right: 16px;
+        height: 100%;
+      }
+    }
+  }
 }
