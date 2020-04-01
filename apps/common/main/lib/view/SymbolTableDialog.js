@@ -366,9 +366,9 @@ define([
         options: {
             resizable       : true,
             minwidth        : 448,
-            minheight       : 396,
+            minheight       : 434,
             width: 448,
-            height: 396,
+            height: 434,
             cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
         },
@@ -388,67 +388,89 @@ define([
             _.extend(this.options, {
                 title: this.textTitle,
                 width           : size[0] || 448,
-                height          : size[1] || 396
+                height          : size[1] || 434
             }, options || {});
 
             this.template = [
                 '<div class="box">',
-                    '<table cols="2" style="width: 100%;max-width: 497px;">',
-                        '<tr>',
-                            '<td style="padding-right: 5px;padding-bottom: 8px;width: 50%;">',
-                                '<label class="input-label">' + this.textFont + '</label>',
-                                '<div id="symbol-table-cmb-fonts"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;padding-bottom: 8px;">',
-                                '<label class="input-label">' + this.textRange + '</label>',
-                                '<div id="symbol-table-cmb-range"></div>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
-                    '<table cols="1" style="width: 100%;">',
-                        '<tr>',
-                            '<td style="padding-bottom: 16px;">',
-                                '<div id="symbol-table-scrollable-div" style="position: relative;height:'+ (this.options.height-264) + 'px;">',
-                                    '<div style="width: 100%;">',
-                                        '<div id="id-preview">',
-                                            '<div>',
-                                                '<div style="position: absolute; top: 0;"><div id="id-preview-data" tabindex="0" oo_editor_input="true"></div></div>',
+                    '<div style="margin-bottom: 16px;">',
+                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-symbols" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textSymbols,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-special" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textSpecial,'</button>',
+                    '</div>',
+                    '<div id="symbol-table-pnl-symbols">',
+                        '<table cols="2" style="width: 100%;max-width: 497px;">',
+                            '<tr>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 50%;">',
+                                    '<label class="input-label">' + this.textFont + '</label>',
+                                    '<div id="symbol-table-cmb-fonts"></div>',
+                                '</td>',
+                                '<td style="padding-left: 5px;padding-bottom: 8px;">',
+                                    '<label class="input-label">' + this.textRange + '</label>',
+                                    '<div id="symbol-table-cmb-range"></div>',
+                                '</td>',
+                            '</tr>',
+                        '</table>',
+                        '<table cols="1" style="width: 100%;">',
+                            '<tr>',
+                                '<td style="padding-bottom: 16px;">',
+                                    '<div id="symbol-table-scrollable-div" style="position: relative;height:'+ (this.options.height-302) + 'px;">',
+                                        '<div style="width: 100%;">',
+                                            '<div id="id-preview">',
+                                                '<div>',
+                                                    '<div style="position: absolute; top: 0;"><div id="id-preview-data" tabindex="0" oo_editor_input="true"></div></div>',
+                                                '</div>',
                                             '</div>',
                                         '</div>',
                                     '</div>',
-                                '</div>',
-                            '</td>',
-                        '</tr>',
-                        '<tr>',
-                            '<td style="padding-bottom: 16px;">',
-                                '<label class="input-label">' + this.textRecent + '</label>',
-                                '<div id="symbol-table-recent" tabindex="0" oo_editor_input="true" style="width: 100%;"></div>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
-                    '<table cols="2" style="width: 100%;max-width: 497px;">',
-                        '<tr>',
-                            '<td style="padding-right: 5px; width: 50%;">',
-                                '<label class="input-label">' + this.textCode + '</label>',
-                            '</td>',
-                            '<td style="padding-left: 5px;">',
-                            '</td>',
-                        '</tr>',
-                        '<tr>',
-                            '<td style="padding-right: 5px;">',
-                                '<div id="symbol-table-text-code" oo_editor_input="true"></div>',
-                            '</td>',
-                            '<td style="padding-left: 5px;">',
-                                '<div id="symbol-table-label-font" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;max-width: 160px;"></div>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
+                                '</td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td style="padding-bottom: 16px;">',
+                                    '<label class="input-label">' + this.textRecent + '</label>',
+                                    '<div id="symbol-table-recent" tabindex="0" oo_editor_input="true" style="width: 100%;"></div>',
+                                '</td>',
+                            '</tr>',
+                        '</table>',
+                        '<table cols="2" style="width: 100%;max-width: 497px;">',
+                            '<tr>',
+                                '<td style="padding-right: 5px; width: 50%;">',
+                                    '<label class="input-label">' + this.textCode + '</label>',
+                                '</td>',
+                                '<td style="padding-left: 5px;">',
+                                '</td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td style="padding-right: 5px;">',
+                                    '<div id="symbol-table-text-code" oo_editor_input="true"></div>',
+                                '</td>',
+                                '<td style="padding-left: 5px;">',
+                                    '<div id="symbol-table-label-font" style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap;max-width: 160px;"></div>',
+                                '</td>',
+                            '</tr>',
+                        '</table>',
+                    '</div>',
+                    '<div id="symbol-table-pnl-special">',
+                        '<table cols="1" style="width: 100%;">',
+                            '<tr>',
+                                '<td>',
+                                    '<label>' + this.textCharacter + '</label>',
+                                    '<label id="symbol-table-lbl-shortcut" style="float: right; width: 107px;">' + this.textShortcut + '</label>',
+                                '</td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td>',
+                                    '<div id="symbol-table-special-list" style="width:100%; height: '+ (this.options.height-156) + 'px;"></div>',
+                                '</td>',
+                            '</tr>',
+                        '</table>',
+                    '</div>',
                 '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
             this.api = this.options.api;
             this.type = this.options.type || 0; // 0 - close on OK, single adding symbol
+            this.showShortcutKey = this.options.showShortcutKey || false;
 
             var init = (aFontSelects.length<1);
             init && this.initFonts();
@@ -579,6 +601,25 @@ define([
             var $border = $window.find('.resize-border');
             $border.css({'background': 'none', 'border': 'none'});
 
+            this.btnSymbols = new Common.UI.Button({
+                el: $window.find('#symbol-table-symbols'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false,
+                pressed: true
+            });
+            this.btnSymbols.on('click', _.bind(this.onModeClick, this, false));
+
+            this.btnSpecial = new Common.UI.Button({
+                el: $window.find('#symbol-table-special'),
+                enableToggle: true,
+                toggleGroup: 'hyperlink-type',
+                allowDepress: false
+            });
+            this.btnSpecial.on('click', _.bind(this.onModeClick, this, true));
+
+            // symbols
+
             this.cmbFonts = new Common.UI.ComboBox({
                 el          : $window.find('#symbol-table-cmb-fonts'),
                 cls         : 'input-group-nr',
@@ -663,7 +704,51 @@ define([
             this.boxPanel = $window.find('.box');
             this.updateView(undefined, undefined, undefined, true);
 
+            // special
+            var data = [{symbol: '—',  description: this.textEmDash,   shortcutKey: 'Alt+Ctrl+Num -', code: '2014'},
+                        {symbol: '–',   description: this.textEnDash,   shortcutKey: 'Ctrl+Num -', code: '2013'},
+                        {symbol: '‑',   description: this.textNBHyphen, shortcutKey: 'Ctrl+Shift+_', code: '2011'},
+                        {symbol: '',   description: this.textSHyphen, shortcutKey: 'Alt+-', code: '00AD'},
+                        {symbol: '',    description: this.textEmSpace, shortcutKey: '', code: '2003'},
+                        {symbol: '',    description: this.textEnSpace, shortcutKey: '', code: '2002'},
+                        {symbol: '',    description: this.textQEmSpace, shortcutKey: '', code: '2005'},
+                        {symbol: '°',   description: this.textNBSpace, shortcutKey: 'Ctrl+Shift+Space', code: '00A0'},
+                        {symbol: '©',   description: this.textCopyright, shortcutKey: '', code: '00A9'},
+                        {symbol: '®',   description: this.textRegistered, shortcutKey: '', code: '00AE'},
+                        {symbol: '™',  description: this.textTradeMark, shortcutKey: '', code: '2122'},
+                        {symbol: '§',   description: this.textSection, shortcutKey: '', code: '00A7'},
+                        {symbol: '¶',   description: this.textPilcrow, shortcutKey: '', code: '00B6'},
+                        {symbol: '…',  description: this.textEllipsis, shortcutKey: 'Alt+Ctrl+.', code: '2026'},
+                        {symbol: '‛',   description: this.textSOQuote, shortcutKey: '', code: '2018'},
+                        {symbol: '’',   description: this.textSCQuote, shortcutKey: '', code: '2019'},
+                        {symbol: '‟',   description: this.textDOQuote, shortcutKey: '', code: '201C'},
+                        {symbol: '”',   description: this.textDCQuote, shortcutKey: '', code: '201D'}
+            ];
+            this.specialList = new Common.UI.ListView({
+                el: $window.find('#symbol-table-special-list'),
+                store: new Common.UI.DataViewStore(data),
+                simpleAddMode: true,
+                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:flex;">',
+                    '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
+                    '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
+                    '<% if (' + this.showShortcutKey + ') { %>',
+                    '<div style="width:100px;"><%= shortcutKey %></div>',
+                    '<% } %>',
+                    '</div>'
+                ].join(''))
+            });
+            // this.specialList.on('item:dblclick', _.bind(this.onDblClickItem, this))
+            //                 .on('entervalue', _.bind(this.onDblClickItem, this));
+            this.specialList.selectByIndex(0);
+
+            this.lblShortCut = $window.find('#symbol-table-lbl-shortcut');
+            this.lblShortCut.toggleClass('hidden', !this.showShortcutKey);
+
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+            this.symbolsPanel = $window.find('#symbol-table-pnl-symbols');
+            this.specialPanel = $window.find('#symbol-table-pnl-special');
         },
 
         show: function() {
@@ -676,6 +761,10 @@ define([
             $(document).on('keydown.' + this.cid, '#symbol-table-scrollable-div #id-preview-data, #symbol-table-recent', this.binding.keydownSymbols);
             $(document).on('keypress.' + this.cid, '#symbol-table-scrollable-div #id-preview-data, #symbol-table-recent', this.binding.keypressSymbols);
 
+            var special = !!Common.Utils.InternalSettings.get(this.appPrefix + "symbol-table-special");
+            special ? this.btnSpecial.toggle(true) : this.btnSymbols.toggle(true);
+            this.ShowHideElem(special);
+
             var me = this;
             _.delay(function(){
                 me.previewPanel.focus();
@@ -685,6 +774,8 @@ define([
         close: function(suppressevent) {
             $(document).off('keydown.' + this.cid, this.binding.keydownSymbols);
             $(document).off('keypress.' + this.cid, this.binding.keypressSymbols);
+
+            Common.Utils.InternalSettings.set(this.appPrefix + "symbol-table-special", this.btnSpecial.isActive());
 
             Common.UI.Window.prototype.close.apply(this, arguments);
         },
@@ -701,6 +792,11 @@ define([
             return {font: sFont, symbol: this.encodeSurrogateChar(nCurrentSymbol), code: nCurrentSymbol, updateRecents: bUpdateRecents};
         },
 
+        getSpecialSymbol: function() {
+            var rec = this.specialList.getSelectedRec();
+            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16)};
+        },
+
         onBtnClick: function(event) {
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
@@ -711,13 +807,14 @@ define([
         },
 
         _handleInput: function(state) {
-            var settings = this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'));
+            var special = this.btnSpecial.isActive();
+            var settings = special ? this.getSpecialSymbol() : this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'));
             if (this.options.handler) {
                 this.options.handler.call(this, this, state, settings);
             }
             if (state=='ok') {
-                settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
-                settings.updateRecents && this.updateRecents();
+                !special && settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
+                !special && settings.updateRecents && this.updateRecents();
                 if (this.type)
                     return;
             }
@@ -1304,7 +1401,7 @@ define([
                 this.curSize = {resize: false, width: size[0], height: size[1]};
             } else if (this.curSize.resize) {
                 this._preventUpdateScroll = false;
-                this.curSize.height = size[1] - 264;
+                this.curSize.height = size[1] - 302;
                 var rows = Math.max(1, ((this.curSize.height/CELL_HEIGHT) >> 0)),
                     height = rows*CELL_HEIGHT;
 
@@ -1314,6 +1411,8 @@ define([
                 this.scrollerY = null;
 
                 this.updateView(undefined, undefined, undefined, true);
+
+                this.specialList.cmpEl.height(size[1] - 156);
 
                 var valJson = JSON.stringify(size);
                 Common.localStorage.setItem(this.appPrefix + 'settings-size-symbol-table', valJson);
@@ -1330,7 +1429,7 @@ define([
                     this.curSize.resize = true;
 
                 this.curSize.width = size[0];
-                this.curSize.height = size[1] - 264;
+                this.curSize.height = size[1] - 302;
 
                 var rows = Math.max(1, ((this.curSize.height/CELL_HEIGHT) >> 0)),
                     height = rows*CELL_HEIGHT;
@@ -1339,14 +1438,48 @@ define([
                 this.previewPanel.css({'height': height  + 'px'});
                 this.previewScrolled.css({'height': height + 'px'});
 
+                this.specialList.cmpEl.height(size[1] - 156);
+
                 this.updateView(undefined, undefined, undefined, true);
             }
+        },
+
+        onModeClick: function(special, btn, event) {
+            this.ShowHideElem(special);
+        },
+
+        ShowHideElem: function(special) {
+            this.symbolsPanel.toggleClass('hidden', special);
+            this.specialPanel.toggleClass('hidden', !special);
         },
 
         textTitle: 'Symbol',
         textFont: 'Font',
         textRange: 'Range',
         textRecent: 'Recently used symbols',
-        textCode: 'Unicode HEX value'
+        textCode: 'Unicode HEX value',
+        textSymbols: 'Symbols',
+        textSpecial: 'Special characters',
+        textCharacter: 'Character',
+        textShortcut: 'Shortcut key',
+        textEmDash: 'Em Dash',
+        textEnDash: 'En Dash',
+        textNBHyphen: 'Non-breaking Hyphen',
+        textSHyphen: 'Soft Hyphen',
+        textEmSpace: 'Em Space',
+        textEnSpace: 'En Space',
+        textQEmSpace: '1/4 Em Space',
+        textNBSpace: 'No-break Space',
+        textCopyright: 'Copyright Sign',
+        textRegistered: 'Registered Sign',
+        textTradeMark: 'Trade Mark Sign',
+        textSection: 'Section Sign',
+        textPilcrow: 'Pilcrow Sign',
+        textEllipsis: 'Horizontal Ellipsis',
+        textSOQuote: 'Single Opening Quote',
+        textSCQuote: 'Single Closing Quote',
+        textDOQuote: 'Double Opening Quote',
+        textDCQuote: 'Double Closing Quote'
+
     }, Common.Views.SymbolTableDialog || {}))
 });
