@@ -953,6 +953,9 @@ define([
                 } else {
                     idComment = id;
                 }
+                if (_.isNumber(idComment)) {
+                    idComment = idComment.toString();
+                }
                 var comment = me.findComment(idComment);
                 me.getCurrentUser();
                 var date = me.dateToLocaleTimeString(new Date());
@@ -966,7 +969,7 @@ define([
                                 '<div class="navbar-inner">' +
                                 '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? '<i class="icon icon-close-comment"></i>' : '<span>' + me.textCancel + '</span>') + '</a></div>' +
                                 '<div class="center sliding">' + me.textAddReply + '</div>' +
-                                '<div class="right sliding"><a href="#" class="link done-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
+                                '<div class="right sliding"><a href="#" class="link" id="add-new-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
                                 '</div>' +
                                 '</div>' +
                                 '<div class="pages">' +
@@ -987,7 +990,7 @@ define([
                             $('.popup').css('z-index', '20000');
                         } else {
                             $('.container-view-comment .toolbar').find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
-                            var template = _.template('<a href="#" class="link done-reply">' + me.textDone + '</a>');
+                            var template = _.template('<a href="#" class="link" id="add-new-reply">' + me.textDone + '</a>');
                             $('.container-view-comment .button-right').append(template);
                             template = _.template('<a href="#" class="link cancel-reply">' + me.textCancel + '</a>');
                             $('.container-view-comment .button-left').append(template);
@@ -995,22 +998,23 @@ define([
                             $('.view-comment .page-content').append(template);
                         }
                     } else if ($('.container-collaboration').length > 0) {
-                        me.getView('Common.Views.Collaboration').showPage('#comments-add-reply-view');
+                        me.getView('Common.Views.Collaboration').showPage('#comments-add-reply-view', false);
                         var name = me.currentUser.asc_getUserName(),
                             color = me.currentUser.asc_getColor();
                         me.getView('Common.Views.Collaboration').renderAddReply(name, color, me.getInitials(name), date);
                     }
-                    $('.done-reply').single('click', _.bind(function (uid) {
+                    $('#add-new-reply').single('click', _.bind(function (uid) {
                         var reply = $('.reply-textarea')[0].value;
                         if ($('.container-view-comment').length > 0) {
                             var $viewComment = $('.container-view-comment');
                             if (reply && reply.length > 0) {
                                 this.addReply(uid, reply);
-                                uiApp.closeModal($$(addReplyView));
                                 this.updateViewComment(this.showComments, this.indexCurrentComment);
                                 if (!phone) {
-                                    $viewComment.find('a.done-reply, a.cancel-reply').css('display', 'none');
+                                    $viewComment.find('a#add-new-reply, a.cancel-reply').remove();
                                     $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
+                                } else {
+                                    uiApp.closeModal($$(addReplyView));
                                 }
                             }
                         } else if ($('.container-collaboration').length > 0) {
@@ -1023,7 +1027,7 @@ define([
                         if ($viewComment.find('.block-reply').length > 0) {
                             $viewComment.find('.block-reply').remove();
                         }
-                        $viewComment.find('a.done-reply, a.cancel-reply').css('display', 'none');
+                        $viewComment.find('a#add-new-reply, a.cancel-reply').css('display', 'none');
                         $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
                     }, me));
                 }
@@ -1116,6 +1120,9 @@ define([
             initMenuComments: function(e) {
                 var $comment = $(e.currentTarget).closest('.comment');
                 var idComment = $comment.data('uid');
+                if (_.isNumber(idComment)) {
+                    idComment = idComment.toString();
+                }
                 var comment = this.findComment(idComment);
                 if ($('.actions-modal').length === 0 && comment) {
                     var me = this;
@@ -1171,6 +1178,9 @@ define([
                 var me = this;
                 var ind = $(event.currentTarget).parent().parent().data('ind');
                 var idComment = $(event.currentTarget).closest('.comment').data('uid');
+                if (_.isNumber(idComment)) {
+                    idComment = idComment.toString();
+                }
                 _.delay(function () {
                     var _menuItems = [];
                     _menuItems.push({
@@ -1368,8 +1378,7 @@ define([
                                 '<div class="right sliding"><a href="#" class="link" id="edit-comment">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + me.textDone + '</span>') + '</a></div>' +
                                 '</div>' +
                                 '</div>' +
-                                '<div class="pages">' +
-                                '<div class="page add-comment">' +
+                                '<div class="page-edit-comment">' +
                                 '<div class="page-content">' +
                                 '<div class="wrap-comment">' +
                                 (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
@@ -1377,7 +1386,6 @@ define([
                                 '<div class="comment-date">' + comment.date + '</div>' +
                                 (isAndroid ? '</div></div>' : '') +
                                 '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
-                                '</div>' +
                                 '</div>' +
                                 '</div>' +
                                 '</div>' +
@@ -1404,7 +1412,7 @@ define([
                             }
                         }
                     } else if ($('.container-collaboration').length > 0) {
-                        this.getView('Common.Views.Collaboration').showPage('#comments-edit-view');
+                        this.getView('Common.Views.Collaboration').showPage('#comments-edit-view', false);
                         this.getView('Common.Views.Collaboration').renderEditComment(comment);
                     }
                     _.defer(function () {
@@ -1486,13 +1494,13 @@ define([
                                 $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
                                 var template = _.template('<textarea class="edit-reply-textarea">' + reply.reply + '</textarea>');
                                 $reply.append(template);
-                                template = _.template('<a href="#" class="link done-reply" id="edit-reply">' + me.textDone + '</a>');
+                                template = _.template('<a href="#" class="link" id="edit-reply">' + me.textDone + '</a>');
                                 $viewComment.find('.button-right').append(template);
                                 template = _.template('<a href="#" class="link cancel-reply">' + me.textCancel + '</a>');
                                 $viewComment.find('.button-left').append(template);
                             }
                         } else if ($('.container-collaboration').length > 0) {
-                            me.getView('Common.Views.Collaboration').showPage('#comments-edit-reply-view');
+                            me.getView('Common.Views.Collaboration').showPage('#comments-edit-reply-view', false);
                             me.getView('Common.Views.Collaboration').renderEditReply(reply);
                         }
                         _.delay(function () {
@@ -1509,7 +1517,7 @@ define([
                                     if (Common.SharedSettings.get('phone')) {
                                         uiApp.closeModal($$(editView));
                                     } else {
-                                        $viewComment.find('a.done-reply, a.cancel-reply').remove();
+                                        $viewComment.find('a#edit-reply, a.cancel-reply').remove();
                                         $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
                                     }
                                     this.updateViewComment();
@@ -1521,7 +1529,7 @@ define([
                             }
                         }, me, comment, indReply));
                         $('.cancel-reply').single('click', _.bind(function () {
-                            $viewComment.find('a.done-reply, a.cancel-reply, .edit-reply-textarea').remove();
+                            $viewComment.find('a#edit-reply, a.cancel-reply, .edit-reply-textarea').remove();
                             $reply.find('.reply-text').css('display', 'block');
                             $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
                         }, me));
@@ -1536,6 +1544,9 @@ define([
                     idComment = $comment.data('uid');
                 } else {
                     idComment = uid;
+                }
+                if (_.isNumber(idComment)) {
+                    idComment = idComment.toString();
                 }
                 var comment = this.findComment(idComment);
                 if (comment) {

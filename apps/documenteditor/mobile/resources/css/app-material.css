@@ -6399,6 +6399,7 @@ html.phone .document-menu .list-block .item-link {
   color: #446995;
 }
 .container-view-comment {
+  position: fixed;
   -webkit-transition: height 100ms;
   transition: height 100ms;
   background-color: #FFFFFF;
@@ -6426,7 +6427,7 @@ html.phone .document-menu .list-block .item-link {
   padding: 0;
 }
 .container-view-comment .toolbar {
-  position: absolute;
+  position: fixed;
   background-color: #FFFFFF;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
 }
@@ -6472,12 +6473,14 @@ html.phone .document-menu .list-block .item-link {
   margin-top: 0;
 }
 .container-view-comment.popover {
+  position: absolute;
   border-radius: 4px;
   min-height: 170px;
   height: 400px;
   max-height: 600px;
 }
 .container-view-comment.popover .toolbar {
+  position: absolute;
   border-radius: 0 0 4px 4px;
 }
 .container-view-comment.popover .toolbar .toolbar-inner {
@@ -6628,14 +6631,23 @@ html.phone .document-menu .list-block .item-link {
 .page-edit-reply .navbar .right {
   height: 100%;
 }
-.page-edit-comment .navbar .right .done-reply,
-.page-add-reply .navbar .right .done-reply,
-.page-edit-reply .navbar .right .done-reply {
+.page-edit-comment .navbar .right #add-reply,
+.page-add-reply .navbar .right #add-reply,
+.page-edit-reply .navbar .right #add-reply,
+.page-edit-comment .navbar .right #edit-comment,
+.page-add-reply .navbar .right #edit-comment,
+.page-edit-reply .navbar .right #edit-comment,
+.page-edit-comment .navbar .right #edit-reply,
+.page-add-reply .navbar .right #edit-reply,
+.page-edit-reply .navbar .right #edit-reply {
   display: flex;
   align-items: center;
   padding-left: 16px;
   padding-right: 16px;
   height: 100%;
+}
+.container-edit-comment {
+  position: fixed;
 }
 .tablet .searchbar.document.replace .center > .replace {
   display: flex;
