@@ -374,6 +374,16 @@ define([
         },
 
         initialize : function(options) {
+            var config = {
+                resizable       : true,
+                minwidth        : 448,
+                minheight       : 434,
+                width: 448,
+                height: 434,
+                cls: 'modal-dlg',
+                buttons: ['ok', 'cancel']
+            };
+
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
@@ -385,15 +395,22 @@ define([
             }
             size = size ? JSON.parse(size) : [];
 
-            _.extend(this.options, {
+            this.options = _.extend(config, {
                 title: this.textTitle,
                 width           : size[0] || 448,
                 height          : size[1] || 434
             }, options || {});
 
+            this.api = this.options.api;
+            this.type = this.options.type || 0; // 0 - close on OK, single adding symbol
+            this.special = this.options.special || false; // true - show special tab
+            this.showShortcutKey = this.options.showShortcutKey || false;
+            !this.special && (this.options.height -= 38);
+            !this.special && (this.options.minheight -= 38);
+
             this.template = [
                 '<div class="box">',
-                    '<div style="margin-bottom: 16px;">',
+                    '<div style="margin-bottom: 16px;" class="'+ (this.special ? '' : 'hidden') +'">',
                         '<button type="button" class="btn btn-text-default auto" id="symbol-table-symbols" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textSymbols,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="symbol-table-special" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textSpecial,'</button>',
                     '</div>',
@@ -413,7 +430,7 @@ define([
                         '<table cols="1" style="width: 100%;">',
                             '<tr>',
                                 '<td style="padding-bottom: 16px;">',
-                                    '<div id="symbol-table-scrollable-div" style="position: relative;height:'+ (this.options.height-302) + 'px;">',
+                                    '<div id="symbol-table-scrollable-div" style="position: relative;height:'+ (this.options.height-302 + 38*(this.special ? 0 : 1)) + 'px;">',
                                         '<div style="width: 100%;">',
                                             '<div id="id-preview">',
                                                 '<div>',
@@ -459,7 +476,7 @@ define([
                             '</tr>',
                             '<tr>',
                                 '<td>',
-                                    '<div id="symbol-table-special-list" style="width:100%; height: '+ (this.options.height-156) + 'px;"></div>',
+                                    '<div id="symbol-table-special-list" class="no-borders" style="width:100%; height: '+ (this.options.height-156 + 38*(this.special ? 0 : 1)) + 'px;"></div>',
                                 '</td>',
                             '</tr>',
                         '</table>',
@@ -468,9 +485,6 @@ define([
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
-            this.api = this.options.api;
-            this.type = this.options.type || 0; // 0 - close on OK, single adding symbol
-            this.showShortcutKey = this.options.showShortcutKey || false;
 
             var init = (aFontSelects.length<1);
             init && this.initFonts();
@@ -730,17 +744,17 @@ define([
                 simpleAddMode: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:flex;">',
-                    '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
-                    '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
-                    '<% if (' + this.showShortcutKey + ') { %>',
-                    '<div style="width:100px;"><%= shortcutKey %></div>',
-                    '<% } %>',
+                    '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
+                        '<div style="width:70px;text-align: center; padding-right: 5px;"><%= symbol %></div>',
+                        '<div style="flex-grow:1;padding-right: 5px;"><%= description %></div>',
+                        '<% if (' + this.showShortcutKey + ') { %>',
+                            '<div style="width:100px;"><%= shortcutKey %></div>',
+                        '<% } %>',
                     '</div>'
                 ].join(''))
             });
-            // this.specialList.on('item:dblclick', _.bind(this.onDblClickItem, this))
-            //                 .on('entervalue', _.bind(this.onDblClickItem, this));
+            this.specialList.on('item:dblclick', _.bind(this.onDblClickSpecialItem, this))
+                            .on('entervalue', _.bind(this.onDblClickSpecialItem, this));
             this.specialList.selectByIndex(0);
 
             this.lblShortCut = $window.find('#symbol-table-lbl-shortcut');
@@ -761,21 +775,16 @@ define([
             $(document).on('keydown.' + this.cid, '#symbol-table-scrollable-div #id-preview-data, #symbol-table-recent', this.binding.keydownSymbols);
             $(document).on('keypress.' + this.cid, '#symbol-table-scrollable-div #id-preview-data, #symbol-table-recent', this.binding.keypressSymbols);
 
-            var special = !!Common.Utils.InternalSettings.get(this.appPrefix + "symbol-table-special");
+            var special = this.special && !!Common.Utils.InternalSettings.get(this.appPrefix + "symbol-table-special");
             special ? this.btnSpecial.toggle(true) : this.btnSymbols.toggle(true);
             this.ShowHideElem(special);
-
-            var me = this;
-            _.delay(function(){
-                me.previewPanel.focus();
-            },50);
         },
 
         close: function(suppressevent) {
             $(document).off('keydown.' + this.cid, this.binding.keydownSymbols);
             $(document).off('keypress.' + this.cid, this.binding.keypressSymbols);
 
-            Common.Utils.InternalSettings.set(this.appPrefix + "symbol-table-special", this.btnSpecial.isActive());
+            this.special && Common.Utils.InternalSettings.set(this.appPrefix + "symbol-table-special", this.btnSpecial.isActive());
 
             Common.UI.Window.prototype.close.apply(this, arguments);
         },
@@ -1043,6 +1052,15 @@ define([
                 var settings = this.getPasteSymbol($(e.target).attr('id'));
                 settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
                 settings.updateRecents && this.updateView(false, undefined, undefined, true);
+                this.fireEvent('symbol:dblclick', this, 'ok', settings);
+            }
+        },
+
+        onDblClickSpecialItem: function(e) {
+            if (!this.type)
+                this._handleInput('ok');
+            else {
+                var settings = this.getSpecialSymbol();
                 this.fireEvent('symbol:dblclick', this, 'ok', settings);
             }
         },
@@ -1401,7 +1419,7 @@ define([
                 this.curSize = {resize: false, width: size[0], height: size[1]};
             } else if (this.curSize.resize) {
                 this._preventUpdateScroll = false;
-                this.curSize.height = size[1] - 302;
+                this.curSize.height = size[1] - 302 + 38*(this.special ? 0 : 1);
                 var rows = Math.max(1, ((this.curSize.height/CELL_HEIGHT) >> 0)),
                     height = rows*CELL_HEIGHT;
 
@@ -1412,8 +1430,9 @@ define([
 
                 this.updateView(undefined, undefined, undefined, true);
 
-                this.specialList.cmpEl.height(size[1] - 156);
+                this.specialList.cmpEl.height(size[1] - 156 + 38*(this.special ? 0 : 1));
 
+                !this.special && (size[1] += 38);
                 var valJson = JSON.stringify(size);
                 Common.localStorage.setItem(this.appPrefix + 'settings-size-symbol-table', valJson);
                 Common.Utils.InternalSettings.set(this.appPrefix + 'settings-size-symbol-table', valJson);
@@ -1429,7 +1448,7 @@ define([
                     this.curSize.resize = true;
 
                 this.curSize.width = size[0];
-                this.curSize.height = size[1] - 302;
+                this.curSize.height = size[1] - 302 + 38*(this.special ? 0 : 1);
 
                 var rows = Math.max(1, ((this.curSize.height/CELL_HEIGHT) >> 0)),
                     height = rows*CELL_HEIGHT;
@@ -1438,7 +1457,7 @@ define([
                 this.previewPanel.css({'height': height  + 'px'});
                 this.previewScrolled.css({'height': height + 'px'});
 
-                this.specialList.cmpEl.height(size[1] - 156);
+                this.specialList.cmpEl.height(size[1] - 156 + 38*(this.special ? 0 : 1));
 
                 this.updateView(undefined, undefined, undefined, true);
             }
@@ -1451,6 +1470,11 @@ define([
         ShowHideElem: function(special) {
             this.symbolsPanel.toggleClass('hidden', special);
             this.specialPanel.toggleClass('hidden', !special);
+            var me = this;
+            _.delay(function(){
+                special ? me.specialList.cmpEl.find('.listview').focus() : me.previewPanel.focus();
+            },50);
+
         },
 
         textTitle: 'Symbol',
