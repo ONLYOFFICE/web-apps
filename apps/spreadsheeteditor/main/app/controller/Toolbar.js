@@ -2742,17 +2742,18 @@ define([
                         api: me.api,
                         lang: me.toolbar.mode.lang,
                         type: 1,
+                        special: true,
                         buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.asc_insertSymbol(settings.font, settings.code);
+                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getFont().asc_getName(), settings.code);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
                 win.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font, settings.code);
+                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getFont().asc_getName(), settings.code);
                 });
             }
         },
