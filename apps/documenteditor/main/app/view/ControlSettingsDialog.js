@@ -104,6 +104,15 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 value       : ''
             });
 
+            this.txtPlaceholder = new Common.UI.InputField({
+                el          : $('#control-settings-txt-pholder'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : ''
+            });
+
             this.cmbShow = new Common.UI.ComboBox({
                 el: $('#control-settings-combo-show'),
                 cls: 'input-group-nr',
@@ -300,6 +309,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 val = props.get_Tag();
                 this.txtTag.setValue(val ? val : '');
 
+                val = props.get_PlaceholderText();
+                this.txtPlaceholder.setValue(val ? val : '');
+
                 val = props.get_Appearance();
                 (val!==null && val!==undefined) && this.cmbShow.setValue(val);
 
@@ -390,6 +402,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             var props   = new AscCommon.CContentControlPr();
             props.put_Alias(this.txtName.getValue());
             props.put_Tag(this.txtTag.getValue());
+            props.put_PlaceholderText(this.txtPlaceholder.getValue());
             props.put_Appearance(this.cmbShow.getValue());
 
             if (this.isSystemColor) {
@@ -641,7 +654,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textCheckbox: 'Check box',
         textChecked: 'Checked symbol',
         textUnchecked: 'Unchecked symbol',
-        tipChange: 'Change symbol'
+        tipChange: 'Change symbol',
+        textPlaceholder: 'Placeholder'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });

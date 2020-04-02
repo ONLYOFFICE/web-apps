@@ -1169,6 +1169,7 @@
   "DE.Views.ControlSettingsDialog.tipChange": "Change symbol",
   "DE.Views.ControlSettingsDialog.txtLockDelete": "Content control cannot be deleted",
   "DE.Views.ControlSettingsDialog.txtLockEdit": "Contents cannot be edited",
+  "DE.Views.ControlSettingsDialog.textPlaceholder": "Placeholder",
   "DE.Views.CustomColumnsDialog.textColumns": "Number of columns",
   "DE.Views.CustomColumnsDialog.textSeparator": "Column divider",
   "DE.Views.CustomColumnsDialog.textSpacing": "Spacing between columns",

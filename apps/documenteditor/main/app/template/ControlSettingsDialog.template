@@ -8,6 +8,12 @@
                 </td>
             </tr>
             <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textPlaceholder %></label>
+                    <div id="control-settings-txt-pholder"></div>
+                </td>
+            </tr>
+            <tr>
                 <td class="padding-large">
                     <label class="input-label"><%= scope.textTag %></label>
                     <div id="control-settings-txt-tag"></div>
