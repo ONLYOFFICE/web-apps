@@ -720,7 +720,7 @@ define([
 
             // special
             var data = [{symbol: '—',  description: this.textEmDash,   shortcutKey: 'Alt+Ctrl+Num -', code: '2014'},
-                        {symbol: '–',   description: this.textEnDash,   shortcutKey: 'Ctrl+Num -', code: '2013'},
+                        {symbol: '–',   description: this.textEnDash,   shortcutKey: '', code: '2013'},
                         {symbol: '‑',   description: this.textNBHyphen, shortcutKey: 'Ctrl+Shift+_', code: '2011'},
                         {symbol: '',   description: this.textSHyphen, shortcutKey: 'Alt+-', code: '00AD'},
                         {symbol: '',    description: this.textEmSpace, shortcutKey: '', code: '2003'},
