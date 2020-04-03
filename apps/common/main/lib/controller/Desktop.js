@@ -89,7 +89,7 @@ define([
                     }
 
                     if (_.isNumber(obj.skiptoparea)) {
-                        if ( $('.asc-window.modal').position().top < obj.skiptoparea )
+                        if ( $('.asc-window.modal').length && $('.asc-window.modal').position().top < obj.skiptoparea )
                             $('.asc-window.modal').css('top', obj.skiptoparea);
 
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
