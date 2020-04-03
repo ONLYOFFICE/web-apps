@@ -162,6 +162,10 @@ define([
                     comment: comment
                 });
                 $commentInfo.html(insert);
+                _.defer(function () {
+                    var $textarea = $('.comment-textarea')[0];
+                    $textarea.focus();
+                });
             },
 
             renderNumFormat: function (dataFormat, selectFormat) {

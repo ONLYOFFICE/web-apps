@@ -6541,6 +6541,35 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .page-edit-reply .list-reply {
   padding-left: 26px;
 }
+.page-comments .reply-textarea,
+.add-comment .reply-textarea,
+.page-view-comments .reply-textarea,
+.container-edit-comment .reply-textarea,
+.container-add-reply .reply-textarea,
+.view-comment .reply-textarea,
+.page-edit-comment .reply-textarea,
+.page-add-reply .reply-textarea,
+.page-edit-reply .reply-textarea,
+.page-comments .comment-textarea,
+.add-comment .comment-textarea,
+.page-view-comments .comment-textarea,
+.container-edit-comment .comment-textarea,
+.container-add-reply .comment-textarea,
+.view-comment .comment-textarea,
+.page-edit-comment .comment-textarea,
+.page-add-reply .comment-textarea,
+.page-edit-reply .comment-textarea,
+.page-comments .edit-reply-textarea,
+.add-comment .edit-reply-textarea,
+.page-view-comments .edit-reply-textarea,
+.container-edit-comment .edit-reply-textarea,
+.container-add-reply .edit-reply-textarea,
+.view-comment .edit-reply-textarea,
+.page-edit-comment .edit-reply-textarea,
+.page-add-reply .edit-reply-textarea,
+.page-edit-reply .edit-reply-textarea {
+  resize: vertical;
+}
 .page-comments .user-name,
 .add-comment .user-name,
 .page-view-comments .user-name,

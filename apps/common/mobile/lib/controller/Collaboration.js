@@ -93,6 +93,8 @@ define([
                 this.api.asc_registerCallback('asc_onRemoveComment', _.bind(this.onApiRemoveComment, this));
                 this.api.asc_registerCallback('asc_onRemoveComments', _.bind(this.onApiRemoveComments, this));
                 this.api.asc_registerCallback('asc_onShowComment', _.bind(this.apiShowComments, this));
+                this.api.asc_registerCallback('asc_onHideComment', _.bind(this.apiHideComments, this));
+
                 if (editor === 'DE') {
                     this.api.asc_registerCallback('asc_onShowRevisionsChange', _.bind(this.changeReview, this));
                 }
@@ -751,6 +753,36 @@ define([
                         }
                     });
                 }
+                if ($('.container-view-comment').length > 0) {
+                    me.indexCurrentComment = 0;
+                    me.updateViewComment();
+                }
+            },
+
+            apiHideComments: function() {
+                if ($('.container-view-comment').length > 0) {
+                    uiApp.closeModal();
+                    $('.container-view-comment').remove();
+                }
+            },
+
+            disabledViewComments: function(disabled) {
+                if ($('.container-view-comment').length > 0) {
+                    if (disabled) {
+                        $('.comment-resolve, .comment-menu, .add-reply').addClass('disabled');
+                        if (!$('.prev-comment').hasClass('disabled')) {
+                            $('.prev-comment').addClass('disabled');
+                        }
+                        if (!$('.next-comment').hasClass('disabled')) {
+                            $('.next-comment').addClass('disabled');
+                        }
+                    } else {
+                        $('.comment-resolve, .comment-menu, .add-reply').removeClass('disabled');
+                        if (this.showComments.length > 1) {
+                            $('.prev-comment, .next-comment').removeClass('disabled');
+                        }
+                    }
+                }
             },
 
             updateViewComment: function() {
@@ -758,6 +790,9 @@ define([
                 $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
                 $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
                 $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this, false));
+                if (this.showComments.length === 1) {
+                    $('.prev-comment, .next-comment').addClass('disabled');
+                }
             },
 
             showCommentModal: function() {
@@ -989,6 +1024,7 @@ define([
                             );
                             $('.popup').css('z-index', '20000');
                         } else {
+                            me.disabledViewComments(true);
                             $('.container-view-comment .toolbar').find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
                             var template = _.template('<a href="#" class="link" id="add-new-reply">' + me.textDone + '</a>');
                             $('.container-view-comment .button-right').append(template);
@@ -1003,6 +1039,10 @@ define([
                             color = me.currentUser.asc_getColor();
                         me.getView('Common.Views.Collaboration').renderAddReply(name, color, me.getInitials(name), date);
                     }
+                    _.defer(function () {
+                        var $textarea = $('.reply-textarea')[0];
+                        $textarea.focus();
+                    });
                     $('#add-new-reply').single('click', _.bind(function (uid) {
                         var reply = $('.reply-textarea')[0].value;
                         if ($('.container-view-comment').length > 0) {
@@ -1016,6 +1056,7 @@ define([
                                 } else {
                                     uiApp.closeModal($$(addReplyView));
                                 }
+                                this.disabledViewComments(false);
                             }
                         } else if ($('.container-collaboration').length > 0) {
                             this.addReply(uid, reply);
@@ -1029,6 +1070,7 @@ define([
                         }
                         $viewComment.find('a#add-new-reply, a.cancel-reply').css('display', 'none');
                         $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
+                        this.disabledViewComments(false);
                     }, me));
                 }
             },
@@ -1118,50 +1160,91 @@ define([
             },
 
             initMenuComments: function(e) {
-                var $comment = $(e.currentTarget).closest('.comment');
-                var idComment = $comment.data('uid');
-                if (_.isNumber(idComment)) {
-                    idComment = idComment.toString();
+                if ($('.actions-modal').length < 1) {
+                    var $comment = $(e.currentTarget).closest('.comment');
+                    var idComment = $comment.data('uid');
+                    if (_.isNumber(idComment)) {
+                        idComment = idComment.toString();
+                    }
+                    var comment = this.findComment(idComment);
+                    if ($('.actions-modal').length === 0 && comment) {
+                        var me = this;
+                        _.delay(function () {
+                            var _menuItems = [];
+                            _menuItems.push({
+                                caption: me.textEdit,
+                                event: 'edit'
+                            });
+                            if (!comment.resolved) {
+                                _menuItems.push({
+                                    caption: me.textResolve,
+                                    event: 'resolve'
+                                });
+                            } else {
+                                _menuItems.push({
+                                    caption: me.textReopen,
+                                    event: 'resolve'
+                                });
+                            }
+                            if ($('.container-collaboration').length > 0) {
+                                _menuItems.push({
+                                    caption: me.textAddReply,
+                                    event: 'addreply'
+                                });
+                            }
+                            _menuItems.push({
+                                caption: me.textDeleteComment,
+                                event: 'delete',
+                                color: 'red'
+                            });
+                            _.each(_menuItems, function (item) {
+                                item.text = item.caption;
+                                item.onClick = function () {
+                                    me.onCommentMenuClick(item.event, idComment)
+                                }
+                            });
+
+                            me.menuComments = uiApp.actions([_menuItems, [
+                                {
+                                    text: me.textCancel,
+                                    bold: true,
+                                    onClick: function () {
+                                        me.onCommentMenuClick();
+                                    }
+                                }
+                            ]]);
+                        }, 100);
+                    }
+                    this.disabledViewComments(true);
                 }
-                var comment = this.findComment(idComment);
-                if ($('.actions-modal').length === 0 && comment) {
+            },
+
+            initReplyMenu: function(event) {
+                if ($('.actions-modal').length < 1) {
                     var me = this;
+                    var ind = $(event.currentTarget).parent().parent().data('ind');
+                    var idComment = $(event.currentTarget).closest('.comment').data('uid');
+                    if (_.isNumber(idComment)) {
+                        idComment = idComment.toString();
+                    }
                     _.delay(function () {
                         var _menuItems = [];
                         _menuItems.push({
                             caption: me.textEdit,
-                            event: 'edit'
+                            event: 'editreply'
                         });
-                        if (!comment.resolved) {
-                            _menuItems.push({
-                                caption: me.textResolve,
-                                event: 'resolve'
-                            });
-                        } else {
-                            _menuItems.push({
-                                caption: me.textReopen,
-                                event: 'resolve'
-                            });
-                        }
-                        if ($('.container-collaboration').length > 0) {
-                            _menuItems.push({
-                                caption: me.textAddReply,
-                                event: 'addreply'
-                            });
-                        }
                         _menuItems.push({
-                            caption: me.textDeleteComment,
-                            event: 'delete',
+                            caption: me.textDeleteReply,
+                            event: 'deletereply',
                             color: 'red'
                         });
                         _.each(_menuItems, function (item) {
                             item.text = item.caption;
                             item.onClick = function () {
-                                me.onCommentMenuClick(item.event, idComment)
+                                me.onCommentMenuClick(item.event, idComment, ind);
                             }
                         });
-
-                        me.menuComments = uiApp.actions([_menuItems, [
+                        uiApp.actions([_menuItems, [
                             {
                                 text: me.textCancel,
                                 bold: true,
@@ -1171,43 +1254,8 @@ define([
                             }
                         ]]);
                     }, 100);
+                    this.disabledViewComments(true);
                 }
-            },
-
-            initReplyMenu: function(event) {
-                var me = this;
-                var ind = $(event.currentTarget).parent().parent().data('ind');
-                var idComment = $(event.currentTarget).closest('.comment').data('uid');
-                if (_.isNumber(idComment)) {
-                    idComment = idComment.toString();
-                }
-                _.delay(function () {
-                    var _menuItems = [];
-                    _menuItems.push({
-                        caption: me.textEdit,
-                        event: 'editreply'
-                    });
-                    _menuItems.push({
-                        caption: me.textDeleteReply,
-                        event: 'deletereply',
-                        color: 'red'
-                    });
-                    _.each(_menuItems, function (item) {
-                        item.text = item.caption;
-                        item.onClick = function () {
-                            me.onCommentMenuClick(item.event, idComment, ind);
-                        }
-                    });
-                    uiApp.actions([_menuItems, [
-                        {
-                            text: me.textCancel,
-                            bold: true,
-                            onClick: function () {
-                                me.onCommentMenuClick();
-                            }
-                        }
-                    ]]);
-                }, 100);
             },
 
             onCommentMenuClick: function(action, idComment, indReply) {
@@ -1228,10 +1276,12 @@ define([
                     case 'resolve':
                         addOverlay();
                         me.onClickResolveComment(idComment);
+                        me.disabledViewComments(false);
                         break;
                     case 'delete':
                         addOverlay();
                         me.onDeleteComment(idComment);
+                        me.disabledViewComments(false);
                         break;
                     case 'editreply':
                         addOverlay();
@@ -1240,12 +1290,14 @@ define([
                     case 'deletereply':
                         addOverlay();
                         me.onDeleteReply(idComment, indReply);
+                        me.disabledViewComments(false);
                         break;
                     case 'addreply':
                         addOverlay();
                         me.onClickAddReply(idComment);
                     default:
                         addOverlay();
+                        me.disabledViewComments(false);
                         break;
                 }
             },
@@ -1435,6 +1487,7 @@ define([
                                     $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
                                 }
                                 this.updateViewComment();
+                                this.disabledViewComments(false);
                             } else if ($('.container-collaboration').length > 0) {
                                 rootView.router.back();
                             }
@@ -1445,6 +1498,7 @@ define([
                         $viewComment.find('a.done-edit-comment, a.cancel-edit-comment, .comment-textarea').remove();
                         $viewComment.find('.comment-text span').css('display', 'block');
                         $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
+                        this.disabledViewComments(false);
                     }, me));
                 }
             },
@@ -1503,11 +1557,11 @@ define([
                             me.getView('Common.Views.Collaboration').showPage('#comments-edit-reply-view', false);
                             me.getView('Common.Views.Collaboration').renderEditReply(reply);
                         }
-                        _.delay(function () {
+                        _.defer(function () {
                             var $textarea = $('.edit-reply-textarea')[0];
                             $textarea.focus();
                             $textarea.selectionStart = $textarea.value.length;
-                        }, 100);
+                        });
                         $('#edit-reply').single('click', _.bind(function (comment, indReply) {
                             var value = $('.edit-reply-textarea')[0].value;
                             if (value && value.length > 0) {
@@ -1526,12 +1580,14 @@ define([
                                     this.onChangeComment(comment);
                                     rootView.router.back();
                                 }
+                                this.disabledViewComments(false);
                             }
                         }, me, comment, indReply));
                         $('.cancel-reply').single('click', _.bind(function () {
                             $viewComment.find('a#edit-reply, a.cancel-reply, .edit-reply-textarea').remove();
                             $reply.find('.reply-text').css('display', 'block');
                             $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
+                            this.disabledViewComments(false);
                         }, me));
                     }
                 }
