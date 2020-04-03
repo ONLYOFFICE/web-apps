@@ -1950,7 +1950,7 @@ define([
             }
         },
 
-        onEntriesListMenu: function(validation, textarr) {
+        onEntriesListMenu: function(validation, textarr, addarr) {
             if (textarr && textarr.length>0) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
@@ -1970,9 +1970,10 @@ define([
                 _.each(textarr, function(menuItem, index) {
                     var mnu = new Common.UI.MenuItem({
                         caption     : menuItem,
+                        value       : addarr ? addarr[index] : menuItem,
                         style: (typeof menuItem == 'string' && _.isEmpty(menuItem.trim())) ? 'min-height: 25px;' : ''
                     }).on('click', function(item, e) {
-                        me.api.asc_insertFormula(item.caption, Asc.c_oAscPopUpSelectorType.None, false );
+                        me.api.asc_insertFormula(item.value, Asc.c_oAscPopUpSelectorType.None, false );
                     });
                     menu.addItem(mnu);
                 });
