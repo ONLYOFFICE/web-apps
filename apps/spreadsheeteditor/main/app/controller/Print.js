@@ -170,8 +170,14 @@ define([
             panel.dataRangeLeft = value;
 
             value = (this.api.asc_getActiveWorksheetIndex()==sheet);
-            (panel.btnPresetsTop.menu.items[0].value == 'select') && panel.btnPresetsTop.menu.items[0].setVisible(value);
-            (panel.btnPresetsLeft.menu.items[0].value == 'select') && panel.btnPresetsLeft.menu.items[0].setVisible(value);
+            if (panel.btnPresetsTop.menu.items[0].value == 'select') {
+                panel.btnPresetsTop.menu.items[0].setVisible(value);
+                panel.txtRangeTop.setBtnDisabled && panel.txtRangeTop.setBtnDisabled(!value);
+            }
+            if (panel.btnPresetsLeft.menu.items[0].value == 'select') {
+                panel.btnPresetsLeft.menu.items[0].setVisible(value);
+                panel.txtRangeLeft.setBtnDisabled && panel.txtRangeLeft.setBtnDisabled(!value);
+            }
 
             panel.btnPresetsTop.menu.items[panel.btnPresetsTop.menu.items[0].value == 'frozen' ? 0 : 1].setDisabled(!this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, false, sheet));
             panel.btnPresetsLeft.menu.items[panel.btnPresetsLeft.menu.items[0].value == 'frozen' ? 0 : 1].setDisabled(!this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, true, sheet));
@@ -380,6 +386,8 @@ define([
             panel.chPrintRows.on('change', _.bind(this.propertyChange, this, panel));
             panel.txtRangeTop.on('changing', _.bind(this.propertyChange, this, panel));
             panel.txtRangeLeft.on('changing', _.bind(this.propertyChange, this, panel));
+            panel.txtRangeTop.on('button:click', _.bind(this.onPresetSelect, this, panel, 'top', panel.btnPresetsTop.menu, {value: 'select'}));
+            panel.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, panel, 'left', panel.btnPresetsLeft.menu, {value: 'select'}));
             panel.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'top'));
             panel.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, panel, 'left'));
         },
@@ -446,6 +454,8 @@ define([
                 var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
+            selectdata && panel.txtRangeTop.updateBtnHint(this.textSelectRange);
+
             panel.txtRangeLeft.validation = function(value) {
                 me.propertyChange(panel);
                 if (_.isEmpty(value)) {
@@ -454,6 +464,8 @@ define([
                 var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, value, false);
                 return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
             };
+            selectdata && panel.txtRangeLeft.updateBtnHint(this.textSelectRange);
+
             var data = ((selectdata) ? [{caption: this.textSelectRange, value: 'select'}] : []).concat([
                 {caption: this.textFrozenRows, value: 'frozen'},
                 {caption: this.textFirstRow, value: 'first'},

@@ -498,6 +498,17 @@ define([
                     ? this._input.attr('disabled', true)
                     : this._input.removeAttr('disabled');
                 this._button.setDisabled(disabled);
+            },
+
+            setBtnDisabled: function(disabled) {
+                this._button.setDisabled(disabled);
+            },
+
+            updateBtnHint: function(hint) {
+                this.options.hint = hint;
+
+                if (!this.rendered) return;
+                this._button.updateHint(this.options.hint);
             }
         }
     })());

@@ -90,10 +90,7 @@ define([
                         '<div class="input-row">',
                             '<label>' + this.strRange + '</label>',
                         '</div>',
-                        '<div class="input-row" style="margin-bottom: 5px;display: flex;">',
-                            '<div id="id-dlg-hyperlink-range" style="flex-grow: 1;"></div>',
-                            '<button type="button" class="btn btn-text-default" id="id-dlg-hyperlink-btn-data" style="min-width: 100px;width: auto; margin-left: 10px;">' + this.textSelectData + '</button>',
-                        '</div>',
+                        '<div id="id-dlg-hyperlink-range" class="input-row" style="margin-bottom: 5px;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.strDisplay + '</label>',
@@ -157,11 +154,12 @@ define([
                 me.btnOk.setDisabled($.trim(val)=='');
             });
 
-            me.inputRange = new Common.UI.InputField({
+            me.inputRange = new Common.UI.InputFieldBtn({
                 el          : $('#id-dlg-hyperlink-range'),
                 allowBlank  : false,
                 blankError  : me.txtEmpty,
                 style       : 'width: 100%;',
+                btnHint     : me.textSelectData,
                 validateOnChange: true,
                 validateOnBlur: false,
                 value: Common.Utils.InternalSettings.get("sse-settings-r1c1") ? 'R1C1' : 'A1',
@@ -183,6 +181,7 @@ define([
                 me.isAutoUpdate && me.inputDisplay.setValue(me.internalList.getSelectedRec().get('name') + (val!=='' ? '!' + val : ''));
                 me.btnOk.setDisabled($.trim(val)=='');
             });
+            me.inputRange.on('button:click', _.bind(me.onSelectData, me));
 
             me.inputDisplay = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-display'),
@@ -206,11 +205,6 @@ define([
                 enableKeyEvents: true
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
-
-            me.btnSelectData = new Common.UI.Button({
-                el: $('#id-dlg-hyperlink-btn-data')
-            });
-            me.btnSelectData.on('click', _.bind(me.onSelectData, me));
 
             if (me.appOptions && me.appOptions.canMakeActionLink) {
                 var inputCopy = new Common.UI.InputField({
@@ -289,7 +283,6 @@ define([
                             defrange = settings.props.asc_getSheet() + '!' +  settings.props.asc_getRange();
                         } else {// named range
                             this.inputRange.setDisabled(true);
-                            this.btnSelectData.setDisabled(true);
                             defrange = settings.props.asc_getLocation();
                         }
                     } else {
@@ -481,7 +474,6 @@ define([
         onSelectItem: function(picker, item, record, e){
             this.btnOk.setDisabled(record.get('level')==0 || record.get('type')==0 && $.trim(this.inputRange.getValue())=='');
             this.inputRange.setDisabled(record.get('type')==1 || record.get('level')==0);
-            this.btnSelectData.setDisabled(record.get('type')==1 || record.get('level')==0);
             if (this.isAutoUpdate) {
                 var list = record.get('level') ? record.get('name') : '';
                 if (record.get('type')==1) {

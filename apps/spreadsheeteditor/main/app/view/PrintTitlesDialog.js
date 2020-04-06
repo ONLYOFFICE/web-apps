@@ -120,9 +120,10 @@ define([
                 }
             };
 
-            this.txtRangeTop = new Common.UI.InputField({
+            this.txtRangeTop = new Common.UI.InputFieldBtn({
                 el          : $('#print-titles-txt-top'),
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectRange,
                 allowBlank  : true,
                 validateOnChange: true,
                 validation  : function(value) {
@@ -154,10 +155,12 @@ define([
             });
             this.btnPresetsTop.render( $('#print-titles-presets-top')) ;
             this.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, 'top'));
+            this.txtRangeTop.on('button:click', _.bind(this.onPresetSelect, this, 'top', this.btnPresetsTop.menu, {value: 'select'}));
 
-            this.txtRangeLeft = new Common.UI.InputField({
+            this.txtRangeLeft = new Common.UI.InputFieldBtn({
                 el          : $('#print-titles-txt-left'),
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectRange,
                 allowBlank  : true,
                 validateOnChange: true,
                 validation  : function(value) {
@@ -189,6 +192,7 @@ define([
             });
             this.btnPresetsLeft.render( $('#print-titles-presets-left')) ;
             this.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, 'left'));
+            this.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, 'left', this.btnPresetsLeft.menu, {value: 'select'}));
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));

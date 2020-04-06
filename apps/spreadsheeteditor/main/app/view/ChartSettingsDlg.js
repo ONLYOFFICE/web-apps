@@ -148,18 +148,15 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 ]
             });
 
-            this.txtDataRange = new Common.UI.InputField({
+            this.txtDataRange = new Common.UI.InputFieldBtn({
                 el          : $('#chart-dlg-txt-range'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 validateOnChange: true
             });
-
-            this.btnSelectData = new Common.UI.Button({
-                el: $('#chart-dlg-btn-data')
-            });
-            this.btnSelectData.on('click', _.bind(this.onSelectData, this));
+            this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
 
             this.cmbChartTitle = new Common.UI.ComboBox({
                 el          : $('#chart-dlg-combo-chart-title'),
@@ -791,33 +788,27 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 name: 'asc-radio-sparkline'
             });
 
-            this.txtSparkDataRange = new Common.UI.InputField({
+            this.txtSparkDataRange = new Common.UI.InputFieldBtn({
                 el          : $('#spark-dlg-txt-range'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 blankError  : this.txtEmpty,
                 validateOnChange: true
             });
+             this.txtSparkDataRange.on('button:click', _.bind(this.onSelectSparkData, this));
 
-            this.btnSelectSparkData = new Common.UI.Button({
-                el: $('#spark-dlg-btn-data')
-            });
-           this.btnSelectSparkData.on('click', _.bind(this.onSelectSparkData, this));
-
-            this.txtSparkDataLocation = new Common.UI.InputField({
+            this.txtSparkDataLocation = new Common.UI.InputFieldBtn({
                 el          : $('#spark-dlg-txt-location'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 blankError  : this.txtEmpty,
                 validateOnChange: true
             });
-
-            this.btnSelectLocationData = new Common.UI.Button({
-                el: $('#spark-dlg-btn-location-data')
-            });
-           this.btnSelectLocationData.on('click', _.bind(this.onSelectLocationData, this));
+           this.txtSparkDataLocation.on('button:click', _.bind(this.onSelectLocationData, this));
              */
 
             this._arrEmptyCells = [
