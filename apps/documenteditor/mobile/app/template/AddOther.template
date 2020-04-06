@@ -3,6 +3,18 @@
     <div class="list-block">
         <ul>
             <li>
+                <a id="add-other-comment" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-insert-comment"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textComment %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
                 <a id="add-other-pagebreak" class="item-link no-indicator">
                     <div class="item-content">
                         <div class="item-media">
@@ -71,18 +83,6 @@
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textFootnote %></div>
                         </div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a id="add-other-comment" class="item-link">
-                    <div class="item-content">
-                         <div class="item-media">
-                             <i class="icon icon-insert-comment"></i>
-                         </div>
-                         <div class="item-inner">
-                             <div class="item-title"><%= scope.textComment %></div>
-                         </div>
                     </div>
                 </a>
             </li>
