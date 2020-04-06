@@ -466,7 +466,7 @@ define([
             };
             selectdata && panel.txtRangeLeft.updateBtnHint(this.textSelectRange);
 
-            var data = ((selectdata) ? [{caption: this.textSelectRange, value: 'select'}] : []).concat([
+            var data = ((selectdata) ? [{caption: this.textSelectRange + '...', value: 'select'}] : []).concat([
                 {caption: this.textFrozenRows, value: 'frozen'},
                 {caption: this.textFirstRow, value: 'first'},
                 {caption: '--'},
@@ -477,7 +477,7 @@ define([
                 maxHeight: 200,
                 items: data
             }));
-            data = ((selectdata) ? [{caption: this.textSelectRange, value: 'select'}] : []).concat([
+            data = ((selectdata) ? [{caption: this.textSelectRange + '...', value: 'select'}] : []).concat([
                 {caption: this.textFrozenCols, value: 'frozen'},
                 {caption: this.textFirstCol, value: 'first'},
                 {caption: '--'},
@@ -544,7 +544,7 @@ define([
         textInvalidRange:   'ERROR! Invalid cells range',
         textRepeat: 'Repeat...',
         textNoRepeat: 'Not repeat',
-        textSelectRange: 'Select range...',
+        textSelectRange: 'Select range',
         textFrozenRows: 'Frozen rows',
         textFrozenCols: 'Frozen columns',
         textFirstRow: 'First row',

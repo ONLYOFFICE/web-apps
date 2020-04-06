@@ -300,7 +300,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         textShowCols: 'Show for columns',
         textDataSource: 'Data Source',
         textDataRange: 'Data Range',
-        textSelectData: 'Select Data',
+        textSelectData: 'Select data',
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',

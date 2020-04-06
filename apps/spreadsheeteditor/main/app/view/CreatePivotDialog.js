@@ -272,7 +272,7 @@ define([
 
         textTitle: 'Create Table',
         textDataRange: 'Source data range',
-        textSelectData: 'Select',
+        textSelectData: 'Select data',
         textDestination: 'Choose, where to place the table',
         textNew: 'New worksheet',
         textExist: 'Existing worksheet',

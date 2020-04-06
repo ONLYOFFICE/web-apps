@@ -145,7 +145,7 @@ define([
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        {caption: this.textSelectRange, value: 'select'},
+                        {caption: this.textSelectRange + '...', value: 'select'},
                         {caption: this.textFrozenRows, value: 'frozen', range: frozen, disabled: !frozen},
                         {caption: this.textFirstRow, value: 'first', range: this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, false, this.sheet)},
                         {caption: '--'},
@@ -182,7 +182,7 @@ define([
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        {caption: this.textSelectRange, value: 'select'},
+                        {caption: this.textSelectRange + '...', value: 'select'},
                         {caption: this.textFrozenCols, value: 'frozen', range: frozen, disabled: !frozen},
                         {caption: this.textFirstCol, value: 'first', range: this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, true, this.sheet)},
                         {caption: '--'},
@@ -299,7 +299,7 @@ define([
         textLeft: 'Repeat columns at left',
         textRepeat: 'Repeat...',
         textNoRepeat: 'Not repeat',
-        textSelectRange: 'Select range...',
+        textSelectRange: 'Select range',
         textFrozenRows: 'Frozen rows',
         textFrozenCols: 'Frozen columns',
         textFirstRow: 'First row',

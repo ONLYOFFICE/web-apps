@@ -1711,7 +1711,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textType: 'Type',
         textTypeData: 'Type & Data',
         textStyle: 'Style',
-        textSelectData: 'Select Data',
+        textSelectData: 'Select data',
         textDataSeries: 'Data series',
         errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
         errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',

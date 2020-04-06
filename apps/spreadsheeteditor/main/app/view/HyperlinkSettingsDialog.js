@@ -553,6 +553,6 @@ define([
         textNames:          'Defined names',
         textGetLink: 'Get Link',
         textCopy: 'Copy',
-        textSelectData: 'Select Data'
+        textSelectData: 'Select data'
     }, SSE.Views.HyperlinkSettingsDialog || {}))
 });
