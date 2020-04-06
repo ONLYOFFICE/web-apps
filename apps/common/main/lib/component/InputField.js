@@ -53,7 +53,8 @@ if (Common === undefined)
 
 define([
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/Tooltip'
+    'common/main/lib/component/Tooltip',
+    'common/main/lib/component/Button'
 ], function () { 'use strict';
 
     Common.UI.InputField = Common.UI.BaseView.extend((function() {
@@ -376,6 +377,127 @@ define([
                 } else {
                     me.cmpEl.removeClass('error');
                 }
+            }
+        }
+    })());
+
+    Common.UI.InputFieldBtn = Common.UI.InputField.extend((function() {
+        return {
+            options : {
+                id          : null,
+                cls         : '',
+                style       : '',
+                value       : '',
+                type        : 'text',
+                name        : '',
+                validation  : null,
+                allowBlank  : true,
+                placeHolder : '',
+                blankError  : null,
+                spellcheck  : false,
+                maskExp     : '',
+                validateOnChange: false,
+                validateOnBlur: true,
+                disabled: false,
+                editable: true,
+                iconCls: 'btn-select-range',
+                btnHint: ''
+            },
+
+            template: _.template([
+                '<div class="input-field input-field-btn" style="<%= style %>">',
+                    '<input ',
+                        'type="<%= type %>" ',
+                        'name="<%= name %>" ',
+                        'spellcheck="<%= spellcheck %>" ',
+                        'class="form-control <%= cls %>" ',
+                        'placeholder="<%= placeHolder %>" ',
+                        'value="<%= value %>"',
+                    '>',
+                    '<span class="input-error"/>',
+                    '<div class="select-button">' +
+                        '<button type="button" class="btn btn-toolbar"><i class="icon toolbar__icon <%= iconCls %>"></i></button>' +
+                    '</div>',
+                '</div>'
+            ].join('')),
+
+            render : function(parentEl) {
+                var me = this;
+
+                if (!me.rendered) {
+                    this.cmpEl = $(this.template({
+                        id          : this.id,
+                        cls         : this.cls,
+                        style       : this.style,
+                        value       : this.value,
+                        type        : this.type,
+                        name        : this.name,
+                        placeHolder : this.placeHolder,
+                        spellcheck  : this.spellcheck,
+                        iconCls     : this.options.iconCls,
+                        scope       : me
+                    }));
+
+                    if (parentEl) {
+                        this.setElement(parentEl, false);
+                        parentEl.html(this.cmpEl);
+                    } else {
+                        this.$el.html(this.cmpEl);
+                    }
+                } else {
+                    this.cmpEl = this.$el;
+                }
+
+                if (!me.rendered) {
+                    var el = this.cmpEl;
+
+                    this._button = new Common.UI.Button({
+                        el: this.cmpEl.find('button'),
+                        hint: this.options.btnHint || ''
+                    });
+                    this._button.on('click', _.bind(this.onButtonClick, this));
+
+                    this._input = this.cmpEl.find('input').addBack().filter('input');
+
+                    if (this.editable) {
+                        this._input.on('blur',   _.bind(this.onInputChanged, this));
+                        this._input.on('keypress', _.bind(this.onKeyPress, this));
+                        this._input.on('keydown',    _.bind(this.onKeyDown, this));
+                        this._input.on('keyup',    _.bind(this.onKeyUp, this));
+                        if (this.validateOnChange) this._input.on('input', _.bind(this.onInputChanging, this));
+                        if (this.maxLength) this._input.attr('maxlength', this.maxLength);
+                    }
+
+                    this.setEditable(this.editable);
+
+                    if (this.disabled)
+                        this.setDisabled(this.disabled);
+
+                    if (this._input.closest('.asc-window').length>0)
+                        var onModalClose = function() {
+                            var errorTip = el.find('.input-error').data('bs.tooltip');
+                            if (errorTip) errorTip.tip().remove();
+                            Common.NotificationCenter.off({'modal:close': onModalClose});
+                        };
+                    Common.NotificationCenter.on({'modal:close': onModalClose});
+                }
+
+                me.rendered = true;
+
+                return this;
+            },
+
+            onButtonClick: function(btn, e) {
+                this.trigger('button:click', this, e);
+            },
+
+            setDisabled: function(disabled) {
+                this.disabled = disabled;
+                $(this.el).toggleClass('disabled', disabled);
+                disabled
+                    ? this._input.attr('disabled', true)
+                    : this._input.removeAttr('disabled');
+                this._button.setDisabled(disabled);
             }
         }
     })());

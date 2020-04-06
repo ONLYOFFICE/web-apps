@@ -94,3 +94,16 @@ input[type="text"]::selection, textarea::selection {
 textarea.form-control:focus {
     border-color: @gray-darker;
 }
+
+.input-field-btn {
+    .select-button {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+    }
+    .input-error {
+        &:before {
+            right: 22px;
+        }
+    }
+}
