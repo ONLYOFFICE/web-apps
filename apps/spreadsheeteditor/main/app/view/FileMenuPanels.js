@@ -229,12 +229,17 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (!this.mode.canPrint)
-                this.viewSettingsPicker.store.pop();
+            if (!this.mode.canPrint) {
+                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
+                if (this.printSettings && this.printSettings.$el && this.printSettings.$el.hasClass('active'))
+                    this.viewSettingsPicker.selectByIndex(0);
+            }
             this.generalSettings && this.generalSettings.setMode(this.mode);
             this.spellcheckSettings && this.spellcheckSettings.setMode(this.mode);
             if (!this.mode.isEdit) {
                 $(this.viewSettingsPicker.dataViewItems[2].el).hide();
+                if (this.spellcheckSettings && this.spellcheckSettings.$el && this.spellcheckSettings.$el.hasClass('active'))
+                    this.viewSettingsPicker.selectByIndex(0);
             }
         },
 
@@ -267,6 +272,27 @@ define([
                 '<tr>',
                     '<td class="left"><label><%= scope.textPageScaling %></label></td>',
                     '<td class="right"><span id="advsettings-print-combo-layout" /></td>',
+                '</tr>','<tr class="divider"></tr>',
+                '<tr>',
+                    '<td class="left" style="vertical-align: top;"><label><%= scope.strPrintTitles %></label></td>',
+                    '<td class="right" style="vertical-align: top;"><div id="advsettings-print-titles">',
+                        '<table cols="2" class="no-padding">',
+                            '<tr>',
+                                '<td colspan="2" ><label><%= scope.textRepeatTop %></label></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td class="padding-small" style="padding-right: 10px;"><div id="advsettings-txt-top"></div></td>',
+                                '<td class="padding-small"><div id="advsettings-presets-top"></div></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td colspan="2" ><label><%= scope.textRepeatLeft %></label></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td class="padding-small" style="padding-right: 10px;"><div id="advsettings-txt-left"></div></td>',
+                                '<td class="padding-small"><div id="advsettings-presets-left"></div></td>',
+                            '</tr>',
+                        '</table>',
+                    '</div></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left" style="vertical-align: top;"><label><%= scope.strMargins %></label></td>',
@@ -438,6 +464,36 @@ define([
             });
             this.spinners.push(this.spnMarginRight);
 
+            this.txtRangeTop = new Common.UI.InputField({
+                el          : $markup.findById('#advsettings-txt-top'),
+                style       : 'width: 147px',
+                allowBlank  : true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsTop = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 85px;',
+                menu: true
+            });
+            this.btnPresetsTop.render( $markup.findById('#advsettings-presets-top')) ;
+
+            this.txtRangeLeft = new Common.UI.InputField({
+                el          : $markup.findById('#advsettings-txt-left'),
+                style       : 'width: 147px',
+                allowBlank  : true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsLeft = new Common.UI.Button({
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 85px;',
+                menu: true
+            });
+            this.btnPresetsLeft.render( $markup.findById('#advsettings-presets-left')) ;
+
             this.btnOk = new Common.UI.Button({
                 el: $markup.findById('#advsettings-print-button-save')
             });
@@ -534,7 +590,11 @@ define([
         textFitCols:            'Fit All Columns on One Page',
         textFitRows:            'Fit All Rows on One Page',
         textCustomOptions:      'Custom Options',
-        textCustom:             'Custom'
+        textCustom:             'Custom',
+        strPrintTitles:         'Print Titles',
+        textRepeatTop:          'Repeat rows at top',
+        textRepeatLeft:         'Repeat columns at left',
+        textRepeat:             'Repeat...'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
@@ -681,17 +741,26 @@ define([
                 ]
             });
 
+            var itemsTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>" <% if (item.value === "custom") { %> style="border-top: 1px solid #e5e5e5;margin-top: 5px;" <% } %> ><a tabindex="-1" type="menuitem" <% if (typeof(item.checked) !== "undefined" && item.checked) { %> class="checked" <% } %> ><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>'
+                ].join(''));
             this.cmbFontRender = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
+                itemsTemplate: itemsTemplate,
                 data        : [
                     { value: Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling, displayValue: this.txtWin },
                     { value: Asc.c_oAscFontRenderingModeType.noHinting, displayValue: this.txtMac },
-                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative }
+                    { value: Asc.c_oAscFontRenderingModeType.hinting, displayValue: this.txtNative },
+                    { value: 'custom', displayValue: this.txtCacheMode }
                 ]
             });
+            this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
@@ -888,7 +957,13 @@ define([
 
             value = Common.Utils.InternalSettings.get("sse-settings-fontrender");
             item = this.cmbFontRender.store.findWhere({value: parseInt(value)});
-            this.cmbFontRender.setValue(item ? item.get('value') : (window.devicePixelRatio > 1 ? Asc.c_oAscFontRenderingModeType.noHinting : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling));
+            this.cmbFontRender.setValue(item ? item.get('value') : Asc.c_oAscFontRenderingModeType.hintingAndSubpixeling);
+            this._fontRender = this.cmbFontRender.getValue();
+
+            value = Common.Utils.InternalSettings.get("sse-settings-cachemode");
+            item = this.cmbFontRender.store.findWhere({value: 'custom'});
+            item && value && item.set('checked', !!value);
+            item && value && this.cmbFontRender.cmpEl.find('#' + item.get('id') + ' a').addClass('checked');
 
             value = Common.Utils.InternalSettings.get("sse-settings-unit");
             item = this.cmbUnit.store.findWhere({value: value});
@@ -954,6 +1029,8 @@ define([
             /** coauthoring end **/
             Common.localStorage.setItem("sse-settings-r1c1", this.chR1C1Style.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-fontrender", this.cmbFontRender.getValue());
+            var item = this.cmbFontRender.store.findWhere({value: 'custom'});
+            Common.localStorage.setItem("sse-settings-cachemode", item && !item.get('checked') ? 0 : 1);
             Common.localStorage.setItem("sse-settings-unit", this.cmbUnit.getValue());
             Common.localStorage.setItem("sse-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
             if (this.mode.canForcesave)
@@ -1013,6 +1090,16 @@ define([
             $('#fms-lbl-func-locale').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
         },
 
+        onFontRenderSelected: function(combo, record) {
+            if (record.value == 'custom') {
+                var item = combo.store.findWhere({value: 'custom'});
+                item && item.set('checked', !record.checked);
+                combo.cmpEl.find('#' + record.id + ' a').toggleClass('checked', !record.checked);
+                combo.setValue(this._fontRender);
+            }
+            this._fontRender = combo.getValue();
+        },
+
         strLiveComment: 'Turn on option',
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
@@ -1062,7 +1149,8 @@ define([
         strSeparator: 'Separator',
         strUseSeparatorsBasedOnRegionalSettings: 'Use separators based on regional settings',
         strDecimalSeparator: 'Decimal separator',
-        strThousandsSeparator: 'Thousands separator'
+        strThousandsSeparator: 'Thousands separator',
+        txtCacheMode: 'Default cache mode'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({

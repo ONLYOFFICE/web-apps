@@ -5640,10 +5640,6 @@ a.item-link,
 .container-filter.popover {
   width: 360px;
 }
-.settings.popup .list-block,
-.settings.popover .list-block {
-  margin: 32px 0;
-}
 .settings.popup .list-block ul,
 .settings.popover .list-block ul {
   border-radius: 0;
@@ -5965,12 +5961,8 @@ html.phone .document-menu .list-block .item-link {
   display: block;
   background-color: #fff;
 }
-.color-schemes-menu .item-content {
-  padding-left: 0;
-}
 .color-schemes-menu .item-inner {
   justify-content: flex-start;
-  padding-left: 16px;
 }
 .color-schemes-menu .color-schema-block {
   display: flex;
@@ -7159,6 +7151,11 @@ i.icon.icon-done-comment-white {
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M9%2016.1719L19.5938%205.57812L21%206.98438L9%2018.9844L3.42188%2013.4062L4.82812%2012L9%2016.1719Z%22%20fill%3D%22%23FFFFFF%22%2F%3E%3C%2Fsvg%3E");
 }
+.navbar i.icon.icon-logo {
+  width: 100px;
+  height: 14px;
+  background: url('../../../../common/mobile/resources/img/header/logo-android.svg') no-repeat center;
+}
 .navbar i.icon.icon-undo {
   width: 22px;
   height: 22px;
@@ -7462,6 +7459,13 @@ textarea {
 #editor-navbar.navbar .left a.link {
   padding: 0 13px;
 }
+.logo-navbar {
+  height: 80px;
+}
+.logo-navbar .navbar-inner {
+  top: 24px;
+  height: 56px;
+}
 #editor_sdk {
   position: absolute;
   left: 0;
@@ -7472,6 +7476,9 @@ textarea {
   overflow: hidden;
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
+}
+#editor_sdk.with-logo {
+  top: 80px;
 }
 #add-table .page,
 #add-shape .page {

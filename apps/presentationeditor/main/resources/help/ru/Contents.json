@@ -20,6 +20,7 @@
     {"src": "UsageInstructions/InsertImages.htm", "name": "Вставка и настройка изображений"},
     { "src": "UsageInstructions/InsertCharts.htm", "name": "Вставка и редактирование диаграмм" },
     { "src": "UsageInstructions/InsertTables.htm", "name": "Вставка и форматирование таблиц" },
+    { "src": "UsageInstructions/InsertSymbols.htm", "name": "Вставка символов и знаков" },
     {"src": "UsageInstructions/FillObjectsSelectColor.htm", "name": "Заливка объектов и выбор цветов"},
     { "src": "UsageInstructions/ManipulateObjects.htm", "name": "Работа с объектами на слайде" },
     {"src": "UsageInstructions/AlignArrangeObjects.htm", "name": "Выравнивание и упорядочивание объектов на слайде"},

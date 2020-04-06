@@ -67,7 +67,7 @@ define([
         // Render layout
         render: function() {
             var el = $(this.el);
-            el.html(this.template({
+            el.prepend(this.template({
                 backTitle: Framework7.prototype.device.android ? '' : ''
             }));
 

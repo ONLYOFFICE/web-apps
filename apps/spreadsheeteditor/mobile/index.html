@@ -31,7 +31,7 @@
             .loadmask > .brendpanel {
                 width: 100%;
                 position: absolute;
-                height: 44px;
+                height: 68px;
                 background-color: #e2e2e2;
                 opacity: 0;
             }
@@ -41,13 +41,13 @@
             }
 
             .loadmask > .brendpanel.android {
-                height: 56px;
+                height: 80px;
                 background: #40865c;
             }
 
             .loadmask > .brendpanel > div {
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 height: 100%;
             }
 
@@ -55,13 +55,15 @@
                 max-width: 200px;
                 height: 20px;
                 margin: 0 auto;
+                margin-top: 12px;
+                line-height: 14px;
+                opacity: 0;
             }
 
             .loadmask > .brendpanel .loading-logo > img {
                 display: inline-block;
                 max-width: 100px;
                 max-height: 20px;
-                opacity: 0;
             }
 
             .loadmask > .brendpanel .circle {
@@ -69,7 +71,14 @@
                 width: 28px;
                 height: 28px;
                 border-radius: 14px;
-                margin: 4px 10px;
+                margin: 0 16px;
+                margin-bottom: 10px;
+                align-self: flex-end;
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            .loadmask > .brendpanel.android .circle {
+                margin-bottom: 12px;
                 background: rgba(255, 255, 255, 0.2);
             }
 
@@ -77,13 +86,14 @@
                 background: #fbfbfb;
                 width: 100%;
                 height: 100%;
+                font-size: 0;
                 border: 1px solid #dfdfdf;
                 white-space: nowrap;
-                padding-top: 43px;
+                padding-top: 67px;
             }
 
             .loadmask > .placeholder.android {
-                padding-top: 56px;
+                padding-top: 79px;
             }
 
             .loadmask > .placeholder > .columns {
@@ -105,7 +115,7 @@
                 position: absolute;
                 background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
                 background-size: 20px 20px;
-                width: 35px;
+                width: 25px;
             }
 
             @keyframes flickerAnimation {
@@ -136,7 +146,6 @@
             <div>
                 <div class="circle"></div>
                 <div class="loading-logo">
-                    <img src="../../common/mobile/resources/img/header/header-logo.png">
                 </div>
                 <div class="circle"></div>
             </div>
@@ -171,9 +180,14 @@
 
             var params = getUrlParams(),
                 lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-                logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+                logo = /*params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : */null;
+            var logoOO = null;
+            if (!logo) {
+                logoOO = /Android/.test(navigator.userAgent) ? "../../common/mobile/resources/img/header/header-logo-android.png" : "../../common/mobile/resources/img/header/header-logo-ios.png";
+            }
 
                 window.frameEditorId = params["frameEditorId"];
+            window.parentOrigin = params["parentOrigin"];
 
             var brendpanel = document.getElementsByClassName('brendpanel')[0];
             if (brendpanel) {
@@ -181,9 +195,10 @@
                     brendpanel.classList.add('android');
                 }
                 brendpanel.classList.add('visible');
-                var elem = document.querySelector('.loading-logo img');
+                var elem = document.querySelector('.loading-logo');
                 if (elem) {
-                    logo && (elem.setAttribute('src', logo));
+                    logo && (elem.innerHTML = '<img src=' + logo + '>');
+                    logoOO && (elem.innerHTML = '<img src=' + logoOO + '>');
                     elem.style.opacity = 1;
                 }
             }
@@ -192,8 +207,6 @@
                 placeholder.classList.add('android');
             }
         </script>
-
-        <div id="viewport"></div>
 
         <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>

@@ -52,7 +52,6 @@ define([
     PE.Controllers.EditChart = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _stack = [],
-            _chartObject = undefined,
             _shapeObject = undefined,
             _metricText = Common.Utils.Metric.getCurrentMetricName(),
             _borderColor = 'transparent';
@@ -99,6 +98,7 @@ define([
                         'page:show': this.onPageShow
                     }
                 });
+                this._chartObject = undefined;
             },
 
             setApi: function (api) {
@@ -106,7 +106,6 @@ define([
                 me.api = api;
 
                 me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onApiFocusObject, me));
-                me.api.asc_registerCallback('asc_onUpdateChartStyles',  _.bind(me.onApiUpdateChartStyles, me));
             },
 
             onLaunch: function () {
@@ -139,9 +138,9 @@ define([
             initSettings: function (pageId) {
                 var me = this;
 
-                if (_chartObject) {
+                if (me._chartObject) {
                     if (pageId == '#edit-chart-style') {
-                        me._updateChartStyles(me.api.asc_getChartPreviews(_chartObject.getType()));
+                        me._updateChartStyles(me.api.asc_getChartPreviews(me._chartObject.getType()));
                         me._initStyleView();
                     } else if (pageId == '#edit-chart-border-color-view') {
                         me._initStyleView();
@@ -151,7 +150,7 @@ define([
 
             _initStyleView: function (updateStyles) {
                 var me = this,
-                    chartProperties = _chartObject,
+                    chartProperties = me._chartObject,
                     shapeProperties = _shapeObject,
                     paletteFillColor = me.getView('EditChart').paletteFillColor,
                     paletteBorderColor = me.getView('EditChart').paletteBorderColor;
@@ -228,25 +227,12 @@ define([
             // Public
 
             getChart: function () {
-                return _chartObject;
+                return this._chartObject;
             },
 
             // Handlers
 
             onType: function (e) {
-                var me = this,
-                    $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                var chart = new Asc.CAscChartProp();
-                chart.changeType(type);
-                me.api.ChartApply(chart);
-
-                $('.chart-types li').removeClass('active');
-                $target.addClass('active');
-
-                // Force update styles
-                me._updateChartStyles(me.api.asc_getChartPreviews(chart.getType()));
             },
 
             onStyle: function (e) {
@@ -405,23 +391,13 @@ define([
                     }
                 };
 
-                _chartObject = getTopObject(charts);
+                this._chartObject = getTopObject(charts);
                 _shapeObject = getTopObject(shapes);
-            },
-
-            onApiUpdateChartStyles: function () {
-                if (this.api && _chartObject) {
-                    this._updateChartStyles(this.api.asc_getChartPreviews(_chartObject.getType()));
-                }
             },
 
             // Helpers
 
             _updateChartStyles: function(styles) {
-                Common.SharedSettings.set('chartstyles', styles);
-                Common.NotificationCenter.trigger('chartstyles:load', styles);
-
-                $('#tab-chart-style li').single('click',    _.bind(this.onStyle, this));
             },
 
             _closeIfNeed: function () {

@@ -121,7 +121,13 @@ define([
                         'Tab': this.txtTab,
                         'File': this.txtFile,
                         'Column': this.txtColumn,
-                        'Row': this.txtRow
+                        'Row': this.txtRow,
+                        '%1 of %2': this.txtByField,
+                        '(All)': this.txtAll,
+                        'Values': this.txtValues,
+                        'Grand Total': this.txtGrandTotal,
+                        'Row Labels': this.txtRowLbls,
+                        'Column Labels': this.txtColLbls
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -154,12 +160,16 @@ define([
 //                    viewport.applicationUI.setVisible(true);
                 }
 
-                var value = Common.localStorage.getItem("sse-settings-fontrender");
-                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
-                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
-
                 // Initialize api
                 this.api = this.getApplication().getController('Viewport').getApi();
+
+                var value = Common.localStorage.getBool("sse-settings-cachemode", true);
+                Common.Utils.InternalSettings.set("sse-settings-cachemode", value);
+                this.api.asc_setDefaultBlitMode(!!value);
+
+                value = Common.localStorage.getItem("sse-settings-fontrender");
+                if (value===null) value = '3';
+                Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
@@ -238,7 +248,7 @@ define([
                     }
                 }).on('dragover', function(e) {
                     var event = e.originalEvent;
-                    if (event.target && $(event.target).closest('#editor_sdk').length<1 ) {
+                    if (event.target && $(event.target).closest('#editor_sdk').length<1 && !($(event.target).is('#statusbar_bottom') || $.contains($('#statusbar_bottom'), $(event.target))) ) {
                         event.preventDefault();
                         event.dataTransfer.dropEffect ="none";
                         return false;
@@ -340,6 +350,9 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
+                this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
+                this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
+                this.appOptions.canFeaturePivot = !!this.api.asc_isSupportFeature("pivot-tables");
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -410,6 +423,8 @@ define([
                     docInfo.put_Permissions(_permissions);
 
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
+
+                    Common.Utils.InternalSettings.set("sse-doc-info-key", data.doc.key);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
@@ -824,6 +839,12 @@ define([
                     documentHolderView.createDelayedElementsViewer();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                 }
+                // TODO bug 43960
+                if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
+                    var dummyClass = ~~(1e6*Math.random());
+                    $('.toolbar').prepend(Common.Utils.String.format('<div class="lazy-{0} x-huge"><div class="toolbar__icon" style="position: absolute; width: 1px; height: 1px;"></div>', dummyClass));
+                    setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
+                }
 
                 if (me.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Spreadsheet Editor');
@@ -1096,7 +1117,7 @@ define([
                         statusbarController.getView('Statusbar').changeViewMode(true);
                     }
 
-                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isOffline)
+                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && me.appOptions.canFeaturePivot)
                         application.getController('PivotTable').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
@@ -1377,6 +1398,14 @@ define([
 
                     case Asc.c_oAscError.ID.LockedCellPivot:
                         config.msg = this.errorLockedCellPivot;
+                        break;
+
+                    case Asc.c_oAscError.ID.PivotLabledColumns:
+                        config.msg = this.errorLabledColumnsPivot;
+                        break;
+
+                    case Asc.c_oAscError.ID.PivotOverlap:
+                        config.msg = this.errorPivotOverlap;
                         break;
 
                     case Asc.c_oAscError.ID.ForceSaveButton:
@@ -2478,11 +2507,19 @@ define([
             txtTab: 'Tab',
             txtFile: 'File',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            errorLabledColumnsPivot: 'To create a pivot table report, you must use data that is organized as a list with labeled columns.',
+            errorPivotOverlap: 'A pivot table report cannot overlap a table.',
             txtColumn: 'Column',
             txtRow: 'Row',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
             errorFTChangeTableRangeError: 'Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.',
-            errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.'
+            errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.',
+            txtByField: '%1 of %2',
+            txtAll: '(All)',
+            txtValues: 'Values',
+            txtGrandTotal: 'Grand Total',
+            txtRowLbls: 'Row Labels',
+            txtColLbls: 'Column Labels'
         }
     })(), SSE.Controllers.Main || {}))
 });

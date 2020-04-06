@@ -5650,10 +5650,6 @@ textarea {
 .container-filter.popover {
   width: 360px;
 }
-.settings.popup .list-block,
-.settings.popover .list-block {
-  margin: 32px 0;
-}
 .settings.popup .list-block ul,
 .settings.popover .list-block ul {
   border-radius: 0;
@@ -5975,12 +5971,8 @@ html.phone .document-menu .list-block .item-link {
   display: block;
   background-color: #fff;
 }
-.color-schemes-menu .item-content {
-  padding-left: 0;
-}
 .color-schemes-menu .item-inner {
   justify-content: flex-start;
-  padding-left: 16px;
 }
 .color-schemes-menu .color-schema-block {
   display: flex;
@@ -7092,6 +7084,11 @@ i.icon.icon-paste {
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M5%202H0V20H9V24H24V7H19V2H14V3H18V7H9V19H1V3H5V2ZM10%208H23V23H10V8Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20d%3D%22M5%200H14V5H5V0Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M21%2012H12V11H21V12Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M21%2016H12V15H21V16Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M21%2020H12V19H21V20Z%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E");
 }
+.navbar i.icon.icon-logo {
+  width: 100px;
+  height: 14px;
+  background: url('../../../../common/mobile/resources/img/header/logo-android.svg') no-repeat center;
+}
 .navbar i.icon.icon-undo {
   width: 22px;
   height: 22px;
@@ -7839,6 +7836,19 @@ html.pixel-ratio-3 .box-tabs ul > li:after {
 #editor-navbar.navbar .left a.link {
   padding: 0 13px;
 }
+.logo-navbar {
+  height: 80px;
+}
+.logo-navbar .navbar-inner {
+  top: 24px;
+  height: 56px;
+}
+.navbar-through > .page.editor.with-logo {
+  padding-top: 80px;
+}
+.navbar-hidden + .navbar-through > .page.editor.with-logo {
+  padding-top: 0;
+}
 #add-table .page,
 #add-shape .page {
   background-color: #fff;
@@ -8130,6 +8140,7 @@ html.pixel-ratio-3 .cell-styles.dataview .row li {
   left: 0;
   right: 0;
   bottom: 0;
+  font-size: 0;
 }
 .doc-placeholder > .columns {
   width: 100%;
@@ -8145,5 +8156,5 @@ html.pixel-ratio-3 .cell-styles.dataview .row li {
 .doc-placeholder > .columns:first-child {
   background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
   background-size: 20px 20px;
-  width: 35px;
+  width: 25px;
 }

@@ -25,7 +25,7 @@
             overflow: hidden;
             border: none;
             background-color: #f4f4f4;
-            z-index: 100;
+            z-index: 10000;
         }
         .loader-page {
             width: 100%;
@@ -193,6 +193,7 @@
         loading = 'Loading...',
         logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
     window.frameEditorId = params["frameEditorId"];
+    window.parentOrigin = params["parentOrigin"];
     if ( lang == 'de')      loading = 'Ladevorgang...';
     else if ( lang == 'es') loading = 'Cargando...';
     else if ( lang == 'fr') loading = 'Chargement en cours...';
@@ -228,8 +229,6 @@
         '</div>' +
         '</div>');
 </script>
-
-<div id="viewport"></div>
 
 <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>

@@ -22,7 +22,7 @@
 
         .loadmask > .brendpanel {
             width: 100%;
-            min-height: 32px;
+            min-height: 28px;
             background: #40865c;
         }
 
@@ -65,7 +65,7 @@
             box-sizing: content-box;
         }
 
-        .loadmask > .sktoolbar ul {
+        .loadmask ul {
             margin: 0;
             padding: 0;
             white-space: nowrap;
@@ -96,10 +96,42 @@
             height: 44px;
         }
 
+        .loadmask > .skformula {
+            height: 24px;
+            background: #f1f1f1;
+        }
+
+        .loadmask > .skformula ul {
+            list-style-type: none;
+            font-size: 0;
+            box-sizing: border-box;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #e1e1e1 transparent;
+        }
+
+        .loadmask > .skformula li {
+            display: inline-block;
+            box-sizing: border-box;
+            height: 19px;
+            width: 100%;
+            margin-left: 20px;
+            background: #f7f7f7;
+            border-style: solid;
+            border-width: 1px;
+            border-color: transparent #e1e1e1;
+        }
+
+        .loadmask > .skformula li:first-child {
+            width: 100px;
+            margin-left: 0;
+        }
+
         .loadmask > .placeholder {
             background: #fbfbfb;
             width: 100%;
             height: 100%;
+            font-size: 0;
             border: 1px solid #dfdfdf;
             white-space: nowrap;
 
@@ -122,7 +154,7 @@
         .loadmask > .placeholder > .columns:first-child {
             background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
             background-size: 20px 20px;
-            width: 35px;
+            width: 25px;
         }
 
         @keyframes flickerAnimation {
@@ -196,6 +228,7 @@
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
 
         window.frameEditorId = params["frameEditorId"];
+        window.parentOrigin = params["parentOrigin"];
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
@@ -204,6 +237,7 @@
     <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
     <!-- debug end -->
 </head>
+
 <body>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel"><div>
@@ -214,6 +248,9 @@
             <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/><li class="fat"/></ul>
             <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/></ul>
         </div>
+        <div class="skformula">
+            <ul><li/><li/></ul>
+        </div>
         <div class="placeholder">
             <div class="columns"></div><div class="columns"></div>
         </div>
@@ -223,6 +260,7 @@
 
     <script>
         var params = getUrlParams(),
+            notoolbar = params["toolbar"] == 'false',
             internal = params["internal"] == 'true',
             compact = params["compact"] == 'true',
             view = params["mode"] == 'view';
@@ -232,11 +270,19 @@
             document.querySelector('.sktoolbar').remove();
         }
 
+        (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
+
         if (compact || view) {
-            document.querySelector('.brendpanel > :nth-child(2)').remove();
-            document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+            if (notoolbar) {
+                document.querySelector('.brendpanel > :nth-child(1)').remove();
+                document.querySelector('.brendpanel').remove();
+            } else
+                document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+        } else if (notoolbar) {
+            document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
         }
-        if (view) {
+
+        if (view || notoolbar) {
             document.querySelector('.sktoolbar').remove();
         }
 

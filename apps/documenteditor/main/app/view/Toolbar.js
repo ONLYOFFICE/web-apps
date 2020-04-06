@@ -515,6 +515,14 @@ define([
                     this.paragraphControls.push(this.mnuInsertPageCount);
                     this.toolbarControls.push(this.btnEditHeader);
 
+                    this.btnInsDateTime = new Common.UI.Button({
+                        id: 'id-toolbar-btn-datetime',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-datetime',
+                        caption: me.capBtnDateTime
+                    });
+                    this.paragraphControls.push(this.btnInsDateTime);
+
                     this.btnBlankPage = new Common.UI.Button({
                         id: 'id-toolbar-btn-blankpage',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1309,6 +1317,7 @@ define([
                 _injectComponent('#slot-btn-controls', this.btnContentControls);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
+                _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-insequation', this.btnInsertEquation);
@@ -1538,6 +1547,10 @@ define([
                     }));
 
                     me.btnWatermark.updateHint(me.tipWatermark);
+
+                    if (!config.canFeatureContentControl && me.btnContentControls.cmpEl) {
+                        me.btnContentControls.cmpEl.parents('.group').hide().prev('.separator').hide();
+                    }
                 });
             },
 
@@ -1585,6 +1598,7 @@ define([
                 this.btnInsertText.updateHint(this.tipInsertText);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnEditHeader.updateHint(this.tipEditHeader);
+                this.btnInsDateTime.updateHint(this.tipDateTime);
                 this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
@@ -1608,7 +1622,12 @@ define([
                     new Common.UI.Menu({
                         style: 'min-width: 139px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 16px;"></div>')},
+                            this.mnuMarkerSettings = new Common.UI.MenuItem({
+                                caption: this.textListSettings,
+                                disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
+                                value: 'settings'
+                            })
                         ]
                     })
                 );
@@ -1616,7 +1635,12 @@ define([
                 this.btnNumbers.setMenu(
                     new Common.UI.Menu({
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 16px;"></div>')},
+                            this.mnuNumberSettings = new Common.UI.MenuItem({
+                                caption: this.textListSettings,
+                                disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
+                                value: 'settings'
+                            })
                         ]
                     })
                 );
@@ -1625,7 +1649,12 @@ define([
                     new Common.UI.Menu({
                         style: 'min-width: 90px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 5px;"></div>')}
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 16px;"></div>')},
+                            this.mnuMultilevelSettings = new Common.UI.MenuItem({
+                                caption: this.textListSettings,
+                                disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
+                                value: 'settings'
+                            })
                         ]
                     })
                 );
@@ -2289,7 +2318,10 @@ define([
             capBtnInsSymbol: 'Symbol',
             tipInsertSymbol: 'Insert symbol',
             mniDrawTable: 'Draw Table',
-            mniEraseTable: 'Erase Table'
+            mniEraseTable: 'Erase Table',
+            textListSettings: 'List Settings',
+            capBtnDateTime: 'Date & Time',
+            tipDateTime: 'Insert current date and time'
         }
     })(), DE.Views.Toolbar || {}));
 });

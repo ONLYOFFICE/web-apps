@@ -132,7 +132,8 @@
                     reviewDisplay: 'original',
                     spellcheck: true,
                     compatibleFeatures: false,
-                    unit: 'cm' // cm, pt, inch
+                    unit: 'cm' // cm, pt, inch,
+                    mentionShare : true // customize tooltip for mention
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -212,6 +213,7 @@
         _config.editorConfig.canRequestCompareFile = _config.events && !!_config.events.onRequestCompareFile;
         _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.frameEditorId = placeholderId;
+        _config.parentOrigin = window.location.origin;
 
         var onMouseUp = function (evt) {
             _processMouse(evt);
@@ -394,6 +396,10 @@
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
+            if (iframe.src) {
+                var pathArray = iframe.src.split('/');
+                this.frameOrigin = pathArray[0] + '//' + pathArray[2];
+            }
             target.parentNode && target.parentNode.replaceChild(iframe, target);
             var _msgDispatcher = new MessageDispatcher(_onMessage, this);
         }
@@ -682,7 +688,7 @@
 
         var _onMessage = function(msg) {
             // TODO: check message origin
-            if (msg && window.JSON) {
+            if (msg && window.JSON && _scope.frameOrigin==msg.origin ) {
 
                 try {
                     var msg = window.JSON.parse(msg.data);
@@ -778,7 +784,7 @@
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderName) {
                 if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + config.editorConfig.customization.loaderName;
             } else
-                params += "&customer=ONLYOFFICE";
+                params += "&customer={{APP_CUSTOMER_NAME}}";
             if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderLogo) {
                 if (config.editorConfig.customization.loaderLogo !== '') params += "&logo=" + config.editorConfig.customization.loaderLogo;
             } else if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.logo) {
@@ -801,6 +807,12 @@
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
+
+        if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
+            params += "&toolbar=false";
+
+        if (config.parentOrigin)
+            params += "&parentOrigin=" + config.parentOrigin;
 
         return params;
     }

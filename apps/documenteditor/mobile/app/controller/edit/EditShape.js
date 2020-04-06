@@ -301,29 +301,9 @@ define([
             },
 
             onReorder: function (e) {
-                var $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                var properties = new Asc.asc_CImgProperty();
-
-                if ('all-up' == type) {
-                    properties.put_ChangeLevel(Asc.c_oAscChangeLevel.BringToFront);
-                } else if ('all-down' == type) {
-                    properties.put_ChangeLevel(Asc.c_oAscChangeLevel.SendToBack);
-                } else if ('move-up' == type) {
-                    properties.put_ChangeLevel(Asc.c_oAscChangeLevel.BringForward);
-                } else if ('move-down' == type) {
-                    properties.put_ChangeLevel(Asc.c_oAscChangeLevel.BringBackward);
-                }
-
-                this.api.ImgApply(properties);
             },
 
             onReplace: function (e) {
-                var $target = $(e.currentTarget),
-                    type = $target.data('type');
-
-                this.api.ChangeShapeType(type);
             },
 
             onWrapType: function (e) {

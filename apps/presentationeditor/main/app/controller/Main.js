@@ -98,7 +98,7 @@ define([
                 });
 
                 var me = this,
-                    themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle'],
+                    themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle', 'basic', 'office theme', 'green leaf'],
                     translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
@@ -152,10 +152,6 @@ define([
                     return;
                 }
 
-                var value = Common.localStorage.getItem("pe-settings-fontrender");
-                if (value===null) value = window.devicePixelRatio > 1 ? '1' : '3';
-                Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
-
                 // Initialize api
                 window["flat_desine"] = true;
                 this.api = this.getApplication().getController('Viewport').getApi();
@@ -163,6 +159,14 @@ define([
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
+
+                    var value = Common.localStorage.getBool("pe-settings-cachemode", true);
+                    Common.Utils.InternalSettings.set("pe-settings-cachemode", value);
+                    this.api.asc_setDefaultBlitMode(!!value);
+
+                    value = Common.localStorage.getItem("pe-settings-fontrender");
+                    if (value===null) value = '3';
+                    Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
                     this.api.SetFontRenderingMode(parseInt(value));
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
@@ -322,6 +326,7 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
+                this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -788,6 +793,11 @@ define([
                     documentHolderController.getView('DocumentHolder').createDelayedElementsViewer();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                 }
+
+                // TODO bug 43960
+                var dummyClass = ~~(1e6*Math.random());
+                $('.toolbar').prepend(Common.Utils.String.format('<div class="lazy-{0} x-huge"><div class="toolbar__icon" style="position: absolute; width: 1px; height: 1px;"></div>', dummyClass));
+                setTimeout(function() { $(Common.Utils.String.format('.toolbar .lazy-{0}', dummyClass)).remove(); }, 10);
 
                 if (this.appOptions.canAnalytics && false)
                     Common.component.Analytics.initialize('UA-12442749-13', 'Presentation Editor');
@@ -2020,6 +2030,9 @@ define([
             txtTheme_dotted: 'Dotted',
             txtTheme_corner: 'Corner',
             txtTheme_turtle: 'Turtle',
+            txtTheme_basic: 'Basic',
+            txtTheme_green_leaf: 'Green leaf',
+            txtTheme_office_theme: 'Office Theme',
             warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
             warnNoLicenseUsers: 'This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
             warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',

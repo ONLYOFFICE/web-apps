@@ -67,6 +67,7 @@
             background: #fbfbfb;
             width: 100%;
             height: 100%;
+            font-size: 0;
             border: 1px solid #dfdfdf;
             white-space: nowrap;
             padding-top: 32px;
@@ -91,7 +92,7 @@
             position: absolute;
             background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
             background-size: 20px 20px;
-            width: 35px;
+            width: 25px;
         }
 
         @keyframes flickerAnimation {
@@ -187,6 +188,7 @@
               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
 
           window.frameEditorId = params["frameEditorId"];
+          window.parentOrigin = params["parentOrigin"];
 
           var elem = document.querySelector('.loading-logo');
           if (elem && logo) {

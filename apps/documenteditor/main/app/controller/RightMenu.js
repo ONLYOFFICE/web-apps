@@ -126,6 +126,7 @@ define([
             var isChart = false;
             for (i=0; i<SelectedObjects.length; i++)
             {
+                var content_locked = false;
                 var eltype = SelectedObjects[i].get_ObjectType(),
                     settingsType = this.getDocumentSettingsType(eltype);
                 if (eltype === Asc.c_oAscTypeSelectElement.Math)
@@ -136,6 +137,10 @@ define([
 
                 var value = SelectedObjects[i].get_ObjectValue();
                 if (settingsType == Common.Utils.documentSettingsType.Image) {
+                    var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                    content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+
                     if (value.get_ChartProperties() !== null) {
                         isChart = true;
                         settingsType = Common.Utils.documentSettingsType.Chart;
@@ -145,7 +150,7 @@ define([
                         if (value.get_ShapeProperties().asc_getTextArtProperties()) {
                             this._settings[Common.Utils.documentSettingsType.TextArt].props = value;
                             this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
-                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked();
+                            this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked() || content_locked;
                         }
                     }
                 } else if (settingsType == Common.Utils.documentSettingsType.Paragraph) {
@@ -154,7 +159,7 @@ define([
                 }
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
-                this._settings[settingsType].locked = value.get_Locked();
+                this._settings[settingsType].locked = value.get_Locked() || content_locked;
                 if (!this._settings[Common.Utils.documentSettingsType.MailMerge].locked) // lock MailMerge-InsertField, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked();
                 if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked

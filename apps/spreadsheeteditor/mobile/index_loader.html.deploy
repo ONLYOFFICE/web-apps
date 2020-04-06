@@ -22,7 +22,7 @@
                 overflow: hidden;
                 border: none;
                 background-color: #f4f4f4;
-                z-index: 100;
+                z-index: 10000;
             }
 
             .loader-page {
@@ -224,6 +224,7 @@
                 logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
 
                 window.frameEditorId = params["frameEditorId"];
+                window.parentOrigin = params["parentOrigin"];
 
             if ( lang == 'de')      loading = 'Ladevorgang...';
             else if ( lang == 'es') loading = 'Cargando...';
@@ -286,7 +287,6 @@
             };
         </script>
 
-        <div id="viewport"></div>
         <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 
     </body>

@@ -355,7 +355,11 @@ define([
         },
 
         applySettings: function(menu) {
-            var value = Common.localStorage.getItem("sse-settings-fontrender");
+            var value = Common.localStorage.getBool("sse-settings-cachemode", true);
+            Common.Utils.InternalSettings.set("sse-settings-cachemode", value);
+            this.api.asc_setDefaultBlitMode(value);
+
+            value = Common.localStorage.getItem("sse-settings-fontrender");
             Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
             this.api.asc_setFontRenderingMode(parseInt(value));
 

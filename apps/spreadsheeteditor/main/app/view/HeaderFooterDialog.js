@@ -48,7 +48,7 @@ define([
 
     SSE.Views.HeaderFooterDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 647,
+            width: 650,
             style: 'min-width: 350px;',
             cls: 'modal-dlg enable-key-events',
             animate: {mask: false},
@@ -114,23 +114,21 @@ define([
                     '<div id="id-dlg-h-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-h-italic" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-h-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-h-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-h-superscript" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div style="margin-top: 7px;">',
-                        '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="header-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                    '</div>',
                     '<label style="display: block; margin-top: 10px;margin-bottom: 3px;">' + this.textFooter + '</label>',
                     '<div id="id-dlg-f-presets" class="input-row" style="display: inline-block; vertical-align: middle;"></div>',
                     '<div id="id-dlg-f-insert" class="input-row" style="display: inline-block; vertical-align: middle; margin-left: 2px;"></div>',
@@ -140,23 +138,21 @@ define([
                     '<div id="id-dlg-f-bold" style="display: inline-block;margin-left: 2px;"></div>','<div id="id-dlg-f-italic" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-f-underline" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-strikeout" style="display: inline-block;margin-left: 6px;"></div>',
                     '<div id="id-dlg-f-subscript" style="display: inline-block;margin-left: 6px;"></div>','<div id="id-dlg-f-superscript" style="display: inline-block;margin-left: 6px;"></div>',
-                    '<div style="margin-top: 7px;">',
-                        '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-left-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;margin-right: -1px;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-right: -1px;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-center-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                        '<div style="display: inline-block;">',
-                            '<div style="border: 1px solid #cbcbcb;width: 205px; height: 92px; position:relative; overflow:hidden;">',
+                        '<div style="display: inline-block;margin-top: 7px;vertical-align: middle;">',
+                            '<div style="border: 1px solid #cbcbcb;width: 206px; height: 92px; position:relative; overflow:hidden;">',
                                 '<div id="footer-right-img" style="width: 190px; height: 100%;"></div>',
                             '</div>',
                         '</div>',
-                    '</div>',
                 '</div>'
             ].join('');
 
@@ -855,7 +851,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*\.?\d+)$|^\+?(\d+\.?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
 
                     if (!value) {
                         value = combo.getValue();
@@ -865,7 +861,7 @@ define([
                     }
                 }
             } else {
-                value = parseFloat(record.value);
+                value = Common.Utils.String.parseFloat(record.value);
                 value = value > 409 ? 409 :
                     value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
 

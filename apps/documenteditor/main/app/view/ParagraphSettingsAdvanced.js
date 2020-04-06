@@ -729,7 +729,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             if (this._changedProps.get_Ind()!==null && this._changedProps.get_Ind()!==undefined) {
                 var left = this._changedProps.get_Ind().get_Left(),
                     first = this._changedProps.get_Ind().get_FirstLine();
-                if (first<0 || this.FirstLine<0) {
+                if ((left!==undefined || first!==undefined) && (first<0 || this.FirstLine<0)) {
                     if (first<0 || first===undefined || first===null) {
                         if (first === undefined || first === null)
                             first = this.FirstLine;
@@ -1414,14 +1414,14 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 if (this._changedProps.get_Ind()===null || this._changedProps.get_Ind()===undefined)
                     this._changedProps.put_Ind(new Asc.asc_CParagraphInd());
                 var value = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
-                if (this.CurSpecial === c_paragraphSpecial.HANGING) {
-                    value = -value;
-                } else if (this.CurSpecial === c_paragraphSpecial.NONE_SPECIAL && value > 0 )  {
+                if (this.CurSpecial === c_paragraphSpecial.NONE_SPECIAL && value > 0 )  {
                     this.CurSpecial = c_paragraphSpecial.FIRST_LINE;
                     this.cmbSpecial.setValue(c_paragraphSpecial.FIRST_LINE);
                 } else if (value === 0) {
                     this.CurSpecial = c_paragraphSpecial.NONE_SPECIAL;
                     this.cmbSpecial.setValue(c_paragraphSpecial.NONE_SPECIAL);
+                } else if (this.CurSpecial === c_paragraphSpecial.HANGING) {
+                    value = -value;
                 }
                 this._changedProps.get_Ind().put_FirstLine(value);
             }

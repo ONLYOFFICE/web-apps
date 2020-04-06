@@ -92,6 +92,7 @@
   "PE.Controllers.Main.errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina verrà ricaricata per applicare le modifiche.",
   "PE.Controllers.Main.errorStockChart": "righe ordinate in modo errato. Per creare un grafico in pila posiziona i dati nel foglio nel seguente ordine:<br> prezzo di apertura, prezzo massimo, prezzo minimo, prezzo di chiusura.",
   "PE.Controllers.Main.errorUpdateVersion": "La versione file è stata moificata. La pagina verrà ricaricata.",
+  "PE.Controllers.Main.errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata modificata.<br>Prima di poter continuare a lavorare, è necessario scaricare il file o copiarne il contenuto per assicurarsi che non vada perso nulla, successivamente ricaricare questa pagina.",
   "PE.Controllers.Main.errorUserDrop": "Impossibile accedere al file in questo momento.",
   "PE.Controllers.Main.errorUsersExceed": "È stato superato il numero di utenti",
   "PE.Controllers.Main.errorViewerDisconnect": "Connessione assente. È possibile visualizzare il documento, <br>ma non sarà possibile scaricarlo fino a che la connessione verrà ristabilita",

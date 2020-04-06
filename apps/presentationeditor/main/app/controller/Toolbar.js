@@ -316,6 +316,8 @@ define([
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onEditHeaderClick, this, 'datetime'));
             toolbar.btnInsSlideNum.on('click',                          _.bind(this.onEditHeaderClick, this, 'slidenum'));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
+            toolbar.btnInsAudio && toolbar.btnInsAudio.on('click',      _.bind(this.onAddAudio, this));
+            toolbar.btnInsVideo && toolbar.btnInsVideo.on('click',      _.bind(this.onAddVideo, this));
 
             this.onSetupCopyStyleButton();
         },
@@ -639,7 +641,7 @@ define([
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ]});
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides,
-                    { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt) });
+                    { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt, this.toolbar.btnInsAudio, this.toolbar.btnInsVideo) });
                 if (this.btnsComment)
                     this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
             }
@@ -1204,7 +1206,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*\.?\d+)$|^\+?(\d+\.?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
 
                     if (!value) {
                         value = this._getApiTextSize();
@@ -1225,7 +1227,7 @@ define([
                     }
                 }
             } else {
-                value = parseFloat(record.value);
+                value = Common.Utils.String.parseFloat(record.value);
                 value = value > 300 ? 300 :
                     value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
 
@@ -1355,23 +1357,31 @@ define([
 
                 text = me.api.can_AddHyperlink();
 
+                var _arr = [];
+                for (var i=0; i<me.api.getCountPages(); i++) {
+                    _arr.push({
+                        displayValue: i+1,
+                        value: i
+                    });
+                }
                 if (text !== false) {
-                    var _arr = [];
-                    for (var i=0; i<me.api.getCountPages(); i++) {
-                        _arr.push({
-                            displayValue: i+1,
-                            value: i
+                    props = new Asc.CHyperlinkProperty();
+                    props.put_Text(text);
+                } else {
+                    var selectedElements = me.api.getSelectedElements();
+                    if (selectedElements && _.isArray(selectedElements)){
+                        _.each(selectedElements, function(el, i) {
+                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
+                                props = selectedElements[i].get_ObjectValue();
                         });
                     }
+                }
+                if (props) {
                     win = new PE.Views.HyperlinkSettingsDialog({
                         api: me.api,
                         handler: handlerDlg,
                         slides: _arr
                     });
-
-                    props = new Asc.CHyperlinkProperty();
-                    props.put_Text(text);
-
                     win.show();
                     win.setSettings(props);
                 }
@@ -2037,7 +2047,7 @@ define([
             if (themeStore) {
                 var arr1 = [], arr2 = [];
                 _.each(defaultThemes, function(theme, index) {
-                    var tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                    var tip = mainController.translationTable[(theme.get_Name() || '').toLocaleLowerCase()] || theme.get_Name();
                     arr1.push(new Common.UI.DataViewModel({
                         uid     : Common.UI.getId(),
                         themeId : theme.get_Index(),
@@ -2053,7 +2063,7 @@ define([
                 });
                 _.each(docThemes, function(theme) {
                     var image = theme.get_Image(),
-                        tip = mainController.translationTable[theme.get_Name()] || theme.get_Name();
+                        tip = mainController.translationTable[(theme.get_Name() || '').toLocaleLowerCase()] || theme.get_Name();
                     arr1.push(new Common.UI.DataViewModel({
                         imageUrl: image,
                         uid     : Common.UI.getId(),
@@ -2226,6 +2236,14 @@ define([
 
         onTextLanguage: function(langId) {
             this._state.lang = langId;
+        },
+
+        onAddAudio: function() {
+            this.api && this.api.asc_AddAudio();
+        },
+
+        onAddVideo: function() {
+            this.api && this.api.asc_AddVideo();
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

@@ -493,7 +493,7 @@ define([
                     footer.find('.dlg-btn').on('click', onBtnClick);
                     chDontShow = new Common.UI.CheckBox({
                         el: win.$window.find('.dont-show-checkbox'),
-                        labelText: win.textDontShow
+                        labelText: options.textDontShow || win.textDontShow
                     });
                     autoSize(obj);
                 },
@@ -506,13 +506,14 @@ define([
             });
 
             win.show();
+            return win;
         };
 
         Common.UI.error = function(options) {
             options = options || {};
             !options.title && (options.title = this.Window.prototype.textError);
 
-            Common.UI.alert(
+            return Common.UI.alert(
                 _.extend(options, {
                     iconCls: 'error'
                 })
@@ -523,7 +524,7 @@ define([
             options = options || {};
             !options.title && (options.title = this.Window.prototype.textConfirmation);
 
-            Common.UI.alert(
+            return Common.UI.alert(
                 _.extend(options, {
                     iconCls: 'confirm'
                 })
@@ -534,7 +535,7 @@ define([
             options = options || {};
             !options.title && (options.title = this.Window.prototype.textInformation);
 
-            Common.UI.alert(
+            return Common.UI.alert(
                 _.extend(options, {
                     iconCls: 'info'
                 })
@@ -545,7 +546,7 @@ define([
             options = options || {};
             !options.title && (options.title = this.Window.prototype.textWarning);
 
-            Common.UI.alert(
+            return Common.UI.alert(
                 _.extend(options, {
                     iconCls: 'warn'
                 })

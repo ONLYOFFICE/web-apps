@@ -176,6 +176,7 @@
             presenter = 'Presenter View';
 
         window.frameEditorId = params["frameEditorId"];
+        window.parentOrigin = params["parentOrigin"];
 
         if ( lang == 'bg') { presenter = 'Изглед на презентатора';}
         else if ( lang == 'cs') { presenter = 'Zobrazení přednášejícího';}

@@ -79,9 +79,6 @@ define([
             setApi: function (api) {
                 var me = this;
                 me.api = api;
-
-                // me.api.asc_registerCallback('asc_onInitEditorFonts',    _.bind(onApiLoadFonts, me));
-
             },
 
             onLaunch: function () {
@@ -162,28 +159,7 @@ define([
             },
 
             onClickInsertFootnote: function() {
-                var me = this,
-                    format = $('input[name="doc-footnote-format"]:checked').data('value'),
-                    start = $('#start-at-footnote .item-after label').text(),
-                    position = $('input[name="doc-footnote-pos"]:checked').data('value'),
-                    props   = new Asc.CAscFootnotePr();
-                var startTo10;
-                if (me.fromCustomFormat) {
-                    startTo10 =  parseInt(me.fromCustomFormat(start));
-                } else {
-                    startTo10 = me.api.asc_GetFootnoteProps().get_NumStart();
-                }
-                props.put_Pos(position);
-                props.put_NumFormat(format);
-                props.put_NumStart(startTo10);
-                props.put_NumRestart(Asc.c_oAscFootnoteRestart.Continuous);
-                if (me.api) {
-                    me.api.asc_SetFootnoteProps(props, false);
-                    setTimeout(function() {
-                        me.api.asc_AddFootnote();
-                    }, 1);
-                    DE.getController('AddContainer').hideModal();
-                }
+                DE.getController('AddContainer').hideModal();
             },
 
             onFormatFootnoteChange: function(e) {
@@ -244,32 +220,6 @@ define([
             },
 
             onInsertLink: function (e) {
-                var me      = this,
-                    url     = $('#add-link-url input').val(),
-                    display = $('#add-link-display input').val(),
-                    tip     = $('#add-link-tip input').val(),
-                    urltype = me.api.asc_getUrlType($.trim(url)),
-                    isEmail = (urltype == 2);
-
-                if (urltype < 1) {
-                    uiApp.alert(me.txtNotUrl);
-                    return;
-                }
-
-                url = url.replace(/^\s+|\s+$/g,'');
-
-                if (! /(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url) )
-                    url = (isEmail ? 'mailto:' : 'http://' ) + url;
-
-                url = url.replace(new RegExp("%20",'g')," ");
-
-                var props = new Asc.CHyperlinkProperty();
-                props.put_Value(url);
-                props.put_Text(_.isEmpty(display) ? url : display);
-                props.put_ToolTip(tip);
-
-                me.api.add_Hyperlink(props);
-
                 DE.getController('AddContainer').hideModal();
             },
 

@@ -264,6 +264,22 @@ define([
             expandToLevel: function(expandLevel) {
                 this.store.expandToLevel(expandLevel);
                 this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: this.scrollAlwaysVisible});
+            },
+
+            expandRecord: function(record) {
+                if (record) {
+                    record.set('isExpanded', true);
+                    this.store.expandSubItems(record);
+                    this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: this.scrollAlwaysVisible});
+                }
+            },
+
+            collapseRecord: function(record) {
+                if (record) {
+                    record.set('isExpanded', false);
+                    this.store.collapseSubItems(record);
+                    this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: this.scrollAlwaysVisible});
+                }
             }
         }
     })());

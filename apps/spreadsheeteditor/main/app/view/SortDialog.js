@@ -98,6 +98,10 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.sortOptions = {};
 
             this.options.handler = function(result, value) {
+                if (!value) {
+                    value = new Asc.CSortProperties();
+                    value.asc_setSelection(options.props.asc_getSelection());
+                }
                 if ( result != 'ok' || this.isListValid() ) {
                     if (options.handler)
                         options.handler.call(this, result, value);
@@ -593,6 +597,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 }
             });
             props.asc_setLevels(arr);
+            props.asc_setSelection(this.props.asc_getSelection());
             return props;
         },
 

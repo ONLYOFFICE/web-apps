@@ -593,7 +593,7 @@ define([
                     if (isTextChart) {
                         _settings.push('text');
                     }
-                } else if (isShape || isTextShape) {
+                } else if ((isShape || isTextShape) && !isImage) {
                     _settings.push('shape');
 
                     if (isTextShape) {
@@ -601,6 +601,10 @@ define([
                     }
                 } else if (isImage) {
                     _settings.push('image');
+
+                    if (isShape) {
+                        _settings.push('shape');
+                    }
                 } else {
                     _settings.push('cell');
 

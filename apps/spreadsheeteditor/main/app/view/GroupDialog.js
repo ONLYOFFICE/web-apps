@@ -45,6 +45,7 @@ define([
     SSE.Views.GroupDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 214,
+            height: 138,
             header: true,
             style: 'min-width: 214px;',
             cls: 'modal-dlg',

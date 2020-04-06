@@ -57,6 +57,7 @@ define([
     'spreadsheeteditor/main/app/view/FormatSettingsDialog',
     'spreadsheeteditor/main/app/view/PageMarginsDialog',
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
+    'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog'
 ], function () { 'use strict';
 
@@ -129,6 +130,10 @@ define([
                     'data:sort': this.onSortType,
                     'data:setfilter': this.onAutoFilter,
                     'data:clearfilter': this.onClearFilter
+                },
+                'FormulaTab': {
+                    'function:namedrange': this.onNamedRangeMenu,
+                    'function:namedrange-open': this.onNamedRangeMenuOpen
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -376,6 +381,7 @@ define([
                 toolbar.btnsEditHeader.forEach(function(button) {
                     button.on('click', _.bind(me.onEditHeaderClick, me));
                 });
+                toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
 
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
@@ -876,9 +882,7 @@ define([
                     items = [];
 
                 while (++i < wc) {
-                    if (!this.api.asc_isWorksheetHidden(i)) {
-                        items.push({displayValue: me.api.asc_getWorksheetName(i), value: me.api.asc_getWorksheetName(i)});
-                    }
+                    items.push({name: me.api.asc_getWorksheetName(i), hidden: me.api.asc_isWorksheetHidden(i)});
                 }
 
                 var handlerDlg = function(dlg, result) {
@@ -895,12 +899,14 @@ define([
                 props = cell.asc_getHyperlink();
                 win = new SSE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.appOptions,
                     handler: handlerDlg
                 });
 
                 win.show();
                 win.setSettings({
                     sheets  : items,
+                    ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All),
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
@@ -980,7 +986,7 @@ define([
                     if (props) {
                         (ischartedit) ? props.changeType(type) : props.putType(type);
                         var range = props.getRange(),
-                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType());
+                            isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType()) : Asc.c_oAscError.ID.No;
                         if (isvalid == Asc.c_oAscError.ID.No) {
                             (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
                         } else {
@@ -1284,10 +1290,10 @@ define([
             }
         },
 
-        onNamedRangeMenuOpen: function() {
-            if (this.api) {
+        onNamedRangeMenuOpen: function(menu) {
+            if (this.api && menu) {
                 var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook);
-                this.toolbar.btnNamedRange.menu.items[2].setDisabled(names.length<1);
+                menu.items[2].setDisabled(names.length<1);
             }
         },
 
@@ -1399,7 +1405,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*\.?\d+)$|^\+?(\d+\.?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
 
                     if (!value) {
                         value = this._getApiTextSize();
@@ -1420,7 +1426,7 @@ define([
                     }
                 }
             } else {
-                value = parseFloat(record.value);
+                value = Common.Utils.String.parseFloat(record.value);
                 value = value > 409 ? 409 :
                     value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
 
@@ -1506,8 +1512,12 @@ define([
                     },
                     'command+k,ctrl+k': function (e) {
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot &&
-                            !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible())
-                            me.onHyperlink();
+                            !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()) {
+                            var cellinfo = me.api.asc_getCellInfo(),
+                                selectionType = cellinfo.asc_getFlags().asc_getSelectionType();
+                            if (selectionType !== Asc.c_oAscSelectionType.RangeShapeText || me.api.asc_canAddShapeHyperlink()!==false)
+                                me.onHyperlink();
+                        }
                         e.preventDefault();
                     },
                     'command+1,ctrl+1': function(e) {
@@ -1711,7 +1721,7 @@ define([
                             toolbar.btnClearStyle.menu.items[4],
                             toolbar.btnNamedRange.menu.items[0],
                             toolbar.btnNamedRange.menu.items[1]
-                        ],
+                        ].concat(toolbar.itemsNamedRange),
                         merge: true,
                         clear: [SSE.enumLock.editFormula, SSE.enumLock.editText]
                 });
@@ -1871,14 +1881,14 @@ define([
 
         onApiLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==true && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale]});
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
                 this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function(nIndex) {
             if (this._state.lock_doc!==false && nIndex == this.api.asc_getActiveWorksheetIndex()) {
-                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale]});
+                this.toolbar.lockToolbar(SSE.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnPageOrient, this.toolbar.btnScale, this.toolbar.btnPrintTitles]});
                 this._state.lock_doc = false;
             }
         },
@@ -1997,7 +2007,7 @@ define([
                 return this.onApiSelectionChanged_MailMergeEditor(info);
 
             var selectionType = info.asc_getFlags().asc_getSelectionType(),
-                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true) : false,
+                coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true || info.asc_getLockedPivotTable()===true) : false,
                 editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
                 me = this,
                 toolbar = this.toolbar,
@@ -3169,14 +3179,18 @@ define([
                     formulatab.setConfig({toolbar: me});
                     formulatab = formulatab.getView('FormulaTab');
                     me.toolbar.btnsFormula = formulatab.getButtons('formula');
+                    var namedRange = formulatab.getButtons('range');
+                    me.toolbar.itemsNamedRange = (namedRange && namedRange.menu && namedRange.menu.items) ? [namedRange.menu.items[0], namedRange.menu.items[1]] : [];
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
-                    if ( !config.isOffline ) {
-                        var tab = {action: 'pivot', caption: me.textPivot};
-                        var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                    if ( config.canFeaturePivot ) {
+                        tab = {action: 'pivot', caption: me.textPivot};
+                        var pivottab = me.getApplication().getController('PivotTable');
+                        $panel = pivottab.createToolbarPanel();
                         if ($panel) {
                             me.toolbar.addTab(tab, $panel, 5);
                             me.toolbar.setVisible('pivot', true);
+                            Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
                     }
 
@@ -3437,6 +3451,29 @@ define([
                     });
                     win.show();
                 }
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onPrintTitlesClick: function(btn) {
+            if (this.api) {
+                var win, props,
+                    me = this;
+                win = new SSE.Views.PrintTitlesDialog({
+                    api: me.api,
+                    sheet: me.api.asc_getActiveWorksheetIndex(),
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            props = dlg.getSettings();
+                            me.api.asc_changePrintTitles(props.width, props.height, me.api.asc_getActiveWorksheetIndex());
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    }
+                });
+                win.show();
+
+                Common.component.Analytics.trackEvent('ToolBar', 'Print Titles');
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);

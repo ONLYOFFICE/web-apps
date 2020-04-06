@@ -85,7 +85,7 @@ define([
             me._currentMathObj = undefined;
             me._currentParaObjDisabled = false;
             me._isDisabled = false;
-
+            me._state = {};
             var showPopupMenu = function(menu, value, event, docElement, eOpts){
                 if (!_.isUndefined(menu)  && menu !== null){
                     Common.UI.Menu.Manager.hideAll();
@@ -433,7 +433,7 @@ define([
             });
 
             var onHyperlinkClick = function(url) {
-                if (url && me.api.asc_getUrlType(url)>0) {
+                if (url /*&& me.api.asc_getUrlType(url)>0*/) {
                     window.open(url);
                 }
             };
@@ -1525,6 +1525,8 @@ define([
                         this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
                         this.api.asc_registerCallback('asc_onRulerDblClick',            _.bind(this.onRulerDblClick, this));
                         this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
+                        this.api.asc_registerCallback('asc_onLockDocumentProps',        _.bind(this.onApiLockDocumentProps, this));
+                        this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
                     }
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',                      _.bind(onCoAuthoringDisconnect, this));
@@ -1723,6 +1725,8 @@ define([
         },
 
         onRulerDblClick: function(type) {
+            Common.UI.Menu.Manager.hideAll();
+
             var win, me = this;
             if (type == 'tables') {
                 win = this.advancedTableClick();
@@ -1733,6 +1737,7 @@ define([
                 if (win)
                     win.setActiveCategory(type == 'indents' ? 0 : 3);
             } else if (type == 'margins') {
+                if (me._state.lock_doc) return;
                 win = new DE.Views.PageMarginsDialog({
                     api: me.api,
                     handler: function(dlg, result) {
@@ -2009,9 +2014,18 @@ define([
                         signGuid = (value.imgProps && value.imgProps.value && me.mode.isSignatureSupport) ? value.imgProps.value.asc_getSignatureId() : undefined,
                         signProps = (signGuid) ? me.api.asc_getSignatureSetup(signGuid) : null,
                         isInSign = !!signProps && me._canProtect,
-                        canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled;
+                        control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
+                                                            !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false,
+                        canComment = !isInChart && me.api.can_AddQuotedComment() !== false && me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled && !control_lock;
+
                     if (me.mode.compatibleFeatures)
                         canComment = canComment && !isInShape;
+                    if (me.api.asc_IsContentControl()) {
+                        var control_props = me.api.asc_GetContentControlProperties(),
+                            spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+                        canComment = canComment && !(spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime);
+                    }
 
                     menuViewUndo.setVisible(me.mode.canCoAuthoring && me.mode.canComments && !me._isDisabled);
                     menuViewUndo.setDisabled(!me.api.asc_getCanUndo() && !me._isDisabled);
@@ -2549,7 +2563,11 @@ define([
 
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
-                    var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
+                    var control_props = me.api.asc_IsContentControl() ? me.api.asc_GetContentControlProperties() : null,
+                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                        content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+
+                    var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked) || content_locked;
                     var pluginGuid = value.imgProps.value.asc_getPluginGuid();
                     menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgReplace.isVisible())
@@ -2577,7 +2595,7 @@ define([
                         menuImageAlign.menu.items[7].setDisabled(objcount==2 && (!alignto || alignto==3));
                         menuImageAlign.menu.items[8].setDisabled(objcount==2 && (!alignto || alignto==3));
                     }
-                    menuImageArrange.setDisabled( wrapping == Asc.c_oAscWrapStyle2.Inline );
+                    menuImageArrange.setDisabled( wrapping == Asc.c_oAscWrapStyle2.Inline || content_locked);
 
                     if (me.api) {
                         mnuUnGroup.setDisabled(islocked || !me.api.CanUnGroup());
@@ -2585,7 +2603,8 @@ define([
                         menuWrapPolygon.setDisabled(islocked || !me.api.CanChangeWrapPolygon());
                     }
 
-                    me.menuImageWrap.setDisabled(islocked || value.imgProps.value.get_FromGroup() || (notflow && menuWrapPolygon.isDisabled()));
+                    me.menuImageWrap.setDisabled(islocked || value.imgProps.value.get_FromGroup() || (notflow && menuWrapPolygon.isDisabled()) ||
+                                                (!!control_props && control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture));
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuImgCopy.setDisabled(!cancopy);
@@ -3077,11 +3096,6 @@ define([
                         menuAddHyperlinkTable.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkTable.hyperProps.value.put_Text(text);
                     }
-                    /** coauthoring begin **/
-                        // comments
-                    menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
-                    menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
-                    /** coauthoring end **/
 
                     // review move
                     var data = me.api.asc_GetRevisionsChangesStack(),
@@ -3132,6 +3146,8 @@ define([
                         me.clearEquationMenu(false, 7);
                     menuEquationSeparatorInTable.setVisible(isEquation && eqlen>0);
 
+                    var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
+                                                            !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl();
                     menuTableControl.setVisible(in_control);
@@ -3140,8 +3156,18 @@ define([
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
                         menuTableControlSettings.setVisible(me.mode.canEditContentControl);
+
+                        var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+                        control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                                        spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
                     }
                     menuTableTOC.setVisible(in_toc);
+
+                    /** coauthoring begin **/
+                        // comments
+                    menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments && !control_lock);
+                    menuAddCommentTable.setDisabled(value.paraProps!==undefined && value.paraProps.locked===true);
+                    /** coauthoring end **/
 
                     var in_field = me.api.asc_GetCurrentComplexField();
                     menuTableRefreshField.setVisible(!!in_field);
@@ -3654,15 +3680,6 @@ define([
                     if (me.api) {
                         text = me.api.can_AddHyperlink();
                     }
-                    /** coauthoring begin **/
-                    var isVisible = !isInChart && me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments;
-                    if (me.mode.compatibleFeatures)
-                        isVisible = isVisible && !isInShape;
-                    menuCommentSeparatorPara.setVisible(isVisible);
-                    menuAddCommentPara.setVisible(isVisible);
-                    menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
-                    /** coauthoring end **/
-
                     menuAddHyperlinkPara.setVisible(value.hyperProps===undefined && text!==false);
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
                     menuHyperlinkParaSeparator.setVisible(menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
@@ -3747,6 +3764,9 @@ define([
                         me.menuStyleUpdate.setCaption(me.updateStyleText.replace('%1', DE.getController('Main').translationTable[window.currentStyleName] || window.currentStyleName));
                     }
 
+                    var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
+                                                            !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
+
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl() ;
                     menuParaRemoveControl.setVisible(in_control);
@@ -3756,10 +3776,23 @@ define([
                         var control_props = me.api.asc_GetContentControlProperties(),
                             lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+
+                        var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+                        control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                                        spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.DateTime;
                     }
                     menuParaTOCSettings.setVisible(in_toc);
                     menuParaTOCRefresh.setVisible(in_toc);
                     menuParaTOCSeparator.setVisible(in_toc);
+
+                    /** coauthoring begin **/
+                    var isVisible = !isInChart && me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments && !control_lock;
+                    if (me.mode.compatibleFeatures)
+                        isVisible = isVisible && !isInShape;
+                    menuCommentSeparatorPara.setVisible(isVisible);
+                    menuAddCommentPara.setVisible(isVisible);
+                    menuAddCommentPara.setDisabled(value.paraProps && value.paraProps.locked === true);
+                    /** coauthoring end **/
 
                     var in_field = me.api.asc_GetCurrentComplexField();
                     menuParaRefreshField.setVisible(!!in_field);
@@ -4025,6 +4058,13 @@ define([
                         me.api.asc_UncheckContentControlButtons();
                     }
                 });
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+
             }
             this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
 
@@ -4065,6 +4105,7 @@ define([
 
             if (!menu) {
                 this.listControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
                     menuAlign: 'tr-bl',
                     items: []
                 });
@@ -4122,6 +4163,11 @@ define([
                     this.onShowDateActions(obj, x, y);
                     break;
                 case Asc.c_oAscContentControlSpecificType.Picture:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
                     this.api.asc_addImage(obj);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
@@ -4129,6 +4175,14 @@ define([
                     this.onShowListActions(obj, x, y);
                     break;
             }
+        },
+
+        onApiLockDocumentProps: function() {
+            this._state.lock_doc = true;
+        },
+
+        onApiUnLockDocumentProps: function() {
+            this._state.lock_doc = false;
         },
 
         focus: function() {

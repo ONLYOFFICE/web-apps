@@ -4,10 +4,10 @@
 
     > li {
         float: none;
-        display: inline;
+        display: inline-block;
 
         &.active {
-            > a, > a:hover, > a:focus {
+            > span, > span:hover, > span:focus {
                 background-color: #fff;
                 color: #000;
                 border-color: #fff;
@@ -19,7 +19,7 @@
             transition: left .2s;
         }
 
-        > a {
+        > span {
             display: inline;
             background-color: #7a7a7a;
             color: #fff;
@@ -50,7 +50,7 @@
         > li {
             vertical-align: middle;
 
-            > a {
+            > span {
                 padding-bottom: 1px;
                 border-radius: 0 0 4px 4px;
             }

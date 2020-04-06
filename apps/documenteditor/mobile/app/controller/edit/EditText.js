@@ -51,25 +51,9 @@ define([
     'use strict';
 
     DE.Controllers.EditText = Backbone.Controller.extend(_.extend((function() {
-        var _fontsArray = [],
-            _stack = [],
+        var _stack = [],
             _paragraphObject = undefined,
             _fontInfo = {};
-
-        function onApiLoadFonts(fonts, select) {
-            _.each(fonts, function(font){
-                var fontId = font.asc_getFontId();
-                _fontsArray.push({
-                    id          : fontId,
-                    name        : font.asc_getFontName(),
-//                    displayValue: font.asc_getFontName(),
-                    imgidx      : font.asc_getFontThumbnail(),
-                    type        : font.asc_getFontType()
-                });
-            });
-
-            Common.NotificationCenter.trigger('fonts:load', _fontsArray, select);
-        }
 
         return {
             models: [],
@@ -87,26 +71,13 @@ define([
                         'font:click': this.onFontClick
                     }
                 });
+
+                this._fontsArray = [];
             },
 
             setApi: function (api) {
                 var me = this;
                 me.api = api;
-
-                me.api.asc_registerCallback('asc_onInitEditorFonts',    _.bind(onApiLoadFonts, me));
-                me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onApiFocusObject, me));
-                me.api.asc_registerCallback('asc_onFontFamily',         _.bind(me.onApiChangeFont, me));
-                me.api.asc_registerCallback('asc_onFontSize',           _.bind(me.onApiFontSize, me));
-                me.api.asc_registerCallback('asc_onBold',               _.bind(me.onApiBold, me));
-                me.api.asc_registerCallback('asc_onItalic',             _.bind(me.onApiItalic, me));
-                me.api.asc_registerCallback('asc_onUnderline',          _.bind(me.onApiUnderline, me));
-                me.api.asc_registerCallback('asc_onStrikeout',          _.bind(me.onApiStrikeout, me));
-                me.api.asc_registerCallback('asc_onVerticalAlign',      _.bind(me.onApiVerticalAlign, me));
-                me.api.asc_registerCallback('asc_onListType',           _.bind(me.onApiBullets, me));
-                me.api.asc_registerCallback('asc_onPrAlign',            _.bind(me.onApiParagraphAlign, me));
-                me.api.asc_registerCallback('asc_onTextColor',          _.bind(me.onApiTextColor, me));
-                me.api.asc_registerCallback('asc_onParaSpacingLine',    _.bind(me.onApiLineSpacing, me));
-                me.api.asc_registerCallback('asc_onTextShd',            _.bind(me.onApiTextShd, me));
             },
 
             onLaunch: function () {
@@ -169,7 +140,7 @@ define([
             // Public
 
             getFonts: function() {
-                return _fontsArray;
+                return this._fontsArray;
             },
 
             getStack: function() {

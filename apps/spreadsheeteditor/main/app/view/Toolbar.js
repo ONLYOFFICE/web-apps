@@ -90,7 +90,8 @@ define([
         namedRangeLock: 'named-range-lock',
         multiselectCols:'is-multiselect-cols',
         headerLock: 'header-lock',
-        sheetLock: 'sheet-lock'
+        sheetLock: 'sheet-lock',
+        noPivot: 'no-pivot'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -1337,6 +1338,14 @@ define([
                 me.mnuScale = me.btnScale.menu;
                 me.mnuScale.on('show:after', _.bind(me.onAfterShowMenuScale, me));
 
+                me.btnPrintTitles = new Common.UI.Button({
+                    id: 'tlbtn-printtitles',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-print-titles',
+                    caption: me.capBtnPrintTitles,
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth]
+                });
+
                 me.btnImgAlign = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-img-align',
@@ -1392,7 +1401,7 @@ define([
                     me.btnInsertChart, me.btnColorSchemas,
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
-                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale
+                    me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale
                 ];
 
                 _.each(me.lockControls.concat([me.btnSave]), function(cmp) {
@@ -1587,6 +1596,7 @@ define([
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
             _injectComponent('#slot-btn-printarea',      this.btnPrintArea);
+            _injectComponent('#slot-btn-printtitles',    this.btnPrintTitles);
             _injectComponent('#slot-img-align',         this.btnImgAlign);
             _injectComponent('#slot-img-group',         this.btnImgGroup);
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
@@ -1652,7 +1662,7 @@ define([
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
-            _updateHint(this.btnInsertFormula, this.txtFormula);
+            _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula]);
             _updateHint(this.btnNamedRange, this.txtNamedRange);
             _updateHint(this.btnClearStyle, this.tipClearStyle);
             _updateHint(this.btnCopyStyle, this.tipCopyStyle);
@@ -1663,6 +1673,7 @@ define([
             _updateHint(this.btnPageSize, this.tipPageSize);
             _updateHint(this.btnPageMargins, this.tipPageMargins);
             _updateHint(this.btnPrintArea, this.tipPrintArea);
+            _updateHint(this.btnPrintTitles, this.tipPrintTitles);
             _updateHint(this.btnScale, this.tipScale);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
@@ -2368,10 +2379,6 @@ define([
         textTabFormula: 'Formula',
         capBtnScale: 'Scale to Fit',
         tipScale: 'Scale to Fit',
-        textActualSize: 'Actual Size',
-        textFitSheetOnOnePage: 'Fit sheet on One Page',
-        textFitAllColumnsOnOnePage: 'Fit All Columns on One Page',
-        textFitAllRowsOnOnePage: 'Fit All Rows on One Page',
         textScaleCustom: 'Custom',
         textScale: 'Scale',
         textAuto: 'Auto',
@@ -2383,6 +2390,9 @@ define([
         textMorePages: 'More pages',
         capBtnAddComment: 'Add Comment',
         capBtnInsSymbol: 'Symbol',
-        tipInsertSymbol: 'Insert symbol'
+        tipInsertSymbol: 'Insert symbol',
+        txtAutosumTip: 'Summation',
+        capBtnPrintTitles: 'Print Titles',
+        tipPrintTitles: 'Print titles'
     }, SSE.Views.Toolbar || {}));
 });

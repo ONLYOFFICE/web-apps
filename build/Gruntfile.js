@@ -60,6 +60,14 @@ module.exports = function(grunt) {
                     to: process.env['PLUGIN_LINK_MACROS'] || 'https://api.onlyoffice.com/plugin/macros'
                 }];
 
+    let path = require('path');
+    let addons = grunt.option('addon') || [];
+    if (!Array.isArray(addons))
+        addons = [addons];
+
+    addons.forEach((element,index,self) => self[index] = path.join('../..', element, '/build'));
+    addons = addons.filter(element => grunt.file.isDir(element));
+
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -102,10 +110,10 @@ module.exports = function(grunt) {
     }
 
     function doRegisterInitializeAppTask(name, appName, configFile) {
-        if (!!process.env['BRANDING_PATH'] &&
-                grunt.file.exists(process.env['BRANDING_PATH'] + '/web-apps-pro/build/' + configFile))
+        if (!!process.env['OO_BRANDING'] &&
+                grunt.file.exists('../../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile))
         {
-            var _extConfig = require(process.env['BRANDING_PATH'] + '/web-apps-pro/build/' + configFile);
+            var _extConfig = require('../../' + process.env['OO_BRANDING'] + '/web-apps-pro/build/' + configFile);
         }
 
         function _merge(target, ...sources) {
@@ -133,6 +141,14 @@ module.exports = function(grunt) {
 
             if (packageFile) {
                 grunt.log.ok(appName + ' config loaded successfully'.green);
+
+                addons.forEach(element => {
+                    let _path = path.join(element,configFile);
+                    if (grunt.file.exists(_path)) {
+                        _merge(packageFile, require(_path));
+                        grunt.log.ok('addon '.green + element + ' is merged successfully'.green);
+                    }
+                });
 
                 if ( !!_extConfig && _extConfig.name == packageFile.name ) {
                     _merge(packageFile, _extConfig);
@@ -179,6 +195,12 @@ module.exports = function(grunt) {
                       replacements: [{
                           from: /\{\{PRODUCT_VERSION\}\}/,
                           to: packageFile.version
+                      },{
+                          from: /\{\{APP_CUSTOMER_NAME\}\}/g,
+                          to: process.env['APP_CUSTOMER_NAME'] || 'ONLYOFFICE'
+                      },{
+                          from: /\/\*\*[\s\S]+\.com\s+\*\//,
+                          to: copyright
                       }]
                   }
             }

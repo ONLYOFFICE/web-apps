@@ -250,10 +250,8 @@ define([
                     props: props,
                     api: me.api,
                     handler: function (result, settings) {
-                        if (result == 'ok') {
-                            if (me && me.api) {
-                                me.api.asc_setSortProps(settings);
-                            }
+                        if (me && me.api) {
+                            me.api.asc_setSortProps(settings, result != 'ok');
                         }
                     }
                 })).show();

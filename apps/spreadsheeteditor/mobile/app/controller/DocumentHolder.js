@@ -109,9 +109,39 @@ define([
                 var info = me.api.asc_getCellInfo();
 
                 switch (event) {
-                case 'cut': me.api.asc_Cut(); break;
-                case 'copy': me.api.asc_Copy(); break;
-                case 'paste': me.api.asc_Paste(); break;
+                case 'cut':
+                    var res = me.api.asc_Cut();
+                    if (!res) {
+                        me.view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text : me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
+                    break;
+                case 'copy':
+                    var res = me.api.asc_Copy();
+                    if (!res) {
+                        me.view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text : me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
+                    break;
+                case 'paste':
+                    var res = me.api.asc_Paste();
+                    if (!res) {
+                        me.view.hideMenu();
+                        uiApp.modal({
+                            title: me.textCopyCutPasteActions,
+                            text: me.errorCopyCutPaste,
+                            buttons: [{text: 'OK'}]
+                        });
+                    }
+                    break;
                 case 'del': me.api.asc_emptyCells(Asc.c_oAscCleanOptions.All); break;
                 case 'wrap': me.api.asc_setCellTextWrap(true); break;
                 case 'unwrap': me.api.asc_setCellTextWrap(false); break;
@@ -149,7 +179,10 @@ define([
                 case 'openlink':
                     var linkinfo = info.asc_getHyperlink();
                     if ( linkinfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink ) {
-                        /* not implemented in sdk */
+                        var nameSheet = linkinfo.asc_getSheet();
+                        var curActiveSheet = this.api.asc_getActiveWorksheetIndex();
+                        me.api.asc_setWorksheetRange(linkinfo);
+                        SSE.getController('Statusbar').onLinkWorksheetRange(nameSheet, curActiveSheet);
                     } else {
                         var url = linkinfo.asc_getHyperlinkUrl().replace(/\s/g, "%20");
                         me.api.asc_getUrlType(url) > 0 && openLink(url);
@@ -210,9 +243,9 @@ define([
 
             _initMenu: function (cellinfo) {
                 var me = this,
-                    _actionSheets = [],
                     arrItems = [],
                     arrItemsIcon = [];
+                _actionSheets.length = 0;
 
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
                 var iscelllocked    = cellinfo.asc_getLocked(),
@@ -329,8 +362,7 @@ define([
                                             event: 'wrap'
                                         });
 
-                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
-                                    cellinfo.asc_getHyperlink().asc_getType() == Asc.c_oAscHyperlinkType.WebLink) {
+                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect()) {
                                     arrItems.push({
                                         caption: me.menuOpenLink,
                                         event: 'openlink'
@@ -401,7 +433,9 @@ define([
             menuMore:       'More',
             sheetCancel:    'Cancel',
             menuFreezePanes: 'Freeze Panes',
-            menuUnfreezePanes: 'Unfreeze Panes'
+            menuUnfreezePanes: 'Unfreeze Panes',
+            textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
+            errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only. You cannot copy or paste to or from other applications.'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });

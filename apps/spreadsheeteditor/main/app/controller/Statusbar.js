@@ -150,7 +150,8 @@ define([
         onWorkbookLocked: function(locked) {
             this.statusbar.tabbar[locked?'addClass':'removeClass']('coauth-locked');
             this.statusbar.btnAddWorksheet.setDisabled(locked || this.api.isCellEdited || this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.Chart ||
-                                                                                          this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
+                                                                                          this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable||
+                                                                                          this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.PrintTitles);
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
@@ -159,6 +160,7 @@ define([
 //                        else item.reorderable = !this.api.asc_isWorksheetLockedOrDeleted(item.sheetindex);
                 } else {
                     item.disable(locked);
+                    item.$el.children(':first-child').attr('draggable', locked?'false':'true');
                 }
             }
         },
@@ -169,7 +171,8 @@ define([
                 tab = this.statusbar.tabbar.getAt(i);
                 if (index == tab.sheetindex) {
                     tab[locked?'addClass':'removeClass']('coauth-locked');
-                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
+                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable) || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.PrintTitles);
+                    tab.$el.children(':first-child').attr('draggable', tab.isLockTheDrag?'false':'true');
                     break;
                 }
             }
@@ -239,7 +242,7 @@ define([
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
                 if (item.sheetindex !== currentIdx) {
-                    item.disable(mode==Asc.c_oAscSelectionDialogType.FormatTable);
+                    item.disable(mode==Asc.c_oAscSelectionDialogType.FormatTable || mode==Asc.c_oAscSelectionDialogType.PrintTitles);
                 }
                 item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=Asc.c_oAscSelectionDialogType.None));
             }
@@ -550,7 +553,7 @@ define([
                     if ('transparent' === color) {
                         this.api.asc_setWorksheetTabColor(null, arrIndex);
                         selectTabs.forEach(function (tab) {
-                            tab.$el.find('a').css('box-shadow', '');
+                            tab.$el.find('span').css('box-shadow', '');
                         });
                     } else {
                         var asc_clr = Common.Utils.ThemeColor.getRgbColor(color);
@@ -681,9 +684,9 @@ define([
                         color = '0px 4px 0 ' + color + ' inset';
                     }
 
-                    tab.$el.find('a').css('box-shadow', color);
+                    tab.$el.find('span').css('box-shadow', color);
                 } else {
-                    tab.$el.find('a').css('box-shadow', '');
+                    tab.$el.find('span').css('box-shadow', '');
                 }
             }
         },

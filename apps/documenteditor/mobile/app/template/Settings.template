@@ -787,9 +787,8 @@
         <div class="page" data-page="color-schemes-view">
             <div class="page-content">
                 <div id="color-schemes-content" class="list-block">
-
+                    <ul></ul>
                 </div>
-
             </div>
         </div>
     </div>
