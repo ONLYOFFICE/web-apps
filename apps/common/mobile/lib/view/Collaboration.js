@@ -220,9 +220,10 @@ define([
                     if ($('#no-comments').length > 0) {
                         $('#no-comments').remove();
                     }
+                    var sortComments = _.sortBy(comments, 'time').reverse();
                     var $listComments = $('#comments-list'),
                         items = [];
-                    _.each(comments, function (comment) {
+                    _.each(sortComments, function (comment) {
                         var itemTemplate = [
                             '<li class="comment item-content" data-uid="<%= item.uid %>">',
                             '<div class="item-inner">',

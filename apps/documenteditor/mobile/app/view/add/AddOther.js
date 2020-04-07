@@ -149,23 +149,25 @@ define([
             },
 
             renderComment: function(comment) {
-                var $commentInfo = $('#comment-info');
-                var template = [
-                    '<% if (android) { %><div class="header-comment"><div class="initials-comment" style="background-color: <%= comment.usercolor %>;"><%= comment.userInitials %></div><div><% } %>',
-                    '<div class="user-name"><%= comment.username %></div>',
-                    '<div class="comment-date"><%= comment.date %></div>',
-                    '<% if (android) { %></div></div><% } %>',
-                    '<div class="wrap-textarea"><textarea id="comment-text" class="comment-textarea" autofocus></textarea></div>'
-                ].join('');
-                var insert = _.template(template)({
-                    android: Framework7.prototype.device.android,
-                    comment: comment
-                });
-                $commentInfo.html(insert);
-                _.defer(function () {
-                    var $textarea = $('.comment-textarea')[0];
-                    $textarea.focus();
-                });
+                _.delay(function () {
+                    var $commentInfo = $('#comment-info');
+                    var template = [
+                        '<% if (android) { %><div class="header-comment"><div class="initials-comment" style="background-color: <%= comment.usercolor %>;"><%= comment.userInitials %></div><div><% } %>',
+                        '<div class="user-name"><%= comment.username %></div>',
+                        '<div class="comment-date"><%= comment.date %></div>',
+                        '<% if (android) { %></div></div><% } %>',
+                        '<div class="wrap-textarea"><textarea id="comment-text" class="comment-textarea" autofocus></textarea></div>'
+                    ].join('');
+                    var insert = _.template(template)({
+                        android: Framework7.prototype.device.android,
+                        comment: comment
+                    });
+                    $commentInfo.html(insert);
+                    _.defer(function () {
+                        var $textarea = $('.comment-textarea')[0];
+                        $textarea.focus();
+                    });
+                }, 100);
             },
 
             renderNumFormat: function (dataFormat, selectFormat) {
