@@ -811,6 +811,8 @@
   "SSE.Controllers.Main.txtGrandTotal": "Grand Total",
   "SSE.Controllers.Main.txtRowLbls": "Row Labels",
   "SSE.Controllers.Main.txtColLbls": "Column Labels",
+  "SSE.Controllers.Main.errNoDuplicates": "No duplicate values found.",
+  "SSE.Controllers.Main.errRemDuplicates": "Duplicate values found and deleted: {0}, unique values left: {1}.",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textWarning": "Warning",
   "SSE.Controllers.Print.txtCustom": "Custom",
