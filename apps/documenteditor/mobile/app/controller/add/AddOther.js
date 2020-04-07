@@ -119,6 +119,26 @@ define([
                 if (comment) {
                     this.getView('AddOther').renderComment(comment);
                     $('#done-comment').single('click', _.bind(this.onDoneComment, this));
+                    $('.back-from-add-comment').single('click', _.bind(function () {
+                        if ($('#comment-text').val().length > 0) {
+                            uiApp.modal({
+                                title: '',
+                                text: this.textDeleteDraft,
+                                buttons: [
+                                    {
+                                        text: this.textCancel
+                                    },
+                                    {
+                                        text: this.textContinue,
+                                        onClick: function () {
+                                            DE.getController('AddContainer').rootView.router.back();
+                                        }
+                                    }]
+                            })
+                        } else {
+                            DE.getController('AddContainer').rootView.router.back();
+                        }
+                    }, this))
                 }
             },
 
@@ -384,7 +404,10 @@ define([
 
             txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
             textBottomOfPage: 'Bottom Of Page',
-            textBelowText: 'Below Text'
+            textBelowText: 'Below Text',
+            textDeleteDraft: 'Delete draft?',
+            textCancel: 'Cancel',
+            textContinue: 'Continue'
 
         }
     })(), DE.Controllers.AddOther || {}))

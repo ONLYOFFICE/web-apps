@@ -1288,7 +1288,20 @@ define([
                         break;
                     case 'delete':
                         addOverlay();
-                        me.onDeleteComment(idComment);
+                        uiApp.modal({
+                            title: this.textDeleteComment,
+                            text: this.textMessageDeleteComment,
+                            buttons: [
+                                {
+                                    text: this.textCancel
+                                },
+                                {
+                                    text: this.textYes,
+                                    onClick: function () {
+                                        me.onDeleteComment(idComment);
+                                    }
+                                }]
+                        });
                         me.disabledViewComments(false);
                         break;
                     case 'editreply':
@@ -1998,7 +2011,9 @@ define([
             textEditComment: 'Edit comment',
             textDeleteReply: 'Delete reply',
             textEditReply: 'Edit reply',
-            textReopen: 'Reopen'
+            textReopen: 'Reopen',
+            textMessageDeleteComment: 'Do you really want to delete this comment?',
+            textYes: 'Yes'
 
         }
     })(), Common.Controllers.Collaboration || {}))
