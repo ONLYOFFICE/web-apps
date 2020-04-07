@@ -62,7 +62,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 265px;">',
+                '<div class="box" style="height: 270px;">',
                     '<div style="margin-bottom: 16px;">',
                         '<label>' + this.textDescription + '</label>',
                     '</div>',
@@ -294,10 +294,10 @@ define([
 
         //
         txtTitle: 'Remove Duplicates',
-        textDescription: 'To delete duplicate values, select one or more columns than contain duplicates.',
+        textDescription: 'To delete duplicate values, select one or more columns that contain duplicates.',
         textHeaders: 'My data has headers',
         textColumns: 'Columns',
-        textSelectAll       : 'Select All'
+        textSelectAll: 'Select All'
         
     }, SSE.Views.RemoveDuplicatesDialog || {}));
 });
