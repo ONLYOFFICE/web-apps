@@ -22,7 +22,7 @@
     "grunt-svgmin": "^6.0.0",
     "grunt-text-replace": "0.3.11",
     "iconsprite": "file:sprites",
-    "iconv": "^2.3.5",
+    "iconv-lite": "^0.5.1",
     "less-plugin-clean-css": "1.5.0",
     "lodash": "^4.0.0",
     "mocha": "^6.2.2",
