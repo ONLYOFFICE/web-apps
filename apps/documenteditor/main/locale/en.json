@@ -746,6 +746,8 @@
   "DE.Controllers.Main.textConvertEquation": "This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?",
   "DE.Controllers.Main.textApplyAll": "Apply to all equations",
   "DE.Controllers.Main.textLearnMore": "Learn More",
+  "DE.Controllers.Main.txtEnterDate": "Enter a date.",
+  "DE.Controllers.Main.txtTypeEquation": "Type equation here.",
   "DE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "DE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",

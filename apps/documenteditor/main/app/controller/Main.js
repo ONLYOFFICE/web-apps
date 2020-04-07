@@ -137,7 +137,9 @@ define([
                     "Error! Main Document Only.": this.txtMainDocOnly,
                     "Error! Not a valid bookmark self-reference.": this.txtNotValidBookmark,
                     "Error! No text of specified style in document.": this.txtNoText,
-                    "Choose an item.": this.txtChoose
+                    "Choose an item.": this.txtChoose,
+                    "Enter a date.": this.txtEnterDate,
+                    "Type equation here.": this.txtTypeEquation
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2566,7 +2568,9 @@ define([
             errorCompare: 'The Compare documents feature is not available in the co-editing mode.',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
-            textLearnMore: 'Learn More'
+            textLearnMore: 'Learn More',
+            txtEnterDate: 'Enter a date.',
+            txtTypeEquation: 'Type equation here.'
         }
     })(), DE.Controllers.Main || {}))
 });
