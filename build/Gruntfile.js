@@ -12,13 +12,18 @@ module.exports = function(grunt) {
                     ' * Version: <%= pkg.version %> (build:<%= pkg.build %>)\n' +
                     ' */\n';
 
+    let iconv_lite, encoding = process.env.SYSTEM_ENCODING;
     grunt.log.writeln('platform: ' + process.platform.green);
-
-    let iconv_lite, encoding = process.env.SYSTEM_ENCODING || 'win1251';
     if (process.platform == 'win32') {
         const cmdencoding = require('child_process').execSync('chcp');
         grunt.log.writeln(cmdencoding);
-        if ( cmdencoding.includes('866') ) {
+        if ( !encoding ) {
+            if ( cmdencoding.includes('866') ) encoding = '1251'; else
+            if ( cmdencoding.includes('437') ) encoding = '1252'; else
+            if ( cmdencoding.includes('65001') ) encoding = 'utf8';
+        }
+
+        if ( !!encoding && !/utf-?8/i.test(encoding) ) {
             iconv_lite = require('iconv-lite');
         }
     }
