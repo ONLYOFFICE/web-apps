@@ -1477,6 +1477,15 @@ define([
                         config.msg = this.errorFTRangeIncludedOtherTables;
                         break;
 
+
+                    case Asc.c_oAscError.ID.RemoveDuplicates:
+                        config.iconCls = 'info';
+                        config.title = Common.UI.Window.prototype.textInformation;
+                        config.buttons  = ['ok'];
+                        config.msg = (errData.asc_getDuplicateValues()!==null && errData.asc_getUniqueValues()!==null) ? Common.Utils.String.format(this.errRemDuplicates, errData.asc_getDuplicateValues(), errData.asc_getUniqueValues()) : this.errNoDuplicates;
+                        config.maxwidth = 600;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1525,7 +1534,7 @@ define([
 
                 if (id == Asc.c_oAscError.ID.EditingError || $('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
                     Common.UI.alert(config);
-                    Common.component.Analytics.trackEvent('Internal Error', id.toString());
+                    (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
                 }
             },
 
@@ -2519,7 +2528,9 @@ define([
             txtValues: 'Values',
             txtGrandTotal: 'Grand Total',
             txtRowLbls: 'Row Labels',
-            txtColLbls: 'Column Labels'
+            txtColLbls: 'Column Labels',
+            errNoDuplicates: 'No duplicate values found.',
+            errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.'
         }
     })(), SSE.Controllers.Main || {}))
 });

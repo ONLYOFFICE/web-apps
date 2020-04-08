@@ -43,7 +43,8 @@ define([
     'core',
     'spreadsheeteditor/main/app/view/DataTab',
     'spreadsheeteditor/main/app/view/GroupDialog',
-    'spreadsheeteditor/main/app/view/SortDialog'
+    'spreadsheeteditor/main/app/view/SortDialog',
+    'spreadsheeteditor/main/app/view/RemoveDuplicatesDialog'
 ], function () {
     'use strict';
 
@@ -88,7 +89,8 @@ define([
                     'data:show': this.onShowClick,
                     'data:hide': this.onHideClick,
                     'data:groupsettings': this.onGroupSettings,
-                    'data:sortcustom': this.onCustomSort
+                    'data:sortcustom': this.onCustomSort,
+                    'data:remduplicates': this.onRemoveDuplicates
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -258,6 +260,49 @@ define([
             }
         },
 
+        onRemoveDuplicates: function() {
+            var me = this;
+            if (this.api) {
+                var res = this.api.asc_sortCellsRangeExpand();
+                if (res) {
+                    var config = {
+                        width: 500,
+                        title: this.txtRemDuplicates,
+                        msg: this.txtExpandRemDuplicates,
+
+                        buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
+                            {caption: this.txtRemSelected, primary: true, value: 'remove'},
+                            'cancel'],
+                        callback: function(btn){
+                            if (btn == 'expand' || btn == 'remove') {
+                                setTimeout(function(){
+                                    me.showRemDuplicates(btn == 'expand');
+                                },1);
+                            }
+                        }
+                    };
+                    Common.UI.alert(config);
+                } else
+                    me.showRemDuplicates(res !== null);
+            }
+        },
+
+        showRemDuplicates: function(expand) {
+            var me = this,
+                props = me.api.asc_getRemoveDuplicates(expand);
+            if (props) {
+                (new SSE.Views.RemoveDuplicatesDialog({
+                    props: props,
+                    api: me.api,
+                    handler: function (result, settings) {
+                        if (me && me.api) {
+                            me.api.asc_setRemoveDuplicates(settings, result != 'ok');
+                        }
+                    }
+                })).show();
+            }
+        },
+
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
                 Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
@@ -271,7 +316,11 @@ define([
             this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
         },
 
-        textWizard: 'Text to Columns Wizard'
+        textWizard: 'Text to Columns Wizard',
+        txtRemDuplicates: 'Remove Duplicates',
+        txtExpandRemDuplicates: 'The data next to the selection will not be removed. Do you want to expand the selection to include the adjacent data or continue with the currently selected cells only?',
+        txtExpand: 'Expand',
+        txtRemSelected: 'Remove in selected'
 
     }, SSE.Controllers.DataTab || {}));
 });

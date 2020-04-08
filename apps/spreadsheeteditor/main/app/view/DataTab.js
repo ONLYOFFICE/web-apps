@@ -66,6 +66,9 @@ define([
             me.btnTextToColumns.on('click', function (b, e) {
                 me.fireEvent('data:tocolumns');
             });
+            me.btnRemoveDuplicates.on('click', function (b, e) {
+                me.fireEvent('data:remduplicates');
+            });
             // isn't used for awhile
             // me.btnShow.on('click', function (b, e) {
             //     me.fireEvent('data:show');
@@ -166,6 +169,16 @@ define([
                 // Common.Utils.injectComponent($host.find('#slot-btn-hide-details'), this.btnHide);
                 // this.lockedControls.push(this.btnHide);
 
+                this.btnRemoveDuplicates = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-remove-duplicates',
+                    caption: this.capBtnTextRemDuplicates,
+                    disabled: true,
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock]
+                });
+                Common.Utils.injectComponent($host.find('#slot-btn-rem-duplicates'), this.btnRemoveDuplicates);
+                this.lockedControls.push(this.btnRemoveDuplicates);
+
                 this.btnCustomSort = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-custom-sort',
@@ -226,6 +239,7 @@ define([
                     me.btnGroup.setMenu(_menu);
 
                     me.btnTextToColumns.updateHint(me.tipToColumns);
+                    me.btnRemoveDuplicates.updateHint(me.tipRemDuplicates);
 
                     me.btnsSortDown.forEach( function(btn) {
                         btn.updateHint(me.toolbar.txtSortAZ);
@@ -261,6 +275,8 @@ define([
                     return this.btnsSetAutofilter;
                 else if (type == 'clear-filter')
                     return this.btnsClearAutofilter;
+                else if (type == 'rem-duplicates')
+                    return this.btnRemoveDuplicates;
                 else if (type===undefined)
                     return this.lockedControls;
                 return [];
@@ -290,7 +306,9 @@ define([
             textBelow: 'Summary rows below detail',
             textRightOf: 'Summary columns to right of detail',
             capBtnTextCustomSort: 'Custom Sort',
-            tipCustomSort: 'Custom sort'
+            tipCustomSort: 'Custom sort',
+            capBtnTextRemDuplicates: 'Remove Duplicates',
+            tipRemDuplicates: 'Remove duplicate rows from a sheet'
         }
     }()), SSE.Views.DataTab || {}));
 });
