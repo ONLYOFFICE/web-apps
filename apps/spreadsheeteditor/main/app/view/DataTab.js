@@ -171,7 +171,7 @@ define([
 
                 this.btnRemoveDuplicates = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-custom-sort',
+                    iconCls: 'toolbar__icon btn-remove-duplicates',
                     caption: this.capBtnTextRemDuplicates,
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock]
