@@ -141,6 +141,7 @@ define([
                 }
             };
 
+            window.on_native_message('editor:config', 'request');
             if ( !!window.native_message_cmd ) {
                 for ( var c in window.native_message_cmd ) {
                     window.on_native_message(c, window.native_message_cmd[c]);
