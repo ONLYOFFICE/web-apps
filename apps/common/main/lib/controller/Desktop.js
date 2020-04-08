@@ -152,7 +152,7 @@ define([
 
             // hide mask for modal window
             var style = document.createElement('style');
-            style.appendChild(document.createTextNode('.modals-mask{opacity:0;}'));
+            style.appendChild(document.createTextNode('.modals-mask{opacity:0 !important;}'));
             document.getElementsByTagName('head')[0].appendChild(style);
         }
 
