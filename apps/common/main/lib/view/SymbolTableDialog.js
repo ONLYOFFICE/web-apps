@@ -412,7 +412,7 @@ define([
                 '<div class="box">',
                     '<div style="margin-bottom: 16px;" class="'+ (this.special ? '' : 'hidden') +'">',
                         '<button type="button" class="btn btn-text-default auto" id="symbol-table-symbols" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textSymbols,'</button>',
-                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-special" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">', this.textSpecial,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="symbol-table-special" style="border-top-left-radius: 0;border-bottom-left-radius: 0;border-left-width: 0;margin-left: -1px;">', this.textSpecial,'</button>',
                     '</div>',
                     '<div id="symbol-table-pnl-symbols">',
                         '<table cols="2" style="width: 100%;max-width: 497px;">',
