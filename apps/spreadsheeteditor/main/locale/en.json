@@ -1426,6 +1426,8 @@
   "SSE.Views.DataTab.tipGroup": "Group range of cells",
   "SSE.Views.DataTab.tipToColumns": "Separate cell text into columns",
   "SSE.Views.DataTab.tipUngroup": "Ungroup range of cells",
+  "SSE.Views.DataTab.capBtnTextRemDuplicates": "Remove Duplicates",
+  "SSE.Views.DataTab.tipRemDuplicates": "Remove duplicate rows from a sheet",
   "SSE.Views.DigitalFilterDialog.capAnd": "And",
   "SSE.Views.DigitalFilterDialog.capCondition1": "equals",
   "SSE.Views.DigitalFilterDialog.capCondition10": "does not end with",
