@@ -1859,7 +1859,7 @@ define([
 
             if (this.api) {
                 if (item.value == 'advanced') {
-                    var win, props = this.api.asc_GetSectionProps(),
+                    var win,
                         me = this;
                     win = new DE.Views.CustomColumnsDialog({
                         handler: function(dlg, result) {
