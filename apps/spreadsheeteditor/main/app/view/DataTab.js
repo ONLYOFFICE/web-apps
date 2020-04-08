@@ -275,6 +275,8 @@ define([
                     return this.btnsSetAutofilter;
                 else if (type == 'clear-filter')
                     return this.btnsClearAutofilter;
+                else if (type == 'rem-duplicates')
+                    return this.btnRemoveDuplicates;
                 else if (type===undefined)
                     return this.lockedControls;
                 return [];

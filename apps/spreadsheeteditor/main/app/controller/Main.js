@@ -1482,7 +1482,7 @@ define([
                         config.iconCls = 'info';
                         config.title = Common.UI.Window.prototype.textInformation;
                         config.buttons  = ['ok'];
-                        // config.msg = (errData.asc_getRemoved()>0) ? Common.Utils.String.format(this.errRemDuplicates, errData.asc_getRemoved(), errData.asc_getLeft()) : this.errNoDuplicates;
+                        config.msg = (errData.asc_getDuplicateValues()!==null && errData.asc_getUniqueValues()!==null) ? Common.Utils.String.format(this.errRemDuplicates, errData.asc_getDuplicateValues(), errData.asc_getUniqueValues()) : this.errNoDuplicates;
                         config.maxwidth = 600;
                         break;
 
