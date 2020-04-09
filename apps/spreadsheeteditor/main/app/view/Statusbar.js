@@ -791,7 +791,7 @@ define([
                             '<div class="input-row">' +
                                 '<label><%= label %></label>' +
                             '</div>' +
-                            '<div id="status-list-names" style="height: 170px;"/>' +
+                            '<div id="status-list-names" style="height: 162px;"/>' +
                         '</div>',
 
             initialize : function(options) {

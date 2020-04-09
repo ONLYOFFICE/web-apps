@@ -62,7 +62,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 275px;">',
+                '<div class="box" style="height: 272px;">',
                     '<div class="input-row">',
                         '<label style="font-weight: bold;">' + this.textLang + '</label>',
                     '</div>',
@@ -70,7 +70,7 @@ define([
                     '<div class="input-row">',
                         '<label style="font-weight: bold;">' + this.textFormat + '</label>',
                     '</div>',
-                    '<div id="datetime-dlg-format" class="" style="margin-bottom: 10px;width: 100%; height: 165px; overflow: hidden;"></div>',
+                    '<div id="datetime-dlg-format" class="" style="margin-bottom: 10px;width: 100%; height: 162px; overflow: hidden;"></div>',
                     '<div class="input-row">',
                         '<div id="datetime-dlg-update" style="margin-top: 3px;"></div>',
                         '<button type="button" class="btn btn-text-default auto" id="datetime-dlg-default" style="float: right;">' + this.textDefault + '</button>',

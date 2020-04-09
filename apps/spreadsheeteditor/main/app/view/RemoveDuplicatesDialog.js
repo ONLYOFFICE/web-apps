@@ -62,7 +62,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 270px;">',
+                '<div class="box" style="height: 260px;">',
                     '<div style="margin-bottom: 16px;">',
                         '<label>' + this.textDescription + '</label>',
                     '</div>',
@@ -72,7 +72,7 @@ define([
                     '<div class="input-row">',
                         '<label style="font-weight: bold;">' + this.textColumns + '</label>',
                     '</div>',
-                    '<div id="rem-duplicates-dlg-columns" class="" style="width: 100%; height: 165px; overflow: hidden;"></div>',
+                    '<div id="rem-duplicates-dlg-columns" class="" style="width: 100%; height: 162px; overflow: hidden;"></div>',
                 '</div>'
             ].join('');
 
