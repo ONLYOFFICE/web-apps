@@ -285,6 +285,11 @@ define([
                             event.preventDefault();
                             event.stopPropagation();
                             return false;
+                        } else if (key === 48 || key === 96) {// 0
+                            me.api.zoom(100);
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
                         }
                     }
                     if (me.currentMenu && me.currentMenu.isVisible()) {
