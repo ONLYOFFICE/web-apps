@@ -163,22 +163,6 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
-            this.menuAddAlign = function(menuRoot, left, top) {
-                var self = this;
-                if (!$window.hasClass('notransform')) {
-                    $window.addClass('notransform');
-                    menuRoot.addClass('hidden');
-                    setTimeout(function() {
-                        menuRoot.removeClass('hidden');
-                        menuRoot.css({left: left, top: top});
-                        self.options.additionalAlign = null;
-                    }, 300);
-                } else {
-                    menuRoot.css({left: left, top: top});
-                    self.options.additionalAlign = null;
-                }
-            };
-
             var me = this,
                 $window = this.getChild();
 

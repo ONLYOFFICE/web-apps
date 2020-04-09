@@ -594,7 +594,7 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, this.initConfig);
             },
 
-            render : function() {
+            render: function() {
                 var renderto = this.initConfig.renderTo || document.body;
                 $(renderto).append(
                     _.template(template)(this.initConfig)
@@ -650,6 +650,22 @@ define([
                 Common.NotificationCenter.on('window:close', this.binding.winclose);
 
                 this.initConfig.footerCls && this.$window.find('.footer').addClass(this.initConfig.footerCls);
+
+                this.menuAddAlign = function(menuRoot, left, top) {
+                    var self = this;
+                    if (!me.$window.hasClass('notransform')) {
+                        me.$window.addClass('notransform');
+                        menuRoot.addClass('hidden');
+                        setTimeout(function() {
+                            menuRoot.removeClass('hidden');
+                            menuRoot.css({left: left, top: top});
+                            self.options.additionalAlign = null;
+                        }, 300);
+                    } else {
+                        menuRoot.css({left: left, top: top});
+                        self.options.additionalAlign = null;
+                    }
+                };
 
                 this.fireEvent('render:after',this);
                 return this;

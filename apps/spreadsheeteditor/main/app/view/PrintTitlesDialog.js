@@ -104,21 +104,6 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             var me = this;
-            this.menuAddAlign = function(menuRoot, left, top) {
-                var self = this;
-                if (!$window.hasClass('notransform')) {
-                    $window.addClass('notransform');
-                    menuRoot.addClass('hidden');
-                    setTimeout(function() {
-                        menuRoot.removeClass('hidden');
-                        menuRoot.css({left: left, top: top});
-                        self.options.additionalAlign = null;
-                    }, 300);
-                } else {
-                    menuRoot.css({left: left, top: top});
-                    self.options.additionalAlign = null;
-                }
-            };
 
             this.txtRangeTop = new Common.UI.InputFieldBtn({
                 el          : $('#print-titles-txt-top'),
@@ -256,6 +241,9 @@ define([
             if (item.value == 'select') {
                 var me = this;
                 if (me.api) {
+                    me.btnPresetsTop.menu.options.additionalAlign = me.menuAddAlign;
+                    me.btnPresetsLeft.menu.options.additionalAlign = me.menuAddAlign;
+
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             var valid = dlg.getSettings();

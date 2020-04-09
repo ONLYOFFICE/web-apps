@@ -475,6 +475,7 @@ define([
             panel.btnPresetsTop.setMenu(new Common.UI.Menu({
                 style: 'min-width: 100px;',
                 maxHeight: 200,
+                additionalAlign: panel.menuAddAlign,
                 items: data
             }));
             data = ((selectdata) ? [{caption: this.textSelectRange + '...', value: 'select'}] : []).concat([
@@ -486,6 +487,7 @@ define([
             panel.btnPresetsLeft.setMenu(new Common.UI.Menu({
                 style: 'min-width: 100px;',
                 maxHeight: 200,
+                additionalAlign: panel.menuAddAlign,
                 items: data
             }));
         },
@@ -495,6 +497,9 @@ define([
             if (item.value == 'select') {
                 var me = this;
                 if (me.api) {
+                    panel.btnPresetsTop.menu.options.additionalAlign = panel.menuAddAlign;
+                    panel.btnPresetsLeft.menu.options.additionalAlign = panel.menuAddAlign;
+
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             var valid = dlg.getSettings();

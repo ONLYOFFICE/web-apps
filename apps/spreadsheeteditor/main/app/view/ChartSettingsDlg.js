@@ -1512,6 +1512,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         onSelectData: function() {
             var me = this;
             if (me.api) {
+                me.btnChartType.menu.options.additionalAlign = me.menuAddAlign;
+                me.btnSparkType.menu.options.additionalAlign = me.menuAddAlign;
+
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.dataRangeValid = dlg.getSettings();
