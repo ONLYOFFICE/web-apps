@@ -88,6 +88,9 @@ define([
 
             rootLayout: function () {
                 if (this.layout) {
+                    if (!this.canViewComments) {
+                        this.layout.find('#addother-root-view #item-comment').remove();
+                    }
                     return this.layout
                         .find('#addother-root-view')
                         .html();

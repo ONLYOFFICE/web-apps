@@ -116,6 +116,9 @@ define([
                 if (this.layout) {
                     var $layour = this.layout.find('#collaboration-root-view'),
                         isPhone = Common.SharedSettings.get('phone');
+                    if (!this.canViewComments) {
+                        $layour.find('#item-comments').remove();
+                    }
 
                     return $layour.html();
                 }
@@ -150,6 +153,7 @@ define([
 
             renderViewComments: function(comments, indCurComment) {
                 var isAndroid = Framework7.prototype.device.android === true;
+                var me = this;
                 if ($('.view-comment .page-content').length > 0) {
                     var template = '';
                     if (comments && comments.length > 0) {
@@ -168,11 +172,13 @@ define([
                             template += '</div>';
                         }
                         template += '</div>';
-                        template += '<div class="comment-right">' +
-                            '<div class="comment-resolve"><i class="icon icon-resolve-comment' + (comment.resolved ? ' check' : '') + '"></i></div>' +
-                            '<div class="comment-menu"><i class="icon icon-menu-comment"></i></div>' +
-                            '</div>' +
-                            '</div>';
+                        if (comment.editable && !me.viewmode) {
+                            template += '<div class="comment-right">' +
+                                '<div class="comment-resolve"><i class="icon icon-resolve-comment' + (comment.resolved ? ' check' : '') + '"></i></div>' +
+                                '<div class="comment-menu"><i class="icon icon-menu-comment"></i></div>' +
+                                '</div>';
+                        }
+                        template += '</div>';
 
                         if (comment.quote) template += '<p class="comment-quote" data-ind="' + comment.uid + '">' + comment.quote + '</p>';
                         template += '<div class="comment-text"><span>' + comment.comment + '</span></div>';
@@ -191,8 +197,10 @@ define([
                                 if (isAndroid) {
                                     template += '</div>';
                                 }
-                                template += '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>' +
-                                    '</div>' +
+                                if (reply.editable && !me.viewmode) {
+                                    template += '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>';
+                                }
+                                template += '</div>' +
                                     '<p class="reply-text">' + reply.reply + '</p>' +
                                     '</li>';
                             });
@@ -209,6 +217,7 @@ define([
             },
 
             renderComments: function (comments) {
+                var me = this;
                 var $pageComments = $('.page-comments .page-content');
                 if (!comments) {
                     if ($('.comment').length > 0) {
@@ -233,10 +242,12 @@ define([
                             '<p class="comment-date"><%= item.date %></p>',
                             '<% if (android) { %></div><% } %>',
                             '</div>',
+                            '<% if (item.editable && !viewmode) { %>',
                             '<div class="comment-right">',
                             '<div class="comment-resolve"><i class="icon icon-resolve-comment <% if (item.resolved) { %> check <% } %>"></i></div>',
                             '<div class="comment-menu"><i class="icon icon-menu-comment"></i></div>',
                             '</div>',
+                            '<% } %>',
                             '</div>',
                             '<% if(item.quote) {%>',
                             '<p class="comment-quote" data-id="<%= item.uid %>"><%= item.quote %></p>',
@@ -253,7 +264,9 @@ define([
                                         '<p class="reply-date"><%= reply.date %></p>',
                                     '</div>',
                                     '<% if (android) { %></div><% } %>',
+                                    '<% if (reply.editable && !viewmode) { %>',
                                     '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>',
+                                    '<% } %>',
                                 '</div>',
                                  '<p class="reply-text"><%= reply.reply %></p>',
                             '</li>',
@@ -267,6 +280,7 @@ define([
                             android: Framework7.prototype.device.android,
                             item: comment,
                             replys: comment.replys.length,
+                            viewmode: me.viewmode
                         }));
                     });
                     $listComments.html(items.join(''));

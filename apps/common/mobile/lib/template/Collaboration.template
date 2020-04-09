@@ -20,7 +20,7 @@
                                 </div>
                             </a>
                         </li>
-                        <li>
+                        <li id="item-comments">
                             <a id="comments-settings" class="item-link" data-page="#comments-view">
                                 <div class="item-content">
                                     <div class="item-inner">

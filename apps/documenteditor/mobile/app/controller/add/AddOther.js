@@ -81,6 +81,11 @@ define([
                 me.api = api;
             },
 
+            setMode: function (mode) {
+                this.view = this.getView('AddOther');
+                this.view.canViewComments = mode.canViewComments;
+            },
+
             onLaunch: function () {
                 this.createView('AddOther').render();
             },

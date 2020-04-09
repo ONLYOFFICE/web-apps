@@ -2,7 +2,7 @@
 <div id="addother-root-view">
     <div class="list-block">
         <ul>
-            <li>
+            <li id='item-comment'>
                 <a id="add-other-comment" class="item-link">
                     <div class="item-content">
                         <div class="item-media">

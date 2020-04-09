@@ -106,6 +106,9 @@ define([
 
             setMode: function(mode) {
                 this.appConfig = mode;
+                this.view = this.getView('Common.Views.Collaboration');
+                this.view.viewmode = !mode.canComments;
+                this.view.canViewComments = mode.canViewComments;
                 _userId = mode.user.id;
                 if (editor === 'DE') {
                     _fileKey = mode.fileKey;
@@ -822,7 +825,7 @@ define([
                         '<div class="toolbar toolbar-bottom" style="bottom: 0;">' +
                         '<div class="toolbar-inner">' +
                         '<div class="button-left">' +
-                        '<a href="#" class="link add-reply">' + me.textAddReply + '</a>' +
+                        (!me.view.viewmode ? '<a href="#" class="link add-reply">' + me.textAddReply + '</a>' : '') +
                         '</div>' +
                         '<div class="button-right">' +
                         '<a href="#" class="link prev-comment"><i class="icon icon-prev-comment"></i></a>' +
@@ -856,7 +859,7 @@ define([
                         '<div class="toolbar toolbar-bottom" style="bottom: 0;">' +
                         '<div class="toolbar-inner">' +
                         '<div class="button-left">' +
-                        '<a href="#" class="link add-reply">' + me.textAddReply + '</a>' +
+                        (!me.view.viewmode ? '<a href="#" class="link add-reply">' + me.textAddReply + '</a>' : '') +
                         '</div>' +
                         '<div class="button-right">' +
                         '<a href="#" class="link prev-comment"><i class="icon icon-prev-comment"></i></a>' +
@@ -1728,7 +1731,8 @@ define([
                             date                : this.dateToLocaleTimeString(date),
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : date.getTime(),
-                            userInitials        : this.getInitials(username)
+                            userInitials        : this.getInitials(username),
+                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)
                         });
                     }
                 }
@@ -1754,7 +1758,8 @@ define([
                     time                : date.getTime(),
                     replys              : [],
                     groupName           : (groupname && groupname.length>1) ? groupname[1] : null,
-                    userInitials        : this.getInitials(username)
+                    userInitials        : this.getInitials(username),
+                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId)
                 };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
@@ -1809,7 +1814,8 @@ define([
                             date                : me.dateToLocaleTimeString(dateReply),
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : dateReply.getTime(),
-                            userInitials        : me.getInitials(username)
+                            userInitials        : me.getInitials(username),
+                            editable            : me.appConfig.canEditComments || (data.asc_getUserId() == _userId)
                         });
                     }
                     comment.replys = replies;

@@ -62,7 +62,8 @@ define([
             _inRevisionChange = false,
             _isComments = false,
             _menuPos = [],
-            _timer = 0;
+            _timer = 0,
+            _canViewComments = true;
 
         return {
             models: [],
@@ -104,6 +105,7 @@ define([
             setMode: function (mode) {
                 _isEdit = mode.isEdit;
                 _canReview = mode.canReview;
+                _canViewComments = mode.canViewComments;
             },
 
             // When our application is ready, lets get started
@@ -434,6 +436,12 @@ define([
                         icon: 'icon-copy'
                     });
                 }
+                if (_canViewComments && _isComments && !_isEdit) {
+                    arrItems.push({
+                        caption: me.menuViewComment,
+                        event: 'viewcomment'
+                    });
+                }
 
                 var isText = false,
                     isTable = false,
@@ -556,17 +564,19 @@ define([
                             }
                         }
 
-                        if (_isComments) {
+                        if (_isComments && _canViewComments) {
                             arrItems.push({
                                 caption: me.menuViewComment,
                                 event: 'viewcomment'
                             });
                         }
 
-                        arrItems.push({
-                            caption: me.menuAddComment,
-                            event: 'addcomment'
-                        });
+                        if (_canViewComments) {
+                            arrItems.push({
+                                caption: me.menuAddComment,
+                                event: 'addcomment'
+                            });
+                        }
                     }
                 }
 
