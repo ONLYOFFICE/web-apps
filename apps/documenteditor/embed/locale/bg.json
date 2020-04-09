@@ -12,6 +12,8 @@
   "DE.ApplicationController.errorAccessDeny": "Опитвате се да извършите действие, за което нямате права. <br> Моля, свържете се с администратора на сървъра за документи.",
   "DE.ApplicationController.errorDefaultMessage": "Код на грешка: %1",
   "DE.ApplicationController.errorFilePassProtect": "Файлът е защитен с парола и не може да бъде отворен.",
+  "DE.ApplicationController.errorFileSizeExceed": "Размерът на файла надвишава ограничението, зададено за вашия сървър.<br> Моля, свържете се с вашия администратор на Document Server за подробности.",
+  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Интернет връзката е възстановена и версията на файла е променена.<br> Преди да продължите да работите, трябва да изтеглите файла или да копирате съдържанието му, за да сте сигурни, че нищо не е загубено, и след това да презаредите тази страница.",
   "DE.ApplicationController.errorUserDrop": "Файлът не може да бъде достъпен в момента.",
   "DE.ApplicationController.notcriticalErrorTitle": "Внимание",
   "DE.ApplicationController.scriptLoadError": "Връзката е твърде бавна, някои от компонентите не могат да бъдат заредени. Моля, презаредете страницата.",

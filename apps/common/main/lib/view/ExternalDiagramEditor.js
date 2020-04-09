@@ -144,7 +144,7 @@ define([
                 var left = (Common.Utils.innerWidth() - parseInt(this.initConfig.width)) / 2;
 
                 this.$window.css('left',left);
-                this.$window.css('top',top);
+                this.$window.css('top', Common.Utils.InternalSettings.get('window-inactive-area-top') + top);
             }
         },
 

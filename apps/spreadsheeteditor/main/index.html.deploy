@@ -238,6 +238,7 @@
         window.frameEditorId = params["frameEditorId"];
 
         if ( window.AscDesktopEditor ) {
+            window.desktop = window.AscDesktopEditor;
             window.on_native_message = function (cmd, param) {
                 !window.native_message_cmd && (window.native_message_cmd = []);
                 window.native_message_cmd[cmd] = param;
@@ -269,6 +270,13 @@
     <div id="viewport"></div>
 
     <script>
+        if ( window.desktop ) {
+            var logo = document.getElementsByClassName('loading-logo');
+            if ( !!logo && logo.length ) {
+                logo[0].setAttribute('style','display:none;');
+            }
+        }
+
         var params = getUrlParams(),
             internal = params["internal"] == 'true',
             notoolbar = params["toolbar"] == 'false',
