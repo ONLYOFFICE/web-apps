@@ -244,6 +244,7 @@ define([
             }
 
             if (this.api) {
+                Common.UI.Menu.Manager.hideAll();
                 this.asUrl = asUrl;
                 this.downloadFormat = format;
                 this.printSettingsDlg = (new SSE.Views.PrintSettings({
