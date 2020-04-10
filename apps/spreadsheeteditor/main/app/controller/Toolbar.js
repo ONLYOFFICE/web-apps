@@ -58,7 +58,8 @@ define([
     'spreadsheeteditor/main/app/view/PageMarginsDialog',
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
-    'spreadsheeteditor/main/app/view/ScaleDialog'
+    'spreadsheeteditor/main/app/view/ScaleDialog',
+    'spreadsheeteditor/main/app/view/SlicerAddDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -328,6 +329,7 @@ define([
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
                 toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
+                toolbar.btnInsertSlicer.on('click',                         _.bind(this.onInsertSlicerClick, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
@@ -2756,6 +2758,22 @@ define([
                 win.on('symbol:dblclick', function(cmp, result, settings) {
                     me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getFont().asc_getName(), settings.code);
                 });
+            }
+        },
+
+        onInsertSlicerClick: function() {
+            var me = this,
+                props = me.api.asc_beforeInsertSlicer();
+            if (props) {
+                (new SSE.Views.SlicerAddDialog({
+                    props: props,
+                    handler: function (result, settings) {
+                        if (me && me.api) {
+                            me.api.asc_insertSlicer(settings);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
             }
         },
 

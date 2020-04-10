@@ -730,6 +730,14 @@ define([
                     lock: [_set.selImage, _set.selChart, _set.selShape, _set.editFormula, _set.selRangeEdit, _set.coAuth, _set.coAuthText, _set.lostConnect]
                 });
 
+                me.btnInsertSlicer = new Common.UI.Button({
+                    id: 'tlbtn-insertslicer',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-symbol',
+                    caption: me.capBtnInsSlicer,
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.multiselect]
+                });
+
                 me.btnTableTemplate = new Common.UI.Button({
                     id          : 'id-toolbar-btn-ttempl',
                     cls         : 'btn-toolbar',
@@ -1394,7 +1402,7 @@ define([
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
@@ -1571,6 +1579,7 @@ define([
             _injectComponent('#slot-btn-instextart',     this.btnInsertTextArt);
             _injectComponent('#slot-btn-insequation',    this.btnInsertEquation);
             _injectComponent('#slot-btn-inssymbol',      this.btnInsertSymbol);
+            _injectComponent('#slot-btn-insslicer',      this.btnInsertSlicer);
             _injectComponent('#slot-btn-sortdesc',       this.btnSortDown);
             _injectComponent('#slot-btn-sortasc',        this.btnSortUp);
             _injectComponent('#slot-btn-setfilter',      this.btnSetAutofilter);
@@ -1652,6 +1661,7 @@ define([
             _updateHint(this.btnInsertShape, this.tipInsertShape);
             _updateHint(this.btnInsertEquation, this.tipInsertEquation);
             _updateHint(this.btnInsertSymbol, this.tipInsertSymbol);
+            _updateHint(this.btnInsertSlicer, this.tipInsertSlicer);
             _updateHint(this.btnSortDown, this.txtSortAZ);
             _updateHint(this.btnSortUp, this.txtSortZA);
             _updateHint(this.btnSetAutofilter, this.txtFilter + ' (Ctrl+Shift+L)');
@@ -2393,6 +2403,8 @@ define([
         tipInsertSymbol: 'Insert symbol',
         txtAutosumTip: 'Summation',
         capBtnPrintTitles: 'Print Titles',
-        tipPrintTitles: 'Print titles'
+        tipPrintTitles: 'Print titles',
+        capBtnInsSlicer: 'Slicer',
+        tipInsertSlicer: 'Insert slicer'
     }, SSE.Views.Toolbar || {}));
 });
