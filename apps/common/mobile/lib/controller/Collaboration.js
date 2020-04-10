@@ -797,7 +797,8 @@ define([
             },
 
             updateViewComment: function() {
-                DE.getController('Common.Controllers.Collaboration').getView('Common.Views.Collaboration').renderViewComments(this.showComments, this.indexCurrentComment);
+                var appPrefix = !!window.DE ? DE : !!window.PE ? PE : SSE;
+                appPrefix.getController('Common.Controllers.Collaboration').getView('Common.Views.Collaboration').renderViewComments(this.showComments, this.indexCurrentComment);
                 $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
                 $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
                 $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this, false));
@@ -963,7 +964,7 @@ define([
                         this.indexCurrentComment -= 1;
                     }
                     var me = this;
-                    DE.getController('Common.Controllers.Collaboration').getView('Common.Views.Collaboration').renderViewComments(me.showComments, me.indexCurrentComment);
+                    me.getView('Common.Views.Collaboration').renderViewComments(me.showComments, me.indexCurrentComment);
                     _.defer(function () {
                         $('.comment-menu').single('click', _.bind(me.initMenuComments, me));
                         $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));
@@ -980,7 +981,7 @@ define([
                         this.indexCurrentComment += 1;
                     }
                     var me = this;
-                    DE.getController('Common.Controllers.Collaboration').getView('Common.Views.Collaboration').renderViewComments(me.showComments, me.indexCurrentComment);
+                    me.getView('Common.Views.Collaboration').renderViewComments(me.showComments, me.indexCurrentComment);
                     _.defer(function () {
                         $('.comment-menu').single('click', _.bind(me.initMenuComments, me));
                         $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));

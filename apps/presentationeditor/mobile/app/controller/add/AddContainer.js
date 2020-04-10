@@ -134,6 +134,14 @@ define([
                             .rootLayout()
                     });
 
+                addViews.push({
+                    caption: me.textOther,
+                    id: 'add-other',
+                    layout: PE.getController('AddOther')
+                        .getView('AddOther')
+                        .rootLayout()
+                });
+
                 return addViews;
             },
 
@@ -287,7 +295,8 @@ define([
             textTable: 'Table',
             textShape: 'Shape',
             textImage: 'Image',
-            textLink:  'Link'
+            textLink:  'Link',
+            textOther: 'Other'
         }
     })(), PE.Controllers.AddContainer || {}))
 });
