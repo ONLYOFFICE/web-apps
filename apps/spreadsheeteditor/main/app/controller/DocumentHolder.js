@@ -2209,8 +2209,8 @@ define([
                     this.documentHolder.cmpEl.append(inputtip.parentEl);
                 }
 
-                var hint = title ? ('<b>' + (title || '') + '</b><br>') : '';
-                hint += (message || '');
+                var hint = title ? ('<b>' + (Common.Utils.String.htmlEncode(title || '')) + '</b><br>') : '';
+                hint += (Common.Utils.String.htmlEncode(message || ''));
 
                 if (inputtip.ref && inputtip.ref.isVisible()) {
                     if (inputtip.text != hint) {
