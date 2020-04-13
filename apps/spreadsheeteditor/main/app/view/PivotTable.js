@@ -87,7 +87,7 @@ define([
                         '<span class="btn-slot text" id="slot-chk-banded-column"></span>' +
                     '</div>' +
                 '</div>' +
-                '<div class="group" id="slot-field-pivot-styles" style="width: 347px;">' +
+                '<div class="group" id="slot-field-pivot-styles" style="width: 336px;max-width: 336px;min-width: 115px;">' +
                 '</div>' +
             '</section>';
 
@@ -249,7 +249,15 @@ define([
                     itemWidth       : 61,
                     itemHeight      : 49,
                     menuMaxHeight   : 300,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot],
+                    beforeOpenHandler: function(e) {
+                        var cmp = this,
+                            menu = cmp.openButton.menu;
+                        if (menu.cmpEl) {
+                            var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - menu.cmpEl.outerWidth() - 1;
+                            menu.setOffset(Math.min(offset, 0));
+                        }
+                    }
                 });
                 this.lockedControls.push(this.pivotStyles);
 
@@ -330,6 +338,10 @@ define([
                 this.btnPivotSubtotals.render(this.$el.find('#slot-btn-pivot-subtotals'));
                 this.btnPivotGrandTotals.render(this.$el.find('#slot-btn-pivot-grand-totals'));
                 this.pivotStyles.render(this.$el.find('#slot-field-pivot-styles'));
+                this.pivotStyles.openButton.menu.cmpEl.css({
+                    'min-width': 293,
+                    'max-width': 293
+                });
 
                 return this.$el;
             },
