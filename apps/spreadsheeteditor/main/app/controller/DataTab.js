@@ -96,6 +96,7 @@ define([
                     'sheet:changed': this.onApiSheetChanged
                 }
             });
+            Common.NotificationCenter.on('data:remduplicates', _.bind(this.onRemoveDuplicates, this));
         },
 
         SetDisabled: function(state) {

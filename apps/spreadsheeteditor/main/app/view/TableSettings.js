@@ -297,6 +297,14 @@ define([
             }, this));
             this.lockedControls.push(this.btnConvertRange);
 
+            this.btnRemDuplicates = new Common.UI.Button({
+                el: $('#table-btn-rem-duplicates')
+            });
+            this.btnRemDuplicates.on('click', _.bind(function(btn){
+                Common.NotificationCenter.trigger('data:remduplicates', this);
+            }, this));
+            this.lockedControls.push(this.btnRemDuplicates);
+
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
 
             this._initSettings = false;
@@ -576,7 +584,8 @@ define([
         textAdvanced:   'Show advanced settings',
         textConvertRange: 'Convert to range',
         textLongOperation: 'Long operation',
-        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?'
+        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
+        textRemDuplicates: 'Remove duplicates'
 
     }, SSE.Views.TableSettings || {}));
 });
