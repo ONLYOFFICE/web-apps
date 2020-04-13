@@ -433,8 +433,7 @@ define([
                             if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
                                 for (var i=0; i<_flex.length; i++) {
                                     var item = _flex[i];
-                                    if (parseInt(item.css('width')) < parseInt(item.css('max-width')))
-                                        item.css('width', item.css('max-width'));
+                                    item.css('width', item.css('max-width'));
                                 }
                             }
                         }
