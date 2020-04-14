@@ -58,7 +58,8 @@ define([
     'spreadsheeteditor/main/app/view/PageMarginsDialog',
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
-    'spreadsheeteditor/main/app/view/ScaleDialog'
+    'spreadsheeteditor/main/app/view/ScaleDialog',
+    'spreadsheeteditor/main/app/view/FormatRulesManagerDlg'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -1457,7 +1458,7 @@ define([
                 var me = this,
                     props = me.api.asc_getSortProps();
                 if (props) {
-                    (new SSE.Views.ConditionalFormaDialog({
+                    (new SSE.Views.FormatRulesManagerDlg({
                         props: props,
                         api: me.api,
                         handler: function (result, settings) {
