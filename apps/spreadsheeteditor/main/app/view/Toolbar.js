@@ -1016,6 +1016,14 @@ define([
                     })
                 });
 
+                me.btnCondFormat = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-condformat',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-condformat',
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
+                    menu        : true
+                });
+
                 me.btnColorSchemas = new Common.UI.Button({
                     id          : 'id-toolbar-btn-colorschemas',
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -1397,7 +1405,7 @@ define([
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertEquation, me.btnInsertSymbol,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell,
+                    me.btnTableTemplate, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnColorSchemas,
                     me.btnCopy, me.btnPaste, me.listStyles, me.btnPrint,
@@ -1603,6 +1611,7 @@ define([
             _injectComponent('#slot-img-movefrwd',      this.btnImgForward);
             _injectComponent('#slot-img-movebkwd',      this.btnImgBackward);
             _injectComponent('#slot-btn-scale',         this.btnScale);
+            _injectComponent('#slot-btn-condformat',    this.btnCondFormat);
             this.btnsEditHeader = Common.Utils.injectButtons($host.find('.slot-editheader'), 'tlbtn-editheader-', 'toolbar__icon btn-editheader', this.capBtnInsHeader,
                                 [SSE.enumLock.editCell, SSE.enumLock.selRangeEdit, SSE.enumLock.headerLock, SSE.enumLock.lostConnect, SSE.enumLock.coAuth]);
             Array.prototype.push.apply(this.lockControls, this.btnsEditHeader);
@@ -1676,6 +1685,7 @@ define([
             _updateHint(this.btnPrintArea, this.tipPrintArea);
             _updateHint(this.btnPrintTitles, this.tipPrintTitles);
             _updateHint(this.btnScale, this.tipScale);
+            _updateHint(this.btnCondFormat, this.tipCondFormat);
             this.btnsEditHeader.forEach(function (btn) {
                 _updateHint(btn, me.tipEditHeader);
             });
@@ -1861,6 +1871,102 @@ define([
                     menu.off('show:before', onShowBeforeTextArt);
                 };
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
+            }
+
+            if (this.btnCondFormat && this.btnCondFormat.rendered) {
+                this.btnCondFormat.setMenu( new Common.UI.Menu({
+                    items: [
+                        {
+                            caption     : this.textGreater,
+                            value       : Asc.c_oAscCustomAutoFilter.isGreaterThan
+                        },
+                        {
+                            caption     : this.textLess,
+                            value       : Asc.c_oAscCustomAutoFilter.isLessThan
+                        },
+                        {
+                            caption     : this.textEqual,
+                            value       : Asc.c_oAscCustomAutoFilter.equals
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textBetween,
+                            value       : Asc.c_oAscCustomAutoFilter.between
+                        },
+                        {
+                            caption     : this.textTop10,
+                            value       : Asc.c_oAscCustomAutoFilter.top10
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textText,
+                            value       : Asc.c_oAscCustomAutoFilter.text,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: []
+                            })
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textDate,
+                            value       : Asc.c_oAscCustomAutoFilter.date,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: []
+                            })
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textBlank,
+                            value       : Asc.c_oAscCustomAutoFilter.blank
+                        },
+                        {
+                            caption     : this.textDuplicate,
+                            value       : Asc.c_oAscCustomAutoFilter.duplicate
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textDataBars,
+                            value       : Asc.c_oAscCustomAutoFilter.bars,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: []
+                            })
+                        },
+                        {
+                            caption     : this.textColorScales,
+                            value       : Asc.c_oAscCustomAutoFilter.scales,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: []
+                            })
+                        },
+                        {
+                            caption     : this.textIconSets,
+                            value       : Asc.c_oAscCustomAutoFilter.icons,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: []
+                            })
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textNewRule,
+                            value       : 'new'
+                        },
+                        {
+                            caption     : this.textClearRule,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: []
+                            })
+                        },
+                        {
+                            caption     : this.textManageRule,
+                            value       : 'manage'
+                        }
+                    ]
+                }));
             }
 
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
@@ -2395,6 +2501,23 @@ define([
         txtAutosumTip: 'Summation',
         capBtnPrintTitles: 'Print Titles',
         tipPrintTitles: 'Print titles',
-        capBtnColorSchemas: 'Color Scheme'
+        capBtnColorSchemas: 'Color Scheme',
+        tipCondFormat: 'Conditional formatting',
+        textGreater: 'Greater Than',
+        textLess: 'Less Than',
+        textEqual: 'Equal To',
+        textBetween: 'Between',
+        textTop10: 'Top 10',
+        textText: 'Text',
+        textDate: 'Date',
+        textBlank: 'Blank',
+        textDuplicate: 'Duplicate',
+        textDataBars: 'Data Bars',
+        textColorScales: 'Color Scales',
+        textIconSets: 'Icon Sets',
+        textNewRule: 'New Rule',
+        textClearRule: 'Clear Rules',
+        textManageRule: 'Manage Rules'
+
     }, SSE.Views.Toolbar || {}));
 });

@@ -382,7 +382,9 @@ define([
                     button.on('click', _.bind(me.onEditHeaderClick, me));
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
-
+                if (toolbar.btnCondFormat.rendered) {
+                    toolbar.btnCondFormat.menu.on('item:click',             _.bind(this.onCondFormatMenu, this));
+                }
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
@@ -1447,6 +1449,23 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Style');
+            }
+        },
+
+        onCondFormatMenu: function(menu, item) {
+            if (item.value == 'manage') {
+                var me = this,
+                    props = me.api.asc_getSortProps();
+                if (props) {
+                    (new SSE.Views.ConditionalFormaDialog({
+                        props: props,
+                        api: me.api,
+                        handler: function (result, settings) {
+                            if (me && me.api) {
+                            }
+                        }
+                    })).show();
+                }
             }
         },
 
