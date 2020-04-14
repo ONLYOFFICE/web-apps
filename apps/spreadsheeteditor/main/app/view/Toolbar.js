@@ -1018,8 +1018,9 @@ define([
 
                 me.btnColorSchemas = new Common.UI.Button({
                     id          : 'id-toolbar-btn-colorschemas',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon toolbar__icon btn-colorschemas',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-colorschemas',
+                    caption     : me.capBtnColorSchemas,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
                         items: [],
@@ -2393,6 +2394,7 @@ define([
         tipInsertSymbol: 'Insert symbol',
         txtAutosumTip: 'Summation',
         capBtnPrintTitles: 'Print Titles',
-        tipPrintTitles: 'Print titles'
+        tipPrintTitles: 'Print titles',
+        capBtnColorSchemas: 'Color Scheme'
     }, SSE.Views.Toolbar || {}));
 });

@@ -109,7 +109,7 @@
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-clear"></span>
-                        <span class="btn-slot split" id="slot-btn-colorschemas"></span>
+                        <span class="btn-slot split" id="slot-btn-condformat"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-copystyle"></span>
@@ -161,6 +161,10 @@
                     <span class="btn-slot text x-huge" id="slot-img-group"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movebkwd"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-colorschemas"></span>
                 </div>
             </section>
             <section class="panel" data-tab="formula">
