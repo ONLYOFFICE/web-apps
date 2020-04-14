@@ -2,6 +2,18 @@
 <div id="addother-root-view">
     <div class="list-block">
         <ul>
+            <li id='item-comment'>
+                <a id="add-other-comment" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-insert-comment"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textComment %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
             <li>
                 <a id="add-other-insimage" class="item-link">
                     <div class="item-content">
@@ -145,6 +157,17 @@
                     </li>
                 </ul>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page Insert Comment view -->
+<div id="addother-insert-comment">
+    <div class="page page-add-comment" data-page="addother-insert-comment">
+        <div class="page-content">
+            <div id="comment-info" class="wrap-comment">
+            </div>
+
         </div>
     </div>
 </div>

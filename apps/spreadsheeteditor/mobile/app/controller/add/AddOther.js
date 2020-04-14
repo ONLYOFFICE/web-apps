@@ -75,6 +75,15 @@ define([
 
             },
 
+            setMode: function (mode) {
+                this.view = this.getView('AddOther');
+                this.view.canViewComments = mode.canViewComments;
+            },
+
+            sedHideAddComment: function(hide) {
+                this.view.isHideAddComment = hide; //prohibit adding multiple comments in one cell
+            },
+
             onLaunch: function () {
                 this.createView('AddOther').render();
             },
@@ -100,10 +109,50 @@ define([
                     $('#addimage-file').single('click', function () {
                         me.onInsertImage({islocal:true});
                     });
+                } else if (pageId === "#addother-insert-comment") {
+                    me.initInsertComment(false);
                 }
             },
 
             // Handlers
+
+            initInsertComment: function (documentFlag) {
+                var comment = SSE.getController('Common.Controllers.Collaboration').getCommentInfo();
+                if (comment) {
+                    this.getView('AddOther').renderComment(comment);
+                    $('#done-comment').single('click', _.bind(this.onDoneComment, this, documentFlag));
+                    $('.back-from-add-comment').single('click', _.bind(function () {
+                        if ($('#comment-text').val().length > 0) {
+                            uiApp.modal({
+                                title: '',
+                                text: this.textDeleteDraft,
+                                buttons: [
+                                    {
+                                        text: this.textCancel
+                                    },
+                                    {
+                                        text: this.textContinue,
+                                        onClick: function () {
+                                            SSE.getController('AddContainer').rootView.router.back();
+                                        }
+                                    }]
+                            })
+                        } else {
+                            SSE.getController('AddContainer').rootView.router.back();
+                        }
+                    }, this))
+                }
+            },
+
+            onDoneComment: function(documentFlag) {
+                var value = $('#comment-text').val();
+                if (value.length > 0) {
+                    if (SSE.getController('Common.Controllers.Collaboration').onAddNewComment(value, documentFlag)) {
+                        this.view.isHideAddComment = true;
+                    }
+                    SSE.getController('AddContainer').hideModal();
+                }
+            },
 
             onInsertImage: function (args) {
                 if ( !args.islocal ) {
@@ -137,7 +186,10 @@ define([
             },
 
             textEmptyImgUrl : 'You need to specify image URL.',
-            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
+            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
+            textDeleteDraft: 'Delete draft?',
+            textCancel: 'Cancel',
+            textContinue: 'Continue'
         }
     })(), SSE.Controllers.AddOther || {}))
 });

@@ -62,6 +62,23 @@ define([
 
         var mapNavigation = {};
 
+        var tplNavigationComment = '<div class="navbar">' +
+                                        '<div class="navbar-inner">' +
+                                            '<div class="left sliding">' +
+                                                '<a href="#" class="back-from-add-comment link">' +
+                                                    '<i class="icon icon-back"></i>' +
+                                                    '<% if (!android) { %><span><%= textBack %></span><% } %>' +
+                                                '</a>' +
+                                            '</div>' +
+                                            '<div class="center sliding"><%= title %></div>' +
+                                            '<div class="right sliding">' +
+                                                '<a id="done-comment">' +
+                                                '<% if (android) { %><i class="icon icon-done-comment-white"></i><% } else { %><%= textDone %><% } %>' +
+                                                '</a>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>';
+
         var getNavigation = function (panelid) {
             var el = mapNavigation[panelid];
             if ( !el ) {
@@ -73,16 +90,28 @@ define([
                 case '#addother-insimage': _title = this.textInsertImage; break;
                 case '#addother-sort': _title = this.textSort; break;
                 case '#addother-imagefromurl': _title = this.textLinkSettings; break;
+                case '#addother-insert-comment': _title = this.textAddComment; break;
                 }
 
-                mapNavigation =
-                    el = _.template(tplNavigation)({
+                if (panelid === '#addother-insert-comment') {
+                    el = _.template(tplNavigationComment)({
                             android     : Common.SharedSettings.get('android'),
                             phone       : Common.SharedSettings.get('phone'),
                             textBack    : this.textBack,
+                            textDone    : this.textDone,
                             title       : _title
                         }
                     );
+                } else {
+                    mapNavigation =
+                        el = _.template(tplNavigation)({
+                                android     : Common.SharedSettings.get('android'),
+                                phone       : Common.SharedSettings.get('phone'),
+                                textBack    : this.textBack,
+                                title       : _title
+                            }
+                        );
+                }
             }
 
             return el;
@@ -106,6 +135,7 @@ define([
                 $page.find('#add-other-insimage').single('click', _.bind(me.showInsertImage, me));
                 $page.find('#add-other-link').single('click', _.bind(me.showInsertLink, me));
                 $page.find('#add-other-sort').single('click', _.bind(me.showSortPage, me));
+                $page.find('#add-other-comment').single('click', _.bind(me.showPageComment, me));
 
                 me.initControls();
             },
@@ -123,6 +153,14 @@ define([
 
             rootLayout: function () {
                 if (this.layout) {
+                    if (!this.canViewComments) {
+                        this.layout.find('#addother-root-view #item-comment').remove();
+                    }
+                    if (this.isHideAddComment) {
+                        this.layout.find('#addother-root-view #item-comment').hide();
+                    } else {
+                        this.layout.find('#addother-root-view #item-comment').show();
+                    }
                     return this.layout
                         .find('#addother-root-view')
                         .html();
@@ -144,7 +182,7 @@ define([
                 //
             },
 
-            showPage: function (templateId) {
+            showPage: function (templateId, animate) {
                 var rootView = SSE.getController('AddContainer').rootView;
 
                 if (rootView && this.layout) {
@@ -161,11 +199,38 @@ define([
                     }
 
                     rootView.router.load({
-                        content: $content.html()
+                        content: $content.html(),
+                        animatePages: animate !== false
                     });
 
                     this.fireEvent('page:show', [this, templateId]);
                 }
+            },
+
+            showPageComment: function(animate) {
+                this.showPage('#addother-insert-comment', animate);
+            },
+
+            renderComment: function(comment) {
+                _.delay(function () {
+                    var $commentInfo = $('#comment-info');
+                    var template = [
+                        '<% if (android) { %><div class="header-comment"><div class="initials-comment" style="background-color: <%= comment.usercolor %>;"><%= comment.userInitials %></div><div><% } %>',
+                        '<div class="user-name"><%= comment.username %></div>',
+                        '<div class="comment-date"><%= comment.date %></div>',
+                        '<% if (android) { %></div></div><% } %>',
+                        '<div class="wrap-textarea"><textarea id="comment-text" class="comment-textarea" autofocus></textarea></div>'
+                    ].join('');
+                    var insert = _.template(template)({
+                        android: Framework7.prototype.device.android,
+                        comment: comment
+                    });
+                    $commentInfo.html(insert);
+                    _.defer(function () {
+                        var $textarea = $('.comment-textarea')[0];
+                        $textarea.focus();
+                    });
+                }, 100);
             },
 
             showInsertImage: function () {
@@ -227,7 +292,10 @@ define([
             textAddress: 'Address',
             textImageURL: 'Image URL',
             textFilter: 'Filter',
-            textLinkSettings: 'Link Settings'
+            textLinkSettings: 'Link Settings',
+            textComment: 'Comment',
+            textAddComment: 'Add Comment',
+            textDone: 'Done'
         }
     })(), SSE.Views.AddOther || {}))
 });

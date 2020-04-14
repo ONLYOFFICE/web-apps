@@ -768,12 +768,18 @@ define([
                     me.indexCurrentComment = 0;
                     me.updateViewComment();
                 }
+                if (window.SSE) {
+                    SSE.getController('AddOther').sedHideAddComment(true);
+                }
             },
 
             apiHideComments: function() {
                 if ($('.container-view-comment').length > 0) {
                     uiApp.closeModal();
                     $('.container-view-comment').remove();
+                }
+                if (window.SSE) {
+                    SSE.getController('AddOther').sedHideAddComment(false);
                 }
             },
 
@@ -923,15 +929,33 @@ define([
                             newHeight = '100%';
                             me.swipeFull = true;
                             me.closeCommentPicker = false;
-                            $('.container-view-comment').css('opacity', '1');
+                            if (window.SSE) {
+                                if ($('.container-view-comment').hasClass('onHide')) {
+                                    $('.container-view-comment').removeClass('onHide');
+                                }
+                            } else {
+                                $('.container-view-comment').css('opacity', '1');
+                            }
                         } else if (dist < 100) {
                             newHeight = '50%';
                             me.swipeFull = false;
                             me.closeCommentPicker = false;
-                            $('.container-view-comment').css('opacity', '1');
+                            if (window.SSE) {
+                                if ($('.container-view-comment').hasClass('onHide')) {
+                                    $('.container-view-comment').removeClass('onHide');
+                                }
+                            } else {
+                                $('.container-view-comment').css('opacity', '1');
+                            }
                         } else {
                             me.closeCommentPicker = true;
-                            $('.container-view-comment').css('opacity', '0.6');
+                            if (window.SSE) {
+                                if (!$('.container-view-comment').hasClass('onHide')) {
+                                    $('.container-view-comment').addClass('onHide');
+                                }
+                            } else {
+                                $('.container-view-comment').css('opacity', '0.6');
+                            }
                         }
                         $('.container-view-comment').css('height', newHeight);
                         me.swipeHeight = newHeight;
@@ -1093,7 +1117,7 @@ define([
                         reply = null,
                         addReply = null,
                         ascComment = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null)),
-                        comment = _.findWhere(this.collectionComments, {uid: id});
+                        comment = this.findComment(id);
 
                     if (ascComment && comment) {
 
@@ -1144,7 +1168,7 @@ define([
                 }
             },
 
-            onAddNewComment: function(value) {
+            onAddNewComment: function(value, documentFlag) {
                 var comment;
                 if (typeof Asc.asc_CCommentDataWord !== 'undefined') {
                     comment = new Asc.asc_CCommentDataWord(null);
@@ -1163,12 +1187,15 @@ define([
                     comment.asc_putSolved(false);
 
                     if (!_.isUndefined(comment.asc_putDocumentFlag))
-                        comment.asc_putDocumentFlag(false);
+                        comment.asc_putDocumentFlag(documentFlag);
 
                     this.api.asc_addComment(comment);
 
                     uiApp.closeModal();
+
+                    return true;
                 }
+                return false;
             },
 
             initMenuComments: function(e) {
@@ -1878,8 +1905,9 @@ define([
 
             findCommentInGroup: function (id) {
                 for (var name in this.groupCollectionComments) {
-                    var store = this.groupCollectionComments[name],
-                        model = _.findWhere(store, {uid: id});
+                    var store = this.groupCollectionComments[name];
+                    var id = _.isArray(id) ? id[0] : id;
+                    var model = _.findWhere(store, {uid: id});
                     if (model) return model;
                 }
             },
@@ -1893,7 +1921,12 @@ define([
                         }
                     }
                 }
-                if (this.groupCollectionComments.length > 0) {
+                if (this.collectionComments.length > 0) {
+                    var comment = _.findWhere(this.collectionComments, {uid: id});
+                    if (comment) {
+                        remove(this.collectionComments, comment);
+                    }
+                } else {
                     for (var name in this.groupCollectionComments) {
                         var store = this.groupCollectionComments[name],
                             comment = _.findWhere(store, {uid: id});
@@ -1903,12 +1936,6 @@ define([
                                 remove(this.groupCollectionFilter, comment);
                             }
                         }
-                    }
-                }
-                if (this.collectionComments.length > 0) {
-                    var comment = _.findWhere(this.collectionComments, {uid: id});
-                    if (comment) {
-                        remove(this.collectionComments, comment);
                     }
                 }
                 if(!silentUpdate && $('.page-comments').length > 0) {

@@ -92,16 +92,16 @@ define([
                 $('.page[data-page=addother-comment] li a').single('click',    _.buffered(me.onInsertComment, 100, me));
 
                 if (pageId == '#addother-insert-comment') {
-                    me.initInsertComment();
+                    me.initInsertComment(false);
                 }
             },
 
             // Handlers
-            initInsertComment: function () {
+            initInsertComment: function (documentFlag) {
                 var comment = PE.getController('Common.Controllers.Collaboration').getCommentInfo();
                 if (comment) {
                     this.getView('AddOther').renderComment(comment);
-                    $('#done-comment').single('click', _.bind(this.onDoneComment, this));
+                    $('#done-comment').single('click', _.bind(this.onDoneComment, this, documentFlag));
                     $('.back-from-add-comment').single('click', _.bind(function () {
                         if ($('#comment-text').val().length > 0) {
                             uiApp.modal({
@@ -125,10 +125,10 @@ define([
                 }
             },
 
-            onDoneComment: function() {
+            onDoneComment: function(documentFlag) {
                 var value = $('#comment-text').val();
                 if (value.length > 0) {
-                    PE.getController('Common.Controllers.Collaboration').onAddNewComment(value);
+                    PE.getController('Common.Controllers.Collaboration').onAddNewComment(value, documentFlag);
                     PE.getController('AddContainer').hideModal();
                 }
             },
