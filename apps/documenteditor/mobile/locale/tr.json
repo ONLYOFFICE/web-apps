@@ -1,4 +1,9 @@
 {
+  "Common.Controllers.Collaboration.textDeleted": "<b>Silinen:</b>",
+  "Common.Controllers.Collaboration.textInserted": "<b>Eklenen:</b>",
+  "Common.Controllers.Collaboration.textParaMoveFromDown": "<b>Aşağı Taşınan:</b>",
+  "Common.Controllers.Collaboration.textParaMoveFromUp": "<b>Yukarı Taşınan:</b>",
+  "Common.Controllers.Collaboration.textParaMoveTo": "<b>Taşınan:</b>",
   "Common.UI.ThemeColorPalette.textStandartColors": "Standart Renkler",
   "Common.UI.ThemeColorPalette.textThemeColors": "Tema Renkleri",
   "Common.Utils.Metric.txtCm": "cm",
