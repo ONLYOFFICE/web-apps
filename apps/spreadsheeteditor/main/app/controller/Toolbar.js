@@ -1455,18 +1455,14 @@ define([
 
         onCondFormatMenu: function(menu, item) {
             if (item.value == 'manage') {
-                var me = this,
-                    props = me.api.asc_getSortProps();
-                if (props) {
-                    (new SSE.Views.FormatRulesManagerDlg({
-                        props: props,
-                        api: me.api,
-                        handler: function (result, settings) {
-                            if (me && me.api) {
-                            }
+                var me = this;
+                (new SSE.Views.FormatRulesManagerDlg({
+                    api: me.api,
+                    handler: function (result, settings) {
+                        if (me && me.api) {
                         }
-                    })).show();
-                }
+                    }
+                })).show();
             }
         },
 

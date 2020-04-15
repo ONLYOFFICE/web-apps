@@ -109,14 +109,15 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: 0, displayValue: this.textSelection },
-                    { value: 1, displayValue: this.textThisSheet },
-                    { value: 2, displayValue: this.textThisTable }
+                    { value: Asc.c_oAscSelectionForCFType.selection, displayValue: this.textSelection },
+                    { value: Asc.c_oAscSelectionForCFType.worksheet, displayValue: this.textThisSheet },
+                    { value: Asc.c_oAscSelectionForCFType.table, displayValue: this.textThisTable },
+                    { value: Asc.c_oAscSelectionForCFType.pivot, displayValue: this.textThisPivot }
                 ]
             }).on('selected', function(combo, record) {
                 me.refreshRuleList(record.value);
             });
-            this.cmbScope.setValue(0);
+            this.cmbScope.setValue(Asc.c_oAscSelectionForCFType.selection);
 
             this.rulesList = new Common.UI.ListView({
                 el: $('#format-manager-rules-list', this.$window),
@@ -179,31 +180,22 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         },
 
         _setDefaults: function (props) {
-            if (props) {
-                this.rulesList.on('item:add', _.bind(this.addControls, this));
-                this.rulesList.on('item:change', _.bind(this.addControls, this));
-                this.refreshRuleList(this.cmbScope.getValue());
-            }
+            this.rulesList.on('item:add', _.bind(this.addControls, this));
+            this.rulesList.on('item:change', _.bind(this.addControls, this));
+            this.refreshRuleList(this.cmbScope.getValue());
         },
 
         refreshRuleList: function(scope) {
-            // var levels = this.api.asc_getRules(scope);
-            var levels = [{name: 'some name', range: '=A1', props: {}}, {name: 'equals', range: '=A1', props: {}}];
+            var levels = this.api.asc_getCF(scope, (scope==Asc.c_oAscSelectionForCFType.worksheet) ? this.api.asc_getActiveWorksheetIndex() : undefined);
             var arr = [];
             if (levels) {
                 for (var i=0; i<levels.length; i++) {
                     var level = levels[i];
-                    // arr.push({
-                    //     levelIndex: i,
-                    //     name: level.asc_getType(),
-                    //     range: level.asc_getRange(),
-                    //     props: level.asc_getProps()
-                    // });
                     arr.push({
                         levelIndex: i,
-                        name: level.name,
-                        range: level.range,
-                        props: level.props
+                        name: this.getRuleName(level),
+                        range: '=A1',//level.asc_getRange(),
+                        props: level
                     });
                 }
             }
@@ -211,6 +203,67 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             (this.rulesList.store.length>0) && this.rulesList.selectByIndex(0);
 
             this.updateButtons();
+        },
+
+        getRuleName: function(rule) {
+            var name = '';
+            switch (rule.asc_getType()) {
+                case Asc.c_oAscCFType.aboveAverage:
+                    name = 'Above average';
+                    break;
+                case Asc.c_oAscCFType.beginsWith:
+                    name = 'Begins with';
+                    break;
+                case Asc.c_oAscCFType.cellIs:
+                    name = 'Value is';
+                    break;
+                case Asc.c_oAscCFType.colorScale:
+                    name = 'Color scale';
+                    break;
+                case Asc.c_oAscCFType.containsBlanks:
+                    name = 'Contains blanks';
+                    break;
+                case Asc.c_oAscCFType.containsErrors:
+                    name = 'Contains errors';
+                    break;
+                case Asc.c_oAscCFType.containsText:
+                    name = 'Contains text';
+                    break;
+                case Asc.c_oAscCFType.dataBar:
+                    name = 'Data bar';
+                    break;
+                case Asc.c_oAscCFType.duplicateValues:
+                    name = 'Duplicate values';
+                    break;
+                case Asc.c_oAscCFType.expression:
+                    name = 'Expression';
+                    break;
+                case Asc.c_oAscCFType.iconSet:
+                    name = 'Icon sets';
+                    break;
+                case Asc.c_oAscCFType.notContainsBlanks:
+                    name = 'Not contains blanks';
+                    break;
+                case Asc.c_oAscCFType.notContainsErrors:
+                    name = 'Not contains errors';
+                    break;
+                case Asc.c_oAscCFType.notContainsText:
+                    name = 'Not contains text';
+                    break;
+                case Asc.c_oAscCFType.timePeriod:
+                    name = 'Time period';
+                    break;
+                case Asc.c_oAscCFType.top10:
+                    name = 'Top 10 values';
+                    break;
+                case Asc.c_oAscCFType.uniqueValues:
+                    name = 'Unique values';
+                    break;
+                case Asc.c_oAscCFType.endsWith:
+                    name = 'Ends with';
+                    break;
+            }
+            return name;
         },
 
         addControls: function(listView, itemView, item) {
@@ -371,6 +424,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         textSelection: 'Current selection',
         textThisSheet: 'This worksheet',
         textThisTable: 'This table',
+        textThisPivot: 'This pivot',
         textScope: 'Show formatting rules for',
         textRules: 'Rules',
         textApply: 'Apply to',
