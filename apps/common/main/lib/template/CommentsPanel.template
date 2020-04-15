@@ -5,7 +5,7 @@
     </div>
     <div style="display: none;" class="layout-item new-comment-ct">
         <div class="inner-ct">
-            <textarea id="comment-msg-new" class="user-select" placeholder="<%=textEnterCommentHint%>" maxlength="<%=maxCommLength%>"/>
+            <textarea id="comment-msg-new" class="user-select textarea-control" placeholder="<%=textEnterCommentHint%>" maxlength="<%=maxCommLength%>"/>
         </div>
         <button class="btn add normal dlg-btn primary"><%=textAddComment%></button>
         <button class="btn cancel normal dlg-btn"><%=textCancel%></button>

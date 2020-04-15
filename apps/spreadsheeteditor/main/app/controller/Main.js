@@ -216,8 +216,8 @@ define([
                     if (e && e.target && !/area_id/.test(e.target.id)) {
                         if (/msg-reply/.test(e.target.className))
                             me.dontCloseDummyComment = true;
-                        else if (/chat-msg-text/.test(e.target.id))
-                            me.dontCloseChat = true;
+                        else if (/textarea-control/.test(e.target.className))
+                            me.inTextareaControl = true;
                         else if (!me.isModalShowed && /form-control/.test(e.target.className))
                             me.inFormControl = true;
                     }
@@ -242,8 +242,8 @@ define([
                             me.api.asc_enableKeyEvents(true);
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = false;
-                            else if (/chat-msg-text/.test(e.target.id))
-                                me.dontCloseChat = false;
+                            else if (/textarea-control/.test(e.target.className))
+                                me.inTextareaControl = false;
                         }
                     }
                 }).on('dragover', function(e) {
@@ -565,12 +565,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed && !this.inFormControl)
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.inTextareaControl && !this.isModalShowed && !this.inFormControl)
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || this.isModalShowed || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
