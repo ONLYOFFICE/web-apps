@@ -94,6 +94,51 @@ define([
                 var me = this;
                 $('#add-other-pagebreak').single('click',   _.bind(me.onPageBreak, me));
                 $('#add-other-columnbreak').single('click', _.bind(me.onColumnBreak, me));
+                this.view.hideInsertComments = this.isHideInsertComment();
+            },
+
+            isHideInsertComment: function() {
+                var stack = this.api.getSelectedElements();
+                var isText = false,
+                    isTable = false,
+                    isImage = false,
+                    isChart = false,
+                    isShape = false,
+                    isLink = false,
+                    lockedText = false,
+                    lockedTable = false,
+                    lockedImage = false,
+                    lockedHeader = false;
+                _.each(stack, function (item) {
+                    var objectType = item.get_ObjectType(),
+                        objectValue = item.get_ObjectValue();
+                    if (objectType == Asc.c_oAscTypeSelectElement.Header) {
+                        lockedHeader = objectValue.get_Locked();
+                    }
+                    if (objectType == Asc.c_oAscTypeSelectElement.Paragraph) {
+                        isText = true;
+                        lockedText = objectValue.get_Locked();
+                    } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
+                        lockedImage = objectValue.get_Locked();
+                        if (objectValue && objectValue.get_ChartProperties()) {
+                            isChart = true;
+                        } else if (objectType && objectValue.get_ShapeProperties()) {
+                            isShape = true;
+                        } else {
+                            isImage = true;
+                        }
+                    } else if (objectType == Asc.c_oAscTypeSelectElement.Table) {
+                        isTable = true;
+                        lockedTable = objectValue.get_Locked();
+                    } else if (objectType == Asc.c_oAscTypeSelectElement.Hyperlink) {
+                        isLink = true;
+                    }
+                });
+                if (stack.length > 0) {
+                    var isObject = isShape || isChart || isImage || isTable;
+                    return  (this.api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject));
+                }
+                return true;
             },
 
             onPageShow: function (view, pageId) {

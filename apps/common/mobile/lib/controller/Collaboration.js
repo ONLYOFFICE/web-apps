@@ -769,7 +769,7 @@ define([
                     me.updateViewComment();
                 }
                 if (window.SSE) {
-                    SSE.getController('AddOther').sedHideAddComment(true);
+                    SSE.getController('AddOther').setHideAddComment(true);
                 }
             },
 
@@ -779,7 +779,7 @@ define([
                     $('.container-view-comment').remove();
                 }
                 if (window.SSE) {
-                    SSE.getController('AddOther').sedHideAddComment(false);
+                    SSE.getController('AddOther').setHideAddComment(false);
                 }
             },
 

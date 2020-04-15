@@ -350,7 +350,8 @@ define([
                             });
                         }
 
-                        if (_canViewComments) {
+                        var hideAddComment = (isText && isChart) || me.api.can_AddQuotedComment() === false || !_canViewComments;
+                        if (!hideAddComment) {
                             arrItems.push({
                                 caption: me.menuAddComment,
                                 event: 'addcomment'

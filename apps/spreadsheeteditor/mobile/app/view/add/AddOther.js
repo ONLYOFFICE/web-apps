@@ -135,7 +135,12 @@ define([
                 $page.find('#add-other-insimage').single('click', _.bind(me.showInsertImage, me));
                 $page.find('#add-other-link').single('click', _.bind(me.showInsertLink, me));
                 $page.find('#add-other-sort').single('click', _.bind(me.showSortPage, me));
-                $page.find('#add-other-comment').single('click', _.bind(me.showPageComment, me));
+                if (me.hideInsertComments || me.isComments) {
+                    $('#item-comment').hide();
+                } else {
+                    $('#item-comment').show();
+                    $('#add-other-comment').single('click', _.bind(me.showPageComment, me));
+                }
 
                 me.initControls();
             },
@@ -155,11 +160,6 @@ define([
                 if (this.layout) {
                     if (!this.canViewComments) {
                         this.layout.find('#addother-root-view #item-comment').remove();
-                    }
-                    if (this.isHideAddComment) {
-                        this.layout.find('#addother-root-view #item-comment').hide();
-                    } else {
-                        this.layout.find('#addother-root-view #item-comment').show();
                     }
                     return this.layout
                         .find('#addother-root-view')

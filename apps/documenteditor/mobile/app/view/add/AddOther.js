@@ -70,7 +70,12 @@ define([
                 $('#add-other-link').single('click',        _.bind(me.showLink, me));
                 $('#add-other-pagenumber').single('click',  _.bind(me.showPagePosition, me));
                 $('#add-other-footnote').single('click',    _.bind(me.showPageFootnote, me));
-                $('#add-other-comment').single('click',     _.bind(me.showPageComment, me));
+                if (this.hideInsertComments) {
+                    $('#item-comment').hide();
+                } else {
+                    $('#item-comment').show();
+                    $('#add-other-comment').single('click',     _.bind(me.showPageComment, me));
+                }
 
                 me.initControls();
             },

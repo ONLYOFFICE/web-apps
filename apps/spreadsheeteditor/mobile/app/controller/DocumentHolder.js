@@ -416,7 +416,7 @@ define([
                                     caption: me.menuViewComment,
                                     event: 'viewcomment'
                                 });
-                            } else {
+                            } else if (iscellmenu) {
                                 arrItems.push({
                                     caption: me.menuAddComment,
                                     event: 'addcomment'

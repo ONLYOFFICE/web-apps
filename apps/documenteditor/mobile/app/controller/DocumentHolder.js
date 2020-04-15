@@ -462,7 +462,7 @@ define([
                         lockedHeader = objectValue.get_Locked();
                     }
 
-                    if (objectType == Asc.c_oAscTypeSelectElement.Text) {
+                    if (objectType == Asc.c_oAscTypeSelectElement.Paragraph) {
                         isText = true;
                         lockedText = objectValue.get_Locked();
                     } else if (objectType == Asc.c_oAscTypeSelectElement.Image) {
@@ -571,7 +571,9 @@ define([
                             });
                         }
 
-                        if (_canViewComments) {
+                        var isObject = isShape || isChart || isImage || isTable;
+                        var hideAddComment = !_canViewComments || me.api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject);
+                        if (!hideAddComment) {
                             arrItems.push({
                                 caption: me.menuAddComment,
                                 event: 'addcomment'

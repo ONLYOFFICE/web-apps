@@ -80,8 +80,8 @@ define([
                 this.view.canViewComments = mode.canViewComments;
             },
 
-            sedHideAddComment: function(hide) {
-                this.view.isHideAddComment = hide; //prohibit adding multiple comments in one cell
+            setHideAddComment: function(hide) {
+                this.view.isComments = hide; //prohibit adding multiple comments in one cell
             },
 
             onLaunch: function () {
@@ -92,6 +92,17 @@ define([
                 if ( args && !(_.indexOf(args.panels, 'image') < 0) ) {
                     this.onPageShow(this.getView('AddOther'), '#addother-insimage');
                 }
+                this.view.hideInsertComments = this.isHideInsertComment();
+            },
+
+            isHideInsertComment: function() {
+                var cellinfo = this.api.asc_getCellInfo();
+                var iscelllocked    = cellinfo.asc_getLocked(),
+                    seltype         = cellinfo.asc_getFlags().asc_getSelectionType();
+                if (seltype === Asc.c_oAscSelectionType.RangeCells && !iscelllocked) {
+                    return false;
+                }
+                return true;
             },
 
             onPageShow: function (view, pageId) {
@@ -148,7 +159,7 @@ define([
                 var value = $('#comment-text').val();
                 if (value.length > 0) {
                     if (SSE.getController('Common.Controllers.Collaboration').onAddNewComment(value, documentFlag)) {
-                        this.view.isHideAddComment = true;
+                        this.view.isComments = true;
                     }
                     SSE.getController('AddContainer').hideModal();
                 }

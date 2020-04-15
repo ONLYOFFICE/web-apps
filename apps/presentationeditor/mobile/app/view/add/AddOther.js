@@ -64,11 +64,14 @@ define([
             },
 
             initEvents: function () {
-                var me = this;
+                if (this.hideInsertComments) {
+                    $('#item-comment').hide();
+                } else {
+                    $('#item-comment').show();
+                    $('#add-other-comment').single('click',     _.bind(this.showPageComment, this));
+                }
 
-                $('#add-other-comment').single('click',     _.bind(me.showPageComment, me));
-
-                me.initControls();
+                this.initControls();
             },
 
             // Render layout

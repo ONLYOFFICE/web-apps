@@ -83,13 +83,36 @@ define([
 
             initEvents: function () {
                 var me = this;
+                this.view.hideInsertComments = this.isHideInsertComment();
+            },
 
+            isHideInsertComment: function() {
+                var stack = this.api.getSelectedElements();
+                var isText = false,
+                    isChart = false;
+
+                _.each(stack, function (item) {
+                    var objectType = item.get_ObjectType();
+                    if (objectType == Asc.c_oAscTypeSelectElement.Paragraph) {
+                        isText = true;
+                    } else if (objectType == Asc.c_oAscTypeSelectElement.Chart) {
+                        isChart = true;
+                    }
+                });
+                if (stack.length > 0) {
+                    var topObject = stack[stack.length - 1],
+                        topObjectValue = topObject.get_ObjectValue(),
+                        objectLocked = _.isFunction(topObjectValue.get_Locked) ? topObjectValue.get_Locked() : false;
+                    !objectLocked && (objectLocked = _.isFunction(topObjectValue.get_LockDelete) ? topObjectValue.get_LockDelete() : false);
+                    if (!objectLocked) {
+                        return ((isText && isChart) || this.api.can_AddQuotedComment() === false);
+                    }
+                }
+                return true;
             },
 
             onPageShow: function (view, pageId) {
                 var me = this;
-
-                $('.page[data-page=addother-comment] li a').single('click',    _.buffered(me.onInsertComment, 100, me));
 
                 if (pageId == '#addother-insert-comment') {
                     me.initInsertComment(false);
