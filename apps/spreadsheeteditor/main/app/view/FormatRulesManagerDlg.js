@@ -194,7 +194,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     arr.push({
                         levelIndex: i,
                         name: this.getRuleName(level),
-                        range: '=A1',//level.asc_getRange(),
+                        range: level.asc_getLocation(),
                         props: level
                     });
                 }
@@ -251,7 +251,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     name = 'Not contains text';
                     break;
                 case Asc.c_oAscCFType.timePeriod:
-                    name = 'Time period';
+                    name = 'Date';
                     break;
                 case Asc.c_oAscCFType.top10:
                     name = 'Top 10 values';
