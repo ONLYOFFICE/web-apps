@@ -43,7 +43,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField'
+    'common/main/lib/component/InputField',
+    'spreadsheeteditor/main/app/view/FormatRulesEditDlg'
 ], function (contentTemplate) {
     'use strict';
 
@@ -323,37 +324,23 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         },
 
         onEditRule: function (isEdit) {
-            return;
-
             var me = this,
                 xy = me.$window.offset(),
-                rec = this.rangeList.getSelectedRec(),
-                idx = _.indexOf(this.rangeList.store.models, rec),
-                oldname = (isEdit && rec) ? new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true) : null;
+                rec = this.rulesList.getSelectedRec();
 
-            var win = new SSE.Views.NamedRangeEditDlg({
+            var win = new SSE.Views.FormatRulesEditDlg({
                 api: me.api,
-                sheets  : this.sheets,
-                props   : (isEdit) ? oldname : this.props,
+                props   : (isEdit && rec) ? rec.get('props') : null,
                 isEdit  : isEdit,
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
                         if (isEdit) {
-                            me.currentNamedRange = settings;
-                            me.api.asc_editDefinedNames(oldname, settings);
                         } else {
-                            me.cmbFilter.setValue(0);
-                            me.currentNamedRange = settings;
-                            me.api.asc_setDefinedNames(settings);
-                            me.updateButtons();
                         }
                     }
                 }
             }).on('close', function() {
                 me.show();
-                _.delay(function () {
-                    me.rangeList.cmpEl.find('.listview').focus();
-                }, 100, me);
             });
 
             me.hide();
