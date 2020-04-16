@@ -271,7 +271,7 @@ define([
 
     Common.UI.ComboBoxColor = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
-            '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+            '<div class="input-group combobox combo-color input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
             '<div class="form-control" style="padding:2px 14px 2px 3px; <%= style %> display: block;">',
                 '<div style="display: inline-block;overflow: hidden;width: 100%;height: 100%;"></div>',
             '</div>',
@@ -309,12 +309,13 @@ define([
         updateFormControl: function(record) {
             var formcontrol = $(this.el).find('.form-control > div');
 
+            formcontrol[0].innerHTML = record.get('displayValue');
             if (record.get('value')!=-1) {
-                formcontrol[0].innerHTML = '';
                 formcontrol.css({'background': '#' + record.get('value'), 'margin-top': '0'});
+                record.get('displayColor') && formcontrol.css({'color': '#' + record.get('displayColor'), 'text-align': 'center'});
             } else {
-                formcontrol[0].innerHTML = record.get('displayValue');
                 formcontrol.css({'background': '', 'margin-top': '1px'});
+                formcontrol.css({'color': '', 'text-align': ''});
             }
         },
 

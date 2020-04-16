@@ -268,7 +268,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                                 if (item)
                                     color_data.push({
                                         value: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
-                                        displayValue: Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase(),
+                                        displayValue: '',
                                         color: item
                                     });
                                 else
@@ -555,7 +555,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                         var value = item ? Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase() : -1,
                             color_data = {
                                 value: value,
-                                displayValue: item ? value : ((level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto),
+                                displayValue: item ? '' : ((level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto),
                                 color: item
                             };
                         item ? level.color_data.push(color_data) : level.color_data.unshift(color_data);
