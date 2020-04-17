@@ -44,7 +44,8 @@ define([
     'core',
     'spreadsheeteditor/main/app/collection/FormulaGroups',
     'spreadsheeteditor/main/app/view/FormulaDialog',
-    'spreadsheeteditor/main/app/view/FormulaTab'
+    'spreadsheeteditor/main/app/view/FormulaTab',
+    'spreadsheeteditor/main/app/view/FormulaWizard'
 ], function () {
     'use strict';
 
@@ -226,6 +227,26 @@ define([
             if (props) {
                 // show formula settings
                 console.log('show formula settings');
+                var me = this;
+
+                var name = props.name,
+                    descrarr = this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                    funcprops = {
+                        name: this.api.asc_getFormulaLocaleName(name),
+                        origin: name,
+                        args: ((descrarr && descrarr[name]) ? descrarr[name].a : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()),
+                        desc: (descrarr && descrarr[name]) ? descrarr[name].d : ''
+                    };
+
+                (new SSE.Views.FormulaWizard({
+                    api     : this.api,
+                    funcprops: funcprops,
+                    props   : props,
+                    handler : function(dlg, result, settings) {
+                        if (result == 'ok') {
+                        }
+                    }
+                })).show();
             } else
                 this.formulas.show(this._formulagroup);
             this._formulagroup = undefined;

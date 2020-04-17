@@ -132,6 +132,7 @@ define([
                     me.cmbListFunctions.$el.find('.listview').focus();
                 }, 100, this);
             }
+            this._preventCloseCellEditor = false;
         },
 
         hide: function () {
@@ -144,10 +145,13 @@ define([
             this.$window.off('mousedown',_.bind(this.onUpdateFocus, this));
 
             Common.UI.Window.prototype.hide.call(this);
+
+            !this._preventCloseCellEditor && this.api.asc_closeCellEditor();
         },
 
         onBtnClick: function (event) {
             if ('ok' === event.currentTarget.attributes['result'].value) {
+                this._preventCloseCellEditor = true;
                 if (this.handler) {
                     this.handler.call(this, this.applyFunction);
                 }
@@ -157,6 +161,7 @@ define([
         },
         onDblClickFunction: function () {
             if (this.handler) {
+                this._preventCloseCellEditor = true;
                 this.handler.call(this, this.applyFunction);
             }
 
@@ -180,6 +185,7 @@ define([
         },
         onPrimary: function(list, record, event) {
             if (this.handler) {
+                this._preventCloseCellEditor = true;
                 this.handler.call(this, this.applyFunction);
             }
 
