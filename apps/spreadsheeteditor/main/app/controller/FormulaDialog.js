@@ -95,7 +95,7 @@ define([
                 if (func.origin === 'more') {
                     this.showDialog(group);
                 } else {
-                    this.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func, !!autocomplete);
+                    this.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func, !!autocomplete, true);
                     !autocomplete && this.updateLast10Formulas(func.origin);
                 }
             }
@@ -112,6 +112,7 @@ define([
 
         setApi: function (api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
 
             if (this.formulasGroups && this.api) {
                 Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
@@ -216,9 +217,20 @@ define([
                         this.formulas.fillFormulasGroups();
                     }
                 }
-                this.formulas.show(group);
+                this._formulagroup = group;
+                this.api.asc_preInsertFormula();
             }
         },
+
+        onSendFunctionWizardInfo: function(props) {
+            if (props) {
+                // show formula settings
+                console.log('show formula settings');
+            } else
+                this.formulas.show(this._formulagroup);
+            this._formulagroup = undefined;
+        },
+
         hideDialog: function () {
             if (this.formulas && this.formulas.isVisible()) {
                 this.formulas.hide();
