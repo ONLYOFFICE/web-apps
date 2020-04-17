@@ -1878,56 +1878,75 @@ define([
                     items: [
                         {
                             caption     : this.textGreater,
-                            value       : Asc.c_oAscCustomAutoFilter.isGreaterThan
+                            type        : Asc.c_oAscCFType.cellIs,
+                            value       : 0
                         },
                         {
                             caption     : this.textLess,
-                            value       : Asc.c_oAscCustomAutoFilter.isLessThan
+                            type        : Asc.c_oAscCFType.cellIs,
+                            value       : 2
                         },
                         {
                             caption     : this.textEqual,
-                            value       : Asc.c_oAscCustomAutoFilter.equals
+                            type        : Asc.c_oAscCFType.cellIs,
+                            value       : 4
                         },
                         {caption: '--'},
                         {
                             caption     : this.textBetween,
-                            value       : Asc.c_oAscCustomAutoFilter.between
+                            type        : Asc.c_oAscCFType.cellIs,
+                            value       : 6
                         },
                         {
                             caption     : this.textTop10,
-                            value       : Asc.c_oAscCustomAutoFilter.top10
+                            type        : Asc.c_oAscCFType.top10,
+                            value       : 0
                         },
                         {caption: '--'},
                         {
                             caption     : this.textText,
-                            value       : Asc.c_oAscCustomAutoFilter.text,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
-                                items: []
+                                items: [
+                                    { caption: 'Contains',   type: Asc.c_oAscCFType.containsText },
+                                    { caption: 'Does not contain',   type: Asc.c_oAscCFType.notContainsText },
+                                    { caption: 'Begins with',   type: Asc.c_oAscCFType.beginsWith },
+                                    { caption: 'Ends with',   type: Asc.c_oAscCFType.endsWith }
+                                ]
                             })
                         },
                         {caption: '--'},
                         {
                             caption     : this.textDate,
-                            value       : Asc.c_oAscCustomAutoFilter.date,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
-                                items: []
+                                items: [
+                                    { caption: 'Yesterday',  type: Asc.c_oAscCFType.timePeriod,  value: 0 },
+                                    { caption: 'Today',  type: Asc.c_oAscCFType.timePeriod,  value: 1},
+                                    { caption: 'Tomorrow',  type: Asc.c_oAscCFType.timePeriod,  value: 2},
+                                    { caption: 'In the last 7 days',  type: Asc.c_oAscCFType.timePeriod,  value: 3},
+                                    { caption: 'Last week',  type: Asc.c_oAscCFType.timePeriod,  value: 4},
+                                    { caption: 'This week',  type: Asc.c_oAscCFType.timePeriod,  value: 5},
+                                    { caption: 'Next week',  type: Asc.c_oAscCFType.timePeriod,  value: 6},
+                                    { caption: 'Last month',  type: Asc.c_oAscCFType.timePeriod,  value: 7},
+                                    { caption: 'This month',  type: Asc.c_oAscCFType.timePeriod,  value: 8},
+                                    { caption: 'Next month',  type: Asc.c_oAscCFType.timePeriod,  value: 9}
+                                ]
                             })
                         },
                         {caption: '--'},
                         {
                             caption     : this.textBlank,
-                            value       : Asc.c_oAscCustomAutoFilter.blank
+                            type        : Asc.c_oAscCFType.containsBlanks
                         },
                         {
                             caption     : this.textDuplicate,
-                            value       : Asc.c_oAscCustomAutoFilter.duplicate
+                            type        : Asc.c_oAscCFType.duplicateValues
                         },
                         {caption: '--'},
                         {
                             caption     : this.textDataBars,
-                            value       : Asc.c_oAscCustomAutoFilter.bars,
+                            type        : Asc.c_oAscCFType.dataBar,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items: []
@@ -1935,7 +1954,7 @@ define([
                         },
                         {
                             caption     : this.textColorScales,
-                            value       : Asc.c_oAscCustomAutoFilter.scales,
+                            type        : Asc.c_oAscCFType.colorScale,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items: []
@@ -1943,11 +1962,16 @@ define([
                         },
                         {
                             caption     : this.textIconSets,
-                            value       : Asc.c_oAscCustomAutoFilter.icons,
+                            type        : Asc.c_oAscCFType.iconSet,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items: []
                             })
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : 'Formula',
+                            type        : Asc.c_oAscCFType.expression
                         },
                         {caption: '--'},
                         {
@@ -1958,7 +1982,12 @@ define([
                             caption     : this.textClearRule,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
-                                items: []
+                                items: [
+                                    { value: 'clear', type: Asc.c_oAscSelectionForCFType.selection, caption: this.textSelection },
+                                    { value: 'clear', type: Asc.c_oAscSelectionForCFType.worksheet, caption: this.textThisSheet },
+                                    { value: 'clear', type: Asc.c_oAscSelectionForCFType.table, caption: this.textThisTable },
+                                    { value: 'clear', type: Asc.c_oAscSelectionForCFType.pivot, caption: this.textThisPivot }
+                                ]
                             })
                         },
                         {
@@ -2517,6 +2546,10 @@ define([
         textIconSets: 'Icon Sets',
         textNewRule: 'New Rule',
         textClearRule: 'Clear Rules',
+        textSelection: 'From current selection',
+        textThisSheet: 'From this worksheet',
+        textThisTable: 'From this table',
+        textThisPivot: 'From this pivot',
         textManageRule: 'Manage Rules'
 
     }, SSE.Views.Toolbar || {}));

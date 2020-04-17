@@ -108,6 +108,8 @@ define([
             this.handler    = options.handler;
             this.isEdit     = options.isEdit || false;
             this.props      = options.props;
+            this.type       = options.type; // rule category
+            this.subtype    = options.subtype; // rule
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -120,40 +122,38 @@ define([
                     name: this.textValue,
                     type: Asc.c_oAscCFType.cellIs,
                     rules: [
-                        { name: this.textGreater},
-                        { name: this.textGreaterEq},
-                        { name: this.textLess},
-                        { name: this.textLessEq},
-                        { name: this.textEqual},
-                        { name: this.textNotEqual},
-                        { name: this.textBetween},
-                        { name: this.textNotBetween}
+                        { name: this.textGreater, subtype: 0},
+                        { name: this.textGreaterEq, subtype: 1},
+                        { name: this.textLess, subtype: 2},
+                        { name: this.textLessEq, subtype: 3},
+                        { name: this.textEqual, subtype: 4},
+                        { name: this.textNotEqual, subtype: 5},
+                        { name: this.textBetween, subtype: 6},
+                        { name: this.textNotBetween, subtype: 7}
                     ]
                 },
                 {
                     name: this.textRanked,
                     type: Asc.c_oAscCFType.top10,
                     rules: [
-                        { name: this.textTop10},
-                        { name: this.textTop10Per},
-                        { name: this.textBottom10},
-                        { name: this.textBottom10Per}
+                        { name: this.textTop, subtype: 0},
+                        { name: this.textBottom, subtype: 1}
                     ]
                 },
                 {
                     name: 'Average',
                     type: Asc.c_oAscCFType.aboveAverage,
                     rules: [
-                        { name: 'Above'},
-                        { name: 'Below'},
-                        { name: 'Equal or above'},
-                        { name: 'Equal or below'},
-                        { name: '1 std dev above'},
-                        { name: '1 std dev below'},
-                        { name: '2 std dev above'},
-                        { name: '2 std dev below'},
-                        { name: '3 std dev above'},
-                        { name: '3 std dev below'}
+                        { name: 'Above', subtype: 0},
+                        { name: 'Below', subtype: 1},
+                        { name: 'Equal or above', subtype: 2},
+                        { name: 'Equal or below', subtype: 3},
+                        { name: '1 std dev above', subtype: 4},
+                        { name: '1 std dev below', subtype: 5},
+                        { name: '2 std dev above', subtype: 6},
+                        { name: '2 std dev below', subtype: 7},
+                        { name: '3 std dev above', subtype: 8},
+                        { name: '3 std dev below', subtype: 9}
                     ]
                 },
                 {
@@ -170,16 +170,16 @@ define([
                     name: 'Date',
                     type: Asc.c_oAscCFType.timePeriod,
                     rules: [
-                        { name: 'Yesterday'},
-                        { name: 'Today'},
-                        { name: 'Tomorrow'},
-                        { name: 'In the last 7 days'},
-                        { name: 'Last week'},
-                        { name: 'This week'},
-                        { name: 'Next week'},
-                        { name: 'Last month'},
-                        { name: 'This month'},
-                        { name: 'Next month'}
+                        { name: 'Yesterday', subtype: 0},
+                        { name: 'Today', subtype: 1},
+                        { name: 'Tomorrow', subtype: 2},
+                        { name: 'In the last 7 days', subtype: 3},
+                        { name: 'Last week', subtype: 4},
+                        { name: 'This week', subtype: 5},
+                        { name: 'Next week', subtype: 6},
+                        { name: 'Last month', subtype: 7},
+                        { name: 'This month', subtype: 8},
+                        { name: 'Next month', subtype: 9}
                     ]
                 },
                 {
@@ -231,7 +231,8 @@ define([
                 rule.rules && _.each(rule.rules, function(item, idx){
                     arr.push({
                         name     : item.name,
-                        type     : (item.type!==undefined) ? item.type : rule.type,
+                        type     : item.type,
+                        subtype  : item.subtype,
                         allowSelected : true,
                         selected: false
                     });
@@ -442,32 +443,45 @@ define([
         },
 
         _setDefaults: function (props) {
-            if (props) {
-                var type = props.asc_getType(),
-                    ruleType;
-                var rec = this.ruleStore.findWhere({type: type});
-                if (!rec) {
-                    var store = this.ruleStore;
-                    for (var i=0; i<store.length; i++) {
-                        var item = store.at(i);
-                        if (item.rules && item.rules.findWhere({type: type})) {
-                            rec = item;
-                            ruleType = type;
-                            break;
-                        }
+            var type = props ? props.asc_getType() : this.type,
+                ruleType;
+
+            var rec = this.ruleStore.findWhere({type: type});
+            if (!rec) {
+                var store = this.ruleStore;
+                for (var i=0; i<store.length; i++) {
+                    var item = store.at(i),
+                        rules = item.get('rules');
+                    if (rules && rules.findWhere({type: type})) {
+                        rec = item;
+                        ruleType = type;
+                        break;
                     }
                 }
-                if (!rec)
-                    rec = this.ruleStore.at(0);
-                if (rec) {
-                    this.cmbCategory.setValue(rec.get('index'));
-                    this.refreshRules(rec.get('index'), ruleType);
+            } else { // find rule
+                var rules = rec.get('rules');
+                if (rules && rules.findWhere({type: type})) {
+                    ruleType = type;
+                } else {
+                    // find by subtype
+                    // var subtype = (props) ? props.asc_getSubtype() : this.subtype;
+                    var subtype = this.subtype;
+                    if ((subtype!==undefined) && rules && rules.findWhere({subtype: subtype})) {
+                        ruleType = subtype;
+                    }
                 }
+            }
+            if (!rec)
+                rec = this.ruleStore.at(0);
+            if (rec) {
+                this.cmbCategory.setValue(rec.get('index'));
+                this.refreshRules(rec.get('index'), ruleType);
+            }
+
+            if (props) {
                 var val = props.asc_getLocation();
                 this.txtScope.setValue((val) ? val : '');
             } else {
-                this.cmbCategory.setValue(0);
-                this.refreshRules(0);
             }
         },
 
@@ -477,7 +491,7 @@ define([
                 var rules = rec.get('rules'),
                     cmbData = [];
                 rules && rules.each(function(rule, idx){
-                    cmbData.push({value: rule.get('type'), displayValue: rule.get('name')});
+                    cmbData.push({value: (rule.get('type')!==undefined) ? rule.get('type') : rule.get('subtype'), displayValue: rule.get('name')});
                 });
                 this.cmbRule.setData(cmbData);
                 (cmbData.length>0) && this.cmbRule.setValue((type!==undefined) ? type : cmbData[0].value);
@@ -571,10 +585,8 @@ define([
         textBetween: 'Between',
         textNotBetween: 'Not between',
         textRanked: 'Ranked',
-        textTop10: 'Top 10 items',
-        textTop10Per: 'Top 10%',
-        textBottom10: 'Bottom 10 items',
-        textBottom10Per: 'Bottom 10%',
+        textTop: 'Top',
+        textBottom: 'Bottom',
         textText: 'Text',
         textDate: 'Date',
         textBlank: 'Blank',

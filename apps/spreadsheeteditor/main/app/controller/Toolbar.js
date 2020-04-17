@@ -385,6 +385,9 @@ define([
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('item:click',             _.bind(this.onCondFormatMenu, this));
+                    toolbar.btnCondFormat.menu.items[7].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+                    toolbar.btnCondFormat.menu.items[9].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+                    toolbar.btnCondFormat.menu.items[21].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
                 }
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
@@ -1454,12 +1457,25 @@ define([
         },
 
         onCondFormatMenu: function(menu, item) {
+            var me = this;
             if (item.value == 'manage') {
-                var me = this;
                 (new SSE.Views.FormatRulesManagerDlg({
                     api: me.api,
                     handler: function (result, settings) {
                         if (me && me.api) {
+                        }
+                    }
+                })).show();
+            } else if (item.value == 'clear') {
+            } else {
+                (new SSE.Views.FormatRulesEditDlg({
+                    api: me.api,
+                    props   : null,
+                    type    : item.options.type,
+                    subtype : item.value,
+                    isEdit  : false,
+                    handler : function(result, settings) {
+                        if (result == 'ok' && settings) {
                         }
                     }
                 })).show();
