@@ -82,6 +82,8 @@ define([
                                             '<div id="format-rules-edit-combo-rule" class="input-group-nr" style="display: inline-block;vertical-align: top;margin-right: 5px;"></div>',
                                             '<div id="format-rules-edit-txt-r1" class="input-row" style="display: inline-block;vertical-align: top;margin-right: 5px;"></div>',
                                             '<div id="format-rules-edit-txt-r2" class="input-row" style="display: inline-block;vertical-align: top;"></div>',
+                                            '<div id="format-rules-edit-spin-rank" class="input-row" style="display: inline-block;vertical-align: top;margin-right: 5px;"></div>',
+                                            '<div id="format-rules-edit-combo-percent" class="input-row" style="display: inline-block;vertical-align: top;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr class="hasformat">',
@@ -301,6 +303,38 @@ define([
             });
             this.txtRange2.on('button:click', _.bind(this.onSelectData, this));
 
+            // top 10
+            this.cmbPercent = new Common.UI.ComboBox({
+                el          : $('#format-rules-edit-combo-percent'),
+                style       : 'width: 100px;',
+                menuStyle   : 'min-width: 100%;max-height: 211px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: 0, displayValue: 'Item'},
+                    {value: 1, displayValue: 'Percent'}
+                ]
+            }).on('selected', function(combo, record) {
+                var percent = !!record.value;
+                me.numRank.setMaxValue(percent ? 100 : 1000);
+                me.numRank.setValue(me.numRank.getNumberValue());
+            });
+            this.cmbPercent.setValue(0);
+
+            this.numRank = new Common.UI.MetricSpinner({
+                el: $('#format-rules-edit-spin-rank'),
+                step: 1,
+                width: 100,
+                defaultUnit : "",
+                defaultValue : 10,
+                allowDecimal: false,
+                value: '10',
+                maxValue: 1000,
+                minValue: 1
+            });
+            this.numRank.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+            }, this));
+
             // Format
             var color_data = [
                 {   value: 'ffeb9c', displayValue: 'absdef', color: '#ffeb9c', displayColor: '9c6500' },
@@ -456,13 +490,35 @@ define([
                     case Asc.c_oAscCFType.beginsWith:
                     case Asc.c_oAscCFType.endsWith:
                         value = props.asc_getContainsText();
-                        this.txtRange1.setValue(value);
+                        this.txtRange1.setValue(value || '');
                         break;
                     case Asc.c_oAscCFType.timePeriod:
                         subtype = props.asc_getTimePeriod();
                         break;
+                    case Asc.c_oAscCFType.aboveAverage:
+                        var above = props.asc_getAboveAverage(),
+                            eq = props.asc_getEqualAverage(),
+                            stddev = props.asc_getStdDev();
+                            subtype = (above) ? 0 : 1;
+                        if (eq)
+                            subtype += 2;
+                        else if (stddev) {
+                            subtype += (3 + stddev);
+                        }
+                        break;
+                    case Asc.c_oAscCFType.top10:
+                        subtype = props.asc_getBottom() ? 1 : 0;
+                        this.cmbPercent.setValue(props.asc_getPercent() ? 1 : 0);
+                        this.numRank.setValue(props.asc_getRank() ? props.asc_getRank() : 10);
+                        break;
                     case Asc.c_oAscCFType.cellIs:
                         subtype = props.asc_getOperator();
+                        this.txtRange1.setValue(props.asc_getValue1() || '');
+                        this.txtRange2.setValue(props.asc_getValue2() || '');
+                        break;
+                    case Asc.c_oAscCFType.expression:
+                        subtype = props.asc_getOperator();
+                        this.txtRange1.setValue(props.asc_getValue1() || '');
                         break;
                 }
             }
@@ -522,8 +578,15 @@ define([
             var hasformat = this.$window.find('.hasformat');
             hasformat.toggleClass('hidden', category>=7 && category<=10);
 
-            this.txtRange1.setVisible(category==0 || category==3);
+            this.cmbRule.setVisible(category<7);
+
+            this.txtRange1.setVisible(category==0 || category==3 || category==11);
             this.txtRange2.setVisible(category==0 && (rule == Asc.c_oAscCFOperator.between || rule == Asc.c_oAscCFOperator.notBetween));
+
+            this.cmbPercent.setVisible(category==1);
+            this.numRank.setVisible(category==1);
+
+            this.txtRange1.cmpEl.width(category==11 ? 305 : 150);
         },
 
         onSelectData: function(cmp) {
