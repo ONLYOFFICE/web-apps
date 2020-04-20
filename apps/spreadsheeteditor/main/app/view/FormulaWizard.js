@@ -62,7 +62,7 @@ define([
                 '<div class="box" style="height:' + (this.options.height-103) + 'px;">',
                     '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px"></label>',
                     '<div style="height: 220px; overflow: hidden;position: relative; margin-bottom: 8px;">',
-                    '<table cols="2" id="formula-wizard-tbl-args" style="width: 100%;margin-bottom: 8px;">',
+                    '<table cols="2" id="formula-wizard-tbl-args" style="width: 100%;">',
                     '</table>',
                     '</div>',
                     '<label id="formula-wizard-value" style="display: block;margin-bottom: 8px"></label>',
@@ -107,9 +107,11 @@ define([
             this.scrollerY = new Common.UI.Scroller({
                 el: $window.find('#formula-wizard-tbl-args').parent(),
                 minScrollbarLength  : 20,
-                alwaysVisibleY: this.scrollAlwaysVisible
+                alwaysVisibleY: true
             });
             this.scrollerY.scrollTop(0);
+
+            this._preventCloseCellEditor = false;
 
             this.afterRender();
         },
@@ -121,7 +123,7 @@ define([
         _handleInput: function(state) {
             if (this.options.handler)
                 this.options.handler.call(this, state, (state == 'ok') ? this.getSettings() : undefined);
-
+            this._preventCloseCellEditor = (state == 'ok');
             this.close();
         },
 
@@ -160,7 +162,7 @@ define([
                     argtype = props.asc_getArgumentsType(),
                     argcount = 0,
                     lasttype;
-                for (var i=0; i<argmax; i++) {
+                for (var i=0; i<argtype.length; i++) {
                     var type = (argtype[i]==undefined) ? lasttype : argtype[i],
                         types = [];
                     if (type==undefined) break;
@@ -194,8 +196,6 @@ define([
                         this.args[argcount].lblValue.text(' = '+ (argres && (argres.length>argcount) && argres[argcount]!==null ? argres[argcount] : this.args[argcount].argType));
                         argcount++;
                     }
-                    if (i>=argmin && (typeof type == 'object')) // show only one repeatable argument
-                        break;
                 }
                 this.scrollerY.update();
             }
@@ -229,7 +229,7 @@ define([
 
         close: function () {
             Common.UI.Window.prototype.close.call(this);
-            this.api.asc_closeCellEditor(true);
+            !this._preventCloseCellEditor && this.api.asc_closeCellEditor(true);
         },
 
         textTitle: 'Function Argumens',
