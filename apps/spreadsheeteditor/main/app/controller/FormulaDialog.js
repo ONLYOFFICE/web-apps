@@ -229,7 +229,7 @@ define([
                 console.log('show formula settings');
                 var me = this;
 
-                var name = props.name,
+                var name = props.asc_getName(),
                     descrarr = this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     funcprops = {
                         name: this.api.asc_getFormulaLocaleName(name),

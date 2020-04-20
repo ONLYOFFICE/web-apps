@@ -146,7 +146,7 @@ define([
 
             Common.UI.Window.prototype.hide.call(this);
 
-            !this._preventCloseCellEditor && this.api.asc_closeCellEditor();
+            !this._preventCloseCellEditor && this.api.asc_closeCellEditor(true);
         },
 
         onBtnClick: function (event) {
