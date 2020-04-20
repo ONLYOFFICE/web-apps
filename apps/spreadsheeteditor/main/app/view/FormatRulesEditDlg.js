@@ -122,14 +122,14 @@ define([
                     name: this.textValue,
                     type: Asc.c_oAscCFType.cellIs,
                     rules: [
-                        { name: this.textGreater, subtype: 0},
-                        { name: this.textGreaterEq, subtype: 1},
-                        { name: this.textLess, subtype: 2},
-                        { name: this.textLessEq, subtype: 3},
-                        { name: this.textEqual, subtype: 4},
-                        { name: this.textNotEqual, subtype: 5},
-                        { name: this.textBetween, subtype: 6},
-                        { name: this.textNotBetween, subtype: 7}
+                        { name: this.textGreater, subtype: Asc.c_oAscCFOperator.greaterThan},
+                        { name: this.textGreaterEq, subtype: Asc.c_oAscCFOperator.greaterThanOrEqual},
+                        { name: this.textLess, subtype: Asc.c_oAscCFOperator.lessThan},
+                        { name: this.textLessEq, subtype: Asc.c_oAscCFOperator.lessThanOrEqual},
+                        { name: this.textEqual, subtype: Asc.c_oAscCFOperator.equal},
+                        { name: this.textNotEqual, subtype: Asc.c_oAscCFOperator.notEqual},
+                        { name: this.textBetween, subtype: Asc.c_oAscCFOperator.between},
+                        { name: this.textNotBetween, subtype: Asc.c_oAscCFOperator.notBetween}
                     ]
                 },
                 {
@@ -170,16 +170,16 @@ define([
                     name: 'Date',
                     type: Asc.c_oAscCFType.timePeriod,
                     rules: [
-                        { name: 'Yesterday', subtype: 0},
-                        { name: 'Today', subtype: 1},
-                        { name: 'Tomorrow', subtype: 2},
-                        { name: 'In the last 7 days', subtype: 3},
-                        { name: 'Last week', subtype: 4},
-                        { name: 'This week', subtype: 5},
-                        { name: 'Next week', subtype: 6},
-                        { name: 'Last month', subtype: 7},
-                        { name: 'This month', subtype: 8},
-                        { name: 'Next month', subtype: 9}
+                        { name: 'Yesterday', subtype: Asc.c_oAscTimePeriod.yesterday},
+                        { name: 'Today', subtype: Asc.c_oAscTimePeriod.today},
+                        { name: 'Tomorrow', subtype: Asc.c_oAscTimePeriod.tomorrow},
+                        { name: 'In the last 7 days', subtype: Asc.c_oAscTimePeriod.last7Days},
+                        { name: 'Last week', subtype: Asc.c_oAscTimePeriod.lastWeek},
+                        { name: 'This week', subtype: Asc.c_oAscTimePeriod.thisWeek},
+                        { name: 'Next week', subtype: Asc.c_oAscTimePeriod.nextWeek},
+                        { name: 'Last month', subtype: Asc.c_oAscTimePeriod.lastMonth},
+                        { name: 'This month', subtype: Asc.c_oAscTimePeriod.thisMonth},
+                        { name: 'Next month', subtype: Asc.c_oAscTimePeriod.nextMonth}
                     ]
                 },
                 {
@@ -277,8 +277,9 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : []
+            }).on('selected', function(combo, record) {
+                me.setControls(me.cmbCategory.getValue(), record.value);
             });
-            // this.cmbRule.on('selected', _.bind(this.onRuleSelect, this));
 
             this.txtRange1 = new Common.UI.InputFieldBtn({
                 el          : $('#format-rules-edit-txt-r1'),
@@ -444,7 +445,27 @@ define([
 
         _setDefaults: function (props) {
             var type = props ? props.asc_getType() : this.type,
-                ruleType;
+                ruleType,
+                subtype = this.subtype;
+
+            if (props) {
+                var value;
+                switch (type) {
+                    case Asc.c_oAscCFType.containsText:
+                    case Asc.c_oAscCFType.notContainsText:
+                    case Asc.c_oAscCFType.beginsWith:
+                    case Asc.c_oAscCFType.endsWith:
+                        value = props.asc_getContainsText();
+                        this.txtRange1.setValue(value);
+                        break;
+                    case Asc.c_oAscCFType.timePeriod:
+                        subtype = props.asc_getTimePeriod();
+                        break;
+                    case Asc.c_oAscCFType.cellIs:
+                        subtype = props.asc_getOperator();
+                        break;
+                }
+            }
 
             var rec = this.ruleStore.findWhere({type: type});
             if (!rec) {
@@ -464,8 +485,6 @@ define([
                     ruleType = type;
                 } else {
                     // find by subtype
-                    // var subtype = (props) ? props.asc_getSubtype() : this.subtype;
-                    var subtype = this.subtype;
                     if ((subtype!==undefined) && rules && rules.findWhere({subtype: subtype})) {
                         ruleType = subtype;
                     }
@@ -485,7 +504,7 @@ define([
             }
         },
 
-        refreshRules: function(index, type) {
+        refreshRules: function(index, ruleType) {
             var rec = this.ruleStore.findWhere({index: index});
             if (rec) {
                 var rules = rec.get('rules'),
@@ -494,14 +513,17 @@ define([
                     cmbData.push({value: (rule.get('type')!==undefined) ? rule.get('type') : rule.get('subtype'), displayValue: rule.get('name')});
                 });
                 this.cmbRule.setData(cmbData);
-                (cmbData.length>0) && this.cmbRule.setValue((type!==undefined) ? type : cmbData[0].value);
+                (cmbData.length>0) && this.cmbRule.setValue((ruleType!==undefined) ? ruleType : cmbData[0].value);
             }
-            this.setControls(index);
+            this.setControls(index, this.cmbRule.getValue());
         },
 
-        setControls: function(index) {
+        setControls: function(category, rule) {
             var hasformat = this.$window.find('.hasformat');
-            hasformat.toggleClass('hidden', index>=7 && index<=10);
+            hasformat.toggleClass('hidden', category>=7 && category<=10);
+
+            this.txtRange1.setVisible(category==0 || category==3);
+            this.txtRange2.setVisible(category==0 && (rule == Asc.c_oAscCFOperator.between || rule == Asc.c_oAscCFOperator.notBetween));
         },
 
         onSelectData: function(cmp) {

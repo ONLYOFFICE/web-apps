@@ -1879,23 +1879,23 @@ define([
                         {
                             caption     : this.textGreater,
                             type        : Asc.c_oAscCFType.cellIs,
-                            value       : 0
+                            value       : Asc.c_oAscCFOperator.greaterThan
                         },
                         {
                             caption     : this.textLess,
                             type        : Asc.c_oAscCFType.cellIs,
-                            value       : 2
+                            value       : Asc.c_oAscCFOperator.lessThan
                         },
                         {
                             caption     : this.textEqual,
                             type        : Asc.c_oAscCFType.cellIs,
-                            value       : 4
+                            value       : Asc.c_oAscCFOperator.equal
                         },
                         {caption: '--'},
                         {
                             caption     : this.textBetween,
                             type        : Asc.c_oAscCFType.cellIs,
-                            value       : 6
+                            value       : Asc.c_oAscCFOperator.between
                         },
                         {
                             caption     : this.textTop10,
@@ -1921,16 +1921,16 @@ define([
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items: [
-                                    { caption: 'Yesterday',  type: Asc.c_oAscCFType.timePeriod,  value: 0 },
-                                    { caption: 'Today',  type: Asc.c_oAscCFType.timePeriod,  value: 1},
-                                    { caption: 'Tomorrow',  type: Asc.c_oAscCFType.timePeriod,  value: 2},
-                                    { caption: 'In the last 7 days',  type: Asc.c_oAscCFType.timePeriod,  value: 3},
-                                    { caption: 'Last week',  type: Asc.c_oAscCFType.timePeriod,  value: 4},
-                                    { caption: 'This week',  type: Asc.c_oAscCFType.timePeriod,  value: 5},
-                                    { caption: 'Next week',  type: Asc.c_oAscCFType.timePeriod,  value: 6},
-                                    { caption: 'Last month',  type: Asc.c_oAscCFType.timePeriod,  value: 7},
-                                    { caption: 'This month',  type: Asc.c_oAscCFType.timePeriod,  value: 8},
-                                    { caption: 'Next month',  type: Asc.c_oAscCFType.timePeriod,  value: 9}
+                                    { caption: 'Yesterday',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.yesterday },
+                                    { caption: 'Today',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.today},
+                                    { caption: 'Tomorrow',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.tomorrow},
+                                    { caption: 'In the last 7 days',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.last7Days},
+                                    { caption: 'Last week',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.lastWeek},
+                                    { caption: 'This week',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.thisWeek},
+                                    { caption: 'Next week',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.nextWeek},
+                                    { caption: 'Last month',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.lastMonth},
+                                    { caption: 'This month',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.thisMonth},
+                                    { caption: 'Next month',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.nextMonth}
                                 ]
                             })
                         },
