@@ -60,15 +60,20 @@ define([
 
             this.template = [
                 '<div class="box" style="height:' + (this.options.height-103) + 'px;">',
-                    '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px"></label>',
-                    '<div style="height: 220px; overflow: hidden;position: relative; margin-bottom: 8px;">',
-                    '<table cols="2" id="formula-wizard-tbl-args" style="width: 100%;">',
-                    '</table>',
+                    '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px;"></label>',
+                    '<div id="formula-wizard-panel-args" >',
+                        '<div style="height: 220px; overflow: hidden;position: relative; margin-bottom: 8px;">',
+                            '<table cols="3" id="formula-wizard-tbl-args" style="width: 100%;">',
+                            '</table>',
+                        '</div>',
                     '</div>',
-                    '<label id="formula-wizard-value" style="display: block;margin-bottom: 8px"></label>',
-                    '<label id="formula-wizard-arg-desc" style="display: block;margin-bottom: 8px"><b>Argument 1:</b> some argument description</label>',
-                    '<label id="formula-wizard-args" style="display: block;margin-bottom: 4px"></label>',
-                    '<label id="formula-wizard-desc" style="display: block;"></label>',
+                    '<div id="formula-wizard-panel-desc">',
+                        '<label id="formula-wizard-value" style="display: block;margin-bottom: 8px;"><b>Formula result:</b></label>',
+                        '<label id="formula-wizard-arg-desc" style="display: block;margin-bottom: 8px;"><b>Argument 1:</b> some argument description</label>',
+                        '<label id="formula-wizard-args" style="display: block;margin-bottom: 4px;"></label>',
+                        '<label id="formula-wizard-desc" style="display: block;margin-bottom: 8px;"></label>',
+                        '<label style="display: block;"><a id="formula-wizard-help" style="cursor: pointer;">'+ this.textHelp +'</a></label>',
+                    '</div>',
                 '</div>',
                 '<div class="separator horizontal"/>'
             ].join('');
@@ -104,12 +109,9 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
-            this.scrollerY = new Common.UI.Scroller({
-                el: $window.find('#formula-wizard-tbl-args').parent(),
-                minScrollbarLength  : 20,
-                alwaysVisibleY: true
-            });
-            this.scrollerY.scrollTop(0);
+            this.panelArgs = $window.find('#formula-wizard-panel-args');
+            this.tableArgs = $window.find('#formula-wizard-tbl-args').parent();
+            this.panelDesc = $window.find('#formula-wizard-panel-desc');
 
             this._preventCloseCellEditor = false;
 
@@ -138,28 +140,44 @@ define([
         },
 
         setSettings: function () {
+            var me = this;
             if (this.funcprops) {
                 var props = this.funcprops;
                 props.args ? $('#formula-wizard-args').html('<b>' + props.name + '</b>' + props.args) : $('#formula-wizard-args').addClass('hidden');
                 props.desc ? $('#formula-wizard-desc').text(props.desc) : $('#formula-wizard-desc').addClass('hidden');
-            }
-            if (this.props) {
-                var me = this;
+                props.name ? $('#formula-wizard-name').html('<b>' + this.textFunction + ': </b>' + props.name) : $('#formula-wizard-name').addClass('hidden');
 
+                this.$window.find('#formula-wizard-help').on('click', function (e) {
+                    // me.close();
+                    SSE.getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'Functions\/' + me.funcprops.origin.toLocaleLowerCase() + '.htm');
+                })
+            }
+            var height = this.panelDesc.outerHeight();
+            height = this.$window.find('.box').height() - height - 23;// #formula-wizard-name height
+            this.panelArgs.height(height);
+            height = parseInt((height-8)/30) * 30;
+            this.tableArgs.height(height);
+            this.scrollerY = new Common.UI.Scroller({
+                el: this.tableArgs,
+                minScrollbarLength  : 20,
+                alwaysVisibleY: true
+            });
+
+            if (this.props) {
                 // fill arguments
                 var props = this.props;
                 var result = props.asc_getFormulaResult();
                 $('#formula-wizard-value').html('<b>' + this.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
-                $('#formula-wizard-name').html('<b>' + this.textFunction + ': </b>' + props.name);
 
                 var tbl = this.$window.find('#formula-wizard-tbl-args');
-                var argtpl = '<tr><td colspan="2" style=""><label id="formula-wizard-lbl-name-arg{0}" class="input-label"></label></td></tr>' +
-                            '<tr><td style="padding-right: 10px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
-                            '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 150px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>';
+                var argtpl = '<tr><td style="padding-right: 10px;padding-bottom: 8px;vertical-align: middle;text-align: right;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width: 50px;white-space: nowrap;margin-top: 1px;"></div></td>' +
+                            '<td style="padding-right: 10px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
+                            '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>';
                 var argmin = props.asc_getArgumentMin(),
                     argmax = props.asc_getArgumentMax(),
                     argres = props.asc_getArgumentsResult(),
                     argtype = props.asc_getArgumentsType(),
+                    argval = props.asc_getArgumentsValue(),
                     argcount = 0,
                     lasttype;
                 for (var i=0; i<argtype.length; i++) {
@@ -176,28 +194,39 @@ define([
                         var div = $(Common.Utils.String.format(argtpl, argcount));
                         tbl.append(div);
                         var txt = new Common.UI.InputFieldBtn({
-                            el          : div.find('#formula-wizard-txt-arg'+argcount),
+                            el: div.find('#formula-wizard-txt-arg'+argcount),
+                            index: argcount,
+                            validateOnChange: true,
                             validateOnBlur: false
                         }).on('changed:after', function(input, newValue, oldValue, e) {
                             if (newValue == oldValue) return;
+                        }).on('changing', function(input, newValue, oldValue, e) {
+                            if (newValue == oldValue) return;
+                            var index = input.options.index,
+                                arg = me.args[index],
+                                res = me.api.asc_insertFormulaArgument(newValue, index, arg.argType);
+                            arg.lblValue.text(' = '+ (res!==null && res !==undefined ? res : arg.argTypeName));
                         });
+                        txt.setValue((argval[argcount]!==undefined && argval[argcount]!==null) ? argval[argcount] : '');
                         this.args.push({
                             index: argcount,
                             lblName: div.find('#formula-wizard-lbl-name-arg'+argcount),
                             lblValue: div.find('#formula-wizard-lbl-val-arg'+argcount),
                             argInput: txt,
                             argName: 'Argument ' + (argcount+1),
-                            argType: this.getArgType(types[j])
+                            argType: types[j],
+                            argTypeName: this.getArgType(types[j])
                         });
                         if (i<argmin)
                             this.args[argcount].lblName.html('<b>' + this.args[argcount].argName + '</b>');
                         else
                             this.args[argcount].lblName.html(this.args[argcount].argName);
-                        this.args[argcount].lblValue.text(' = '+ (argres && (argres.length>argcount) && argres[argcount]!==null ? argres[argcount] : this.args[argcount].argType));
+                        this.args[argcount].lblValue.text(' = '+ (argres && (argres.length>argcount) && argres[argcount]!==null ? argres[argcount] : this.args[argcount].argTypeName));
                         argcount++;
                     }
                 }
                 this.scrollerY.update();
+                this.scrollerY.scrollTop(0);
             }
         },
 
@@ -229,12 +258,13 @@ define([
 
         close: function () {
             Common.UI.Window.prototype.close.call(this);
-            !this._preventCloseCellEditor && this.api.asc_closeCellEditor(true);
+            this.api.asc_closeCellEditor(!this._preventCloseCellEditor);
         },
 
         textTitle: 'Function Argumens',
         textValue: 'Formula result',
-        textFunction: 'Function'
+        textFunction: 'Function',
+        textHelp: 'Help on this function'
 
     }, SSE.Views.FormulaWizard || {}))
 });
