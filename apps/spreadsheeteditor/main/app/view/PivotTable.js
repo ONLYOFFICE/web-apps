@@ -228,7 +228,7 @@ define([
 
                 this.btnRefreshPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-update-pivot',
+                    iconCls: 'toolbar__icon btn-update',
                     caption: this.txtRefresh,
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot]
