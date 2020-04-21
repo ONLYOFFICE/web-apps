@@ -216,7 +216,7 @@ Common.Utils = _.extend(new(function() {
         zoom: function() {return me.zoom;},
         topOffset: 0,
         innerWidth: function() {return me.innerWidth;},
-        innerHeight: function() {return me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top');}
+        innerHeight: function() {return me.innerHeight;}
     }
 })(), Common.Utils || {});
 

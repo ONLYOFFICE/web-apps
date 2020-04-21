@@ -219,14 +219,22 @@ define([
             }
         }
 
-        function _centre() {
+        function _readDocumetGeometry() {
             if (window.innerHeight == undefined) {
-                var main_width  = document.documentElement.offsetWidth;
-                var main_height = document.documentElement.offsetHeight;
+                var width  = document.documentElement.offsetWidth,
+                height = document.documentElement.offsetHeight;
             } else {
-                main_width  = Common.Utils.innerWidth();
-                main_height = Common.Utils.innerHeight();
+                width  = Common.Utils.innerWidth();
+                height = Common.Utils.innerHeight();
             }
+            height -= Common.Utils.InternalSettings.get('window-inactive-area-top');
+            return {width: width, height: height, top: Common.Utils.InternalSettings.get('window-inactive-area-top')};
+        }
+
+        function _centre() {
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
 
             if (this.initConfig.height == 'auto') {
                 var win_height = parseInt(this.$window.find('.body').css('height'));
@@ -245,17 +253,14 @@ define([
         }
 
         function _setVisible() {
-            if (window.innerHeight == undefined) {
-                var main_width  = document.documentElement.offsetWidth;
-                var main_height = document.documentElement.offsetHeight;
-            } else {
-                main_width  = Common.Utils.innerWidth();
-                main_height = Common.Utils.innerHeight();
-            }
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
 
             if (this.getLeft() + this.getWidth() > main_width)
                 this.$window.css('left', main_width - this.getWidth());
-            if (this.getTop() + this.getHeight() > main_height)
+            var _top = this.getTop() - main_geometry.top;
+            if (_top + this.getHeight() > main_height)
                 this.$window.css('top', main_height - this.getHeight());
         }
 
@@ -278,13 +283,9 @@ define([
             this.dragging.initx = event.pageX*zoom - this.getLeft();
             this.dragging.inity = event.pageY*zoom - this.getTop();
 
-            if (window.innerHeight == undefined) {
-                var main_width  = document.documentElement.offsetWidth;
-                var main_height = document.documentElement.offsetHeight;
-            } else {
-                main_width  = Common.Utils.innerWidth();
-                main_height = Common.Utils.innerHeight();
-            }
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
 
             this.dragging.maxx  = main_width - this.getWidth();
             this.dragging.maxy  = main_height - this.getHeight() + Common.Utils.InternalSettings.get('window-inactive-area-top');
@@ -345,9 +346,10 @@ define([
             this.resizing.inith = this.getHeight();
             this.resizing.type = [el.hasClass('left') ? -1 : (el.hasClass('right') ? 1 : 0), el.hasClass('top') ? -1 : (el.hasClass('bottom') ? 1 : 0)];
 
-            var main_width  = (window.innerHeight == undefined) ? document.documentElement.offsetWidth : Common.Utils.innerWidth(),
-                main_height = (window.innerHeight == undefined) ? document.documentElement.offsetHeight : Common.Utils.innerHeight(),
-                maxwidth = (this.initConfig.maxwidth) ? this.initConfig.maxwidth : main_width,
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
+            var maxwidth = (this.initConfig.maxwidth) ? this.initConfig.maxwidth : main_width,
                 maxheight = (this.initConfig.maxheight) ? this.initConfig.maxheight : main_height;
 
             this.resizing.minw  = this.initConfig.minwidth;
