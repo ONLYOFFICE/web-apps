@@ -6071,7 +6071,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .list-block ul:before,
 .container-edit-comment .list-block ul:before,
 .container-add-reply .list-block ul:before,
-.view-comment .list-block ul:before,
 .page-edit-comment .list-block ul:before,
 .page-add-reply .list-block ul:before,
 .page-edit-reply .list-block ul:before,
@@ -6080,7 +6079,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .list-block ul:after,
 .container-edit-comment .list-block ul:after,
 .container-add-reply .list-block ul:after,
-.view-comment .list-block ul:after,
 .page-edit-comment .list-block ul:after,
 .page-add-reply .list-block ul:after,
 .page-edit-reply .list-block ul:after {
@@ -6091,7 +6089,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .list-block .item-inner,
 .container-edit-comment .list-block .item-inner,
 .container-add-reply .list-block .item-inner,
-.view-comment .list-block .item-inner,
 .page-edit-comment .list-block .item-inner,
 .page-add-reply .list-block .item-inner,
 .page-edit-reply .list-block .item-inner {
@@ -6104,7 +6101,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .list-block .item-inner:after,
 .container-edit-comment .list-block .item-inner:after,
 .container-add-reply .list-block .item-inner:after,
-.view-comment .list-block .item-inner:after,
 .page-edit-comment .list-block .item-inner:after,
 .page-add-reply .list-block .item-inner:after,
 .page-edit-reply .list-block .item-inner:after {
@@ -6115,7 +6111,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments p,
 .container-edit-comment p,
 .container-add-reply p,
-.view-comment p,
 .page-edit-comment p,
 .page-add-reply p,
 .page-edit-reply p {
@@ -6127,7 +6122,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .list-reply,
 .container-edit-comment .list-reply,
 .container-add-reply .list-reply,
-.view-comment .list-reply,
 .page-edit-comment .list-reply,
 .page-add-reply .list-reply,
 .page-edit-reply .list-reply {
@@ -6138,7 +6132,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-textarea,
 .container-edit-comment .reply-textarea,
 .container-add-reply .reply-textarea,
-.view-comment .reply-textarea,
 .page-edit-comment .reply-textarea,
 .page-add-reply .reply-textarea,
 .page-edit-reply .reply-textarea,
@@ -6147,7 +6140,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .comment-textarea,
 .container-edit-comment .comment-textarea,
 .container-add-reply .comment-textarea,
-.view-comment .comment-textarea,
 .page-edit-comment .comment-textarea,
 .page-add-reply .comment-textarea,
 .page-edit-reply .comment-textarea,
@@ -6156,7 +6148,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .edit-reply-textarea,
 .container-edit-comment .edit-reply-textarea,
 .container-add-reply .edit-reply-textarea,
-.view-comment .edit-reply-textarea,
 .page-edit-comment .edit-reply-textarea,
 .page-add-reply .edit-reply-textarea,
 .page-edit-reply .edit-reply-textarea {
@@ -6167,7 +6158,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .user-name,
 .container-edit-comment .user-name,
 .container-add-reply .user-name,
-.view-comment .user-name,
 .page-edit-comment .user-name,
 .page-add-reply .user-name,
 .page-edit-reply .user-name {
@@ -6181,7 +6171,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .comment-date,
 .container-edit-comment .comment-date,
 .container-add-reply .comment-date,
-.view-comment .comment-date,
 .page-edit-comment .comment-date,
 .page-add-reply .comment-date,
 .page-edit-reply .comment-date,
@@ -6190,7 +6179,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-date,
 .container-edit-comment .reply-date,
 .container-add-reply .reply-date,
-.view-comment .reply-date,
 .page-edit-comment .reply-date,
 .page-add-reply .reply-date,
 .page-edit-reply .reply-date {
@@ -6205,7 +6193,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .comment-text,
 .container-edit-comment .comment-text,
 .container-add-reply .comment-text,
-.view-comment .comment-text,
 .page-edit-comment .comment-text,
 .page-add-reply .comment-text,
 .page-edit-reply .comment-text,
@@ -6214,7 +6201,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-text,
 .container-edit-comment .reply-text,
 .container-add-reply .reply-text,
-.view-comment .reply-text,
 .page-edit-comment .reply-text,
 .page-add-reply .reply-text,
 .page-edit-reply .reply-text {
@@ -6230,7 +6216,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-item,
 .container-edit-comment .reply-item,
 .container-add-reply .reply-item,
-.view-comment .reply-item,
 .page-edit-comment .reply-item,
 .page-add-reply .reply-item,
 .page-edit-reply .reply-item {
@@ -6242,7 +6227,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-item .header-reply,
 .container-edit-comment .reply-item .header-reply,
 .container-add-reply .reply-item .header-reply,
-.view-comment .reply-item .header-reply,
 .page-edit-comment .reply-item .header-reply,
 .page-add-reply .reply-item .header-reply,
 .page-edit-reply .reply-item .header-reply {
@@ -6254,7 +6238,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-item .user-name,
 .container-edit-comment .reply-item .user-name,
 .container-add-reply .reply-item .user-name,
-.view-comment .reply-item .user-name,
 .page-edit-comment .reply-item .user-name,
 .page-add-reply .reply-item .user-name,
 .page-edit-reply .reply-item .user-name {
@@ -6265,7 +6248,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .comment-quote,
 .container-edit-comment .comment-quote,
 .container-add-reply .comment-quote,
-.view-comment .comment-quote,
 .page-edit-comment .comment-quote,
 .page-add-reply .comment-quote,
 .page-edit-reply .comment-quote {
@@ -6280,7 +6262,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .wrap-comment,
 .container-edit-comment .wrap-comment,
 .container-add-reply .wrap-comment,
-.view-comment .wrap-comment,
 .page-edit-comment .wrap-comment,
 .page-add-reply .wrap-comment,
 .page-edit-reply .wrap-comment,
@@ -6289,7 +6270,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .wrap-reply,
 .container-edit-comment .wrap-reply,
 .container-add-reply .wrap-reply,
-.view-comment .wrap-reply,
 .page-edit-comment .wrap-reply,
 .page-add-reply .wrap-reply,
 .page-edit-reply .wrap-reply {
@@ -6300,7 +6280,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .comment-textarea,
 .container-edit-comment .comment-textarea,
 .container-add-reply .comment-textarea,
-.view-comment .comment-textarea,
 .page-edit-comment .comment-textarea,
 .page-add-reply .comment-textarea,
 .page-edit-reply .comment-textarea,
@@ -6309,7 +6288,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .reply-textarea,
 .container-edit-comment .reply-textarea,
 .container-add-reply .reply-textarea,
-.view-comment .reply-textarea,
 .page-edit-comment .reply-textarea,
 .page-add-reply .reply-textarea,
 .page-edit-reply .reply-textarea,
@@ -6318,7 +6296,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .edit-reply-textarea,
 .container-edit-comment .edit-reply-textarea,
 .container-add-reply .edit-reply-textarea,
-.view-comment .edit-reply-textarea,
 .page-edit-comment .edit-reply-textarea,
 .page-add-reply .edit-reply-textarea,
 .page-edit-reply .edit-reply-textarea {
@@ -6336,7 +6313,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-comment,
 .container-edit-comment .header-comment,
 .container-add-reply .header-comment,
-.view-comment .header-comment,
 .page-edit-comment .header-comment,
 .page-add-reply .header-comment,
 .page-edit-reply .header-comment {
@@ -6349,7 +6325,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-comment .comment-right,
 .container-edit-comment .header-comment .comment-right,
 .container-add-reply .header-comment .comment-right,
-.view-comment .header-comment .comment-right,
 .page-edit-comment .header-comment .comment-right,
 .page-add-reply .header-comment .comment-right,
 .page-edit-reply .header-comment .comment-right {
@@ -6362,7 +6337,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-comment .comment-left,
 .container-edit-comment .header-comment .comment-left,
 .container-add-reply .header-comment .comment-left,
-.view-comment .header-comment .comment-left,
 .page-edit-comment .header-comment .comment-left,
 .page-add-reply .header-comment .comment-left,
 .page-edit-reply .header-comment .comment-left {
@@ -6374,7 +6348,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-comment .initials-comment,
 .container-edit-comment .header-comment .initials-comment,
 .container-add-reply .header-comment .initials-comment,
-.view-comment .header-comment .initials-comment,
 .page-edit-comment .header-comment .initials-comment,
 .page-add-reply .header-comment .initials-comment,
 .page-edit-reply .header-comment .initials-comment {
@@ -6393,7 +6366,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-reply .reply-left,
 .container-edit-comment .header-reply .reply-left,
 .container-add-reply .header-reply .reply-left,
-.view-comment .header-reply .reply-left,
 .page-edit-comment .header-reply .reply-left,
 .page-add-reply .header-reply .reply-left,
 .page-edit-reply .header-reply .reply-left {
@@ -6406,7 +6378,6 @@ html.phone .document-menu .list-block .item-link {
 .page-view-comments .header-reply .initials-reply,
 .container-edit-comment .header-reply .initials-reply,
 .container-add-reply .header-reply .initials-reply,
-.view-comment .header-reply .initials-reply,
 .page-edit-comment .header-reply .initials-reply,
 .page-add-reply .header-reply .initials-reply,
 .page-edit-reply .header-reply .initials-reply {
@@ -6439,22 +6410,17 @@ html.phone .document-menu .list-block .item-link {
   height: 50%;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
 }
-.container-view-comment .page-view-comments,
-.container-view-comment .view-comment {
+.container-view-comment .page-view-comments {
   background-color: #FFFFFF;
 }
-.container-view-comment .page-view-comments .list-block,
-.container-view-comment .view-comment .list-block {
+.container-view-comment .page-view-comments .list-block {
   margin-bottom: 120px;
 }
 .container-view-comment .page-view-comments .list-block ul:before,
-.container-view-comment .view-comment .list-block ul:before,
-.container-view-comment .page-view-comments .list-block ul:after,
-.container-view-comment .view-comment .list-block ul:after {
+.container-view-comment .page-view-comments .list-block ul:after {
   content: none;
 }
-.container-view-comment .page-view-comments .list-block .item-inner,
-.container-view-comment .view-comment .list-block .item-inner {
+.container-view-comment .page-view-comments .list-block .item-inner {
   padding: 0;
 }
 .container-view-comment .toolbar {
@@ -6517,34 +6483,37 @@ html.phone .document-menu .list-block .item-link {
 .container-view-comment.popover .toolbar .toolbar-inner {
   padding-right: 0;
 }
-.container-view-comment.popover .page {
+.container-view-comment.popover .pages {
+  position: absolute;
+}
+.container-view-comment.popover .pages .page {
   border-radius: 13px;
 }
-.container-view-comment.popover .page .page-content {
+.container-view-comment.popover .pages .page .page-content {
   padding: 16px;
   padding-bottom: 80px;
 }
-.container-view-comment.popover .page .page-content .list-block {
+.container-view-comment.popover .pages .page .page-content .list-block {
   margin-bottom: 0px;
 }
-.container-view-comment.popover .page .page-content .list-block .item-content {
+.container-view-comment.popover .pages .page .page-content .list-block .item-content {
   padding-left: 0;
 }
-.container-view-comment.popover .page .page-content .list-block .item-content .header-comment,
-.container-view-comment.popover .page .page-content .list-block .item-content .reply-item {
+.container-view-comment.popover .pages .page .page-content .list-block .item-content .header-comment,
+.container-view-comment.popover .pages .page .page-content .list-block .item-content .reply-item {
   padding-right: 0;
 }
-.container-view-comment.popover .page .page-content .block-reply {
+.container-view-comment.popover .pages .page .page-content .block-reply {
   margin-top: 10px;
 }
-.container-view-comment.popover .page .page-content .block-reply .reply-textarea {
+.container-view-comment.popover .pages .page .page-content .block-reply .reply-textarea {
   min-height: 70px;
   width: 278px;
   border: 1px solid #c4c4c4;
   border-radius: 6px;
   padding: 5px;
 }
-.container-view-comment.popover .page .page-content .edit-reply-textarea {
+.container-view-comment.popover .pages .page .page-content .edit-reply-textarea {
   min-height: 60px;
   width: 100%;
   border: 1px solid #c4c4c4;
@@ -6553,10 +6522,10 @@ html.phone .document-menu .list-block .item-link {
   height: 60px;
   margin-top: 10px;
 }
-.container-view-comment.popover .page .page-content .comment-text {
+.container-view-comment.popover .pages .page .page-content .comment-text {
   padding-right: 0;
 }
-.container-view-comment.popover .page .page-content .comment-text .comment-textarea {
+.container-view-comment.popover .pages .page .page-content .comment-text .comment-textarea {
   border: 1px solid #c4c4c4;
   border-radius: 6px;
   padding: 8px;

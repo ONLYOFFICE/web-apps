@@ -92,7 +92,7 @@
 }
 
 //Comments
-.page-comments, .add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .view-comment, .page-edit-comment, .page-add-reply, .page-edit-reply {
+.page-comments, .add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .page-edit-comment, .page-add-reply, .page-edit-reply {
   .header-comment {
     display: flex;
     justify-content: space-between;
@@ -215,7 +215,7 @@
   .pages {
     background-color: #FFFFFF;
   }
-  .page-view-comments, .view-comment {
+  .page-view-comments {
     background-color: #FFFFFF;
     .list-block {
       margin-bottom: 100px;
@@ -282,54 +282,60 @@
       }
     }
 
-    .page {
-      border-radius: 13px;
-      .page-content {
-        padding: 16px;
-        padding-bottom: 80px;
+    .pages {
+      position: absolute;
 
-        .list-block {
-          margin-bottom: 0px;
+      .page {
+        border-radius: 13px;
 
-          .item-content {
-            padding-left: 0;
+        .page-content {
+          padding: 16px;
+          padding-bottom: 80px;
 
-            .header-comment, .reply-item {
-              padding-right: 0;
+          .list-block {
+            margin-bottom: 0px;
+
+            .item-content {
+              padding-left: 0;
+
+              .header-comment, .reply-item {
+                padding-right: 0;
+              }
             }
           }
-        }
 
-        .block-reply {
-          margin-top: 10px;
-          .reply-textarea {
-            min-height: 70px;
-            width: 278px;
+          .block-reply {
+            margin-top: 10px;
+
+            .reply-textarea {
+              min-height: 70px;
+              width: 278px;
+              border: 1px solid #c4c4c4;
+              border-radius: 6px;
+              padding: 5px;
+            }
+          }
+
+          .edit-reply-textarea {
+            min-height: 60px;
+            width: 100%;
             border: 1px solid #c4c4c4;
             border-radius: 6px;
             padding: 5px;
+            height: 60px;
+            margin-top: 10px;
           }
-        }
 
-        .edit-reply-textarea {
-          min-height: 60px;
-          width: 100%;
-          border: 1px solid #c4c4c4;
-          border-radius: 6px;
-          padding: 5px;
-          height: 60px;
-          margin-top: 10px;
-        }
+          .comment-text {
+            padding-right: 0;
 
-        .comment-text {
-          padding-right: 0;
-
-          .comment-textarea {
-            border: 1px solid #c4c4c4;
-            border-radius: 6px;
-            padding: 8px;
-            min-height: 80px;
-            height: 80px;
+            .comment-textarea {
+              border: 1px solid #c4c4c4;
+              border-radius: 6px;
+              padding: 8px;
+              min-height: 80px;
+              height: 80px;
+            }
           }
         }
       }

@@ -90,7 +90,7 @@
 }
 
 //Comments
-.page-comments, .page-add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .view-comment, .page-edit-comment, .page-add-reply, .page-edit-reply {
+.page-comments, .page-add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .page-edit-comment, .page-add-reply, .page-edit-reply {
   .list-block {
     ul {
       &:before, &:after {
@@ -236,7 +236,7 @@
   border-top-right-radius: 4px;
   height: 50%;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
-  .page-view-comments, .view-comment {
+  .page-view-comments {
     background-color: #FFFFFF;
     .list-block {
       margin-bottom: 120px;
@@ -312,54 +312,60 @@
       }
     }
 
-    .page {
-      border-radius: 13px;
-      .page-content {
-        padding: 16px;
-        padding-bottom: 80px;
+    .pages {
+      position: absolute;
 
-        .list-block {
-          margin-bottom: 0px;
+      .page {
+        border-radius: 13px;
 
-          .item-content {
-            padding-left: 0;
+        .page-content {
+          padding: 16px;
+          padding-bottom: 80px;
 
-            .header-comment, .reply-item {
-              padding-right: 0;
+          .list-block {
+            margin-bottom: 0px;
+
+            .item-content {
+              padding-left: 0;
+
+              .header-comment, .reply-item {
+                padding-right: 0;
+              }
             }
           }
-        }
 
-        .block-reply {
-          margin-top: 10px;
-          .reply-textarea {
-            min-height: 70px;
-            width: 278px;
+          .block-reply {
+            margin-top: 10px;
+
+            .reply-textarea {
+              min-height: 70px;
+              width: 278px;
+              border: 1px solid #c4c4c4;
+              border-radius: 6px;
+              padding: 5px;
+            }
+          }
+
+          .edit-reply-textarea {
+            min-height: 60px;
+            width: 100%;
             border: 1px solid #c4c4c4;
             border-radius: 6px;
             padding: 5px;
+            height: 60px;
+            margin-top: 10px;
           }
-        }
 
-        .edit-reply-textarea {
-          min-height: 60px;
-          width: 100%;
-          border: 1px solid #c4c4c4;
-          border-radius: 6px;
-          padding: 5px;
-          height: 60px;
-          margin-top: 10px;
-        }
+          .comment-text {
+            padding-right: 0;
 
-        .comment-text {
-          padding-right: 0;
-
-          .comment-textarea {
-            border: 1px solid #c4c4c4;
-            border-radius: 6px;
-            padding: 8px;
-            min-height: 80px;
-            height: 80px;
+            .comment-textarea {
+              border: 1px solid #c4c4c4;
+              border-radius: 6px;
+              padding: 8px;
+              min-height: 80px;
+              height: 80px;
+            }
           }
         }
       }
