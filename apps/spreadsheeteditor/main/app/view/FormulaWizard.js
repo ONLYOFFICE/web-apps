@@ -82,9 +82,12 @@ define([
             this.props = this.options.props;
             this.funcprops = this.options.funcprops;
             this.api = this.options.api;
+            this.lang = this.options.lang;
+
             this._noApply = false;
             this.args = [];
             this.repeatedArg = undefined;
+            this.helpUrl = undefined;
             this.minArgCount = 1;
             this.maxArgCount = 1;
 
@@ -138,8 +141,7 @@ define([
                 props.name ? $('#formula-wizard-name').html('<b>' + this.textFunction + ': </b>' + props.name) : $('#formula-wizard-name').addClass('hidden');
 
                 this.$window.find('#formula-wizard-help').on('click', function (e) {
-                    // me.close();
-                    SSE.getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'Functions\/' + me.funcprops.origin.toLocaleLowerCase() + '.htm');
+                    me.showHelp();
                 })
             }
             var height = this.panelDesc.outerHeight();
@@ -310,6 +312,37 @@ define([
                     range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',
                     type    : Asc.c_oAscSelectionDialogType.Chart
                 });
+            }
+        },
+
+        showHelp: function() {
+            if (this.helpUrl==undefined) {
+                if (!this.funcprops || !this.funcprops.origin) {
+                    this.helpUrl = null;
+                    return;
+                }
+                var me = this,
+                    lang = (this.lang) ? this.lang.split(/[\-\_]/)[0] : 'en',
+                    url = 'resources/help/' + lang + '/Functions/' + (this.funcprops.origin.toLocaleLowerCase()) + '.htm';
+
+                fetch(url).then(function(response){
+                    if ( response.ok ) {
+                        me.helpUrl = url;
+                        me.showHelp();
+                    } else {
+                        url = 'resources/help/en/Functions/' + (me.funcprops.origin.toLocaleLowerCase()) + '.htm';
+                        fetch(url).then(function(response){
+                            if ( response.ok ) {
+                                me.helpUrl = url;
+                                me.showHelp();
+                            } else {
+                                me.helpUrl = null;
+                            }
+                        });
+                    }
+                });
+            } else if (this.helpUrl) {
+                window.open(this.helpUrl);
             }
         },
 

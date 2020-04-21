@@ -240,6 +240,7 @@ define([
 
                 (new SSE.Views.FormulaWizard({
                     api     : this.api,
+                    lang    : this.appOptions.lang,
                     funcprops: funcprops,
                     props   : props,
                     handler : function(dlg, result, settings) {
