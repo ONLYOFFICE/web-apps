@@ -61,15 +61,15 @@ define([
             this.template = [
                 '<div class="box" style="height:' + (this.options.height-103) + 'px;">',
                     '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px;"></label>',
-                    '<div id="formula-wizard-panel-args" >',
-                        '<div style="height: 220px; overflow: hidden;position: relative; margin-bottom: 8px;">',
+                    '<div id="formula-wizard-panel-args" style="border-bottom: 1px solid #cbcbcb;margin-bottom: 10px;">',
+                        '<div style="height: 220px; overflow: hidden;position: relative;">',
                             '<table cols="3" id="formula-wizard-tbl-args" style="width: 100%;">',
                             '</table>',
                         '</div>',
                     '</div>',
                     '<div id="formula-wizard-panel-desc">',
                         '<label id="formula-wizard-value" style="display: block;margin-bottom: 8px;"><b>Formula result:</b></label>',
-                        '<label id="formula-wizard-arg-desc" style="display: block;margin-bottom: 8px;"><b>Argument 1:</b> some argument description</label>',
+                        '<label id="formula-wizard-arg-desc" style="display: block;margin-bottom: 8px;"><b>Argument 1:</b></label>',
                         '<label id="formula-wizard-args" style="display: block;margin-bottom: 4px;"></label>',
                         '<label id="formula-wizard-desc" style="display: block;margin-bottom: 8px;"></label>',
                         '<label style="display: block;"><a id="formula-wizard-help" style="cursor: pointer;">'+ this.textHelp +'</a></label>',
@@ -84,6 +84,9 @@ define([
             this.api = this.options.api;
             this._noApply = false;
             this.args = [];
+            this.repeatedArg = undefined;
+            this.minArgCount = 1;
+            this.maxArgCount = 1;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -91,27 +94,14 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
-            this.txtArg1 = new Common.UI.InputFieldBtn({
-                el          : $('#formula-wizard-txt-arg1'),
-                style       : 'width: 100%;',
-                allowBlank  : true,
-                validateOnChange: false
-            });
-
-            this.txtArg2 = new Common.UI.InputFieldBtn({
-                el          : $('#formula-wizard-txt-arg2'),
-                style       : 'width: 100%;',
-                allowBlank  : true,
-                validateOnChange: false
-            });
-
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
             this.panelArgs = $window.find('#formula-wizard-panel-args');
-            this.tableArgs = $window.find('#formula-wizard-tbl-args').parent();
+            this.tableArgs = $window.find('#formula-wizard-tbl-args');
             this.panelDesc = $window.find('#formula-wizard-panel-desc');
+            this.lblArgDesc = $window.find('#formula-wizard-arg-desc');
 
             this._preventCloseCellEditor = false;
 
@@ -153,12 +143,12 @@ define([
                 })
             }
             var height = this.panelDesc.outerHeight();
-            height = this.$window.find('.box').height() - height - 23;// #formula-wizard-name height
+            height = this.$window.find('.box').height() - height - 33;// #formula-wizard-name height
             this.panelArgs.height(height);
             height = parseInt((height-8)/30) * 30;
-            this.tableArgs.height(height);
+            this.tableArgs.parent().height(height);
             this.scrollerY = new Common.UI.Scroller({
-                el: this.tableArgs,
+                el: this.tableArgs.parent(),
                 minScrollbarLength  : 20,
                 alwaysVisibleY: true
             });
@@ -166,68 +156,101 @@ define([
             if (this.props) {
                 // fill arguments
                 var props = this.props;
+                this.minArgCount = props.asc_getArgumentMin();
+                this.maxArgCount = props.asc_getArgumentMax();
+
                 var result = props.asc_getFormulaResult();
                 $('#formula-wizard-value').html('<b>' + this.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
 
-                var tbl = this.$window.find('#formula-wizard-tbl-args');
-                var argtpl = '<tr><td style="padding-right: 10px;padding-bottom: 8px;vertical-align: middle;text-align: right;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width: 50px;white-space: nowrap;margin-top: 1px;"></div></td>' +
-                            '<td style="padding-right: 10px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
-                            '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>';
-                var argmin = props.asc_getArgumentMin(),
-                    argmax = props.asc_getArgumentMax(),
-                    argres = props.asc_getArgumentsResult(),
+                var argres = props.asc_getArgumentsResult(),
                     argtype = props.asc_getArgumentsType(),
-                    argval = props.asc_getArgumentsValue(),
-                    argcount = 0,
-                    lasttype;
-                for (var i=0; i<argtype.length; i++) {
-                    var type = (argtype[i]==undefined) ? lasttype : argtype[i],
-                        types = [];
-                    if (type==undefined) break;
-                    lasttype = type;
+                    argval = props.asc_getArgumentsValue();
 
-                    if (typeof type == 'object')
-                        types = type;
-                    else
-                        types.push(type);
-                    for (var j=0; j<types.length; j++) {
-                        var div = $(Common.Utils.String.format(argtpl, argcount));
-                        tbl.append(div);
-                        var txt = new Common.UI.InputFieldBtn({
-                            el: div.find('#formula-wizard-txt-arg'+argcount),
-                            index: argcount,
-                            validateOnChange: true,
-                            validateOnBlur: false
-                        }).on('changed:after', function(input, newValue, oldValue, e) {
-                            if (newValue == oldValue) return;
-                        }).on('changing', function(input, newValue, oldValue, e) {
-                            if (newValue == oldValue) return;
-                            var index = input.options.index,
-                                arg = me.args[index],
-                                res = me.api.asc_insertFormulaArgument(newValue, index, arg.argType);
-                            arg.lblValue.text(' = '+ (res!==null && res !==undefined ? res : arg.argTypeName));
-                        });
-                        txt.setValue((argval[argcount]!==undefined && argval[argcount]!==null) ? argval[argcount] : '');
-                        this.args.push({
-                            index: argcount,
-                            lblName: div.find('#formula-wizard-lbl-name-arg'+argcount),
-                            lblValue: div.find('#formula-wizard-lbl-val-arg'+argcount),
-                            argInput: txt,
-                            argName: 'Argument ' + (argcount+1),
-                            argType: types[j],
-                            argTypeName: this.getArgType(types[j])
-                        });
-                        if (i<argmin)
-                            this.args[argcount].lblName.html('<b>' + this.args[argcount].argName + '</b>');
-                        else
-                            this.args[argcount].lblName.html(this.args[argcount].argName);
-                        this.args[argcount].lblValue.text(' = '+ (argres && (argres.length>argcount) && argres[argcount]!==null ? argres[argcount] : this.args[argcount].argTypeName));
-                        argcount++;
+                if (argtype) {
+                    for (var i=0; i<argtype.length; i++) {
+                        var type = argtype[i],
+                            types = [];
+
+                        if (typeof type == 'object') {
+                            this.repeatedArg = type;
+                            types = type;
+                        } else
+                            types.push(type);
+                        this.fillArgs(types, argval, argres);
                     }
+                    if (argval && this.args.length<argval.length && this.repeatedArg) { // add repeated
+                        while (this.args.length<argval.length) {
+                            this.fillArgs(this.repeatedArg, argval, argres);
+                        }
+                    }
+                    this.scrollerY.update();
+                    this.scrollerY.scrollTop(0);
                 }
-                this.scrollerY.update();
-                this.scrollerY.scrollTop(0);
             }
+            if (this.args.length<1) {
+                this.panelArgs.text('This function has no arguments');
+                this.lblArgDesc.addClass('hidden');
+            } else {
+                if (this.args.length==1 && this.repeatedArg && this.repeatedArg.length<this.maxArgCount) {// add new repeated arguments
+                    this.fillArgs(this.repeatedArg);
+                    this.scrollerY.update();
+                }
+
+                _.delay(function(){
+                    me._noApply = true;
+                    me.args[0].argInput.cmpEl.find('input').focus();
+                    me._noApply = false;
+                },100);
+            }
+        },
+
+        fillArgs: function (types, argval, argres) {
+            var argcount = this.args.length;
+            for (var j=0; j<types.length; j++)
+                this.setControls(argcount, types[j], argval ? argval[argcount] : undefined, argres ? argres[argcount] : undefined);
+        },
+
+        setControls: function(argcount, argtype, argval, argres) {
+            var me = this,
+                argtpl = '<tr><td style="padding-right: 10px;padding-bottom: 8px;vertical-align: middle;text-align: right;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width: 50px;white-space: nowrap;margin-top: 1px;"></div></td>' +
+                        '<td style="padding-right: 10px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
+                        '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>',
+                div = $(Common.Utils.String.format(argtpl, argcount));
+            this.tableArgs.append(div);
+
+            var txt = new Common.UI.InputFieldBtn({
+                el: div.find('#formula-wizard-txt-arg'+argcount),
+                index: argcount,
+                validateOnChange: true,
+                validateOnBlur: false
+            }).on('changed:after', function(input, newValue, oldValue, e) {
+                if (newValue == oldValue) return;
+            }).on('changing', function(input, newValue, oldValue, e) {
+                if (newValue == oldValue) return;
+                var index = input.options.index,
+                    arg = me.args[index],
+                    res = me.api.asc_insertFormulaArgument(newValue, index, arg.argType);
+                arg.lblValue.text(' = '+ (res!==null && res !==undefined ? res : arg.argTypeName));
+            });
+            txt.setValue((argval!==undefined && argval!==null) ? argval : '');
+            txt._input.on('focus', _.bind(this.onSelectArgument, this, txt));
+            txt.on('button:click', _.bind(this.onSelectData, this));
+
+            me.args.push({
+                index: argcount,
+                lblName: div.find('#formula-wizard-lbl-name-arg'+argcount),
+                lblValue: div.find('#formula-wizard-lbl-val-arg'+argcount),
+                argInput: txt,
+                argName: 'Argument ' + (argcount+1),
+                argDesc: 'some argument description',
+                argType: argtype,
+                argTypeName: me.getArgType(argtype)
+            });
+            if (argcount<me.minArgCount)
+                me.args[argcount].lblName.html('<b>' + me.args[argcount].argName + '</b>');
+            else
+                me.args[argcount].lblName.html(me.args[argcount].argName);
+            me.args[argcount].lblValue.text(' = '+ ( argres!==null && argres!==undefined ? argres : me.args[argcount].argTypeName));
         },
 
         getArgType: function(type) {
@@ -250,6 +273,44 @@ define([
                     break;
             }
             return str;
+        },
+
+        onSelectArgument: function(input) {
+            var index = input.options.index,
+                arg = this.args[index];
+            arg.argDesc ? this.lblArgDesc.html('<b>' + arg.argName + ': </b>' + arg.argDesc) : this.lblArgDesc.addClass('hidden');
+            if (!this._noApply && index==this.args.length-1 && this.repeatedArg && index+this.repeatedArg.length<this.maxArgCount) {// add new repeated arguments
+                this.fillArgs(this.repeatedArg);
+                this.scrollerY.update();
+            }
+        },
+
+        onSelectData: function(input) {
+            this.onSelectArgument(input);
+
+            var me = this;
+            if (me.api) {
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        input.setValue(dlg.getSettings());
+                    }
+                };
+
+                var win = new SSE.Views.CellRangeDialog({
+                    handler: handlerDlg
+                }).on('close', function() {
+                    me.show();
+                });
+
+                var xy = me.$window.offset();
+                me.hide();
+                win.show(xy.left + 65, xy.top + 77);
+                win.setSettings({
+                    api     : me.api,
+                    range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',
+                    type    : Asc.c_oAscSelectionDialogType.Chart
+                });
+            }
         },
 
         getSettings: function() {
