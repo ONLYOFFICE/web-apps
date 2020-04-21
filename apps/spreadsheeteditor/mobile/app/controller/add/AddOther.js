@@ -198,7 +198,7 @@ define([
 
             textEmptyImgUrl : 'You need to specify image URL.',
             txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
-            textDeleteDraft: 'Delete draft?',
+            textDeleteDraft: 'Do you really want to delete draft?',
             textCancel: 'Cancel',
             textContinue: 'Continue'
         }

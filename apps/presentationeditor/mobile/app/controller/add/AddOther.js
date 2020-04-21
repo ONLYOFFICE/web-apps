@@ -156,7 +156,7 @@ define([
                 }
             },
 
-            textDeleteDraft: 'Delete draft?',
+            textDeleteDraft: 'Do you really want to delete draft?',
             textCancel: 'Cancel',
             textContinue: 'Continue'
 

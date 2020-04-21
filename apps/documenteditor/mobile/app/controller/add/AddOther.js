@@ -455,7 +455,7 @@ define([
             txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
             textBottomOfPage: 'Bottom Of Page',
             textBelowText: 'Below Text',
-            textDeleteDraft: 'Delete draft?',
+            textDeleteDraft: 'Do you really want to delete draft?',
             textCancel: 'Cancel',
             textContinue: 'Continue'
 

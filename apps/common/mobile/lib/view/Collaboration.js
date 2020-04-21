@@ -440,11 +440,11 @@ define([
             textOriginal: 'Original',
             textChange: 'Review Change',
             textEditUsers: 'Users',
-            textNoComments: "This document doesn\'t contain comments",
-            textEditСomment: "Edit Comment",
-            textDone: "Done",
-            textAddReply: "Add Reply",
-            textEditReply: "Edit Reply",
+            textNoComments: 'This document doesn\'t contain comments',
+            textEditСomment: 'Edit Comment',
+            textDone: 'Done',
+            textAddReply: 'Add Reply',
+            textEditReply: 'Edit Reply',
             textCancel: 'Cancel'
         }
     })(), Common.Views.Collaboration || {}))
