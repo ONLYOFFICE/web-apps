@@ -133,7 +133,7 @@ define([
 
                 this.btnContentsUpdate = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-contents-update',
+                    iconCls: 'toolbar__icon btn-update',
                     caption: this.capBtnContentsUpdate,
                     split: true,
                     menu: true,
