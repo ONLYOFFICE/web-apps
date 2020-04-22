@@ -901,3 +901,20 @@ Common.Utils.InternalSettings.set('window-inactive-area-top', 0);
 
 Common.Utils.InternalSettings.set('toolbar-height-compact', Common.Utils.InternalSettings.get('toolbar-height-tabs'));
 Common.Utils.InternalSettings.set('toolbar-height-normal', Common.Utils.InternalSettings.get('toolbar-height-tabs') + Common.Utils.InternalSettings.get('toolbar-height-controls'));
+
+Common.Utils.ModalWindow = new(function() {
+    var count = 0;
+    return {
+        show: function() {
+            count++;
+        },
+
+        close: function() {
+            count--;
+        },
+
+        isVisible: function() {
+            return count>0;
+        }
+    }
+})();
