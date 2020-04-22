@@ -317,7 +317,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',
-                    type    : Asc.c_oAscSelectionDialogType.Chart
+                    type    : Asc.c_oAscSelectionDialogType.FunctionWizard
                 });
             }
         },
@@ -330,14 +330,15 @@ define([
                 }
                 var me = this,
                     lang = (this.lang) ? this.lang.split(/[\-\_]/)[0] : 'en',
-                    url = 'resources/help/' + lang + '/Functions/' + (this.funcprops.origin.toLocaleLowerCase()) + '.htm';
+                    name = '/Functions/' + this.funcprops.origin.toLocaleLowerCase().replace(/\./g, '-') + '.htm',
+                    url = 'resources/help/' + lang + name;
 
                 fetch(url).then(function(response){
                     if ( response.ok ) {
                         me.helpUrl = url;
                         me.showHelp();
                     } else {
-                        url = 'resources/help/en/Functions/' + (me.funcprops.origin.toLocaleLowerCase()) + '.htm';
+                        url = 'resources/help/en' + name;
                         fetch(url).then(function(response){
                             if ( response.ok ) {
                                 me.helpUrl = url;
