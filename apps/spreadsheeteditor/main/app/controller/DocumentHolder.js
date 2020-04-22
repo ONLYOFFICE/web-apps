@@ -2031,7 +2031,7 @@ define([
         },
 
         onFormulaCompleteMenu: function(funcarr) {
-            if (!this.documentHolder.funcMenu) return;
+            if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible()) return;
 
             if (funcarr) {
                 var me                  = this,
