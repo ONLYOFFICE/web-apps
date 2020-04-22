@@ -328,19 +328,25 @@ define([
                     this.helpUrl = null;
                     return;
                 }
+                var lang = Common.Utils.InternalSettings.get("sse-settings-func-help");
+                if (!lang)
+                    lang = (this.lang) ? this.lang.split(/[\-\_]/)[0] : 'en';
+
                 var me = this,
-                    lang = (this.lang) ? this.lang.split(/[\-\_]/)[0] : 'en',
                     name = '/Functions/' + this.funcprops.origin.toLocaleLowerCase().replace(/\./g, '-') + '.htm',
                     url = 'resources/help/' + lang + name;
 
                 fetch(url).then(function(response){
                     if ( response.ok ) {
+                        Common.Utils.InternalSettings.set("sse-settings-func-help", lang);
                         me.helpUrl = url;
                         me.showHelp();
                     } else {
-                        url = 'resources/help/en' + name;
+                        lang = 'en';
+                        url = 'resources/help/' + lang + name;
                         fetch(url).then(function(response){
                             if ( response.ok ) {
+                                Common.Utils.InternalSettings.set("sse-settings-func-help", lang);
                                 me.helpUrl = url;
                                 me.showHelp();
                             } else {

@@ -226,9 +226,7 @@ define([
         onSendFunctionWizardInfo: function(props) {
             if (props) {
                 // show formula settings
-                console.log('show formula settings');
                 var me = this;
-
                 var name = props.asc_getName(),
                     descrarr = this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     funcprops = {
