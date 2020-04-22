@@ -1958,7 +1958,7 @@ define([
                         this.isAppDisabled = data.data;
                         break;
                     case 'queryClose':
-                        if ($('body .asc-window:visible').length === 0) {
+                        if (!Common.Utils.ModalWindow.isVisible()) {
                             this.isFrameClosed = true;
                             this.api.asc_closeCellEditor();
                             Common.UI.Menu.Manager.hideAll();
