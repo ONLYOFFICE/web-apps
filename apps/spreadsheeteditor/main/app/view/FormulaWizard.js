@@ -105,6 +105,7 @@ define([
             this.tableArgs = $window.find('#formula-wizard-tbl-args');
             this.panelDesc = $window.find('#formula-wizard-panel-desc');
             this.lblArgDesc = $window.find('#formula-wizard-arg-desc');
+            this.lblResult = $window.find('#formula-wizard-value');
 
             this._preventCloseCellEditor = false;
 
@@ -162,7 +163,7 @@ define([
                 this.maxArgCount = props.asc_getArgumentMax();
 
                 var result = props.asc_getFormulaResult();
-                $('#formula-wizard-value').html('<b>' + this.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
+                this.lblResult.html('<b>' + this.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
 
                 var argres = props.asc_getArgumentsResult(),
                     argtype = props.asc_getArgumentsType(),
@@ -215,7 +216,7 @@ define([
         setControls: function(argcount, argtype, argval, argres) {
             var me = this,
                 argtpl = '<tr><td style="padding-right: 10px;padding-bottom: 8px;vertical-align: middle;text-align: right;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width: 50px;white-space: nowrap;margin-top: 1px;"></div></td>' +
-                        '<td style="padding-right: 10px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
+                        '<td style="padding-right: 5px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
                         '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>',
                 div = $(Common.Utils.String.format(argtpl, argcount));
             this.tableArgs.append(div);
@@ -231,8 +232,14 @@ define([
                 if (newValue == oldValue) return;
                 var index = input.options.index,
                     arg = me.args[index],
-                    res = me.api.asc_insertFormulaArgument(newValue, index, arg.argType);
-                arg.lblValue.text(' = '+ (res!==null && res !==undefined ? res : arg.argTypeName));
+                    res = me.api.asc_insertFormulaArgument(newValue, index, arg.argType),
+                    argres = res ? res.asc_getArgumentsResult() : undefined;
+                argres = argres ? argres[index] : undefined;
+                arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.5; font-weight: bold;">' + arg.argTypeName + '</span>' ));
+
+                res = res ? res.asc_getFormulaResult() : undefined;
+                me.lblResult.html('<b>' + me.textValue + ': </b>' + ((res!==undefined && res!==null)? res : ''));
+
             });
             txt.setValue((argval!==undefined && argval!==null) ? argval : '');
             txt._input.on('focus', _.bind(this.onSelectArgument, this, txt));
@@ -252,7 +259,7 @@ define([
                 me.args[argcount].lblName.html('<b>' + me.args[argcount].argName + '</b>');
             else
                 me.args[argcount].lblName.html(me.args[argcount].argName);
-            me.args[argcount].lblValue.text(' = '+ ( argres!==null && argres!==undefined ? argres : me.args[argcount].argTypeName));
+            me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
         },
 
         getArgType: function(type) {
