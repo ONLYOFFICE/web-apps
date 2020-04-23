@@ -67,7 +67,7 @@ define([
                     'function:click': this.onInsertFunction.bind(this),
                     'function:hint': function (name, type) {
                         setTimeout(function(){
-                            me.api.asc_insertFormula(name, type, false);
+                            me.api.asc_insertInCell(name, type, false);
                         }, 0);
                     }
                 }

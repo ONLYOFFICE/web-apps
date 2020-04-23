@@ -96,7 +96,7 @@ define([
                 if (func.origin === 'more') {
                     this.showDialog(group);
                 } else {
-                    this.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func, !!autocomplete, true);
+                    this.api.asc_insertInCell(func.name, Asc.c_oAscPopUpSelectorType.FuncWizard, !!autocomplete);
                     !autocomplete && this.updateLast10Formulas(func.origin);
                 }
             }

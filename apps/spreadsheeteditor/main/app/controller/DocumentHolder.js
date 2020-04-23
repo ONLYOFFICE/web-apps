@@ -1986,7 +1986,7 @@ define([
                         value       : addarr ? addarr[index] : menuItem,
                         style: (typeof menuItem == 'string' && _.isEmpty(menuItem.trim())) ? 'min-height: 25px;' : ''
                     }).on('click', function(item, e) {
-                        me.api.asc_insertFormula(item.value, Asc.c_oAscPopUpSelectorType.None, false );
+                        me.api.asc_insertInCell(item.value, Asc.c_oAscPopUpSelectorType.None, false );
                     });
                     menu.addItem(mnu);
                 });
@@ -2063,7 +2063,7 @@ define([
                             caption: name,
                             hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
-                        setTimeout(function(){ me.api.asc_insertFormula(item.caption, type, false ); }, 10);
+                        setTimeout(function(){ me.api.asc_insertInCell(item.caption, type, false ); }, 10);
                     });
                     menu.addItem(mnu);
                 });
