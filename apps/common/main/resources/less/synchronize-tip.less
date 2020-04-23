@@ -1,10 +1,27 @@
 .synch-tip-root {
     position: absolute;
     z-index: @zindex-navbar + 2;
-    width: 300px;
+
+    &:not(.simple) {
+        width: 300px;
+
         .tip-text {
             width: 260px;
         }
+    }
+
+    &.simple {
+        max-width: 700px;
+        left: 50%;
+        transform: translate(-50%, 20px);
+        .tip-arrow {
+            display: none;
+        }
+
+        .asc-synchronizetip {
+            padding-right: 30px;
+        }
+    }
 
     &.inc-index {
         z-index: @zindex-navbar + 4;

@@ -1058,6 +1058,10 @@ define([
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
+
+                            if ( me.api.asc_isReadOnly() ) {
+                                me.warningDocumentIsLocked();
+                            }
                         }
                     }, 50);
                 } else {
@@ -2217,6 +2221,41 @@ define([
                     win && win.close();
                     me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm');
                 })
+            },
+
+            warningDocumentIsLocked: function() {
+                var me = this;
+                var _disable_ui = function (disable) {
+                    DE.getController('RightMenu').SetDisabled(disable, false, true);
+                    DE.getController('Toolbar').DisableToolbar(disable, disable);
+                    DE.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                    DE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                    DE.getController('DocumentHolder').getView().SetDisabled(disable, true);
+                    DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
+                    DE.getController('LeftMenu').setPreviewMode(disable);
+                    var comments = DE.getController('Common.Controllers.Comments');
+                    if (comments) comments.setPreviewMode(disable);
+                }
+
+                _disable_ui(true);
+
+                var tip = new Common.UI.SynchronizeTip({
+                    extCls      : 'simple',
+                    text        : Common.Locale.get("warnFileLocked",{name:"DE.Controllers.Main"}),
+                    textLink    : Common.Locale.get("txtContinueEditing",{name:"DE.Views.SignatureSettings"}),
+                    placement   : 'document'
+                });
+                tip.on({
+                    'dontshowclick': function() {
+                        _disable_ui(false);
+                        me.api.asc_setIsReadOnly(false);
+                        this.close();
+                    },
+                    'closeclick': function() {
+                        this.close();
+                    }
+                });
+                tip.show();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
