@@ -39,46 +39,56 @@
  */
 
 define([
-    'common/main/lib/component/Window',
+    'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/MetricSpinner'
 ], function () { 'use strict';
 
-    SSE.Views.FormulaWizard = Common.UI.Window.extend(_.extend({
+    SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            width: 420,
-            height: 460,
-            header: true,
-            style: 'min-width: 350px;',
-            cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            contentWidth: 580,
+            height: 420
         },
 
         initialize : function(options) {
+            var me = this;
             _.extend(this.options, {
-                title: this.textTitle
-            }, options || {});
-
-            this.template = [
-                '<div class="box" style="height:' + (this.options.height-103) + 'px;">',
-                    '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px;"></label>',
-                    '<div id="formula-wizard-panel-args" style="border-bottom: 1px solid #cbcbcb;margin-bottom: 10px;">',
-                        '<div style="height: 220px; overflow: hidden;position: relative;">',
-                            '<table cols="3" id="formula-wizard-tbl-args" style="width: 100%;">',
-                            '</table>',
+                title: this.textTitle,
+                template: [
+                    '<div class="box" style="height:' + (this.options.height - 85) + 'px;">',
+                        '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
+                            '<div class="settings-panel active">',
+                                '<table style="height:' + (this.options.height - 85 - 7) + 'px;">',
+                                '<tr><td>',
+                                '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px;"></label>',
+                                '<div id="formula-wizard-panel-args" style="">',
+                                    '<div style="overflow: hidden;position: relative;">',
+                                        '<table cols="3" id="formula-wizard-tbl-args" style="width: 100%;">',
+                                        '</table>',
+                                    '</div>',
+                                    '<div style="margin-top: 4px;">',
+                                        '<label id="formula-wizard-lbl-func-res">' + this.textFunctionRes + '</label>',
+                                        '<div id="formula-wizard-lbl-val-func" class="input-label" style="float: right; width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>',
+                                    '</div>',
+                                '</div>',
+                                '</td></tr>',
+                                '<tr><td style="height:100%;padding-bottom: 12px;"></td></tr>',
+                                '<tr><td>',
+                                '<div id="formula-wizard-panel-desc" style="word-break: break-word;">',
+                                    '<label id="formula-wizard-arg-desc" style="display: block;margin-bottom: 8px;"><b>Argument 1:</b></label>',
+                                    '<label id="formula-wizard-args" style="display: block;margin-bottom: 0px;"></label>',
+                                    '<label id="formula-wizard-desc" style="display: block;margin-bottom: 8px;"></label>',
+                                    '<label id="formula-wizard-value" style="display: block;margin-bottom: 8px;"><b>Formula result:</b></label>',
+                                    '<label style="display: block; margin-bottom: 8px;"><a id="formula-wizard-help" style="cursor: pointer;">'+ this.textHelp +'</a></label>',
+                                '</div>',
+                                '</td></tr>',
+                                '</table>',
+                            '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div id="formula-wizard-panel-desc">',
-                        '<label id="formula-wizard-value" style="display: block;margin-bottom: 8px;"><b>Formula result:</b></label>',
-                        '<label id="formula-wizard-arg-desc" style="display: block;margin-bottom: 8px;"><b>Argument 1:</b></label>',
-                        '<label id="formula-wizard-args" style="display: block;margin-bottom: 4px;"></label>',
-                        '<label id="formula-wizard-desc" style="display: block;margin-bottom: 8px;"></label>',
-                        '<label style="display: block;"><a id="formula-wizard-help" style="cursor: pointer;">'+ this.textHelp +'</a></label>',
-                    '</div>',
-                '</div>',
-                '<div class="separator horizontal"/>'
-            ].join('');
+                    '<div class="separator horizontal"/>'
+                ].join('')
+            }, options);
 
-            this.options.tpl = _.template(this.template)(this.options);
             this.props = this.options.props;
             this.funcprops = this.options.funcprops;
             this.api = this.options.api;
@@ -90,22 +100,26 @@ define([
             this.helpUrl = undefined;
             this.minArgCount = 1;
             this.maxArgCount = 1;
+            this.minArgWidth = 50;
 
-            Common.UI.Window.prototype.initialize.call(this, this.options);
+            Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
         render: function() {
-            Common.UI.Window.prototype.render.call(this);
+            Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
             var $window = this.getChild();
-            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
+
+            this.contentPanel = $window.find('.content-panel');
+            this.innerPanel = $window.find('.inner-content');
 
             this.panelArgs = $window.find('#formula-wizard-panel-args');
             this.tableArgs = $window.find('#formula-wizard-tbl-args');
             this.panelDesc = $window.find('#formula-wizard-panel-desc');
             this.lblArgDesc = $window.find('#formula-wizard-arg-desc');
-            this.lblResult = $window.find('#formula-wizard-value');
+            this.lblFormulaResult = $window.find('#formula-wizard-value');
+            this.lblFunctionResult = $window.find('#formula-wizard-lbl-val-func');
 
             this._preventCloseCellEditor = false;
 
@@ -113,7 +127,7 @@ define([
         },
 
         afterRender: function() {
-            this.setSettings();
+            this._setDefaults();
         },
 
         _handleInput: function(state) {
@@ -123,7 +137,7 @@ define([
             this.close();
         },
 
-        onBtnClick: function(event) {
+        onDlgBtnClick: function(event) {
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
 
@@ -133,28 +147,25 @@ define([
             }
         },
 
-        setSettings: function () {
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
+        },
+
+        _setDefaults: function () {
             var me = this;
             if (this.funcprops) {
                 var props = this.funcprops;
                 props.args ? $('#formula-wizard-args').html('<b>' + props.name + '</b>' + props.args) : $('#formula-wizard-args').addClass('hidden');
                 props.desc ? $('#formula-wizard-desc').text(props.desc) : $('#formula-wizard-desc').addClass('hidden');
-                props.name ? $('#formula-wizard-name').html('<b>' + this.textFunction + ': </b>' + props.name) : $('#formula-wizard-name').addClass('hidden');
+                props.name ? $('#formula-wizard-name').html(this.textFunction + ': ' + props.name) : $('#formula-wizard-name').addClass('hidden');
 
                 this.$window.find('#formula-wizard-help').on('click', function (e) {
                     me.showHelp();
                 })
             }
-            var height = this.panelDesc.outerHeight();
-            height = this.$window.find('.box').height() - height - 33;// #formula-wizard-name height
-            this.panelArgs.height(height);
-            height = parseInt((height-8)/30) * 30;
-            this.tableArgs.parent().height(height);
-            this.scrollerY = new Common.UI.Scroller({
-                el: this.tableArgs.parent(),
-                minScrollbarLength  : 20,
-                alwaysVisibleY: true
-            });
+            this.recalcArgTableSize();
+            this.minArgWidth = this.$window.find('#formula-wizard-lbl-func-res').width();
 
             if (this.props) {
                 // fill arguments
@@ -162,8 +173,10 @@ define([
                 this.minArgCount = props.asc_getArgumentMin();
                 this.maxArgCount = props.asc_getArgumentMax();
 
-                var result = props.asc_getFormulaResult();
-                this.lblResult.html('<b>' + this.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
+                var result = props.asc_getFunctionResult();
+                this.lblFunctionResult.html('= ' + ((result!==undefined && result!==null) ? result : ''));
+                result = props.asc_getFormulaResult();
+                this.lblFormulaResult.html('<b>' + this.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
 
                 var argres = props.asc_getArgumentsResult(),
                     argtype = props.asc_getArgumentsType(),
@@ -207,6 +220,25 @@ define([
             }
         },
 
+        recalcArgTableSize: function() {
+            var height = this.panelDesc.outerHeight();
+            height = this.$window.find('.box').height() - 7 - height - 60;
+            height = parseInt(height/30) * 30;
+            this.tableArgs.parent().css('max-height', height);
+            if (!this.scrollerY)
+                this.scrollerY = new Common.UI.Scroller({
+                    el: this.tableArgs.parent(),
+                    minScrollbarLength  : 20,
+                    alwaysVisibleY: true
+                });
+            else
+                this.scrollerY.update();
+        },
+
+        checkDescriptionSize: function() {
+            (this.contentPanel.height() < this.innerPanel.height()) && this.recalcArgTableSize();
+        },
+
         fillArgs: function (types, argval, argres) {
             var argcount = this.args.length;
             for (var j=0; j<types.length; j++)
@@ -215,9 +247,9 @@ define([
 
         setControls: function(argcount, argtype, argval, argres) {
             var me = this,
-                argtpl = '<tr><td style="padding-right: 10px;padding-bottom: 8px;vertical-align: middle;text-align: right;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width: 50px;white-space: nowrap;margin-top: 1px;"></div></td>' +
+                argtpl = '<tr><td style="padding-right: 10px;padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width:' + this.minArgWidth + 'px;white-space: nowrap;margin-top: 1px;"></div></td>' +
                         '<td style="padding-right: 5px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
-                        '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>',
+                        '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>',
                 div = $(Common.Utils.String.format(argtpl, argcount));
             this.tableArgs.append(div);
 
@@ -237,8 +269,10 @@ define([
                 argres = argres ? argres[index] : undefined;
                 arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.5; font-weight: bold;">' + arg.argTypeName + '</span>' ));
 
-                res = res ? res.asc_getFormulaResult() : undefined;
-                me.lblResult.html('<b>' + me.textValue + ': </b>' + ((res!==undefined && res!==null)? res : ''));
+                var result = res ? res.asc_getFunctionResult() : undefined;
+                me.lblFunctionResult.html('= ' + ((result!==undefined && result!==null)? result : ''));
+                result = res ? res.asc_getFormulaResult() : undefined;
+                me.lblFormulaResult.html('<b>' + me.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
 
             });
             txt.setValue((argval!==undefined && argval!==null) ? argval : '');
@@ -292,6 +326,7 @@ define([
                 this.fillArgs(this.repeatedArg);
                 this.scrollerY.update();
             }
+            this.checkDescriptionSize();
         },
 
         onSelectData: function(input) {
@@ -365,12 +400,13 @@ define([
         },
 
         close: function () {
-            Common.UI.Window.prototype.close.call(this);
+            Common.Views.AdvancedSettingsWindow.prototype.close.call(this);
             this.api.asc_closeCellEditor(!this._preventCloseCellEditor);
         },
 
         textTitle: 'Function Argumens',
         textValue: 'Formula result',
+        textFunctionRes: 'Function result',
         textFunction: 'Function',
         textHelp: 'Help on this function'
 
