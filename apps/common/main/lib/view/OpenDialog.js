@@ -59,7 +59,7 @@ define([
                 width = 414;
                 height = 277;
             } else {
-                width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 370 : 262);
+                width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 262);
                 height = (options.type == Common.Utils.importTextType.CSV || options.type == Common.Utils.importTextType.Paste || options.type == Common.Utils.importTextType.Columns) ? 190 : (options.warning ? 187 : 147);
             }
 
@@ -87,7 +87,7 @@ define([
                             '<div class="icon img-commonctrl warn"/>',
                             '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + t.txtProtected+ '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
-                                '<div id="id-password-txt" style="width: 240px;"></div></div>',
+                                '<div id="id-password-txt" style="width: 290px;"></div></div>',
                         '</div>',
                         '<% } else { %>',
                         '<div>',

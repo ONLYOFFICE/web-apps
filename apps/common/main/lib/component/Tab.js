@@ -52,8 +52,8 @@ define([
         this.label      = 'Tab';
         this.cls        = '';
         this.index = -1;
-        this.template   = _.template(['<li class="<% if(active){ %>active selected<% } %> <% if(cls.length){%><%= cls %><%}%>" data-label="<%= label %>">',
-                                            '<span title="<%= label %>" draggable="true" oo_editor_input="true" tabindex="-1" data-index="<%= index %>"><%- label %></span>',
+        this.template   = _.template(['<li class="<% if(active){ %>active selected<% } %> <% if(cls.length){%><%= cls %><%}%>" data-label="<%- label %>">',
+                                            '<span title="<%- label %>" draggable="true" oo_editor_input="true" tabindex="-1" data-index="<%= index %>"><%- label %></span>',
                                         '</li>'].join(''));
 
         this.initialize.call(this, opts);

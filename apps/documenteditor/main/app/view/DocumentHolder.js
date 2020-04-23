@@ -422,6 +422,8 @@ define([
                     /** coauthoring begin **/
                     userTipHide();
                     /** coauthoring end **/
+                    me.mode && me.mode.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
+
                 },
                 'modal:show': function(e){
                     me.hideTips();

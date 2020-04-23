@@ -1294,7 +1294,7 @@
   "SSE.Views.SetValueDialog.txtMaxText": "Bu alan için maksimum değer {0}",
   "SSE.Views.SetValueDialog.txtMinText": "Bu alan için minimum değer {0}",
   "SSE.Views.ShapeSettings.strBackground": "Arka plan rengi",
-  "SSE.Views.ShapeSettings.strChange": "Otomatik Biçim Vermeyi Değiştir",
+  "SSE.Views.ShapeSettings.strChange": "Otomatik Şeklini Değiştir",
   "SSE.Views.ShapeSettings.strColor": "Renk",
   "SSE.Views.ShapeSettings.strFill": "Doldur",
   "SSE.Views.ShapeSettings.strForeground": "Önplan rengi",
