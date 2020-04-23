@@ -52,7 +52,7 @@ define([
                     '<div class="asc-synchronizetip">',
                         '<div class="tip-arrow <%= scope.placement %>"></div>',
                         '<div>',
-                            '<div class="tip-text" style="width: 260px;"><%= scope.text %></div>',
+                            '<div class="tip-text"><%= scope.text %></div>',
                             '<div class="close img-commonctrl"></div>',
                         '</div>',
                         '<% if ( scope.showLink ) { %>',
