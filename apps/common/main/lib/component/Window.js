@@ -239,13 +239,14 @@ define([
             if (this.initConfig.height == 'auto') {
                 var win_height = parseInt(this.$window.find('.body').css('height'));
                 this.initConfig.header && (win_height += parseInt(this.$window.find('.header').css('height')));
-            } else
+            } else {
                 win_height = this.initConfig.height;
+                win_height > main_height && (win_height = main_height);
+            }
 
             var win_width = (this.initConfig.width=='auto') ? parseInt(this.$window.find('.body').css('width')) : this.initConfig.width;
             
-            var top  = Common.Utils.InternalSettings.get('window-inactive-area-top') +
-                        Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
+            var top  = main_geometry.top + Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
             this.$window.css('left',left);
@@ -259,9 +260,15 @@ define([
 
             if (this.getLeft() + this.getWidth() > main_width)
                 this.$window.css('left', main_width - this.getWidth());
-            var _top = this.getTop() - main_geometry.top;
-            if (_top + this.getHeight() > main_height)
-                this.$window.css('top', main_height - this.getHeight());
+
+            if (this.getTop() < main_geometry.top )
+                this.$window.css('top', main_geometry.top);
+            else
+            if (this.getTop() + this.getHeight() > main_height) {
+                if (main_height - this.getHeight() < 0)
+                    this.$window.css('top', main_geometry.top);
+                else this.$window.css('top', main_geometry.top + main_height - this.getHeight());
+            }
         }
 
         function _getTransformation(end) {
@@ -288,7 +295,10 @@ define([
                 main_height = main_geometry.height;
 
             this.dragging.maxx  = main_width - this.getWidth();
-            this.dragging.maxy  = main_height - this.getHeight() + Common.Utils.InternalSettings.get('window-inactive-area-top');
+            this.dragging.maxy  = main_height - this.getHeight();
+            if (this.dragging.maxy < 0)
+                    this.dragging.maxy = 0;
+            this.dragging.maxy += main_geometry.top;
 
             $(document).on('mousemove', this.binding.drag);
             $(document).on('mouseup', this.binding.dragStop);
