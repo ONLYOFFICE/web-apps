@@ -1058,10 +1058,6 @@ define([
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
-
-                            if ( me.api.asc_isReadOnly() ) {
-                                me.warningDocumentIsLocked();
-                            }
                         }
                     }, 50);
                 } else {
