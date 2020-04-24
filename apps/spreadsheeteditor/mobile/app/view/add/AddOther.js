@@ -228,7 +228,19 @@ define([
                     $commentInfo.html(insert);
                     _.defer(function () {
                         var $textarea = $('.comment-textarea')[0];
+                        var $btnAddComment = $('#done-comment');
+                        $btnAddComment.addClass('disabled');
                         $textarea.focus();
+                        $textarea.oninput = function () {
+                            if ($textarea.value.length < 1) {
+                                if (!$btnAddComment.hasClass('disabled'))
+                                    $btnAddComment.addClass('disabled');
+                            } else {
+                                if ($btnAddComment.hasClass('disabled')) {
+                                    $btnAddComment.removeClass('disabled');
+                                }
+                            }
+                        };
                     });
                 }, 100);
             },

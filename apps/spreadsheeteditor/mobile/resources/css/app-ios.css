@@ -6683,6 +6683,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   color: #40865c;
   border-left: 1px solid #40865c;
   padding-left: 10px;
+  padding-right: 16px;
   margin: 5px 0;
   font-size: 15px;
 }

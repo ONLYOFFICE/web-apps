@@ -151,6 +151,15 @@ define([
 
             //Comments
 
+            sliceQuote: function(text) {
+                var sliced = text.slice(0,100);
+                if (sliced.length < text.length) {
+                    sliced += '...';
+                    return sliced;
+                }
+                return text;
+            },
+
             renderViewComments: function(comments, indCurComment) {
                 var isAndroid = Framework7.prototype.device.android === true;
                 var me = this;
@@ -180,7 +189,7 @@ define([
                         }
                         template += '</div>';
 
-                        if (comment.quote) template += '<p class="comment-quote" data-ind="' + comment.uid + '">' + comment.quote + '</p>';
+                        if (comment.quote) template += '<p class="comment-quote" data-ind="' + comment.uid + '">' + me.sliceQuote(comment.quote) + '</p>';
                         template += '<div class="comment-text"><span>' + comment.comment + '</span></div>';
                         if (comment.replys.length > 0) {
                             template += '<ul class="list-reply">';
@@ -250,7 +259,7 @@ define([
                             '<% } %>',
                             '</div>',
                             '<% if(item.quote) {%>',
-                            '<p class="comment-quote" data-id="<%= item.uid %>"><%= item.quote %></p>',
+                            '<p class="comment-quote" data-id="<%= item.uid %>"><%= quote %></p>',
                             '<% } %>',
                             '<p class="comment-text"><span><%= item.comment %></span></p>',
                             '<% if(replys > 0) {%>',
@@ -280,7 +289,8 @@ define([
                             android: Framework7.prototype.device.android,
                             item: comment,
                             replys: comment.replys.length,
-                            viewmode: me.viewmode
+                            viewmode: me.viewmode,
+                            quote: me.sliceQuote(comment.quote)
                         }));
                     });
                     $listComments.html(items.join(''));

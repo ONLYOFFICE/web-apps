@@ -804,8 +804,8 @@ define([
 
             updateViewComment: function() {
                 this.view.renderViewComments(this.showComments, this.indexCurrentComment);
-                $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
-                $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
+                $('.comment-menu').single('click', _.buffered(this.initMenuComments, 100, this));
+                $('.reply-menu').single('click', _.buffered(this.initReplyMenu, 100, this));
                 $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this, false));
                 if (this.showComments.length === 1) {
                     $('.prev-comment, .next-comment').addClass('disabled');
@@ -860,9 +860,9 @@ define([
                 me.getView('Common.Views.Collaboration').renderViewComments(me.showComments, me.indexCurrentComment);
                 $('.prev-comment').single('click', _.bind(me.onViewPrevComment, me));
                 $('.next-comment').single('click', _.bind(me.onViewNextComment, me));
-                $('.comment-menu').single('click', _.bind(me.initMenuComments, me));
+                $('.comment-menu').single('click', _.buffered(me.initMenuComments, 100, me));
                 $('.add-reply').single('click', _.bind(me.onClickAddReply, me, false));
-                $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));
+                $('.reply-menu').single('click', _.buffered(me.initReplyMenu, 100, me));
                 $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me, false));
 
                 if (me.showComments.length === 1) {
@@ -951,8 +951,8 @@ define([
                     this.view.renderViewComments(this.showComments, this.indexCurrentComment);
                     var me = this;
                     _.defer(function () {
-                        $('.comment-menu').single('click', _.bind(me.initMenuComments, me));
-                        $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));
+                        $('.comment-menu').single('click', _.buffered(me.initMenuComments, 100, me));
+                        $('.reply-menu').single('click', _.buffered(me.initReplyMenu, 100, me));
                         $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me, false));
                     });
                 }
@@ -968,8 +968,8 @@ define([
                     this.view.renderViewComments(this.showComments, this.indexCurrentComment);
                     var me = this;
                     _.defer(function () {
-                        $('.comment-menu').single('click', _.bind(me.initMenuComments, me));
-                        $('.reply-menu').single('click', _.bind(me.initReplyMenu, me));
+                        $('.comment-menu').single('click', _.buffered(me.initMenuComments, 100, me));
+                        $('.reply-menu').single('click', _.buffered(me.initReplyMenu, 100, me));
                         $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me, false));
                     });
                 }
@@ -1014,7 +1014,19 @@ define([
                     }
                     _.defer(function () {
                         var $textarea = $('.reply-textarea')[0];
+                        var $btnAddReply = $('#add-new-reply');
                         $textarea.focus();
+                        $btnAddReply.addClass('disabled');
+                        $textarea.oninput = function () {
+                            if ($textarea.value.length < 1) {
+                                if (!$btnAddReply.hasClass('disabled'))
+                                    $btnAddReply.addClass('disabled');
+                            } else {
+                                if ($btnAddReply.hasClass('disabled')) {
+                                    $btnAddReply.removeClass('disabled');
+                                }
+                            }
+                        };
                     });
                     $('#add-new-reply').single('click', _.bind(me.onDoneAddNewReply, me, comment.uid));
                     $('.cancel-reply').single('click', _.bind(me.onCancelAddNewReply, me));
@@ -1050,7 +1062,7 @@ define([
                 if ($viewComment.find('.block-reply').length > 0) {
                     $viewComment.find('.block-reply').remove();
                 }
-                $viewComment.find('a#add-new-reply, a.cancel-reply').css('display', 'none');
+                $viewComment.find('a#add-new-reply, a.cancel-reply').remove();
                 $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
                 this.disabledViewComments(false);
             },
@@ -1112,6 +1124,9 @@ define([
                                     }
                                 }
                             ]]);
+                            $$(me.menuComments).on('close', function () {
+                                me.disabledViewComments(false);
+                            });
                         }, 100);
                     }
                     this.disabledViewComments(true);
@@ -1143,7 +1158,7 @@ define([
                                 me.onCommentMenuClick(item.event, idComment, ind);
                             }
                         });
-                        uiApp.actions([_menuItems, [
+                        me.menuReply = uiApp.actions([_menuItems, [
                             {
                                 text: me.textCancel,
                                 bold: true,
@@ -1152,6 +1167,9 @@ define([
                                 }
                             }
                         ]]);
+                        $$(me.menuReply).on('close', function () {
+                            me.disabledViewComments(false);
+                        });
                     }, 100);
                     this.disabledViewComments(true);
                 }
@@ -1434,8 +1452,8 @@ define([
 
             initComments: function() {
                 this.getView('Common.Views.Collaboration').renderComments((this.groupCollectionFilter.length !== 0) ? this.groupCollectionFilter : (this.collectionComments.length !== 0) ? this.collectionComments : false);
-                $('.comment-menu').single('click', _.bind(this.initMenuComments, this));
-                $('.reply-menu').single('click', _.bind(this.initReplyMenu, this));
+                $('.comment-menu').single('click', _.buffered(this.initMenuComments, 100, this));
+                $('.reply-menu').single('click', _.buffered(this.initReplyMenu, 100, this));
                 $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this, false));
                 $('.comment-quote').single('click', _.bind(this.onSelectComment, this));
             },
