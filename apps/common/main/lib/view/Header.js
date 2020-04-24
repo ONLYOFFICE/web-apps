@@ -471,6 +471,8 @@ define([
                         if ( me.documentCaption ) {
                             me.labelDocName.text(me.documentCaption);
                         }
+                    } else {
+                        $html.find('#rib-doc-name').hide();
                     }
 
                     if ( !_.isUndefined(this.options.canRename) ) {

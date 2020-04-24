@@ -219,25 +219,34 @@ define([
             }
         }
 
-        function _centre() {
+        function _readDocumetGeometry() {
             if (window.innerHeight == undefined) {
-                var main_width  = document.documentElement.offsetWidth;
-                var main_height = document.documentElement.offsetHeight;
+                var width  = document.documentElement.offsetWidth,
+                height = document.documentElement.offsetHeight;
             } else {
-                main_width  = Common.Utils.innerWidth();
-                main_height = Common.Utils.innerHeight();
+                width  = Common.Utils.innerWidth();
+                height = Common.Utils.innerHeight();
             }
+            height -= Common.Utils.InternalSettings.get('window-inactive-area-top');
+            return {width: width, height: height, top: Common.Utils.InternalSettings.get('window-inactive-area-top')};
+        }
+
+        function _centre() {
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
 
             if (this.initConfig.height == 'auto') {
                 var win_height = parseInt(this.$window.find('.body').css('height'));
                 this.initConfig.header && (win_height += parseInt(this.$window.find('.header').css('height')));
-            } else
+            } else {
                 win_height = this.initConfig.height;
+                win_height > main_height && (win_height = main_height);
+            }
 
             var win_width = (this.initConfig.width=='auto') ? parseInt(this.$window.find('.body').css('width')) : this.initConfig.width;
             
-            var top  = Common.Utils.InternalSettings.get('window-inactive-area-top') +
-                        Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
+            var top  = main_geometry.top + Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
             this.$window.css('left',left);
@@ -245,18 +254,21 @@ define([
         }
 
         function _setVisible() {
-            if (window.innerHeight == undefined) {
-                var main_width  = document.documentElement.offsetWidth;
-                var main_height = document.documentElement.offsetHeight;
-            } else {
-                main_width  = Common.Utils.innerWidth();
-                main_height = Common.Utils.innerHeight();
-            }
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
 
             if (this.getLeft() + this.getWidth() > main_width)
                 this.$window.css('left', main_width - this.getWidth());
-            if (this.getTop() + this.getHeight() > main_height)
-                this.$window.css('top', main_height - this.getHeight());
+
+            if (this.getTop() < main_geometry.top )
+                this.$window.css('top', main_geometry.top);
+            else
+            if (this.getTop() + this.getHeight() > main_height) {
+                if (main_height - this.getHeight() < 0)
+                    this.$window.css('top', main_geometry.top);
+                else this.$window.css('top', main_geometry.top + main_height - this.getHeight());
+            }
         }
 
         function _getTransformation(end) {
@@ -278,16 +290,15 @@ define([
             this.dragging.initx = event.pageX*zoom - this.getLeft();
             this.dragging.inity = event.pageY*zoom - this.getTop();
 
-            if (window.innerHeight == undefined) {
-                var main_width  = document.documentElement.offsetWidth;
-                var main_height = document.documentElement.offsetHeight;
-            } else {
-                main_width  = Common.Utils.innerWidth();
-                main_height = Common.Utils.innerHeight();
-            }
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
 
             this.dragging.maxx  = main_width - this.getWidth();
-            this.dragging.maxy  = main_height - this.getHeight() + Common.Utils.InternalSettings.get('window-inactive-area-top');
+            this.dragging.maxy  = main_height - this.getHeight();
+            if (this.dragging.maxy < 0)
+                    this.dragging.maxy = 0;
+            this.dragging.maxy += main_geometry.top;
 
             $(document).on('mousemove', this.binding.drag);
             $(document).on('mouseup', this.binding.dragStop);
@@ -345,9 +356,10 @@ define([
             this.resizing.inith = this.getHeight();
             this.resizing.type = [el.hasClass('left') ? -1 : (el.hasClass('right') ? 1 : 0), el.hasClass('top') ? -1 : (el.hasClass('bottom') ? 1 : 0)];
 
-            var main_width  = (window.innerHeight == undefined) ? document.documentElement.offsetWidth : Common.Utils.innerWidth(),
-                main_height = (window.innerHeight == undefined) ? document.documentElement.offsetHeight : Common.Utils.innerHeight(),
-                maxwidth = (this.initConfig.maxwidth) ? this.initConfig.maxwidth : main_width,
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
+            var maxwidth = (this.initConfig.maxwidth) ? this.initConfig.maxwidth : main_width,
                 maxheight = (this.initConfig.maxheight) ? this.initConfig.maxheight : main_height;
 
             this.resizing.minw  = this.initConfig.minwidth;
