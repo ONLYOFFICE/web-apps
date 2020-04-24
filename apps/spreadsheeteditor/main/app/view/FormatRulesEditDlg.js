@@ -98,6 +98,28 @@ define([
                                             '</div>',
                                         '</td>',
                                     '</tr>',
+                                    '<tr class="scale">',
+                                        '<td class="padding-large" style="padding-top: 8px;">',
+                                            '<div style="width:150px; display: inline-block; margin-right: 5px;">',
+                                                '<label style="display: block;">', me.textMinpoint,'</label>',
+                                                '<div id="format-rules-edit-combo-scale-1" class="input-group-nr" style="margin-bottom: 8px;"></div>',
+                                                '<div id="format-rules-edit-txt-scale-1" class="" style="height: 22px;margin-bottom: 8px;"></div>',
+                                                '<div id="format-rules-edit-color-scale-1" style=""></div>',
+                                            '</div>',
+                                            '<div style="width:150px; display: inline-block; margin-right: 5px;">',
+                                                '<label id="format-rules-edit-lbl-scale-2" style="display: block;">', me.textMidpoint,'</label>',
+                                                '<div id="format-rules-edit-combo-scale-2" class="input-group-nr" style="margin-bottom: 8px;"></div>',
+                                                '<div id="format-rules-edit-txt-scale-2" class="" style="height: 22px;margin-bottom: 8px;"></div>',
+                                                '<div id="format-rules-edit-color-scale-2" style=""></div>',
+                                            '</div>',
+                                            '<div style="width:150px; display: inline-block;">',
+                                                '<label style="display: block;">', me.textMaxpoint,'</label>',
+                                                '<div id="format-rules-edit-combo-scale-3" class="input-group-nr" style="margin-bottom: 8px;"></div>',
+                                                '<div id="format-rules-edit-txt-scale-3" class="" style="height: 22px;margin-bottom: 8px;"></div>',
+                                                '<div id="format-rules-edit-color-scale-3" style=""></div>',
+                                            '</div>',
+                                        '</td>',
+                                    '</tr>',
                                 '</table>',
                             '</div></div>',
                         '</div>',
@@ -463,6 +485,58 @@ define([
             // this.btnFillColor.on('click', _.bind(this.onTextColor, this));
             this.mnuFillColorPicker = initNewColor(this.btnFillColor, "#format-rules-menu-fillcolor");
 
+            // Scale
+            this.scaleControls = [];
+            this.lblMidScale = this.$window.find('#format-rules-edit-lbl-scale-2');
+
+            var data = [
+                {value: Asc.c_oAscCfvoType.Number, displayValue: 'Number'},
+                {value: Asc.c_oAscCfvoType.Percent, displayValue: 'Percentage'},
+                {value: Asc.c_oAscCfvoType.Formula, displayValue: 'Formula'},
+                {value: Asc.c_oAscCfvoType.Percentile, displayValue: 'Percentile'}
+            ];
+            for (var i=0; i<3; i++) {
+                var arr = data;
+                if (i==0)
+                    arr = [{value: Asc.c_oAscCfvoType.Minimum, displayValue: 'Minimum'}].concat(arr);
+                else if (i==2)
+                    arr = [{value: Asc.c_oAscCfvoType.Maximum, displayValue: 'Maximum'}].concat(arr);
+                var combo = new Common.UI.ComboBox({
+                    el          : $('#format-rules-edit-combo-scale-' + (i+1)),
+                    style       : 'width: 100%;',
+                    menuStyle   : 'min-width: 100%;max-height: 211px;',
+                    editable    : false,
+                    cls         : 'input-group-nr',
+                    data        : arr,
+                    type        : i
+                }).on('selected', function(combo, record) {
+                    me.scaleControls[combo.options.type].range.setDisabled(record.value==Asc.c_oAscCfvoType.Minimum || record.value==Asc.c_oAscCfvoType.Maximum);
+                });
+                combo.setValue((i==1) ? Asc.c_oAscCfvoType.Percentile : arr[0].value);
+
+                var range = new Common.UI.InputFieldBtn({
+                    el          : $('#format-rules-edit-txt-scale-' + (i+1)),
+                    name        : 'range',
+                    style       : 'width: 100%;',
+                    allowBlank  : true,
+                    btnHint     : this.textSelectData,
+                    validateOnChange: false,
+                    type        : i,
+                    disabled    : (i!=1)
+                });
+                range.setValue((i==1) ? 50 : '');
+                range.on('button:click', _.bind(this.onSelectData, this));
+
+                var color = new Common.UI.ColorButton({
+                    style: "width:45px;",
+                    menu        : true,
+                    type        : i
+                });
+                color.render( $('#format-rules-edit-color-scale-' + (i+1)));
+                color.setColor('000000');
+                this.scaleControls.push({combo: combo, range: range, color: color});
+            }
+
             this.afterRender();
         },
 
@@ -520,11 +594,51 @@ define([
                         subtype = props.asc_getOperator();
                         this.txtRange1.setValue(props.asc_getValue1() || '');
                         break;
+                    case Asc.c_oAscCFType.colorScale:
+                        value = props.asc_getColorScaleOrDataBarOrIconSetRule();
+                        var scales = value.asc_getCFVOs(),
+                            colors = value.asc_getColors();
+                        subtype = scales.length;
+                        var arr = (scales.length==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
+                        for (var i=0; i<scales.length; i++) {
+                            var scaletype = scales[i].asc_getType(),
+                                val =  scales[i].asc_getVal(),
+                                color = Common.Utils.ThemeColor.colorValue2EffectId(colors[i]),
+                                controls = arr[i];
+                            controls.combo.setValue(scaletype);
+                            controls.range.setDisabled(scaletype == Asc.c_oAscCfvoType.Minimum || scaletype == Asc.c_oAscCfvoType.Maximum);
+                            controls.range.setValue((scaletype !== Asc.c_oAscCfvoType.Minimum && scaletype !== Asc.c_oAscCfvoType.Maximum && val!==null && val!==undefined) ? val : '');
+                            controls.color.setColor(color);
+                            if (_.isObject(color)) {
+                                var isselected = false;
+                                for (var j = 0; j < 10; j++) {
+                                    if (Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue) {
+                                        controls.colorPicker.select(color, true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) controls.colorPicker.clearSelection();
+                            } else {
+                                controls.colorPicker.select(color, true);
+                            }
+                        }
+                        break;
+                    case Asc.c_oAscCFType.dataBar:
+                        value = props.asc_getColorScaleOrDataBarOrIconSetRule();
+                        break;
+                    case Asc.c_oAscCFType.iconSet:
+                        value = props.asc_getColorScaleOrDataBarOrIconSetRule();
+                        break;
                 }
             }
 
-            var rec = this.ruleStore.findWhere({type: type});
-            if (!rec) {
+            var rec = this.ruleStore.where({type: type});
+            if (rec.length>1) {
+                if (type == Asc.c_oAscCFType.colorScale) {
+                    rec = (subtype == rec[0].get('num')) ? rec[0] : rec[1];
+                }
+            } else if (rec.length==0) {
                 var store = this.ruleStore;
                 for (var i=0; i<store.length; i++) {
                     var item = store.at(i),
@@ -536,6 +650,7 @@ define([
                     }
                 }
             } else { // find rule
+                rec = rec[0];
                 var rules = rec.get('rules');
                 if (rules && rules.findWhere({type: type})) {
                     ruleType = type;
@@ -587,6 +702,14 @@ define([
             this.numRank.setVisible(category==1);
 
             this.txtRange1.cmpEl.width(category==11 ? 305 : 150);
+
+            this.$window.find('.scale').toggleClass('hidden', category<7 || category>8);
+            if (category==7 || category==8) {
+                this.scaleControls[1].combo.setVisible(category==8);
+                this.scaleControls[1].range.setVisible(category==8);
+                this.scaleControls[1].color.setVisible(category==8);
+                this.lblMidScale.toggleClass('hidden', category==7);
+            }
         },
 
         onSelectData: function(cmp) {
@@ -617,6 +740,25 @@ define([
         },
 
         updateThemeColors: function() {
+            for (var i=0; i<this.scaleControls.length; i++) {
+                var btn = this.scaleControls[i].color,
+                    id = Common.UI.getId();
+                btn.setMenu( new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="' + id + '" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                    ]
+                }));
+                var colorPicker = new Common.UI.ThemeColorPalette({
+                    el: this.$window.find('#' + id),
+                    transparent: false,
+                    type: i
+                });
+                // colorPicker.on('select', _.bind(this.onColorsSelect, this));
+                colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                // btn.items[1].on('click', _.bind(this.addNewColor, this, colorPicker, btn));
+                this.scaleControls[i].colorPicker = colorPicker;
+            }
             this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.mnuFillColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
@@ -688,7 +830,10 @@ define([
         textSuperscript: 'Superscript',
         textSubscript: 'Subscript',
         textColor: 'Text color',
-        fillColor: 'Background color'
+        fillColor: 'Background color',
+        textMinpoint: 'Minpoint',
+        textMidpoint: 'Midpoint',
+        textMaxpoint: 'Maxpoint'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });
