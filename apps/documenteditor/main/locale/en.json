@@ -743,6 +743,7 @@
   "DE.Controllers.Main.warnNoLicense": "This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnNoLicenseUsers": "This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "DE.Controllers.Main.warnFileLocked": "Document is in use by another application. You can continue editing and save it as a copy.",
   "DE.Controllers.Main.textConvertEquation": "This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?",
   "DE.Controllers.Main.textApplyAll": "Apply to all equations",
   "DE.Controllers.Main.textLearnMore": "Learn More",

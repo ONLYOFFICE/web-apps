@@ -200,6 +200,13 @@ define([
                         $('.toolbar').addClass('editor-native-color');
                     });
 
+                    Common.NotificationCenter.on('document:ready', function () {
+                        var maincontroller = webapp.getController('Main');
+                        if ( maincontroller.api.asc_isReadOnly && maincontroller.api.asc_isReadOnly() ) {
+                            maincontroller.warningDocumentIsLocked();
+                        }
+                    });
+
                     Common.NotificationCenter.on('action:undocking', function (opts) {
                         native.execCommand('editor:event', JSON.stringify({action:'undocking', state: opts == 'dock' ? 'dock' : 'undock'}));
                     });
