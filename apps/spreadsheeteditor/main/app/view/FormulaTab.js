@@ -95,7 +95,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-financial'), this.btnFinancial);
                 this.lockedControls.push(this.btnFinancial);
@@ -109,7 +109,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-logical'), this.btnLogical);
                 this.lockedControls.push(this.btnLogical);
@@ -123,7 +123,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-text'), this.btnTextData);
                 this.lockedControls.push(this.btnTextData);
@@ -137,7 +137,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-datetime'), this.btnDateTime);
                 this.lockedControls.push(this.btnDateTime);
@@ -151,7 +151,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-lookup'), this.btnReference);
                 this.lockedControls.push(this.btnReference);
@@ -165,7 +165,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-math'), this.btnMath);
                 this.lockedControls.push(this.btnMath);
@@ -179,7 +179,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-recent'), this.btnRecent);
                 this.lockedControls.push(this.btnRecent);
@@ -231,7 +231,7 @@ define([
                     menu: true,
                     split: false,
                     disabled: true,
-                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
+                    lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.noSubitems]
                 });
                 Common.Utils.injectComponent($host.find('#slot-btn-more'), this.btnMore);
                 this.lockedControls.push(this.btnMore);
@@ -296,7 +296,7 @@ define([
                     var _menu = new Common.UI.Menu({
                         items: [
                             {caption: me.textCalculateWorkbook, value: Asc.c_oAscCalculateType.All},
-                            {caption: me.textCalculateCurrentSheet, value: Asc.c_oAscCalculateType.ActiveSheet},
+                            {caption: me.textCalculateCurrentSheet, value: Asc.c_oAscCalculateType.ActiveSheet}
                             //{caption: '--'},
                             //{caption: me.textAutomatic, value: '', toggleGroup: 'menuCalcMode', checkable: true, checked: true},
                             //{caption: me.textManual, value: '', toggleGroup: 'menuCalcMode', checkable: true, checked: false}
@@ -428,7 +428,7 @@ define([
                         menu._outerMenu = btn.menu;
                     }
                 }
-                btn.setDisabled(arr.length<1);
+                Common.Utils.lockControls(SSE.enumLock.noSubitems, arr.length<1, {array: [btn]});
             },
 
             setMenuItemMenu: function(name) {
@@ -544,7 +544,7 @@ define([
                             menu.cmpEl.attr({tabindex: "-1"});
                         });
                     }
-                    btn.setDisabled(morearr.length<1);
+                    Common.Utils.lockControls(SSE.enumLock.noSubitems, morearr.length<1, {array: [btn]});
                 }
             },
 
