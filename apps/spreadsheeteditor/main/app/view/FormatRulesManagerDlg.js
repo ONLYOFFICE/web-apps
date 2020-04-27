@@ -344,7 +344,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             });
 
             me.hide();
-            win.show(xy.left + 65, xy.top + 77);
+            win.show();
         },
 
         onDeleteRule: function () {

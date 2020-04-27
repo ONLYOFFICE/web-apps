@@ -51,8 +51,8 @@ define([
     SSE.Views.FormatRulesEditDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesEditDlg',
-            contentWidth: 480,
-            height: 350
+            contentWidth: 490,
+            height: 445
         },
 
         initialize: function (options) {
@@ -66,23 +66,23 @@ define([
                             '<div class="settings-panel active">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
-                                        '<td class="padding-large">',
-                                            '<label class="header">', me.textApply,'</label>',
-                                            '<div id="format-rules-edit-txt-scope" class="input-row"></div>',
-                                        '</td>',
-                                    '</tr>',
-                                    '<tr>',
                                         '<td class="padding-small">',
-                                            '<label class="header">', me.textRule,'</label>',
-                                            '<div id="format-rules-edit-combo-category" class="input-group-nr"></div>',
+                                            '<div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">',
+                                                '<label class="header">', me.textRule,'</label>',
+                                                '<div id="format-rules-edit-combo-category" class="input-group-nr"></div>',
+                                            '</div>',
+                                            '<div style="width:150px; display: inline-block; margin-right: 10px;">',
+                                                '<label class="header">', me.textApply,'</label>',
+                                                '<div id="format-rules-edit-txt-scope" style="height: 22px;"></div>',
+                                            '</div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr class="hasformat">',
                                         '<td class="padding-large">',
-                                            '<div id="format-rules-edit-combo-rule" class="input-group-nr" style="display: inline-block;vertical-align: top;margin-right: 5px;"></div>',
-                                            '<div id="format-rules-edit-txt-r1" class="input-row" style="display: inline-block;vertical-align: top;margin-right: 5px;"></div>',
+                                            '<div id="format-rules-edit-combo-rule" class="input-group-nr" style="display: inline-block;vertical-align: top;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-txt-r1" class="input-row" style="display: inline-block;vertical-align: top;margin-right: 10px;"></div>',
                                             '<div id="format-rules-edit-txt-r2" class="input-row" style="display: inline-block;vertical-align: top;"></div>',
-                                            '<div id="format-rules-edit-spin-rank" class="input-row" style="display: inline-block;vertical-align: top;margin-right: 5px;"></div>',
+                                            '<div id="format-rules-edit-spin-rank" class="input-row" style="display: inline-block;vertical-align: top;margin-right: 10px;"></div>',
                                             '<div id="format-rules-edit-combo-percent" class="input-row" style="display: inline-block;vertical-align: top;"></div>',
                                         '</td>',
                                     '</tr>',
@@ -100,13 +100,13 @@ define([
                                     '</tr>',
                                     '<tr class="scale">',
                                         '<td class="padding-large" style="padding-top: 8px;">',
-                                            '<div style="width:150px; display: inline-block; margin-right: 5px;">',
+                                            '<div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">',
                                                 '<label style="display: block;">', me.textMinpoint,'</label>',
                                                 '<div id="format-rules-edit-combo-scale-1" class="input-group-nr" style="margin-bottom: 8px;"></div>',
                                                 '<div id="format-rules-edit-txt-scale-1" class="" style="height: 22px;margin-bottom: 8px;"></div>',
                                                 '<div id="format-rules-edit-color-scale-1" style=""></div>',
                                             '</div>',
-                                            '<div style="width:150px; display: inline-block; margin-right: 5px;">',
+                                            '<div style="width:150px; display: inline-block; margin-right: 10px;">',
                                                 '<label id="format-rules-edit-lbl-scale-2" style="display: block;">', me.textMidpoint,'</label>',
                                                 '<div id="format-rules-edit-combo-scale-2" class="input-group-nr" style="margin-bottom: 8px;"></div>',
                                                 '<div id="format-rules-edit-txt-scale-2" class="" style="height: 22px;margin-bottom: 8px;"></div>',
@@ -118,6 +118,72 @@ define([
                                                 '<div id="format-rules-edit-txt-scale-3" class="" style="height: 22px;margin-bottom: 8px;"></div>',
                                                 '<div id="format-rules-edit-color-scale-3" style=""></div>',
                                             '</div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="databar">',
+                                        '<td class="padding-large" style="padding-top: 8px;">',
+                                            '<div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">',
+                                                '<label style="display: block;">', me.textMinimum,'</label>',
+                                                '<div id="format-rules-edit-combo-bar-1" class="input-group-nr" style="margin-bottom: 8px;"></div>',
+                                                '<div id="format-rules-edit-txt-bar-1" class="" style="height: 22px;"></div>',
+                                            '</div>',
+                                            '<div style="width:150px; display: inline-block;">',
+                                                '<label style="display: block;">', me.textMaximum,'</label>',
+                                                '<div id="format-rules-edit-combo-bar-2" class="input-group-nr" style="margin-bottom: 8px;"></div>',
+                                                '<div id="format-rules-edit-txt-bar-2" class="" style="height: 22px;"></div>',
+                                            '</div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="databar">',
+                                        '<td class="" style="padding-bottom: 4px;">',
+                                            '<label class="header">', me.textAppearance,'</label>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="databar">',
+                                        '<td class="padding-large" style="">',
+                                            '<div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">',
+                                                '<label style="display: block;">', 'Fill','</label>',
+                                                '<div id="format-rules-edit-combo-fill" class="input-group-nr" style="margin-bottom: 8px;"></div>',
+                                                '<div style="width: 100%;margin-bottom: 4px;height: 23px;">',
+                                                    '<label style="margin-top: 4px;">', 'Positive','</label>',
+                                                    '<div id="format-rules-edit-color-pos-fill" style="float: right;"></div>',
+                                                '</div>',
+                                                '<div style="width: 100%;margin-bottom: 8px;height: 23px;">',
+                                                    '<label style="margin-top: 4px;">', 'Negative','</label>',
+                                                    '<div id="format-rules-edit-color-neg-fill" style="float: right;"></div>',
+                                                '</div>',
+                                                '<div id="format-rules-edit-chk-fill" style=""></div>',
+                                            '</div>',
+                                            '<div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">',
+                                                '<label style="display: block;">', 'Border','</label>',
+                                                '<div id="format-rules-edit-combo-border" class="input-group-nr" style="margin-bottom: 8px;"></div>',
+                                                '<div style="width: 100%;margin-bottom: 4px;height: 23px;">',
+                                                    '<label style="margin-top: 4px;">', 'Positive','</label>',
+                                                    '<div id="format-rules-edit-color-pos-border" style="float: right;"></div>',
+                                                '</div>',
+                                                '<div style="width: 100%;margin-bottom: 8px;height: 23px;">',
+                                                    '<label style="margin-top: 4px;">', 'Negative','</label>',
+                                                    '<div id="format-rules-edit-color-neg-border" style="float: right;"></div>',
+                                                '</div>',
+                                                '<div id="format-rules-edit-chk-border" style=""></div>',
+                                            '</div>',
+                                            '<div style="width:150px; display: inline-block;vertical-align: top;">',
+                                                '<label style="display: block;">', 'Bar Direction','</label>',
+                                                '<div id="format-rules-edit-combo-direction" class="input-group-nr" style="margin-bottom: 8px;"></div>',
+                                                '<div id="format-rules-edit-chk-show-bar" style="margin-top: 12px;"></div>',
+                                            '</div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="databar">',
+                                        '<td class="" style="padding-bottom: 4px;">',
+                                            '<label class="header">', 'Axis','</label>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="databar">',
+                                        '<td class="padding-large" style="">',
+                                            '<label style="margin-right: 10px;margin-top: 1px;vertical-align: middle;">', 'Position','</label>',
+                                            '<div id="format-rules-edit-combo-axis-pos" class="input-group-nr" style="margin-right: 10px;display: inline-block;vertical-align: middle;"></div>',
+                                            '<div id="format-rules-edit-color-axis-color" style="display: inline-block;vertical-align: middle;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -498,9 +564,9 @@ define([
             for (var i=0; i<3; i++) {
                 var arr = data;
                 if (i==0)
-                    arr = [{value: Asc.c_oAscCfvoType.Minimum, displayValue: 'Minimum'}].concat(arr);
+                    arr = [{value: Asc.c_oAscCfvoType.Minimum, displayValue: this.textMinimum}].concat(arr);
                 else if (i==2)
-                    arr = [{value: Asc.c_oAscCfvoType.Maximum, displayValue: 'Maximum'}].concat(arr);
+                    arr = [{value: Asc.c_oAscCfvoType.Maximum, displayValue: this.textMaximum}].concat(arr);
                 var combo = new Common.UI.ComboBox({
                     el          : $('#format-rules-edit-combo-scale-' + (i+1)),
                     style       : 'width: 100%;',
@@ -537,6 +603,168 @@ define([
                 this.scaleControls.push({combo: combo, range: range, color: color});
             }
 
+            // Data Bar
+            this.barControls = [];
+
+            for (var i=0; i<2; i++) {
+                var arr = data;
+                if (i==0) {
+                    arr = [{value: Asc.c_oAscCfvoType.Minimum, displayValue: this.textMinimum}].concat(arr);
+                    arr.push({value: Asc.c_oAscCfvoType.AutoMin, displayValue: 'Automatic'});
+                } else {
+                    arr = [{value: Asc.c_oAscCfvoType.Maximum, displayValue: this.textMaximum}].concat(arr);
+                    arr.push({value: Asc.c_oAscCfvoType.AutoMax, displayValue: 'Automatic'});
+                }
+                var combo = new Common.UI.ComboBox({
+                    el          : $('#format-rules-edit-combo-bar-' + (i+1)),
+                    style       : 'width: 100%;',
+                    menuStyle   : 'min-width: 100%;max-height: 211px;',
+                    editable    : false,
+                    cls         : 'input-group-nr',
+                    data        : arr,
+                    type        : i
+                }).on('selected', function(combo, record) {
+                    me.barControls[combo.options.type].range.setDisabled(record.value==Asc.c_oAscCfvoType.Minimum || record.value==Asc.c_oAscCfvoType.Maximum ||
+                                                                         record.value==Asc.c_oAscCfvoType.AutoMin || record.value==Asc.c_oAscCfvoType.AutoMax);
+                });
+                combo.setValue(arr[1].value);
+
+                var range = new Common.UI.InputFieldBtn({
+                    el          : $('#format-rules-edit-txt-bar-' + (i+1)),
+                    name        : 'range',
+                    style       : 'width: 100%;',
+                    allowBlank  : true,
+                    btnHint     : this.textSelectData,
+                    validateOnChange: false,
+                    type        : i
+                });
+                range.setValue('');
+                range.on('button:click', _.bind(this.onSelectData, this));
+                this.barControls.push({combo: combo, range: range});
+            }
+
+            // Fill
+            this.cmbFill = new Common.UI.ComboBox({
+                el          : $('#format-rules-edit-combo-fill'),
+                style       : 'width: 100%;',
+                menuStyle   : 'min-width: 100%;max-height: 211px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: false, displayValue: 'Solid'},
+                    {value: true, displayValue: 'Gradient'}
+                ]
+            }).on('selected', function(combo, record) {
+            });
+            this.cmbFill.setValue(false);
+
+            this.btnPosFill = new Common.UI.ColorButton({
+                style: "width:45px;",
+                menu        : true
+            });
+            this.btnPosFill.render( $('#format-rules-edit-color-pos-fill'));
+            this.btnPosFill.setColor('000000');
+
+            this.btnNegFill = new Common.UI.ColorButton({
+                style: "width:45px;",
+                menu        : true
+            });
+            this.btnNegFill.render( $('#format-rules-edit-color-neg-fill'));
+            this.btnNegFill.setColor('000000');
+
+            this.chFill = new Common.UI.CheckBox({
+                el: $('#format-rules-edit-chk-fill'),
+                labelText: 'Same as positive'
+            });
+            this.chFill.on('change', function(field, newValue, oldValue, eOpts){
+                me.btnNegFill.setDisabled(field.getValue()=='checked');
+            });
+
+            // Border
+            this.cmbBorder = new Common.UI.ComboBox({
+                el          : $('#format-rules-edit-combo-border'),
+                style       : 'width: 100%;',
+                menuStyle   : 'min-width: 100%;max-height: 211px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: false, displayValue: 'Solid'},
+                    {value: true, displayValue: 'None'}
+                ]
+            }).on('selected', function(combo, record) {
+                me.btnPosBorder.setDisabled(record.value);
+                me.btnNegBorder.setDisabled(record.value || me.chBorder.getValue()=='checked');
+                me.chBorder.setDisabled(record.value);
+            });
+            this.cmbBorder.setValue(false);
+
+            this.btnPosBorder = new Common.UI.ColorButton({
+                style: "width:45px;",
+                menu        : true
+            });
+            this.btnPosBorder.render( $('#format-rules-edit-color-pos-border'));
+            this.btnPosBorder.setColor('000000');
+
+            this.btnNegBorder = new Common.UI.ColorButton({
+                style: "width:45px;",
+                menu        : true
+            });
+            this.btnNegBorder.render( $('#format-rules-edit-color-neg-border'));
+            this.btnNegBorder.setColor('000000');
+
+            this.chBorder = new Common.UI.CheckBox({
+                el: $('#format-rules-edit-chk-border'),
+                labelText: 'Same as positive'
+            });
+            this.chBorder.on('change', function(field, newValue, oldValue, eOpts){
+                me.btnNegBorder.setDisabled(field.getValue()=='checked');
+            });
+
+            // Axis
+            this.cmbBarDirection = new Common.UI.ComboBox({
+                el          : $('#format-rules-edit-combo-direction'),
+                style       : 'width: 100%;',
+                menuStyle   : 'min-width: 100%;max-height: 211px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: Asc.c_oAscDataBarDirection.context, displayValue: 'Context'},
+                    {value: Asc.c_oAscDataBarDirection.leftToRight, displayValue: 'Left to right'},
+                    {value: Asc.c_oAscDataBarDirection.rightToLeft, displayValue: 'Right to left'}
+                ]
+            }).on('selected', function(combo, record) {
+            });
+            this.cmbBarDirection.setValue(Asc.c_oAscDataBarDirection.context);
+
+            this.chShowBar = new Common.UI.CheckBox({
+                el: $('#format-rules-edit-chk-show-bar'),
+                labelText: 'Show bar only'
+            });
+            // this.chShowBar.on('change', _.bind(this.onShowBarChange, this));
+
+            this.cmbAxisPos = new Common.UI.ComboBox({
+                el          : $('#format-rules-edit-combo-axis-pos'),
+                style       : 'width: 150px;',
+                menuStyle   : 'min-width: 100%;max-height: 211px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: Asc.c_oAscDataBarAxisPosition.automatic, displayValue: 'Automatic'},
+                    {value: Asc.c_oAscDataBarAxisPosition.middle, displayValue: 'Cell midpoint'},
+                    {value: Asc.c_oAscDataBarAxisPosition.none, displayValue: 'None'}
+                ]
+            }).on('selected', function(combo, record) {
+                me.btnAxisColor.setDisabled(record.value == Asc.c_oAscDataBarAxisPosition.none);
+            });
+            this.cmbAxisPos.setValue(Asc.c_oAscDataBarDirection.context);
+
+            this.btnAxisColor = new Common.UI.ColorButton({
+                style: "width:45px;",
+                menu        : true
+            });
+            this.btnAxisColor.render( $('#format-rules-edit-color-axis-color'));
+            this.btnAxisColor.setColor('000000');
+
             this.afterRender();
         },
 
@@ -555,6 +783,24 @@ define([
             var type = props ? props.asc_getType() : this.type,
                 ruleType,
                 subtype = this.subtype;
+
+            var setColor = function(color, control) {
+                color = Common.Utils.ThemeColor.colorValue2EffectId(color);
+                control.setColor(color);
+                if (_.isObject(color)) {
+                    var isselected = false;
+                    for (var j = 0; j < 10; j++) {
+                        if (Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue) {
+                            control.colorPicker.select(color, true);
+                            isselected = true;
+                            break;
+                        }
+                    }
+                    if (!isselected) control.colorPicker.clearSelection();
+                } else {
+                    control.colorPicker.select(color, true);
+                }
+            };
 
             if (props) {
                 var value;
@@ -608,24 +854,43 @@ define([
                             controls.combo.setValue(scaletype);
                             controls.range.setDisabled(scaletype == Asc.c_oAscCfvoType.Minimum || scaletype == Asc.c_oAscCfvoType.Maximum);
                             controls.range.setValue((scaletype !== Asc.c_oAscCfvoType.Minimum && scaletype !== Asc.c_oAscCfvoType.Maximum && val!==null && val!==undefined) ? val : '');
-                            controls.color.setColor(color);
-                            if (_.isObject(color)) {
-                                var isselected = false;
-                                for (var j = 0; j < 10; j++) {
-                                    if (Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue) {
-                                        controls.colorPicker.select(color, true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) controls.colorPicker.clearSelection();
-                            } else {
-                                controls.colorPicker.select(color, true);
-                            }
+                            setColor(color, controls.color);
                         }
                         break;
                     case Asc.c_oAscCFType.dataBar:
                         value = props.asc_getColorScaleOrDataBarOrIconSetRule();
+                        var bars = value.asc_getCFVOs();
+                        var arr = this.barControls;
+                        for (var i=0; i<bars.length; i++) {
+                            var bartype = bars[i].asc_getType(),
+                                val =  bars[i].asc_getVal(),
+                                controls = arr[i];
+                            controls.combo.setValue(bartype);
+                            controls.range.setDisabled(bartype == Asc.c_oAscCfvoType.Minimum || bartype == Asc.c_oAscCfvoType.Maximum || bartype == Asc.c_oAscCfvoType.AutoMin || bartype == Asc.c_oAscCfvoType.AutoMax);
+                            controls.range.setValue((bartype !== Asc.c_oAscCfvoType.Minimum && bartype !== Asc.c_oAscCfvoType.Maximum  && bartype !== Asc.c_oAscCfvoType.AutoMin && bartype !== Asc.c_oAscCfvoType.AutoMax &&
+                                                    val!==null && val!==undefined) ? val : '');
+                        }
+                        this.cmbFill.setValue(value.asc_getGradient());
+                        setColor(value.asc_getColor(), this.btnPosFill);
+                        setColor(value.asc_getNegativeColor() || value.asc_getColor(), this.btnNegFill);
+                        this.chFill.setValue(value.asc_getNegativeBarColorSameAsPositive());
+
+                        var color = value.asc_getBorderColor();
+                        this.cmbBorder.setValue(color===null);
+                        this.btnPosBorder.setDisabled(color===null);
+                        if (color) {
+                            setColor(value.asc_getBorderColor(), this.btnPosBorder);
+                            setColor(value.asc_getNegativeBorderColor(), this.btnNegBorder);
+                        }
+                        this.chBorder.setValue(value.asc_getNegativeBarBorderColorSameAsPositive());
+                        this.chBorder.setDisabled(color===null);
+                        this.btnNegBorder.setDisabled(color===null || value.asc_getNegativeBarBorderColorSameAsPositive());
+
+                        this.cmbBarDirection.setValue(value.asc_getDirection());
+                        this.chShowBar.setValue(!value.asc_getShowValue());
+                        this.cmbAxisPos.setValue(value.asc_getAxisPosition());
+                        setColor(value.asc_getAxisColor(), this.btnAxisColor);
+                        this.btnAxisColor.setDisabled(value.asc_getAxisPosition() == Asc.c_oAscDataBarAxisPosition.none);
                         break;
                     case Asc.c_oAscCFType.iconSet:
                         value = props.asc_getColorScaleOrDataBarOrIconSetRule();
@@ -710,6 +975,8 @@ define([
                 this.scaleControls[1].color.setVisible(category==8);
                 this.lblMidScale.toggleClass('hidden', category==7);
             }
+
+            this.$window.find('.databar').toggleClass('hidden', category!==9);
         },
 
         onSelectData: function(cmp) {
@@ -759,6 +1026,36 @@ define([
                 // btn.items[1].on('click', _.bind(this.addNewColor, this, colorPicker, btn));
                 this.scaleControls[i].colorPicker = colorPicker;
             }
+
+            var me = this;
+            var initColor = function(btn) {
+                var id = Common.UI.getId();
+                btn.setMenu( new Common.UI.Menu({
+                    items: [
+                        { template: _.template('<div id="' + id + '" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a style="padding-left:12px;">' + me.textNewColor + '</a>') }
+                    ]
+                }));
+                var colorPicker = new Common.UI.ThemeColorPalette({
+                    el: me.$window.find('#' + id),
+                    transparent: false,
+                    type: i
+                });
+                colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                // btn.items[1].on('click', _.bind(this.addNewColor, this, colorPicker, btn));
+                btn.colorPicker = colorPicker;
+            };
+            initColor(this.btnPosFill);
+            // this.btnPosFill.colorPicker.on('select', _.bind(this.onBarColorsSelect, this));
+            initColor(this.btnNegFill);
+            // this.btnNegFill.colorPicker.on('select', _.bind(this.onBarColorsSelect, this));
+            initColor(this.btnPosBorder);
+            // this.btnPosBorder.colorPicker.on('select', _.bind(this.onBarColorsSelect, this));
+            initColor(this.btnNegBorder);
+            // this.btnNegBorder.colorPicker.on('select', _.bind(this.onBarColorsSelect, this));
+            initColor(this.btnAxisColor);
+            // this.btnAxisColor.colorPicker.on('select', _.bind(this.onAxisColorsSelect, this));
+
             this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.mnuFillColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
@@ -833,7 +1130,10 @@ define([
         fillColor: 'Background color',
         textMinpoint: 'Minpoint',
         textMidpoint: 'Midpoint',
-        textMaxpoint: 'Maxpoint'
+        textMaxpoint: 'Maxpoint',
+        textMinimum: 'Minimum',
+        textMaximum: 'Maximum',
+        textAppearance: 'Bar Appearance'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });
