@@ -524,7 +524,7 @@ define([
                     var $html = $(_.template(templateTitleBox)());
 
                     !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
-                    me.labelDocName = $html.find('> #title-doc-name');
+                    me.labelDocName = $html.find('#title-doc-name');
                     me.labelDocName.text = function (str) {this.val(str);};             // redefine text function to lock temporaly rename docuemnt option
                     me.labelDocName.text( me.documentCaption );
 
