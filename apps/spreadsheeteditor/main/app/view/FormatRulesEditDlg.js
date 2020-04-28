@@ -236,8 +236,8 @@ define([
                     rules: [
                         { name: 'Above', subtype: 0},
                         { name: 'Below', subtype: 1},
-                        { name: 'Equal or above', subtype: 2},
-                        { name: 'Equal or below', subtype: 3},
+                        { name: 'Equal to or above', subtype: 2},
+                        { name: 'Equal to or below', subtype: 3},
                         { name: '1 std dev above', subtype: 4},
                         { name: '1 std dev below', subtype: 5},
                         { name: '2 std dev above', subtype: 6},
@@ -823,7 +823,7 @@ define([
                         if (eq)
                             subtype += 2;
                         else if (stddev) {
-                            subtype += (3 + stddev);
+                            subtype += (2 + stddev*2);
                         }
                         break;
                     case Asc.c_oAscCFType.top10:
@@ -837,7 +837,6 @@ define([
                         this.txtRange2.setValue(props.asc_getValue2() || '');
                         break;
                     case Asc.c_oAscCFType.expression:
-                        subtype = props.asc_getOperator();
                         this.txtRange1.setValue(props.asc_getValue1() || '');
                         break;
                     case Asc.c_oAscCFType.colorScale:

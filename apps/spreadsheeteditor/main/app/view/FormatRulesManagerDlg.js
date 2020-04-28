@@ -191,10 +191,12 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var arr = [];
             if (levels) {
                 for (var i=0; i<levels.length; i++) {
-                    var level = levels[i];
+                    var level = levels[i],
+                        name = this.getRuleName(level);
                     arr.push({
                         levelIndex: i,
-                        name: this.getRuleName(level),
+                        name: name,
+                        tip: name,
                         range: level.asc_getLocation(),
                         props: level
                     });
@@ -211,57 +213,165 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             switch (rule.asc_getType()) {
                 case Asc.c_oAscCFType.aboveAverage:
                     name = 'Above average';
+                    var above = rule.asc_getAboveAverage(),
+                        eq = rule.asc_getEqualAverage(),
+                        stddev = rule.asc_getStdDev();
+                    subtype = (above) ? 0 : 1;
+                    if (eq)
+                        subtype += 2;
+                    else if (stddev) {
+                        subtype += (2 + stddev*2);
+                    }
+                    switch (subtype) {
+                        case 0:
+                            name = 'Above average';
+                            break;
+                        case 1:
+                            name = 'Below average';
+                            break;
+                        case 2:
+                            name = 'Equal to or above average';
+                            break;
+                        case 3:
+                            name = 'Equal to or below average';
+                            break;
+                        case 4:
+                            name = '1 std dev above average';
+                            break;
+                        case 5:
+                            name = '1 std dev below average';
+                            break;
+                        case 6:
+                            name = '2 std dev above average';
+                            break;
+                        case 7:
+                            name = '2 std dev below average';
+                            break;
+                        case 8:
+                            name = '3 std dev above average';
+                            break;
+                        case 9:
+                            name = '3 std dev below average';
+                            break;
+                    }
                     break;
                 case Asc.c_oAscCFType.beginsWith:
-                    name = 'Begins with';
+                    name = 'Cell value begins with ' + (rule.asc_getContainsText() || '');
                     break;
                 case Asc.c_oAscCFType.cellIs:
-                    name = 'Value is';
+                    name = 'Cell value';
+                    var subtype = rule.asc_getOperator(),
+                        op;
+                    switch (subtype) {
+                        case Asc.c_oAscCFOperator.greaterThan:
+                            op = '>';
+                            name = name + ' ' + op + ' ' + (rule.asc_getValue1() || '');
+                            break;
+                        case Asc.c_oAscCFOperator.greaterThanOrEqual:
+                            op = '>=';
+                            name = name + ' ' + op + ' ' + (rule.asc_getValue1() || '');
+                            break;
+                        case Asc.c_oAscCFOperator.lessThan:
+                            op = '<';
+                            name = name + ' ' + op + ' ' + (rule.asc_getValue1() || '');
+                            break;
+                        case Asc.c_oAscCFOperator.lessThanOrEqual:
+                            op = '<=';
+                            name = name + ' ' + op + ' ' + (rule.asc_getValue1() || '');
+                            break;
+                        case Asc.c_oAscCFOperator.equal:
+                            op = '=';
+                            name = name + ' ' + op + ' ' + (rule.asc_getValue1() || '');
+                            break;
+                        case Asc.c_oAscCFOperator.notEqual:
+                            op = '<>';
+                            name = name + ' ' + op + ' ' + (rule.asc_getValue1() || '');
+                            break;
+                        case Asc.c_oAscCFOperator.between:
+                            name = name + ' ' + Common.Utils.String.format('is between {0} and {1}', (rule.asc_getValue1() || ''), (rule.asc_getValue2() || ''));
+                            break;
+                        case Asc.c_oAscCFOperator.notBetween:
+                            name = name + ' ' + Common.Utils.String.format('is not between {0} and {1}', (rule.asc_getValue1() || ''), (rule.asc_getValue2() || ''));
+                            break;
+                    }
                     break;
                 case Asc.c_oAscCFType.colorScale:
-                    name = 'Color scale';
+                    name = 'Graded color scale';
                     break;
                 case Asc.c_oAscCFType.containsBlanks:
-                    name = 'Contains blanks';
+                    name = 'Cell contains a blank value';
                     break;
                 case Asc.c_oAscCFType.containsErrors:
-                    name = 'Contains errors';
+                    name = 'Cell contains an error';
                     break;
                 case Asc.c_oAscCFType.containsText:
-                    name = 'Contains text';
+                    name = 'Cell value contains ' + (rule.asc_getContainsText() || '');
                     break;
                 case Asc.c_oAscCFType.dataBar:
-                    name = 'Data bar';
+                    name = 'Column';
                     break;
                 case Asc.c_oAscCFType.duplicateValues:
                     name = 'Duplicate values';
                     break;
                 case Asc.c_oAscCFType.expression:
-                    name = 'Expression';
+                    name = 'Formula: ' + (rule.asc_getValue1() || '');
                     break;
                 case Asc.c_oAscCFType.iconSet:
-                    name = 'Icon sets';
+                    name = 'Icon set';
                     break;
                 case Asc.c_oAscCFType.notContainsBlanks:
-                    name = 'Not contains blanks';
+                    name = 'Cell does not contain a blank value';
                     break;
                 case Asc.c_oAscCFType.notContainsErrors:
-                    name = 'Not contains errors';
+                    name = 'Cell does not contain an error';
                     break;
                 case Asc.c_oAscCFType.notContainsText:
-                    name = 'Not contains text';
+                    name = 'Cell value does not contain ' + (rule.asc_getContainsText() || '');
                     break;
                 case Asc.c_oAscCFType.timePeriod:
-                    name = 'Date';
+                    var subtype = rule.asc_getTimePeriod();
+                    switch (subtype) {
+                        case Asc.c_oAscTimePeriod.yesterday:
+                            name = 'Yesterday';
+                            break;
+                        case Asc.c_oAscTimePeriod.today:
+                            name = 'Today';
+                            break;
+                        case Asc.c_oAscTimePeriod.tomorrow:
+                            name = 'Tomorrow';
+                            break;
+                        case Asc.c_oAscTimePeriod.last7Days:
+                            name = 'In the last 7 days';
+                            break;
+                        case Asc.c_oAscTimePeriod.lastWeek:
+                            name = 'Last week';
+                            break;
+                        case Asc.c_oAscTimePeriod.thisWeek:
+                            name = 'This week';
+                            break;
+                        case Asc.c_oAscTimePeriod.nextWeek:
+                            name = 'Next week';
+                            break;
+                        case Asc.c_oAscTimePeriod.lastMonth:
+                            name = 'Last month';
+                            break;
+                        case Asc.c_oAscTimePeriod.thisMonth:
+                            name = 'This month';
+                            break;
+                        case Asc.c_oAscTimePeriod.nextMonth:
+                            name = 'Next month';
+                            break;
+                    }
                     break;
                 case Asc.c_oAscCFType.top10:
-                    name = 'Top 10 values';
+                    name = rule.asc_getBottom() ? 'Bottom' : 'Top';
+                    name = name + ' ' + (rule.asc_getRank()) + (rule.asc_getPercent() ? '%' : '');
                     break;
                 case Asc.c_oAscCFType.uniqueValues:
                     name = 'Unique values';
                     break;
                 case Asc.c_oAscCFType.endsWith:
-                    name = 'Ends with';
+                    name = 'Cell value ends with ' + (rule.asc_getContainsText() || '');
                     break;
             }
             return name;
