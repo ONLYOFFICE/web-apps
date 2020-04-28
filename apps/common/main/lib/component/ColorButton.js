@@ -49,25 +49,17 @@ define([
             '<div class="btn-group" id="<%= id %>">',
                 '<button type="button" class="btn btn-color dropdown-toggle <%= cls %>" data-toggle="dropdown" style="<%= style %>">',
                     '<span>&nbsp;</span>',
+                    '<span class="inner-box-caret"><i class="caret img-commonctrl"></i></span>',
                 '</button>',
             '</div>'
         ].join('')),
 
         setColor: function(color) {
-            var border_color, clr,
-                span = $(this.cmpEl).find('button span');
+            var span = $(this.cmpEl).find('button span:nth-child(1)');
             this.color = color;
 
-            if ( color== 'transparent' ) {
-                border_color = '#BEBEBE';
-                clr = color;
-                span.addClass('color-transparent');
-            } else {
-                border_color = 'transparent';
-                clr = (typeof(color) == 'object') ? '#'+color.color : '#'+color;
-                span.removeClass('color-transparent');
-            }
-            span.css({'background-color': clr, 'border-color': border_color});
+            span.toggleClass('color-transparent', color=='transparent');
+            span.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
         }
     });
 });
