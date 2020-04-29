@@ -1,40 +1,47 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Visualizzazione e navigazione</title>
+		<title>View Settings and Navigation Tools</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="La descrizione degli strumenti di navigazione tra i quali righelli, zoom, pulsanti di diapositiva precedente/successiva" />
+		<meta name="description" content="The description of view settings and navigation tools such as zoom, previous/next slide buttons" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-		<h1>Visualizzazione e navigazione</h1>
-			<p><b>TeamLab Presentation Editor</b> fornisce certi strumenti per aiutare a visualizzare e navigare nella vostra presentazione: righelli, zoom, pulsanti di diapositiva precedente/successiva, indicatore del numero di diapositive.</p>
-			<h3>Regolare le impostazioni di visualizzazione</h3>
-			<p>Per regolare le impostazioni di visualizzazione predefinite e impostare il modo di lavoro più conveniente, fate clic sull'icona <b>Impostazioni di visualizzazione</b> <img alt="Impostazioni di visualizzazione" src="../images/ViewSettingsIcon.png" /> nell'angolo destro della barra degli strumenti superiore e selezionate gli elementi di interfaccia da nascondere o visualizzare. 
-				Potete usare le seguenti opzioni dall'elenco a discesa <b>Impostazioni di visualizzazione</b>:
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+		<h1>View Settings and Navigation Tools</h1>
+			<p><b>Presentation Editor</b> offers several tools to help you view and navigate through your presentation: zoom, previous/next slide buttons, slide number indicator.</p>
+			<h3>Adjust the View Settings</h3>
+			<p>To adjust default view settings and set the most convenient mode to work with the presentation, click the <b>View settings</b> <img alt="View settings icon" src="../images/viewsettingsicon.png" /> icon on the right side of the editor header and select which interface elements you want to be hidden or shown.
+			You can select the following options from the <b>View settings</b> drop-down list:
 			</p>
 			<ul>
-			<li><b>Mostra barra degli strumenti compatta</b> si usa per attivare la modalità compatta della barra degli strumenti superiore che fornisce tutte le funzionalità di base. Per mostrare la barra predefinita fate clic su questa opzione ancora una volta.</li>
-			<li><b>Nascondi barra di titolo</b> si usa per nascondere la barra la più alta sulla quale viene visualizzato il nome del documento e l'opzione <b>Va' ai Documenti</b>. Per mostrare la <b>Barra di titolo</b> nascosta fate clic su questa opzione ancora una volta.</li>
-			<li><b>Nascondi barra di stato</b> si usa per nascondere la barra la più bassa sulla quale si trovano l'<b>Indicatore del numero di diapositiva</b> e i <b>pulsanti di Zoom</b>. Per mostrare la <b>Barra di stato</b> nascosta fate clic su questa opzione ancora una volta.</li>
+			<li><b>Hide Toolbar</b> -  hides the top toolbar that contains commands while tabs remain visible. When this option is enabled, you can click any tab to display the toolbar. The toolbar is displayed until you click anywhere outside it. To disable this mode, click the <b>View settings</b> <img alt="View settings icon" src="../images/viewsettingsicon.png" /> icon and click the <b>Hide Toolbar</b> option once again. The top toolbar will be displayed all the time. 
+                <p class="note"><b>Note</b>: alternatively, you can just double-click any tab to hide the top toolbar or display it again.</p>
+            </li>
+			<li><b>Hide Status Bar</b> - hides the bottommost bar where the <b>Slide Number Indicator</b> and <b>Zoom</b> buttons are situated. To show the hidden <b>Status Bar</b> click this option once again.</li>
+            <li><b>Hide Rulers</b> - hides rulers which are used to set up tab stops and paragraph indents within the text boxes. To show the hidden <b>Rulers</b> click this option once again.</li>
 			</ul>
-			<p>La barra destra è minimizzata di default. Per espanderla, selezionate qualsiasi oggetto/diapositiva e fate clic sull'icona della scheda attualmente attivata a destra (fate clic sull'icona ancora una volta per minimizzare la barra destra di nuovo). La larghezza della barra sinistra può essere regolata con un semplice trascinamento: 
-			posizionate il puntatore del mouse sul bordo della barra sinistra (il puntatore viene trasformato nella freccia bidirezionale) e trascinate il bordo a destra per estendere la barra. Per ripristinare la larghezza predefinita spostate il bordo a sinistra.</p>
-			<h3>Usare gli strumenti di navigazione</h3>
-			<p>I <b>Righelli</b> si usano per impostare margini, tabulazioni e rientri di paragrafo nelle caselle di testo. Quando una casella di testo è selezionata, la sua posizione è visualizzata sui righelli. 
-			I righelli sono nascosti di default. Per visualizzarli cliccate sull'icona <b>Nascondi/Mostra righelli</b> <img alt="Nascondi/Mostra righelli" src="../images/hiderulers.png" /> a destra. 
-			Questa icona è anche usata per nascondere i righelli di nuovo. Quando i righelli sono visualizzati, anche il pulsante <b>Punto di tabulazione</b> <img alt="Punto di tabulazione sinistro" src="../images/tabstopleft.png" /> è disponibile a sinistra. Si usa per impostare i punti di tabulazione.</p>
-			<p>I pulsanti di <b>Zoom</b> sono situati nell'angolo destro inferiore e si usano per ingrandire/diminuire la posizione corrente. 
-			Per cambiare il valore di zoom selezionato visualizzato in percentuale, cliccatelo e selezionate una delle opzioni disponibili dall'elenco o 
-			utilizzate i pulsanti <b>Zoom avanti</b> <img alt="Zoom avanti" src="../images/zoomin.png" /> o <b>Zoom indietro</b> <img alt="Zoom indietro" src="../images/zoomout.png" />.  
-			Cliccate sull'icona <b>Adatta alla larghezza</b> <img alt="Adatta alla larghezza" src="../images/fitwidth.png" /> per adattare la larghezza della diapositiva del documento alla videata.
-			Per adattare tutta la diapositiva alla videata, cliccate sull'icona <b>Adatta alla diapositiva</b> <img alt="Adatta alla diapositiva" src="../images/fitslide.png" />.</p>
-			Le impostazioni di zoom sono disponibili anche nell'elenco <b>Impostazioni di visualizzazione</b> <img alt="Impostazioni di visualizzazione" src="../images/ViewSettingsIcon.png" /> Questo può essere molto utile quando la <b>Barra di stato</b> è nascosta.
-			<p class="note"><b>Nota</b>: potete impostare un valore di zoom predefinito. Cliccate sull'icona <b>File</b> <img alt="File" src="../images/file.png" /> sulla barra sinistra, passate alla sezione <b>Impostazioni avanzate...</b>, selezionate il <b>Valore zoom predefinito</b> dall'elenco e cliccate su <b>Applica</b>.</p>
-			<p>I pulsanti <b>Diapositiva precedente</b> <img alt="Diapositiva precedente" src="../images/previouspage.png" /> e <b>Diapositiva successiva</b> <img alt="Diapositiva successiva" src="../images/nextpage.png" /> situati nell'angolo destro inferiore sotto la barra di scorrimento si usano per spostarvi alla diapositiva precedente o successiva della presentazione corrente.</p>
-			<p>L'<b>Indicatore del numero di diapositiva</b> mostra la diapositiva corrente nell'insieme delle diapositive della presentazione corrente (diapositiva 'n' di 'nn'). 
-			Cliccate su questa opzione e inserite il numero di diapositiva da aprire nella finestra contestuale. Se la <b>Barra di stato</b> è nascosta, questo strumento non è accessibile.</p>
+			<p>The right sidebar is minimized by default. To expand it, select any object/slide and click the icon of the currently activated tab on the right. To minimize the right sidebar, click the icon once again. The left sidebar width is adjusted by simple drag-and-drop: 
+			move the mouse cursor over the left sidebar border so that it turns into the bidirectional arrow and drag the border to the left to reduce the sidebar width or to the right to extend it.</p>
+			<h3>Use the Navigation Tools</h3>
+			<p>To navigate through your presentation, use the following tools:</p>
+			<p>The <b>Zoom</b> buttons are situated in the right lower corner and are used to zoom in and out the current presentation.  
+			To change the currently selected zoom value that is displayed in percent, click it and select one of the available zoom options from the list 
+			or use the <b>Zoom in</b> <img alt="Zoom in button" src="../images/zoomin.png" /> or <b>Zoom out</b> <img alt="Zoom out button" src="../images/zoomout.png" /> buttons. 
+			Click the <b>Fit width</b> <img alt="Fit width button" src="../images/fitwidth.png" /> icon to fit the slide width to the visible part of the working area.
+			To fit the whole slide to the visible part of the working area, click the <b>Fit slide</b> <img alt="Fit slide button" src="../images/fitslide.png" /> icon.
+			Zoom settings are also available in the <b>View settings</b> <img alt="View settings icon" src="../images/viewsettingsicon.png" /> drop-down list that can be useful if you decide to hide the <b>Status Bar</b>.</p>
+			<p class="note"><b>Note</b>: you can set a default zoom value. Switch to the <b>File</b> tab of the top toolbar, go to the <b>Advanced Settings...</b> section, choose the necessary <b>Default Zoom Value</b> from the list and click the <b>Apply</b> button.</p>
+			<p>To go to the previous or next slide when editing the presentation, you can use the <img alt="Previous Slide button" src="../images/previouspage.png" /> and <img alt="Next Slide button" src="../images/nextpage.png" /> buttons at the top and bottom of the vertical scroll bar located to the right of the slide.</p>
+			<p>The <b>Slide Number Indicator</b> shows the current slide as a part of all the slides in the current presentation (slide 'n' of 'nn'). 
+			Click this caption to open the window where you can enter the slide number and quickly go to it. If you decide to hide the <b>Status Bar</b>, this tool will become inaccessible.</p>
+			
+			
 		</div>
 	</body>
 </html>

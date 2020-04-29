@@ -1,29 +1,34 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Unire celle</title>
+		<title>Merge cells</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Unite più celle in una o separate la cella unita prima" />
+		<meta name="description" content="Merge some cells into one and split the previously merged cell" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Unire celle</h1>
-			<p>Potete unire due o più celle adiacenti in una cella. Per farlo,</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Merge cells</h1>
+			<p>You can merge two or more adjacent cells into one cell. To do that,</p>
 			<ol>
-			<li>selezionate due celle o un intervallo di celle con il mouse,
-			<p class="note"><b>Nota</b>: le celle selezionate <b>DEVONO</b> essere adiacenti.</p>
+			<li>select two cells or a range of cells with the mouse,
+			<p class="note"><b>Note</b>: the selected cells <b>MUST</b> be adjacent.</p>
 			</li>
-			<li>cliccate sull'icona <b>Unisci</b> <img alt="Unisci" src="../images/merge.png" /> sulla barra degli strumenti superiore e selezionate una delle opzioni disponibili:
-			<p class="note"><b>Nota</b>: solo i dati nella cella sinistra superiore dell'intervallo scelto rimangono nella cella unita. I dati nelle altre celle dell'intervallo scelto vengono eliminati.</p>
+			<li>click the <b>Merge</b> <img alt="Merge icon" src="../images/merge.png" /> icon situated at the <b>Home</b> tab of the top toolbar and select one of the available options:
+			<p class="note"><b>Note</b>: only the data in the upper-left cell of the selected range will remain in the merged cell. Data in other cells of the selected range will be deleted.</p>
 			<ul>
-			<li>se selezionate l'opzione <b>Unisci e centra</b>, le celle dell'intervallo scelto saranno unite e i dati saranno centrati nella cella unita;</li>
-			<li>se selezionate l'opzione <b>Unisci in ciascuna riga</b>, le celle di ogni riga dell'intervallo scelto saranno unite e i dati saranno allineati sul lato sinistro delle celle unite;</li>
-			<li>se selezionate l'opzione <b>Unisci celle</b>, le celle dell'intervallo scelto saranno unite e i dati saranno allineati verticalmente sul lato inferiore e orizzontalmente sul lato sinistro.</li>
+			<li>if you select the <b>Merge &amp; Center</b> option the cells of the selected range will be merged and the data in the merged cell will be centered;</li>
+			<li>if you select the <b>Merge Across</b> option the cells of each row of the selected range will be merged and the data in the merged cells will be aligned by the left side (for text) or by the right side (for numeric values);</li>
+			<li>if you select the <b>Merge Cells</b> option the cells of the selected range will be merged and the data will be aligned by the left side (for text) or by the right side (for numeric values).</li>
 			</ul>
 			</li>
 			</ol>
-			<p>Per separare la cella unita prima usate l'opzione <b>Dividi celle</b> dall'elenco a discesa <b>Unisci</b>. I dati della cella unita vengono visualizzati nella cella sinistra superiore.</p>
+			<p>To split the previously merged cell use the <b>Unmerge Cells</b> option from the <b>Merge</b> drop-down list. The data of the merged cell will be displayed in the upper-left cell.</p>
 		</div>
 	</body>
 </html>

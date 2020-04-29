@@ -1,165 +1,216 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Inserire forme</title>
+		<title>Insert autoshapes</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Aggiungete le forme al vostro documento e regolate le loro proprietà." />
+		<meta name="description" content="Add an autoshape to your document and adjust its properties." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Inserire forme</h1>
-			<p>Per inserire una forma in un documento,</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Insert autoshapes</h1>
+            <h3>Insert an autoshape</h3>
+			<p>To add an autoshape to your document,</p>
 			<ol>
-				<li>cliccate sull'icona <b>Inserisci forma</b> <img alt="Inserisci forma" src="../images/insertautoshape.png" /> sulla barra degli strumenti superiore,</li>
-				<li>selezionate uno dei gruppi disponibili: Figure di base, Frecce decorate, Matematica, Grafici, Stelle e nastri, Callout, Bottoni, Rettangoli, Linee,</li>
-				<li>cliccate sulla forma necessaria dal gruppo selezionato,</li>
-				<li>posizionate il cursore nel punto dove desiderate inserirlo,
-				</li>
-				<li>una volta aggiunta la forma potete cambiare la sua dimensione, la posizione e le proprietà.
-					<p class="note"><b>Nota</b>: per scrivere un testo nella forma assicuratevi che la forma è selezionata nella pagina e cominciate a scrivere il testo. Il testo aggiunto in tale modo rimane insieme alla forma (quando spostate o ruotate la forma, il testo si sposta e si ruota con essa).</p>
+                <li>switch to the <b>Insert</b> tab of the top toolbar,</li>
+				<li>click the <img alt="Shape icon" src="../images/insertautoshape.png" /> <b>Shape</b> icon at the top toolbar,</li>
+				<li>select one of the available autoshape groups: basic shapes, figured arrows, math, charts, stars &amp; ribbons, callouts, buttons, rectangles, lines,</li>
+				<li>click the necessary autoshape within the selected group,</li>
+				<li>place the mouse cursor where you want the shape to be put,</li>
+				<li>once the autoshape is added you can change its size, position and properties.
+				<p class="note"><b>Note</b>: to add a caption within the autoshape make sure the shape is selected on the page and start typing your text. The text you add in this way becomes a part of the autoshape (when you move or rotate the shape, the text moves or rotates with it).</p>
 				</li>
 			</ol>
-			<p><img class="floatleft" alt="Rimodellare forma" src="../images/reshaping.png" />Per cambiare la <b>dimensione</b> della forma, trascinate i quadrati <img alt="Quadrato" src="../images/resize_square.png" /> situati negli angoli dell'oggetto. Per mantenere le proporzioni originali dell'oggetto scelto durante il ridimensionamento, premete il tasto <b>Shift</b> e trascinate uno dei quadrati negli angoli.</p>
-			<p>Quando modificate certe forme, ad esempio Frecce decorate o Callout, è anche disponibile l'icona a forma di diamante giallo <img alt="Diamante giallo" src="../images/yellowdiamond.png" />. Questa icona permette di regolare certi aspetti della forma, ad esempio, la lunghezza della testa di una freccia.</p>
-			<p>Per alterare la posizione della forma, usate la freccia <img alt="Freccia" src="../images/arrow.png" /> che appare quando posizionate il cursore del mouse sull'oggetto. Trascinate l'oggetto nella posizione necessaria mantenendo premuto il tasto del mouse. 
-			Per spostare la forma di tre pixel, premete il tasto <b>Ctrl</b> e usate le frecce della tastiera. 
-			Per spostare la forma precisamente orizzontalmente/verticalmente, tenete premuto il tasto <b>Shift</b> durante lo spostamento.</p>
-			<p>Per ruotare la forma, posizionate il cursore del mouse sul punto di manipolazione di rotazione <img alt="Punto di manipolazione di rotazione" src="../images/greencircle.png" />  e trascinatelo in senso orario o antiorario. Per limitare l'angolo di rotazione a 15 gradi, tenete premuto il tasto <b>Shift</b> durante la rotazione.</p>
-			<hr />
-			<p>Per allineare e disporre le forme, usate il menu contestuale. Le opzioni del menu sono le seguenti:</p>
+            <p>It's also possible to add a caption to the autoshape. To learn more on how to work with captions for autoshapes, you can refer to <a href="../UsageInstructions/AddCaption.htm" onclick="onhyperlinkclick(this)">this article</a>.</p>
+            <h3>Move and resize autoshapes</h3>
+            <p id ="shape_resize"><img class="floatleft" alt="Reshaping autoshape" src="../images/reshaping.png" />To change the autoshape size, drag small squares <img alt="Square icon" src="../images/resize_square.png" /> situated on the shape edges. To maintain the original proportions of the selected autoshape while resizing, hold down the <b>Shift</b> key and drag one of the corner icons.</pid>
+			<p>When modifying some shapes, for example figured arrows or callouts, the yellow diamond-shaped <img alt="Yellow diamond icon" src="../images/yellowdiamond.png" /> icon is also available. It allows you to adjust some aspects of the shape, for example, the length of the head of an arrow.</p>
+			<p>To alter the autoshape position, use the <img alt="Arrow" src="../images/arrow.png" /> icon that appears after hovering your mouse cursor over the autoshape. Drag the autoshape to the necessary position without releasing the mouse button. 
+			When you move the autoshape, guide lines are displayed to help you position the object on the page precisely (if a wrapping style other than inline is selected).
+			To move the autoshape by one-pixel increments, hold down the <b>Ctrl</b> key and use the keybord arrows. 
+			To move the autoshape strictly horizontally/vertically and prevent it from moving in a perpendicular direction, hold down the <b>Shift</b> key when dragging.</p>
+			<p>To rotate the autoshape, hover the mouse cursor over the rotation handle <img alt="Rotation handle" src="../images/greencircle.png" /> and drag it clockwise or counterclockwise. To constrain the rotation angle to 15 degree increments, hold down the <b>Shift</b> key while rotating.</p>
+            <p class="note">
+                <b>Note</b>: the list of keyboard shortcuts that can be used when working with objects is available <a href="../HelpfulHints/KeyboardShortcuts.htm#workwithobjects" onclick="onhyperlinkclick(this)">here</a>.
+            </p>
+            <hr />
+            <h3>Adjust autoshape settings</h3>
+            <p id ="shape_rightclickmenu">To align and arrange autoshapes, use the <b>right-click menu</b>. The menu options are:</p>
 			<ul>
-				<li><b>Disponi</b> si usa per portare la forma selezionata in primo piano, in secondo piano, avanti o indietro e anche raggruppare per effettuare le operazioni con più forme in una volta o separare le forme raggruppate.</li>
-				<li><b>Allinea</b> si usa per allineare la forma a sinistra, al centro, a destra, in alto, in mezzo, in basso.</li>
-				<li><b>Disposizione testo</b> si usa per selezionare la disposizione testo dagli stili disponibili - in linea, quadrato, ravvicinato, all'interno, sopra e sotto, davanti al testo, dietro al testo - o modificare bordi disposizione testo. L'opzione <b>Modifica bordi disposizione testo</b> è disponibile solo se selezionate uno stile diverso da 'in linea'. Trascinate i punti per personalizzare i bordi. Per creare un nuovo punto, fate clic sulla linea rossa e trascinatela nella posizione desiderata. <img alt="Modifica bordi disposizione testo" src="../images/wrap_boundary.png" /></li>
-				<li><b>Impostazioni avanzate</b> si usa per aprire la finestra 'Forma - Impostazioni avanzate'.</li>
+                <li><b>Cut, Copy, Paste</b> - standard options which are used to cut or copy a selected text/object and paste a previously cut/copied text passage or object to the current cursor position.</li>
+                <li><b>Arrange</b> is used to bring the selected autoshape to foreground, send to background, move forward or backward as well as group or ungroup shapes to perform operations with several of them at once. To learn more on how to arrange objects you can refer to <a href="../UsageInstructions/AlignArrangeObjects.htm" onclick="onhyperlinkclick(this)">this page</a>.</li>
+				<li><b>Align</b> is used to align the shape left, center, right, top, middle, bottom. To learn more on how to align objects you can refer to <a href="../UsageInstructions/AlignArrangeObjects.htm" onclick="onhyperlinkclick(this)">this page</a>.</li>
+				<li><b>Wrapping Style</b> is used to select a text wrapping style from the available ones - inline, square, tight, through, top and bottom, in front, behind - or edit the wrap boundary. The <b>Edit Wrap Boundary</b> option is available only if you select a wrapping style other than Inline. Drag wrap points to customize the boundary. To create a new wrap point, click anywhere on the red line and drag it to the necessary position. <img alt="Editing Wrap Boundary" src="../images/wrap_boundary.png" /></li>
+                <li><b>Rotate</b> is used to rotate the shape by 90 degrees clockwise or counterclockwise as well as to flip the shape horizontally or vertically.</li>
+                <li><b>Shape Advanced Settings</b> is used to open the 'Shape - Advanced Settings' window.</li>
 			</ul>
 			<hr />
-			<p>Certe impostazioni della forma possono essere regolate nella scheda <b>Impostazioni scheda</b> sulla barra destra che appare se cliccate sulla forma selezionata con il tasto sinistro del mouse. Qui potete cambiare le seguenti impostazioni:</p>
+			<p>Some of the autoshape settings can be altered using the <b>Shape settings</b> tab of the right sidebar. To activate it click the shape and choose the <b>Shape settings</b> <img alt="Shape settings icon" src="../images/shape_settings_icon.png" /> icon on the right. Here you can change the following properties:</p>
 			<ul>
-			<li><b>Riempimento</b> - usate questa opzione per selezionare il riempimento per la forma. Potete usare una delle opzioni:
+			<li  id="shape_fill"><b>Fill</b> - use this section to select the autoshape fill. You can choose the following options:
 			<ul>
-				<li><b>Colore di riempimento</b> - selezionate questa opzione per specificare il colore che desiderate utilizzare per riempire la forma.
-				<p><img alt="Colore di riempimento" src="../images/fill_color.png" /></p>
-				<p id="color">Cliccate sulla casella di sotto e selezionate il colore necessario dalla tavolozza o specificate qualsiasi altro colore:</p>
-					<p><img alt="Tavolozza" src="../images/palette.png" /></p>
-					<ul>
-						<li><b>Colori tema</b> sono i colori che corrispondono alla combinazione colori del documento.</li>
-						<li><b>Colori standard</b> sono i colori predefiniti.</li>
-						<li><b>Colore personalizzato</b> - selezionate questa opzione se non avete trovato il colore adatto tra quelli disponibili. Selezionate l'intervallo di colori necessario spostando la barra verticale ed impostate il colore specificato trascinando lo strumento di selezione colori all'interno del campo colori grande. Una volta selezionato il colore, i valori RGB e sRGB corrispondenti vengono visualizzati nei campi a destra. Potete anche specificare un colore in base al modello colore RGB inserendo i valori numerici adatti nei campi <b>R</b>, <b>G</b>, <b>B</b> (Red (rosso), Green (verde), Blue (blu)) o inserire il codice sRGB esadecimale nel campo segnato da <b>#</b>. Il colore selezionato appare nella casella di visualizzazione <b>Nuovo</b>. Se c'è già un colore personalizzato, questo colore viene visualizzato nella casella <b>Attuale</b> per darvi la possibilità di confrontare il colore originale e modificato. Una volta specificato il colore, cliccate su <b>Aggiungi</b>:
-						<p><img alt="Tavolozza - Colore personalizzato" src="../images/palette_custom.png" /></p>
-					<p>Il colore personalizzato sarà applicato all'oggetto e aggiunto alla tavolozza <b>Colore personalizzato</b> del menu.</p>
-						</li>
-					</ul>
+				<li><b>Color Fill</b> - select this option to specify the solid color you want to fill the inner space of the selected autoshape with.
+				<p><img alt="Color Fill" src="../images/fill_color.png" /></p>
+				<p id="color">Click the colored box below and select the necessary color from the available <a href="../UsageInstructions/ChangeColorScheme.htm" onclick="onhyperlinkclick(this)">color sets</a> or specify any color you like:</p>
 				</li>
-				<li><b>Sfumatura</b> - selezionate questa opzione per riempire la forma creando una fusione graduale di due colori.
-				<p><img alt="Sfumatura" src="../images/fill_gradient.png" /></p>
+				<li><b>Gradient Fill</b> - select this option to fill the shape with two colors which smoothly change from one to another.
+				<p><img alt="Gradient Fill" src="../images/fill_gradient.png" /></p>
 				    <ul>
-				    <li><b>Stile</b> - selezionate una delle opzioni disponibili: <b>Lineare</b> (la sfumatura viene applicata in linea retta: in orizzontale, in verticale e in diagonale ad un angolo di 45 gradi) o <b>Radiale</b> (la sfumatura viene applicata con progressione circolare dal centro ai bordi).</li>
-				    <li><b>Direzione</b> - selezionate un modello dal menu. Se viene selezionata la sfumatura <b>Lineare</b>, potete scegliere una delle seguenti direzioni: da alto a sinistra verso il basso a destra, verso il basso, da alto a destra verso il basso a sinistra, da destra a sinistra, da basso a destra verso l'alto a sinistra, verso l'alto, da basso a sinistra verso l'alto a destra, da sinistra a destra. Per la sfumatura <b>Radiale</b> c'è un solo modello disponibile.</li>
-				    <li><b>Sfumatura</b> - fate clic sul dispositivo di scorrimento sinistro <img alt="Dispositivo di scorrimento sinistro" src="../images/gradientslider.png" /> sotto la barra della sfumatura per attivare la casella di colore che corrisponde al primo colore. Fate clic sulla casella di colore a destra per selezionare il primo colore nella tavolozza. Trascinate il dispositivo di scorrimento per impostare l'interruzione sfumatura, cioè, il punto in cui la fusione di due colori termina. Usate il dispositivo destro sotto la barra della sfumatura per specificare il secondo colore ed impostare l'interruzione sfumatura.</li>
+				    <li><b>Style</b> - choose one of the available options: <b>Linear</b> (colors change in a straight line i.e. along a horizontal/vertical axis or diagonally at a 45 degree angle) or <b>Radial</b> (colors change in a circular path from the center to the edges).</li>
+				    <li><b>Direction</b> - choose a template from the menu. If the <b>Linear</b> gradient is selected, the following directions are available: top-left to bottom-right, top to bottom, top-right to bottom-left, right to left, bottom-right to top-left, bottom to top, bottom-left to top-right, left to right. If the <b>Radial</b> gradient is selected, only one template is available.</li>
+				    <li><b>Gradient</b> - click on the left slider <img alt="Slider" src="../images/gradientslider.png" /> under the gradient bar to activate the color box which corresponds to the first color. Click on the color box on the right to choose the first color in the palette. Drag the slider to set the gradient stop i.e. the point where one color changes into another. Use the right slider under the gradient bar to specify the second color and set the gradient stop.</li>
 				    </ul>			
 				</li>
-				<li><b>Immagine e trama</b> - selezionate questa opzione per utilizzare un'immagine o una trama predefinita per lo sfondo della forma.
-					<p><img alt="Immagine e trama" src="../images/fill_picture.png" /></p>
+				<li><b>Picture or Texture</b> - select this option to use an image or a predefined texture as the shape background.
+				<p><img alt="Picture or Texture Fill" src="../images/fill_picture.png" /></p>
 					<ul>
-						<li>Se desiderate usare un'immagine per lo sfondo della forma, potete aggiungerla <b>Da file</b> selezionandola sul disco rigido del computer o <b>Da URL</b> inserendo l'URL adatto nella finestra aperta.</li>
-						<li>Se desiderata usare una trama per lo sfondo della forma, aprite il menu <b>Da trama</b> e selezionate una trama necessaria.
-						<p>Al presente, sono disponibili le seguenti trame: Tappeto, Cartone, Tessuto scuro, Grano, Granito, Carta grigia, A maglia, Cuoio, Carta da pacchi, Papiro, Legno.</p>
+						<li>If you wish to use an image as a background for the shape, you can add an image <b>From File</b> selecting it on your computer HDD or <b>From URL</b> inserting the appropriate URL address into the opened window.</li>
+						<li>If you wish to use a texture as a background for the shape, open the <b>From Texture</b> menu and select the necessary texture preset.
+						<p>Currently, the following textures are available: canvas, carton, dark fabric, grain, granite, grey paper, knit, leather, brown paper, papyrus, wood.</p>
 						</li>
 					</ul>
 					<ul>
-						<li>Se la dimensione dell'<b>Immagine</b> selezionata è superiore o inferiore alle dimensioni della forma, potete selezionare il parametro <b>Estendi</b> o <b>Tela</b> dall'elenco a discesa.
-						<p>L'opzione <b>Estendi</b> vi permette di regolare la dimensione dell'immagine per adattarla alle dimensioni della forma per riempire tutto lo spazio.</p>
-						<p>L'opzione <b>Tela</b> vi permette di visualizzare solo una parte di un'immagine grande mantenendo le dimensioni originali, o ripetere un'immagine piccola le sue dimensioni originali per riempire tutto lo spazio.</p>
-						<p class="note"><b>Nota</b>: qualsiasi <b>Trama</b> predefinita riempe tutto lo spazio, però potete impostare il parametro <b>Estendi</b> se necessario.</p>
+						<li>In case the selected <b>Picture</b> has less or more dimensions than the autoshape has, you can choose the <b>Stretch</b> or <b>Tile</b> setting from the dropdown list.
+						<p>The <b>Stretch</b> option allows you to adjust the image size to fit the autoshape size so that it could fill the space completely.</p>
+						<p>The <b>Tile</b> option allows you to display only a part of the bigger image keeping its original dimensions or repeat the smaller image keeping its original dimensions over the autoshape surface so that it could fill the space completely.</p>
+						<p class="note"><b>Note</b>: any selected <b>Texture</b> preset fills the space completely, but you can apply the <b>Stretch</b> effect if necessary.</p>
 						</li>
 					</ul>
 				</li>
-				<li><b>Modello</b> - selezionate questa opzione per riempire la forma da un disegno bicolore composto dagli elementi ripetuti.
-				<p><img alt="Modello" src="../images/fill_pattern.png" /></p>
+				<li><b>Pattern</b> - select this option to fill the shape with a two-colored design composed of regularly repeated elements.
+				<p><img alt="Pattern Fill" src="../images/fill_pattern.png" /></p>
 				    <ul>
-				        <li><b>Modello</b> - selezionate un disegno predefinito dal menu.</li>
-				        <li><b>Colore primo piano</b> - fate clic su questa casella di colore per cambiare il colore degli elementi del modello scelto.</li>
-				        <li><b>Colore sfondo</b> - fate clic su questa casella di colore per cambiare il colore dello sfondo del modello.</li>
+				        <li><b>Pattern</b> - select one of the predefined designs from the menu.</li>
+				        <li><b>Foreground color</b> - click this color box to change the color of the pattern elements.</li>
+				        <li><b>Background color</b> - click this color box to change the color of the pattern background.</li>
 				    </ul>			
 				</li>
-				<li><b>Nessun riempimento</b> - selezionate questa opzione se non desiderate riempire la forma.</li>
+				<li><b>No Fill</b> - select this option if you don't want to use any fill.</li>
 			</ul>
 			</li>
 			</ul>
-			<p><img class="floatleft" alt="Impostazioni forma" src="../images/right_autoshape.png" /></p>
-			<ul style="margin-left: 280px;">
-			<li><b>Opacità</b> - usate questa sezione per impostare il livello di <b>Opacità</b> trascinando la barra o inserendo il valore a mano. Il valore predefinito è <b>100%</b>. Questo corrisponde all'opacità completa. Il valore <b>0%</b> corrisponde alla trasparenza completa.</li>
-			<li><b>Tratto</b> - usate questa sezione per cambiare il colore e lo spessore del tratto per la forma.
-    			<ul>
-    			<li>Per cambiare lo <b>spessore</b>, selezionate una delle opzioni dall'elenco a discesa <b>Dimensione</b>. Le opzioni disponibili sono: 0.5 pt, 1 pt, 1.5 pt, 2.25 pt, 3 pt, 4.5 pt, 6 pt. O selezionate l'opzione  <b>Nessuna linea</b> se non desiderate usare il tratto.</li>
-    			<li>Per cambiare il <b>colore</b>, cliccate sulla casella di colore e <a href="#color" onclick="onhyperlinkclick(this)">selezionate un colore desiderato</a>.</li>
+			<p><img class="floatleft" alt="Autoshape Settings tab" src="../images/right_autoshape.png" /></p>
+			<ul style="margin-left: 280px;">			
+			<li><b>Opacity</b> - use this section to set an <b>Opacity</b> level dragging the slider or entering the percent value manually. The default value is <b>100%</b>. It corresponds to the full opacity. The <b>0%</b> value corresponds to the full transparency.</li>
+			<li id="shape_stroke"><b>Stroke</b> - use this section to change the autoshape stroke width, color or type.
+				<ul>
+				<li>To change the stroke width, select one of the available options from the <b>Size</b> dropdown list. The available options are: 0.5 pt, 1 pt, 1.5 pt, 2.25 pt, 3 pt, 4.5 pt, 6 pt. Alternatively, select the <b>No Line</b> option if you don't want to use any stroke.</li>
+				<li>To change the stroke <b>color</b>, click on the colored box below and <a href="../UsageInstructions/ChangeColorScheme.htm" onclick="onhyperlinkclick(this)">select the necessary color</a>.</li>
+                <li>To change the stroke <b>type</b>, select the necessary option from the corresponding dropdown list (a solid line is applied by default, you can change it to one of the available dashed lines).</li>
 				</ul>
 			</li>
-			<li><b>Disposizione testo</b> si usa per selezionare la disposizione testo dagli stili disponibili - in linea, quadrato, ravvicinato, all'interno, sopra e sotto, davanti al testo, dietro al testo (per dettagli vedere la descrizione delle impostazioni avanzate qui sotto).</li>
-			<li><b>Modifica forma</b> - usate questa sezione per sostituire la forma attuale selezionando un'altra dall'elenco a discesa.</li>
+            <li><b>Rotation</b> is used to rotate the shape by 90 degrees clockwise or counterclockwise as well as to flip the shape horizontally or vertically. Click one of the buttons:
+                <ul>
+                    <li><img alt="Rotate counterclockwise icon" src="../images/rotatecounterclockwise.png" /> to rotate the shape by 90 degrees counterclockwise</li>
+                    <li><img alt="Rotate clockwise icon" src="../images/rotateclockwise.png" /> to rotate the shape by 90 degrees clockwise</li>
+                    <li><img alt="Flip horizontally icon" src="../images/fliplefttoright.png" /> to flip the shape horizontally (left to right)</li>
+                    <li><img alt="Flip vertically icon" src="../images/flipupsidedown.png" /> to flip the shape vertically (upside down)</li>
+                </ul>
+            </li>
+			<li><b>Wrapping Style</b> - use this section to select a text wrapping style from the available ones - inline, square, tight, through, top and bottom, in front, behind (for more information see the advanced settings description below).</li>
+			<li><b>Change Autoshape</b> - use this section to replace the current autoshape with another one selected from the dropdown list.</li>
+            <li><b>Show shadow</b> - check this option to display shape with shadow.</li>
 			</ul>
 			<hr />
-			<p>Per regolare le impostazioni avanzate, cliccate sulla forma con il tasto destro del mouse e selezionate <b>Impostazioni avanzate</b> dal menu contestuale o cliccate sul collegamento <b>Mostra impostazioni avanzate</b> sulla barra destra. Si apre la finestra 'Forma - Impostazioni avanzate':</p>
-			<img alt="Forma - Impostazioni avanzate" src="../images/shape_properties.png" />
-			<p>La scheda <b>Dimensione</b> contiene i seguenti parametri:</p>
+			<h3>Adjust autoshape advanced settings</h3>
+			<p>To change the <b>advanced settings</b> of the autoshape, right-click it and select the <b>Advanced Settings</b> option in the menu or use the <b>Show advanced settings</b> link at the right sidebar. The 'Shape - Advanced Settings' window will open:</p>
+            <p><img alt="Shape - Advanced Settings" src="../images/shape_properties.png" /></p>
+			<p>The <b>Size</b> tab contains the following parameters:</p>
 			<ul>
-				<li><b>Larghezza</b> e <b>Altezza</b> - usate queste opzioni per modificate la larghezza e/o l'altezza della forma. Se l'opzione <b>Proporzioni costanti</b> <img alt="Proporzioni costanti" src="../images/constantproportions.png" /> è attivata, la larghezza e l'altezza saranno modificate insieme matenendo il rapporto larghezza/altezza della forma originale.</li>
+				<li><b>Width</b> - use one of these options to change the autoshape width.
+                <ul>
+                    <li><b>Absolute</b> - specify an exact value measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab).</li>
+                    <li><b>Relative</b> - specify a percentage <b>relative to</b> the <em>left margin</em> width, the <em>margin</em> (i.e. the distance between the left and right margins), the <em>page</em> width, or the <em>right margin</em> width.</li>
+                </ul>
+                </li>
+                <li><b>Height</b> - use one of these options to change the autoshape height.
+                    <ul>
+                        <li><b>Absolute</b> - specify an exact value measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab).</li>
+                        <li><b>Relative</b> - specify a percentage <b>relative to</b> the <em>margin</em> (i.e. the distance between the top and bottom margins), the <em>bottom margin</em> height, the <em>page</em> height, or the <em>top margin</em> height.</li>
+                    </ul>
+                </li>
+                <li>If the <b>Lock aspect ratio</b> option is checked, the width and height will be changed together preserving the original shape aspect ratio.</li>
 			</ul>
-			<p><img alt="Forma - Impostazioni avanzate" src="../images/shape_properties_1.png" /></p>
-			<p>La scheda <b>Disposizione testo</b> contiene i seguenti parametri:</p>
+            <p><img alt="Shape - Advanced Settings" src="../images/shape_properties_6.png" /></p>
+            <p>The <b>Rotation</b> tab contains the following parameters:</p>
+            <ul>
+                <li><b>Angle</b> - use this option to rotate the shape by an exactly specified angle. Enter the necessary value measured in degrees into the field or adjust it using the arrows on the right. </li>
+                <li><b>Flipped</b> - check the <b>Horizontally</b> box to flip the shape horizontally (left to right) or check the <b>Vertically</b> box to flip the shape vertically (upside down).</li>
+            </ul>
+            <p id="shape_wrapping"><img alt="Shape - Advanced Settings" src="../images/shape_properties_1.png" /></p>
+			<p>The <b>Text Wrapping</b> tab contains the following parameters:</p>
 			<ul>
-				<li><b>Stile di disposizione testo</b> - usate questa opzione per cambiare il modo da posizionare la forma rispetto al testo: questa può fare parte del testo (se selezionate lo stile 'in linea') o essere bypassata da tutti i lati (se selezionate uno di altri stili).
-					<ul>
-						<li><p><img alt="Stile di disposizione - In linea" src="../images/wrappingstyle_inline.png" /> <b>In linea</b> - la forma rimane insieme al testo, come un carattere, quindi quando il testo si sposta, anche la forma si sposta. In questo caso le opzioni di posizione non sono accessibili.</p>
-							<p>Se selezionate uno di seguenti stili, potete spostare l'immagine independamente dal testo e selezionare una posizione più esatta:</p>
-						</li>
-						<li><p><img alt="Stile di disposizione - Quadrato" src="../images/wrappingstyle_square.png" /> <b>Quadrato</b> si usa per disporre il testo intorno al bordo della forma.</p></li>
-						<li><p><img alt="Stile di disposizione - Ravvicinato" src="../images/wrappingstyle_tight.png" /> <b>Ravvicinato</b> si usa per ravvicinare il testo intorno alla forma.</p></li>
-						<li><p><img alt="Stile di disposizione - All'interno" src="../images/wrappingstyle_through.png" /> <b>All'interno</b> si usa per disporre il testo vicino alla forma in modo da riempire lo spazio negativo intorno alla forma.</p></li>
-						<li><p><img alt="Stile di disposizione - Sopra e sotto" src="../images/wrappingstyle_topandbottom.png" /> <b>Sopra e sotto</b> si usa per disporre il testo sopra e sotto la forma posizionando la forma sulla propria linea.</p></li>
-						<li><p><img alt="Stile di disposizione - Davanti al testo" src="../images/wrappingstyle_infront.png" /> <b>Davanti al testo</b> si usa per visualizzare il testo sopra la forma.</p></li>
-						<li><p><img alt="Stile di disposizione - Dietro al testo" src="../images/wrappingstyle_behind.png" /> <b>Dietro al testo</b> si usa per visualizzare la forma sopra il testo.</p></li>
-					</ul>
-				</li>
-			</ul>
-			<p>Se selezionate lo stile quadrato, stretto, attraverso, o sopra e sotto avrete la possibilità di impostare certi parametri addizionali - <b>distanza dal testo</b> (in alto, in basso, a sinistra, a destra).</p>
-			<p><img alt="Forma - Impostazioni avanzate" src="../images/shape_properties_2.png" /></p>
-			<p>La scheda <b>Posizione</b> è disponibile solo se selezionate uno stile di disposizione diverso da 'in linea'. Le impostazioni in questa scheda variano secondo lo stile di disposizione scelto:</p>
-			<ul>
-				<li><b>Orizzontale</b> include l'<b>allineamento</b> della forma (a sinistra, al centro, a destra) <b>rispetto a</b> carattere, colonna, margine sinistro, margine, pagina o margine destro e anche la <b>posizione a destra di </b> carattere, colonna, margine sinistro, margine, pagina o margine destro.</li>
-				<li><b>Verticale</b> include l'<b>allineamento</b> della forma (in alto, al centro, in basso) <b>rispetto a</b> stringa, margine, margine inferiore, paragrafo, pagina o margine superiore e anche la <b>posizione al di sotto</b> di stringa, margine, margine inferiore, paragrafo, pagina o margine superiore.</li>
-				<li><b>Sposta oggetto con testo</b> si usa per spostare il testo insieme con la forma inserita.</li>
-				<li><b>Consenti sovrapposizione</b> si usa per sovrappore due forme quando sono trascinate l'una vicino all'altra.</li>
-			</ul>
-			<p><img alt="Forma - Impostazioni avanzate" src="../images/shape_properties_3.png" /></p>
-			<p>La scheda <b>Impostazioni forma</b> contiene i seguenti parametri:</p>
-			<ul>
-				<li><b>Stile linea</b> - questo gruppo di opzioni vi permette di specificare i seguenti parametri:
+				<li><b>Wrapping Style</b> - use this option to change the way the shape is positioned relative to the text: it will either be a part of the text (in case you select the inline style) or bypassed by it from all sides (if you select one of the other styles).
 				<ul>
-				<li><b>Tipo estremità</b> - questa opzione vi permette di impostare lo stile per la fine della linea. Può essere impostato per le forme con il contorno aperto: linee, polilinee ecc.: 
-				    <ul>
-				    <li><b>Uniforme</b> - le estremità saranno uniformi.</li>
-				    <li><b>Rotondo</b> - le estremità saranno arrotondate.</li>
-				    <li><b>Quadrato</b> - le estremità saranno quadrate.</li>
+				    <li><p><img alt="Wrapping Style - Inline" src="../images/wrappingstyle_inline.png" /> <b>Inline</b> - the shape is considered to be a part of the text, like a character, so when the text moves, the shape moves as well. In this case the positioning options are inaccessible.</p>
+				    <p>If one of the following styles is selected, the shape can be moved independently of the text and positioned on the page exactly:</p>
+				    </li>
+				    <li><p><img alt="Wrapping Style - Square" src="../images/wrappingstyle_square.png" /> <b>Square</b> - the text wraps the rectangular box that bounds the shape.</p></li>
+				    <li><p><img alt="Wrapping Style - Tight" src="../images/wrappingstyle_tight.png" /> <b>Tight</b> - the text wraps the actual shape edges.</p></li>
+				    <li><p><img alt="Wrapping Style - Through" src="../images/wrappingstyle_through.png" /> <b>Through</b> - the text wraps around the shape edges and fills in the open white space within the shape. So that the effect can appear, use the <b>Edit Wrap Boundary</b> option from the right-click menu.</p></li>
+				    <li><p><img alt="Wrapping Style - Top and bottom" src="../images/wrappingstyle_topandbottom.png" /> <b>Top and bottom</b> - the text is only above and below the shape.</p></li>
+				    <li><p><img alt="Wrapping Style - In front" src="../images/wrappingstyle_infront.png" /> <b>In front</b> - the shape overlaps the text.</p></li>
+				    <li><p><img alt="Wrapping Style - Behind" src="../images/wrappingstyle_behind.png" /> <b>Behind</b> - the text overlaps the shape.</p></li>
 				    </ul>
 				</li>
-				<li><b>Tipo giunzione</b> - questa opzione vi permette di impostare lo stile per l'intersezione di due linee, ad esempio, una polilinea, gli angoli di un triangolo o il contorno di un rettangolo:
-    				<ul>
-    				<li><b>Rotondo</b> - l'angolo sarà arrotondato.</li>
-    				<li><b>Smussato</b> - l'angolo sarà smussato.</li>
-    				<li><b>Acuto</b> - l'angolo sarà acuto. E' perfetto per le forme con gli angoli nitidi.</li>
-    				</ul>
-    				<p class="note"><b>Nota</b>: l'effetto sarà più evidente se usate un contorno più largo.</p>
+			</ul>
+			<p>If you select the square, tight, through, or top and bottom style you will be able to set up some additional parameters - <b>distance from text</b> at all sides (top, bottom, left, right).</p>
+            <p id="position"><img alt="Shape - Advanced Settings" src="../images/shape_properties_2.png" /></p>
+			<p>The <b>Position</b> tab is available only if you select a wrapping style other than inline. This tab contains the following parameters that vary depending on the selected wrapping style:</p>
+			<ul>
+                <li>
+                    The <b>Horizontal</b> section allows you to select one of the following three autoshape positioning types:
+                    <ul>
+                        <li><b>Alignment</b> (left, center, right) <b>relative to</b> character, column, left margin, margin, page or right margin,</li>
+                        <li>Absolute <b>Position</b> measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab) <b>to the right of</b> character, column, left margin, margin, page or right margin,</li>
+                        <li><b>Relative position</b> measured in percent <b>relative to</b> the left margin, margin, page or right margin.</li>
+                    </ul>
+                </li>
+                <li>
+                    The <b>Vertical</b> section allows you to select one of the following three autoshape positioning types:
+                    <ul>
+                        <li><b>Alignment</b> (top, center, bottom) <b>relative to</b> line, margin, bottom margin, paragraph, page or top margin,</li>
+                        <li>Absolute <b>Position</b> measured in absolute units i.e. <b>Centimeters</b>/<b>Points</b>/<b>Inches</b> (depending on the option specified at the <b>File</b> -> <b>Advanced Settings...</b> tab) <b>below</b> line, margin, bottom margin, paragraph, page or top margin,</li>
+                        <li><b>Relative position</b> measured in percent <b>relative to</b> the margin, bottom margin, page or top margin.</li>
+                    </ul>
+                </li>
+                <li><b>Move object with text</b> controls whether the autoshape moves as the text to which it is anchored moves.</li>
+				<li><b>Allow overlap</b> controls whether two autoshapes overlap or not if you drag them near each other on the page.</li>
+			</ul>
+			<p><img alt="Shape - Advanced Settings" src="../images/shape_properties_3.png" /></p>
+			<p>The <b>Weights &amp; Arrows</b> tab contains the following parameters:</p>
+			<ul>
+				<li><b>Line Style</b> - this option group allows to specify the following parameters:
+				<ul>
+				<li><b>Cap Type</b> - this option allows to set the style for the end of the line, therefore it can be applied only to the shapes with the open outline, such as lines, polylines etc.: 
+					<ul>
+					<li><b>Flat</b> - the end points will be flat.</li>
+					<li><b>Round</b> - the end points will be rounded.</li>
+					<li><b>Square</b> - the end points will be square.</li>
+					</ul>
+				</li>
+				<li><b>Join Type</b> - this option allows to set the style for the intersection of two lines, for example, it can affect a polyline or the corners of the triangle or rectangle outline:
+					<ul>
+					<li><b>Round</b> - the corner will be rounded.</li>
+					<li><b>Bevel</b> - the corner will be cut off angularly.</li>
+					<li><b>Miter</b> - the corner will be pointed. It goes well to shapes with sharp angles.</li>
+					</ul>
+					<p class="note"><b>Note</b>: the effect will be more noticeable if you use a large outline width.</p>
 				</li>
 				</ul>
 				</li>
-				<li><b>Frecce</b> - questo gruppo di opzioni è disponibile solo per le forme dal gruppo <b>Linee</b> e vi permette di impostare lo <b>Stile</b> e la <b>Dimesnione</b> dell'inizio e della fine selezionando l'opzione adatta dagli elenchi a discesa.</li>
+				<li><b>Arrows</b> - this option group is available if a shape from the <b>Lines</b> shape group is selected. It allows to set the arrow <b>Start</b> and <b>End Style</b> and <b>Size</b> by selecting the appropriate option from the dropdown lists.</li>
 			</ul>
-			<img alt="Forma - Impostazioni avanzate" src="../images/shape_properties_4.png" />
-			<p>La scheda <b>Margini</b> vi permette di cambiare i margini interni della forma <b>In alto</b>, <b>In basso</b>, <b>A sinistra</b> e <b>A destra</b> (cioè, la distanza tra il testo nella forma e i suoi bordi).</p>
+            <p><img alt="Shape - Advanced Settings" src="../images/shape_properties_4.png" /></p>
+			<p>The <b>Text Padding</b> tab allows to change the autoshape <b>Top</b>, <b>Bottom</b>, <b>Left</b> and <b>Right</b> internal margins (i.e. the distance between the text within the shape and the autoshape borders).</p>
+            <p class="note"><b>Note</b>: this tab is only available if text is added within the autoshape, otherwise the tab is disabled.</p>
+            <p><img alt="Shape - Advanced Settings" src="../images/shape_properties_5.png" /></p>
+            <p>The <b>Alternative Text</b> tab allows to specify a <b>Title</b> and <b>Description</b> which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the shape.</p>
 		</div>
 	</body>
 </html>

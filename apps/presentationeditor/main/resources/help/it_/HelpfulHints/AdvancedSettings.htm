@@ -1,34 +1,58 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Impostazioni avanzate di TeamLab Presentation Editor</title>
+		<title>Advanced Settings of Presentation Editor</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Impostazioni avanzate di TeamLab Presentation Editor" />
+		<meta name="description" content="The advanced settings of Presentation Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-		<h1>Impostazioni avanzate di TeamLab Presentation Editor</h1>
-			<p>Potete sempre regolare certe impostazioni avanzate di <b>TeamLab Presentation Editor</b>. Per farlo, cliccate sull'icona <b>File</b> <img alt="File" src="../images/file.png" /> sulla barra sinistra e selezionate l'opzione <b>Impostazioni avanzate...</b>. Potete usare anche l'icona <img alt="Impostazioni avanzate" src="../images/advanced_settings_icon.png" /> nell'angolo destro della barra degli strumenti superiore.</p>
-			<p>Le impostazioni avanzate sono le seguenti:</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+		<h1>Advanced Settings of Presentation Editor</h1>
+			<p><b>Presentation Editor</b> lets you change its advanced settings. To access them, open the <b>File</b> tab at the top toolbar and select the <b>Advanced Settings...</b> option. You can also click the <b>View settings</b> <img alt="View settings icon" src="../images/viewsettingsicon.png" /> icon on the right side of the editor header and select the <b>Advanced settings</b> option.</p>
+			<p>The advanced settings are:</p>
 			<ul>
-				<li><b>Input alternativo</b> si usa per attivare/disattivare i geroglifici.</li>
-				<li><b>Valore di zoom predefinito</b> si usa per impostare il valore di zoom predefinito selezionandolo dall'elenco delle opzioni disponibili da 50% a 200%.</li>
-				<li><b>Evidenzia modifiche di collaborazione</b> si usa per specificare le modifiche che desiderate evidenziare durante la modifica collaborativa:
-					<ul>
-						<li>Selezionate l'opzione <b>Tutte</b> per evidenziare tutte le modifiche apportate durante la sessione corrente.</li>
-						<li>Selezionate l'opzione <b>Ultime</b> per evidenziare solo le modifiche apportate a partire dall'ultimo clic sull'icona <b>Salva</b> <img alt="Salva" src="../images/saveupdate.png" />.</li>
-					</ul>
-				</li>
-				<li><b>Salvataggio automatico</b> si usa per specificare la frequenza con cui vengono salvate le modifiche apportate alla presentazione. 
-					<ul>
-						<li>Selezionate uno degli intervalli disponibili: <b>Ogni 10 minuti</b>, <b>Ogni 30 minuti</b> o <b>Ogni ora</b>.</li>
-						<li>Selezionate l'opzione <b>Disattivato</b>, se non desiderate che <b>TeamLab Presentation Editor</b> salvi le modifiche automaticamente.</li>
-					</ul>
-				</li>
-				<li><b>Unità di misura</b> si usa per specificare le unità di misura da usare sui righelli e nelle finestre di proprietà per i parametri degli elementi: larghezza, altezza, spaziatura, margini ecc. Potete selezionare una di due opzioni: <b>Centimetro</b> o <b>Punto</b>.</li>
+                <li><b>Spell Checking</b> is used to turn on/off the spell checking option.</li>
+				<li><b>Alternate Input</b> is used to turn on/off hieroglyphs.</li>
+                <li><b>Alignment Guides</b> is used to turn on/off alignment guides that appear when you move objects and allow you to position them on the slide precisely.</li>
+                <li><span class="onlineDocumentFeatures"><b>Autosave</b> is used in the <em>online version</em> to turn on/off automatic saving of changes you make while editing.</span> </li>
+                <li><span class="desktopDocumentFeatures"><b>Autorecover</b> - is used in the <em>desktop version</em> to turn on/off the option that allows to automatically recover documents in case of the unexpected program closing.</span></li>
+                <li class="onlineDocumentFeatures"><b>Co-editing Mode</b> is used to select the display of the changes made during the co-editing:
+                    <ul>
+                        <li>By default the <b>Fast</b> mode is selected, the users who take part in the document co-editing will see the changes in real time once they are made by other users.</li>
+                        <li>If you prefer not to see other user changes (so that they do not disturb you, or for some other reason), select the <b>Strict</b> mode and all the changes will be shown only after you click the <b>Save</b> <img alt="Save icon" src="../images/saveupdate.png" /> icon notifying you that there are changes from other users.</li>
+                    </ul>
+                </li>
+                <li><b>Default Zoom Value</b> is used to set the default zoom value selecting it in the list of available options from 50% to 200%. You can also choose the <b>Fit to Slide</b> or <b>Fit to Width</b> option.</li>
+                <li>
+                    <b>Font Hinting</b> is used to select the type a font is displayed in Presentation Editor:
+                    <ul>
+                        <li>Choose <b>As Windows</b> if you like the way fonts are usually displayed on Windows, i.e. using Windows font hinting.</li>
+                        <li>Choose <b>As OS X</b> if you like the way fonts are usually displayed on a Mac, i.e. without any font hinting at all.</li>
+                        <li>Choose <b>Native</b> if you want your text to be displayed with the hinting embedded into font files.</li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Default cache mode</b> - used to select the cache mode for the font characters. It’s not recommended to switch it without any reason. It can be helpful in some cases only, for example, when an issue in the Google Chrome browser with the enabled hardware acceleration occurs.
+                    <p>Presentation Editor has two cache modes:</p>
+                    <ol>
+                        <li>In the <b>first cache mode</b>, each letter is cached as a separate picture.</li>
+                        <li>In the <b>second cache mode</b>, a picture of a certain size is selected where letters are placed dynamically and a mechanism of allocating/removing memory in this picture is also implemented. If there is not enough memory, a second picture is created, etc.</li>
+                    </ol>
+                    <p>The <b>Default cache mode</b> setting applies two above mentioned cache modes separately for different browsers:</p>
+                    <ul>
+                        <li>When the <b>Default cache mode</b> setting is enabled, Internet Explorer (v. 9, 10, 11) uses the <b>second cache mode</b>, other browsers use the <b>first cache mode</b>.</li>
+                        <li>When the <b>Default cache mode</b> setting is disabled, Internet Explorer (v. 9, 10, 11) uses the <b>first cache mode</b>, other browsers use the <b>second cache mode</b>.</li>
+                    </ul>
+                </li>
+				<li><b>Unit of Measurement</b> is used to specify what units are used on the rulers and in properties windows for measuring elements parameters such as width, height, spacing, margins etc. You can select the <b>Centimeter</b>, <b>Point</b>, or <b>Inch</b> option.</li>
 			</ul>
-			<p>Per applicare i parametri modificati, cliccate su <b>Applica</b>.</p>
+			<p>To save the changes you made, click the <b>Apply</b> button.</p>
 		</div>
 	</body>
 </html>

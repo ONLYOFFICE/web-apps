@@ -1,41 +1,83 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Allineare e disporre oggetti nella diapositiva</title>
+		<title>Align and arrange objects on a slide</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Allineate ed disponete le caselle di testo, le forme e le immagini in una diapositiva." />
+		<meta name="description" content="Align and arrange text boxes, autoshapes, images and charts on a slide." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Allineare e disporre oggetti nella diapositiva</h1>
-			<p>Le <b>caselle di testo</b>, le <b>forme</b>, le <b>immagini</b> e i <b>grafici</b> possono essere allineati, raggruppati, ordinati, distribuiti orizzontalmente o verticalmente in una diapositiva. Per effettuare una di queste azioni, prima di tutto selezionate uno o più oggetti nell'area di modifica. Per selezionare più oggetti, premete il tasto <b>Ctrl</b> e cliccate con il tasto sinistro sugli oggetti necessari. Per selezionare una casella di testo, fate clic sul suo bordo, non il testo all'interno. Dopo questo potete sia utilizzare le icone della barra degli strumenti superiore descritte qui sotto che le opzioni analoghe dal menu contestuale.</p>
-			<p>Per <b>allineare</b> gli oggetti selezionati, cliccate sull'icona <b>Allinea forma</b> <img alt="Allinea forma" src="../images/alignshape.png" /> sulla barra degli strumenti superiore e selezionate il tipo di allineamento necessario:</p>
-			    <ul>
-			    <li><b>Allinea a sinistra</b> <img alt="Allinea a sinistra" src="../images/alignobjectleft.png" /> - per allineare un oggetto orizzontalmente sul lato sinistro della diapositiva,</li>
-			    <li><b>Allinea al centro</b> <img alt="Allinea al centro" src="../images/alignobjectcenter.png" /> - per allineare un oggetto orizzontalmente al centro della diapositiva,</li>
-			    <li><b>Allinea a destra</b> <img alt="Allinea a destra" src="../images/alignobjectright.png" /> - per allineare un oggetto orizzontalmente sul lato destro della diapositiva,</li>
-			    <li><b>Allinea in alto</b> <img alt="Allinea in alto" src="../images/alignobjecttop.png" /> - per allineare un oggetto verticalmente sul lato superiore della diapositiva,</li>
-			    <li><b>Allinea in mezzo</b> <img alt="Allinea in mezzo" src="../images/alignobjectmiddle.png" /> - per allineare un oggetto verticalmente in mezzo della diapositiva,</li>
-			    <li><b>Allinea in basso</b> <img alt="Allinea in basso" src="../images/alignobjectbottom.png" />  - per allineare un oggetto verticalmente sul lato inferiore della diapositiva.</li>
-			    </ul>
-			<p>Per <b>distribuire</b> due o più oggetti selezionati orizzontalmente o verticalmente<!--so that the equal distance appears between them-->, cliccate sull'icona <b>Allinea forma</b> <img alt="Allinea forma" src="../images/alignshape.png" /> sulla barra degli strumenti superiore e selezionate il tipo di distribuzione necessario:</p>
-			    <ul>
-			    <li><b>Distribuisci orizzontalmente</b> <img alt="Distribuisci orizzontalmente" src="../images/distributehorizontally.png" /> - <!--to distribute objects evenly between the most left and most right objects on a slide--> per centrare gli oggetti selezionati orizzontalmente,</li>
-			    <li><b>Distribuisci verticalmente</b> <img alt="Distribuisci verticalmente" src="../images/distributevertically.png" /> - <!--to distribute objects evenly between the most top and most bottom objects on a slide--> per centrare gli oggetti selezionati verticalmente.</li>
-			    </ul>
-		    <p>Per <b>disporre</b> gli oggetti selezionati (per cambiare il loro ordine quando più oggetti sono sovrapposti), cliccate sull'icona <b>Disponi forma</b> <img alt="Disponi forma" src="../images/arrangeshape.png" /> sulla barra degli strumenti superiore e selezionate il tipo di disposizione necessario:</p>
-			    <ul>
-			    <li><b>Porta in primo piano</b> <img alt="Porta in primo piano" src="../images/bringtofront.png" /> - per portare un oggetto in primo piano in un gruppo di oggetti in pila,</li>
-			    <li><b>Porta in secondo piano</b> <img alt="Porta in secondo piano" src="../images/sendtoback.png" /> - per portare un oggetto sul fondo in un gruppo di oggetti in pila,</li>
-			    <li><b>Porta avanti</b> <img alt="Porta avanti" src="../images/bringforward.png" /> - per spostare un oggetto un passo avanti rispetto a tutti gli altri oggetti in pila,</li>
-			    <li><b>Porta indietro</b> <img alt="Porta indietro" src="../images/sendbackward.png" /> - per spostare un oggetto un passo indietro rispetto a tutti gli altri oggetti in pila.</li>
-			    </ul>
-			<p>Per <b>raggruppare</b> due o più oggetti selezionati o <b>separarli</b>, cliccate sull'icona <b>Disponi forma</b> <img alt="Disponi forma" src="../images/arrangeshape.png" /> sulla barra degli strumenti superiore e selezionate l'opzione necessaria:</p>
-			    <ul>
-			    <li><b>Raggruppa</b> <img alt="Raggruppa" src="../images/group.png" /> - per unire più oggetti in un gruppo per poter ruotarli, sportarli, ridimensionarli, allinearli, copiarli, incollarli, formattarli come un singolo oggetto.</li>
-			    <li><b>Separa</b> <img alt="Separa" src="../images/ungroup.png" /> - per separare gli oggetti uniti prima in un gruppo.</li>
-			    </ul>
-		</div>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Align and arrange objects on a slide</h1>
+			<p>The added <b>autoshapes, images, charts</b> or <b>text boxes</b> can be aligned, grouped, ordered, distributed horizontally and vertically on a slide. To perform any of these actions, first select a separate object or several objects in the slide editing area. To select several objects, hold down the <b>Ctrl</b> key and left-click the necessary objects. To select a text box, click on its border, not the text within it. After that you can use either the icons at the <b>Home</b> tab of the top toolbar described below or the analogous options from the right-click menu.</p>
+			
+        <h3>Align objects</h3>
+        <p>To <b>align</b> <em>two or more</em> selected objects, </p>
+        <ol>
+            <li>
+                Click the <b>Align shape</b> <img alt="Align shape icon" src="../images/alignshape.png" /> icon at the <b>Home</b> tab of the top toolbar and select one of the following options:
+                <ul>
+                    <li><b>Align to Slide</b> to align objects relative to the edges of the slide,</li>
+                    <li><b>Align Selected Objects</b> (this option is selected by default) to align objects relative to each other,</li>                    
+                </ul>
+            </li>
+            <li>
+                Click the <b>Align shape</b> <img alt="Align shape icon" src="../images/alignshape.png" /> icon once again and select the necessary alignment type from the list:
+                <ul>
+                    <li><b>Align Left</b> <img alt="Align Left icon" src="../images/alignobjectleft.png" /> - to line up the objects horizontally by the left edge of the leftmost object/left edge of the slide,</li>
+                    <li><b>Align Center</b> <img alt="Align Center icon" src="../images/alignobjectcenter.png" /> - to line up the objects horizontally by their centers/center of the slide,</li>
+                    <li><b>Align Right</b> <img alt="Align Right icon" src="../images/alignobjectright.png" /> - to line up the objects horizontally by the right edge of the rightmost object/right edge of the slide,</li>
+                    <li><b>Align Top</b> <img alt="Align Top icon" src="../images/alignobjecttop.png" /> - to line up the objects vertically by the top edge of the topmost object/top edge of the slide,</li>
+                    <li><b>Align Middle</b> <img alt="Align Middle icon" src="../images/alignobjectmiddle.png" /> - to line up the objects vertically by their middles/middle of the slide,</li>
+                    <li><b>Align Bottom</b> <img alt="Align Bottom icon" src="../images/alignobjectbottom.png" />  - to line up the objects vertically by the bottom edge of the bottommost object/bottom edge of the slide.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>Alternatively, you can right-click the selected objects, choose the <b>Align</b> option from the contextual menu and then use one of the available alignment options.</p>
+        <p>If you want to align a single object, it can be aligned relative to the edges of the slide. The <b>Align to Slide</b> option is selected by default in this case.</p>
+        <h3>Distribute objects</h3>
+        <p>To <b>distribute</b> <em>three or more</em> selected objects horizontally or vertically so that the equal distance appears between them, </p>
+        <ol>
+            <li>
+                Click the <b>Align shape</b> <img alt="Align shape icon" src="../images/alignshape.png" /> icon at the <b>Home</b> tab of the top toolbar and select one of the following options:
+                <ul>                    
+                    <li><b>Align to Slide</b> to distribute objects between the edges of the slide,</li>
+                    <li><b>Align Selected Objects</b> (this option is selected by default) to distribute objects between two outermost selected objects,</li>
+                </ul>
+            </li>
+            <li>
+                Click the <b>Align shape</b> <img alt="Align shape icon" src="../images/alignshape.png" /> icon once again and select the necessary distribution type from the list:
+                <ul>
+                    <li><b>Distribute Horizontally</b> <img alt="Distribute Horizontally icon" src="../images/distributehorizontally.png" /> - to distribute objects evenly between the leftmost and rightmost selected objects/left and right edges of the slide<!--to align the selected objects by their centers (from right to left edges) to the horizontal center of the page-->.</li>
+                    <li><b>Distribute Vertically</b> <img alt="Distribute Vertically icon" src="../images/distributevertically.png" /> - to distribute objects evenly between the topmost and bottommost selected objects/top and bottom edges of the slide<!--to align the selected objects by their centers (from top to bottom edges) to the vertical center of the page-->.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>Alternatively, you can right-click the selected objects, choose the <b>Align</b> option from the contextual menu and then use one of the available distribution options.</p>
+        <p class="note"><b>Note</b>: the distribution options are disabled if you select less than three objects.</p>
+        
+        <h3>Group objects</h3>
+        <p>To <b>group</b> <em>two or more</em> selected objects or <b>ungroup</b> them, click the <b>Arrange shape</b> <img alt="Arrange shape icon" src="../images/arrangeshape.png" /> icon at the <b>Home</b> tab of the top toolbar and select the necessary option from the list:</p>
+        <ul>
+            <li><b>Group</b> <img alt="Group icon" src="../images/group.png" /> - to join several objects into a group so that they can be simultaneously rotated, moved, resized, aligned, arranged, copied, pasted, formatted like a single object.</li>
+            <li><b>Ungroup</b> <img alt="Ungroup icon" src="../images/ungroup.png" /> - to ungroup the selected group of the previously joined objects.</li>
+        </ul>
+        <p>Alternatively, you can right-click the selected objects, choose the <b>Arrange</b> option from the contextual menu and then use the <b>Group</b> or <b>Ungroup</b> option.</p>
+        <p class="note"><b>Note</b>: the <b>Group</b> option is disabled if you select less than two objects. The <b>Ungroup</b> option is available only when a group of the previously joined objects is selected.</p>
+        <h3>Arrange objects</h3>
+        <p>To <b>arrange</b> the selected object(s) (i.e. to change their order when several objects overlap each other), click the <b>Arrange shape</b> <img alt="Arrange shape icon" src="../images/arrangeshape.png" /> icon at the <b>Home</b> tab of the top toolbar and select the necessary arrangement type from the list.</p>
+        <ul>
+            <li><b>Bring To Foreground</b> <img alt="Bring To Foreground icon" src="../images/bringtofront.png" /> - to move the object(s) in front of all other objects,</li>
+            <li><b>Send To Background</b> <img alt="Send To Background icon" src="../images/sendtoback.png" /> - to move the object(s) behind all other objects,</li>
+            <li><b>Bring Forward</b> <img alt="Bring Forward icon" src="../images/bringforward.png" /> - to move the selected object(s) by one level forward as related to other objects.</li>            
+            <li><b>Send Backward</b> <img alt="Send Backward icon" src="../images/sendbackward.png" /> - to move the selected object(s) by one level backward as related to other objects.</li>
+        </ul>        
+        <p>Alternatively, you can right-click the selected object(s), choose the <b>Arrange</b> option from the contextual menu and then use one of the available arrangement options.</p>
+        </div>
 	</body>
 </html>

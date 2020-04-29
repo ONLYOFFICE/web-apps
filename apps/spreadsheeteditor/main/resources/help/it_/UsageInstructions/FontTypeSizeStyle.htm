@@ -1,93 +1,107 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Impostare tipo di carattere, dimensione, stile e colore</title>
+		<title>Set font type, size, style, and colors</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Modificate i seguenti parametri di formattazione: tipo di carattere, dimensione, stile, e colori" />
+		<meta name="description" content="Change the following formatting parameters: font type, size, style, and colors" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Impostare tipo di carattere, dimensione, stile e colore</h1>
-			<p>Potete selezionare il tipo di caratteri e la loro dimensione, applicare uno degli stili e cambiare i colori per lo sfondo e i caratteri usando le icone corrispondenti sulla barra degli strumenti superiore.</p>
-			<p class="note"><b>Nota</b>: se desiderate formattare i dati già presenti nel vostro foglio di calcolo, selezionateli con il mouse o <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">usando la tastiera</a> e formattate.</p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Set font type, size, style, and colors</h1>
+			<p>You can select the font type and its size, apply one of the decoration styles and change the font and background colors using the corresponding icons situated at the <b>Home</b> tab of the top toolbar.</p>
+			<p class="note"><b>Note</b>: in case you want to apply the formatting to the data already present in the spreadsheet, select them with the mouse or <a href="../HelpfulHints/KeyboardShortcuts.htm#textselection" onclick="onhyperlinkclick(this)">using the keyboard</a> and apply the formatting. If you need to apply the formatting to multiple non-adjacent cells or cell ranges, hold down the <b>Ctrl</b> key while selecting cells/ranges with the mouse.</p>
 			<table>
 				<tr>
-					<td>Nome tipo di carattere</td>
-					<td><img alt="Nome tipo di carattere" src="../images/fontfamily.png" /></td>
-					<td>Si usa per selezionare uno dei tipi di carattere dall'elenco a discesa.</td>
+                    <td width="10%">Font</td>
+                    <td width="15%"><img alt="Font" src="../images/fontfamily.png" /></td>
+					<td>Is used to select one of the fonts from the list of the available ones. <span class="desktopDocumentFeatures">If a required font is not available in the list, you can download and install it on your operating system, after that the font will be available for use in the <em>desktop version</em>.</span></td>
 				</tr>
 				<tr>
-					<td>Dimensione carattere</td>
-					<td><img alt="Dimensione carattere" src="../images/fontsize.png" /></td>
-					<td>Si usa per selezionare un valore preimpostato dall'elenco a discesa, può essere anche inserita a mano nel campo della dimensione carattere.</td>
+					<td>Font size</td>
+					<td><img alt="Font size" src="../images/fontsize.png" /></td>
+					<td>Is used to select among the preset font size values from the dropdown list (the default values are: 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 and 96). It's also possible to manually enter a custom value to the font size field and then press <em>Enter</em>.</td>
 				</tr>
 				<tr>
-					<td>Aumenta dimensione caratteri</td>
-					<td><img alt="Aumenta dimensione caratteri" src="../images/larger.png" /></td>
-					<td>Si usa per rendere i caratteri più grandi cambiando di un punto la loro dimensione con ogni clic su questo pulsante.</td>
+					<td>Increment font size</td>
+					<td><img alt="Font size" src="../images/larger.png" /></td>
+					<td>Is used to change the font size making it larger one point each time the icon is clicked.</td>
 				</tr>
 				<tr>
-					<td>Riduci dimensione caratteri</td>
-					<td><img alt="Riduci dimensione caratteri" src="../images/smaller.png" /></td>
-					<td>Si usa per rendere i caratteri più piccoli cambiando di un punto la loro dimensione con ogni clic su questo pulsante.</td>
+					<td>Decrement font size</td>
+					<td><img alt="Font size" src="../images/smaller.png" /></td>
+					<td>Is used to change the font size making it smaller one point each time the icon is clicked.</td>
 				</tr>
 				<tr>
-					<td>Grassetto</td>
-					<td><img alt="Grassetto" src="../images/bold.png" /></td>
-					<td>Si usa per formattare in grassetto il testo selezionato per renderlo più scuro e intenso.</td>
+					<td>Bold</td>
+					<td><img alt="Bold" src="../images/bold.png" /></td>
+					<td>Is used to make the font bold giving it more weight.</td>
 				</tr>
 				<tr>
-					<td>Corsivo</td>
-					<td><img alt="Corsivo" src="../images/italic.png" /></td>
-					<td>Si usa per formattare in corsivo il testo selezionato per renderlo inclinato verso destra.</td>
+					<td>Italic</td>
+					<td><img alt="Italic" src="../images/italic.png" /></td>
+					<td>Is used to make the font italicized giving it some right side tilt.</td>
 				</tr>
 				<tr>
-					<td>Sottolineato</td>
-					<td><img alt="Sottolineato" src="../images/underline.png" /></td>
-					<td>Si usa per sottolineare il testo selezionato tracciando una linea sotto i caratteri.</td>
+					<td>Underline</td>
+					<td><img alt="Underline" src="../images/underline.png" /></td>
+					<td>Is used to make the text underlined with the line going under the letters.</td>
+				</tr>
+                <tr>
+                    <td>Strikeout</td>
+                    <td><img alt="Strikeout" src="../images/strike.png" /></td>
+                    <td>Is used to make the text struck out with the line going through the letters.</td>
+                </tr>
+                <tr>
+                    <td>Subscript/Superscript</td>
+                    <td><img alt="Subscript" src="../images/subscripticon.png" /></td>
+                    <td>Allows to choose the <b>Superscript</b> or <b>Subscript</b> option. The <b>Superscript</b> option is used to make the text smaller and place it to the upper part of the text line, e.g. as in fractions. The <b>Subscript</b> option is used to make the text smaller and place it to the lower part of the text line, e.g. as in chemical formulas.</td>
+                </tr>
+                <tr>
+					<td>Font color</td>
+					<td><img alt="Font color" src="../images/fontcolor.png" /></td>
+					<td>Is used to change the color of the letters/characters in cells.</td>
 				</tr>
 				<tr>
-					<td>Colore caratteri</td>
-					<td><img alt="Colore caratteri" src="../images/fontcolor.png" /></td>
-					<td>Si usa per cambiare il colore delle lettere/caratteri nelle celle.</td>
+					<td>Background color</td>
+					<td><img alt="Background color" src="../images/backgroundcolor.png" /></td>
+					<td>Is used to change the color of the cell background. Using this icon you can apply a <em>solid color</em> fill. The cell background color can also be changed using the <b>Fill</b> section at the <a href="../UsageInstructions/AddBorders.htm" onclick="onhyperlinkclick(this)">Cell settings</a> tab of the right sidebar.</td>
 				</tr>
 				<tr>
-					<td>Colore sfondo</td>
-					<td><img alt="Colore sfondo" src="../images/backgroundcolor.png" /></td>
-					<td>Si usa per cambiare il colore per lo sfondo della cella.</td>
-				</tr>
-				<tr>
-					<td>Cambia combinazione colori</td>
-					<td><img alt="Cambia combinazione colori" src="../images/changecolorscheme.png" /></td>
-					<td>Si usa per cambiare la tavolozza dei colori predefinita per gli elementi dei fogli (caratteri, sfondo, grafico ed elementi grafico) selezionando una delle combinazioni disponibili: <b>Ufficio</b>, <b>Scala di grigi</b>, <b>Vertice</b>, <b>Astro</b>, <b>Città</b>, <b>Viale</b>, <b>Universo</b>, <b>Flusso</b>, <b>Calassia</b>, <b>Luna</b>, <b>Metro</b>, <b>Modulo</b>, <b>Mito</b>, <b>Loggia</b>, <b>Satellite</b>, <b>Carta</b>, <b>Solstizio</b>, <b>Tecnologia</b>, <b>Terra</b>, <b>Tramonto</b>, o <b>Verve</b>.</td>
+					<td>Change color scheme</td>
+					<td><img alt="Change color scheme" src="../images/changecolorscheme.png" /></td>
+					<td>Is used to change the default color palette for worksheet elements (font, background, chats and chart elements) selecting one of the available ones: <b>Office</b>, <b>Grayscale</b>, <b>Apex</b>, <b>Aspect</b>, <b>Civic</b>, <b>Concourse</b>, <b>Equity</b>, <b>Flow</b>, <b>Foundry</b>, <b>Median</b>, <b>Metro</b>, <b>Module</b>, <b>Odulent</b>, <b>Oriel</b>, <b>Origin</b>, <b>Paper</b>, <b>Solstice</b>, <b>Technic</b>, <b>Trek</b>, <b>Urban</b>, or <b>Verve</b>.</td>
 				</tr>
 			</table>
-			<p><p class="note"><b>Nota</b>: è possibile anche applicare uno stile di formattazione predefinito selezionando la cella da formattare con il mouse e uno stile da applicare dall'elenco sulla barra degli strumenti superiore:<br /><br />
-				<img alt="Preset di formattazione" src="../images/presets.png" />
-			</p>
-			<p>Per cambiare il colore caratteri/sfondo,</p>
+			<p><p class="note"><b>Note</b>: it's also possible to apply one of the formatting presets selecting the cell you wish to format and choosing the desired preset from the list at the <b>Home</b> tab of the top toolbar:<br /><br />
+				<img alt="Formatting Presets" src="../images/presets.png" />
+			   </p>
+			<p>To change the font color or use a <em>solid color</em> fill as the cell background,</p>
 			<ol>
-			<li>selezionate i caratteri/celle con il mouse o tutto il foglio di lavoro usando i tasti <b>Ctrl+A</b>,</li>
-				<li>cliccate sull'icona corrispondente sulla barra degli strumenti superiore,</li>
-				<li>selezionate un colore dalle tavolozze disponibili:
-					<p><img alt="Tavolozza" src="../images/palette.png" /></p>
+			<li>select characters/cells with the mouse or the whole worksheet using the <b>Ctrl+A</b> key combination,</li>
+				<li>click the corresponding icon at the top toolbar,</li>
+				<li>select any color in the available palettes
+					<p><img alt="Palette" src="../images/palette.png" /></p>
 					<ul>
-						<li><b>Colori tema</b> sono i colori che corrispondono alla combinazione colori del documento.</li>
-						<li><b>Colori standard</b> sono i colori predefiniti.</li>
-						<li><b>Colore personalizzato</b> - selezionate questa opzione se non avete trovato il colore adatto tra quelli disponibili. Selezionate l'intervallo di colori necessario spostando la barra verticale ed impostate il colore specificato trascinando lo strumento di selezione colori all'interno del campo colori grande. Una volta selezionato il colore, i valori RGB e sRGB corrispondenti vengono visualizzati nei campi a destra. Potete anche specificare un colore in base al modello colore RGB inserendo i valori numerici adatti nei campi <b>R</b>, <b>G</b>, <b>B</b> (Red (rosso), Green (verde), Blue (blu)) o inserire il codice sRGB esadecimale nel campo segnato da <b>#</b>. Il colore selezionato appare nella casella di visualizzazione <b>Nuovo</b>. Se un colore personalizzato esiste già, questo colore viene visualizzato nella casella <b>Attuale</b> per darvi la possibilità di confrontare il colore originale con il colore modificato. Una volta specificato il colore, cliccate su <b>Aggiungi</b>:
-						<p><img alt="Tavolozza - Colore personalizzato" src="../images/palette_custom.png" /></p>
-						<p>Il colore personalizzato sarà applicato al paragrafo e aggiunto alla tavolozza <b>Colore personalizzato</b>.</p>
+						<li><b>Theme Colors</b> - the colors that correspond to the selected color scheme of the spreadsheet.</li>
+						<li><b>Standard Colors</b> - the default colors set.</li>
+						<li><b>Custom Color</b> - click this caption if there is no needed color in the available palettes. Select the necessary colors range moving the vertical color slider and set the specific color dragging the color picker within the large square color field. Once you select a color with the color picker, the appropriate RGB and sRGB color values will be displayed in the fields on the right. You can also specify a color on the base of the RGB color model entering the necessary numeric values into the <b>R</b>, <b>G</b>, <b>B</b> (red, green, blue) fields or enter the sRGB hexadecimal code into the field marked with the <b>#</b> sign. The selected color appears in the <b>New</b> preview box. If the object was previously filled with any custom color, this color is displayed in the <b>Current</b> box so you can compare the original and modified colors. When the color is specified, click the <b>Add</b> button:
+						<p><img alt="Palette - Custom Color" src="../images/palette_custom.png" /></p>
+						<p>The custom color will be applied to the selected text/cell and added to the <b>Custom color</b> palette.</p>
 						</li>
-					</ul>
-				</li>
+						</ul>
+					</li>
 			</ol>
-			<p>Per eliminare il colore da una certa cella,</p>
+			<p>To clear the background color of a certain cell,</p>
 			<ol>
-				<li>selezionate una cella, un intervallo di celle con il mouse o tutto il foglio di lavoro premendo i tasti <b>Ctrl+A</b>,</li>
-				<li>cliccate sull'icona <b>Colore sfondo</b> <img alt="Colore sfondo" src="../images/bgcolor.png" /> sulla barra degli strumenti superiore,</li>
-				<li>selezionate l'icona <img alt="Nessun riempimento" src="../images/nofill.png" />.</li>
+				<li>select a cell, or a range of cells with the mouse or the whole worksheet using the <b>Ctrl+A</b> key combination,</li>
+				<li>click the <b>Background color</b> <img alt="Background color" src="../images/backgroundcolor.png" /> icon at the <b>Home</b> tab of the top toolbar,</li>
+				<li>select the <img alt="No Fill" src="../images/nofill.png" /> icon.</li>
 			</ol>
 		</div>
 	</body>
