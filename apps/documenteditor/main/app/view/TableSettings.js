@@ -307,12 +307,12 @@ define([
             this._btnsBorderPosition = [];
             _.each(_arrBorderPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
+                    parentEl: $('#'+item[2]),
                     cls: 'btn-toolbar borders--small',
                     iconCls: item[1],
                     strId   :item[0],
                     hint: item[3]
                 });
-                _btn.render( $('#'+item[2])) ;
                 _btn.on('click', _.bind(this.onBtnBordersClick, this));
                 this._btnsBorderPosition.push( _btn );
                 this.lockedControls.push(_btn);
@@ -328,6 +328,7 @@ define([
             this.lockedControls.push(this.cmbBorderSize);
 
             this.btnEdit = new Common.UI.Button({
+                parentEl: $('#table-btn-edit'),
                 cls: 'btn-icon-default',
                 iconCls: 'btn-edit-table',
                 menu        : new Common.UI.Menu({
@@ -352,7 +353,6 @@ define([
                     ]
                 })
             });
-            this.btnEdit.render( $('#table-btn-edit')) ;
             this.mnuMerge = this.btnEdit.menu.items[this.btnEdit.menu.items.length-2];
             this.mnuSplit = this.btnEdit.menu.items[this.btnEdit.menu.items.length-1];
 

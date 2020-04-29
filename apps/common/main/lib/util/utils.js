@@ -830,6 +830,7 @@ Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split,
         /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
 
         var button = new Common.UI.Button({
+            parentEl: $slots.eq(index),
             id: id + index,
             cls: _cls,
             iconCls: iconCls,
@@ -839,7 +840,7 @@ Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split,
             enableToggle: toggle || false,
             lock: lock,
             disabled: true
-        }).render( $slots.eq(index) );
+        });
 
         btnsArr.add(button);
     });

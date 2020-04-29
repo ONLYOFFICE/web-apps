@@ -373,13 +373,13 @@ define([
 
             _.each(_arrBorderPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
+                    parentEl: $('#'+item[2]),
                     cls: 'btn-toolbar borders--small',
                     iconCls: item[1],
                     borderId:item[0],
                     hint: item[3],
                     disabled: this._locked
                 });
-                _btn.render( $('#'+item[2])) ;
                 _btn.on('click', _.bind(this.onBtnBordersClick, this));
                 this.lockedControls.push(_btn);
             }, this);

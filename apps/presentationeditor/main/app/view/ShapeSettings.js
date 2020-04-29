@@ -1308,6 +1308,7 @@ define([
             this.lockedControls.push(this.cmbBorderType);
 
             this.btnChangeShape = new Common.UI.Button({
+                parentEl: $('#shape-btn-change'),
                 cls: 'btn-icon-default',
                 iconCls: 'btn-change-shape',
                 menu        : new Common.UI.Menu({
@@ -1316,46 +1317,45 @@ define([
                     items: []
                 })
             });
-            this.btnChangeShape.render( $('#shape-btn-change')) ;
             this.lockedControls.push(this.btnChangeShape);
 
             this.btnRotate270 = new Common.UI.Button({
+                parentEl: $('#shape-button-270', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-rotate-270',
                 value: 0,
                 hint: this.textHint270
             });
-            this.btnRotate270.render( $('#shape-button-270', me.$el));
             this.btnRotate270.on('click', _.bind(this.onBtnRotateClick, this));
             this.lockedControls.push(this.btnRotate270);
 
             this.btnRotate90 = new Common.UI.Button({
+                parentEl: $('#shape-button-90', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-rotate-90',
                 value: 1,
                 hint: this.textHint90
             });
-            this.btnRotate90.render( $('#shape-button-90', me.$el));
             this.btnRotate90.on('click', _.bind(this.onBtnRotateClick, this));
             this.lockedControls.push(this.btnRotate90);
 
             this.btnFlipV = new Common.UI.Button({
+                parentEl: $('#shape-button-flipv', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-flip-vert',
                 value: 0,
                 hint: this.textHintFlipV
             });
-            this.btnFlipV.render( $('#shape-button-flipv', me.$el));
             this.btnFlipV.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipV);
 
             this.btnFlipH = new Common.UI.Button({
+                parentEl: $('#shape-button-fliph', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-flip-hor',
                 value: 1,
                 hint: this.textHintFlipH
             });
-            this.btnFlipH.render( $('#shape-button-fliph', me.$el));
             this.btnFlipH.on('click', _.bind(this.onBtnFlipClick, this));
             this.lockedControls.push(this.btnFlipH);
 

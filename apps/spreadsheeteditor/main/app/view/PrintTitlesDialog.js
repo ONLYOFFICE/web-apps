@@ -122,6 +122,7 @@ define([
 
             var frozen = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, false, this.sheet);
             this.btnPresetsTop = new Common.UI.Button({
+                parentEl: $('#print-titles-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 95px;',
@@ -138,7 +139,6 @@ define([
                     ]
                 })
             });
-            this.btnPresetsTop.render( $('#print-titles-presets-top')) ;
             this.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, 'top'));
             this.txtRangeTop.on('button:click', _.bind(this.onPresetSelect, this, 'top', this.btnPresetsTop.menu, {value: 'select'}));
 
@@ -159,6 +159,7 @@ define([
 
             frozen = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, true, this.sheet);
             this.btnPresetsLeft = new Common.UI.Button({
+                parentEl: $('#print-titles-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 95px;',
@@ -175,7 +176,6 @@ define([
                     ]
                 })
             });
-            this.btnPresetsLeft.render( $('#print-titles-presets-left')) ;
             this.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, 'left'));
             this.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, 'left', this.btnPresetsLeft.menu, {value: 'select'}));
 

@@ -401,13 +401,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this._btnsBorderPosition = [];
             _.each(_arrBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
+                    parentEl: $('#'+item[2]),
                     style: 'margin-left: 5px; margin-bottom: 4px;',
                     cls: 'btn-options large',
                     iconCls: item[1],
                     strId   :item[0],
                     hint: item[3]
                 });
-                _btn.render( $('#'+item[2])) ;
                 _btn.on('click', _.bind(this._ApplyBorderPreset, this));
                 this._btnsBorderPosition.push( _btn );
             }, this);

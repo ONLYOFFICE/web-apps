@@ -270,20 +270,20 @@ define([
             this.btnFirst.on('toggle', _.bind(this.onPageTypeToggle, this, Asc.c_oAscHeaderFooterType.first));
 
             this.btnPresetsH = new Common.UI.Button({
+                parentEl: $('#id-dlg-h-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
                 style: 'width: 110px;',
                 menu: true
             });
-            this.btnPresetsH.render( $('#id-dlg-h-presets')) ;
 
             this.btnPresetsF = new Common.UI.Button({
+                parentEl: $('#id-dlg-f-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
                 style: 'width: 110px;',
                 menu: true
             });
-            this.btnPresetsF.render( $('#id-dlg-f-presets')) ;
 
             var data = [
                 {caption: this.textPageNum, value: Asc.c_oAscHeaderFooterField.pageNumber},
@@ -295,6 +295,7 @@ define([
             ];
 
             this.btnInsertH = new Common.UI.Button({
+                parentEl: $('#id-dlg-h-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
                 style: 'width: 110px;',
@@ -305,11 +306,11 @@ define([
                     items: data
                 })
             });
-            this.btnInsertH.render( $('#id-dlg-h-insert')) ;
             this.btnInsertH.menu.on('item:click', _.bind(this.onObjectSelect, this));
             this.headerControls.push(this.btnInsertH);
 
             this.btnInsertF = new Common.UI.Button({
+                parentEl: $('#id-dlg-f-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
                 style: 'width: 110px;',
@@ -320,7 +321,6 @@ define([
                     items: data
                 })
             });
-            this.btnInsertF.render( $('#id-dlg-f-insert')) ;
             this.btnInsertF.menu.on('item:click', _.bind(this.onObjectSelect, this));
             this.footerControls.push(this.btnInsertF);
 
@@ -406,131 +406,131 @@ define([
 
             this.btnBold = [];
             this.btnBold.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-h-bold'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             }));
-            this.btnBold[0].render($('#id-dlg-h-bold')) ;
             this.btnBold[0].on('click', _.bind(this.onBoldClick, this));
             this.headerControls.push(this.btnBold[0]);
 
             this.btnBold.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-f-bold'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             }));
-            this.btnBold[1].render($('#id-dlg-f-bold')) ;
             this.btnBold[1].on('click', _.bind(this.onBoldClick, this));
             this.footerControls.push(this.btnBold[1]);
 
             this.btnItalic = [];
             this.btnItalic.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-h-italic'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             }));
-            this.btnItalic[0].render($('#id-dlg-h-italic')) ;
             this.btnItalic[0].on('click', _.bind(this.onItalicClick, this));
             this.headerControls.push(this.btnItalic[0]);
 
             this.btnItalic.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-f-italic'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             }));
-            this.btnItalic[1].render($('#id-dlg-f-italic')) ;
             this.btnItalic[1].on('click', _.bind(this.onItalicClick, this));
             this.footerControls.push(this.btnItalic[1]);
 
             this.btnUnderline = [];
             this.btnUnderline.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-h-underline'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             }));
-            this.btnUnderline[0].render($('#id-dlg-h-underline')) ;
             this.btnUnderline[0].on('click', _.bind(this.onUnderlineClick, this));
             this.headerControls.push(this.btnUnderline[0]);
 
             this.btnUnderline.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-f-underline'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             }));
-            this.btnUnderline[1].render($('#id-dlg-f-underline')) ;
             this.btnUnderline[1].on('click', _.bind(this.onUnderlineClick, this));
             this.footerControls.push(this.btnUnderline[1]);
 
             this.btnStrikeout = [];
             this.btnStrikeout.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-h-strikeout'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             }));
-            this.btnStrikeout[0].render($('#id-dlg-h-strikeout')) ;
             this.btnStrikeout[0].on('click',_.bind(this.onStrikeoutClick, this));
             this.headerControls.push(this.btnStrikeout[0]);
 
             this.btnStrikeout.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-f-strikeout'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             }));
-            this.btnStrikeout[1].render($('#id-dlg-f-strikeout')) ;
             this.btnStrikeout[1].on('click',_.bind(this.onStrikeoutClick, this));
             this.footerControls.push(this.btnStrikeout[1]);
 
             this.btnSuperscript = [];
             this.btnSuperscript.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-h-superscript'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSuperscript
             }));
-            this.btnSuperscript[0].render($('#id-dlg-h-superscript')) ;
             this.btnSuperscript[0].on('click', _.bind(this.onSuperscriptClick, this));
             this.headerControls.push(this.btnSuperscript[0]);
 
             this.btnSuperscript.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-f-superscript'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSuperscript
             }));
-            this.btnSuperscript[1].render($('#id-dlg-f-superscript')) ;
             this.btnSuperscript[1].on('click', _.bind(this.onSuperscriptClick, this));
             this.footerControls.push(this.btnSuperscript[1]);
 
             this.btnSubscript = [];
             this.btnSubscript.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-h-subscript'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSubscript
             }));
-            this.btnSubscript[0].render($('#id-dlg-h-subscript')) ;
             this.btnSubscript[0].on('click', _.bind(this.onSubscriptClick, this));
             this.headerControls.push(this.btnSubscript[0]);
 
             this.btnSubscript.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-f-subscript'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptHFGroup',
                 hint: this.textSubscript
             }));
-            this.btnSubscript[1].render($('#id-dlg-f-subscript')) ;
             this.btnSubscript[1].on('click', _.bind(this.onSubscriptClick, this));
             this.footerControls.push(this.btnSubscript[1]);
 
@@ -553,6 +553,7 @@ define([
             };
             this.btnTextColor = [];
             this.btnTextColor.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-h-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
@@ -565,13 +566,13 @@ define([
                     ]
                 })
             }));
-            this.btnTextColor[0].render($('#id-dlg-h-textcolor'));
             this.btnTextColor[0].on('click', _.bind(this.onTextColor, this));
             this.mnuTextColorPicker = [];
             this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[0], "#id-dlg-h-menu-fontcolor"));
             this.headerControls.push(this.btnTextColor[0]);
 
             this.btnTextColor.push(new Common.UI.Button({
+                parentEl: $('#id-dlg-f-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
@@ -584,7 +585,6 @@ define([
                     ]
                 })
             }));
-            this.btnTextColor[1].render($('#id-dlg-f-textcolor'));
             this.btnTextColor[1].on('click', _.bind(this.onTextColor, this));
             this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[1], "#id-dlg-f-menu-fontcolor"));
             this.footerControls.push(this.btnTextColor[1]);

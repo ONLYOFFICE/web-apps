@@ -123,6 +123,7 @@ define([
                 [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large btn-adv-paragraph-none',      '31']
             ], function(item, index) {
                 var _btn = new Common.UI.Button({
+                    parentEl: $('#drop-advanced-button-borderline-' + item[3]),
                     posId   : item[0],
                     strId   : item[1],
                     iconCls : item[2],
@@ -130,8 +131,7 @@ define([
                     cls     : 'btn-options large'
                 });
 
-                _btn.render($('#drop-advanced-button-borderline-' + item[3]))
-                .on('click', function(btn) {
+                _btn.on('click', function(btn) {
                     me._ApplyBorderPreset(btn.options.strId);
                 });
             }, this);
@@ -301,6 +301,7 @@ define([
             }, me));
 
             this.btnNone = new Common.UI.Button({
+                parentEl: $('#drop-advanced-button-none'),
                 cls         : 'btn huge-1 btn-options',
                 iconCls     : 'icon-advanced-wrap btn-drop-none',
                 enableToggle: true,
@@ -316,6 +317,7 @@ define([
             }, me));
 
             this.btnInText = new Common.UI.Button({
+                parentEl: $('#drop-advanced-button-intext'),
                 cls         : 'btn huge-1 btn-options',
                 iconCls     : 'icon-advanced-wrap btn-drop-text',
                 enableToggle: true,
@@ -331,6 +333,7 @@ define([
             }, me));
 
             this.btnInMargin = new Common.UI.Button({
+                parentEl: $('#drop-advanced-button-inmargin'),
                 cls         : 'btn huge-1 btn-options',
                 iconCls     : 'icon-advanced-wrap btn-drop-margin',
                 enableToggle: true,
@@ -393,6 +396,7 @@ define([
             }, me));
 
             this.btnFrameNone = new Common.UI.Button({
+                parentEl: $('#frame-advanced-button-none'),
                 cls         : 'btn huge btn-options',
                 iconCls     : 'icon-right-panel btn-frame-none',
                 enableToggle: true,
@@ -408,6 +412,7 @@ define([
             }, me));
 
             this.btnFrameInline = new Common.UI.Button({
+                parentEl: $('#frame-advanced-button-inline'),
                 cls         : 'btn huge btn-options',
                 iconCls     : 'icon-right-panel btn-frame-inline',
                 enableToggle: true,
@@ -423,6 +428,7 @@ define([
             }, me));
 
             this.btnFrameFlow = new Common.UI.Button({
+                parentEl: $('#frame-advanced-button-flow'),
                 cls         : 'btn huge btn-options',
                 iconCls     : 'icon-right-panel btn-frame-flow',
                 enableToggle: true,
@@ -656,14 +662,6 @@ define([
                     me._changedProps.put_VAnchor(rec.get('value'));
                 }
             }, me));
-
-
-            this.btnNone.render($('#drop-advanced-button-none'));
-            this.btnInText.render($('#drop-advanced-button-intext'));
-            this.btnInMargin.render($('#drop-advanced-button-inmargin'));
-            this.btnFrameNone.render($('#frame-advanced-button-none'));
-            this.btnFrameInline.render($('#frame-advanced-button-inline'));
-            this.btnFrameFlow.render($('#frame-advanced-button-flow'));
 
             this.on('show', _.bind(this.onShowDialog, this));
 
