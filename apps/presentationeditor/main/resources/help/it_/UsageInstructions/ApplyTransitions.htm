@@ -1,38 +1,43 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Applicare transizioni</title>
+		<title>Apply transitions</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Applicate gli effetti animati tra le dispositive" />
+		<meta name="description" content="Add animation effects between slides" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Applicare transizioni</h1>
-			<p>Una <b>transizione</b> è un effetto di animazione che viene riprodotto nella presentazione durante lo spostamento da una diapositiva alla successiva. Potete applicare la stessa transizione a tutte le diapositive o applicare le transizioni diverse ad ogni diapositiva separata e regolare le loro proprietà.</p>
-			<p><b>Per applicare una transizione ad una certa diapositiva</b> o più diapositive selezionate:</p>
-			<p><img class="floatleft"alt="Impostazioni diapositiva" src="../images/slidesettingstab.png" /></p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Apply transitions</h1>
+			<p>A <b>transition</b> is an effect that appears between two slides when one slide advances to the next one during a demonstration. You can apply the same transition to all slides or apply different transitions to each separate slide and adjust the transition properties.</p>
+			<p><b>To apply a transition to a single slide</b> or several selected slides:</p>
+			<p><img class="floatleft"alt="Slide settings tab" src="../images/slidesettingstab.png" /></p>
 			<ol style="margin-left: 280px;">
-				<li>Selezionate una diapositiva (o più diapositive) dall'elenco. La scheda <b>Impostazioni diapositiva</b> sarà attivata sulla barra destra. Per aprirla cliccate sull'icona <b>Impostazioni diapositiva</b> <img alt="Impostazioni diapositiva" src="../images/slide_settings_icon.png" /> a destra.
+				<li>Select the necessary slide (or several slides in the slide list) you want to apply a transition to. The <b>Slide settings</b> tab will be activated on the right sidebar. To open it click the <b>Slide settings</b> <img alt="Slide settings icon" src="../images/slide_settings_icon.png" /> icon on the right. Alternatively, you can right-click a slide in the slide editing area and select the <b>Slide Settings</b> option from the contextual menu.
 				</li>
-				<li>Selezionate una transizione dall'elenco <b>Effetti</b>.
-				<p>Le transizioni disponibili sono le seguenti: Dissolvenza, Spinta, Tendina, Dividi, Scopri, Copri, Orologio, Zoom.</p>
+				<li>In the <b>Effect</b> drop-down list, select the transition you want to use.
+				<p>The following transitions are available: Fade, Push, Wipe, Split, Uncover, Cover, Clock, Zoom.</p>
 				</li>
-				<li>Selezionate un tipo adatto della transizione scelta dall'elenco di sotto per specificare il modo di apparizione dell'effetto. Ad esempio, se selezionate la transizione Zoom, potete selezionare uno di tre tipi: Zoom avanti, Zoom indietro e Zoom e rotazione.</li>
-				<li>Impostate la durata di una transizione. Inserite o selezionate un valore necessario in secondi nella casella <b>Durata</b>.</li>
-				<li>Fate clic sul pulsante <b>Anteprima</b> per visualizzare la dispositiva con la transizione applicata nell'area di modifica.</li>
-				<li>Specificate quanto tempo deve trascorrere prima che la diapositiva corrente avanzi a quella successiva:
+				<li>In the drop-down list below, select one of the available effect options. They define exactly how the effect appears. For example, if the Zoom transition is selected, the Zoom In, Zoom Out and Zoom and Rotate options are available.</li>
+				<li>Specify how long you want the transition to last. In the <b>Duration</b> box, enter or select the necessary time value, measured in seconds.</li>
+				<li>Press the <b>Preview</b> button to view the slide with the applied transition in the slide editing area.</li>
+				<li>Specify how long you want the slide to be displayed until it advances to another one:
 				    <ul>
-				    <li><b>Inizia al clic del mouse</b> – selezionate questa casella se non desiderate limitare il tempo di visualizzazione di una diapositiva. La diapositiva corrente avanza a quella successiva solo quando fate clic del mouse.</li>
-				    <li><b>Ritardo</b> – usate questa opzione se desiderate che la diapositiva corrente avanzi a quella successiva dopo un intervallo di tempo specificato. Selezionate questa casella e specificate l'intervallo di tempo adatto misurato in secondi.
-				    <p class="note"><b>Nota</b>: se selezionate solo la casella <b>Ritardo</b>, le diapositive avanzano automaticamente dopo un intervallo di tempo specificato. Se selezionate entrambe le caselle <b>Inizia al clic del mouse</b> e <b>Ritardo</b> e impostate il valore, le diaposittive avanzato anche automaticamente, però potete fare in modo che la diapositiva avanzi anche dopo un clic del mouse.</p>
+				    <li><b>Start on click</b> – check this box if you don't want to restrict the time while the selected slide is being displayed. The slide will advance to another one only when you click on it with the mouse.</li>
+				    <li><b>Delay</b> – use this option if you want the selected slide to be displayed for a specified time until it advances to the next one. Check this box and enter or select the necessary time value, measured in seconds.
+				    <p class="note"><b>Note</b>: if you check only the <b>Delay</b> box, the slides will advance automatically in a specified time interval. If you check both the <b>Start on click</b> and the <b>Delay</b> boxes and set the delay value, the slides will advance automatically as well, but you will also be able to click a slide to advance from it to the next.</p>
 				    </li>
 				    </ul>
 				</li>
 			</ol>
-			<p><b>Per applicare una transizione a tutte le diapositive</b> nella presentazione: eseguite la procedura descritta e fate clic sul pulsante <b>Applica a tutte le diapositive</b>.</p>
-			<p><b>Per eliminare una transizione</b>: selezionate la diapositiva necessaria, quindi l'opzione <b>Niente</b> dall'elenco <b>Effetti</b>.</p>
-			<p><b>Per eliminare tutte le transizioni</b>: selezionate una diapositiva, quindi l'opzione <b>Niente</b> dall'elenco <b>Effetti</b> e fate clic sul pulsante <b>Applica a tutte le diapositive</b>.</p>
+			<p><b>To apply a transition to all the slides</b> in your presentation: perform the procedure described above and press the <b>Apply to All Slides</b> button.</p>
+			<p><b>To delete a transition</b>: select the necessary slide and choose the <b>None</b> option in the <b>Effect</b> list.</p>
+			<p><b>To delete all transitions</b>: select any slide, choose the <b>None</b> option in the <b>Effect</b> list and press the <b>Apply to All Slides</b> button.</p>
 		</div>
 	</body>
 </html>

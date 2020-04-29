@@ -1,58 +1,101 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Gestire fogli di lavoro</title>
+		<title>Manage sheets</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Gestite i fogli di lavoro in TeamLab Spreadsheet Editor: inserite, eliminate, rinominate, copiate e spostate." />
+        <meta name="description" content="Manage sheets in Spreadsheet Editor: insert, delete, rename, copy and move." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
-			<h1>Gestire fogli di lavoro</h1>
-			<p>Un foglio di calcolo predefinito ha tre fogli di lavoro. Per aprire un foglio necessario usate le schede di foglio nell'angolo sinistro inferiore di ogni foglio di calcolo.</p>
-			<p class="note"><b>Nota</b>: se avete molti fogli di lavoro per trovare il foglio necessario usate i pulsanti di <b>Navigazione tra fogli</b> situati nell'angolo sinistro inferiore.</p>
-			<p><b>Per aggiungere un nuovo foglio di lavoro,</b></p>
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Manage sheets</h1>
+			<p>By default a newly created spreadsheet has a single sheet. The most simple way to add a new one is to click the <img alt="Plus button" src="../images/plus.png" /> button located to the right of the <b>Sheet Navigation</b> buttons in the left lower corner.</p>
+			<p>Another way to <b>add a new sheet</b> is to:</p>
 			<ol>
-			<li>cliccate con il tasto destro del mouse sulla scheda di foglio dopo il quale desiderate inserire un nuovo foglio,</li>
-			<li>selezionate l'opzione <b>Inserisci</b> dal menu contestuale.</li>
+			<li>right-click the sheet tab after which you wish to insert a new one,</li>
+			<li>select the <b>Insert</b> option from the right-click menu.</li>
 			</ol>
-			<p>Un nuovo foglio di lavoro sarà inserito dopo il foglio selezionato.</p>
-			<p>Per aggiungere un nuovo foglio di lavoro dopo tutti i fogli esistenti basta cliccare sul pulsante <img alt="Più" src="../images/plus.png" /> a destra delle schede.</p>
-			<p><b>Per eliminare un foglio inutile,</b></p>
+			<p>A new sheet will be inserted after the selected one.</p>
+			<p><b>To activate the necessary sheet</b> use the sheet tabs in the left lower corner of each spreadsheet.</p>
+			<p class="note"><b>Note</b>: if you have a lot of sheets to find the necessary one make use of the <b>Sheet Navigation</b> buttons situated in the left lower corner.</p>
+			<p><b>To delete an unnecessary sheet:</b></p>
 			<ol>
-			<li>cliccate con il tasto destro del mouse sulla scheda di foglio da eliminare,</li>
-			<li>selezionate l'opzione <b>Elimina</b> dal menu contestuale.</li>
+				<li>right-click the sheet tab you wish to delete,</li>
+				<li>select the <b>Delete</b> option from the right-click menu.</li>
 			</ol>
-			<p>Il foglio di lavoro selezionato sarà eliminato dal foglio di calcolo corrente.</p>
-			<p><b>Per rinominare un foglio esistente,</b></p>
+			<p>The selected sheet will be deleted from the current spreadsheet.</p>
+			<p><b>To rename an existing sheet:</b></p>
 			<ol>
-			<li>cliccate con il tasto destro del mouse sulla scheda di foglio da rinominare,</li>
-			<li>selezionate l'opzione <b>Rinomina</b> dal menu contestuale,</li>
-			<li>inserite un <b>Nome foglio</b> nel campo adatto e cliccate su <b>OK</b>.</li>
+				<li>right-click the sheet tab you wish to rename,</li>
+				<li>select the <b>Rename</b> option from the right-click menu,</li>
+				<li>enter the <b>Sheet Name</b> in the dialog box and click <b>OK</b>.</li>
 			</ol>
-			<p>Il nome del foglio di lavoro selezionato sarà cambiato.</p>
-			<p><b>Per copiare un foglio di lavoro esistente,</b></p>
+			<p>The selected sheet name will be changed.</p>
+			<p><b>To copy an existing sheet:</b></p>
 			<ol>
-			<li>cliccate con il tasto destro del mouse sulla scheda di foglio da copiare,</li>
-			<li>selezionate l'opzione <b>Copia</b> dal menu contestuale,</li>
-			<li>selezionate il foglio prima del quale desiderate inserire il foglio copiato o usate l'opzione <b>Copia alla fine</b> per inserire il foglio copiato dopo tutti i fogli esistenti,</li>
-			<li>cliccate su <b>OK</b> per confermare la scelta.</li>
+				<li>right-click the sheet tab you wish to copy,</li>
+				<li>select the <b>Copy</b> option from the right-click menu,</li>
+				<li>select the sheet before which you wish to insert the copied one or use the <b>Copy to end</b> option to insert the copied sheet after all the existing ones,</li>
+				<li>click the <b>OK</b> button to confirm your choice.</li>
 			</ol>
-			<p>Il foglio di lavoro selezionato sarà copiato ed inserito nel punto scelto.</p>
-			<p><b>Per spostare un foglio di lavoro esistente,</b></p>
+			<p>The selected sheet will be copied and inserted in the selected place.</p>
+			<p><b>To move an existing sheet:</b></p>
 			<ol>
-			<li>cliccate con il tasto destro del mouse sulla scheda di foglio da spostare,</li>
-			<li>selezionate l'opzione <b>Sposta</b> dal menu contestuale,</li>
-			<li>selezionate il foglio prima del quale desiderate inserire il foglio spostato o usate l'opzione <b>Sposta alla fine</b> per inserire il foglio spostato dopo tutti i fogli esistenti,</li>
-			<li>cliccate su <b>OK</b> per confermare la scelta.</li>
+				<li>right-click the sheet tab you wish to move,</li>
+				<li>select the <b>Move</b> option from the right-click menu,</li>
+				<li>select the sheet before which you wish to insert the selected one or use the <b>Move to end</b> option to move the selected sheet after all the existing ones,</li>
+				<li>click the <b>OK</b> button to confirm your choice.</li>
 			</ol>
-			<p>O semplicemente <b>trascinate</b> la scheda di foglio nel punto desiderato. Il foglio di lavoro selezionato sarà spostato.</p>
-			<p>Se avete molti fogli, potete nascondere certi se non ne avete bisogno al presente per facilitare il lavoro. Per farlo,</p>
+			<p>Or simply <b>drag</b> the necessary sheet tab and <b>drop</b> it to a new location. The selected sheet will be moved.</p>
+			<p>If you have a lot of sheets, you can hide some of them you don't need for the moment to facilitate the work. To do that,</p>
 			<ol>
-			<li>cliccate con il tasto destro del mouse sulla scheda di foglio da nascondere,</li>
-			<li>selezionate l'opzione <b>Nascondi</b> dal menu contestuale,</li>
+				<li>right-click the sheet tab you wish to hide,</li>
+				<li>select the <b>Hide</b> option from the right-click menu,</li>
 			</ol>
-			<p>Per visualizzare la scheda del foglio nascosto, cliccate con il tasto destro del mouse su qualsaisi scheda, aprite l'elenco <b>Nascosto</b> e selezionate la scheda di foglio da visualizzare.</p>
+			<p><b>To display the hidden sheet tab</b>, right-click any sheet tab, open the <b>Hidden</b> list and select the sheet tab you wish to display.</p>
+			<p>To differentiate the sheets you can <b>assign different colors to the sheet tabs</b>. To do that,</p>
+			<ol>
+				<li>right-click the sheet tab you wish to color,</li>
+                <li>select the <b>Tab Color</b> option from the right-click menu,</li>
+				<li>select any color in the available palettes
+					<p><img alt="Palette" src="../images/palette.png" /></p>
+					<ul>
+						<li><b>Theme Colors</b> - the colors that correspond to the selected color scheme of the spreadsheet.</li>
+						<li><b>Standard Colors</b> - the default colors set.</li>
+						<li><b>Custom Color</b> - click this caption if there is no needed color in the available palettes. Select the necessary colors range moving the vertical color slider and set the specific color dragging the color picker within the large square color field. Once you select a color with the color picker, the appropriate RGB and sRGB color values will be displayed in the fields on the right. You can also specify a color on the base of the RGB color model entering the necessary numeric values into the <b>R</b>, <b>G</b>, <b>B</b> (red, green, blue) fields or enter the sRGB hexadecimal code into the field marked with the <b>#</b> sign. The selected color appears in the <b>New</b> preview box. If the object was previously filled with any custom color, this color is displayed in the <b>Current</b> box so you can compare the original and modified colors. When the color is specified, click the <b>Add</b> button:
+						<p><img alt="Palette - Custom Color" src="../images/palette_custom.png" /></p>
+						<p>The custom color will be applied to the selected tab and added to the <b>Custom color</b> palette.</p>
+						</li>
+						</ul>
+					</li>
+			</ol>
+			<p>You can <b>work with multiple sheets simultaneously</b>:</p>
+			<ol>
+				<li>select the first sheet you want to include into the group,</li>
+				<li>press and hold the <em>Shift</em> key to select several adjacent sheets you want to group, or use the <em>Ctrl</em> key to select several non-adjacent sheets you want to group,</li>
+				<li>right-click one of the selected sheets tab to open the contextual menu,</li>
+				<li>choose the necessary option from the menu: 
+				<p><img alt="Manage multiple sheets" src="../images/severalsheets.png" /></p>
+				<ul>					
+					<li><b>Insert</b> - to insert the same number of new blank sheets as the selected group contains,</li>
+					<li><b>Delete</b> - to delete all the selected sheets at once (you cannot delete all sheets in the workbook, as the workbook must contain at least one visible sheet),</li>
+					<li><b>Rename</b> - this option can be applied to each separate sheet only,</li>
+					<li><b>Copy</b> - to create a copies of all the selected sheets at once and paste them to the selected place,</li>
+					<li><b>Move</b> - to move all the selected sheets at once and paste them to the selected place,</li>
+					<li><b>Hide</b> - to hide all the selected sheets at once (you cannot hide all sheets in the workbook, as the workbook must contain at least one visible sheet),</li>
+					<li><b>Tab color</b> - to assign the same color to all the selected sheet tabs at once,</li>
+					<li><b>Select All Sheets</b> - to select all the sheets in the current workbook,</li>
+					<li><b>Ungroup Sheets</b> - to ungroup the selected sheets.
+                        <p class="note">it's also possible to ungroup sheets by double-clicking on a sheet which is included into the group, or by clicking any sheet which is not included into the group.</p>
+                    </li>
+				</ul>
+				</li>
+			</ol>
 		</div>
 	</body>
 </html>
