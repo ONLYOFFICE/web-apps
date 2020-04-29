@@ -524,8 +524,7 @@ define([
                 defValue = this.defColor;
 
                 this.btnSparkColor = new Common.UI.ColorButton({
-                    parentEl: $('#spark-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#spark-color-btn')
                 });
                 this.btnSparkColor.setColor('000000');
                 this.lockedControls.push(this.btnSparkColor);
@@ -533,8 +532,7 @@ define([
                 this.btnSparkColor.on('color:select', _.bind(this.onColorsSparkSelect, this));
 
                 this.btnHighColor = new Common.UI.ColorButton({
-                    parentEl: $('#spark-high-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#spark-high-color-btn')
                 });
                 this.btnHighColor.setColor(this.defColor.color);
                 this.lockedControls.push(this.btnHighColor);
@@ -542,8 +540,7 @@ define([
                 this.btnHighColor.on('color:select', _.bind(this.onColorsPointSelect, this, 0));
 
                 this.btnLowColor = new Common.UI.ColorButton({
-                    parentEl: $('#spark-low-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#spark-low-color-btn')
                 });
                 this.btnLowColor.setColor(this.defColor.color);
                 this.lockedControls.push(this.btnLowColor);
@@ -551,8 +548,7 @@ define([
                 this.btnLowColor.on('color:select', _.bind(this.onColorsPointSelect, this, 1));
 
                 this.btnNegativeColor = new Common.UI.ColorButton({
-                    parentEl: $('#spark-negative-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#spark-negative-color-btn')
                 });
                 this.btnNegativeColor.setColor(this.defColor.color);
                 this.lockedControls.push(this.btnNegativeColor);
@@ -560,8 +556,7 @@ define([
                 this.btnNegativeColor.on('color:select', _.bind(this.onColorsPointSelect, this, 2));
 
                 this.btnFirstColor = new Common.UI.ColorButton({
-                    parentEl: $('#spark-first-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#spark-first-color-btn')
                 });
                 this.lockedControls.push(this.btnFirstColor);
                 this.btnFirstColor.setColor(this.defColor.color);
@@ -569,8 +564,7 @@ define([
                 this.btnFirstColor.on('color:select', _.bind(this.onColorsPointSelect, this, 3));
 
                 this.btnLastColor = new Common.UI.ColorButton({
-                    parentEl: $('#spark-last-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#spark-last-color-btn')
                 });
                 this.btnLastColor.setColor(this.defColor.color);
                 this.lockedControls.push(this.btnLastColor);
@@ -578,8 +572,7 @@ define([
                 this.btnLastColor.on('color:select', _.bind(this.onColorsPointSelect, this, 4));
 
                 this.btnMarkersColor = new Common.UI.ColorButton({
-                    parentEl: $('#spark-markers-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#spark-markers-color-btn')
                 });
                 this.btnMarkersColor.setColor(this.defColor.color);
                 this.lockedControls.push(this.btnMarkersColor);

@@ -161,7 +161,6 @@ define([
 
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#drop-advanced-button-bordercolor'),
-                style: "width:45px;",
                 additionalAlign: this.menuAddAlign
             });
             this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
@@ -172,7 +171,6 @@ define([
 
             this.btnBackColor = new Common.UI.ColorButton({
                 parentEl: $('#drop-advanced-button-color'),
-                style: "width:45px;",
                 additionalAlign: this.menuAddAlign,
                 transparent: true
             });

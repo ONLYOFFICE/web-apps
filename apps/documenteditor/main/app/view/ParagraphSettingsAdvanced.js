@@ -359,7 +359,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#paragraphadv-border-color-btn'),
-                style: "width:45px;",
                 additionalAlign: this.menuAddAlign
             });
             this.colorsBorder = this.btnBorderColor.getPicker();
@@ -402,7 +401,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
             this.btnBackColor = new Common.UI.ColorButton({
                 parentEl: $('#paragraphadv-back-color-btn'),
-                style: "width:45px;",
                 transparent: true,
                 additionalAlign: this.menuAddAlign
             });

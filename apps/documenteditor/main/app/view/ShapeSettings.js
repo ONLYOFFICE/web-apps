@@ -1688,7 +1688,6 @@ define([
                 // create color buttons
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-back-color-btn'),
-                    style: "width:45px;",
                     transparent: true
                 });
                 this.btnBackColor.setColor('transparent');
@@ -1697,8 +1696,7 @@ define([
                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
 
                 this.btnFGColor = new Common.UI.ColorButton({
-                    parentEl: $('#shape-foreground-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#shape-foreground-color-btn')
                 });
                 this.btnFGColor.setColor('000000');
                 this.fillControls.push(this.btnFGColor);
@@ -1706,8 +1704,7 @@ define([
                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
 
                 this.btnBGColor = new Common.UI.ColorButton({
-                    parentEl: $('#shape-background-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#shape-background-color-btn')
                 });
                 this.btnBGColor.setColor('ffffff');
                 this.fillControls.push(this.btnBGColor);
@@ -1715,8 +1712,7 @@ define([
                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
-                    parentEl: $('#shape-gradient-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#shape-gradient-color-btn')
                 });
                 this.btnGradColor.setColor('000000');
                 this.fillControls.push(this.btnGradColor);
@@ -1724,8 +1720,7 @@ define([
                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
 
                 this.btnBorderColor = new Common.UI.ColorButton({
-                    parentEl: $('#shape-border-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#shape-border-color-btn')
                 });
                 this.btnBorderColor.setColor('000000');
                 this.lockedControls.push(this.btnBorderColor);

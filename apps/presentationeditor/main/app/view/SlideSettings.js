@@ -135,7 +135,6 @@ define([
 
             this.btnBackColor = new Common.UI.ColorButton({
                 parentEl: $('#slide-back-color-btn'),
-                style: "width:45px;",
                 disabled: true,
                 transparent: true,
                 menu: true
@@ -1065,8 +1064,7 @@ define([
                 this.colorsBack = this.btnBackColor.getPicker();
 
                 this.btnFGColor = new Common.UI.ColorButton({
-                    parentEl: $('#slide-foreground-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#slide-foreground-color-btn')
                 });
                 this.btnFGColor.setColor('000000');
                 this.FillItems.push(this.btnFGColor);
@@ -1074,8 +1072,7 @@ define([
                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
 
                 this.btnBGColor = new Common.UI.ColorButton({
-                    parentEl: $('#slide-background-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#slide-background-color-btn')
                 });
                 this.btnBGColor.setColor('ffffff');
                 this.FillItems.push(this.btnBGColor);
@@ -1083,8 +1080,7 @@ define([
                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
-                    parentEl: $('#slide-gradient-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#slide-gradient-color-btn')
                 });
                 this.btnGradColor.setColor('000000');
                 this.FillItems.push(this.btnGradColor);

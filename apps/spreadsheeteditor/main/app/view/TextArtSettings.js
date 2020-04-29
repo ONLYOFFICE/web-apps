@@ -1508,8 +1508,7 @@ define([
             if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBorderColor = new Common.UI.ColorButton({
-                    parentEl: $('#textart-border-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#textart-border-color-btn')
                 });
                 this.btnBorderColor.setColor('000000');
                 this.lockedControls.push(this.btnBorderColor);
@@ -1518,7 +1517,6 @@ define([
 
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-back-color-btn'),
-                    style: "width:45px;",
                     transparent: true
                 });
                 this.btnBackColor.setColor('transparent');
@@ -1527,8 +1525,7 @@ define([
                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
 
                 this.btnFGColor = new Common.UI.ColorButton({
-                    parentEl: $('#textart-foreground-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#textart-foreground-color-btn')
                 });
                 this.btnFGColor.setColor('000000');
                 this.lockedControls.push(this.btnFGColor);
@@ -1536,8 +1533,7 @@ define([
                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
 
                 this.btnBGColor = new Common.UI.ColorButton({
-                    parentEl: $('#textart-background-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#textart-background-color-btn')
                 });
                 this.btnBGColor.setColor('ffffff');
                 this.lockedControls.push(this.btnBGColor);
@@ -1545,8 +1541,7 @@ define([
                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
-                    parentEl: $('#textart-gradient-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#textart-gradient-color-btn')
                 });
                 this.btnGradColor.setColor('000000');
                 this.lockedControls.push(this.btnGradColor);

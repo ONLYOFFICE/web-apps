@@ -163,7 +163,6 @@ define([
 
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $markup.findById('#paragraph-color-btn'),
-                style: "width:45px;",
                 disabled: this._locked,
                 transparent: true,
                 menu        : true

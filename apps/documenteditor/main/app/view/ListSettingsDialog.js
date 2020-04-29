@@ -156,7 +156,6 @@ define([
 
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $window.find('#id-dlg-bullet-color'),
-                style: 'width:45px;',
                 additionalItems: [{
                         id: 'id-dlg-bullet-text-color',
                         caption: this.txtLikeText,

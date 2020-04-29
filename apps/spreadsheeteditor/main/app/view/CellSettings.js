@@ -400,7 +400,6 @@ define([
 
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#cell-border-color-btn'),
-                style: "width:45px;",
                 disabled: this._locked,
                 menu        : true
             });
@@ -409,7 +408,6 @@ define([
 
             this.btnBackColor = new Common.UI.ColorButton({
                 parentEl: $('#cell-back-color-btn'),
-                style: "width:45px;",
                 disabled: this._locked,
                 menu        : true,
                 transparent : true
@@ -755,8 +753,7 @@ define([
                  this.fillControls.push(this.btnBackColor);
 
                  this.btnGradColor = new Common.UI.ColorButton({
-                     parentEl: $('#cell-gradient-color-btn'),
-                     style: "width:45px;"
+                     parentEl: $('#cell-gradient-color-btn')
                  });
                  this.btnGradColor.setColor('000000');
                  this.fillControls.push(this.btnGradColor);
@@ -764,8 +761,7 @@ define([
                  this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
 
                  this.btnFGColor = new Common.UI.ColorButton({
-                     parentEl: $('#cell-foreground-color-btn'),
-                     style: "width:45px;"
+                     parentEl: $('#cell-foreground-color-btn')
                  });
                  this.btnFGColor.setColor('000000');
                  this.fillControls.push(this.btnFGColor);
@@ -773,8 +769,7 @@ define([
                  this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
 
                  this.btnBGColor = new Common.UI.ColorButton({
-                     parentEl: $('#cell-background-color-btn'),
-                     style: "width:45px;"
+                     parentEl: $('#cell-background-color-btn')
                  });
                  this.btnBGColor.setColor('ffffff');
                  this.fillControls.push(this.btnBGColor);

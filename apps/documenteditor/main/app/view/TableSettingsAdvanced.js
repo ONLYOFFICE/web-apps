@@ -880,7 +880,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#tableadv-border-color-btn'),
-                style: "width:45px;",
                 additionalAlign: this.menuAddAlign
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
@@ -889,7 +888,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnBackColor = new Common.UI.ColorButton({
                 parentEl: $('#tableadv-button-back-color'),
-                style: "width:45px;",
                 additionalAlign: this.menuAddAlign,
                 transparent: true
             });
@@ -898,7 +896,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnTableBackColor = new Common.UI.ColorButton({
                 parentEl: $('#tableadv-button-table-back-color'),
-                style: "width:45px;",
                 additionalAlign: this.menuAddAlign,
                 transparent: true
             });

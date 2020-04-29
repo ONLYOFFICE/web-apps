@@ -1093,8 +1093,7 @@ define([
             if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBorderColor = new Common.UI.ColorButton({
-                    parentEl: $('#textart-border-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#textart-border-color-btn')
                 });
                 this.btnBorderColor.setColor('000000');
                 this.lockedControls.push(this.btnBorderColor);
@@ -1102,8 +1101,7 @@ define([
                 this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
-                    parentEl: $('#textart-gradient-color-btn'),
-                    style: "width:45px;"
+                    parentEl: $('#textart-gradient-color-btn')
                 });
                 this.btnGradColor.setColor('000000');
                 this.lockedControls.push(this.btnGradColor);
@@ -1112,7 +1110,6 @@ define([
 
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-back-color-btn'),
-                    style: "width:45px;",
                     transparent: true
                 });
                 this.btnBackColor.setColor('transparent');

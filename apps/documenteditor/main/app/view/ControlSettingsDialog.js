@@ -127,7 +127,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $('#control-settings-color-btn'),
-                style: "width:45px;",
                 additionalItems: [{
                         id: 'control-settings-system-color',
                         caption: this.textSystemColor,

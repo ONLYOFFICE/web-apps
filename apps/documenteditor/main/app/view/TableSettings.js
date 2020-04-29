@@ -639,8 +639,7 @@ define([
              if (!this.btnBackColor) {
                 // create color buttons
                  this.btnBorderColor = new Common.UI.ColorButton({
-                     parentEl: $('#table-border-color-btn'),
-                     style: "width:45px;"
+                     parentEl: $('#table-border-color-btn')
                  });
                  this.btnBorderColor.setColor('000000');
                  this.lockedControls.push(this.btnBorderColor);
@@ -648,7 +647,6 @@ define([
 
                  this.btnBackColor = new Common.UI.ColorButton({
                      parentEl: $('#table-back-color-btn'),
-                     style: "width:45px;",
                      transparent: true
                  });
                  this.lockedControls.push(this.btnBackColor);
