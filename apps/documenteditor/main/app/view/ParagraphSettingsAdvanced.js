@@ -358,25 +358,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.cmbBorderSize.on('selected', _.bind(this.onBorderSizeSelect, this));
 
             this.btnBorderColor = new Common.UI.ColorButton({
+                parentEl: $('#paragraphadv-border-color-btn'),
                 style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="paragraphadv-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="paragraphadv-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign
             });
-
-            this.btnBorderColor.on('render:after', function(btn) {
-                me.colorsBorder = new Common.UI.ThemeColorPalette({
-                    el: $('#paragraphadv-border-color-menu')
-                });
-                me.colorsBorder.on('select', _.bind(me.onColorsBorderSelect, me));
-            });
-            this.btnBorderColor.render( $('#paragraphadv-border-color-btn'));
+            this.colorsBorder = this.btnBorderColor.getPicker();
+            this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
             this.btnBorderColor.setColor('000000');
-            $('#paragraphadv-border-color-new').on('click', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
 
             this.BordersImage = new Common.UI.TableStyler({
                 el: $('#id-deparagraphstyler'),
@@ -413,25 +401,13 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             }, this);
 
             this.btnBackColor = new Common.UI.ColorButton({
+                parentEl: $('#paragraphadv-back-color-btn'),
                 style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="paragraphadv-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="paragraphadv-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                transparent: true,
+                additionalAlign: this.menuAddAlign
             });
-
-            this.btnBackColor.on('render:after', function(btn) {
-                me.colorsBack = new Common.UI.ThemeColorPalette({
-                    el: $('#paragraphadv-back-color-menu'),
-                    transparent: true
-                });
-                me.colorsBack.on('select', _.bind(me.onColorsBackSelect, me));
-            });
-            this.btnBackColor.render( $('#paragraphadv-back-color-btn'));
-            $('#paragraphadv-back-color-new').on('click', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+            this.colorsBack = this.btnBackColor.getPicker();
+            this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
 
             // Font
 
@@ -1094,17 +1070,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.BordersImage.setVirtualBorderSize( this.BorderSize.pxValue );
         },
 
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-        },
-
-        onColorsBorderSelect: function(picker, color) {
-            this.btnBorderColor.setColor(color);
+        onColorsBorderSelect: function(btn, color) {
             this.BordersImage.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
         },
 
-        onColorsBackSelect: function(picker, color) {
-            this.btnBackColor.setColor(color);
+        onColorsBackSelect: function(btn, color) {
             this.paragraphShade = color;
 
             if (this._changedProps) {
@@ -1447,7 +1417,6 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
         txtNoBorders:           'No borders',
-        textNewColor:           'Add New Custom Color',
         textEffects: 'Effects',
         textCharacterSpacing: 'Character Spacing',
         textSpacing: 'Spacing',

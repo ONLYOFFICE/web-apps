@@ -148,8 +148,7 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onColorsBackSelect: function(picker, color) {
-            this.btnBackColor.setColor(color);
+        onColorsBackSelect: function(btn, color) {
             this.CellColor = {Value: 1, Color: color};
 
             if (this.api) {
@@ -169,14 +168,6 @@ define([
             }
 
             this.fireEvent('editcomplete', this);
-        },
-
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-        },
-
-        onColorsBorderSelect: function(picker, color) {
-            this.btnBorderColor.setColor(color);
         },
 
         onBtnBordersClick: function(btn, eOpts){
@@ -648,40 +639,21 @@ define([
              if (!this.btnBackColor) {
                 // create color buttons
                  this.btnBorderColor = new Common.UI.ColorButton({
-                     style: "width:45px;",
-                     menu        : new Common.UI.Menu({
-                         items: [
-                             { template: _.template('<div id="table-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                             { template: _.template('<a id="table-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                         ]
-                     })
+                     parentEl: $('#table-border-color-btn'),
+                     style: "width:45px;"
                  });
-                 this.btnBorderColor.render( $('#table-border-color-btn'));
                  this.btnBorderColor.setColor('000000');
                  this.lockedControls.push(this.btnBorderColor);
-                 this.borderColor = new Common.UI.ThemeColorPalette({
-                     el: $('#table-border-color-menu')
-                 });
-                 this.borderColor.on('select', _.bind(this.onColorsBorderSelect, this));
-                 this.btnBorderColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.borderColor, this.btnBorderColor));
+                 this.borderColor = this.btnBorderColor.getPicker();
 
                  this.btnBackColor = new Common.UI.ColorButton({
+                     parentEl: $('#table-back-color-btn'),
                      style: "width:45px;",
-                     menu        : new Common.UI.Menu({
-                         items: [
-                             { template: _.template('<div id="table-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                             { template: _.template('<a id="table-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                         ]
-                     })
-                 });
-                 this.btnBackColor.render( $('#table-back-color-btn'));
-                 this.lockedControls.push(this.btnBackColor);
-                 this.colorsBack = new Common.UI.ThemeColorPalette({
-                     el: $('#table-back-color-menu'),
                      transparent: true
                  });
-                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
-                 this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+                 this.lockedControls.push(this.btnBackColor);
+                 this.colorsBack = this.btnBackColor.getPicker();
+                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -842,7 +814,6 @@ define([
         textSelectBorders       : 'Select borders that you want to change',
         textAdvanced            : 'Show advanced settings',
         txtNoBorders            : 'No borders',
-        textNewColor            : 'Add New Custom Color',
         textTemplate            : 'Select From Template',
         textRows                : 'Rows',
         textColumns             : 'Columns',

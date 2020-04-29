@@ -34,11 +34,12 @@ if (Common === undefined)
     var Common = {};
 
 define([
-    'common/main/lib/component/Button'
+    'common/main/lib/component/Button',
+    'common/main/lib/component/ThemeColorPalette'
 ], function () {
     'use strict';
 
-    Common.UI.ColorButton = Common.UI.Button.extend({
+    Common.UI.ColorButton = Common.UI.Button.extend(_.extend({
         options : {
             hint: false,
             enableToggle: false,
@@ -54,12 +55,72 @@ define([
             '</div>'
         ].join('')),
 
+        initialize : function(options) {
+            if (!options.menu && options.menu !== false) {// menu==null or undefined
+                // set default menu
+                var me = this;
+                options.menu = me.getMenu(options);
+                me.on('render:after', function(btn) {
+                    me.getPicker();
+                });
+            }
+
+            Common.UI.Button.prototype.initialize.call(this, options);
+        },
+
+        onColorSelect: function(picker, color) {
+            this.setColor(color);
+            this.trigger('color:select', this, color);
+        },
+
         setColor: function(color) {
             var span = $(this.cmpEl).find('button span:nth-child(1)');
             this.color = color;
 
             span.toggleClass('color-transparent', color=='transparent');
             span.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
-        }
-    });
+        },
+
+        getPicker: function() {
+            if (!this.colorPicker) {
+                this.colorPicker = new Common.UI.ThemeColorPalette({
+                    el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
+                    transparent: this.options.transparent
+                });
+                this.colorPicker.on('select', _.bind(this.onColorSelect, this));
+                this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
+            }
+            return this.colorPicker;
+        },
+
+        getMenu: function(options) {
+            if (typeof this.menu !== 'object') {
+                options = options || this.options;
+                var id = Common.UI.getId(),
+                    menu = new Common.UI.Menu({
+                    id: id,
+                    additionalAlign: options.additionalAlign,
+                    items: (options.additionalItems ? options.additionalItems : []).concat([
+                        { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<a id="' + id + '-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                    ])
+                });
+                return menu;
+            }
+            return this.menu;
+        },
+
+        setMenu: function (m) {
+            m = m || this.getMenu();
+            Common.UI.Button.prototype.setMenu.call(this, m);
+            this.getPicker();
+        },
+
+        addNewColor: function() {
+            this.colorPicker && this.colorPicker.addNewColor((typeof(this.color) == 'object') ? this.color.color : this.color);
+        },
+
+        textNewColor: 'Add New Custom Color'
+
+    }, Common.UI.ColorButton || {}));
 });

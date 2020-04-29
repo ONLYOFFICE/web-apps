@@ -193,8 +193,7 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onColorsBackSelect: function(picker, color) {
-            this.btnBackColor.setColor(color);
+        onColorsBackSelect: function(btn, color) {
             this.ShapeColor = {Value: 1, Color: color};
 
             if (this.api && !this._noApply) {
@@ -215,10 +214,6 @@ define([
                 this.api.ImgApply(this.imgprops);
             }
             this.fireEvent('editcomplete', this);
-        },
-
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
         },
 
         onNumTransparencyChange: function(field, newValue, oldValue, eOpts){
@@ -347,8 +342,7 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onColorsGradientSelect: function(picker, color) {
-            this.btnGradColor.setColor(color);
+        onColorsGradientSelect: function(btn, color) {
             this.GradColor.colors[this.GradColor.currentIdx] = color;
             this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(color) == 'object') ? color.color : color));
 
@@ -510,8 +504,7 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        onColorsBorderSelect: function(picker, color) {
-            this.btnBorderColor.setColor(color);
+        onColorsBorderSelect: function(btn, color) {
             this.BorderColor = {Value: 1, Color: color};
             if (this.api && this.BorderSize>0 && !this._noApply) {
                 var props = new Asc.asc_TextArtProperties();
@@ -1100,62 +1093,32 @@ define([
             if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBorderColor = new Common.UI.ColorButton({
-                    style: "width:45px;",
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            { template: _.template('<div id="textart-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                            { template: _.template('<a id="textart-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                        ]
-                    })
+                    parentEl: $('#textart-border-color-btn'),
+                    style: "width:45px;"
                 });
-                this.btnBorderColor.render( $('#textart-border-color-btn'));
                 this.btnBorderColor.setColor('000000');
                 this.lockedControls.push(this.btnBorderColor);
-                this.colorsBorder = new Common.UI.ThemeColorPalette({
-                    el: $('#textart-border-color-menu'),
-                    value: '000000'
-                });
-                this.colorsBorder.on('select', _.bind(this.onColorsBorderSelect, this));
-                this.btnBorderColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
+                this.colorsBorder = this.btnBorderColor.getPicker();
+                this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
-                    style: "width:45px;",
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            { template: _.template('<div id="textart-gradient-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                            { template: _.template('<a id="textart-gradient-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                        ]
-                    })
+                    parentEl: $('#textart-gradient-color-btn'),
+                    style: "width:45px;"
                 });
-                this.btnGradColor.render( $('#textart-gradient-color-btn'));
                 this.btnGradColor.setColor('000000');
                 this.lockedControls.push(this.btnGradColor);
-                this.colorsGrad = new Common.UI.ThemeColorPalette({
-                    el: $('#textart-gradient-color-menu'),
-                    value: '000000'
-                });
-                this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
-                this.btnGradColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
+                this.colorsGrad = this.btnGradColor.getPicker();
+                this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
 
                 this.btnBackColor = new Common.UI.ColorButton({
+                    parentEl: $('#textart-back-color-btn'),
                     style: "width:45px;",
-                    menu        : new Common.UI.Menu({
-                        items: [
-                            { template: _.template('<div id="textart-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                            { template: _.template('<a id="textart-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                        ]
-                    })
-                });
-                this.btnBackColor.render( $('#textart-back-color-btn'));
-                this.btnBackColor.setColor('transparent');
-                this.lockedControls.push(this.btnBackColor);
-                this.colorsBack = new Common.UI.ThemeColorPalette({
-                    el: $('#textart-back-color-menu'),
-                    value: 'transparent',
                     transparent: true
                 });
-                this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
-                this.btnBackColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+                this.btnBackColor.setColor('transparent');
+                this.lockedControls.push(this.btnBackColor);
+                this.colorsBack = this.btnBackColor.getPicker();
+                this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
             }
             this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1197,7 +1160,6 @@ define([
         strSize                 : 'Size',
         strFill                 : 'Fill',
         textColor               : 'Color Fill',
-        textNewColor            : 'Add New Custom Color',
         strTransparency         : 'Opacity',
         textNoFill              : 'No Fill',
         textSelectTexture       : 'Select',

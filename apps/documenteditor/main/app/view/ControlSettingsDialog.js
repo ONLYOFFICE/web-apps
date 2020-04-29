@@ -126,31 +126,19 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.cmbShow.setValue(Asc.c_oAscSdtAppearance.Frame);
 
             this.btnColor = new Common.UI.ColorButton({
+                parentEl: $('#control-settings-color-btn'),
                 style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        {
-                            id: 'control-settings-system-color',
-                            caption: this.textSystemColor,
-                            template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #dcdcdc;"></span><%= caption %></a>')
-                        },
-                        {caption: '--'},
-                        { template: _.template('<div id="control-settings-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="control-settings-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                additionalItems: [{
+                        id: 'control-settings-system-color',
+                        caption: this.textSystemColor,
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #dcdcdc;"></span><%= caption %></a>')
+                    },
+                    {caption: '--'}],
+                additionalAlign: this.menuAddAlign
             });
-
-            this.btnColor.on('render:after', function(btn) {
-                me.colors = new Common.UI.ThemeColorPalette({
-                    el: $('#control-settings-color-menu')
-                });
-                me.colors.on('select', _.bind(me.onColorsSelect, me));
-            });
-            this.btnColor.render( $('#control-settings-color-btn'));
             this.btnColor.setColor('000000');
-            this.btnColor.menu.items[3].on('click',  _.bind(this.addNewColor, this, this.colors, this.btnColor));
+            this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
+            this.colors = this.btnColor.getPicker();
             $('#control-settings-system-color').on('click', _.bind(this.onSystemColor, this));
 
             this.btnApplyAll = new Common.UI.Button({
@@ -264,8 +252,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.afterRender();
         },
 
-        onColorsSelect: function(picker, color) {
-            this.btnColor.setColor(color);
+        onColorsSelect: function(btn, color) {
             var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
             clr_item.hasClass('selected') && clr_item.removeClass('selected');
             this.isSystemColor = false;
@@ -273,10 +260,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
         updateThemeColors: function() {
             this.colors.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-        },
-
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
         },
 
         onSystemColor: function(e) {
@@ -634,7 +617,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textColor: 'Color',
         textBox: 'Bounding box',
         textNone: 'None',
-        textNewColor: 'Add New Custom Color',
         textApplyAll: 'Apply to All',
         textAppearance: 'Appearance',
         textSystemColor: 'System',

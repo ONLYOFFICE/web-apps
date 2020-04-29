@@ -160,73 +160,41 @@ define([
             this.BorderSize = {ptValue: rec.get('value'), pxValue: rec.get('pxValue')};
 
             this.btnBorderColor = new Common.UI.ColorButton({
+                parentEl: $('#drop-advanced-button-bordercolor'),
                 style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="drop-advanced-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="drop-advanced-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign
             });
-
-            this.btnBorderColor.on('render:after', function(btn) {
-                me.colorsBorder = new Common.UI.ThemeColorPalette({
-                    el: $('#drop-advanced-border-color-menu')
-                })
-                .on('select', _.bind(function(picker, color) {
-                    me.btnBorderColor.setColor(color);
-                    me.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
-                }, me));
-            });
-            this.btnBorderColor.render( $('#drop-advanced-button-bordercolor'));
+            this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
+                this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
+            }, this));
             this.btnBorderColor.setColor('000000');
-            this.btnBorderColor.menu.cmpEl.on('click', '#drop-advanced-border-color-new', _.bind(function() {
-                me.colorsBorder.addNewColor((typeof(me.btnBorderColor.color) == 'object') ? me.btnBorderColor.color.color : me.btnBorderColor.color);
-            }, me));
+            this.colorsBorder = this.btnBorderColor.getPicker();
 
             this.btnBackColor = new Common.UI.ColorButton({
+                parentEl: $('#drop-advanced-button-color'),
                 style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="drop-advanced-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="drop-advanced-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign,
+                transparent: true
             });
+            this.btnBackColor.on('color:select', _.bind(function(btn, color) {
+                var clr, border;
+                me.paragraphShade = color;
 
-            this.btnBackColor.on('render:after', function(btn) {
-                me.colorsBack = new Common.UI.ThemeColorPalette({
-                    el: $('#drop-advanced-back-color-menu'),
-                    transparent: true
-                })
-                .on('select', _.bind(function(picker, color) {
-                    var clr, border;
-
-                    me.btnBackColor.setColor(color);
-
-                    me.paragraphShade = color;
-
-                    if (me._changedProps) {
-                        if (me._changedProps.get_Shade()===undefined || me._changedProps.get_Shade()===null) {
-                            me._changedProps.put_Shade(new Asc.asc_CParagraphShd());
-                        }
-                        if (color=='transparent') {
-                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
-                        } else {
-                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
-                            me._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
-                        }
+                if (me._changedProps) {
+                    if (me._changedProps.get_Shade()===undefined || me._changedProps.get_Shade()===null) {
+                        me._changedProps.put_Shade(new Asc.asc_CParagraphShd());
                     }
-                    var colorstr = (typeof(color) == 'object') ? color.color : color;
-                    me.tableStyler.setCellsColor(colorstr);
-                }, me));
-            });
-            this.btnBackColor.render( $('#drop-advanced-button-color'));
-            this.btnBackColor.menu.cmpEl.on('click', '#drop-advanced-back-color-new', _.bind(function() {
-                me.colorsBack.addNewColor();
-            }, me));
+                    if (color=='transparent') {
+                        me._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
+                    } else {
+                        me._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
+                        me._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
+                    }
+                }
+                var colorstr = (typeof(color) == 'object') ? color.color : color;
+                me.tableStyler.setCellsColor(colorstr);
+            }, this));
+            this.colorsBack = this.btnBackColor.getPicker();
 
             this.spnMarginTop = new Common.UI.MetricSpinner({
                 el          : $('#drop-advanced-input-top'),
@@ -1163,7 +1131,6 @@ define([
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
         txtNoBorders:           'No borders',
-        textNewColor:           'Add New Custom Color',
         textPosition: 'Position',
         textAlign: 'Alignment',
         textTop:            'Top',

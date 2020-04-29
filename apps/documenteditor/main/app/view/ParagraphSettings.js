@@ -162,11 +162,12 @@ define([
             this.lockedControls.push(this.chAddInterval);
 
             this.btnColor = new Common.UI.ColorButton({
+                parentEl: $markup.findById('#paragraph-color-btn'),
                 style: "width:45px;",
                 disabled: this._locked,
+                transparent: true,
                 menu        : true
             });
-            this.btnColor.render($markup.findById('#paragraph-color-btn'));
             this.lockedControls.push(this.btnColor);
 
             this.numLineHeight.on('change', this.onNumLineHeightChange.bind(this));
@@ -178,6 +179,7 @@ define([
             this.chAddInterval.on('change', this.onAddIntervalChange.bind(this));
             this.cmbLineRule.on('selected', this.onLineRuleSelect.bind(this));
             this.cmbLineRule.on('hide:after', this.onHideMenus.bind(this));
+            this.btnColor.on('color:select', this.onColorPickerSelect.bind(this));
 
             this.linkAdvanced = $markup.findById('#paragraph-advanced-link');
             this.linkAdvanced.toggleClass('disabled', this._locked);
@@ -264,8 +266,7 @@ define([
             }
         },
 
-        onColorPickerSelect: function(picker, color) {
-            this.btnColor.setColor(color);
+        onColorPickerSelect: function(btn, color) {
             this.BackColor = color;
             this._state.BackColor = this.BackColor;
 
@@ -441,24 +442,10 @@ define([
             }
         },
 
-        addNewColor: function() {
-            this.mnuColorPicker.addNewColor((typeof(this.btnColor.color) == 'object') ? this.btnColor.color.color : this.btnColor.color);
-        },
-
         UpdateThemeColors: function() {
             if (!this.mnuColorPicker) {
-                this.btnColor.setMenu( new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="paragraph-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="paragraph-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                }));
-                this.mnuColorPicker = new Common.UI.ThemeColorPalette({
-                    el: $('#paragraph-color-menu'),
-                    transparent: true
-                });
-                this.mnuColorPicker.on('select', _.bind(this.onColorPickerSelect, this));
-                this.btnColor.menu.items[1].on('click',  _.bind(this.addNewColor, this));
+                this.btnColor.setMenu();
+                this.mnuColorPicker = this.btnColor.getPicker();
             }
             this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
@@ -499,7 +486,6 @@ define([
         textAdvanced:           'Show advanced settings',
         textAt:                 'At',
         txtAutoText:            'Auto',
-        textBackColor:          'Background color',
-        textNewColor:           'Add New Custom Color'
+        textBackColor:          'Background color'
     }, DE.Views.ParagraphSettings || {}));
 });
