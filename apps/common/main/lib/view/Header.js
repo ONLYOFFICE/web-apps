@@ -204,7 +204,9 @@ define([
         }
 
         function onAppShowed(config) {
-            if ( this.labelDocName ) {
+            if ( this.labelDocName && this.labelDocName.get(0).id == 'title-doc-name'
+                && this.labelDocName.is(':visible') )
+            {
                 var $tools = this.btnSave.$el.parent('#header-tools');
                 var _left_width = $tools.prev().outerWidth() + $tools.outerWidth();
                 var _right_width = this.labelUserName.outerWidth();
