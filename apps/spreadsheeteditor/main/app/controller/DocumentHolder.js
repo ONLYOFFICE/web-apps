@@ -2308,11 +2308,11 @@ define([
                 documentHolderView.cmpEl.append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
+                    parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
-                me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
             }
 
             if (pasteItems.length>0) {
@@ -2480,11 +2480,11 @@ define([
                 documentHolderView.cmpEl.append(pasteContainer);
 
                 me.btnAutoCorrectPaste = new Common.UI.Button({
+                    parentEl: $('#id-document-holder-btn-autocorrect-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
-                me.btnAutoCorrectPaste.render($('#id-document-holder-btn-autocorrect-paste')) ;
             }
 
             if (pasteItems.length>0) {

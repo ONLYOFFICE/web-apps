@@ -118,6 +118,7 @@ define([
                 _set = DE.enumLockMM;
 
             this.btnInsField = new Common.UI.Button({
+                parentEl: $('#mmerge-btn-ins-field',me.$el),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsertField,
                 style: 'width: 100%;',
@@ -128,7 +129,6 @@ define([
                     items: []
                 })
             });
-            this.btnInsField.render( $('#mmerge-btn-ins-field',me.$el)) ;
 
             this.txtFieldNum = new Common.UI.InputField({
                 el          : $('#mmerge-field-num', me.$el),
@@ -181,6 +181,7 @@ define([
             this.emptyDBControls.push(this.chPreview);
 
             this.btnFirst = new Common.UI.Button({
+                parentEl: $('#mmerge-button-first', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-firstitem',
                 disabled: true,
@@ -188,11 +189,11 @@ define([
                 hint: this.txtFirst,
                 lock: [_set.noRecipients, _set.lostConnect]
             });
-            this.btnFirst.render( $('#mmerge-button-first', me.$el));
             this.btnFirst.on('click', _.bind(this.onBtnPreviewFieldClick, this));
             this.emptyDBControls.push(this.btnFirst);
 
             this.btnPrev = new Common.UI.Button({
+                parentEl: $('#mmerge-button-prev', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-previtem',
                 disabled: true,
@@ -200,29 +201,28 @@ define([
                 hint: this.txtPrev,
                 lock: [_set.noRecipients, _set.lostConnect]
             });
-            this.btnPrev.render( $('#mmerge-button-prev', me.$el));
             this.btnPrev.on('click', _.bind(this.onBtnPreviewFieldClick, this));
             this.emptyDBControls.push(this.btnPrev);
 
             this.btnNext = new Common.UI.Button({
+                parentEl: $('#mmerge-button-next', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-nextitem',
                 value: 2,
                 hint: this.txtNext,
                 lock: [_set.noRecipients, _set.lostConnect]
             });
-            this.btnNext.render( $('#mmerge-button-next', me.$el));
             this.btnNext.on('click', _.bind(this.onBtnPreviewFieldClick, this));
             this.emptyDBControls.push(this.btnNext);
 
             this.btnLast = new Common.UI.Button({
+                parentEl: $('#mmerge-button-last', me.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-lastitem',
                 value: 3,
                 hint: this.txtLast,
                 lock: [_set.noRecipients, _set.lostConnect]
             });
-            this.btnLast.render( $('#mmerge-button-last', me.$el));
             this.btnLast.on('click', _.bind(this.onBtnPreviewFieldClick, this));
             this.emptyDBControls.push(this.btnLast);
 

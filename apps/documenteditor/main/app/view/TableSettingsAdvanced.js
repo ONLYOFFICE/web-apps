@@ -505,6 +505,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             // Wrapping
 
             this.btnWrapNone = new Common.UI.Button({
+                parentEl: $('#tableadv-button-wrap-none'),
                 cls: 'btn-options huge',
                 iconCls: 'icon-right-panel btn-wrap-none',
                 posId: c_tableWrap.TABLE_WRAP_NONE,
@@ -513,10 +514,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'advtablewrapGroup'
             });
-            this.btnWrapNone.render( $('#tableadv-button-wrap-none')) ;
             this.btnWrapNone.on('click', _.bind(this.onBtnInlineWrapClick, this));
 
             this.btnWrapParallel = new Common.UI.Button({
+                parentEl: $('#tableadv-button-wrap-parallel'),
                 cls: 'btn-options huge',
                 iconCls: 'icon-right-panel btn-wrap-parallel',
                 posId: c_tableWrap.TABLE_WRAP_PARALLEL,
@@ -525,10 +526,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'advtablewrapGroup'
             });
-            this.btnWrapParallel.render( $('#tableadv-button-wrap-parallel')) ;
             this.btnWrapParallel.on('click', _.bind(this.onBtnFlowWrapClick, this));
 
             this.btnAlignLeft = new Common.UI.Button({
+                parentEl: $('#tableadv-button-align-left'),
                 cls: 'btn-options huge',
                 iconCls: 'icon-right-panel btn-table-align-left',
                 posId: c_tableAlign.TABLE_ALIGN_LEFT,
@@ -537,7 +538,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'advtablealignGroup'
             });
-            this.btnAlignLeft.render( $('#tableadv-button-align-left')) ;
             this.btnAlignLeft.on('click', _.bind(function(btn){
                 if (this._changedProps && btn.pressed) {
                     this._changedProps.put_TableAlignment(btn.options.posId);
@@ -548,6 +548,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }, this));
 
             this.btnAlignCenter = new Common.UI.Button({
+                parentEl: $('#tableadv-button-align-center'),
                 cls: 'btn-options huge',
                 iconCls: 'icon-right-panel btn-table-align-center',
                 posId: c_tableAlign.TABLE_ALIGN_CENTER,
@@ -556,7 +557,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'advtablealignGroup'
             });
-            this.btnAlignCenter.render( $('#tableadv-button-align-center')) ;
             this.btnAlignCenter.on('click', _.bind(function(btn){
                 if (this._changedProps && btn.pressed) {
                     this._changedProps.put_TableAlignment(btn.options.posId);
@@ -567,6 +567,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }, this));
 
             this.btnAlignRight = new Common.UI.Button({
+                parentEl: $('#tableadv-button-align-right'),
                 cls: 'btn-options huge',
                 iconCls: 'icon-right-panel btn-table-align-right',
                 posId: c_tableAlign.TABLE_ALIGN_RIGHT,
@@ -575,7 +576,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'advtablealignGroup'
             });
-            this.btnAlignRight.render( $('#tableadv-button-align-right')) ;
             this.btnAlignRight.on('click', _.bind(function(btn){
                 if (this._changedProps && btn.pressed) {
                     this._changedProps.put_TableAlignment(btn.options.posId);
@@ -969,13 +969,13 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this._btnsBorderPosition = [];
             _.each(_arrBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
+                    parentEl: $('#'+item[2]),
                     style: 'margin-left: 5px; margin-bottom: 4px;',
                     cls: 'btn-options large',
                     iconCls: item[1],
                     strId   :item[0],
                     hint: item[3]
                 });
-                _btn.render( $('#'+item[2])) ;
                 _btn.on('click', _.bind(this._ApplyBorderPreset, this));
                 this._btnsBorderPosition.push( _btn );
             }, this);
@@ -995,6 +995,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this._btnsTableBorderPosition = [];
             _.each(_arrTableBorderPresets, function(item, index, list){
                 var _btn = new Common.UI.Button({
+                    parentEl: $('#'+item[3]),
                     style: 'margin-left: 5px; margin-bottom: 4px;',
                     cls: 'btn-options large',
                     iconCls: item[2],
@@ -1002,7 +1003,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     strTableId :item[1],
                     hint: item[4]
                 });
-                _btn.render( $('#'+item[3])) ;
                 _btn.on('click', _.bind(this._ApplyBorderPreset, this));
                 this._btnsTableBorderPosition.push( _btn );
             }, this);

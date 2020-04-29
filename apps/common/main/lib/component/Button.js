@@ -313,7 +313,8 @@ define([
 
             if (me.options.el) {
                 me.render();
-            }
+            } else if (me.options.parentEl)
+                me.render(me.options.parentEl);
         },
 
         render: function(parentEl) {
