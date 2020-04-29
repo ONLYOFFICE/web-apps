@@ -853,6 +853,30 @@ Common.Utils.injectComponent = function ($slot, cmp) {
     }
 };
 
+Common.Utils.warningDocumentIsLocked = function (opts) {
+    if ( opts.disablefunc )
+        opts.disablefunc(true);
+
+    var app = window.DE || window.PE || window.SSE;
+    var tip = new Common.UI.SynchronizeTip({
+        extCls      : 'simple',
+        text        : Common.Locale.get("warnFileLocked",{name:"Common.Translation", default:'Document is in use by another application. You can continue editing and save it as a copy.'}),
+        textLink    : Common.Locale.get("txtContinueEditing",{name:app.nameSpace + ".Views.SignatureSettings", default:'Edit anyway'}),
+        placement   : 'document'
+    });
+    tip.on({
+        'dontshowclick': function() {
+            if ( opts.disablefunc ) opts.disablefunc(false);
+            app.getController('Main').api.asc_setIsReadOnly(false);
+            this.close();
+        },
+        'closeclick': function() {
+            this.close();
+        }
+    });
+    tip.show();
+};
+
 jQuery.fn.extend({
     elementById: function (id, parent) {
         /**

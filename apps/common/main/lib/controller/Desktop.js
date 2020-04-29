@@ -201,9 +201,11 @@ define([
                     });
 
                     Common.NotificationCenter.on('document:ready', function () {
-                        var maincontroller = webapp.getController('Main');
-                        if ( maincontroller.api.asc_isReadOnly && maincontroller.api.asc_isReadOnly() ) {
-                            maincontroller.warningDocumentIsLocked();
+                        if ( config.isEdit ) {
+                            var maincontroller = webapp.getController('Main');
+                            if (maincontroller.api.asc_isReadOnly && maincontroller.api.asc_isReadOnly()) {
+                                maincontroller.warningDocumentIsLocked();
+                            }
                         }
                     });
 

@@ -1,5 +1,6 @@
 {
   "cancelButtonText": "Cancel",
+  "Common.Translation.warnFileLocked": "Document is in use by another application. You can continue editing and save it as a copy.",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Warning",
   "Common.Controllers.Chat.textEnterMessage": "Enter your message here",
   "Common.define.chartData.textArea": "Area",
