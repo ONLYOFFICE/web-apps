@@ -156,8 +156,8 @@ define([
                     _view.hideMenu();
 
                     PE.getController('AddContainer').showModal();
-                    uiApp.showTab('#add-link');
-                    // PE.getController('AddLink').getView('AddLink').showLink();
+                    uiApp.showTab('#add-other');
+                    PE.getController('AddOther').getView('AddOther').showPageLink();
                 } else if ('openlink' == eventName) {
                     _.some(_stack, function (item) {
                         if (item.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {

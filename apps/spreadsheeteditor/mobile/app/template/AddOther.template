@@ -2,6 +2,18 @@
 <div id="addother-root-view">
     <div class="list-block">
         <ul>
+            <li>
+                <a id="add-other-insimage" class="item-link">
+                    <div class="item-content">
+                        <div class="item-media">
+                            <i class="icon icon-insimage"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textInsertImage %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
             <li id='item-comment'>
                 <a id="add-other-comment" class="item-link">
                     <div class="item-content">
@@ -15,13 +27,13 @@
                 </a>
             </li>
             <li>
-                <a id="add-other-insimage" class="item-link">
+                <a id="add-other-link" class="item-link">
                     <div class="item-content">
                         <div class="item-media">
-                            <i class="icon icon-insimage"></i>
+                            <i class="icon icon-link"></i>
                         </div>
                         <div class="item-inner">
-                            <div class="item-title"><%= scope.textInsertImage %></div>
+                            <div class="item-title"><%= scope.textLink %></div>
                         </div>
                     </div>
                 </a>
@@ -34,18 +46,6 @@
                         </div>
                         <div class="item-inner">
                             <div class="item-title"><%= scope.textSort %></div>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a id="add-other-link" class="item-link">
-                    <div class="item-content">
-                        <div class="item-media">
-                            <i class="icon icon-link"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title"><%= scope.textLink %></div>
                         </div>
                     </div>
                 </a>

@@ -91,9 +91,6 @@ define([
             },
 
             initEvents: function () {
-                var me = this;
-                $('#add-other-pagebreak').single('click',   _.bind(me.onPageBreak, me));
-                $('#add-other-columnbreak').single('click', _.bind(me.onColumnBreak, me));
                 this.view.hideInsertComments = this.isHideInsertComment();
             },
 
@@ -160,6 +157,9 @@ define([
                     me.initInsertFootnote();
                 } else if (pageId === "#addother-insert-comment") {
                     me.initInsertComment(false);
+                } else if (pageId === "#addother-insert-break") {
+                    $('#add-other-pagebreak').single('click',   _.bind(me.onPageBreak, me));
+                    $('#add-other-columnbreak').single('click', _.bind(me.onColumnBreak, me));
                 }
             },
 

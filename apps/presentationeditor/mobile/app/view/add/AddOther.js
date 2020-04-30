@@ -70,6 +70,13 @@ define([
                     $('#item-comment').show();
                     $('#add-other-comment').single('click',     _.bind(this.showPageComment, this));
                 }
+                $('#add-other-table').single('click',     _.bind(this.showPageTable, this));
+                if (this.hideInsertLink) {
+                    $('#item-link').hide();
+                } else {
+                    $('#item-link').show();
+                    $('#add-other-link').single('click',     _.bind(this.showPageLink, this));
+                }
 
                 this.initControls();
             },
@@ -118,7 +125,11 @@ define([
                         animatePages: animate !== false
                     });
 
-                    this.fireEvent('page:show', [this, templateId]);
+                    if (templateId === '#addother-insert-link') {
+                        this.fireEvent('category:show', [this, templateId]);
+                    } else {
+                        this.fireEvent('page:show', [this, templateId]);
+                    }
                 }
             },
 
@@ -160,9 +171,61 @@ define([
                 }, 100);
             },
 
+            showPageTable: function() {
+                this.showPage('#addother-insert-table');
+                this.renderTableStyles();
+                PE.getController('AddTable').initEvents();
+            },
+
+            renderTableStyles: function() {
+                var $stylesList = $('.table-styles ul');
+                var template = [
+                    '<% _.each(styles, function(style) { %>',
+                    '<li data-type="<%= style.templateId %>">',
+                    '<img src="<%= style.imageUrl %>">',
+                    '</li>',
+                    '<% }); %>'
+                ].join('');
+                var insert = _.template(template)({
+                    android : Common.SharedSettings.get('android'),
+                    phone   : Common.SharedSettings.get('phone'),
+                    styles  : PE.getController('AddTable').getStyles()
+                });
+                $stylesList.html(insert);
+            },
+
+            showPageLink: function() {
+                this.showPage('#addother-insert-link');
+                $('#add-link-number').single('click',  _.bind(this.showPageNumber, this));
+                $('#add-link-type').single('click',  _.bind(this.showLinkType, this));
+            },
+
+            showLinkType: function () {
+                this.showPage('#addlink-type');
+            },
+
+            showPageNumber: function () {
+                this.showPage('#addlink-slidenumber');
+            },
+
             textComment: 'Comment',
             textAddComment: 'Add Comment',
-            textDone: 'Done'
+            textDone: 'Done',
+            textTable: 'Table',
+            textLinkType: 'Link Type',
+            textExternalLink: 'External Link',
+            textInternalLink: 'Slide in this Presentation',
+            textLink: 'Link',
+            textLinkSlide: 'Link to',
+            textBack: 'Back',
+            textDisplay: 'Display',
+            textTip: 'Screen Tip',
+            textInsert: 'Insert',
+            textNext: 'Next Slide',
+            textPrev: 'Previous Slide',
+            textFirst: 'First Slide',
+            textLast: 'Last Slide',
+            textNumber: 'Slide Number'
 
         }
     })(), PE.Views.AddOther || {}))

@@ -49,6 +49,8 @@ define([
     'use strict';
 
     PE.Controllers.AddOther = Backbone.Controller.extend(_.extend((function() {
+        var _canAddHyperlink = false,
+            _paragraphLocked = false;
 
         return {
             models: [],
@@ -70,6 +72,8 @@ define([
             setApi: function (api) {
                 var me = this;
                 me.api = api;
+                me.api.asc_registerCallback('asc_onCanAddHyperlink', _.bind(me.onApiCanAddHyperlink, me));
+                me.api.asc_registerCallback('asc_onFocusObject',     _.bind(me.onApiFocusObject, me));
             },
 
             setMode: function (mode) {
@@ -84,6 +88,20 @@ define([
             initEvents: function () {
                 var me = this;
                 this.view.hideInsertComments = this.isHideInsertComment();
+                this.view.hideInsertLink = !(_canAddHyperlink && !_paragraphLocked);
+            },
+
+            onApiCanAddHyperlink: function(value) {
+                _canAddHyperlink = value;
+            },
+
+            onApiFocusObject: function (objects) {
+                _paragraphLocked = false;
+                _.each(objects, function(object) {
+                    if (Asc.c_oAscTypeSelectElement.Paragraph == object.get_ObjectType()) {
+                        _paragraphLocked = object.get_ObjectValue().get_Locked();
+                    }
+                });
             },
 
             isHideInsertComment: function() {

@@ -43,7 +43,6 @@
 
 define([
     'core',
-    'presentationeditor/mobile/app/view/add/AddTable'
 ], function (core) {
     'use strict';
 
@@ -56,7 +55,6 @@ define([
             ],
 
             initialize: function () {
-                Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
                 this._styles = [];
                 this._initDefaultStyles = false;
             },
@@ -66,13 +64,9 @@ define([
                 me.api = api;
             },
 
-            onLaunch: function () {
-                this.createView('AddTable').render();
-            },
-
             initEvents: function () {
                 var me = this;
-                $('#add-table li').single('click',  _.buffered(me.onStyleClick, 100, me));
+                $('.page[data-page="addother-insert-table"] li').single('click',  _.buffered(me.onStyleClick, 100, me));
             },
 
             onStyleClick: function (e) {

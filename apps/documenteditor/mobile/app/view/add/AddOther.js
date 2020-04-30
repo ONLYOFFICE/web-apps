@@ -66,10 +66,10 @@ define([
             initEvents: function () {
                 var me = this;
 
-                $('#add-other-section').single('click',     _.bind(me.showSectionBreak, me));
                 $('#add-other-link').single('click',        _.bind(me.showLink, me));
                 $('#add-other-pagenumber').single('click',  _.bind(me.showPagePosition, me));
                 $('#add-other-footnote').single('click',    _.bind(me.showPageFootnote, me));
+                $('#add-other-break').single('click',       _.bind(me.showPageBreak, me));
                 if (this.hideInsertComments) {
                     $('#item-comment').hide();
                 } else {
@@ -126,6 +126,11 @@ define([
 
                     this.fireEvent('page:show', [this, templateId]);
                 }
+            },
+
+            showPageBreak: function() {
+                this.showPage('#addother-insert-break');
+                $('#add-other-section').single('click',     _.bind(this.showSectionBreak, this));
             },
 
             showSectionBreak: function () {
@@ -271,7 +276,8 @@ define([
             textLocation: 'Location',
             textComment: 'Comment',
             textAddComment: 'Add Comment',
-            textDone: 'Done'
+            textDone: 'Done',
+            textBreak: 'Break'
         
         }
     })(), DE.Views.AddOther || {}))
