@@ -444,59 +444,59 @@ define([
             // this.cmbFormats.on('selected', _.bind(this.onFormatsSelect, this));
 
             this.btnBold = new Common.UI.Button({
+                parentEl: $('#format-rules-bold'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             });
-            this.btnBold.render($('#format-rules-bold')) ;
             // this.btnBold.on('click', _.bind(this.onBoldClick, this));
 
             this.btnItalic = new Common.UI.Button({
+                parentEl: $('#format-rules-italic'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             });
-            this.btnItalic.render($('#format-rules-italic')) ;
             // this.btnItalic.on('click', _.bind(this.onItalicClick, this));
 
             this.btnUnderline = new Common.UI.Button({
+                parentEl: $('#format-rules-underline'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             });
-            this.btnUnderline.render($('#format-rules-underline')) ;
             // this.btnUnderline.on('click', _.bind(this.onUnderlineClick, this));
 
             this.btnStrikeout = new Common.UI.Button({
+                parentEl: $('#format-rules-strikeout'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             });
-            this.btnStrikeout.render($('#format-rules-strikeout')) ;
             // this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
 
             this.btnSuperscript = new Common.UI.Button({
+                parentEl: $('#format-rules-superscript'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-superscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptFRGroup',
                 hint: this.textSuperscript
             });
-            this.btnSuperscript.render($('#format-rules-superscript')) ;
             // this.btnSuperscript.on('click', _.bind(this.onSuperscriptClick, this));
 
             this.btnSubscript = new Common.UI.Button({
+                parentEl: $('#format-rules-subscript'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-subscript',
                 enableToggle: true,
                 toggleGroup: 'superscriptFRGroup',
                 hint: this.textSubscript
             });
-            this.btnSubscript.render($('#format-rules-subscript')) ;
             // this.btnSubscript.on('click', _.bind(this.onSubscriptClick, this));
 
             var initNewColor = function(btn, picker_el) {
@@ -518,6 +518,7 @@ define([
             };
 
             this.btnTextColor = new Common.UI.Button({
+                parentEl: $('#format-rules-fontcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
@@ -530,11 +531,11 @@ define([
                     ]
                 })
             });
-            this.btnTextColor.render($('#format-rules-fontcolor'));
             // this.btnTextColor.on('click', _.bind(this.onTextColor, this));
             this.mnuTextColorPicker = initNewColor(this.btnTextColor, "#format-rules-menu-fontcolor");
 
             this.btnFillColor = new Common.UI.Button({
+                parentEl: $('#format-rules-fillcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paracolor',
                 hint        : this.fillColor,
@@ -547,7 +548,6 @@ define([
                     ]
                 })
             });
-            this.btnFillColor.render($('#format-rules-fillcolor'));
             // this.btnFillColor.on('click', _.bind(this.onTextColor, this));
             this.mnuFillColorPicker = initNewColor(this.btnFillColor, "#format-rules-menu-fillcolor");
 
@@ -594,12 +594,11 @@ define([
                 range.on('button:click', _.bind(this.onSelectData, this));
 
                 var color = new Common.UI.ColorButton({
-                    style: "width:45px;",
+                    parentEl: $('#format-rules-edit-color-scale-' + (i+1)),
                     menu        : true,
-                    type        : i
+                    type        : i,
+                    color       : '000000'
                 });
-                color.render( $('#format-rules-edit-color-scale-' + (i+1)));
-                color.setColor('000000');
                 this.scaleControls.push({combo: combo, range: range, color: color});
             }
 
@@ -659,18 +658,18 @@ define([
             this.cmbFill.setValue(false);
 
             this.btnPosFill = new Common.UI.ColorButton({
+                parentEl: $('#format-rules-edit-color-pos-fill'),
                 style: "width:45px;",
-                menu        : true
+                menu        : true,
+                color       : '000000'
             });
-            this.btnPosFill.render( $('#format-rules-edit-color-pos-fill'));
-            this.btnPosFill.setColor('000000');
 
             this.btnNegFill = new Common.UI.ColorButton({
+                parentEl: $('#format-rules-edit-color-neg-fill'),
                 style: "width:45px;",
-                menu        : true
+                menu        : true,
+                color       : '000000'
             });
-            this.btnNegFill.render( $('#format-rules-edit-color-neg-fill'));
-            this.btnNegFill.setColor('000000');
 
             this.chFill = new Common.UI.CheckBox({
                 el: $('#format-rules-edit-chk-fill'),
@@ -699,18 +698,18 @@ define([
             this.cmbBorder.setValue(false);
 
             this.btnPosBorder = new Common.UI.ColorButton({
+                parentEl: $('#format-rules-edit-color-pos-border'),
                 style: "width:45px;",
-                menu        : true
+                menu        : true,
+                color       : '000000'
             });
-            this.btnPosBorder.render( $('#format-rules-edit-color-pos-border'));
-            this.btnPosBorder.setColor('000000');
 
             this.btnNegBorder = new Common.UI.ColorButton({
+                parentEl: $('#format-rules-edit-color-neg-border'),
                 style: "width:45px;",
-                menu        : true
+                menu        : true,
+                color       : '000000'
             });
-            this.btnNegBorder.render( $('#format-rules-edit-color-neg-border'));
-            this.btnNegBorder.setColor('000000');
 
             this.chBorder = new Common.UI.CheckBox({
                 el: $('#format-rules-edit-chk-border'),
@@ -759,11 +758,11 @@ define([
             this.cmbAxisPos.setValue(Asc.c_oAscDataBarDirection.context);
 
             this.btnAxisColor = new Common.UI.ColorButton({
+                parentEl: $('#format-rules-edit-color-axis-color'),
                 style: "width:45px;",
-                menu        : true
+                menu        : true,
+                color       : '000000'
             });
-            this.btnAxisColor.render( $('#format-rules-edit-color-axis-color'));
-            this.btnAxisColor.setColor('000000');
 
             this.afterRender();
         },
@@ -879,7 +878,7 @@ define([
                         this.btnPosBorder.setDisabled(color===null);
                         if (color) {
                             setColor(value.asc_getBorderColor(), this.btnPosBorder);
-                            setColor(value.asc_getNegativeBorderColor(), this.btnNegBorder);
+                            setColor(value.asc_getNegativeBorderColor() || value.asc_getBorderColor(), this.btnNegBorder);
                         }
                         this.chBorder.setValue(value.asc_getNegativeBarBorderColorSameAsPositive());
                         this.chBorder.setDisabled(color===null);
@@ -888,7 +887,7 @@ define([
                         this.cmbBarDirection.setValue(value.asc_getDirection());
                         this.chShowBar.setValue(!value.asc_getShowValue());
                         this.cmbAxisPos.setValue(value.asc_getAxisPosition());
-                        setColor(value.asc_getAxisColor(), this.btnAxisColor);
+                        value.asc_getAxisColor() && setColor(value.asc_getAxisColor(), this.btnAxisColor);
                         this.btnAxisColor.setDisabled(value.asc_getAxisPosition() == Asc.c_oAscDataBarAxisPosition.none);
                         break;
                     case Asc.c_oAscCFType.iconSet:
@@ -1007,53 +1006,32 @@ define([
 
         updateThemeColors: function() {
             for (var i=0; i<this.scaleControls.length; i++) {
-                var btn = this.scaleControls[i].color,
-                    id = Common.UI.getId();
-                btn.setMenu( new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="' + id + '" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                }));
-                var colorPicker = new Common.UI.ThemeColorPalette({
-                    el: this.$window.find('#' + id),
-                    transparent: false,
-                    type: i
-                });
-                // colorPicker.on('select', _.bind(this.onColorsSelect, this));
+                var btn = this.scaleControls[i].color;
+                btn.setMenu();
+                var colorPicker = btn.getPicker();
+                colorPicker.options.type = i;
                 colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-                // btn.items[1].on('click', _.bind(this.addNewColor, this, colorPicker, btn));
                 this.scaleControls[i].colorPicker = colorPicker;
+                // btn.on('color:select', _.bind(this.onColorsSelect, this));
             }
 
             var me = this;
             var initColor = function(btn) {
-                var id = Common.UI.getId();
-                btn.setMenu( new Common.UI.Menu({
-                    items: [
-                        { template: _.template('<div id="' + id + '" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                }));
-                var colorPicker = new Common.UI.ThemeColorPalette({
-                    el: me.$window.find('#' + id),
-                    transparent: false,
-                    type: i
-                });
+                btn.setMenu();
+                var colorPicker = btn.getPicker();
                 colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-                // btn.items[1].on('click', _.bind(this.addNewColor, this, colorPicker, btn));
                 btn.colorPicker = colorPicker;
             };
             initColor(this.btnPosFill);
-            // this.btnPosFill.colorPicker.on('select', _.bind(this.onBarColorsSelect, this));
+            // this.btnPosFill.on('color:select', _.bind(this.onBarColorsSelect, this));
             initColor(this.btnNegFill);
-            // this.btnNegFill.colorPicker.on('select', _.bind(this.onBarColorsSelect, this));
+            // this.btnNegFill.on('color:select', _.bind(this.onBarColorsSelect, this));
             initColor(this.btnPosBorder);
-            // this.btnPosBorder.colorPicker.on('select', _.bind(this.onBarColorsSelect, this));
+            // this.btnPosBorder.on('color:select', _.bind(this.onBarColorsSelect, this));
             initColor(this.btnNegBorder);
-            // this.btnNegBorder.colorPicker.on('select', _.bind(this.onBarColorsSelect, this));
+            // this.btnNegBorder.on('color:select', _.bind(this.onBarColorsSelect, this));
             initColor(this.btnAxisColor);
-            // this.btnAxisColor.colorPicker.on('select', _.bind(this.onAxisColorsSelect, this));
+            // this.btnAxisColor.on('color:select', _.bind(this.onAxisColorsSelect, this));
 
             this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.mnuFillColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1118,7 +1096,6 @@ define([
         textColorScales: 'Color Scales',
         textIconSets: 'Icon Sets',
         textCustom: 'Custom',
-        textNewColor: 'Add New Custom Color',
         textBold:    'Bold',
         textItalic:  'Italic',
         textUnderline: 'Underline',

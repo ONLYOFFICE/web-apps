@@ -290,7 +290,7 @@ Common.Utils.ThemeColor = new(function() {
         },
 
         colorValue2EffectId: function(clr){
-            if (typeof(clr) == 'object' && clr.effectValue !== undefined && this.effectcolors) {
+            if (typeof(clr) == 'object' && clr && clr.effectValue !== undefined && this.effectcolors) {
                 for (var i = 0; i < this.effectcolors.length; i++) {
                     if (this.effectcolors[i].effectValue===clr.effectValue && clr.color.toUpperCase()===this.effectcolors[i].color.toUpperCase()) {
                         clr.effectId = this.effectcolors[i].effectId;

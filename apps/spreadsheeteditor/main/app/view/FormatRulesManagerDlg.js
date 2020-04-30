@@ -158,19 +158,19 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.btnDelete.on('click', _.bind(this.onDeleteRule, this));
 
             this.btnUp = new Common.UI.Button({
+                parentEl: $('#format-manager-btn-up'),
                 cls: 'btn-toolbar',
                 iconCls: 'caret-up',
                 hint: this.textUp
             });
-            this.btnUp.render($('#format-manager-btn-up')) ;
             this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
 
             this.btnDown = new Common.UI.Button({
+                parentEl: $('#format-manager-btn-down'),
                 cls: 'btn-toolbar',
                 iconCls: 'caret-down',
                 hint: this.textDown
             });
-            this.btnDown.render($('#format-manager-btn-down')) ;
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
 
             this.afterRender();
