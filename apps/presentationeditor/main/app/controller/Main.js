@@ -1866,6 +1866,20 @@ define([
                 }
             },
 
+            warningDocumentIsLocked: function() {
+                var me = this;
+                Common.Utils.warningDocumentIsLocked({
+                    disablefunc: function (disable) {
+                        me.disableEditing(disable);
+                        PE.getController('RightMenu').SetDisabled(disable, true);
+                        PE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                        PE.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
+                        PE.getController('LeftMenu').setPreviewMode(disable);
+                        var comments = PE.getController('Common.Controllers.Comments');
+                        if (comments) comments.setPreviewMode(disable);
+                    }});
+            },
+
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',

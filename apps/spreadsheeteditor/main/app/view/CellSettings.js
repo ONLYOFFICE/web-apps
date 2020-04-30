@@ -99,22 +99,12 @@ define([
             this.FillGradientContainer = $('#cell-panel-gradient-fill');
         },
 
-        onColorsBackSelect: function(picker, color) {
-            this.btnBackColor.setColor(color);
-
+        onColorsBackSelect: function(btn, color) {
             if (this.api) {
                 this.api.asc_setCellBackgroundColor(color == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(color));
             }
 
             Common.NotificationCenter.trigger('edit:complete', this);
-        },
-
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-        },
-
-        onColorsBorderSelect: function(picker, color) {
-            this.btnBorderColor.setColor(color);
         },
 
         onBtnBordersClick: function(btn, eOpts){
@@ -373,13 +363,13 @@ define([
 
             _.each(_arrBorderPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
+                    parentEl: $('#'+item[2]),
                     cls: 'btn-toolbar borders--small',
                     iconCls: item[1],
                     borderId:item[0],
                     hint: item[3],
                     disabled: this._locked
                 });
-                _btn.render( $('#'+item[2])) ;
                 _btn.on('click', _.bind(this.onBtnBordersClick, this));
                 this.lockedControls.push(_btn);
             }, this);
@@ -409,21 +399,20 @@ define([
             this.lockedControls.push(this.cmbBorderType);
 
             this.btnBorderColor = new Common.UI.ColorButton({
-                style: "width:45px;",
+                parentEl: $('#cell-border-color-btn'),
                 disabled: this._locked,
-                menu        : true
+                menu        : true,
+                color: '000000'
             });
-            this.btnBorderColor.render( $('#cell-border-color-btn'));
-            this.btnBorderColor.setColor('000000');
             this.lockedControls.push(this.btnBorderColor);
 
             this.btnBackColor = new Common.UI.ColorButton({
-                style: "width:45px;",
+                parentEl: $('#cell-back-color-btn'),
                 disabled: this._locked,
-                menu        : true
+                menu        : true,
+                transparent : true,
+                color: 'transparent'
             });
-            this.btnBackColor.render( $('#cell-back-color-btn'));
-            this.btnBackColor.setColor('transparent');
             this.lockedControls.push(this.btnBackColor);
 
             this.spnAngle = new Common.UI.MetricSpinner({
@@ -755,88 +744,37 @@ define([
         UpdateThemeColors: function() {
              if (!this.borderColor) {
                 // create color buttons
-                 this.btnBorderColor.setMenu( new Common.UI.Menu({
-                     items: [
-                         { template: _.template('<div id="cell-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                         { template: _.template('<a id="cell-border-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                     ]
-                 }));
-                 this.borderColor = new Common.UI.ThemeColorPalette({
-                     el: $('#cell-border-color-menu')
-                 });
-                 this.borderColor.on('select', _.bind(this.onColorsBorderSelect, this));
-                 this.btnBorderColor.menu.items[1].on('click', _.bind(this.addNewColor, this, this.borderColor, this.btnBorderColor));
+                 this.btnBorderColor.setMenu();
+                 this.borderColor = this.btnBorderColor.getPicker();
 
-                 this.btnBackColor.setMenu( new Common.UI.Menu({
-                     items: [
-                         { template: _.template('<div id="cell-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                         { template: _.template('<a id="cell-back-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                     ]
-                 }));
-                 this.colorsBack = new Common.UI.ThemeColorPalette({
-                     el: $('#cell-back-color-menu'),
-                     transparent: true
-                 });
-                 this.colorsBack.on('select', _.bind(this.onColorsBackSelect, this));
-                 this.btnBackColor.menu.items[1].on('click', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+                 this.btnBackColor.setMenu();
+                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+                 this.colorsBack = this.btnBackColor.getPicker();
                  this.fillControls.push(this.btnBackColor);
 
                  this.btnGradColor = new Common.UI.ColorButton({
-                     style: "width:45px;",
-                     menu        : new Common.UI.Menu({
-                         items: [
-                             { template: _.template('<div id="cell-gradient-color" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                             { template: _.template('<a id="cell-gradient-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                         ]
-                     })
+                     parentEl: $('#cell-gradient-color-btn'),
+                     color: '000000'
                  });
-                 this.btnGradColor.render( $('#cell-gradient-color-btn'));
-                 this.btnGradColor.setColor('000000');
-                 this.colorsGrad = new Common.UI.ThemeColorPalette({
-                     el: $('#cell-gradient-color'),
-                     value: '000000'
-                 });
-                 this.colorsGrad.on('select', _.bind(this.onColorsGradientSelect, this));
-                 this.btnGradColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsGrad, this.btnGradColor));
                  this.fillControls.push(this.btnGradColor);
+                 this.colorsGrad = this.btnGradColor.getPicker();
+                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
 
                  this.btnFGColor = new Common.UI.ColorButton({
-                     style: "width:45px;",
-                     menu        : new Common.UI.Menu({
-                         items: [
-                             { template: _.template('<div id="cell-foreground-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                             { template: _.template('<a id="cell-foreground-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                         ]
-                     })
+                     parentEl: $('#cell-foreground-color-btn'),
+                     color: '000000'
                  });
-                 this.btnFGColor.render( $('#cell-foreground-color-btn'));
-                 this.btnFGColor.setColor('000000');
-                 this.colorsFG = new Common.UI.ThemeColorPalette({
-                     el: $('#cell-foreground-color-menu'),
-                     value: '000000'
-                 });
-                 this.colorsFG.on('select', _.bind(this.onColorsFGSelect, this));
-                 this.btnFGColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsFG, this.btnFGColor));
                  this.fillControls.push(this.btnFGColor);
+                 this.colorsFG = this.btnFGColor.getPicker();
+                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
 
                  this.btnBGColor = new Common.UI.ColorButton({
-                     style: "width:45px;",
-                     menu        : new Common.UI.Menu({
-                         items: [
-                             { template: _.template('<div id="cell-background-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                             { template: _.template('<a id="cell-background-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                         ]
-                     })
+                     parentEl: $('#cell-background-color-btn'),
+                     color: 'ffffff'
                  });
-                 this.btnBGColor.render( $('#cell-background-color-btn'));
-                 this.btnBGColor.setColor('ffffff');
-                 this.colorsBG = new Common.UI.ThemeColorPalette({
-                     el: $('#cell-background-color-menu'),
-                     value: 'ffffff'
-                 });
-                 this.colorsBG.on('select', _.bind(this.onColorsBGSelect, this));
-                 this.btnBGColor.menu.items[1].on('click',  _.bind(this.addNewColor, this, this.colorsBG, this.btnBGColor));
                  this.fillControls.push(this.btnBGColor);
+                 this.colorsBG = this.btnBGColor.getPicker();
+                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
@@ -1058,9 +996,8 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
-        onColorsGradientSelect: function(picker, color) {
+        onColorsGradientSelect: function(btn, color) {
             var me = this;
-            this.btnGradColor.setColor(color);
             this.GradColor.colors[this.GradColor.currentIdx] = color;
             this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(color) == 'object') ? color.color : color));
 
@@ -1159,8 +1096,7 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
-        onColorsFGSelect: function(picker, color) {
-            this.btnFGColor.setColor(color);
+        onColorsFGSelect: function(btn, color) {
             this.FGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
                 if (this.pattern == null) {
@@ -1175,8 +1111,7 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
-        onColorsBGSelect: function(picker, color) {
-            this.btnBGColor.setColor(color);
+        onColorsBGSelect: function(btn, color) {
             this.BGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
                 if (this.pattern == null) {
@@ -1195,7 +1130,6 @@ define([
         textBorderColor:    'Color',
         textBackColor:      'Background color',
         textSelectBorders       : 'Select borders that you want to change',
-        textNewColor            : 'Add New Custom Color',
         tipTop:             'Set Outer Top Border Only',
         tipLeft:            'Set Outer Left Border Only',
         tipBottom:          'Set Outer Bottom Border Only',

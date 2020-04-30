@@ -119,24 +119,12 @@ define([
             });
 
             this.btnColor = new Common.UI.ColorButton({
+                parentEl: $window.find('#id-dlg-list-color'),
                 style: "width:53px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="id-dlg-list-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="id-dlg-list-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                })
+                additionalAlign: this.menuAddAlign
             });
-            this.btnColor.on('render:after', function(btn) {
-                me.colors = new Common.UI.ThemeColorPalette({
-                    el: $('#id-dlg-list-color-menu'),
-                    transparent: false
-                });
-                me.colors.on('select', _.bind(me.onColorsSelect, me));
-            });
-            this.btnColor.render($window.find('#id-dlg-list-color'));
-            $('#id-dlg-list-color-new').on('click', _.bind(this.addNewColor, this, this.colors));
+            this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
+            this.colors = this.btnColor.getPicker();
 
             this.spnStart = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-start'),
@@ -172,12 +160,7 @@ define([
             this.colors.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-        },
-
-        onColorsSelect: function(picker, color) {
-            this.btnColor.setColor(color);
+        onColorsSelect: function(btn, color) {
             if (this._changedProps) {
                 this._changedProps.asc_putBulletColor(Common.Utils.ThemeColor.getRgbColor(color));
             }
@@ -271,7 +254,6 @@ define([
         txtSize: 'Size',
         txtColor: 'Color',
         txtOfText: '% of text',
-        textNewColor: 'Add New Custom Color',
         txtStart: 'Start at',
         txtBullet: 'Bullet',
         tipChange: 'Change bullet'

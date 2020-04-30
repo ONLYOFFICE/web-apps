@@ -2164,6 +2164,22 @@ define([
                 if (url) this.iframePrint.src = url;
             },
 
+            warningDocumentIsLocked: function() {
+                var me = this;
+                Common.Utils.warningDocumentIsLocked({
+                    disablefunc: function (disable) {
+                        me.disableEditing(disable);
+
+                        SSE.getController('RightMenu').SetDisabled(disable, true);
+                        SSE.getController('Statusbar').SetDisabled(disable);
+                        SSE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                        SSE.getController('DocumentHolder').SetDisabled(disable, true);
+                        SSE.getController('LeftMenu').setPreviewMode(disable);
+                        var comments = SSE.getController('Common.Controllers.Comments');
+                        if (comments) comments.setPreviewMode(disable);
+                }});
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',

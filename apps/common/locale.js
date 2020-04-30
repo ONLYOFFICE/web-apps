@@ -74,6 +74,9 @@ Common.Locale = new(function() {
         var res = '';
         if (l10n && scope && scope.name) {
             res = l10n[scope.name + '.' + prop];
+
+            if ( !res && scope.default )
+                res = scope.default;
         }
 
         return res || (scope ? eval(scope.name).prototype[prop] : '');
