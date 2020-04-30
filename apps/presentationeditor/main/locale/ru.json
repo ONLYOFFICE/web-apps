@@ -14,6 +14,7 @@
   "Common.define.chartData.textPoint": "Точечная",
   "Common.define.chartData.textStock": "Биржевая",
   "Common.define.chartData.textSurface": "Поверхность",
+  "Common.UI.ColorButton.textNewColor": "Пользовательский цвет",
   "Common.UI.ComboBorderSize.txtNoBorders": "Без границ",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Без границ",
   "Common.UI.ComboDataView.emptyComboText": "Без стилей",

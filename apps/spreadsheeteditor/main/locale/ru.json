@@ -15,6 +15,7 @@
   "Common.define.chartData.textStock": "Биржевая",
   "Common.define.chartData.textSurface": "Поверхность",
   "Common.define.chartData.textWinLossSpark": "Выигрыш/проигрыш",
+  "Common.UI.ColorButton.textNewColor": "Пользовательский цвет",
   "Common.UI.ComboBorderSize.txtNoBorders": "Без границ",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Без границ",
   "Common.UI.ComboDataView.emptyComboText": "Без стилей",

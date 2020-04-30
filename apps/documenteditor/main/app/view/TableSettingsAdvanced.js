@@ -879,67 +879,28 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.cmbBorderSize.on('selected', _.bind(this.onBorderSizeSelect, this));
 
             this.btnBorderColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="tableadv-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="tableadv-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                parentEl: $('#tableadv-border-color-btn'),
+                additionalAlign: this.menuAddAlign,
+                color: '000000'
             });
-
-            this.btnBorderColor.on('render:after', function(btn) {
-                me.colorsBorder = new Common.UI.ThemeColorPalette({
-                    el: $('#tableadv-border-color-menu')
-                });
-                me.colorsBorder.on('select', _.bind(me.onColorsBorderSelect, me));
-            });
-            this.btnBorderColor.render( $('#tableadv-border-color-btn'));
-            this.btnBorderColor.setColor('000000');
-            $('#tableadv-border-color-new').on('click', _.bind(this.addNewColor, this, this.colorsBorder, this.btnBorderColor));
+            this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
+            this.colorsBorder = this.btnBorderColor.getPicker();
 
             this.btnBackColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="tableadv-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="tableadv-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                parentEl: $('#tableadv-button-back-color'),
+                additionalAlign: this.menuAddAlign,
+                transparent: true
             });
-
-            this.btnBackColor.on('render:after', function(btn) {
-                me.colorsBack = new Common.UI.ThemeColorPalette({
-                    el: $('#tableadv-back-color-menu'),
-                    transparent: true
-                });
-                me.colorsBack.on('select', _.bind(me.onColorsBackSelect, me));
-            });
-            this.btnBackColor.render( $('#tableadv-button-back-color'));
-            $('#tableadv-back-color-new').on('click', _.bind(this.addNewColor, this, this.colorsBack, this.btnBackColor));
+            this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
+            this.colorsBack = this.btnBackColor.getPicker();
 
             this.btnTableBackColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="tableadv-table-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="tableadv-table-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                parentEl: $('#tableadv-button-table-back-color'),
+                additionalAlign: this.menuAddAlign,
+                transparent: true
             });
-
-            this.btnTableBackColor.on('render:after', function(btn) {
-                me.colorsTableBack = new Common.UI.ThemeColorPalette({
-                    el: $('#tableadv-table-back-color-menu'),
-                    transparent: true
-                });
-                me.colorsTableBack.on('select', _.bind(me.onColorsTableBackSelect, me));
-            });
-            this.btnTableBackColor.render( $('#tableadv-button-table-back-color'));
-            $('#tableadv-table-back-color-new').on('click', _.bind(this.addNewColor, this, this.colorsTableBack, this.btnTableBackColor));
+            this.btnTableBackColor.on('color:select', _.bind(this.onColorsTableBackSelect, this));
+            this.colorsTableBack = this.btnTableBackColor.getPicker();
 
             this.tableBordersImageSpacing = new Common.UI.TableStyler({
                 el: $('#id-detablestyler-spacing'),
@@ -1688,19 +1649,13 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.tableBordersImageSpacing.setVirtualBorderSize( this.BorderSize.pxValue );
         },
 
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-        },
-
-        onColorsBorderSelect: function(picker, color) {
-            this.btnBorderColor.setColor(color);
+        onColorsBorderSelect: function(btn, color) {
             var colorstr = (typeof(color) == 'object') ? color.color : color;
             this.tableBordersImage.setVirtualBorderColor(colorstr);
             this.tableBordersImageSpacing.setVirtualBorderColor(colorstr);
         },
 
-        onColorsBackSelect: function(picker, color) {
-            this.btnBackColor.setColor(color);
+        onColorsBackSelect: function(btn, color) {
             this.CellColor = {Value: 1, Color: color};
 
             if (this._cellBackground === null)
@@ -1719,8 +1674,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.tableBordersImage.setCellsColor(colorstr);
         },
 
-        onColorsTableBackSelect: function(picker, color) {
-            this.btnTableBackColor.setColor(color);
+        onColorsTableBackSelect: function(btn, color) {
             this.TableColor.Color = color;
 
             if (this._changedProps) {
@@ -2132,7 +2086,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         textBorderDesc:     'Click on diagramm or use buttons to select borders',
         textTableBackColor: 'Table Background',
         txtNoBorders:       'No borders',
-        textNewColor:       'Add New Custom Color',
         textCenter: 'Center',
         textMargin: 'Margin',
         textPage: 'Page',
