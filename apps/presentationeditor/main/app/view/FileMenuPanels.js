@@ -564,9 +564,9 @@ define([
                 '<% _.each(docs, function(item) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
                         '<div class="thumb"',
-                            '<% if (!_.isEmpty(item.icon)) { ' +
-                                'print(\" style=\'background-image: url(item.icon);\'>\")' +
-                            ' } else { ' +
+                            '<% if (!_.isEmpty(item.icon)) { %> ',
+                            ' style="background-image: url(<%= item.icon %>);">',
+                            '<% } else { ' +
                                 'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
                             ' } %>',
                         '</div>',
