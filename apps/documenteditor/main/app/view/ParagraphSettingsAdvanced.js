@@ -359,11 +359,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#paragraphadv-border-color-btn'),
-                additionalAlign: this.menuAddAlign
+                additionalAlign: this.menuAddAlign,
+                color: '000000'
             });
             this.colorsBorder = this.btnBorderColor.getPicker();
             this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
-            this.btnBorderColor.setColor('000000');
 
             this.BordersImage = new Common.UI.TableStyler({
                 el: $('#id-deparagraphstyler'),

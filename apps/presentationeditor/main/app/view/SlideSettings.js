@@ -137,9 +137,9 @@ define([
                 parentEl: $('#slide-back-color-btn'),
                 disabled: true,
                 transparent: true,
-                menu: true
+                menu: true,
+                color: 'ffffff'
             });
-            this.btnBackColor.setColor('ffffff');
             this.FillItems.push(this.btnBackColor);
 
             this.FillColorContainer = $('#slide-panel-color-fill');
@@ -1064,25 +1064,25 @@ define([
                 this.colorsBack = this.btnBackColor.getPicker();
 
                 this.btnFGColor = new Common.UI.ColorButton({
-                    parentEl: $('#slide-foreground-color-btn')
+                    parentEl: $('#slide-foreground-color-btn'),
+                    color: '000000'
                 });
-                this.btnFGColor.setColor('000000');
                 this.FillItems.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
 
                 this.btnBGColor = new Common.UI.ColorButton({
-                    parentEl: $('#slide-background-color-btn')
+                    parentEl: $('#slide-background-color-btn'),
+                    color: 'ffffff'
                 });
-                this.btnBGColor.setColor('ffffff');
                 this.FillItems.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
-                    parentEl: $('#slide-gradient-color-btn')
+                    parentEl: $('#slide-gradient-color-btn'),
+                    color: '000000'
                 });
-                this.btnGradColor.setColor('000000');
                 this.FillItems.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));

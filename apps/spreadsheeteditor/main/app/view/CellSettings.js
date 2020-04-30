@@ -401,18 +401,18 @@ define([
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#cell-border-color-btn'),
                 disabled: this._locked,
-                menu        : true
+                menu        : true,
+                color: '000000'
             });
-            this.btnBorderColor.setColor('000000');
             this.lockedControls.push(this.btnBorderColor);
 
             this.btnBackColor = new Common.UI.ColorButton({
                 parentEl: $('#cell-back-color-btn'),
                 disabled: this._locked,
                 menu        : true,
-                transparent : true
+                transparent : true,
+                color: 'transparent'
             });
-            this.btnBackColor.setColor('transparent');
             this.lockedControls.push(this.btnBackColor);
 
             this.spnAngle = new Common.UI.MetricSpinner({
@@ -753,25 +753,25 @@ define([
                  this.fillControls.push(this.btnBackColor);
 
                  this.btnGradColor = new Common.UI.ColorButton({
-                     parentEl: $('#cell-gradient-color-btn')
+                     parentEl: $('#cell-gradient-color-btn'),
+                     color: '000000'
                  });
-                 this.btnGradColor.setColor('000000');
                  this.fillControls.push(this.btnGradColor);
                  this.colorsGrad = this.btnGradColor.getPicker();
                  this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
 
                  this.btnFGColor = new Common.UI.ColorButton({
-                     parentEl: $('#cell-foreground-color-btn')
+                     parentEl: $('#cell-foreground-color-btn'),
+                     color: '000000'
                  });
-                 this.btnFGColor.setColor('000000');
                  this.fillControls.push(this.btnFGColor);
                  this.colorsFG = this.btnFGColor.getPicker();
                  this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
 
                  this.btnBGColor = new Common.UI.ColorButton({
-                     parentEl: $('#cell-background-color-btn')
+                     parentEl: $('#cell-background-color-btn'),
+                     color: 'ffffff'
                  });
-                 this.btnBGColor.setColor('ffffff');
                  this.fillControls.push(this.btnBGColor);
                  this.colorsBG = this.btnBGColor.getPicker();
                  this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));

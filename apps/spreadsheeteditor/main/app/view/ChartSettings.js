@@ -524,9 +524,9 @@ define([
                 defValue = this.defColor;
 
                 this.btnSparkColor = new Common.UI.ColorButton({
-                    parentEl: $('#spark-color-btn')
+                    parentEl: $('#spark-color-btn'),
+                    color: '000000'
                 });
-                this.btnSparkColor.setColor('000000');
                 this.lockedControls.push(this.btnSparkColor);
                 this.colorsSpark = this.btnSparkColor.getPicker();
                 this.btnSparkColor.on('color:select', _.bind(this.onColorsSparkSelect, this));

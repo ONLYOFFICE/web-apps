@@ -639,9 +639,9 @@ define([
              if (!this.btnBackColor) {
                 // create color buttons
                  this.btnBorderColor = new Common.UI.ColorButton({
-                     parentEl: $('#table-border-color-btn')
+                     parentEl: $('#table-border-color-btn'),
+                     color: '000000'
                  });
-                 this.btnBorderColor.setColor('000000');
                  this.lockedControls.push(this.btnBorderColor);
                  this.borderColor = this.btnBorderColor.getPicker();
 

@@ -880,10 +880,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#tableadv-border-color-btn'),
-                additionalAlign: this.menuAddAlign
+                additionalAlign: this.menuAddAlign,
+                color: '000000'
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
-            this.btnBorderColor.setColor('000000');
             this.colorsBorder = this.btnBorderColor.getPicker();
 
             this.btnBackColor = new Common.UI.ColorButton({

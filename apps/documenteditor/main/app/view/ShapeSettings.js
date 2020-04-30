@@ -1688,41 +1688,41 @@ define([
                 // create color buttons
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-back-color-btn'),
-                    transparent: true
+                    transparent: true,
+                    color: 'transparent'
                 });
-                this.btnBackColor.setColor('transparent');
                 this.fillControls.push(this.btnBackColor);
                 this.colorsBack = this.btnBackColor.getPicker();
                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
 
                 this.btnFGColor = new Common.UI.ColorButton({
-                    parentEl: $('#shape-foreground-color-btn')
+                    parentEl: $('#shape-foreground-color-btn'),
+                    color: '000000'
                 });
-                this.btnFGColor.setColor('000000');
                 this.fillControls.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
                 this.btnFGColor.on('color:select', _.bind(this.onColorsFGSelect, this));
 
                 this.btnBGColor = new Common.UI.ColorButton({
-                    parentEl: $('#shape-background-color-btn')
+                    parentEl: $('#shape-background-color-btn'),
+                    color: 'ffffff'
                 });
-                this.btnBGColor.setColor('ffffff');
                 this.fillControls.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
                 this.btnBGColor.on('color:select', _.bind(this.onColorsBGSelect, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
-                    parentEl: $('#shape-gradient-color-btn')
+                    parentEl: $('#shape-gradient-color-btn'),
+                    color: '000000'
                 });
-                this.btnGradColor.setColor('000000');
                 this.fillControls.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
 
                 this.btnBorderColor = new Common.UI.ColorButton({
-                    parentEl: $('#shape-border-color-btn')
+                    parentEl: $('#shape-border-color-btn'),
+                    color: '000000'
                 });
-                this.btnBorderColor.setColor('000000');
                 this.lockedControls.push(this.btnBorderColor);
                 this.colorsBorder = this.btnBorderColor.getPicker();
                 this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));

@@ -61,11 +61,18 @@ define([
                 var me = this;
                 options.menu = me.getMenu(options);
                 me.on('render:after', function(btn) {
-                    me.getPicker();
+                    me.getPicker(options.color);
                 });
             }
 
             Common.UI.Button.prototype.initialize.call(this, options);
+        },
+
+        render: function(parentEl) {
+            Common.UI.Button.prototype.render.call(this, parentEl);
+
+            if (this.options.color!==undefined)
+                this.setColor(this.options.color);
         },
 
         onColorSelect: function(picker, color) {
@@ -81,11 +88,12 @@ define([
             span.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
         },
 
-        getPicker: function() {
+        getPicker: function(color) {
             if (!this.colorPicker) {
                 this.colorPicker = new Common.UI.ThemeColorPalette({
                     el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
-                    transparent: this.options.transparent
+                    transparent: this.options.transparent,
+                    value: color
                 });
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
@@ -113,7 +121,7 @@ define([
         setMenu: function (m) {
             m = m || this.getMenu();
             Common.UI.Button.prototype.setMenu.call(this, m);
-            this.getPicker();
+            this.getPicker(this.options.color);
         },
 
         addNewColor: function() {

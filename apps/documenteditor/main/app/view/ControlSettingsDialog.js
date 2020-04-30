@@ -133,9 +133,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                         template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #dcdcdc;"></span><%= caption %></a>')
                     },
                     {caption: '--'}],
-                additionalAlign: this.menuAddAlign
+                additionalAlign: this.menuAddAlign,
+                color: '000000'
             });
-            this.btnColor.setColor('000000');
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
             this.colors = this.btnColor.getPicker();
             $('#control-settings-system-color').on('click', _.bind(this.onSystemColor, this));

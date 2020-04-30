@@ -161,12 +161,12 @@ define([
 
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#drop-advanced-button-bordercolor'),
-                additionalAlign: this.menuAddAlign
+                additionalAlign: this.menuAddAlign,
+                color: '000000'
             });
             this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
                 this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
             }, this));
-            this.btnBorderColor.setColor('000000');
             this.colorsBorder = this.btnBorderColor.getPicker();
 
             this.btnBackColor = new Common.UI.ColorButton({

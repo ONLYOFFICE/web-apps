@@ -1093,26 +1093,26 @@ define([
             if (this._initSettings) return;
             if (!this.btnBackColor) {
                 this.btnBorderColor = new Common.UI.ColorButton({
-                    parentEl: $('#textart-border-color-btn')
+                    parentEl: $('#textart-border-color-btn'),
+                    color: '000000'
                 });
-                this.btnBorderColor.setColor('000000');
                 this.lockedControls.push(this.btnBorderColor);
                 this.colorsBorder = this.btnBorderColor.getPicker();
                 this.btnBorderColor.on('color:select', _.bind(this.onColorsBorderSelect, this));
 
                 this.btnGradColor = new Common.UI.ColorButton({
-                    parentEl: $('#textart-gradient-color-btn')
+                    parentEl: $('#textart-gradient-color-btn'),
+                    color: '000000'
                 });
-                this.btnGradColor.setColor('000000');
                 this.lockedControls.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
                 this.btnGradColor.on('color:select', _.bind(this.onColorsGradientSelect, this));
 
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-back-color-btn'),
-                    transparent: true
+                    transparent: true,
+                    color: 'transparent'
                 });
-                this.btnBackColor.setColor('transparent');
                 this.lockedControls.push(this.btnBackColor);
                 this.colorsBack = this.btnBackColor.getPicker();
                 this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
