@@ -258,13 +258,13 @@ define([
             this.spnHeight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.btnRatio = new Common.UI.Button({
+                parentEl: $('#chart-button-ratio'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
             });
-            this.btnRatio.render($('#chart-button-ratio')) ;
             this.lockedControls.push(this.btnRatio);
 
             this.btnRatio.on('click', _.bind(function(btn, e) {

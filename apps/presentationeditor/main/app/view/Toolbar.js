@@ -673,7 +673,7 @@ define([
                     me.btnShapeAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-align',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-shape-alignleft',
+                        iconCls: 'toolbar__icon shape-align-left',
                         lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [

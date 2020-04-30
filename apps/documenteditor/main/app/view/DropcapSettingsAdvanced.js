@@ -123,6 +123,7 @@ define([
                 [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large btn-adv-paragraph-none',      '31']
             ], function(item, index) {
                 var _btn = new Common.UI.Button({
+                    parentEl: $('#drop-advanced-button-borderline-' + item[3]),
                     posId   : item[0],
                     strId   : item[1],
                     iconCls : item[2],
@@ -130,8 +131,7 @@ define([
                     cls     : 'btn-options large'
                 });
 
-                _btn.render($('#drop-advanced-button-borderline-' + item[3]))
-                .on('click', function(btn) {
+                _btn.on('click', function(btn) {
                     me._ApplyBorderPreset(btn.options.strId);
                 });
             }, this);
@@ -160,73 +160,39 @@ define([
             this.BorderSize = {ptValue: rec.get('value'), pxValue: rec.get('pxValue')};
 
             this.btnBorderColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="drop-advanced-border-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="drop-advanced-border-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                parentEl: $('#drop-advanced-button-bordercolor'),
+                additionalAlign: this.menuAddAlign,
+                color: '000000'
             });
-
-            this.btnBorderColor.on('render:after', function(btn) {
-                me.colorsBorder = new Common.UI.ThemeColorPalette({
-                    el: $('#drop-advanced-border-color-menu')
-                })
-                .on('select', _.bind(function(picker, color) {
-                    me.btnBorderColor.setColor(color);
-                    me.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
-                }, me));
-            });
-            this.btnBorderColor.render( $('#drop-advanced-button-bordercolor'));
-            this.btnBorderColor.setColor('000000');
-            this.btnBorderColor.menu.cmpEl.on('click', '#drop-advanced-border-color-new', _.bind(function() {
-                me.colorsBorder.addNewColor((typeof(me.btnBorderColor.color) == 'object') ? me.btnBorderColor.color.color : me.btnBorderColor.color);
-            }, me));
+            this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
+                this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
+            }, this));
+            this.colorsBorder = this.btnBorderColor.getPicker();
 
             this.btnBackColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="drop-advanced-back-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="drop-advanced-back-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                parentEl: $('#drop-advanced-button-color'),
+                additionalAlign: this.menuAddAlign,
+                transparent: true
             });
+            this.btnBackColor.on('color:select', _.bind(function(btn, color) {
+                var clr, border;
+                me.paragraphShade = color;
 
-            this.btnBackColor.on('render:after', function(btn) {
-                me.colorsBack = new Common.UI.ThemeColorPalette({
-                    el: $('#drop-advanced-back-color-menu'),
-                    transparent: true
-                })
-                .on('select', _.bind(function(picker, color) {
-                    var clr, border;
-
-                    me.btnBackColor.setColor(color);
-
-                    me.paragraphShade = color;
-
-                    if (me._changedProps) {
-                        if (me._changedProps.get_Shade()===undefined || me._changedProps.get_Shade()===null) {
-                            me._changedProps.put_Shade(new Asc.asc_CParagraphShd());
-                        }
-                        if (color=='transparent') {
-                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
-                        } else {
-                            me._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
-                            me._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
-                        }
+                if (me._changedProps) {
+                    if (me._changedProps.get_Shade()===undefined || me._changedProps.get_Shade()===null) {
+                        me._changedProps.put_Shade(new Asc.asc_CParagraphShd());
                     }
-                    var colorstr = (typeof(color) == 'object') ? color.color : color;
-                    me.tableStyler.setCellsColor(colorstr);
-                }, me));
-            });
-            this.btnBackColor.render( $('#drop-advanced-button-color'));
-            this.btnBackColor.menu.cmpEl.on('click', '#drop-advanced-back-color-new', _.bind(function() {
-                me.colorsBack.addNewColor();
-            }, me));
+                    if (color=='transparent') {
+                        me._changedProps.get_Shade().put_Value(Asc.c_oAscShdNil);
+                    } else {
+                        me._changedProps.get_Shade().put_Value(Asc.c_oAscShdClear);
+                        me._changedProps.get_Shade().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
+                    }
+                }
+                var colorstr = (typeof(color) == 'object') ? color.color : color;
+                me.tableStyler.setCellsColor(colorstr);
+            }, this));
+            this.colorsBack = this.btnBackColor.getPicker();
 
             this.spnMarginTop = new Common.UI.MetricSpinner({
                 el          : $('#drop-advanced-input-top'),
@@ -301,6 +267,7 @@ define([
             }, me));
 
             this.btnNone = new Common.UI.Button({
+                parentEl: $('#drop-advanced-button-none'),
                 cls         : 'btn huge-1 btn-options',
                 iconCls     : 'icon-advanced-wrap btn-drop-none',
                 enableToggle: true,
@@ -316,6 +283,7 @@ define([
             }, me));
 
             this.btnInText = new Common.UI.Button({
+                parentEl: $('#drop-advanced-button-intext'),
                 cls         : 'btn huge-1 btn-options',
                 iconCls     : 'icon-advanced-wrap btn-drop-text',
                 enableToggle: true,
@@ -331,6 +299,7 @@ define([
             }, me));
 
             this.btnInMargin = new Common.UI.Button({
+                parentEl: $('#drop-advanced-button-inmargin'),
                 cls         : 'btn huge-1 btn-options',
                 iconCls     : 'icon-advanced-wrap btn-drop-margin',
                 enableToggle: true,
@@ -393,6 +362,7 @@ define([
             }, me));
 
             this.btnFrameNone = new Common.UI.Button({
+                parentEl: $('#frame-advanced-button-none'),
                 cls         : 'btn huge btn-options',
                 iconCls     : 'icon-right-panel btn-frame-none',
                 enableToggle: true,
@@ -408,6 +378,7 @@ define([
             }, me));
 
             this.btnFrameInline = new Common.UI.Button({
+                parentEl: $('#frame-advanced-button-inline'),
                 cls         : 'btn huge btn-options',
                 iconCls     : 'icon-right-panel btn-frame-inline',
                 enableToggle: true,
@@ -423,6 +394,7 @@ define([
             }, me));
 
             this.btnFrameFlow = new Common.UI.Button({
+                parentEl: $('#frame-advanced-button-flow'),
                 cls         : 'btn huge btn-options',
                 iconCls     : 'icon-right-panel btn-frame-flow',
                 enableToggle: true,
@@ -656,14 +628,6 @@ define([
                     me._changedProps.put_VAnchor(rec.get('value'));
                 }
             }, me));
-
-
-            this.btnNone.render($('#drop-advanced-button-none'));
-            this.btnInText.render($('#drop-advanced-button-intext'));
-            this.btnInMargin.render($('#drop-advanced-button-inmargin'));
-            this.btnFrameNone.render($('#frame-advanced-button-none'));
-            this.btnFrameInline.render($('#frame-advanced-button-inline'));
-            this.btnFrameFlow.render($('#frame-advanced-button-flow'));
 
             this.on('show', _.bind(this.onShowDialog, this));
 
@@ -1165,7 +1129,6 @@ define([
         textBackColor:          'Background Color',
         textBorderDesc:         'Click on diagramm or use buttons to select borders',
         txtNoBorders:           'No borders',
-        textNewColor:           'Add New Custom Color',
         textPosition: 'Position',
         textAlign: 'Alignment',
         textTop:            'Top',

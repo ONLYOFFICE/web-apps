@@ -251,6 +251,7 @@ define([
             this.lockedControls.push(this.btnSelectData);
 
             this.btnEdit = new Common.UI.Button({
+                parentEl: $('#table-btn-edit'),
                 cls: 'btn-icon-default',
                 iconCls: 'btn-edit-table',
                 menu        : new Common.UI.Menu({
@@ -272,7 +273,6 @@ define([
                     ]
                 })
             });
-            this.btnEdit.render( $('#table-btn-edit')) ;
             this.btnEdit.menu.on('show:after', _.bind( function(menu){
                 if (this.api) {
                     menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());

@@ -472,12 +472,12 @@ define([
             });
 
             this.btnPresetsTop = new Common.UI.Button({
+                parentEl: $markup.findById('#advsettings-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 85px;',
                 menu: true
             });
-            this.btnPresetsTop.render( $markup.findById('#advsettings-presets-top')) ;
 
             this.txtRangeLeft = new Common.UI.InputField({
                 el          : $markup.findById('#advsettings-txt-left'),
@@ -487,12 +487,12 @@ define([
             });
 
             this.btnPresetsLeft = new Common.UI.Button({
+                parentEl: $markup.findById('#advsettings-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 85px;',
                 menu: true
             });
-            this.btnPresetsLeft.render( $markup.findById('#advsettings-presets-left')) ;
 
             this.btnOk = new Common.UI.Button({
                 el: $markup.findById('#advsettings-print-button-save')

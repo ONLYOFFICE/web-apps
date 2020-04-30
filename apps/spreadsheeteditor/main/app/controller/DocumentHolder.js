@@ -139,7 +139,6 @@ define([
             me.documentHolder.render();
             me.documentHolder.el.tabIndex = -1;
 
-            $(document).on('mousewheel',    _.bind(me.onDocumentWheel, me));
             $(document).on('mousedown',     _.bind(me.onDocumentRightDown, me));
             $(document).on('mouseup',       _.bind(me.onDocumentRightUp, me));
             $(document).on('keydown',       _.bind(me.onDocumentKeyDown, me));
@@ -244,8 +243,11 @@ define([
                 view.menuSignatureRemove.on('click',                _.bind(me.onSignatureClick, me));
             }
 
-            var documentHolderEl = view.cmpEl;
+            var addEvent = function( elem, type, fn, options ) {
+                elem.addEventListener ? elem.addEventListener( type, fn, options) : elem.attachEvent( "on" + type, fn );
+            };
 
+            var documentHolderEl = view.cmpEl;
             if (documentHolderEl) {
                 documentHolderEl.on({
                     mousedown: function(e) {
@@ -267,16 +269,13 @@ define([
                 });
 
                 //NOTE: set mouse wheel handler
-
-                var addEvent = function( elem, type, fn ) {
-                    elem.addEventListener ? elem.addEventListener( type, fn, false ) : elem.attachEvent( "on" + type, fn );
-                };
-
                 var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
-                addEvent(view.el, eventname, _.bind(this.onDocumentWheel,this));
+                addEvent(view.el, eventname, _.bind(this.onDocumentWheel,this), false);
 
                 me.cellEditor = $('#ce-cell-content');
             }
+            Common.Utils.isChrome ? addEvent(document, 'mousewheel', _.bind(this.onDocumentWheel,this), { passive: false } ) :
+                                    $(document).on('mousewheel',    _.bind(this.onDocumentWheel, this));
         },
 
         loadConfig: function(data) {
@@ -2308,11 +2307,11 @@ define([
                 documentHolderView.cmpEl.append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
+                    parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
-                me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
             }
 
             if (pasteItems.length>0) {
@@ -2480,11 +2479,11 @@ define([
                 documentHolderView.cmpEl.append(pasteContainer);
 
                 me.btnAutoCorrectPaste = new Common.UI.Button({
+                    parentEl: $('#id-document-holder-btn-autocorrect-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
-                me.btnAutoCorrectPaste.render($('#id-document-holder-btn-autocorrect-paste')) ;
             }
 
             if (pasteItems.length>0) {

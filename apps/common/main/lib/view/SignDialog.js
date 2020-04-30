@@ -188,12 +188,12 @@ define([
             this.cmbFontSize.setValue(this.font.size);
 
             me.btnBold = new Common.UI.Button({
+                parentEl: $('#id-dlg-sign-bold'),
                 cls: 'btn-toolbar',
                 iconCls: 'btn-bold',
                 enableToggle: true,
                 hint: me.textBold
             });
-            me.btnBold.render($('#id-dlg-sign-bold')) ;
             me.btnBold.on('click', function(btn, e) {
                 if (me.signObject) {
                     me.signObject.setText(me.inputName.getValue(), me.font.name, me.font.size, me.font.italic, btn.pressed);
@@ -202,12 +202,12 @@ define([
             });
 
             me.btnItalic = new Common.UI.Button({
+                parentEl: $('#id-dlg-sign-italic'),
                 cls: 'btn-toolbar',
                 iconCls: 'btn-italic',
                 enableToggle: true,
                 hint: me.textItalic
             });
-            me.btnItalic.render($('#id-dlg-sign-italic')) ;
             me.btnItalic.on('click', function(btn, e) {
                 if (me.signObject) {
                     me.signObject.setText(me.inputName.getValue(), me.font.name, me.font.size, btn.pressed, me.font.bold);

@@ -647,7 +647,8 @@ define([
                     }
                 }, this);
                 this.btnChat && this.btnChat.setDisabled(state);
-                this.btnCommentRemove && this.btnCommentRemove.setDisabled(state);
+
+                this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
             },
 
             onLostEditRights: function() {

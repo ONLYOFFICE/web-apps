@@ -237,12 +237,12 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             });
 
             this.btnPresetsTop = new Common.UI.Button({
+                parentEl: $('#printadv-dlg-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 85px;',
                 menu: true
             });
-            this.btnPresetsTop.render( $('#printadv-dlg-presets-top')) ;
 
             this.txtRangeLeft = new Common.UI.InputFieldBtn({
                 el          : $('#printadv-dlg-txt-left'),
@@ -252,12 +252,12 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             });
 
             this.btnPresetsLeft = new Common.UI.Button({
+                parentEl: $('#printadv-dlg-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 85px;',
                 menu: true
             });
-            this.btnPresetsLeft.render( $('#printadv-dlg-presets-left')) ;
 
             this.btnHide = new Common.UI.Button({
                 el: $('#printadv-dlg-btn-hide')

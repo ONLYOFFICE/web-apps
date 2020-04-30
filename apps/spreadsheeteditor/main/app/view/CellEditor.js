@@ -55,6 +55,7 @@ define([
             $(this.el).html(this.template());
 
             this.btnNamedRanges = new Common.UI.Button({
+                parentEl: $('#ce-cell-name-menu'),
                 menu        : new Common.UI.Menu({
                     style   : 'min-width: 70px;max-width:400px;',
                     maxHeight: 250,
@@ -64,7 +65,6 @@ define([
                     ]
                 })
             });
-            this.btnNamedRanges.render($('#ce-cell-name-menu'));
             this.btnNamedRanges.setVisible(false);
             this.btnNamedRanges.menu.setOffset(-81);
 

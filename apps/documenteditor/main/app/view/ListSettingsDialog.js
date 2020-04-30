@@ -155,39 +155,26 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.btnColor = new Common.UI.ColorButton({
-                style: 'width:45px;',
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        {
-                            id: 'id-dlg-bullet-text-color',
-                            caption: this.txtLikeText,
-                            checkable: true,
-                            toggleGroup: 'list-settings-color'
-                        },
-                        {
-                            id: 'id-dlg-bullet-auto-color',
-                            caption: this.textAuto,
-                            checkable: true,
-                            toggleGroup: 'list-settings-color'
-                        },
-                        {caption: '--'},
-                        { template: _.template('<div id="id-dlg-bullet-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="id-dlg-bullet-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
-                    ]
-                })
+                parentEl: $window.find('#id-dlg-bullet-color'),
+                additionalItems: [{
+                        id: 'id-dlg-bullet-text-color',
+                        caption: this.txtLikeText,
+                        checkable: true,
+                        toggleGroup: 'list-settings-color'
+                    },
+                    {
+                        id: 'id-dlg-bullet-auto-color',
+                        caption: this.textAuto,
+                        checkable: true,
+                        toggleGroup: 'list-settings-color'
+                    },
+                    {caption: '--'}],
+                additionalAlign: this.menuAddAlign
             });
-            this.btnColor.on('render:after', function(btn) {
-                me.colors = new Common.UI.ThemeColorPalette({
-                    el: $window.find('#id-dlg-bullet-color-menu'),
-                    transparent: false
-                });
-                me.colors.on('select', _.bind(me.onColorsSelect, me));
-            });
-            this.btnColor.render($window.find('#id-dlg-bullet-color'));
-            $window.find('#id-dlg-bullet-color-new').on('click', _.bind(this.addNewColor, this, this.colors));
+            this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
             this.btnColor.menu.items[0].on('toggle', _.bind(this.onLikeTextColor, this));
             this.btnColor.menu.items[1].on('toggle', _.bind(this.onAutoColor, this));
+            this.colors = this.btnColor.getPicker();
 
             this.btnEdit = new Common.UI.Button({
                 el: $window.find('#id-dlg-bullet-font')
@@ -363,10 +350,6 @@ define([
             this.colors.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
-        },
-
         onAutoColor: function(item, state) {
             if (!!state) {
                 var color = Common.Utils.ThemeColor.getHexColor(0, 0, 0);
@@ -399,8 +382,7 @@ define([
             }
         },
 
-        onColorsSelect: function(picker, color) {
-            this.btnColor.setColor(color);
+        onColorsSelect: function(btn, color) {
             if (this._changedProps) {
                 if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
                 this._changedProps.get_TextPr().put_Color(Common.Utils.ThemeColor.getRgbColor(color));
@@ -564,7 +546,6 @@ define([
         txtTitle: 'List Settings',
         txtSize: 'Size',
         txtColor: 'Color',
-        textNewColor: 'Add New Custom Color',
         txtBullet: 'Bullet',
         txtFont: 'Font and Symbol',
         txtAlign: 'Alignment',

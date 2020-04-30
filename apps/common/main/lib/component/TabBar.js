@@ -543,7 +543,7 @@ define([
                 this.checkInvisible(suppress);
             } else if ( index >= (this.tabs.length - 1) || index == 'last') {
                 var tab = this.tabs[this.tabs.length-1].$el;
-                this.$bar.scrollLeft(this.$bar.scrollLeft() + (tab.position().left + parseInt(tab.css('width')) - this.$bar.width()) + 20);
+                this.$bar.scrollLeft(this.$bar.scrollLeft() + (tab.position().left + parseInt(tab.css('width')) - this.$bar.width()) + (this.$bar.width() > 400 ? 20 : 5));
                 this.checkInvisible(suppress);
             } else {
                 var rightbound = this.$bar.width(),
@@ -555,7 +555,7 @@ define([
                         right = tab.position().left + parseInt(tab.css('width'));
 
                         if (right > rightbound) {
-                            this.$bar.scrollLeft(this.$bar.scrollLeft() + (right - rightbound) + 20);
+                            this.$bar.scrollLeft(this.$bar.scrollLeft() + (right - rightbound) + (this.$bar.width() > 400 ? 20 : 5));
                             this.checkInvisible(suppress);
                             break;
                         }
