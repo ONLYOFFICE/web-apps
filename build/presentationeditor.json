@@ -418,7 +418,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/presentationeditor/embed/index.html": "../apps/presentationeditor/embed/index.html.deploy"
+                "../deploy/web-apps/apps/presentationeditor/embed/index.html": "../apps/presentationeditor/embed/index.html.deploy",
+                "../deploy/web-apps/apps/presentationeditor/embed/index_loader.html": "../apps/presentationeditor/embed/index_loader.html.deploy"
             },
             "images-app": [
                 {
