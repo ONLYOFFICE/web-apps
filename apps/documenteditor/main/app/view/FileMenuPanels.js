@@ -665,7 +665,7 @@ define([
                             'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
                         ' } %>',
                         '</div>',
-                        '<div class="title"><%= Common.Utils.String.htmlEncode(item.name || item.title || "") %></div>',
+                        '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
                     '</div>',
                 '<% }) %>',
             '</div>'
