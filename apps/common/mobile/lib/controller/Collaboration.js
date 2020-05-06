@@ -786,7 +786,7 @@ define([
             disabledViewComments: function(disabled) {
                 if ($('.container-view-comment').length > 0) {
                     if (disabled) {
-                        $('.comment-resolve, .comment-menu, .add-reply').addClass('disabled');
+                        $('.comment-resolve, .comment-menu, .add-reply, .reply-menu').addClass('disabled');
                         if (!$('.prev-comment').hasClass('disabled')) {
                             $('.prev-comment').addClass('disabled');
                         }
@@ -794,7 +794,7 @@ define([
                             $('.next-comment').addClass('disabled');
                         }
                     } else {
-                        $('.comment-resolve, .comment-menu, .add-reply').removeClass('disabled');
+                        $('.comment-resolve, .comment-menu, .add-reply, .reply-menu').removeClass('disabled');
                         if (this.showComments.length > 1) {
                             $('.prev-comment, .next-comment').removeClass('disabled');
                         }
@@ -1268,6 +1268,7 @@ define([
                                 $textarea.selectionStart = $textarea.value.length;
                             }, 100);
                         } else {
+                            me.disabledViewComments(true);
                             if ($('.comment-textarea').length === 0) {
                                 var $viewComment = $('.container-view-comment');
                                 var oldComment = $viewComment.find('.comment-text span').text();
@@ -1348,6 +1349,7 @@ define([
                                 });
                                 $('.popup').css('z-index', '20000');
                             } else {
+                                me.disabledViewComments(true);
                                 var $reply = $('.reply-item[data-ind=' + indReply + ']');
                                 var $viewComment = $('.container-view-comment');
                                 $reply.find('.reply-text').css('display', 'none');
@@ -1369,7 +1371,7 @@ define([
                             $textarea.selectionStart = $textarea.value.length;
                         });
                         $('#edit-reply').single('click', _.bind(me.onEditReply, me, comment, indReply));
-                        $('.cancel-reply').single('click', _.bind(me.onCancelEditReply, me));
+                        $('.cancel-reply').single('click', _.bind(me.onCancelEditReply, me, indReply));
                     }
                 }
             },
@@ -1404,7 +1406,9 @@ define([
                 }
             },
 
-            onCancelEditReply: function() {
+            onCancelEditReply: function(indReply) {
+                var $viewComment = $('.container-view-comment'),
+                    $reply = $('.reply-item[data-ind=' + indReply + ']');
                 $viewComment.find('a#edit-reply, a.cancel-reply, .edit-reply-textarea').remove();
                 $reply.find('.reply-text').css('display', 'block');
                 $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');

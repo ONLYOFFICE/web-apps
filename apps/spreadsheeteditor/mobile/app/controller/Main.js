@@ -526,7 +526,7 @@ define([
                 this.api.asc_setZoom(zf>0 ? zf : 1);
 
                 /** coauthoring begin **/
-                this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
+                this.isLiveCommenting = Common.localStorage.getBool("sse-mobile-settings-livecomment", true);
                 var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
                 this.isLiveCommenting ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
 

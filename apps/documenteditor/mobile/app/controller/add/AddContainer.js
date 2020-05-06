@@ -75,7 +75,7 @@ define([
                 uiApp.closeModal();
 
                 me._showByStack(Common.SharedSettings.get('phone'));
-                uiApp.showTab('#add-other');
+                //uiApp.showTab('#add-other');
 
                 DE.getController('Toolbar').getView('Toolbar').hideSearch();
             },

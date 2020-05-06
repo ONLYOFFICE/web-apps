@@ -528,7 +528,7 @@ define([
                 me.api.asc_SetTrackRevisions(me.appOptions.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (me.appOptions.fileKey || '')));
 
                 /** coauthoring begin **/
-                this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
+                this.isLiveCommenting = Common.localStorage.getBool("de-mobile-settings-livecomment", true);
                 var resolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
                 this.isLiveCommenting ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
                 /** coauthoring end **/

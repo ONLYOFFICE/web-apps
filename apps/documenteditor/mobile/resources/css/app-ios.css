@@ -6757,9 +6757,6 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .settings.popover .list-block ul.list-reply:last-child:after {
   display: none;
 }
-.container-edit-comment .navbar {
-  background-color: #FFFFFF;
-}
 .container-edit-comment .page {
   background-color: #FFFFFF;
 }
@@ -6929,9 +6926,6 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 }
 .container-add-reply {
   height: 100%;
-}
-.container-add-reply .navbar {
-  background-color: #FFFFFF;
 }
 .container-add-reply .navbar a.link i + span {
   margin-left: 0;

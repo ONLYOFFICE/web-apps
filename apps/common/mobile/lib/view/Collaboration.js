@@ -344,7 +344,7 @@ define([
                     '<div class="navbar-inner">' +
                     '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? '<i class="icon icon-close-comment"></i>' : '<span>' + this.textCancel + '</span>') + '</a></div>' +
                     '<div class="center sliding">' + this.textAddReply + '</div>' +
-                    '<div class="right sliding"><a href="#" class="link" id="add-new-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + this.textDone + '</span>') + '</a></div>' +
+                    '<div class="right sliding"><a href="#" class="link" id="add-new-reply">' + (isAndroid ? '<i class="icon icon-done-comment-white"></i>' : '<span>' + this.textDone + '</span>') + '</a></div>' +
                     '</div>' +
                     '</div>' +
                     '<div class="pages">' +
@@ -392,7 +392,7 @@ define([
                     '<div class="navbar-inner">' +
                     '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? ' <i class="icon icon-close-comment"></i>' : '<span>' + this.textCancel + '</span>') + '</a></div>' +
                     '<div class="center sliding">' + this.textEditСomment + '</div>' +
-                    '<div class="right sliding"><a href="#" class="link" id="edit-comment">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + this.textDone + '</span>') + '</a></div>' +
+                    '<div class="right sliding"><a href="#" class="link" id="edit-comment">' + (isAndroid ? '<i class="icon icon-done-comment-white"></i>' : '<span>' + this.textDone + '</span>') + '</a></div>' +
                     '</div>' +
                     '</div>' +
                     '<div class="page-edit-comment">' +
@@ -417,7 +417,7 @@ define([
                     '<div class="navbar-inner">' +
                     '<div class="left sliding"><a href="#" class="back link close-popup">' + (isAndroid ? '<i class="icon icon-close-comment"></i>' : '<span>' + this.textCancel + '</span>') + '</a></div>' +
                     '<div class="center sliding">' + this.textEditReply + '</div>' +
-                    '<div class="right sliding"><a href="#" class="link" id="edit-reply">' + (isAndroid ? '<i class="icon icon-done-comment"></i>' : '<span>' + this.textDone + '</span>') + '</a></div>' +
+                    '<div class="right sliding"><a href="#" class="link" id="edit-reply">' + (isAndroid ? '<i class="icon icon-done-comment-white"></i>' : '<span>' + this.textDone + '</span>') + '</a></div>' +
                     '</div>' +
                     '</div>' +
                     '<div class="pages">' +

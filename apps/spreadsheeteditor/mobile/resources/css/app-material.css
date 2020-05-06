@@ -6397,10 +6397,6 @@ html.phone .document-menu .list-block .item-link {
 .settings.popover .list-block ul.list-reply:last-child:after {
   display: none;
 }
-.container-edit-comment .navbar {
-  background-color: #FFFFFF;
-  color: #40865c;
-}
 .container-view-comment {
   position: fixed;
   -webkit-transition: height 100ms;
@@ -6568,11 +6564,6 @@ html.phone .document-menu .list-block .item-link {
 .container-edit-comment,
 .container-add-reply {
   height: 100%;
-}
-.container-edit-comment .navbar,
-.container-add-reply .navbar {
-  background-color: #FFFFFF;
-  color: #000;
 }
 .container-edit-comment .navbar:after,
 .container-add-reply .navbar:after {
@@ -7075,11 +7066,6 @@ i.icon.icon-next-comment {
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M9.98438%206L15.9844%2012L9.98438%2018L8.57812%2016.5938L13.1719%2012L8.57812%207.40625L9.98438%206Z%22%20fill%3D%22%2340865c%22%2F%3E%3C%2Fsvg%3E");
 }
-i.icon.icon-close-comment {
-  width: 24px;
-  height: 24px;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M18.9844%206.42188L13.4062%2012L18.9844%2017.5781L17.5781%2018.9844L12%2013.4062L6.42188%2018.9844L5.01562%2017.5781L10.5938%2012L5.01562%206.42188L6.42188%205.01562L12%2010.5938L17.5781%205.01562L18.9844%206.42188Z%22%20fill%3D%22rgba(0%2C%200%2C%200%2C%200.6)%22%2F%3E%3C%2Fsvg%3E");
-}
 i.icon.icon-done-comment {
   width: 24px;
   height: 24px;
@@ -7179,6 +7165,11 @@ i.icon.icon-done-comment-white {
   width: 24px;
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M7%2012C7%2013.6569%205.65685%2015%204%2015C2.34315%2015%201%2013.6569%201%2012C1%2010.3431%202.34315%209%204%209C5.65685%209%207%2010.3431%207%2012ZM15%2012C15%2013.6569%2013.6569%2015%2012%2015C10.3431%2015%209%2013.6569%209%2012C9%2010.3431%2010.3431%209%2012%209C13.6569%209%2015%2010.3431%2015%2012ZM20%2015C21.6569%2015%2023%2013.6569%2023%2012C23%2010.3431%2021.6569%209%2020%209C18.3431%209%2017%2010.3431%2017%2012C17%2013.6569%2018.3431%2015%2020%2015Z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E");
+}
+.navbar i.icon.icon-close-comment {
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M18.9844%206.42188L13.4062%2012L18.9844%2017.5781L17.5781%2018.9844L12%2013.4062L6.42188%2018.9844L5.01562%2017.5781L10.5938%2012L5.01562%206.42188L6.42188%205.01562L12%2010.5938L17.5781%205.01562L18.9844%206.42188Z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E");
 }
 .chart-types .thumb.bar-normal {
   background-image: url('../img/charts/chart-03.png');
