@@ -646,8 +646,14 @@ define([
                 oldCls = this.iconCls;
 
             this.iconCls = cls;
-            btnIconEl.removeClass(oldCls);
-            btnIconEl.addClass(cls || '');
+            if (/svgicon/.test(this.iconCls)) {
+                var icon = /svgicon\s(\S+)/.exec(this.iconCls);
+                btnIconEl.find('use.zoom-int').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1]: '');
+                btnIconEl.find('use.zoom-grit').attr('xlink:href', icon && icon.length>1 ? '#' + icon[1] + '-150' : '');
+            } else {
+                btnIconEl.removeClass(oldCls);
+                btnIconEl.addClass(cls || '');
+            }
         },
 
         changeIcon: function(opts) {
