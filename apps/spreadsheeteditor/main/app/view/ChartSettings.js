@@ -151,7 +151,7 @@ define([
 
                     value = props.asc_getSeveralChartTypes();
                     if (this._state.SeveralCharts && value) {
-                        this.btnChartType.setIconCls('');
+                        this.btnChartType.setIconCls('svgicon');
                         this._state.ChartType = null;
                     } else {
                         var type = this.chartProps.getType();
@@ -159,9 +159,9 @@ define([
                             var record = this.mnuChartTypePicker.store.findWhere({type: type});
                             this.mnuChartTypePicker.selectRecord(record, true);
                             if (record) {
-                                this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                                this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                             } else
-                                this.btnChartType.setIconCls('');
+                                this.btnChartType.setIconCls('svgicon');
                             this.updateChartStyles(this.api.asc_getChartPreviews(type));
                             this._state.ChartType = type;
                         }
@@ -226,9 +226,9 @@ define([
                         var record = this.mnuSparkTypePicker.store.findWhere({type: type});
                         this.mnuSparkTypePicker.selectRecord(record, true);
                         if (record) {
-                            this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                            this.btnSparkType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                         } else
-                            this.btnSparkType.setIconCls('');
+                            this.btnSparkType.setIconCls('svgicon');
                         this._state.SparkType = type;
                         styleChanged = true;
                     }
@@ -654,9 +654,9 @@ define([
             // charts
             this.btnChartType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
-                iconCls     : 'item-chartlist bar-normal',
+                iconCls     : 'svgicon chart-bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 435px; padding-top: 12px;',
+                    style: 'width: 364px; padding-top: 12px;',
                     items: [
                         { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -670,7 +670,7 @@ define([
                     restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
             this.btnChartType.render($('#chart-button-type'));
@@ -730,9 +730,9 @@ define([
             // sparks
             this.btnSparkType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
-                iconCls     : 'item-chartlist spark-column',
+                iconCls     : 'svgicon chart-spark-column',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 200px; padding-top: 12px;',
+                    style: 'width: 167px; padding-top: 12px;',
                     items: [
                         { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"  style="margin: 5px 5px 0 10px;"></div>') }
                     ]
@@ -746,7 +746,7 @@ define([
                     allowScrollbar: false,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
             this.btnSparkType.render($('#spark-button-type'));
@@ -966,7 +966,7 @@ define([
                 rawData = record;
             }
 
-            this.btnChartType.setIconCls('item-chartlist ' + rawData.iconCls);
+            this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
             this._state.ChartType = -1;
 
             if (this.api && !this._noApply && this.chartProps) {
@@ -1115,7 +1115,7 @@ define([
                 rawData = record;
             }
 
-            this.btnSparkType.setIconCls('item-chartlist ' + rawData.iconCls);
+            this.btnSparkType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
             this._state.SparkType = -1;
 
             if (this.api && !this._noApply && this._originalProps) {

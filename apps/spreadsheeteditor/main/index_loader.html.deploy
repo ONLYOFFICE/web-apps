@@ -311,6 +311,7 @@
     <inline src="resources/img/doc-formats/csv.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
+    <inline src="resources/img/toolbar/charttypes.svg" />
 
     <div id="viewport"></div>
 
