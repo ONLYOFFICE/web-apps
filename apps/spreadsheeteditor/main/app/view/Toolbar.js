@@ -2271,7 +2271,7 @@ define([
 //    txtDescending:      'Descending',
         txtFormula:         'Insert Function',
         txtNoBorders:       'No borders',
-        txtAdditional:      'Additional',
+        txtAdditional:      'Insert Function',
         mniImageFromFile:   'Image from file',
         mniImageFromUrl:    'Image from url',
         textNewColor:       'Add New Custom Color',

@@ -560,7 +560,7 @@ define([
             txtRecent: 'Recently used',
             txtAutosum: 'Autosum',
             txtAutosumTip: 'Summation',
-            txtAdditional: 'Additional',
+            txtAdditional: 'Insert Function',
             txtFormula: 'Function',
             txtFormulaTip: 'Insert function',
             txtMore: 'More functions',
