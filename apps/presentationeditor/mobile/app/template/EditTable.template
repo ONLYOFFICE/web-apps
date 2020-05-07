@@ -110,8 +110,7 @@
         </div>
     </div>
     <div class="page" data-page="edit-table-style">
-        <div class="tabs-animated-wrap">
-            <div class="tabs">
+            <div class="page-content tabs" style="padding-top: 0;">
                 <div id="tab-table-style" class="page-content tab active">
                     <div class="list-block">
                         <ul>
@@ -191,7 +190,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 

@@ -109,6 +109,18 @@ input, textarea {
     background-color: #fff;
   }
 }
+.container-add {
+  .categories {
+    i.icon {
+      opacity: 0.5;
+    }
+    .active {
+      i.icon {
+        opacity: 1;
+      }
+    }
+  }
+}
 
 // Table styles
 
@@ -329,5 +341,18 @@ input, textarea {
       background-size: 20px 20px;
       width: 25px;
     }
+  }
+}
+
+//Comments
+.picker-modal.container-view-comment {
+  &.onHide {
+    .swipe-container, .toolbar-inner, .pages {
+      opacity: 0.6;
+    }
+  }
+  background-color: #efeff4;
+  .swipe-container, .toolbar, .pages {
+    background-color: #FFFFFF;
   }
 }

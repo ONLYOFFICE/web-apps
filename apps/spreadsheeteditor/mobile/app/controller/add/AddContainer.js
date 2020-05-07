@@ -129,6 +129,7 @@ define([
                     addViews.push({
                         caption: me.textChart,
                         id: 'add-chart',
+                        icon: 'icon-add-chart',
                         layout: SSE.getController('AddChart').getView('AddChart').rootLayout()
                     });
 
@@ -137,6 +138,7 @@ define([
                     addViews.push({
                         caption: me.textFormula,
                         id: 'add-formula',
+                        icon: 'icon-add-formula',
                         layout: options ? view.rootLayout() : view.layoutPanel()
                     });
                 }
@@ -145,6 +147,7 @@ define([
                     addViews.push({
                         caption: me.textShape,
                         id: 'add-shape',
+                        icon: 'icon-add-shape',
                         layout:  SSE.getController('AddShape').getView('AddShape').rootLayout()
                     });
 
@@ -152,6 +155,7 @@ define([
                     addViews.push({
                         caption: me.textOther,
                         id: 'add-other',
+                        icon: 'icon-add-other',
                         layout: SSE.getController('AddOther').getView('AddOther').rootLayout()
                     });
 
@@ -168,6 +172,7 @@ define([
                     addViews.push({
                         caption: me.textImage,
                         id: 'add-image',
+                        icon: 'icon-add-image',
                         layout: SSE.getController('AddOther').getView('AddOther').childLayout('image')
                     });
                 }
@@ -214,7 +219,7 @@ define([
                             $layoutNavbar
                                 .find('.toolbar-inner')
                                 .append(
-                                    '<a href="#' + layout.id + '" class="tab-link ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
+                                    '<a href="#' + layout.id + '" class="tab-link ' + (index < 1 ? 'active' : '') + '"><i class="icon ' + layout.icon + '"></i></a>'
                                 );
                         });
                         $layoutNavbar
@@ -229,7 +234,7 @@ define([
                             $layoutNavbar
                                 .find('.buttons-row')
                                 .append(
-                                    '<a href="#' + layout.id + '" class="tab-link button ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
+                                    '<a href="#' + layout.id + '" class="tab-link button ' + (index < 1 ? 'active' : '') + '"><i class="icon ' + layout.icon + '"></i></a>'
                                 );
                         });
                     }
@@ -251,12 +256,8 @@ define([
 
                     var $layoutPages = $('<div class="pages">' +
                                             '<div class="page" data-page="index">' +
-                                                '<div class="page-content">' +
-                                                    '<div class="tabs-animated-wrap">' +
-                                                        '<div class="tabs">' +
+                                                '<div class="page-content tabs">' +
                                                             _arrangePages({pages: layoutAdds}) +
-                                                        '</div>' +
-                                                    '</div>' +
                                                 '</div>' +
                                             '</div>' +
                                         '</div>');

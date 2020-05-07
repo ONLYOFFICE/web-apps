@@ -41,7 +41,7 @@
 
 define([
     'core',
-    'presentationeditor/mobile/app/view/add/AddLink'
+    'presentationeditor/mobile/app/view/add/AddOther'
 ], function (core) {
     'use strict';
 
@@ -63,16 +63,15 @@ define([
             models: [],
             collections: [],
             views: [
-                'AddLink'
+                'AddOther'
             ],
 
             initialize: function () {
-                Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
-                Common.NotificationCenter.on('addcategory:show',  _.bind(this.categoryShow, this));
 
                 this.addListeners({
-                    'AddLink': {
-                        'page:show' : this.onPageShow
+                    'AddOther': {
+                        'category:show': this.categoryShow,
+                        'page:show'    : this.onPageShow
                     }
                 });
 
@@ -91,19 +90,13 @@ define([
                 me.api = api;
             },
 
-            onLaunch: function () {
-                this.createView('AddLink').render();
-            },
-
             initEvents: function () {
                 var me = this;
                 $('#add-link-insert').single('click', _.buffered(me.onInsertLink, 100, me));
             },
 
-            categoryShow: function (e) {
-                var $target = $(e.currentTarget);
-
-                if ($target && $target.prop('id') === 'add-link') {
+            categoryShow: function (view, pageId) {
+                if (pageId === '#addother-insert-link') {
                     this._linkType = c_oHyperlinkType.WebLink;
                     this._slideLink = this._slideNum = 0;
                     var text = this.api.can_AddHyperlink();
@@ -112,6 +105,7 @@ define([
                         $('#add-link-display').toggleClass('disabled', text === null);
                     }
 
+                    this.initEvents();
                     this.initSettings();
                 }
             },

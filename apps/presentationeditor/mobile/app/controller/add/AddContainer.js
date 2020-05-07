@@ -47,8 +47,6 @@ define([
 
     PE.Controllers.AddContainer = Backbone.Controller.extend(_.extend((function() {
         // private
-        var _canAddHyperlink = false,
-            _paragraphLocked = false;
 
         return {
             models: [],
@@ -61,8 +59,6 @@ define([
 
             setApi: function(api) {
                 this.api = api;
-                this.api.asc_registerCallback('asc_onCanAddHyperlink', _.bind(this.onApiCanAddHyperlink, this));
-                this.api.asc_registerCallback('asc_onFocusObject',     _.bind(this.onApiFocusObject, this));
             },
 
             onLaunch: function() {
@@ -96,22 +92,16 @@ define([
                 addViews.push({
                     caption: me.textSlide,
                     id: 'add-slide',
+                    icon: 'icon-add-slide',
                     layout: PE.getController('AddSlide')
                         .getView('AddSlide')
                         .rootLayout()
                 });
 
                 addViews.push({
-                    caption: me.textTable,
-                    id: 'add-table',
-                    layout: PE.getController('AddTable')
-                        .getView('AddTable')
-                        .rootLayout()
-                });
-
-                addViews.push({
                     caption: me.textShape,
                     id: 'add-shape',
+                    icon: 'icon-add-shape',
                     layout: PE.getController('AddShape')
                         .getView('AddShape')
                         .rootLayout()
@@ -120,19 +110,20 @@ define([
                 addViews.push({
                     caption: me.textImage,
                     id: 'add-image',
+                    icon: 'icon-add-image',
                     layout: PE.getController('AddImage')
                         .getView('AddImage')
                         .rootLayout()
                 });
 
-                if (_canAddHyperlink && !_paragraphLocked)
-                    addViews.push({
-                        caption: me.textLink,
-                        id: 'add-link',
-                        layout: PE.getController('AddLink')
-                            .getView('AddLink')
-                            .rootLayout()
-                    });
+                addViews.push({
+                    caption: me.textOther,
+                    id: 'add-other',
+                    icon: 'icon-add-other',
+                    layout: PE.getController('AddOther')
+                        .getView('AddOther')
+                        .rootLayout()
+                });
 
                 return addViews;
             },
@@ -166,7 +157,7 @@ define([
                         $layoutNavbar
                             .find('.toolbar-inner')
                             .append(
-                                '<a href="#' + layout.id + '" class="tab-link ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
+                                '<a href="#' + layout.id + '" class="tab-link ' + (index < 1 ? 'active' : '') + '"><i class="icon ' + layout.icon + '"></i></a>'
                             );
                     });
                     $layoutNavbar
@@ -181,7 +172,7 @@ define([
                         $layoutNavbar
                             .find('.buttons-row')
                             .append(
-                                '<a href="#' + layout.id + '" class="tab-link button ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
+                                '<a href="#' + layout.id + '" class="tab-link button ' + (index < 1 ? 'active' : '') + '"><i class="icon ' + layout.icon + '"></i></a>'
                             );
                     });
                 }
@@ -192,10 +183,7 @@ define([
                 var $layoutPages = $(
                     '<div class="pages">' +
                         '<div class="page" data-page="index">' +
-                            '<div class="page-content">' +
-                                '<div class="tabs-animated-wrap">' +
-                                    '<div class="tabs"></div>' +
-                                '</div>' +
+                            '<div class="page-content tabs">' +
                             '</div>' +
                         '</div>' +
                     '</div>'
@@ -264,30 +252,19 @@ define([
                 }
 
                 me.rootView = uiApp.addView('.add-root-view', {
-                    dynamicNavbar: true
+                    dynamicNavbar: true,
+                    domCache: true
                 });
 
                 Common.NotificationCenter.trigger('addcontainer:show');
-            },
-
-            onApiCanAddHyperlink: function(value) {
-                _canAddHyperlink = value;
-            },
-
-            onApiFocusObject: function (objects) {
-                _paragraphLocked = false;
-                _.each(objects, function(object) {
-                    if (Asc.c_oAscTypeSelectElement.Paragraph == object.get_ObjectType()) {
-                        _paragraphLocked = object.get_ObjectValue().get_Locked();
-                    }
-                });
             },
 
             textSlide: 'Slide',
             textTable: 'Table',
             textShape: 'Shape',
             textImage: 'Image',
-            textLink:  'Link'
+            textLink:  'Link',
+            textOther: 'Other'
         }
     })(), PE.Controllers.AddContainer || {}))
 });

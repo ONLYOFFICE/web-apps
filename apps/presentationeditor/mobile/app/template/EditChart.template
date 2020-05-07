@@ -131,8 +131,7 @@
         </div>
     </div>
     <div class="page" data-page="edit-chart-style">
-        <div class="tabs-animated-wrap">
-            <div class="tabs">
+            <div class="page-content tabs" style="padding-top: 0;">
                 <div id="tab-chart-type" class="page-content tab active dataview chart-types">
                     <% _.each(types, function(row) { %>
                     <ul class="row">
@@ -144,7 +143,7 @@
                     </ul>
                     <% }); %>
                 </div>
-                <div id="tab-chart-style" class="page-content tab dataview chart-styles">
+                <div id="tab-chart-style" class="page-content tab dataview chart-styles" style="width: 100%;">
                     <!--Styles-->
                 </div>
                 <div id="tab-chart-fill" class="page-content tab">
@@ -180,7 +179,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 
