@@ -1526,6 +1526,16 @@ define([
                         }
 
                         return false;
+                    },
+                    'shift+f3': function(e) {
+                        if (me.editMode && !me.toolbar.btnInsertFormula.isDisabled()) {
+                            var controller = me.getApplication().getController('FormulaDialog');
+                            if (controller) {
+                                controller.showDialog();
+                            }
+                        }
+
+                        return false;
                     }
                 }
             });
