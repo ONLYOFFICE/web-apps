@@ -92,7 +92,17 @@
 }
 
 //Comments
-.page-comments {
+.page-comments, .add-comment, .page-view-comments, .container-edit-comment, .container-add-reply, .page-edit-comment, .page-add-reply, .page-edit-reply {
+  .header-comment {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 16px;
+    .comment-right {
+      display: flex;
+      justify-content: space-between;
+      width: 70px;
+    }
+  }
   .list-block .item-inner {
     display: block;
     padding: 16px 0;
@@ -100,6 +110,13 @@
   }
   p {
     margin: 0;
+    word-break: break-word;
+  }
+  .list-reply {
+    padding-left: 26px;
+  }
+  .reply-textarea, .comment-textarea, .edit-reply-textarea {
+    resize: vertical;
   }
   .user-name {
     font-size: 17px;
@@ -109,7 +126,7 @@
     font-weight: bold;
   }
   .comment-date, .reply-date {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 18px;
     color: #6d6d72;
     margin: 0;
@@ -125,8 +142,14 @@
   }
   .reply-item {
     margin-top: 15px;
+    padding-right: 16px;
+    padding-top: 13px;
+    .header-reply {
+      display: flex;
+      justify-content: space-between;
+    }
     .user-name {
-      padding-top: 16px;
+      padding-top: 3px;
     }
     &:before {
       content: '';
@@ -148,10 +171,253 @@
     color: @themeColor;
     border-left: 1px solid @themeColor;
     padding-left: 10px;
+    padding-right: 16px;
     margin: 5px 0;
     font-size: 15px;
+  }
+
+  .wrap-comment, .wrap-reply {
+    padding: 16px 24px 0 16px;
+  }
+  .comment-textarea, .reply-textarea, .edit-reply-textarea {
+    margin-top: 10px;
+    background:transparent;
+    outline:none;
+    width: 100%;
+    font-size: 17px;
+    border: none;
+    border-radius: 3px;
+    min-height: 100px;
   }
 }
 .settings.popup .list-block ul.list-reply:last-child:after, .settings.popover .list-block ul.list-reply:last-child:after {
   display: none;
 }
+
+.container-edit-comment {
+  .page {
+    background-color: #FFFFFF;
+  }
+}
+
+//view comment
+.container-view-comment {
+  position: fixed;
+  -webkit-transition: height 100ms;
+  transition: height 120ms;
+  background-color: #FFFFFF;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  height: 50%;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12);
+  .pages {
+    background-color: #FFFFFF;
+  }
+  .page-view-comments {
+    background-color: #FFFFFF;
+    .list-block {
+      margin-bottom: 100px;
+      ul:before, ul:after {
+        content: none;
+      }
+      .item-inner {
+        padding: 0;
+      }
+    }
+
+  }
+  .toolbar {
+    position: fixed;
+    background-color: #FFFFFF;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 4px 5px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+    &:before {
+      content: none;
+    }
+    .toolbar-inner {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 16px;
+      .button-left {
+        min-width: 80px;
+      }
+      .button-right {
+        min-width: 62px;
+        display: flex;
+        justify-content: space-between;
+        a {
+          padding: 0 12px;
+        }
+      }
+    }
+  }
+  .swipe-container {
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    .icon-swipe {
+      margin-top: 8px;
+      width: 40px;
+      height: 4px;
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 2px;
+    }
+  }
+  .list-block {
+    margin-top: 0;
+  }
+  &.popover {
+    position: absolute;
+    border-radius: 4px;
+    min-height: 170px;
+    height: 400px;
+    max-height: 600px;
+
+    .toolbar {
+      position: absolute;
+      border-radius: 0 0 4px 4px;
+      .toolbar-inner {
+        padding-right: 0;
+      }
+    }
+
+    .pages {
+      position: absolute;
+
+      .page {
+        border-radius: 13px;
+
+        .page-content {
+          padding: 16px;
+          padding-bottom: 80px;
+
+          .list-block {
+            margin-bottom: 0px;
+
+            .item-content {
+              padding-left: 0;
+
+              .header-comment, .reply-item {
+                padding-right: 0;
+              }
+            }
+          }
+
+          .block-reply {
+            margin-top: 10px;
+
+            .reply-textarea {
+              min-height: 70px;
+              width: 278px;
+              border: 1px solid #c4c4c4;
+              border-radius: 6px;
+              padding: 5px;
+            }
+          }
+
+          .edit-reply-textarea {
+            min-height: 60px;
+            width: 100%;
+            border: 1px solid #c4c4c4;
+            border-radius: 6px;
+            padding: 5px;
+            height: 60px;
+            margin-top: 10px;
+          }
+
+          .comment-text {
+            padding-right: 0;
+
+            .comment-textarea {
+              border: 1px solid #c4c4c4;
+              border-radius: 6px;
+              padding: 8px;
+              min-height: 80px;
+              height: 80px;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
+#done-comment {
+  color: @themeColor;
+}
+.page-add-comment {
+  background-color: #FFFFFF;
+  .wrap-comment, .wrap-reply {
+    padding: 16px 24px 0 16px;
+    .header-comment {
+      justify-content: flex-start;
+    }
+    .user-name {
+      font-weight: bold;
+      font-size: 17px;
+      padding-left: 5px;
+    }
+    .comment-date {
+      font-size: 13px;
+      color: #6d6d72;
+      padding-left: 5px;
+    }
+    .wrap-textarea {
+      margin-top: 16px;
+      padding-right: 6px;
+      .comment-textarea {
+        font-size: 17px;
+        border: none;
+        margin-top: 0;
+        min-height: 100px;
+        border-radius: 4px;
+        width: 100%;
+        padding-left: 5px;
+        &::placeholder {
+          color: @gray;
+          font-size: 17px;
+        }
+      }
+    }
+  }
+}
+.container-add-reply {
+  height: 100%;
+  .navbar {
+    a.link i + span {
+      margin-left: 0;
+    }
+  }
+  .page {
+    background-color: #FFFFFF;
+  }
+}
+
+.actions-modal-button.color-red {
+  color: @red;
+}
+
+.page-edit-comment, .page-add-reply, .page-edit-reply {
+  background-color: #FFFFFF;
+  .header-comment {
+    justify-content: flex-start;
+  }
+  .navbar {
+    .right {
+      height: 100%;
+      #add-reply, #edit-comment, #edit-reply {
+        display: flex;
+        align-items: center;
+        padding-left: 16px;
+        padding-right: 16px;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.container-edit-comment {
+  position: fixed;
+
+}
+
