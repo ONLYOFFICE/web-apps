@@ -197,6 +197,7 @@ define([
                     menu: new Common.UI.Menu({
                         items : [
                             {caption: 'SUM',   value: 'SUM'},
+                            {caption: 'AVERAGE', value: 'AVERAGE'},
                             {caption: 'MIN',   value: 'MIN'},
                             {caption: 'MAX',   value: 'MAX'},
                             {caption: 'COUNT', value: 'COUNT'},

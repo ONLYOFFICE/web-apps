@@ -214,6 +214,7 @@ define([
                         style : 'min-width: 110px',
                         items : [
                             {caption: 'SUM',   value: 'SUM'},
+                            {caption: 'AVERAGE', value: 'AVERAGE'},
                             {caption: 'MIN',   value: 'MIN'},
                             {caption: 'MAX',   value: 'MAX'},
                             {caption: 'COUNT', value: 'COUNT'},
@@ -880,6 +881,7 @@ define([
                         style : 'min-width: 110px',
                         items : [
                             {caption: 'SUM',   value: 'SUM'},
+                            {caption: 'AVERAGE', value: 'AVERAGE'},
                             {caption: 'MIN',   value: 'MIN'},
                             {caption: 'MAX',   value: 'MAX'},
                             {caption: 'COUNT', value: 'COUNT'},
