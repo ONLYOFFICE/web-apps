@@ -137,7 +137,9 @@ define([
                     "Error! Main Document Only.": this.txtMainDocOnly,
                     "Error! Not a valid bookmark self-reference.": this.txtNotValidBookmark,
                     "Error! No text of specified style in document.": this.txtNoText,
-                    "Choose an item.": this.txtChoose
+                    "Choose an item.": this.txtChoose,
+                    "Enter a date.": this.txtEnterDate,
+                    "Type equation here.": this.txtTypeEquation
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -155,7 +157,7 @@ define([
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
                 this.languages = null;
-                this.isModalShowed = 0;
+
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -225,15 +227,15 @@ define([
                             if (/msg-reply/.test(e.target.className)) {
                                 me.dontCloseDummyComment = true;
                                 me.beforeShowDummyComment = me.beforeCloseDummyComment = false;
-                            } else if (/chat-msg-text/.test(e.target.id))
-                                me.dontCloseChat = true;
-                            else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                            } else if (/textarea-control/.test(e.target.className))
+                                me.inTextareaControl = true;
+                            else if (!Common.Utils.ModalWindow.isVisible() && /form-control/.test(e.target.className))
                                 me.inFormControl = true;
                         }
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
-                        if (!me.isModalShowed) {
+                        if (!Common.Utils.ModalWindow.isVisible()) {
                             if (/form-control/.test(e.target.className))
                                 me.inFormControl = false;
                             if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
@@ -253,8 +255,8 @@ define([
                                     else
                                         me.beforeCloseDummyComment = true;
                                 }
-                                else if (/chat-msg-text/.test(e.target.id))
-                                    me.dontCloseChat = false;
+                                else if (/textarea-control/.test(e.target.className))
+                                    me.inTextareaControl = false;
                             }
                         }
                     }).on('dragover', function(e) {
@@ -281,31 +283,31 @@ define([
 
                     Common.NotificationCenter.on({
                         'modal:show': function(){
-                            me.isModalShowed++;
+                            Common.Utils.ModalWindow.show();
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            me.isModalShowed--;
-                            if (!me.isModalShowed)
+                            Common.Utils.ModalWindow.close();
+                            if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'modal:hide': function(dlg) {
-                            me.isModalShowed--;
-                            if (!me.isModalShowed)
+                            Common.Utils.ModalWindow.close();
+                            if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'settings:unitschanged':_.bind(this.unitsChanged, this),
                         'dataview:focus': function(e){
                         },
                         'dataview:blur': function(e){
-                            if (!me.isModalShowed) {
+                            if (!Common.Utils.ModalWindow.isVisible()) {
                                 me.api.asc_enableKeyEvents(true);
                             }
                         },
                         'menu:show': function(e){
                         },
                         'menu:hide': function(e, isFromInputControl){
-                            if (!me.isModalShowed && !isFromInputControl)
+                            if (!Common.Utils.ModalWindow.isVisible() && !isFromInputControl)
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
@@ -752,7 +754,7 @@ define([
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
-                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl)) ) {
+                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -2138,7 +2140,7 @@ define([
             },
 
             onPrint: function() {
-                if (!this.appOptions.canPrint || this.isModalShowed) return;
+                if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 
                 if (this.api)
                     this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
@@ -2215,6 +2217,20 @@ define([
                     win && win.close();
                     me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm');
                 })
+            },
+
+            warningDocumentIsLocked: function() {
+                var me = this;
+                var _disable_ui = function (disable) {
+                    me.disableEditing(disable);
+                    DE.getController('DocumentHolder').getView().SetDisabled(disable, true);
+                    DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
+                    DE.getController('LeftMenu').setPreviewMode(disable);
+                    var comments = DE.getController('Common.Controllers.Comments');
+                    if (comments) comments.setPreviewMode(disable);
+                };
+
+                Common.Utils.warningDocumentIsLocked({disablefunc: _disable_ui});
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2566,7 +2582,9 @@ define([
             errorCompare: 'The Compare documents feature is not available in the co-editing mode.',
             textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
             textApplyAll: 'Apply to all equations',
-            textLearnMore: 'Learn More'
+            textLearnMore: 'Learn More',
+            txtEnterDate: 'Enter a date.',
+            txtTypeEquation: 'Type equation here.'
         }
     })(), DE.Controllers.Main || {}))
 });

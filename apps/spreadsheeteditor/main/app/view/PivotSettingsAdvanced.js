@@ -148,19 +148,16 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
                 labelText: this.textShowHeaders
             });
 
-            this.txtDataRange = new Common.UI.InputField({
+            this.txtDataRange = new Common.UI.InputFieldBtn({
                 el          : $('#pivot-adv-txt-range'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 blankError  : this.txtEmpty,
                 validateOnChange: true
             });
-
-            this.btnSelectData = new Common.UI.Button({
-                el: $('#pivot-adv-btn-data')
-            });
-            this.btnSelectData.on('click', _.bind(this.onSelectData, this));
+            this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
 
             // Alt Text
 
@@ -303,7 +300,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         textShowCols: 'Show for columns',
         textDataSource: 'Data Source',
         textDataRange: 'Data Range',
-        textSelectData: 'Select Data',
+        textSelectData: 'Select data',
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',

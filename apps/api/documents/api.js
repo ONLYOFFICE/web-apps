@@ -74,15 +74,16 @@
                 recent: [
                     {
                         title: 'document title',
+                        image: 'recent icon url',
                         url: 'document url',
-                        folder: 'path to document'
+                        folder: 'path to document',
                     },
                     ...
                 ],
                 templates: [
                     {
-                        name: 'template name',
-                        icon: 'template icon url',
+                        title: 'template name', // name - is deprecated
+                        image: 'template icon url',
                         url: 'http://...'
                     },
                     ...
@@ -385,8 +386,6 @@
                     if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
                     _config.editorConfig.customization.about = false;
                     _config.editorConfig.customization.compactHeader = false;
-
-                    if ( window.AscDesktopEditor ) window.AscDesktopEditor.execCommand('webapps:events', 'loading');
                 }
             }
         })();

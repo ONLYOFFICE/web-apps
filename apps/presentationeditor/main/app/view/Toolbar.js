@@ -673,7 +673,7 @@ define([
                     me.btnShapeAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-align',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-shape-alignleft',
+                        iconCls: 'toolbar__icon shape-align-left',
                         lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
                         menu: new Common.UI.Menu({
                             items: [
@@ -1140,7 +1140,7 @@ define([
                 );
 
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
-                    style: 'width: 435px;',
+                    style: 'width: 364px;',
                     items: [
                         {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
                     ]
@@ -1154,7 +1154,7 @@ define([
                         restoreHeight: 421,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)

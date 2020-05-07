@@ -104,25 +104,11 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             var me = this;
-            this.menuAddAlign = function(menuRoot, left, top) {
-                var self = this;
-                if (!$window.hasClass('notransform')) {
-                    $window.addClass('notransform');
-                    menuRoot.addClass('hidden');
-                    setTimeout(function() {
-                        menuRoot.removeClass('hidden');
-                        menuRoot.css({left: left, top: top});
-                        self.options.additionalAlign = null;
-                    }, 300);
-                } else {
-                    menuRoot.css({left: left, top: top});
-                    self.options.additionalAlign = null;
-                }
-            };
 
-            this.txtRangeTop = new Common.UI.InputField({
+            this.txtRangeTop = new Common.UI.InputFieldBtn({
                 el          : $('#print-titles-txt-top'),
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectRange,
                 allowBlank  : true,
                 validateOnChange: true,
                 validation  : function(value) {
@@ -136,6 +122,7 @@ define([
 
             var frozen = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, false, this.sheet);
             this.btnPresetsTop = new Common.UI.Button({
+                parentEl: $('#print-titles-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 95px;',
@@ -144,7 +131,7 @@ define([
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        {caption: this.textSelectRange, value: 'select'},
+                        {caption: this.textSelectRange + '...', value: 'select'},
                         {caption: this.textFrozenRows, value: 'frozen', range: frozen, disabled: !frozen},
                         {caption: this.textFirstRow, value: 'first', range: this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, false, this.sheet)},
                         {caption: '--'},
@@ -152,12 +139,13 @@ define([
                     ]
                 })
             });
-            this.btnPresetsTop.render( $('#print-titles-presets-top')) ;
             this.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, 'top'));
+            this.txtRangeTop.on('button:click', _.bind(this.onPresetSelect, this, 'top', this.btnPresetsTop.menu, {value: 'select'}));
 
-            this.txtRangeLeft = new Common.UI.InputField({
+            this.txtRangeLeft = new Common.UI.InputFieldBtn({
                 el          : $('#print-titles-txt-left'),
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectRange,
                 allowBlank  : true,
                 validateOnChange: true,
                 validation  : function(value) {
@@ -171,6 +159,7 @@ define([
 
             frozen = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.frozen, true, this.sheet);
             this.btnPresetsLeft = new Common.UI.Button({
+                parentEl: $('#print-titles-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 95px;',
@@ -179,7 +168,7 @@ define([
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        {caption: this.textSelectRange, value: 'select'},
+                        {caption: this.textSelectRange + '...', value: 'select'},
                         {caption: this.textFrozenCols, value: 'frozen', range: frozen, disabled: !frozen},
                         {caption: this.textFirstCol, value: 'first', range: this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, true, this.sheet)},
                         {caption: '--'},
@@ -187,8 +176,8 @@ define([
                     ]
                 })
             });
-            this.btnPresetsLeft.render( $('#print-titles-presets-left')) ;
             this.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, 'left'));
+            this.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, 'left', this.btnPresetsLeft.menu, {value: 'select'}));
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -252,6 +241,9 @@ define([
             if (item.value == 'select') {
                 var me = this;
                 if (me.api) {
+                    me.btnPresetsTop.menu.options.additionalAlign = me.menuAddAlign;
+                    me.btnPresetsLeft.menu.options.additionalAlign = me.menuAddAlign;
+
                     var handlerDlg = function(dlg, result) {
                         if (result == 'ok') {
                             var valid = dlg.getSettings();
@@ -295,7 +287,7 @@ define([
         textLeft: 'Repeat columns at left',
         textRepeat: 'Repeat...',
         textNoRepeat: 'Not repeat',
-        textSelectRange: 'Select range...',
+        textSelectRange: 'Select range',
         textFrozenRows: 'Frozen rows',
         textFrozenCols: 'Frozen columns',
         textFirstRow: 'First row',

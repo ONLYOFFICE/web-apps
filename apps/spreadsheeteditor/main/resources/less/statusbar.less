@@ -142,7 +142,7 @@
         height: 32px;
         left: 112px;
         right: 160px;
-        margin-right: 2px;
+        margin-right: 3px;
     }
 
     #status-sheets-bar {
@@ -155,9 +155,16 @@
 
         .nav-tabs {
             height: 100%;
+            display: flex;
 
             > li {
                 background-color: @gray-light;
+
+                &:first-of-type {
+                    span {
+                        border-left: none;
+                    }
+                }
 
                 > span {
                     display: inline-block;

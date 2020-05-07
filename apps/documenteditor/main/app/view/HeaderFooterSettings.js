@@ -231,13 +231,13 @@ define([
             this._btnsPosition = [];
             _.each(_arrPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
+                    parentEl: $('#'+item[3]),
                     cls: 'btn-options huge bg-white',
                     iconCls: item[2],
                     posWhere:item[0],
                     posAlign:item[1],
                     hint: item[4]
                 });
-                _btn.render( $('#'+item[3])) ;
                 _btn.on('click', _.bind(this.onBtnPositionClick, this));
                 this._btnsPosition.push( _btn );
                 this.lockedControls.push(_btn);

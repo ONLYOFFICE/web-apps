@@ -544,14 +544,24 @@
 }
 
 .btn-color {
-    padding: 2px;
+    width: 45px;
+    height: 22px;
+    padding: 1px 11px 1px 1px;
     border:1px solid @input-border;
     .border-radius(@border-radius-small);
 
-    span {
-        display:block;
-        border:1px solid @input-border;
+    span:nth-child(1) {
+        float: left;
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.2);
         background-color: transparent;
+    }
+
+    .inner-box-caret {
+        position: absolute;
+        right: 0;
+        top: 2px;
     }
 
     &,
@@ -570,9 +580,17 @@
 
     .color-transparent {
         &:before {
-            height: 40px;
-            transform: translate(20px, -12px) rotate(69deg);
+            border-right: 1px solid red;
+            height: 34px;
+            transform: translate(16px, -9px) rotate(62deg);
             left: 0;
+        }
+    }
+
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
+        .caret {
+            background-position: @arrow-small-offset-x @arrow-small-offset-y;
         }
     }
 }
@@ -775,6 +793,12 @@
         background-repeat: no-repeat;
         border: 1px solid @input-border;
         position: relative;
+    }
+
+    svg.icon {
+        vertical-align: middle;
+        width: 52px;
+        padding: 5px;
     }
 
     &:hover,

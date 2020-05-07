@@ -104,6 +104,15 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 value       : ''
             });
 
+            this.txtPlaceholder = new Common.UI.InputField({
+                el          : $('#control-settings-txt-pholder'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : ''
+            });
+
             this.cmbShow = new Common.UI.ComboBox({
                 el: $('#control-settings-combo-show'),
                 cls: 'input-group-nr',
@@ -117,31 +126,18 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.cmbShow.setValue(Asc.c_oAscSdtAppearance.Frame);
 
             this.btnColor = new Common.UI.ColorButton({
-                style: "width:45px;",
-                menu        : new Common.UI.Menu({
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        {
-                            id: 'control-settings-system-color',
-                            caption: this.textSystemColor,
-                            template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #dcdcdc;"></span><%= caption %></a>')
-                        },
-                        {caption: '--'},
-                        { template: _.template('<div id="control-settings-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="control-settings-color-new" style="padding-left:12px;">' + me.textNewColor + '</a>') }
-                    ]
-                })
+                parentEl: $('#control-settings-color-btn'),
+                additionalItems: [{
+                        id: 'control-settings-system-color',
+                        caption: this.textSystemColor,
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #dcdcdc;"></span><%= caption %></a>')
+                    },
+                    {caption: '--'}],
+                additionalAlign: this.menuAddAlign,
+                color: '000000'
             });
-
-            this.btnColor.on('render:after', function(btn) {
-                me.colors = new Common.UI.ThemeColorPalette({
-                    el: $('#control-settings-color-menu')
-                });
-                me.colors.on('select', _.bind(me.onColorsSelect, me));
-            });
-            this.btnColor.render( $('#control-settings-color-btn'));
-            this.btnColor.setColor('000000');
-            this.btnColor.menu.items[3].on('click',  _.bind(this.addNewColor, this, this.colors, this.btnColor));
+            this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
+            this.colors = this.btnColor.getPicker();
             $('#control-settings-system-color').on('click', _.bind(this.onSystemColor, this));
 
             this.btnApplyAll = new Common.UI.Button({
@@ -255,8 +251,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.afterRender();
         },
 
-        onColorsSelect: function(picker, color) {
-            this.btnColor.setColor(color);
+        onColorsSelect: function(btn, color) {
             var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
             clr_item.hasClass('selected') && clr_item.removeClass('selected');
             this.isSystemColor = false;
@@ -264,10 +259,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
         updateThemeColors: function() {
             this.colors.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-        },
-
-        addNewColor: function(picker, btn) {
-            picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
         },
 
         onSystemColor: function(e) {
@@ -299,6 +290,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
                 val = props.get_Tag();
                 this.txtTag.setValue(val ? val : '');
+
+                val = props.get_PlaceholderText();
+                this.txtPlaceholder.setValue(val ? val : '');
 
                 val = props.get_Appearance();
                 (val!==null && val!==undefined) && this.cmbShow.setValue(val);
@@ -390,6 +384,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             var props   = new AscCommon.CContentControlPr();
             props.put_Alias(this.txtName.getValue());
             props.put_Tag(this.txtTag.getValue());
+            props.put_PlaceholderText(this.txtPlaceholder.getValue());
             props.put_Appearance(this.cmbShow.getValue());
 
             if (this.isSystemColor) {
@@ -621,7 +616,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textColor: 'Color',
         textBox: 'Bounding box',
         textNone: 'None',
-        textNewColor: 'Add New Custom Color',
         textApplyAll: 'Apply to All',
         textAppearance: 'Appearance',
         textSystemColor: 'System',
@@ -641,7 +635,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textCheckbox: 'Check box',
         textChecked: 'Checked symbol',
         textUnchecked: 'Unchecked symbol',
-        tipChange: 'Change symbol'
+        tipChange: 'Change symbol',
+        textPlaceholder: 'Placeholder'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });

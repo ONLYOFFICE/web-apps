@@ -142,7 +142,7 @@ define([
             if (record.get('value')>0) {
                 formcontrol[0].innerHTML = '';
                 formcontrol.removeClass('text').addClass('image');
-                formcontrol.css('background-position', '0 -' + record.get('offsety') + 'px');
+                formcontrol.css('background-position', '10px -' + record.get('offsety') + 'px');
             } else {
                 formcontrol[0].innerHTML = this.txtNoBorders;
                 formcontrol.removeClass('image').addClass('text');
@@ -229,7 +229,7 @@ define([
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                 '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding: 2px 0;">',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem" style="padding: 2px 0 2px 10px;">',
                             '<span style="margin-top: 0;"></span>',
                             '<% if (item.offsety!==undefined) { %>',
                                 '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" align="left" style="background-position: 0 -<%= item.offsety %>px;">',
@@ -265,7 +265,7 @@ define([
             var formcontrol = $(this.el).find('.form-control');
             formcontrol[0].innerHTML = '';
             formcontrol.removeClass('text').addClass('image');
-            formcontrol.css('background-position', '0 -' + record.get('offsety') + 'px');
+            formcontrol.css('background-position', '10px -' + record.get('offsety') + 'px');
         }
     }, Common.UI.ComboBorderType || {}));
 

@@ -99,7 +99,7 @@ define([
                         },this),
                         'show': _.bind(function(cmp){
                             var h = this.diagramEditorView.getHeight(),
-                                innerHeight = Common.Utils.innerHeight();
+                                innerHeight = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
                             if (innerHeight>h && h<700 || innerHeight<h) {
                                 h = Math.min(innerHeight, 700);
                                 this.diagramEditorView.setHeight(h);

@@ -76,6 +76,7 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
 
             this.spinners = [];
+            this.totalWidth = 558.7;
             this._noApply = false;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
@@ -84,6 +85,7 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
+            var me = this;
             this.spnColumns = new Common.UI.MetricSpinner({
                 el: $('#custom-columns-spin-num'),
                 step: 1,
@@ -93,6 +95,16 @@ define([
                 value: '1',
                 maxValue: 12,
                 minValue: 1
+            });
+            this.spnColumns.on('change', function(field, newValue, oldValue, eOpts){
+                var space = Common.Utils.Metric.fnRecalcToMM(me.spnSpacing.getNumberValue()),
+                    num = me.spnColumns.getNumberValue();
+                (num<2) && (num = 2);
+                var maxspace = parseFloat(((me.totalWidth-num*12.7)/(num-1)).toFixed(1));
+                me.spnSpacing.setMaxValue(Common.Utils.Metric.fnRecalcFromMM(maxspace));
+                if (space>maxspace) {
+                    me.spnSpacing.setValue(Common.Utils.Metric.fnRecalcFromMM(maxspace), true);
+                }
             });
 
             this.spnSpacing = new Common.UI.MetricSpinner({
@@ -139,9 +151,21 @@ define([
                     num = (equal) ? props.get_Num() : props.get_ColsCount(),
                     space = (equal) ? props.get_Space() : (num>1 ? props.get_Col(0).get_Space() : 12.5);
 
-                this.spnColumns.setValue(num, true);
-                this.spnSpacing.setValue(Common.Utils.Metric.fnRecalcFromMM(space), true);
                 this.chSeparator.setValue(props.get_Sep());
+
+                var total = props.get_TotalWidth(),
+                    minspace = 0.1,
+                    maxcols = parseInt((total+minspace)/(12.7+minspace));
+                this.spnColumns.setMaxValue(maxcols);
+                this.spnColumns.setValue(num, true);
+
+                (num<2) && (num = 2);
+                (num>maxcols) && (num = maxcols);
+                var maxspace = parseFloat(((total-num*12.7)/(num-1)).toFixed(1));
+                this.spnSpacing.setMaxValue(Common.Utils.Metric.fnRecalcFromMM(maxspace));
+                this.spnSpacing.setValue(Common.Utils.Metric.fnRecalcFromMM(space), true);
+
+                this.totalWidth = total;
             }
         },
 

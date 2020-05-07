@@ -64,29 +64,26 @@ define([
                     '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
                         '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
                             '<div class="settings-panel active">',
-                                '<table cols="2" style="width: 100%;">',
+                                '<table cols="1" style="width: 100%;">',
                                     '<tr>',
-                                        '<td colspan=2 class="padding-small">',
+                                        '<td class="padding-small">',
                                             '<label class="header">', me.textName,'</label>',
                                             '<div id="named-range-txt-name" class="input-row" style="width:100%;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td colspan=2 class="padding-small">',
+                                        '<td class="padding-small">',
                                             '<label class="header">', me.textScope,'</label>',
                                             '<div id="named-range-combo-scope" class="input-group-nr" style="width:100%;"></div>',
                                         '</td>',
                                     '</tr>', '<tr>',
-                                        '<td colspan=2 >',
+                                        '<td>',
                                             '<label class="header">', me.textDataRange, '</label>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<div id="named-range-txt-range" class="input-row" style="margin-right: 10px;"></div>',
-                                        '</td>',
-                                        '<td class="padding-small" style="text-align: right;" width="100">',
-                                            '<button type="button" class="btn btn-text-default" id="named-range-btn-data" style="min-width: 100px;width: auto;">', me.textSelectData,'</button>',
+                                            '<div id="named-range-txt-range" class="input-row"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -156,11 +153,12 @@ define([
                 data        : []
             });
 
-            this.txtDataRange = new Common.UI.InputField({
+            this.txtDataRange = new Common.UI.InputFieldBtn({
                 el          : $('#named-range-txt-range'),
                 name        : 'range',
                 style       : 'width: 100%;',
                 allowBlank  : true,
+                btnHint     : this.textSelectData,
                 blankError  : this.txtEmpty,
                 validateOnChange: true,
                 validation  : function(value) {
@@ -171,11 +169,7 @@ define([
                     return (isvalid!==Asc.c_oAscError.ID.DataRangeError || (me.isEdit && me.props.asc_getRef().toLowerCase() == value.toLowerCase())) ? true : me.textInvalidRange;
                 }
             });
-
-            this.btnSelectData = new Common.UI.Button({
-                el: $('#named-range-btn-data')
-            });
-            this.btnSelectData.on('click', _.bind(this.onSelectData, this));
+            this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
             
             this.afterRender();
         },
@@ -212,7 +206,6 @@ define([
                 this.dataRangeValid = val;
 
                 this.txtDataRange.setDisabled(this.isEdit && props.asc_getIsTable());
-                this.btnSelectData.setDisabled(this.isEdit && props.asc_getIsTable());
             } else
                 this.cmbScope.setValue(-255);
 

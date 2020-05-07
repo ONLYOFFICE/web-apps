@@ -143,13 +143,13 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.spinners.push(this.spnHeight);
 
             this.btnRatio = new Common.UI.Button({
+                parentEl: $('#shape-advanced-button-ratio'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
             });
-            this.btnRatio.render($('#shape-advanced-button-ratio')) ;
             this.btnRatio.on('click', _.bind(function(btn, e) {
                 if (btn.pressed && this.spnHeight.getNumberValue()>0) {
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();

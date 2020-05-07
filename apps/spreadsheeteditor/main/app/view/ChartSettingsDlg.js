@@ -115,9 +115,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.btnChartType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
-                iconCls     : 'item-chartlist bar-normal',
+                iconCls     : 'svgicon chart-bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 435px; padding-top: 12px;',
+                    style: 'width: 364px; padding-top: 12px;',
                     additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
@@ -131,7 +131,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
             this.btnChartType.render($('#chart-dlg-button-type'));
@@ -148,18 +148,15 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 ]
             });
 
-            this.txtDataRange = new Common.UI.InputField({
+            this.txtDataRange = new Common.UI.InputFieldBtn({
                 el          : $('#chart-dlg-txt-range'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 validateOnChange: true
             });
-
-            this.btnSelectData = new Common.UI.Button({
-                el: $('#chart-dlg-btn-data')
-            });
-            this.btnSelectData.on('click', _.bind(this.onSelectData, this));
+            this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
 
             this.cmbChartTitle = new Common.UI.ComboBox({
                 el          : $('#chart-dlg-combo-chart-title'),
@@ -737,9 +734,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             // Sparklines
             this.btnSparkType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
-                iconCls     : 'item-chartlist spark-column',
+                iconCls     : 'svgicon chart-spark-column',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 200px; padding-top: 12px;',
+                    style: 'width: 167px; padding-top: 12px;',
                     additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 0 10px;"></div>') }
@@ -753,7 +750,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     restoreHeight: 120,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
             this.btnSparkType.render($('#spark-dlg-button-type'));
@@ -791,33 +788,27 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 name: 'asc-radio-sparkline'
             });
 
-            this.txtSparkDataRange = new Common.UI.InputField({
+            this.txtSparkDataRange = new Common.UI.InputFieldBtn({
                 el          : $('#spark-dlg-txt-range'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 blankError  : this.txtEmpty,
                 validateOnChange: true
             });
+             this.txtSparkDataRange.on('button:click', _.bind(this.onSelectSparkData, this));
 
-            this.btnSelectSparkData = new Common.UI.Button({
-                el: $('#spark-dlg-btn-data')
-            });
-           this.btnSelectSparkData.on('click', _.bind(this.onSelectSparkData, this));
-
-            this.txtSparkDataLocation = new Common.UI.InputField({
+            this.txtSparkDataLocation = new Common.UI.InputFieldBtn({
                 el          : $('#spark-dlg-txt-location'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 blankError  : this.txtEmpty,
                 validateOnChange: true
             });
-
-            this.btnSelectLocationData = new Common.UI.Button({
-                el: $('#spark-dlg-btn-location-data')
-            });
-           this.btnSelectLocationData.on('click', _.bind(this.onSelectLocationData, this));
+           this.txtSparkDataLocation.on('button:click', _.bind(this.onSelectLocationData, this));
              */
 
             this._arrEmptyCells = [
@@ -1025,7 +1016,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 rawData = record;
             }
 
-            this.btnChartType.setIconCls('item-chartlist ' + rawData.iconCls);
+            this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
             this.chartSettings.changeType(rawData.type);
             this.updateAxisProps(rawData.type, true);
             this.vertAxisProps = this.chartSettings.getVertAxisProps();
@@ -1249,7 +1240,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 rawData = record;
             }
 
-            this.btnSparkType.setIconCls('item-chartlist ' + rawData.iconCls);
+            this.btnSparkType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
             if (this._changedProps) {
                 this._changedProps.asc_setType(rawData.type);
             }
@@ -1295,9 +1286,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
                     this.mnuChartTypePicker.selectRecord(record, true);
                     if (record) {
-                        this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                        this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                     } else
-                        this.btnChartType.setIconCls('');
+                        this.btnChartType.setIconCls('svgicon');
 
                     this._noApply = false;
 
@@ -1366,9 +1357,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     var record = this.mnuSparkTypePicker.store.findWhere({type: this._state.SparkType});
                     this.mnuSparkTypePicker.selectRecord(record, true);
                     if (record)
-                        this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                        this.btnSparkType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                     else
-                        this.btnSparkType.setIconCls('');
+                        this.btnSparkType.setIconCls('svgicon');
 
                     this.updateSparkStyles((this.sparklineStyles) ? this.sparklineStyles : props.asc_getStyles());
 
@@ -1521,6 +1512,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         onSelectData: function() {
             var me = this;
             if (me.api) {
+                me.btnChartType.menu.options.additionalAlign = me.menuAddAlign;
+                me.btnSparkType.menu.options.additionalAlign = me.menuAddAlign;
+
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         me.dataRangeValid = dlg.getSettings();
@@ -1720,7 +1714,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textType: 'Type',
         textTypeData: 'Type & Data',
         textStyle: 'Style',
-        textSelectData: 'Select Data',
+        textSelectData: 'Select data',
         textDataSeries: 'Data series',
         errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
         errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',

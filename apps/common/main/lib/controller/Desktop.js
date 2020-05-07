@@ -41,10 +41,16 @@ define([
 ], function () {
     'use strict';
 
+    var native = window.AscDesktopEditor;
+    !!native && native.execCommand('webapps:features', JSON.stringify({
+        version: '{{PRODUCT_VERSION}}',
+        eventloading: true,
+        titlebuttons: true
+    }));
+
     var Desktop = function () {
         var config = {version:'{{PRODUCT_VERSION}}'};
-        var app = window.AscDesktopEditor,
-            webapp = window.DE || window.PE || window.SSE;
+        var webapp = window.DE || window.PE || window.SSE;
         var titlebuttons;
         var btnsave_icons = {
             'btn-save': 'save',
@@ -52,7 +58,7 @@ define([
             'btn-synch': 'synch' };
 
 
-        if ( !!app ) {
+        if ( !!native ) {
             window.on_native_message = function (cmd, param) {
                 if (/^style:change/.test(cmd)) {
                     var obj = JSON.parse(param);
@@ -81,6 +87,13 @@ define([
                                 Common.NotificationCenter.trigger('app:config', {canUndock:true});
                         }
                     }
+
+                    if (_.isNumber(obj.skiptoparea)) {
+                        if ( $('.asc-window.modal').length && $('.asc-window.modal').position().top < obj.skiptoparea )
+                            $('.asc-window.modal').css('top', obj.skiptoparea);
+
+                        Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
+                    }
                 } else
                 if (/window:status/.test(cmd)) {
                     var obj = JSON.parse(param);
@@ -104,7 +117,7 @@ define([
                                 }
                             }
 
-                            app.execCommand('editor:config', JSON.stringify(opts));
+                            native.execCommand('editor:config', JSON.stringify(opts));
                         } else
                         if ( !config.callback_editorconfig ) {
                             config.callback_editorconfig = function() {
@@ -128,14 +141,19 @@ define([
                 }
             };
 
+            window.on_native_message('editor:config', 'request');
             if ( !!window.native_message_cmd ) {
                 for ( var c in window.native_message_cmd ) {
                     window.on_native_message(c, window.native_message_cmd[c]);
                 }
             }
 
-            // app.execCommand('window:features', {version: config.version, action: 'request'});
-            app.execCommand('webapps:features', {version: config.version, eventloading:true, titlebuttons:true});
+            native.execCommand('webapps:features', JSON.stringify({version: config.version, eventloading:true, titlebuttons:true}));
+
+            // hide mask for modal window
+            var style = document.createElement('style');
+            style.appendChild(document.createTextNode('.modals-mask{opacity:0 !important;}'));
+            document.getElementsByTagName('head')[0].appendChild(style);
         }
 
         var _serializeHeaderButton = function(action, config) {
@@ -143,31 +161,30 @@ define([
                 action: action,
                 icon: config.icon || undefined,
                 hint: config.btn.options.hint,
-                disabled: config.disabled
+                disabled: config.btn.isDisabled()
             };
         };
 
         var _onTitleButtonDisabled = function (action, e, status) {
-            titlebuttons[action].disabled = status;
             var _buttons = {};
             _buttons[action] = status;
-            app.execCommand('title:button', JSON.stringify({disabled: _buttons}));
+            native.execCommand('title:button', JSON.stringify({disabled: _buttons}));
         };
 
         var _onSaveIconChanged = function (e, opts) {
-            app.execCommand('title:button', JSON.stringify({'icon:changed': {'save': btnsave_icons[opts.next]}}));
+            native.execCommand('title:button', JSON.stringify({'icon:changed': {'save': btnsave_icons[opts.next]}}));
         };
 
         var _onModalDialog = function (status) {
             if ( status == 'open' ) {
-                app.execCommand('title:button', JSON.stringify({disabled: {'all':true}}));
+                native.execCommand('title:button', JSON.stringify({disabled: {'all':true}}));
             } else {
                 var _buttons = {};
                 for (var i in titlebuttons) {
-                    _buttons[i] = titlebuttons[i].disabled;
+                    _buttons[i] = titlebuttons[i].btn.isDisabled();
                 }
 
-                app.execCommand('title:button', JSON.stringify({'disabled': _buttons}));
+                native.execCommand('title:button', JSON.stringify({'disabled': _buttons}));
             }
         };
 
@@ -178,13 +195,22 @@ define([
                 if ( config.isDesktopApp ) {
                     Common.NotificationCenter.on('app:ready', function (opts) {
                         _.extend(config, opts);
-                        !!app && app.execCommand('doc:onready', '');
+                        !!native && native.execCommand('doc:onready', '');
 
                         $('.toolbar').addClass('editor-native-color');
                     });
 
+                    Common.NotificationCenter.on('document:ready', function () {
+                        if ( config.isEdit ) {
+                            var maincontroller = webapp.getController('Main');
+                            if (maincontroller.api.asc_isReadOnly && maincontroller.api.asc_isReadOnly()) {
+                                maincontroller.warningDocumentIsLocked();
+                            }
+                        }
+                    });
+
                     Common.NotificationCenter.on('action:undocking', function (opts) {
-                        app.execCommand('editor:event', JSON.stringify({action:'undocking', state: opts == 'dock' ? 'dock' : 'undock'}));
+                        native.execCommand('editor:event', JSON.stringify({action:'undocking', state: opts == 'dock' ? 'dock' : 'undock'}));
                     });
 
                     Common.NotificationCenter.on('app:face', function (mode) {
@@ -192,32 +218,37 @@ define([
                             Common.NotificationCenter.trigger('app:config', {canUndock: true});
                         }
 
-                        var header = webapp.getController('Viewport').getView('Common.Views.Header');
                         titlebuttons = {};
-                        if ( !!header.btnSave ) {
-                            titlebuttons['save'] = {btn: header.btnSave, disabled:false};
+                        if ( !mode.isEdit ) {
+                            native.execCommand('webapps:features', JSON.stringify(
+                                    {version: config.version, eventloading:true, titlebuttons:true, viewmode:true} ));
+                        } else {
+                            var header = webapp.getController('Viewport').getView('Common.Views.Header');
+                            if (!!header.btnSave) {
+                                titlebuttons['save'] = {btn: header.btnSave};
 
-                            var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
-                            !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
-                        }
+                                var iconname = /\s?([^\s]+)$/.exec(titlebuttons.save.btn.$icon.attr('class'));
+                                !!iconname && iconname.length && (titlebuttons.save.icon = btnsave_icons[iconname]);
+                            }
 
-                        if ( !!header.btnPrint )
-                            titlebuttons['print'] = {btn: header.btnPrint, disabled:false};
+                            if (!!header.btnPrint)
+                                titlebuttons['print'] = {btn: header.btnPrint};
 
-                        if ( !!header.btnUndo )
-                            titlebuttons['undo'] = {btn: header.btnUndo, disabled:false};
+                            if (!!header.btnUndo)
+                                titlebuttons['undo'] = {btn: header.btnUndo};
 
-                        if ( !!header.btnRedo )
-                            titlebuttons['redo'] = {btn: header.btnRedo,  disabled:false};
+                            if (!!header.btnRedo)
+                                titlebuttons['redo'] = {btn: header.btnRedo};
 
-                        for (var i in titlebuttons) {
-                            titlebuttons[i].btn.options.signals = ['disabled'];
-                            titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
-                        }
+                            for (var i in titlebuttons) {
+                                titlebuttons[i].btn.options.signals = ['disabled'];
+                                titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
+                            }
 
-                        if (!!titlebuttons.save) {
-                            titlebuttons.save.btn.options.signals.push('icon:changed');
-                            titlebuttons.save.btn.on('icon:changed', _onSaveIconChanged.bind(this));
+                            if (!!titlebuttons.save) {
+                                titlebuttons.save.btn.options.signals.push('icon:changed');
+                                titlebuttons.save.btn.on('icon:changed', _onSaveIconChanged.bind(this));
+                            }
                         }
 
                         if ( !!config.callback_editorconfig ) {
@@ -233,19 +264,19 @@ define([
                 }
             },
             process: function (opts) {
-                if ( config.isDesktopApp && !!app ) {
+                if ( config.isDesktopApp && !!native ) {
                     if ( opts == 'goback' ) {
-                        app.execCommand('go:folder',
+                        native.execCommand('go:folder',
                             config.isOffline ? 'offline' : config.customization.goback.url);
                         return true;
                     } else
                     if ( opts == 'preloader:hide' ) {
-                        app.execCommand('editor:onready', '');
+                        native.execCommand('editor:onready', '');
                         return true;
                     } else
                     if ( opts == 'create:new' ) {
                         if (config.createUrl == 'desktop://create.new') {
-                            app.LocalFileCreate(!!window.SSE ? 2 : !!window.PE ? 1 : 0);
+                            native.LocalFileCreate(!!window.SSE ? 2 : !!window.PE ? 1 : 0);
                             return true;
                         }
                     }
@@ -254,8 +285,8 @@ define([
                 return false;
             },
             requestClose: function () {
-                if ( config.isDesktopApp && !!app ) {
-                    app.execCommand('editor:event', JSON.stringify({action:'close', url: config.customization.goback.url}));
+                if ( config.isDesktopApp && !!native ) {
+                    native.execCommand('editor:event', JSON.stringify({action:'close', url: config.customization.goback.url}));
                 }
             }
         };

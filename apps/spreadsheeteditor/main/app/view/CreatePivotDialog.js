@@ -47,7 +47,7 @@ define([
 
     SSE.Views.CreatePivotDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 330,
+            contentWidth: 310,
             height: 250
         },
 
@@ -68,8 +68,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<div id="create-pivot-input-source" class="input-row" style="display: inline-block; vertical-align: middle; margin-right: 10px;width: 213px;"></div>',
-                                            '<button type="button" class="btn btn-text-default" id="create-pivot-btn-source" style="width: 86px;">' + me.textSelectData + '</button>',
+                                            '<div id="create-pivot-input-source" class="input-row" style=""></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -88,9 +87,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td>',
-                                            '<div id="create-pivot-input-dest" class="input-row" style="margin-left: 22px; display: inline-block; vertical-align: middle; margin-right: 10px;width: 191px;"></div>',
-                                            '<button type="button" class="btn btn-text-default" id="create-pivot-btn-dest" style="width: 86px;">' + me.textSelectData + '</button>',
+                                        '<td style="padding-left: 22px;">',
+                                            '<div id="create-pivot-input-dest" class="input-row" style=""></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -122,34 +120,27 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
-            this.txtSourceRange = new Common.UI.InputField({
+            this.txtSourceRange = new Common.UI.InputFieldBtn({
                 el          : $('#create-pivot-input-source'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 validateOnChange: true
             });
+            this.txtSourceRange.on('button:click', _.bind(this.onSelectData, this, 'source'));
 
-            this.btnSelectSource = new Common.UI.Button({
-                el: $('#create-pivot-btn-source')
-            });
-            this.btnSelectSource.on('click', _.bind(this.onSelectData, this, 'source'));
-
-            this.txtDestRange = new Common.UI.InputField({
+            this.txtDestRange = new Common.UI.InputFieldBtn({
                 el          : $('#create-pivot-input-dest'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 validateOnChange: true,
                 validateOnBlur: false,
                 disabled: true
             });
-
-            this.btnSelectDest = new Common.UI.Button({
-                el: $('#create-pivot-btn-dest'),
-                disabled: true
-            });
-            this.btnSelectDest.on('click', _.bind(this.onSelectData, this, 'dest'));
+            this.txtDestRange.on('button:click', _.bind(this.onSelectData, this, 'dest'));
 
             this.radioNew = new Common.UI.RadioBox({
                 el: $('#create-pivot-radio-new'),
@@ -158,7 +149,6 @@ define([
                 checked: true
             }).on('change', function(field, newValue) {
                 me.txtDestRange.setDisabled(newValue);
-                me.btnSelectDest.setDisabled(newValue);
                 me.txtDestRange.showError();
             });
 
@@ -168,7 +158,6 @@ define([
                 name: 'asc-radio-pivot-dest'
             }).on('change', function(field, newValue) {
                 me.txtDestRange.setDisabled(!newValue);
-                me.btnSelectDest.setDisabled(!newValue);
                 me.txtDestRange.cmpEl.find('input').focus();
             });
 
@@ -283,7 +272,7 @@ define([
 
         textTitle: 'Create Table',
         textDataRange: 'Source data range',
-        textSelectData: 'Select',
+        textSelectData: 'Select data',
         textDestination: 'Choose, where to place the table',
         textNew: 'New worksheet',
         textExist: 'Existing worksheet',

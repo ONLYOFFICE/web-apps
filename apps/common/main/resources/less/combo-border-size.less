@@ -16,7 +16,7 @@
         }
 
         img {
-            width:69px;
+            width:60px;
             height:20px;
             background-color: transparent;
         }
@@ -24,5 +24,23 @@
 
     img, .image {
         background: ~"url(@{common-image-const-path}/combo-border-size/BorderSize.png) no-repeat 0 0 #fff";
+
+        @media only screen {
+            //@media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+            //        (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+            //        (min-resolution: 144dpi) and (max-resolution: 191dpi)
+            //{
+            //    background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@1.5x.png)";
+            //    background-size: 60px auto;
+            //}
+
+            @media (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 2dppx),
+            (min-resolution: 192dpi)
+            {
+                background-image: ~"url(@{common-image-const-path}/combo-border-size/BorderSize@2x.png)";
+                background-size: 60px auto;
+            }
+        }
     }
 }

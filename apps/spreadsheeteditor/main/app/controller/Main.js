@@ -149,7 +149,6 @@ define([
                 var me = this;
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
-                this.isModalShowed = 0;
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -216,9 +215,9 @@ define([
                     if (e && e.target && !/area_id/.test(e.target.id)) {
                         if (/msg-reply/.test(e.target.className))
                             me.dontCloseDummyComment = true;
-                        else if (/chat-msg-text/.test(e.target.id))
-                            me.dontCloseChat = true;
-                        else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                        else if (/textarea-control/.test(e.target.className))
+                            me.inTextareaControl = true;
+                        else if (!Common.Utils.ModalWindow.isVisible() && /form-control/.test(e.target.className))
                             me.inFormControl = true;
                     }
                 });
@@ -226,7 +225,7 @@ define([
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (me.isAppDisabled === true || me.isFrameClosed) return;
 
-                    if ((!me.isModalShowed || $('.asc-window.enable-key-events:visible').length>0) && !(me.loadMask && me.loadMask.isVisible())) {
+                    if ((!Common.Utils.ModalWindow.isVisible() || $('.asc-window.enable-key-events:visible').length>0) && !(me.loadMask && me.loadMask.isVisible())) {
                         if (/form-control/.test(e.target.className))
                             me.inFormControl = false;
                         if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
@@ -242,8 +241,8 @@ define([
                             me.api.asc_enableKeyEvents(true);
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = false;
-                            else if (/chat-msg-text/.test(e.target.id))
-                                me.dontCloseChat = false;
+                            else if (/textarea-control/.test(e.target.className))
+                                me.inTextareaControl = false;
                         }
                     }
                 }).on('dragover', function(e) {
@@ -266,30 +265,30 @@ define([
 
                 Common.NotificationCenter.on({
                     'modal:show': function(e){
-                        me.isModalShowed++;
+                        Common.Utils.ModalWindow.show();
                         me.api.asc_enableKeyEvents(false);
                     },
                     'modal:close': function(dlg) {
-                        me.isModalShowed--;
-                        if (!me.isModalShowed)
+                        Common.Utils.ModalWindow.close();
+                        if (!Common.Utils.ModalWindow.isVisible())
                             me.api.asc_enableKeyEvents(true);
                     },
                     'modal:hide': function(dlg) {
-                        me.isModalShowed--;
-                        if (!me.isModalShowed)
+                        Common.Utils.ModalWindow.close();
+                        if (!Common.Utils.ModalWindow.isVisible())
                             me.api.asc_enableKeyEvents(true);
                     },
                     'dataview:focus': function(e){
                     },
                     'dataview:blur': function(e){
-                        if (!me.isModalShowed) {
+                        if (!Common.Utils.ModalWindow.isVisible()) {
                             me.api.asc_enableKeyEvents(true);
                         }
                     },
                     'menu:show': function(e){
                     },
                     'menu:hide': function(menu, isFromInputControl){
-                        if (!me.isModalShowed && (!menu || !menu.cmpEl.hasClass('from-cell-edit')) && !isFromInputControl) {
+                        if (!Common.Utils.ModalWindow.isVisible() && (!menu || !menu.cmpEl.hasClass('from-cell-edit')) && !isFromInputControl) {
                             me.api.asc_InputClearKeyboardElement();
                             me.api.asc_enableKeyEvents(true);
                         }
@@ -565,12 +564,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed && !this.inFormControl)
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.inTextareaControl && !Common.Utils.ModalWindow.isVisible() && !this.inFormControl)
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
@@ -1477,6 +1476,15 @@ define([
                         config.msg = this.errorFTRangeIncludedOtherTables;
                         break;
 
+
+                    case Asc.c_oAscError.ID.RemoveDuplicates:
+                        config.iconCls = 'info';
+                        config.title = Common.UI.Window.prototype.textInformation;
+                        config.buttons  = ['ok'];
+                        config.msg = (errData.asc_getDuplicateValues()!==null && errData.asc_getUniqueValues()!==null) ? Common.Utils.String.format(this.errRemDuplicates, errData.asc_getDuplicateValues(), errData.asc_getUniqueValues()) : this.errNoDuplicates;
+                        config.maxwidth = 600;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1525,7 +1533,7 @@ define([
 
                 if (id == Asc.c_oAscError.ID.EditingError || $('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
                     Common.UI.alert(config);
-                    Common.component.Analytics.trackEvent('Internal Error', id.toString());
+                    (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
                 }
             },
 
@@ -1950,7 +1958,7 @@ define([
                         this.isAppDisabled = data.data;
                         break;
                     case 'queryClose':
-                        if ($('body .asc-window:visible').length === 0) {
+                        if (!Common.Utils.ModalWindow.isVisible()) {
                             this.isFrameClosed = true;
                             this.api.asc_closeCellEditor();
                             Common.UI.Menu.Manager.hideAll();
@@ -2121,7 +2129,7 @@ define([
             },
 
             onPrint: function() {
-                if (!this.appOptions.canPrint || this.isModalShowed) return;
+                if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 Common.NotificationCenter.trigger('print', this);
             },
 
@@ -2154,6 +2162,22 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            warningDocumentIsLocked: function() {
+                var me = this;
+                Common.Utils.warningDocumentIsLocked({
+                    disablefunc: function (disable) {
+                        me.disableEditing(disable);
+
+                        SSE.getController('RightMenu').SetDisabled(disable, true);
+                        SSE.getController('Statusbar').SetDisabled(disable);
+                        SSE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                        SSE.getController('DocumentHolder').SetDisabled(disable, true);
+                        SSE.getController('LeftMenu').setPreviewMode(disable);
+                        var comments = SSE.getController('Common.Controllers.Comments');
+                        if (comments) comments.setPreviewMode(disable);
+                }});
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2519,7 +2543,9 @@ define([
             txtValues: 'Values',
             txtGrandTotal: 'Grand Total',
             txtRowLbls: 'Row Labels',
-            txtColLbls: 'Column Labels'
+            txtColLbls: 'Column Labels',
+            errNoDuplicates: 'No duplicate values found.',
+            errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.'
         }
     })(), SSE.Controllers.Main || {}))
 });

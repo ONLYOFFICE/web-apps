@@ -8,6 +8,12 @@
                 </td>
             </tr>
             <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textPlaceholder %></label>
+                    <div id="control-settings-txt-pholder"></div>
+                </td>
+            </tr>
+            <tr>
                 <td class="padding-large">
                     <label class="input-label"><%= scope.textTag %></label>
                     <div id="control-settings-txt-tag"></div>
@@ -77,7 +83,7 @@
             </tr>
             <tr style="vertical-align: top;">
                 <td class="padding-small">
-                    <div id="control-settings-list" style="width:200px; height: 192px;margin-right: 10px;"></div>
+                    <div id="control-settings-list" style="width:200px; height: 214px;margin-right: 10px;"></div>
                 </td>
                 <td class="padding-small">
                     <button type="button" class="btn btn-text-default" id="control-settings-btn-add" style="min-width: 86px;margin-bottom: 5px;"><%= scope.textAdd %></button>
@@ -105,7 +111,7 @@
             </tr>
             <tr>
                 <td class="padding-small">
-                    <div id="control-settings-format" style="width: 100%; height: 165px;"></div>
+                    <div id="control-settings-format" style="width: 100%; height: 162px;"></div>
                 </td>
             </tr>
             <tr>

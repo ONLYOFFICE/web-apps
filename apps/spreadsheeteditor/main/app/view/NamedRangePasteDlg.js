@@ -67,14 +67,13 @@ define([
                                     '<tr>',
                                         '<td class="padding-small">',
                                             '<label class="input-label">', me.textNames,'</label>',
-                                            '<div id="named-range-paste-list" class="range-tableview" style="width:100%; height: 150px;"></div>',
+                                            '<div id="named-range-paste-list" class="range-tableview" style="width:100%; height: 169px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
                             '</div></div>',
                         '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
+                    '</div>'
                 ].join('')
             }, options);
 

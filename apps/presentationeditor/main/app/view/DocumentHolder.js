@@ -288,6 +288,11 @@ define([
                             event.preventDefault();
                             event.stopPropagation();
                             return false;
+                        } else if (key === 48 || key === 96) {// 0
+                            me.api.zoomFitToPage();
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
                         }
                     }
                     if (me.currentMenu && me.currentMenu.isVisible()) {
@@ -418,6 +423,7 @@ define([
                     /** coauthoring begin **/
                     userTipHide();
                     /** coauthoring end **/
+                    me.mode && me.mode.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
                 },
                 'modal:show': function(e){
                     me.hideTips();
@@ -1505,11 +1511,11 @@ define([
                     me.cmpEl.append(pasteContainer);
 
                     me.btnSpecialPaste = new Common.UI.Button({
+                        parentEl: $('#id-document-holder-btn-special-paste'),
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-paste',
                         menu        : new Common.UI.Menu({items: []})
                     });
-                    me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
                 }
 
                 if (pasteItems.length>0) {
@@ -3512,7 +3518,7 @@ define([
 
             if (!menu) {
                 this.placeholderMenuChart = menu = new Common.UI.Menu({
-                    style: 'width: 435px;',
+                    style: 'width: 364px;',
                     items: [
                         {template: _.template('<div id="id-placeholder-menu-chart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
                     ]
@@ -3534,7 +3540,7 @@ define([
                     // restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
                     me.editChartClick(record.get('type'), me._state.placeholderObj);

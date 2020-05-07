@@ -126,31 +126,73 @@ define([
                     var res = me.api.Cut();
                     if (!res) {
                         _view.hideMenu();
-                        uiApp.modal({
-                            title: me.textCopyCutPasteActions,
-                            text : me.errorCopyCutPaste,
-                            buttons: [{text: 'OK'}]
-                        });
+                        if (!Common.localStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                            uiApp.modal({
+                                title: me.textCopyCutPasteActions,
+                                text: me.errorCopyCutPaste,
+                                afterText: '<label class="label-checkbox item-content no-ripple">' +
+                                    '<input type="checkbox" name="checkbox-show-cut">' +
+                                    '<div class="item-media" style="margin-top: 10px; display: flex; align-items: center;">' +
+                                    '<i class="icon icon-form-checkbox"></i><span style="margin-left: 10px;">' + me.textDoNotShowAgain + '</span>' +
+                                    '</div>' +
+                                    '</label>',
+                                buttons: [{
+                                    text: 'OK',
+                                    onClick: function () {
+                                        var dontshow = $('input[name="checkbox-show-cut"]').prop('checked');
+                                        if (dontshow) Common.localStorage.setItem("de-hide-copy-cut-paste-warning", 1);
+                                    }
+                                }]
+                            });
+                        }
                     }
                 } else if ('copy' == eventName) {
                     var res = me.api.Copy();
                     if (!res) {
                         _view.hideMenu();
-                        uiApp.modal({
-                            title: me.textCopyCutPasteActions,
-                            text : me.errorCopyCutPaste,
-                            buttons: [{text: 'OK'}]
-                        });
+                        if (!Common.localStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                            uiApp.modal({
+                                title: me.textCopyCutPasteActions,
+                                text: me.errorCopyCutPaste,
+                                afterText: '<label class="label-checkbox item-content no-ripple">' +
+                                    '<input type="checkbox" name="checkbox-show-copy">' +
+                                    '<div class="item-media" style="margin-top: 10px; display: flex; align-items: center;">' +
+                                    '<i class="icon icon-form-checkbox"></i><span style="margin-left: 10px;">' + me.textDoNotShowAgain + '</span>' +
+                                    '</div>' +
+                                    '</label>',
+                                buttons: [{
+                                    text: 'OK',
+                                    onClick: function () {
+                                        var dontshow = $('input[name="checkbox-show-copy"]').prop('checked');
+                                        if (dontshow) Common.localStorage.setItem("de-hide-copy-cut-paste-warning", 1);
+                                    }
+                                }]
+                            });
+                        }
                     }
                 } else if ('paste' == eventName) {
                     var res = me.api.Paste();
                     if (!res) {
                         _view.hideMenu();
-                        uiApp.modal({
-                            title: me.textCopyCutPasteActions,
-                            text: me.errorCopyCutPaste,
-                            buttons: [{text: 'OK'}]
-                        });
+                        if (!Common.localStorage.getBool("de-hide-copy-cut-paste-warning")) {
+                            uiApp.modal({
+                                title: me.textCopyCutPasteActions,
+                                text: me.errorCopyCutPaste,
+                                afterText: '<label class="label-checkbox item-content no-ripple">' +
+                                    '<input type="checkbox" name="checkbox-show-paste">' +
+                                    '<div class="item-media" style="margin-top: 10px; display: flex; align-items: center;">' +
+                                    '<i class="icon icon-form-checkbox"></i><span style="margin-left: 10px;">' + me.textDoNotShowAgain + '</span>' +
+                                    '</div>' +
+                                    '</label>',
+                                buttons: [{
+                                    text: 'OK',
+                                    onClick: function () {
+                                        var dontshow = $('input[name="checkbox-show-paste"]').prop('checked');
+                                        if (dontshow) Common.localStorage.setItem("de-hide-copy-cut-paste-warning", 1);
+                                    }
+                                }]
+                            });
+                        }
                     }
                 } else if ('merge' == eventName) {
                     me.api.MergeCells();
@@ -629,7 +671,8 @@ define([
             menuViewComment: 'View Comment',
             menuAddComment: 'Add Comment',
             textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
-            errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only. You cannot copy or paste to or from other applications.'
+            errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only.',
+            textDoNotShowAgain: 'Don\'t show again'
         }
     })(), DE.Controllers.DocumentHolder || {}))
 });

@@ -11,9 +11,9 @@
     </div>
     <div class="separator horizontal padding-large"></div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="1" style="width: 100%;">
             <tr>
-                <td colspan=2 >
+                <td>
                     <label class="header"><%= scope.textDataRange %></label>
                 </td>
             </tr>
@@ -21,12 +21,9 @@
                 <td class="padding-small" width="200">
                     <div id="chart-dlg-txt-range" class="input-row" style="margin-right: 10px;"></div>
                 </td>
-                <td class="padding-small" style="text-align: right;">
-                    <button type="button" class="btn btn-text-default" id="chart-dlg-btn-data" style="min-width: 100px;width: auto;"><%= scope.textSelectData %></button>
-                </td>
             </tr>
             <tr>
-                <td colspan=2 class="padding-small">
+                <td class="padding-small">
                     <label class="input-label"><%= scope.textDataSeries %></label>
                     <div id="chart-dlg-combo-range" class="input-group-nr" style="width:120px;"></div>
                 </td>
@@ -341,11 +338,8 @@
                 <!--</td>-->
             <!--</tr>-->
             <!--<tr>-->
-                <!--<td class="padding-small" width="200">-->
+                <!--<td colspan=2 class="padding-small" width="200">-->
                     <!--<div id="spark-dlg-txt-range" class="input-row" style="margin-right: 10px;"></div>-->
-                <!--</td>-->
-                <!--<td class="padding-small" style="text-align: right;">-->
-                    <!--<button type="button" class="btn btn-text-default" id="spark-dlg-btn-data" style="min-width: 100px;"><%= scope.textSelectData %></button>-->
                 <!--</td>-->
             <!--</tr>-->
             <!--<tr>-->
@@ -354,11 +348,8 @@
                 <!--</td>-->
             <!--</tr>-->
             <!--<tr>-->
-                <!--<td class="padding-large" width="200">-->
+                <!--<td class="padding-large" colspan=2 width="200">-->
                     <!--<div id="spark-dlg-txt-location" class="input-row" style="margin-right: 10px;"></div>-->
-                <!--</td>-->
-                <!--<td class="padding-large" style="text-align: right;">-->
-                    <!--<button type="button" class="btn btn-text-default" id="spark-dlg-btn-location-data" style="min-width: 100px;"><%= scope.textSelectData %></button>-->
                 <!--</td>-->
             <!--</tr>-->
             <!--<tr>-->
