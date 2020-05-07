@@ -42,6 +42,7 @@
   "SSE.Controllers.AddOther.textDeleteDraft": "Do you really want to delete draft?",
   "SSE.Controllers.AddOther.textCancel": "Cancel",
   "SSE.Controllers.AddOther.textContinue": "Continue",
+  "SSE.Controllers.AddOther.textDelete": "Delete",
   "SSE.Controllers.DocumentHolder.menuAddLink": "Add Link",
   "SSE.Controllers.DocumentHolder.menuCell": "Cell",
   "SSE.Controllers.DocumentHolder.menuCopy": "Copy",

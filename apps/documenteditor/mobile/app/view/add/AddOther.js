@@ -162,6 +162,7 @@ define([
             },
 
             renderComment: function(comment) {
+                var me = this;
                 _.delay(function () {
                     var $commentInfo = $('#comment-info');
                     var template = [
@@ -169,11 +170,12 @@ define([
                         '<div class="user-name"><%= comment.username %></div>',
                         '<div class="comment-date"><%= comment.date %></div>',
                         '<% if (android) { %></div></div><% } %>',
-                        '<div class="wrap-textarea"><textarea id="comment-text" class="comment-textarea" autofocus></textarea></div>'
+                        '<div class="wrap-textarea"><textarea id="comment-text" class="comment-textarea" placeholder="<%= textAddComment %>" autofocus></textarea></div>'
                     ].join('');
                     var insert = _.template(template)({
                         android: Framework7.prototype.device.android,
-                        comment: comment
+                        comment: comment,
+                        textAddComment: me.textAddComment
                     });
                     $commentInfo.html(insert);
                     _.defer(function () {

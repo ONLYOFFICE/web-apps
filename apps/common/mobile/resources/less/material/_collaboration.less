@@ -378,20 +378,26 @@
       justify-content: flex-start;
     }
     .user-name {
+      font-size: 17px;
       font-weight: bold;
     }
     .comment-date {
-      font-size: 12px;
+      font-size: 13px;
       color: #6d6d72;
     }
     .wrap-textarea {
       margin-top: 16px;
       padding-right: 6px;
       .comment-textarea {
-        border: 1px solid #c4c4c4;
+        font-size: 17px;
+        border: none;
         margin-top: 0;
         min-height: 100px;
         border-radius: 4px;
+        &::placeholder {
+          color: @gray;
+          font-size: 17px;
+        }
       }
     }
   }

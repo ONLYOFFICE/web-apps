@@ -105,6 +105,7 @@
   "DE.Controllers.AddOther.textDeleteDraft": "Do you really want to delete draft?",
   "DE.Controllers.AddOther.textCancel": "Cancel",
   "DE.Controllers.AddOther.textContinue": "Continue",
+  "DE.Controllers.AddOther.textDelete": "Delete",
   "DE.Controllers.AddTable.textCancel": "Cancel",
   "DE.Controllers.AddTable.textColumns": "Columns",
   "DE.Controllers.AddTable.textRows": "Rows",

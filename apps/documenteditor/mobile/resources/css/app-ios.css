@@ -6603,7 +6603,7 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .page-edit-comment .reply-date,
 .page-add-reply .reply-date,
 .page-edit-reply .reply-date {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 18px;
   color: #6d6d72;
   margin: 0;
@@ -6748,8 +6748,8 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   background: transparent;
   outline: none;
   width: 100%;
-  font-size: 15px;
-  border: 1px solid #c4c4c4;
+  font-size: 17px;
+  border: none;
   border-radius: 3px;
   min-height: 100px;
 }
@@ -6905,11 +6905,14 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 .page-add-comment .wrap-comment .user-name,
 .page-add-comment .wrap-reply .user-name {
   font-weight: bold;
+  font-size: 17px;
+  padding-left: 5px;
 }
 .page-add-comment .wrap-comment .comment-date,
 .page-add-comment .wrap-reply .comment-date {
-  font-size: 12px;
+  font-size: 13px;
   color: #6d6d72;
+  padding-left: 5px;
 }
 .page-add-comment .wrap-comment .wrap-textarea,
 .page-add-comment .wrap-reply .wrap-textarea {
@@ -6918,11 +6921,18 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
 }
 .page-add-comment .wrap-comment .wrap-textarea .comment-textarea,
 .page-add-comment .wrap-reply .wrap-textarea .comment-textarea {
-  border: 1px solid #c4c4c4;
+  font-size: 17px;
+  border: none;
   margin-top: 0;
   min-height: 100px;
   border-radius: 4px;
   width: 100%;
+  padding-left: 5px;
+}
+.page-add-comment .wrap-comment .wrap-textarea .comment-textarea::placeholder,
+.page-add-comment .wrap-reply .wrap-textarea .comment-textarea::placeholder {
+  color: #8e8e93;
+  font-size: 17px;
 }
 .container-add-reply {
   height: 100%;

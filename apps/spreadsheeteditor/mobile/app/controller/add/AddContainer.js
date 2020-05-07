@@ -256,12 +256,8 @@ define([
 
                     var $layoutPages = $('<div class="pages">' +
                                             '<div class="page" data-page="index">' +
-                                                '<div class="page-content">' +
-                                                    '<div class="tabs-animated-wrap">' +
-                                                        '<div class="tabs">' +
+                                                '<div class="page-content tabs">' +
                                                             _arrangePages({pages: layoutAdds}) +
-                                                        '</div>' +
-                                                    '</div>' +
                                                 '</div>' +
                                             '</div>' +
                                         '</div>');

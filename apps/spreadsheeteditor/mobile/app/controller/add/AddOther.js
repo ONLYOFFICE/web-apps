@@ -142,7 +142,8 @@ define([
                                         text: this.textCancel
                                     },
                                     {
-                                        text: this.textContinue,
+                                        text: this.textDelete,
+                                        bold: true,
                                         onClick: function () {
                                             SSE.getController('AddContainer').rootView.router.back();
                                         }
@@ -200,7 +201,8 @@ define([
             txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
             textDeleteDraft: 'Do you really want to delete draft?',
             textCancel: 'Cancel',
-            textContinue: 'Continue'
+            //textContinue: 'Continue',
+            textDelete: 'Delete'
         }
     })(), SSE.Controllers.AddOther || {}))
 });

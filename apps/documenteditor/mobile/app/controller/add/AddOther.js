@@ -179,7 +179,8 @@ define([
                                         text: this.textCancel
                                     },
                                     {
-                                        text: this.textContinue,
+                                        text: this.textDelete,
+                                        bold: true,
                                         onClick: function () {
                                             DE.getController('AddContainer').rootView.router.back();
                                         }
@@ -188,7 +189,7 @@ define([
                         } else {
                             DE.getController('AddContainer').rootView.router.back();
                         }
-                    }, this))
+                    }, this));
                 }
             },
 
@@ -457,7 +458,8 @@ define([
             textBelowText: 'Below Text',
             textDeleteDraft: 'Do you really want to delete draft?',
             textCancel: 'Cancel',
-            textContinue: 'Continue'
+            //textContinue: 'Continue',
+            textDelete: 'Delete'
 
         }
     })(), DE.Controllers.AddOther || {}))

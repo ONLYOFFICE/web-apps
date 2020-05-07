@@ -355,7 +355,7 @@ define([
                     '<div class="user-name">' + name + '</div>' +
                     '<div class="comment-date">' + date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
-                    '<div><textarea class="reply-textarea">' + '</textarea></div>' +
+                    '<div><textarea class="reply-textarea" placeholder="' + this.textAddReply + '"></textarea></div>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +

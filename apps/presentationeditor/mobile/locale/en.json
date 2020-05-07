@@ -50,6 +50,7 @@
   "PE.Controllers.AddOther.textDeleteDraft": "Do you really want to delete draft?",
   "PE.Controllers.AddOther.textCancel": "Cancel",
   "PE.Controllers.AddOther.textContinue": "Continue",
+  "PE.Controllers.AddOther.textDelete": "Delete",
   "PE.Controllers.DocumentHolder.menuAddLink": "Add Link",
   "PE.Controllers.DocumentHolder.menuCopy": "Copy",
   "PE.Controllers.DocumentHolder.menuCut": "Cut",
