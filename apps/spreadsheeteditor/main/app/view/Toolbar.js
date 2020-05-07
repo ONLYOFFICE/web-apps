@@ -221,7 +221,8 @@ define([
                             {caption: '--'},
                             {
                                 caption: me.txtAdditional,
-                                value: 'more'
+                                value: 'more',
+                                hint: me.txtFormula + Common.Utils.String.platformKey('Shift+F3')
                             }
                         ]
                     })
@@ -888,7 +889,8 @@ define([
                             {caption: '--'},
                             {
                                 caption: me.txtAdditional,
-                                value: 'more'
+                                value: 'more',
+                                hint: me.txtFormula + Common.Utils.String.platformKey('Shift+F3')
                             }
                         ]
                     })
@@ -1665,7 +1667,7 @@ define([
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
-            _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula]);
+            _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula + Common.Utils.String.platformKey('Shift+F3')]);
             _updateHint(this.btnNamedRange, this.txtNamedRange);
             _updateHint(this.btnClearStyle, this.tipClearStyle);
             _updateHint(this.btnCopyStyle, this.tipCopyStyle);
