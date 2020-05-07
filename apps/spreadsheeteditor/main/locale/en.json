@@ -1737,6 +1737,8 @@
   "SSE.Views.FormulaDialog.textGroupDescription": "Select Function Group",
   "SSE.Views.FormulaDialog.textListDescription": "Select Function",
   "SSE.Views.FormulaDialog.txtTitle": "Insert Function",
+  "SSE.Views.FormulaDialog.txtSearch": "Search",
+  "SSE.Views.FormulaDialog.txtRecommended": "Recommended",
   "SSE.Views.FormulaTab.textAutomatic": "Automatic",
   "SSE.Views.FormulaTab.textCalculateCurrentSheet": "Calculate current sheet",
   "SSE.Views.FormulaTab.textCalculateWorkbook": "Calculate workbook",
