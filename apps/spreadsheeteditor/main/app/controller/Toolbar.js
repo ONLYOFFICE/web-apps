@@ -58,7 +58,8 @@ define([
     'spreadsheeteditor/main/app/view/PageMarginsDialog',
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
-    'spreadsheeteditor/main/app/view/ScaleDialog'
+    'spreadsheeteditor/main/app/view/ScaleDialog',
+    'spreadsheeteditor/main/app/view/CellsAddDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -1533,6 +1534,46 @@ define([
                             if (controller) {
                                 controller.showDialog();
                             }
+                        }
+
+                        return false;
+                    },
+                    'command+shift+=,ctrl+shift+=': function(e) {
+                        if (me.editMode && !me.toolbar.btnAddCell.isDisabled()) {
+                            var items = me.toolbar.btnAddCell.menu.items,
+                                arr = [];
+                            for (var i=0; i<4; i++)
+                                arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
+                            (new SSE.Views.CellsAddDialog({
+                                title: me.txtInsertCells,
+                                items: arr,
+                                handler: function (dlg, result) {
+                                    if (result=='ok') {
+                                        me.api.asc_insertCells(dlg.getSettings());
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            })).show();
+                        }
+
+                        return false;
+                    },
+                    'command+shift+-,ctrl+shift+-': function(e) {
+                        if (me.editMode && !me.toolbar.btnDeleteCell.isDisabled()) {
+                            var items = me.toolbar.btnDeleteCell.menu.items,
+                                arr = [];
+                            for (var i=0; i<4; i++)
+                                arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
+                            (new SSE.Views.CellsAddDialog({
+                                title: me.txtDeleteCells,
+                                items: arr,
+                                handler: function (dlg, result) {
+                                    if (result=='ok') {
+                                        me.api.asc_deleteCells(dlg.getSettings());
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            })).show();
                         }
 
                         return false;
@@ -3851,7 +3892,9 @@ define([
         txtTable_TableStyleMedium: 'Table Style Medium',
         txtTable_TableStyleDark: 'Table Style Dark',
         txtTable_TableStyleLight: 'Table Style Light',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        txtInsertCells: 'Insert Cells',
+        txtDeleteCells: 'Delete Cells'
 
     }, SSE.Controllers.Toolbar || {}));
 });
