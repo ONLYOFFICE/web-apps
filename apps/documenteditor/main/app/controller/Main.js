@@ -414,6 +414,7 @@ define([
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
+                    docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
 //                    docInfo.put_Review(this.permissions.review);
 
                     var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
