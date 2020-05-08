@@ -1741,7 +1741,7 @@ define([
                     isintable = (formatTableInfo !== null),
                     ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
-                documentHolder.ssMenu.cellColor = cellinfo.asc_getFill().asc_getColor();
+                documentHolder.ssMenu.cellColor = cellinfo.asc_getFillColor();
                 documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
 
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);

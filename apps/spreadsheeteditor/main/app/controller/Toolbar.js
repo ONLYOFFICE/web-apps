@@ -2156,7 +2156,7 @@ define([
 
             /* read cell background color */
             if (!toolbar.btnBackColor.ischanged && !paragraphColorPicker.isDummy) {
-                color = info.asc_getFill().asc_getColor();
+                color = info.asc_getFillColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
