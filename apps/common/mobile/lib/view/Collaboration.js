@@ -152,12 +152,14 @@ define([
             //Comments
 
             sliceQuote: function(text) {
-                var sliced = text.slice(0,100);
-                if (sliced.length < text.length) {
-                    sliced += '...';
-                    return sliced;
+                if (text) {
+                    var sliced = text.slice(0, 100);
+                    if (sliced.length < text.length) {
+                        sliced += '...';
+                        return sliced;
+                    }
+                    return text;
                 }
-                return text;
             },
 
             renderViewComments: function(comments, indCurComment) {
@@ -318,7 +320,7 @@ define([
                     '<div class="user-name">' + name + '</div>' +
                     '<div class="comment-date">' + date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
-                    '<div><textarea class="reply-textarea">' + '</textarea></div>' +
+                    '<div><textarea class="reply-textarea" placeholder="' + this.textAddReply + '">' + '</textarea></div>' +
                     '</div>';
                 $pageAdd.html(_.template(template));
             },
