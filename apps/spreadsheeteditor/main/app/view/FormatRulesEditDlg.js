@@ -784,11 +784,18 @@ define([
                 subtype = this.subtype;
 
             var setColor = function(color, control) {
-                color = Common.Utils.ThemeColor.colorValue2EffectId(color);
+                if (color) {
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                        color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                    } else {
+                        color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                    }
+
+                }
                 control.setColor(color);
                 if (_.isObject(color)) {
                     var isselected = false;
-                    for (var j = 0; j < 10; j++) {
+                    for (var i = 0; i < 10; i++) {
                         if (Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue) {
                             control.colorPicker.select(color, true);
                             isselected = true;
@@ -847,7 +854,7 @@ define([
                         for (var i=0; i<scales.length; i++) {
                             var scaletype = scales[i].asc_getType(),
                                 val =  scales[i].asc_getVal(),
-                                color = Common.Utils.ThemeColor.colorValue2EffectId(colors[i]),
+                                color = colors[i],
                                 controls = arr[i];
                             controls.combo.setValue(scaletype);
                             controls.range.setDisabled(scaletype == Asc.c_oAscCfvoType.Minimum || scaletype == Asc.c_oAscCfvoType.Maximum);
