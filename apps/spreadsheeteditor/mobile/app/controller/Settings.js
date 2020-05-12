@@ -595,7 +595,7 @@ define([
                 $r1c1Style.single('change',    _.bind(me.clickR1C1Style, me));
 
                 //init Commenting Display
-                var displayComments = Common.localStorage.getBool("sse-settings-livecomment", true);
+                var displayComments = Common.localStorage.getBool("sse-mobile-settings-livecomment", true);
                 $('#settings-display-comments input:checkbox').attr('checked', displayComments);
                 $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
                 var displayResolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
@@ -619,11 +619,11 @@ define([
                     this.api.asc_showComments(resolved);
                     $("#settings-display-resolved").removeClass("disabled");
                 }
-                Common.localStorage.setBool("sse-settings-livecomment", displayComments);
+                Common.localStorage.setBool("sse-mobile-settings-livecomment", displayComments);
             },
 
             onChangeDisplayResolved: function(e) {
-                var displayComments = Common.localStorage.getBool("sse-settings-livecomment");
+                var displayComments = Common.localStorage.getBool("sse-mobile-settings-livecomment");
                 if (displayComments) {
                     var resolved = $(e.currentTarget).is(':checked');
                     if (this.api) {

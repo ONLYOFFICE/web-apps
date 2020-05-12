@@ -45,6 +45,7 @@ define([
     DE.Views.StyleTitleDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,
+            height: 196,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             buttons: ['ok', 'cancel']

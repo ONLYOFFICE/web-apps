@@ -1741,7 +1741,7 @@ define([
                     isintable = (formatTableInfo !== null),
                     ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
-                documentHolder.ssMenu.cellColor = cellinfo.asc_getFill().asc_getColor();
+                documentHolder.ssMenu.cellColor = cellinfo.asc_getFillColor();
                 documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
 
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);
@@ -2058,7 +2058,7 @@ define([
                         name = menuItem.asc_getName(true),
                         origname = me.api.asc_getFormulaNameByLocale(name),
                         mnu = new Common.UI.MenuItem({
-                            iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
+                            iconCls: 'menu__icon ' + ((type==Asc.c_oAscPopUpSelectorType.Func) ? 'btn-function': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'btn-menu-table' : 'btn-named-range')) ,
                             caption: name,
                             hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
@@ -2223,8 +2223,8 @@ define([
                     this.documentHolder.cmpEl.append(inputtip.parentEl);
                 }
 
-                var hint = title ? ('<b>' + (title || '') + '</b><br>') : '';
-                hint += (message || '');
+                var hint = title ? ('<b>' + (Common.Utils.String.htmlEncode(title || '')) + '</b><br>') : '';
+                hint += (Common.Utils.String.htmlEncode(message || ''));
 
                 if (inputtip.ref && inputtip.ref.isVisible()) {
                     if (inputtip.text != hint) {
@@ -2259,7 +2259,8 @@ define([
 
                 inputtip.ref.getBSTip().$tip.css({
                     top : showPoint[1] + 'px',
-                    left: showPoint[0] + 'px'
+                    left: showPoint[0] + 'px',
+                    'z-index': 900
                 });
             } else {
                 if (!inputtip.isHidden && inputtip.ref) {

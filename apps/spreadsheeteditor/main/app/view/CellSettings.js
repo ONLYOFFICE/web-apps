@@ -451,7 +451,7 @@ define([
                     this.spnAngle.setValue((value !== null) ? value : '', true);
                     this._state.CellAngle = value;
                 }
-                this.fill = props.asc_getFill2();
+                this.fill = props.asc_getFill();
                 if (this.fill) {
                     this.pattern = this.fill.asc_getPatternFill();
                     this.gradient = this.fill.asc_getGradientFill();

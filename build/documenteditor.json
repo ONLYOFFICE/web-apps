@@ -415,7 +415,8 @@
                 }
             ],
             "index-page": {
-                "../deploy/web-apps/apps/documenteditor/embed/index.html": "../apps/documenteditor/embed/index.html.deploy"
+                "../deploy/web-apps/apps/documenteditor/embed/index.html": "../apps/documenteditor/embed/index.html.deploy",
+                "../deploy/web-apps/apps/documenteditor/embed/index_loader.html": "../apps/documenteditor/embed/index_loader.html.deploy"
             },
             "images-app": [
                 {
