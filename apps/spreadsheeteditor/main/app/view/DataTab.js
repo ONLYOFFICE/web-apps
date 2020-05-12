@@ -115,6 +115,7 @@ define([
                     _set = SSE.enumLock;
 
                 this.btnGroup = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-group'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-cell-group',
                     caption: this.capBtnGroup,
@@ -123,10 +124,10 @@ define([
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
-                Common.Utils.injectComponent($host.find('#slot-btn-group'), this.btnGroup);
                 this.lockedControls.push(this.btnGroup);
 
                 this.btnUngroup = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-ungroup'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-cell-ungroup',
                     caption: this.capBtnUngroup,
@@ -135,10 +136,10 @@ define([
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
-                Common.Utils.injectComponent($host.find('#slot-btn-ungroup'), this.btnUngroup);
                 this.lockedControls.push(this.btnUngroup);
 
                 this.btnTextToColumns = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-text-column'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-to-columns',
                     caption: this.capBtnTextToCol,
@@ -146,7 +147,6 @@ define([
                     disabled: true,
                     lock: [_set.multiselect, _set.multiselectCols, _set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth]
                 });
-                Common.Utils.injectComponent($host.find('#slot-btn-text-column'), this.btnTextToColumns);
                 this.lockedControls.push(this.btnTextToColumns);
 
                 // this.btnShow = new Common.UI.Button({
@@ -170,23 +170,23 @@ define([
                 // this.lockedControls.push(this.btnHide);
 
                 this.btnRemoveDuplicates = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-rem-duplicates'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-remove-duplicates',
                     caption: this.capBtnTextRemDuplicates,
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock]
                 });
-                Common.Utils.injectComponent($host.find('#slot-btn-rem-duplicates'), this.btnRemoveDuplicates);
                 this.lockedControls.push(this.btnRemoveDuplicates);
 
                 this.btnCustomSort = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-custom-sort'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-custom-sort',
                     caption: this.capBtnTextCustomSort,
                     disabled: true,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.ruleFilter, _set.editPivot, _set.cantModifyFilter, _set.sheetLock]
                 });
-                Common.Utils.injectComponent($host.find('#slot-btn-custom-sort'), this.btnCustomSort);
                 this.lockedControls.push(this.btnCustomSort);
 
                 this.btnsSortDown = Common.Utils.injectButtons($host.find('.slot-sortdesc'), '', 'toolbar__icon btn-sort-down', '',

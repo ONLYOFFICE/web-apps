@@ -132,32 +132,32 @@ define([
                 Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
 
                 this.btnContentsUpdate = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-contents-update'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-contents-update',
+                    iconCls: 'toolbar__icon btn-update',
                     caption: this.capBtnContentsUpdate,
                     split: true,
                     menu: true,
                     disabled: true
                 });
-                Common.Utils.injectComponent($host.find('#slot-btn-contents-update'), this.btnContentsUpdate);
                 this.paragraphControls.push(this.btnContentsUpdate);
 
                 this.btnBookmarks = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-bookmarks'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-bookmarks',
                     caption: this.capBtnBookmarks,
                     disabled: true
                 });
-                Common.Utils.injectComponent($host.find('#slot-btn-bookmarks'), this.btnBookmarks);
                 this.paragraphControls.push(this.btnBookmarks);
 
                 this.btnCaption = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-caption'),
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-caption',
                     caption: this.capBtnCaption,
                     disabled: true
                 });
-                Common.Utils.injectComponent($host.find('#slot-btn-caption'), this.btnCaption);
                 this.paragraphControls.push(this.btnCaption);
 
                 this._state = {disabled: false};

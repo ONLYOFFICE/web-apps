@@ -139,7 +139,6 @@ define([
             me.documentHolder.render();
             me.documentHolder.el.tabIndex = -1;
 
-            $(document).on('mousewheel',    _.bind(me.onDocumentWheel, me));
             $(document).on('mousedown',     _.bind(me.onDocumentRightDown, me));
             $(document).on('mouseup',       _.bind(me.onDocumentRightUp, me));
             $(document).on('keydown',       _.bind(me.onDocumentKeyDown, me));
@@ -151,6 +150,7 @@ define([
             Common.NotificationCenter.on({
                 'window:show': function(e){
                     me.hideHyperlinkTip();
+                    me.permissions && me.permissions.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
                 },
                 'modal:show': function(e){
                     me.hideCoAuthTips();
@@ -243,8 +243,11 @@ define([
                 view.menuSignatureRemove.on('click',                _.bind(me.onSignatureClick, me));
             }
 
-            var documentHolderEl = view.cmpEl;
+            var addEvent = function( elem, type, fn, options ) {
+                elem.addEventListener ? elem.addEventListener( type, fn, options) : elem.attachEvent( "on" + type, fn );
+            };
 
+            var documentHolderEl = view.cmpEl;
             if (documentHolderEl) {
                 documentHolderEl.on({
                     mousedown: function(e) {
@@ -256,23 +259,23 @@ define([
                         if (me.api) {
                             me.api.isTextAreaBlur = false;
                             if (e.target.localName == 'canvas' && !me.isEditFormula) {
-                                documentHolderEl.focus();
+                                if (me._preventClick)
+                                    me._preventClick = false;
+                                else
+                                    documentHolderEl.focus();
                             }
                         }
                     }
                 });
 
                 //NOTE: set mouse wheel handler
-
-                var addEvent = function( elem, type, fn ) {
-                    elem.addEventListener ? elem.addEventListener( type, fn, false ) : elem.attachEvent( "on" + type, fn );
-                };
-
                 var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
-                addEvent(view.el, eventname, _.bind(this.onDocumentWheel,this));
+                addEvent(view.el, eventname, _.bind(this.onDocumentWheel,this), false);
 
                 me.cellEditor = $('#ce-cell-content');
             }
+            Common.Utils.isChrome ? addEvent(document, 'mousewheel', _.bind(this.onDocumentWheel,this), { passive: false } ) :
+                                    $(document).on('mousewheel',    _.bind(this.onDocumentWheel, this));
         },
 
         loadConfig: function(data) {
@@ -304,7 +307,8 @@ define([
                 this.api.asc_registerCallback('asc_onSetAFDialog',          _.bind(this.onApiAutofilter, this));
                 this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
                 this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
-                this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this)); // Alt + Down
+                this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this, false)); // Alt + Down
+                this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onEntriesListMenu, this, true));
                 this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onFormulaCompleteMenu, this));
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
@@ -1043,7 +1047,7 @@ define([
                             linkstr = props.asc_getHyperlinkUrl() + '<br><b>' + me.textCtrlClick + '</b>';
                         }
                     } else {
-                        linkstr = props.asc_getTooltip() || (props.asc_getLocation());
+                        linkstr = Common.Utils.String.htmlEncode(props.asc_getTooltip() || (props.asc_getLocation()));
                         linkstr += '<br><b>' + me.textCtrlClick + '</b>';
                     }
 
@@ -1292,8 +1296,9 @@ define([
                 me.tooltips.filter.text = '';
                 me.tooltips.filter.isHidden = true;
             }
-            if (me.permissions.isEdit && !me.dlgFilter) {
-                me.dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
+            if (me.permissions.isEdit) {
+                if (!me.dlgFilter) {
+                    me.dlgFilter = new SSE.Views.AutoFilterDialog({api: this.api}).on({
                         'close': function () {
                             if (me.api) {
                                 me.api.asc_enableKeyEvents(true);
@@ -1302,23 +1307,25 @@ define([
                         }
                     });
 
-                if (me.api) {
-                    me.api.asc_enableKeyEvents(false);
-                }
+                    if (me.api) {
+                        me.api.asc_enableKeyEvents(false);
+                    }
 
-                Common.UI.Menu.Manager.hideAll();
-                me.dlgFilter.setSettings(config);
-                var offset = me.documentHolder.cmpEl.offset(),
-                    rect = config.asc_getCellCoord(),
-                    x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
-                    y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
-                var docwidth = Common.Utils.innerWidth(),
-                    docheight = Common.Utils.innerHeight();
-                if (x+me.dlgFilter.options.width > docwidth)
-                    x = docwidth - me.dlgFilter.options.width - 5;
-                if (y+me.dlgFilter.options.height > docheight)
-                    y = docheight - me.dlgFilter.options.height - 5;
-                me.dlgFilter.show(x, y);
+                    Common.UI.Menu.Manager.hideAll();
+                    me.dlgFilter.setSettings(config);
+                    var offset = me.documentHolder.cmpEl.offset(),
+                        rect = config.asc_getCellCoord(),
+                        x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
+                        y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
+                    var docwidth = Common.Utils.innerWidth(),
+                        docheight = Common.Utils.innerHeight();
+                    if (x+me.dlgFilter.options.width > docwidth)
+                        x = docwidth - me.dlgFilter.options.width - 5;
+                    if (y+me.dlgFilter.options.height > docheight)
+                        y = docheight - me.dlgFilter.options.height - 5;
+                    me.dlgFilter.show(x, y);
+                } else
+                    me.dlgFilter.close();
             }
         },
 
@@ -1955,12 +1962,17 @@ define([
             }
         },
 
-        onEntriesListMenu: function(textarr) {
+        onEntriesListMenu: function(validation, textarr, addarr) {
             if (textarr && textarr.length>0) {
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
                     menu                = documentHolderView.entriesMenu,
                     menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
+
+                if (validation && menu.isVisible()) {
+                    menu.hide();
+                    return;
+                }
 
                 for (var i = 0; i < menu.items.length; i++) {
                     menu.removeItem(menu.items[i]);
@@ -1969,9 +1981,11 @@ define([
 
                 _.each(textarr, function(menuItem, index) {
                     var mnu = new Common.UI.MenuItem({
-                        caption     : menuItem
+                        caption     : menuItem,
+                        value       : addarr ? addarr[index] : menuItem,
+                        style: (typeof menuItem == 'string' && _.isEmpty(menuItem.trim())) ? 'min-height: 25px;' : ''
                     }).on('click', function(item, e) {
-                        me.api.asc_insertFormula(item.caption, Asc.c_oAscPopUpSelectorType.None, false );
+                        me.api.asc_insertFormula(item.value, Asc.c_oAscPopUpSelectorType.None, false );
                     });
                     menu.addItem(mnu);
                 });
@@ -1994,6 +2008,8 @@ define([
                     showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
                 menuContainer.css({left: showPoint[0], top : showPoint[1]});
 
+                me._preventClick = validation;
+                validation && menuContainer.attr('data-value', 'prevent-canvas-click');
                 menu.show();
 
                 menu.alignPosition();
@@ -2002,7 +2018,7 @@ define([
                 }, 10);
             } else {
                 this.documentHolder.entriesMenu.hide();
-                Common.UI.warning({
+                !validation && Common.UI.warning({
                     title: this.notcriticalErrorTitle,
                     maxwidth: 600,
                     msg  : this.txtNoChoices,
@@ -2291,11 +2307,11 @@ define([
                 documentHolderView.cmpEl.append(pasteContainer);
 
                 me.btnSpecialPaste = new Common.UI.Button({
+                    parentEl: $('#id-document-holder-btn-special-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
-                me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
             }
 
             if (pasteItems.length>0) {
@@ -2463,11 +2479,11 @@ define([
                 documentHolderView.cmpEl.append(pasteContainer);
 
                 me.btnAutoCorrectPaste = new Common.UI.Button({
+                    parentEl: $('#id-document-holder-btn-autocorrect-paste'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paste',
                     menu        : new Common.UI.Menu({items: []})
                 });
-                me.btnAutoCorrectPaste.render($('#id-document-holder-btn-autocorrect-paste')) ;
             }
 
             if (pasteItems.length>0) {

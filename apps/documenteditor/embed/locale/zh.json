@@ -12,6 +12,8 @@
   "DE.ApplicationController.errorAccessDeny": "您正在尝试执行您没有权限的操作。<br>请联系您的文档服务器管理员.",
   "DE.ApplicationController.errorDefaultMessage": "错误代码：%1",
   "DE.ApplicationController.errorFilePassProtect": "该文档受密码保护，无法被打开。",
+  "DE.ApplicationController.errorFileSizeExceed": "文件大小超出了为服务器设置的限制.<br>有关详细信息，请与文档服务器管理员联系。",
+  "DE.ApplicationController.errorUpdateVersionOnDisconnect": "网连接已还原文件版本已更改。.<br>在继续工作之前，需要下载文件或复制其内容以确保没有丢失任何内容，然后重新加载此页。",
   "DE.ApplicationController.errorUserDrop": "该文件现在无法访问。",
   "DE.ApplicationController.notcriticalErrorTitle": "警告",
   "DE.ApplicationController.scriptLoadError": "连接速度过慢，部分组件无法被加载。请重新加载页面。",

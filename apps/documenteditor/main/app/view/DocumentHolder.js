@@ -422,6 +422,8 @@ define([
                     /** coauthoring begin **/
                     userTipHide();
                     /** coauthoring end **/
+                    me.mode && me.mode.isDesktopApp && me.api && me.api.asc_onShowPopupWindow();
+
                 },
                 'modal:show': function(e){
                     me.hideTips();
@@ -637,11 +639,11 @@ define([
                     me.cmpEl.append(pasteContainer);
 
                     me.btnSpecialPaste = new Common.UI.Button({
+                        parentEl: $('#id-document-holder-btn-special-paste'),
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-paste',
                         menu        : new Common.UI.Menu({items: []})
                     });
-                    me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
                 }
 
                 if (pasteItems.length>0) {

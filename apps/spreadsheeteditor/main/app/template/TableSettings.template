@@ -80,6 +80,11 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-rem-duplicates" style="width:100%;"><%= scope.textRemDuplicates %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>

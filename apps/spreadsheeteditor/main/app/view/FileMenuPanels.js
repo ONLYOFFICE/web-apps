@@ -472,12 +472,12 @@ define([
             });
 
             this.btnPresetsTop = new Common.UI.Button({
+                parentEl: $markup.findById('#advsettings-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 85px;',
                 menu: true
             });
-            this.btnPresetsTop.render( $markup.findById('#advsettings-presets-top')) ;
 
             this.txtRangeLeft = new Common.UI.InputField({
                 el          : $markup.findById('#advsettings-txt-left'),
@@ -487,12 +487,12 @@ define([
             });
 
             this.btnPresetsLeft = new Common.UI.Button({
+                parentEl: $markup.findById('#advsettings-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.textRepeat,
                 style: 'width: 85px;',
                 menu: true
             });
-            this.btnPresetsLeft.render( $markup.findById('#advsettings-presets-left')) ;
 
             this.btnOk = new Common.UI.Button({
                 el: $markup.findById('#advsettings-print-button-save')
@@ -1324,9 +1324,13 @@ define([
                 store: new Common.UI.DataViewStore(this.recent),
                 itemTemplate: _.template([
                     '<div class="recent-wrap">',
-                        '<div class="recent-icon"></div>',
-                        '<div class="file-name"><%= Common.Utils.String.htmlEncode(title) %></div>',
-                        '<div class="file-info"><%= Common.Utils.String.htmlEncode(folder) %></div>',
+                        '<div class="recent-icon"',
+                        '<% if ((typeof image !== "undefined") && !_.isEmpty(image)) { %> ',
+                        ' style="background-image: url(<%= image %>);background-position: center;"',
+                        '<% } %>',
+                        '></div>',
+                        '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
+                        '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -1378,13 +1382,13 @@ define([
                 '<% _.each(docs, function(item) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
                         '<div class="thumb"',
-                            '<% if (!_.isEmpty(item.icon)) { ' +
-                                'print(\" style=\'background-image: url(item.icon);\'>\")' +
-                            ' } else { ' +
+                            '<% if (!_.isEmpty(item.image)) { %> ',
+                            ' style="background-image: url(<%= item.image %>);">',
+                            '<% } else { ' +
                                 'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
                             ' } %>',
                         '</div>',
-                        '<div class="title"><%= item.name %></div>',
+                        '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
                     '</div>',
                 '<% }) %>',
             '</div>'

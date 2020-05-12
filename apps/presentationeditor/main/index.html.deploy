@@ -239,6 +239,7 @@
         window.parentOrigin = params["parentOrigin"];
 
         if ( window.AscDesktopEditor ) {
+            window.desktop = window.AscDesktopEditor;
             window.on_native_message = function (cmd, param) {
                 !window.native_message_cmd && (window.native_message_cmd = []);
                 window.native_message_cmd[cmd] = param;
@@ -265,6 +266,12 @@
     <div id="viewport"></div>
 
     <script>
+        if ( window.desktop ) {
+            var logo = document.getElementsByClassName('loading-logo');
+            if ( !!logo && logo.length ) {
+                logo[0].setAttribute('style','display:none;');
+            }
+        }
         var params = getUrlParams(),
             notoolbar = params["toolbar"] == 'false',
             compact = params["compact"] == 'true',
@@ -331,6 +338,7 @@
     <inline src="resources/img/doc-formats/otp.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
+    <inline src="resources/img/toolbar/charttypes.svg" />
 
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 

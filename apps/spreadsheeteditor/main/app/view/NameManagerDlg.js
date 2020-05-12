@@ -52,8 +52,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
     SSE.Views.NameManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'NameManagerDlg',
-            contentWidth: 510,
-            height: 351,
+            contentWidth: 525,
+            height: 353,
             buttons: null
         },
 
@@ -123,8 +123,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                         '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":"btn-named-range") %>"></div>',
                             '<div style="width:141px;padding-right: 5px;"><%= name %></div>',
-                            '<div style="width:94px;padding-right: 5px;"><%= scopeName %></div>',
-                            '<div style="width:212px;"><%= range %></div>',
+                            '<div style="width:117px;padding-right: 5px;"><%= scopeName %></div>',
+                            '<div style="width:204px;"><%= range %></div>',
                             '<% if (lock) { %>',
                                 '<div class="lock-user"><%=lockuser%></div>',
                             '<% } %>',

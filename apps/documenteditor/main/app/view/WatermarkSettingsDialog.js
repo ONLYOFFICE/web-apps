@@ -265,39 +265,39 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.textControls.push(this.cmbFontSize);
 
             this.btnBold = new Common.UI.Button({
+                parentEl: $('#watermark-bold'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: this.textBold
             });
-            this.btnBold.render($('#watermark-bold')) ;
             this.textControls.push(this.btnBold);
 
             this.btnItalic = new Common.UI.Button({
+                parentEl: $('#watermark-italic'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: this.textItalic
             });
-            this.btnItalic.render($('#watermark-italic')) ;
             this.textControls.push(this.btnItalic);
 
             this.btnUnderline = new Common.UI.Button({
+                parentEl: $('#watermark-underline'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-underline',
                 enableToggle: true,
                 hint: this.textUnderline
             });
-            this.btnUnderline.render($('#watermark-underline')) ;
             this.textControls.push(this.btnUnderline);
 
             this.btnStrikeout = new Common.UI.Button({
+                parentEl: $('#watermark-strikeout'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-strikeout',
                 enableToggle: true,
                 hint: this.textStrikeout
             });
-            this.btnStrikeout.render($('#watermark-strikeout')) ;
             this.textControls.push(this.btnStrikeout);
 
             var initNewColor = function(btn, picker_el) {
@@ -317,6 +317,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 return picker;
             };
             this.btnTextColor = new Common.UI.Button({
+                parentEl: $('#watermark-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
@@ -333,7 +334,6 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     ]
                 })
             });
-            this.btnTextColor.render($('#watermark-textcolor'));
             this.mnuTextColorPicker = initNewColor(this.btnTextColor, "#watermark-menu-textcolor");
             $('#watermark-auto-color').on('click', _.bind(this.onAutoColor, this));
             this.textControls.push(this.btnTextColor);

@@ -251,6 +251,7 @@ define([
             this.lockedControls.push(this.btnSelectData);
 
             this.btnEdit = new Common.UI.Button({
+                parentEl: $('#table-btn-edit'),
                 cls: 'btn-icon-default',
                 iconCls: 'btn-edit-table',
                 menu        : new Common.UI.Menu({
@@ -272,7 +273,6 @@ define([
                     ]
                 })
             });
-            this.btnEdit.render( $('#table-btn-edit')) ;
             this.btnEdit.menu.on('show:after', _.bind( function(menu){
                 if (this.api) {
                     menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
@@ -296,6 +296,14 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.lockedControls.push(this.btnConvertRange);
+
+            this.btnRemDuplicates = new Common.UI.Button({
+                el: $('#table-btn-rem-duplicates')
+            });
+            this.btnRemDuplicates.on('click', _.bind(function(btn){
+                Common.NotificationCenter.trigger('data:remduplicates', this);
+            }, this));
+            this.lockedControls.push(this.btnRemDuplicates);
 
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
 
@@ -576,7 +584,8 @@ define([
         textAdvanced:   'Show advanced settings',
         textConvertRange: 'Convert to range',
         textLongOperation: 'Long operation',
-        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?'
+        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
+        textRemDuplicates: 'Remove duplicates'
 
     }, SSE.Views.TableSettings || {}));
 });

@@ -80,12 +80,12 @@ define([
             });
 
             this.buttonNext = new Common.UI.Button({
+                parentEl: $('#spellcheck-next'),
                 style: 'margin-left: 5px; width: 22px; height: 22px; border: 1px solid #cfcfcf;',
                 cls: 'btn-toolbar bg-white',
                 iconCls: 'toolbar__icon btn-nextitem',
                 hint: this.txtNextTip
             });
-            this.buttonNext.render($('#spellcheck-next'));
 
             this.suggestionList = new Common.UI.ListView({
                 el: $('#spellcheck-suggestions-list'),
@@ -95,6 +95,7 @@ define([
             });
 
             this.btnChange = new Common.UI.Button({
+                parentEl: $('#spellcheck-change'),
                 cls: 'btn-text-split-default',
                 caption: this.textChange,
                 split: true,
@@ -114,9 +115,9 @@ define([
                         ]
                 })
             });
-            this.btnChange.render( $('#spellcheck-change')) ;
 
             this.btnIgnore = new Common.UI.Button({
+                parentEl: $('#spellcheck-ignore'),
                 cls: 'btn-text-split-default',
                 caption: this.textIgnore,
                 split: true,
@@ -136,7 +137,6 @@ define([
                     ]
                 })
             });
-            this.btnIgnore.render( $('#spellcheck-ignore')) ;
 
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
                 el          : $('#spellcheck-dictionary-language'),
