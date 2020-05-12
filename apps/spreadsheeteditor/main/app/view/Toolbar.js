@@ -1671,8 +1671,8 @@ define([
             _updateHint(this.btnNamedRange, this.txtNamedRange);
             _updateHint(this.btnClearStyle, this.tipClearStyle);
             _updateHint(this.btnCopyStyle, this.tipCopyStyle);
-            _updateHint(this.btnAddCell, this.tipInsertOpt);
-            _updateHint(this.btnDeleteCell, this.tipDeleteOpt);
+            _updateHint(this.btnAddCell, this.tipInsertOpt + Common.Utils.String.platformKey('Ctrl+Shift+='));
+            _updateHint(this.btnDeleteCell, this.tipDeleteOpt + Common.Utils.String.platformKey('Ctrl+Shift+-'));
             _updateHint(this.btnColorSchemas, this.tipColorSchemas);
             _updateHint(this.btnPageOrient, this.tipPageOrient);
             _updateHint(this.btnPageSize, this.tipPageSize);
