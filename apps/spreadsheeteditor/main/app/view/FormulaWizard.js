@@ -352,7 +352,7 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',
-                    type    : Asc.c_oAscSelectionDialogType.FunctionWizard
+                    type    : Asc.c_oAscSelectionDialogType.Function
                 });
             }
         },
