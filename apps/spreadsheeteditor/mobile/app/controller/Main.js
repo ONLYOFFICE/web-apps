@@ -269,6 +269,7 @@ define([
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
+                    docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
@@ -526,7 +527,7 @@ define([
                 this.api.asc_setZoom(zf>0 ? zf : 1);
 
                 /** coauthoring begin **/
-                this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
+                this.isLiveCommenting = Common.localStorage.getBool("sse-mobile-settings-livecomment", true);
                 var resolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
                 this.isLiveCommenting ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
 
@@ -717,7 +718,10 @@ define([
                     /** coauthoring begin **/
                     me.appOptions.canCoAuthoring = !me.appOptions.isLightVersion;
                     /** coauthoring end **/
-                    me.appOptions.canComments    = me.appOptions.canLicense && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
+                    me.appOptions.canComments     = me.appOptions.canLicense && (me.permissions.comment===undefined ? me.appOptions.isEdit : me.permissions.comment) && (me.editorConfig.mode !== 'view');
+                    me.appOptions.canComments     = me.appOptions.canComments && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
+                    me.appOptions.canViewComments = me.appOptions.canComments || !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
+                    me.appOptions.canEditComments = me.appOptions.isOffline || !(typeof (me.editorConfig.customization) == 'object' && me.editorConfig.customization.commentAuthorOnly);
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                     me.appOptions.canRename      = !!me.permissions.rename;
 

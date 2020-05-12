@@ -78,7 +78,7 @@ define([
             },
 
             showMenu: function (items, posX, posY) {
-                if (items.length < 1) {
+                if (items.itemsIcon.length < 1 && items.items.length < 1) {
                     return;
                 }
 

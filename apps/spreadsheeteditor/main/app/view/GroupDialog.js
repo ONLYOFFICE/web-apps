@@ -39,7 +39,7 @@
  */
 define([
     'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox'
+    'common/main/lib/component/RadioBox'
 ], function () { 'use strict';
 
     SSE.Views.GroupDialog = Common.UI.Window.extend(_.extend({

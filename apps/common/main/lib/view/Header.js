@@ -109,14 +109,15 @@ define([
 
         var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
-                                '<div class="hedset">' +
+                                '<div class="hedset" id="header-tools">' +
                                     '<div class="btn-slot" id="slot-btn-dt-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
-                                '<div class="lr-separator"></div>' +
-                                '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
+                                '<div class="lr-separator">' +
+                                    '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
+                                '</div>' +
                                 '<label id="title-user-name" style="pointer-events: none;"></label>' +
                             '</section>';
 
@@ -202,7 +203,19 @@ define([
             }
         }
 
-        function onAppShowed(config) {}
+        function onAppShowed(config) {
+            if ( this.labelDocName && this.labelDocName.get(0).id == 'title-doc-name'
+                && this.labelDocName.is(':visible') )
+            {
+                var $tools = this.btnSave.$el.parent('#header-tools');
+                var _left_width = $tools.prev().outerWidth() + $tools.outerWidth();
+                var _right_width = this.labelUserName.outerWidth();
+
+                if ( _left_width < _right_width )
+                    this.labelDocName.css('padding-left', _right_width - _left_width);
+                else this.labelDocName.css('padding-right', _left_width - _right_width);
+            }
+        }
 
         function onAppReady(mode) {
             appConfig = mode;
@@ -471,6 +484,8 @@ define([
                         if ( me.documentCaption ) {
                             me.labelDocName.text(me.documentCaption);
                         }
+                    } else {
+                        $html.find('#rib-doc-name').hide();
                     }
 
                     if ( !_.isUndefined(this.options.canRename) ) {
@@ -511,7 +526,7 @@ define([
                     var $html = $(_.template(templateTitleBox)());
 
                     !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
-                    me.labelDocName = $html.find('> #title-doc-name');
+                    me.labelDocName = $html.find('#title-doc-name');
                     me.labelDocName.text = function (str) {this.val(str);};             // redefine text function to lock temporaly rename docuemnt option
                     me.labelDocName.text( me.documentCaption );
 

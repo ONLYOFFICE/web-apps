@@ -214,6 +214,7 @@ Common.Utils = _.extend(new(function() {
         documentSettingsType: documentSettingsType,
         importTextType: importTextType,
         zoom: function() {return me.zoom;},
+        topOffset: 0,
         innerWidth: function() {return me.innerWidth;},
         innerHeight: function() {return me.innerHeight;}
     }
@@ -829,6 +830,7 @@ Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split,
         /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
 
         var button = new Common.UI.Button({
+            parentEl: $slots.eq(index),
             id: id + index,
             cls: _cls,
             iconCls: iconCls,
@@ -838,7 +840,7 @@ Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split,
             enableToggle: toggle || false,
             lock: lock,
             disabled: true
-        }).render( $slots.eq(index) );
+        });
 
         btnsArr.add(button);
     });
@@ -849,6 +851,30 @@ Common.Utils.injectComponent = function ($slot, cmp) {
     if (cmp && $slot.length) {
         cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
     }
+};
+
+Common.Utils.warningDocumentIsLocked = function (opts) {
+    if ( opts.disablefunc )
+        opts.disablefunc(true);
+
+    var app = window.DE || window.PE || window.SSE;
+    var tip = new Common.UI.SynchronizeTip({
+        extCls      : 'simple',
+        text        : Common.Locale.get("warnFileLocked",{name:"Common.Translation", default:'Document is in use by another application. You can continue editing and save it as a copy.'}),
+        textLink    : Common.Locale.get("txtContinueEditing",{name:app.nameSpace + ".Views.SignatureSettings", default:'Edit anyway'}),
+        placement   : 'document'
+    });
+    tip.on({
+        'dontshowclick': function() {
+            if ( opts.disablefunc ) opts.disablefunc(false);
+            app.getController('Main').api.asc_setIsReadOnly(false);
+            this.close();
+        },
+        'closeclick': function() {
+            this.close();
+        }
+    });
+    tip.show();
 };
 
 jQuery.fn.extend({
@@ -896,6 +922,24 @@ Common.Utils.InternalSettings.set('toolbar-height-tabs', 32);
 Common.Utils.InternalSettings.set('toolbar-height-tabs-top-title', 28);
 Common.Utils.InternalSettings.set('toolbar-height-controls', 67);
 Common.Utils.InternalSettings.set('document-title-height', 28);
+Common.Utils.InternalSettings.set('window-inactive-area-top', 0);
 
 Common.Utils.InternalSettings.set('toolbar-height-compact', Common.Utils.InternalSettings.get('toolbar-height-tabs'));
 Common.Utils.InternalSettings.set('toolbar-height-normal', Common.Utils.InternalSettings.get('toolbar-height-tabs') + Common.Utils.InternalSettings.get('toolbar-height-controls'));
+
+Common.Utils.ModalWindow = new(function() {
+    var count = 0;
+    return {
+        show: function() {
+            count++;
+        },
+
+        close: function() {
+            count--;
+        },
+
+        isVisible: function() {
+            return count>0;
+        }
+    }
+})();

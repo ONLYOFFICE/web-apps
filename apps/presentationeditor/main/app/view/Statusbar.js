@@ -230,6 +230,7 @@ define([
                 );
 
                 this.btnPreview = new Common.UI.Button({
+                    parentEl: $('#slot-status-btn-preview'),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-preview',
                     hint: this.tipPreview,
@@ -245,7 +246,6 @@ define([
                         ]
                     })
                 });
-                this.btnPreview.render($('#slot-status-btn-preview'));
 
                 var panelLang = $('.cnt-lang',this.el);
                 this.langMenu = new Common.UI.MenuSimple({

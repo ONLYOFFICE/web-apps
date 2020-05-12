@@ -77,7 +77,7 @@ define([
             },
 
             showMenu: function (items, posX, posY) {
-                if (items.length < 1) {
+                if (items.itemsIcon.length < 1 && items.items.length < 1) {
                     return;
                 }
 
@@ -126,11 +126,15 @@ define([
             },
 
             hideMenu: function () {
-                $('#' + _anchorId)
-                    .css('left', -1000)
-                    .css('top', -1000);
+                if ($('.document-menu').length > 0) {
+                    $('#' + _anchorId)
+                        .css('left', -1000)
+                        .css('top', -1000);
 
-                uiApp.closeModal('.document-menu.modal-in');
+                    uiApp.closeModal('.document-menu.modal-in');
+                } else if ($('.actions-modal').length > 0) {
+                    uiApp.closeModal('.actions-modal.modal-in');
+                }
             }
         }
     })());

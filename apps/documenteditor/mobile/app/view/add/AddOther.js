@@ -66,10 +66,16 @@ define([
             initEvents: function () {
                 var me = this;
 
-                $('#add-other-section').single('click',     _.bind(me.showSectionBreak, me));
                 $('#add-other-link').single('click',        _.bind(me.showLink, me));
                 $('#add-other-pagenumber').single('click',  _.bind(me.showPagePosition, me));
                 $('#add-other-footnote').single('click',    _.bind(me.showPageFootnote, me));
+                $('#add-other-break').single('click',       _.bind(me.showPageBreak, me));
+                if (this.hideInsertComments) {
+                    $('#item-comment').hide();
+                } else {
+                    $('#item-comment').show();
+                    $('#add-other-comment').single('click',     _.bind(me.showPageComment, me));
+                }
 
                 me.initControls();
             },
@@ -87,6 +93,9 @@ define([
 
             rootLayout: function () {
                 if (this.layout) {
+                    if (!this.canViewComments) {
+                        this.layout.find('#addother-root-view #item-comment').remove();
+                    }
                     return this.layout
                         .find('#addother-root-view')
                         .html();
@@ -119,6 +128,11 @@ define([
                 }
             },
 
+            showPageBreak: function() {
+                this.showPage('#addother-insert-break');
+                $('#add-other-section').single('click',     _.bind(this.showSectionBreak, this));
+            },
+
             showSectionBreak: function () {
                 this.showPage('#addother-sectionbreak');
             },
@@ -141,6 +155,46 @@ define([
 
             showPageFootnote: function () {
                 this.showPage('#addother-insert-footnote');
+            },
+
+            showPageComment: function(animate) {
+                this.showPage('#addother-insert-comment', animate);
+            },
+
+            renderComment: function(comment) {
+                var me = this;
+                _.delay(function () {
+                    var $commentInfo = $('#comment-info');
+                    var template = [
+                        '<% if (android) { %><div class="header-comment"><div class="initials-comment" style="background-color: <%= comment.usercolor %>;"><%= comment.userInitials %></div><div><% } %>',
+                        '<div class="user-name"><%= comment.username %></div>',
+                        '<div class="comment-date"><%= comment.date %></div>',
+                        '<% if (android) { %></div></div><% } %>',
+                        '<div class="wrap-textarea"><textarea id="comment-text" class="comment-textarea" placeholder="<%= textAddComment %>" autofocus></textarea></div>'
+                    ].join('');
+                    var insert = _.template(template)({
+                        android: Framework7.prototype.device.android,
+                        comment: comment,
+                        textAddComment: me.textAddComment
+                    });
+                    $commentInfo.html(insert);
+                    _.defer(function () {
+                        var $textarea = $('.comment-textarea')[0];
+                        var $btnAddComment = $('#done-comment');
+                        $btnAddComment.addClass('disabled');
+                        $textarea.focus();
+                        $textarea.oninput = function () {
+                            if ($textarea.value.length < 1) {
+                                if (!$btnAddComment.hasClass('disabled'))
+                                    $btnAddComment.addClass('disabled');
+                            } else {
+                                if ($btnAddComment.hasClass('disabled')) {
+                                    $btnAddComment.removeClass('disabled');
+                                }
+                            }
+                        };
+                    });
+                }, 100);
             },
 
             renderNumFormat: function (dataFormat, selectFormat) {
@@ -221,8 +275,11 @@ define([
             textInsertFootnote: 'Insert Footnote',
             textFormat: 'Format',
             textStartFrom: 'Start At',
-            textLocation: 'Location'
-        
+            textLocation: 'Location',
+            textComment: 'Comment',
+            textAddComment: 'Add Comment',
+            textDone: 'Done',
+            textBreak: 'Break'
         
         }
     })(), DE.Views.AddOther || {}))

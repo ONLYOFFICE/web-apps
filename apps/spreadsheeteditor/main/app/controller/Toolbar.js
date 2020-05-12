@@ -59,7 +59,8 @@ define([
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
-    'spreadsheeteditor/main/app/view/SlicerAddDialog'
+    'spreadsheeteditor/main/app/view/SlicerAddDialog',
+    'spreadsheeteditor/main/app/view/CellsAddDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -427,7 +428,7 @@ define([
         // },
 
         onApiChangeFont: function(font) {
-            !this.getApplication().getController('Main').isModalShowed && this.toolbar.cmbFontName.onApiChangeFont(font);
+            !Common.Utils.ModalWindow.isVisible() && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onContextMenu: function() {
@@ -1355,7 +1356,7 @@ define([
         onFontNameSelect: function(combo, record) {
             if (this.api) {
                 if (record.isNewFont) {
-                    !this.getApplication().getController('Main').isModalShowed &&
+                    !Common.Utils.ModalWindow.isVisible() &&
                     Common.UI.warning({
                         width: 500,
                         closable: false,
@@ -1525,6 +1526,56 @@ define([
                     'command+1,ctrl+1': function(e) {
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.api.isCellEdited && !me.toolbar.cmbNumberFormat.isDisabled()) {
                             me.onCustomNumberFormat();
+                        }
+
+                        return false;
+                    },
+                    'shift+f3': function(e) {
+                        if (me.editMode && !me.toolbar.btnInsertFormula.isDisabled()) {
+                            var controller = me.getApplication().getController('FormulaDialog');
+                            if (controller) {
+                                controller.showDialog();
+                            }
+                        }
+
+                        return false;
+                    },
+                    'command+shift+=,ctrl+shift+=': function(e) {
+                        if (me.editMode && !me.toolbar.btnAddCell.isDisabled()) {
+                            var items = me.toolbar.btnAddCell.menu.items,
+                                arr = [];
+                            for (var i=0; i<4; i++)
+                                arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
+                            (new SSE.Views.CellsAddDialog({
+                                title: me.txtInsertCells,
+                                items: arr,
+                                handler: function (dlg, result) {
+                                    if (result=='ok') {
+                                        me.api.asc_insertCells(dlg.getSettings());
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            })).show();
+                        }
+
+                        return false;
+                    },
+                    'command+shift+-,ctrl+shift+-': function(e) {
+                        if (me.editMode && !me.toolbar.btnDeleteCell.isDisabled()) {
+                            var items = me.toolbar.btnDeleteCell.menu.items,
+                                arr = [];
+                            for (var i=0; i<4; i++)
+                                arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
+                            (new SSE.Views.CellsAddDialog({
+                                title: me.txtDeleteCells,
+                                items: arr,
+                                handler: function (dlg, result) {
+                                    if (result=='ok') {
+                                        me.api.asc_deleteCells(dlg.getSettings());
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            })).show();
                         }
 
                         return false;
@@ -2148,7 +2199,7 @@ define([
 
             /* read cell background color */
             if (!toolbar.btnBackColor.ischanged && !paragraphColorPicker.isDummy) {
-                color = info.asc_getFill().asc_getColor();
+                color = info.asc_getFillColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
@@ -3859,7 +3910,9 @@ define([
         txtTable_TableStyleMedium: 'Table Style Medium',
         txtTable_TableStyleDark: 'Table Style Dark',
         txtTable_TableStyleLight: 'Table Style Light',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        txtInsertCells: 'Insert Cells',
+        txtDeleteCells: 'Delete Cells'
 
     }, SSE.Controllers.Toolbar || {}));
 });

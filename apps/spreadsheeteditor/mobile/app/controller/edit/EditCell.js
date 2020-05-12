@@ -189,7 +189,7 @@ define([
 
                 var me = this,
                     palette = me.getView('EditCell').paletteFillColor,
-                    color = me._sdkToThemeColor(me._cellInfo.asc_getFill().asc_getColor());
+                    color = me._sdkToThemeColor(me._cellInfo.asc_getFillColor());
 
                 if (palette) {
                     palette.select(color);
@@ -326,7 +326,7 @@ define([
                 me.initFontSettings(_fontInfo);
 
                 // Init fill color
-                var color = cellInfo.asc_getFill().asc_getColor(),
+                var color = cellInfo.asc_getFillColor(),
                     clr = me._sdkToThemeColor(color);
 
                 $('#fill-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));

@@ -157,7 +157,7 @@ define([
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
                 this.languages = null;
-                this.isModalShowed = 0;
+
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -227,15 +227,15 @@ define([
                             if (/msg-reply/.test(e.target.className)) {
                                 me.dontCloseDummyComment = true;
                                 me.beforeShowDummyComment = me.beforeCloseDummyComment = false;
-                            } else if (/chat-msg-text/.test(e.target.id))
-                                me.dontCloseChat = true;
-                            else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                            } else if (/textarea-control/.test(e.target.className))
+                                me.inTextareaControl = true;
+                            else if (!Common.Utils.ModalWindow.isVisible() && /form-control/.test(e.target.className))
                                 me.inFormControl = true;
                         }
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
-                        if (!me.isModalShowed) {
+                        if (!Common.Utils.ModalWindow.isVisible()) {
                             if (/form-control/.test(e.target.className))
                                 me.inFormControl = false;
                             if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
@@ -255,8 +255,8 @@ define([
                                     else
                                         me.beforeCloseDummyComment = true;
                                 }
-                                else if (/chat-msg-text/.test(e.target.id))
-                                    me.dontCloseChat = false;
+                                else if (/textarea-control/.test(e.target.className))
+                                    me.inTextareaControl = false;
                             }
                         }
                     }).on('dragover', function(e) {
@@ -283,31 +283,31 @@ define([
 
                     Common.NotificationCenter.on({
                         'modal:show': function(){
-                            me.isModalShowed++;
+                            Common.Utils.ModalWindow.show();
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            me.isModalShowed--;
-                            if (!me.isModalShowed)
+                            Common.Utils.ModalWindow.close();
+                            if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'modal:hide': function(dlg) {
-                            me.isModalShowed--;
-                            if (!me.isModalShowed)
+                            Common.Utils.ModalWindow.close();
+                            if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'settings:unitschanged':_.bind(this.unitsChanged, this),
                         'dataview:focus': function(e){
                         },
                         'dataview:blur': function(e){
-                            if (!me.isModalShowed) {
+                            if (!Common.Utils.ModalWindow.isVisible()) {
                                 me.api.asc_enableKeyEvents(true);
                             }
                         },
                         'menu:show': function(e){
                         },
                         'menu:hide': function(e, isFromInputControl){
-                            if (!me.isModalShowed && !isFromInputControl)
+                            if (!Common.Utils.ModalWindow.isVisible() && !isFromInputControl)
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
@@ -414,6 +414,7 @@ define([
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
+                    docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
 //                    docInfo.put_Review(this.permissions.review);
 
                     var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
@@ -754,7 +755,7 @@ define([
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
-                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl)) ) {
+                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -1619,10 +1620,12 @@ define([
                     }, this);
                 }
 
-                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout)
-                    Common.UI.alert(config);
+                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout) {
+                    if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                        Common.UI.alert(config).$window.attr('data-value', id);
+                }
 
-                Common.component.Analytics.trackEvent('Internal Error', id.toString());
+                (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
 
             onCoAuthoringDisconnect: function() {
@@ -2140,7 +2143,7 @@ define([
             },
 
             onPrint: function() {
-                if (!this.appOptions.canPrint || this.isModalShowed) return;
+                if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 
                 if (this.api)
                     this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
@@ -2217,6 +2220,20 @@ define([
                     win && win.close();
                     me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm');
                 })
+            },
+
+            warningDocumentIsLocked: function() {
+                var me = this;
+                var _disable_ui = function (disable) {
+                    me.disableEditing(disable);
+                    DE.getController('DocumentHolder').getView().SetDisabled(disable, true);
+                    DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
+                    DE.getController('LeftMenu').setPreviewMode(disable);
+                    var comments = DE.getController('Common.Controllers.Comments');
+                    if (comments) comments.setPreviewMode(disable);
+                };
+
+                Common.Utils.warningDocumentIsLocked({disablefunc: _disable_ui});
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

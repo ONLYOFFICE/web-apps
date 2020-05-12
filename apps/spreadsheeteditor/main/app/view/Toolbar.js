@@ -91,7 +91,8 @@ define([
         multiselectCols:'is-multiselect-cols',
         headerLock: 'header-lock',
         sheetLock: 'sheet-lock',
-        noPivot: 'no-pivot'
+        noPivot: 'no-pivot',
+        noSubitems: 'no-subitems'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -213,13 +214,15 @@ define([
                         style : 'min-width: 110px',
                         items : [
                             {caption: 'SUM',   value: 'SUM'},
+                            {caption: 'AVERAGE', value: 'AVERAGE'},
                             {caption: 'MIN',   value: 'MIN'},
                             {caption: 'MAX',   value: 'MAX'},
                             {caption: 'COUNT', value: 'COUNT'},
                             {caption: '--'},
                             {
                                 caption: me.txtAdditional,
-                                value: 'more'
+                                value: 'more',
+                                hint: me.txtFormula + Common.Utils.String.platformKey('Shift+F3')
                             }
                         ]
                     })
@@ -887,13 +890,15 @@ define([
                         style : 'min-width: 110px',
                         items : [
                             {caption: 'SUM',   value: 'SUM'},
+                            {caption: 'AVERAGE', value: 'AVERAGE'},
                             {caption: 'MIN',   value: 'MIN'},
                             {caption: 'MAX',   value: 'MAX'},
                             {caption: 'COUNT', value: 'COUNT'},
                             {caption: '--'},
                             {
                                 caption: me.txtAdditional,
-                                value: 'more'
+                                value: 'more',
+                                hint: me.txtFormula + Common.Utils.String.platformKey('Shift+F3')
                             }
                         ]
                     })
@@ -1044,7 +1049,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pageorient',
                     caption: me.capBtnPageOrient,
-                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
                     menu: new Common.UI.Menu({
                         cls: 'ppm-toolbar',
                         items: [
@@ -1081,7 +1086,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagemargins',
                     caption: me.capBtnMargins,
-                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -1126,7 +1131,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-pagesize',
                     caption: me.capBtnPageSize,
-                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
                     menu: new Common.UI.Menu({
                         restoreHeight: true,
                         items: [
@@ -1288,7 +1293,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-scale',
                     caption: me.capBtnScale,
-                    lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth],
+                    lock: [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit],
                     menu: new Common.UI.Menu({
                         items: [],
                         cls: 'scale-menu'})
@@ -1351,7 +1356,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-print-titles',
                     caption: me.capBtnPrintTitles,
-                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth]
+                    lock        : [_set.docPropsLock, _set.lostConnect, _set.coAuth, _set.selRangeEdit]
                 });
 
                 me.btnImgAlign = new Common.UI.Button({
@@ -1672,12 +1677,12 @@ define([
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
-            _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula]);
+            _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula + Common.Utils.String.platformKey('Shift+F3')]);
             _updateHint(this.btnNamedRange, this.txtNamedRange);
             _updateHint(this.btnClearStyle, this.tipClearStyle);
             _updateHint(this.btnCopyStyle, this.tipCopyStyle);
-            _updateHint(this.btnAddCell, this.tipInsertOpt);
-            _updateHint(this.btnDeleteCell, this.tipDeleteOpt);
+            _updateHint(this.btnAddCell, this.tipInsertOpt + Common.Utils.String.platformKey('Ctrl+Shift+='));
+            _updateHint(this.btnDeleteCell, this.tipDeleteOpt + Common.Utils.String.platformKey('Ctrl+Shift+-'));
             _updateHint(this.btnColorSchemas, this.tipColorSchemas);
             _updateHint(this.btnPageOrient, this.tipPageOrient);
             _updateHint(this.btnPageSize, this.tipPageSize);
@@ -1824,7 +1829,7 @@ define([
 
             if ( this.btnInsertChart ) {
                 this.btnInsertChart.setMenu(new Common.UI.Menu({
-                    style: 'width: 435px;',
+                    style: 'width: 364px;',
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -1838,7 +1843,7 @@ define([
                         restoreHeight: 421,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()/*.concat(Common.define.chartData.getSparkData())*/),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
@@ -2278,7 +2283,7 @@ define([
 //    txtDescending:      'Descending',
         txtFormula:         'Insert Function',
         txtNoBorders:       'No borders',
-        txtAdditional:      'Additional',
+        txtAdditional:      'Insert Function',
         mniImageFromFile:   'Image from file',
         mniImageFromUrl:    'Image from url',
         textNewColor:       'Add New Custom Color',

@@ -445,7 +445,6 @@ define([
                         this.tabbar.setTabVisible(sindex);
 
                     this.btnAddWorksheet.setDisabled(me.mode.isDisconnected || me.api.asc_isWorkbookLocked() || me.api.isCellEdited);
-                    $('#status-addtabs-box').css('border-right', 'none');
                     $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, Math.floor((this.api.asc_getZoom() +.005)*100)));
 
                     me.fireEvent('sheet:changed', [me, sindex]);

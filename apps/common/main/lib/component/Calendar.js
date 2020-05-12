@@ -91,17 +91,17 @@ define([
             me.currentDate = me.options.date || new Date();
 
             me.btnPrev = new Common.UI.Button({
+                parentEl: me.cmpEl.find('#prev-arrow'),
                 cls: '',
                 iconCls: 'arrow-prev img-commonctrl'
             });
-            me.btnPrev.render(me.cmpEl.find('#prev-arrow'));
             me.btnPrev.on('click', _.bind(me.onClickPrev, me));
 
             me.btnNext = new Common.UI.Button({
+                parentEl: me.cmpEl.find('#next-arrow'),
                 cls: '',
                 iconCls: 'arrow-next img-commonctrl'
             });
-            me.btnNext.render(me.cmpEl.find('#next-arrow'));
             me.btnNext.on('click', _.bind(me.onClickNext, me));
 
             me.cmpEl.on('keydown', function(e) {

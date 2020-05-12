@@ -374,20 +374,67 @@ define([
                     if ( $active && $active.length ) {
                         var _maxright = $active.parents('.box-controls').width();
                         var data = $active.data(),
-                            _rightedge = data.rightedge;
+                            _rightedge = data.rightedge,
+                            _btns = data.buttons,
+                            _flex = data.flex;
 
                         if ( !_rightedge ) {
                             _rightedge = $active.get(0).getBoundingClientRect().right;
                         }
+                        if ( !_btns ) {
+                            _btns = [];
+                            _.each($active.find('.btn-slot .x-huge'), function(item) {
+                                _btns.push($(item).closest('.btn-slot'));
+                            });
+                            data.buttons = _btns;
+                        }
+                        if (!_flex) {
+                            _flex = [];
+                            _.each($active.find('.group.flex'), function(item) {
+                                _flex.push($(item));
+                            });
+                            data.flex = _flex;
+                        }
 
-                        if ( _rightedge > _maxright ) {
-                            if ( !$active.hasClass('compactwidth') ) {
-                                $active.addClass('compactwidth');
-                                data.rightedge = _rightedge;
+                        if ( _rightedge > _maxright) {
+                            if (_flex.length>0) {
+                                for (var i=0; i<_flex.length; i++) {
+                                    var item = _flex[i];
+                                    if (item.outerWidth() > parseInt(item.css('min-width')))
+                                        return;
+                                    else
+                                        item.css('width', item.css('min-width'));
+                                }
                             }
+                            for (var i=_btns.length-1; i>=0; i--) {
+                                var btn = _btns[i];
+                                if ( !btn.hasClass('compactwidth') ) {
+                                    btn.addClass('compactwidth');
+                                    _rightedge = $active.get(0).getBoundingClientRect().right;
+                                    if (_rightedge <= _maxright)
+                                        break;
+                                }
+                            }
+                            data.rightedge = _rightedge;
                         } else {
-                            if ($active.hasClass('compactwidth')) {
-                                $active.removeClass('compactwidth');
+                            for (var i=0; i<_btns.length; i++) {
+                                var btn = _btns[i];
+                                if ( btn.hasClass('compactwidth') ) {
+                                    btn.removeClass('compactwidth');
+                                    _rightedge = $active.get(0).getBoundingClientRect().right;
+                                    if ( _rightedge > _maxright) {
+                                        btn.addClass('compactwidth');
+                                        _rightedge = $active.get(0).getBoundingClientRect().right;
+                                        break;
+                                    }
+                                }
+                            }
+                            data.rightedge = _rightedge;
+                            if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
+                                for (var i=0; i<_flex.length; i++) {
+                                    var item = _flex[i];
+                                    item.css('width', item.css('max-width'));
+                                }
                             }
                         }
                     }

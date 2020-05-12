@@ -52,7 +52,7 @@ define([
                     '<div class="asc-synchronizetip">',
                         '<div class="tip-arrow <%= scope.placement %>"></div>',
                         '<div>',
-                            '<div class="tip-text" style="width: 260px;"><%= scope.text %></div>',
+                            '<div class="tip-text"><%= scope.text %></div>',
                             '<div class="close img-commonctrl"></div>',
                         '</div>',
                         '<% if ( scope.showLink ) { %>',
@@ -105,6 +105,10 @@ define([
             applyPlacement: function () {
                 var showxy = this.target.offset(),
                     innerHeight = Common.Utils.innerHeight();
+
+                if (this.placement == 'document') {
+                    // this.cmpEl.css('top', $('#editor_sdk').offset().top);
+                } else
                 if (this.placement == 'top')
                     this.cmpEl.css({bottom : innerHeight - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
                 else {// left or right

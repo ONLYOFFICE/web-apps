@@ -1,5 +1,5 @@
 {
-  "Common.Controllers.Collaboration.textEditUser": "È in corso la modifica del documento da parte di più utenti.",
+  "Common.Controllers.Collaboration.textEditUser": "Utenti che stanno modificando il file:",
   "Common.UI.ThemeColorPalette.textCustomColors": "Colori personalizzati",
   "Common.UI.ThemeColorPalette.textStandartColors": "Colori standard",
   "Common.UI.ThemeColorPalette.textThemeColors": "Colori del tema",
@@ -30,6 +30,7 @@
   "PE.Controllers.AddTable.textColumns": "Colonne",
   "PE.Controllers.AddTable.textRows": "Righe",
   "PE.Controllers.AddTable.textTableSize": "Dimensioni tabella",
+  "PE.Controllers.DocumentHolder.errorCopyCutPaste": "Le azioni di copia, taglia e incolla utilizzando il menu di scelta rapida verranno eseguite solo all'interno del file corrente.",
   "PE.Controllers.DocumentHolder.menuAddLink": "Aggiungi collegamento",
   "PE.Controllers.DocumentHolder.menuCopy": "Copia",
   "PE.Controllers.DocumentHolder.menuCut": "Taglia",
@@ -39,6 +40,7 @@
   "PE.Controllers.DocumentHolder.menuOpenLink": "Apri collegamento",
   "PE.Controllers.DocumentHolder.menuPaste": "Incolla",
   "PE.Controllers.DocumentHolder.sheetCancel": "Annulla",
+  "PE.Controllers.DocumentHolder.textCopyCutPasteActions": "Funzioni copia/taglia/incolla",
   "PE.Controllers.DocumentPreview.txtFinalMessage": "Fine dell'anteprima di diapositiva. Clicca per uscire.",
   "PE.Controllers.EditContainer.textChart": "Grafico",
   "PE.Controllers.EditContainer.textHyperlink": "Collegamento ipertestuale",
