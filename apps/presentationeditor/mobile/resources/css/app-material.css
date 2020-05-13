@@ -5986,7 +5986,7 @@ html.phone .document-menu .list-block .item-link {
   word-wrap: break-word;
 }
 .page-change #user-name {
-  font-size: 17px;
+  font-size: 16px;
   line-height: 22px;
   color: #000000;
   margin: 0;
@@ -6006,25 +6006,54 @@ html.phone .document-menu .list-block .item-link {
   margin-top: 10px;
 }
 .page-change .block-btn {
+  position: absolute;
+  bottom: 0;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   margin: 0;
-  padding: 26px 0;
-  background-color: #EFEFF4;
+  width: 100%;
+  height: 56px;
+  align-items: center;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
 }
-.page-change .block-btn #btn-next-change,
 .page-change .block-btn #btn-reject-change {
-  margin-left: 20px;
+  margin-left: 15px;
 }
-.page-change .block-btn #btn-goto-change {
-  margin-right: 20px;
-}
-.page-change .block-btn .right-buttons {
+.page-change .block-btn .change-buttons,
+.page-change .block-btn .accept-reject,
+.page-change .block-btn .next-prev {
   display: flex;
 }
 .page-change .block-btn .link {
-  display: inline-block;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 500;
+  height: 56px;
+  min-width: 48px;
+}
+.page-change .header-change {
+  display: flex;
+  justify-content: flex-start;
+  padding-right: 16px;
+}
+.page-change .header-change .initials-change {
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 16px;
+  font-size: 18px;
+}
+.page-change #no-changes {
+  padding: 16px;
 }
 .container-collaboration .navbar .right.close-collaboration {
   position: absolute;
@@ -6032,6 +6061,10 @@ html.phone .document-menu .list-block .item-link {
 }
 .container-collaboration .page-content .list-block:first-child {
   margin-top: -1px;
+}
+.page-display-mode .list-block .item-subtitle {
+  font-size: 14px;
+  color: #9e9e9e;
 }
 #user-list .item-content {
   padding-left: 0;
@@ -7033,6 +7066,11 @@ i.icon.icon-collaboration {
   width: 24px;
   height: 24px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M15.9912%206C15.9912%208.34102%2015.4074%2010.1346%2014.6055%2011.3121C13.7983%2012.4974%2012.8249%2013%2011.9912%2013C11.1575%2013%2010.1841%2012.4974%209.37695%2011.3121C8.57501%2010.1346%207.99121%208.34102%207.99121%206C7.99121%203.61508%209.96974%202%2011.9912%202C14.0127%202%2015.9912%203.61508%2015.9912%206ZM14.5015%2012.9506C13.7365%2013.6361%2012.8649%2014%2011.9912%2014C11.1195%2014%2010.2499%2013.6378%209.48619%2012.9554C7.78363%2013.6081%206.36015%2014.2591%205.26963%2014.9224C3.55256%2015.9667%203%2016.8326%203%2017.5C3%2018.2545%203.4257%2019.0877%204.82302%2019.7879C6.25015%2020.5031%208.57272%2020.9999%2012%2021C15.4273%2021%2017.7499%2020.5031%2019.177%2019.7879C20.5743%2019.0877%2021%2018.2545%2021%2017.5C21%2016.8326%2020.4474%2015.9667%2018.7304%2014.9224C17.6372%2014.2575%2016.2095%2013.605%2014.5015%2012.9506ZM15.2272%2012.1594C16.2765%2010.7825%2016.9912%208.67814%2016.9912%206C16.9912%203%2014.5%201%2011.9912%201C9.48242%201%206.99121%203%206.99121%206C6.99121%208.68159%207.70777%2010.7879%208.75931%2012.1647C4.60309%2013.7964%202%2015.4951%202%2017.5C2%2019.9852%205%2021.9999%2012%2022C19%2022%2022%2019.9852%2022%2017.5C22%2015.4929%2019.3913%2013.7927%2015.2272%2012.1594Z%22%20fill%3D%22%23aa5252%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+i.icon.icon-users {
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M15.5%207C15.5%209.26153%2014.9357%2010.9518%2014.201%2012.0307C13.4584%2013.121%2012.6234%2013.5%2012%2013.5C11.3766%2013.5%2010.5416%2013.121%209.79901%2012.0307C9.0643%2010.9518%208.5%209.26153%208.5%207C8.5%204.92262%2010.2222%203.5%2012%203.5C13.7778%203.5%2015.5%204.92262%2015.5%207ZM14.8461%2013.6216C14.006%2014.5191%2013.0044%2015%2012%2015C10.9956%2015%209.99399%2014.5191%209.15395%2013.6216C7.69714%2014.1996%206.4782%2014.7725%205.52945%2015.3496C3.82884%2016.3839%203.5%2017.1203%203.5%2017.5C3.5%2018.0104%203.76355%2018.6977%205.04703%2019.3409C6.37522%2020.0065%208.60909%2020.4999%2012%2020.5C15.3909%2020.5%2017.6248%2020.0065%2018.953%2019.3409C20.2364%2018.6977%2020.5%2018.0104%2020.5%2017.5C20.5%2017.1203%2020.1712%2016.3839%2018.4705%2015.3496C17.5218%2014.7725%2016.3029%2014.1996%2014.8461%2013.6216ZM15.7544%2012.37C16.5137%2011.0279%2017%209.20917%2017%207C17%204%2014.5088%202%2012%202C9.49121%202%207%204%207%207C7%209.20917%207.48633%2011.0279%208.24563%2012.37C4.38973%2013.9392%202%2015.579%202%2017.5C2%2019.9852%205%2021.9999%2012%2022C19%2022%2022%2019.9852%2022%2017.5C22%2015.579%2019.6103%2013.9392%2015.7544%2012.37Z%22%20fill%3D%22%23aa5252%22%2F%3E%3C%2Fsvg%3E");
 }
 i.icon.icon-app-settings {
   width: 24px;
