@@ -374,10 +374,19 @@ define([
                 if(arrChangeReview.length == 0) {
                     $('#current-change').css('display','none');
                     $('.accept-reject').find('a').addClass('disabled');
+                    $('#current-change').after(_.template('<div id="no-changes">' + this.textNoChanges + '</div>'));
                 } else {
-                    $('#current-change #date-change').html(arrChangeReview[0].date);
-                    $('#current-change #user-name').html(arrChangeReview[0].user);
-                    $('#current-change #text-change').html(arrChangeReview[0].changetext);
+                    if ($('#no-changes').length > 0) {
+                        $('#no-changes').remove();
+                    }
+                    var arr = {
+                        date: arrChangeReview[0].date,
+                        user: arrChangeReview[0].user,
+                        color: arrChangeReview[0].usercolor.get_hex(),
+                        text: arrChangeReview[0].changetext,
+                        initials: this.getInitials(arrChangeReview[0].user)
+                    };
+                    this.view.renderChangeReview(arr);
                     goto = arrChangeReview[0].goto;
                 }
                 if (goto) {
@@ -395,7 +404,7 @@ define([
                     $('#btn-accept-change').remove();
                     $('#btn-reject-change').remove();
                     if(arrChangeReview.length != 0 && arrChangeReview[0].editable) {
-                        $('.accept-reject').html('<div id="btn-delete-change"><i class="icon icon-delete-change"></i></div>');
+                        $('.accept-reject').html('<a href="#" id="btn-delete-change" class="link">' + this.textDelete + '</a>');
                         $('#btn-delete-change').single('click', _.bind(this.onDeleteChange, this));
                     }
                 }
@@ -449,6 +458,7 @@ define([
                         $('#btn-goto-change').hide();
                         $('#btn-delete-change').hide();
                         $('.accept-reject').find('a').addClass('disabled');
+                        $('#current-change').after(_.template('<div id="no-changes">' + this.textNoChanges + '</div>'));
                     } else {
                         $('#current-change').show();
                         $('.accept-reject').find('a').removeClass('disabled');
@@ -650,12 +660,13 @@ define([
                         }
                         var date = (item.get_DateTime() == '') ? new Date() : new Date(item.get_DateTime()),
                             user = item.get_UserName(),
+                            userColor = item.get_UserColor(),
                             goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
                         date = me.dateToLocaleTimeString(date);
                         var editable = (item.get_UserId() == _userId);
 
 
-                        arr.push({date: date, user: user, changetext: changetext, goto: goto, editable: editable});
+                        arr.push({date: date, user: user, usercolor: userColor, changetext: changetext, goto: goto, editable: editable});
                     });
                     arrChangeReview = arr;
                     dateChange = data;
@@ -1771,7 +1782,9 @@ define([
             textReopen: 'Reopen',
             textMessageDeleteComment: 'Do you really want to delete this comment?',
             textMessageDeleteReply: 'Do you really want to delete this reply?',
-            textYes: 'Yes'
+            textYes: 'Yes',
+            textDelete: 'Delete',
+            textNoChanges: 'There are no changes.'
 
         }
     })(), Common.Controllers.Collaboration || {}))

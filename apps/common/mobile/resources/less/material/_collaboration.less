@@ -8,7 +8,7 @@
     word-wrap: break-word;
   }
   #user-name {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 22px;
     color: #000000;
     margin: 0;
@@ -28,25 +28,53 @@
     margin-top: 10px;
   }
   .block-btn {
+    position: absolute;
+    bottom: 0;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     margin: 0;
-    padding: 26px 0;
-    background-color: #EFEFF4;
+    width: 100%;
+    height: 56px;
+    align-items: center;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
 
-    #btn-next-change, #btn-reject-change {
-      margin-left: 20px;
+    #btn-reject-change {
+      margin-left: 15px;
     }
-    #btn-goto-change {
-      margin-right: 20px;
-    }
-    .right-buttons {
+    .change-buttons, .accept-reject, .next-prev {
       display: flex;
     }
     .link {
-      display: inline-block;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 500;
+      height: 56px;
+      min-width: 48px;
     }
+  }
+  .header-change {
+    display: flex;
+    justify-content: flex-start;
+    padding-right: 16px;
+    .initials-change {
+      height: 40px;
+      width: 40px;
+      border-radius: 50px;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 16px;
+      font-size: 18px;
+    }
+  }
+  #no-changes {
+    padding: 16px;
   }
 }
 .container-collaboration {
@@ -59,6 +87,15 @@
   }
 }
 
+//Display mode
+.page-display-mode {
+  .list-block {
+    .item-subtitle {
+      font-size: 14px;
+      color: @gray;
+    }
+  }
+}
 
 //Edit users
 @initialEditUser: #373737;
