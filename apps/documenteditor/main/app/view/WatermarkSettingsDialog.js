@@ -498,20 +498,6 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             return item ? item.get('displayValue') : null;
         },
 
-        insertFromUrl: function() {
-            var me = this;
-            (new Common.Views.ImageFromUrlDialog({
-                handler: function(result, value) {
-                    if (result == 'ok') {
-                        var checkUrl = value.replace(/ /g, '');
-                        if (!_.isEmpty(checkUrl)) {
-                            me.props.put_ImageUrl(checkUrl);
-                        }
-                    }
-                }
-            })).show();
-        },
-
         onImageSelect: function(menu, item) {
             if (item.value==1) {
                 var me = this;
@@ -709,7 +695,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         textColor: 'Text color',
         textNewColor: 'Add New Custom Color',
         textLanguage: 'Language',
-        textFromStorage: 'From storage',
+        textFromStorage: 'From Storage',
         textSelect: 'Select Image'
 
     }, DE.Views.WatermarkSettingsDialog || {}))
