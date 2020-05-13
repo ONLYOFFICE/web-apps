@@ -2009,6 +2009,8 @@
   "DE.Views.ShapeSettings.txtTight": "Tight",
   "DE.Views.ShapeSettings.txtTopAndBottom": "Top and bottom",
   "DE.Views.ShapeSettings.txtWood": "Wood",
+  "DE.Views.ShapeSettings.textFromStorage": "From Storage",
+  "DE.Views.ShapeSettings.textSelectImage": "Select Picture",
   "DE.Views.SignatureSettings.notcriticalErrorTitle": "Warning",
   "DE.Views.SignatureSettings.strDelete": "Remove Signature",
   "DE.Views.SignatureSettings.strDetails": "Signature Details",

@@ -152,7 +152,12 @@ define([
                 this.api.asc_setInterfaceDrawImagePlaceShape('shape-texture-img');
                 this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
             }
+            Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
         },
 
         onFillSrcSelect: function(combo, record) {
@@ -690,32 +695,56 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
-        insertFromUrl: function() {
-            var me = this;
-            (new Common.Views.ImageFromUrlDialog({
-                handler: function(result, value) {
-                    if (result == 'ok') {
-                        if (me.api) {
-                            var checkUrl = value.replace(/ /g, '');
-                            if (!_.isEmpty(checkUrl)) {
-                                if (me.BlipFillType !== null) {
-                                    var props = new Asc.asc_CShapeProperty();
-                                    var fill = new Asc.asc_CShapeFill();
-                                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                                    fill.put_fill( new Asc.asc_CFillBlip());
-                                    fill.get_fill().put_type(me.BlipFillType);
-                                    fill.get_fill().put_url(checkUrl);
+        insertImageFromStorage: function(data) {
+            if (data && data.url && data.c=='fill') {
+                if (this.BlipFillType !== null) {
+                    var props = new Asc.asc_CShapeProperty();
+                    var fill = new Asc.asc_CShapeFill();
+                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                    fill.put_fill( new Asc.asc_CFillBlip());
+                    fill.get_fill().put_type(this.BlipFillType);
+                    fill.get_fill().put_url(data.url, data.token);
 
-                                    props.put_fill(fill);
-                                    me.imgprops.put_ShapeProperties(props);
-                                    me.api.ImgApply(me.imgprops);
+                    props.put_fill(fill);
+                    this.imgprops.put_ShapeProperties(props);
+                    this.api.ImgApply(this.imgprops);
+                }
+            }
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value==1) {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    if (me.BlipFillType !== null) {
+                                        var props = new Asc.asc_CShapeProperty();
+                                        var fill = new Asc.asc_CShapeFill();
+                                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                                        fill.put_fill( new Asc.asc_CFillBlip());
+                                        fill.get_fill().put_type(me.BlipFillType);
+                                        fill.get_fill().put_url(checkUrl);
+
+                                        props.put_fill(fill);
+                                        me.imgprops.put_ShapeProperties(props);
+                                        me.api.ImgApply(me.imgprops);
+                                    }
                                 }
                             }
                         }
+                        me.fireEvent('editcomplete', me);
                     }
-                    me.fireEvent('editcomplete', me);
-                }
-            })).show();
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'fill');
+            } else {
+                if (this.api) this.api.ChangeShapeImageFromFile(this.BlipFillType);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         openAdvancedSettings: function(e) {
@@ -1206,21 +1235,24 @@ define([
             });
             this.fillControls.push(this.cmbPattern);
 
-            this.btnInsertFromFile = new Common.UI.Button({
-                el: $('#shape-button-from-file')
+            this.btnSelectImage = new Common.UI.Button({
+                parentEl: $('#shape-button-replace'),
+                cls: 'btn-text-menu-default',
+                caption: this.textSelectImage,
+                style: "width:100%;",
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 194px;',
+                    maxHeight: 200,
+                    items: [
+                        {caption: this.textFromFile, value: 0},
+                        {caption: this.textFromUrl, value: 1},
+                        {caption: this.textFromStorage, value: 2}
+                    ]
+                })
             });
-            this.fillControls.push(this.btnInsertFromFile);
-
-            this.btnInsertFromUrl = new Common.UI.Button({
-                el: $('#shape-button-from-url')
-            });
-            this.fillControls.push(this.btnInsertFromUrl);
-
-            this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.ChangeShapeImageFromFile(this.BlipFillType);
-                this.fireEvent('editcomplete', this);
-            }, this));
-            this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
+            this.fillControls.push(this.btnSelectImage);
+            this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
+            this.btnSelectImage.menu.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
             this._arrFillType = [
                 {displayValue: this.textStretch, value: Asc.c_oAscFillBlipType.STRETCH},
@@ -1848,6 +1880,8 @@ define([
         textHint90: 'Rotate 90° Clockwise',
         textHintFlipV: 'Flip Vertically',
         textHintFlipH: 'Flip Horizontally',
-        strShadow: 'Show shadow'
+        strShadow: 'Show shadow',
+        textFromStorage: 'From Storage',
+        textSelectImage: 'Select Picture'
     }, DE.Views.ShapeSettings || {}));
 });

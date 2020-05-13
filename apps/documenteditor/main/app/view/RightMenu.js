@@ -247,6 +247,7 @@ define([
         setMode: function(mode) {
             this.mergeSettings && this.mergeSettings.setMode(mode);
             this.imageSettings && this.imageSettings.setMode(mode);
+            this.shapeSettings && this.shapeSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
