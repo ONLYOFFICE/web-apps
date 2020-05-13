@@ -2433,6 +2433,11 @@ define([
                                     me.fireEvent('editcomplete', me);
                                 }
                             })).show();
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromStorage
+                        }).on('click', function(item) {
+                            Common.NotificationCenter.trigger('storage:image-load', 'change');
                         })
                     ]
                 })
@@ -2579,6 +2584,7 @@ define([
                     menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgReplace.isVisible())
                         menuImgReplace.setDisabled(islocked || pluginGuid===null);
+                    menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
                     menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgRotate.isVisible())
@@ -4416,7 +4422,8 @@ define([
         textCells: 'Cells',
         textSeveral: 'Several Rows/Columns',
         txtInsertCaption: 'Insert Caption',
-        txtEmpty: '(Empty)'
+        txtEmpty: '(Empty)',
+        textFromStorage: 'From Storage'
 
     }, DE.Views.DocumentHolder || {}));
 });
