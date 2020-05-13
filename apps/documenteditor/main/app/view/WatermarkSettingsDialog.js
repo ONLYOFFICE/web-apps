@@ -104,6 +104,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.props      = options.props;
             this.fontStore = options.fontStore;
             this.api        = options.api;
+            this.storage    = !!options.storage;
             this.textControls = [];
             this.imageControls = [];
             this.fontName = 'Arial';
@@ -165,19 +166,25 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             }, this));
 
             // Image watermark
-            this.btnFromFile = new Common.UI.Button({
-                el: $('#watermark-from-file')
+            this.btnSelectImage = new Common.UI.Button({
+                parentEl: $('#watermark-select-image'),
+                cls: 'btn-text-menu-default',
+                caption: this.textSelect,
+                style: 'width: 142px;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 142px;',
+                    maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
+                    items: [
+                        {caption: this.textFromFile, value: 0},
+                        {caption: this.textFromUrl, value: 1},
+                        {caption: this.textFromStorage, value: 2}
+                    ]
+                })
             });
-            this.btnFromFile.on('click', _.bind(function(btn){
-                this.props.showFileDialog();
-            }, this));
-            this.imageControls.push(this.btnFromFile);
-
-            this.btnFromUrl = new Common.UI.Button({
-                el: $('#watermark-from-url')
-            });
-            this.btnFromUrl.on('click', _.bind(this.insertFromUrl, this));
-            this.imageControls.push(this.btnFromUrl);
+            this.imageControls.push(this.btnSelectImage);
+            this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
+            this.btnSelectImage.menu.items[2].setVisible(this.storage);
 
             this._arrScale = [
                 {displayValue: this.textAuto,   value: -1},
@@ -190,7 +197,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.cmbScale = new Common.UI.ComboBox({
                 el          : $('#watermark-combo-scale'),
                 cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 90px;',
+                menuStyle   : 'min-width: 142px;',
                 data        : this._arrScale
             }).on('selected', _.bind(function(combo, record) {
             }, this));
@@ -410,8 +417,17 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 me.btnOk.setDisabled(false);
             };
             this.api.asc_registerCallback('asc_onWatermarkImageLoaded', onApiWMLoaded);
+
+            var insertImageFromStorage = function(data) {
+                if (data && data.url && data.c=='watermark') {
+                    me.props.put_ImageUrl(data.url, data.token);
+                }
+            };
+            Common.NotificationCenter.on('storage:image-insert', insertImageFromStorage);
+
             this.on('close', function(obj){
                 me.api.asc_unregisterCallback('asc_onWatermarkImageLoaded', onApiWMLoaded);
+                Common.NotificationCenter.off('storage:image-insert', insertImageFromStorage);
             });
         },
 
@@ -494,6 +510,26 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     }
                 }
             })).show();
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value==1) {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                me.props.put_ImageUrl(checkUrl);
+                            }
+                        }
+                    }
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'watermark');
+            } else {
+                this.props.showFileDialog();
+            }
         },
 
         _setDefaults: function (props) {
@@ -672,7 +708,9 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
         textHor: 'Horizontal',
         textColor: 'Text color',
         textNewColor: 'Add New Custom Color',
-        textLanguage: 'Language'
+        textLanguage: 'Language',
+        textFromStorage: 'From storage',
+        textSelect: 'Select Image'
 
     }, DE.Views.WatermarkSettingsDialog || {}))
 });

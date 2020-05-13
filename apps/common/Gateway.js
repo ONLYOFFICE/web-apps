@@ -306,8 +306,8 @@ if (Common === undefined) {
                 _postMessage({event:'onRequestSendNotify', data: emails});
             },
 
-            requestInsertImage:  function () {
-                _postMessage({event:'onRequestInsertImage'});
+            requestInsertImage:  function (command) {
+                _postMessage({event:'onRequestInsertImage', data: {c: command}});
             },
 
             requestMailMergeRecipients:  function () {

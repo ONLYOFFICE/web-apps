@@ -2425,5 +2425,7 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Font Name",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Font Size",
+  "DE.Views.WatermarkSettingsDialog.textFromStorage": "From storage",
+  "DE.Views.WatermarkSettingsDialog.textSelect": "Select Image"
 }
