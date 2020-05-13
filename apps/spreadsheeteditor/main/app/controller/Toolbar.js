@@ -2302,11 +2302,9 @@ define([
                             case Asc.c_oAscVAlign.Bottom: index = 2; align = 'btn-valign-bottom';  break;
                         }
 
-                        if (index > -1) {
-                            toolbar.btnAlignTop.toggle(index===0, true);
-                            toolbar.btnAlignMiddle.toggle(index===1, true);
-                            toolbar.btnAlignBottom.toggle(index===2, true);
-                        }
+                        toolbar.btnAlignTop.toggle(index===0, true);
+                        toolbar.btnAlignMiddle.toggle(index===1, true);
+                        toolbar.btnAlignBottom.toggle(index===2, true);
                     }
 
                     need_disable =  this._state.controlsdisabled.filters || formatTableInfo!==null || filterInfo && filterInfo.asc_getIsAutoFilter()===null;
@@ -2386,23 +2384,15 @@ define([
 				}
             }
 
-            if (selectionType == Asc.c_oAscSelectionType.RangeShapeText) {
-                var SelectedObjects = this.api.asc_getGraphicObjectProps();
-                for (var i=0; i<SelectedObjects.length; ++i)
-                {
-                    if (SelectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image)
-                        val = SelectedObjects[i].asc_getObjectValue().asc_getVert();
-                }
-            } else
-                val = info.asc_getAngle();
+            val = info.asc_getAngle();
             if (this._state.angle !== val) {
                 toolbar.btnTextOrient.menu.clearAll();
                 switch(val) {
                     case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
                     case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
-                    case 90: case Asc.c_oAscVertDrawingText.vert270:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
-                    case -90: case Asc.c_oAscVertDrawingText.vert:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
-                    default:    toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
+                    case 90:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
+                    case -90:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
+                    case 0:     toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
                 }
                 this._state.angle = val;
             }

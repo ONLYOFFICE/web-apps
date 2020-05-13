@@ -603,7 +603,7 @@ define([
                     id          : 'id-toolbar-rtn-textorient',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon text-orient-ccw',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
