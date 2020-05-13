@@ -645,19 +645,23 @@ define([
             }
         },
 
+        setImageUrl: function(url, token) {
+            if (this.BlipFillType !== null) {
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                fill.put_fill( new Asc.asc_CFillBlip());
+                fill.get_fill().put_type(this.BlipFillType);
+                fill.get_fill().put_url(url, token);
+
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
+            }
+        },
+
         insertImageFromStorage: function(data) {
             if (data && data.url && data.c=='slide') {
-                if (this.BlipFillType !== null) {
-                    var props = new Asc.CAscSlideProps();
-                    var fill = new Asc.asc_CShapeFill();
-                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                    fill.put_fill( new Asc.asc_CFillBlip());
-                    fill.get_fill().put_type(this.BlipFillType);
-                    fill.get_fill().put_url(data.url, data.token);
-
-                    props.put_background(fill);
-                    this.api.SetSlideProps(props);
-                }
+                this.setImageUrl(data.url, data.token);
             }
         },
 
@@ -670,17 +674,7 @@ define([
                             if (me.api) {
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
-                                    if (me.BlipFillType !== null) {
-                                        var props = new Asc.CAscSlideProps();
-                                        var fill = new Asc.asc_CShapeFill();
-                                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                                        fill.put_fill( new Asc.asc_CFillBlip());
-                                        fill.get_fill().put_type(me.BlipFillType);
-                                        fill.get_fill().put_url(checkUrl);
-
-                                        props.put_background(fill);
-                                        me.api.SetSlideProps(props);
-                                    }
+                                    me.setImageUrl(checkUrl);
                                 }
                             }
                         }

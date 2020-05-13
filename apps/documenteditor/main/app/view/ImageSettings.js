@@ -467,11 +467,15 @@ define([
             }
         },
 
+        setImageUrl: function(url, token) {
+            var props = new Asc.asc_CImgProperty();
+            props.put_ImageUrl(url, token);
+            this.api.ImgApply(props);
+        },
+
         insertImageFromStorage: function(data) {
             if (data && data.url && data.c=='change') {
-                var props = new Asc.asc_CImgProperty();
-                props.put_ImageUrl(data.url, data.token);
-                this.api.ImgApply(props);
+                this.setImageUrl(data.url, data.token);
             }
         },
 
@@ -484,9 +488,7 @@ define([
                             if (me.api) {
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
-                                    var props = new Asc.asc_CImgProperty();
-                                    props.put_ImageUrl(checkUrl);
-                                    me.api.ImgApply(props);
+                                    me.setImageUrl(checkUrl);
                                 }
                             }
                         }

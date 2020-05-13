@@ -654,20 +654,24 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        setImageUrl: function(url, token) {
+            if (this.BlipFillType !== null) {
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
+                fill.asc_putType(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                fill.asc_putFill( new Asc.asc_CFillBlip());
+                fill.asc_getFill().asc_putType(this.BlipFillType);
+                fill.asc_getFill().asc_putUrl(url, token);
+
+                props.asc_putFill(fill);
+                this.imgprops.asc_putShapeProperties(props);
+                this.api.asc_setGraphicObjectProps(this.imgprops);
+            }
+        },
+
         insertImageFromStorage: function(data) {
             if (data && data.url && data.c=='fill') {
-                if (this.BlipFillType !== null) {
-                    var props = new Asc.asc_CShapeProperty();
-                    var fill = new Asc.asc_CShapeFill();
-                    fill.asc_putType(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                    fill.asc_putFill( new Asc.asc_CFillBlip());
-                    fill.asc_getFill().asc_putType(this.BlipFillType);
-                    fill.asc_getFill().asc_putUrl(data.url, data.token);
-
-                    props.asc_putFill(fill);
-                    this.imgprops.asc_putShapeProperties(props);
-                    this.api.asc_setGraphicObjectProps(this.imgprops);
-                }
+                this.setImageUrl(data.url, data.token);
             }
         },
 
@@ -680,18 +684,7 @@ define([
                             if (me.api) {
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
-                                    if (me.BlipFillType !== null) {
-                                        var props = new Asc.asc_CShapeProperty();
-                                        var fill = new Asc.asc_CShapeFill();
-                                        fill.asc_putType(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                                        fill.asc_putFill( new Asc.asc_CFillBlip());
-                                        fill.asc_getFill().asc_putType(me.BlipFillType);
-                                        fill.asc_getFill().asc_putUrl(checkUrl);
-
-                                        props.asc_putFill(fill);
-                                        me.imgprops.asc_putShapeProperties(props);
-                                        me.api.asc_setGraphicObjectProps(me.imgprops);
-                                    }
+                                    me.setImageUrl(checkUrl);
                                 }
                             }
                         }

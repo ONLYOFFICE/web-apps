@@ -431,11 +431,15 @@ define([
             }
         },
 
+        setImageUrl: function(url, token) {
+            var props = new Asc.asc_CImgProperty();
+            props.asc_putImageUrl(url, token);
+            this.api.asc_setGraphicObjectProps(props);
+        },
+        
         insertImageFromStorage: function(data) {
             if (data && data.url && data.c=='change') {
-                var props = new Asc.asc_CImgProperty();
-                props.asc_putImageUrl(data.url, data.token);
-                this.api.asc_setGraphicObjectProps(props);
+                this.setImageUrl(data.url, data.token);
             }
         },
 
@@ -448,9 +452,7 @@ define([
                             if (me.api) {
                                 var checkUrl = value.replace(/ /g, '');
                                 if (!_.isEmpty(checkUrl)) {
-                                    var props = new Asc.asc_CImgProperty();
-                                    props.asc_putImageUrl(checkUrl);
-                                    me.api.asc_setGraphicObjectProps(props);
+                                    me.setImageUrl(checkUrl);
                                 }
                             }
                         }
