@@ -399,6 +399,8 @@ define([
                     this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
                     this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
                     this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+                    Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
+                    Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
                 }
                 this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
@@ -852,24 +854,34 @@ define([
                     }
                 })).show();
             } else if (item.value === 'storage') {
-                if (this.toolbar.mode.canRequestInsertImage) {
-                    Common.Gateway.requestInsertImage();
-                } else {
-                    (new Common.Views.SelectFileDlg({
-                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                    })).on('selectfile', function(obj, file){
-                        me.insertImage(file);
-                    }).show();
-                }
+                Common.NotificationCenter.trigger('storage:image-load', 'add');
             }
         },
 
-        insertImage: function(data) {
-            if (data && data.url) {
+        openImageFromStorage: function(type) {
+            var me = this;
+            if (this.toolbar.mode.canRequestInsertImage) {
+                Common.Gateway.requestInsertImage(type);
+            } else {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    file && (file.c = type);
+                    me.insertImage(file);
+                }).show();
+            }
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data.url && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
                 this.api.asc_addImageDrawingObject(data.url, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
+        },
+
+        insertImage: function(data) { // gateway
+            Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
         onHyperlink: function(btn) {

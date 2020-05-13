@@ -2848,7 +2848,12 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : this.textFromUrl
-                        }).on('click', _.bind(me.onInsertImageUrl, me, false))
+                        }).on('click', _.bind(me.onInsertImageUrl, me, false)),
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromStorage
+                        }).on('click', function(item) {
+                            Common.NotificationCenter.trigger('storage:image-load', 'change');
+                        })
                     ]
                 })
             });
@@ -3357,7 +3362,8 @@ define([
                     menuImgReplace.setVisible(isimage && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgReplace.isVisible())
                         menuImgReplace.setDisabled(disabled || pluginGuid===null);
-
+                    menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    
                     me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(disabled);
@@ -3811,7 +3817,8 @@ define([
         txtPrintSelection: 'Print Selection',
         addToLayoutText: 'Add to Layout',
         txtResetLayout: 'Reset Slide',
-        mniCustomTable: 'Insert Custom Table'
+        mniCustomTable: 'Insert Custom Table',
+        textFromStorage: 'From Storage'
 
     }, PE.Views.DocumentHolder || {}));
 });

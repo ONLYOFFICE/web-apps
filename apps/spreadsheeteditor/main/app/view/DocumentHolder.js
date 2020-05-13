@@ -600,7 +600,8 @@ define([
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({caption     : this.textFromFile, value: 'file'}),
-                        new Common.UI.MenuItem({caption     : this.textFromUrl, value: 'url'})
+                        new Common.UI.MenuItem({caption     : this.textFromUrl, value: 'url'}),
+                        new Common.UI.MenuItem({caption     : this.textFromStorage, value: 'storage'})
                     ]
                 })
             });
@@ -1098,7 +1099,8 @@ define([
         textCrop: 'Crop',
         textCropFill: 'Fill',
         textCropFit: 'Fit',
-        textListSettings: 'List Settings'
+        textListSettings: 'List Settings',
+        textFromStorage: 'From Storage'
 
     }, SSE.Views.DocumentHolder || {}));
 });

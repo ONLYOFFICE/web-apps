@@ -1649,6 +1649,7 @@ define([
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
+                documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined));
@@ -3211,6 +3212,8 @@ define([
                         if (me.api) me.api.asc_changeImageFromFile();
                         Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                     }, 10);
+                } else if (item.value == 'storage') {
+                    Common.NotificationCenter.trigger('storage:image-load', 'change');
                 } else {
                     (new Common.Views.ImageFromUrlDialog({
                         handler: function(result, value) {

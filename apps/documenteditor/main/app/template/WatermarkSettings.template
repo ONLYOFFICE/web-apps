@@ -45,13 +45,10 @@
         <div id="watermark-radio-image"></div>
     </td></tr>
     <tr><td class="padding-small">
-        <table id="watermark-tbl-image" cols="3" style="margin-left: 22px;">
+        <table id="watermark-tbl-image" cols="2" style="margin-left: 22px;">
             <tr>
                 <td style="vertical-align: top;">
-                    <button type="button" class="btn btn-text-default" id="watermark-from-file" style="width:90px;"><%= scope.textFromFile %></button>
-                </td>
-                <td style="vertical-align: top;">
-                    <button type="button" class="btn btn-text-default" id="watermark-from-url" style="width:90px;margin-left: 15px;"><%= scope.textFromUrl %></button>
+                    <div id="watermark-select-image"></div>
                 </td>
                 <td rowspan="2">
                     <div style="width: 80px; height: 70px; padding: 9px 14px; border: 1px solid #AFAFAF; border-radius: 2px; background: #ffffff;margin-left: 15px;">
@@ -62,9 +59,8 @@
             <tr>
                 <td style="vertical-align: bottom;">
                     <label class="input-label" style=""><%= scope.textScale %></label>
-                    <div id="watermark-combo-scale" style="width: 90px;"></div>
+                    <div id="watermark-combo-scale" style="width: 142px;"></div>
                 </td>
-                <td></td>
             </tr>
             </table>
     </td></tr>
