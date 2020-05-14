@@ -545,7 +545,7 @@ define([
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
-                    isLock  : cell.asc_getFlags().asc_getLockText(),
+                    isLock  : cell.asc_getLockText(),
                     allowInternal: item.options.inCell
                 });
             }

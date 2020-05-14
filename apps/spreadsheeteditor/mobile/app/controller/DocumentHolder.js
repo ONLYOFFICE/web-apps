@@ -436,7 +436,7 @@ define([
                                         event: 'openlink'
                                     });
                                 } else if (!cellinfo.asc_getHyperlink() && !cellinfo.asc_getMultiselect() &&
-                                    !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText()) {
+                                    !cellinfo.asc_getLockText() && !!cellinfo.asc_getText()) {
                                     arrItems.push({
                                         caption: me.menuAddLink,
                                         event: 'addlink'

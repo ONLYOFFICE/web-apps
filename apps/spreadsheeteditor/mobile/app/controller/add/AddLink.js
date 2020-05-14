@@ -76,7 +76,7 @@ define([
             celltype!==Asc.c_oAscSelectionType.RangeShapeText && celltype!==Asc.c_oAscSelectionType.RangeChart &&
             celltype!==Asc.c_oAscSelectionType.RangeChartText);
 
-            _view.optionDisplayText(cell.asc_getFlags().asc_getLockText() ? 'locked' : cell.asc_getText());
+            _view.optionDisplayText(cell.asc_getLockText() ? 'locked' : cell.asc_getText());
             _view.optionAllowInternal(allowinternal);
             allowinternal && _view.optionLinkType( cfgLink.type );
         }
@@ -163,7 +163,7 @@ define([
                 celltype!==Asc.c_oAscSelectionType.RangeShapeText && celltype!==Asc.c_oAscSelectionType.RangeChart &&
                 celltype!==Asc.c_oAscSelectionType.RangeChartText);
 
-                view.optionDisplayText(cell.asc_getFlags().asc_getLockText() ? 'locked' : cell.asc_getText());
+                view.optionDisplayText(cell.asc_getLockText() ? 'locked' : cell.asc_getText());
                 view.optionAllowInternal(allowinternal);
                 allowinternal && view.optionLinkType( cfgLink.type );
 
