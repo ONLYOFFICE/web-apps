@@ -133,7 +133,7 @@ define([
 
                     var cellInfo = me.api.asc_getCellInfo(),
                         linkInfo = cellInfo.asc_getHyperlink(),
-                        isLock = cellInfo.asc_getFlags().asc_getLockText();
+                        isLock = cellInfo.asc_getLockText();
 
                     me.linkType = linkInfo.asc_getType();
                     $('#edit-link-type .item-after').text((me.linkType == Asc.c_oAscHyperlinkType.RangeLink) ? me.textInternalLink : me.textExternalLink);

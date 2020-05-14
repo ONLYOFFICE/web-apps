@@ -439,6 +439,16 @@ define([
                 return template;
             },
 
+            renderChangeReview: function(change) {
+                var isAndroid = Framework7.prototype.device.android === true;
+                var template = (isAndroid ? '<div class="header-change"><div class="initials-change" style="background-color: #' + change.color + ';">' + change.initials + '</div><div>' : '') +
+                    '<div id="user-name">' + change.user + '</div>' +
+                    '<div id="date-change">' + change.date + '</div>' +
+                    (isAndroid ? '</div></div>' : '') +
+                    '<div id="text-change">' + change.text + '</div>';
+                $('#current-change').html(_.template(template));
+            },
+
             textCollaboration: 'Collaboration',
             textReviewing: 'Review',
             textСomments: 'Сomments',
@@ -457,7 +467,12 @@ define([
             textDone: 'Done',
             textAddReply: 'Add Reply',
             textEditReply: 'Edit Reply',
-            textCancel: 'Cancel'
+            textCancel: 'Cancel',
+            textAllChangesEditing: 'All changes (Editing)',
+            textAllChangesAcceptedPreview: 'All changes accepted (Preview)',
+            textAllChangesRejectedPreview: 'All changes rejected (Preview)',
+            textAccept: 'Accept',
+            textReject: 'Reject'
         }
     })(), Common.Views.Collaboration || {}))
 });

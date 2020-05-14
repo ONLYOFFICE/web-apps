@@ -117,7 +117,7 @@ define([
 
             // special disable conditions
             Common.Utils.lockControls(SSE.enumLock.multiselectCols, info.asc_getSelectedColsCount()>1, {array: [this.view.btnTextToColumns]});
-            Common.Utils.lockControls(SSE.enumLock.multiselect, info.asc_getFlags().asc_getMultiselect(), {array: [this.view.btnTextToColumns]});
+            Common.Utils.lockControls(SSE.enumLock.multiselect, info.asc_getMultiselect(), {array: [this.view.btnTextToColumns]});
         },
 
         onUngroup: function(type) {

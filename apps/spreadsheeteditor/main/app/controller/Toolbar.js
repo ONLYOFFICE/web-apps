@@ -401,6 +401,8 @@ define([
                     this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
                     this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
                     this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+                    Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
+                    Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
                 }
                 this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
@@ -750,7 +752,7 @@ define([
             }
 
             if (me.api) {
-                var merged = me.api.asc_getCellInfo().asc_getFlags().asc_getMerge();
+                var merged = me.api.asc_getCellInfo().asc_getMerge();
                 if ((merged !== Asc.c_oAscMergeOptions.Merge) && me.api.asc_mergeCellsDataLost(item.value)) {
                     Common.UI.warning({
                         msg: me.warnMergeLostData,
@@ -785,7 +787,7 @@ define([
         },
 
         onTextOrientationMenu: function(menu, item) {
-            if (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeShapeText) {
+            if (this.api.asc_getCellInfo().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeShapeText) {
                 var angle = Asc.c_oAscVertDrawingText.normal;
                 switch (item.value) {
                     case 'rotateup':    angle =  Asc.c_oAscVertDrawingText.vert270;    break;
@@ -854,24 +856,34 @@ define([
                     }
                 })).show();
             } else if (item.value === 'storage') {
-                if (this.toolbar.mode.canRequestInsertImage) {
-                    Common.Gateway.requestInsertImage();
-                } else {
-                    (new Common.Views.SelectFileDlg({
-                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                    })).on('selectfile', function(obj, file){
-                        me.insertImage(file);
-                    }).show();
-                }
+                Common.NotificationCenter.trigger('storage:image-load', 'add');
             }
         },
 
-        insertImage: function(data) {
-            if (data && data.url) {
+        openImageFromStorage: function(type) {
+            var me = this;
+            if (this.toolbar.mode.canRequestInsertImage) {
+                Common.Gateway.requestInsertImage(type);
+            } else {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    file && (file.c = type);
+                    me.insertImage(file);
+                }).show();
+            }
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data.url && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
                 this.api.asc_addImageDrawingObject(data.url, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
+        },
+
+        insertImage: function(data) { // gateway
+            Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
         onHyperlink: function(btn) {
@@ -898,7 +910,7 @@ define([
                 };
 
                 var cell = me.api.asc_getCellInfo(),
-                    seltype = cell.asc_getFlags().asc_getSelectionType();
+                    seltype = cell.asc_getSelectionType();
                 props = cell.asc_getHyperlink();
                 win = new SSE.Views.HyperlinkSettingsDialog({
                     api: me.api,
@@ -913,7 +925,7 @@ define([
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
-                    isLock  : cell.asc_getFlags().asc_getLockText(),
+                    isLock  : cell.asc_getLockText(),
                     allowInternal: (seltype!==Asc.c_oAscSelectionType.RangeImage && seltype!==Asc.c_oAscSelectionType.RangeShape &&
                                     seltype!==Asc.c_oAscSelectionType.RangeShapeText && seltype!==Asc.c_oAscSelectionType.RangeChart &&
                                     seltype!==Asc.c_oAscSelectionType.RangeChartText)
@@ -926,7 +938,8 @@ define([
         onEditChart: function(btn) {
             if (!this.editMode) return;
             var me = this, info = me.api.asc_getCellInfo();
-            if (info.asc_getFlags().asc_getSelectionType()!=Asc.c_oAscSelectionType.RangeImage) {
+            var selectType = info.asc_getSelectionType();
+            if (selectType !== Asc.c_oAscSelectionType.RangeImage) {
                 var win, props;
                 if (me.api){
                     props = me.api.asc_getChartObject();
@@ -940,7 +953,7 @@ define([
                         }
                     }
                     if (props) {
-                        var ischartedit = ( me.toolbar.mode.isEditDiagram || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChartText);
+                        var ischartedit = ( me.toolbar.mode.isEditDiagram || selectType === Asc.c_oAscSelectionType.RangeChart || selectType === Asc.c_oAscSelectionType.RangeChartText);
 
                         (new SSE.Views.ChartSettingsDlg(
                             {
@@ -968,7 +981,7 @@ define([
             if (!this.editMode) return;
             var me = this,
                 info = me.api.asc_getCellInfo(),
-                seltype = info.asc_getFlags().asc_getSelectionType(),
+                seltype = info.asc_getSelectionType(),
                 isSpark = (group == 'menu-chart-group-sparkcolumn' || group == 'menu-chart-group-sparkline' || group == 'menu-chart-group-sparkwin');
 
             if (me.api) {
@@ -1517,7 +1530,7 @@ define([
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot &&
                             !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()) {
                             var cellinfo = me.api.asc_getCellInfo(),
-                                selectionType = cellinfo.asc_getFlags().asc_getSelectionType();
+                                selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType !== Asc.c_oAscSelectionType.RangeShapeText || me.api.asc_canAddShapeHyperlink()!==false)
                                 me.onHyperlink();
                         }
@@ -2059,7 +2072,7 @@ define([
             if ( this.toolbar.mode.isEditMailMerge )
                 return this.onApiSelectionChanged_MailMergeEditor(info);
 
-            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+            var selectionType = info.asc_getSelectionType(),
                 coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true || info.asc_getLockedPivotTable()===true) : false,
                 editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
                 me = this,
@@ -2275,7 +2288,7 @@ define([
                         }
                     }
 
-                    need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText);
+                    need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText || selectionType == Asc.c_oAscSelectionType.RangeShape);
                     toolbar.btnTextOrient.menu.items[1].setDisabled(need_disable);
                     toolbar.btnTextOrient.menu.items[2].setDisabled(need_disable);
 
@@ -2292,18 +2305,16 @@ define([
                             case Asc.c_oAscVAlign.Bottom: index = 2; align = 'btn-valign-bottom';  break;
                         }
 
-                        if (index > -1) {
-                            toolbar.btnAlignTop.toggle(index===0, true);
-                            toolbar.btnAlignMiddle.toggle(index===1, true);
-                            toolbar.btnAlignBottom.toggle(index===2, true);
-                        }
+                        toolbar.btnAlignTop.toggle(index===0, true);
+                        toolbar.btnAlignMiddle.toggle(index===1, true);
+                        toolbar.btnAlignBottom.toggle(index===2, true);
                     }
 
                     need_disable =  this._state.controlsdisabled.filters || formatTableInfo!==null || filterInfo && filterInfo.asc_getIsAutoFilter()===null;
 //                (need_disable !== toolbar.btnMerge.isDisabled()) && toolbar.btnMerge.setDisabled(need_disable);
                     toolbar.lockToolbar(SSE.enumLock.ruleMerge, need_disable, {array:[toolbar.btnMerge, toolbar.btnInsertTable]});
 
-                    val = info.asc_getFlags().asc_getMerge();
+                    val = info.asc_getMerge();
                     if (this._state.merge !== val) {
                         toolbar.btnMerge.toggle(val===Asc.c_oAscMergeOptions.Merge, true);
                         this._state.merge = val;
@@ -2311,7 +2322,7 @@ define([
 
                     /* read cell text wrapping */
                     if (!toolbar.btnWrap.isDisabled()) {
-                        val = info.asc_getFlags().asc_getWrapText();
+                        val = info.asc_getWrapText();
                         if (this._state.wrap !== val) {
                             toolbar.btnWrap.toggle(val===true, true);
                             this._state.wrap = val;
@@ -2352,7 +2363,7 @@ define([
                 if (this._state.tablename !== old_name || this._state.filterapplied !== old_applied)
                     this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
 
-                this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
+                this._state.multiselect = info.asc_getMultiselect();
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
@@ -2376,23 +2387,15 @@ define([
 				}
             }
 
-            if (selectionType == Asc.c_oAscSelectionType.RangeShapeText) {
-                var SelectedObjects = this.api.asc_getGraphicObjectProps();
-                for (var i=0; i<SelectedObjects.length; ++i)
-                {
-                    if (SelectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image)
-                        val = SelectedObjects[i].asc_getObjectValue().asc_getVert();
-                }
-            } else
-                val = info.asc_getAngle();
+            val = info.asc_getAngle();
             if (this._state.angle !== val) {
                 toolbar.btnTextOrient.menu.clearAll();
                 switch(val) {
                     case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
                     case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
-                    case 90: case Asc.c_oAscVertDrawingText.vert270:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
-                    case -90: case Asc.c_oAscVertDrawingText.vert:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
-                    default:    toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
+                    case 90:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
+                    case -90:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
+                    case 0:     toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
                 }
                 this._state.angle = val;
             }
@@ -2447,7 +2450,7 @@ define([
         },
 
         onApiSelectionChangedRestricted: function(info) {
-            var selectionType = info.asc_getFlags().asc_getSelectionType();
+            var selectionType = info.asc_getSelectionType();
             this.toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()) ||
                                     this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
                                     { array: this.btnsComment });
@@ -2497,7 +2500,7 @@ define([
                 return is_image;
             };
 
-            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+            var selectionType = info.asc_getSelectionType(),
                 coauth_disable = false;
 
             if ( _disableEditOptions(selectionType, coauth_disable) ) return;
@@ -2547,7 +2550,7 @@ define([
                 return is_image;
             };
 
-            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+            var selectionType = info.asc_getSelectionType(),
                 coauth_disable = false,
                 editOptionsDisabled = _disableEditOptions(selectionType, coauth_disable),
                 val, need_disable = false;
@@ -3089,14 +3092,14 @@ define([
                     win.show();
                     win.setSettings({
                         api     : me.api,
-                        selectionType: me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()
+                        selectionType: me.api.asc_getCellInfo().asc_getSelectionType()
                     });
                 } else {
                     me._state.filter = undefined;
                     if (me._state.tablename)
                         me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.style, fmtname);
                     else {
-                        var selectionType = me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType();
+                        var selectionType = me.api.asc_getCellInfo().asc_getSelectionType();
                         if (selectionType == Asc.c_oAscSelectionType.RangeMax || selectionType == Asc.c_oAscSelectionType.RangeRow ||
                             selectionType == Asc.c_oAscSelectionType.RangeCol)
                             Common.UI.warning({
@@ -3305,7 +3308,7 @@ define([
                     this.btnsComment.forEach(function (btn) {
                         btn.updateHint( _comments.textHintAddComment );
                         btn.on('click', function (btn, e) {
-                            Common.NotificationCenter.trigger('app:comment:add', 'toolbar', me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() != Asc.c_oAscSelectionType.RangeCells);
+                            Common.NotificationCenter.trigger('app:comment:add', 'toolbar', me.api.asc_getCellInfo().asc_getSelectionType() != Asc.c_oAscSelectionType.RangeCells);
                         });
                         if (btn.cmpEl.closest('#review-changes-panel').length>0)
                             btn.setCaption(me.toolbar.capBtnAddComment);

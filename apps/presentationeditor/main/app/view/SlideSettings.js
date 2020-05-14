@@ -292,7 +292,12 @@ define([
                 this.api.SetInterfaceDrawImagePlaceSlide('slide-texture-img');
                 this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
             }
+            Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
         },
 
         onFillSrcSelect: function(combo, record) {
@@ -640,31 +645,48 @@ define([
             }
         },
 
-        insertFromUrl: function() {
-            var me = this;
-            (new Common.Views.ImageFromUrlDialog({
-                handler: function(result, value) {
-                    if (result == 'ok') {
-                        if (me.api) {
-                            var checkUrl = value.replace(/ /g, '');
-                            if (!_.isEmpty(checkUrl)) {
-                                if (me.BlipFillType !== null) {
-                                    var props = new Asc.CAscSlideProps();
-                                    var fill = new Asc.asc_CShapeFill();
-                                    fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                                    fill.put_fill( new Asc.asc_CFillBlip());
-                                    fill.get_fill().put_type(me.BlipFillType);
-                                    fill.get_fill().put_url(checkUrl);
+        setImageUrl: function(url, token) {
+            if (this.BlipFillType !== null) {
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                fill.put_fill( new Asc.asc_CFillBlip());
+                fill.get_fill().put_type(this.BlipFillType);
+                fill.get_fill().put_url(url, token);
 
-                                    props.put_background(fill);
-                                    me.api.SetSlideProps(props);
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
+            }
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data.url && data.c=='slide') {
+                this.setImageUrl(data.url, data.token);
+            }
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value==1) {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.setImageUrl(checkUrl);
                                 }
                             }
                         }
+                        me.fireEvent('editcomplete', me);
                     }
-                    me.fireEvent('editcomplete', me);
-                }
-            })).show();
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'slide');
+            } else {
+                if (this.api) this.api.ChangeSlideImageFromFile(this.BlipFillType);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         createDelayedControls: function() {
@@ -692,20 +714,24 @@ define([
             this.cmbPattern.on('click', _.bind(this.onPatternSelect, this));
             this.FillItems.push(this.cmbPattern);
 
-            this.btnInsertFromFile = new Common.UI.Button({
-                el: $('#slide-button-from-file')
+            this.btnSelectImage = new Common.UI.Button({
+                parentEl: $('#slide-button-replace'),
+                cls: 'btn-text-menu-default',
+                caption: this.textSelectImage,
+                style: "width:100%;",
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 194px;',
+                    maxHeight: 200,
+                    items: [
+                        {caption: this.textFromFile, value: 0},
+                        {caption: this.textFromUrl, value: 1},
+                        {caption: this.textFromStorage, value: 2}
+                    ]
+                })
             });
-            this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.ChangeSlideImageFromFile(this.BlipFillType);
-                this.fireEvent('editcomplete', this);
-            }, this));
-            this.FillItems.push(this.btnInsertFromFile);
-
-            this.btnInsertFromUrl = new Common.UI.Button({
-                el: $('#slide-button-from-url')
-            });
-            this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
-            this.FillItems.push(this.btnInsertFromUrl);
+            this.FillItems.push(this.btnSelectImage);
+            this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
+            this.btnSelectImage.menu.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
             this._arrFillType = [
                 {displayValue: this.textStretch, value: Asc.c_oAscFillBlipType.STRETCH},
@@ -1534,6 +1560,8 @@ define([
         textGradient: 'Gradient',
         textSec: 's',
         strSlideNum: 'Show Slide Number',
-        strDateTime: 'Show Date and Time'
+        strDateTime: 'Show Date and Time',
+        textFromStorage: 'From Storage',
+        textSelectImage: 'Select Picture'
     }, PE.Views.SlideSettings || {}));
 });

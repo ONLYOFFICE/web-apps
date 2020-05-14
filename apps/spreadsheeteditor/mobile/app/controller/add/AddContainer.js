@@ -82,7 +82,7 @@ define([
 
                 var cellinfo = me.api.asc_getCellInfo();
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu,
-                    seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                    seltype             = cellinfo.asc_getSelectionType(),
                     iscelllocked        = cellinfo.asc_getLocked(),
                     isTableLocked       = cellinfo.asc_getLockedTable()===true;
 
@@ -123,7 +123,7 @@ define([
                 var me = this,
                     addViews = [];
 
-                // var seltype = this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType();
+                // var seltype = this.api.asc_getCellInfo().asc_getSelectionType();
 
                 if ( !options )
                     addViews.push({

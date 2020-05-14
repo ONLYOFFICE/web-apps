@@ -133,7 +133,7 @@ define([
             if (this.rangeSelectionMode) return;
             
             var SelectedObjects = [],
-                selectType = info.asc_getFlags().asc_getSelectionType(),
+                selectType = info.asc_getSelectionType(),
                 formatTableInfo = info.asc_getFormatTableInfo(),
                 sparkLineInfo = info.asc_getSparklineInfo(),
                 cellInfo = info,

@@ -351,7 +351,7 @@ define([
 
         onInsertEntire: function(item) {
             if (this.api) {
-                switch (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()) {
+                switch (this.api.asc_getCellInfo().asc_getSelectionType()) {
                     case Asc.c_oAscSelectionType.RangeRow:
                         this.api.asc_insertCells(Asc.c_oAscInsertOptions.InsertRows);
                         break;
@@ -376,7 +376,7 @@ define([
 
         onDeleteEntire: function(item) {
             if (this.api) {
-                switch (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()) {
+                switch (this.api.asc_getCellInfo().asc_getSelectionType()) {
                     case Asc.c_oAscSelectionType.RangeRow:
                         this.api.asc_deleteCells(Asc.c_oAscDeleteOptions.DeleteRows);
                         break;
@@ -545,7 +545,7 @@ define([
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
-                    isLock  : cell.asc_getFlags().asc_getLockText(),
+                    isLock  : cell.asc_getLockText(),
                     allowInternal: item.options.inCell
                 });
             }
@@ -1567,7 +1567,7 @@ define([
         fillMenuProps: function(cellinfo, showMenu, event){
             var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu, isimageonly,
                 documentHolder      = this.documentHolder,
-                seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 isObjLocked         = false,
@@ -1649,6 +1649,7 @@ define([
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
+                documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined));
@@ -1739,7 +1740,7 @@ define([
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
-                    ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
+                    ismultiselect = cellinfo.asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = cellinfo.asc_getFillColor();
                 documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
@@ -1862,7 +1863,7 @@ define([
 
         fillViewMenuProps: function(cellinfo, showMenu, event){
             var documentHolder      = this.documentHolder,
-                seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
@@ -3211,6 +3212,8 @@ define([
                         if (me.api) me.api.asc_changeImageFromFile();
                         Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                     }, 10);
+                } else if (item.value == 'storage') {
+                    Common.NotificationCenter.trigger('storage:image-load', 'change');
                 } else {
                     (new Common.Views.ImageFromUrlDialog({
                         handler: function(result, value) {

@@ -219,7 +219,7 @@ define([
                     vAlign = me._cellInfo.asc_getVertAlign(),
                     hAlignStr = 'left',
                     vAlignStr = 'bottom',
-                    isWrapText = me._cellInfo.asc_getFlags().asc_getWrapText();
+                    isWrapText = me._cellInfo.asc_getWrapText();
 
                 if (vAlign == Asc.c_oAscVAlign.Top)
                     vAlignStr = 'top';
@@ -316,7 +316,7 @@ define([
                 }
 
                 var me = this,
-                    selectionType = cellInfo.asc_getFlags().asc_getSelectionType(),
+                    selectionType = cellInfo.asc_getSelectionType(),
                     // coAuthDisable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (cellInfo.asc_getLocked()===true || cellInfo.asc_getLockedTable()===true) : false,
                     // editOptionsDisabled = this._disableEditOptions(selectionType, coAuthDisable),
                     _fontInfo = cellInfo.asc_getFont(),
