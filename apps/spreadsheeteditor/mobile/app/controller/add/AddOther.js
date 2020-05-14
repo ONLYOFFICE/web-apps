@@ -98,7 +98,7 @@ define([
             isHideInsertComment: function() {
                 var cellinfo = this.api.asc_getCellInfo();
                 var iscelllocked    = cellinfo.asc_getLocked(),
-                    seltype         = cellinfo.asc_getFlags().asc_getSelectionType();
+                    seltype         = cellinfo.asc_getSelectionType();
                 if (seltype === Asc.c_oAscSelectionType.RangeCells && !iscelllocked) {
                     return false;
                 }

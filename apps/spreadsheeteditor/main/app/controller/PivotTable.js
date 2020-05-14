@@ -380,8 +380,7 @@ define([
         onSelectionChanged: function(info) {
             if (this.rangeSelectionMode || !this.appConfig.isEdit || !this.view) return;
 
-            var selectType = info.asc_getFlags().asc_getSelectionType(),
-                pivotInfo = info.asc_getPivotTableInfo();
+            var pivotInfo = info.asc_getPivotTableInfo();
 
             Common.Utils.lockControls(SSE.enumLock.noPivot, !pivotInfo, {array: this.view.lockedControls});
             Common.Utils.lockControls(SSE.enumLock.editPivot, !!pivotInfo, {array: [this.view.btnAddPivot]});

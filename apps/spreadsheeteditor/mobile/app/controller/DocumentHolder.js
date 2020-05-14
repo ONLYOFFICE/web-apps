@@ -219,10 +219,10 @@ define([
                     me.api.asc_mergeCells(Asc.c_oAscMergeOptions.None);
                     break;
                 case 'hide':
-                    me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_hideRows' : 'asc_hideColumns']();
+                    me.api[info.asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_hideRows' : 'asc_hideColumns']();
                     break;
                 case 'show':
-                    me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_showRows' : 'asc_showColumns']();
+                    me.api[info.asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_showRows' : 'asc_showColumns']();
                     break;
                 case 'addlink':
                     me.view.hideMenu();
@@ -311,7 +311,7 @@ define([
 
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
                 var iscelllocked    = cellinfo.asc_getLocked(),
-                    seltype         = cellinfo.asc_getFlags().asc_getSelectionType();
+                    seltype         = cellinfo.asc_getSelectionType();
 
                 switch (seltype) {
                     case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -407,20 +407,20 @@ define([
                                     event: 'edit'
                                 });
 
-                                (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
+                                (cellinfo.asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
                                 arrItems.push({
                                     caption: me.menuMerge,
                                     event: 'merge'
                                 });
 
-                                (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.Merge) &&
+                                (cellinfo.asc_getMerge() == Asc.c_oAscMergeOptions.Merge) &&
                                 arrItems.push({
                                     caption: me.menuUnmerge,
                                     event: 'unmerge'
                                 });
 
                                 arrItems.push(
-                                    cellinfo.asc_getFlags().asc_getWrapText() ?
+                                    cellinfo.asc_getWrapText() ?
                                         {
                                             caption: me.menuUnwrap,
                                             event: 'unwrap'
@@ -430,13 +430,13 @@ define([
                                             event: 'wrap'
                                         });
 
-                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect()) {
+                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getMultiselect()) {
                                     arrItems.push({
                                         caption: me.menuOpenLink,
                                         event: 'openlink'
                                     });
-                                } else if (!cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
-                                    !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText()) {
+                                } else if (!cellinfo.asc_getHyperlink() && !cellinfo.asc_getMultiselect() &&
+                                    !cellinfo.asc_getLockText() && !!cellinfo.asc_getText()) {
                                     arrItems.push({
                                         caption: me.menuAddLink,
                                         event: 'addlink'
