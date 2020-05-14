@@ -750,7 +750,7 @@ define([
             }
 
             if (me.api) {
-                var merged = me.api.asc_getCellInfo().asc_getFlags().asc_getMerge();
+                var merged = me.api.asc_getCellInfo().asc_getMerge();
                 if ((merged !== Asc.c_oAscMergeOptions.Merge) && me.api.asc_mergeCellsDataLost(item.value)) {
                     Common.UI.warning({
                         msg: me.warnMergeLostData,
@@ -2312,7 +2312,7 @@ define([
 //                (need_disable !== toolbar.btnMerge.isDisabled()) && toolbar.btnMerge.setDisabled(need_disable);
                     toolbar.lockToolbar(SSE.enumLock.ruleMerge, need_disable, {array:[toolbar.btnMerge, toolbar.btnInsertTable]});
 
-                    val = info.asc_getFlags().asc_getMerge();
+                    val = info.asc_getMerge();
                     if (this._state.merge !== val) {
                         toolbar.btnMerge.toggle(val===Asc.c_oAscMergeOptions.Merge, true);
                         this._state.merge = val;

@@ -407,13 +407,13 @@ define([
                                     event: 'edit'
                                 });
 
-                                (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
+                                (cellinfo.asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
                                 arrItems.push({
                                     caption: me.menuMerge,
                                     event: 'merge'
                                 });
 
-                                (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.Merge) &&
+                                (cellinfo.asc_getMerge() == Asc.c_oAscMergeOptions.Merge) &&
                                 arrItems.push({
                                     caption: me.menuUnmerge,
                                     event: 'unmerge'
