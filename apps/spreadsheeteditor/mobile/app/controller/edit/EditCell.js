@@ -316,7 +316,7 @@ define([
                 }
 
                 var me = this,
-                    selectionType = cellInfo.asc_getFlags().asc_getSelectionType(),
+                    selectionType = cellInfo.asc_getSelectionType(),
                     // coAuthDisable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (cellInfo.asc_getLocked()===true || cellInfo.asc_getLockedTable()===true) : false,
                     // editOptionsDisabled = this._disableEditOptions(selectionType, coAuthDisable),
                     _fontInfo = cellInfo.asc_getFont(),

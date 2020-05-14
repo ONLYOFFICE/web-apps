@@ -351,7 +351,7 @@ define([
 
         onInsertEntire: function(item) {
             if (this.api) {
-                switch (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()) {
+                switch (this.api.asc_getCellInfo().asc_getSelectionType()) {
                     case Asc.c_oAscSelectionType.RangeRow:
                         this.api.asc_insertCells(Asc.c_oAscInsertOptions.InsertRows);
                         break;
@@ -376,7 +376,7 @@ define([
 
         onDeleteEntire: function(item) {
             if (this.api) {
-                switch (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()) {
+                switch (this.api.asc_getCellInfo().asc_getSelectionType()) {
                     case Asc.c_oAscSelectionType.RangeRow:
                         this.api.asc_deleteCells(Asc.c_oAscDeleteOptions.DeleteRows);
                         break;
@@ -1567,7 +1567,7 @@ define([
         fillMenuProps: function(cellinfo, showMenu, event){
             var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu, isimageonly,
                 documentHolder      = this.documentHolder,
-                seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 isObjLocked         = false,
@@ -1863,7 +1863,7 @@ define([
 
         fillViewMenuProps: function(cellinfo, showMenu, event){
             var documentHolder      = this.documentHolder,
-                seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),

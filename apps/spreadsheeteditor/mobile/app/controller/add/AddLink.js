@@ -71,7 +71,7 @@ define([
             var _view = view || this.getView();
 
             var cell = this.api.asc_getCellInfo(),
-                celltype = cell.asc_getFlags().asc_getSelectionType();
+                celltype = cell.asc_getSelectionType();
             var allowinternal = (celltype!==Asc.c_oAscSelectionType.RangeImage && celltype!==Asc.c_oAscSelectionType.RangeShape &&
             celltype!==Asc.c_oAscSelectionType.RangeShapeText && celltype!==Asc.c_oAscSelectionType.RangeChart &&
             celltype!==Asc.c_oAscSelectionType.RangeChartText);
@@ -158,7 +158,7 @@ define([
                 view.showPage(rootView, navbar);
 
                 var cell = me.api.asc_getCellInfo(),
-                    celltype = cell.asc_getFlags().asc_getSelectionType();
+                    celltype = cell.asc_getSelectionType();
                 var allowinternal = (celltype!==Asc.c_oAscSelectionType.RangeImage && celltype!==Asc.c_oAscSelectionType.RangeShape &&
                 celltype!==Asc.c_oAscSelectionType.RangeShapeText && celltype!==Asc.c_oAscSelectionType.RangeChart &&
                 celltype!==Asc.c_oAscSelectionType.RangeChartText);

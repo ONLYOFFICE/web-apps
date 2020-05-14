@@ -324,7 +324,7 @@ define([
                 _cellInfo = info;
                 _fontInfo = info.asc_getFont();
 
-                var selectType = info.asc_getFlags().asc_getSelectionType();
+                var selectType = info.asc_getSelectionType();
 
                 switch (selectType) {
                     case Asc.c_oAscSelectionType.RangeChartText: _textIn = TextType.inChart; break;

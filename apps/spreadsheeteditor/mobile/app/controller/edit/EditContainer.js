@@ -378,7 +378,7 @@ define([
                 _settings = [];
 
                 var isCell, isRow, isCol, isAll, isChart, isImage, isTextShape, isShape, isTextChart,
-                    selType             = cellInfo.asc_getFlags().asc_getSelectionType(),
+                    selType             = cellInfo.asc_getSelectionType(),
                     isCellLocked        = cellInfo.asc_getLocked(),
                     isTableLocked       = cellInfo.asc_getLockedTable()===true,
                     isObjLocked         = false;
