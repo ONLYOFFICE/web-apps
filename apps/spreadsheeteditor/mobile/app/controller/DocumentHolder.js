@@ -420,7 +420,7 @@ define([
                                 });
 
                                 arrItems.push(
-                                    cellinfo.asc_getFlags().asc_getWrapText() ?
+                                    cellinfo.asc_getWrapText() ?
                                         {
                                             caption: me.menuUnwrap,
                                             event: 'unwrap'

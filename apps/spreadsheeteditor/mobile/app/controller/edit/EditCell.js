@@ -219,7 +219,7 @@ define([
                     vAlign = me._cellInfo.asc_getVertAlign(),
                     hAlignStr = 'left',
                     vAlignStr = 'bottom',
-                    isWrapText = me._cellInfo.asc_getFlags().asc_getWrapText();
+                    isWrapText = me._cellInfo.asc_getWrapText();
 
                 if (vAlign == Asc.c_oAscVAlign.Top)
                     vAlignStr = 'top';

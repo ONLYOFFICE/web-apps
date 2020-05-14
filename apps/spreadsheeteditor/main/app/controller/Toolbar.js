@@ -2320,7 +2320,7 @@ define([
 
                     /* read cell text wrapping */
                     if (!toolbar.btnWrap.isDisabled()) {
-                        val = info.asc_getFlags().asc_getWrapText();
+                        val = info.asc_getWrapText();
                         if (this._state.wrap !== val) {
                             toolbar.btnWrap.toggle(val===true, true);
                             this._state.wrap = val;
