@@ -216,7 +216,9 @@ Common.Utils = _.extend(new(function() {
         zoom: function() {return me.zoom;},
         topOffset: 0,
         innerWidth: function() {return me.innerWidth;},
-        innerHeight: function() {return me.innerHeight;}
+        innerHeight: function() {return me.innerHeight;},
+        croppedGeometry: function() {return {left:0, top: Common.Utils.InternalSettings.get('window-inactive-area-top'),
+                                        width: me.innerWidth, height: me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top')}}
     }
 })(), Common.Utils || {});
 
