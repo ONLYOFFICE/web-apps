@@ -2285,7 +2285,7 @@ define([
                         }
                     }
 
-                    need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText);
+                    need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText || selectionType == Asc.c_oAscSelectionType.RangeShape);
                     toolbar.btnTextOrient.menu.items[1].setDisabled(need_disable);
                     toolbar.btnTextOrient.menu.items[2].setDisabled(need_disable);
 
