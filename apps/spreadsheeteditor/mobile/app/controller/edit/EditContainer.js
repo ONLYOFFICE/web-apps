@@ -495,7 +495,7 @@ define([
                 //         formatTableInfo = cellInfo.asc_getFormatTableInfo(),
                 //         isinsparkline = (cellInfo.asc_getSparklineInfo()!==null),
                 //         isintable = (formatTableInfo !== null),
-                //         ismultiselect = cellInfo.asc_getFlags().asc_getMultiselect();
+                //         ismultiselect = cellInfo.asc_getMultiselect();
                 //     documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 //     documentHolder.ssMenu.cellColor = cellInfo.asc_getFill().asc_getColor();
                 //     documentHolder.ssMenu.fontColor = cellInfo.asc_getFont().asc_getColor();

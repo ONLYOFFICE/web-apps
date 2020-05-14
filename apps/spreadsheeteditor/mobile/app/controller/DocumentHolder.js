@@ -430,12 +430,12 @@ define([
                                             event: 'wrap'
                                         });
 
-                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect()) {
+                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getMultiselect()) {
                                     arrItems.push({
                                         caption: me.menuOpenLink,
                                         event: 'openlink'
                                     });
-                                } else if (!cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
+                                } else if (!cellinfo.asc_getHyperlink() && !cellinfo.asc_getMultiselect() &&
                                     !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText()) {
                                     arrItems.push({
                                         caption: me.menuAddLink,

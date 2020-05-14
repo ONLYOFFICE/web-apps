@@ -2361,7 +2361,7 @@ define([
                 if (this._state.tablename !== old_name || this._state.filterapplied !== old_applied)
                     this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
 
-                this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
+                this._state.multiselect = info.asc_getMultiselect();
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();

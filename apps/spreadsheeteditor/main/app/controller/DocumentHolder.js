@@ -1740,7 +1740,7 @@ define([
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
-                    ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
+                    ismultiselect = cellinfo.asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = cellinfo.asc_getFillColor();
                 documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
