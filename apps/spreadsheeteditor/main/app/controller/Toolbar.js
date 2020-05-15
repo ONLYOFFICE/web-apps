@@ -1379,7 +1379,7 @@ define([
                                 this.api.asc_setCellFontName(record.name);
                                 Common.component.Analytics.trackEvent('ToolBar', 'Font Name');
                             } else {
-                                this.toolbar.cmbFontName.setValue(this.api.asc_getCellInfo().asc_getFont().asc_getName());
+                                this.toolbar.cmbFontName.setValue(this.api.asc_getCellInfo().asc_getXfs().asc_getFontName());
                             }
                             Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
                         }, this)
@@ -2091,7 +2091,7 @@ define([
                 this._state.fontsize = str_size;
             }
 
-            toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType == Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
+            toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType === Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
 
             /*
             need_disable = selectionType != Asc.c_oAscSelectionType.RangeCells && selectionType != Asc.c_oAscSelectionType.RangeCol &&
@@ -2105,8 +2105,8 @@ define([
             }
             */
 
-            need_disable = (selectionType == Asc.c_oAscSelectionType.RangeCells || selectionType == Asc.c_oAscSelectionType.RangeCol ||
-                selectionType == Asc.c_oAscSelectionType.RangeRow || selectionType == Asc.c_oAscSelectionType.RangeMax);
+            need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
+                selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
             toolbar.lockToolbar(SSE.enumLock.selRange, need_disable, { array: [toolbar.btnImgAlign, toolbar.btnImgBackward, toolbar.btnImgForward, toolbar.btnImgGroup]});
 
             var cangroup = this.api.asc_canGroupGraphicsObjects(),
@@ -2801,14 +2801,14 @@ define([
                         buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getFont().asc_getName(), settings.code);
+                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getXfs().asc_getFontName(), settings.code);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
                 win.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getFont().asc_getName(), settings.code);
+                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getXfs().asc_getFontName(), settings.code);
                 });
             }
         },
