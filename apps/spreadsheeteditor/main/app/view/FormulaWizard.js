@@ -264,7 +264,9 @@ define([
                 if (newValue == oldValue) return;
                 var index = input.options.index,
                     arg = me.args[index],
-                    res = me.api.asc_insertFormulaArgument(newValue, index, arg.argType),
+                    values = me.getArgumentsValue();
+                values[index] = newValue;
+                var res = me.api.asc_insertArgumentsInFormula(values, index, arg.argType),
                     argres = res ? res.asc_getArgumentsResult() : undefined;
                 argres = argres ? argres[index] : undefined;
                 arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.5; font-weight: bold;">' + arg.argTypeName + '</span>' ));
@@ -294,6 +296,14 @@ define([
             else
                 me.args[argcount].lblName.html(me.args[argcount].argName);
             me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
+        },
+
+        getArgumentsValue: function() {
+            var res = [];
+            this.args.forEach(function(item){
+                res.push(item.argInput.getValue());
+            });
+            return res;
         },
 
         getArgType: function(type) {
