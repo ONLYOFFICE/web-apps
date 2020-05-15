@@ -955,38 +955,38 @@ define([
                 val;
 
             /* read font name */
-            var fontparam = fontobj.asc_getName();
+            var fontparam = fontobj.asc_getFontName();
             if (fontparam != this.cmbFonts[idx].getValue()) {
                 Common.NotificationCenter.trigger('fonts:change', fontobj);
             }
 
             /* read font params */
-            val = fontobj.asc_getBold();
+            val = fontobj.asc_getFontBold();
             if (this.btnBold[idx].isActive() !== val)
                 this.btnBold[idx].toggle(val === true, true);
 
-            val = fontobj.asc_getItalic();
+            val = fontobj.asc_getFontItalic();
             if (this.btnItalic[idx].isActive() !== val)
                 this.btnItalic[idx].toggle(val === true, true);
 
-            val = fontobj.asc_getUnderline();
+            val = fontobj.asc_getFontUnderline();
             if (this.btnUnderline[idx].isActive() !== val)
                 this.btnUnderline[idx].toggle(val === true, true);
 
-            val = fontobj.asc_getStrikeout();
+            val = fontobj.asc_getFontStrikeout();
             if (this.btnStrikeout[idx].isActive() !== val)
                 this.btnStrikeout[idx].toggle(val === true, true);
 
-            val = fontobj.asc_getSubscript();
+            val = fontobj.asc_getFontSubscript();
             if (this.btnSubscript[idx].isActive() !== val)
                 this.btnSubscript[idx].toggle(val === true, true);
 
-            val = fontobj.asc_getSuperscript();
+            val = fontobj.asc_getFontSuperscript();
             if (this.btnSuperscript[idx].isActive() !== val)
                 this.btnSuperscript[idx].toggle(val === true, true);
 
             /* read font size */
-            var str_size = fontobj.asc_getSize();
+            var str_size = fontobj.asc_getFontSize();
             if (this.cmbFontSize[idx].getValue() !== str_size)
                 this.cmbFontSize[idx].setValue((str_size!==undefined) ? str_size : '');
 
@@ -994,7 +994,7 @@ define([
             var clr,
                 color,
                 fontColorPicker = this.mnuTextColorPicker[idx];
-            color = fontobj.asc_getColor();
+            color = fontobj.asc_getFontColor();
             if (color) {
                 if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                     clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
