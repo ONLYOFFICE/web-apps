@@ -189,7 +189,7 @@ define([
 
                 var me = this,
                     palette = me.getView('EditCell').paletteFillColor,
-                    color = me._sdkToThemeColor(me._cellInfo.asc_getFillColor());
+                    color = me._sdkToThemeColor(me._cellInfo.asc_getXfs().asc_getFillColor());
 
                 if (palette) {
                     palette.select(color);
