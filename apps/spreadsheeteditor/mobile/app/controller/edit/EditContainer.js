@@ -498,7 +498,7 @@ define([
                 //         ismultiselect = cellInfo.asc_getMultiselect();
                 //     documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 //     documentHolder.ssMenu.cellColor = cellInfo.asc_getFill().asc_getColor();
-                //     documentHolder.ssMenu.fontColor = cellInfo.asc_getFont().asc_getColor();
+                //     documentHolder.ssMenu.fontColor = cellInfo.asc_getXfs().asc_getFontColor();
                 //
                 //     documentHolder.pmiInsertEntire.setVisible(isRow||isCol);
                 //     documentHolder.pmiInsertEntire.setCaption((isRow) ? this.textInsertTop : this.textInsertLeft);

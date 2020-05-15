@@ -278,20 +278,20 @@ define([
                 var me = this;
 
                 // Init font name
-                var fontName = fontObj.asc_getName() || this.textFonts;
+                var fontName = fontObj.asc_getFontName() || this.textFonts;
                 this._fontInfo.name = fontName;
 
                 $('#font-fonts .item-title').html(fontName);
 
 
                 // Init font style
-                $('#font-bold').toggleClass('active', fontObj.asc_getBold() === true);
-                $('#font-italic').toggleClass('active', fontObj.asc_getItalic() === true);
-                $('#font-underline').toggleClass('active', fontObj.asc_getUnderline() === true);
+                $('#font-bold').toggleClass('active', fontObj.asc_getFontBold() === true);
+                $('#font-italic').toggleClass('active', fontObj.asc_getFontItalic() === true);
+                $('#font-underline').toggleClass('active', fontObj.asc_getFontUnderline() === true);
 
 
                 // Init font size
-                this._fontInfo.size = fontObj.asc_getSize();
+                this._fontInfo.size = fontObj.asc_getFontSize();
                 var displaySize = this._fontInfo.size;
 
                 _.isUndefined(displaySize) ? displaySize = this.textAuto : displaySize = displaySize + ' ' + this.textPt;
@@ -301,7 +301,7 @@ define([
 
 
                 // Init font color
-                this._fontInfo.color = fontObj.asc_getColor();
+                this._fontInfo.color = fontObj.asc_getFontColor();
 
                 var color = this._fontInfo.color,
                     clr = me._sdkToThemeColor(color);
@@ -319,7 +319,7 @@ define([
                     selectionType = cellInfo.asc_getSelectionType(),
                     // coAuthDisable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (cellInfo.asc_getLocked()===true || cellInfo.asc_getLockedTable()===true) : false,
                     // editOptionsDisabled = this._disableEditOptions(selectionType, coAuthDisable),
-                    _fontInfo = cellInfo.asc_getFont(),
+                    _fontInfo = cellInfo.asc_getXfs(),
                     val,
                     need_disable = false;
 

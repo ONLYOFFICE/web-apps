@@ -344,7 +344,7 @@ define([
             onApiChangeFontInternal: function(font) {
                 if (this.inFormControl) return;
 
-                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName());
+                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
 
                 if (this.getRawValue() !== name) {
                     var record = this.store.findWhere({

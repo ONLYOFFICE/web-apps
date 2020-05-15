@@ -1964,36 +1964,36 @@ define([
                 val;
 
             /* read font name */
-            var fontparam = fontobj.asc_getName();
+            var fontparam = fontobj.asc_getFontName();
             if (fontparam != toolbar.cmbFontName.getValue()) {
                 Common.NotificationCenter.trigger('fonts:change', fontobj);
             }
 
             /* read font params */
             if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
-                val = fontobj.asc_getBold();
+                val = fontobj.asc_getFontBold();
                 if (this._state.bold !== val) {
                     toolbar.btnBold.toggle(val === true, true);
                     this._state.bold = val;
                 }
-                val = fontobj.asc_getItalic();
+                val = fontobj.asc_getFontItalic();
                 if (this._state.italic !== val) {
                     toolbar.btnItalic.toggle(val === true, true);
                     this._state.italic = val;
                 }
-                val = fontobj.asc_getUnderline();
+                val = fontobj.asc_getFontUnderline();
                 if (this._state.underline !== val) {
                     toolbar.btnUnderline.toggle(val === true, true);
                     this._state.underline = val;
                 }
-                val = fontobj.asc_getStrikeout();
+                val = fontobj.asc_getFontStrikeout();
                 if (this._state.strikeout !== val) {
                     toolbar.btnStrikeout.toggle(val === true, true);
                     this._state.strikeout = val;
                 }
 
-                var subsc = fontobj.asc_getSubscript(),
-                    supersc = fontobj.asc_getSuperscript();
+                var subsc = fontobj.asc_getFontSubscript(),
+                    supersc = fontobj.asc_getFontSuperscript();
 
                 if (this._state.subscript !== subsc || this._state.superscript !== supersc) {
                     var index = (supersc) ? 0 : (subsc ? 1 : -1),
@@ -2017,7 +2017,7 @@ define([
             }
 
             /* read font size */
-            var str_size = fontobj.asc_getSize();
+            var str_size = fontobj.asc_getFontSize();
             if (this._state.fontsize !== str_size) {
                 toolbar.cmbFontSize.setValue((str_size!==undefined) ? str_size : '');
                 this._state.fontsize = str_size;
@@ -2029,7 +2029,7 @@ define([
                 fontColorPicker      = this.toolbar.mnuTextColorPicker;
 
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
-                color = fontobj.asc_getColor();
+                color = fontobj.asc_getFontColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
@@ -2075,17 +2075,17 @@ define([
                 editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
                 me = this,
                 toolbar = this.toolbar,
-                fontobj = info.asc_getFont(),
+                fontobj = info.asc_getXfs(),
                 val, need_disable = false;
 
             /* read font name */
-            var fontparam = fontobj.asc_getName();
+            var fontparam = fontobj.asc_getFontName();
             if (fontparam != toolbar.cmbFontName.getValue()) {
                 Common.NotificationCenter.trigger('fonts:change', fontobj);
             }
 
             /* read font size */
-            var str_size = fontobj.asc_getSize();
+            var str_size = fontobj.asc_getFontSize();
             if (this._state.fontsize !== str_size) {
                 toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
                 this._state.fontsize = str_size;
@@ -2124,29 +2124,29 @@ define([
 
             /* read font params */
             if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
-                val = fontobj.asc_getBold();
+                val = fontobj.asc_getFontBold();
                 if (this._state.bold !== val) {
                     toolbar.btnBold.toggle(val === true, true);
                     this._state.bold = val;
                 }
-                val = fontobj.asc_getItalic();
+                val = fontobj.asc_getFontItalic();
                 if (this._state.italic !== val) {
                     toolbar.btnItalic.toggle(val === true, true);
                     this._state.italic = val;
                 }
-                val = fontobj.asc_getUnderline();
+                val = fontobj.asc_getFontUnderline();
                 if (this._state.underline !== val) {
                     toolbar.btnUnderline.toggle(val === true, true);
                     this._state.underline = val;
                 }
-                val = fontobj.asc_getStrikeout();
+                val = fontobj.asc_getFontStrikeout();
                 if (this._state.strikeout !== val) {
                     toolbar.btnStrikeout.toggle(val === true, true);
                     this._state.strikeout = val;
                 }
 
-                var subsc = fontobj.asc_getSubscript(),
-                    supersc = fontobj.asc_getSuperscript();
+                var subsc = fontobj.asc_getFontSubscript(),
+                    supersc = fontobj.asc_getFontSuperscript();
 
                 if (this._state.subscript !== subsc || this._state.superscript !== supersc) {
                     var index = (supersc) ? 0 : (subsc ? 1 : -1),
@@ -2176,7 +2176,7 @@ define([
                 paragraphColorPicker = this.toolbar.mnuBackColorPicker;
 
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
-                color = fontobj.asc_getColor();
+                color = fontobj.asc_getFontColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
@@ -3025,7 +3025,7 @@ define([
 
         _getApiTextSize: function() {
             var cellInfo = this.api.asc_getCellInfo();
-            return cellInfo ? cellInfo.asc_getFont().asc_getSize() : 12;
+            return cellInfo ? cellInfo.asc_getXfs().asc_getFontSize() : 12;
         },
 
         _setTableFormat: function(fmtname) {

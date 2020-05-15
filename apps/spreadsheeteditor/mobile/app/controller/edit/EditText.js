@@ -129,12 +129,12 @@ define([
 
 
                 // Init font name
-                var fontName = _fontInfo.asc_getName() || this.textFonts;
+                var fontName = _fontInfo.asc_getFontName() || this.textFonts;
                 $('#font-fonts .item-title').html(fontName);
 
 
                 // Init font size
-                var displaySize = _fontInfo.asc_getSize();
+                var displaySize = _fontInfo.asc_getFontSize();
                 _.isUndefined(displaySize) ? displaySize = this.textAuto : displaySize = displaySize + ' ' + this.textPt;
 
                 $('#font-fonts .item-after span:first-child').html(displaySize);
@@ -142,13 +142,13 @@ define([
 
 
                 // Init font style
-                $('#font-bold').toggleClass('active', _fontInfo.asc_getBold() === true);
-                $('#font-italic').toggleClass('active', _fontInfo.asc_getItalic() === true);
-                $('#font-underline').toggleClass('active', _fontInfo.asc_getUnderline() === true);
+                $('#font-bold').toggleClass('active', _fontInfo.asc_getFontBold() === true);
+                $('#font-italic').toggleClass('active', _fontInfo.asc_getFontItalic() === true);
+                $('#font-underline').toggleClass('active', _fontInfo.asc_getFontUnderline() === true);
 
 
                 // Init font color
-                var color = _fontInfo.asc_getColor(),
+                var color = _fontInfo.asc_getFontColor(),
                     clr = me._sdkToThemeColor(color);
 
                 $('#font-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
@@ -322,7 +322,7 @@ define([
                 }
 
                 _cellInfo = info;
-                _fontInfo = info.asc_getFont();
+                _fontInfo = info.asc_getXfs();
 
                 var selectType = info.asc_getSelectionType();
 

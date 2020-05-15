@@ -1743,7 +1743,7 @@ define([
                     ismultiselect = cellinfo.asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 documentHolder.ssMenu.cellColor = cellinfo.asc_getFillColor();
-                documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
+                documentHolder.ssMenu.fontColor = cellinfo.asc_getXfs().asc_getFontColor();
 
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);
                 documentHolder.pmiInsertEntire.setCaption((isrowmenu) ? this.textInsertTop : this.textInsertLeft);
