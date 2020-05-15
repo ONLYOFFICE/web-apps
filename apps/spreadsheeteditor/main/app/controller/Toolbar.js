@@ -2075,17 +2075,17 @@ define([
                 editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
                 me = this,
                 toolbar = this.toolbar,
-                fontobj = info.asc_getXfs(),
+                xfs = info.asc_getXfs(),
                 val, need_disable = false;
 
             /* read font name */
-            var fontparam = fontobj.asc_getFontName();
+            var fontparam = xfs.asc_getFontName();
             if (fontparam != toolbar.cmbFontName.getValue()) {
-                Common.NotificationCenter.trigger('fonts:change', fontobj);
+                Common.NotificationCenter.trigger('fonts:change', xfs);
             }
 
             /* read font size */
-            var str_size = fontobj.asc_getFontSize();
+            var str_size = xfs.asc_getFontSize();
             if (this._state.fontsize !== str_size) {
                 toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
                 this._state.fontsize = str_size;
@@ -2124,29 +2124,29 @@ define([
 
             /* read font params */
             if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
-                val = fontobj.asc_getFontBold();
+                val = xfs.asc_getFontBold();
                 if (this._state.bold !== val) {
                     toolbar.btnBold.toggle(val === true, true);
                     this._state.bold = val;
                 }
-                val = fontobj.asc_getFontItalic();
+                val = xfs.asc_getFontItalic();
                 if (this._state.italic !== val) {
                     toolbar.btnItalic.toggle(val === true, true);
                     this._state.italic = val;
                 }
-                val = fontobj.asc_getFontUnderline();
+                val = xfs.asc_getFontUnderline();
                 if (this._state.underline !== val) {
                     toolbar.btnUnderline.toggle(val === true, true);
                     this._state.underline = val;
                 }
-                val = fontobj.asc_getFontStrikeout();
+                val = xfs.asc_getFontStrikeout();
                 if (this._state.strikeout !== val) {
                     toolbar.btnStrikeout.toggle(val === true, true);
                     this._state.strikeout = val;
                 }
 
-                var subsc = fontobj.asc_getFontSubscript(),
-                    supersc = fontobj.asc_getFontSuperscript();
+                var subsc = xfs.asc_getFontSubscript(),
+                    supersc = xfs.asc_getFontSuperscript();
 
                 if (this._state.subscript !== subsc || this._state.superscript !== supersc) {
                     var index = (supersc) ? 0 : (subsc ? 1 : -1),
@@ -2176,7 +2176,7 @@ define([
                 paragraphColorPicker = this.toolbar.mnuBackColorPicker;
 
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
-                color = fontobj.asc_getFontColor();
+                color = xfs.asc_getFontColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
@@ -2210,7 +2210,7 @@ define([
 
             /* read cell background color */
             if (!toolbar.btnBackColor.ischanged && !paragraphColorPicker.isDummy) {
-                color = info.asc_getFillColor();
+                color = xfs.asc_getFillColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
@@ -2261,7 +2261,7 @@ define([
                     formatTableInfo = info.asc_getFormatTableInfo();
                 if (!toolbar.mode.isEditMailMerge) {
                     /* read cell horizontal align */
-                    fontparam = info.asc_getHorAlign();
+                    fontparam = xfs.asc_getHorAlign();
                     if (this._state.pralign !== fontparam) {
                         this._state.pralign = fontparam;
 
@@ -2291,7 +2291,7 @@ define([
                     toolbar.btnTextOrient.menu.items[2].setDisabled(need_disable);
 
                     /* read cell vertical align */
-                    fontparam = info.asc_getVertAlign();
+                    fontparam = xfs.asc_getVertAlign();
 
                     if (this._state.valign !== fontparam) {
                         this._state.valign = fontparam;
@@ -2320,7 +2320,7 @@ define([
 
                     /* read cell text wrapping */
                     if (!toolbar.btnWrap.isDisabled()) {
-                        val = info.asc_getWrapText();
+                        val = xfs.asc_getWrapText();
                         if (this._state.wrap !== val) {
                             toolbar.btnWrap.toggle(val===true, true);
                             this._state.wrap = val;
@@ -2374,9 +2374,9 @@ define([
 
             }
 
-            val = info.asc_getNumFormatInfo();
+            val = xfs.asc_getNumFormatInfo();
             if (val) {
-				this._state.numformat = info.asc_getNumFormat();
+				this._state.numformat = xfs.asc_getNumFormat();
 				this._state.numformatinfo = val;
 				val = val.asc_getType();
 				if (this._state.numformattype !== val) {
@@ -2385,7 +2385,7 @@ define([
 				}
             }
 
-            val = info.asc_getAngle();
+            val = xfs.asc_getAngle();
             if (this._state.angle !== val) {
                 toolbar.btnTextOrient.menu.clearAll();
                 switch(val) {
@@ -2499,6 +2499,7 @@ define([
             };
 
             var selectionType = info.asc_getSelectionType(),
+                xfs = info.asc_getXfs(),
                 coauth_disable = false;
 
             if ( _disableEditOptions(selectionType, coauth_disable) ) return;
@@ -2506,9 +2507,9 @@ define([
             if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
                 return;
 
-            var val = info.asc_getNumFormatInfo();
+            var val = xfs.asc_getNumFormatInfo();
             if ( val ) {
-                this._state.numformat = info.asc_getNumFormat();
+                this._state.numformat = xfs.asc_getNumFormat();
                 this._state.numformatinfo = val;
                 val = val.asc_getType();
                 if (this._state.numformattype !== val) {

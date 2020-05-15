@@ -446,12 +446,13 @@ define([
             if (props ) {
                 this._noApply = true;
 
-                var value = props.asc_getAngle();
+                var xfs = props.asc_getXfs(),
+                    value = xfs.asc_getAngle();
                 if (Math.abs(this._state.CellAngle - value) > 0.1 || (this._state.CellAngle === undefined) && (this._state.CellAngle !== value)) {
                     this.spnAngle.setValue((value !== null) ? value : '', true);
                     this._state.CellAngle = value;
                 }
-                this.fill = props.asc_getFill();
+                this.fill = xfs.asc_getFill();
                 if (this.fill) {
                     this.pattern = this.fill.asc_getPatternFill();
                     this.gradient = this.fill.asc_getGradientFill();

@@ -156,8 +156,8 @@ define([
                 // Align
                 $('#edit-text-align-block').css('display', (_textIn == TextType.inShape) ? 'block' : 'none');
 
-                var hAlign = _cellInfo.asc_getHorAlign(),
-                    vAlign = _cellInfo.asc_getVertAlign();
+                var hAlign = _fontInfo.asc_getHorAlign(),
+                    vAlign = _fontInfo.asc_getVertAlign();
 
                 $('#font-left').toggleClass('active', hAlign===AscCommon.align_Left);
                 $('#font-center').toggleClass('active', hAlign===AscCommon.align_Center);

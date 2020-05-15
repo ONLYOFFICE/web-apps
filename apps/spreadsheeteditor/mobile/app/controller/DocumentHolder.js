@@ -311,7 +311,8 @@ define([
 
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
                 var iscelllocked    = cellinfo.asc_getLocked(),
-                    seltype         = cellinfo.asc_getSelectionType();
+                    seltype         = cellinfo.asc_getSelectionType(),
+                    xfs             = cellinfo.asc_getXfs();
 
                 switch (seltype) {
                     case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -420,7 +421,7 @@ define([
                                 });
 
                                 arrItems.push(
-                                    cellinfo.asc_getWrapText() ?
+                                    xfs.asc_getWrapText() ?
                                         {
                                             caption: me.menuUnwrap,
                                             event: 'unwrap'

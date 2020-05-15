@@ -215,11 +215,12 @@ define([
 
                 var me = this,
                     $pageTextFormat = $('.page[data-page=edit-text-format]'),
-                    hAlign = me._cellInfo.asc_getHorAlign(),
-                    vAlign = me._cellInfo.asc_getVertAlign(),
+                    xfs = me._cellInfo.asc_getXfs(),
+                    hAlign = xfs.asc_getHorAlign(),
+                    vAlign = xfs.asc_getVertAlign(),
                     hAlignStr = 'left',
                     vAlignStr = 'bottom',
-                    isWrapText = me._cellInfo.asc_getWrapText();
+                    isWrapText = xfs.asc_getWrapText();
 
                 if (vAlign == Asc.c_oAscVAlign.Top)
                     vAlignStr = 'top';
@@ -319,14 +320,14 @@ define([
                     selectionType = cellInfo.asc_getSelectionType(),
                     // coAuthDisable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (cellInfo.asc_getLocked()===true || cellInfo.asc_getLockedTable()===true) : false,
                     // editOptionsDisabled = this._disableEditOptions(selectionType, coAuthDisable),
-                    _fontInfo = cellInfo.asc_getXfs(),
+                    xfs = cellInfo.asc_getXfs(),
                     val,
                     need_disable = false;
 
-                me.initFontSettings(_fontInfo);
+                me.initFontSettings(xfs);
 
                 // Init fill color
-                var color = cellInfo.asc_getFillColor(),
+                var color = xfs.asc_getFillColor(),
                     clr = me._sdkToThemeColor(color);
 
                 $('#fill-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
