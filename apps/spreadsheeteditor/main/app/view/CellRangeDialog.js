@@ -146,8 +146,7 @@ define([
             return this.inputRange.getValue();
         },
 
-        onApiRangeChanged: function(info) {
-            var name = info.asc_getName();
+        onApiRangeChanged: function(name) {
             if (this.type == Asc.c_oAscSelectionDialogType.Function) {
                 var oldlen = this._addedTextLength || 0,
                     val = this.inputRange.getValue(),
