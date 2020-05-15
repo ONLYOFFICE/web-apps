@@ -107,6 +107,7 @@ define([
 
             if (settings.type===undefined)
                 settings.type = Asc.c_oAscSelectionDialogType.Chart;
+            this.type = settings.type;
 
             if (settings.api) {
                 me.api = settings.api;
@@ -121,10 +122,24 @@ define([
                 if (settings.validation) {
                     return settings.validation.call(me, value);
                 } else {
-                    var isvalid = me.api.asc_checkDataRange(settings.type, value, false);
+                    var isvalid = (settings.type === Asc.c_oAscSelectionDialogType.Function) || me.api.asc_checkDataRange(settings.type, value, false);
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
                 }
             };
+
+            if (me.type == Asc.c_oAscSelectionDialogType.Function) {
+                _.delay(function(){
+                    me.inputRange._input.focus();
+                    if (settings.selection) {
+                        me.inputRange._input[0].selectionStart = settings.selection.start;
+                        me.inputRange._input[0].selectionEnd = settings.selection.end;
+                    }
+                },10);
+                me.inputRange._input.on('focus', function() {
+                    me._addedTextLength=0;
+                    // call api method to stop selecting cells
+                });
+            }
         },
 
         getSettings: function () {
@@ -132,7 +147,21 @@ define([
         },
 
         onApiRangeChanged: function(info) {
-            this.inputRange.setValue(info.asc_getName());
+            var name = info.asc_getName();
+            if (this.type == Asc.c_oAscSelectionDialogType.Function) {
+                var oldlen = this._addedTextLength || 0,
+                    val = this.inputRange.getValue(),
+                    input = this.inputRange._input[0],
+                    start = input.selectionStart - oldlen,
+                    end =  input.selectionEnd,
+                    add = (start>0 && oldlen==0) && !this.api.asc_canEnterWizardRange(val.charAt(start-1)) ? '+' : '';
+                this._addedTextLength = name.length;
+
+                val = val.substring(0, start) + add + name + val.substring(end, val.length);
+                this.inputRange.setValue(val);
+                input.selectionStart = input.selectionEnd = start + add.length + this._addedTextLength;
+            } else
+                this.inputRange.setValue(name);
             if (this.inputRange.cmpEl.hasClass('error'))
                 this.inputRange.cmpEl.removeClass('error');
         },

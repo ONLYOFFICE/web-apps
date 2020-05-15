@@ -366,7 +366,8 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',
-                    type    : Asc.c_oAscSelectionDialogType.Function
+                    type    : Asc.c_oAscSelectionDialogType.Function,
+                    selection: {start: input._input[0].selectionStart, end: input._input[0].selectionEnd}
                 });
             }
         },
