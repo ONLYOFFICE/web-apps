@@ -265,7 +265,7 @@ define([
                 var index = input.options.index,
                     arg = me.args[index],
                     values = me.getArgumentsValue();
-                values[index] = newValue;
+                (index<values.length) && (values[index] = newValue);
                 var res = me.api.asc_insertArgumentsInFormula(values, index, arg.argType),
                     argres = res ? res.asc_getArgumentsResult() : undefined;
                 argres = argres ? argres[index] : undefined;
