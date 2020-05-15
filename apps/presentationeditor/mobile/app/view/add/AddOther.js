@@ -33,22 +33,22 @@
 
 /**
  *  AddOther.js
- *  Document Editor
+ *  Presentation Editor
  *
- *  Created by Alexander Yuzhin on 10/17/16
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created by Julia Svinareva on 10/04/20
+ *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
  *
  */
 
 define([
-    'text!documenteditor/mobile/app/template/AddOther.template',
+    'text!presentationeditor/mobile/app/template/AddOther.template',
     'jquery',
     'underscore',
     'backbone'
 ], function (addTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.AddOther = Backbone.View.extend(_.extend((function() {
+    PE.Views.AddOther = Backbone.View.extend(_.extend((function() {
         // private
 
         return {
@@ -64,20 +64,21 @@ define([
             },
 
             initEvents: function () {
-                var me = this;
-
-                $('#add-other-link').single('click',        _.bind(me.showLink, me));
-                $('#add-other-pagenumber').single('click',  _.bind(me.showPagePosition, me));
-                $('#add-other-footnote').single('click',    _.bind(me.showPageFootnote, me));
-                $('#add-other-break').single('click',       _.bind(me.showPageBreak, me));
                 if (this.hideInsertComments) {
                     $('#item-comment').hide();
                 } else {
                     $('#item-comment').show();
-                    $('#add-other-comment').single('click',     _.bind(me.showPageComment, me));
+                    $('#add-other-comment').single('click',     _.bind(this.showPageComment, this));
+                }
+                $('#add-other-table').single('click',     _.bind(this.showPageTable, this));
+                if (this.hideInsertLink) {
+                    $('#item-link').hide();
+                } else {
+                    $('#item-link').show();
+                    $('#add-other-link').single('click',     _.bind(this.showPageLink, this));
                 }
 
-                me.initControls();
+                this.initControls();
             },
 
             // Render layout
@@ -109,7 +110,7 @@ define([
             },
 
             showPage: function (templateId, animate) {
-                var rootView = DE.getController('AddContainer').rootView;
+                var rootView = PE.getController('AddContainer').rootView;
 
                 if (rootView && this.layout) {
                     var $content = this.layout.find(templateId);
@@ -124,37 +125,12 @@ define([
                         animatePages: animate !== false
                     });
 
-                    this.fireEvent('page:show', [this, templateId]);
+                    if (templateId === '#addother-insert-link') {
+                        this.fireEvent('category:show', [this, templateId]);
+                    } else {
+                        this.fireEvent('page:show', [this, templateId]);
+                    }
                 }
-            },
-
-            showPageBreak: function() {
-                this.showPage('#addother-insert-break');
-                $('#add-other-section').single('click',     _.bind(this.showSectionBreak, this));
-            },
-
-            showSectionBreak: function () {
-                this.showPage('#addother-sectionbreak');
-            },
-
-            showLink: function (animate) {
-                this.showPage('#addother-link', animate);
-
-                $('.page[data-page=addother-link] input[type=url]').single('input', _.bind(function(e) {
-                    $('#add-link-insert').toggleClass('disabled', _.isEmpty($('#add-link-url input').val()));
-                }, this));
-
-                _.delay(function () {
-                    $('.page[data-page=addother-link] input[type=url]').focus();
-                }, 1000);
-            },
-
-            showPagePosition: function () {
-                this.showPage('#addother-pagenumber');
-            },
-
-            showPageFootnote: function () {
-                this.showPage('#addother-insert-footnote');
             },
 
             showPageComment: function(animate) {
@@ -197,90 +173,62 @@ define([
                 }, 100);
             },
 
-            renderNumFormat: function (dataFormat, selectFormat) {
-                var $listFormat = $('#list-format-footnote ul'),
-                    items = [];
-
-                _.each(dataFormat, function (formatItem) {
-                    var itemTemplate = [
-                        '<li>',
-                        '<label class="label-radio item-content">',
-                        '<input type="radio" name="doc-footnote-format" data-value="<%= item.value %>" <% if (item.value == select) { %>checked="checked"<% } %> >',
-                        '<% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>',
-                        '<div class="item-inner">',
-                        '<div class="item-title"><%= item.text %></div>',
-                        '</div>',
-                        '</label>',
-                        '</li>'
-                    ].join('');
-                    items.push(_.template(itemTemplate)({
-                        android: Framework7.prototype.device.android,
-                        item: formatItem,
-                        select: selectFormat
-                    }));
-                });
-
-                $listFormat.html(items);
+            showPageTable: function() {
+                this.showPage('#addother-insert-table');
+                this.renderTableStyles();
+                PE.getController('AddTable').initEvents();
             },
 
-            renderFootnotePos: function (dataPosition, selectPosition) {
-                var $listPos = $('#position-footnote ul'),
-                    items = [];
-
-                _.each(dataPosition, function (posItem) {
-                    var itemTemplate = [
-                        '<li>',
-                        '<label class="label-radio item-content">',
-                        '<input type="radio" name="doc-footnote-pos" data-value="<%= item.value%>" <% if (item.value == select) { %>checked="checked"<% } %> >',
-                        '<% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>',
-                        '<div class="item-inner">',
-                        '<div class="item-title"><%= item.displayValue %></div>',
-                        '</div>',
-                        '</label>',
-                        '</li>'
-                    ].join('');
-                    items.push(_.template(itemTemplate)({
-                        android: Framework7.prototype.device.android,
-                        item: posItem,
-                        select: selectPosition
-                    }));
+            renderTableStyles: function() {
+                var $stylesList = $('.table-styles ul');
+                var template = [
+                    '<% _.each(styles, function(style) { %>',
+                    '<li data-type="<%= style.templateId %>">',
+                    '<img src="<%= style.imageUrl %>">',
+                    '</li>',
+                    '<% }); %>'
+                ].join('');
+                var insert = _.template(template)({
+                    android : Common.SharedSettings.get('android'),
+                    phone   : Common.SharedSettings.get('phone'),
+                    styles  : PE.getController('AddTable').getStyles()
                 });
-
-                $listPos.html(items);
+                $stylesList.html(insert);
             },
 
-            textPageBreak: 'Page Break',
-            textSectionBreak: 'Section Break',
-            textColumnBreak: 'Column Break',
-            textLink: 'Link',
-            textPageNumber: 'Page Number',
-            textBack: 'Back',
-            textAddLink: 'Add Link',
-            textDisplay: 'Display',
-            textTip: 'Screen Tip',
-            textInsert: 'Insert',
-            textPosition: 'Position',
-            textLeftTop: 'Left Top',
-            textCenterTop: 'Center Top',
-            textRightTop: 'Right Top',
-            textLeftBottom: 'Left Bottom',
-            textCenterBottom: 'Center Bottom',
-            textRightBottom: 'Right Bottom',
-            textCurrentPos: 'Current Position',
-            textNextPage: 'Next Page',
-            textContPage: 'Continuous Page',
-            textEvenPage: 'Even Page',
-            textOddPage: 'Odd Page',
-            textFootnote: 'Footnote',
-            textInsertFootnote: 'Insert Footnote',
-            textFormat: 'Format',
-            textStartFrom: 'Start At',
-            textLocation: 'Location',
+            showPageLink: function() {
+                this.showPage('#addother-insert-link');
+                $('#add-link-number').single('click',  _.bind(this.showPageNumber, this));
+                $('#add-link-type').single('click',  _.bind(this.showLinkType, this));
+            },
+
+            showLinkType: function () {
+                this.showPage('#addlink-type');
+            },
+
+            showPageNumber: function () {
+                this.showPage('#addlink-slidenumber');
+            },
+
             textComment: 'Comment',
             textAddComment: 'Add Comment',
             textDone: 'Done',
-            textBreak: 'Break'
-        
+            textTable: 'Table',
+            textLinkType: 'Link Type',
+            textExternalLink: 'External Link',
+            textInternalLink: 'Slide in this Presentation',
+            textLink: 'Link',
+            textLinkSlide: 'Link to',
+            textBack: 'Back',
+            textDisplay: 'Display',
+            textTip: 'Screen Tip',
+            textInsert: 'Insert',
+            textNext: 'Next Slide',
+            textPrev: 'Previous Slide',
+            textFirst: 'First Slide',
+            textLast: 'Last Slide',
+            textNumber: 'Slide Number'
+
         }
-    })(), DE.Views.AddOther || {}))
+    })(), PE.Views.AddOther || {}))
 });

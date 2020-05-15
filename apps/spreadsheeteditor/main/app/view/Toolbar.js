@@ -214,13 +214,15 @@ define([
                         style : 'min-width: 110px',
                         items : [
                             {caption: 'SUM',   value: 'SUM'},
+                            {caption: 'AVERAGE', value: 'AVERAGE'},
                             {caption: 'MIN',   value: 'MIN'},
                             {caption: 'MAX',   value: 'MAX'},
                             {caption: 'COUNT', value: 'COUNT'},
                             {caption: '--'},
                             {
                                 caption: me.txtAdditional,
-                                value: 'more'
+                                value: 'more',
+                                hint: me.txtFormula + Common.Utils.String.platformKey('Shift+F3')
                             }
                         ]
                     })
@@ -601,7 +603,7 @@ define([
                     id          : 'id-toolbar-rtn-textorient',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon text-orient-ccw',
-                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.lostConnect, _set.coAuth, _set.coAuthText],
                     menu        : new Common.UI.Menu({
                         items: [
                             {
@@ -880,13 +882,15 @@ define([
                         style : 'min-width: 110px',
                         items : [
                             {caption: 'SUM',   value: 'SUM'},
+                            {caption: 'AVERAGE', value: 'AVERAGE'},
                             {caption: 'MIN',   value: 'MIN'},
                             {caption: 'MAX',   value: 'MAX'},
                             {caption: 'COUNT', value: 'COUNT'},
                             {caption: '--'},
                             {
                                 caption: me.txtAdditional,
-                                value: 'more'
+                                value: 'more',
+                                hint: me.txtFormula + Common.Utils.String.platformKey('Shift+F3')
                             }
                         ]
                     })
@@ -1673,12 +1677,12 @@ define([
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
-            _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula]);
+            _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula + Common.Utils.String.platformKey('Shift+F3')]);
             _updateHint(this.btnNamedRange, this.txtNamedRange);
             _updateHint(this.btnClearStyle, this.tipClearStyle);
             _updateHint(this.btnCopyStyle, this.tipCopyStyle);
-            _updateHint(this.btnAddCell, this.tipInsertOpt);
-            _updateHint(this.btnDeleteCell, this.tipDeleteOpt);
+            _updateHint(this.btnAddCell, this.tipInsertOpt + Common.Utils.String.platformKey('Ctrl+Shift+='));
+            _updateHint(this.btnDeleteCell, this.tipDeleteOpt + Common.Utils.String.platformKey('Ctrl+Shift+-'));
             _updateHint(this.btnColorSchemas, this.tipColorSchemas);
             _updateHint(this.btnPageOrient, this.tipPageOrient);
             _updateHint(this.btnPageSize, this.tipPageSize);
@@ -1826,7 +1830,7 @@ define([
 
             if ( this.btnInsertChart ) {
                 this.btnInsertChart.setMenu(new Common.UI.Menu({
-                    style: 'width: 435px;',
+                    style: 'width: 364px;',
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -1840,7 +1844,7 @@ define([
                         restoreHeight: 421,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()/*.concat(Common.define.chartData.getSparkData())*/),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
@@ -2405,7 +2409,7 @@ define([
 //    txtDescending:      'Descending',
         txtFormula:         'Insert Function',
         txtNoBorders:       'No borders',
-        txtAdditional:      'Additional',
+        txtAdditional:      'Insert Function',
         mniImageFromFile:   'Image from file',
         mniImageFromUrl:    'Image from url',
         textNewColor:       'Add New Custom Color',

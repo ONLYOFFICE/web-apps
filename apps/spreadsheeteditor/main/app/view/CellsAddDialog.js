@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2020
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -31,10 +31,10 @@
  *
  */
 /**
- *  GroupDialog.js
+ *  CellsAddDialog.js
  *
- *  Created by Julia Radzhabova on 30.05.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created by Julia Radzhabova on 08.05.2020
+ *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
  *
  */
 define([
@@ -42,10 +42,10 @@ define([
     'common/main/lib/component/RadioBox'
 ], function () { 'use strict';
 
-    SSE.Views.GroupDialog = Common.UI.Window.extend(_.extend({
+    SSE.Views.CellsAddDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 214,
-            height: 138,
+            height: 195,
             header: true,
             style: 'min-width: 214px;',
             cls: 'modal-dlg',
@@ -57,8 +57,10 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<div id="group-radio-rows" style="margin-bottom: 5px;"></div>',
-                    '<div id="group-radio-cols"></div>',
+                '<div id="cell-ins-radio-1" style="margin-bottom: 10px;"></div>',
+                '<div id="cell-ins-radio-2" style="margin-bottom: 10px;"></div>',
+                '<div id="cell-ins-radio-3" style="margin-bottom: 10px;"></div>',
+                '<div id="cell-ins-radio-4" style="margin-bottom: 2px;"></div>',
                 '</div>'
             ].join('');
 
@@ -70,20 +72,29 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
-            this.radioRows = new Common.UI.RadioBox({
-                el: $('#group-radio-rows'),
-                labelText: this.textRows,
-                name: 'asc-radio-group-cells',
-                checked: this.options.props=='rows'
-            });
-
-            this.radioColumns = new Common.UI.RadioBox({
-                el: $('#group-radio-cols'),
-                labelText: this.textColumns,
-                name: 'asc-radio-group-cells',
-                checked: this.options.props=='columns'
-            });
-            (this.options.props=='rows') ? this.radioRows.setValue(true) : this.radioColumns.setValue(true);
+            var me = this,
+                items = this.options.items,
+                checked = true;
+            if (items) {
+                for (var i=0; i<4; i++) {
+                    var radio = new Common.UI.RadioBox({
+                        el: $('#cell-ins-radio-' + (i+1)),
+                        labelText: items[i].caption,
+                        name: 'asc-radio-cell-ins',
+                        value: items[i].value,
+                        disabled: items[i].disabled,
+                        checked: checked && !items[i].disabled
+                    }).on('change', function(field, newValue, eOpts) {
+                        if (newValue) {
+                            me.currentCell = field.options.value;
+                        }
+                    });
+                    if (checked && !items[i].disabled) {
+                        checked = false;
+                        me.currentCell = items[i].value;
+                    }
+                }
+            }
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -102,15 +113,13 @@ define([
         },
 
         getSettings: function() {
-            return this.radioRows.getValue();
+            return this.currentCell;
         },
 
         onPrimary: function() {
             this._handleInput('ok');
             return false;
-        },
+        }
 
-        textRows: 'Rows',
-        textColumns: 'Columns'
-    }, SSE.Views.GroupDialog || {}))
+    }, SSE.Views.CellsAddDialog || {}))
 });

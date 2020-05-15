@@ -237,7 +237,7 @@ define([
                     $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
                     $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
                     $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
-                    var displayComments = Common.localStorage.getBool("de-settings-livecomment", true);
+                    var displayComments = Common.localStorage.getBool("de-mobile-settings-livecomment", true);
                     $('#settings-display-comments input:checkbox').attr('checked', displayComments);
                     $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
                     var displayResolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
@@ -285,11 +285,11 @@ define([
                     this.api.asc_showComments(resolved);
                     $("#settings-display-resolved").removeClass("disabled");
                 }
-                Common.localStorage.setBool("de-settings-livecomment", displayComments);
+                Common.localStorage.setBool("de-mobile-settings-livecomment", displayComments);
             },
 
             onChangeDisplayResolved: function(e) {
-                var displayComments = Common.localStorage.getBool("de-settings-livecomment");
+                var displayComments = Common.localStorage.getBool("de-mobile-settings-livecomment");
                 if (displayComments) {
                     var resolved = $(e.currentTarget).is(':checked');
                     if (this.api) {

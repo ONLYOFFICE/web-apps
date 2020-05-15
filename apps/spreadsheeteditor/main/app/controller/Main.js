@@ -420,6 +420,7 @@ define([
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
+                    docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
 
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
 
@@ -528,7 +529,7 @@ define([
             },
 
             onSelectionChanged: function(info){
-                if (!this._isChartDataReady && info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart) {
+                if (!this._isChartDataReady && info.asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart) {
                     this._isChartDataReady = true;
                     Common.Gateway.internalMessage('chartDataReady');
                 }
@@ -1453,9 +1454,9 @@ define([
                         if (icon!==undefined) {
                             config.iconCls = (icon==Asc.c_oAscEDataValidationErrorStyle.Stop) ? 'error' : ((icon==Asc.c_oAscEDataValidationErrorStyle.Information) ? 'info' : 'warn');
                         }
-                        errData && errData.asc_getErrorTitle() && (config.title = errData.asc_getErrorTitle());
+                        errData && errData.asc_getErrorTitle() && (config.title = Common.Utils.String.htmlEncode(errData.asc_getErrorTitle()));
                         config.buttons  = ['ok', 'cancel'];
-                        config.msg = errData && errData.asc_getError() ? errData.asc_getError() : this.errorDataValidate;
+                        config.msg = errData && errData.asc_getError() ? Common.Utils.String.htmlEncode(errData.asc_getError()) : this.errorDataValidate;
                         config.maxwidth = 600;
                         break;
 
@@ -1531,10 +1532,12 @@ define([
                     }, this);
                 }
 
-                if (id == Asc.c_oAscError.ID.EditingError || $('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
-                    Common.UI.alert(config);
-                    (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
+                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout) {
+                    if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                        Common.UI.alert(config).$window.attr('data-value', id);
                 }
+
+                (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
 
             onCoAuthoringDisconnect: function() {

@@ -52,7 +52,9 @@ define([
     SSE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend((function() {
         // private
         var _actionSheets = [],
-            _isEdit = false;
+            _isEdit = false,
+            _canViewComments = true,
+            _isComments = false;
 
         function openLink(url) {
             var newDocumentPage = window.open(url, '_blank');
@@ -84,6 +86,16 @@ define([
                 this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
                 Common.NotificationCenter.on('api:disconnect',          _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect,this));
+                this.api.asc_registerCallback('asc_onShowComment',      _.bind(this.onApiShowComment, this));
+                this.api.asc_registerCallback('asc_onHideComment',        _.bind(this.onApiHideComment, this));
+            },
+
+            onApiShowComment: function(comments) {
+                _isComments = comments && comments.length>0;
+            },
+
+            onApiHideComment: function() {
+                _isComments = false;
             },
 
             setMode: function (mode) {
@@ -91,6 +103,7 @@ define([
                 if (_isEdit) {
                     this.api.asc_registerCallback('asc_onSetAFDialog',          _.bind(this.onApiFilterOptions, this));
                 }
+                _canViewComments = mode.canViewComments;
             },
 
             // When our application is ready, lets get started
@@ -206,10 +219,10 @@ define([
                     me.api.asc_mergeCells(Asc.c_oAscMergeOptions.None);
                     break;
                 case 'hide':
-                    me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_hideRows' : 'asc_hideColumns']();
+                    me.api[info.asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_hideRows' : 'asc_hideColumns']();
                     break;
                 case 'show':
-                    me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_showRows' : 'asc_showColumns']();
+                    me.api[info.asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_showRows' : 'asc_showColumns']();
                     break;
                 case 'addlink':
                     me.view.hideMenu();
@@ -232,6 +245,14 @@ define([
                 case 'freezePanes':
                     me.api.asc_freezePane();
                     break;
+                case 'viewcomment':
+                    me.view.hideMenu();
+                    SSE.getController('Common.Controllers.Collaboration').showCommentModal();
+                    break;
+                case 'addcomment':
+                    me.view.hideMenu();
+                    SSE.getController('AddContainer').showModal();
+                    SSE.getController('AddOther').getView('AddOther').showPageComment(false);
                 }
 
                 if ('showActionSheet' == event && _actionSheets.length > 0) {
@@ -290,7 +311,8 @@ define([
 
                 var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
                 var iscelllocked    = cellinfo.asc_getLocked(),
-                    seltype         = cellinfo.asc_getFlags().asc_getSelectionType();
+                    seltype         = cellinfo.asc_getSelectionType(),
+                    xfs             = cellinfo.asc_getXfs();
 
                 switch (seltype) {
                     case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -316,6 +338,12 @@ define([
                         arrItems.push({
                             caption: me.menuOpenLink,
                             event: 'openlink'
+                        });
+                    }
+                    if (_canViewComments && _isComments) {
+                        arrItems.push({
+                            caption: me.menuViewComment,
+                            event: 'viewcomment'
                         });
                     }
                 } else {
@@ -380,20 +408,20 @@ define([
                                     event: 'edit'
                                 });
 
-                                (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
+                                (cellinfo.asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
                                 arrItems.push({
                                     caption: me.menuMerge,
                                     event: 'merge'
                                 });
 
-                                (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.Merge) &&
+                                (cellinfo.asc_getMerge() == Asc.c_oAscMergeOptions.Merge) &&
                                 arrItems.push({
                                     caption: me.menuUnmerge,
                                     event: 'unmerge'
                                 });
 
                                 arrItems.push(
-                                    cellinfo.asc_getFlags().asc_getWrapText() ?
+                                    xfs.asc_getWrapText() ?
                                         {
                                             caption: me.menuUnwrap,
                                             event: 'unwrap'
@@ -403,13 +431,13 @@ define([
                                             event: 'wrap'
                                         });
 
-                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect()) {
+                                if (cellinfo.asc_getHyperlink() && !cellinfo.asc_getMultiselect()) {
                                     arrItems.push({
                                         caption: me.menuOpenLink,
                                         event: 'openlink'
                                     });
-                                } else if (!cellinfo.asc_getHyperlink() && !cellinfo.asc_getFlags().asc_getMultiselect() &&
-                                    !cellinfo.asc_getFlags().asc_getLockText() && !!cellinfo.asc_getText()) {
+                                } else if (!cellinfo.asc_getHyperlink() && !cellinfo.asc_getMultiselect() &&
+                                    !cellinfo.asc_getLockText() && !!cellinfo.asc_getText()) {
                                     arrItems.push({
                                         caption: me.menuAddLink,
                                         event: 'addlink'
@@ -422,6 +450,20 @@ define([
                                 event: 'freezePanes'
                             });
 
+                        }
+
+                        if (_canViewComments) {
+                            if (_isComments) {
+                                arrItems.push({
+                                    caption: me.menuViewComment,
+                                    event: 'viewcomment'
+                                });
+                            } else if (iscellmenu) {
+                                arrItems.push({
+                                    caption: me.menuAddComment,
+                                    event: 'addcomment'
+                                });
+                            }
                         }
                     }
 
@@ -475,6 +517,8 @@ define([
             sheetCancel:    'Cancel',
             menuFreezePanes: 'Freeze Panes',
             menuUnfreezePanes: 'Unfreeze Panes',
+            menuViewComment: 'View Comment',
+            menuAddComment: 'Add Comment',
             textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
             errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only.',
             textDoNotShowAgain: 'Don\'t show again'

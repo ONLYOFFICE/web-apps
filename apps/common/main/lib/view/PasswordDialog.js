@@ -55,7 +55,7 @@ define([
 
             _.extend(_options,  {
                 width           : 350,
-                height          : 220,
+                height          : 238,
                 header          : true,
                 cls             : 'modal-dlg',
                 contentTemplate : '',
@@ -65,7 +65,7 @@ define([
             }, options);
 
             this.template = options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                '<div class="box">',
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<label>' + t.txtDescription + '</label>',
                     '</div>',
@@ -76,9 +76,8 @@ define([
                     '<div class="input-row">',
                         '<label>' + t.txtRepeat + '</label>',
                     '</div>',
-                    '<div id="id-repeat-txt" class="input-row"></div>',
-                '</div>',
-                '<div class="separator horizontal"/>'
+                    '<div id="id-repeat-txt" class="input-row" style="margin-bottom: 10px;"></div>',
+                '</div>'
             ].join('');
 
             this.handler        =   options.handler;

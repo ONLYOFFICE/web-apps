@@ -17,11 +17,8 @@
             <div id="slide-panel-image-fill" class="settings-hidden padding-small" style="width: 100%;">
                 <table cols="2" style="width: 100%;">
                     <tr>
-                        <td class="padding-small" width="50%">
-                            <button type="button" class="btn btn-text-default" id="slide-button-from-file" style="width:90px;"><%= scope.textFromFile %></button>
-                        </td>
-                        <td class="padding-small" width="50%">
-                            <button type="button" class="btn btn-text-default" id="slide-button-from-url" style="width:90px;float:right;"><%= scope.textFromUrl %></button>
+                        <td colspan="2" class="padding-small">
+                            <div id="slide-button-replace" style="width:100%;"></div>
                         </td>
                     </tr>
                     <tr>

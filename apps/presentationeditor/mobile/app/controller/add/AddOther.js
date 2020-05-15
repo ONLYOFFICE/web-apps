@@ -32,19 +32,25 @@
  */
 /**
  *  AddOther.js
+ *  Presentation Editor
  *
- *  Created by Kadushkin Maxim on 12/07/2016
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created by Julia Svinareva on 10/04/20
+ *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
  *
  */
 
 define([
     'core',
-    'spreadsheeteditor/mobile/app/view/add/AddOther'
-], function (core) {
+    'presentationeditor/mobile/app/view/add/AddOther',
+    'jquery',
+    'underscore',
+    'backbone'
+], function (core, view, $, _, Backbone) {
     'use strict';
 
-    SSE.Controllers.AddOther = Backbone.Controller.extend(_.extend((function() {
+    PE.Controllers.AddOther = Backbone.Controller.extend(_.extend((function() {
+        var _canAddHyperlink = false,
+            _paragraphLocked = false;
 
         return {
             models: [],
@@ -59,9 +65,6 @@ define([
                 this.addListeners({
                     'AddOther': {
                         'page:show' : this.onPageShow
-                        , 'image:insert': this.onInsertImage
-                        , 'insert:sort': this.onInsertSort
-                        , 'insert:filter': this.onInsertFilter
                     }
                 });
             },
@@ -69,10 +72,8 @@ define([
             setApi: function (api) {
                 var me = this;
                 me.api = api;
-                me.api.asc_registerCallback('asc_onError', _.bind(me.onError, me));
-
-                // me.api.asc_registerCallback('asc_onInitEditorFonts',    _.bind(onApiLoadFonts, me));
-
+                me.api.asc_registerCallback('asc_onCanAddHyperlink', _.bind(me.onApiCanAddHyperlink, me));
+                me.api.asc_registerCallback('asc_onFocusObject',     _.bind(me.onApiFocusObject, me));
             },
 
             setMode: function (mode) {
@@ -80,27 +81,50 @@ define([
                 this.view.canViewComments = mode.canViewComments;
             },
 
-            setHideAddComment: function(hide) {
-                this.view.isComments = hide; //prohibit adding multiple comments in one cell
-            },
-
             onLaunch: function () {
                 this.createView('AddOther').render();
             },
 
-            initEvents: function (args) {
-                if ( args && !(_.indexOf(args.panels, 'image') < 0) ) {
-                    this.onPageShow(this.getView('AddOther'), '#addother-insimage');
-                }
+            initEvents: function () {
+                var me = this;
                 this.view.hideInsertComments = this.isHideInsertComment();
+                this.view.hideInsertLink = !(_canAddHyperlink && !_paragraphLocked);
+            },
+
+            onApiCanAddHyperlink: function(value) {
+                _canAddHyperlink = value;
+            },
+
+            onApiFocusObject: function (objects) {
+                _paragraphLocked = false;
+                _.each(objects, function(object) {
+                    if (Asc.c_oAscTypeSelectElement.Paragraph == object.get_ObjectType()) {
+                        _paragraphLocked = object.get_ObjectValue().get_Locked();
+                    }
+                });
             },
 
             isHideInsertComment: function() {
-                var cellinfo = this.api.asc_getCellInfo();
-                var iscelllocked    = cellinfo.asc_getLocked(),
-                    seltype         = cellinfo.asc_getSelectionType();
-                if (seltype === Asc.c_oAscSelectionType.RangeCells && !iscelllocked) {
-                    return false;
+                var stack = this.api.getSelectedElements();
+                var isText = false,
+                    isChart = false;
+
+                _.each(stack, function (item) {
+                    var objectType = item.get_ObjectType();
+                    if (objectType == Asc.c_oAscTypeSelectElement.Paragraph) {
+                        isText = true;
+                    } else if (objectType == Asc.c_oAscTypeSelectElement.Chart) {
+                        isChart = true;
+                    }
+                });
+                if (stack.length > 0) {
+                    var topObject = stack[stack.length - 1],
+                        topObjectValue = topObject.get_ObjectValue(),
+                        objectLocked = _.isFunction(topObjectValue.get_Locked) ? topObjectValue.get_Locked() : false;
+                    !objectLocked && (objectLocked = _.isFunction(topObjectValue.get_LockDelete) ? topObjectValue.get_LockDelete() : false);
+                    if (!objectLocked) {
+                        return ((isText && isChart) || this.api.can_AddQuotedComment() === false);
+                    }
                 }
                 return true;
             },
@@ -108,27 +132,14 @@ define([
             onPageShow: function (view, pageId) {
                 var me = this;
 
-                if (pageId == '#addother-sort') {
-                    var filterInfo = me.api.asc_getCellInfo().asc_getAutoFilterInfo();
-                    view.optionAutofilter( filterInfo ? filterInfo.asc_getIsAutoFilter() : null)
-                } else
-                if (pageId == '#addother-insimage') {
-                    $('#addimage-url').single('click', function(e) {
-                        view.showImageFromUrl();
-                    });
-
-                    $('#addimage-file').single('click', function () {
-                        me.onInsertImage({islocal:true});
-                    });
-                } else if (pageId === "#addother-insert-comment") {
+                if (pageId == '#addother-insert-comment') {
                     me.initInsertComment(false);
                 }
             },
 
             // Handlers
-
             initInsertComment: function (documentFlag) {
-                var comment = SSE.getController('Common.Controllers.Collaboration').getCommentInfo();
+                var comment = PE.getController('Common.Controllers.Collaboration').getCommentInfo();
                 if (comment) {
                     this.getView('AddOther').renderComment(comment);
                     $('#done-comment').single('click', _.bind(this.onDoneComment, this, documentFlag));
@@ -145,12 +156,12 @@ define([
                                         text: this.textDelete,
                                         bold: true,
                                         onClick: function () {
-                                            SSE.getController('AddContainer').rootView.router.back();
+                                            PE.getController('AddContainer').rootView.router.back();
                                         }
                                     }]
                             })
                         } else {
-                            SSE.getController('AddContainer').rootView.router.back();
+                            PE.getController('AddContainer').rootView.router.back();
                         }
                     }, this))
                 }
@@ -159,50 +170,16 @@ define([
             onDoneComment: function(documentFlag) {
                 var value = $('#comment-text').val();
                 if (value.length > 0) {
-                    if (SSE.getController('Common.Controllers.Collaboration').onAddNewComment(value, documentFlag)) {
-                        this.view.isComments = true;
-                    }
-                    SSE.getController('AddContainer').hideModal();
+                    PE.getController('Common.Controllers.Collaboration').onAddNewComment(value, documentFlag);
+                    PE.getController('AddContainer').hideModal();
                 }
             },
 
-            onInsertImage: function (args) {
-                if ( !args.islocal ) {
-                    var me = this;
-                    var url = args.url;
-                    if (!_.isEmpty(url)) {
-                        if ((/((^https?)|(^ftp)):\/\/.+/i.test(url))) {
-                            SSE.getController('AddContainer').hideModal();
-                        } else {
-                            uiApp.alert(me.txtNotUrl);
-                        }
-                    } else {
-                        uiApp.alert(me.textEmptyImgUrl);
-                    }
-                } else {
-                    SSE.getController('AddContainer').hideModal();
-                }
-            },
-
-            onInsertSort: function(type) {
-                this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending, '', undefined, undefined, true);
-            },
-
-            onInsertFilter: function(checked) {
-            },
-
-            onError: function(id, level, errData) {
-                if(id === Asc.c_oAscError.ID.AutoFilterDataRangeError) {
-                    this.getView('AddOther').optionAutofilter(false);
-                }
-            },
-
-            textEmptyImgUrl : 'You need to specify image URL.',
-            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
             textDeleteDraft: 'Do you really want to delete draft?',
             textCancel: 'Cancel',
             //textContinue: 'Continue',
             textDelete: 'Delete'
+
         }
-    })(), SSE.Controllers.AddOther || {}))
+    })(), PE.Controllers.AddOther || {}))
 });

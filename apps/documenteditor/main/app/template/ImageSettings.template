@@ -75,20 +75,12 @@
     </tr>
     <tr>
         <td colspan=2>
-            <label class="header" id="image-lbl-replace" ><%= scope.textInsert %></label>
-        </td>
-    </tr>
-    <tr>
-        <td width="50%">
-            <button type="button" class="btn btn-text-default" id="image-button-from-file" style="width:85px;"><%= scope.textFromFile %></button>
-        </td>
-        <td width="50%">
-            <button type="button" class="btn btn-text-default" id="image-button-from-url" style="width:85px;"><%= scope.textFromUrl %></button>
+            <div id="image-button-replace" style="width:100%;"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default hidden" id="image-button-edit-object" style="width:100px;"><%= scope.textEdit %></button>
+            <button type="button" class="btn btn-text-default hidden" id="image-button-edit-object" style="width:100%;"><%= scope.textEditObject %></button>
         </td>
     </tr>
     <tr>

@@ -351,7 +351,7 @@ define([
 
         onInsertEntire: function(item) {
             if (this.api) {
-                switch (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()) {
+                switch (this.api.asc_getCellInfo().asc_getSelectionType()) {
                     case Asc.c_oAscSelectionType.RangeRow:
                         this.api.asc_insertCells(Asc.c_oAscInsertOptions.InsertRows);
                         break;
@@ -376,7 +376,7 @@ define([
 
         onDeleteEntire: function(item) {
             if (this.api) {
-                switch (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()) {
+                switch (this.api.asc_getCellInfo().asc_getSelectionType()) {
                     case Asc.c_oAscSelectionType.RangeRow:
                         this.api.asc_deleteCells(Asc.c_oAscDeleteOptions.DeleteRows);
                         break;
@@ -545,7 +545,7 @@ define([
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
-                    isLock  : cell.asc_getFlags().asc_getLockText(),
+                    isLock  : cell.asc_getLockText(),
                     allowInternal: item.options.inCell
                 });
             }
@@ -1567,12 +1567,13 @@ define([
         fillMenuProps: function(cellinfo, showMenu, event){
             var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu, isimageonly,
                 documentHolder      = this.documentHolder,
-                seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 isObjLocked         = false,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
-                internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram;
+                internaleditor      = this.permissions.isEditMailMerge || this.permissions.isEditDiagram,
+                xfs = cellinfo.asc_getXfs();
 
             switch (seltype) {
                 case Asc.c_oAscSelectionType.RangeCells:    iscellmenu = true; break;
@@ -1649,6 +1650,7 @@ define([
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
+                documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined));
@@ -1739,10 +1741,10 @@ define([
                     formatTableInfo = cellinfo.asc_getFormatTableInfo(),
                     isinsparkline = (cellinfo.asc_getSparklineInfo()!==null),
                     isintable = (formatTableInfo !== null),
-                    ismultiselect = cellinfo.asc_getFlags().asc_getMultiselect();
+                    ismultiselect = cellinfo.asc_getMultiselect();
                 documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
-                documentHolder.ssMenu.cellColor = cellinfo.asc_getFill().asc_getColor();
-                documentHolder.ssMenu.fontColor = cellinfo.asc_getFont().asc_getColor();
+                documentHolder.ssMenu.cellColor = xfs.asc_getFillColor();
+                documentHolder.ssMenu.fontColor = xfs.asc_getFontColor();
 
                 documentHolder.pmiInsertEntire.setVisible(isrowmenu||iscolmenu);
                 documentHolder.pmiInsertEntire.setCaption((isrowmenu) ? this.textInsertTop : this.textInsertLeft);
@@ -1818,8 +1820,8 @@ define([
                 documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
                 documentHolder.pmiNumFormat.setVisible(!iscelledit);
-                documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = cellinfo.asc_getNumFormatInfo();
-                documentHolder.pmiAdvancedNumFormat.options.numformat = cellinfo.asc_getNumFormat();
+                documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = xfs.asc_getNumFormatInfo();
+                documentHolder.pmiAdvancedNumFormat.options.numformat = xfs.asc_getNumFormat();
 
                 _.each(documentHolder.ssMenu.items, function(item) {
                     item.setDisabled(isCellLocked);
@@ -1862,7 +1864,7 @@ define([
 
         fillViewMenuProps: function(cellinfo, showMenu, event){
             var documentHolder      = this.documentHolder,
-                seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
+                seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
                 isTableLocked       = cellinfo.asc_getLockedTable()===true,
                 commentsController  = this.getApplication().getController('Common.Controllers.Comments'),
@@ -2058,7 +2060,7 @@ define([
                         name = menuItem.asc_getName(true),
                         origname = me.api.asc_getFormulaNameByLocale(name),
                         mnu = new Common.UI.MenuItem({
-                            iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
+                            iconCls: 'menu__icon ' + ((type==Asc.c_oAscPopUpSelectorType.Func) ? 'btn-function': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'btn-menu-table' : 'btn-named-range')) ,
                             caption: name,
                             hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
@@ -2223,8 +2225,8 @@ define([
                     this.documentHolder.cmpEl.append(inputtip.parentEl);
                 }
 
-                var hint = title ? ('<b>' + (title || '') + '</b><br>') : '';
-                hint += (message || '');
+                var hint = title ? ('<b>' + (Common.Utils.String.htmlEncode(title || '')) + '</b><br>') : '';
+                hint += (Common.Utils.String.htmlEncode(message || ''));
 
                 if (inputtip.ref && inputtip.ref.isVisible()) {
                     if (inputtip.text != hint) {
@@ -2259,7 +2261,8 @@ define([
 
                 inputtip.ref.getBSTip().$tip.css({
                     top : showPoint[1] + 'px',
-                    left: showPoint[0] + 'px'
+                    left: showPoint[0] + 'px',
+                    'z-index': 900
                 });
             } else {
                 if (!inputtip.isHidden && inputtip.ref) {
@@ -3210,6 +3213,8 @@ define([
                         if (me.api) me.api.asc_changeImageFromFile();
                         Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                     }, 10);
+                } else if (item.value == 'storage') {
+                    Common.NotificationCenter.trigger('storage:image-load', 'change');
                 } else {
                     (new Common.Views.ImageFromUrlDialog({
                         handler: function(result, value) {

@@ -190,20 +190,22 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-autosum',
                     caption: this.txtAutosum,
-                    hint: [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormulaTip],
+                    hint: [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')],
                     split: true,
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
                     menu: new Common.UI.Menu({
                         items : [
                             {caption: 'SUM',   value: 'SUM'},
+                            {caption: 'AVERAGE', value: 'AVERAGE'},
                             {caption: 'MIN',   value: 'MIN'},
                             {caption: 'MAX',   value: 'MAX'},
                             {caption: 'COUNT', value: 'COUNT'},
                             {caption: '--'},
                             {
                                 caption: me.txtAdditional,
-                                value: 'more'
+                                value: 'more',
+                                hint: me.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')
                             }
                         ]
                     })
@@ -216,7 +218,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-ins-formula',
                     caption: this.txtFormula,
-                    hint: this.txtFormulaTip,
+                    hint: this.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3'),
                     disabled: true,
                     lock: [_set.editText, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selRangeEdit, _set.lostConnect, _set.coAuth]
                 });
@@ -393,7 +395,8 @@ define([
                                 { caption: '--' },
                                 {
                                     caption: me.txtAdditional,
-                                    value: 'more'
+                                    value: 'more',
+                                    hint: me.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')
                                 }
                             ]
                         }));
@@ -455,7 +458,8 @@ define([
                                     { caption: '--' },
                                     {
                                         caption: me.txtAdditional,
-                                        value: 'more'
+                                        value: 'more',
+                                        hint: me.txtFormulaTip + Common.Utils.String.platformKey('Shift+F3')
                                     }
                                 ]
                             })
@@ -559,7 +563,7 @@ define([
             txtRecent: 'Recently used',
             txtAutosum: 'Autosum',
             txtAutosumTip: 'Summation',
-            txtAdditional: 'Additional',
+            txtAdditional: 'Insert Function',
             txtFormula: 'Function',
             txtFormulaTip: 'Insert function',
             txtMore: 'More functions',

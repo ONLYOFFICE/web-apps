@@ -59,7 +59,8 @@ define([
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
-    'spreadsheeteditor/main/app/view/FormatRulesManagerDlg'
+    'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
+    'spreadsheeteditor/main/app/view/CellsAddDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -404,6 +405,8 @@ define([
                     this.api.asc_registerCallback('asc_onSendThemeColors',      _.bind(this.onSendThemeColors, this));
                     this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
                     this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
+                    Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
+                    Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
                 }
                 this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
@@ -753,7 +756,7 @@ define([
             }
 
             if (me.api) {
-                var merged = me.api.asc_getCellInfo().asc_getFlags().asc_getMerge();
+                var merged = me.api.asc_getCellInfo().asc_getMerge();
                 if ((merged !== Asc.c_oAscMergeOptions.Merge) && me.api.asc_mergeCellsDataLost(item.value)) {
                     Common.UI.warning({
                         msg: me.warnMergeLostData,
@@ -788,7 +791,7 @@ define([
         },
 
         onTextOrientationMenu: function(menu, item) {
-            if (this.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeShapeText) {
+            if (this.api.asc_getCellInfo().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeShapeText) {
                 var angle = Asc.c_oAscVertDrawingText.normal;
                 switch (item.value) {
                     case 'rotateup':    angle =  Asc.c_oAscVertDrawingText.vert270;    break;
@@ -857,24 +860,34 @@ define([
                     }
                 })).show();
             } else if (item.value === 'storage') {
-                if (this.toolbar.mode.canRequestInsertImage) {
-                    Common.Gateway.requestInsertImage();
-                } else {
-                    (new Common.Views.SelectFileDlg({
-                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                    })).on('selectfile', function(obj, file){
-                        me.insertImage(file);
-                    }).show();
-                }
+                Common.NotificationCenter.trigger('storage:image-load', 'add');
             }
         },
 
-        insertImage: function(data) {
-            if (data && data.url) {
+        openImageFromStorage: function(type) {
+            var me = this;
+            if (this.toolbar.mode.canRequestInsertImage) {
+                Common.Gateway.requestInsertImage(type);
+            } else {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    file && (file.c = type);
+                    me.insertImage(file);
+                }).show();
+            }
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data.url && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
                 this.api.asc_addImageDrawingObject(data.url, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
+        },
+
+        insertImage: function(data) { // gateway
+            Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
         onHyperlink: function(btn) {
@@ -901,7 +914,7 @@ define([
                 };
 
                 var cell = me.api.asc_getCellInfo(),
-                    seltype = cell.asc_getFlags().asc_getSelectionType();
+                    seltype = cell.asc_getSelectionType();
                 props = cell.asc_getHyperlink();
                 win = new SSE.Views.HyperlinkSettingsDialog({
                     api: me.api,
@@ -916,7 +929,7 @@ define([
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
-                    isLock  : cell.asc_getFlags().asc_getLockText(),
+                    isLock  : cell.asc_getLockText(),
                     allowInternal: (seltype!==Asc.c_oAscSelectionType.RangeImage && seltype!==Asc.c_oAscSelectionType.RangeShape &&
                                     seltype!==Asc.c_oAscSelectionType.RangeShapeText && seltype!==Asc.c_oAscSelectionType.RangeChart &&
                                     seltype!==Asc.c_oAscSelectionType.RangeChartText)
@@ -929,7 +942,8 @@ define([
         onEditChart: function(btn) {
             if (!this.editMode) return;
             var me = this, info = me.api.asc_getCellInfo();
-            if (info.asc_getFlags().asc_getSelectionType()!=Asc.c_oAscSelectionType.RangeImage) {
+            var selectType = info.asc_getSelectionType();
+            if (selectType !== Asc.c_oAscSelectionType.RangeImage) {
                 var win, props;
                 if (me.api){
                     props = me.api.asc_getChartObject();
@@ -943,7 +957,7 @@ define([
                         }
                     }
                     if (props) {
-                        var ischartedit = ( me.toolbar.mode.isEditDiagram || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChartText);
+                        var ischartedit = ( me.toolbar.mode.isEditDiagram || selectType === Asc.c_oAscSelectionType.RangeChart || selectType === Asc.c_oAscSelectionType.RangeChartText);
 
                         (new SSE.Views.ChartSettingsDlg(
                             {
@@ -971,7 +985,7 @@ define([
             if (!this.editMode) return;
             var me = this,
                 info = me.api.asc_getCellInfo(),
-                seltype = info.asc_getFlags().asc_getSelectionType(),
+                seltype = info.asc_getSelectionType(),
                 isSpark = (group == 'menu-chart-group-sparkcolumn' || group == 'menu-chart-group-sparkline' || group == 'menu-chart-group-sparkwin');
 
             if (me.api) {
@@ -1371,7 +1385,7 @@ define([
                                 this.api.asc_setCellFontName(record.name);
                                 Common.component.Analytics.trackEvent('ToolBar', 'Font Name');
                             } else {
-                                this.toolbar.cmbFontName.setValue(this.api.asc_getCellInfo().asc_getFont().asc_getName());
+                                this.toolbar.cmbFontName.setValue(this.api.asc_getCellInfo().asc_getXfs().asc_getFontName());
                             }
                             Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
                         }, this)
@@ -1546,7 +1560,7 @@ define([
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.toolbar.mode.isEditDiagram && !me.api.isCellEdited && !me._state.multiselect && !me._state.inpivot &&
                             !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()) {
                             var cellinfo = me.api.asc_getCellInfo(),
-                                selectionType = cellinfo.asc_getFlags().asc_getSelectionType();
+                                selectionType = cellinfo.asc_getSelectionType();
                             if (selectionType !== Asc.c_oAscSelectionType.RangeShapeText || me.api.asc_canAddShapeHyperlink()!==false)
                                 me.onHyperlink();
                         }
@@ -1555,6 +1569,56 @@ define([
                     'command+1,ctrl+1': function(e) {
                         if (me.editMode && !me.toolbar.mode.isEditMailMerge && !me.api.isCellEdited && !me.toolbar.cmbNumberFormat.isDisabled()) {
                             me.onCustomNumberFormat();
+                        }
+
+                        return false;
+                    },
+                    'shift+f3': function(e) {
+                        if (me.editMode && !me.toolbar.btnInsertFormula.isDisabled()) {
+                            var controller = me.getApplication().getController('FormulaDialog');
+                            if (controller) {
+                                controller.showDialog();
+                            }
+                        }
+
+                        return false;
+                    },
+                    'command+shift+=,ctrl+shift+=': function(e) {
+                        if (me.editMode && !me.toolbar.btnAddCell.isDisabled()) {
+                            var items = me.toolbar.btnAddCell.menu.items,
+                                arr = [];
+                            for (var i=0; i<4; i++)
+                                arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
+                            (new SSE.Views.CellsAddDialog({
+                                title: me.txtInsertCells,
+                                items: arr,
+                                handler: function (dlg, result) {
+                                    if (result=='ok') {
+                                        me.api.asc_insertCells(dlg.getSettings());
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            })).show();
+                        }
+
+                        return false;
+                    },
+                    'command+shift+-,ctrl+shift+-': function(e) {
+                        if (me.editMode && !me.toolbar.btnDeleteCell.isDisabled()) {
+                            var items = me.toolbar.btnDeleteCell.menu.items,
+                                arr = [];
+                            for (var i=0; i<4; i++)
+                                arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
+                            (new SSE.Views.CellsAddDialog({
+                                title: me.txtDeleteCells,
+                                items: arr,
+                                handler: function (dlg, result) {
+                                    if (result=='ok') {
+                                        me.api.asc_deleteCells(dlg.getSettings());
+                                    }
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            })).show();
                         }
 
                         return false;
@@ -1932,36 +1996,36 @@ define([
                 val;
 
             /* read font name */
-            var fontparam = fontobj.asc_getName();
+            var fontparam = fontobj.asc_getFontName();
             if (fontparam != toolbar.cmbFontName.getValue()) {
                 Common.NotificationCenter.trigger('fonts:change', fontobj);
             }
 
             /* read font params */
             if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
-                val = fontobj.asc_getBold();
+                val = fontobj.asc_getFontBold();
                 if (this._state.bold !== val) {
                     toolbar.btnBold.toggle(val === true, true);
                     this._state.bold = val;
                 }
-                val = fontobj.asc_getItalic();
+                val = fontobj.asc_getFontItalic();
                 if (this._state.italic !== val) {
                     toolbar.btnItalic.toggle(val === true, true);
                     this._state.italic = val;
                 }
-                val = fontobj.asc_getUnderline();
+                val = fontobj.asc_getFontUnderline();
                 if (this._state.underline !== val) {
                     toolbar.btnUnderline.toggle(val === true, true);
                     this._state.underline = val;
                 }
-                val = fontobj.asc_getStrikeout();
+                val = fontobj.asc_getFontStrikeout();
                 if (this._state.strikeout !== val) {
                     toolbar.btnStrikeout.toggle(val === true, true);
                     this._state.strikeout = val;
                 }
 
-                var subsc = fontobj.asc_getSubscript(),
-                    supersc = fontobj.asc_getSuperscript();
+                var subsc = fontobj.asc_getFontSubscript(),
+                    supersc = fontobj.asc_getFontSuperscript();
 
                 if (this._state.subscript !== subsc || this._state.superscript !== supersc) {
                     var index = (supersc) ? 0 : (subsc ? 1 : -1),
@@ -1985,7 +2049,7 @@ define([
             }
 
             /* read font size */
-            var str_size = fontobj.asc_getSize();
+            var str_size = fontobj.asc_getFontSize();
             if (this._state.fontsize !== str_size) {
                 toolbar.cmbFontSize.setValue((str_size!==undefined) ? str_size : '');
                 this._state.fontsize = str_size;
@@ -1997,7 +2061,7 @@ define([
                 fontColorPicker      = this.toolbar.mnuTextColorPicker;
 
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
-                color = fontobj.asc_getColor();
+                color = fontobj.asc_getFontColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
@@ -2038,28 +2102,28 @@ define([
             if ( this.toolbar.mode.isEditMailMerge )
                 return this.onApiSelectionChanged_MailMergeEditor(info);
 
-            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+            var selectionType = info.asc_getSelectionType(),
                 coauth_disable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (info.asc_getLocked()===true || info.asc_getLockedTable()===true || info.asc_getLockedPivotTable()===true) : false,
                 editOptionsDisabled = this._disableEditOptions(selectionType, coauth_disable),
                 me = this,
                 toolbar = this.toolbar,
-                fontobj = info.asc_getFont(),
+                xfs = info.asc_getXfs(),
                 val, need_disable = false;
 
             /* read font name */
-            var fontparam = fontobj.asc_getName();
+            var fontparam = xfs.asc_getFontName();
             if (fontparam != toolbar.cmbFontName.getValue()) {
-                Common.NotificationCenter.trigger('fonts:change', fontobj);
+                Common.NotificationCenter.trigger('fonts:change', xfs);
             }
 
             /* read font size */
-            var str_size = fontobj.asc_getSize();
+            var str_size = xfs.asc_getFontSize();
             if (this._state.fontsize !== str_size) {
                 toolbar.cmbFontSize.setValue((str_size !== undefined) ? str_size : '');
                 this._state.fontsize = str_size;
             }
 
-            toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType == Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
+            toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType === Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
 
             /*
             need_disable = selectionType != Asc.c_oAscSelectionType.RangeCells && selectionType != Asc.c_oAscSelectionType.RangeCol &&
@@ -2073,8 +2137,8 @@ define([
             }
             */
 
-            need_disable = (selectionType == Asc.c_oAscSelectionType.RangeCells || selectionType == Asc.c_oAscSelectionType.RangeCol ||
-                selectionType == Asc.c_oAscSelectionType.RangeRow || selectionType == Asc.c_oAscSelectionType.RangeMax);
+            need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
+                selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
             toolbar.lockToolbar(SSE.enumLock.selRange, need_disable, { array: [toolbar.btnImgAlign, toolbar.btnImgBackward, toolbar.btnImgForward, toolbar.btnImgGroup]});
 
             var cangroup = this.api.asc_canGroupGraphicsObjects(),
@@ -2092,29 +2156,29 @@ define([
 
             /* read font params */
             if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
-                val = fontobj.asc_getBold();
+                val = xfs.asc_getFontBold();
                 if (this._state.bold !== val) {
                     toolbar.btnBold.toggle(val === true, true);
                     this._state.bold = val;
                 }
-                val = fontobj.asc_getItalic();
+                val = xfs.asc_getFontItalic();
                 if (this._state.italic !== val) {
                     toolbar.btnItalic.toggle(val === true, true);
                     this._state.italic = val;
                 }
-                val = fontobj.asc_getUnderline();
+                val = xfs.asc_getFontUnderline();
                 if (this._state.underline !== val) {
                     toolbar.btnUnderline.toggle(val === true, true);
                     this._state.underline = val;
                 }
-                val = fontobj.asc_getStrikeout();
+                val = xfs.asc_getFontStrikeout();
                 if (this._state.strikeout !== val) {
                     toolbar.btnStrikeout.toggle(val === true, true);
                     this._state.strikeout = val;
                 }
 
-                var subsc = fontobj.asc_getSubscript(),
-                    supersc = fontobj.asc_getSuperscript();
+                var subsc = xfs.asc_getFontSubscript(),
+                    supersc = xfs.asc_getFontSuperscript();
 
                 if (this._state.subscript !== subsc || this._state.superscript !== supersc) {
                     var index = (supersc) ? 0 : (subsc ? 1 : -1),
@@ -2144,7 +2208,7 @@ define([
                 paragraphColorPicker = this.toolbar.mnuBackColorPicker;
 
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
-                color = fontobj.asc_getColor();
+                color = xfs.asc_getFontColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
@@ -2178,7 +2242,7 @@ define([
 
             /* read cell background color */
             if (!toolbar.btnBackColor.ischanged && !paragraphColorPicker.isDummy) {
-                color = info.asc_getFill().asc_getColor();
+                color = xfs.asc_getFillColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
@@ -2229,7 +2293,7 @@ define([
                     formatTableInfo = info.asc_getFormatTableInfo();
                 if (!toolbar.mode.isEditMailMerge) {
                     /* read cell horizontal align */
-                    fontparam = info.asc_getHorAlign();
+                    fontparam = xfs.asc_getHorAlign();
                     if (this._state.pralign !== fontparam) {
                         this._state.pralign = fontparam;
 
@@ -2254,12 +2318,12 @@ define([
                         }
                     }
 
-                    need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText);
+                    need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText || selectionType == Asc.c_oAscSelectionType.RangeShape);
                     toolbar.btnTextOrient.menu.items[1].setDisabled(need_disable);
                     toolbar.btnTextOrient.menu.items[2].setDisabled(need_disable);
 
                     /* read cell vertical align */
-                    fontparam = info.asc_getVertAlign();
+                    fontparam = xfs.asc_getVertAlign();
 
                     if (this._state.valign !== fontparam) {
                         this._state.valign = fontparam;
@@ -2271,18 +2335,16 @@ define([
                             case Asc.c_oAscVAlign.Bottom: index = 2; align = 'btn-valign-bottom';  break;
                         }
 
-                        if (index > -1) {
-                            toolbar.btnAlignTop.toggle(index===0, true);
-                            toolbar.btnAlignMiddle.toggle(index===1, true);
-                            toolbar.btnAlignBottom.toggle(index===2, true);
-                        }
+                        toolbar.btnAlignTop.toggle(index===0, true);
+                        toolbar.btnAlignMiddle.toggle(index===1, true);
+                        toolbar.btnAlignBottom.toggle(index===2, true);
                     }
 
                     need_disable =  this._state.controlsdisabled.filters || formatTableInfo!==null || filterInfo && filterInfo.asc_getIsAutoFilter()===null;
 //                (need_disable !== toolbar.btnMerge.isDisabled()) && toolbar.btnMerge.setDisabled(need_disable);
                     toolbar.lockToolbar(SSE.enumLock.ruleMerge, need_disable, {array:[toolbar.btnMerge, toolbar.btnInsertTable]});
 
-                    val = info.asc_getFlags().asc_getMerge();
+                    val = info.asc_getMerge();
                     if (this._state.merge !== val) {
                         toolbar.btnMerge.toggle(val===Asc.c_oAscMergeOptions.Merge, true);
                         this._state.merge = val;
@@ -2290,7 +2352,7 @@ define([
 
                     /* read cell text wrapping */
                     if (!toolbar.btnWrap.isDisabled()) {
-                        val = info.asc_getFlags().asc_getWrapText();
+                        val = xfs.asc_getWrapText();
                         if (this._state.wrap !== val) {
                             toolbar.btnWrap.toggle(val===true, true);
                             this._state.wrap = val;
@@ -2331,7 +2393,7 @@ define([
                 if (this._state.tablename !== old_name || this._state.filterapplied !== old_applied)
                     this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
 
-                this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
+                this._state.multiselect = info.asc_getMultiselect();
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
@@ -2344,9 +2406,9 @@ define([
 
             }
 
-            val = info.asc_getNumFormatInfo();
+            val = xfs.asc_getNumFormatInfo();
             if (val) {
-				this._state.numformat = info.asc_getNumFormat();
+				this._state.numformat = xfs.asc_getNumFormat();
 				this._state.numformatinfo = val;
 				val = val.asc_getType();
 				if (this._state.numformattype !== val) {
@@ -2355,23 +2417,15 @@ define([
 				}
             }
 
-            if (selectionType == Asc.c_oAscSelectionType.RangeShapeText) {
-                var SelectedObjects = this.api.asc_getGraphicObjectProps();
-                for (var i=0; i<SelectedObjects.length; ++i)
-                {
-                    if (SelectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image)
-                        val = SelectedObjects[i].asc_getObjectValue().asc_getVert();
-                }
-            } else
-                val = info.asc_getAngle();
+            val = xfs.asc_getAngle();
             if (this._state.angle !== val) {
                 toolbar.btnTextOrient.menu.clearAll();
                 switch(val) {
                     case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
                     case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
-                    case 90: case Asc.c_oAscVertDrawingText.vert270:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
-                    case -90: case Asc.c_oAscVertDrawingText.vert:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
-                    default:    toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
+                    case 90:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
+                    case -90:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
+                    case 0:     toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
                 }
                 this._state.angle = val;
             }
@@ -2426,7 +2480,7 @@ define([
         },
 
         onApiSelectionChangedRestricted: function(info) {
-            var selectionType = info.asc_getFlags().asc_getSelectionType();
+            var selectionType = info.asc_getSelectionType();
             this.toolbar.lockToolbar(SSE.enumLock.commentLock, (selectionType == Asc.c_oAscSelectionType.RangeCells) && (info.asc_getComments().length>0 || info.asc_getLocked()) ||
                                     this.appConfig && this.appConfig.compatibleFeatures && (selectionType != Asc.c_oAscSelectionType.RangeCells),
                                     { array: this.btnsComment });
@@ -2476,7 +2530,8 @@ define([
                 return is_image;
             };
 
-            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+            var selectionType = info.asc_getSelectionType(),
+                xfs = info.asc_getXfs(),
                 coauth_disable = false;
 
             if ( _disableEditOptions(selectionType, coauth_disable) ) return;
@@ -2484,9 +2539,9 @@ define([
             if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
                 return;
 
-            var val = info.asc_getNumFormatInfo();
+            var val = xfs.asc_getNumFormatInfo();
             if ( val ) {
-                this._state.numformat = info.asc_getNumFormat();
+                this._state.numformat = xfs.asc_getNumFormat();
                 this._state.numformatinfo = val;
                 val = val.asc_getType();
                 if (this._state.numformattype !== val) {
@@ -2526,7 +2581,7 @@ define([
                 return is_image;
             };
 
-            var selectionType = info.asc_getFlags().asc_getSelectionType(),
+            var selectionType = info.asc_getSelectionType(),
                 coauth_disable = false,
                 editOptionsDisabled = _disableEditOptions(selectionType, coauth_disable),
                 val, need_disable = false;
@@ -2779,14 +2834,14 @@ define([
                         buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getFont().asc_getName(), settings.code);
+                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getXfs().asc_getFontName(), settings.code);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
                 win.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getFont().asc_getName(), settings.code);
+                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getXfs().asc_getFontName(), settings.code);
                 });
             }
         },
@@ -3003,7 +3058,7 @@ define([
 
         _getApiTextSize: function() {
             var cellInfo = this.api.asc_getCellInfo();
-            return cellInfo ? cellInfo.asc_getFont().asc_getSize() : 12;
+            return cellInfo ? cellInfo.asc_getXfs().asc_getFontSize() : 12;
         },
 
         _setTableFormat: function(fmtname) {
@@ -3052,14 +3107,14 @@ define([
                     win.show();
                     win.setSettings({
                         api     : me.api,
-                        selectionType: me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()
+                        selectionType: me.api.asc_getCellInfo().asc_getSelectionType()
                     });
                 } else {
                     me._state.filter = undefined;
                     if (me._state.tablename)
                         me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.style, fmtname);
                     else {
-                        var selectionType = me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType();
+                        var selectionType = me.api.asc_getCellInfo().asc_getSelectionType();
                         if (selectionType == Asc.c_oAscSelectionType.RangeMax || selectionType == Asc.c_oAscSelectionType.RangeRow ||
                             selectionType == Asc.c_oAscSelectionType.RangeCol)
                             Common.UI.warning({
@@ -3268,7 +3323,7 @@ define([
                     this.btnsComment.forEach(function (btn) {
                         btn.updateHint( _comments.textHintAddComment );
                         btn.on('click', function (btn, e) {
-                            Common.NotificationCenter.trigger('app:comment:add', 'toolbar', me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType() != Asc.c_oAscSelectionType.RangeCells);
+                            Common.NotificationCenter.trigger('app:comment:add', 'toolbar', me.api.asc_getCellInfo().asc_getSelectionType() != Asc.c_oAscSelectionType.RangeCells);
                         });
                         if (btn.cmpEl.closest('#review-changes-panel').length>0)
                             btn.setCaption(me.toolbar.capBtnAddComment);
@@ -3873,7 +3928,9 @@ define([
         txtTable_TableStyleMedium: 'Table Style Medium',
         txtTable_TableStyleDark: 'Table Style Dark',
         txtTable_TableStyleLight: 'Table Style Light',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        txtInsertCells: 'Insert Cells',
+        txtDeleteCells: 'Delete Cells'
 
     }, SSE.Controllers.Toolbar || {}));
 });
