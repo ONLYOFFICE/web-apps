@@ -299,10 +299,14 @@ define([
         },
 
         getArgumentsValue: function() {
-            var res = [];
-            this.args.forEach(function(item){
-                res.push(item.argInput.getValue());
-            });
+            var res = [],
+                len = this.args.length,
+                empty = true;
+            for (var i=len-1; i>=0; i--) {
+                var val = this.args[i].argInput.getValue();
+                empty && (empty = !val);
+                (!empty) && (res[i] = val);
+            }
             return res;
         },
 
