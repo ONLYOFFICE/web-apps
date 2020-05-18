@@ -81,7 +81,7 @@ define([
                 el          : $('#id-dlg-cell-range'),
                 name        : 'range',
                 style       : 'width: 100%;',
-                allowBlank  : false,
+                allowBlank  : this.options.allowBlank || false,
                 blankError  : this.txtEmpty,
                 validateOnChange: true
             });

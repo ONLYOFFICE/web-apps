@@ -356,6 +356,7 @@ define([
                 };
 
                 var win = new SSE.Views.CellRangeDialog({
+                    allowBlank: true,
                     handler: handlerDlg
                 }).on('close', function() {
                     input.setValue(changedValue);
