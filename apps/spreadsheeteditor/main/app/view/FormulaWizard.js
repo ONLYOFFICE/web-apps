@@ -263,10 +263,8 @@ define([
             }).on('changing', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
                 var index = input.options.index,
-                    arg = me.args[index],
-                    values = me.getArgumentsValue();
-                (index<values.length) && (values[index] = newValue);
-                var res = me.api.asc_insertArgumentsInFormula(values, index, arg.argType),
+                    arg = me.args[index];
+                var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType),
                     argres = res ? res.asc_getArgumentsResult() : undefined;
                 argres = argres ? argres[index] : undefined;
                 arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.5; font-weight: bold;">' + arg.argTypeName + '</span>' ));
@@ -367,7 +365,9 @@ define([
                     api     : me.api,
                     range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',
                     type    : Asc.c_oAscSelectionDialogType.Function,
-                    selection: {start: input._input[0].selectionStart, end: input._input[0].selectionEnd}
+                    selection: {start: input._input[0].selectionStart, end: input._input[0].selectionEnd},
+                    argvalues  : me.getArgumentsValue(),
+                    argindex   : input.options.index
                 });
             }
         },

@@ -103,11 +103,11 @@ define([
         setSettings: function(settings) {
             var me = this;
 
+            this.settings = settings;
             this.inputRange.setValue(settings.range ? settings.range : '');
 
             if (settings.type===undefined)
                 settings.type = Asc.c_oAscSelectionDialogType.Chart;
-            this.type = settings.type;
 
             if (settings.api) {
                 me.api = settings.api;
@@ -122,12 +122,16 @@ define([
                 if (settings.validation) {
                     return settings.validation.call(me, value);
                 } else {
+                    if (settings.type === Asc.c_oAscSelectionDialogType.Function) {
+                        settings.argvalues[settings.argindex] = value;
+                        me.api.asc_insertArgumentsInFormula(settings.argvalues);
+                    }
                     var isvalid = (settings.type === Asc.c_oAscSelectionDialogType.Function) || me.api.asc_checkDataRange(settings.type, value, false);
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
                 }
             };
 
-            if (me.type == Asc.c_oAscSelectionDialogType.Function) {
+            if (settings.type == Asc.c_oAscSelectionDialogType.Function) {
                 _.delay(function(){
                     me.inputRange._input.focus();
                     if (settings.selection) {
@@ -147,7 +151,7 @@ define([
         },
 
         onApiRangeChanged: function(name) {
-            if (this.type == Asc.c_oAscSelectionDialogType.Function) {
+            if (this.settings.type == Asc.c_oAscSelectionDialogType.Function) {
                 var oldlen = this._addedTextLength || 0,
                     val = this.inputRange.getValue(),
                     input = this.inputRange._input[0],
@@ -159,6 +163,9 @@ define([
                 val = val.substring(0, start) + add + name + val.substring(end, val.length);
                 this.inputRange.setValue(val);
                 input.selectionStart = input.selectionEnd = start + add.length + this._addedTextLength;
+
+                this.settings.argvalues[this.settings.argindex] = val;
+                this.api.asc_insertArgumentsInFormula(this.settings.argvalues);
             } else
                 this.inputRange.setValue(name);
             if (this.inputRange.cmpEl.hasClass('error'))

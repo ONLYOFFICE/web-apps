@@ -258,7 +258,7 @@ define([
                     click: function(e) {
                         if (me.api) {
                             me.api.isTextAreaBlur = false;
-                            if (e.target.localName == 'canvas' && !me.isEditFormula) {
+                            if (e.target.localName == 'canvas' && (!me.isEditFormula || me.rangeSelectionMode)) {
                                 if (me._preventClick)
                                     me._preventClick = false;
                                 else
@@ -2030,7 +2030,7 @@ define([
         },
 
         onFormulaCompleteMenu: function(funcarr) {
-            if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible()) return;
+            if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
             if (funcarr) {
                 var me                  = this,
