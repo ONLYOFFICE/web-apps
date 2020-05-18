@@ -259,25 +259,12 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
-                if (newValue == oldValue) return;
             }).on('changing', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
-                var index = input.options.index,
-                    arg = me.args[index];
-                var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType),
-                    argres = res ? res.asc_getArgumentsResult() : undefined;
-                argres = argres ? argres[index] : undefined;
-                arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.5; font-weight: bold;">' + arg.argTypeName + '</span>' ));
-
-                var result = res ? res.asc_getFunctionResult() : undefined;
-                me.lblFunctionResult.html('= ' + ((result!==undefined && result!==null)? result : ''));
-                result = res ? res.asc_getFormulaResult() : undefined;
-                me.lblFormulaResult.html('<b>' + me.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
-
-            });
+                me.onInputChanging(input, newValue, oldValue);
+            }).on('button:click', _.bind(this.onSelectData, this));
             txt.setValue((argval!==undefined && argval!==null) ? argval : '');
             txt._input.on('focus', _.bind(this.onSelectArgument, this, txt));
-            txt.on('button:click', _.bind(this.onSelectData, this));
 
             me.args.push({
                 index: argcount,
@@ -294,6 +281,21 @@ define([
             else
                 me.args[argcount].lblName.html(me.args[argcount].argName);
             me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
+        },
+
+        onInputChanging: function(input, newValue, oldValue, e) {
+            var me = this,
+                index = input.options.index,
+                arg = me.args[index];
+            var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType),
+                argres = res ? res.asc_getArgumentsResult() : undefined;
+            argres = argres ? argres[index] : undefined;
+            arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.5; font-weight: bold;">' + arg.argTypeName + '</span>' ));
+
+            var result = res ? res.asc_getFunctionResult() : undefined;
+            me.lblFunctionResult.html('= ' + ((result!==undefined && result!==null)? result : ''));
+            result = res ? res.asc_getFormulaResult() : undefined;
+            me.lblFormulaResult.html('<b>' + me.textValue + ': </b>' + ((result!==undefined && result!==null)? result : ''));
         },
 
         getArgumentsValue: function() {
@@ -346,15 +348,18 @@ define([
 
             var me = this;
             if (me.api) {
+                var changedValue = input.getValue();
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
-                        input.setValue(dlg.getSettings());
+                        changedValue = dlg.getSettings();
                     }
                 };
 
                 var win = new SSE.Views.CellRangeDialog({
                     handler: handlerDlg
                 }).on('close', function() {
+                    input.setValue(changedValue);
+                    me.onInputChanging(input);
                     me.show();
                 });
 
