@@ -137,7 +137,7 @@ define([
                 },10);
                 me.inputRange._input.on('focus', function() {
                     me._addedTextLength=0;
-                    // call api method to stop selecting cells
+                    me.api.asc_cleanSelectRange();
                 });
             }
         },
