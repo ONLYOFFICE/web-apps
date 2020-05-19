@@ -1472,9 +1472,13 @@ define([
 
         onCondFormatMenu: function(menu, item) {
             var me = this;
+            var value = this.api.asc_getLocale();
+            (!value) && (value = ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409));
+
             if (item.value == 'manage') {
                 (new SSE.Views.FormatRulesManagerDlg({
                     api: me.api,
+                    langId: value,
                     handler: function (result, settings) {
                         if (me && me.api) {
                         }
@@ -1488,6 +1492,7 @@ define([
                     type    : item.options.type,
                     subtype : item.value,
                     isEdit  : false,
+                    langId  : value,
                     handler : function(result, settings) {
                         if (result == 'ok' && settings) {
                         }

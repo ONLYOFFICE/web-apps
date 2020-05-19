@@ -93,8 +93,10 @@ define([
                                                 '<div id="format-rules-format-preset" class="input-group-nr" style="display: inline-block;vertical-align: top;"></div>',
                                                 '<div id="format-rules-bold" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-italic" style="display: inline-block;margin-left: 5px;"></div>',
                                                 '<div id="format-rules-underline" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-strikeout" style="display: inline-block;margin-left: 5px;"></div>',
-                                                '<div id="format-rules-subscript" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-superscript" style="display: inline-block;margin-left: 5px;"></div>',
+                                                // '<div id="format-rules-subscript" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-superscript" style="display: inline-block;margin-left: 5px;"></div>',
                                                 '<div id="format-rules-fontcolor" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-fillcolor" style="display: inline-block;margin-left: 5px;"></div>',
+                                                '<div id="format-rules-borders" style="display: inline-block;margin-left: 5px;"></div>',
+                                                '<div id="format-rules-edit-combo-num-format" class="input-group-nr" style="display: inline-block;vertical-align: top;margin-left: 5px;"></div>',
                                             '</div>',
                                         '</td>',
                                     '</tr>',
@@ -200,6 +202,7 @@ define([
             this.props      = options.props;
             this.type       = options.type; // rule category
             this.subtype    = options.subtype; // rule
+            this.langId     = options.langId; // rule
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -428,8 +431,7 @@ define([
                 {   value: 'ffeb9c', displayValue: 'absdef', color: '#ffeb9c', displayColor: '9c6500' },
                 {   value: 'ffc7ce', displayValue: 'absdef', color: '#ffc7ce', displayColor: 'b32e35' },
                 {   value: 'c6efce', displayValue: 'absdef', color: '#c6efce', displayColor: '2e8230' },
-                {   value: 'ffcc99', displayValue: 'absdef', color: '#ffcc99', displayColor: '56507b' },
-                {   value: -1, displayValue: this.textCustom, color: null }
+                {   value: 'ffcc99', displayValue: 'absdef', color: '#ffcc99', displayColor: '56507b' }
             ];
             this.cmbFormats = new Common.UI.ComboBoxColor({
                 el          : $('#format-rules-format-preset'),
@@ -479,24 +481,24 @@ define([
             });
             // this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
 
-            this.btnSuperscript = new Common.UI.Button({
-                parentEl: $('#format-rules-superscript'),
-                cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-superscript',
-                enableToggle: true,
-                toggleGroup: 'superscriptFRGroup',
-                hint: this.textSuperscript
-            });
-            // this.btnSuperscript.on('click', _.bind(this.onSuperscriptClick, this));
-
-            this.btnSubscript = new Common.UI.Button({
-                parentEl: $('#format-rules-subscript'),
-                cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-subscript',
-                enableToggle: true,
-                toggleGroup: 'superscriptFRGroup',
-                hint: this.textSubscript
-            });
+            // this.btnSuperscript = new Common.UI.Button({
+            //     parentEl: $('#format-rules-superscript'),
+            //     cls: 'btn-toolbar',
+            //     iconCls: 'toolbar__icon btn-superscript',
+            //     enableToggle: true,
+            //     toggleGroup: 'superscriptFRGroup',
+            //     hint: this.textSuperscript
+            // });
+            // // this.btnSuperscript.on('click', _.bind(this.onSuperscriptClick, this));
+            //
+            // this.btnSubscript = new Common.UI.Button({
+            //     parentEl: $('#format-rules-subscript'),
+            //     cls: 'btn-toolbar',
+            //     iconCls: 'toolbar__icon btn-subscript',
+            //     enableToggle: true,
+            //     toggleGroup: 'superscriptFRGroup',
+            //     hint: this.textSubscript
+            // });
             // this.btnSubscript.on('click', _.bind(this.onSubscriptClick, this));
 
             var initNewColor = function(btn, picker_el) {
@@ -550,6 +552,212 @@ define([
             });
             // this.btnFillColor.on('click', _.bind(this.onTextColor, this));
             this.mnuFillColorPicker = initNewColor(this.btnFillColor, "#format-rules-menu-fillcolor");
+
+            this.btnBorders = new Common.UI.Button({
+                parentEl    : $('#format-rules-borders'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-border-out',
+                hint        : this.tipBorders,
+                icls        : 'btn-border-out',
+                borderId    : 'outer',
+                borderswidth: Asc.c_oAscBorderStyles.Thin,
+                split       : true,
+                menu        : new Common.UI.Menu({
+                    items: [
+                        {
+                            caption     : this.textOutBorders,
+                            iconCls     : 'menu__icon btn-border-out',
+                            icls        : 'btn-border-out',
+                            borderId    : 'outer'
+                        },
+                        {
+                            caption     : this.textAllBorders,
+                            iconCls     : 'menu__icon btn-border-all',
+                            icls        : 'btn-border-all',
+                            borderId    : 'all'
+                        },
+                        {
+                            caption     : this.textTopBorders,
+                            iconCls     : 'menu__icon btn-border-top',
+                            icls        : 'btn-border-top',
+                            borderId    : Asc.c_oAscBorderOptions.Top
+                        },
+                        {
+                            caption     : this.textBottomBorders,
+                            iconCls     : 'menu__icon btn-border-bottom',
+                            icls        : 'btn-border-bottom',
+                            borderId    : Asc.c_oAscBorderOptions.Bottom
+                        },
+                        {
+                            caption     : this.textLeftBorders,
+                            iconCls     : 'menu__icon btn-border-left',
+                            icls        : 'btn-border-left',
+                            borderId    : Asc.c_oAscBorderOptions.Left
+                        },
+                        {
+                            caption     : this.textRightBorders,
+                            iconCls     : 'menu__icon btn-border-right',
+                            icls        : 'btn-border-right',
+                            borderId    : Asc.c_oAscBorderOptions.Right
+                        },
+                        {
+                            caption     : this.textNoBorders,
+                            iconCls     : 'menu__icon btn-border-no',
+                            icls        : 'btn-border-no',
+                            borderId    : 'none'
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textInsideBorders,
+                            iconCls     : 'menu__icon btn-border-inside',
+                            icls        : 'btn-border-center',
+                            borderId    : 'inner'
+                        },
+                        {
+                            caption     : this.textCenterBorders,
+                            iconCls     : 'menu__icon btn-border-insidevert',
+                            icls        : 'btn-border-vmiddle',
+                            borderId    : Asc.c_oAscBorderOptions.InnerV
+                        },
+                        {
+                            caption     : this.textMiddleBorders,
+                            iconCls     : 'menu__icon btn-border-insidehor',
+                            icls        : 'btn-border-hmiddle',
+                            borderId    : Asc.c_oAscBorderOptions.InnerH
+                        },
+                        {
+                            caption     : this.textDiagUpBorder,
+                            iconCls     : 'menu__icon btn-border-diagup',
+                            icls        : 'btn-border-diagup',
+                            borderId    : Asc.c_oAscBorderOptions.DiagU
+                        },
+                        {
+                            caption     : this.textDiagDownBorder,
+                            iconCls     : 'menu__icon btn-border-diagdown',
+                            icls        : 'btn-border-diagdown',
+                            borderId    : Asc.c_oAscBorderOptions.DiagD
+                        },
+                        {caption: '--'},
+                        {
+                            id          : 'format-rules-borders-border-width',
+                            caption     : this.textBordersStyle,
+                            iconCls     : 'menu__icon btn-border-style',
+                            menu        : (function(){
+                                var itemTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div class="border-size-item" style="background-position: 0 -<%= options.offsety %>px;"></div></a>');
+                                me.mnuBorderWidth = new Common.UI.Menu({
+                                    style       : 'min-width: 100px;',
+                                    menuAlign   : 'tl-tr',
+                                    items: [
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thin ,   offsety: 0, checked:true},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Hair,   offsety: 20},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dotted,   offsety: 40},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Dashed,   offsety: 60},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDot,   offsety: 80},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.DashDotDot,   offsety: 100},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Medium, offsety: 120},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashed,  offsety: 140},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDot,  offsety: 160},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.MediumDashDotDot,  offsety: 180},
+                                        { template: itemTemplate, stopPropagation: true, checkable: true, toggleGroup: 'border-width', value: Asc.c_oAscBorderStyles.Thick,  offsety: 200}
+                                    ]
+                                });
+
+                                return me.mnuBorderWidth;
+                            })()
+                        },
+                        this.mnuBorderColor = new Common.UI.MenuItem({
+                            id          : 'format-rules-borders-border-color',
+                            caption     : this.textBordersColor,
+                            iconCls     : 'mnu-icon-item mnu-border-color',
+                            template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items       : [
+                                    { template: _.template('<div id="format-rules-borders-menu-bordercolor" style="width: 169px; height: 220px; margin: 10px;"></div>'), stopPropagation: true },
+                                    { template: _.template('<a id="format-rules-borders-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
+                                ]
+                            })
+                        })
+                    ]
+                })
+            });
+            var colorVal = $('<div class="btn-color-value-line"></div>');
+            $('button:first-child', this.btnBorders.cmpEl).append(colorVal);
+            colorVal.css('background-color', this.btnBorders.currentColor || 'transparent');
+            this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
+                el: $('#format-rules-borders-menu-bordercolor')
+            });
+            this.mnuBorderColorPicker.on('select', _.bind(this.onBordersColor, this));
+            $('#format-rules-borders-menu-new-bordercolor').on('click', _.bind(function() {
+                me.mnuBorderColorPicker.addNewColor();
+            }, this));
+
+            this.mnuBorderWidth.on('item:toggle', _.bind(this.onBordersWidth, this));
+
+            this.ascFormatOptions = {
+                General     : 'General',
+                Number      : '0.00',
+                Currency    : '$#,##0.00',
+                Accounting  : '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)',
+                DateShort   : 'm/d/yyyy',
+                DateLong    : '[$-F800]dddd, mmmm dd, yyyy',
+                Time        : '[$-F400]h:mm:ss AM/PM',
+                Percentage  : '0.00%',
+                Percent     : '0%',
+                Fraction    : '# ?/?',
+                Scientific  : '0.00E+00',
+                Text        : '@'
+            };
+
+            this.numFormatData = [
+                { value: Asc.c_oAscNumFormatType.General,   format: this.ascFormatOptions.General,     displayValue: this.txtGeneral,      exampleval: '100' },
+                { value: Asc.c_oAscNumFormatType.Number,    format: this.ascFormatOptions.Number,      displayValue: this.txtNumber,       exampleval: '100,00' },
+                { value: Asc.c_oAscNumFormatType.Scientific,format: this.ascFormatOptions.Scientific,  displayValue: this.txtScientific,   exampleval: '1,00E+02' },
+                { value: Asc.c_oAscNumFormatType.Accounting,format: this.ascFormatOptions.Accounting,  displayValue: this.txtAccounting,   exampleval: '100,00 $' },
+                { value: Asc.c_oAscNumFormatType.Currency,  format: this.ascFormatOptions.Currency,    displayValue: this.txtCurrency,     exampleval: '100,00 $' },
+                { value: Asc.c_oAscNumFormatType.Date,      format: 'MM-dd-yyyy',                      displayValue: this.txtDate,         exampleval: '04-09-1900' },
+                { value: Asc.c_oAscNumFormatType.Time,      format: 'HH:MM:ss',                        displayValue: this.txtTime,         exampleval: '00:00:00' },
+                { value: Asc.c_oAscNumFormatType.Percent,   format: this.ascFormatOptions.Percentage,  displayValue: this.txtPercentage,   exampleval: '100,00%' },
+                { value: Asc.c_oAscNumFormatType.Fraction,  format: this.ascFormatOptions.Fraction,    displayValue: this.txtFraction,     exampleval: '100' },
+                { value: Asc.c_oAscNumFormatType.Text,      format: this.ascFormatOptions.Text,        displayValue: this.txtText,         exampleval: '100' }
+            ];
+
+            if (this.api) {
+                var me = this,
+                    info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(Asc.c_oAscNumFormatType.None);
+                info.asc_setSymbol(this.langId);
+                var arr = this.api.asc_getFormatCells(info); // all formats
+                this.numFormatData.forEach( function(item, index) {
+                    item.format = arr[index];
+                    item.exampleval = me.api.asc_getLocaleExample(item.format, 100);
+                });
+            }
+
+            var formatTemplate =
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
+                    '<div style="position: relative;"><div style="position: absolute; left: 0; width: 100px;"><%= scope.getDisplayValue(item) %></div>',
+                    '<div style="display: inline-block; width: 100%; max-width: 300px; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;white-space: nowrap;"><%= item.exampleval ? item.exampleval : "" %></div>',
+                    '</div></a></li>',
+                    '<% }); %>'
+                    // ,'<li class="divider">',
+                    // '<li id="id-toolbar-mnu-item-more-formats" data-value="-1"><a tabindex="-1" type="menuitem">' + me.textMoreFormats + '</a></li>'
+                ].join(''));
+
+            this.cmbNumberFormat = new Common.UI.ComboBox({
+                el          : $('#format-rules-edit-combo-num-format'),
+                cls         : 'input-group-nr',
+                style       : 'width: 100px;',
+                menuStyle   : 'min-width: 100%;max-height: 211px;',
+                hint        : this.tipNumFormat,
+                itemsTemplate: formatTemplate,
+                editable    : false,
+                data        : this.numFormatData
+            });
+            this.cmbNumberFormat.setValue(Asc.c_oAscNumFormatType.General);
+            // this.cmbNumberFormat.on('selected', _.bind(this.onNumberFormatSelect, this));
 
             // Scale
             this.scaleControls = [];
@@ -1011,6 +1219,18 @@ define([
             }
         },
 
+        onBordersWidth: function(menu, item, state) {
+            if (state) {
+                this.btnBorders.options.borderswidth = item.value;
+            }
+        },
+
+        onBordersColor: function(picker, color) {
+            $('#format-rules-borders-border-color .menu-item-icon').css('border-color', '#' + ((typeof(color) == 'object') ? color.color : color));
+            this.mnuBorderColor.onUnHoverItem();
+            this.btnBorders.options.borderscolor = Common.Utils.ThemeColor.getRgbColor(color);
+        },
+
         updateThemeColors: function() {
             for (var i=0; i<this.scaleControls.length; i++) {
                 var btn = this.scaleControls[i].color;
@@ -1042,6 +1262,7 @@ define([
 
             this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.mnuFillColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            this.mnuBorderColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         getSettings: function() {
@@ -1116,7 +1337,34 @@ define([
         textMaxpoint: 'Maxpoint',
         textMinimum: 'Minimum',
         textMaximum: 'Maximum',
-        textAppearance: 'Bar Appearance'
+        textAppearance: 'Bar Appearance',
+        txtNumber:          'Number',
+        txtGeneral:         'General',
+        txtCurrency:        'Currency',
+        txtAccounting:      'Accounting',
+        txtDate:            'Date',
+        txtTime:            'Time',
+        txtPercentage:      'Percentage',
+        txtFraction:        'Fraction',
+        txtScientific:      'Scientific',
+        txtText:            'Text',
+        tipBorders:         'Borders',
+        textOutBorders:     'Outside Borders',
+        textAllBorders:     'All Borders',
+        textTopBorders:     'Top Borders',
+        textBottomBorders:  'Bottom Borders',
+        textLeftBorders:    'Left Borders',
+        textRightBorders:   'Right Borders',
+        textNoBorders:      'No Borders',
+        textInsideBorders:  'Inside Borders',
+        textMiddleBorders:  'Inside Horizontal Borders',
+        textCenterBorders:  'Inside Vertical Borders',
+        textDiagDownBorder: 'Diagonal Down Border',
+        textDiagUpBorder:   'Diagonal Up Border',
+        textBordersStyle:   'Border Style',
+        textBordersColor:   'Borders Color',
+        textNewColor:       'Add New Custom Color',
+        tipNumFormat:       'Number Format'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });

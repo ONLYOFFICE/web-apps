@@ -94,6 +94,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this.langId      = options.langId;
             this.levels     = [];
 
             this.rulesStore = new Common.UI.DataViewStore();
@@ -442,6 +443,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 api: me.api,
                 props   : (isEdit && rec) ? rec.get('props') : null,
                 isEdit  : isEdit,
+                langId  : me.langId,
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
                         if (isEdit) {
