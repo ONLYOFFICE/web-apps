@@ -515,7 +515,8 @@ define([
                 btn.menu.cmpEl.on('click', picker_el+'-new', _.bind(function() {
                     picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
                 }, me));
-                // picker.on('select', _.bind(me.onColorSelect, me, btn));
+                picker.on('select', _.bind(me.onFormatColorSelect, me, btn));
+                btn.on('click', _.bind(me.onFormatColor, me, picker));
                 return picker;
             };
 
@@ -991,29 +992,32 @@ define([
                 ruleType,
                 subtype = this.subtype;
 
-            var setColor = function(color, control) {
+            var setColor = function(color, control, picker) {
+                picker = control ? control.colorPicker : picker;
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                         color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                     } else {
                         color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                     }
-
+                } else {
+                    color = picker.options.transparent ? 'transparent' : '000000';
                 }
-                control.setColor(color);
+                control && control.setColor(color);
                 if (_.isObject(color)) {
                     var isselected = false;
                     for (var i = 0; i < 10; i++) {
                         if (Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue) {
-                            control.colorPicker.select(color, true);
+                            picker.select(color, true);
                             isselected = true;
                             break;
                         }
                     }
-                    if (!isselected) control.colorPicker.clearSelection();
+                    if (!isselected) picker.clearSelection();
                 } else {
-                    control.colorPicker.select(color, true);
+                    picker.select(color, true);
                 }
+                return color;
             };
 
             if (props) {
@@ -1149,6 +1153,30 @@ define([
             if (props) {
                 // var val = props.asc_getLocation();
                 // this.txtScope.setValue((val) ? val : '');
+                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
+                    type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
+                    type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
+                    var xfs = props.asc_getDxf();
+                    this.btnBold.toggle(xfs.asc_getFontBold() === true, true);
+                    this.btnItalic.toggle(xfs.asc_getFontItalic() === true, true);
+                    this.btnUnderline.toggle(xfs.asc_getFontUnderline() === true, true);
+                    this.btnStrikeout.toggle(xfs.asc_getFontStrikeout() === true, true);
+
+                    var color = setColor(xfs.asc_getFontColor(), null, this.mnuTextColorPicker);
+                    this.btnTextColor.currentColor = color;
+                    this.mnuTextColorPicker.currentColor = color;
+                    color = (typeof(color) == 'object') ? color.color : color;
+                    $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + color);
+
+                    color = setColor(xfs.asc_getFillColor(), null, this.mnuFillColorPicker);
+                    this.btnFillColor.currentColor = color;
+                    this.mnuFillColorPicker.currentColor = color;
+                    color = (typeof(color) == 'object') ? color.color : color;
+                    $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', '#' + color);
+
+                    var val = xfs.asc_getNumFormatInfo();
+                    val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
+                }
             } else {
             }
         },
@@ -1229,6 +1257,18 @@ define([
             $('#format-rules-borders-border-color .menu-item-icon').css('border-color', '#' + ((typeof(color) == 'object') ? color.color : color));
             this.mnuBorderColor.onUnHoverItem();
             this.btnBorders.options.borderscolor = Common.Utils.ThemeColor.getRgbColor(color);
+        },
+
+        onFormatColorSelect: function(btn, picker, color, fromBtn) {
+            var clr = (typeof(color) == 'object') ? color.color : color;
+            btn.currentColor = color;
+            $('.btn-color-value-line', btn.cmpEl).css('background-color', '#' + clr);
+
+            picker.currentColor = color;
+        },
+
+        onFormatColor: function(picker, btn, e) {
+            picker.trigger('select', picker, picker.currentColor, true);
         },
 
         updateThemeColors: function() {
