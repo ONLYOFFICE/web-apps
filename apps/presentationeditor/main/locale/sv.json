@@ -1569,6 +1569,7 @@
   "PE.Views.Toolbar.textBold": "Fet",
   "PE.Views.Toolbar.textItalic": "Kursiv",
   "PE.Views.Toolbar.textNewColor": "Anpassad färg",
+  "Common.UI.ColorButton.textNewColor": "Anpassad färg",
   "PE.Views.Toolbar.textShapeAlignBottom": "Justera botten",
   "PE.Views.Toolbar.textShapeAlignCenter": "Centrera",
   "PE.Views.Toolbar.textShapeAlignLeft": "Vänsterjustera",

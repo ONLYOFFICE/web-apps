@@ -1250,6 +1250,7 @@
   "PE.Views.Toolbar.textBold": "Жирний",
   "PE.Views.Toolbar.textItalic": "Курсив",
   "PE.Views.Toolbar.textNewColor": "Власний колір",
+  "Common.UI.ColorButton.textNewColor": "Власний колір",
   "PE.Views.Toolbar.textShapeAlignBottom": "Вирівняти знизу",
   "PE.Views.Toolbar.textShapeAlignCenter": "Вирівняти центр",
   "PE.Views.Toolbar.textShapeAlignLeft": "Вирівняти зліва",

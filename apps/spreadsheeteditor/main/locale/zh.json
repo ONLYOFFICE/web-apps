@@ -2320,6 +2320,7 @@
   "SSE.Views.Toolbar.textMoreFormats": "更多格式",
   "SSE.Views.Toolbar.textMorePages": "更多页",
   "SSE.Views.Toolbar.textNewColor": "添加新的自定义颜色",
+  "Common.UI.ColorButton.textNewColor": "添加新的自定义颜色",
   "SSE.Views.Toolbar.textNoBorders": "没有边框",
   "SSE.Views.Toolbar.textOnePage": "页面",
   "SSE.Views.Toolbar.textOutBorders": "境外",

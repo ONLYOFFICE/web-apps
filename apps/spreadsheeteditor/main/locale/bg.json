@@ -1909,6 +1909,7 @@
   "SSE.Views.Statusbar.textMax": "MAX",
   "SSE.Views.Statusbar.textMin": "MIN",
   "SSE.Views.Statusbar.textNewColor": "Нов потребителски цвят",
+  "Common.UI.ColorButton.textNewColor": "Нов потребителски цвят",
   "SSE.Views.Statusbar.textNoColor": "Няма цвят",
   "SSE.Views.Statusbar.textSum": "SUM",
   "SSE.Views.Statusbar.tipAddTab": "Добавете работен лист",

@@ -1550,6 +1550,7 @@
   "SSE.Views.Toolbar.textMiddleBorders": "Внутрішні горизонтальні межі",
   "SSE.Views.Toolbar.textMoreFormats": "Більше форматів",
   "SSE.Views.Toolbar.textNewColor": "Додати новий спеціальний колір",
+  "Common.UI.ColorButton.textNewColor": "Додати новий спеціальний колір",
   "SSE.Views.Toolbar.textNoBorders": "Немає кордонів",
   "SSE.Views.Toolbar.textOutBorders": "За межами кордонів",
   "SSE.Views.Toolbar.textPageMarginsCustom": "Користувацькі поля",

@@ -1269,6 +1269,7 @@
   "PE.Views.Toolbar.textBold": "Kalın",
   "PE.Views.Toolbar.textItalic": "İtalik",
   "PE.Views.Toolbar.textNewColor": "Özel Renk",
+  "Common.UI.ColorButton.textNewColor": "Özel Renk",
   "PE.Views.Toolbar.textShapeAlignBottom": "Alta Hizala",
   "PE.Views.Toolbar.textShapeAlignCenter": "Ortaya Hizala",
   "PE.Views.Toolbar.textShapeAlignLeft": "Sola Hizala",

@@ -1356,6 +1356,7 @@
   "DE.Views.Toolbar.textMarginsUsNormal": "ノーマル（アメリカの標準）",
   "DE.Views.Toolbar.textMarginsWide": "広い",
   "DE.Views.Toolbar.textNewColor": "ユーザー設定の色の追加",
+  "Common.UI.ColorButton.textNewColor": "ユーザー設定の色の追加",
   "DE.Views.Toolbar.textNextPage": "次のページ",
   "DE.Views.Toolbar.textNone": "なし",
   "DE.Views.Toolbar.textOddPage": "奇数ページから開始",

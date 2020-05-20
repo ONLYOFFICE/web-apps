@@ -1557,6 +1557,7 @@
   "SSE.Views.Toolbar.textMiddleBorders": "Vnútorné horizontálne orámovanie",
   "SSE.Views.Toolbar.textMoreFormats": "Ďalšie formáty",
   "SSE.Views.Toolbar.textNewColor": "Pridať novú vlastnú farbu",
+  "Common.UI.ColorButton.textNewColor": "Pridať novú vlastnú farbu",
   "SSE.Views.Toolbar.textNoBorders": "Bez orámovania",
   "SSE.Views.Toolbar.textOutBorders": "Vonkajšie orámovanie",
   "SSE.Views.Toolbar.textPrint": "Tlačiť",

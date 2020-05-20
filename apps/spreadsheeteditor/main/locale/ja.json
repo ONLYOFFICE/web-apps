@@ -886,6 +886,7 @@
   "SSE.Views.Toolbar.textLeftBorders": "左の罫線",
   "SSE.Views.Toolbar.textMiddleBorders": "内側の水平方向の罫線",
   "SSE.Views.Toolbar.textNewColor": "ユーザー設定の色の追加",
+  "Common.UI.ColorButton.textNewColor": "ユーザー設定の色の追加",
   "SSE.Views.Toolbar.textNoBorders": "枠線なし",
   "SSE.Views.Toolbar.textOutBorders": "外枠",
   "SSE.Views.Toolbar.textPrint": "印刷",

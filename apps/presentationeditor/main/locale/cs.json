@@ -1720,6 +1720,7 @@
   "PE.Views.Toolbar.textItalic": "Skloněné",
   "PE.Views.Toolbar.textListSettings": "Nastavení seznamu",
   "PE.Views.Toolbar.textNewColor": "Uživatelsky určená barva",
+  "Common.UI.ColorButton.textNewColor": "Uživatelsky určená barva",
   "PE.Views.Toolbar.textShapeAlignBottom": "Zarovnat dolů",
   "PE.Views.Toolbar.textShapeAlignCenter": "Zarovnat na střed",
   "PE.Views.Toolbar.textShapeAlignLeft": "Zarovnat vlevo",

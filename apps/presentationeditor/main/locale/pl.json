@@ -1238,6 +1238,7 @@
   "PE.Views.Toolbar.textBold": "Pogrubione",
   "PE.Views.Toolbar.textItalic": "Kursywa",
   "PE.Views.Toolbar.textNewColor": "Własny kolor",
+  "Common.UI.ColorButton.textNewColor": "Własny kolor",
   "PE.Views.Toolbar.textShapeAlignBottom": "Wyrównaj do dołu",
   "PE.Views.Toolbar.textShapeAlignCenter": "Wyrównaj do środka",
   "PE.Views.Toolbar.textShapeAlignLeft": "Wyrównaj do lewej",

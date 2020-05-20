@@ -708,6 +708,7 @@
   "PE.Views.Toolbar.textBold": "太字",
   "PE.Views.Toolbar.textItalic": "斜体",
   "PE.Views.Toolbar.textNewColor": "ユーザー設定の色",
+  "Common.UI.ColorButton.textNewColor": "ユーザー設定の色",
   "PE.Views.Toolbar.textShapeAlignBottom": "下揃え",
   "PE.Views.Toolbar.textShapeAlignCenter": "中央揃え\t",
   "PE.Views.Toolbar.textShapeAlignLeft": "左揃え",

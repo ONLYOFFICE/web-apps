@@ -1313,6 +1313,7 @@
   "PE.Views.Toolbar.textBold": "Tučné",
   "PE.Views.Toolbar.textItalic": "Kurzíva",
   "PE.Views.Toolbar.textNewColor": "Vlastná farba",
+  "Common.UI.ColorButton.textNewColor": "Vlastná farba",
   "PE.Views.Toolbar.textShapeAlignBottom": "Zarovnať dole",
   "PE.Views.Toolbar.textShapeAlignCenter": "Centrovať",
   "PE.Views.Toolbar.textShapeAlignLeft": "Zarovnať doľava",

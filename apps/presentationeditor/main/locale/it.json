@@ -1720,6 +1720,7 @@
   "PE.Views.Toolbar.textItalic": "Corsivo",
   "PE.Views.Toolbar.textListSettings": "Impostazioni elenco",
   "PE.Views.Toolbar.textNewColor": "Colore personalizzato",
+  "Common.UI.ColorButton.textNewColor": "Colore personalizzato",
   "PE.Views.Toolbar.textShapeAlignBottom": "Allinea in basso",
   "PE.Views.Toolbar.textShapeAlignCenter": "Allinea al centro",
   "PE.Views.Toolbar.textShapeAlignLeft": "Allinea a sinistra",

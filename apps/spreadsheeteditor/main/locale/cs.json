@@ -1682,6 +1682,7 @@
   "SSE.Views.HeaderFooterDialog.textLeft": "Vlevo",
   "SSE.Views.HeaderFooterDialog.textMaxError": "Textový řetězec, který jste zadali, je příliš dlouhý. Snižte počet použitých znaků.",
   "SSE.Views.HeaderFooterDialog.textNewColor": "Přidat novou uživatelsky určenou barvu",
+  "Common.UI.ColorButton.textNewColor": "Přidat novou uživatelsky určenou barvu",
   "SSE.Views.HeaderFooterDialog.textOdd": "Lichá stránka",
   "SSE.Views.HeaderFooterDialog.textPageCount": "Počet stránek",
   "SSE.Views.HeaderFooterDialog.textPageNum": "Číslo stránky",

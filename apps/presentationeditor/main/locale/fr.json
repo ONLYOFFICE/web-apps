@@ -1720,6 +1720,7 @@
   "PE.Views.Toolbar.textItalic": "Italique",
   "PE.Views.Toolbar.textListSettings": "Paramètres de la liste",
   "PE.Views.Toolbar.textNewColor": "Couleur personnalisée",
+  "Common.UI.ColorButton.textNewColor": "Couleur personnalisée",
   "PE.Views.Toolbar.textShapeAlignBottom": "Aligner en bas",
   "PE.Views.Toolbar.textShapeAlignCenter": "Aligner au centre",
   "PE.Views.Toolbar.textShapeAlignLeft": "Aligner à gauche",

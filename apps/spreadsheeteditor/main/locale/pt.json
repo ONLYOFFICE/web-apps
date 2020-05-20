@@ -1531,6 +1531,7 @@
   "SSE.Views.Toolbar.textMiddleBorders": "Bordas horizontais interiores",
   "SSE.Views.Toolbar.textMoreFormats": "Mais formatos",
   "SSE.Views.Toolbar.textNewColor": "Adicionar nova cor personalizada",
+  "Common.UI.ColorButton.textNewColor": "Adicionar nova cor personalizada",
   "SSE.Views.Toolbar.textNoBorders": "Sem bordas",
   "SSE.Views.Toolbar.textOutBorders": "Bordas externas",
   "SSE.Views.Toolbar.textPrint": "Imprimir",

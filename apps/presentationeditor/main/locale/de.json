@@ -1720,6 +1720,7 @@
   "PE.Views.Toolbar.textItalic": "Kursiv",
   "PE.Views.Toolbar.textListSettings": "Listeneinstellungen",
   "PE.Views.Toolbar.textNewColor": "Benutzerdefinierte Farbe",
+  "Common.UI.ColorButton.textNewColor": "Benutzerdefinierte Farbe",
   "PE.Views.Toolbar.textShapeAlignBottom": "Unten ausrichten",
   "PE.Views.Toolbar.textShapeAlignCenter": "Zentriert ausrichten",
   "PE.Views.Toolbar.textShapeAlignLeft": "Links ausrichten",

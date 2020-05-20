@@ -1625,6 +1625,7 @@
   "PE.Views.Toolbar.textBold": "Получер",
   "PE.Views.Toolbar.textItalic": "Курсив",
   "PE.Views.Toolbar.textNewColor": "Цвят по избор",
+  "Common.UI.ColorButton.textNewColor": "Цвят по избор",
   "PE.Views.Toolbar.textShapeAlignBottom": "Подравняване отдолу",
   "PE.Views.Toolbar.textShapeAlignCenter": "Подравняване на центъра",
   "PE.Views.Toolbar.textShapeAlignLeft": "Подравняване вляво",

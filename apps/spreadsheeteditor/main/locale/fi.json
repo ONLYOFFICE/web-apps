@@ -1392,6 +1392,7 @@
   "SSE.Views.Toolbar.textLeftBorders": "Vasemmat reunukset",
   "SSE.Views.Toolbar.textMiddleBorders": "Vaakareunusten sisällä",
   "SSE.Views.Toolbar.textNewColor": "Lisää uusi mukautettu väri",
+  "Common.UI.ColorButton.textNewColor": "Lisää uusi mukautettu väri",
   "SSE.Views.Toolbar.textNoBorders": "Ei reunuksia",
   "SSE.Views.Toolbar.textOutBorders": "Ulkoreunukset",
   "SSE.Views.Toolbar.textPrint": "Tulosta",

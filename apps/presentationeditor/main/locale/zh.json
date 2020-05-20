@@ -1717,6 +1717,7 @@
   "PE.Views.Toolbar.textItalic": "斜体",
   "PE.Views.Toolbar.textListSettings": "列表设置",
   "PE.Views.Toolbar.textNewColor": "自定义颜色",
+  "Common.UI.ColorButton.textNewColor": "自定义颜色",
   "PE.Views.Toolbar.textShapeAlignBottom": "底部对齐",
   "PE.Views.Toolbar.textShapeAlignCenter": "居中对齐",
   "PE.Views.Toolbar.textShapeAlignLeft": "左对齐",

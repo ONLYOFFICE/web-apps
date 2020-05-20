@@ -1720,6 +1720,7 @@
   "SSE.Views.Toolbar.textMiddleBorders": "내부 수평 테두리",
   "SSE.Views.Toolbar.textMoreFormats": "기타 형식",
   "SSE.Views.Toolbar.textNewColor": "새 사용자 지정 색 추가",
+  "Common.UI.ColorButton.textNewColor": "새 사용자 지정 색 추가",
   "SSE.Views.Toolbar.textNoBorders": "테두리 없음",
   "SSE.Views.Toolbar.textOutBorders": "테두리 밖",
   "SSE.Views.Toolbar.textPrint": "인쇄",

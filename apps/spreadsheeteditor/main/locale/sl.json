@@ -784,6 +784,7 @@
   "SSE.Views.Toolbar.textLeftBorders": "Leve meje",
   "SSE.Views.Toolbar.textMiddleBorders": "Notranje horizontalne meje",
   "SSE.Views.Toolbar.textNewColor": "Dodaj novo barvo po meri",
+  "Common.UI.ColorButton.textNewColor": "Dodaj novo barvo po meri",
   "SSE.Views.Toolbar.textNoBorders": "Ni mej",
   "SSE.Views.Toolbar.textOutBorders": "Zunanje meje",
   "SSE.Views.Toolbar.textPrint": "Natisni",

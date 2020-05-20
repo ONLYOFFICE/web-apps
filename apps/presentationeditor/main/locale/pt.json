@@ -1240,6 +1240,7 @@
   "PE.Views.Toolbar.textBold": "Negrito",
   "PE.Views.Toolbar.textItalic": "Itálico",
   "PE.Views.Toolbar.textNewColor": "Cor personalizada",
+  "Common.UI.ColorButton.textNewColor": "Cor personalizada",
   "PE.Views.Toolbar.textShapeAlignBottom": "Alinhar à parte inferior",
   "PE.Views.Toolbar.textShapeAlignCenter": "Alinhar ao centro",
   "PE.Views.Toolbar.textShapeAlignLeft": "Alinhar à esquerda",

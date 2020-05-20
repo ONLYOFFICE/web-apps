@@ -1523,6 +1523,7 @@
   "SSE.Views.Toolbar.textMiddleBorders": "Yatay İç Sınırlar",
   "SSE.Views.Toolbar.textMoreFormats": "Daha fazla format",
   "SSE.Views.Toolbar.textNewColor": "Yeni Özel Renk Ekle",
+  "Common.UI.ColorButton.textNewColor": "Yeni Özel Renk Ekle",
   "SSE.Views.Toolbar.textNoBorders": "Sınır yok",
   "SSE.Views.Toolbar.textOutBorders": "Dış Sınırlar",
   "SSE.Views.Toolbar.textPrint": "Yazdır",

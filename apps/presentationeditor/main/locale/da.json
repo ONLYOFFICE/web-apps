@@ -15,7 +15,7 @@
   "Common.define.chartData.textStock": "Aktie",
   "Common.define.chartData.textSurface": "Overflade",
   "Common.Translation.warnFileLocked": "Dokumentet er i brug af en anden applikation. Du kan fortsætte med at redigere og gemme som en kopi.",
-  "Common.UI.ColorButton.textNewColor": "Tilføj ny brugerdefineret farve",
+  "Common.UI.ColorButton.textNewColor": "Brugerdefineret farve",
   "Common.UI.ComboBorderSize.txtNoBorders": "Ingen rammer",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Ingen rammer",
   "Common.UI.ComboDataView.emptyComboText": "Ingen stilarter",
