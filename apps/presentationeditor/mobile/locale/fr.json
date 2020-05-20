@@ -1,5 +1,5 @@
 {
-  "Common.Controllers.Collaboration.textEditUser": "Document est en cours de modification par plusieurs utilisateurs.",
+  "Common.Controllers.Collaboration.textEditUser": "Le document est en cours de modification par utilisateurs :",
   "Common.UI.ThemeColorPalette.textCustomColors": "Couleurs personnalisées",
   "Common.UI.ThemeColorPalette.textStandartColors": "Couleurs standard",
   "Common.UI.ThemeColorPalette.textThemeColors": "Couleurs de thème",
@@ -41,6 +41,7 @@
   "PE.Controllers.DocumentHolder.menuPaste": "Coller",
   "PE.Controllers.DocumentHolder.sheetCancel": "Annuler",
   "PE.Controllers.DocumentHolder.textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
+  "PE.Controllers.DocumentHolder.textDoNotShowAgain": "Ne plus afficher",
   "PE.Controllers.DocumentPreview.txtFinalMessage": "La fin de l'aperçu de la diapositive. Cliquez pour quitter.",
   "PE.Controllers.EditContainer.textChart": "Graphique",
   "PE.Controllers.EditContainer.textHyperlink": "Lien hypertexte",
@@ -291,7 +292,7 @@
   "PE.Views.EditImage.textAlignTop": "Aligner en haut",
   "PE.Views.EditImage.textBack": "Retour",
   "PE.Views.EditImage.textBackward": "Déplacer vers l'arrière",
-  "PE.Views.EditImage.textDefault": "Taille par défaut",
+  "PE.Views.EditImage.textDefault": "Taille actuelle",
   "PE.Views.EditImage.textForward": "Déplacer vers l'avant",
   "PE.Views.EditImage.textFromLibrary": "Image de la bibliothèque",
   "PE.Views.EditImage.textFromURL": "Image à partir d'une URL",
