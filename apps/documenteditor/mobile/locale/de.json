@@ -108,6 +108,7 @@
   "DE.Controllers.DocumentHolder.textCancel": "Abbrechen",
   "DE.Controllers.DocumentHolder.textColumns": "Spalten",
   "DE.Controllers.DocumentHolder.textCopyCutPasteActions": "Funktionen \"Kopieren\", \"Ausschneiden\" und \"Einfügen\"",
+  "DE.Controllers.DocumentHolder.textDoNotShowAgain": "Nicht wieder anzeigen",
   "DE.Controllers.DocumentHolder.textGuest": "Gast",
   "DE.Controllers.DocumentHolder.textRows": "Zeilen",
   "DE.Controllers.EditContainer.textChart": "Diagramm",
