@@ -43,6 +43,7 @@
   "SSE.Controllers.DocumentHolder.menuWrap": "Umbrechen",
   "SSE.Controllers.DocumentHolder.sheetCancel": "Abbrechen",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Funktionen \"Kopieren\", \"Ausschneiden\" und \"Einfügen\"",
+  "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Nicht wieder anzeigen",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Vorgang kann die Daten in den markierten Zellen zerstören.<br>Fortsenzen? ",
   "SSE.Controllers.EditCell.textAuto": "Automatisch",
   "SSE.Controllers.EditCell.textFonts": "Schriftarten",
