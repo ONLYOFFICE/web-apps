@@ -53,7 +53,7 @@ define([
     Common.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers
-            width: 230,
+            width: 250,
             height: 200,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
