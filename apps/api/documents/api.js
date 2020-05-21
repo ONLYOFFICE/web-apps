@@ -137,7 +137,7 @@
                     mentionShare : true // customize tooltip for mention,
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
-                    showMacrosWarning: true // warn about automatic macros
+                    macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn'
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],

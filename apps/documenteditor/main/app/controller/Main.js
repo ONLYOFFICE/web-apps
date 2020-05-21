@@ -384,6 +384,14 @@ define([
                     $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
                 }
 
+                var value = Common.localStorage.getItem("de-macros-mode");
+                if (value === null) {
+                    value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
+                    value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
+                } else
+                    value = parseInt(value);
+                Common.Utils.InternalSettings.set("de-macros-mode", value);
+
                 Common.Controllers.Desktop.init(this.appOptions);
             },
 
@@ -2246,29 +2254,30 @@ define([
                 var me = this,
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 if (enable) {
-                    if (!this.editorConfig.customization || (this.editorConfig.customization.showMacrosWarning!==false)) {
-                        var value = Common.localStorage.getItem("de-macros-start");
-                        if (value===null) {
-                            Common.UI.warning({
-                                msg: this.textHasMacros + '<br>',
-                                buttons: ['yes', 'no'],
-                                primary: 'yes',
-                                dontshow: true,
-                                textDontShow: this.textRemember,
-                                callback: function(btn, dontshow){
-                                    if (dontshow)
-                                        Common.localStorage.setItem("de-macros-start", (btn == 'yes') ? 1 : 0);
-                                    if (btn == 'yes') {
-                                        setTimeout(function() {
-                                            me.api.asc_runAutostartMacroses();
-                                        }, 1);
-                                    }
-                                }
-                            });
-                        } else if (parseInt(value)==1)
-                            this.api.asc_runAutostartMacroses();
-                    } else
+                    var value = Common.Utils.InternalSettings.get("de-macros-mode");
+                    if (value==1)
                         this.api.asc_runAutostartMacroses();
+                    else if (value === 0) {
+                        Common.UI.warning({
+                            msg: this.textHasMacros + '<br>',
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            dontshow: true,
+                            textDontShow: this.textRemember,
+                            callback: function(btn, dontshow){
+                                if (dontshow) {
+                                    Common.Utils.InternalSettings.set("de-macros-mode", (btn == 'yes') ? 1 : 2);
+                                    Common.localStorage.setItem("de-macros-mode", (btn == 'yes') ? 1 : 2);
+                                }
+                                if (btn == 'yes') {
+                                    setTimeout(function() {
+                                        me.api.asc_runAutostartMacroses();
+                                    }, 1);
+                                }
+                            }
+                        });
+
+                    }
                 }
             },
 
