@@ -46,7 +46,7 @@ define([
     SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 580,
-            height: 420
+            height: 397
         },
 
         initialize : function(options) {
@@ -74,7 +74,7 @@ define([
                                 '<tr><td style="height:100%;padding-bottom: 12px;"></td></tr>',
                                 '<tr><td>',
                                 '<div id="formula-wizard-panel-desc" style="word-break: break-word;">',
-                                    '<label id="formula-wizard-arg-desc" style="display: block;margin-bottom: 8px;"><b>Argument 1:</b></label>',
+                                    // '<label id="formula-wizard-arg-desc" style="display: block;margin-bottom: 8px;"><b>Argument 1:</b></label>',
                                     '<label id="formula-wizard-args" style="display: block;margin-bottom: 0px;"></label>',
                                     '<label id="formula-wizard-desc" style="display: block;margin-bottom: 8px;"></label>',
                                     '<label id="formula-wizard-value" style="display: block;margin-bottom: 8px;"><b>Formula result:</b></label>',
@@ -222,7 +222,7 @@ define([
 
         recalcArgTableSize: function() {
             var height = this.panelDesc.outerHeight();
-            height = this.$window.find('.box').height() - 7 - height - 60;
+            height = this.$window.find('.box').height() - 7 - height - 54;
             height = parseInt(height/30) * 30;
             this.tableArgs.parent().css('max-height', height);
             if (!this.scrollerY)
@@ -272,7 +272,7 @@ define([
                 lblValue: div.find('#formula-wizard-lbl-val-arg'+argcount),
                 argInput: txt,
                 argName: 'Argument ' + (argcount+1),
-                argDesc: 'some argument description',
+                // argDesc: 'some argument description',
                 argType: argtype,
                 argTypeName: me.getArgType(argtype)
             });
