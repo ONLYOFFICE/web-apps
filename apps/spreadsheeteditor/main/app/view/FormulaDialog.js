@@ -153,6 +153,7 @@ define([
                     me.inputSearch.$el.find('input').focus();
                 }, 100, this);
             }
+            this._preventCloseCellEditor = false;
         },
 
         hide: function () {
@@ -166,6 +167,8 @@ define([
             this.recommended = this.filter = undefined;
 
             Common.UI.Window.prototype.hide.call(this);
+
+            !this._preventCloseCellEditor && this.api.asc_closeCellEditor(true);
         },
 
         onBtnClick: function (event) {
@@ -198,6 +201,7 @@ define([
             if (this.handler && state == 'ok') {
                 if (this.btnOk.isDisabled())
                     return;
+                this._preventCloseCellEditor = true;
                 this.handler.call(this, this.applyFunction);
             }
 
