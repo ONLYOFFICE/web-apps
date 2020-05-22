@@ -98,6 +98,7 @@ SSE.ApplicationController = new(function(){
             docInfo.put_VKey(docConfig.vkey);
             docInfo.put_Token(docConfig.token);
             docInfo.put_Permissions(_permissions);
+            docInfo.put_EncryptedInfo(config.encryptionKeys);
 
             var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
