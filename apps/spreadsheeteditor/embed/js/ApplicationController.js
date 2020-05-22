@@ -422,6 +422,10 @@ SSE.ApplicationController = new(function(){
                 message = me.errorUpdateVersionOnDisconnect;
                 break;
 
+            case Asc.c_oAscError.ID.AccessDeny:
+                message = me.errorAccessDeny;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;

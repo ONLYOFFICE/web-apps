@@ -908,7 +908,7 @@ define([
                                 var HexColor0 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]).get_color().get_hex(),
                                     HexColor1 = Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1]).get_color().get_hex();
                                 if (HexColor0 === 'ffffff' && HexColor1 === 'ffffff') {
-                                    this.GradColors.colors[0] = {color: '4f81bd', effectId: 24};    // color accent1
+                                    this.GradColor.colors[0] = {color: '4f81bd', effectId: 24};    // color accent1
                                 }
                             }
                             var arrGradStop = [];

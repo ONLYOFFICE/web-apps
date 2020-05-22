@@ -2046,7 +2046,7 @@ define([
                         name = menuItem.asc_getName(true),
                         origname = me.api.asc_getFormulaNameByLocale(name),
                         mnu = new Common.UI.MenuItem({
-                            iconCls: (type==Asc.c_oAscPopUpSelectorType.Func) ? 'mnu-popup-func': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'mnu-popup-table' : 'mnu-popup-range') ,
+                            iconCls: 'menu__icon ' + ((type==Asc.c_oAscPopUpSelectorType.Func) ? 'btn-function': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'btn-menu-table' : 'btn-named-range')) ,
                             caption: name,
                             hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
@@ -2211,8 +2211,8 @@ define([
                     this.documentHolder.cmpEl.append(inputtip.parentEl);
                 }
 
-                var hint = title ? ('<b>' + (title || '') + '</b><br>') : '';
-                hint += (message || '');
+                var hint = title ? ('<b>' + (Common.Utils.String.htmlEncode(title || '')) + '</b><br>') : '';
+                hint += (Common.Utils.String.htmlEncode(message || ''));
 
                 if (inputtip.ref && inputtip.ref.isVisible()) {
                     if (inputtip.text != hint) {
@@ -2247,7 +2247,8 @@ define([
 
                 inputtip.ref.getBSTip().$tip.css({
                     top : showPoint[1] + 'px',
-                    left: showPoint[0] + 'px'
+                    left: showPoint[0] + 'px',
+                    'z-index': 900
                 });
             } else {
                 if (!inputtip.isHidden && inputtip.ref) {
