@@ -362,6 +362,11 @@ define([
                     input.setValue(changedValue);
                     me.onInputChanging(input);
                     me.show();
+                    _.delay(function(){
+                        me._noApply = true;
+                        input.cmpEl.find('input').focus();
+                        me._noApply = false;
+                    },1);
                 });
 
                 var xy = me.$window.offset();
