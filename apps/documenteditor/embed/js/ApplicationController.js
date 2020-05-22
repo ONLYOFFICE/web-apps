@@ -100,6 +100,11 @@ DE.ApplicationController = new(function(){
             docInfo.put_Token(docConfig.token);
             docInfo.put_Permissions(_permissions);
 
+            var enable = !config.customization || (config.customization.macros!==false);
+            docInfo.asc_putIsEnabledMacroses(!!enable);
+            enable = !config.customization || (config.customization.plugins!==false);
+            docInfo.asc_putIsEnabledPlugins(!!enable);
+
             var type = /^(?:(pdf|djvu|xps))$/.exec(docConfig.fileType);
             if (type && typeof type[1] === 'string') {
                 permissions.edit = permissions.review = false;
@@ -107,6 +112,7 @@ DE.ApplicationController = new(function(){
 
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
+                api.asc_registerCallback('asc_onRunAutostartMacroses', onRunAutostartMacroses);
                 api.asc_setDocInfo(docInfo);
                 api.asc_getEditorPermissions(config.licenseUrl, config.customerId);
                 api.asc_enableKeyEvents(true);
@@ -479,6 +485,11 @@ DE.ApplicationController = new(function(){
             return;
         }
         if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+    }
+
+    function onRunAutostartMacroses() {
+        if (!config.customization || (config.customization.macros!==false))
+            if (api) api.asc_runAutostartMacroses();
     }
 
     // Helpers
