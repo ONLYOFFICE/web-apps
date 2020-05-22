@@ -276,7 +276,7 @@ define([
                     } else
                     if ( opts == 'create:new' ) {
                         if (config.createUrl == 'desktop://create.new') {
-                            native.LocalFileCreate(!!window.SSE ? 2 : !!window.PE ? 1 : 0);
+                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' : 'word');
                             return true;
                         }
                     }
