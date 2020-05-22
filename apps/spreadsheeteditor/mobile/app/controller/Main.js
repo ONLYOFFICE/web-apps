@@ -270,10 +270,16 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
+
+                    var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                    docInfo.asc_putIsEnabledPlugins(!!enable);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -1481,6 +1487,11 @@ define([
 
             isSupportEditFeature: function() {
                 return false;
+            },
+
+            onRunAutostartMacroses: function() {
+                if (!this.editorConfig.customization || (this.editorConfig.customization.macros!==false))
+                    if (this.api) this.api.asc_runAutostartMacroses();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
