@@ -287,7 +287,7 @@ define([
             var me = this,
                 index = input.options.index,
                 arg = me.args[index];
-            var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType),
+            var res = me.api.asc_insertArgumentsInFormula(me.getArgumentsValue(), index, arg.argType, this.funcprops ? this.funcprops.origin : undefined),
                 argres = res ? res.asc_getArgumentsResult() : undefined;
             argres = argres ? argres[index] : undefined;
             arg.lblValue.html('= '+ (argres!==null && argres !==undefined ? argres : '<span style="opacity: 0.5; font-weight: bold;">' + arg.argTypeName + '</span>' ));
