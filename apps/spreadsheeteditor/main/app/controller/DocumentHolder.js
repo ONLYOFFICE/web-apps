@@ -71,7 +71,8 @@ define([
     'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
     'spreadsheeteditor/main/app/view/SetValueDialog',
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
-    'spreadsheeteditor/main/app/view/SpecialPasteDialog'
+    'spreadsheeteditor/main/app/view/SpecialPasteDialog',
+    'spreadsheeteditor/main/app/view/SlicerSettings'
 ], function () {
     'use strict';
 
@@ -224,6 +225,7 @@ define([
                 view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
                 view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
                 view.mnuImgAdvanced.on('click',                     _.bind(me.onImgAdvanced, me));
+                view.mnuSlicerAdvanced.on('click',                  _.bind(me.onSlicerAdvanced, me));
                 view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
                 view.menuSignatureEditSign.on('click',              _.bind(me.onSignatureClick, me));
                 view.menuSignatureEditSetup.on('click',             _.bind(me.onSignatureClick, me));
@@ -871,6 +873,25 @@ define([
                             me.api.asc_setGraphicObjectProps(value.imageProps);
 
                             Common.component.Analytics.trackEvent('DocumentHolder', 'Apply advanced image settings');
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            })).show();
+        },
+
+        onSlicerAdvanced: function(item) {
+            var me = this;
+
+            (new SSE.Views.SlicerSettings({
+                props           : item.imageInfo,
+                api             : me.api,
+                handler         : function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_setGraphicObjectProps(value.imageProps);
+
+                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply slicer settings');
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me);
@@ -1619,6 +1640,7 @@ define([
                             has_chartprops = true;
                         } else {
                             documentHolder.mnuImgAdvanced.imageInfo = elValue;
+                            documentHolder.mnuSlicerAdvanced.imageInfo = elValue;
                             isimagemenu = true;
                         }
                         if (this.permissions.isSignatureSupport)
@@ -1647,6 +1669,9 @@ define([
                 if (documentHolder.mnuImgAdvanced.imageInfo)
                     documentHolder.menuImgOriginalSize.setDisabled(isObjLocked || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===null || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===undefined);
 
+                documentHolder.mnuSlicerAdvanced.setVisible(documentHolder.mnuImgAdvanced.imageInfo &&documentHolder.mnuImgAdvanced.imageInfo.asc_getSlicerProperties());
+                documentHolder.mnuSlicerAdvanced.setDisabled(isObjLocked);
+
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
@@ -1671,6 +1696,7 @@ define([
 
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
+                documentHolder.mnuSlicerSeparator.setVisible(documentHolder.mnuSlicerAdvanced.isVisible());
             } else if (istextshapemenu || istextchartmenu) {
                 if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
                 

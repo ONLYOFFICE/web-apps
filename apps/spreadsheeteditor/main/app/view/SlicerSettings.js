@@ -296,19 +296,35 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
         },
 
         _setDefaults: function(props) {
-            if (props ){
-                this._noApply = true;
+            if (props){
+                var value = props.asc_getWidth();
+                this.numWidth.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
+                value = props.asc_getHeight();
+                this.numHeight.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
 
-                // depents of data type
-                this.radioAsc.setCaption(this.textAsc + ' (' + this.textSmallLarge + ')' );
-                this.radioDesc.setCaption(this.textDesc + ' (' + this.textLargeSmall + ')' );
+                var slicerprops = props.asc_getSlicerProperties();
+                if (slicerprops) {
+                    this._noApply = true;
 
-                this.lblSource.text('Source name');
-                this.lblFormula.text('Name in formulas');
+                    this.numCols.setValue(slicerprops.asc_getColumnCount(), true);
+                    // this.numColWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(slicerprops.asc_getColWidth()).toFixed(2), true);
+                    this.numColHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(slicerprops.asc_getRowHeight()).toFixed(2), true);
 
-                this._noApply = false;
+                    this.inputHeader.setValue(slicerprops.asc_getCaption());
+                    this.chHeader.setValue(!!slicerprops.asc_getShowCaption());
 
-                this._changedProps = new Asc.asc_CParagraphProperty();
+                    // depends of data type
+                    this.radioAsc.setCaption(this.textAsc + ' (' + this.textSmallLarge + ')' );
+                    this.radioDesc.setCaption(this.textDesc + ' (' + this.textLargeSmall + ')' );
+
+                    this.inputName.setValue(slicerprops.asc_getName());
+                    this.lblSource.text('Source name');
+                    this.lblFormula.text('Name in formulas');
+
+                    this._noApply = false;
+
+                    this._changedProps = slicerprops;
+                }
             }
         },
 
