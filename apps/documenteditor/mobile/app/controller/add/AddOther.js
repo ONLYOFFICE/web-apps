@@ -194,7 +194,7 @@ define([
             },
 
             onDoneComment: function(documentFlag) {
-                var value = $('#comment-text').val();
+                var value = $('#comment-text').val().trim();
                 if (value.length > 0) {
                     DE.getController('Common.Controllers.Collaboration').onAddNewComment(value, documentFlag);
                     DE.getController('AddContainer').hideModal();

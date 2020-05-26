@@ -177,8 +177,8 @@ define([
                         if (isAndroid) {
                             template += '<div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>';
                         }
-                        template += '<p class="user-name">' + comment.username + '</p>' +
-                            '<p class="comment-date">' + comment.date + '</p>';
+                        template += '<div class="user-name">' + comment.username + '</div>' +
+                            '<div class="comment-date">' + comment.date + '</div>';
                         if (isAndroid) {
                             template += '</div>';
                         }
@@ -191,8 +191,8 @@ define([
                         }
                         template += '</div>';
 
-                        if (comment.quote) template += '<p class="comment-quote" data-ind="' + comment.uid + '">' + me.sliceQuote(comment.quote) + '</p>';
-                        template += '<div class="comment-text"><span>' + comment.comment + '</span></div>';
+                        if (comment.quote) template += '<div class="comment-quote" data-ind="' + comment.uid + '">' + me.sliceQuote(comment.quote) + '</div>';
+                        template += '<div class="comment-text"><pre>' + comment.comment + '</pre></div>';
                         if (comment.replys.length > 0) {
                             template += '<ul class="list-reply">';
                             _.each(comment.replys, function (reply) {
@@ -202,8 +202,8 @@ define([
                                 if (isAndroid) {
                                     template += '<div class="initials-reply" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>'
                                 }
-                                template += '<p class="user-name">' + reply.username + '</p>' +
-                                    '<p class="reply-date">' + reply.date + '</p>' +
+                                template += '<div class="user-name">' + reply.username + '</div>' +
+                                    '<div class="reply-date">' + reply.date + '</div>' +
                                     '</div>';
                                 if (isAndroid) {
                                     template += '</div>';
@@ -212,7 +212,7 @@ define([
                                     template += '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>';
                                 }
                                 template += '</div>' +
-                                    '<p class="reply-text">' + reply.reply + '</p>' +
+                                    '<div class="reply-text"><pre>' + reply.reply + '</pre></div>' +
                                     '</li>';
                             });
                             template += '</ul>'
@@ -249,8 +249,8 @@ define([
                             '<div class="item-inner">',
                             '<div class="header-comment"><div class="comment-left">',
                             '<% if (android) { %><div class="initials-comment" style="background-color:<%= item.usercolor %> "> <%= item.userInitials %></div><div><% } %>',
-                            '<p class="user-name"><%= item.username %></p>',
-                            '<p class="comment-date"><%= item.date %></p>',
+                            '<div class="user-name"><%= item.username %></div>',
+                            '<div class="comment-date"><%= item.date %></div>',
                             '<% if (android) { %></div><% } %>',
                             '</div>',
                             '<% if (item.editable && !viewmode) { %>',
@@ -261,9 +261,9 @@ define([
                             '<% } %>',
                             '</div>',
                             '<% if(item.quote) {%>',
-                            '<p class="comment-quote" data-id="<%= item.uid %>"><%= quote %></p>',
+                            '<div class="comment-quote" data-id="<%= item.uid %>"><%= quote %></div>',
                             '<% } %>',
-                            '<p class="comment-text"><span><%= item.comment %></span></p>',
+                            '<div class="comment-text"><pre><%= item.comment %></pre></div>',
                             '<% if(replys > 0) {%>',
                             '<ul class="list-reply">',
                             '<% _.each(item.replys, function (reply) { %>',
@@ -271,15 +271,15 @@ define([
                                 '<div class="header-reply">',
                                     '<div class="reply-left">',
                                         '<% if (android) { %><div class="initials-reply" style="background-color: <%= reply.usercolor %>;"><%= reply.userInitials %></div><div><% } %>',
-                                        '<p class="user-name"><%= reply.username %></p>',
-                                        '<p class="reply-date"><%= reply.date %></p>',
+                                        '<div class="user-name"><%= reply.username %></div>',
+                                        '<div class="reply-date"><%= reply.date %></div>',
                                     '</div>',
                                     '<% if (android) { %></div><% } %>',
                                     '<% if (reply.editable && !viewmode) { %>',
                                     '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>',
                                     '<% } %>',
                                 '</div>',
-                                 '<p class="reply-text"><%= reply.reply %></p>',
+                                 '<div class="reply-text"><pre><%= reply.reply %></pre></div>',
                             '</li>',
                             '<% }); %>',
                             '</ul>',
