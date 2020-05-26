@@ -41,6 +41,7 @@
   "PE.Controllers.DocumentHolder.menuPaste": "粘贴",
   "PE.Controllers.DocumentHolder.sheetCancel": "取消",
   "PE.Controllers.DocumentHolder.textCopyCutPasteActions": "复制，剪切和粘贴操作",
+  "PE.Controllers.DocumentHolder.textDoNotShowAgain": "不要再显示",
   "PE.Controllers.DocumentPreview.txtFinalMessage": "幻灯片预览的结束。单击退出。",
   "PE.Controllers.EditContainer.textChart": "图表",
   "PE.Controllers.EditContainer.textHyperlink": "超链接",

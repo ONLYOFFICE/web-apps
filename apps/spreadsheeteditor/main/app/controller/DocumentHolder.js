@@ -260,7 +260,7 @@ define([
                     click: function(e) {
                         if (me.api) {
                             me.api.isTextAreaBlur = false;
-                            if (e.target.localName == 'canvas' && !me.isEditFormula) {
+                            if (e.target.localName == 'canvas' && (!me.isEditFormula || me.rangeSelectionMode)) {
                                 if (me._preventClick)
                                     me._preventClick = false;
                                 else
@@ -2015,7 +2015,7 @@ define([
                         value       : addarr ? addarr[index] : menuItem,
                         style: (typeof menuItem == 'string' && _.isEmpty(menuItem.trim())) ? 'min-height: 25px;' : ''
                     }).on('click', function(item, e) {
-                        me.api.asc_insertFormula(item.value, Asc.c_oAscPopUpSelectorType.None, false );
+                        me.api.asc_insertInCell(item.value, Asc.c_oAscPopUpSelectorType.None, false );
                     });
                     menu.addItem(mnu);
                 });
@@ -2060,7 +2060,7 @@ define([
         },
 
         onFormulaCompleteMenu: function(funcarr) {
-            if (!this.documentHolder.funcMenu) return;
+            if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
             if (funcarr) {
                 var me                  = this,
@@ -2092,7 +2092,7 @@ define([
                             caption: name,
                             hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
-                        setTimeout(function(){ me.api.asc_insertFormula(item.caption, type, false ); }, 10);
+                        setTimeout(function(){ me.api.asc_insertInCell(item.caption, type, false ); }, 10);
                     });
                     menu.addItem(mnu);
                 });

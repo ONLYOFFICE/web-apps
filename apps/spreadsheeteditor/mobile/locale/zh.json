@@ -43,6 +43,7 @@
   "SSE.Controllers.DocumentHolder.menuWrap": "包裹",
   "SSE.Controllers.DocumentHolder.sheetCancel": "取消",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "复制，剪切和粘贴操作",
+  "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "不要再显示",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "操作可能会破坏所选单元格中的数据。<br>继续？",
   "SSE.Controllers.EditCell.textAuto": "自动",
   "SSE.Controllers.EditCell.textFonts": "字体",

@@ -43,6 +43,7 @@
   "SSE.Controllers.DocumentHolder.menuWrap": "Renvoi à la ligne",
   "SSE.Controllers.DocumentHolder.sheetCancel": "Annuler",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
+  "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Ne plus afficher",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Cette opération détruira les données des cellules sélectionnées. <br>Сontinuer ?",
   "SSE.Controllers.EditCell.textAuto": "Auto",
   "SSE.Controllers.EditCell.textFonts": "Polices",

@@ -41,6 +41,7 @@
   "PE.Controllers.DocumentHolder.menuPaste": "Vložit",
   "PE.Controllers.DocumentHolder.sheetCancel": "Zrušit",
   "PE.Controllers.DocumentHolder.textCopyCutPasteActions": "Akce kopírovat, vyjmout a vložit",
+  "PE.Controllers.DocumentHolder.textDoNotShowAgain": "Znovu už nezobrazovat",
   "PE.Controllers.DocumentPreview.txtFinalMessage": "Konec náhledu snímku. Opustíte kliknutím.",
   "PE.Controllers.EditContainer.textChart": "Graf",
   "PE.Controllers.EditContainer.textHyperlink": "Hypertextový odkaz",

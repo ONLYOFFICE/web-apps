@@ -108,6 +108,7 @@
   "DE.Controllers.DocumentHolder.textCancel": "Annuler",
   "DE.Controllers.DocumentHolder.textColumns": "Colonnes",
   "DE.Controllers.DocumentHolder.textCopyCutPasteActions": "Fonctions de Copier, Couper et Coller",
+  "DE.Controllers.DocumentHolder.textDoNotShowAgain": "Ne plus afficher",
   "DE.Controllers.DocumentHolder.textGuest": "Invité",
   "DE.Controllers.DocumentHolder.textRows": "Lignes",
   "DE.Controllers.EditContainer.textChart": "Graphique",
