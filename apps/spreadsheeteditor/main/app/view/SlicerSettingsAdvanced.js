@@ -103,23 +103,27 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 }
             }, this));
 
-            this.cmbSlicerStyle = new Common.UI.ComboDataView({
-                itemWidth: 50,
-                itemHeight: 50,
-                menuMaxHeight: 272,
-                enableKeyEvents: true,
-                cls: 'combo-spark-style',
-                minWidth: 190
+            this.btnSlicerStyle = new Common.UI.Button({
+                parentEl: $('#sliceradv-btn-style'),
+                cls         : 'btn-large-dataview sheet-template-table',
+                iconCls     : 'icon-template-table',
+                menu        : new Common.UI.Menu({
+                    style: 'width: 400px;',
+                    items: [
+                        { template: _.template('<div id="sliceradv-menu-style" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
+                    ]
+                })
             });
-            this.cmbSlicerStyle.render($('#sliceradv-combo-style'));
-            this.cmbSlicerStyle.openButton.menu.cmpEl.css({
-                'min-width': 178,
-                'max-width': 178
+            this.mnuSlicerPicker = new Common.UI.DataView({
+                el: $('#sliceradv-menu-style'),
+                parentMenu: this.btnSlicerStyle.menu,
+                restoreHeight: 325,
+                groups: new Common.UI.DataViewGroupStore(),
+                store: new Common.UI.DataViewStore(),
+                itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="46" width="61"></div>'),
+                style: 'max-height: 325px;'
             });
-            this.cmbSlicerStyle.on('click', _.bind(this.onSelectSlicerStyle, this));
-            this.cmbSlicerStyle.openButton.menu.on('show:after', function () {
-                me.cmbSlicerStyle.menuPicker.scroller.update({alwaysVisibleY: true});
-            });
+            this.mnuSlicerPicker.on('item:click', _.bind(this.onSelectSlicerStyle, this, this.btnSlicerStyle));
 
             this.numWidth = new Common.UI.MetricSpinner({
                 el: $('#sliceradv-spin-width'),
@@ -388,6 +392,17 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                     this.lblSource.text(slicerprops.asc_getSourceName());
                     this.lblFormula.text(slicerprops.asc_getNameInFormulas());
 
+                    value = slicerprops.asc_getStyle();
+                    // var rec = this.mnuSlicerPicker.store.findWhere({type: value});
+                    // if (!rec) {
+                    //     rec = this.mnuSlicerPicker.store.at(0);
+                    // }
+                    // this.btnSlicerStyle.suspendEvents();
+                    // this.mnuSlicerPicker.selectRecord(rec, true);
+                    // this.btnSlicerStyle.resumeEvents();
+                    // this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '48px', 'width': '63px', 'background-position': 'center', 'background-size': 'cover'});
+                    this.$window.find('.icon-template-table').css({'height': '48px', 'width': '63px', 'background-position': 'center', 'background-size': 'cover'});
+
                     this._noApply = false;
 
                     this._changedProps = slicerprops;
@@ -406,6 +421,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
 
         afterRender: function() {
             this.updateMetricUnit();
+            // this.onInitStyles(this.options.styles);
             this._setDefaults(this._originalProps);
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
@@ -413,11 +429,26 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             }
         },
 
+        onInitStyles: function(Templates){
+            var count = this.mnuSlicerPicker.store.length,
+                arr = [];
+            _.each(Templates, function(template){
+                arr.push({
+                    id          : Common.UI.getId(),
+                    type        : template.asc_getType(),
+                    imageUrl    : template.asc_getImage(),
+                    allowSelected : true,
+                    selected    : false
+                });
+            });
+            this.mnuSlicerPicker.store.reset(arr);
+        },
+
         onSelectSlicerStyle: function(combo, record) {
             if (this._noApply) return;
 
             if (this._changedProps) {
-                // this._changedProps.asc_setStyle(record.get('data'));
+                this._changedProps.asc_setStyle(record.get('type'));
             }
         },
 
