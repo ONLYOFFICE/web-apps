@@ -421,7 +421,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             }
         },
 
-        textTitle: 'Slicer Settings',
+        textTitle: 'Slicer - Advanced Settings',
         textHeader: 'Header',
         strStyle: 'Style',
         strSize: 'Size',

@@ -1111,7 +1111,7 @@ define([
         textCropFit: 'Fit',
         textListSettings: 'List Settings',
         textFromStorage: 'From Storage',
-        advancedSlicerText: 'Slicer Settings'
+        advancedSlicerText: 'Slicer Advanced Settings'
 
     }, SSE.Views.DocumentHolder || {}));
 });

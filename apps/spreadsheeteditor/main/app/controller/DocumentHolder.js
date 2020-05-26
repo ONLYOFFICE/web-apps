@@ -889,7 +889,7 @@ define([
                 handler         : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
-                            me.api.asc_setGraphicObjectProps(value.imageProps);
+                            me.api.asc_setGraphicObjectProps(value);
 
                             Common.component.Analytics.trackEvent('DocumentHolder', 'Apply slicer settings');
                         }
@@ -1586,7 +1586,7 @@ define([
         },
 
         fillMenuProps: function(cellinfo, showMenu, event){
-            var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu, isimageonly,
+            var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu, isimageonly, isslicermenu,
                 documentHolder      = this.documentHolder,
                 seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
@@ -1614,7 +1614,7 @@ define([
             } else if (isimagemenu || isshapemenu || ischartmenu) {
                 if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
-                isimagemenu = isshapemenu = ischartmenu = false;
+                isimagemenu = isshapemenu = ischartmenu = isslicermenu = false;
                 documentHolder.mnuImgAdvanced.imageInfo = undefined;
 
                 var has_chartprops = false,
@@ -1638,9 +1638,11 @@ define([
                             documentHolder.mnuChartEdit.chartInfo = elValue;
                             ischartmenu = true;
                             has_chartprops = true;
+                        }  if ( elValue.asc_getSlicerProperties() ) {
+                            documentHolder.mnuSlicerAdvanced.imageInfo = elValue;
+                            isslicermenu = true;
                         } else {
                             documentHolder.mnuImgAdvanced.imageInfo = elValue;
-                            documentHolder.mnuSlicerAdvanced.imageInfo = elValue;
                             isimagemenu = true;
                         }
                         if (this.permissions.isSignatureSupport)
@@ -1669,7 +1671,7 @@ define([
                 if (documentHolder.mnuImgAdvanced.imageInfo)
                     documentHolder.menuImgOriginalSize.setDisabled(isObjLocked || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===null || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===undefined);
 
-                documentHolder.mnuSlicerAdvanced.setVisible(documentHolder.mnuImgAdvanced.imageInfo &&documentHolder.mnuImgAdvanced.imageInfo.asc_getSlicerProperties());
+                documentHolder.mnuSlicerAdvanced.setVisible(isslicermenu);
                 documentHolder.mnuSlicerAdvanced.setDisabled(isObjLocked);
 
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
@@ -1678,7 +1680,7 @@ define([
                 documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
-                documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined));
+                documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked);
 
                 documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
