@@ -96,6 +96,7 @@
   "PE.Controllers.Main.errorStockChart": "Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.",
   "PE.Controllers.Main.errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
   "PE.Controllers.Main.errorUpdateVersionOnDisconnect": "Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
+  "PE.Controllers.Main.errorOpensource": "Using the free Community version you can open documents for viewing only. To access mobile web editors, a commercial license is required.",
   "PE.Controllers.Main.errorUserDrop": "The file cannot be accessed right now.",
   "PE.Controllers.Main.errorUsersExceed": "The number of users was exceeded",
   "PE.Controllers.Main.errorViewerDisconnect": "Connection is lost. You can still view the document,<br>but will not be able to download it until the connection is restored and page is reloaded.",
