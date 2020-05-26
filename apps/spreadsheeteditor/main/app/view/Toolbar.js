@@ -92,7 +92,8 @@ define([
         headerLock: 'header-lock',
         sheetLock: 'sheet-lock',
         noPivot: 'no-pivot',
-        noSubitems: 'no-subitems'
+        noSubitems: 'no-subitems',
+        noSlicerSource: 'no-slicer-source'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -738,7 +739,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-symbol',
                     caption: me.capBtnInsSlicer,
-                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.multiselect]
+                    lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.multiselect, _set.noSlicerSource]
                 });
 
                 me.btnTableTemplate = new Common.UI.Button({
