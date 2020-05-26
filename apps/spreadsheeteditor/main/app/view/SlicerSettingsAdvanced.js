@@ -31,14 +31,14 @@
  *
  */
 /**
- *  SlicerSettings.js
+ *  SlicerSettingsAdvanced.js
  *
  *  Created by Julia Radzhabova on 14.04.2020
  *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
+define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
@@ -47,7 +47,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
 ], function (contentTemplate) {
     'use strict';
 
-    SSE.Views.SlicerSettings = Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    SSE.Views.SlicerSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 330,
             height: 435,
@@ -62,7 +62,8 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
                 items: [
                     {panelId: 'id-adv-slicer-style',        panelCaption: this.strStyleSize},
                     {panelId: 'id-adv-slicer-sorting',      panelCaption: this.strSorting},
-                    {panelId: 'id-adv-slicer-references',   panelCaption: this.strReferences}
+                    {panelId: 'id-adv-slicer-references',   panelCaption: this.strReferences},
+                    {panelId: 'id-adv-image-alttext',       panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -88,6 +89,8 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
                 allowBlank  : false,
                 blankError  : me.txtEmpty,
                 style       : 'width: 178px;'
+            }).on('changed:after', function() {
+                me.isCaptionChanged = true;
             });
 
             this.chHeader = new Common.UI.CheckBox({
@@ -96,7 +99,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
             });
             this.chHeader.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
-                    // this._changedProps.asc_putStrikeout(field.getValue()=='checked');
+                    this._changedProps.asc_setShowCaption(field.getValue()=='checked');
                 }
             }, this));
 
@@ -130,7 +133,8 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
             });
             this.numWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var numval = field.getNumberValue();
-                if (this._changedProps) {
+                if (this._originalProps) {
+                    this._originalProps.put_Width(Common.Utils.Metric.fnRecalcToMM(numval));
                 }
             }, this));
             this.spinners.push(this.numWidth);
@@ -147,27 +151,29 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
             });
             this.numHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var numval = field.getNumberValue();
-                if (this._changedProps) {
+                if (this._originalProps) {
+                    this._originalProps.put_Height(Common.Utils.Metric.fnRecalcToMM(numval));
                 }
             }, this));
             this.spinners.push(this.numHeight);
 
-            this.numColWidth = new Common.UI.MetricSpinner({
-                el: $('#sliceradv-spin-col-width'),
-                step: .1,
-                width: 85,
-                defaultUnit : "cm",
-                defaultValue : 0,
-                value: '0 cm',
-                maxValue: 5963.9,
-                minValue: 0
-            });
-            this.numColWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                var numval = field.getNumberValue();
-                if (this._changedProps) {
-                }
-            }, this));
-            this.spinners.push(this.numColWidth);
+            // this.numColWidth = new Common.UI.MetricSpinner({
+            //     el: $('#sliceradv-spin-col-width'),
+            //     step: .1,
+            //     width: 85,
+            //     defaultUnit : "cm",
+            //     defaultValue : 0,
+            //     value: '0 cm',
+            //     maxValue: 5963.9,
+            //     minValue: 0,
+            //     visible: false
+            // });
+            // this.numColWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+            //     var numval = field.getNumberValue();
+            //     if (this._changedProps) {
+            //     }
+            // }, this));
+            // this.spinners.push(this.numColWidth);
 
             this.numColHeight = new Common.UI.MetricSpinner({
                 el: $('#sliceradv-spin-col-height'),
@@ -182,6 +188,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
             this.numColHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var numval = field.getNumberValue();
                 if (this._changedProps) {
+                    this._changedProps.asc_setRowHeight(Common.Utils.Metric.fnRecalcToMM(numval)*36000);
                 }
             }, this));
             this.spinners.push(this.numColHeight);
@@ -200,6 +207,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
             this.numCols.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var numval = field.getNumberValue();
                 if (this._changedProps) {
+                    this._changedProps.asc_setColumnCount(numval);
                 }
             }, this));
 
@@ -213,6 +221,9 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
             });
             this.radioAsc.on('change', _.bind(function(field, newValue, eOpts) {
                 if (newValue) {
+                    if (this._changedProps) {
+                        this._changedProps.asc_setSortOrder(Asc.ST_tabularSlicerCacheSortOrder.Ascending);
+                    }
                 }
             }, this));
 
@@ -224,6 +235,9 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
             });
             this.radioDesc.on('change', _.bind(function(field, newValue, eOpts) {
                 if (newValue) {
+                    if (this._changedProps) {
+                        this._changedProps.asc_setSortOrder(Asc.ST_tabularSlicerCacheSortOrder.Descending);
+                    }
                 }
             }, this));
 
@@ -237,6 +251,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
                 this.chShowNoData.setDisabled(checked || (this.chIndNoData.getValue()!='checked'));
                 this.chShowDel.setDisabled(checked);
                 if (this._changedProps) {
+                    this._changedProps.asc_setHideItemsWithNoData(checked);
                 }
             }, this));
 
@@ -248,6 +263,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
                 var checked = (field.getValue()=='checked');
                 this.chShowNoData.setDisabled(!checked);
                 if (this._changedProps) {
+                    this._changedProps.asc_setIndicateItemsWithNoData(checked);
                 }
             }, this));
 
@@ -258,7 +274,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
             });
             this.chShowNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
-                    // this._changedProps.asc_putStrikeout(field.getValue()=='checked');
+                    this._changedProps.asc_setHideItemsWithNoData(field.getValue()=='checked');
                 }
             }, this));
 
@@ -279,10 +295,31 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
                 allowBlank  : false,
                 blankError  : me.txtEmpty,
                 style       : 'width: 178px;'
+            }).on('changed:after', function() {
+                me.isNameChanged = true;
             });
 
             this.lblSource = $('#sliceradv-lbl-source');
             this.lblFormula = $('#sliceradv-lbl-formula');
+
+            // Alt Text
+
+            this.inputAltTitle = new Common.UI.InputField({
+                el          : $('#sliceradv-alt-title'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isAltTitleChanged = true;
+            });
+
+            this.textareaAltDescription = this.$window.find('textarea');
+            this.textareaAltDescription.keydown(function (event) {
+                if (event.keyCode == Common.UI.Keys.RETURN) {
+                    event.stopPropagation();
+                }
+                me.isAltDescChanged = true;
+            });
 
             this.on('show', function(obj) {
                 obj.getChild('.footer .primary').focus();
@@ -292,7 +329,18 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
         },
 
         getSettings: function() {
-            return this._changedProps;
+            if (this.isCaptionChanged)
+                this._changedProps.asc_setCaption(this.inputHeader.getValue());
+            if (this.isNameChanged)
+                this._changedProps.asc_setName(this.inputName.getValue());
+
+            if (this.isAltTitleChanged)
+                this._originalProps.asc_putTitle(this.inputAltTitle.getValue());
+
+            if (this.isAltDescChanged)
+                this._originalProps.asc_putDescription(this.textareaAltDescription.val());
+
+            return this._originalProps;
         },
 
         _setDefaults: function(props) {
@@ -302,24 +350,43 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
                 value = props.asc_getHeight();
                 this.numHeight.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
 
+                value = props.asc_getTitle();
+                this.inputAltTitle.setValue(value ? value : '');
+
+                value = props.asc_getDescription();
+                this.textareaAltDescription.val(value ? value : '');
+
                 var slicerprops = props.asc_getSlicerProperties();
                 if (slicerprops) {
                     this._noApply = true;
 
                     this.numCols.setValue(slicerprops.asc_getColumnCount(), true);
                     // this.numColWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(slicerprops.asc_getColWidth()).toFixed(2), true);
-                    this.numColHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(slicerprops.asc_getRowHeight()).toFixed(2), true);
+                    this.numColHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(slicerprops.asc_getRowHeight()/36000).toFixed(2), true);
 
-                    this.inputHeader.setValue(slicerprops.asc_getCaption());
-                    this.chHeader.setValue(!!slicerprops.asc_getShowCaption());
+                    this.inputHeader.setValue(slicerprops.asc_getCaption(), true);
+                    var checked = slicerprops.asc_getShowCaption();
+                    this.chHeader.setValue(checked !== null && checked !== undefined ? checked : 'indeterminate', true);
 
                     // depends of data type
-                    this.radioAsc.setCaption(this.textAsc + ' (' + this.textSmallLarge + ')' );
-                    this.radioDesc.setCaption(this.textDesc + ' (' + this.textLargeSmall + ')' );
+                    this.radioAsc.setCaption(this.textAsc + ' (' + this.textAZ + ')' );
+                    this.radioDesc.setCaption(this.textDesc + ' (' + this.textZA + ')' );
+                    (slicerprops.asc_getSortOrder()==Asc.ST_tabularSlicerCacheSortOrder.Ascending) ? this.radioAsc.setValue(true, true) : this.radioDesc.setValue(true, true);
+
+                    checked = slicerprops.asc_getIndicateItemsWithNoData();
+                    this.chIndNoData.setValue(checked !== null && checked !== undefined ? checked : 'indeterminate', true);
+                    checked = slicerprops.asc_getShowItemsWithNoDataLast();
+                    this.chShowNoData.setValue(checked !== null && checked !== undefined ? checked : 'indeterminate', true);
+                    checked = slicerprops.asc_getHideItemsWithNoData();
+                    this.chHideNoData.setValue(checked !== null && checked !== undefined ? checked : 'indeterminate', true);
+
+                    this.chIndNoData.setDisabled(checked);
+                    this.chShowNoData.setDisabled(checked || (this.chIndNoData.getValue()!='checked'));
+                    this.chShowDel.setDisabled(checked);
 
                     this.inputName.setValue(slicerprops.asc_getName());
-                    this.lblSource.text('Source name');
-                    this.lblFormula.text('Name in formulas');
+                    this.lblSource.text(slicerprops.asc_getSourceName());
+                    this.lblFormula.text(slicerprops.asc_getNameInFormulas());
 
                     this._noApply = false;
 
@@ -382,7 +449,11 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettings.template',
         strHideNoData: 'Hide items with no data',
         strIndNoData: 'Visually indicate items with no data',
         strShowNoData: 'Show items with no data last',
-        strShowDel: 'Show items deleted from the data source'
+        strShowDel: 'Show items deleted from the data source',
+        textAlt: 'Alternative Text',
+        textAltTitle: 'Title',
+        textAltDescription: 'Description',
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
 
-    }, SSE.Views.SlicerSettings || {}));
+    }, SSE.Views.SlicerSettingsAdvanced || {}));
 });

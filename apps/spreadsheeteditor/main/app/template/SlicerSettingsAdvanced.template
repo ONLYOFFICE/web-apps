@@ -26,10 +26,10 @@
                 <label class="input-label"><%= scope.strColumns %></label>
                 <div id="sliceradv-spin-columns"></div>
             </div>
-            <div style="display: inline-block; margin-right: 5px;">
-                <label class="input-label"><%= scope.strWidth %></label>
-                <div id="sliceradv-spin-col-width"></div>
-            </div>
+            <!-- <div style="display: inline-block; margin-right: 5px;"> -->
+            <!--     <label class="input-label"><%= scope.strWidth %></label> -->
+            <!--     <div id="sliceradv-spin-col-width"></div> -->
+            <!-- </div> -->
             <div style="display: inline-block;">
                 <label class="input-label"><%= scope.strHeight %></label>
                 <div id="sliceradv-spin-col-height"></div>
@@ -72,5 +72,28 @@
             <label class="header"><%= scope.textName %></label>
             <div id="sliceradv-text-name"></div>
         </div>
+    </div>
+</div>
+<div id="id-adv-image-alttext" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" width="100%">
+            <tr>
+                <td class="padding-large">
+                    <label class="header"><%= scope.textAltTitle %></label>
+                    <div id="sliceradv-alt-title"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="header"><%= scope.textAltDescription %></label>
+                    <textarea id="sliceradv-alt-description" class="form-control" style="width: 100%; height: 120px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textAltTip %></label>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>

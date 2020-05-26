@@ -72,7 +72,7 @@ define([
     'spreadsheeteditor/main/app/view/SetValueDialog',
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/SpecialPasteDialog',
-    'spreadsheeteditor/main/app/view/SlicerSettings'
+    'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced'
 ], function () {
     'use strict';
 
@@ -883,7 +883,7 @@ define([
         onSlicerAdvanced: function(item) {
             var me = this;
 
-            (new SSE.Views.SlicerSettings({
+            (new SSE.Views.SlicerSettingsAdvanced({
                 props           : item.imageInfo,
                 api             : me.api,
                 handler         : function(result, value) {
