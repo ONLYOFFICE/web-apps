@@ -884,9 +884,10 @@ define([
             var me = this;
 
             (new SSE.Views.SlicerSettingsAdvanced({
-                imageProps      : item.imageInfo,
-                api             : me.api,
-                handler         : function(result, value) {
+                imageProps: item.imageInfo,
+                api       : me.api,
+                styles    : item.imageInfo.asc_getSlicerProperties().asc_getStylesPictures(),
+                handler   : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
                             me.api.asc_setGraphicObjectProps(value.imageProps);

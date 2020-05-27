@@ -110,6 +110,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 iconCls     : 'icon-template-slicer',
                 menu        : new Common.UI.Menu({
                     style: 'width: 333px;',
+                    additionalAlign: this.menuAddAlign,
                     items: [
                         { template: _.template('<div id="sliceradv-menu-style" class="menu-slicer-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -386,7 +387,6 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                     this._noApply = true;
 
                     this.numCols.setValue(slicerprops.asc_getColumnCount(), true);
-                    // this.numColWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(slicerprops.asc_getColWidth()).toFixed(2), true);
                     this.numColHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(slicerprops.asc_getRowHeight()/36000).toFixed(2), true);
 
                     this.inputHeader.setValue(slicerprops.asc_getCaption(), true);
@@ -415,13 +415,16 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
 
                     value = slicerprops.asc_getStyle();
                     var rec = this.mnuSlicerPicker.store.findWhere({type: value});
-                    if (!rec) {
+                    if (!rec && this.mnuSlicerPicker.store.length>0) {
                         rec = this.mnuSlicerPicker.store.at(0);
                     }
-                    this.btnSlicerStyle.suspendEvents();
-                    this.mnuSlicerPicker.selectRecord(rec, true);
-                    this.btnSlicerStyle.resumeEvents();
-                    this.$window.find('.icon-template-slicer').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '49px', 'width': '36px', 'background-position': 'center', 'background-size': 'cover'});
+                    if (rec) {
+                        this.btnSlicerStyle.suspendEvents();
+                        this.mnuSlicerPicker.selectRecord(rec, true);
+                        this.btnSlicerStyle.resumeEvents();
+                        this.$window.find('.icon-template-slicer').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '49px', 'width': '36px', 'background-position': 'center', 'background-size': 'cover'});
+                    } else
+                        this.$window.find('.icon-template-slicer').css({'height': '49px', 'width': '36px', 'background-position': 'center', 'background-size': 'cover'});
 
                     this._noApply = false;
 
@@ -450,8 +453,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
         },
 
         onInitStyles: function(Templates){
-            var count = this.mnuSlicerPicker.store.length,
-                arr = [];
+            var arr = [];
             Templates && _.each(Templates, function(template){
                 arr.push({
                     id          : Common.UI.getId(),
@@ -462,6 +464,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 });
             });
             this.mnuSlicerPicker.store.reset(arr);
+            this.btnSlicerStyle.setDisabled(this.mnuSlicerPicker.store.length<1);
         },
 
         onSelectSlicerStyle: function(btn, picker, itemView, record) {
@@ -470,6 +473,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             if (this._changedProps) {
                 this._changedProps.asc_setStyle(record.get('type'));
             }
+            this.$window.find('.icon-template-slicer').css({'background-image': 'url(' + record.get("imageUrl") + ')', 'height': '49px', 'width': '36px', 'background-position': 'center', 'background-size': 'cover'});
         },
 
         onRadioSnapChange: function(field, newValue, eOpts) {

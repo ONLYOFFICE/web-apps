@@ -493,6 +493,7 @@ define([
                     self.mnuSlicerPicker.store.reset(arr);
                 }
             }
+            this.btnSlicerStyle.setDisabled(this.mnuSlicerPicker.store.length<1);
         },
 
         onSelectSlicerStyle: function(btn, picker, itemView, record) {
