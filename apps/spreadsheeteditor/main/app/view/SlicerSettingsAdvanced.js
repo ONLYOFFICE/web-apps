@@ -75,7 +75,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             this._noApply = true;
             this.spinners = [];
 
-            this._originalProps = this.options.props;
+            this._originalProps = this.options.imageProps;
         },
 
         render: function() {
@@ -344,7 +344,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             if (this.isAltDescChanged)
                 this._originalProps.asc_putDescription(this.textareaAltDescription.val());
 
-            return this._originalProps;
+            return {imageProps: this._originalProps};
         },
 
         _setDefaults: function(props) {

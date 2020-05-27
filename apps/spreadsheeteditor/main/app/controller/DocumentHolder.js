@@ -884,12 +884,12 @@ define([
             var me = this;
 
             (new SSE.Views.SlicerSettingsAdvanced({
-                props           : item.imageInfo,
+                imageProps      : item.imageInfo,
                 api             : me.api,
                 handler         : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
-                            me.api.asc_setGraphicObjectProps(value);
+                            me.api.asc_setGraphicObjectProps(value.imageProps);
 
                             Common.component.Analytics.trackEvent('DocumentHolder', 'Apply slicer settings');
                         }

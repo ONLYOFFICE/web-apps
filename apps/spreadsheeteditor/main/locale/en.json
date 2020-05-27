@@ -2113,6 +2113,7 @@
   "SSE.Views.RightMenu.txtSparklineSettings": "Sparkline Settings",
   "SSE.Views.RightMenu.txtTableSettings": "Table settings",
   "SSE.Views.RightMenu.txtTextArtSettings": "Text Art settings",
+  "SSE.Views.RightMenu.txtSlicerSettings": "Slicer Settings",
   "SSE.Views.ScaleDialog.textAuto": "Auto",
   "SSE.Views.ScaleDialog.textError": "The entered value is incorrect.",
   "SSE.Views.ScaleDialog.textFewPages": "pages",
