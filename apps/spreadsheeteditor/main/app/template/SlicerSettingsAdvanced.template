@@ -76,7 +76,28 @@
         </div>
     </div>
 </div>
-<div id="id-adv-image-alttext" class="settings-panel">
+<div id="id-adv-slicer-snap" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1">
+            <tr>
+                <td class="padding-small">
+                    <div id="slicer-advanced-radio-twocell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="slicer-advanced-radio-onecell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="slicer-advanced-radio-absolute"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-slicer-alttext" class="settings-panel">
     <div class="inner-content">
         <table cols="1" width="100%">
             <tr>

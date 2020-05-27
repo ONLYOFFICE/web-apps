@@ -63,7 +63,8 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                     {panelId: 'id-adv-slicer-style',        panelCaption: this.strStyleSize},
                     {panelId: 'id-adv-slicer-sorting',      panelCaption: this.strSorting},
                     {panelId: 'id-adv-slicer-references',   panelCaption: this.strReferences},
-                    {panelId: 'id-adv-image-alttext',       panelCaption: this.textAlt}
+                    {panelId: 'id-adv-slicer-snap',         panelCaption: this.textSnap},
+                    {panelId: 'id-adv-slicer-alttext',      panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -288,6 +289,31 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             this.lblSource = $('#sliceradv-lbl-source');
             this.lblFormula = $('#sliceradv-lbl-formula');
 
+            // Snapping
+            this.radioTwoCell = new Common.UI.RadioBox({
+                el: $('#slicer-advanced-radio-twocell'),
+                name: 'asc-radio-snap',
+                labelText: this.textTwoCell,
+                value: AscCommon.c_oAscCellAnchorType.cellanchorTwoCell
+            });
+            this.radioTwoCell.on('change', _.bind(this.onRadioSnapChange, this));
+
+            this.radioOneCell = new Common.UI.RadioBox({
+                el: $('#slicer-advanced-radio-onecell'),
+                name: 'asc-radio-snap',
+                labelText: this.textOneCell,
+                value: AscCommon.c_oAscCellAnchorType.cellanchorOneCell
+            });
+            this.radioOneCell.on('change', _.bind(this.onRadioSnapChange, this));
+
+            this.radioAbsolute = new Common.UI.RadioBox({
+                el: $('#slicer-advanced-radio-absolute'),
+                name: 'asc-radio-snap',
+                labelText: this.textAbsolute,
+                value: AscCommon.c_oAscCellAnchorType.cellanchorAbsolute
+            });
+            this.radioAbsolute.on('change', _.bind(this.onRadioSnapChange, this));
+
             // Alt Text
 
             this.inputAltTitle = new Common.UI.InputField({
@@ -341,6 +367,19 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
 
                 value = props.asc_getDescription();
                 this.textareaAltDescription.val(value ? value : '');
+
+                value = props.asc_getAnchor();
+                switch (value) {
+                    case AscCommon.c_oAscCellAnchorType.cellanchorTwoCell:
+                        this.radioTwoCell.setValue(true, true);
+                        break;
+                    case AscCommon.c_oAscCellAnchorType.cellanchorOneCell:
+                        this.radioOneCell.setValue(true, true);
+                        break;
+                    case AscCommon.c_oAscCellAnchorType.cellanchorAbsolute:
+                        this.radioAbsolute.setValue(true, true);
+                        break;
+                }
 
                 var slicerprops = props.asc_getSlicerProperties();
                 if (slicerprops) {
@@ -433,6 +472,12 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             }
         },
 
+        onRadioSnapChange: function(field, newValue, eOpts) {
+            if (newValue && this._originalProps) {
+                this._originalProps.asc_putAnchor(field.options.value);
+            }
+        },
+
         textTitle: 'Slicer - Advanced Settings',
         textHeader: 'Header',
         strStyle: 'Style',
@@ -466,6 +511,10 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
         textAltTitle: 'Title',
         textAltDescription: 'Description',
         textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
+        textSnap: 'Cell Snapping',
+        textAbsolute: 'Don\'t move or size with cells',
+        textOneCell: 'Move but don\'t size with cells',
+        textTwoCell: 'Move and size with cells'
 
     }, SSE.Views.SlicerSettingsAdvanced || {}));
 });
