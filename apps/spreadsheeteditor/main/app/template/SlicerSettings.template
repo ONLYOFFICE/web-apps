@@ -72,7 +72,7 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <div id="slicer-btn-style" style="width: 100%;height: 52px;"></div>
+            <div id="slicer-btn-style" style="width: 100%;"></div>
         </td>
     </tr>
     <tr>

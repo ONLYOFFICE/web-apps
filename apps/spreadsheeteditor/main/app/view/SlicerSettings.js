@@ -83,6 +83,7 @@ define([
 
             this._noApply = false;
             this._originalProps = null;
+            this.styles = null;
 
             this.render();
         },
@@ -99,9 +100,7 @@ define([
         setApi: function(api) {
             if ( api == undefined ) return;
             this.api = api;
-            if (this.api) {
-                // this.api.asc_registerCallback('asc_InitSlicerStyles', _.bind(this.onInitStyles, this));
-            }
+            this.api.asc_registerCallback('asc_onSendThemeColors',    _.bind(this.onSendThemeColors, this));
             return this;
         },
 
@@ -160,9 +159,10 @@ define([
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
                 }
                 if (this.api)  {
-                    var props = new Asc.asc_CImgProperty();
-                    props.asc_putLockAspect(btn.pressed);
-                    this.api.asc_setGraphicObjectProps(props);
+                    if (this._originalProps) {
+                        this._originalProps.asc_putLockAspect(btn.pressed);
+                        this.api.asc_setGraphicObjectProps(this._originalProps);
+                    }
                 }
             }, this));
 
@@ -237,9 +237,9 @@ define([
             });
             this.lockedControls.push(this.numCols);
 
-            // this.spnColWidth.on('change', _.bind(this.onColWidthChange, this));
-            // this.spnColHeight.on('change', _.bind(this.onColHeightChange, this));
-            // this.numCols.on('change', _.bind(this.onColChange, this));
+            this.spnColWidth.on('change', _.bind(this.onColWidthChange, this));
+            this.spnColHeight.on('change', _.bind(this.onColHeightChange, this));
+            this.numCols.on('change', _.bind(this.onColChange, this));
             this.spnColWidth.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.spnColHeight.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.numCols.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
@@ -251,6 +251,14 @@ define([
             this.createDelayedControls();
             this.updateMetricUnit();
             this._initSettings = false;
+        },
+
+        onSendThemeColors: function() {
+            // get new table templates
+            if (this.mnuSlicerPicker && this._originalProps) {
+                this.onInitStyles(this._originalProps.asc_getSlicerProperties().asc_getStylesPictures());
+                this.mnuSlicerPicker.scroller.update({alwaysVisibleY: true});
+            }
         },
 
         openAdvancedSettings: function(e) {
@@ -270,6 +278,7 @@ define([
                                 {
                                     imageProps: elValue,
                                     api: me.api,
+                                    styles: me.styles || me._originalProps.asc_getSlicerProperties().asc_getStylesPictures(),
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
@@ -328,12 +337,12 @@ define([
                         this._state.ColCount = value;
                     }
 
-                    // value = props.asc_getColWidth()/36000;
-                    // if ( Math.abs(this._state.ColWidth-value)>0.001 ||
-                    //     (this._state.ColWidth===null || value===null)&&(this._state.ColWidth!==value)) {
-                    //     this.spnColWidth.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
-                    //     this._state.ColWidth = value;
-                    // }
+                    value = slicerprops.asc_getButtonWidth()/36000;
+                    if ( Math.abs(this._state.ColWidth-value)>0.001 ||
+                        (this._state.ColWidth===null || value===null)&&(this._state.ColWidth!==value)) {
+                        this.spnColWidth.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value) : '', true);
+                        this._state.ColWidth = value;
+                    }
 
                     value = slicerprops.asc_getRowHeight()/36000;
                     if ( Math.abs(this._state.ColHeight-value)>0.001 ||
@@ -342,18 +351,22 @@ define([
                         this._state.ColHeight = value;
                     }
 
-                    value = slicerprops.asc_getStyle();
                     if (!this.btnSlicerStyle)
-                        this.onInitStyles();
-                    // var rec = this.mnuSlicerPicker.store.findWhere({type: value});
-                    // if (!rec) {
-                    //     rec = this.mnuSlicerPicker.store.at(0);
-                    // }
-                    // this.btnSlicerStyle.suspendEvents();
-                    // this.mnuSlicerPicker.selectRecord(rec, true);
-                    // this.btnSlicerStyle.resumeEvents();
-                    // this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '48px', 'width': '63px', 'background-position': 'center', 'background-size': 'cover'});
-                    this.$el.find('.icon-template-table').css({'height': '48px', 'width': '63px', 'background-position': 'center', 'background-size': 'cover'});
+                        this.onInitStyles(slicerprops.asc_getStylesPictures());
+                    value = slicerprops.asc_getStyle();
+                    if (this._state.StyleType!==value || this._isTemplatesChanged) {
+                        var rec = this.mnuSlicerPicker.store.findWhere({type: value});
+                        if (!rec) {
+                            rec = this.mnuSlicerPicker.store.at(0);
+                        }
+                        this.btnSlicerStyle.suspendEvents();
+                        this.mnuSlicerPicker.selectRecord(rec, true);
+                        this.btnSlicerStyle.resumeEvents();
+                        this.$el.find('.icon-template-slicer').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '49px', 'width': '36px', 'background-position': 'center', 'background-size': 'cover'});
+                        this._state.StyleType=value;
+                    }
+                    this._isTemplatesChanged = false;
+
                 }
             }
         },
@@ -371,10 +384,11 @@ define([
                 this.spnHeight.setValue(h, true);
             }
             if (this.api)  {
-                var props = new Asc.asc_CImgProperty();
-                props.asc_putWidth(Common.Utils.Metric.fnRecalcToMM(w));
-                props.asc_putHeight(Common.Utils.Metric.fnRecalcToMM(h));
-                this.api.asc_setGraphicObjectProps(props);
+                if (this._originalProps) {
+                    this._originalProps.asc_putWidth(Common.Utils.Metric.fnRecalcToMM(w));
+                    this._originalProps.asc_putHeight(Common.Utils.Metric.fnRecalcToMM(h));
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
             }
         },
 
@@ -390,25 +404,54 @@ define([
                 this.spnWidth.setValue(w, true);
             }
             if (this.api)  {
-                var props = new Asc.asc_CImgProperty();
-                props.asc_putWidth(Common.Utils.Metric.fnRecalcToMM(w));
-                props.asc_putHeight(Common.Utils.Metric.fnRecalcToMM(h));
-                this.api.asc_setGraphicObjectProps(props);
+                if (this._originalProps) {
+                    this._originalProps.asc_putWidth(Common.Utils.Metric.fnRecalcToMM(w));
+                    this._originalProps.asc_putHeight(Common.Utils.Metric.fnRecalcToMM(h));
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
+            }
+        },
+
+        onColWidthChange: function(field, newValue, oldValue, eOpts){
+            if (this.api)  {
+                if (this._originalProps) {
+                    this._originalProps.asc_getSlicerProperties().asc_setButtonWidth(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue())*36000);
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
+            }
+        },
+
+        onColHeightChange: function(field, newValue, oldValue, eOpts){
+            if (this.api)  {
+                if (this._originalProps) {
+                    this._originalProps.asc_getSlicerProperties().asc_setRowHeight(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue())*36000);
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
+            }
+        },
+
+        onColChange: function(field, newValue, oldValue, eOpts){
+            if (this.api)  {
+                if (this._originalProps) {
+                    this._originalProps.asc_getSlicerProperties().asc_setColumnCount(field.getNumberValue());
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
             }
         },
 
         onInitStyles: function(Templates){
             var self = this;
             this._isTemplatesChanged = true;
+            this.styles = Templates;
 
             if (!this.btnSlicerStyle) {
                 this.btnSlicerStyle = new Common.UI.Button({
-                    cls         : 'btn-large-dataview sheet-template-table',
-                    iconCls     : 'icon-template-table',
+                    cls         : 'btn-large-dataview sheet-template-slicer',
+                    iconCls     : 'icon-template-slicer',
                     menu        : new Common.UI.Menu({
-                        style: 'width: 400px;',
+                        style: 'width: 333px;',
                         items: [
-                            { template: _.template('<div id="id-slicer-menu-style" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
+                            { template: _.template('<div id="id-slicer-menu-style" class="menu-slicer-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                         ]
                     })
                 });
@@ -419,7 +462,7 @@ define([
                         restoreHeight: 325,
                         groups: new Common.UI.DataViewGroupStore(),
                         store: new Common.UI.DataViewStore(),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="46" width="61"></div>'),
+                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="49" width="36"></div>'),
                         style: 'max-height: 325px;'
                     });
                 });
@@ -441,7 +484,7 @@ define([
                     _.each(Templates, function(template){
                         arr.push({
                             id          : Common.UI.getId(),
-                            type        : template.asc_getType(),
+                            type        : template.asc_getName(),
                             imageUrl    : template.asc_getImage(),
                             allowSelected : true,
                             selected    : false
@@ -452,12 +495,13 @@ define([
             }
         },
 
-        onSelectSlicerStyle: function(combo, record) {
+        onSelectSlicerStyle: function(btn, picker, itemView, record) {
             if (this._noApply) return;
 
-            // if (this._originalProps) {
-            //     this._originalProps..asc_getSlicerProperties().asc_setStyle(record.get('type'));
-            // }
+            if (this._originalProps) {
+                this._originalProps.asc_getSlicerProperties().asc_setStyle(record.get('type'));
+                this.api.asc_setGraphicObjectProps(this._originalProps);
+            }
         },
 
         setLocked: function (locked) {

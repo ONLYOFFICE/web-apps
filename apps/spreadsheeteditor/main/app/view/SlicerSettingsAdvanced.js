@@ -105,12 +105,12 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
 
             this.btnSlicerStyle = new Common.UI.Button({
                 parentEl: $('#sliceradv-btn-style'),
-                cls         : 'btn-large-dataview sheet-template-table',
-                iconCls     : 'icon-template-table',
+                cls         : 'btn-large-dataview sheet-template-slicer',
+                iconCls     : 'icon-template-slicer',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 400px;',
+                    style: 'width: 333px;',
                     items: [
-                        { template: _.template('<div id="sliceradv-menu-style" class="menu-table-template"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        { template: _.template('<div id="sliceradv-menu-style" class="menu-slicer-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
                 })
             });
@@ -120,7 +120,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 restoreHeight: 325,
                 groups: new Common.UI.DataViewGroupStore(),
                 store: new Common.UI.DataViewStore(),
-                itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="46" width="61"></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="49" width="36"></div>'),
                 style: 'max-height: 325px;'
             });
             this.mnuSlicerPicker.on('item:click', _.bind(this.onSelectSlicerStyle, this, this.btnSlicerStyle));
@@ -160,24 +160,6 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 }
             }, this));
             this.spinners.push(this.numHeight);
-
-            // this.numColWidth = new Common.UI.MetricSpinner({
-            //     el: $('#sliceradv-spin-col-width'),
-            //     step: .1,
-            //     width: 85,
-            //     defaultUnit : "cm",
-            //     defaultValue : 0,
-            //     value: '0 cm',
-            //     maxValue: 5963.9,
-            //     minValue: 0,
-            //     visible: false
-            // });
-            // this.numColWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-            //     var numval = field.getNumberValue();
-            //     if (this._changedProps) {
-            //     }
-            // }, this));
-            // this.spinners.push(this.numColWidth);
 
             this.numColHeight = new Common.UI.MetricSpinner({
                 el: $('#sliceradv-spin-col-height'),
@@ -393,15 +375,14 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                     this.lblFormula.text(slicerprops.asc_getNameInFormulas());
 
                     value = slicerprops.asc_getStyle();
-                    // var rec = this.mnuSlicerPicker.store.findWhere({type: value});
-                    // if (!rec) {
-                    //     rec = this.mnuSlicerPicker.store.at(0);
-                    // }
-                    // this.btnSlicerStyle.suspendEvents();
-                    // this.mnuSlicerPicker.selectRecord(rec, true);
-                    // this.btnSlicerStyle.resumeEvents();
-                    // this.$el.find('.icon-template-table').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '48px', 'width': '63px', 'background-position': 'center', 'background-size': 'cover'});
-                    this.$window.find('.icon-template-table').css({'height': '48px', 'width': '63px', 'background-position': 'center', 'background-size': 'cover'});
+                    var rec = this.mnuSlicerPicker.store.findWhere({type: value});
+                    if (!rec) {
+                        rec = this.mnuSlicerPicker.store.at(0);
+                    }
+                    this.btnSlicerStyle.suspendEvents();
+                    this.mnuSlicerPicker.selectRecord(rec, true);
+                    this.btnSlicerStyle.resumeEvents();
+                    this.$window.find('.icon-template-slicer').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '49px', 'width': '36px', 'background-position': 'center', 'background-size': 'cover'});
 
                     this._noApply = false;
 
@@ -421,7 +402,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
 
         afterRender: function() {
             this.updateMetricUnit();
-            // this.onInitStyles(this.options.styles);
+            this.onInitStyles(this.options.styles);
             this._setDefaults(this._originalProps);
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
@@ -432,10 +413,10 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
         onInitStyles: function(Templates){
             var count = this.mnuSlicerPicker.store.length,
                 arr = [];
-            _.each(Templates, function(template){
+            Templates && _.each(Templates, function(template){
                 arr.push({
                     id          : Common.UI.getId(),
-                    type        : template.asc_getType(),
+                    type        : template.asc_getName(),
                     imageUrl    : template.asc_getImage(),
                     allowSelected : true,
                     selected    : false
@@ -444,7 +425,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             this.mnuSlicerPicker.store.reset(arr);
         },
 
-        onSelectSlicerStyle: function(combo, record) {
+        onSelectSlicerStyle: function(btn, picker, itemView, record) {
             if (this._noApply) return;
 
             if (this._changedProps) {
