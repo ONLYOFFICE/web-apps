@@ -75,7 +75,8 @@ define([
                 ColWidth: 0,
                 ColHeight: 0,
                 PosVert: 0,
-                PosHor: 0
+                PosHor: 0,
+                PosLocked: false
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -94,7 +95,7 @@ define([
                 scope: this
             }));
 
-            this.linkAdvanced = $('#image-advanced-link');
+            this.linkAdvanced = $('#slicer-advanced-link');
         },
 
         setApi: function(api) {
@@ -181,7 +182,7 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnHor);
-            this.lockedControls.push(this.spnVert);
+            this.lockedControls.push(this.spnHor);
 
             this.spnVert = new Common.UI.MetricSpinner({
                 el: $('#slicer-spin-vert'),
@@ -199,6 +200,14 @@ define([
             // this.spnVert.on('change', _.bind(this.onVertChange, this));
             this.spnHor.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.spnVert.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
+            this.chLock = new Common.UI.CheckBox({
+                el: $('#slicer-checkbox-disable-resize'),
+                labelText: this.textLock,
+                disabled: this._locked
+            });
+            this.lockedControls.push(this.chLock);
+            this.chLock.on('change', this.onLockSlicerChange.bind(this));
 
             this.spnColWidth = new Common.UI.MetricSpinner({
                 el: $('#slicer-spin-col-width'),
@@ -367,6 +376,11 @@ define([
                     }
                     this._isTemplatesChanged = false;
 
+                    value = slicerprops.asc_getLockedPosition();
+                    if ( this._state.PosLocked!==value ) {
+                        this.chLock.setValue((value !== null && value !== undefined) ? !!value : 'indeterminate', true);
+                        this._state.PosLocked=value;
+                    }
                 }
             }
         },
@@ -493,7 +507,7 @@ define([
                     self.mnuSlicerPicker.store.reset(arr);
                 }
             }
-            this.btnSlicerStyle.setDisabled(this.mnuSlicerPicker.store.length<1);
+            this.btnSlicerStyle.setDisabled(this.mnuSlicerPicker.store.length<1 || this._locked);
         },
 
         onSelectSlicerStyle: function(btn, picker, itemView, record) {
@@ -502,6 +516,15 @@ define([
             if (this._originalProps) {
                 this._originalProps.asc_getSlicerProperties().asc_setStyle(record.get('type'));
                 this.api.asc_setGraphicObjectProps(this._originalProps);
+            }
+        },
+
+        onLockSlicerChange: function(field, newValue, oldValue, eOpts){
+            if (this.api)  {
+                if (this._originalProps) {
+                    this._originalProps.asc_getSlicerProperties().asc_setLockedPosition(field.getValue()=='checked');
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
             }
         },
 
@@ -531,7 +554,8 @@ define([
         textVert: 'Vertical',
         textButtons: 'Buttons',
         textColumns: 'Columns',
-        textStyle: 'Style'
+        textStyle: 'Style',
+        textLock: 'Disable resizing or moving'
 
     }, SSE.Views.SlicerSettings || {}));
 });

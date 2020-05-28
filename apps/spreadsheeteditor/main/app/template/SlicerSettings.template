@@ -20,11 +20,11 @@
         </td>
     </tr>
     <tr>
-        <td class="" width="50%">
+        <td class="padding-small" width="50%">
             <label class="input-label"><%= scope.textHor %></label>
             <div id="slicer-spin-hor"></div>
         </td>
-        <td class="" width="50%">
+        <td class="padding-small" width="50%">
             <label class="input-label"><%= scope.textVert %></label>
             <div id="slicer-spin-vert"></div>
         </td>
