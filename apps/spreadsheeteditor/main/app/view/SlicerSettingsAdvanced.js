@@ -190,7 +190,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 value: '1',
                 allowDecimal: false,
                 maxValue: 20000,
-                minValue: 0
+                minValue: 1
             });
             this.numCols.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var numval = field.getNumberValue();

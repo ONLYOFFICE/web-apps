@@ -97,6 +97,9 @@ define([
                 row_column: {
                     ttHeight: 20
                 },
+                slicer: {
+                    ttHeight: 20
+                },
                 filter: {ttHeight: 40},
                 func_arg: {},
                 input_msg: {}
@@ -957,7 +960,8 @@ define([
                     /** coauthoring end **/
                         index_locked,
                         index_column, index_row,
-                        index_filter;
+                        index_filter,
+                        index_slicer;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -980,6 +984,9 @@ define([
                         case Asc.c_oAscMouseMoveType.Filter:
                             index_filter = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Tooltip:
+                            index_slicer = i;
+                            break;
                     }
                 }
 
@@ -992,6 +999,7 @@ define([
                     hyperlinkTip    = me.tooltips.hyperlink,
                     row_columnTip   = me.tooltips.row_column,
                     filterTip       = me.tooltips.filter,
+                    slicerTip       = me.tooltips.slicer,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1029,6 +1037,14 @@ define([
                     if (!index_locked) {
                         me.hideCoAuthTips();
                     }
+                    if (index_slicer===undefined) {
+                        if (!slicerTip.isHidden && slicerTip.ref) {
+                            slicerTip.ref.hide();
+                            slicerTip.ref = undefined;
+                            slicerTip.text = '';
+                            slicerTip.isHidden = true;
+                        }
+                    }
                 }
                 if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
                     if (!filterTip.isHidden && filterTip.ref) {
@@ -1038,7 +1054,6 @@ define([
                         filterTip.isHidden = true;
                     }
                 }
-
                 // show tooltips
                 /** coauthoring begin **/
                 var getUserName = function(id){
@@ -1276,6 +1291,48 @@ define([
                             showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth - 20;
 
                         filterTip.ref.getBSTip().$tip.css({
+                            top : showPoint[1] + 'px',
+                            left: showPoint[0] + 'px'
+                        });
+                    }
+                }
+
+                if (index_slicer!==undefined && me.permissions.isEdit) {
+                    if (!slicerTip.parentEl) {
+                        slicerTip.parentEl = $('<div id="tip-container-slicertip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(slicerTip.parentEl);
+                    }
+
+                    var data  = dataarray[index_slicer-1],
+                        str = data.asc_getTooltip();
+                    if (slicerTip.ref && slicerTip.ref.isVisible()) {
+                        if (slicerTip.text != str) {
+                            slicerTip.text = str;
+                            slicerTip.ref.setTitle(str);
+                            slicerTip.ref.updateTitle();
+                        }
+                    }
+
+                    if (!slicerTip.ref || !slicerTip.ref.isVisible()) {
+                        slicerTip.text = str;
+                        slicerTip.ref = new Common.UI.Tooltip({
+                            owner   : slicerTip.parentEl,
+                            html    : true,
+                            title   : str
+                        });
+
+                        slicerTip.ref.show([-10000, -10000]);
+                        slicerTip.isHidden = false;
+
+                        showPoint = [data.asc_getX(), data.asc_getY()];
+                        showPoint[0] += (pos[0] + 6);
+                        showPoint[1] += (pos[1] - 20 - slicerTip.ttHeight);
+
+                        var tipwidth = slicerTip.ref.getBSTip().$tip.width();
+                        if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                            showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth - 20;
+
+                        slicerTip.ref.getBSTip().$tip.css({
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });

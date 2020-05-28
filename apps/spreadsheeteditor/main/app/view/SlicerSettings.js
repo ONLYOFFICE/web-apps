@@ -233,7 +233,7 @@ define([
                 value: '1',
                 allowDecimal: false,
                 maxValue: 20000,
-                minValue: 0
+                minValue: 1
             });
             this.lockedControls.push(this.numCols);
 
