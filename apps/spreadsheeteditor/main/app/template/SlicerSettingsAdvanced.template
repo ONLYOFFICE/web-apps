@@ -17,6 +17,7 @@
                 <label class="input-label"><%= scope.strWidth %></label>
                 <div id="sliceradv-spin-width"></div>
             </div>
+            <div id="sliceradv-button-ratio" style="display: inline-block; margin-right: 5px;"></div>
             <div class="padding-large" style="display: inline-block;">
                 <label class="input-label"><%= scope.strHeight %></label>
                 <div id="sliceradv-spin-height"></div>

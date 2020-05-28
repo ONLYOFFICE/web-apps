@@ -75,6 +75,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             this._changedProps = null;
             this._noApply = true;
             this.spinners = [];
+            this._nRatio = 1;
 
             this._originalProps = this.options.imageProps;
         },
@@ -138,9 +139,19 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 minValue: 0
             });
             this.numWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                var numval = field.getNumberValue();
+                if (this.btnRatio.pressed) {
+                    var w = field.getNumberValue();
+                    var h = w/this._nRatio;
+                    if (h>this.numHeight.options.maxValue) {
+                        h = this.numHeight.options.maxValue;
+                        w = h * this._nRatio;
+                        this.numWidth.setValue(w, true);
+                    }
+                    this.numHeight.setValue(h, true);
+                }
                 if (this._originalProps) {
-                    this._originalProps.put_Width(Common.Utils.Metric.fnRecalcToMM(numval));
+                    this._originalProps.put_Width(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                    this._originalProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.numHeight.getNumberValue()));
                 }
             }, this));
             this.spinners.push(this.numWidth);
@@ -156,12 +167,39 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 minValue: 0
             });
             this.numHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                var numval = field.getNumberValue();
+                var h = field.getNumberValue(), w = null;
+                if (this.btnRatio.pressed) {
+                    w = h * this._nRatio;
+                    if (w>this.numWidth.options.maxValue) {
+                        w = this.numWidth.options.maxValue;
+                        h = w/this._nRatio;
+                        this.numHeight.setValue(h, true);
+                    }
+                    this.numWidth.setValue(w, true);
+                }
                 if (this._originalProps) {
-                    this._originalProps.put_Height(Common.Utils.Metric.fnRecalcToMM(numval));
+                    this._originalProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.numWidth.getNumberValue()));
+                    this._originalProps.put_Height(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
             this.spinners.push(this.numHeight);
+
+            this.btnRatio = new Common.UI.Button({
+                parentEl: $('#sliceradv-button-ratio'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon advanced-btn-ratio',
+                style: 'margin-bottom: 1px;',
+                enableToggle: true,
+                hint: this.textKeepRatio
+            });
+            this.btnRatio.on('click', _.bind(function(btn, e) {
+                if (btn.pressed && this.numHeight.getNumberValue()>0) {
+                    this._nRatio = this.numWidth.getNumberValue()/this.numHeight.getNumberValue();
+                }
+                if (this._originalProps) {
+                    this._originalProps.asc_putLockAspect(btn.pressed);
+                }
+            }, this));
 
             this.numColHeight = new Common.UI.MetricSpinner({
                 el: $('#sliceradv-spin-col-height'),
@@ -363,6 +401,12 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 value = props.asc_getHeight();
                 this.numHeight.setValue((value!==null) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
 
+                if (props.asc_getHeight()>0)
+                    this._nRatio = props.asc_getWidth()/props.asc_getHeight();
+
+                value = props.asc_getLockAspect();
+                this.btnRatio.toggle(value);
+
                 value = props.asc_getTitle();
                 this.inputAltTitle.setValue(value ? value : '');
 
@@ -518,7 +562,8 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
         textSnap: 'Cell Snapping',
         textAbsolute: 'Don\'t move or size with cells',
         textOneCell: 'Move but don\'t size with cells',
-        textTwoCell: 'Move and size with cells'
+        textTwoCell: 'Move and size with cells',
+        textKeepRatio: 'Constant Proportions'
 
     }, SSE.Views.SlicerSettingsAdvanced || {}));
 });
