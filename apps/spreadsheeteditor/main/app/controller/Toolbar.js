@@ -2824,7 +2824,7 @@ define([
                 (new SSE.Views.SlicerAddDialog({
                     props: props,
                     handler: function (result, settings) {
-                        if (me && me.api) {
+                        if (me && me.api && result == 'ok') {
                             me.api.asc_insertSlicer(settings);
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
