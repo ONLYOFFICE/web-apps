@@ -737,7 +737,7 @@ define([
                 me.btnInsertSlicer = new Common.UI.Button({
                     id: 'tlbtn-insertslicer',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-symbol',
+                    iconCls: 'toolbar__icon btn-slicer',
                     caption: me.capBtnInsSlicer,
                     lock: [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.multiselect, _set.noSlicerSource]
                 });
