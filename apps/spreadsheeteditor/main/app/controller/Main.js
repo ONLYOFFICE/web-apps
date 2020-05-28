@@ -129,7 +129,8 @@ define([
                         'Row Labels': this.txtRowLbls,
                         'Column Labels': this.txtColLbls,
                         'Multi-Select (Alt+S)': this.txtMultiSelect,
-                        'Clear Filter (Alt+C)':  this.txtClearFilter
+                        'Clear Filter (Alt+C)':  this.txtClearFilter,
+                        '(blank)': this.txtBlank
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2552,7 +2553,8 @@ define([
             errNoDuplicates: 'No duplicate values found.',
             errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.',
             txtMultiSelect: 'Multi-Select (Alt+S)',
-            txtClearFilter: 'Clear Filter (Alt+C)'
+            txtClearFilter: 'Clear Filter (Alt+C)',
+            txtBlank: '(blank)'
         }
     })(), SSE.Controllers.Main || {}))
 });

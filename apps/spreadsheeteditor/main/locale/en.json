@@ -816,6 +816,7 @@
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "SSE.Controllers.Main.txtMultiSelect": "Multi-Select (Alt+S)",
   "SSE.Controllers.Main.txtClearFilter": "Clear Filter (Alt+C)",
+  "SSE.Controllers.Main.txtBlank": "(blank)",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textFirstCol": "First column",
   "SSE.Controllers.Print.textFirstRow": "First row",
