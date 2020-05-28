@@ -166,6 +166,7 @@ define([
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-border-style]', '.page[data-page=edit-border-style] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-cell-format]', '.page[data-page=edit-cell-format] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=edit-text-format]', '.page[data-page=edit-text-format] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=edit-text-orientation]', '.page[data-page=edit-text-orientation] .page-content');
 
                 $(selectorsDynamicPage).single('click', _.bind(this.onItemClick, this));
             },
@@ -422,7 +423,14 @@ define([
             textCharacterItalic: 'I',
             textCharacterUnderline: 'U',
             textAddCustomColor: 'Add Custom Color',
-            textCustomColor: 'Custom Color'
+            textCustomColor: 'Custom Color',
+            textTextOrientation: 'Text Orientation',
+            textHorizontalText: 'Horizontal Text',
+            textAngleCounterclockwise: 'Angle Counterclockwise',
+            textAngleClockwise: 'Angle Clockwise',
+            textVerticalText: 'Vertical Text',
+            textRotateTextUp: 'Rotate Text Up',
+            textRotateTextDown: 'Rotate Text Down'
     }
     })(), SSE.Views.EditCell || {}))
 });
