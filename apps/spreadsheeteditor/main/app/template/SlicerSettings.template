@@ -81,6 +81,46 @@
         </td>
     </tr>
     <tr>
+        <td class="padding-small" colspan=2>
+            <label class="header"><%= scope.strSorting %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-radio-asc"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large" colspan=2>
+            <div id="slicer-radio-desc"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-check-hide-nodata"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-check-indicate-nodata"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-check-show-nodata-last"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-check-show-deleted"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
         <td align="center" colspan=2>
             <label class="link" id="slicer-advanced-link"><%= scope.textAdvanced %></label>
         </td>

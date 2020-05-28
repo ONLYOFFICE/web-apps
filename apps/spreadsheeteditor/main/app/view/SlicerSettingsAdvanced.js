@@ -300,7 +300,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             });
             this.chShowNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
-                    this._changedProps.asc_setHideItemsWithNoData(field.getValue()=='checked');
+                    this._changedProps.asc_setShowItemsWithNoDataLast(field.getValue()=='checked');
                 }
             }, this));
 

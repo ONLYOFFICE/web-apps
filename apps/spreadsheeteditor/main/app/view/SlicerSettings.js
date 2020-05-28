@@ -76,7 +76,11 @@ define([
                 ColHeight: 0,
                 PosVert: 0,
                 PosHor: 0,
-                PosLocked: false
+                PosLocked: false,
+                SortOrder: Asc.ST_tabularSlicerCacheSortOrder.Ascending,
+                IndNoData: false,
+                ShowNoData: false,
+                HideNoData: false
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -253,6 +257,95 @@ define([
             this.spnColHeight.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.numCols.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
 
+            // Sorting & Filtering
+
+            this.radioAsc = new Common.UI.RadioBox({
+                el: $('#slicer-radio-asc'),
+                name: 'asc-radio-sliceradv-sort',
+                labelText: this.textAsc + ' (' + this.textAZ + ')',
+                checked: true
+            });
+            this.radioAsc.on('change', _.bind(function(field, newValue, eOpts) {
+                if (newValue && this.api) {
+                    if (this._originalProps) {
+                        this._originalProps.asc_getSlicerProperties().asc_setSortOrder(Asc.ST_tabularSlicerCacheSortOrder.Ascending);
+                        this.api.asc_setGraphicObjectProps(this._originalProps);
+                    }
+                }
+            }, this));
+            this.lockedControls.push(this.radioAsc);
+
+            this.radioDesc = new Common.UI.RadioBox({
+                el: $('#slicer-radio-desc'),
+                name: 'asc-radio-sliceradv-sort',
+                labelText: this.textDesc + ' (' + this.textZA + ')',
+                checked: false
+            });
+            this.radioDesc.on('change', _.bind(function(field, newValue, eOpts) {
+                if (newValue && this.api) {
+                    if (this._originalProps) {
+                        this._originalProps.asc_getSlicerProperties().asc_setSortOrder(Asc.ST_tabularSlicerCacheSortOrder.Descending);
+                        this.api.asc_setGraphicObjectProps(this._originalProps);
+                    }
+                }
+            }, this));
+            this.lockedControls.push(this.radioDesc);
+
+            this.chHideNoData = new Common.UI.CheckBox({
+                el: $('#slicer-check-hide-nodata'),
+                labelText: this.strHideNoData
+            });
+            this.chHideNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()=='checked');
+                this.chIndNoData.setDisabled(checked);
+                this.chShowNoData.setDisabled(checked || (this.chIndNoData.getValue()!='checked'));
+                this.chShowDel.setDisabled(checked);
+                if (this._originalProps && this.api) {
+                    this._originalProps.asc_getSlicerProperties().asc_setHideItemsWithNoData(checked);
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
+            }, this));
+            this.lockedControls.push(this.chHideNoData);
+
+            this.chIndNoData = new Common.UI.CheckBox({
+                el: $('#slicer-check-indicate-nodata'),
+                labelText: this.strIndNoData
+            });
+            this.chIndNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()=='checked');
+                this.chShowNoData.setDisabled(!checked);
+                if (this._originalProps && this.api) {
+                    this._originalProps.asc_getSlicerProperties().asc_setIndicateItemsWithNoData(checked);
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
+            }, this));
+            this.lockedControls.push(this.chIndNoData);
+
+            this.chShowNoData = new Common.UI.CheckBox({
+                el: $('#slicer-check-show-nodata-last'),
+                disabled: true,
+                labelText: this.strShowNoData
+            });
+            this.chShowNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._originalProps && this.api) {
+                    this._originalProps.asc_getSlicerProperties().asc_setShowItemsWithNoDataLast(field.getValue()=='checked');
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
+            }, this));
+            this.lockedControls.push(this.chShowNoData);
+
+            this.chShowDel = new Common.UI.CheckBox({
+                el: $('#slicer-check-show-deleted'),
+                labelText: this.strShowDel
+            });
+            this.chShowDel.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                // if (this._originalProps && this.api) {
+                //     this._originalProps.asc_getSlicerProperties().asc_setIndicateItemsWithNoData(field.getValue()=='checked');
+                //     this.api.asc_setGraphicObjectProps(this._originalProps);
+                // }
+            }, this));
+            this.lockedControls.push(this.chShowDel);
+
             $(this.el).on('click', '#slicer-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
@@ -381,6 +474,43 @@ define([
                         this.chLock.setValue((value !== null && value !== undefined) ? !!value : 'indeterminate', true);
                         this._state.PosLocked=value;
                     }
+
+                    // depends of data type
+                    // this.radioAsc.setCaption(this.textAsc + ' (' + this.textAZ + ')' );
+                    // this.radioDesc.setCaption(this.textDesc + ' (' + this.textZA + ')' );
+                    value = slicerprops.asc_getSortOrder();
+                    if ( this._state.SortOrder!==value ) {
+                        (value==Asc.ST_tabularSlicerCacheSortOrder.Ascending) ? this.radioAsc.setValue(true, true) : this.radioDesc.setValue(true, true);
+                        this._state.SortOrder=value;
+                    }
+
+                    value = slicerprops.asc_getIndicateItemsWithNoData();
+                    if ( this._state.IndNoData!==value ) {
+                        this.chIndNoData.setValue((value !== null && value !== undefined) ? !!value : 'indeterminate', true);
+                        this._state.IndNoData=value;
+                    }
+
+                    value = slicerprops.asc_getShowItemsWithNoDataLast();
+                    if ( this._state.ShowNoData!==value ) {
+                        this.chShowNoData.setValue((value !== null && value !== undefined) ? !!value : 'indeterminate', true);
+                        this._state.ShowNoData=value;
+                    }
+
+                    value = slicerprops.asc_getHideItemsWithNoData();
+                    if ( this._state.HideNoData!==value ) {
+                        this.chHideNoData.setValue((value !== null && value !== undefined) ? !!value : 'indeterminate', true);
+                        this._state.HideNoData=value;
+                    }
+
+                    this.chIndNoData.setDisabled(value);
+                    this.chShowNoData.setDisabled(value || (this.chIndNoData.getValue()!='checked'));
+                    this.chShowDel.setDisabled(value);
+
+                    // value = slicerprops.asc_getShowDeleted();
+                    // if ( this._state.ShowDel!==value ) {
+                    //     this.chShowDel.setValue((value !== null && value !== undefined) ? !!value : 'indeterminate', true);
+                    //     this._state.ShowDel=value;
+                    // }
                 }
             }
         },
@@ -555,7 +685,20 @@ define([
         textButtons: 'Buttons',
         textColumns: 'Columns',
         textStyle: 'Style',
-        textLock: 'Disable resizing or moving'
+        textLock: 'Disable resizing or moving',
+        strSorting: 'Sorting and filtering',
+        textAsc: 'Ascending',
+        textDesc: 'Descending',
+        textAZ: 'A to Z',
+        textZA: 'Z to A',
+        textOldNew: 'oldest to newest',
+        textNewOld: 'newest to oldest',
+        textSmallLarge: 'smallest to largest',
+        textLargeSmall: 'largest to smallest',
+        strHideNoData: 'Hide items with no data',
+        strIndNoData: 'Visually indicate items with no data',
+        strShowNoData: 'Show items with no data last',
+        strShowDel: 'Show items deleted from the data source'
 
     }, SSE.Views.SlicerSettings || {}));
 });

@@ -29,10 +29,6 @@
                 <label class="input-label"><%= scope.strColumns %></label>
                 <div id="sliceradv-spin-columns"></div>
             </div>
-            <!-- <div style="display: inline-block; margin-right: 5px;"> -->
-            <!--     <label class="input-label"><%= scope.strWidth %></label> -->
-            <!--     <div id="sliceradv-spin-col-width"></div> -->
-            <!-- </div> -->
             <div style="display: inline-block;">
                 <label class="input-label"><%= scope.strHeight %></label>
                 <div id="sliceradv-spin-col-height"></div>
