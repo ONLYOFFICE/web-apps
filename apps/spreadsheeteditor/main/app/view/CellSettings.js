@@ -449,7 +449,7 @@ define([
                 var xfs = props.asc_getXfs(),
                     value = xfs.asc_getAngle();
                 if (Math.abs(this._state.CellAngle - value) > 0.1 || (this._state.CellAngle === undefined) && (this._state.CellAngle !== value)) {
-                    this.spnAngle.setValue((value !== null) ? value : '', true);
+                    this.spnAngle.setValue((value !== null) ? (value==255 ? 0 : value) : '', true);
                     this._state.CellAngle = value;
                 }
                 this.fill = xfs.asc_getFill();
