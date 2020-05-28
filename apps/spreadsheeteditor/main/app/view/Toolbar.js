@@ -631,6 +631,14 @@ define([
                                 value       : 'clockwise'
                             },
                             {
+                                caption     : me.textVertical,
+                                iconCls     : 'menu__icon text-orient-vertical',
+                                checkable   : true,
+                                checkmark   : false,
+                                toggleGroup : 'textorientgroup',
+                                value       : 'vertical'
+                            },
+                            {
                                 caption     : me.textRotateUp,
                                 iconCls     : 'menu__icon text-orient-rup',
                                 checkable   : true,
@@ -2398,6 +2406,7 @@ define([
         tipInsertSymbol: 'Insert symbol',
         txtAutosumTip: 'Summation',
         capBtnPrintTitles: 'Print Titles',
-        tipPrintTitles: 'Print titles'
+        tipPrintTitles: 'Print titles',
+        textVertical: 'Vertical Text'
     }, SSE.Views.Toolbar || {}));
 });

@@ -801,6 +801,7 @@ define([
                 switch (item.value) {
                     case 'countcw':     angle =  45;    break;
                     case 'clockwise':   angle = -45;    break;
+                    case 'vertical':    angle =  255;    break;
                     case 'rotateup':    angle =  90;    break;
                     case 'rotatedown':  angle = -90;    break;
                 }
@@ -2289,6 +2290,7 @@ define([
                     need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText || selectionType == Asc.c_oAscSelectionType.RangeShape);
                     toolbar.btnTextOrient.menu.items[1].setDisabled(need_disable);
                     toolbar.btnTextOrient.menu.items[2].setDisabled(need_disable);
+                    toolbar.btnTextOrient.menu.items[3].setDisabled(need_disable);
 
                     /* read cell vertical align */
                     fontparam = xfs.asc_getVertAlign();
@@ -2391,8 +2393,9 @@ define([
                 switch(val) {
                     case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
                     case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
-                    case 90:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
-                    case -90:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
+                    case 255:   toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
+                    case 90:    toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
+                    case -90:   toolbar.btnTextOrient.menu.items[5].setChecked(true, true); break;
                     case 0:     toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
                 }
                 this._state.angle = val;
