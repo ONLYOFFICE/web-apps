@@ -632,6 +632,14 @@ define([
                                 value       : 'clockwise'
                             },
                             {
+                                caption     : me.textVertical,
+                                iconCls     : 'menu__icon text-orient-vertical',
+                                checkable   : true,
+                                checkmark   : false,
+                                toggleGroup : 'textorientgroup',
+                                value       : 'vertical'
+                            },
+                            {
                                 caption     : me.textRotateUp,
                                 iconCls     : 'menu__icon text-orient-rup',
                                 checkable   : true,
@@ -2411,6 +2419,7 @@ define([
         capBtnPrintTitles: 'Print Titles',
         tipPrintTitles: 'Print titles',
         capBtnInsSlicer: 'Slicer',
-        tipInsertSlicer: 'Insert slicer'
+        tipInsertSlicer: 'Insert slicer',
+        textVertical: 'Vertical Text'
     }, SSE.Views.Toolbar || {}));
 });

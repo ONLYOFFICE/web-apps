@@ -38,7 +38,7 @@
                     </div>
                 </a>
             </li>
-            <li>
+            <li id="item-break">
                 <a id="add-other-break" class="item-link">
                     <div class="item-content">
                         <div class="item-media">
@@ -50,7 +50,7 @@
                     </div>
                 </a>
             </li>
-            <li>
+            <li id="item-footnote">
                 <a id="add-other-footnote" class="item-link">
                     <div class="item-content">
                         <div class="item-media">
