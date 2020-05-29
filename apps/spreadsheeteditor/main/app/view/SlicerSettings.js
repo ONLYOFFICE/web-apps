@@ -80,10 +80,12 @@ define([
                 SortOrder: Asc.ST_tabularSlicerCacheSortOrder.Ascending,
                 IndNoData: false,
                 ShowNoData: false,
-                HideNoData: false
+                HideNoData: false,
+                DisabledSizeControls: false
             };
             this.spinners = [];
             this.lockedControls = [];
+            this.sizeControls = [];
             this._locked = false;
 
             this._noApply = false;
@@ -135,7 +137,7 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnWidth);
-            this.lockedControls.push(this.spnWidth);
+            this.sizeControls.push(this.spnWidth);
 
             this.spnHeight = new Common.UI.MetricSpinner({
                 el: $('#slicer-spin-height'),
@@ -147,7 +149,7 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnHeight);
-            this.lockedControls.push(this.spnHeight);
+            this.sizeControls.push(this.spnHeight);
 
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#slicer-button-ratio'),
@@ -157,7 +159,7 @@ define([
                 enableToggle: true,
                 hint: this.textKeepRatio
             });
-            this.lockedControls.push(this.btnRatio);
+            this.sizeControls.push(this.btnRatio);
 
             this.btnRatio.on('click', _.bind(function(btn, e) {
                 if (btn.pressed && this.spnHeight.getNumberValue()>0) {
@@ -169,6 +171,7 @@ define([
                         this.api.asc_setGraphicObjectProps(this._originalProps);
                     }
                 }
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
 
             this.spnWidth.on('change', _.bind(this.onWidthChange, this));
@@ -186,7 +189,7 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnHor);
-            this.lockedControls.push(this.spnHor);
+            this.sizeControls.push(this.spnHor);
 
             this.spnVert = new Common.UI.MetricSpinner({
                 el: $('#slicer-spin-vert'),
@@ -198,10 +201,10 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnVert);
-            this.lockedControls.push(this.spnVert);
+            this.sizeControls.push(this.spnVert);
 
-            // this.spnHor.on('change', _.bind(this.onHorChange, this));
-            // this.spnVert.on('change', _.bind(this.onVertChange, this));
+            this.spnHor.on('change', _.bind(this.onHorChange, this));
+            this.spnVert.on('change', _.bind(this.onVertChange, this));
             this.spnHor.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
             this.spnVert.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
 
@@ -223,7 +226,7 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnColWidth);
-            this.lockedControls.push(this.spnColWidth);
+            this.sizeControls.push(this.spnColWidth);
 
             this.spnColHeight = new Common.UI.MetricSpinner({
                 el: $('#slicer-spin-col-height'),
@@ -235,7 +238,7 @@ define([
                 minValue: 0
             });
             this.spinners.push(this.spnColHeight);
-            this.lockedControls.push(this.spnColHeight);
+            this.sizeControls.push(this.spnColHeight);
 
             this.numCols = new Common.UI.MetricSpinner({
                 el: $('#slicer-spin-cols'),
@@ -248,7 +251,7 @@ define([
                 maxValue: 20000,
                 minValue: 1
             });
-            this.lockedControls.push(this.numCols);
+            this.sizeControls.push(this.numCols);
 
             this.spnColWidth.on('change', _.bind(this.onColWidthChange, this));
             this.spnColHeight.on('change', _.bind(this.onColHeightChange, this));
@@ -271,6 +274,7 @@ define([
                         this._originalProps.asc_getSlicerProperties().asc_setSortOrder(Asc.ST_tabularSlicerCacheSortOrder.Ascending);
                         this.api.asc_setGraphicObjectProps(this._originalProps);
                     }
+                    Common.NotificationCenter.trigger('edit:complete', this);
                 }
             }, this));
             this.lockedControls.push(this.radioAsc);
@@ -287,6 +291,7 @@ define([
                         this._originalProps.asc_getSlicerProperties().asc_setSortOrder(Asc.ST_tabularSlicerCacheSortOrder.Descending);
                         this.api.asc_setGraphicObjectProps(this._originalProps);
                     }
+                    Common.NotificationCenter.trigger('edit:complete', this);
                 }
             }, this));
             this.lockedControls.push(this.radioDesc);
@@ -297,13 +302,11 @@ define([
             });
             this.chHideNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var checked = (field.getValue()=='checked');
-                this.chIndNoData.setDisabled(checked);
-                this.chShowNoData.setDisabled(checked || (this.chIndNoData.getValue()!='checked'));
-                this.chShowDel.setDisabled(checked);
                 if (this._originalProps && this.api) {
                     this._originalProps.asc_getSlicerProperties().asc_setHideItemsWithNoData(checked);
                     this.api.asc_setGraphicObjectProps(this._originalProps);
                 }
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.lockedControls.push(this.chHideNoData);
 
@@ -313,11 +316,11 @@ define([
             });
             this.chIndNoData.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var checked = (field.getValue()=='checked');
-                this.chShowNoData.setDisabled(!checked);
                 if (this._originalProps && this.api) {
                     this._originalProps.asc_getSlicerProperties().asc_setIndicateItemsWithNoData(checked);
                     this.api.asc_setGraphicObjectProps(this._originalProps);
                 }
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.lockedControls.push(this.chIndNoData);
 
@@ -331,6 +334,7 @@ define([
                     this._originalProps.asc_getSlicerProperties().asc_setShowItemsWithNoDataLast(field.getValue()=='checked');
                     this.api.asc_setGraphicObjectProps(this._originalProps);
                 }
+                Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.lockedControls.push(this.chShowNoData);
 
@@ -387,7 +391,6 @@ define([
                                                 me.api.asc_setGraphicObjectProps(value.imageProps);
                                             }
                                         }
-
                                         Common.NotificationCenter.trigger('edit:complete', me);
                                     }
                                 })).show();
@@ -401,8 +404,6 @@ define([
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
-
-            this.disableControls(this._locked);
 
             if (props ){
                 this._originalProps = new Asc.asc_CImgProperty(props);
@@ -430,7 +431,19 @@ define([
                     this._state.keepRatio=value;
                 }
 
+                value = props.get_Position();
+                if (value) {
+                    var Position = {X: value.get_X(), Y: value.get_Y()};
+                    this.spnHor.setValue((Position.X !== null && Position.X !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.X) : '', true);
+                    this.spnVert.setValue((Position.Y !== null && Position.Y !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(Position.Y) : '', true);
+                } else {
+                    this.spnHor.setValue('', true);
+                    this.spnVert.setValue('', true);
+                }
+
                 var slicerprops = props.asc_getSlicerProperties();
+                this.disableControls(this._locked, slicerprops ? slicerprops.asc_getLockedPosition() : false);
+
                 if (slicerprops) {
                     value = slicerprops.asc_getColumnCount();
                     if ( Math.abs(this._state.ColCount-value)>0.1 ||
@@ -470,19 +483,13 @@ define([
                     this._isTemplatesChanged = false;
 
                     value = slicerprops.asc_getLockedPosition();
-                    if ( this._state.PosLocked!==value ) {
-                        this.chLock.setValue((value !== null && value !== undefined) ? !!value : 'indeterminate', true);
-                        this._state.PosLocked=value;
-                    }
+                    this.chLock.setValue((value !== null && value !== undefined) ? !!value : 'indeterminate', true);
 
                     // depends of data type
                     // this.radioAsc.setCaption(this.textAsc + ' (' + this.textAZ + ')' );
                     // this.radioDesc.setCaption(this.textDesc + ' (' + this.textZA + ')' );
                     value = slicerprops.asc_getSortOrder();
-                    if ( this._state.SortOrder!==value ) {
-                        (value==Asc.ST_tabularSlicerCacheSortOrder.Ascending) ? this.radioAsc.setValue(true, true) : this.radioDesc.setValue(true, true);
-                        this._state.SortOrder=value;
-                    }
+                    (value==Asc.ST_tabularSlicerCacheSortOrder.Ascending) ? this.radioAsc.setValue(true, true) : this.radioDesc.setValue(true, true);
 
                     value = slicerprops.asc_getIndicateItemsWithNoData();
                     if ( this._state.IndNoData!==value ) {
@@ -502,9 +509,9 @@ define([
                         this._state.HideNoData=value;
                     }
 
-                    this.chIndNoData.setDisabled(value);
-                    this.chShowNoData.setDisabled(value || (this.chIndNoData.getValue()!='checked'));
-                    this.chShowDel.setDisabled(value);
+                    this.chIndNoData.setDisabled(value || this._locked);
+                    this.chShowNoData.setDisabled(value || (this.chIndNoData.getValue()!='checked') || this._locked);
+                    this.chShowDel.setDisabled(value || this._locked);
 
                     // value = slicerprops.asc_getShowDeleted();
                     // if ( this._state.ShowDel!==value ) {
@@ -534,6 +541,7 @@ define([
                     this.api.asc_setGraphicObjectProps(this._originalProps);
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onHeightChange: function(field, newValue, oldValue, eOpts){
@@ -554,6 +562,39 @@ define([
                     this.api.asc_setGraphicObjectProps(this._originalProps);
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onHorChange: function(field, newValue, oldValue, eOpts){
+            var Position = new Asc.CPosition();
+            if (field.getValue() !== '')
+                Position.put_X(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+            if (this.spnVert.getValue() !== '')
+                Position.put_Y(Common.Utils.Metric.fnRecalcToMM(this.spnVert.getNumberValue()));
+
+            if (this.api)  {
+                if (this._originalProps) {
+                    this._originalProps.put_Position(Position);
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onVertChange: function(field, newValue, oldValue, eOpts){
+            var Position = new Asc.CPosition();
+            if (this.spnHor.getValue() !== '')
+                Position.put_X(Common.Utils.Metric.fnRecalcToMM(this.spnHor.getNumberValue()));
+            if (field.getValue() !== '')
+                Position.put_Y(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+
+            if (this.api)  {
+                if (this._originalProps) {
+                    this._originalProps.put_Position(Position);
+                    this.api.asc_setGraphicObjectProps(this._originalProps);
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColWidthChange: function(field, newValue, oldValue, eOpts){
@@ -563,6 +604,7 @@ define([
                     this.api.asc_setGraphicObjectProps(this._originalProps);
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColHeightChange: function(field, newValue, oldValue, eOpts){
@@ -572,6 +614,7 @@ define([
                     this.api.asc_setGraphicObjectProps(this._originalProps);
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onColChange: function(field, newValue, oldValue, eOpts){
@@ -581,6 +624,7 @@ define([
                     this.api.asc_setGraphicObjectProps(this._originalProps);
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onInitStyles: function(Templates){
@@ -647,6 +691,7 @@ define([
                 this._originalProps.asc_getSlicerProperties().asc_setStyle(record.get('type'));
                 this.api.asc_setGraphicObjectProps(this._originalProps);
             }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onLockSlicerChange: function(field, newValue, oldValue, eOpts){
@@ -656,21 +701,32 @@ define([
                     this.api.asc_setGraphicObjectProps(this._originalProps);
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         setLocked: function (locked) {
             this._locked = locked;
         },
 
-        disableControls: function(disable) {
+        disableControls: function(disable, disableSize) {
             if (this._initSettings) return;
 
+            this.disableSizeControls(disable || disableSize);
             if (this._state.DisabledControls!==disable) {
                 this._state.DisabledControls = disable;
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
+            }
+        },
+
+        disableSizeControls: function(disable) {
+            if (this._state.DisabledSizeControls!==disable) {
+                this._state.DisabledSizeControls = disable;
+                _.each(this.sizeControls, function(item) {
+                    item.setDisabled(disable);
+                });
             }
         },
 
