@@ -570,5 +570,12 @@
   "DE.Views.Settings.textVersion": "Version",
   "DE.Views.Settings.textWords": "Words",
   "DE.Views.Settings.unknownText": "Unknown",
+  "DE.Views.Settings.textMacrosSettings": "Macros Settings",
+  "DE.Views.Settings.textDisableAll": "Disable All",
+  "DE.Views.Settings.textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
+  "DE.Views.Settings.textShowNotification": "Show Notification",
+  "DE.Views.Settings.textDisableAllMacrosWithNotification": "Disable all macros with notification",
+  "DE.Views.Settings.textEnableAll": "Enable All",
+  "DE.Views.Settings.textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
   "DE.Views.Toolbar.textBack": "Back"
 }

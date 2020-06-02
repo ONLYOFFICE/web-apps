@@ -616,5 +616,12 @@
   "SSE.Views.Settings.textUploaded": "Uploaded",
   "SSE.Views.Settings.textVersion": "Version",
   "SSE.Views.Settings.unknownText": "Unknown",
+  "SSE.Views.Settings.textMacrosSettings": "Macros Settings",
+  "SSE.Views.Settings.textDisableAll": "Disable All",
+  "SSE.Views.Settings.textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
+  "SSE.Views.Settings.textShowNotification": "Show Notification",
+  "SSE.Views.Settings.textDisableAllMacrosWithNotification": "Disable all macros with notification",
+  "SSE.Views.Settings.textEnableAll": "Enable All",
+  "SSE.Views.Settings.textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
   "SSE.Views.Toolbar.textBack": "Back"
 }

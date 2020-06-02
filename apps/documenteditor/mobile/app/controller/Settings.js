@@ -254,6 +254,9 @@ define([
                 } else if ('#margins-view' == pageId) {
                     me.initPageMargin();
                     Common.Utils.addScrollIfNeed('.page[data-page=margin-view]', '.page[data-page=margin-view] .page-content');
+                } else if ('#macros-settings-view' == pageId) {
+                    me.initPageMacrosSettings();
+                    Common.Utils.addScrollIfNeed('.page[data-page=macros-settings-view]', '.page[data-page=macros-settings-view] .page-content');
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
@@ -271,6 +274,20 @@ define([
                         $('#settings-collaboration').show();
                     }
                 }
+            },
+
+            initPageMacrosSettings: function() {
+                var me = this,
+                    $pageMacrosSettings = $('.page[data-page="macros-settings-view"] input:radio[name=macros-settings]'),
+                    value = Common.Utils.InternalSettings.get("de-mobile-macros-mode") || 0;
+                $pageMacrosSettings.single('change', _.bind(me.onChangeMacrosSettings, me));
+                $pageMacrosSettings.val([value]);
+            },
+
+            onChangeMacrosSettings: function(e) {
+                var value = parseInt($(e.currentTarget).val());
+                Common.Utils.InternalSettings.set("de-mobile-macros-mode", value);
+                Common.localStorage.setItem("de-mobile-macros-mode", value);
             },
 
             onChangeDisplayComments: function(e) {

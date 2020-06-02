@@ -547,5 +547,12 @@
   "PE.Views.Settings.textUploaded": "Uploaded",
   "PE.Views.Settings.textVersion": "Version",
   "PE.Views.Settings.unknownText": "Unknown",
+  "PE.Views.Settings.textMacrosSettings": "Macros Settings",
+  "PE.Views.Settings.textDisableAll": "Disable All",
+  "PE.Views.Settings.textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
+  "PE.Views.Settings.textShowNotification": "Show Notification",
+  "PE.Views.Settings.textDisableAllMacrosWithNotification": "Disable all macros with notification",
+  "PE.Views.Settings.textEnableAll": "Enable All",
+  "PE.Views.Settings.textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
   "PE.Views.Toolbar.textBack": "Back"
 }

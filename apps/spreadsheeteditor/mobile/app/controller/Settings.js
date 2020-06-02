@@ -258,12 +258,28 @@ define([
                     me.initRegSettings();
                 } else if ('#settings-info-view' == pageId) {
                     me.initPageInfo();
+                } else if ('#settings-macros-view' == pageId) {
+                    me.initPageMacrosSettings();
                 } else {
                     var _userCount = SSE.getController('Main').returnUserCount();
                     if (_userCount > 0) {
                         $('#settings-collaboration').show();
                     }
                 }
+            },
+
+            initPageMacrosSettings: function() {
+                var me = this,
+                    $pageMacrosSettings = $('.page[data-page="settings-macros-view"] input:radio[name=macros-settings]'),
+                    value = Common.Utils.InternalSettings.get("sse-mobile-macros-mode") || 0;
+                $pageMacrosSettings.single('change', _.bind(me.onChangeMacrosSettings, me));
+                $pageMacrosSettings.val([value]);
+            },
+
+            onChangeMacrosSettings: function(e) {
+                var value = parseInt($(e.currentTarget).val());
+                Common.Utils.InternalSettings.set("sse-mobile-macros-mode", value);
+                Common.localStorage.setItem("sse-mobile-macros-mode", value);
             },
 
             initPageInfo: function() {
