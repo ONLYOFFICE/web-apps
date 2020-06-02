@@ -56,6 +56,16 @@
                 </a>
             </li>
             <li>
+                <a id="text-orientation" class="item-link" data-page="#edit-text-orientation">
+                    <div class="item-content">
+                        <% if (!android) { %><div class="item-media"><i class="icon icon-text-orientation"></i></div><% } %>
+                        <div class="item-inner">
+                            <div class="item-title"><%= scope.textTextOrientation %></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
                 <a id="border-style" class="item-link" data-page="#edit-border-style">
                     <div class="item-content">
                         <% if (!android) { %><div class="item-media"><i class="icon icon-table-borders-all" style="width: 22px; height: 22px;"></i></div><% } %>
@@ -296,6 +306,121 @@
                                 </div>
                             </div>
                         </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Text Orientation view -->
+<div id="edit-text-orientation">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textTextOrientation %></div>
+            <div class="right"><% if (phone) { %><a href="#" class="link icon-only close-picker"><i class="icon icon-expand-down"></i></a><% } %></div>
+        </div>
+    </div>
+    <div class="page" data-page="edit-text-orientation">
+        <div class="page-content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-orientation" value="horizontal">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-orientation-horizontal"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textHorizontalText %></div>
+                                <% if (android) { %>
+                                    <div class="item-after"><i class="icon icon-text-orientation-horizontal"></i></div>
+                                <% } %>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-orientation" value="anglecount">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-orientation-anglecount"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textAngleCounterclockwise %></div>
+                                <% if (android) { %>
+                                    <div class="item-after"><i class="icon icon-text-orientation-anglecount"></i></div>
+                                <% } %>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-orientation" value="angleclock">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-orientation-angleclock"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textAngleClockwise %></div>
+                                <% if (android) { %>
+                                    <div class="item-after"><i class="icon icon-text-orientation-angleclock"></i></div>
+                                <% } %>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-orientation" value="vertical">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-orientation-vertical"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textVerticalText %></div>
+                                <% if (android) { %>
+                                    <div class="item-after"><i class="icon icon-text-orientation-vertical"></i></div>
+                                <% } %>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-orientation" value="rotateup">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-orientation-rotateup"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textRotateTextUp %></div>
+                                <% if (android) { %>
+                                    <div class="item-after"><i class="icon icon-text-orientation-rotateup"></i></div>
+                                <% } %>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="label-radio item-content">
+                            <input type="radio" name="text-orientation" value="rotatedown">
+                            <% if (android) { %>
+                            <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                            <% } else { %>
+                            <div class="item-media"><i class="icon icon-text-orientation-rotatedown"></i></div>
+                            <% } %>
+                            <div class="item-inner">
+                                <div class="item-title"><%= scope.textRotateTextDown %></div>
+                                <% if (android) { %>
+                                    <div class="item-after"><i class="icon icon-text-orientation-rotatedown"></i></div>
+                                <% } %>
+                            </div>
+                        </label>
                     </li>
                 </ul>
             </div>

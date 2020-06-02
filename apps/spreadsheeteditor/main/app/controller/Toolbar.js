@@ -787,17 +787,6 @@ define([
         },
 
         onTextOrientationMenu: function(menu, item) {
-            if (this.api.asc_getCellInfo().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeShapeText) {
-                var angle = Asc.c_oAscVertDrawingText.normal;
-                switch (item.value) {
-                    case 'rotateup':    angle =  Asc.c_oAscVertDrawingText.vert270;    break;
-                    case 'rotatedown':  angle = Asc.c_oAscVertDrawingText.vert;    break;
-                }
-
-                var properties = new Asc.asc_CImgProperty();
-                properties.asc_putVert(angle);
-                this.api.asc_setGraphicObjectProps(properties);
-            } else {
                 var angle = 0;
 
                 switch (item.value) {
@@ -811,7 +800,6 @@ define([
                 this._state.angle = undefined;
                 if (this.api)
                     this.api.asc_setCellAngle(angle);
-            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Text orientation');

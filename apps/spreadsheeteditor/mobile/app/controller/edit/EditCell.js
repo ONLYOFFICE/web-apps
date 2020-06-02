@@ -132,6 +132,8 @@ define([
                     me.initBorderColorPage();
                 } else if ('#edit-text-format' == pageId) {
                     me.initTextFormat();
+                } else if ('#edit-text-orientation' == pageId) {
+                    me.initTextOrientation();
                 } else if ('#edit-border-style' == pageId) {
                     me.initBorderStyle();
                 } else if (!_.isUndefined(pageId) && pageId.indexOf('#edit-cell-format') > -1) {
@@ -339,6 +341,8 @@ define([
                     return;
                 }
 
+                me.initTextOrientation();
+
                 me.initTextFormat();
             },
 
@@ -502,6 +506,49 @@ define([
                 }
 
                 return clr;
+            },
+
+            initTextOrientation: function() {
+                if (_.isUndefined(this._cellInfo)) return;
+
+                var me = this,
+                    $pageTextOrientation = $('.page[data-page=edit-text-orientation]'),
+                    orientationStr = 'horizontal',
+                    xfs = this._cellInfo.asc_getXfs();
+
+                var textAngle = xfs.asc_getAngle();
+
+                switch(textAngle) {
+                    case 45:    orientationStr = 'anglecount'; break;
+                    case -45:   orientationStr = 'angleclock'; break;
+                    case 255:   orientationStr = 'vertical'; break;
+                    case 90:    orientationStr = 'rotateup'; break;
+                    case -90:   orientationStr = 'rotatedown'; break;
+                    case 0:     orientationStr = 'horizontal'; break;
+                }
+
+                $('#text-orientation .item-media i').removeClass().addClass(Common.Utils.String.format('icon icon-text-orientation-{0}', orientationStr));
+
+                if ($pageTextOrientation.length > 0) {
+                    var $radioOrientation = $pageTextOrientation.find('input:radio[name=text-orientation]');
+                    $radioOrientation.val([orientationStr]);
+                    $radioOrientation.single('change', _.bind(me.onTextOrientationChange, me));
+                }
+            },
+
+            onTextOrientationChange: function(e) {
+                var $target = $(e.currentTarget),
+                    value = $target.prop('value');
+                var angle = 0;
+                switch (value) {
+                    case 'anglecount':  angle =  45;    break;
+                    case 'angleclock':  angle = -45;    break;
+                    case 'vertical':    angle =  255;   break;
+                    case 'rotateup':    angle =  90;    break;
+                    case 'rotatedown':  angle = -90;    break;
+                }
+                if (this.api)
+                    this.api.asc_setCellAngle(angle);
             },
 
             textFonts: 'Fonts',
