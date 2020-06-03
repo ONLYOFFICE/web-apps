@@ -808,6 +808,11 @@ define([
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
+                    value = Common.localStorage.getItem("sse-settings-paste-button");
+                    if (value===null) value = '1';
+                    Common.Utils.InternalSettings.set("sse-settings-paste-button", parseInt(value));
+                    me.api.asc_setVisiblePasteButton(!!parseInt(value));
+
                     if (me.needToUpdateVersion) {
                         Common.NotificationCenter.trigger('api:disconnect');
                         toolbarController.onApiCoAuthoringDisconnect();

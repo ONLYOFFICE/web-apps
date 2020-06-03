@@ -1699,6 +1699,8 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtWarnMacrosDesc": "Disable all macros with notification",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtRunMacrosDesc": "Enable all macros without notification",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtStopMacrosDesc": "Disable all macros without notification",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strPaste": "Cut, copy and paste",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strPasteButton": "Show Paste Option button when content is pasted",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.okButtonText": "Apply",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.strDictionaryLanguage": "Dictionary language",
   "SSE.Views.FileMenuPanels.MainSpellCheckSettings.strIgnoreWordsInUPPERCASE": "Ignore words in UPPERCASE",

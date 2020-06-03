@@ -667,6 +667,10 @@ define([
                     '<td class="left"></td>',
                     '<td class="right"><div id="fms-thousands-separator"/><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strThousandsSeparator %></label></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strPaste %></label></td>',
+                    '<td class="right"><div id="fms-chb-paste-settings"/></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="macros">',
                     '<td class="left"><label><%= scope.strMacrosSettings %></label></td>',
                     '<td class="right">',
@@ -918,6 +922,11 @@ define([
             });
             this.lblMacrosDesc = $markup.findById('#fms-lbl-macros');
 
+            this.chPaste = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-paste-settings'),
+                labelText: this.strPasteButton
+            });
+            
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-apply')
             });
@@ -1042,6 +1051,8 @@ define([
             item = this.cmbMacros.store.findWhere({value: Common.Utils.InternalSettings.get("sse-macros-mode")});
             this.cmbMacros.setValue(item ? item.get('value') : 0);
             this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
+
+            this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
         },
 
         applySettings: function() {
@@ -1084,6 +1095,8 @@ define([
 
             Common.localStorage.setItem("sse-macros-mode", this.cmbMacros.getValue());
             Common.Utils.InternalSettings.set("sse-macros-mode", Common.localStorage.getItem("sse-macros-mode"));
+
+            Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
 
             Common.localStorage.save();
             if (this.menu) {
@@ -1186,7 +1199,9 @@ define([
         txtStopMacros: 'Disable All',
         txtWarnMacrosDesc: 'Disable all macros with notification',
         txtRunMacrosDesc: 'Enable all macros without notification',
-        txtStopMacrosDesc: 'Disable all macros without notification'
+        txtStopMacrosDesc: 'Disable all macros without notification',
+        strPaste: 'Cut, copy and paste',
+        strPasteButton: 'Show Paste Option button when content is pasted'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
