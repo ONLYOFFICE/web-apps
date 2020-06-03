@@ -131,7 +131,6 @@ define([
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
-                        $layour.find('#settings-application').hide();
                         $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-presentation-setup').hide();
                         $layour.find('#settings-readermode input:checkbox')
@@ -220,6 +219,7 @@ define([
 
             showSetApp: function () {
                 this.showPage('#settings-application-view');
+                $('.page[data-page=settings-application-view] .page-content > :not(.display-view)').hide();
                 if (isShowMacros) {
                     $('#settings-macros').single('click', _.bind(this.showMacros, this));
                 }

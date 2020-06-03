@@ -476,7 +476,6 @@
             <div class="page-content">
                 <div class="content-block-title"><%= scope.textUnitOfMeasurement %></div>
                 <div class="list-block">
-
                     <ul>
                         <li>
                             <label class="label-radio item-content">
@@ -522,7 +521,7 @@
                         </div>
                     </ul>
                 </div>
-                <div class="list-block">
+                <div class="list-block display-view">
                     <ul>
                         <li>
                             <a id="settings-macros" class="item-link item-content" data-page="#settings-macros-view">
