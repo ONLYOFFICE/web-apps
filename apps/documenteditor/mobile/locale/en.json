@@ -282,6 +282,10 @@
   "DE.Controllers.Main.warnNoLicense": "This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnNoLicenseUsers": "This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.",
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "DE.Controllers.Main.textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
+  "DE.Controllers.Main.textRemember": "Remember my choice",
+  "DE.Controllers.Main.textYes": "Yes",
+  "DE.Controllers.Main.textNo": "No",
   "DE.Controllers.Search.textNoTextFound": "Text not Found",
   "DE.Controllers.Search.textReplaceAll": "Replace All",
   "DE.Controllers.Settings.notcriticalErrorTitle": "Warning",
@@ -570,5 +574,12 @@
   "DE.Views.Settings.textVersion": "Version",
   "DE.Views.Settings.textWords": "Words",
   "DE.Views.Settings.unknownText": "Unknown",
+  "DE.Views.Settings.textMacrosSettings": "Macros Settings",
+  "DE.Views.Settings.textDisableAll": "Disable All",
+  "DE.Views.Settings.textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
+  "DE.Views.Settings.textShowNotification": "Show Notification",
+  "DE.Views.Settings.textDisableAllMacrosWithNotification": "Disable all macros with notification",
+  "DE.Views.Settings.textEnableAll": "Enable All",
+  "DE.Views.Settings.textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
   "DE.Views.Toolbar.textBack": "Back"
 }

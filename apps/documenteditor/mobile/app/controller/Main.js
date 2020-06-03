@@ -224,6 +224,14 @@ define([
                 if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
                     $('#editor-container').append('<div class="doc-placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>');
 
+                var value = Common.localStorage.getItem("de-mobile-macros-mode");
+                if (value === null) {
+                    value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
+                    value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
+                } else
+                    value = parseInt(value);
+                Common.Utils.InternalSettings.set("de-mobile-macros-mode", value);
+
 //                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
 //                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
@@ -255,6 +263,11 @@ define([
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
 
+                    var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                    docInfo.asc_putIsEnabledPlugins(!!enable);
+                    
                     var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
                     if (type && typeof type[1] === 'string') {
                         this.permissions.edit = this.permissions.review = false;
@@ -263,6 +276,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -1369,6 +1383,51 @@ define([
                 return false;
             },
 
+            onRunAutostartMacroses: function() {
+                var me = this,
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                if (enable) {
+                    var value = Common.Utils.InternalSettings.get("de-mobile-macros-mode");
+                    if (value==1)
+                        this.api.asc_runAutostartMacroses();
+                    else if (value === 0) {
+                        uiApp.modal({
+                            title: this.notcriticalErrorTitle,
+                            text: this.textHasMacros,
+                            afterText: '<label class="label-checkbox item-content no-ripple">' +
+                            '<input type="checkbox" name="checkbox-show-macros">' +
+                            '<div class="item-media" style="margin-top: 10px; display: flex; align-items: center;">' +
+                            '<i class="icon icon-form-checkbox"></i><span style="margin-left: 10px;">' + this.textRemember + '</span>' +
+                            '</div>' +
+                            '</label>',
+                            buttons: [{
+                                text: this.textYes,
+                                onClick: function () {
+                                    var dontshow = $('input[name="checkbox-show-macros"]').prop('checked');
+                                    if (dontshow) {
+                                        Common.Utils.InternalSettings.set("de-mobile-macros-mode", 1);
+                                        Common.localStorage.setItem("de-mobile-macros-mode", 1);
+                                    }
+                                    setTimeout(function() {
+                                        me.api.asc_runAutostartMacroses();
+                                    }, 1);
+                                }
+                            },
+                            {
+                                text: this.textNo,
+                                onClick: function () {
+                                    var dontshow = $('input[name="checkbox-show-macros"]').prop('checked');
+                                    if (dontshow) {
+                                        Common.Utils.InternalSettings.set("de-mobile-macros-mode", 2);
+                                        Common.localStorage.setItem("de-mobile-macros-mode", 2);
+                                    }
+                                }
+                            }]
+                        });
+                    }
+                }
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -1496,7 +1555,11 @@ define([
             waitText: 'Please, wait...',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            errorOpensource: 'Files can be opened for viewing only. Mobile web editors are not available in the Open Source version.'
+            errorOpensource: 'Files can be opened for viewing only. Mobile web editors are not available in the Open Source version.',
+            textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
+            textRemember: 'Remember my choice',
+            textYes: 'Yes',
+            textNo: 'No'
         }
     })(), DE.Controllers.Main || {}))
 });

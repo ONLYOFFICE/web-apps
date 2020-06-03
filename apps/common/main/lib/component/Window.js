@@ -136,7 +136,8 @@
     var Common = {};
 
 define([
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/component/CheckBox'
 ], function () {
     'use strict';
 

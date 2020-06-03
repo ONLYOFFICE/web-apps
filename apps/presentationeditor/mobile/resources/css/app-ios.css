@@ -7752,3 +7752,10 @@ html.pixel-ratio-3 .numbers li {
 .doc-placeholder .slide-container > .line.empty {
   background: transparent;
 }
+.page-macros-settings[data-page="settings-macros-view"] .list-block li.media-item .item-title {
+  font-weight: normal;
+}
+.page-macros-settings[data-page="settings-macros-view"] .list-block li.media-item .item-subtitle {
+  font-size: 14px;
+  color: #8e8e93;
+}

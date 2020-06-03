@@ -134,7 +134,10 @@
                     spellcheck: true,
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
-                    mentionShare : true // customize tooltip for mention
+                    mentionShare : true // customize tooltip for mention,
+                    macros: true // can run macros in document
+                    plugins: true // can run plugins in document
+                    macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn'
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
