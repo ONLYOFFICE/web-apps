@@ -3108,8 +3108,8 @@ define([
             var me = this;
 
             Common.NotificationCenter.on({
-                'edit:complete': function () {
-                    if (me.api && me.modeAlwaysSetStyle) {
+                'edit:complete': function (cmp) {
+                    if (me.api && me.modeAlwaysSetStyle && cmp!=='tab') {
                         me.api.asc_formatPainter(AscCommon.c_oAscFormatPainterState.kOff);
                         me.toolbar.btnCopyStyle.toggle(false, true);
                         me.modeAlwaysSetStyle = false;
