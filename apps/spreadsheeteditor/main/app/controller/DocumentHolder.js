@@ -71,7 +71,8 @@ define([
     'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
     'spreadsheeteditor/main/app/view/SetValueDialog',
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
-    'spreadsheeteditor/main/app/view/SpecialPasteDialog'
+    'spreadsheeteditor/main/app/view/SpecialPasteDialog',
+    'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced'
 ], function () {
     'use strict';
 
@@ -94,6 +95,9 @@ define([
                     ttHeight: 20
                 },
                 row_column: {
+                    ttHeight: 20
+                },
+                slicer: {
                     ttHeight: 20
                 },
                 filter: {ttHeight: 40},
@@ -224,6 +228,7 @@ define([
                 view.mnuShapeAdvanced.on('click',                   _.bind(me.onShapeAdvanced, me));
                 view.mnuChartEdit.on('click',                       _.bind(me.onChartEdit, me));
                 view.mnuImgAdvanced.on('click',                     _.bind(me.onImgAdvanced, me));
+                view.mnuSlicerAdvanced.on('click',                  _.bind(me.onSlicerAdvanced, me));
                 view.textInShapeMenu.on('render:after',             _.bind(me.onTextInShapeAfterRender, me));
                 view.menuSignatureEditSign.on('click',              _.bind(me.onSignatureClick, me));
                 view.menuSignatureEditSetup.on('click',             _.bind(me.onSignatureClick, me));
@@ -878,6 +883,26 @@ define([
             })).show();
         },
 
+        onSlicerAdvanced: function(item) {
+            var me = this;
+
+            (new SSE.Views.SlicerSettingsAdvanced({
+                imageProps: item.imageInfo,
+                api       : me.api,
+                styles    : item.imageInfo.asc_getSlicerProperties().asc_getStylesPictures(),
+                handler   : function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_setGraphicObjectProps(value.imageProps);
+
+                            Common.component.Analytics.trackEvent('DocumentHolder', 'Apply slicer settings');
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            })).show();
+        },
+
         onChartEdit: function(item) {
             var me = this;
             var win, props;
@@ -935,7 +960,8 @@ define([
                     /** coauthoring end **/
                         index_locked,
                         index_column, index_row,
-                        index_filter;
+                        index_filter,
+                        index_slicer;
                 for (var i = dataarray.length; i > 0; i--) {
                     switch (dataarray[i-1].asc_getType()) {
                         case Asc.c_oAscMouseMoveType.Hyperlink:
@@ -958,6 +984,9 @@ define([
                         case Asc.c_oAscMouseMoveType.Filter:
                             index_filter = i;
                             break;
+                        case Asc.c_oAscMouseMoveType.Tooltip:
+                            index_slicer = i;
+                            break;
                     }
                 }
 
@@ -970,6 +999,7 @@ define([
                     hyperlinkTip    = me.tooltips.hyperlink,
                     row_columnTip   = me.tooltips.row_column,
                     filterTip       = me.tooltips.filter,
+                    slicerTip       = me.tooltips.slicer,
                     pos             = [
                         me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
                         me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
@@ -1007,6 +1037,14 @@ define([
                     if (!index_locked) {
                         me.hideCoAuthTips();
                     }
+                    if (index_slicer===undefined) {
+                        if (!slicerTip.isHidden && slicerTip.ref) {
+                            slicerTip.ref.hide();
+                            slicerTip.ref = undefined;
+                            slicerTip.text = '';
+                            slicerTip.isHidden = true;
+                        }
+                    }
                 }
                 if (index_filter===undefined || (me.dlgFilter && me.dlgFilter.isVisible()) || (me.currentMenu && me.currentMenu.isVisible())) {
                     if (!filterTip.isHidden && filterTip.ref) {
@@ -1016,7 +1054,6 @@ define([
                         filterTip.isHidden = true;
                     }
                 }
-
                 // show tooltips
                 /** coauthoring begin **/
                 var getUserName = function(id){
@@ -1254,6 +1291,48 @@ define([
                             showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth - 20;
 
                         filterTip.ref.getBSTip().$tip.css({
+                            top : showPoint[1] + 'px',
+                            left: showPoint[0] + 'px'
+                        });
+                    }
+                }
+
+                if (index_slicer!==undefined && me.permissions.isEdit) {
+                    if (!slicerTip.parentEl) {
+                        slicerTip.parentEl = $('<div id="tip-container-slicertip" style="position: absolute; z-index: 10000;"></div>');
+                        me.documentHolder.cmpEl.append(slicerTip.parentEl);
+                    }
+
+                    var data  = dataarray[index_slicer-1],
+                        str = data.asc_getTooltip();
+                    if (slicerTip.ref && slicerTip.ref.isVisible()) {
+                        if (slicerTip.text != str) {
+                            slicerTip.text = str;
+                            slicerTip.ref.setTitle(str);
+                            slicerTip.ref.updateTitle();
+                        }
+                    }
+
+                    if (!slicerTip.ref || !slicerTip.ref.isVisible()) {
+                        slicerTip.text = str;
+                        slicerTip.ref = new Common.UI.Tooltip({
+                            owner   : slicerTip.parentEl,
+                            html    : true,
+                            title   : str
+                        });
+
+                        slicerTip.ref.show([-10000, -10000]);
+                        slicerTip.isHidden = false;
+
+                        showPoint = [data.asc_getX(), data.asc_getY()];
+                        showPoint[0] += (pos[0] + 6);
+                        showPoint[1] += (pos[1] - 20 - slicerTip.ttHeight);
+
+                        var tipwidth = slicerTip.ref.getBSTip().$tip.width();
+                        if (showPoint[0] + tipwidth > me.tooltips.coauth.bodyWidth )
+                            showPoint[0] = me.tooltips.coauth.bodyWidth - tipwidth - 20;
+
+                        slicerTip.ref.getBSTip().$tip.css({
                             top : showPoint[1] + 'px',
                             left: showPoint[0] + 'px'
                         });
@@ -1565,7 +1644,7 @@ define([
         },
 
         fillMenuProps: function(cellinfo, showMenu, event){
-            var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu, isimageonly,
+            var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu, isimageonly, isslicermenu,
                 documentHolder      = this.documentHolder,
                 seltype             = cellinfo.asc_getSelectionType(),
                 isCellLocked        = cellinfo.asc_getLocked(),
@@ -1593,7 +1672,7 @@ define([
             } else if (isimagemenu || isshapemenu || ischartmenu) {
                 if (!documentHolder.imgMenu || !showMenu && !documentHolder.imgMenu.isVisible()) return;
 
-                isimagemenu = isshapemenu = ischartmenu = false;
+                isimagemenu = isshapemenu = ischartmenu = isslicermenu = false;
                 documentHolder.mnuImgAdvanced.imageInfo = undefined;
 
                 var has_chartprops = false,
@@ -1617,6 +1696,9 @@ define([
                             documentHolder.mnuChartEdit.chartInfo = elValue;
                             ischartmenu = true;
                             has_chartprops = true;
+                        }  if ( elValue.asc_getSlicerProperties() ) {
+                            documentHolder.mnuSlicerAdvanced.imageInfo = elValue;
+                            isslicermenu = true;
                         } else {
                             documentHolder.mnuImgAdvanced.imageInfo = elValue;
                             isimagemenu = true;
@@ -1647,13 +1729,16 @@ define([
                 if (documentHolder.mnuImgAdvanced.imageInfo)
                     documentHolder.menuImgOriginalSize.setDisabled(isObjLocked || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===null || documentHolder.mnuImgAdvanced.imageInfo.get_ImageUrl()===undefined);
 
+                documentHolder.mnuSlicerAdvanced.setVisible(isslicermenu);
+                documentHolder.mnuSlicerAdvanced.setDisabled(isObjLocked);
+
                 var pluginGuid = (documentHolder.mnuImgAdvanced.imageInfo) ? documentHolder.mnuImgAdvanced.imageInfo.asc_getPluginGuid() : null;
                 documentHolder.menuImgReplace.setVisible(isimageonly && (pluginGuid===null || pluginGuid===undefined));
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
                 documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
-                documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined));
+                documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked);
 
                 documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
@@ -1671,6 +1756,7 @@ define([
 
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
+                documentHolder.mnuSlicerSeparator.setVisible(documentHolder.mnuSlicerAdvanced.isVisible());
             } else if (istextshapemenu || istextchartmenu) {
                 if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
                 

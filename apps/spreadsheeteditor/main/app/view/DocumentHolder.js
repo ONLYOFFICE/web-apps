@@ -567,6 +567,14 @@ define([
                 caption : me.advancedImgText
             });
 
+            me.mnuSlicerSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            me.mnuSlicerAdvanced = new Common.UI.MenuItem({
+                caption : me.advancedSlicerText
+            });
+
             me.mnuChartEdit = new Common.UI.MenuItem({
                 caption : me.chartText
             });
@@ -761,7 +769,9 @@ define([
                     me.mnuShapeAdvanced,
                     me.menuImgOriginalSize,
                     me.menuImgReplace,
-                    me.mnuImgAdvanced
+                    me.mnuImgAdvanced,
+                    me.mnuSlicerSeparator,
+                    me.mnuSlicerAdvanced
                 ]
             });
 
@@ -1100,7 +1110,8 @@ define([
         textCropFill: 'Fill',
         textCropFit: 'Fit',
         textListSettings: 'List Settings',
-        textFromStorage: 'From Storage'
+        textFromStorage: 'From Storage',
+        advancedSlicerText: 'Slicer Advanced Settings'
 
     }, SSE.Views.DocumentHolder || {}));
 });

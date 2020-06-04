@@ -59,6 +59,7 @@ define([
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
+    'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/CellsAddDialog'
 ], function () { 'use strict';
 
@@ -329,6 +330,7 @@ define([
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
                 toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
+                toolbar.btnInsertSlicer.on('click',                         _.bind(this.onInsertSlicerClick, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
@@ -2357,6 +2359,7 @@ define([
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
                 toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsClearAutofilter, toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort,
                                                                                           toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates)});
+                toolbar.lockToolbar(SSE.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
                 need_disable = !this.appConfig.canModifyFilter;
                 toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnTableTemplate,
@@ -2802,6 +2805,22 @@ define([
                 win.on('symbol:dblclick', function(cmp, result, settings) {
                     me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getXfs().asc_getFontName(), settings.code);
                 });
+            }
+        },
+
+        onInsertSlicerClick: function() {
+            var me = this,
+                props = me.api.asc_beforeInsertSlicer();
+            if (props) {
+                (new SSE.Views.SlicerAddDialog({
+                    props: props,
+                    handler: function (result, settings) {
+                        if (me && me.api && result == 'ok') {
+                            me.api.asc_insertSlicer(settings);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
             }
         },
 

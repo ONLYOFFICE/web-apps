@@ -127,7 +127,10 @@ define([
                         'Values': this.txtValues,
                         'Grand Total': this.txtGrandTotal,
                         'Row Labels': this.txtRowLbls,
-                        'Column Labels': this.txtColLbls
+                        'Column Labels': this.txtColLbls,
+                        'Multi-Select (Alt+S)': this.txtMultiSelect,
+                        'Clear Filter (Alt+C)':  this.txtClearFilter,
+                        '(blank)': this.txtBlank
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2598,6 +2601,9 @@ define([
             txtColLbls: 'Column Labels',
             errNoDuplicates: 'No duplicate values found.',
             errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.',
+            txtMultiSelect: 'Multi-Select (Alt+S)',
+            txtClearFilter: 'Clear Filter (Alt+C)',
+            txtBlank: '(blank)',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice'
         }

@@ -31,23 +31,22 @@
  *
  */
 /**
- *  RemoveDuplicatesDialog.js
+ *  SlicerAddDialog.js
  *
- *  Created by Julia Radzhabova on 07.04.2020
+ *  Created by Julia Radzhabova on 10.04.2020
  *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
  *
  */
 
 define([
     'common/main/lib/component/Window',
-    'common/main/lib/component/CheckBox',
     'common/main/lib/component/ListView'
 ], function () {
     'use strict';
 
-    SSE.Views.RemoveDuplicatesDialog = Common.UI.Window.extend(_.extend({
+    SSE.Views.SlicerAddDialog = Common.UI.Window.extend(_.extend({
         options: {
-            width: 350,
+            width: 250,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
@@ -62,22 +61,15 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 260px;">',
-                    '<div style="margin-bottom: 16px;">',
-                        '<label>' + this.textDescription + '</label>',
-                    '</div>',
-                    '<div class="input-row">',
-                        '<div id="rem-duplicates-dlg-headers"></div>',
-                    '</div>',
+                '<div class="box" style="height: 195px;">',
                     '<div class="input-row">',
                         '<label style="font-weight: bold;">' + this.textColumns + '</label>',
                     '</div>',
-                    '<div id="rem-duplicates-dlg-columns" class="" style="width: 100%; height: 162px; overflow: hidden;"></div>',
+                    '<div id="add-slicers-dlg-columns" class="" style="width: 100%; height: 162px; overflow: hidden;"></div>',
                 '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
-            this.api = this.options.api;
             this.props = this.options.props;
             this.handler =   this.options.handler;
 
@@ -86,31 +78,21 @@ define([
         render: function () {
             Common.UI.Window.prototype.render.call(this);
 
-            this.chHeaders = new Common.UI.CheckBox({
-                el: $('#rem-duplicates-dlg-headers'),
-                labelText: this.textHeaders
-            });
-            this.chHeaders.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                this.props.asc_setHasHeaders(field.getValue()=='checked');
-                this.props.asc_updateColumnList();
-                this.updateColumnsList();
-            }, this));
-
             this.columnsList = new Common.UI.ListView({
-                el: $('#rem-duplicates-dlg-columns', this.$window),
+                el: $('#add-slicers-dlg-columns', this.$window),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
                 scrollAlwaysVisible: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div>',
-                        '<label class="checkbox-indeterminate" style="position:absolute;">',
-                            '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                            '<label for="rdcheckbox-<%= id %>" class="checkbox__shape" />',
-                        '</label>',
-                        '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
-                            '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
-                        '</div>',
+                    '<label class="checkbox-indeterminate" style="position:absolute;">',
+                    '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
+                    '<label for="rdcheckbox-<%= id %>" class="checkbox__shape" />',
+                    '</label>',
+                    '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                    '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
+                    '</div>',
                     '</div>'
                 ].join(''))
             });
@@ -125,45 +107,21 @@ define([
             this.afterRender();
         },
 
-        updateColumnsList: function() {
-            var selectAllState = false,
-                selectedCells = 0,
-                arr = [],
-                store = this.columnsList.store;
-
-            if (store.length<1) {
-                this.props.asc_getColumnList().forEach(function (item, index) {
-                    var visible = item.asc_getVisible();
+        updateColumnsList: function(props) {
+            var arr = [];
+            if (props && props.length>0) {
+                this.props.forEach(function (item, index) {
                     arr.push(new Common.UI.DataViewModel({
                         id              : index,
                         selected        : false,
                         allowSelected   : true,
-                        value           : item.asc_getVal(),
-                        groupid         : '1',
-                        check           : visible
+                        value           : item,
+                        check           : false
                     }));
-                    if (visible) selectedCells++;
                 });
 
-                if (selectedCells==arr.length) selectAllState = true;
-                else if (selectedCells>0) selectAllState = 'indeterminate';
-
-                if (arr.length>0)
-                    arr.unshift(new Common.UI.DataViewModel({
-                        id              : arr.length,
-                        selected        : false,
-                        allowSelected   : true,
-                        value           : this.textSelectAll,
-                        groupid         : '0',
-                        check           : selectAllState,
-                        throughIndex    : 0
-                    }));
                 this.columnsList.store.reset(arr);
                 this.columnsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
-            } else {
-                this.props.asc_getColumnList().forEach(function (item, index) {
-                    store.at(index+1).set('value', item.asc_getVal());
-                });
             }
         },
 
@@ -223,29 +181,8 @@ define([
 
         updateCellCheck: function (listView, record) {
             if (record && listView) {
-                var store = listView.store,
-                    check = !record.get('check'),
-                    me = this;
-                if ('0' == record.get('groupid')) {
-                    store.each(function(cell) {
-                        cell.set('check', check);
-                    });
-                } else {
-                    record.set('check', check);
-                    var selectAllState = check;
-                    for (var i=0; i< store.length; i++) {
-                        var cell = store.at(i);
-                        if ('1' == cell.get('groupid') && cell.get('check') !== check) {
-                            selectAllState = 'indeterminate';
-                            break;
-                        }
-                    }
-                    this.checkCellTrigerBlock = true;
-                    store.at(0).set('check', selectAllState);
-                    this.checkCellTrigerBlock = undefined;
-                }
-
-                listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                    record.set('check', !record.get('check'));
+                // listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 
@@ -255,20 +192,17 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                this.chHeaders.setValue(!!props.asc_getHasHeaders(), true);
-                this.updateColumnsList();
+                this.updateColumnsList(props);
             }
         },
 
         getSettings: function () {
             var store = this.columnsList.store,
-                props = this.props.asc_getColumnList();
+                props = [];
             store.each(function(item, index) {
-                if ('1' == item.get('groupid')) {
-                    props[index-1].asc_setVisible(item.get('check'));
-                }
+                item.get('check') && (props.push(item.get('value')));
             });
-            return this.props;
+            return props;
         },
 
         onBtnClick: function(event) {
@@ -293,11 +227,8 @@ define([
         },
 
         //
-        txtTitle: 'Remove Duplicates',
-        textDescription: 'To delete duplicate values, select one or more columns that contain duplicates.',
-        textHeaders: 'My data has headers',
-        textColumns: 'Columns',
-        textSelectAll: 'Select All'
-        
-    }, SSE.Views.RemoveDuplicatesDialog || {}));
+        txtTitle: 'Insert Slicers',
+        textColumns: 'Columns'
+
+    }, SSE.Views.SlicerAddDialog || {}));
 });
