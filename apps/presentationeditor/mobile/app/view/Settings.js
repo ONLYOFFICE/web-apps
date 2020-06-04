@@ -55,7 +55,8 @@ define([
             canDownload = false,
             canAbout = true,
             canHelp = true,
-            canPrint = false;
+            canPrint = false,
+            isShowMacros = true;
 
         return {
             // el: '.view-main',
@@ -117,6 +118,7 @@ define([
 
                 if (mode.customization) {
                     canHelp = (mode.customization.help!==false);
+                    isShowMacros = (mode.customization.macros!==false);
                 }
             },
 
@@ -129,7 +131,6 @@ define([
                         $layour.find('#settings-readermode').hide();
                         $layour.find('#settings-search .item-title').text(this.textFindAndReplace)
                     } else {
-                        $layour.find('#settings-application').hide();
                         $layour.find('#settings-spellcheck').hide();
                         $layour.find('#settings-presentation-setup').hide();
                         $layour.find('#settings-readermode input:checkbox')
@@ -140,6 +141,7 @@ define([
                     if (!canAbout) $layour.find('#settings-about').hide();
                     if (!canHelp) $layour.find('#settings-help').hide();
                     if (!canPrint) $layour.find('#settings-print').hide();
+                    if (!isShowMacros) $layour.find('#settings-macros').hide();
 
                     return $layour.html();
                 }
@@ -186,6 +188,10 @@ define([
                 this.showPage('#settings-history-view');
             },
 
+            showMacros: function () {
+                this.showPage('#settings-macros-view');
+            },
+
             showHelp: function () {
                 var url = '{{HELP_URL}}';
                 if (url.charAt(url.length-1) !== '/') {
@@ -213,6 +219,10 @@ define([
 
             showSetApp: function () {
                 this.showPage('#settings-application-view');
+                $('.page[data-page=settings-application-view] .page-content > :not(.display-view)').hide();
+                if (isShowMacros) {
+                    $('#settings-macros').single('click', _.bind(this.showMacros, this));
+                }
             },
 
             loadDocument: function (data) {
@@ -295,7 +305,14 @@ define([
             textLastModified: 'Last Modified',
             textLastModifiedBy: 'Last Modified By',
             textUploaded: 'Uploaded',
-            textLocation: 'Location'
+            textLocation: 'Location',
+            textMacrosSettings: 'Macros Settings',
+            textDisableAll: 'Disable All',
+            textDisableAllMacrosWithoutNotification: 'Disable all macros without notification',
+            textShowNotification: 'Show Notification',
+            textDisableAllMacrosWithNotification: 'Disable all macros with notification',
+            textEnableAll: 'Enable All',
+            textEnableAllMacrosWithoutNotification: 'Enable all macros without notification'
         }
     })(), PE.Views.Settings || {}))
 });

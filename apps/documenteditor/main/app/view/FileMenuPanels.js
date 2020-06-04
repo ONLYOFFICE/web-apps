@@ -234,6 +234,16 @@ define([
                     '<td class="left"><label><%= scope.strUnit %></label></td>',
                     '<td class="right"><span id="fms-cmb-unit" /></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strPaste %></label></td>',
+                    '<td class="right"><div id="fms-chb-paste-settings"/></td>',
+                '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="macros">',
+                    '<td class="left"><label><%= scope.strMacrosSettings %></label></td>',
+                    '<td class="right">',
+                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
+                        '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
+                '</tr>','<tr class="divider macros"></tr>',
                 '<tr>',
                     '<td class="left"></td>',
                     '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
@@ -388,6 +398,26 @@ define([
                 ]
             });
 
+            this.cmbMacros = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-macros'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
+                    { value: 0, displayValue: this.txtWarnMacros, descValue: this.txtWarnMacrosDesc },
+                    { value: 1, displayValue: this.txtRunMacros, descValue: this.txtRunMacrosDesc }
+                ]
+            }).on('selected', function(combo, record) {
+                me.lblMacrosDesc.text(record.descValue);
+            });
+            this.lblMacrosDesc = $markup.findById('#fms-lbl-macros');
+
+            this.chPaste = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-paste-settings'),
+                labelText: this.strPasteButton
+            });
+
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-apply')
             });
@@ -425,6 +455,8 @@ define([
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
+
+            $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
         },
 
         updateSettings: function() {
@@ -475,6 +507,12 @@ define([
             this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
             this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
             this.chCompatible.setValue(Common.Utils.InternalSettings.get("de-settings-compatible"));
+
+            item = this.cmbMacros.store.findWhere({value: Common.Utils.InternalSettings.get("de-macros-mode")});
+            this.cmbMacros.setValue(item ? item.get('value') : 0);
+            this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
+
+            this.chPaste.setValue(Common.Utils.InternalSettings.get("de-settings-paste-button"));
         },
 
         applySettings: function() {
@@ -501,6 +539,12 @@ define([
             Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
+
+            Common.localStorage.setItem("de-macros-mode", this.cmbMacros.getValue());
+            Common.Utils.InternalSettings.set("de-macros-mode", Common.localStorage.getItem("de-macros-mode"));
+
+            Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+
             Common.localStorage.save();
 
             if (this.menu) {
@@ -575,7 +619,16 @@ define([
         strResolvedComment: 'Turn on display of the resolved comments',
         textCompatible: 'Compatibility',
         textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX',
-        txtCacheMode: 'Default cache mode'
+        txtCacheMode: 'Default cache mode',
+        strMacrosSettings: 'Macros Settings',
+        txtWarnMacros: 'Show Notification',
+        txtRunMacros: 'Enable All',
+        txtStopMacros: 'Disable All',
+        txtWarnMacrosDesc: 'Disable all macros with notification',
+        txtRunMacrosDesc: 'Enable all macros without notification',
+        txtStopMacrosDesc: 'Disable all macros without notification',
+        strPaste: 'Cut, copy and paste',
+        strPasteButton: 'Show Paste Options button when content is pasted'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

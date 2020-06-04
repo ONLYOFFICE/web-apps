@@ -176,6 +176,7 @@ define([
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-info-view]', '.page[data-page=settings-info-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-about-view]', '.page[data-page=settings-about-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=color-schemes-view]', '.page[data-page=color-schemes-view] .page-content');
+                Common.Utils.addScrollIfNeed('.page[data-page=settings-macros-view]', '.page[data-page=settings-macros-view] .page-content');
 
                 me.initSettings(pageId);
             },
@@ -193,7 +194,23 @@ define([
                     me.initPageColorSchemes();
                 } else if ('#settings-info-view' == pageId) {
                     me.initPageInfo();
+                } else if ('#settings-macros-view' == pageId) {
+                    me.initPageMacrosSettings();
                 }
+            },
+
+            initPageMacrosSettings: function() {
+                var me = this,
+                    $pageMacrosSettings = $('.page[data-page="settings-macros-view"] input:radio[name=macros-settings]'),
+                    value = Common.Utils.InternalSettings.get("pe-mobile-macros-mode") || 0;
+                $pageMacrosSettings.single('change', _.bind(me.onChangeMacrosSettings, me));
+                $pageMacrosSettings.val([value]);
+            },
+
+            onChangeMacrosSettings: function(e) {
+                var value = parseInt($(e.currentTarget).val());
+                Common.Utils.InternalSettings.set("pe-mobile-macros-mode", value);
+                Common.localStorage.setItem("pe-mobile-macros-mode", value);
             },
 
             initPageInfo: function() {

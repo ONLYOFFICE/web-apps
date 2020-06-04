@@ -59,7 +59,8 @@ define([
             _canHelp = true,
             _canPrint = false,
             _canReview = false,
-            _isReviewOnly = false;
+            _isReviewOnly = false,
+            _isShowMacros = true;
 
         return {
             // el: '.view-main',
@@ -120,6 +121,7 @@ define([
 
                 if (mode.customization) {
                     _canHelp = (mode.customization.help!==false);
+                    _isShowMacros = (mode.customization.macros!==false);
                 }
             },
 
@@ -149,6 +151,7 @@ define([
                     if (!_canPrint) $layour.find('#settings-print').hide();
                     if (!_canReview) $layour.find('#settings-review').hide();
                     if (_isReviewOnly) $layour.find('#settings-review').addClass('disabled');
+                    if (!_isShowMacros) $layour.find('#settings-macros').hide();
 
                     return $layour.html();
                 }
@@ -332,7 +335,14 @@ define([
             textUploaded: 'Uploaded',
             textLastModified: 'Last Modified',
             textLastModifiedBy: 'Last Modified By',
-            textCreated: 'Created'
+            textCreated: 'Created',
+            textMacrosSettings: 'Macros Settings',
+            textDisableAll: 'Disable All',
+            textDisableAllMacrosWithoutNotification: 'Disable all macros without notification',
+            textShowNotification: 'Show Notification',
+            textDisableAllMacrosWithNotification: 'Disable all macros with notification',
+            textEnableAll: 'Enable All',
+            textEnableAllMacrosWithoutNotification: 'Enable all macros without notification'
 
 
     }

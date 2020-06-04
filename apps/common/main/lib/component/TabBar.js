@@ -225,7 +225,7 @@ define([
                         }
                     }
                 }
-                !tab.disabled && Common.NotificationCenter.trigger('edit:complete', this.bar);
+                !tab.disabled && Common.NotificationCenter.trigger('edit:complete', 'tab');
             }, this),
             dblclick: $.proxy(function() {
                 this.trigger('tab:dblclick', this, this.tabs.indexOf(tab), tab);
