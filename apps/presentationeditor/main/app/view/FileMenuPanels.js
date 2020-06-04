@@ -208,6 +208,10 @@ define([
                     '<td class="left"><label><%= scope.strUnit %></label></td>',
                     '<td class="right"><span id="fms-cmb-unit" /></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strPaste %></label></td>',
+                    '<td class="right"><div id="fms-chb-paste-settings"/></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="macros">',
                     '<td class="left"><label><%= scope.strMacrosSettings %></label></td>',
                     '<td class="right">',
@@ -352,6 +356,11 @@ define([
             });
             this.lblMacrosDesc = $markup.findById('#fms-lbl-macros');
 
+            this.chPaste = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-paste-settings'),
+                labelText: this.strPasteButton
+            });
+
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-apply')
             });
@@ -435,6 +444,8 @@ define([
             item = this.cmbMacros.store.findWhere({value: Common.Utils.InternalSettings.get("pe-macros-mode")});
             this.cmbMacros.setValue(item ? item.get('value') : 0);
             this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
+
+            this.chPaste.setValue(Common.Utils.InternalSettings.get("pe-settings-paste-button"));
         },
 
         applySettings: function() {
@@ -458,6 +469,8 @@ define([
 
             Common.localStorage.setItem("pe-macros-mode", this.cmbMacros.getValue());
             Common.Utils.InternalSettings.set("pe-macros-mode", Common.localStorage.getItem("pe-macros-mode"));
+
+            Common.localStorage.setItem("pe-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
 
             Common.localStorage.save();
 
@@ -520,7 +533,9 @@ define([
         txtStopMacros: 'Disable All',
         txtWarnMacrosDesc: 'Disable all macros with notification',
         txtRunMacrosDesc: 'Enable all macros without notification',
-        txtStopMacrosDesc: 'Disable all macros without notification'
+        txtStopMacrosDesc: 'Disable all macros without notification',
+        strPaste: 'Cut, copy and paste',
+        strPasteButton: 'Show Paste Options button when content is pasted'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

@@ -1268,6 +1268,8 @@
   "PE.Views.FileMenuPanels.Settings.txtWarnMacrosDesc": "Disable all macros with notification",
   "PE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Enable all macros without notification",
   "PE.Views.FileMenuPanels.Settings.txtStopMacrosDesc": "Disable all macros without notification",
+  "PE.Views.FileMenuPanels.Settings.strPaste": "Cut, copy and paste",
+  "PE.Views.FileMenuPanels.Settings.strPasteButton": "Show Paste Options button when content is pasted",
   "PE.Views.HeaderFooterDialog.applyAllText": "Apply to all",
   "PE.Views.HeaderFooterDialog.applyText": "Apply",
   "PE.Views.HeaderFooterDialog.diffLanguage": "You can’t use a date format in a different language than the slide master.<br>To change the master, click 'Apply to all' instead of 'Apply'",

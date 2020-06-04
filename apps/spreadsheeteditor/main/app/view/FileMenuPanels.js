@@ -1201,7 +1201,7 @@ define([
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
         strPaste: 'Cut, copy and paste',
-        strPasteButton: 'Show Paste Option button when content is pasted'
+        strPasteButton: 'Show Paste Options button when content is pasted'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
