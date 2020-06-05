@@ -55,22 +55,22 @@ define([
                 '<div class="group">' +
                     '<span id="slot-btn-add-pivot" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span id="slot-btn-pivot-report-layout" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-pivot-blank-rows" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-pivot-subtotals" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-pivot-grand-totals" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span id="slot-btn-refresh-pivot" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span id="slot-btn-select-pivot" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<div class="elset">' +
                         '<span class="btn-slot text" id="slot-chk-header-row"></span>' +

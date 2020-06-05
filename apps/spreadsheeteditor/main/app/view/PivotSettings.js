@@ -108,7 +108,7 @@ define([
                     '<div>',
                     '<label class="checkbox-indeterminate" style="position:absolute;">',
                         '<input id="pvcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                        '<label for="pvcheckbox-<%= id %>" class="checkbox__shape" />',
+                        '<label for="pvcheckbox-<%= id %>" class="checkbox__shape"></label>',
                     '</label>',
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;"><span style="background-color: transparent;"><%= Common.Utils.String.htmlEncode(value) %></span></div>',
                     '<div class="listitem-icon img-commonctrl"></div>',

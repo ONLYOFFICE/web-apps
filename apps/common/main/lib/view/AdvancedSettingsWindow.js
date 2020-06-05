@@ -62,10 +62,10 @@ define([
                         '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
                     '<% }); %>',
                     '</div>',
-                    '<div class="separator"/>',
+                    '<div class="separator"></div>',
                     '<div class="content-panel" >' + _options.contentTemplate + '</div>',
                 '</div>',
-                '<div class="separator horizontal"/>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);

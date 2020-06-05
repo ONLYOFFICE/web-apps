@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="tool-menu-btns">
-        <div class="ct-btn-category arrow-left" />
+        <div class="ct-btn-category arrow-left"></div>
         <button id="id-right-menu-cell" class="btn btn-category arrow-left" content-target="id-cell-settings"><i class="icon toolbar__icon btn-menu-cell">&nbsp;</i></button>
         <button id="id-right-menu-table" class="btn btn-category arrow-left" content-target="id-table-settings"><i class="icon toolbar__icon btn-menu-table">&nbsp;</i></button>
         <button id="id-right-menu-shape" class="btn btn-category arrow-left" content-target="id-shape-settings"><i class="icon toolbar__icon btn-menu-shape">&nbsp;</i></button>

@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="tool-menu-btns">
-        <div class="ct-btn-category arrow-left" />
+        <div class="ct-btn-category arrow-left"></div>
         <button id="id-right-menu-text" class="btn btn-category arrow-left" content-target="id-paragraph-settings"><i class="icon toolbar__icon btn-paragraph">&nbsp;</i></button>
         <button id="id-right-menu-table" class="btn btn-category arrow-left" content-target="id-table-settings"><i class="icon toolbar__icon btn-menu-table">&nbsp;</i></button>
         <button id="id-right-menu-image" class="btn btn-category arrow-left" content-target="id-image-settings"><i class="icon toolbar__icon btn-menu-image">&nbsp;</i></button>

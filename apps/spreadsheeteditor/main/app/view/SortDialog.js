@@ -116,7 +116,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
-            var span = $('<span style="position: absolute; visibility: hidden;"/>');
+            var span = $('<span style="position: absolute; visibility: hidden;"></span>');
             me.$window.append(span);
             span.text(this.textSortBy);
             var captionWidth = span.width();

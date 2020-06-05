@@ -70,7 +70,7 @@ define([
                         '<div id="custom-columns-separator"></div>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal"/>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);

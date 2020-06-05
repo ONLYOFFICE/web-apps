@@ -88,7 +88,7 @@ define([
                         'placeholder="<%= placeHolder %>" ',
                         'value="<%= value %>"',
                     '>',
-                    '<span class="input-error"/>',
+                    '<span class="input-error"></span>',
                 '</div>'
             ].join('')),
 
@@ -414,7 +414,7 @@ define([
                         'placeholder="<%= placeHolder %>" ',
                         'value="<%= value %>"',
                     '>',
-                    '<span class="input-error"/>',
+                    '<span class="input-error"></span>',
                     '<div class="select-button">' +
                         '<button type="button" class="btn btn-toolbar"><i class="icon toolbar__icon <%= iconCls %>"></i></button>' +
                     '</div>',

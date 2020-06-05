@@ -95,7 +95,7 @@ define([
         value       : 'unchecked',
 
         template    : _.template('<label class="checkbox-indeterminate"><input id="<%= id %>" type="checkbox" class="checkbox__native">' +
-                                    '<label for="<%= id %>" class="checkbox__shape" /><span><%= labelText %></span></label>'),
+                                    '<label for="<%= id %>" class="checkbox__shape"></label><span><%= labelText %></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);

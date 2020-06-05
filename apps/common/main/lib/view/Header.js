@@ -104,7 +104,7 @@ define([
                         '</section>';
 
         var templateLeftBox = '<section class="logo">' +
-                                '<div id="header-logo"><i /></div>' +
+                                '<div id="header-logo"><i></i></div>' +
                             '</section>';
 
         var templateTitleBox = '<section id="box-document-title">' +

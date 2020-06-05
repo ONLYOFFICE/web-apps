@@ -60,7 +60,7 @@ define([
                 '<div id="id-diagram-editor-container" class="box" style="height:' + (_options.height-85) + 'px;">',
                     '<div id="id-diagram-editor-placeholder" style="width: 100%;height: 100%;"></div>',
                 '</div>',
-                '<div class="separator horizontal"/>',
+                '<div class="separator horizontal"></div>',
                 '<div class="footer" style="text-align: center;">',
                     '<button id="id-btn-diagram-editor-apply" class="btn normal dlg-btn primary custom" result="ok">' + this.textSave + '</button>',
                     '<button id="id-btn-diagram-editor-cancel" class="btn normal dlg-btn" result="cancel">' + this.textClose + '</button>',

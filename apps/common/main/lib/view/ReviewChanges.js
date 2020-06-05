@@ -61,12 +61,12 @@ define([
                     '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long sharing"/>' +
+                '<div class="separator long sharing"></div>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-comment"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-comment-remove"></span>' +
                 '</div>' +
-                '<div class="separator long comments"/>' +
+                '<div class="separator long comments"></div>' +
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                 '</div>' +
@@ -79,15 +79,15 @@ define([
                     '<span id="btn-change-accept" class="btn-slot text x-huge"></span>' +
                     '<span id="btn-change-reject" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long review"/>' +
+                '<div class="separator long review"></div>' +
                 '<div class="group">' +
                     '<span id="btn-compare" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long compare"/>' +
+                '<div class="separator long compare"></div>' +
                 '<div class="group no-group-mask">' +
                     '<span id="slot-btn-chat" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long chat"/>' +
+                '<div class="separator long chat"></div>' +
                 '<div class="group no-group-mask">' +
                     '<span id="slot-btn-history" class="btn-slot text x-huge"></span>' +
                 '</div>' +
