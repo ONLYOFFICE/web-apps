@@ -91,10 +91,13 @@ define([
             },
 
             initEvents: function () {
-                this.view.hideInsertComments = this.isHideInsertComment();
+                this.setDisableMenuItem();
             },
 
-            isHideInsertComment: function() {
+            setDisableMenuItem: function() {
+                var isDisableComment = true,
+                    isDisableBreak = false,
+                    isDisableFootnote = false;
                 var stack = this.api.getSelectedElements();
                 var isText = false,
                     isTable = false,
@@ -133,9 +136,14 @@ define([
                 });
                 if (stack.length > 0) {
                     var isObject = isShape || isChart || isImage || isTable;
-                    return  (this.api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject));
+                    isDisableComment = (this.api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject));
+                    if (isShape && isText) {
+                        isDisableBreak = isDisableFootnote = true;
+                    }
                 }
-                return true;
+                this.view.isDisableComment = isDisableComment;
+                this.view.isDisableBreak = isDisableBreak;
+                this.view.isDisableFootnote = isDisableFootnote;
             },
 
             onPageShow: function (view, pageId) {
@@ -194,7 +202,7 @@ define([
             },
 
             onDoneComment: function(documentFlag) {
-                var value = $('#comment-text').val();
+                var value = $('#comment-text').val().trim();
                 if (value.length > 0) {
                     DE.getController('Common.Controllers.Collaboration').onAddNewComment(value, documentFlag);
                     DE.getController('AddContainer').hideModal();

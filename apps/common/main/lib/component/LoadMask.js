@@ -167,7 +167,7 @@ define([
             },
 
             isVisible: function() {
-                return !_.isEmpty(loaderEl);
+                return !!ownerEl.ismasked;
             },
 
             updatePosition: function() {

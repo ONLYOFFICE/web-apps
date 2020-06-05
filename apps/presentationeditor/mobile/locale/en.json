@@ -252,6 +252,10 @@
   "PE.Controllers.Main.warnNoLicense": "This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.",
   "PE.Controllers.Main.warnNoLicenseUsers": "This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.",
   "PE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "PE.Controllers.Main.textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
+  "PE.Controllers.Main.textRemember": "Remember my choice",
+  "PE.Controllers.Main.textYes": "Yes",
+  "PE.Controllers.Main.textNo": "No",
   "PE.Controllers.Search.textNoTextFound": "Text not Found",
   "PE.Controllers.Search.textReplaceAll": "Replace All",
   "PE.Controllers.Settings.notcriticalErrorTitle": "Warning",
@@ -547,5 +551,12 @@
   "PE.Views.Settings.textUploaded": "Uploaded",
   "PE.Views.Settings.textVersion": "Version",
   "PE.Views.Settings.unknownText": "Unknown",
+  "PE.Views.Settings.textMacrosSettings": "Macros Settings",
+  "PE.Views.Settings.textDisableAll": "Disable All",
+  "PE.Views.Settings.textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
+  "PE.Views.Settings.textShowNotification": "Show Notification",
+  "PE.Views.Settings.textDisableAllMacrosWithNotification": "Disable all macros with notification",
+  "PE.Views.Settings.textEnableAll": "Enable All",
+  "PE.Views.Settings.textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
   "PE.Views.Toolbar.textBack": "Back"
 }

@@ -68,13 +68,23 @@ define([
 
                 $('#add-other-link').single('click',        _.bind(me.showLink, me));
                 $('#add-other-pagenumber').single('click',  _.bind(me.showPagePosition, me));
-                $('#add-other-footnote').single('click',    _.bind(me.showPageFootnote, me));
-                $('#add-other-break').single('click',       _.bind(me.showPageBreak, me));
-                if (this.hideInsertComments) {
-                    $('#item-comment').hide();
+                if (this.isDisableComment) {
+                    $('#item-comment').addClass('disabled');
                 } else {
-                    $('#item-comment').show();
+                    $('#item-comment').removeClass('disabled');
                     $('#add-other-comment').single('click',     _.bind(me.showPageComment, me));
+                }
+                if (this.isDisableBreak) {
+                    $('#item-break').addClass('disabled');
+                } else {
+                    $('#item-break').removeClass('disabled');
+                    $('#add-other-break').single('click',       _.bind(me.showPageBreak, me));
+                }
+                if (this.isDisableFootnote) {
+                    $('#item-footnote').addClass('disabled');
+                } else {
+                    $('#item-footnote').removeClass('disabled');
+                    $('#add-other-footnote').single('click',    _.bind(me.showPageFootnote, me));
                 }
 
                 me.initControls();

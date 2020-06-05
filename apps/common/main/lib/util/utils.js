@@ -105,7 +105,8 @@ Common.Utils = _.extend(new(function() {
             MailMerge  : 8,
             Signature  : 9,
             Pivot      : 10,
-            Cell       : 11
+            Cell       : 11,
+            Slicer     : 12
         },
         importTextType = {
             DRM: 0,

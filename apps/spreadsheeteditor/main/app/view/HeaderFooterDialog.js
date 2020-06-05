@@ -770,9 +770,7 @@ define([
             }
 
             if (event) {
-                var parent = $(event.currentTarget).parent(),
-                    offset = parent.offset();
-                this.HFObject.click(id, event.pageX*Common.Utils.zoom() - offset.left, event.pageY*Common.Utils.zoom() - offset.top + parent.scrollTop());
+                this.HFObject.click(id, event.pageX, event.pageY);
             } else
                 this.HFObject.click(id);
 

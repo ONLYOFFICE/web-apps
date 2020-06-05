@@ -59,6 +59,7 @@ define([
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
+    'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/CellsAddDialog'
 ], function () { 'use strict';
 
@@ -329,6 +330,7 @@ define([
                 toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
                 toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
                 toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
+                toolbar.btnInsertSlicer.on('click',                         _.bind(this.onInsertSlicerClick, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
@@ -785,22 +787,12 @@ define([
         },
 
         onTextOrientationMenu: function(menu, item) {
-            if (this.api.asc_getCellInfo().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeShapeText) {
-                var angle = Asc.c_oAscVertDrawingText.normal;
-                switch (item.value) {
-                    case 'rotateup':    angle =  Asc.c_oAscVertDrawingText.vert270;    break;
-                    case 'rotatedown':  angle = Asc.c_oAscVertDrawingText.vert;    break;
-                }
-
-                var properties = new Asc.asc_CImgProperty();
-                properties.asc_putVert(angle);
-                this.api.asc_setGraphicObjectProps(properties);
-            } else {
                 var angle = 0;
 
                 switch (item.value) {
                     case 'countcw':     angle =  45;    break;
                     case 'clockwise':   angle = -45;    break;
+                    case 'vertical':    angle =  255;    break;
                     case 'rotateup':    angle =  90;    break;
                     case 'rotatedown':  angle = -90;    break;
                 }
@@ -808,7 +800,6 @@ define([
                 this._state.angle = undefined;
                 if (this.api)
                     this.api.asc_setCellAngle(angle);
-            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Text orientation');
@@ -1237,7 +1228,7 @@ define([
                     (new SSE.Views.NamedRangePasteDlg({
                         handler: function(result, settings) {
                             if (result == 'ok' && settings) {
-                                me.api.asc_insertFormula(settings.asc_getName(true), settings.asc_getIsTable() ? Asc.c_oAscPopUpSelectorType.Table : Asc.c_oAscPopUpSelectorType.Range, false);
+                                me.api.asc_insertInCell(settings.asc_getName(true), settings.asc_getIsTable() ? Asc.c_oAscPopUpSelectorType.Table : Asc.c_oAscPopUpSelectorType.Range, false);
                                 Common.component.Analytics.trackEvent('ToolBar', 'Paste Named Range');
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2289,6 +2280,7 @@ define([
                     need_disable = (fontparam == AscCommon.align_Justify || selectionType == Asc.c_oAscSelectionType.RangeShapeText || selectionType == Asc.c_oAscSelectionType.RangeShape);
                     toolbar.btnTextOrient.menu.items[1].setDisabled(need_disable);
                     toolbar.btnTextOrient.menu.items[2].setDisabled(need_disable);
+                    toolbar.btnTextOrient.menu.items[3].setDisabled(need_disable);
 
                     /* read cell vertical align */
                     fontparam = xfs.asc_getVertAlign();
@@ -2367,6 +2359,7 @@ define([
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
                 toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsClearAutofilter, toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort,
                                                                                           toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates)});
+                toolbar.lockToolbar(SSE.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
                 need_disable = !this.appConfig.canModifyFilter;
                 toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnTableTemplate,
@@ -2391,8 +2384,9 @@ define([
                 switch(val) {
                     case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
                     case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
-                    case 90:    toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
-                    case -90:   toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
+                    case 255:   toolbar.btnTextOrient.menu.items[3].setChecked(true, true); break;
+                    case 90:    toolbar.btnTextOrient.menu.items[4].setChecked(true, true); break;
+                    case -90:   toolbar.btnTextOrient.menu.items[5].setChecked(true, true); break;
                     case 0:     toolbar.btnTextOrient.menu.items[0].setChecked(true, true); break;
                 }
                 this._state.angle = val;
@@ -2814,6 +2808,22 @@ define([
             }
         },
 
+        onInsertSlicerClick: function() {
+            var me = this,
+                props = me.api.asc_beforeInsertSlicer();
+            if (props) {
+                (new SSE.Views.SlicerAddDialog({
+                    props: props,
+                    handler: function (result, settings) {
+                        if (me && me.api && result == 'ok') {
+                            me.api.asc_insertSlicer(settings);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            }
+        },
+
         onApiMathTypes: function(equation) {
             this._equationTemp = equation;
             var me = this;
@@ -3117,8 +3127,8 @@ define([
             var me = this;
 
             Common.NotificationCenter.on({
-                'edit:complete': function () {
-                    if (me.api && me.modeAlwaysSetStyle) {
+                'edit:complete': function (cmp) {
+                    if (me.api && me.modeAlwaysSetStyle && cmp!=='tab') {
                         me.api.asc_formatPainter(AscCommon.c_oAscFormatPainterState.kOff);
                         me.toolbar.btnCopyStyle.toggle(false, true);
                         me.modeAlwaysSetStyle = false;

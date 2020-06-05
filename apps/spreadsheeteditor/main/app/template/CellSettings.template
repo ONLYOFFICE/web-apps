@@ -100,9 +100,24 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-small" colspan=2>
+        <td class="padding-large" colspan=2>
             <label class="input-label"><%= scope.textAngle %></label>
             <div id="cell-spin-angle" style="display: inline-block;margin-left:5px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <label class="header"><%= scope.textControl %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="cell-checkbox-wrap"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="cell-checkbox-shrink"></div>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

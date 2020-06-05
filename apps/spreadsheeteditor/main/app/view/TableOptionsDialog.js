@@ -149,11 +149,10 @@ define([
                 return { selectionType: this.selectionType,  range: this.inputRange.getValue()};
         },
 
-        onApiRangeChanged: function(info) {
-            this.inputRange.setValue(info.asc_getName());
+        onApiRangeChanged: function(name) {
+            this.inputRange.setValue(name);
             if (this.inputRange.cmpEl.hasClass('error'))
                 this.inputRange.cmpEl.removeClass('error');
-            this.selectionType = info.asc_getType();
         },
 
         isRangeValid: function() {
@@ -174,6 +173,9 @@ define([
                     case Asc.c_oAscError.ID.MultiCellsInTablesFormulaArray:
                         Common.UI.warning({msg: this.errorMultiCellFormula});
                         break;
+                    case Asc.c_oAscError.ID.LargeRangeWarning:
+                        this.selectionType = Asc.c_oAscSelectionType.RangeMax;
+                        return true;
                 }
             }
             return false;

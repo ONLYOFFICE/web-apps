@@ -476,7 +476,6 @@
             <div class="page-content">
                 <div class="content-block-title"><%= scope.textUnitOfMeasurement %></div>
                 <div class="list-block">
-
                     <ul>
                         <li>
                             <label class="label-radio item-content">
@@ -522,6 +521,19 @@
                         </div>
                     </ul>
                 </div>
+                <div class="list-block display-view">
+                    <ul>
+                        <li>
+                            <a id="settings-macros" class="item-link item-content" data-page="#settings-macros-view">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title"><%= scope.textMacrosSettings %></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                   </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -541,6 +553,57 @@
                 <div id="color-schemes-content" class="list-block">
                     <ul></ul>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Macros Settings view -->
+<div id="settings-macros-view">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><% if (!android) { %><span><%= scope.textBack %></span><% } %></a></div>
+            <div class="center sliding"><%= scope.textMacrosSettings %></div>
+        </div>
+    </div>
+    <div class="pages">
+        <div class="page page-macros-settings" data-page="settings-macros-view">
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        <li class="media-item">
+                            <label class="label-radio item-content">
+                                <input type="radio" name="macros-settings" value="2">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textDisableAll %></div>
+                                    <div class="item-subtitle"><%= scope.textDisableAllMacrosWithoutNotification %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li class="media-item">
+                            <label class="label-radio item-content">
+                                <input type="radio" name="macros-settings" value="0">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textShowNotification %></div>
+                                    <div class="item-subtitle"><%= scope.textDisableAllMacrosWithNotification %></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li class="media-item">
+                            <label class="label-radio item-content">
+                                <input type="radio" name="macros-settings" value="1">
+                                <% if (android) { %><div class="item-media"><i class="icon icon-form-radio"></i></div><% } %>
+                                <div class="item-inner">
+                                    <div class="item-title"><%= scope.textEnableAll %></div>
+                                    <div class="item-subtitle"><%= scope.textEnableAllMacrosWithoutNotification %></div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>

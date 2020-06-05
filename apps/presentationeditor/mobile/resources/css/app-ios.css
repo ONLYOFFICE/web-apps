@@ -6559,17 +6559,6 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   padding: 16px 0;
   word-wrap: break-word;
 }
-.page-comments p,
-.add-comment p,
-.page-view-comments p,
-.container-edit-comment p,
-.container-add-reply p,
-.page-edit-comment p,
-.page-add-reply p,
-.page-edit-reply p {
-  margin: 0;
-  word-break: break-word;
-}
 .page-comments .list-reply,
 .add-comment .list-reply,
 .page-view-comments .list-reply,
@@ -6664,6 +6653,24 @@ html.pixel-ratio-3 .document-menu .list-block li:last-child li .item-inner:after
   margin: 0;
   max-width: 100%;
   padding-right: 15px;
+}
+.page-comments .comment-text pre,
+.add-comment .comment-text pre,
+.page-view-comments .comment-text pre,
+.container-edit-comment .comment-text pre,
+.container-add-reply .comment-text pre,
+.page-edit-comment .comment-text pre,
+.page-add-reply .comment-text pre,
+.page-edit-reply .comment-text pre,
+.page-comments .reply-text pre,
+.add-comment .reply-text pre,
+.page-view-comments .reply-text pre,
+.container-edit-comment .reply-text pre,
+.container-add-reply .reply-text pre,
+.page-edit-comment .reply-text pre,
+.page-add-reply .reply-text pre,
+.page-edit-reply .reply-text pre {
+  white-space: pre-wrap;
 }
 .page-comments .reply-item,
 .add-comment .reply-item,
@@ -7744,4 +7751,11 @@ html.pixel-ratio-3 .numbers li {
 }
 .doc-placeholder .slide-container > .line.empty {
   background: transparent;
+}
+.page-macros-settings[data-page="settings-macros-view"] .list-block li.media-item .item-title {
+  font-weight: normal;
+}
+.page-macros-settings[data-page="settings-macros-view"] .list-block li.media-item .item-subtitle {
+  font-size: 14px;
+  color: #8e8e93;
 }

@@ -58,6 +58,7 @@ define([
     'spreadsheeteditor/main/app/view/PivotSettings',
     'spreadsheeteditor/main/app/view/SignatureSettings',
     'spreadsheeteditor/main/app/view/CellSettings',
+    'spreadsheeteditor/main/app/view/SlicerSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -143,6 +144,14 @@ define([
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
+            this.btnSlicer = new Common.UI.Button({
+                hint: this.txtSlicerSettings,
+                asctype: Common.Utils.documentSettingsType.Slicer,
+                enableToggle: true,
+                disabled: true,
+                toggleGroup: 'tabpanelbtnsGroup',
+                allowMouseEventsOnDisabled: true
+            });
 
             this._settings = [];
             this._settings[Common.Utils.documentSettingsType.Paragraph]   = {panel: "id-paragraph-settings",  btn: this.btnText};
@@ -153,6 +162,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Table]       = {panel: "id-table-settings",      btn: this.btnTable};
             this._settings[Common.Utils.documentSettingsType.Pivot]       = {panel: "id-pivot-settings",      btn: this.btnPivot};
             this._settings[Common.Utils.documentSettingsType.Cell]        = {panel: "id-cell-settings",       btn: this.btnCell};
+            this._settings[Common.Utils.documentSettingsType.Slicer]      = {panel: "id-slicer-settings",     btn: this.btnSlicer};
 
             return this;
         },
@@ -178,6 +188,7 @@ define([
             this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
             this.btnPivot.setElement($('#id-right-menu-pivot'), false);         this.btnPivot.render();
             this.btnCell.setElement($('#id-right-menu-cell'), false);           this.btnCell.render();
+            this.btnSlicer.setElement($('#id-right-menu-slicer'), false);       this.btnSlicer.render();
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnImage.on('click',           _.bind(this.onBtnMenuClick, this));
@@ -187,6 +198,7 @@ define([
             this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnPivot.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnCell.on('click',           _.bind(this.onBtnMenuClick, this));
+            this.btnSlicer.on('click',         _.bind(this.onBtnMenuClick, this));
 
             this.paragraphSettings = new SSE.Views.ParagraphSettings();
             this.imageSettings = new SSE.Views.ImageSettings();
@@ -196,6 +208,7 @@ define([
             this.tableSettings = new SSE.Views.TableSettings();
             this.pivotSettings = new SSE.Views.PivotSettings();
             this.cellSettings = new SSE.Views.CellSettings();
+            this.slicerSettings = new SSE.Views.SlicerSettings();
 
             if (mode && mode.isSignatureSupport) {
                 this.btnSignature = new Common.UI.Button({
@@ -244,6 +257,7 @@ define([
             this.tableSettings.setApi(api);
             this.pivotSettings.setApi(api);
             this.cellSettings.setApi(api);
+            this.slicerSettings.setApi(api);
             if (this.signatureSettings) this.signatureSettings.setApi(api);
             return this;
         },
@@ -329,6 +343,7 @@ define([
         txtTableSettings:           'Table Settings',
         txtPivotSettings:           'Pivot Table Settings',
         txtSignatureSettings:       'Signature Settings',
-        txtCellSettings:            'Cell Settings'
+        txtCellSettings:            'Cell Settings',
+        txtSlicerSettings:          'Slicer Settings'
     }, SSE.Views.RightMenu || {}));
 });

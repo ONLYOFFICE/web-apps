@@ -389,6 +389,10 @@ define([
                 value = parseInt(Common.localStorage.getItem("sse-settings-autosave"));
                 Common.Utils.InternalSettings.set("sse-settings-autosave", value);
                 this.api.asc_setAutoSaveGap(value);
+
+                value = parseInt(Common.localStorage.getItem("sse-settings-paste-button"));
+                Common.Utils.InternalSettings.set("sse-settings-paste-button", value);
+                this.api.asc_setVisiblePasteButton(!!value);
             }
 
             var reg = Common.localStorage.getItem("sse-settings-reg-settings"),

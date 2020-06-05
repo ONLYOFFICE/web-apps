@@ -429,6 +429,22 @@ define([
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
             this.spnAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
+            this.chWrap = new Common.UI.CheckBox({
+                el: $('#cell-checkbox-wrap'),
+                labelText: this.strWrap,
+                disabled: this._locked
+            });
+            this.lockedControls.push(this.chWrap);
+            this.chWrap.on('change', this.onWrapChange.bind(this));
+
+            this.chShrink = new Common.UI.CheckBox({
+                el: $('#cell-checkbox-shrink'),
+                labelText: this.strShrink,
+                disabled: this._locked
+            });
+            this.lockedControls.push(this.chShrink);
+            this.chShrink.on('change', this.onShrinkChange.bind(this));
         },
 
         createDelayedElements: function() {
@@ -449,9 +465,24 @@ define([
                 var xfs = props.asc_getXfs(),
                     value = xfs.asc_getAngle();
                 if (Math.abs(this._state.CellAngle - value) > 0.1 || (this._state.CellAngle === undefined) && (this._state.CellAngle !== value)) {
-                    this.spnAngle.setValue((value !== null) ? value : '', true);
+                    this.spnAngle.setValue((value !== null) ? (value==255 ? 0 : value) : '', true);
                     this._state.CellAngle = value;
                 }
+
+                value = xfs.asc_getWrapText();
+                if ( this._state.Wrap!==value ) {
+                    this.chWrap.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                    this._state.Wrap=value;
+                }
+                this.chWrap.setDisabled(xfs.asc_getHorAlign() == AscCommon.align_Justify || this._locked);
+
+                value = xfs.asc_getShrinkToFit();
+                if ( this._state.Shrink!==value ) {
+                    this.chShrink.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+                    this._state.Shrink=value;
+                }
+                this.chShrink.setDisabled((this.chWrap.getValue()=='checked') || this._locked);
+
                 this.fill = xfs.asc_getFill();
                 if (this.fill) {
                     this.pattern = this.fill.asc_getPatternFill();
@@ -1127,6 +1158,19 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        onWrapChange: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply)
+                this.api.asc_setCellTextWrap((field.getValue()=='checked'));
+            this.chShrink.setDisabled((field.getValue()=='checked') || this._locked);
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
+        onShrinkChange: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply)
+                this.api.asc_setCellTextShrink((field.getValue()=='checked'));
+            Common.NotificationCenter.trigger('edit:complete', this);
+        },
+
         textBorders:        'Border\'s Style',
         textBorderColor:    'Color',
         textBackColor:      'Background color',
@@ -1156,7 +1200,10 @@ define([
         textPattern:        'Pattern',
         textForeground:     'Foreground color',
         textBackground:     'Background color',
-        textGradient:       'Gradient'
+        textGradient:       'Gradient',
+        textControl: 'Text Control',
+        strWrap: 'Wrap text',
+        strShrink: 'Shrink to fit'
 
     }, SSE.Views.CellSettings || {}));
 });

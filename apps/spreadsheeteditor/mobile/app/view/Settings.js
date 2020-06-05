@@ -54,7 +54,8 @@ define([
             canDownload = false,
             canAbout = true,
             canHelp = true,
-            canPrint = false;
+            canPrint = false,
+            isShowMacros = true;
 
         return {
             // el: '.view-main',
@@ -126,6 +127,7 @@ define([
 
                 if (mode.customization) {
                     canHelp = (mode.customization.help!==false);
+                    isShowMacros = (mode.customization.macros!==false);
                 }
             },
 
@@ -143,6 +145,7 @@ define([
                     if (!canAbout) $layout.find('#settings-about').hide();
                     if (!canHelp) $layout.find('#settings-help').hide();
                     if (!canPrint) $layout.find('#settings-print').hide();
+                    if (!isShowMacros) $layour.find('#settings-macros').hide();
 
                     return $layout.html();
                 }
@@ -173,12 +176,19 @@ define([
                 }
             },
 
+            showMacros: function () {
+                this.showPage('#settings-macros-view');
+            },
+
             showSetApp: function() {
                 this.showPage('#settings-application-view');
                 $('#language-formula').single('click', _.bind(this.showFormulaLanguage, this));
                 $('#regional-settings').single('click', _.bind(this.showRegionalSettings, this));
                 if (!isEdit) {
                     $('.page[data-page=settings-application-view] .page-content > :not(.display-view)').hide();
+                }
+                if (isShowMacros) {
+                    $('#settings-macros').single('click', _.bind(this.showMacros, this));
                 }
             },
 
@@ -421,7 +431,14 @@ define([
             textLastModified: 'Last Modified',
             textLastModifiedBy: 'Last Modified By',
             textUploaded: 'Uploaded',
-            textLocation: 'Location'
+            textLocation: 'Location',
+            textMacrosSettings: 'Macros Settings',
+            textDisableAll: 'Disable All',
+            textDisableAllMacrosWithoutNotification: 'Disable all macros without notification',
+            textShowNotification: 'Show Notification',
+            textDisableAllMacrosWithNotification: 'Disable all macros with notification',
+            textEnableAll: 'Enable All',
+            textEnableAllMacrosWithoutNotification: 'Enable all macros without notification'
     }
     })(), SSE.Views.Settings || {}))
 });
