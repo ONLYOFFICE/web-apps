@@ -365,7 +365,7 @@ define([
                     '<div id="id-plugin-placeholder" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<% if ((typeof buttons !== "undefined") && _.size(buttons) > 0) { %>',
-                    '<div class="separator horizontal"/>',
+                    '<div class="separator horizontal"></div>',
                 '<% } %>'
             ].join('');
 

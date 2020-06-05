@@ -79,7 +79,7 @@ define([
                     '</div>',
                     '<div id="copy-warning-checkbox" style="margin-top: 20px; text-align: left;"></div>',
                 '</div>',
-                '<div class="separator horizontal"/>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);

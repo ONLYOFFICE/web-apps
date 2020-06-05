@@ -120,7 +120,7 @@ define([
                             '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>'
+                    '<div class="separator horizontal"></div>'
                 ].join('')
             }, options);
 

@@ -311,7 +311,7 @@ define([
         },
 
         tabs: [],
-        template: _.template('<ul id="statusbar_bottom" class="nav nav-tabs <%= placement %>"/>'),
+        template: _.template('<ul id="statusbar_bottom" class="nav nav-tabs <%= placement %>"></ul>'),
         selectTabs: [],
 
         initialize : function (options) {

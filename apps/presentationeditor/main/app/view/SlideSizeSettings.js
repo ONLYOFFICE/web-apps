@@ -81,7 +81,7 @@ define([
                     '</div>',
                     '<div id="slide-orientation-combo" class="" style="margin-bottom: 10px;"></div>',
                 '</div>',
-                '<div class="separator horizontal"/>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
