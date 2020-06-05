@@ -1499,6 +1499,9 @@ define([
                         config.msg = this.errorFTRangeIncludedOtherTables;
                         break;
 
+                    case  Asc.c_oAscError.ID.PasteSlicerError:
+                        config.msg = this.errorPasteSlicerError;
+                        break;
 
                     case Asc.c_oAscError.ID.RemoveDuplicates:
                         config.iconCls = 'info';
@@ -2605,7 +2608,8 @@ define([
             txtClearFilter: 'Clear Filter (Alt+C)',
             txtBlank: '(blank)',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
-            textRemember: 'Remember my choice'
+            textRemember: 'Remember my choice',
+            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.'
         }
     })(), SSE.Controllers.Main || {}))
 });

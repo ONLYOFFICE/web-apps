@@ -752,6 +752,7 @@
   "DE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
   "DE.Controllers.Main.textHasMacros": "The file contains automatic macros.<br>Do you want to run macros?",
   "DE.Controllers.Main.textRemember": "Remember my choice",
+  "DE.Controllers.Main.errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
   "DE.Controllers.Navigation.txtBeginning": "Beginning of document",
   "DE.Controllers.Navigation.txtGotoBeginning": "Go to the beginning of the document",
   "DE.Controllers.Statusbar.textHasChanges": "New changes have been tracked",
