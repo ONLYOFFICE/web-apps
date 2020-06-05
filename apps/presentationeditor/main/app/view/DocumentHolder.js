@@ -2078,7 +2078,7 @@ define([
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
                         '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                            '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
+                            '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"></div>',
                             '<div class="title"><%= title %></div> ',
                         '</div>'
                     ].join(''))
@@ -2117,7 +2117,7 @@ define([
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([
                         '<div class="style" id="<%= id %>"">',
-                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',
                         '</div>'
                     ].join(''))
                 }).on('item:click', function(picker, item, record, e) {
