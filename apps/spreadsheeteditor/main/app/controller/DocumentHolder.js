@@ -1659,6 +1659,7 @@ define([
                 case Asc.c_oAscSelectionType.RangeRow:      isrowmenu = true; break;
                 case Asc.c_oAscSelectionType.RangeCol:      iscolmenu = true; break;
                 case Asc.c_oAscSelectionType.RangeMax:      isallmenu   = true; break;
+                case Asc.c_oAscSelectionType.RangeSlicer:
                 case Asc.c_oAscSelectionType.RangeImage:    isimagemenu = !internaleditor; break;
                 case Asc.c_oAscSelectionType.RangeShape:    isshapemenu = !internaleditor; break;
                 case Asc.c_oAscSelectionType.RangeChart:    ischartmenu = !internaleditor; break;
@@ -1820,7 +1821,7 @@ define([
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
             } else if (!this.permissions.isEditMailMerge && !this.permissions.isEditDiagram || (seltype !== Asc.c_oAscSelectionType.RangeImage && seltype !== Asc.c_oAscSelectionType.RangeShape &&
-            seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText)) {
+            seltype !== Asc.c_oAscSelectionType.RangeChart && seltype !== Asc.c_oAscSelectionType.RangeChartText && seltype !== Asc.c_oAscSelectionType.RangeShapeText && seltype !== Asc.c_oAscSelectionType.RangeSlicer)) {
                 if (!documentHolder.ssMenu || !showMenu && !documentHolder.ssMenu.isVisible()) return;
                 
                 var iscelledit = this.api.isCellEdited,

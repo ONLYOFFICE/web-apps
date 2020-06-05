@@ -183,7 +183,7 @@ define([
                     iconCls: 'toolbar__icon btn-add-pivot',
                     caption: this.txtCreate,
                     disabled    : false,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage]
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer]
                 });
 
                 this.btnPivotLayout = new Common.UI.Button({

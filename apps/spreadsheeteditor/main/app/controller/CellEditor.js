@@ -158,7 +158,7 @@ define([
                 is_chart        = seltype == Asc.c_oAscSelectionType.RangeChart,
                 is_shape_text   = seltype == Asc.c_oAscSelectionType.RangeShapeText,
                 is_shape        = seltype == Asc.c_oAscSelectionType.RangeShape,
-                is_image        = seltype == Asc.c_oAscSelectionType.RangeImage,
+                is_image        = seltype == Asc.c_oAscSelectionType.RangeImage || seltype == Asc.c_oAscSelectionType.RangeSlicer,
                 is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
 
             this.editor.$btnfunc.toggleClass('disabled', is_image || is_mode_2 || coauth_disable);
