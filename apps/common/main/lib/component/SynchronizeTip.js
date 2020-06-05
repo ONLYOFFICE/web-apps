@@ -128,7 +128,7 @@ define([
             },
 
             textDontShow        : 'Don\'t show this message again',
-            textSynchronize     : 'The document has been changed by another user.<br/>Please click to save your changes and reload the updates.'
+            textSynchronize     : 'The document has been changed by another user.<br>Please click to save your changes and reload the updates.'
         }
     })(), Common.UI.SynchronizeTip || {}));
 });
