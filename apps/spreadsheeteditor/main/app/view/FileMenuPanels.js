@@ -1094,7 +1094,7 @@ define([
             Common.Utils.InternalSettings.set("sse-settings-use-base-separator", isChecked);
 
             Common.localStorage.setItem("sse-macros-mode", this.cmbMacros.getValue());
-            Common.Utils.InternalSettings.set("sse-macros-mode", Common.localStorage.getItem("sse-macros-mode"));
+            Common.Utils.InternalSettings.set("sse-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
 

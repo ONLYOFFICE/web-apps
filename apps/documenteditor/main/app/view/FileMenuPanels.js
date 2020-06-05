@@ -541,7 +541,7 @@ define([
             Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
 
             Common.localStorage.setItem("de-macros-mode", this.cmbMacros.getValue());
-            Common.Utils.InternalSettings.set("de-macros-mode", Common.localStorage.getItem("de-macros-mode"));
+            Common.Utils.InternalSettings.set("de-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
 

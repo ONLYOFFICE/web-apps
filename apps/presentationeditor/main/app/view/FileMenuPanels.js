@@ -468,7 +468,7 @@ define([
             Common.Utils.InternalSettings.set("pe-settings-showsnaplines", this.chAlignGuides.isChecked());
 
             Common.localStorage.setItem("pe-macros-mode", this.cmbMacros.getValue());
-            Common.Utils.InternalSettings.set("pe-macros-mode", Common.localStorage.getItem("pe-macros-mode"));
+            Common.Utils.InternalSettings.set("pe-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("pe-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
 
