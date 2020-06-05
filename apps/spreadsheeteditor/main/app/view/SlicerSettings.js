@@ -77,7 +77,7 @@ define([
                 PosVert: 0,
                 PosHor: 0,
                 PosLocked: false,
-                SortOrder: Asc.ST_tabularSlicerCacheSortOrder.Ascending,
+                SortOrder: undefined,
                 IndNoData: false,
                 ShowNoData: false,
                 HideNoData: false,
