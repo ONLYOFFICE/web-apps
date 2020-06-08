@@ -209,11 +209,11 @@ define([
                             Common.NotificationCenter.trigger('app:config', {canUndock: true});
                         }
 
+                        native.execCommand('webapps:features', JSON.stringify(
+                            {version: config.version, eventloading:true, titlebuttons:true, viewmode:!mode.isEdit, crypted:mode.isCrypted} ));
+
                         titlebuttons = {};
-                        if ( !mode.isEdit ) {
-                            native.execCommand('webapps:features', JSON.stringify(
-                                    {version: config.version, eventloading:true, titlebuttons:true, viewmode:true} ));
-                        } else {
+                        if ( mode.isEdit ) {
                             var header = webapp.getController('Viewport').getView('Common.Views.Header');
                             if (!!header.btnSave) {
                                 titlebuttons['save'] = {btn: header.btnSave};
