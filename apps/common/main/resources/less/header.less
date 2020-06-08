@@ -89,6 +89,7 @@
     #box-doc-name {
         flex-grow: 1;
         display: flex;
+        justify-content: center;
     }
 
     #rib-doc-name {
@@ -102,19 +103,19 @@
         background-color: transparent;
         border: 0 none;
         cursor: default;
+        line-height: 32px;
 
-        &:hover:not(:disabled) {
-            border: 1px solid @gray-dark;
-            background-color: rgba(255,255,255,0.2);
-        }
-
-        &:focus:not(:active) {
-            border: 1px solid @gray-dark;
-            cursor: text;
-            background-color: white;
-            color: @gray-deep;
-        }
-        width: 100%;
+        //&:hover:not(:disabled) {
+        //    border: 1px solid @gray-dark;
+        //    background-color: rgba(255,255,255,0.2);
+        //}
+        //
+        //&:focus:not(:active) {
+        //    border: 1px solid @gray-dark;
+        //    cursor: text;
+        //    background-color: white;
+        //    color: @gray-deep;
+        //}
     }
 
     #rib-save-status {
@@ -374,15 +375,19 @@
         }
     }
 
+    #id-box-doc-name {
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+    }
+
     #title-doc-name {
-        position: absolute;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
         text-align: center;
         font-size: 12px;
-        height: 100%;
-        width: 100%;
+        line-height: 28px;
         background-color: transparent;
         border: 0 none;
         cursor: default;
@@ -401,5 +406,20 @@
 
     .lr-separator {
         flex-grow: 1;
+    }
+}
+
+#box-doc-name, #box-document-title {
+    .inner-box-icon.crypted {
+        width: 20px;
+        position: relative;
+
+        > svg {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            margin-top: -10px;
+        }
     }
 }

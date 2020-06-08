@@ -967,6 +967,7 @@ define([
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     this.appOptions.isOffline      = this.api.asc_isOffline();
+                    this.appOptions.isCrypted      = this.api.asc_isCrypto();
                     this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                     this.appOptions.isLightVersion = params.asc_getIsLight();
                     /** coauthoring begin **/
