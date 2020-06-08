@@ -469,9 +469,11 @@ define([
     SSE.Views.AutoFilterDialog = Common.UI.Window.extend(_.extend({
 
         initialize: function (options) {
+            this.menuPanelWidth = 195;
+
             var t = this, _options = {}, width = undefined, height = undefined;
             if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
-                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0];
+                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0] + this.menuPanelWidth;
                 height = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1];
             }
 
@@ -505,7 +507,7 @@ define([
                             '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                         '</div>',
                     '</div>',
-                    '<div class="menu-panel" style="width: 195px; float: right;">',
+                    '<div class="menu-panel" style="width: ' + this.menuPanelWidth + 'px; float: right;">',
                         '<div id="menu-container-filters" style=""><div class="dropdown-toggle" data-toggle="dropdown"></div></div>',
                     '</div>',
                 '</div>'
@@ -685,6 +687,61 @@ define([
             });
             this.miReapply.on('click', _.bind(this.onReapply, this));
 
+            this.miReapplySeparator   = new Common.UI.MenuItem({ caption: '--' });
+
+            // pivot
+            this.miValueFilter = new Common.UI.MenuItem({
+                caption     : this.txtValueFilter,
+                toggleGroup : 'menufilterfilter',
+                checkable   : true,
+                checked     : false,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: -2,                                                  caption: this.txtBetween,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.top10,                    caption: this.txtTop10,        checkable: true, type: Asc.c_oAscAutoFilterTypes.Top10, pivot: true}
+                    ]
+                })
+            });
+            var items = this.miNumFilter.menu.items;
+            for (var i=0; i<items.length; i++) {
+                items[i].on('click', _.bind((items[i].options.type == Asc.c_oAscAutoFilterTypes.CustomFilters) ? this.onNumCustomFilterItemClick : this.onTop10FilterItemClick ), this);
+            }
+
+            this.miLabelFilter = new Common.UI.MenuItem({
+                caption     : this.txtLabelFilter,
+                toggleGroup : 'menufilterfilter',
+                checkable   : true,
+                checked     : false,
+                menu        : new Common.UI.Menu({
+                    menuAlign: 'tl-tr',
+                    items: [
+                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.beginsWith,               caption: this.txtBegins,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         caption: this.txtNotBegins,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.endsWith,                 caption: this.txtEnds,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           caption: this.txtNotEnds,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.contains,                 caption: this.txtContains,     checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           caption: this.txtNotContains,  checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {caption: '--'},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: -2,                                                  caption: this.txtBetween,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true}
+                    ]
+                })
+            });
+            this.miLabelFilter.menu.on('item:click', _.bind(this.onLabelFilterMenuClick, this));
+
+
             this.filtersMenu = new Common.UI.Menu({
                 items: [
                     this.miSortLow2High,
@@ -692,12 +749,14 @@ define([
                     this.miSortCellColor,
                     this.miSortFontColor,
                     {caption     : '--'},
+                    this.miLabelFilter,
+                    this.miValueFilter,
                     this.miNumFilter,
                     this.miTextFilter,
                     this.miFilterCellColor,
                     this.miFilterFontColor,
                     this.miClear,
-                    {caption     : '--'},
+                    this.miReapplySeparator,
                     this.miReapply
                 ]
             });
@@ -956,7 +1015,7 @@ define([
             this.close();
         },
 
-        onTop10FilterItemClick: function(menu, item) {
+        onTop10FilterItemClick: function(item) {
             var me = this,
                 dlgTop10Filter = new SSE.Views.Top10FilterDialog({api:this.api}).on({
                     'close': function() {
@@ -967,6 +1026,14 @@ define([
 
             dlgTop10Filter.setSettings(this.configTo);
             dlgTop10Filter.show();
+        },
+
+        onLabelFilterMenuClick: function(menu, item) {
+            if (item.value == Asc.c_oAscCustomAutoFilter.isGreaterThan || item.value == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo || item.value == Asc.c_oAscCustomAutoFilter.isLessThan ||
+                item.value == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo || item.value == -2)
+                this.onNumCustomFilterItemClick(item);
+            else
+                this.onTextFilterMenuClick(menu, item);
         },
 
         onFilterColorSelect: function(isCellColor, picker, color) {
@@ -1099,6 +1166,27 @@ define([
         _setDefaults: function() {
             this.initialFilterType = this.configTo.asc_getFilterObj().asc_getType();
 
+            var pivotObj = this.configTo.asc_getPivotObj(),
+                isPivot = !!pivotObj,
+                isValueFilter = false;
+
+            this.miValueFilter.setVisible(isPivot);
+            this.miLabelFilter.setVisible(isPivot);
+
+            if (isPivot) {
+                if (pivotObj.asc_getIsPageFilter()) {
+                    var menuPanel = this.$window.find('.menu-panel');
+                    this.setResizable(true, this.initConfig.minwidth - this.menuPanelWidth, this.initConfig.minheight);
+                    menuPanel.addClass('hidden');
+                    this.setWidth(this.getWidth() - this.menuPanelWidth);
+                    this.menuPanelWidth = 0;
+                }
+                this.miReapplySeparator.setVisible(false);
+                this.miReapply.setVisible(false);
+
+                isValueFilter = (pivotObj.asc_getDataFieldIndexFilter()!==null);
+            }
+
             var filterObj = this.configTo.asc_getFilterObj(),
                 isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters),
                 isDynamicFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.DynamicFilter),
@@ -1111,17 +1199,20 @@ define([
 
             if (sortColor) sortColor = Common.Utils.ThemeColor.getHexColor(sortColor.get_r(), sortColor.get_g(), sortColor.get_b()).toLocaleUpperCase();
 
-            this.miTextFilter.setVisible(isTextFilter);
-            this.miNumFilter.setVisible(!isTextFilter);
+            this.miTextFilter.setVisible(!isPivot && isTextFilter);
+            this.miNumFilter.setVisible(!isPivot && !isTextFilter);
             this.miTextFilter.setChecked(isCustomFilter && isTextFilter, true);
             this.miNumFilter.setChecked((isCustomFilter || isDynamicFilter || isTop10) && !isTextFilter, true);
+
+            this.miValueFilter.setChecked(isPivot && isValueFilter, true);
+            this.miLabelFilter.setChecked(isPivot && !isValueFilter && (isCustomFilter || isTop10), true);
 
             this.miSortLow2High.setChecked(sort == Asc.c_oAscSortOptions.Ascending, true);
             this.miSortHigh2Low.setChecked(sort == Asc.c_oAscSortOptions.Descending, true);
 
             var hasColors = (colorsFont && colorsFont.length>0);
             this.miSortFontColor.setVisible(hasColors);
-            this.miFilterFontColor.setVisible(hasColors);
+            this.miFilterFontColor.setVisible(!isPivot && hasColors);
             if (hasColors) {
                 var colors = [];
                 colorsFont.forEach(function(item, index) {
@@ -1141,7 +1232,7 @@ define([
 
             hasColors = (colorsFill && colorsFill.length>0);
             this.miSortCellColor.setVisible(hasColors);
-            this.miFilterCellColor.setVisible(hasColors);
+            this.miFilterCellColor.setVisible(!isPivot && hasColors);
             if (hasColors) {
                 var colors = [];
                 colorsFill.forEach(function(item, index) {
@@ -1165,7 +1256,7 @@ define([
                     isAnd = (customFilter.asc_getAnd()),
                     cond1 = customFilters[0].asc_getOperator(),
                     cond2 = ((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0),
-                    items = (isTextFilter) ? this.miTextFilter.menu.items : this.miNumFilter.menu.items,
+                    items = isPivot ? (isValueFilter ? this.miValueFilter.menu.items : this.miLabelFilter.menu.items) : ((isTextFilter) ? this.miTextFilter.menu.items : this.miNumFilter.menu.items),
                     isCustomConditions = true;
 
                 if (customFilters.length==1)
@@ -1174,7 +1265,7 @@ define([
                         item.setChecked(checked, true);
                         if (checked) isCustomConditions = false;
                     });
-                else if (!isTextFilter && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo ||
+                else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo ||
                                            cond1 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo)){
                     items[6].setChecked(true, true); // between filter
                     isCustomConditions = false;
@@ -1195,7 +1286,7 @@ define([
                 }
             } else if (isDynamicFilter || isTop10) {
                 var dynType = (isDynamicFilter) ? filterObj.asc_getFilter().asc_getType() : null,
-                    items = this.miNumFilter.menu.items;
+                    items = isPivot ? this.miValueFilter.menu.items : this.miNumFilter.menu.items;
                 items.forEach(function(item){
                     item.setChecked(isDynamicFilter && (item.options.type == Asc.c_oAscAutoFilterTypes.DynamicFilter) && (item.value == dynType) ||
                                     isTop10 && (item.options.type == Asc.c_oAscAutoFilterTypes.Top10), true);
@@ -1394,6 +1485,7 @@ define([
                 this.$window.find('.combo-values').css({'height': size[1] - 100 + 'px'});
                 this.curSize.height = size[1];
             }
+            size[0] -= this.menuPanelWidth;
             Common.Utils.InternalSettings.set('sse-settings-size-filter-window', size);
         },
 
@@ -1438,7 +1530,9 @@ define([
         txtContains         : "Contains...",
         txtNotContains      : "Does not contain...",
         textSelectAllResults: 'Select All Search Results',
-        textAddSelection    : 'Add current selection to filter'
+        textAddSelection    : 'Add current selection to filter',
+        txtValueFilter: 'Value filter',
+        txtLabelFilter: 'Label filter'
 
     }, SSE.Views.AutoFilterDialog || {}));
 });
