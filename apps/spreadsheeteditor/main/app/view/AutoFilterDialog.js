@@ -83,7 +83,7 @@ define([
                     '</div>',
                 '</div>',
                 '<div class="separator horizontal" style="width:100%"></div>',
-                '<div class="footer right" style="margin-left:-15px;">',
+                '<div class="footer center">',
                     '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
                     '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                 '</div>'
@@ -466,6 +466,283 @@ define([
 
     }, SSE.Views.Top10FilterDialog || {}));
 
+    SSE.Views.PivotDigitalFilterDialog = Common.UI.Window.extend(_.extend({
+
+        initialize: function (options) {
+            var t = this, _options = {};
+
+            _.extend(_options,  {
+                width           : 501,
+                height          : 210,
+                contentWidth    : 180,
+                header          : true,
+                cls             : 'filter-dlg',
+                contentTemplate : '',
+                title           : (options.type=='label') ?  t.txtTitleLabel : t.txtTitleValue,
+                items           : []
+            }, options);
+
+            this.api        =   options.api;
+            this.handler    =   options.handler;
+            this.type       =   options.type || 'value';
+
+            this.template   =   options.template || [
+                    '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                    '<div class="content-panel" >',
+                        '<label class="header">', ((t.type=='label') ? t.textShowLabel : t.textShowValue), '</label>',
+                        '<div style="margin-top:15px;">',
+                            '<div id="id-field-digital-combo" class="input-group-nr" style="vertical-align:middle;width:110px;display:inline-block;margin-right:10px;"></div>',
+                            '<div id="id-cond-digital-combo" class="input-group-nr" style="vertical-align:middle;width:' + ((t.type=='label') ? 225 : 110) + 'px;display:inline-block;margin-right:10px;"></div>',
+                            '<div id="id-input-digital-value1" class="" style="vertical-align: middle; width:225px;display:inline-block;"></div>',
+                            '<label id="id-label-digital-and" style="vertical-align: middle;margin-left: 5px;">'+ this.txtAnd +'</label>',
+                            '<div id="id-input-digital-value2" class="" style="vertical-align: middle; width:100px;display:inline-block;margin-left: 5px;"></div>',
+                        '</div>',
+                        '<div style="margin-top:10px;">',
+                            '<label style="display:block;">' + t.textUse1 + '</label>',
+                            '<label style="display:block;">' + t.textUse2 + '</label>',
+                        '</div>',
+                    '</div>',
+                    '</div>',
+                    '<div class="separator horizontal" style="width:100%"></div>',
+                    '<div class="footer center">',
+                    '<button class="btn normal dlg-btn primary" result="ok">', t.okButtonText, '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
+                    '</div>'
+                ].join('');
+
+            _options.tpl    =   _.template(this.template)(_options);
+
+            Common.UI.Window.prototype.initialize.call(this, _options);
+        },
+        render: function () {
+            Common.UI.Window.prototype.render.call(this);
+
+            this.conditions = [
+                {value: Asc.c_oAscCustomAutoFilter.equals,                   displayValue: this.capCondition1},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             displayValue: this.capCondition2},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.capCondition3},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.capCondition4},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.capCondition5},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6},
+                {value: -2,                                                  displayValue: this.capCondition13},
+                {value: -3,                                                  displayValue: this.capCondition14}
+            ];
+            if (this.type=='label') this.conditions = this.conditions.concat([
+                {value: Asc.c_oAscCustomAutoFilter.beginsWith,               displayValue: this.capCondition7},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         displayValue: this.capCondition8},
+                {value: Asc.c_oAscCustomAutoFilter.endsWith,                 displayValue: this.capCondition9},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           displayValue: this.capCondition10},
+                {value: Asc.c_oAscCustomAutoFilter.contains,                 displayValue: this.capCondition11},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           displayValue: this.capCondition12}
+            ]);
+
+            this.cmbCondition1 = new Common.UI.ComboBox({
+                el          : $('#id-cond-digital-combo', this.$window),
+                menuStyle   : 'min-width: 100%;max-height: 135px;',
+                style       : 'width:100%;',
+                cls         : 'input-group-nr',
+                data        : this.conditions,
+                scrollAlwaysVisible: true,
+                editable    : false
+            });
+            this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
+            this.cmbCondition1.on('selected', _.bind(function(combo, record) {
+                var isBetween = record.value == -2 || record.value == -3;
+                this.inputValue2.setVisible(isBetween);
+                this.lblAnd.toggleClass('hidden', !isBetween);
+                this.inputValue.$el.width(isBetween ? 100 : 225);
+                var me = this;
+                _.defer(function () {
+                    if (me.inputValue) {
+                        me.inputValue._input.focus();
+                    }
+                }, 10);
+            }, this));
+
+            this.cmbFields = new Common.UI.ComboBox({
+                el          : $('#id-field-digital-combo', this.$window),
+                menuStyle   : 'min-width: 100%;max-height: 135px;',
+                style       : 'width:100%;',
+                cls         : 'input-group-nr',
+                data        : [],
+                scrollAlwaysVisible: true,
+                editable    : false
+            });
+            this.cmbFields.setVisible(this.type=='value');
+            this.cmbFields.on('selected', _.bind(function(combo, record) {
+                var me = this;
+                _.defer(function () {
+                    if (me.inputValue) {
+                        me.inputValue._input.focus();
+                    }
+                }, 10);
+            }, this));
+
+            this.inputValue = new Common.UI.InputField({
+                el          : $('#id-input-digital-value1'),
+                allowBlank  : false,
+                style       : 'width: 100%;',
+                validateOnBlur: false
+            });
+
+            this.inputValue2 = new Common.UI.InputField({
+                el          : $('#id-input-digital-value2'),
+                allowBlank  : false,
+                style       : 'width: 100%;',
+                validateOnBlur: false
+            });
+
+            this.lblAnd = this.$window.find('#id-label-digital-and');
+
+            this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+
+            this.loadDefaults();
+        },
+        show: function () {
+            Common.UI.Window.prototype.show.call(this);
+
+            var me  = this;
+            _.defer(function () {
+                if (me.inputValue) {
+                    me.inputValue._input.focus();
+                }
+            }, 500);
+        },
+
+        close: function () {
+            if (this.api) {
+                this.api.asc_enableKeyEvents(true);
+            }
+            Common.UI.Window.prototype.close.call(this);
+        },
+
+        onBtnClick: function (event) {
+            if (event.currentTarget.attributes &&  event.currentTarget.attributes.result) {
+                if ('ok' === event.currentTarget.attributes.result.value) {
+                    this.save();
+                }
+
+                this.close();
+            }
+        },
+
+        setSettings: function (properties) {
+            this.properties = properties;
+        },
+
+        loadDefaults: function () {
+            if (this.properties && this.cmbCondition1 && this.cmbFields && this.inputValue) {
+
+                var pivotObj = this.properties.asc_getPivotObj(),
+                    idx = pivotObj.asc_getDataFieldIndexFilter(),
+                    fields = pivotObj.asc_getDataFields();
+
+                this.setTitle(this.options.title + ' (' + fields[0] + ')');
+                if (this.type == 'value') {
+                    fields.shift();
+                    var arr = [];
+                    fields && fields.forEach(function (item, index) {
+                        item && arr.push({value: index, displayValue: item});
+                    });
+                    this.cmbFields.setData(arr);
+                    this.cmbFields.setValue((idx!==0) ? idx-1 : 0);
+                }
+
+                var filterObj = this.properties.asc_getFilterObj();
+                if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.CustomFilters) {
+                    var customFilter = filterObj.asc_getFilter(),
+                        customFilters = customFilter.asc_getCustomFilters(),
+                        value = customFilters[0].asc_getOperator();
+
+                    if ((customFilters.length>1)) {
+                        var isAnd = customFilter.asc_getAnd();
+                        var isBetween = (customFilters[0].asc_getOperator() == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && customFilters[1].asc_getOperator() == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo),
+                            isNotBetween = (customFilters[0].asc_getOperator() == Asc.c_oAscCustomAutoFilter.isLessThan && customFilters[1].asc_getOperator() == Asc.c_oAscCustomAutoFilter.isGreaterThan);
+
+                        if (isAnd && isBetween)
+                            value = -2;
+                        else if (!isAnd && isNotBetween)
+                            value = -3;
+                    }
+                    this.cmbCondition1.setValue(value || Asc.c_oAscCustomAutoFilter.equals);
+                    this.inputValue.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
+                    this.inputValue.$el.width((value==-2 || value==-3) ? 100 : 225);
+
+                    this.lblAnd.toggleClass('hidden', !(value==-2 || value==-3));
+                    this.inputValue2.setVisible(value==-2 || value==-3);
+                    this.inputValue2.setValue((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
+                }
+            }
+        },
+        save: function () {
+            if (this.api && this.properties && this.cmbCondition1 && this.cmbFields && this.inputValue) {
+
+                var filterObj = this.properties.asc_getFilterObj();
+                filterObj.asc_setFilter(new Asc.CustomFilters());
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
+
+                var customFilter = filterObj.asc_getFilter(),
+                    type = this.cmbCondition1.getValue();
+                if (type==-2) {
+                    customFilter.asc_setCustomFilters([new Asc.CustomFilter(), new Asc.CustomFilter()]);
+                    customFilter.asc_setAnd(true);
+                    var customFilters = customFilter.asc_getCustomFilters();
+                    customFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo);
+                    customFilters[0].asc_setVal(this.inputValue.getValue());
+                    customFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
+                    customFilters[1].asc_setVal(this.inputValue2.getValue());
+                } else if (type==-3) {
+                    customFilter.asc_setCustomFilters([new Asc.CustomFilter(), new Asc.CustomFilter()]);
+                    customFilter.asc_setAnd(false);
+                    var customFilters = customFilter.asc_getCustomFilters();
+                    customFilters[0].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThan);
+                    customFilters[0].asc_setVal(this.inputValue.getValue());
+                    customFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isGreaterThan);
+                    customFilters[1].asc_setVal(this.inputValue2.getValue());
+                } else {
+                    customFilter.asc_setCustomFilters([new Asc.CustomFilter()]);
+                    customFilter.asc_setAnd(true);
+                    var customFilters = customFilter.asc_getCustomFilters();
+                    customFilters[0].asc_setOperator(this.cmbCondition1.getValue());
+                    customFilters[0].asc_setVal(this.inputValue.getValue());
+                }
+                var pivotObj = this.properties.asc_getPivotObj();
+                pivotObj.asc_setDataFieldIndexFilter((this.type == 'value') ? this.cmbFields.getValue()+1 : 0);
+
+                this.api.asc_applyAutoFilter(this.properties);
+            }
+        },
+
+        onPrimary: function() {
+            this.save();
+            this.close();
+            return false;
+        },
+
+        capCondition1       : "equals",
+        capCondition10      : "does not end with",
+        capCondition11      : "contains",
+        capCondition12      : "does not contain",
+        capCondition2       : "does not equal",
+        capCondition3       : "is greater than",
+        capCondition4       : "is greater than or equal to",
+        capCondition5       : "is less than",
+        capCondition6       : "is less than or equal to",
+        capCondition7       : "begins with",
+        capCondition8       : "does not begin with",
+        capCondition9       : "ends with",
+        textShowLabel       : "Show items for which the label:",
+        textShowValue       : "Show items for which:",
+        textUse1            : "Use ? to present any single character",
+        textUse2            : "Use * to present any series of character",
+        txtTitleValue: 'Value Filter',
+        txtTitleLabel: 'Label Filter',
+        capCondition13: 'between',
+        capCondition14: 'not between',
+        txtAnd: 'and'
+
+    }, SSE.Views.PivotDigitalFilterDialog || {}));
+
     SSE.Views.AutoFilterDialog = Common.UI.Window.extend(_.extend({
 
         initialize: function (options) {
@@ -696,21 +973,19 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
                     items: [
-                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: -2,                                                  caption: this.txtBetween,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.top10,                    caption: this.txtTop10,        checkable: true, type: Asc.c_oAscAutoFilterTypes.Top10, pivot: true}
+                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {value: -2,                                                  caption: this.txtBetween,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {value: -3,                                                  caption: this.txtNotBetween,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'value'},
+                        {value: Asc.c_oAscCustomAutoFilter.top10,                    caption: this.txtTop10,        checkable: true, type: Asc.c_oAscAutoFilterTypes.Top10, pivottype: 'value'}
                     ]
                 })
             });
-            var items = this.miNumFilter.menu.items;
-            for (var i=0; i<items.length; i++) {
-                items[i].on('click', _.bind((items[i].options.type == Asc.c_oAscAutoFilterTypes.CustomFilters) ? this.onNumCustomFilterItemClick : this.onTop10FilterItemClick ), this);
-            }
+            this.miValueFilter.menu.on('item:click', _.bind(this.onValueFilterMenuClick, this));
 
             this.miLabelFilter = new Common.UI.MenuItem({
                 caption     : this.txtLabelFilter,
@@ -720,25 +995,25 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
                     items: [
-                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.beginsWith,               caption: this.txtBegins,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         caption: this.txtNotBegins,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.endsWith,                 caption: this.txtEnds,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           caption: this.txtNotEnds,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.contains,                 caption: this.txtContains,     checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           caption: this.txtNotContains,  checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
+                        {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.beginsWith,               caption: this.txtBegins,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         caption: this.txtNotBegins,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.endsWith,                 caption: this.txtEnds,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           caption: this.txtNotEnds,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.contains,                 caption: this.txtContains,     checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           caption: this.txtNotContains,  checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
                         {caption: '--'},
-                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true},
-                        {value: -2,                                                  caption: this.txtBetween,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivot: true}
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   caption: this.txtGreaterEquals,checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThan,               caption: this.txtLess,         checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      caption: this.txtLessEquals,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: -2,                                                  caption: this.txtBetween,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'},
+                        {value: -3,                                                  caption: this.txtNotBetween,   checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters, pivottype: 'label'}
                     ]
                 })
             });
             this.miLabelFilter.menu.on('item:click', _.bind(this.onLabelFilterMenuClick, this));
-
 
             this.filtersMenu = new Common.UI.Menu({
                 items: [
@@ -923,10 +1198,10 @@ define([
 
             if (item.value!==-1) {
                 var newCustomFilter = new Asc.CustomFilters();
-                newCustomFilter.asc_setCustomFilters((item.value == -2) ? [new Asc.CustomFilter(), new Asc.CustomFilter()]: [new Asc.CustomFilter()]);
+                newCustomFilter.asc_setCustomFilters((item.value == -2 || item.value == -3) ? [new Asc.CustomFilter(), new Asc.CustomFilter()]: [new Asc.CustomFilter()]);
 
                 var newCustomFilters = newCustomFilter.asc_getCustomFilters();
-                newCustomFilters[0].asc_setOperator((item.value == -2) ? Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo : item.value);
+                newCustomFilters[0].asc_setOperator((item.value == -2) ? Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo : ((item.value == -3) ? Asc.c_oAscCustomAutoFilter.isLessThan : item.value));
 
                 if (item.value == -2) {
                     var isBetween = (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
@@ -934,6 +1209,12 @@ define([
                     newCustomFilters[0].asc_setVal(isBetween ? value1 : '');
                     newCustomFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo);
                     newCustomFilters[1].asc_setVal(isBetween ? value2 : '');
+                } else if (item.value == -3) {
+                    var isNotBetween = (cond1 == Asc.c_oAscCustomAutoFilter.isLessThan && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThan);
+                    newCustomFilter.asc_setAnd(isNotBetween ? isAnd : false);
+                    newCustomFilters[0].asc_setVal(isNotBetween ? value1 : '');
+                    newCustomFilters[1].asc_setOperator(Asc.c_oAscCustomAutoFilter.isGreaterThan);
+                    newCustomFilters[1].asc_setVal(isNotBetween ? value2 : '');
                 } else {
                     newCustomFilter.asc_setAnd(true);
                     newCustomFilters[0].asc_setVal((item.value == cond1) ? value1 : '');
@@ -944,6 +1225,14 @@ define([
             } 
 
             var me = this,
+                dlgDigitalFilter;
+            if (item.options.pivottype == 'label' || item.options.pivottype == 'value')
+                dlgDigitalFilter = new SSE.Views.PivotDigitalFilterDialog({api:this.api, type: item.options.pivottype}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                });
+            else
                 dlgDigitalFilter = new SSE.Views.DigitalFilterDialog({api:this.api, type: 'number'}).on({
                     'close': function() {
                         me.close();
@@ -987,12 +1276,19 @@ define([
             }
 
             var me = this,
+                dlgDigitalFilter;
+            if (item.options.pivottype == 'label' || item.options.pivottype == 'value')
+                dlgDigitalFilter = new SSE.Views.PivotDigitalFilterDialog({api:this.api, type: item.options.pivottype}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                });
+            else
                 dlgDigitalFilter = new SSE.Views.DigitalFilterDialog({api:this.api, type: 'text'}).on({
                     'close': function() {
                         me.close();
                     }
                 });
-
             this.close();
 
             dlgDigitalFilter.setSettings(this.configTo);
@@ -1028,10 +1324,31 @@ define([
 
         onLabelFilterMenuClick: function(menu, item) {
             if (item.value == Asc.c_oAscCustomAutoFilter.isGreaterThan || item.value == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo || item.value == Asc.c_oAscCustomAutoFilter.isLessThan ||
-                item.value == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo || item.value == -2)
+                item.value == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo || item.value == -2 || item.value == -3)
                 this.onNumCustomFilterItemClick(item);
             else
                 this.onTextFilterMenuClick(menu, item);
+        },
+
+        onValueFilterMenuClick: function(menu, item) {
+            var me = this;
+            var pivotObj = this.configTo.asc_getPivotObj(),
+                fields = pivotObj.asc_getDataFields();
+            if (fields.length<2) {
+                Common.UI.warning({title: this.textWarning,
+                    msg: this.warnFilterError,
+                    callback: function() {
+                        _.delay(function () {
+                            me.close();
+                        }, 10);
+                    }
+                });
+            } else {
+                if (item.options.type == Asc.c_oAscAutoFilterTypes.CustomFilters)
+                    this.onNumCustomFilterItemClick(item);
+                else
+                    this.onTop10FilterItemClick(item);
+            }
         },
 
         onFilterColorSelect: function(isCellColor, picker, color) {
@@ -1187,7 +1504,7 @@ define([
                 this.miReapplySeparator.setVisible(false);
                 this.miReapply.setVisible(false);
 
-                isValueFilter = (pivotObj.asc_getDataFieldIndexFilter()!==null);
+                isValueFilter = (pivotObj.asc_getDataFieldIndexFilter()!==0);
             }
             this.setSize(width, this.getHeight());
 
@@ -1536,7 +1853,9 @@ define([
         textSelectAllResults: 'Select All Search Results',
         textAddSelection    : 'Add current selection to filter',
         txtValueFilter: 'Value filter',
-        txtLabelFilter: 'Label filter'
+        txtLabelFilter: 'Label filter',
+        warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.',
+        txtNotBetween: 'Not between...'
 
     }, SSE.Views.AutoFilterDialog || {}));
 });
