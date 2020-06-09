@@ -303,8 +303,10 @@ define([
         initialize: function (options) {
             var t = this, _options = {};
 
+            this.type = options.type;
+
             _.extend(_options,  {
-                width           : 318,
+                width           : (this.type=='value') ? 450 : 318,
                 height          : 160,
                 contentWidth    : 180,
                 header          : true,
@@ -318,17 +320,13 @@ define([
             this.template   =   options.template || [
                 '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
-                        '<div style="margin-right:15px; display: inline-block; vertical-align: middle;">',
-                            '<label class="input-label">', t.textType, '</label>',
-                            '<div id="id-top10-type-combo" style=""></div>',
-                        '</div>',
-                        '<div style="margin-right:15px; display: inline-block; vertical-align: middle;">',
-                            '<label class="input-label"></label>',
-                            '<div id="id-top10-count-spin" class="input-group-nr" style=""></div>',
-                        '</div>',
-                        '<div style="display: inline-block; vertical-align: middle;">',
-                            '<label class="input-label"></label>',
-                            '<div id="id-top10-item-combo" class="input-group-nr" style=""></div>',
+                        '<label>', t.textType, '</label>',
+                        '<div>',
+                            '<div id="id-top10-type-combo" style="margin-right:10px; display: inline-block; vertical-align: middle;"></div>',
+                            '<div id="id-top10-count-spin" class="input-group-nr" style="margin-right:10px; display: inline-block; vertical-align: middle;"></div>',
+                            '<div id="id-top10-item-combo" class="input-group-nr" style="display: inline-block; vertical-align: middle;"></div>',
+                            '<label id="id-top10-lblby" class="input-group-nr" style="min-width: 40px; text-align: center; display: inline-block; vertical-align: middle;">'+ t.txtBy +'</label>',
+                            '<div id="id-top10-fields-combo" class="input-group-nr" style="width:100px;display: inline-block; vertical-align: middle;"></div>',
                         '</div>',
                     '</div>',
                 '</div>',
@@ -358,15 +356,18 @@ define([
             });
             this.cmbType.setValue(true);
 
+            var data = [
+                { value: false, displayValue: this.txtItems },
+                { value: true, displayValue: this.txtPercent }
+            ];
+            (this.type=='value') && data.push({ value: 0, displayValue: this.txtSum });
+
             this.cmbItem = new Common.UI.ComboBox({
                 el          : $('#id-top10-item-combo', this.$window),
                 style       : 'width: 85px;',
                 menuStyle   : 'min-width: 85px;',
                 cls         : 'input-group-nr',
-                data        : [
-                    { value: false, displayValue: this.txtItems },
-                    { value: true, displayValue: this.txtPercent }
-                ],
+                data        : data,
                 editable    : false
             });
             this.cmbItem.setValue(false);
@@ -383,6 +384,18 @@ define([
                 maxValue: 500,
                 minValue: 1
             });
+
+            this.cmbFields = new Common.UI.ComboBox({
+                el          : $('#id-top10-fields-combo', this.$window),
+                menuStyle   : 'min-width: 100%;max-height: 135px;',
+                style       : 'width:100%;',
+                cls         : 'input-group-nr',
+                data        : [],
+                scrollAlwaysVisible: true,
+                editable    : false
+            });
+            this.cmbFields.setVisible(this.type=='value');
+            (this.type!=='value') && this.$window.find('#id-top10-lblby').addClass('hidden');
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
@@ -422,6 +435,23 @@ define([
 
         loadDefaults: function () {
             if (this.properties) {
+                var isTop10Sum = false;
+                if (this.type == 'value') {
+                    var pivotObj = this.properties.asc_getPivotObj(),
+                        idx = pivotObj.asc_getDataFieldIndexFilter(),
+                        fields = pivotObj.asc_getDataFields();
+                    isTop10Sum = pivotObj.asc_getIsTop10Sum();
+
+                    this.setTitle(this.txtValueTitle + ' (' + fields[0] + ')');
+                    fields.shift();
+                    var arr = [];
+                    fields && fields.forEach(function (item, index) {
+                        item && arr.push({value: index, displayValue: item});
+                    });
+                    this.cmbFields.setData(arr);
+                    this.cmbFields.setValue((idx!==0) ? idx-1 : 0);
+                }
+
                 var filterObj = this.properties.asc_getFilterObj();
                 if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.Top10) {
                     var top10Filter = filterObj.asc_getFilter(),
@@ -429,8 +459,8 @@ define([
                         percent = top10Filter.asc_getPercent();
 
                     this.cmbType.setValue(type || type===null);
-                    this.cmbItem.setValue(percent || percent===null);
-                    this.spnCount.setDefaultUnit((percent || percent===null) ? '%' : '');
+                    this.cmbItem.setValue(isTop10Sum ? 0 : (percent || percent===null));
+                    this.spnCount.setDefaultUnit((percent || percent===null) && !isTop10Sum ? '%' : '');
                     this.spnCount.setValue(top10Filter.asc_getVal());
                 }
             }
@@ -444,8 +474,14 @@ define([
 
                 var top10Filter = filterObj.asc_getFilter();
                 top10Filter.asc_setTop(this.cmbType.getValue());
-                top10Filter.asc_setPercent(this.cmbItem.getValue());
+                top10Filter.asc_setPercent(this.cmbItem.getValue()===true);
                 top10Filter.asc_setVal(this.spnCount.getNumberValue());
+
+                if (this.type == 'value') {
+                    var pivotObj = this.properties.asc_getPivotObj();
+                    pivotObj.asc_setIsTop10Sum(this.cmbItem.getValue()===0);
+                    pivotObj.asc_setDataFieldIndexFilter((this.type == 'value') ? this.cmbFields.getValue()+1 : 0);
+                }
 
                 this.api.asc_applyAutoFilter(this.properties);
             }
@@ -462,7 +498,10 @@ define([
         txtTop              : 'Top',
         txtBottom           : 'Bottom',
         txtItems            : 'Item',
-        txtPercent          : 'Percent'
+        txtPercent          : 'Percent',
+        txtValueTitle: 'Top 10 Filter',
+        txtSum: 'Sum',
+        txtBy: 'by'
 
     }, SSE.Views.Top10FilterDialog || {}));
 
@@ -742,6 +781,7 @@ define([
         txtAnd: 'and'
 
     }, SSE.Views.PivotDigitalFilterDialog || {}));
+
 
     SSE.Views.AutoFilterDialog = Common.UI.Window.extend(_.extend({
 
@@ -1311,7 +1351,7 @@ define([
 
         onTop10FilterItemClick: function(item) {
             var me = this,
-                dlgTop10Filter = new SSE.Views.Top10FilterDialog({api:this.api}).on({
+                dlgTop10Filter = new SSE.Views.Top10FilterDialog({api:this.api, type: item.options.pivottype}).on({
                     'close': function() {
                         me.close();
                     }
