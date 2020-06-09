@@ -469,11 +469,9 @@ define([
     SSE.Views.AutoFilterDialog = Common.UI.Window.extend(_.extend({
 
         initialize: function (options) {
-            this.menuPanelWidth = 195;
-
-            var t = this, _options = {}, width = undefined, height = undefined;
+            var t = this, _options = {}, width = 450, height = undefined;
             if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
-                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0] + this.menuPanelWidth;
+                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0];
                 height = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[1];
             }
 
@@ -507,7 +505,7 @@ define([
                             '<button class="btn normal dlg-btn" result="cancel">', t.cancelButtonText, '</button>',
                         '</div>',
                     '</div>',
-                    '<div class="menu-panel" style="width: ' + this.menuPanelWidth + 'px; float: right;">',
+                    '<div class="menu-panel" style="float: right;">',
                         '<div id="menu-container-filters" style=""><div class="dropdown-toggle" data-toggle="dropdown"></div></div>',
                     '</div>',
                 '</div>'
@@ -1165,6 +1163,12 @@ define([
 
         _setDefaults: function() {
             this.initialFilterType = this.configTo.asc_getFilterObj().asc_getType();
+            var menuPanel = this.$window.find('.menu-panel');
+            this.menuPanelWidth = menuPanel.innerWidth();
+            var width = this.getWidth();
+            if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
+                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0] + this.menuPanelWidth;
+            }
 
             var pivotObj = this.configTo.asc_getPivotObj(),
                 isPivot = !!pivotObj,
@@ -1175,10 +1179,9 @@ define([
 
             if (isPivot) {
                 if (pivotObj.asc_getIsPageFilter()) {
-                    var menuPanel = this.$window.find('.menu-panel');
-                    this.setResizable(true, this.initConfig.minwidth - this.menuPanelWidth, this.initConfig.minheight);
+                    this.setResizable(true, [this.initConfig.minwidth - this.menuPanelWidth, this.initConfig.minheight]);
                     menuPanel.addClass('hidden');
-                    this.setWidth(this.getWidth() - this.menuPanelWidth);
+                    width -= this.menuPanelWidth;
                     this.menuPanelWidth = 0;
                 }
                 this.miReapplySeparator.setVisible(false);
@@ -1186,6 +1189,7 @@ define([
 
                 isValueFilter = (pivotObj.asc_getDataFieldIndexFilter()!==null);
             }
+            this.setSize(width, this.getHeight());
 
             var filterObj = this.configTo.asc_getFilterObj(),
                 isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters),
