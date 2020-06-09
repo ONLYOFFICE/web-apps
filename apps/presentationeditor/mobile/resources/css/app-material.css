@@ -6335,7 +6335,7 @@ html.phone .document-menu .list-block .item-link {
   outline: none;
   width: 100%;
   font-size: 15px;
-  border: 1px solid #c4c4c4;
+  border: none;
   border-radius: 3px;
   min-height: 100px;
 }
