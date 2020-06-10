@@ -782,6 +782,160 @@ define([
 
     }, SSE.Views.PivotDigitalFilterDialog || {}));
 
+    SSE.Views.SortFilterDialog = Common.UI.Window.extend(_.extend({
+
+        initialize: function (options) {
+            var t = this, _options = {};
+
+            this.type = options.type;
+
+            _.extend(_options,  {
+                width           : 215,
+                height          : 215,
+                contentWidth    : 180,
+                header          : true,
+                cls             : 'filter-dlg',
+                contentTemplate : '',
+                title           : t.txtTitle,
+                items           : [],
+                buttons: ['ok', 'cancel']
+            }, options);
+
+            this.template   =   options.template || [
+                    '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                    '<div class="content-panel" >',
+                        '<div id="id-sort-filter-radio-asc" style="margin-bottom: 4px;"></div>',
+                        '<div id="id-sort-filter-fields-asc" class="input-group-nr" style="width:150px;margin-bottom: 10px;margin-left: 22px;"></div>',
+                        '<div id="id-sort-filter-radio-desc" style="margin-bottom: 4px;"></div>',
+                        '<div id="id-sort-filter-fields-desc" class="input-group-nr" style="width:150px;margin-left: 22px;"></div>',
+                    '</div>',
+                    '</div>',
+                    '<div class="separator horizontal" style="width:100%"></div>'
+                ].join('');
+
+            this.api        =   options.api;
+            this.handler    =   options.handler;
+
+            _options.tpl    =   _.template(this.template)(_options);
+
+            Common.UI.Window.prototype.initialize.call(this, _options);
+        },
+        render: function () {
+            Common.UI.Window.prototype.render.call(this);
+
+            this.radioAsc = new Common.UI.RadioBox({
+                el: $('#id-sort-filter-radio-asc'),
+                labelText: this.textAsc,
+                name: 'asc-radio-sort',
+                checked: true
+            });
+            this.radioAsc.on('change', _.bind(function(field, newValue) {
+                newValue && this.cmbFieldsAsc.setDisabled(false);
+                newValue && this.cmbFieldsDesc.setDisabled(true);
+            }, this));
+
+            this.radioDesc = new Common.UI.RadioBox({
+                el: $('#id-sort-filter-radio-desc'),
+                labelText: this.textDesc,
+                name: 'asc-radio-sort'
+            });
+            this.radioDesc.on('change', _.bind(function(field, newValue) {
+                newValue && this.cmbFieldsAsc.setDisabled(true);
+                newValue && this.cmbFieldsDesc.setDisabled(false);
+            }, this));
+
+            this.cmbFieldsAsc = new Common.UI.ComboBox({
+                el          : $('#id-sort-filter-fields-asc', this.$window),
+                menuStyle   : 'min-width: 100%;max-height: 135px;',
+                style       : 'width:100%;',
+                cls         : 'input-group-nr',
+                data        : [],
+                scrollAlwaysVisible: true,
+                editable    : false
+            });
+
+            this.cmbFieldsDesc = new Common.UI.ComboBox({
+                el          : $('#id-sort-filter-fields-desc', this.$window),
+                menuStyle   : 'min-width: 100%;max-height: 135px;',
+                style       : 'width:100%;',
+                cls         : 'input-group-nr',
+                data        : [],
+                scrollAlwaysVisible: true,
+                editable    : false,
+                disabled: true
+            });
+
+            this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+
+            this.loadDefaults();
+        },
+        show: function () {
+            Common.UI.Window.prototype.show.call(this);
+        },
+
+        close: function () {
+            if (this.api) {
+                this.api.asc_enableKeyEvents(true);
+            }
+            Common.UI.Window.prototype.close.call(this);
+        },
+
+        onBtnClick: function (event) {
+            if (event.currentTarget.attributes &&  event.currentTarget.attributes.result) {
+                if ('ok' === event.currentTarget.attributes.result.value) {
+                    this.save();
+                }
+
+                this.close();
+            }
+        },
+
+        setSettings: function (properties) {
+            this.properties = properties;
+        },
+
+        loadDefaults: function () {
+            if (this.properties) {
+                var pivotObj = this.properties.asc_getPivotObj(),
+                    idx = pivotObj.asc_getDataFieldIndexSorting(),
+                    fields = pivotObj.asc_getDataFields(),
+                    sort = this.properties.asc_getSortState();
+
+                this.setTitle(this.txtTitle + ' (' + fields[0] + ')');
+                var arr = [];
+                fields && fields.forEach(function (item, index) {
+                    item && arr.push({value: index, displayValue: item});
+                });
+                this.cmbFieldsAsc.setData(arr);
+                this.cmbFieldsAsc.setValue((idx>=0) ? idx : 0);
+                this.cmbFieldsDesc.setData(arr);
+                this.cmbFieldsDesc.setValue((idx>=0) ? idx : 0);
+
+                this.radioDesc.setValue(sort == Asc.c_oAscSortOptions.Descending, true);
+                this.cmbFieldsDesc.setDisabled(sort !== Asc.c_oAscSortOptions.Descending);
+            }
+        },
+        save: function () {
+            if (this.api && this.properties) {
+                var combo = this.radioAsc.getValue() ? this.cmbFieldsAsc : this.cmbFieldsDesc;
+                var pivotObj = this.properties.asc_getPivotObj();
+                pivotObj.asc_setDataFieldIndexSorting(combo.getValue());
+                this.properties.asc_setSortState(this.radioAsc.getValue() ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending);
+                this.api.asc_applyAutoFilter(this.properties);
+            }
+        },
+
+        onPrimary: function() {
+            this.save();
+            this.close();
+            return false;
+        },
+
+        txtTitle: "Sort",
+        textAsc: 'Ascenging (A to Z) by',
+        textDesc: 'Descending (Z to A) by'
+
+    }, SSE.Views.SortFilterDialog || {}));
 
     SSE.Views.AutoFilterDialog = Common.UI.Window.extend(_.extend({
 
@@ -883,6 +1037,11 @@ define([
                 checked     : false
             });
             this.miSortHigh2Low.on('click', _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
+
+            this.miSortOptions = new Common.UI.MenuItem({
+                caption     : this.txtSortOption
+            });
+            this.miSortOptions.on('click', _.bind(this.onSortOptions, this));
 
             this.miSortCellColor = new Common.UI.MenuItem({
                 caption     : this.txtSortCellColor,
@@ -1059,6 +1218,7 @@ define([
                 items: [
                     this.miSortLow2High,
                     this.miSortHigh2Low,
+                    this.miSortOptions,
                     this.miSortCellColor,
                     this.miSortFontColor,
                     {caption     : '--'},
@@ -1217,6 +1377,19 @@ define([
             }
 
             this.close();
+        },
+
+        onSortOptions: function () {
+            var me = this,
+                dlgSort = new SSE.Views.SortFilterDialog({api:this.api}).on({
+                    'close': function() {
+                        me.close();
+                    }
+                });
+            this.close();
+
+            dlgSort.setSettings(this.configTo);
+            dlgSort.show();
         },
 
         onNumCustomFilterItemClick: function(item) {
@@ -1533,6 +1706,7 @@ define([
 
             this.miValueFilter.setVisible(isPivot);
             this.miLabelFilter.setVisible(isPivot);
+            this.miSortOptions.setVisible(isPivot);
 
             if (isPivot) {
                 if (pivotObj.asc_getIsPageFilter()) {
@@ -1895,7 +2069,8 @@ define([
         txtValueFilter: 'Value filter',
         txtLabelFilter: 'Label filter',
         warnFilterError: 'You need at least one field in the Values area in order to apply a value filter.',
-        txtNotBetween: 'Not between...'
+        txtNotBetween: 'Not between...',
+        txtSortOption: 'More sort options...'
 
     }, SSE.Views.AutoFilterDialog || {}));
 });
