@@ -2146,10 +2146,22 @@ define([
                     var type = menuItem.asc_getType(),
                         name = menuItem.asc_getName(true),
                         origname = me.api.asc_getFormulaNameByLocale(name),
-                        mnu = new Common.UI.MenuItem({
-                            iconCls: 'menu__icon ' + ((type==Asc.c_oAscPopUpSelectorType.Func) ? 'btn-function': ((type==Asc.c_oAscPopUpSelectorType.Table) ? 'btn-menu-table' : 'btn-named-range')) ,
-                            caption: name,
-                            hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
+                        iconCls = 'btn-named-range';
+                    switch (type) {
+                        case Asc.c_oAscPopUpSelectorType.Func:
+                            iconCls = 'btn-function';
+                            break;
+                        case Asc.c_oAscPopUpSelectorType.Table:
+                            iconCls = 'btn-menu-table';
+                            break;
+                        case Asc.c_oAscPopUpSelectorType.Slicer:
+                            iconCls = 'btn-slicer';
+                            break;
+                    }
+                    var mnu = new Common.UI.MenuItem({
+                        iconCls: 'menu__icon ' + iconCls ,
+                        caption: name,
+                        hint        : (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : ''
                     }).on('click', function(item, e) {
                         setTimeout(function(){ me.api.asc_insertInCell(item.caption, type, false ); }, 10);
                     });
