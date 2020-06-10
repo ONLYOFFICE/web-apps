@@ -205,7 +205,7 @@ define([
                 this.txtDataRange.setValue((val) ? val : '');
                 this.dataRangeValid = val;
 
-                this.txtDataRange.setDisabled(this.isEdit && props.asc_getIsTable());
+                this.txtDataRange.setDisabled(this.isEdit && (props.asc_getType()===Asc.c_oAscDefNameType.table || props.asc_getType()===Asc.c_oAscDefNameType.slicer));
             } else
                 this.cmbScope.setValue(-255);
 
@@ -241,7 +241,7 @@ define([
         },
 
         getSettings: function() {
-            return (new Asc.asc_CDefName(this.inputName.getValue(), this.txtDataRange.getValue(), (this.cmbScope.getValue()==-255) ? null : this.cmbScope.getValue(), this.props.asc_getIsTable(), undefined, undefined, undefined, true));
+            return (new Asc.asc_CDefName(this.inputName.getValue(), this.txtDataRange.getValue(), (this.cmbScope.getValue()==-255) ? null : this.cmbScope.getValue(), this.props.asc_getType(), undefined, undefined, undefined, true));
         },
 
         onPrimary: function() {
