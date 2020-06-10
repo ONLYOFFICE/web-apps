@@ -1986,6 +1986,9 @@ define([
                     isValid = true;
                 }
                 if (isValid) {
+                    var pivotObj = this.configTo.asc_getPivotObj();
+                    if (pivotObj && pivotObj.asc_getIsPageFilter())
+                        pivotObj.asc_setIsMultipleItemSelectionAllowed(true);
                     this.configTo.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
                     this.api.asc_applyAutoFilter(this.configTo);
                 }
