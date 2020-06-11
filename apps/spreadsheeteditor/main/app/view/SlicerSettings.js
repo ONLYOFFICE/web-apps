@@ -470,14 +470,15 @@ define([
                         this.onInitStyles(slicerprops.asc_getStylesPictures());
                     value = slicerprops.asc_getStyle();
                     if (this._state.StyleType!==value || this._isTemplatesChanged) {
-                        var rec = this.mnuSlicerPicker.store.findWhere({type: value});
-                        if (!rec) {
-                            rec = this.mnuSlicerPicker.store.at(0);
-                        }
                         this.btnSlicerStyle.suspendEvents();
-                        this.mnuSlicerPicker.selectRecord(rec, true);
+                        var rec = this.btnSlicerStyle.menuPicker.store.findWhere({type: value});
+                        this.btnSlicerStyle.menuPicker.selectRecord(rec);
                         this.btnSlicerStyle.resumeEvents();
-                        this.$el.find('.icon-template-slicer').css({'background-image': 'url(' + rec.get("imageUrl") + ')', 'height': '49px', 'width': '36px', 'background-position': 'center', 'background-size': 'cover'});
+                        if (rec)
+                            this.btnSlicerStyle.fillComboView(this.btnSlicerStyle.menuPicker.getSelectedRec(),true);
+                        else
+                            this.btnSlicerStyle.fillComboView(this.btnSlicerStyle.menuPicker.store.at(0), true);
+
                         this._state.StyleType=value;
                     }
                     this._isTemplatesChanged = false;
@@ -633,58 +634,55 @@ define([
             this.styles = Templates;
 
             if (!this.btnSlicerStyle) {
-                this.btnSlicerStyle = new Common.UI.Button({
-                    cls         : 'btn-large-dataview sheet-template-slicer',
-                    iconCls     : 'icon-template-slicer',
-                    menu        : new Common.UI.Menu({
-                        style: 'width: 333px;',
-                        items: [
-                            { template: _.template('<div id="id-slicer-menu-style" class="menu-slicer-template"  style="margin: 5px 5px 5px 10px;"></div>') }
-                        ]
-                    })
-                });
-                this.btnSlicerStyle.on('render:after', function(btn) {
-                    self.mnuSlicerPicker = new Common.UI.DataView({
-                        el: $('#id-slicer-menu-style'),
-                        parentMenu: btn.menu,
-                        restoreHeight: 325,
-                        groups: new Common.UI.DataViewGroupStore(),
-                        store: new Common.UI.DataViewStore(),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item"><img src="<%= imageUrl %>" height="49" width="36"></div>'),
-                        style: 'max-height: 325px;'
-                    });
+                this.btnSlicerStyle = new Common.UI.ComboDataView({
+                    itemWidth: 36,
+                    itemHeight: 49,
+                    menuMaxHeight: 235,
+                    enableKeyEvents: true,
+                    cls: 'combo-slicer-style'
                 });
                 this.btnSlicerStyle.render($('#slicer-btn-style'));
+                this.btnSlicerStyle.openButton.menu.cmpEl.css({
+                    'min-width': 178,
+                    'max-width': 178
+                });
+                this.btnSlicerStyle.on('click', _.bind(this.onSelectSlicerStyle, this));
+                this.btnSlicerStyle.openButton.menu.on('show:after', function () {
+                    self.btnSlicerStyle.menuPicker.scroller.update({alwaysVisibleY: true});
+                });
                 this.lockedControls.push(this.btnSlicerStyle);
-                this.mnuSlicerPicker.on('item:click', _.bind(this.onSelectSlicerStyle, this, this.btnSlicerStyle));
                 if (this._locked) this.btnSlicerStyle.setDisabled(this._locked);
             }
 
-            if (Templates) {
-                var count = self.mnuSlicerPicker.store.length;
-                if (count>0 && count==Templates.length) {
-                    var data = self.mnuSlicerPicker.store.models;
-                    _.each(Templates, function(template, index){
-                        data[index].set('imageUrl', template.asc_getImage());
-                    });
-                } else {
-                    var arr = [];
-                    _.each(Templates, function(template){
-                        arr.push({
-                            id          : Common.UI.getId(),
-                            type        : template.asc_getName(),
-                            imageUrl    : template.asc_getImage(),
-                            allowSelected : true,
-                            selected    : false
+            if (Templates && Templates.length>0){
+                var stylesStore = this.btnSlicerStyle.menuPicker.store;
+                if (stylesStore) {
+                    var count = stylesStore.length;
+                    if (count>0 && count==styles.length) {
+                        var data = stylesStore.models;
+                        _.each(Templates, function(style, index){
+                            data[index].set('imageUrl', style.asc_getImage());
                         });
-                    });
-                    self.mnuSlicerPicker.store.reset(arr);
+                    } else {
+                        var stylearray = [],
+                            selectedIdx = -1;
+                        _.each(Templates, function(item, index){
+                            stylearray.push({
+                                type    : item.asc_getName(),
+                                imageUrl: item.asc_getImage()
+                            });
+                        });
+                        stylesStore.reset(stylearray, {silent: false});
+                    }
                 }
+            } else {
+                this.btnSlicerStyle.menuPicker.store.reset();
+                this.btnSlicerStyle.clearComboView();
             }
-            this.btnSlicerStyle.setDisabled(this.mnuSlicerPicker.store.length<1 || this._locked);
+            this.btnSlicerStyle.setDisabled(this.btnSlicerStyle.menuPicker.store.length<1 || this._locked);
         },
 
-        onSelectSlicerStyle: function(btn, picker, itemView, record) {
+        onSelectSlicerStyle: function(combo, record) {
             if (this._noApply) return;
 
             if (this._originalProps) {
