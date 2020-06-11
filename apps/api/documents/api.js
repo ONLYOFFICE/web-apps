@@ -74,7 +74,6 @@
                 recent: [
                     {
                         title: 'document title',
-                        image: 'recent icon url',
                         url: 'document url',
                         folder: 'path to document',
                     },
