@@ -84,11 +84,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         onFormatClick: function(e) {
@@ -145,11 +151,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         onFormatClick: function(e) {
@@ -169,9 +181,9 @@ define([
             '<div style="width:100%; height:100%; position: relative;">',
                 '<div id="id-settings-menu" style="position: absolute; width:200px; top: 0; bottom: 0;" class="no-padding"></div>',
                 '<div id="id-settings-content" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
-                    '<div id="panel-settings-general" style="width:100%; height:100%;" class="no-padding main-settings-panel active"></div>',
-                    '<div id="panel-settings-print" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
-                    '<div id="panel-settings-spellcheck" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
+                    '<div id="panel-settings-general" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel active"></div>',
+                    '<div id="panel-settings-print" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel"></div>',
+                    '<div id="panel-settings-spellcheck" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel"></div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -505,7 +517,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -567,6 +580,7 @@ define([
                 this.updateMetricUnit();
                 this._initSettings = false;
             }
+            this.scroller && this.scroller.update();
             this.fireEvent('show', this);
         },
 
@@ -938,10 +952,10 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
-
             return this;
         },
 
@@ -949,6 +963,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateSettings();
+            this.scroller && this.scroller.update();
         },
 
         setMode: function(mode) {
@@ -1268,7 +1283,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -1279,6 +1295,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateSettings();
+            this.scroller && this.scroller.update();
         },
 
         setMode: function(mode) {
@@ -1391,11 +1408,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         onRecentFileClick: function(view, itemview, record){
@@ -1460,11 +1483,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         _onBlankDocument: function() {
@@ -1662,7 +1691,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -1673,6 +1703,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateFileInfo();
+            this.scroller && this.scroller.update();
         },
 
         hide: function() {
@@ -1903,7 +1934,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -1915,6 +1947,7 @@ define([
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         hide: function() {
@@ -2193,7 +2226,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -2207,6 +2241,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.updateSignatures();
             this.updateEncrypt();
+            this.scroller && this.scroller.update();
         },
 
         setMode: function(mode) {
