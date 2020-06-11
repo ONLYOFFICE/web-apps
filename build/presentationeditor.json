@@ -184,6 +184,12 @@
                     "cwd": "../apps/common/main/resources/img",
                     "src": "**/*.svg",
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/main/resources/img",
+                    "src": "**/*.svg",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img"
                 }
             ],
             "clean": [

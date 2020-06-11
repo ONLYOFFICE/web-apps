@@ -575,11 +575,11 @@ define([
                 store: new Common.UI.DataViewStore(this.recent),
                 itemTemplate: _.template([
                     '<div class="recent-wrap">',
-                        '<div class="recent-icon"',
-                        '<% if ((typeof image !== "undefined") && !_.isEmpty(image)) { %> ',
-                        ' style="background-image: url(<%= image %>);background-position: center;"',
-                        '<% } %>',
-                        '></div>',
+                        '<div class="recent-icon">',
+                            '<svg>',
+                                '<use xlink:href="#svg-file-recent"></use>',
+                            '</svg>',
+                        '</div>',
                         '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
                         '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
                     '</div>'

@@ -1,0 +1,10 @@
+<svg fill="none" height="15" viewBox="0 0 15 15" width="15" xmlns="http://www.w3.org/2000/svg">
+<symbol id="svg-file-recent">
+<path d="m0 0h15v15h-15z" fill="#fff"/>
+<rect fill="#446995" height="15" rx="1" width="15"/>
+<g fill="#fff"><path d="m3 4h9v1h-9z"/>
+<path d="m3 7h9v1h-9z"/>
+<path d="m3 10h9v1h-9z"/>
+</g>
+</symbol>
+</svg>
