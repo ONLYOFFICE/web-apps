@@ -94,7 +94,7 @@ define([
                 itemTemplate: _.template([
                     '<div style="pointer-events:none;">',
                         '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:inline-block;">',
-                            '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":"btn-named-range") %>"></div>',
+                            '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
                             '<div style="width:186px;padding-right: 5px;"><%= name %></div>',
                         '</div>',
                     '</div>'
@@ -122,11 +122,14 @@ define([
                 for (var i=0; i<this.ranges.length; i++) {
                     var name = this.ranges[i].asc_getName(true);
                     if (name !== prev_name) {
+                        var type = this.ranges[i].asc_getType();
                         arr.push({
                             name: name,
                             scope: this.ranges[i].asc_getScope(),
                             range: this.ranges[i].asc_getRef(),
-                            isTable: (this.ranges[i].asc_getIsTable()===true)
+                            type: type,
+                            isTable: type===Asc.c_oAscDefNameType.table,
+                            isSlicer: type===Asc.c_oAscDefNameType.slicer
                         });
                     }
                     prev_name = name;
@@ -145,7 +148,7 @@ define([
 
         getSettings: function() {
             var rec = this.rangeList.getSelectedRec();
-            return (rec) ? (new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true)) : null;
+            return (rec) ? (new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('type'), undefined, undefined, undefined, true)) : null;
         },
 
         onPrimary: function() {

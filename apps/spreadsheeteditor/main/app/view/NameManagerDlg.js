@@ -65,7 +65,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>',
+                    '<div class="separator horizontal"></div>',
                     '<div class="footer center">',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
@@ -121,7 +121,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
-                            '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":"btn-named-range") %>"></div>',
+                            '<div class="listitem-icon toolbar__icon <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
                             '<div style="width:141px;padding-right: 5px;"><%= name %></div>',
                             '<div style="width:117px;padding-right: 5px;"><%= scopeName %></div>',
                             '<div style="width:204px;"><%= range %></div>',
@@ -189,15 +189,18 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 var arr = [];
                 for (var i=0; i<this.ranges.length; i++) {
                     var scope = this.ranges[i].asc_getScope(),
-                        id = this.ranges[i].asc_getIsLock();
+                        id = this.ranges[i].asc_getIsLock(),
+                        type = this.ranges[i].asc_getType();
                     arr.push({
                         name: this.ranges[i].asc_getName(true),
                         scope: scope,
                         scopeName: (scope===null) ? this.textWorkbook: this.sheetNames[scope],
-                        range: this.ranges[i].asc_getRef(),
-                        isTable: (this.ranges[i].asc_getIsTable()===true),
+                        range: (type===Asc.c_oAscDefNameType.slicer) ? '' : this.ranges[i].asc_getRef(),
                         lock: (id!==null && id!==undefined),
-                        lockuser: (id) ? this.getUserName(id) : this.guestText
+                        lockuser: (id) ? this.getUserName(id) : this.guestText,
+                        type: type,
+                        isTable: type===Asc.c_oAscDefNameType.table,
+                        isSlicer: type===Asc.c_oAscDefNameType.slicer
                     });
                 }
                 this.rangesStore.reset(arr);
@@ -286,7 +289,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 xy = me.$window.offset(),
                 rec = this.rangeList.getSelectedRec(),
                 idx = _.indexOf(this.rangeList.store.models, rec),
-                oldname = (isEdit && rec) ? new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true) : null;
+                oldname = (isEdit && rec) ? new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('type'), undefined, undefined, undefined, true) : null;
 
             var win = new SSE.Views.NamedRangeEditDlg({
                 api: me.api,
@@ -320,7 +323,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             var rec = this.rangeList.getSelectedRec();
             if (rec) {
                 this.currentNamedRange = _.indexOf(this.rangeList.store.models, rec);
-                this.api.asc_delDefinedNames(new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('isTable'), undefined, undefined, undefined, true));
+                this.api.asc_delDefinedNames(new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('type'), undefined, undefined, undefined, true));
             }
         },
 
@@ -376,7 +379,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 }
                 this.currentNamedRange = _.indexOf(this.rangeList.store.models, record);
                 this.btnEditRange.setDisabled(rawData.lock);
-                this.btnDeleteRange.setDisabled(rawData.lock || rawData.isTable);
+                this.btnDeleteRange.setDisabled(rawData.lock || rawData.isTable || rawData.isSlicer);
             }
         },
 

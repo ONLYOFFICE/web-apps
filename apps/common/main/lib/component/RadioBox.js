@@ -72,7 +72,7 @@ define([
         rendered    : false,
 
         template    : _.template('<label class="radiobox"><input type="radio" name="<%= name %>" id="<%= id %>" class="button__radiobox">' +
-                                    '<label for="<%= id %>" class="radiobox__shape" /><span><%= labelText %></span></label>'),
+                                    '<label for="<%= id %>" class="radiobox__shape"></label><span><%= labelText %></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);

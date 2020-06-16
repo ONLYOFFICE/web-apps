@@ -190,6 +190,12 @@
                     "cwd": "../apps/common/main/resources/img",
                     "src": "**/*.svg",
                     "dest": "../deploy/web-apps/apps/documenteditor/main/resources/img"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/main/resources/img",
+                    "src": "**/*.svg",
+                    "dest": "../deploy/web-apps/apps/documenteditor/main/resources/img"
                 }
             ],
             "clean": [

@@ -82,7 +82,8 @@ define([
 
             setMode: function(mode) {
                 this.appConfig = mode;
-                this.loadPlugins();
+                if (!this.appConfig.customization || (this.appConfig.customization.plugins!==false))
+                    this.loadPlugins();
             },
 
 

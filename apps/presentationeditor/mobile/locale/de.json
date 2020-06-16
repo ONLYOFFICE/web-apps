@@ -41,6 +41,7 @@
   "PE.Controllers.DocumentHolder.menuPaste": "Einfügen",
   "PE.Controllers.DocumentHolder.sheetCancel": "Abbrechen",
   "PE.Controllers.DocumentHolder.textCopyCutPasteActions": "Funktionen \"Kopieren\", \"Ausschneiden\" und \"Einfügen\"",
+  "PE.Controllers.DocumentHolder.textDoNotShowAgain": "Nicht wieder anzeigen",
   "PE.Controllers.DocumentPreview.txtFinalMessage": "Ende der Folienvorschau. Zum Schließen bitte klicken.",
   "PE.Controllers.EditContainer.textChart": "Diagramm",
   "PE.Controllers.EditContainer.textHyperlink": "Hyperlink",

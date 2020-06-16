@@ -313,6 +313,7 @@
     <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
+    <inline src="resources/img/recent-file.svg" />
 
     <div id="viewport"></div>
 

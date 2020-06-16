@@ -353,7 +353,7 @@ define([
                         });
                     });
 
-                this.tabbar.$el.append('<div class="dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"/>');
+                this.tabbar.$el.append('<div class="dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"></div>');
                 this.tabMenu.render(this.tabbar.$el);
                 this.tabMenu.cmpEl.attr({tabindex: -1});
                 this.tabMenu.on('show:after', _.bind(this.onTabMenuAfterShow, this));
@@ -683,7 +683,7 @@ define([
                             '<div class="input-row">' +
                                 '<label><%= label %></label>' +
                             '</div>' +
-                            '<div class="input-row" id="txt-sheet-name" />' +
+                            '<div class="input-row" id="txt-sheet-name"></div>' +
                         '</div>',
 
             initialize : function(options) {
@@ -790,7 +790,7 @@ define([
                             '<div class="input-row">' +
                                 '<label><%= label %></label>' +
                             '</div>' +
-                            '<div id="status-list-names" style="height: 162px;"/>' +
+                            '<div id="status-list-names" style="height: 162px;"></div>' +
                         '</div>',
 
             initialize : function(options) {

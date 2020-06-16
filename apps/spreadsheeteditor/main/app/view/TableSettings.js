@@ -48,7 +48,8 @@ define([
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/ComboDataView',
     'spreadsheeteditor/main/app/view/TableOptionsDialog',
-    'spreadsheeteditor/main/app/view/TableSettingsAdvanced'
+    'spreadsheeteditor/main/app/view/TableSettingsAdvanced',
+    'spreadsheeteditor/main/app/view/SlicerAddDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -305,6 +306,12 @@ define([
             }, this));
             this.lockedControls.push(this.btnRemDuplicates);
 
+            this.btnSlicer = new Common.UI.Button({
+                el: $('#table-btn-slicer')
+            });
+            this.btnSlicer.on('click', _.bind(this.onInsertSlicerClick, this));
+            this.lockedControls.push(this.btnSlicer);
+
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
 
             this._initSettings = false;
@@ -528,6 +535,22 @@ define([
             }
         },
 
+        onInsertSlicerClick: function() {
+            var me = this,
+                props = me.api.asc_beforeInsertSlicer();
+            if (props) {
+                (new SSE.Views.SlicerAddDialog({
+                    props: props,
+                    handler: function (result, settings) {
+                        if (me && me.api && result == 'ok') {
+                            me.api.asc_insertSlicer(settings);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                })).show();
+            }
+        },
+
         onApiEditCell: function(state) {
             this.isEditCell = (state != Asc.c_oAscCellEditorState.editEnd);
             if ( state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd)
@@ -585,7 +608,8 @@ define([
         textConvertRange: 'Convert to range',
         textLongOperation: 'Long operation',
         warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
-        textRemDuplicates: 'Remove duplicates'
+        textRemDuplicates: 'Remove duplicates',
+        textSlicer: 'Insert slicer'
 
     }, SSE.Views.TableSettings || {}));
 });

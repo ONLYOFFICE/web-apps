@@ -389,6 +389,10 @@ define([
                 value = parseInt(Common.localStorage.getItem("sse-settings-autosave"));
                 Common.Utils.InternalSettings.set("sse-settings-autosave", value);
                 this.api.asc_setAutoSaveGap(value);
+
+                value = parseInt(Common.localStorage.getItem("sse-settings-paste-button"));
+                Common.Utils.InternalSettings.set("sse-settings-paste-button", value);
+                this.api.asc_setVisiblePasteButton(!!value);
             }
 
             var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
@@ -427,8 +431,12 @@ define([
 
         onCreateNew: function(menu, type) {
             if ( !Common.Controllers.Desktop.process('create:new') ) {
-                var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
-                if (newDocumentPage) newDocumentPage.focus();
+                if (this.mode.canRequestCreateNew)
+                    Common.Gateway.requestCreateNew();
+                else {
+                    var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
+                    if (newDocumentPage) newDocumentPage.focus();
+                }
             }
             if (menu) {
                 menu.hide();

@@ -93,11 +93,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         onFormatClick: function(e) {
@@ -154,11 +160,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         onFormatClick: function(e) {
@@ -179,61 +191,71 @@ define([
                 /** coauthoring begin **/
                 '<tr class="comments">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
-                    '<td class="right"><div id="fms-chb-live-comment"/></td>',
+                    '<td class="right"><div id="fms-chb-live-comment"></div></td>',
                 '</tr>','<tr class="divider comments"></tr>',
                 '<tr class="comments">',
                     '<td class="left"></td>',
-                    '<td class="right"><div id="fms-chb-resolved-comment"/></td>',
+                    '<td class="right"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>','<tr class="divider comments"></tr>',
                 /** coauthoring end **/
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
-                    '<td class="right"><div id="fms-chb-spell-check"/></td>',
+                    '<td class="right"><div id="fms-chb-spell-check"></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
-                    '<td class="right"><div id="fms-chb-input-mode"/></td>',
+                    '<td class="right"><div id="fms-chb-input-mode"></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.textAlignGuides %></label></td>',
-                    '<td class="right"><span id="fms-chb-align-guides" /></td>',
+                    '<td class="right"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.textCompatible %></label></td>',
-                    '<td class="right"><span id="fms-chb-compatible" /></td>',
+                    '<td class="right"><span id="fms-chb-compatible"></span></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="autosave">',
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
-                    '<td class="right"><span id="fms-chb-autosave" /></td>',
+                    '<td class="right"><span id="fms-chb-autosave"></span></td>',
                 '</tr>','<tr class="divider autosave"></tr>',
                 '<tr class="forcesave">',
                     '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
-                    '<td class="right"><span id="fms-chb-forcesave" /></td>',
+                    '<td class="right"><span id="fms-chb-forcesave"></span></td>',
                 '</tr>','<tr class="divider forcesave"></tr>',
                 /** coauthoring begin **/
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
-                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
+                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strShowChanges %></label></td>',
-                    '<td class="right"><span id="fms-cmb-show-changes" /></td>',
+                    '<td class="right"><span id="fms-cmb-show-changes"></span></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
-                    '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr" /></td>',
+                    '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strFontRender %></label></td>',
-                    '<td class="right"><span id="fms-cmb-font-render" /></td>',
+                    '<td class="right"><span id="fms-cmb-font-render"></span></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strUnit %></label></td>',
-                    '<td class="right"><span id="fms-cmb-unit" /></td>',
+                    '<td class="right"><span id="fms-cmb-unit"></span></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strPaste %></label></td>',
+                    '<td class="right"><div id="fms-chb-paste-settings"></div></td>',
+                '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="macros">',
+                    '<td class="left"><label><%= scope.strMacrosSettings %></label></td>',
+                    '<td class="right">',
+                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                        '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
+                '</tr>','<tr class="divider macros"></tr>',
                 '<tr>',
                     '<td class="left"></td>',
                     '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
@@ -388,6 +410,26 @@ define([
                 ]
             });
 
+            this.cmbMacros = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-macros'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
+                    { value: 0, displayValue: this.txtWarnMacros, descValue: this.txtWarnMacrosDesc },
+                    { value: 1, displayValue: this.txtRunMacros, descValue: this.txtRunMacrosDesc }
+                ]
+            }).on('selected', function(combo, record) {
+                me.lblMacrosDesc.text(record.descValue);
+            });
+            this.lblMacrosDesc = $markup.findById('#fms-lbl-macros');
+
+            this.chPaste = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-paste-settings'),
+                labelText: this.strPasteButton
+            });
+
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-apply')
             });
@@ -399,7 +441,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
             return this;
@@ -409,6 +452,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateSettings();
+            this.scroller && this.scroller.update();
         },
 
         setMode: function(mode) {
@@ -425,6 +469,8 @@ define([
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
+
+            $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
         },
 
         updateSettings: function() {
@@ -475,6 +521,12 @@ define([
             this.chSpell.setValue(Common.Utils.InternalSettings.get("de-settings-spellcheck"));
             this.chAlignGuides.setValue(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
             this.chCompatible.setValue(Common.Utils.InternalSettings.get("de-settings-compatible"));
+
+            item = this.cmbMacros.store.findWhere({value: Common.Utils.InternalSettings.get("de-macros-mode")});
+            this.cmbMacros.setValue(item ? item.get('value') : 0);
+            this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
+
+            this.chPaste.setValue(Common.Utils.InternalSettings.get("de-settings-paste-button"));
         },
 
         applySettings: function() {
@@ -501,6 +553,12 @@ define([
             Common.localStorage.setItem("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-compatible", this.chCompatible.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-showsnaplines", this.chAlignGuides.isChecked());
+
+            Common.localStorage.setItem("de-macros-mode", this.cmbMacros.getValue());
+            Common.Utils.InternalSettings.set("de-macros-mode", this.cmbMacros.getValue());
+
+            Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+
             Common.localStorage.save();
 
             if (this.menu) {
@@ -575,7 +633,16 @@ define([
         strResolvedComment: 'Turn on display of the resolved comments',
         textCompatible: 'Compatibility',
         textOldVersions: 'Make the files compatible with older MS Word versions when saved as DOCX',
-        txtCacheMode: 'Default cache mode'
+        txtCacheMode: 'Default cache mode',
+        strMacrosSettings: 'Macros Settings',
+        txtWarnMacros: 'Show Notification',
+        txtRunMacros: 'Enable All',
+        txtStopMacros: 'Disable All',
+        txtWarnMacrosDesc: 'Disable all macros with notification',
+        txtRunMacrosDesc: 'Enable all macros without notification',
+        txtStopMacrosDesc: 'Disable all macros without notification',
+        strPaste: 'Cut, copy and paste',
+        strPasteButton: 'Show Paste Options button when content is pasted'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -601,11 +668,11 @@ define([
                 store: new Common.UI.DataViewStore(this.recent),
                 itemTemplate: _.template([
                     '<div class="recent-wrap">',
-                        '<div class="recent-icon"',
-                            '<% if ((typeof image !== "undefined") && !_.isEmpty(image)) { %> ',
-                            ' style="background-image: url(<%= image %>);background-position: center;"',
-                            '<% } %>',
-                        '></div>',
+                        '<div class="recent-icon">',
+                            '<svg>',
+                                '<use xlink:href="#svg-file-recent"></use>',
+                            '</svg>',
+                        '</div>',
                         '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
                         '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
                     '</div>'
@@ -617,11 +684,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         onRecentFileClick: function(view, itemview, record){
@@ -686,11 +759,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         _onBlankDocument: function() {
@@ -925,7 +1004,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
             return this;
@@ -936,6 +1016,7 @@ define([
 
             this.updateStatisticInfo();
             this.updateFileInfo();
+            this.scroller && this.scroller.update();
         },
 
         hide: function() {
@@ -1239,7 +1320,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
             return this;
@@ -1247,6 +1329,7 @@ define([
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         hide: function() {
@@ -1557,7 +1640,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -1571,6 +1655,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.updateSignatures();
             this.updateEncrypt();
+            this.scroller && this.scroller.update();
         },
 
         setMode: function(mode) {

@@ -136,7 +136,8 @@
     var Common = {};
 
 define([
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/component/CheckBox'
 ], function () {
     'use strict';
 
@@ -439,12 +440,12 @@ define([
             if (!options.width) options.width = 'auto';
             
             var template =  '<div class="info-box">' +
-                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl <%= iconCls %>" /><% } %>' +
+                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl <%= iconCls %>"></div><% } %>' +
                                 '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-left:10px;" <% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
-                            '<% if (dontshow) { %><div class="separator horizontal" style="width: 100%;"/><% } %>';
+                            '<% if (dontshow) { %><div class="separator horizontal" style="width: 100%;"></div><% } %>';
 
             _.extend(options, {
                 cls: 'alert',

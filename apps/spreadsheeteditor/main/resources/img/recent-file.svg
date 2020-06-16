@@ -1,0 +1,7 @@
+<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<symbol id="svg-file-recent">
+<rect width="15" height="15" fill="white"/>
+<rect width="15" height="15" rx="1" fill="#42865E"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M2 12H13V3H2V12ZM7 4H3V7H7V4ZM8 4V7H12V4H8ZM7 8H3V11H7V8ZM8 11H12V8H8V11Z" fill="white"/>
+</symbol>
+</svg>

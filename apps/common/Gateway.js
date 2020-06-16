@@ -322,6 +322,10 @@ if (Common === undefined) {
                 _postMessage({event:'onRequestSharingSettings'});
             },
 
+            requestCreateNew:  function () {
+                _postMessage({event:'onRequestCreateNew'});
+            },
+
             on: function(event, handler){
                 var localHandler = function(event, data){
                     handler.call(me, data)

@@ -71,14 +71,14 @@ define([
                     '<div class="content-panel" >',
                         '<div id="formula-dlg-search" style="height:22px; margin-bottom:10px;"></div>',
                         '<label class="header">' + t.textGroupDescription + '</label>',
-                        '<div id="formula-dlg-combo-group" class="input-group-nr" style=""/>',
+                        '<div id="formula-dlg-combo-group" class="input-group-nr" style=""></div>',
                         '<label class="header" style="margin-top: 10px">' + t.textListDescription + '</label>',
-                        '<div id="formula-dlg-combo-functions" class="combo-functions"/>',
+                        '<div id="formula-dlg-combo-functions" class="combo-functions"></div>',
                         '<label id="formula-dlg-args" style="margin-top: 7px">' + '</label>',
                         '<label id="formula-dlg-desc" style="margin-top: 4px; display: block;">' + '</label>',
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal"/>',
+                '<div class="separator horizontal"></div>',
                 '<div class="footer center">',
                     '<button id="formula-dlg-btn-ok" class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.okButtonText + '</button>',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
@@ -153,6 +153,7 @@ define([
                     me.inputSearch.$el.find('input').focus();
                 }, 100, this);
             }
+            this._preventCloseCellEditor = false;
         },
 
         hide: function () {
@@ -166,6 +167,8 @@ define([
             this.recommended = this.filter = undefined;
 
             Common.UI.Window.prototype.hide.call(this);
+
+            !this._preventCloseCellEditor && this.api.asc_closeCellEditor(true);
         },
 
         onBtnClick: function (event) {
@@ -198,6 +201,7 @@ define([
             if (this.handler && state == 'ok') {
                 if (this.btnOk.isDisabled())
                     return;
+                this._preventCloseCellEditor = true;
                 this.handler.call(this, this.applyFunction);
             }
 

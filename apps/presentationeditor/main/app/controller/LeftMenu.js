@@ -326,6 +326,10 @@ define([
                 value = Common.localStorage.getBool("pe-settings-spellcheck", true);
                 Common.Utils.InternalSettings.set("pe-settings-spellcheck", value);
                 this.api.asc_setSpellCheck(value);
+
+                value = parseInt(Common.localStorage.getItem("pe-settings-paste-button"));
+                Common.Utils.InternalSettings.set("pe-settings-paste-button", value);
+                this.api.asc_setVisiblePasteButton(!!value);
             }
 
             this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("pe-settings-showsnaplines"));
@@ -335,8 +339,12 @@ define([
 
         onCreateNew: function(menu, type) {
             if ( !Common.Controllers.Desktop.process('create:new') ) {
-                var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
-                if (newDocumentPage) newDocumentPage.focus();
+                if (this.mode.canRequestCreateNew)
+                    Common.Gateway.requestCreateNew();
+                else {
+                    var newDocumentPage = window.open(type == 'blank' ? this.mode.createUrl : type, "_blank");
+                    if (newDocumentPage) newDocumentPage.focus();
+                }
             }
             if (menu) {
                 menu.hide();

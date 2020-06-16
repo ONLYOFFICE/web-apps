@@ -6129,17 +6129,6 @@ html.phone .document-menu .list-block .item-link {
 .page-edit-reply .list-block .item-inner:after {
   content: none;
 }
-.page-comments p,
-.page-add-comment p,
-.page-view-comments p,
-.container-edit-comment p,
-.container-add-reply p,
-.page-edit-comment p,
-.page-add-reply p,
-.page-edit-reply p {
-  margin: 0;
-  word-break: break-word;
-}
 .page-comments .list-reply,
 .page-add-comment .list-reply,
 .page-view-comments .list-reply,
@@ -6233,6 +6222,24 @@ html.phone .document-menu .list-block .item-link {
   margin: 0;
   max-width: 100%;
   padding-right: 15px;
+}
+.page-comments .comment-text pre,
+.page-add-comment .comment-text pre,
+.page-view-comments .comment-text pre,
+.container-edit-comment .comment-text pre,
+.container-add-reply .comment-text pre,
+.page-edit-comment .comment-text pre,
+.page-add-reply .comment-text pre,
+.page-edit-reply .comment-text pre,
+.page-comments .reply-text pre,
+.page-add-comment .reply-text pre,
+.page-view-comments .reply-text pre,
+.container-edit-comment .reply-text pre,
+.container-add-reply .reply-text pre,
+.page-edit-comment .reply-text pre,
+.page-add-reply .reply-text pre,
+.page-edit-reply .reply-text pre {
+  white-space: pre-wrap;
 }
 .page-comments .reply-item,
 .page-add-comment .reply-item,
@@ -6328,7 +6335,7 @@ html.phone .document-menu .list-block .item-link {
   outline: none;
   width: 100%;
   font-size: 15px;
-  border: 1px solid #c4c4c4;
+  border: none;
   border-radius: 3px;
   min-height: 100px;
 }
@@ -7654,4 +7661,11 @@ html.pixel-ratio-3 .numbers li {
 }
 .doc-placeholder .slide-container > .line.empty {
   background: transparent;
+}
+.page-macros-settings[data-page="settings-macros-view"] .list-block li.media-item .item-title {
+  font-weight: normal;
+}
+.page-macros-settings[data-page="settings-macros-view"] .list-block li.media-item .item-subtitle {
+  font-size: 14px;
+  color: #9e9e9e;
 }

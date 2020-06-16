@@ -62,7 +62,7 @@ define([
                 '<div class="box" style="height: 20px;">',
                     '<div id="slideshow-checkbox-loop"></div>',
                 '</div>',
-                '<div class="separator horizontal"/>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);

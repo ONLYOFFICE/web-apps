@@ -1,20 +1,20 @@
 <div class="settings-panel active">
     <div class="padding-large inner-content" >
-        <div id="printadv-dlg-combo-range" class="input-group-nr" />
-        <div id="printadv-dlg-chb-ignore" style="margin-top: 5px;"/>
+        <div id="printadv-dlg-combo-range" class="input-group-nr"></div>
+        <div id="printadv-dlg-chb-ignore" style="margin-top: 5px;"></div>
     </div>
-    <div class="padding-small"/>
+    <div class="padding-small"></div>
     <div class="padding-large inner-content" >
-        <div id="printadv-dlg-combo-sheets" class="input-group-nr" />
-    </div>
-    <div class="padding-large inner-content" >
-        <div id="printadv-dlg-combo-pages" class="input-group-nr" />
+        <div id="printadv-dlg-combo-sheets" class="input-group-nr"></div>
     </div>
     <div class="padding-large inner-content" >
-        <span id="printadv-dlg-combo-orient" />
+        <div id="printadv-dlg-combo-pages" class="input-group-nr"></div>
     </div>
     <div class="padding-large inner-content" >
-        <span id="printadv-dlg-combo-layout" />
+        <span id="printadv-dlg-combo-orient"></span>
+    </div>
+    <div class="padding-large inner-content" >
+        <span id="printadv-dlg-combo-layout"></span>
     </div>
     <div id="printadv-dlg-content-to-hide">
         <div class="padding-large inner-content" >
@@ -55,10 +55,10 @@
                 </tr>
             </table>
         </div>
-        <div class="padding-small"/>
+        <div class="padding-small"></div>
         <div class="inner-content">
-            <div id="printadv-dlg-chb-grid" style="margin-bottom: 10px;"/>
-            <div id="printadv-dlg-chb-rows"/>
+            <div id="printadv-dlg-chb-grid" style="margin-bottom: 10px;"></div>
+            <div id="printadv-dlg-chb-rows"></div>
         </div>
     </div>
 </div>

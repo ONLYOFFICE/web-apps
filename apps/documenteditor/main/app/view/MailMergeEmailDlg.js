@@ -57,7 +57,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                     '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>'
+                    '<div class="separator horizontal"></div>'
                 ].join('')
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);

@@ -168,7 +168,7 @@ define([
             },
 
             onDoneComment: function(documentFlag) {
-                var value = $('#comment-text').val();
+                var value = $('#comment-text').val().trim();
                 if (value.length > 0) {
                     PE.getController('Common.Controllers.Collaboration').onAddNewComment(value, documentFlag);
                     PE.getController('AddContainer').hideModal();

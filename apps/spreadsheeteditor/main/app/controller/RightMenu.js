@@ -92,6 +92,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Pivot] =     {panelId: "id-pivot-settings",      panel: rightMenu.pivotSettings,    btn: rightMenu.btnPivot,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Cell] =      {panelId: "id-cell-settings",       panel: rightMenu.cellSettings,     btn: rightMenu.btnCell,        hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Slicer] =    {panelId: "id-slicer-settings",     panel: rightMenu.slicerSettings,   btn: rightMenu.btnSlicer,      hidden: 1, locked: false};
         },
 
         setApi: function(api) {
@@ -139,7 +140,7 @@ define([
                 cellInfo = info,
                 pivotInfo = info.asc_getPivotTableInfo();
 
-            if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
+            if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape || selectType == Asc.c_oAscSelectionType.RangeSlicer ||
                 selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
@@ -190,6 +191,8 @@ define([
                             this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
                             this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.asc_getLocked();
                         }
+                    } else if (value.asc_getSlicerProperties() !== null) {
+                        settingsType = Common.Utils.documentSettingsType.Slicer;
                     }
                 }
 
@@ -326,6 +329,7 @@ define([
             this.rightmenu.paragraphSettings.updateMetricUnit();
             this.rightmenu.chartSettings.updateMetricUnit();
             this.rightmenu.imageSettings.updateMetricUnit();
+            this.rightmenu.slicerSettings.updateMetricUnit();
         },
 
         createDelayedElements: function() {
@@ -392,6 +396,7 @@ define([
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.pivotSettings.disableControls(disabled);
                 this.rightmenu.cellSettings.disableControls(disabled);
+                this.rightmenu.slicerSettings.disableControls(disabled);
 
                 if (!allowSignature && this.rightmenu.signatureSettings) {
                     this.rightmenu.btnSignature.setDisabled(disabled);
@@ -410,6 +415,7 @@ define([
                     this.rightmenu.btnChart.setDisabled(disabled);
                     this.rightmenu.btnPivot.setDisabled(disabled);
                     this.rightmenu.btnCell.setDisabled(disabled);
+                    this.rightmenu.btnSlicer.setDisabled(disabled);
                 } else {
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }

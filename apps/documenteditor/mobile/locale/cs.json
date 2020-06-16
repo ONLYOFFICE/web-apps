@@ -108,6 +108,7 @@
   "DE.Controllers.DocumentHolder.textCancel": "Storno",
   "DE.Controllers.DocumentHolder.textColumns": "Sloupce",
   "DE.Controllers.DocumentHolder.textCopyCutPasteActions": "Akce kopírovat, vyjmout a vložit",
+  "DE.Controllers.DocumentHolder.textDoNotShowAgain": "Znovu už nezobrazovat",
   "DE.Controllers.DocumentHolder.textGuest": "Návštěvník",
   "DE.Controllers.DocumentHolder.textRows": "Řádky",
   "DE.Controllers.EditContainer.textChart": "Graf",

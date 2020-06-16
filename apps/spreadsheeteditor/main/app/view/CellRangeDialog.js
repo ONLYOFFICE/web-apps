@@ -81,7 +81,7 @@ define([
                 el          : $('#id-dlg-cell-range'),
                 name        : 'range',
                 style       : 'width: 100%;',
-                allowBlank  : false,
+                allowBlank  : this.options.allowBlank || false,
                 blankError  : this.txtEmpty,
                 validateOnChange: true
             });
@@ -103,6 +103,7 @@ define([
         setSettings: function(settings) {
             var me = this;
 
+            this.settings = settings;
             this.inputRange.setValue(settings.range ? settings.range : '');
 
             if (settings.type===undefined)
@@ -121,18 +122,52 @@ define([
                 if (settings.validation) {
                     return settings.validation.call(me, value);
                 } else {
-                    var isvalid = me.api.asc_checkDataRange(settings.type, value, false);
+                    if (settings.type === Asc.c_oAscSelectionDialogType.Function) {
+                        settings.argvalues[settings.argindex] = value;
+                        me.api.asc_insertArgumentsInFormula(settings.argvalues);
+                    }
+                    var isvalid = (settings.type === Asc.c_oAscSelectionDialogType.Function) || me.api.asc_checkDataRange(settings.type, value, false);
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
                 }
             };
+
+            if (settings.type == Asc.c_oAscSelectionDialogType.Function) {
+                _.delay(function(){
+                    me.inputRange._input.focus();
+                    if (settings.selection) {
+                        me.inputRange._input[0].selectionStart = settings.selection.start;
+                        me.inputRange._input[0].selectionEnd = settings.selection.end;
+                    }
+                },10);
+                me.inputRange._input.on('focus', function() {
+                    me._addedTextLength=0;
+                    me.api.asc_cleanSelectRange();
+                });
+            }
         },
 
         getSettings: function () {
             return this.inputRange.getValue();
         },
 
-        onApiRangeChanged: function(info) {
-            this.inputRange.setValue(info.asc_getName());
+        onApiRangeChanged: function(name) {
+            if (this.settings.type == Asc.c_oAscSelectionDialogType.Function) {
+                var oldlen = this._addedTextLength || 0,
+                    val = this.inputRange.getValue(),
+                    input = this.inputRange._input[0],
+                    start = input.selectionStart - oldlen,
+                    end =  input.selectionEnd,
+                    add = (start>0 && oldlen==0) && !this.api.asc_canEnterWizardRange(val.charAt(start-1)) ? '+' : '';
+                this._addedTextLength = name.length;
+
+                val = val.substring(0, start) + add + name + val.substring(end, val.length);
+                this.inputRange.setValue(val);
+                input.selectionStart = input.selectionEnd = start + add.length + this._addedTextLength;
+
+                this.settings.argvalues[this.settings.argindex] = val;
+                this.api.asc_insertArgumentsInFormula(this.settings.argvalues);
+            } else
+                this.inputRange.setValue(name);
             if (this.inputRange.cmpEl.hasClass('error'))
                 this.inputRange.cmpEl.removeClass('error');
         },

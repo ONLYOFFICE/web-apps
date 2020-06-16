@@ -1046,7 +1046,7 @@ define([
 
             onDoneAddNewReply: function(uid) {
                 var phone = Common.SharedSettings.get('phone');
-                var reply = $('.reply-textarea')[0].value;
+                var reply = $('.reply-textarea')[0].value.trim();
                 if ($('.container-view-comment').length > 0) {
                     var $viewComment = $('.container-view-comment');
                     if (reply && reply.length > 0) {
@@ -1282,8 +1282,8 @@ define([
                             me.disabledViewComments(true);
                             if ($('.comment-textarea').length === 0) {
                                 var $viewComment = $('.container-view-comment');
-                                var oldComment = $viewComment.find('.comment-text span').text();
-                                $viewComment.find('.comment-text span').css('display', 'none');
+                                var oldComment = $viewComment.find('.comment-text pre').text();
+                                $viewComment.find('.comment-text pre').css('display', 'none');
                                 var template = _.template('<textarea id="comment-text" class="comment-textarea">' + oldComment + '</textarea>');
                                 $viewComment.find('.comment-text').append(template);
                                 $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'none');
@@ -1308,7 +1308,7 @@ define([
             },
 
             onEditComment: function(comment) {
-                var value = $('#comment-text')[0].value;
+                var value = $('#comment-text')[0].value.trim();
                 if (value && value.length > 0) {
                     if (!_.isUndefined(this.onChangeComment)) {
                         comment.comment = value;
@@ -1323,7 +1323,7 @@ define([
                             $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
                             if ($viewComment.find('.comment-textarea').length > 0) {
                                 $viewComment.find('.comment-textarea').remove();
-                                $viewComment.find('.comment-text span').css('display', 'block');
+                                $viewComment.find('.comment-text pre').css('display', 'block');
                             }
                         }
                         this.disabledViewComments(false);
@@ -1336,7 +1336,7 @@ define([
             onCancelEditComment: function() {
                 var $viewComment = $('.container-view-comment');
                 $viewComment.find('a.done-edit-comment, a.cancel-edit-comment, .comment-textarea').remove();
-                $viewComment.find('.comment-text span').css('display', 'block');
+                $viewComment.find('.comment-text pre').css('display', 'block');
                 $viewComment.find('a.prev-comment, a.next-comment, a.add-reply').css('display', 'flex');
                 this.disabledViewComments(false);
             },
@@ -1388,7 +1388,7 @@ define([
             },
 
             onEditReply: function(comment, indReply) {
-                var value = $('.edit-reply-textarea')[0].value;
+                var value = $('.edit-reply-textarea')[0].value.trim();
                 if (value && value.length > 0) {
                     if ($('.container-view-comment').length > 0) {
                         if (!_.isUndefined(this.onChangeComment)) {
@@ -1766,8 +1766,8 @@ define([
             textChart: 'Chart',
             textShape: 'Shape',
             textTableChanged: '<b>Table Settings Changed</b>',
-            textTableRowsAdd: '<b>Table Rows Added<b/>',
-            textTableRowsDel: '<b>Table Rows Deleted<b/>',
+            textTableRowsAdd: '<b>Table Rows Added</b>',
+            textTableRowsDel: '<b>Table Rows Deleted</b>',
             textParaMoveTo: '<b>Moved:</b>',
             textParaMoveFromUp: '<b>Moved Up:</b>',
             textParaMoveFromDown: '<b>Moved Down:</b>',

@@ -283,8 +283,7 @@
             }
 
             .recent-wrap {
-                height: 65px;
-                padding: 10px;
+                padding: 5px 10px;
                 cursor: pointer;
                 font-size: 12px;
 
@@ -295,11 +294,13 @@
 
                 .recent-icon {
                     float: left;
-                    width: 35px;
-                    height: 45px;
-                    margin-right: 10px;
-                    .background-ximage-v2('file-recent.png', 38px, @commonimage: false);
-                    background-position: 0 0;
+                    width: 25px;
+                    height: 25px;
+                    margin-top: 1px;
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
 
                 .file-name {
@@ -307,7 +308,6 @@
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
-                    margin: 5px 0;
                 }
 
                 .file-info {

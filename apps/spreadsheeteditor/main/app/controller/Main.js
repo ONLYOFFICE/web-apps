@@ -127,7 +127,10 @@ define([
                         'Values': this.txtValues,
                         'Grand Total': this.txtGrandTotal,
                         'Row Labels': this.txtRowLbls,
-                        'Column Labels': this.txtColLbls
+                        'Column Labels': this.txtColLbls,
+                        'Multi-Select (Alt+S)': this.txtMultiSelect,
+                        'Clear Filter (Alt+C)':  this.txtClearFilter,
+                        '(blank)': this.txtBlank
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -322,11 +325,12 @@ define([
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = !_.isEmpty(this.editorConfig.createUrl);
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
+                this.appOptions.canRequestCreateNew = this.editorConfig.canRequestCreateNew;
                 this.appOptions.lang            = this.editorConfig.lang;
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
                 this.appOptions.region          = (typeof (this.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
@@ -390,6 +394,14 @@ define([
                     $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
                 }
 
+                var value = Common.localStorage.getItem("sse-macros-mode");
+                if (value === null) {
+                    value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
+                    value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
+                } else
+                    value = parseInt(value);
+                Common.Utils.InternalSettings.set("sse-macros-mode", value);
+
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 Common.Controllers.Desktop.init(this.appOptions);
             },
@@ -422,6 +434,11 @@ define([
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
 
+                    var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                    docInfo.asc_putIsEnabledPlugins(!!enable);
+
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
 
                     Common.Utils.InternalSettings.set("sse-doc-info-key", data.doc.key);
@@ -429,6 +446,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
             },
@@ -793,6 +811,11 @@ define([
                         Common.Utils.InternalSettings.set("sse-settings-forcesave", me.appOptions.forcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
+
+                    value = Common.localStorage.getItem("sse-settings-paste-button");
+                    if (value===null) value = '1';
+                    Common.Utils.InternalSettings.set("sse-settings-paste-button", parseInt(value));
+                    me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
                     if (me.needToUpdateVersion) {
                         Common.NotificationCenter.trigger('api:disconnect');
@@ -1477,6 +1500,9 @@ define([
                         config.msg = this.errorFTRangeIncludedOtherTables;
                         break;
 
+                    case  Asc.c_oAscError.ID.PasteSlicerError:
+                        config.msg = this.errorPasteSlicerError;
+                        break;
 
                     case Asc.c_oAscError.ID.RemoveDuplicates:
                         config.iconCls = 'info';
@@ -1500,7 +1526,7 @@ define([
                     config.closable = false;
 
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
-                        config.msg += '<br/><br/>' + this.criticalErrorExtText;
+                        config.msg += '<br><br>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
                                 Common.NotificationCenter.trigger('goback', true);
@@ -2183,6 +2209,36 @@ define([
                 }});
             },
 
+            onRunAutostartMacroses: function() {
+                var me = this,
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                if (enable) {
+                    var value = Common.Utils.InternalSettings.get("sse-macros-mode");
+                    if (value==1)
+                        this.api.asc_runAutostartMacroses();
+                    else if (value === 0) {
+                        Common.UI.warning({
+                            msg: this.textHasMacros + '<br>',
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            dontshow: true,
+                            textDontShow: this.textRemember,
+                            callback: function(btn, dontshow){
+                                if (dontshow) {
+                                    Common.Utils.InternalSettings.set("sse-macros-mode", (btn == 'yes') ? 1 : 2);
+                                    Common.localStorage.setItem("sse-macros-mode", (btn == 'yes') ? 1 : 2);
+                                }
+                                if (btn == 'yes') {
+                                    setTimeout(function() {
+                                        me.api.asc_runAutostartMacroses();
+                                    }, 1);
+                                }
+                            }
+                        });
+                    }
+                }
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -2548,7 +2604,13 @@ define([
             txtRowLbls: 'Row Labels',
             txtColLbls: 'Column Labels',
             errNoDuplicates: 'No duplicate values found.',
-            errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.'
+            errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.',
+            txtMultiSelect: 'Multi-Select (Alt+S)',
+            txtClearFilter: 'Clear Filter (Alt+C)',
+            txtBlank: '(blank)',
+            textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
+            textRemember: 'Remember my choice',
+            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.'
         }
     })(), SSE.Controllers.Main || {}))
 });

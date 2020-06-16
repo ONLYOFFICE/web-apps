@@ -40,7 +40,7 @@
 
 define([
     'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox',
+    'common/main/lib/component/CheckBox',
     'common/main/lib/component/ListView'
 ], function () {
     'use strict';
@@ -106,7 +106,7 @@ define([
                     '<div>',
                         '<label class="checkbox-indeterminate" style="position:absolute;">',
                             '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                            '<label for="rdcheckbox-<%= id %>" class="checkbox__shape" />',
+                            '<label for="rdcheckbox-<%= id %>" class="checkbox__shape"></label>',
                         '</label>',
                         '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
                             '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',

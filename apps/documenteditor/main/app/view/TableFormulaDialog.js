@@ -112,6 +112,7 @@ define([
                     {displayValue: 'COUNT', value: 1},
                     {displayValue: 'DEFINED', value: 1},
                     {displayValue: 'FALSE', value: 0},
+                    {displayValue: 'IF', value: 1},
                     {displayValue: 'INT', value: 1},
                     {displayValue: 'MAX', value: 1},
                     {displayValue: 'MIN', value: 1},

@@ -55,22 +55,22 @@ define([
                 '<div class="group">' +
                     '<span id="slot-btn-add-pivot" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span id="slot-btn-pivot-report-layout" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-pivot-blank-rows" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-pivot-subtotals" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-pivot-grand-totals" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span id="slot-btn-refresh-pivot" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span id="slot-btn-select-pivot" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="separator long"/>' +
+                '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<div class="elset">' +
                         '<span class="btn-slot text" id="slot-chk-header-row"></span>' +
@@ -183,7 +183,7 @@ define([
                     iconCls: 'toolbar__icon btn-add-pivot',
                     caption: this.txtCreate,
                     disabled    : false,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage]
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer]
                 });
 
                 this.btnPivotLayout = new Common.UI.Button({
