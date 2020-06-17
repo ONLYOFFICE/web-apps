@@ -1136,6 +1136,7 @@ define([
                     api: me.api,
                     props: props,
                     type: type,
+                    subtype: this._state.bullets.subtype,
                     interfaceLang: me.toolbar.mode.lang,
                     handler: function(result, value) {
                         if (result == 'ok') {

@@ -53,8 +53,8 @@ define([
     Common.Views.ListSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             type: 0, // 0 - markers, 1 - numbers
-            width: 230,
-            height: 200,
+            width: 280,
+            height: 255,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
@@ -63,6 +63,7 @@ define([
 
         initialize : function(options) {
             this.type = options.type || 0;
+            this.subtype = options.subtype || 1;
 
             _.extend(this.options, {
                 title: this.txtTitle
@@ -70,23 +71,53 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
-                    '<label class="text" style="width: 70px;">' + this.txtSize + '</label><div id="id-dlg-list-size"></div><label class="text" style="margin-left: 10px;">' + this.txtOfText + '</label>',
+                    '<div style="margin-bottom: 16px;">',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-bullet" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">', this.textBulleted,'</button>',
+                        '<button type="button" class="btn btn-text-default auto" id="id-dlg-list-numbering" style="border-top-left-radius: 0;border-bottom-left-radius: 0;border-left-width: 0;margin-left: -1px;">', this.textNumbering,'</button>',
                     '</div>',
-                    '<div style="margin-bottom: 10px;">',
-                    '<label class="text" style="width: 70px;">' + this.txtColor + '</label><div id="id-dlg-list-color" style="display: inline-block;"></div>',
+                    '<div style="height:120px;">',
+                        '<table cols="3">',
+                            '<tr>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                    '<label class="text">' + this.txtType + '</label>',
+                                '</td>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                    '<div id="id-dlg-list-numbering-format" class="input-group-nr" style="width: 100px;"></div>',
+                                    '<div id="id-dlg-list-bullet-format" class="input-group-nr" style="width: 100px;"></div>',
+                                '</td>',
+                                '<td style="padding-bottom: 8px;"></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                    '<label class="text">' + this.txtSize + '</label>',
+                                '</td>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                    '<div id="id-dlg-list-size"></div>',
+                                '</td>',
+                                '<td style="padding-bottom: 8px;">',
+                                    '<label class="text" style="white-space: nowrap;">' + this.txtOfText + '</label>',
+                                '</td>',
+                            '</tr>',
+                            '<tr class="numbering">',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                    '<label class="text" style="white-space: nowrap;">' + this.txtStart + '</label>',
+                                '</td>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                    '<div id="id-dlg-list-start"></div>',
+                                '</td>',
+                                '<td style="padding-bottom: 8px;"></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;min-width: 50px;">',
+                                    '<label class="text">' + this.txtColor + '</label>',
+                                '</td>',
+                                '<td style="padding-right: 5px;padding-bottom: 8px;width: 100px;">',
+                                    '<div id="id-dlg-list-color"></div>',
+                                '</td>',
+                                '<td style="padding-bottom: 8px;"></td>',
+                            '</tr>',
+                        '</table>',
                     '</div>',
-                    '<% if (type == 0) { %>',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
-                    '<label class="text" style="width: 70px;vertical-align: top;">' + this.txtBullet + '</label>',
-                    '<button type="button" class="btn btn-text-default" id="id-dlg-list-edit" style="width:53px;display: inline-block;vertical-align: top;"></button>',
-                    '</div>',
-                    '<% } %>',
-                    '<% if (type == 1) { %>',
-                    '<div class="input-row" style="margin-bottom: 10px;">',
-                    '<label class="text" style="width: 70px;">' + this.txtStart + '</label><div id="id-dlg-list-start"></div>',
-                    '</div>',
-                    '<% } %>',
                 '</div>'
             ].join('');
 
@@ -103,10 +134,152 @@ define([
                 $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+            me.btnBullet = new Common.UI.Button({
+                el: $('#id-dlg-list-bullet'),
+                enableToggle: true,
+                toggleGroup: 'list-type',
+                allowDepress: false,
+                pressed: true
+            });
+            me.btnBullet.on('click', _.bind(me.onListTypeClick, me, 0));
+
+            me.btnNumbering = new Common.UI.Button({
+                el: $('#id-dlg-list-numbering'),
+                enableToggle: true,
+                toggleGroup: 'list-type',
+                allowDepress: false
+            });
+            me.btnNumbering.on('click', _.bind(me.onListTypeClick, me, 1));
+
+            this.cmbNumFormat = new Common.UI.ComboBox({
+                el          : $('#id-dlg-list-numbering-format'),
+                menuStyle   : 'min-width: 100%;max-height: 183px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { displayValue: this.txtNone,       value: -1 },
+                    { displayValue: 'A, B, C,...',      value: 4 },
+                    { displayValue: 'a), b), c),...',   value: 6 },
+                    { displayValue: 'a, b, c,...',      value: 6 },
+                    { displayValue: '1, 2, 3,...',      value: 1 },
+                    { displayValue: '1), 2), 3),...',   value: 2 },
+                    { displayValue: 'I, II, III,...',   value: 3 },
+                    { displayValue: 'i, ii, iii,...',   value: 7 }
+                ]
+            });
+            this.cmbNumFormat.on('selected', _.bind(function (combo, record) {
+                if (this._changedProps) {
+                    if (record.value == -1) {
+                        // this._changedProps.put_ListType(-1);
+                    } else {
+                        // this._changedProps.put_ListType(1);
+                        // this._changedProps.put_ListSubType(record.value);
+                    }
+                }
+            }, this));
+
+            var itemsTemplate =
+                [
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
+                    '<%= item.displayValue %><% if (item.value === 0) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span><% } %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ];
+            var template = [
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<div class="form-control" style="padding-top:3px; line-height: 14px; cursor: pointer; <%= style %>"></div>',
+                '<div style="display: table-cell;"></div>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(itemsTemplate).concat([
+                '</ul>',
+                '</div>'
+            ]);
+            this.cmbBulletFormat = new Common.UI.ComboBoxCustom({
+                el          : $('#id-dlg-list-bullet-format'),
+                menuStyle   : 'min-width: 100%;max-height: 183px;',
+                style       : "width: 100px;",
+                editable    : false,
+                template    : _.template(template.join('')),
+                itemsTemplate: _.template(itemsTemplate.join('')),
+                data        : [
+                    { displayValue: this.txtNone,       value: -1 },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "·", font: 'Symbol' },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "o", font: 'Courier New' },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "§", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "v", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "Ø", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "ü", font: 'Wingdings' },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "¨", font: 'Symbol' },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "–", font: 'Arial' },
+                    { displayValue: this.txtNewBullet, value: 1 }
+                ],
+                updateFormControl: function(record) {
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record) {
+                        if (record.get('value')==0)
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
+                        else
+                            formcontrol[0].innerHTML = record.get('displayValue');
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
+            });
+            this.cmbBulletFormat.on('selected', _.bind(function (combo, record) {
+                if (this._changedProps) {
+                    if (record.value === 1) {
+                        var me = this,
+                            props = me.bulletProps,
+                            handler = function(dlg, result, settings) {
+                                if (result == 'ok') {
+                                    var store = combo.store;
+                                    if (!store.findWhere({value: 0, symbol: settings.symbol, font: settings.font}))
+                                        store.add({ displayValue: me.txtSymbol + ': ', value: 0, symbol: settings.symbol, font: settings.font }, {at: store.length-1});
+                                    combo.setData(store.models);
+                                    combo.selectRecord(combo.store.findWhere({value: 0, symbol: settings.symbol, font: settings.font}));
+
+                                    props.changed = true;
+                                    props.code = settings.code;
+                                    props.font = settings.font;
+                                    props.symbol = settings.symbol;
+                                    if (me._changedProps) {
+                                        me._changedProps.asc_putBulletFont(props.font);
+                                        me._changedProps.asc_putBulletSymbol(props.symbol);
+                                    }
+                                }
+                            },
+                            win = new Common.Views.SymbolTableDialog({
+                                api: me.options.api,
+                                lang: me.options.interfaceLang,
+                                modal: true,
+                                type: 0,
+                                font: props.font,
+                                symbol: props.symbol,
+                                handler: handler
+                            });
+                        win.show();
+                        win.on('symbol:dblclick', handler);
+                    } if (record.value == -1) {
+                        // this._changedProps.put_ListType(-1);
+                    } else {
+                        // this._changedProps.put_ListType(0);
+                        // this._changedProps.put_ListSubType(record.value);
+                        this.bulletProps.changed = true;
+                        this.bulletProps.code = record.code;
+                        this.bulletProps.font = record.font;
+                        this.bulletProps.symbol = record.symbol;
+                        if (this._changedProps) {
+                            this._changedProps.asc_putBulletFont(this.bulletProps.font);
+                            this._changedProps.asc_putBulletSymbol(this.bulletProps.symbol);
+                        }
+                    }
+                }
+            }, this));
+
             this.spnSize = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-size'),
                 step        : 1,
-                width       : 53,
+                width       : 100,
                 value       : 100,
                 defaultUnit : '',
                 maxValue    : 400,
@@ -120,7 +293,7 @@ define([
 
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $window.find('#id-dlg-list-color'),
-                style: "width:53px;",
+                style: "width:45px;",
                 additionalAlign: this.menuAddAlign
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
@@ -129,7 +302,7 @@ define([
             this.spnStart = new Common.UI.MetricSpinner({
                 el          : $window.find('#id-dlg-list-start'),
                 step        : 1,
-                width       : 53,
+                width       : 100,
                 value       : 1,
                 defaultUnit : '',
                 maxValue    : 32767,
@@ -141,12 +314,10 @@ define([
                 }
             });
 
-            this.btnEdit = new Common.UI.Button({
-                el: $window.find('#id-dlg-list-edit'),
-                hint: this.tipChange
-            });
-            this.btnEdit.on('click', _.bind(this.onEditBullet, this));
-            this.btnEdit.cmpEl.css({'font-size': '16px', 'line-height': '16px'});
+            me.numberingControls = $window.find('.numbering');
+
+            var el = $window.find('table tr:first() td:first()');
+            el.width(Math.max($window.find('.numbering .text').width(), el.width()));
 
             this.afterRender();
         },
@@ -166,34 +337,34 @@ define([
             }
         },
 
-        onEditBullet: function() {
-            var me = this,
-                props = me.bulletProps,
-                handler = function(dlg, result, settings) {
-                    if (result == 'ok') {
-                        props.changed = true;
-                        props.code = settings.code;
-                        props.font = settings.font;
-                        props.symbol = settings.symbol;
-                        props.font && me.btnEdit.cmpEl.css('font-family', props.font);
-                        settings.symbol && me.btnEdit.setCaption(settings.symbol);
-                        if (me._changedProps) {
-                            me._changedProps.asc_putBulletFont(props.font);
-                            me._changedProps.asc_putBulletSymbol(props.symbol);
-                        }
+        onListTypeClick: function(type, btn, event) {
+            this.ShowHideElem(type);
+            if (this._changedProps) {
+                if (type==0) {//markers
+                    if (this.cmbBulletFormat.getValue()==-1) {
+                        // this._changedProps.asc_putType(-1);
+                    } else {
+                        this._changedProps.asc_putBulletFont(this.bulletProps.font);
+                        this._changedProps.asc_putBulletSymbol(this.bulletProps.symbol);
                     }
-                },
-                win = new Common.Views.SymbolTableDialog({
-                    api: me.options.api,
-                    lang: me.options.interfaceLang,
-                    modal: true,
-                    type: 0,
-                    font: props.font,
-                    symbol: props.symbol,
-                    handler: handler
-                });
-            win.show();
-            win.on('symbol:dblclick', handler);
+                    // this._changedProps.asc_putType(0);
+                    // this._changedProps.asc_putSubType(0);
+                } else {
+                    var value = this.cmbNumFormat.getValue();
+                    if (value==-1) {
+                        // this._changedProps.asc_putType(-1);
+                    } else {
+                        // this._changedProps.asc_putType(1);
+                        // this._changedProps.asc_putSubType(value);
+                    }
+                }
+            }
+        },
+
+        ShowHideElem: function(value) {
+            this.numberingControls.toggleClass('hidden', value==0);
+            this.cmbNumFormat.setVisible(value==1);
+            this.cmbBulletFormat.setVisible(value==0);
         },
 
         _handleInput: function(state) {
@@ -214,10 +385,10 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
+                (this.type == 0) ? this.btnBullet.toggle(true) : this.btnNumbering.toggle(true);
+                this.ShowHideElem(this.type);
+
                 this.spnSize.setValue(props.asc_getBulletSize() || '', true);
-                var value = props.get_NumStartAt();
-                this.spnStart.setValue(value || '', true);
-                this.spnStart.setDisabled(value===null);
                 var color = props.asc_getBulletColor();
                 if (color) {
                     if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -243,8 +414,20 @@ define([
 
                 if (this.type==0) {
                     this.bulletProps = {symbol: props.asc_getBulletSymbol(), font: props.asc_getBulletFont()};
-                    this.bulletProps.font && this.btnEdit.cmpEl.css('font-family', this.bulletProps.font);
-                    this.bulletProps.symbol && this.btnEdit.setCaption(this.bulletProps.symbol);
+                    if (!this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
+                        this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-1});
+                    this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
+                    this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                    this.cmbNumFormat.setValue(1);
+                } else {
+                    this.cmbNumFormat.setValue(this.subtype, '');
+                    var rec = this.cmbBulletFormat.store.at(1);
+                    this.cmbBulletFormat.selectRecord(rec);
+                    this.bulletProps = {symbol: rec.get('symbol'), font: rec.get('font')};
+
+                    var value = props.get_NumStartAt();
+                    this.spnStart.setValue(value || '', true);
+                    this.spnStart.setDisabled(value===null);
                 }
             }
             this._changedProps = new Asc.asc_CParagraphProperty();
@@ -256,6 +439,12 @@ define([
         txtOfText: '% of text',
         txtStart: 'Start at',
         txtBullet: 'Bullet',
-        tipChange: 'Change bullet'
+        tipChange: 'Change bullet',
+        textBulleted: 'Bulleted',
+        textNumbering: 'Numbered',
+        txtType: 'Type',
+        txtNone: 'None',
+        txtNewBullet: 'New bullet',
+        txtSymbol: 'Symbol'
     }, Common.Views.ListSettingsDialog || {}))
 });

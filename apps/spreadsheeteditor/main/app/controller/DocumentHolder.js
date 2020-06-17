@@ -773,10 +773,12 @@ define([
                         }
                     }
                     if (props) {
+                        var listtype = me.api.asc_getCurrentListType();
                         (new Common.Views.ListSettingsDialog({
                             api: me.api,
                             props: props,
-                            type: me.api.asc_getCurrentListType().get_ListType(),
+                            type: listtype.get_ListType(),
+                            subtype: listtype.get_ListSubType(),
                             interfaceLang: me.permissions.lang,
                             handler: function(result, value) {
                                 if (result == 'ok') {
