@@ -357,14 +357,15 @@ define([
                     style: 'margin-top: -14px; margin-left: -7px;',
                     menuAlign: 'bl-tl',
                     items: [
-                        {template: _.template('<div style="padding-left: 6px; padding-top: 2px;">' + this.textCustomizeStatusBar + '</div>')},
-                        {caption: '--'},
-                        {caption: this.itemAverage, value: 'average', checkable: true, checked: true},
-                        {caption: this.itemCount, value: 'count', checkable: true, checked: true},
-                        {caption: this.itemMinimum, value: 'min', checkable: true, checked: true},
-                        {caption: this.itemMaximum, value: 'max', checkable: true, checked: true},
-                        {caption: this.itemSum, value: 'sum', checkable: true, checked: true}
-                    ]
+                        //{template: _.template('<div style="padding-left: 6px; padding-top: 2px;">' + this.textCustomizeStatusBar + '</div>')},
+                        //{caption: '--'},
+                        {caption: this.itemAverage, value: 'average', checkable: true, checked: true, leaveopen: true},
+                        {caption: this.itemCount, value: 'count', checkable: true, checked: true, leaveopen: true},
+                        {caption: this.itemMinimum, value: 'min', checkable: true, checked: true, leaveopen: true},
+                        {caption: this.itemMaximum, value: 'max', checkable: true, checked: true, leaveopen: true},
+                        {caption: this.itemSum, value: 'sum', checkable: true, checked: true, leaveopen: true}
+                    ],
+                    leaveopen: true
                 });
 
                 this.tabbar.$el.append('<div class="dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"></div>');
@@ -409,7 +410,7 @@ define([
                 this.customizeStatusBarMenu.on('show:after', _.bind(this.onCustomizeStatusBarAfterShow, this));
                 this.customizeStatusBarMenu.on('hide:after', _.bind(this.onCustomizeStatusBarAfterHide, this));
                 this.customizeStatusBarMenu.on('item:click', _.bind(this.onCustomizeStatusBarClick, this));
-                this.boxMath.on('contextmenu', _.bind(this.showCustomizeStatusBar, this));
+                this.$el.on('contextmenu', _.bind(this.showCustomizeStatusBar, this));
 
                 return this;
             },
@@ -678,10 +679,15 @@ define([
             },
 
             showCustomizeStatusBar: function (e) {
-                var rect = e.target.getBoundingClientRect();
+                var el = $(e.target);
+                if ($('#status-zoom-box').find(el).length > 0
+                    || $(e.target).parent().hasClass('list-item')
+                    || $('#status-tabs-scroll').find(el).length > 0
+                    || $('#status-addtabs-box').find(el).length > 0) return;
+                this.customizeStatusBarMenu.hide();
                 this.customizeStatusBarMenu.atposition = {
-                    left: rect.left,
-                    top: rect.top
+                    left: e.clientX*Common.Utils.zoom(),
+                    top: e.clientY*Common.Utils.zoom()
                 };
                 this.customizeStatusBarMenu.show();
             },
@@ -703,10 +709,19 @@ define([
                 }
             },
 
-            onCustomizeStatusBarClick: function (o, item) {
+            onCustomizeStatusBarClick: function (o, item, event) {
                 var value = item.value,
                     checked = item.checked;
                 this.boxMath.find('#status-math-' + value)[checked ? 'removeClass' : 'addClass']('hide');
+                if (this.boxMath.find('label').length === this.boxMath.find('label.hide').length) {
+                    this.boxMath.find('.separator').hide();
+                } else {
+                    if (this.boxMath.find('.separator').is(":hidden")) {
+                        this.boxMath.find('.separator').show();
+                    }
+                }
+                event.stopPropagation();
+                item.$el.find('a').blur();
             },
 
             tipZoomIn           : 'Zoom In',
