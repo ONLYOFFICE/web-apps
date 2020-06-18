@@ -314,6 +314,7 @@
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
     <inline src="resources/img/recent-file.svg" />
+    <inline src="resources/img/file-template.svg" />
 
     <div id="viewport"></div>
 

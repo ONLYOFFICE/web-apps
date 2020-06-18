@@ -718,8 +718,8 @@ define([
             '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
             '<div class="blank-document">',
                 '<div class="blank-document-btn">',
-                    '<svg class="btn-doc-format">',
-                        '<use xlink:href="#svg-format-docx"></use>',
+                    '<svg class="btn-blank-format">',
+                        '<use xlink:href="#svg-format-blank"></use>',
                     '</svg>',
                 '</div>',
                 '<div class="blank-document-info">',
@@ -735,7 +735,7 @@ define([
                         '<% if (!_.isEmpty(item.image)) { %> ',
                             ' style="background-image: url(<%= item.image %>);">',
                         '<% } else { ' +
-                            'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
+                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
                         ' } %>',
                         '</div>',
                         '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',

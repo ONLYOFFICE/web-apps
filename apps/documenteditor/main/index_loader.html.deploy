@@ -313,10 +313,11 @@
     <inline src="resources/img/doc-formats/ott.svg" />
     <inline src="resources/img/doc-formats/rtf.svg" />
     <inline src="resources/img/doc-formats/html.svg" />
-    <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
     <inline src="resources/img/recent-file.svg" />
+    <inline src="resources/img/file-template.svg" />
+    <inline src="resources/img/blank.svg" />
 
     <div id="viewport"></div>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
