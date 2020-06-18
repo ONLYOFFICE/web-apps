@@ -109,6 +109,8 @@ define([
         },
 
         zoomDocument: function(d,e) {
+            if (!this.api) return;
+
             switch (d) {
                 case 'up':
                     var f = Math.floor(this.api.asc_getZoom() * 10)/10;
@@ -125,7 +127,7 @@ define([
         },
 
         menuZoomClick: function(menu, item) {
-            this.api.asc_setZoom(item.value/100);
+            this.api && this.api.asc_setZoom(item.value/100);
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
