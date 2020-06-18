@@ -353,6 +353,21 @@ define([
                         });
                     });
 
+                this.customizeStatusBarMenu = new Common.UI.Menu({
+                    style: 'margin-top: -14px; margin-left: -7px;',
+                    menuAlign: 'bl-tl',
+                    items: [
+                        //{template: _.template('<div style="padding-left: 6px; padding-top: 2px;">' + this.textCustomizeStatusBar + '</div>')},
+                        //{caption: '--'},
+                        {caption: this.itemAverage, value: 'average', checkable: true, checked: true, leaveopen: true},
+                        {caption: this.itemCount, value: 'count', checkable: true, checked: true, leaveopen: true},
+                        {caption: this.itemMinimum, value: 'min', checkable: true, checked: true, leaveopen: true},
+                        {caption: this.itemMaximum, value: 'max', checkable: true, checked: true, leaveopen: true},
+                        {caption: this.itemSum, value: 'sum', checkable: true, checked: true, leaveopen: true}
+                    ],
+                    leaveopen: true
+                });
+
                 this.tabbar.$el.append('<div class="dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"></div>');
                 this.tabMenu.render(this.tabbar.$el);
                 this.tabMenu.cmpEl.attr({tabindex: -1});
@@ -374,6 +389,28 @@ define([
 
                 this.boxZoom = $('#status-zoom-box', this.el);
                 this.boxZoom.find('.separator').css('border-left-color','transparent');
+
+                this.$el.append('<div id="statusbar-menu" style="width:0; height:0;"></div>');
+                this.$customizeStatusBarMenu = this.$el.find('#statusbar-menu');
+                this.$customizeStatusBarMenu.on({
+                    'show.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.$customizeStatusBarMenu.find('ul').focus();
+                         }, 100);
+                    },
+                    'hide.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.api.asc_enableKeyEvents(true);
+                        }, 100);
+                    }
+                });
+                this.$customizeStatusBarMenu.append('<div class="dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"></div>');
+                this.customizeStatusBarMenu.render(this.$customizeStatusBarMenu);
+                this.customizeStatusBarMenu.cmpEl.attr({tabindex: -1});
+                this.customizeStatusBarMenu.on('show:after', _.bind(this.onCustomizeStatusBarAfterShow, this));
+                this.customizeStatusBarMenu.on('hide:after', _.bind(this.onCustomizeStatusBarAfterHide, this));
+                this.customizeStatusBarMenu.on('item:click', _.bind(this.onCustomizeStatusBarClick, this));
+                this.$el.on('contextmenu', _.bind(this.showCustomizeStatusBar, this));
 
                 return this;
             },
@@ -641,6 +678,52 @@ define([
                 this.editMode = edit;
             },
 
+            showCustomizeStatusBar: function (e) {
+                var el = $(e.target);
+                if ($('#status-zoom-box').find(el).length > 0
+                    || $(e.target).parent().hasClass('list-item')
+                    || $('#status-tabs-scroll').find(el).length > 0
+                    || $('#status-addtabs-box').find(el).length > 0) return;
+                this.customizeStatusBarMenu.hide();
+                this.customizeStatusBarMenu.atposition = {
+                    left: e.clientX*Common.Utils.zoom(),
+                    top: e.clientY*Common.Utils.zoom()
+                };
+                this.customizeStatusBarMenu.show();
+            },
+
+            onCustomizeStatusBarAfterShow: function (obj) {
+                if (obj.atposition) {
+                    obj.setOffset(obj.atposition.left);
+                }
+                this.enableKeyEvents = true;
+            },
+
+            onCustomizeStatusBarAfterHide: function () {
+                if (!_.isUndefined(this.enableKeyEvents)) {
+                    if (this.api) {
+                        this.api.asc_enableKeyEvents(this.enableKeyEvents);
+                    }
+
+                    this.enableKeyEvents = undefined;
+                }
+            },
+
+            onCustomizeStatusBarClick: function (o, item, event) {
+                var value = item.value,
+                    checked = item.checked;
+                this.boxMath.find('#status-math-' + value)[checked ? 'removeClass' : 'addClass']('hide');
+                if (this.boxMath.find('label').length === this.boxMath.find('label.hide').length) {
+                    this.boxMath.find('.separator').hide();
+                } else {
+                    if (this.boxMath.find('.separator').is(":hidden")) {
+                        this.boxMath.find('.separator').show();
+                    }
+                }
+                event.stopPropagation();
+                item.$el.find('a').blur();
+            },
+
             tipZoomIn           : 'Zoom In',
             tipZoomOut          : 'Zoom Out',
             tipZoomFactor       : 'Magnification',
@@ -668,7 +751,13 @@ define([
             filteredRecordsText : '{0} of {1} records filtered',
             filteredText        : 'Filter mode',
             selectAllSheets     : 'Select All Sheets',
-            ungroupSheets       : 'Ungroup Sheets'
+            ungroupSheets       : 'Ungroup Sheets',
+            //textCustomizeStatusBar: 'Customize status bar',
+            itemAverage         : 'Average',
+            itemCount           : 'Count',
+            itemMinimum         : 'Minimum',
+            itemMaximum         : 'Maximum',
+            itemSum             : 'Sum'
         }, SSE.Views.Statusbar || {}));
 
         SSE.Views.Statusbar.RenameDialog = Common.UI.Window.extend(_.extend({
