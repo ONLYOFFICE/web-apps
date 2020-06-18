@@ -752,7 +752,7 @@ define([
             filteredText        : 'Filter mode',
             selectAllSheets     : 'Select All Sheets',
             ungroupSheets       : 'Ungroup Sheets',
-            textCustomizeStatusBar: 'Customize status bar',
+            //textCustomizeStatusBar: 'Customize status bar',
             itemAverage         : 'Average',
             itemCount           : 'Count',
             itemMinimum         : 'Minimum',
