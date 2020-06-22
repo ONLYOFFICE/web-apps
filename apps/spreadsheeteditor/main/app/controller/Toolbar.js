@@ -3175,13 +3175,11 @@ define([
                     me.toolbar.btnsFormula = formulatab.getButtons('formula');
                     Array.prototype.push.apply(me.toolbar.lockControls, formulatab.getButtons());
 
-                    if ( !config.isOffline ) {
-                        var tab = {action: 'pivot', caption: me.textPivot};
-                        var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
-                        if ($panel) {
-                            me.toolbar.addTab(tab, $panel, 5);
-                            me.toolbar.setVisible('pivot', true);
-                        }
+                    var tab = {action: 'pivot', caption: me.textPivot};
+                    var $panel = me.getApplication().getController('PivotTable').createToolbarPanel();
+                    if ($panel) {
+                        me.toolbar.addTab(tab, $panel, 5);
+                        me.toolbar.setVisible('pivot', true);
                     }
 
                     if (!(config.customization && config.customization.compactHeader)) {
