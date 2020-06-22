@@ -66,6 +66,9 @@ define([
                     'pivottable:blankrows':     _.bind(this.onPivotBlankRows, this),
                     'pivottable:subtotals':     _.bind(this.onPivotSubtotals, this),
                     'pivottable:grandtotals':   _.bind(this.onPivotGrandTotals, this)
+                },
+                'TableSettings': {
+                    'pivottable:create':        _.bind(this.onCreateClick, this)
                 }
             });
         },
