@@ -493,11 +493,11 @@ define([
             setMathInfo: function(info) {
                 if (info.count>1) {
                     if (!this.boxMath.is(':visible')) this.boxMath.show();
-                    this.labelCount.text(this.textCount + ': ' + info.count);
-                    this.labelMin.text((info.min && info.min.length) ? (this.textMin + ': ' + info.min) : '');
-                    this.labelMax.text((info.max && info.max.length) ? (this.textMax + ': ' + info.max) : '');
-                    this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum) : '');
-                    this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average) : '');
+                    this.labelCount.text(this.textCount + ': ' + String(info.count).substring(0,11) + (info.count.length > 11 ? '...' : ''));
+                    this.labelMin.text((info.min && info.min.length) ? (this.textMin + ': ' + info.min.substring(0,11) + (info.min.length > 11 ? '...' : '')) : '');
+                    this.labelMax.text((info.max && info.max.length) ? (this.textMax + ': ' + info.max.substring(0,11) + (info.max.length > 11 ? '...' : '')) : '');
+                    this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum.substring(0,11) + (info.sum.length > 11 ? '...' : '')) : '');
+                    this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average.substring(0,11) + (info.average.length > 11 ? '...' : '')) : '');
                 } else {
                     if (this.boxMath.is(':visible')) this.boxMath.hide();
                 }
