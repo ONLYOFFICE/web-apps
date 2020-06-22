@@ -2342,6 +2342,7 @@
   "SSE.Views.TableOptionsDialog.txtFormat": "Создать таблицу",
   "SSE.Views.TableOptionsDialog.txtInvalidRange": "ОШИБКА! Недопустимый диапазон ячеек",
   "SSE.Views.TableOptionsDialog.txtTitle": "Заголовок",
+  "SSE.Views.TableOptionsDialog.txtNote": "Заголовки должны оставаться в той же строке, а результирующий диапазон таблицы - частично перекрываться с исходным диапазоном.",
   "SSE.Views.TableSettings.deleteColumnText": "Удалить столбец",
   "SSE.Views.TableSettings.deleteRowText": "Удалить строку",
   "SSE.Views.TableSettings.deleteTableText": "Удалить таблицу",
