@@ -294,6 +294,52 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 labelText: this.textRequired
             });
 
+            // Text field
+            this.btnEditPlaceholder = new Common.UI.Button({
+                el: $('#control-settings-btn-placeholder-edit'),
+                hint: this.tipChange
+            });
+            this.btnEditPlaceholder.cmpEl.css({'font-size': '16px', 'line-height': '16px'});
+            this.btnEditPlaceholder.on('click', _.bind(this.onEditPlaceholder, this));
+
+            this.spnWidth = new Common.UI.MetricSpinner({
+                el: $('#control-settings-spin-width'),
+                step: .1,
+                width: 80,
+                defaultUnit : "cm",
+                value: '3 cm',
+                maxValue: 55.88,
+                minValue: 0.1
+            });
+
+            this.spnMaxChars = new Common.UI.MetricSpinner({
+                el: $('#control-settings-spin-max-chars'),
+                step: 1,
+                width: 53,
+                defaultUnit : "",
+                value: '10',
+                maxValue: 1000000,
+                minValue: 1
+            });
+
+            this.chMaxChars = new Common.UI.CheckBox({
+                el: $('#control-settings-chb-max-chars'),
+                labelText: this.textMaxChars
+            });
+            this.chMaxChars.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                this.spnMaxChars.setDisabled(field.getValue()!='checked');
+            }, this));
+
+            this.chComb = new Common.UI.CheckBox({
+                el: $('#control-settings-chb-comb'),
+                labelText: this.textComb
+            });
+            this.chComb.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (field.getValue()=='checked') {
+                    this.chMaxChars.setValue(true);
+                }
+            }, this));
+
             this.afterRender();
         },
 
@@ -318,6 +364,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
         afterRender: function() {
             this.updateThemeColors();
+            this.updateMetricUnit();
             this._setDefaults(this.props);
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
@@ -454,7 +501,22 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 var formTextPr = props.get_TextFormPr();
                 this.btnsCategory[5].setVisible(!!formTextPr);
                 if (formTextPr) {
-                    
+                    var code = formTextPr.get_PlaceHolderSymbol(),
+                        font = formTextPr.get_PlaceHolderFont();
+                    font && this.btnEditPlaceholder.cmpEl.css('font-family', font);
+                    code && this.btnEditPlaceholder.setCaption(String.fromCharCode(code));
+                    this.placeholder = {code: code, font: font};
+
+                    val = formTextPr.get_Comb();
+                    this.chComb.setValue(!!val, true);
+
+                    val = formTextPr.get_MaxCharacters();
+                    this.chMaxChars.setValue(val && val>=0, true);
+                    this.spnMaxChars.setDisabled(!val || val<0);
+                    this.spnMaxChars.setValue(val && val>=0 ? val : 10);
+
+                    val = formTextPr.get_Width();
+                    this.spnWidth.setValue(val ? val : '', true);
                 }
             }
         },
@@ -536,6 +598,25 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 }
                 props.put_FormPr(formPr);
             }
+
+            if (this.btnsCategory[5].isVisible()) {
+                var formTextPr = new AscCommon.CSdtTextFormPr();
+                if (this.spnWidth.getValue())
+                    formTextPr.put_Width(this.spnWidth.getNumberValue());
+                if (this.placeholder && this.placeholder.changed) {
+                    formTextPr.put_PlaceHolderSymbol(this.placeholder.code);
+                    formTextPr.put_PlaceHolderFont(this.placeholder.font);
+                }
+                formTextPr.put_Comb(this.chComb.getValue()=='checked');
+
+                var checked = (this.chMaxChars.getValue()=='checked' || this.chComb.getValue()=='checked');
+                formTextPr.put_MaxCharacters(checked);
+                if (checked)
+                    formTextPr.put_MaxCharacters(this.spnMaxChars.getNumberValue() || 12);
+
+                props.put_TextFormPr(formTextPr);
+            }
+
             return props;
         },
 
@@ -699,9 +780,42 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             }
         },
 
+        onEditPlaceholder: function() {
+            if (this.api) {
+                var me = this,
+                    props = me.placeholder,
+                    cmp = me.btnEditPlaceholder,
+                    handler = function(dlg, result, settings) {
+                        if (result == 'ok') {
+                            props.changed = true;
+                            props.code = settings.code;
+                            props.font = settings.font;
+                            props.font && cmp.cmpEl.css('font-family', props.font);
+                            settings.symbol && cmp.setCaption(settings.symbol);
+                        }
+                    },
+                    win = new Common.Views.SymbolTableDialog({
+                        api: me.api,
+                        lang: me.options.interfaceLang,
+                        modal: true,
+                        type: 0,
+                        font: props.font,
+                        code: props.code,
+                        handler: handler
+                    });
+                win.show();
+                win.on('symbol:dblclick', handler);
+            }
+        },
+
         onSelectFormat: function(lisvView, itemView, record) {
             if (!record) return;
             this.txtDate.setValue(record.get('format'));
+        },
+
+        updateMetricUnit: function() {
+            this.spnWidth.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+            this.spnWidth.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
         },
 
         textTitle:    'Content Control Settings',
@@ -742,7 +856,11 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textHelp: 'Help text',
         textRequired: 'Required',
         textGroupKey: 'Group key',
-        textRadiobox: 'Radio box'
+        textRadiobox: 'Radio box',
+        textWidth: 'Width',
+        textPlaceholderSymbol: 'Placeholder symbol',
+        textMaxChars: 'Characters limit',
+        textComb: 'Comb of characters'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });
