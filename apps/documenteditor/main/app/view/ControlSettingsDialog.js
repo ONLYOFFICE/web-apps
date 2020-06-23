@@ -66,7 +66,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     {panelId: 'id-adv-control-settings-lock',    panelCaption: this.textLock},
                     {panelId: 'id-adv-control-settings-list',    panelCaption: this.textCombobox},
                     {panelId: 'id-adv-control-settings-date',    panelCaption: this.textDate},
-                    {panelId: 'id-adv-control-settings-checkbox',panelCaption: this.textCheckbox}
+                    {panelId: 'id-adv-control-settings-checkbox',panelCaption: this.textCheckbox},
+                    {panelId: 'id-adv-control-settings-field',  panelCaption: this.textField},
+                    {panelId: 'id-adv-control-settings-additional',panelCaption: this.textAdditional}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -248,6 +250,50 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.btnEditUnchecked.cmpEl.css({'font-size': '16px', 'line-height': '16px'});
             this.btnEditUnchecked.on('click', _.bind(this.onEditCheckbox, this, false));
 
+            // Additional
+            this.txtGroupKey = new Common.UI.InputField({
+                el          : $('#control-settings-txt-groupkey'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                // maxLength: 64,
+                value       : ''
+            });
+
+            this.txtKey = new Common.UI.InputField({
+                el          : $('#control-settings-txt-key'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                // maxLength: 64,
+                value       : ''
+            });
+
+            this.txtLabel = new Common.UI.InputField({
+                el          : $('#control-settings-txt-label'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                // maxLength: 64,
+                value       : ''
+            });
+
+            this.textareaHelp = this.$window.find('#control-settings-txt-help');
+            this.textareaHelp.keydown(function (event) {
+                if (event.keyCode == Common.UI.Keys.RETURN) {
+                    event.stopPropagation();
+                }
+                me.isHelpChanged = true;
+            });
+
+            this.chRequired = new Common.UI.CheckBox({
+                el: $('#control-settings-chb-required'),
+                labelText: this.textRequired
+            });
+
             this.afterRender();
         },
 
@@ -316,12 +362,13 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 this.chLockEdit.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
 
                 var type = props.get_SpecificType();
+                var specProps;
 
                 //for list controls
                 this.btnsCategory[2].setVisible(type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList);
                 if (type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList) {
                     this.btnsCategory[2].setCaption(type == Asc.c_oAscContentControlSpecificType.ComboBox ? this.textCombobox : this.textDropDown);
-                    var specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr();
+                    specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr();
                     if (specProps) {
                         var count = specProps.get_ItemsCount();
                         var arr = [];
@@ -339,7 +386,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 //for date picker
                 this.btnsCategory[3].setVisible(type == Asc.c_oAscContentControlSpecificType.DateTime);
                 if (type == Asc.c_oAscContentControlSpecificType.DateTime) {
-                    var specProps = props.get_DateTimePr();
+                    specProps = props.get_DateTimePr();
                     if (specProps) {
                         this.datetime = specProps;
                         var lang = specProps.get_LangId() || this.options.controlLang;
@@ -360,7 +407,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 // for check box
                 this.btnsCategory[4].setVisible(type == Asc.c_oAscContentControlSpecificType.CheckBox);
                 if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
-                    var specProps = props.get_CheckBoxPr();
+                    specProps = props.get_CheckBoxPr();
                     if (specProps) {
                         var code = specProps.get_CheckedSymbol(),
                             font = specProps.get_CheckedFont();
@@ -377,6 +424,38 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 }
 
                 this.type = type;
+
+                // form settings
+                var formPr = props.get_FormPr();
+                this.btnsCategory[6].setVisible(!!formPr);
+                if (formPr) {
+                    val = formPr.get_Key();
+                    this.txtKey.setValue(val ? val : '');
+
+                    val = formPr.get_Label();
+                    this.txtLabel.setValue(val ? val : '');
+
+                    val = formPr.get_HelpText();
+                    this.textareaHelp.val(val ? val : '');
+
+                    val = formPr.get_Required();
+                    this.chRequired.setValue(!!val);
+
+                    var hidden = true;
+                    if (type == Asc.c_oAscContentControlSpecificType.CheckBox && specProps) {
+                        val = specProps.get_GroupKey();
+                        this.txtGroupKey.setValue(val ? val : '');
+                        hidden = (typeof val !== 'string');
+                        !hidden && this.btnsCategory[4].setCaption(this.textRadiobox);
+                    }
+                    this.$window.find('.group-key').toggleClass('hidden', hidden);
+                }
+
+                var formTextPr = props.get_TextFormPr();
+                this.btnsCategory[5].setVisible(!!formTextPr);
+                if (formTextPr) {
+                    
+                }
             }
         },
 
@@ -404,9 +483,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 lock = Asc.c_oAscSdtLockType.ContentLocked;
             props.put_Lock(lock);
 
+            var specProps;
             // for list controls
             if (this.type == Asc.c_oAscContentControlSpecificType.ComboBox || this.type == Asc.c_oAscContentControlSpecificType.DropDownList) {
-                var specProps = (this.type == Asc.c_oAscContentControlSpecificType.ComboBox) ? this.props.get_ComboBoxPr() : this.props.get_DropDownListPr();
+                specProps = (this.type == Asc.c_oAscContentControlSpecificType.ComboBox) ? this.props.get_ComboBoxPr() : this.props.get_DropDownListPr();
                 specProps.clear();
                 this.list.store.each(function (item, index) {
                     specProps.add_Item(item.get('name'), item.get('value'));
@@ -416,7 +496,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
             //for date picker
             if (this.type == Asc.c_oAscContentControlSpecificType.DateTime) {
-                var specProps = this.props.get_DateTimePr();
+                specProps = this.props.get_DateTimePr();
                 specProps.put_DateFormat(this.txtDate.getValue());
                 specProps.put_LangId(this.cmbLang.getValue());
                 props.put_DateTimePr(specProps);
@@ -425,7 +505,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             // for check box
             if (this.type == Asc.c_oAscContentControlSpecificType.CheckBox) {
                 if (this.checkedBox && this.checkedBox.changed || this.uncheckedBox && this.uncheckedBox.changed) {
-                    var specProps = this.props.get_CheckBoxPr();
+                    specProps = this.props.get_CheckBoxPr();
                     if (this.checkedBox) {
                         specProps.put_CheckedSymbol(this.checkedBox.code);
                         specProps.put_CheckedFont(this.checkedBox.font);
@@ -438,6 +518,24 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 }
             }
 
+            if (this.btnsCategory[6].isVisible()) {
+                var formPr = new AscCommon.CSdtFormPr();
+                formPr.put_Key(this.txtKey.getValue());
+                formPr.put_Label(this.txtLabel.getValue());
+                formPr.put_Required(this.chRequired.getValue()=='checked');
+
+                if (this.isHelpChanged)
+                    formPr.put_HelpText(this.textareaHelp.val());
+
+                if (this.type == Asc.c_oAscContentControlSpecificType.CheckBox && !this.$window.find('.group-key').hasClass('hidden')) {
+                    specProps = this.props.get_CheckBoxPr();
+                    if (specProps) {
+                        specProps.put_GroupKey(this.txtGroupKey.getValue());
+                        props.put_CheckBoxPr(specProps);
+                    }
+                }
+                props.put_FormPr(formPr);
+            }
             return props;
         },
 
@@ -636,7 +734,15 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textChecked: 'Checked symbol',
         textUnchecked: 'Unchecked symbol',
         tipChange: 'Change symbol',
-        textPlaceholder: 'Placeholder'
+        textPlaceholder: 'Placeholder',
+        textAdditional: 'Additional',
+        textField: 'Text field',
+        textKey: 'Key',
+        textLabel: 'Label',
+        textHelp: 'Help text',
+        textRequired: 'Required',
+        textGroupKey: 'Group key',
+        textRadiobox: 'Radio box'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });

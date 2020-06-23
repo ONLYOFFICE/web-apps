@@ -149,3 +149,40 @@
         </table>
     </div>
 </div>
+<div id="id-adv-control-settings-additional" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr class="group-key">
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textGroupKey %></label>
+                    <div id="control-settings-txt-groupkey"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textKey %></label>
+                    <div id="control-settings-txt-key"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textLabel %></label>
+                    <div id="control-settings-txt-label"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textHelp %></label>
+                    <textarea id="control-settings-txt-help" class="form-control" style="width: 100%; height: 90px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div id="control-settings-chb-required"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-control-settings-field" class="settings-panel">
+</div>
