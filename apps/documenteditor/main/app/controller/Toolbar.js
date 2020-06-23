@@ -1830,22 +1830,25 @@ define([
                     oPr, oFormPr;
                 if (isnew) {
                     oFormPr = new AscCommon.CSdtFormPr();
-                    oPr = new AscCommon.CSdtTextFormPr();
                 }
                 if (item.value == 'plain' || item.value == 'rich')
                     this.api.asc_AddContentControl((item.value=='plain') ? Asc.c_oAscSdtLevelType.Inline : Asc.c_oAscSdtLevelType.Block);
                 else if (item.value.indexOf('picture')>=0)
                     this.api.asc_AddContentControlPicture(oFormPr);
-                else if (item.value.indexOf('checkbox')>=0)
-                    this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
-                else if (item.value.indexOf('radiobox')>=0) {
+                else if (item.value.indexOf('checkbox')>=0 || item.value.indexOf('radiobox')>=0) {
+                    if (isnew) {
+                        oPr = new AscCommon.CSdtCheckBoxPr();
+                        (item.value.indexOf('radiobox')>=0) && oPr.put_GroupKey('Group 1');
+                    }
                     this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
                 } else if (item.value == 'date')
                     this.api.asc_AddContentControlDatePicker();
                 else if (item.value.indexOf('combobox')>=0 || item.value.indexOf('dropdown')>=0)
                     this.api.asc_AddContentControlList(item.value.indexOf('combobox')>=0, oPr, oFormPr);
-                else if (item.value == 'new-field')
+                else if (item.value == 'new-field') {
+                    oPr = new AscCommon.CSdtTextFormPr();
                     this.api.asc_AddContentControlTextForm(oPr, oFormPr);
+                }
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
             }
