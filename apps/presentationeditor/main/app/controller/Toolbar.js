@@ -1141,7 +1141,12 @@ define([
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
-                                me.api.paraApply(value);
+                                if (value==-1)
+                                    me.api.put_ListType(0, -1);
+                                else {
+                                    props.asc_putBullet(value);
+                                    me.api.paraApply(props);
+                                }
                             }
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);

@@ -366,7 +366,7 @@ define([
         _handleInput: function(state) {
             if (this.options.handler) {
                 var listtype = (this.type==0) ? this.cmbBulletFormat.getValue() : this.cmbNumFormat.getValue();
-                this.options.handler.call(this, state, (listtype==-1) ? null : this._changedProps);
+                this.options.handler.call(this, state, (listtype==-1) ? -1 : this._changedProps);
             }
             this.close();
         },
