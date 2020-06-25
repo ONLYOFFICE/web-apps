@@ -335,9 +335,12 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 labelText: this.textComb
             });
             this.chComb.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (field.getValue()=='checked') {
+                var checked = (field.getValue()=='checked');
+                if (checked) {
                     this.chMaxChars.setValue(true);
                 }
+                this.btnEditPlaceholder.setDisabled(!checked);
+                this.spnWidth.setDisabled(!checked);
             }, this));
 
             this.afterRender();
@@ -509,6 +512,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
                     val = formTextPr.get_Comb();
                     this.chComb.setValue(!!val, true);
+
+                    this.btnEditPlaceholder.setDisabled(!val);
+                    this.spnWidth.setDisabled(!val);
 
                     val = formTextPr.get_MaxCharacters();
                     this.chMaxChars.setValue(val && val>=0, true);
