@@ -62,8 +62,8 @@ define([
         },
 
         initialize : function(options) {
-            this.type = options.type || 0;
-            this.subtype = options.subtype || 1;
+            this.type = (options.type>0) ? 1 : 0;
+            this.subtype = (options.subtype>=0) ? options.subtype : 1;
 
             _.extend(this.options, {
                 title: this.txtTitle
@@ -123,6 +123,7 @@ define([
 
             this.props = options.props;
             this.options.tpl = _.template(this.template)(this.options);
+            this.color = '000000';
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -169,14 +170,10 @@ define([
             });
             this.cmbNumFormat.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps) {
-                    if (record.value == -1) {
-                        this._changedProps.asc_putSymbol(undefined);
-                    } else {
-                        this._changedProps.asc_putSymbol(undefined);
-                        this._changedProps.asc_putAutoNumType(record.value);
-                    }
+                    this._changedProps.asc_putListType(1, record.value);
                 }
             }, this));
+            this.cmbNumFormat.setValue(this.subtype);
 
             var itemsTemplate =
                 [
@@ -225,6 +222,7 @@ define([
                         formcontrol[0].innerHTML = '';
                 }
             });
+            this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.at(1));
             this.cmbBulletFormat.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps) {
                     if (record.value === 1) {
@@ -259,7 +257,7 @@ define([
                         win.show();
                         win.on('symbol:dblclick', handler);
                     } else if (record.value == -1) {
-                        this._changedProps.asc_putSymbol(undefined);
+                        this._changedProps.asc_putListType(0, record.value);
                     } else {
                         this.bulletProps.changed = true;
                         this.bulletProps.code = record.code;
@@ -291,7 +289,8 @@ define([
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $window.find('#id-dlg-list-color'),
                 style: "width:45px;",
-                additionalAlign: this.menuAddAlign
+                additionalAlign: this.menuAddAlign,
+                color: this.color
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
             this.colors = this.btnColor.getPicker();
@@ -329,6 +328,7 @@ define([
         },
 
         onColorsSelect: function(btn, color) {
+            this.color = color;
             if (this._changedProps) {
                 this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(color));
             }
@@ -336,25 +336,6 @@ define([
 
         onListTypeClick: function(type, btn, event) {
             this.ShowHideElem(type);
-            if (this._changedProps) {
-                if (type==0) {//markers
-                    if (this.cmbBulletFormat.getValue()==-1) {
-                        this._changedProps.asc_putSymbol(undefined);
-                    } else {
-                        this._changedProps.asc_putFont(this.bulletProps.font);
-                        this._changedProps.asc_putSymbol(this.bulletProps.symbol);
-                    }
-                } else {
-                    var value = this.cmbNumFormat.getValue();
-                    if (value==-1) {
-                        this._changedProps.asc_putSymbol(undefined);
-                    } else {
-                        this._changedProps.asc_putSymbol(undefined);
-                        this._changedProps.asc_putAutoNumType(value);
-                    }
-                }
-            }
-            this.type = type;
         },
 
         ShowHideElem: function(value) {
@@ -364,9 +345,24 @@ define([
         },
 
         _handleInput: function(state) {
-            if (this.options.handler) {
-                var listtype = (this.type==0) ? this.cmbBulletFormat.getValue() : this.cmbNumFormat.getValue();
-                this.options.handler.call(this, state, (listtype==-1) ? -1 : this._changedProps);
+            if (this.options.handler)
+            {
+                var type = this.btnBullet.pressed ? 0 : 1;
+                if (this._changedProps && (this.type !== type)) {
+                    if (type==0) {//markers
+                        if (this.cmbBulletFormat.getValue()==-1) {
+                            this._changedProps.asc_putListType(0, -1);
+                        } else {
+                            this._changedProps.asc_putFont(this.bulletProps.font);
+                            this._changedProps.asc_putSymbol(this.bulletProps.symbol);
+                        }
+                    } else {
+                        var value = this.cmbNumFormat.getValue();
+                        this._changedProps.asc_putListType(1, value);
+                        this._changedProps.asc_putNumStartAt(this.spnStart.getNumberValue());
+                    }
+                }
+                this.options.handler.call(this, state, this._changedProps);
             }
             this.close();
         },
@@ -423,18 +419,30 @@ define([
                         this.spnStart.setValue(value || '', true);
                         this.spnStart.setDisabled(value===null);
                     } else {
-                        this.bulletProps = {symbol: symbol, font: bullet.asc_getFont()};
-                        if (!this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
-                            this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-1});
-                        this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
-                        this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                        this.bulletProps = {symbol: (symbol!==null) ? symbol : '', font: bullet.asc_getFont()};
+                        if (symbol!==null) {
+                            if (!this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
+                                this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-1});
+                            this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
+                            this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                        } else
+                            this.cmbBulletFormat.setValue('');
                         this.cmbNumFormat.setValue(1);
                     }
                     this._changedProps = bullet;
                 }
             }
-            if (!this._changedProps)
+            if (!this._changedProps) {
                 this._changedProps = new Asc.asc_CBullet();
+                this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.color));
+                this._changedProps.asc_putSize(this.spnSize.getNumberValue());
+                if (this.type==0) {
+                    this._changedProps.asc_putListType(0, this.cmbBulletFormat.getValue());
+                } else {
+                    this._changedProps.asc_putListType(1, this.cmbNumFormat.getValue());
+                    this._changedProps.asc_putNumStartAt(this.spnStart.getNumberValue());
+                }
+            }
         },
 
         txtTitle: 'List Settings',

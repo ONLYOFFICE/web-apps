@@ -759,7 +759,7 @@ define([
         onSelectBulletMenu: function(menu, item) {
             if (this.api) {
                 if (item.options.value == -1) {
-                    this.api.asc_setListType(item.options.value);
+                    this.api.asc_setListType(0, item.options.value);
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                     Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
                 } else if (item.options.value == 'settings') {
@@ -783,12 +783,8 @@ define([
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        if (value==-1)
-                                            me.api.asc_setListType(-1);
-                                        else {
-                                            props.asc_putBullet(value);
-                                            me.api.asc_setGraphicObjectProps(props);
-                                        }
+                                        props.asc_putBullet(value);
+                                        me.api.asc_setGraphicObjectProps(props);
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
@@ -1790,7 +1786,7 @@ define([
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
 
                         documentHolder.menuParagraphBulletNone.setChecked(listtype.get_ListType() == -1);
-                        documentHolder.mnuListSettings.setDisabled(listtype.get_ListType() == -1);
+                        // documentHolder.mnuListSettings.setDisabled(listtype.get_ListType() == -1);
                         var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype.get_ListType(), subtype: listtype.get_ListSubType() });
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
