@@ -783,7 +783,12 @@ define([
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        me.api.asc_setGraphicObjectProps(value);
+                                        if (value==-1)
+                                            me.api.asc_setListType(-1);
+                                        else {
+                                            props.asc_putBullet(value);
+                                            me.api.asc_setGraphicObjectProps(props);
+                                        }
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.documentHolder);

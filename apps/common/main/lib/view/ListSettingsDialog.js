@@ -170,10 +170,10 @@ define([
             this.cmbNumFormat.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps) {
                     if (record.value == -1) {
-                        // this._changedProps.put_ListType(-1);
+                        this._changedProps.asc_putSymbol(undefined);
                     } else {
-                        // this._changedProps.put_ListType(1);
-                        // this._changedProps.put_ListSubType(record.value);
+                        this._changedProps.asc_putSymbol(undefined);
+                        this._changedProps.asc_putAutoNumType(record.value);
                     }
                 }
             }, this));
@@ -204,13 +204,13 @@ define([
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 data        : [
                     { displayValue: this.txtNone,       value: -1 },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "·", font: 'Symbol' },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "•", font: 'Arial' },
                     { displayValue: this.txtSymbol + ': ', value: 0, symbol: "o", font: 'Courier New' },
                     { displayValue: this.txtSymbol + ': ', value: 0, symbol: "§", font: 'Wingdings' },
                     { displayValue: this.txtSymbol + ': ', value: 0, symbol: "v", font: 'Wingdings' },
                     { displayValue: this.txtSymbol + ': ', value: 0, symbol: "Ø", font: 'Wingdings' },
                     { displayValue: this.txtSymbol + ': ', value: 0, symbol: "ü", font: 'Wingdings' },
-                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "¨", font: 'Symbol' },
+                    { displayValue: this.txtSymbol + ': ', value: 0, symbol: "w", font: 'Wingdings' },
                     { displayValue: this.txtSymbol + ': ', value: 0, symbol: "–", font: 'Arial' },
                     { displayValue: this.txtNewBullet, value: 1 }
                 ],
@@ -232,21 +232,20 @@ define([
                             props = me.bulletProps,
                             handler = function(dlg, result, settings) {
                                 if (result == 'ok') {
-                                    var store = combo.store;
-                                    if (!store.findWhere({value: 0, symbol: settings.symbol, font: settings.font}))
-                                        store.add({ displayValue: me.txtSymbol + ': ', value: 0, symbol: settings.symbol, font: settings.font }, {at: store.length-1});
-                                    combo.setData(store.models);
-                                    combo.selectRecord(combo.store.findWhere({value: 0, symbol: settings.symbol, font: settings.font}));
-
                                     props.changed = true;
                                     props.code = settings.code;
                                     props.font = settings.font;
                                     props.symbol = settings.symbol;
                                     if (me._changedProps) {
-                                        me._changedProps.asc_putBulletFont(props.font);
-                                        me._changedProps.asc_putBulletSymbol(props.symbol);
+                                        me._changedProps.asc_putFont(props.font);
+                                        me._changedProps.asc_putSymbol(props.symbol);
                                     }
                                 }
+                                var store = combo.store;
+                                if (!store.findWhere({value: 0, symbol: props.symbol, font: props.font}))
+                                    store.add({ displayValue: me.txtSymbol + ': ', value: 0, symbol: props.symbol, font: props.font }, {at: store.length-1});
+                                combo.setData(store.models);
+                                combo.selectRecord(combo.store.findWhere({value: 0, symbol: props.symbol, font: props.font}));
                             },
                             win = new Common.Views.SymbolTableDialog({
                                 api: me.options.api,
@@ -259,18 +258,16 @@ define([
                             });
                         win.show();
                         win.on('symbol:dblclick', handler);
-                    } if (record.value == -1) {
-                        // this._changedProps.put_ListType(-1);
+                    } else if (record.value == -1) {
+                        this._changedProps.asc_putSymbol(undefined);
                     } else {
-                        // this._changedProps.put_ListType(0);
-                        // this._changedProps.put_ListSubType(record.value);
                         this.bulletProps.changed = true;
                         this.bulletProps.code = record.code;
                         this.bulletProps.font = record.font;
                         this.bulletProps.symbol = record.symbol;
                         if (this._changedProps) {
-                            this._changedProps.asc_putBulletFont(this.bulletProps.font);
-                            this._changedProps.asc_putBulletSymbol(this.bulletProps.symbol);
+                            this._changedProps.asc_putFont(this.bulletProps.font);
+                            this._changedProps.asc_putSymbol(this.bulletProps.symbol);
                         }
                     }
                 }
@@ -287,7 +284,7 @@ define([
                 allowDecimal: false
             }).on('change', function(field, newValue, oldValue, eOpts){
                 if (me._changedProps) {
-                    me._changedProps.asc_putBulletSize(field.getNumberValue());
+                    me._changedProps.asc_putSize(field.getNumberValue());
                 }
             });
 
@@ -310,7 +307,7 @@ define([
                 allowDecimal: false
             }).on('change', function(field, newValue, oldValue, eOpts){
                 if (me._changedProps) {
-                    me._changedProps.put_NumStartAt(field.getNumberValue());
+                    me._changedProps.asc_putNumStartAt(field.getNumberValue());
                 }
             });
 
@@ -333,7 +330,7 @@ define([
 
         onColorsSelect: function(btn, color) {
             if (this._changedProps) {
-                this._changedProps.asc_putBulletColor(Common.Utils.ThemeColor.getRgbColor(color));
+                this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(color));
             }
         },
 
@@ -342,23 +339,22 @@ define([
             if (this._changedProps) {
                 if (type==0) {//markers
                     if (this.cmbBulletFormat.getValue()==-1) {
-                        // this._changedProps.asc_putType(-1);
+                        this._changedProps.asc_putSymbol(undefined);
                     } else {
-                        this._changedProps.asc_putBulletFont(this.bulletProps.font);
-                        this._changedProps.asc_putBulletSymbol(this.bulletProps.symbol);
+                        this._changedProps.asc_putFont(this.bulletProps.font);
+                        this._changedProps.asc_putSymbol(this.bulletProps.symbol);
                     }
-                    // this._changedProps.asc_putType(0);
-                    // this._changedProps.asc_putSubType(0);
                 } else {
                     var value = this.cmbNumFormat.getValue();
                     if (value==-1) {
-                        // this._changedProps.asc_putType(-1);
+                        this._changedProps.asc_putSymbol(undefined);
                     } else {
-                        // this._changedProps.asc_putType(1);
-                        // this._changedProps.asc_putSubType(value);
+                        this._changedProps.asc_putSymbol(undefined);
+                        this._changedProps.asc_putAutoNumType(value);
                     }
                 }
             }
+            this.type = type;
         },
 
         ShowHideElem: function(value) {
@@ -369,7 +365,8 @@ define([
 
         _handleInput: function(state) {
             if (this.options.handler) {
-                this.options.handler.call(this, state, this._changedProps);
+                var listtype = (this.type==0) ? this.cmbBulletFormat.getValue() : this.cmbNumFormat.getValue();
+                this.options.handler.call(this, state, (listtype==-1) ? null : this._changedProps);
             }
             this.close();
         },
@@ -388,49 +385,56 @@ define([
                 (this.type == 0) ? this.btnBullet.toggle(true) : this.btnNumbering.toggle(true);
                 this.ShowHideElem(this.type);
 
-                this.spnSize.setValue(props.asc_getBulletSize() || '', true);
-                var color = props.asc_getBulletColor();
-                if (color) {
-                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                        color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
-                    } else {
-                        color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                    }
-                } else
-                    color = 'transparent';
-                this.btnColor.setColor(color);
-                if ( typeof(color) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                            this.colors.select(color,true);
-                            isselected = true;
-                            break;
+                var bullet = props.asc_getBullet();
+                if (bullet) {
+                    this.spnSize.setValue(bullet.asc_getSize() || '', true);
+
+                    var color = bullet.asc_getColor();
+                    if (color) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                            color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()};
+                        } else {
+                            color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                         }
+                    } else
+                        color = 'transparent';
+                    this.btnColor.setColor(color);
+                    if ( typeof(color) == 'object' ) {
+                        var isselected = false;
+                        for (var i=0; i<10; i++) {
+                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
+                                this.colors.select(color,true);
+                                isselected = true;
+                                break;
+                            }
+                        }
+                        if (!isselected) this.colors.clearSelection();
+                    } else
+                        this.colors.select(color,true);
+
+                    var symbol = bullet.asc_getSymbol();
+                    if (symbol===undefined) { // numbered
+                        this.cmbNumFormat.setValue(this.subtype, '');
+                        var rec = this.cmbBulletFormat.store.at(1);
+                        this.cmbBulletFormat.selectRecord(rec);
+                        this.bulletProps = {symbol: rec.get('symbol'), font: rec.get('font')};
+
+                        var value = bullet.asc_getNumStartAt();
+                        this.spnStart.setValue(value || '', true);
+                        this.spnStart.setDisabled(value===null);
+                    } else {
+                        this.bulletProps = {symbol: symbol, font: bullet.asc_getFont()};
+                        if (!this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
+                            this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-1});
+                        this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
+                        this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
+                        this.cmbNumFormat.setValue(1);
                     }
-                    if (!isselected) this.colors.clearSelection();
-                } else
-                    this.colors.select(color,true);
-
-                if (this.type==0) {
-                    this.bulletProps = {symbol: props.asc_getBulletSymbol(), font: props.asc_getBulletFont()};
-                    if (!this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
-                        this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-1});
-                    this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
-                    this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
-                    this.cmbNumFormat.setValue(1);
-                } else {
-                    this.cmbNumFormat.setValue(this.subtype, '');
-                    var rec = this.cmbBulletFormat.store.at(1);
-                    this.cmbBulletFormat.selectRecord(rec);
-                    this.bulletProps = {symbol: rec.get('symbol'), font: rec.get('font')};
-
-                    var value = props.get_NumStartAt();
-                    this.spnStart.setValue(value || '', true);
-                    this.spnStart.setDisabled(value===null);
+                    this._changedProps = bullet;
                 }
             }
-            this._changedProps = new Asc.asc_CParagraphProperty();
+            if (!this._changedProps)
+                this._changedProps = new Asc.asc_CBullet();
         },
 
         txtTitle: 'List Settings',
