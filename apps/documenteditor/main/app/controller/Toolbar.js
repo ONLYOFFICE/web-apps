@@ -783,10 +783,10 @@ define([
             toolbar.btnContentControls.setDisabled(paragraph_locked || header_locked);
             if (!(paragraph_locked || header_locked)) {
                 var control_disable = control_plain || content_locked;
-                for (var i=0; i<7; i++)
+                for (var i=0; i<14; i++)
                     toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
-                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                toolbar.btnContentControls.menu.items[10].setDisabled(!in_control);
+                toolbar.btnContentControls.menu.items[15].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                toolbar.btnContentControls.menu.items[17].setDisabled(!in_control);
             }
 
             var need_text_disable = paragraph_locked || header_locked || in_chart || rich_edit_lock || plain_edit_lock;
@@ -1826,16 +1826,29 @@ define([
                     }
                 }
             } else {
+                var isnew = (item.value.indexOf('new-')==0),
+                    oPr, oFormPr;
+                if (isnew) {
+                    oFormPr = new AscCommon.CSdtFormPr();
+                }
                 if (item.value == 'plain' || item.value == 'rich')
                     this.api.asc_AddContentControl((item.value=='plain') ? Asc.c_oAscSdtLevelType.Inline : Asc.c_oAscSdtLevelType.Block);
-                else if (item.value == 'picture')
-                    this.api.asc_AddContentControlPicture();
-                else if (item.value == 'checkbox')
-                    this.api.asc_AddContentControlCheckBox();
-                else if (item.value == 'date')
+                else if (item.value.indexOf('picture')>=0)
+                    this.api.asc_AddContentControlPicture(oFormPr);
+                else if (item.value.indexOf('checkbox')>=0 || item.value.indexOf('radiobox')>=0) {
+                    if (isnew) {
+                        oPr = new AscCommon.CSdtCheckBoxPr();
+                        (item.value.indexOf('radiobox')>=0) && oPr.put_GroupKey('Group 1');
+                    }
+                    this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
+                } else if (item.value == 'date')
                     this.api.asc_AddContentControlDatePicker();
-                else if (item.value == 'combobox' || item.value == 'dropdown')
-                    this.api.asc_AddContentControlList(item.value == 'combobox');
+                else if (item.value.indexOf('combobox')>=0 || item.value.indexOf('dropdown')>=0)
+                    this.api.asc_AddContentControlList(item.value.indexOf('combobox')>=0, oPr, oFormPr);
+                else if (item.value == 'new-field') {
+                    oPr = new AscCommon.CSdtTextFormPr();
+                    this.api.asc_AddContentControlTextForm(oPr, oFormPr);
+                }
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
             }
