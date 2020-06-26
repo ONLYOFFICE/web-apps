@@ -459,8 +459,6 @@ define([
         txtColor: 'Color',
         txtOfText: '% of text',
         txtStart: 'Start at',
-        txtBullet: 'Bullet',
-        tipChange: 'Change bullet',
         textBulleted: 'Bulleted',
         textNumbering: 'Numbered',
         txtType: 'Type',
