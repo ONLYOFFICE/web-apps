@@ -777,8 +777,7 @@ define([
                         (new Common.Views.ListSettingsDialog({
                             api: me.api,
                             props: props,
-                            type: listtype.get_ListType(),
-                            subtype: listtype.get_ListSubType(),
+                            type: 0,
                             interfaceLang: me.permissions.lang,
                             handler: function(result, value) {
                                 if (result == 'ok') {

@@ -62,8 +62,7 @@ define([
         },
 
         initialize : function(options) {
-            this.type = (options.type>0) ? 1 : 0;
-            this.subtype = (options.subtype>=0) ? options.subtype : 1;
+            this.type = options.type || 0;
 
             _.extend(this.options, {
                 title: this.txtTitle
@@ -173,7 +172,7 @@ define([
                     this._changedProps.asc_putListType(1, record.value);
                 }
             }, this));
-            this.cmbNumFormat.setValue(this.subtype);
+            this.cmbNumFormat.setValue(1);
 
             var itemsTemplate =
                 [
@@ -222,7 +221,9 @@ define([
                         formcontrol[0].innerHTML = '';
                 }
             });
-            this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.at(1));
+            var rec = this.cmbBulletFormat.store.at(1);
+            this.cmbBulletFormat.selectRecord(rec);
+            this.bulletProps = {symbol: rec.get('symbol'), font: rec.get('font')};
             this.cmbBulletFormat.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps) {
                     if (record.value === 1) {
@@ -348,7 +349,14 @@ define([
             if (this.options.handler)
             {
                 var type = this.btnBullet.pressed ? 0 : 1;
-                if (this._changedProps && (this.type !== type)) {
+                if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
+                    this._changedProps = new Asc.asc_CBullet();
+                    this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.color));
+                    this._changedProps.asc_putSize(this.spnSize.getNumberValue());
+                }
+
+                if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE ||
+                    this.originalType == AscFormat.BULLET_TYPE_BULLET_CHAR && type==1 || this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM && type==0) { // changed list type
                     if (type==0) {//markers
                         if (this.cmbBulletFormat.getValue()==-1) {
                             this._changedProps.asc_putListType(0, -1);
@@ -357,8 +365,7 @@ define([
                             this._changedProps.asc_putSymbol(this.bulletProps.symbol);
                         }
                     } else {
-                        var value = this.cmbNumFormat.getValue();
-                        this._changedProps.asc_putListType(1, value);
+                        this._changedProps.asc_putListType(1, this.cmbNumFormat.getValue());
                         this._changedProps.asc_putNumStartAt(this.spnStart.getNumberValue());
                     }
                 }
@@ -378,11 +385,11 @@ define([
 
         _setDefaults: function (props) {
             if (props) {
-                (this.type == 0) ? this.btnBullet.toggle(true) : this.btnNumbering.toggle(true);
-                this.ShowHideElem(this.type);
-
+                var type = 0;
                 var bullet = props.asc_getBullet();
                 if (bullet) {
+                    this.originalType = bullet.asc_getType();
+
                     this.spnSize.setValue(bullet.asc_getSize() || '', true);
 
                     var color = bullet.asc_getColor();
@@ -394,6 +401,7 @@ define([
                         }
                     } else
                         color = 'transparent';
+                    this.color = Common.Utils.ThemeColor.colorValue2EffectId(color);
                     this.btnColor.setColor(color);
                     if ( typeof(color) == 'object' ) {
                         var isselected = false;
@@ -408,41 +416,42 @@ define([
                     } else
                         this.colors.select(color,true);
 
-                    var symbol = bullet.asc_getSymbol();
-                    if (symbol===undefined) { // numbered
-                        this.cmbNumFormat.setValue(this.subtype, '');
-                        var rec = this.cmbBulletFormat.store.at(1);
-                        this.cmbBulletFormat.selectRecord(rec);
-                        this.bulletProps = {symbol: rec.get('symbol'), font: rec.get('font')};
-
-                        var value = bullet.asc_getNumStartAt();
-                        this.spnStart.setValue(value || '', true);
-                        this.spnStart.setDisabled(value===null);
-                    } else {
-                        this.bulletProps = {symbol: (symbol!==null) ? symbol : '', font: bullet.asc_getFont()};
-                        if (symbol!==null) {
+                    if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
+                        this.cmbNumFormat.setValue(-1);
+                        this.cmbBulletFormat.setValue(-1);
+                        type = this.type;
+                    } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_CHAR) {
+                        var symbol = bullet.asc_getSymbol();
+                        if (symbol) {
+                            this.bulletProps = {symbol: symbol, font: bullet.asc_getFont()};
                             if (!this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}))
                                 this.cmbBulletFormat.store.add({ displayValue: this.txtSymbol + ': ', value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font }, {at: this.cmbBulletFormat.store.length-1});
                             this.cmbBulletFormat.setData(this.cmbBulletFormat.store.models);
                             this.cmbBulletFormat.selectRecord(this.cmbBulletFormat.store.findWhere({value: 0, symbol: this.bulletProps.symbol, font: this.bulletProps.font}));
                         } else
                             this.cmbBulletFormat.setValue('');
-                        this.cmbNumFormat.setValue(1);
+                        this._changedProps = bullet;
+                        type = 0;
+                    } else if (this.originalType == AscFormat.BULLET_TYPE_BULLET_AUTONUM) {
+                        var autonum = bullet.asc_getAutoNumType();
+                        this.cmbNumFormat.setValue(autonum, '');
+
+                        var value = bullet.asc_getNumStartAt();
+                        this.spnStart.setValue(value || '', true);
+                        this.spnStart.setDisabled(value===null);
+                        this._changedProps = bullet;
+                        type = 1;
                     }
-                    this._changedProps = bullet;
+                } else {// different bullet types
+                    this.cmbNumFormat.setValue(-1);
+                    this.cmbBulletFormat.setValue(-1);
+                    this._changedProps = new Asc.asc_CBullet();
+                    type = this.type;
                 }
             }
-            if (!this._changedProps) {
-                this._changedProps = new Asc.asc_CBullet();
-                this._changedProps.asc_putColor(Common.Utils.ThemeColor.getRgbColor(this.color));
-                this._changedProps.asc_putSize(this.spnSize.getNumberValue());
-                if (this.type==0) {
-                    this._changedProps.asc_putListType(0, this.cmbBulletFormat.getValue());
-                } else {
-                    this._changedProps.asc_putListType(1, this.cmbNumFormat.getValue());
-                    this._changedProps.asc_putNumStartAt(this.spnStart.getNumberValue());
-                }
-            }
+
+            (type == 1) ? this.btnNumbering.toggle(true) : this.btnBullet.toggle(true);
+            this.ShowHideElem(type);
         },
 
         txtTitle: 'List Settings',
