@@ -538,11 +538,11 @@ define([
             setMathInfo: function(info) {
                 if (info.count>1) {
                     if (!this.boxMath.is(':visible')) this.boxMath.show();
-                    this.labelCount.text(this.textCount + ': ' + String(info.count).substring(0,11) + (info.count.length > 11 ? '...' : ''));
-                    this.labelMin.text((info.min && info.min.length) ? (this.textMin + ': ' + info.min.substring(0,11) + (info.min.length > 11 ? '...' : '')) : '');
-                    this.labelMax.text((info.max && info.max.length) ? (this.textMax + ': ' + info.max.substring(0,11) + (info.max.length > 11 ? '...' : '')) : '');
-                    this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum.substring(0,11) + (info.sum.length > 11 ? '...' : '')) : '');
-                    this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average.substring(0,11) + (info.average.length > 11 ? '...' : '')) : '');
+                    this.labelCount.text(this.textCount + ': ' + info.count);
+                    this.labelMin.text((info.min && info.min.length) ? (this.textMin + ': ' + info.min) : '');
+                    this.labelMax.text((info.max && info.max.length) ? (this.textMax + ': ' + info.max) : '');
+                    this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum) : '');
+                    this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average) : '');
 
                     this.customizeStatusBarMenu.items.forEach(function (item) {
                         if (item.options.id === 'math-item-average') {
@@ -570,6 +570,8 @@ define([
 
                 var me = this;
                 _.delay(function(){
+                    me.updateVisibleItemsBoxMath();
+                    me.updateTabbarBorders();
                     me.onTabInvisible(undefined, me.tabbar.checkInvisible(true));
                 },30);
             },
@@ -733,6 +735,19 @@ define([
                 this.tabBarBox.css('right',  right + 'px');
             },
 
+            updateVisibleItemsBoxMath: function () {
+                var widthStatusbar = parseInt(this.$el.css('width'));
+                var width = parseInt(this.boxZoom.css('width')) + parseInt($('#status-tabs-scroll').css('width')) + parseInt($('#status-addtabs-box').css('width'));
+                if (this.boxFiltered.is(':visible')) {
+                    width += parseInt(this.boxFiltered.css('width'));
+                }
+                this.$el.find('.over-box').removeClass('over-box');
+                while (width + parseInt(this.boxMath.css('width')) + 100 > widthStatusbar) {
+                    var items = this.boxMath.find('label:not(.hide, .over-box)');
+                    $(items[items.length - 1]).addClass('over-box');
+                }
+            },
+
             changeViewMode: function (edit) {
                 if (edit) {
                     this.tabBarBox.css('left',  '152px');
@@ -786,7 +801,9 @@ define([
                         this.boxMath.find('.separator').show();
                     }
                 }
+                this.updateVisibleItemsBoxMath();
                 this.updateTabbarBorders();
+                this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
                 event.stopPropagation();
                 item.$el.find('a').blur();
             },
