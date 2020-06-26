@@ -1111,7 +1111,6 @@ define([
                             {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 16px;"></div>')},
                             this.mnuMarkerSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
-                                disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
                                 value: 'settings'
                             })
                         ]
@@ -1124,7 +1123,6 @@ define([
                             {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 16px;"></div>')},
                             this.mnuNumberSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
-                                disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
                                 value: 'settings'
                             })
                         ]
