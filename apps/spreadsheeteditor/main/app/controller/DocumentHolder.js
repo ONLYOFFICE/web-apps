@@ -2442,12 +2442,16 @@ define([
                                 type: Common.Utils.importTextType.Paste,
                                 preview: true,
                                 api: me.api,
-                                handler: function (result, encoding, delimiter, delimiterChar) {
+                                handler: function (result, encoding, delimiter, delimiterChar, decimal, thousands) {
                                     if (result == 'ok') {
                                         if (me && me.api) {
                                             var props = new Asc.SpecialPasteProps();
                                             props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
-                                            props.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
+
+                                            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+                                            decimal && options.asc_setNumberDecimalSeparator(decimal);
+                                            thousands && options.asc_setNumberGroupSeparator(thousands);
+                                            props.asc_setAdvancedOptions(options);
                                             me.api.asc_SpecialPaste(props);
                                         }
                                         me._state.lastSpecPasteChecked = item;

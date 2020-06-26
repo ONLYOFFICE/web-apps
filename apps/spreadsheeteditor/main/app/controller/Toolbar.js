@@ -60,7 +60,8 @@ define([
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
-    'spreadsheeteditor/main/app/view/CellsAddDialog'
+    'spreadsheeteditor/main/app/view/CellsAddDialog',
+    'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
