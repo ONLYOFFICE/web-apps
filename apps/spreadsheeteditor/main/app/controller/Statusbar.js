@@ -232,6 +232,8 @@ define([
         },
 
         onWindowResize: function(area) {
+            this.statusbar.updateVisibleItemsBoxMath();
+            this.statusbar.updateTabbarBorders();
             this.statusbar.onTabInvisible(undefined, this.statusbar.tabbar.checkInvisible(true));
         },
 
