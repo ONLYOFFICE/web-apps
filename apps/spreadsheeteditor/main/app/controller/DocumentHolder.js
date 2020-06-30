@@ -509,7 +509,7 @@ define([
         onInsFunction: function(item) {
             var controller = this.getApplication().getController('FormulaDialog');
             if (controller && this.api) {
-                controller.showDialog();
+                controller.showDialog(undefined, item.value==Asc.ETotalsRowFunction.totalrowfunctionCustom);
             }
         },
 
