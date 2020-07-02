@@ -43,7 +43,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
     'common/main/lib/component/ListView',
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/InputField',
-    'spreadsheeteditor/main/app/view/CellRangeDialog'
+    'spreadsheeteditor/main/app/view/CellRangeDialog',
+    'spreadsheeteditor/main/app/view/ChartDataRangeDialog'
 ], function (contentTemplate) {
     'use strict';
 
@@ -1035,7 +1036,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.btnAdd = new Common.UI.Button({
                 el: $('#chart-dlg-btn-add')
             });
-            // this.btnAdd.on('click', _.bind(this.onAddSeries, this, false));
+            this.btnAdd.on('click', _.bind(this.onAddSeries, this, false));
 
             this.btnDelete = new Common.UI.Button({
                 el: $('#chart-dlg-btn-delete')
@@ -1045,7 +1046,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.btnEdit = new Common.UI.Button({
                 el: $('#chart-dlg-btn-edit')
             });
-            // this.btnEdit.on('click', _.bind(this.onEditSeries, this, false));
+            this.btnEdit.on('click', _.bind(this.onEditSeries, this, false));
 
             this.btnUp = new Common.UI.Button({
                 parentEl: $('#chart-dlg-btn-up'),
@@ -1096,7 +1097,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.btnEditCategory = new Common.UI.Button({
                 el: $('#chart-dlg-btn-category-edit')
             });
-            // this.btnEditCategory.on('click', _.bind(this.onEditCategory, this, false));
+            this.btnEditCategory.on('click', _.bind(this.onEditCategory, this, false));
 
             this.afterRender();
         },
@@ -1810,6 +1811,50 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 index = rec ? this.seriesList.store.indexOf(rec) : -1;
             this.btnUp.setDisabled(index<1);
             this.btnDown.setDisabled(index<0 || index==this.seriesList.store.length-1);
+        },
+
+        onAddSeries: function() {
+            var handlerDlg = function(dlg, result) {
+                if (result == 'ok') {
+                    var changedValue = dlg.getSettings();
+                }
+            };
+            this.changeDataRange(1, true, handlerDlg);
+        },
+
+        onEditSeries: function() {
+            var handlerDlg = function(dlg, result) {
+                if (result == 'ok') {
+                    var changedValue = dlg.getSettings();
+                }
+            };
+            this.changeDataRange(1, false, handlerDlg);
+        },
+
+        onEditCategory: function() {
+            var handlerDlg = function(dlg, result) {
+                if (result == 'ok') {
+                    var changedValue = dlg.getSettings();
+                }
+            };
+            this.changeDataRange(0, false, handlerDlg);
+        },
+
+        changeDataRange: function(type, add, handlerDlg) {
+            var me = this;
+            var win = new SSE.Views.ChartDataRangeDialog({
+                type: type, //series
+                handler: handlerDlg
+            }).on('close', function() {
+                me.show();
+            });
+
+            var xy = me.$window.offset();
+            me.hide();
+            win.show(xy.left + 160, xy.top + 125);
+            win.setSettings({
+                api     : me.api
+            });
         },
 
         show: function() {
