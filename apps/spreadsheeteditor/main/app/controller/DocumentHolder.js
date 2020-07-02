@@ -237,6 +237,7 @@ define([
                 view.pmiNumFormat.menu.on('item:click',             _.bind(me.onNumberFormatSelect, me));
                 view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
                 view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
+                view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
 
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
@@ -321,6 +322,7 @@ define([
                 this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
                 this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
+                this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
             }
             return this;
         },
@@ -507,7 +509,7 @@ define([
         onInsFunction: function(item) {
             var controller = this.getApplication().getController('FormulaDialog');
             if (controller && this.api) {
-                controller.showDialog();
+                controller.showDialog(undefined, item.value==Asc.ETotalsRowFunction.totalrowfunctionCustom);
             }
         },
 
@@ -2118,6 +2120,63 @@ define([
                     }, this)
                 });
             }
+        },
+
+        onTableTotalMenu: function(current) {
+            if (current !== undefined) {
+                var me                  = this,
+                    documentHolderView  = me.documentHolder,
+                    menu                = documentHolderView.tableTotalMenu,
+                    menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
+
+                if (menu.isVisible()) {
+                    menu.hide();
+                    return;
+                }
+
+                Common.UI.Menu.Manager.hideAll();
+
+                if (!menu.rendered) {
+                    // Prepare menu container
+                    if (menuContainer.length < 1) {
+                        menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                        documentHolderView.cmpEl.append(menuContainer);
+                    }
+
+                    menu.render(menuContainer);
+                    menu.cmpEl.attr({tabindex: "-1"});
+                }
+
+                menu.clearAll();
+                var func = _.find(menu.items, function(item) { return item.value == current; });
+                if (func)
+                    func.setChecked(true, true);
+
+                var coord  = me.api.asc_getActiveCellCoord(),
+                    offset = {left:0,top:0},
+                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+                menuContainer.css({left: showPoint[0], top : showPoint[1]});
+
+                me._preventClick = true;
+                menuContainer.attr('data-value', 'prevent-canvas-click');
+                menu.show();
+
+                menu.alignPosition();
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
+            } else {
+                this.documentHolder.tableTotalMenu.hide();
+            }
+        },
+
+        onTotalMenuClick: function(menu, item) {
+            if (item.value==Asc.ETotalsRowFunction.totalrowfunctionCustom) {
+                this.onInsFunction(item);
+            } else {
+                this.api.asc_insertInCell(item.value, Asc.c_oAscPopUpSelectorType.TotalRowFunc);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
         onFormulaCompleteMenu: function(funcarr) {
