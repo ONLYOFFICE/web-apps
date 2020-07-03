@@ -1265,6 +1265,8 @@
   "SSE.Views.CellSettings.strShrink": "Shrink to fit",
   "SSE.Views.CellSettings.textGradientColor": "Color",
   "SSE.Views.CellSettings.textPosition": "Position",
+  "SSE.Views.CellSettings.tipAddGradientPoint": "Add gradient point",
+  "SSE.Views.CellSettings.tipRemoveGradientPoint": "Remove gradient point",
   "SSE.Views.ChartSettings.strLineWeight": "Line Weight",
   "SSE.Views.ChartSettings.strSparkColor": "Color",
   "SSE.Views.ChartSettings.strTemplate": "Template",

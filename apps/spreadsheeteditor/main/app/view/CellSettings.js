@@ -450,7 +450,8 @@ define([
                 parentEl: $('#cell-gradient-add-step'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-add-breakpoint',
-                disabled: this._locked
+                disabled: this._locked,
+                hint: this.tipAddGradientPoint,
             });
             this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
             this.lockedControls.push(this.btnAddGradientStep);
@@ -459,7 +460,8 @@ define([
                 parentEl: $('#cell-gradient-remove-step'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-remove-breakpoint',
-                disabled: this._locked
+                disabled: this._locked,
+                hint: this.tipRemoveGradientPoint
             });
             this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
             this.lockedControls.push(this.btnRemoveGradientStep);
@@ -1287,7 +1289,9 @@ define([
         strWrap: 'Wrap text',
         strShrink: 'Shrink to fit',
         textGradientColor: 'Color',
-        textPosition: 'Position'
+        textPosition: 'Position',
+        tipAddGradientPoint: 'Add gradient point',
+        tipRemoveGradientPoint: 'Remove gradient point'
 
     }, SSE.Views.CellSettings || {}));
 });
