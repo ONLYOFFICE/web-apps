@@ -249,7 +249,7 @@ define([
 
             this.sldrGradient = new Common.UI.MultiSliderGradient({
                 el: $('#cell-slider-gradient'),
-                width: 125,
+                width: 192,
                 minValue: 0,
                 maxValue: 100,
                 values: [0, 100]
@@ -261,6 +261,7 @@ define([
                 var color = me.GradColor.colors[me.GradColor.currentIdx];
                 me.btnGradColor.setColor(color);
                 me.colorsGrad.select(color,false);
+                me.spnGradPosition.setValue(me.GradColor.values[me.GradColor.currentIdx]);
             });
             this.sldrGradient.on('thumbdblclick', function(cmp){
                 me.btnGradColor.cmpEl.find('button').dropdown('toggle');
@@ -429,6 +430,39 @@ define([
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
             this.spnAngle.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
+            this.spnGradPosition = new Common.UI.MetricSpinner({
+                el: $('#cell-gradient-position'),
+                step: 1,
+                width: 60,
+                defaultUnit : "%",
+                value: '50 %',
+                allowDecimal: false,
+                maxValue: 100,
+                minValue: 0,
+                disabled: this._locked
+            });
+            this.lockedControls.push(this.spnGradPosition);
+            this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
+            this.spnGradPosition.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
+            this.btnAddGradientStep = new Common.UI.Button({
+                parentEl: $('#cell-gradient-add-step'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-add-breakpoint',
+                disabled: this._locked
+            });
+            this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
+            this.lockedControls.push(this.btnAddGradientStep);
+
+            this.btnRemoveGradientStep = new Common.UI.Button({
+                parentEl: $('#cell-gradient-remove-step'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-remove-breakpoint',
+                disabled: this._locked
+            });
+            this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
+            this.lockedControls.push(this.btnRemoveGradientStep);
 
             this.chWrap = new Common.UI.CheckBox({
                 el: $('#cell-checkbox-wrap'),
@@ -649,6 +683,9 @@ define([
                             me.GradColor.currentIdx = 0;
                         }
                         me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
+
+                        // Step position
+                        this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx]);
 
                         this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                         this.FGColor = {
@@ -1171,6 +1208,51 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        onPositionChange: function(btn) {
+            var me = this,
+                pos = btn.getNumberValue();
+            if (this.api) {
+                this.GradColor.values[this.GradColor.currentIdx] = pos;
+                if (this.gradient == null) {
+                    this.gradient = new Asc.asc_CGradientFill();
+                    this.gradient.asc_setType(this.GradFillType);
+                }
+                var arrGradStop = [];
+                this.GradColor.values.forEach(function (item, index) {
+                    var gradientStop = new Asc.asc_CGradientStop();
+                    gradientStop.asc_setColor(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(me.GradColor.colors[index])));
+                    gradientStop.asc_setPosition(me.GradColor.values[index]/100);
+                    arrGradStop.push(gradientStop);
+                });
+                this.gradient.asc_putGradientStops(arrGradStop);
+
+                this.fill.asc_setGradientFill(this.gradient);
+                this.api.asc_setCellFill(this.fill);
+            }
+        },
+
+        onAddGradientStep: function() {
+            var curIndex = this.GradColor.currentIdx;
+            var pos = (this.GradColor.values[curIndex] + this.GradColor.values[curIndex < this.GradColor.colors.length - 1 ? curIndex + 1 : curIndex - 1]) / 2;
+
+            this.GradColor.colors[this.GradColor.colors.length] = this.GradColor.colors[curIndex];
+            this.GradColor.currentIdx = this.GradColor.colors.length - 1;
+            this.sldrGradient.addNewThumb(undefined, undefined, pos, curIndex);
+
+            this.sldrGradient.trigger('change', this.sldrGradient);
+            this.sldrGradient.trigger('changecomplete', this.sldrGradient);
+        },
+
+        onRemoveGradientStep: function() {
+            if (this.GradColor.values.length < 3) return;
+            this.GradColor.values.splice(this.GradColor.currentIdx, 1);
+            this.sldrGradient.removeThumb(this.GradColor.currentIdx);
+            if (_.isUndefined(this.GradColor.currentIdx) || this.GradColor.currentIdx >= this.GradColor.colors.length) {
+                this.GradColor.currentIdx = 0;
+            }
+            this.sldrGradient.setActiveThumb(this.GradColor.currentIdx);
+        },
+
         textBorders:        'Border\'s Style',
         textBorderColor:    'Color',
         textBackColor:      'Background color',
@@ -1203,7 +1285,9 @@ define([
         textGradient:       'Gradient',
         textControl: 'Text Control',
         strWrap: 'Wrap text',
-        strShrink: 'Shrink to fit'
+        strShrink: 'Shrink to fit',
+        textGradientColor: 'Color',
+        textPosition: 'Position'
 
     }, SSE.Views.CellSettings || {}));
 });

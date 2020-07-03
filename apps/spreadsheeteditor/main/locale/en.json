@@ -1263,6 +1263,8 @@
   "SSE.Views.CellSettings.textControl": "Text Control",
   "SSE.Views.CellSettings.strWrap": "Wrap text",
   "SSE.Views.CellSettings.strShrink": "Shrink to fit",
+  "SSE.Views.CellSettings.textGradientColor": "Color",
+  "SSE.Views.CellSettings.textPosition": "Position",
   "SSE.Views.ChartSettings.strLineWeight": "Line Weight",
   "SSE.Views.ChartSettings.strSparkColor": "Color",
   "SSE.Views.ChartSettings.strTemplate": "Template",

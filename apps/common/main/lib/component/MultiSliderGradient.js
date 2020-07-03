@@ -56,8 +56,8 @@ define([
             colorValues: ['#000000', '#ffffff'],
             currentThumb: 0,
             thumbTemplate: '<div class="thumb img-commonctrl" style="">' +
-                            '<div class="thumb-top"></div>' +
-                            '<div class="thumb-bottom"></div>' +
+                            '<div class="thumb-top"><div class="thumb-top-inner"></div></div>' +
+                            '<div class="thumb-bottom"><div class="thumb-bottom-inner"></div></div>' +
                             '</div>'
         },
 
@@ -159,8 +159,18 @@ define([
             me.changeSliderStyle();
         },
 
-        addNewThumb: function(index, color) {
+        addNewThumb: function(index, color, pos, curIndex) {
             var me = this;
+            var color = color;
+            var index = index;
+            if (!_.isUndefined(pos) && !_.isUndefined(curIndex)) {
+                this.addThumb();
+                index = this.thumbs.length - 1;
+                color = this.thumbs[curIndex].colorValue;
+                this.setThumbPosition(index, pos);
+                var value = pos/me.delta + me.minValue;
+                me.thumbs[index].value = value;
+            }
             me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> div');
             (index>0) && this.setColorValue(color, index);
             me.sortThumbs();
