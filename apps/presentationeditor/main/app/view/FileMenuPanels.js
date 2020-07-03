@@ -42,6 +42,7 @@
 
 define([
     'common/main/lib/view/DocumentAccessDialog',
+    'common/main/lib/view/AutoCorrectDialog',
     'common/main/lib/component/CheckBox'
 ], function () {
     'use strict';
@@ -183,6 +184,10 @@ define([
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
                     '<td class="right"><div id="fms-chb-spell-check"></div></td>',
+                '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.txtProofing %></label></td>',
+                    '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 5px;padding-left: 5px;"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
@@ -373,6 +378,11 @@ define([
                 labelText: this.strPasteButton
             });
 
+            this.btnAutoCorrect = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-auto-correct')
+            });
+            this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
+
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-apply')
             });
@@ -412,6 +422,11 @@ define([
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
+        },
+
+        setApi: function(o) {
+            this.api = o;
+            return this;
         },
 
         updateSettings: function() {
@@ -506,6 +521,29 @@ define([
             this._fontRender = combo.getValue();
         },
 
+        autoCorrect: function() {
+            if (!this._mathCorrect) {
+                var arr = (this.api) ? this.api.asc_getAutoCorrectMathSymbols() : [],
+                    data = [];
+                _.each(arr, function(item, index){
+                    var itm = {replaced: item[0]};
+                    if (typeof item[1]=='object') {
+                        itm.by = '';
+                        _.each(item[1], function(ch){
+                            itm.by += Common.Utils.String.encodeSurrogateChar(ch);
+                        });
+                    } else {
+                        itm.by = Common.Utils.String.encodeSurrogateChar(item[1]);
+                    }
+                    data.push(itm);
+                });
+                this._mathCorrect = data;
+            }
+            (new Common.Views.AutoCorrectDialog({
+                props: this._mathCorrect
+            })).show();
+        },
+
         strInputMode:   'Turn on hieroglyphs',
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
@@ -549,7 +587,9 @@ define([
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
         strPaste: 'Cut, copy and paste',
-        strPasteButton: 'Show Paste Options button when content is pasted'
+        strPasteButton: 'Show Paste Options button when content is pasted',
+        txtProofing: 'Proofing',
+        txtAutoCorrect: 'AutoCorrect options...'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
