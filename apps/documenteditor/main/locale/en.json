@@ -159,6 +159,8 @@
   "Common.Views.About.txtVersion": "Version ",
   "Common.Views.AutoCorrectDialog.textTitle": "AutoCorrect",
   "Common.Views.AutoCorrectDialog.textMathCorrect": "Math AutoCorrect",
+  "Common.Views.AutoCorrectDialog.textReplace": "Replace:",
+  "Common.Views.AutoCorrectDialog.textBy": "By:",
   "Common.Views.Chat.textSend": "Send",
   "Common.Views.Comments.textAdd": "Add",
   "Common.Views.Comments.textAddComment": "Add Comment",

@@ -62,13 +62,25 @@ define([
                     '<div id="symbol-table-pnl-special">',
                         '<table cols="1" style="width: 100%;">',
                             '<tr>',
-                                '<td>',
-                                    '<label style="font-weight: bold;margin-bottom: 2px;">' + this.textMathCorrect + '</label>',
+                                '<td style="padding-bottom: 8px;">',
+                                    '<label style="font-weight: bold;">' + this.textMathCorrect + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
                                 '<td>',
-                                    '<div id="auto-correct-math-list" class="" style="width:100%; height: 300px;"></div>',
+                                    '<label style="width: 117px;">' + this.textReplace + '</label>',
+                                    '<label>' + this.textBy + '</label>',
+                                '</td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td>',
+                                    '<div id="auto-correct-replace" style="height:22px;width: 115px;margin-right: 2px;display: inline-block;"></div>',
+                                    '<div id="auto-correct-by" style="height:22px;width: 299px;display: inline-block;"></div>',
+                                '</td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td>',
+                                    '<div id="auto-correct-math-list" class="" style="width:100%; height: 254px;"></div>',
                                 '</td>',
                             '</tr>',
                         '</table>',
@@ -89,6 +101,7 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             var $window = this.getChild();
+            var me = this;
 
             // special
             this.mathList = new Common.UI.ListView({
@@ -104,7 +117,55 @@ define([
                 ].join('')),
                 scrollAlwaysVisible: true
             });
+            this.mathList.on('item:select', _.bind(this.onSelectMathItem, this));
+
+            this.inputReplace = new Common.UI.InputField({
+                el               : $window.find('#auto-correct-replace'),
+                allowBlank       : true,
+                validateOnChange : true,
+                validation       : function () { return true; }
+            }).on ('changing', function (input, value) {
+                if (value.length) {
+                    var store = me.mathList.store;
+                    var _selectedItem = store.find(function(item) {
+                        if ( item.get('replaced').indexOf(value) == 0) {
+                            return true;
+                        }
+                    });
+                    if (_selectedItem) {
+                        me.mathList.selectRecord(_selectedItem, true);
+                        me.mathList.scrollToRecord(_selectedItem);
+                    } else {
+                        me.mathList.deselectAll();
+                    }
+                } else {
+                    me.mathList.deselectAll();
+                }
+            });
+
+            this.inputBy = new Common.UI.InputField({
+                el               : $window.find('#auto-correct-by'),
+                allowBlank       : true,
+                validateOnChange : true,
+                validation       : function () { return true; }
+            });
+            // this.inputBy.cmpEl.find('input').css('font-size', '13px');
+
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+        },
+
+        onSelectMathItem: function(lisvView, itemView, record) {
+            this.inputReplace.setValue(record.get('replaced'));
+            this.inputBy.setValue(record.get('by'));
+        },
+
+        show: function() {
+            Common.UI.Window.prototype.show.apply(this, arguments);
+
+            var me = this;
+            _.delay(function(){
+                $('input', me.inputReplace.cmpEl).select().focus();
+            },100);
         },
 
         onBtnClick: function(event) {
@@ -116,7 +177,9 @@ define([
         },
 
         textTitle: 'AutoCorrect',
-        textMathCorrect: 'Math AutoCorrect'
+        textMathCorrect: 'Math AutoCorrect',
+        textReplace: 'Replace:',
+        textBy: 'By:'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });
