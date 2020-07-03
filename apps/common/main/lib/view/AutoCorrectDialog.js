@@ -143,6 +143,20 @@ define([
                 }
             });
 
+            this.inputReplace.cmpEl.find('input').on('keydown', function(event){
+                if (event.key == 'ArrowDown') {
+                    var _selectedItem = me.mathList.getSelectedRec() || me.mathList.store.at(0);
+                    if (_selectedItem) {
+                        me.mathList.selectRecord(_selectedItem);
+                        me.mathList.scrollToRecord(_selectedItem);
+                    }
+                    _.delay(function(){
+                        me.mathList.cmpEl.find('.listview').focus();
+                    },10);
+
+                }
+            });
+
             this.inputBy = new Common.UI.InputField({
                 el               : $window.find('#auto-correct-by'),
                 allowBlank       : true,
