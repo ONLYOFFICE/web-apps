@@ -53,9 +53,6 @@ define([
         },
 
         initialize : function (options) {
-            var t = this,
-                _options = {};
-
             _.extend(this.options, {
                 title: this.txtTitle
             }, options || {});
