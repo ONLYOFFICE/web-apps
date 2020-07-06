@@ -40,34 +40,12 @@
 
 define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView',
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/InputField',
     'spreadsheeteditor/main/app/view/CellRangeDialog',
     'spreadsheeteditor/main/app/view/ChartDataRangeDialog'
 ], function (contentTemplate) {
     'use strict';
-
-    var _CustomItem = Common.UI.DataViewItem.extend({
-        initialize : function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this, options);
-
-            var me = this;
-
-            me.template = me.options.template || me.template;
-
-            me.listenTo(me.model, 'change:sort', function() {
-                me.render();
-                me.trigger('change', me, me.model);
-            });
-            me.listenTo(me.model, 'change:selected', function() {
-                var el = me.$el || $(me.el);
-                el.toggleClass('selected', me.model.get('selected') && me.model.get('allowSelected'));
-                me.onSelectChange(me.model, me.model.get('selected') && me.model.get('allowSelected'));
-            });
-            me.listenTo(me.model, 'remove',             me.remove);
-        }
-    });
 
     SSE.Views.ChartSettingsDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
@@ -81,8 +59,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
-                    {panelId: 'id-chart-settings-dlg-style',        panelCaption: this.textType},
-                    {panelId: 'id-chart-settings-dlg-data',         panelCaption: this.textData},
+                    {panelId: 'id-chart-settings-dlg-style',        panelCaption: this.textTypeData},
                     {panelId: 'id-chart-settings-dlg-layout',       panelCaption: this.textLayout},
                     {panelId: 'id-chart-settings-dlg-vert',         panelCaption: this.textVertAxis},
                     {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis},
@@ -752,8 +729,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 }
             }, this));
 
-            this.btnsCategory[3].on('click', _.bind(this.onVCategoryClick, this));
-            this.btnsCategory[4].on('click', _.bind(this.onHCategoryClick, this));
+            this.btnsCategory[2].on('click', _.bind(this.onVCategoryClick, this));
+            this.btnsCategory[3].on('click', _.bind(this.onHCategoryClick, this));
 
             // Sparklines
             this.btnSparkType = new Common.UI.Button({
@@ -994,111 +971,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.isAltDescChanged = true;
             });
 
-            // Chart data
-            this.seriesList = new Common.UI.ListView({
-                el: $('#chart-dlg-series-list', this.$window),
-                store: new Common.UI.DataViewStore(),
-                emptyText: '',
-                scrollAlwaysVisible: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
-                itemTemplate: _.template([
-                    '<div>',
-                    '<label class="checkbox-indeterminate" style="position:absolute;">',
-                    '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                    '<label for="rdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
-                    '</label>',
-                    '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
-                    '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
-                    '</div>',
-                    '</div>'
-                ].join(''))
-            });
-            this.seriesList.createNewItem = function(record) {
-                return new _CustomItem({
-                    template: this.itemTemplate,
-                    model: record
-                });
-            };
-            this.seriesList.on({
-                'item:change': this.onItemChanged.bind(this),
-                'item:add': this.onItemChanged.bind(this),
-                'item:select': this.onCellCheck.bind(this)
-            });
-            this.seriesList.onKeyDown = _.bind(this.onListKeyDown, this, 'series');
-            this.seriesList.createNewItem = function(record) {
-                return new _CustomItem({
-                    template: this.itemTemplate,
-                    model: record
-                });
-            };
-            this.seriesList.on('item:select', _.bind(this.onSelectSeries, this));
-
-            this.btnAdd = new Common.UI.Button({
-                el: $('#chart-dlg-btn-add')
-            });
-            this.btnAdd.on('click', _.bind(this.onAddSeries, this, false));
-
-            this.btnDelete = new Common.UI.Button({
-                el: $('#chart-dlg-btn-delete')
-            });
-            // this.btnDelete.on('click', _.bind(this.onDeleteSeries, this));
-
-            this.btnEdit = new Common.UI.Button({
-                el: $('#chart-dlg-btn-edit')
-            });
-            this.btnEdit.on('click', _.bind(this.onEditSeries, this, false));
-
-            this.btnUp = new Common.UI.Button({
-                parentEl: $('#chart-dlg-btn-up'),
-                cls: 'btn-toolbar',
-                iconCls: 'caret-up',
-                hint: this.textUp
-            });
-            // this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
-
-            this.btnDown = new Common.UI.Button({
-                parentEl: $('#chart-dlg-btn-down'),
-                cls: 'btn-toolbar',
-                iconCls: 'caret-down',
-                hint: this.textDown
-            });
-            // this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
-
-            this.btnSwitch = new Common.UI.Button({
-                el: $('#chart-dlg-btn-switch')
-            });
-            // this.btnSwitch.on('click', _.bind(this.onSwitch, this));
-
-            this.categoryList = new Common.UI.ListView({
-                el: $('#chart-dlg-category-list', this.$window),
-                store: new Common.UI.DataViewStore(),
-                emptyText: '',
-                scrollAlwaysVisible: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
-                itemTemplate: _.template([
-                    '<div>',
-                    '<label class="checkbox-indeterminate" style="position:absolute;">',
-                    '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                    '<label for="rdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
-                    '</label>',
-                    '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
-                    '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
-                    '</div>',
-                    '</div>'
-                ].join(''))
-            });
-            this.categoryList.on({
-                'item:change': this.onItemChanged.bind(this),
-                'item:add': this.onItemChanged.bind(this),
-                'item:select': this.onCellCheck.bind(this)
-            });
-            this.categoryList.onKeyDown = _.bind(this.onListKeyDown, this, 'category');
-
-            this.btnEditCategory = new Common.UI.Button({
-                el: $('#chart-dlg-btn-category-edit')
-            });
-            this.btnEditCategory.on('click', _.bind(this.onEditCategory, this, false));
-
             this.afterRender();
         },
 
@@ -1108,24 +980,23 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.setTitle((this.isChart) ? this.textTitle : this.textTitleSparkline);
 
             if (this.isChart) {
+                this.btnsCategory[4].setVisible(false);
                 this.btnsCategory[5].setVisible(false);
-                this.btnsCategory[6].setVisible(false);
             } else {
                 this.btnsCategory[0].setVisible(false);
                 this.btnsCategory[1].setVisible(false);
                 this.btnsCategory[2].setVisible(false);
                 this.btnsCategory[3].setVisible(false);
-                this.btnsCategory[4].setVisible(false);
+                this.btnsCategory[6].setVisible(false);
                 this.btnsCategory[7].setVisible(false);
-                this.btnsCategory[8].setVisible(false);
             }
 
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
                 value = this.getActiveCategory();
-                if (value==3) this.onVCategoryClick();
-                else if (value==4) this.onHCategoryClick();
+                if (value==2) this.onVCategoryClick();
+                else if (value==3) this.onHCategoryClick();
             }
         },
 
@@ -1168,8 +1039,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
 
             value = (type == Asc.c_oAscChartTypeSettings.pie || type == Asc.c_oAscChartTypeSettings.doughnut || type == Asc.c_oAscChartTypeSettings.pie3d);
+            this.btnsCategory[2].setDisabled(value);
             this.btnsCategory[3].setDisabled(value);
-            this.btnsCategory[4].setDisabled(value);
             this.cmbHorShow.setDisabled(value);
             this.cmbVertShow.setDisabled(value);
             this.cmbHorTitle.setDisabled(value);
@@ -1191,8 +1062,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             value = (type == Asc.c_oAscChartTypeSettings.hBarNormal || type == Asc.c_oAscChartTypeSettings.hBarStacked || type == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
                      type == Asc.c_oAscChartTypeSettings.hBarNormal3d || type == Asc.c_oAscChartTypeSettings.hBarStacked3d || type == Asc.c_oAscChartTypeSettings.hBarStackedPer3d);
-            this.btnsCategory[3].options.contentTarget = (value) ? 'id-chart-settings-dlg-hor' : 'id-chart-settings-dlg-vert';
-            this.btnsCategory[4].options.contentTarget = (value || type == Asc.c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
+            this.btnsCategory[2].options.contentTarget = (value) ? 'id-chart-settings-dlg-hor' : 'id-chart-settings-dlg-vert';
+            this.btnsCategory[3].options.contentTarget = (value || type == Asc.c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
         },
 
         updateDataLabels: function(chartType, labelPos) {
@@ -1740,124 +1611,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
         },
 
-        onItemChanged: function (view, record) {
-            var state = record.model.get('check');
-            if ( state == 'indeterminate' )
-                $('input[type=checkbox]', record.$el).prop('indeterminate', true);
-            else $('input[type=checkbox]', record.$el).prop({checked: state, indeterminate: false});
-        },
-
-        onCellCheck: function (listView, itemView, record) {
-            if (this.checkCellTrigerBlock)
-                return;
-
-            var target = '', isLabel = false, bound = null;
-
-            var event = window.event ? window.event : window._event;
-            if (event) {
-                target = $(event.currentTarget).find('.list-item');
-
-                if (target.length) {
-                    bound = target.get(0).getBoundingClientRect();
-                    var _clientX = event.clientX*Common.Utils.zoom(),
-                        _clientY = event.clientY*Common.Utils.zoom();
-                    if (bound.left < _clientX && _clientX < bound.right &&
-                        bound.top < _clientY && _clientY < bound.bottom) {
-                        isLabel = true;
-                    }
-                }
-
-                if (isLabel || event.target.className.match('checkbox')) {
-                    this.updateCellCheck(listView, record);
-
-                    _.delay(function () {
-                        listView.$el.find('.listview').focus();
-                    }, 100, this);
-                }
-            }
-        },
-
-        onListKeyDown: function (type, e, data) {
-            var record = null, listView = (type=='series') ? this.seriesList : this.categoryList;
-
-            if (listView.disabled) return;
-            if (_.isUndefined(undefined)) data = e;
-
-            if (data.keyCode == Common.UI.Keys.SPACE) {
-                data.preventDefault();
-                data.stopPropagation();
-
-                this.updateCellCheck(listView, listView.getSelectedRec());
-            } else if (type=='series' && data.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled()) {
-                    // this.onDeleteSeries();
-            } else {
-                Common.UI.DataView.prototype.onKeyDown.call(listView, e, data);
-            }
-        },
-
-        updateCellCheck: function (listView, record) {
-            if (record && listView) {
-                record.set('check', !record.get('check'));
-                // listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
-            }
-        },
-
-        onSelectSeries: function(lisvView, itemView, record) {
-            this.updateMoveButtons();
-        },
-
-        updateMoveButtons: function() {
-            var rec = this.seriesList.getSelectedRec(),
-                index = rec ? this.seriesList.store.indexOf(rec) : -1;
-            this.btnUp.setDisabled(index<1);
-            this.btnDown.setDisabled(index<0 || index==this.seriesList.store.length-1);
-        },
-
-        onAddSeries: function() {
-            var handlerDlg = function(dlg, result) {
-                if (result == 'ok') {
-                    var changedValue = dlg.getSettings();
-                }
-            };
-            this.changeDataRange(1, true, handlerDlg);
-        },
-
-        onEditSeries: function() {
-            var handlerDlg = function(dlg, result) {
-                if (result == 'ok') {
-                    var changedValue = dlg.getSettings();
-                }
-            };
-            this.changeDataRange(1, false, handlerDlg);
-        },
-
-        onEditCategory: function() {
-            var handlerDlg = function(dlg, result) {
-                if (result == 'ok') {
-                    var changedValue = dlg.getSettings();
-                }
-            };
-            this.changeDataRange(0, false, handlerDlg);
-        },
-
-        changeDataRange: function(type, add, handlerDlg) {
-            var me = this;
-            var win = new SSE.Views.ChartDataRangeDialog({
-                type: type, //series
-                handler: handlerDlg
-            }).on('close', function() {
-                me.show();
-            });
-
-            var xy = me.$window.offset();
-            me.hide();
-            win.show(xy.left + 160, xy.top + 125);
-            win.setSettings({
-                api     : me.api
-            });
-        },
-
-        show: function() {
+         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
 
             var me = this;
@@ -1997,16 +1751,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textSnap: 'Cell Snapping',
         textAbsolute: 'Don\'t move or size with cells',
         textOneCell: 'Move but don\'t size with cells',
-        textTwoCell: 'Move and size with cells',
-        textSeries: 'Legend Entries (Series)',
-        textAdd: 'Add',
-        textEdit: 'Edit',
-        textDelete: 'Remove',
-        textSwitch: 'Switch Row/Column',
-        textCategory: 'Horizontal (Category) Axis Labels',
-        textUp: 'Up',
-        textDown: 'Down',
-        textData: 'Data'
+        textTwoCell: 'Move and size with cells'
 
     }, SSE.Views.ChartSettingsDlg || {}));
 });
