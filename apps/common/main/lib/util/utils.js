@@ -594,6 +594,20 @@ Common.Utils.String = new (function() {
         parseFloat: function(string) {
             (typeof string === 'string') && (string = string.replace(',', '.'));
             return parseFloat(string)
+        },
+
+        encodeSurrogateChar: function(nUnicode) {
+            if (nUnicode < 0x10000)
+            {
+                return String.fromCharCode(nUnicode);
+            }
+            else
+            {
+                nUnicode = nUnicode - 0x10000;
+                var nLeadingChar = 0xD800 | (nUnicode >> 10);
+                var nTrailingChar = 0xDC00 | (nUnicode & 0x3FF);
+                return String.fromCharCode(nLeadingChar) + String.fromCharCode(nTrailingChar);
+            }
         }
     }
 })();
