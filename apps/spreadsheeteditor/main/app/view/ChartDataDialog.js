@@ -278,6 +278,7 @@ define([
                 (len>0) && this.categoryList.selectByIndex(0);
             }
             this.updateButtons();
+            this.updateCatButtons();
         },
 
         getSettings: function () {
@@ -412,6 +413,7 @@ define([
         },
 
         onSelectSeries: function(lisvView, itemView, record) {
+            this.updateCatButtons(record.get('series').asc_IsScatter());
             this.updateMoveButtons();
         },
 
@@ -422,8 +424,12 @@ define([
             this.updateMoveButtons();
         },
 
-        updateCatButtons: function() {
-            this.btnEditCategory.setDisabled(this.categoryList.store.length<1);
+        updateCatButtons: function(isScatter) {
+            if (isScatter===undefined) {
+                var rec = this.seriesList.getSelectedRec();
+                rec && (isScatter = rec.get('series').asc_IsScatter());
+            }
+            this.btnEditCategory.setDisabled(this.categoryList.store.length<1 || !!isScatter);
         },
 
         updateMoveButtons: function() {
@@ -483,7 +489,7 @@ define([
                     var changedValue = dlg.getSettings();
                 }
             };
-            this.changeDataRange(0, false, handlerDlg);
+            this.changeDataRange(0, {category: '', values: this.chartSettings.getCatValues()}, false, handlerDlg);
         },
 
         changeDataRange: function(type, props, add, handlerDlg) {

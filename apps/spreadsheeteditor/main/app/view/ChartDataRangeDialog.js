@@ -193,6 +193,10 @@ define([
                     this.inputRange2.setValue(series.asc_getValues());
                     (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getValuesArr().join('; '));
                 }
+            } else {
+                this.inputRange1.setValue(this.props.category || '');
+                // if (this.inputRange1.getValue()!=='')
+                    this.props.values && this.lblRange1.html('= ' + this.props.values.join('; '));
             }
         },
 
@@ -244,7 +248,9 @@ define([
                 if (state == 'ok') {
                     if (this.inputRange1.checkValidate() !== true)
                         return;
-                    if (type==1 && this.inputRange2.checkValidate() !== true)
+                    if (this.type==1 && this.inputRange2.checkValidate() !== true)
+                        return;
+                    if (this.type==1 && this.isScatter && this.inputRange3.checkValidate() !== true)
                         return;
                 }
                 if (this.options.handler.call(this, this, state))
