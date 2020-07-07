@@ -50,8 +50,7 @@ define([
     SSE.Views.ChartDataDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 490,
-            buttons: null
+            height: 490
         },
 
         initialize : function(options) {
@@ -111,10 +110,7 @@ define([
                         '</div></div>',
                     '</div>',
                     '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                    '</div>'
+                    '<div class="separator horizontal"></div>'
                 ].join('')
             }, options);
 

@@ -186,12 +186,12 @@ define([
                 (this.inputRange1.getValue()!=='') && this.lblRange1.html('= ' + series.getName());
                 if (this.props.isScatter) {
                     this.inputRange2.setValue(series.asc_getXValues());
-                    (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getXValuesArr().join(';'));
+                    (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getXValuesArr().join('; '));
                     this.inputRange3.setValue(series.asc_getYValues());
-                    (this.inputRange3.getValue()!=='') && this.lblRange3.html('= ' + series.asc_getYValuesArr().join(';'));
+                    (this.inputRange3.getValue()!=='') && this.lblRange3.html('= ' + series.asc_getYValuesArr().join('; '));
                 } else {
                     this.inputRange2.setValue(series.asc_getValues());
-                    (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getValuesArr().join(';'));
+                    (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getValuesArr().join('; '));
                 }
             }
         },
