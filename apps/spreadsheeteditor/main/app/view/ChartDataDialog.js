@@ -47,27 +47,6 @@ define([
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function () { 'use strict';
 
-    var _CustomItem = Common.UI.DataViewItem.extend({
-        initialize : function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this, options);
-
-            var me = this;
-
-            me.template = me.options.template || me.template;
-
-            me.listenTo(me.model, 'change:sort', function() {
-                me.render();
-                me.trigger('change', me, me.model);
-            });
-            me.listenTo(me.model, 'change:selected', function() {
-                var el = me.$el || $(me.el);
-                el.toggleClass('selected', me.model.get('selected') && me.model.get('allowSelected'));
-                me.onSelectChange(me.model, me.model.get('selected') && me.model.get('allowSelected'));
-            });
-            me.listenTo(me.model, 'remove',             me.remove);
-        }
-    });
-
     SSE.Views.ChartDataDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
@@ -185,38 +164,9 @@ define([
                 el: $('#chart-dlg-series-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
-                scrollAlwaysVisible: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
-                itemTemplate: _.template([
-                    '<div>',
-                    '<label class="checkbox-indeterminate" style="position:absolute;">',
-                    '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                    '<label for="rdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
-                    '</label>',
-                    '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
-                    '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
-                    '</div>',
-                    '</div>'
-                ].join(''))
-            });
-            this.seriesList.createNewItem = function(record) {
-                return new _CustomItem({
-                    template: this.itemTemplate,
-                    model: record
-                });
-            };
-            this.seriesList.on({
-                'item:change': this.onItemChanged.bind(this),
-                'item:add': this.onItemChanged.bind(this),
-                'item:select': this.onCellCheck.bind(this)
+                scrollAlwaysVisible: true
             });
             this.seriesList.onKeyDown = _.bind(this.onListKeyDown, this, 'series');
-            this.seriesList.createNewItem = function(record) {
-                return new _CustomItem({
-                    template: this.itemTemplate,
-                    model: record
-                });
-            };
             this.seriesList.on('item:select', _.bind(this.onSelectSeries, this));
 
             this.btnAdd = new Common.UI.Button({
@@ -259,24 +209,7 @@ define([
                 el: $('#chart-dlg-category-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
-                scrollAlwaysVisible: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
-                itemTemplate: _.template([
-                    '<div>',
-                    '<label class="checkbox-indeterminate" style="position:absolute;">',
-                    '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
-                    '<label for="rdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
-                    '</label>',
-                    '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
-                    '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
-                    '</div>',
-                    '</div>'
-                ].join(''))
-            });
-            this.categoryList.on({
-                'item:change': this.onItemChanged.bind(this),
-                'item:add': this.onItemChanged.bind(this),
-                'item:select': this.onCellCheck.bind(this)
+                scrollAlwaysVisible: true
             });
             this.categoryList.onKeyDown = _.bind(this.onListKeyDown, this, 'category');
 
@@ -448,65 +381,16 @@ define([
             }
         },
 
-        onItemChanged: function (view, record) {
-            var state = record.model.get('check');
-            if ( state == 'indeterminate' )
-                $('input[type=checkbox]', record.$el).prop('indeterminate', true);
-            else $('input[type=checkbox]', record.$el).prop({checked: state, indeterminate: false});
-        },
-
-        onCellCheck: function (listView, itemView, record) {
-            if (this.checkCellTrigerBlock)
-                return;
-
-            var target = '', isLabel = false, bound = null;
-
-            var event = window.event ? window.event : window._event;
-            if (event) {
-                target = $(event.currentTarget).find('.list-item');
-
-                if (target.length) {
-                    bound = target.get(0).getBoundingClientRect();
-                    var _clientX = event.clientX*Common.Utils.zoom(),
-                        _clientY = event.clientY*Common.Utils.zoom();
-                    if (bound.left < _clientX && _clientX < bound.right &&
-                        bound.top < _clientY && _clientY < bound.bottom) {
-                        isLabel = true;
-                    }
-                }
-
-                if (isLabel || event.target.className.match('checkbox')) {
-                    this.updateCellCheck(listView, record);
-
-                    _.delay(function () {
-                        listView.$el.find('.listview').focus();
-                    }, 100, this);
-                }
-            }
-        },
-
         onListKeyDown: function (type, e, data) {
             var record = null, listView = (type=='series') ? this.seriesList : this.categoryList;
 
             if (listView.disabled) return;
             if (_.isUndefined(undefined)) data = e;
 
-            if (data.keyCode == Common.UI.Keys.SPACE) {
-                data.preventDefault();
-                data.stopPropagation();
-
-                this.updateCellCheck(listView, listView.getSelectedRec());
-            } else if (type=='series' && data.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled()) {
+            if (type=='series' && data.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled()) {
                 // this.onDeleteSeries();
             } else {
                 Common.UI.DataView.prototype.onKeyDown.call(listView, e, data);
-            }
-        },
-
-        updateCellCheck: function (listView, record) {
-            if (record && listView) {
-                record.set('check', !record.get('check'));
-                // listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
             }
         },
 
