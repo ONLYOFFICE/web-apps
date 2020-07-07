@@ -86,7 +86,7 @@ define([
                                         '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-edit" style="min-width: 70px;margin-right:5px;">', me.textEdit, '</button>',
                                         '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-delete" style="min-width: 70px;margin-right:5px;">', me.textDelete, '</button>',
                                         '<div style="display: inline-block; float: right;">',
-                                        '<div id="chart-dlg-btn-up" style="display: inline-block;border: 1px solid #cfcfcf;border-radius: 1px;"></div>',
+                                        '<div id="chart-dlg-btn-up" style="display: inline-block;border: 1px solid #cfcfcf;border-radius: 1px;margin-right: 2px;"></div>',
                                         '<div id="chart-dlg-btn-down" style="display: inline-block;border: 1px solid #cfcfcf;border-radius: 1px;"></div>',
                                         '</div>',
                                     '</td>',
@@ -168,6 +168,9 @@ define([
             });
             this.seriesList.onKeyDown = _.bind(this.onListKeyDown, this, 'series');
             this.seriesList.on('item:select', _.bind(this.onSelectSeries, this));
+            this.seriesList.store.comparator = function(rec) {
+                return rec.get("order");
+            };
 
             this.btnAdd = new Common.UI.Button({
                 el: $('#chart-dlg-btn-add')
@@ -177,7 +180,7 @@ define([
             this.btnDelete = new Common.UI.Button({
                 el: $('#chart-dlg-btn-delete')
             });
-            // this.btnDelete.on('click', _.bind(this.onDeleteSeries, this));
+            this.btnDelete.on('click', _.bind(this.onDeleteSeries, this));
 
             this.btnEdit = new Common.UI.Button({
                 el: $('#chart-dlg-btn-edit')
@@ -190,7 +193,7 @@ define([
                 iconCls: 'caret-up',
                 hint: this.textUp
             });
-            // this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
+            this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
 
             this.btnDown = new Common.UI.Button({
                 parentEl: $('#chart-dlg-btn-down'),
@@ -198,7 +201,7 @@ define([
                 iconCls: 'caret-down',
                 hint: this.textDown
             });
-            // this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
+            this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
 
             this.btnSwitch = new Common.UI.Button({
                 el: $('#chart-dlg-btn-switch')
@@ -260,7 +263,25 @@ define([
                 };
 
                 this.dataDirect = props.getInColumns() ? 1 : 0;
+
+                this.updateSeriesList(props.getSeries(), 0);
+
+                var categories = props.getCatValues(),
+                    arr = [];
+                var store = this.categoryList.store;
+                for (var i = 0, len = categories.length; i < len; i++)
+                {
+                    var item = categories[i],
+                        rec = new Common.UI.DataViewModel();
+                    rec.set({
+                        value: item
+                    });
+                    arr.push(rec);
+                }
+                store.reset(arr);
+                (len>0) && this.categoryList.selectByIndex(0);
             }
+            this.updateButtons();
         },
 
         getSettings: function () {
@@ -398,6 +419,17 @@ define([
             this.updateMoveButtons();
         },
 
+        updateButtons: function() {
+            // this.btnAdd.setDisabled(this.seriesList.store.length>63);
+            this.btnEdit.setDisabled(this.seriesList.store.length<1);
+            this.btnDelete.setDisabled(this.seriesList.store.length<1);
+            this.updateMoveButtons();
+        },
+
+        updateCatButtons: function() {
+            this.btnEditCategory.setDisabled(this.categoryList.store.length<1);
+        },
+
         updateMoveButtons: function() {
             var rec = this.seriesList.getSelectedRec(),
                 index = rec ? this.seriesList.store.indexOf(rec) : -1;
@@ -406,21 +438,47 @@ define([
         },
 
         onAddSeries: function() {
+            var rec = (this.seriesList.store.length>0) ? this.seriesList.store.at(this.seriesList.store.length-1) : null,
+                isScatter = false;
+                rec && (isScatter = rec.get('series').asc_IsScatter());
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
                     var changedValue = dlg.getSettings();
+                    if (isScatter) {
+                        this.chartSettings.addScatterSeries(changedValue.name, changedValue.valuesX, changedValue.valuesY);
+                    } else {
+                        this.chartSettings.addSeries(changedValue.name, changedValue.values);
+                    }
+                    this.updateSeriesList(this.chartSettings.getSeries(), this.seriesList.store.length-1);
+                    this.updateButtons();
                 }
             };
-            this.changeDataRange(1, true, handlerDlg);
+            this.changeDataRange(1, {isScatter: isScatter}, true, handlerDlg);
+        },
+
+        onDeleteSeries: function() {
+            var rec = this.seriesList.getSelectedRec();
+            if (rec) {
+                var order = rec.get('order');
+                // this.chartSettings.deleteSeries(rec.get('index'));
+                this.updateSeriesList(this.chartSettings.getSeries(), order);
+            }
+            this.updateButtons();
         },
 
         onEditSeries: function() {
-            var handlerDlg = function(dlg, result) {
-                if (result == 'ok') {
-                    var changedValue = dlg.getSettings();
-                }
-            };
-            this.changeDataRange(1, false, handlerDlg);
+            var rec = this.seriesList.getSelectedRec();
+            if (rec) {
+                var series = rec.get('series'),
+                    isScatter = series.asc_IsScatter();
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        var changedValue = dlg.getSettings();
+                    }
+                };
+                this.changeDataRange(1, {series: series, name: series.asc_getName(), isScatter: isScatter, values: isScatter ? null : series.asc_getValues(),
+                                        valuesX: !isScatter ? null : series.asc_getXValues(), valuesY: !isScatter ? null : series.asc_getYValues() }, false, handlerDlg);
+            }
         },
 
         onEditCategory: function() {
@@ -432,10 +490,11 @@ define([
             this.changeDataRange(0, false, handlerDlg);
         },
 
-        changeDataRange: function(type, add, handlerDlg) {
+        changeDataRange: function(type, props, add, handlerDlg) {
             var me = this;
             var win = new SSE.Views.ChartDataRangeDialog({
                 type: type, //series
+                isScatter: !!props.isScatter,
                 handler: handlerDlg
             }).on('close', function() {
                 me.show();
@@ -445,8 +504,48 @@ define([
             me.hide();
             win.show(xy.left + 160, xy.top + 125);
             win.setSettings({
-                api     : me.api
+                api     : me.api,
+                props   : props
             });
+        },
+
+        onMoveClick: function(up) {
+            var store = this.seriesList.store,
+                length = store.length,
+                rec = this.seriesList.getSelectedRec();
+            if (rec) {
+                var index = store.indexOf(rec),
+                    order = rec.get('order'),
+                    newindex = up ? Math.max(0, index-1) : Math.min(length-1, index+1),
+                    newrec = store.at(newindex),
+                    neworder = newrec.get('order');
+                store.add(store.remove(rec), {at: newindex});
+                rec.set('order', neworder);
+                newrec.set('order', order);
+                // this.chartSettings.changeSeriesOrder(rec.get('index'), neworder, newrec.get('index'), order);
+                this.seriesList.selectRecord(rec);
+                this.seriesList.scrollToRecord(rec);
+            }
+            this.updateMoveButtons();
+        },
+
+        updateSeriesList: function(series, index) {
+            var arr = [];
+            var store = this.seriesList.store;
+            for (var i = 0, len = series.length; i < len; i++)
+            {
+                var item = series[i],
+                    rec = new Common.UI.DataViewModel();
+                rec.set({
+                    value: item.getSeriesName(),
+                    index: item.asc_getIdx(),
+                    order: item.asc_getOrder(),
+                    series: item
+                });
+                arr.push(rec);
+            }
+            store.reset(arr);
+            (len>0) && this.seriesList.selectByIndex(Math.min(index || 0, store.length-1));
         },
 
         textTitle: 'Chart Data',

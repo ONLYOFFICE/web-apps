@@ -57,6 +57,7 @@ define([
 
         initialize : function(options) {
             this.type = options.type || 0;
+            this.isScatter = options.isScatter;
 
             _.extend(this.options, {
                 title: this.type==1 ? this.txtTitleSeries : this.txtTitleCategory
@@ -81,7 +82,7 @@ define([
                 '<% if (type==1) { %>',
                 '<tr>',
                     '<td colspan="2">',
-                        '<label>' + this.txtValues + '</label>',
+                        '<label>' + (this.isScatter ? this.txtXValues : this.txtValues) + '</label>',
                     '</td>',
                 '</tr>',
                 '<tr>',
@@ -92,6 +93,21 @@ define([
                         '<label id="id-dlg-chart-range-lbl2" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 5px;margin-top: 4px;"></label>',
                     '</td>',
                 '</tr>',
+                '<% if (isScatter) { %>',
+                '<tr>',
+                    '<td colspan="2">',
+                        '<label>' + this.txtYValues + '</label>',
+                    '</td>',
+                '</tr>',
+                '<tr>',
+                    '<td style="padding-bottom: 8px;width: 100%;">',
+                        '<div id="id-dlg-chart-range-range3"></div>',
+                    '</td>',
+                    '<td style="padding-bottom: 8px;">',
+                        '<label id="id-dlg-chart-range-lbl3" style="width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 5px;margin-top: 4px;"></label>',
+                    '</td>',
+                '</tr>',
+                '<% } %>',
                 '<% } %>',
                 '</table>',
                 '</div>'
@@ -134,6 +150,19 @@ define([
             }).on('button:click', _.bind(this.onSelectData, this));
             this.lblRange2 = $window.find('#id-dlg-chart-range-lbl2');
 
+            me.inputRange3 = new Common.UI.InputFieldBtn({
+                el: $('#id-dlg-chart-range-range3'),
+                style: '100%',
+                textSelectData: 'Select data',
+                validateOnChange: true,
+                validateOnBlur: false
+            }).on('changed:after', function(input, newValue, oldValue, e) {
+            }).on('changing', function(input, newValue, oldValue, e) {
+                if (newValue == oldValue) return;
+                // me.onInputChanging(input, newValue, oldValue);
+            }).on('button:click', _.bind(this.onSelectData, this));
+            this.lblRange3 = $window.find('#id-dlg-chart-range-lbl3');
+
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
 
            _.defer(function(){
@@ -149,6 +178,22 @@ define([
         setSettings: function(settings) {
             var me = this;
             this.api = settings.api;
+            this.props = settings.props;
+
+            if (this.props.series) {
+                var series = this.props.series;
+                this.inputRange1.setValue(series.asc_getName());
+                (this.inputRange1.getValue()!=='') && this.lblRange1.html('= ' + series.getName());
+                if (this.props.isScatter) {
+                    this.inputRange2.setValue(series.asc_getXValues());
+                    (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getXValuesArr().join(';'));
+                    this.inputRange3.setValue(series.asc_getYValues());
+                    (this.inputRange3.getValue()!=='') && this.lblRange3.html('= ' + series.asc_getYValuesArr().join(';'));
+                } else {
+                    this.inputRange2.setValue(series.asc_getValues());
+                    (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getValuesArr().join(';'));
+                }
+            }
         },
 
         getSettings: function () {
@@ -213,6 +258,8 @@ define([
         txtTitleCategory: 'Axis Labels',
         txtSeriesName: 'Series name',
         txtValues: 'Values',
+        txtXValues: 'X Values',
+        txtYValues: 'Y Values',
         txtAxisLabel: 'Axis label range',
         txtChoose: 'Choose range',
         textSelectData: 'Select data',
