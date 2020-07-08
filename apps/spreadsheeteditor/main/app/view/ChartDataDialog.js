@@ -124,7 +124,6 @@ define([
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
             this.dataRangeValid = '';
-            this.dataDirect = 0;
             this.currentChartType = Asc.c_oAscChartTypeSettings.barNormal;
         },
 
@@ -140,19 +139,10 @@ define([
                 allowBlank  : true,
                 validateOnChange: true
             });
-            this.txtDataRange.on('button:click', _.bind(this.onSelectData_simple, this));
+            this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
             this.txtDataRange.on('changed:after', function(input, newValue, oldValue, e) {
-                if (newValue !==me.dataRangeValid) {
-                    if (me.isRangeValid()) {
-                        me.dataRangeValid = newValue;
-                        me.txtDataRange.checkValidate();
-                        me.chartSettings.putRange(me.dataRangeValid);
-                        me.api.asc_editChartDrawingObject(me.chartSettings);
-                    } else {
-                        me.txtDataRange.setValue(me.dataRangeValid);
-                        me.txtDataRange.checkValidate();
-                    }
-                }
+                if (newValue == oldValue) return;
+                me.changeChartRange(newValue);
             });
 
             // Chart data
@@ -210,7 +200,6 @@ define([
                 emptyText: '',
                 scrollAlwaysVisible: true
             });
-            this.categoryList.onKeyDown = _.bind(this.onListKeyDown, this, 'category');
 
             this.btnEditCategory = new Common.UI.Button({
                 el: $('#chart-dlg-btn-category-edit')
@@ -258,31 +247,13 @@ define([
                     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 };
 
-                this.dataDirect = props.getInColumns() ? 1 : 0;
-
                 this.updateSeriesList(props.getSeries(), 0);
-
-                var categories = props.getCatValues(),
-                    arr = [];
-                var store = this.categoryList.store;
-                for (var i = 0, len = categories.length; i < len; i++)
-                {
-                    var item = categories[i],
-                        rec = new Common.UI.DataViewModel();
-                    rec.set({
-                        value: item
-                    });
-                    arr.push(rec);
-                }
-                store.reset(arr);
-                (len>0) && this.categoryList.selectByIndex(0);
+                this.updateCategoryList(props.getCatValues());
             }
             this.updateButtons();
-            this.updateCatButtons();
         },
 
         getSettings: function () {
-            this.chartSettings.putRange(this.txtDataRange.getValue());
             return { chartSettings: this.chartSettings};
         },
 
@@ -290,6 +261,7 @@ define([
             var me = this;
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'ok') {
+                if (!this.isRangeValid()) return;
                 this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
             }
 
@@ -304,6 +276,7 @@ define([
         isRangeValid: function() {
             var isvalid;
             if (!_.isEmpty(this.txtDataRange.getValue())) {
+                //change validation!!
                 isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.dataDirect===0, this.currentChartType);
                 if (isvalid == Asc.c_oAscError.ID.No)
                     return true;
@@ -321,18 +294,26 @@ define([
             return false;
         },
 
-        onSelectData_simple: function() {
+        changeChartRange: function(settings) {
+            var me = this;
+            if (me.isRangeValid(settings)) {
+                me.dataRangeValid = settings;
+                me.txtDataRange.checkValidate();
+                me.chartSettings.putRange(me.dataRangeValid);
+
+                me.updateSeriesList(me.chartSettings.getSeries(), 0);
+                me.updateCategoryList(me.chartSettings.getCatValues());
+                me.updateButtons();
+            }
+        },
+
+        onSelectData: function(input) {
             var me = this;
             if (me.api) {
-                var props = me.chartSettings;
                 var handlerDlg = function(dlg, result) {
-                    if (result == 'ok' && me.isRangeValid()) {
-                        me.dataRangeValid = dlg.getSettings();
-                        me.txtDataRange.setValue(me.dataRangeValid);
-                        me.txtDataRange.checkValidate();
-                        props.putRange(me.dataRangeValid);
-                        me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
-                        me.api.asc_editChartDrawingObject(props);
+                    if (result == 'ok') {
+                        input.setValue(dlg.getSettings());
+                        me.changeChartRange(dlg.getSettings());
                     }
                 };
 
@@ -353,59 +334,13 @@ define([
             }
         },
 
-        onSelectData: function() {
-            var me = this;
-            if (me.api) {
-                var props = me.chartSettings,
-                    handlerDlg = function(dlg, result) {
-                        if (result == 'ok' && me.isRangeValid()) {
-                            props.putRange(dlg.getSettings());
-                            me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
-                            me.api.asc_editChartDrawingObject(props);
-                        }
-                    },
-                    validation = function(value) {
-                        var isvalid;
-                        if (!_.isEmpty(value)) {
-                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, true, !props.getInColumns(), me.currentChartType);
-                            if (isvalid == Asc.c_oAscError.ID.No)
-                                return true;
-                        } else return '';
-
-                        if (isvalid == Asc.c_oAscError.ID.StockChartError) {
-                            return this.errorStockChart;
-                        } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
-                            return this.errorMaxRows;
-                        }
-                        return this.txtInvalidRange;
-                    };
-
-                var win = new SSE.Views.CellRangeDialog({
-                    handler: handlerDlg
-                }).on('close', function() {
-                    me.show();
-                    // me.api.asc_onCloseChartFrame();
-                });
-
-                var xy = me.$window.offset();
-                me.hide();
-                win.show(xy.left + 160, xy.top + 125);
-                win.setSettings({
-                    api     : me.api,
-                    range   : props.getRange(),
-                    validation: validation,
-                    type    : Asc.c_oAscSelectionDialogType.Chart
-                });
-            }
-        },
-
         onListKeyDown: function (type, e, data) {
-            var record = null, listView = (type=='series') ? this.seriesList : this.categoryList;
+            var record = null, listView = this.seriesList;
 
             if (listView.disabled) return;
             if (_.isUndefined(undefined)) data = e;
 
-            if (type=='series' && data.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled()) {
+            if (data.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled()) {
                 // this.onDeleteSeries();
             } else {
                 Common.UI.DataView.prototype.onKeyDown.call(listView, e, data);
@@ -413,23 +348,13 @@ define([
         },
 
         onSelectSeries: function(lisvView, itemView, record) {
-            this.updateCatButtons(record.get('series').asc_IsScatter());
             this.updateMoveButtons();
         },
 
         updateButtons: function() {
-            // this.btnAdd.setDisabled(this.seriesList.store.length>63);
             this.btnEdit.setDisabled(this.seriesList.store.length<1);
             this.btnDelete.setDisabled(this.seriesList.store.length<1);
             this.updateMoveButtons();
-        },
-
-        updateCatButtons: function(isScatter) {
-            if (isScatter===undefined) {
-                var rec = this.seriesList.getSelectedRec();
-                rec && (isScatter = rec.get('series').asc_IsScatter());
-            }
-            this.btnEditCategory.setDisabled(this.categoryList.store.length<1 || !!isScatter);
         },
 
         updateMoveButtons: function() {
@@ -441,21 +366,23 @@ define([
 
         onAddSeries: function() {
             var rec = (this.seriesList.store.length>0) ? this.seriesList.store.at(this.seriesList.store.length-1) : null,
-                isScatter = false;
+                isScatter = false,
+                me = this;
                 rec && (isScatter = rec.get('series').asc_IsScatter());
+            // me.setStartPointHistory();
+            var series;
+            if (isScatter) {
+                series = me.chartSettings.addScatterSeries();
+            } else {
+                series = me.chartSettings.addSeries();
+            }
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
-                    var changedValue = dlg.getSettings();
-                    if (isScatter) {
-                        this.chartSettings.addScatterSeries(changedValue.name, changedValue.valuesX, changedValue.valuesY);
-                    } else {
-                        this.chartSettings.addSeries(changedValue.name, changedValue.values);
-                    }
-                    this.updateSeriesList(this.chartSettings.getSeries(), this.seriesList.store.length-1);
-                    this.updateButtons();
+                    me.updateSeriesList(me.chartSettings.getSeries(), me.seriesList.store.length-1);
+                    me.updateButtons();
                 }
             };
-            this.changeDataRange(1, {isScatter: isScatter}, true, handlerDlg);
+            this.changeDataRange(1, {series: series, isScatter: isScatter}, handlerDlg);
         },
 
         onDeleteSeries: function() {
@@ -472,27 +399,38 @@ define([
             var rec = this.seriesList.getSelectedRec();
             if (rec) {
                 var series = rec.get('series'),
-                    isScatter = series.asc_IsScatter();
+                    isScatter = series.asc_IsScatter(),
+                    me = this;
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
-                        var changedValue = dlg.getSettings();
+                        // var changedValue = dlg.getSettings();
+                        // series.asc_setName(changedValue.name);
+                        // if (isScatter) {
+                        //     series.asc_setXValues(changedValue.valuesX);
+                        //     series.asc_setYValues(changedValue.valuesY);
+                        // } else {
+                        //     series.asc_setValues(changedValue.valuesX);
+                        // }
                     }
                 };
-                this.changeDataRange(1, {series: series, name: series.asc_getName(), isScatter: isScatter, values: isScatter ? null : series.asc_getValues(),
-                                        valuesX: !isScatter ? null : series.asc_getXValues(), valuesY: !isScatter ? null : series.asc_getYValues() }, false, handlerDlg);
+                // me.setStartPointHistory();
+                this.changeDataRange(1, {series: series, isScatter: isScatter }, handlerDlg);
             }
         },
 
         onEditCategory: function() {
+            var me = this;
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
-                    var changedValue = dlg.getSettings();
+                    // var changedValue = dlg.getSettings();
+                    // me.chartSettings.setCatFormula(changedValue.name);
                 }
             };
-            this.changeDataRange(0, {category: '', values: this.chartSettings.getCatValues()}, false, handlerDlg);
+            // me.setStartPointHistory();
+            this.changeDataRange(0, {category: '', values: this.chartSettings.getCatValues()}, handlerDlg);
         },
 
-        changeDataRange: function(type, props, add, handlerDlg) {
+        changeDataRange: function(type, props, handlerDlg) {
             var me = this;
             var win = new SSE.Views.ChartDataRangeDialog({
                 type: type, //series
@@ -500,6 +438,7 @@ define([
                 handler: handlerDlg
             }).on('close', function() {
                 me.show();
+                // me.setEndPointHistory(); when cancel
             });
 
             var xy = me.$window.offset();
@@ -507,7 +446,8 @@ define([
             win.show(xy.left + 160, xy.top + 125);
             win.setSettings({
                 api     : me.api,
-                props   : props
+                props   : props,
+                chartSettings: me.chartSettings
             });
         },
 
@@ -532,6 +472,8 @@ define([
         },
 
         updateSeriesList: function(series, index) {
+            this.btnEditCategory.setDisabled(series && series.length>0 ? series[0].asc_IsScatter() : false);
+
             var arr = [];
             var store = this.seriesList.store;
             for (var i = 0, len = series.length; i < len; i++)
@@ -548,6 +490,22 @@ define([
             }
             store.reset(arr);
             (len>0) && this.seriesList.selectByIndex(Math.min(index || 0, store.length-1));
+        },
+
+        updateCategoryList: function(categories) {
+            var arr = [];
+            var store = this.categoryList.store;
+            for (var i = 0, len = categories.length; i < len; i++)
+            {
+                var item = categories[i],
+                    rec = new Common.UI.DataViewModel();
+                rec.set({
+                    value: item
+                });
+                arr.push(rec);
+            }
+            store.reset(arr);
+            (len>0) && this.categoryList.selectByIndex(0);
         },
 
         textTitle: 'Chart Data',

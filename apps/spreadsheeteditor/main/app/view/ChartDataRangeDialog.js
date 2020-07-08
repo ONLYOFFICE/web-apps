@@ -131,10 +131,12 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
+                if (newValue == oldValue) return;
+                me.updateRangeData(1, newValue);
             }).on('changing', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
                 // me.onInputChanging(input, newValue, oldValue);
-            }).on('button:click', _.bind(this.onSelectData, this));
+            }).on('button:click', _.bind(this.onSelectData, this, 1));
             this.lblRange1 = $window.find('#id-dlg-chart-range-lbl1');
 
             me.inputRange2 = new Common.UI.InputFieldBtn({
@@ -144,10 +146,12 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
+                if (newValue == oldValue) return;
+                me.updateRangeData(2, newValue);
             }).on('changing', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
                 // me.onInputChanging(input, newValue, oldValue);
-            }).on('button:click', _.bind(this.onSelectData, this));
+            }).on('button:click', _.bind(this.onSelectData, this, 2));
             this.lblRange2 = $window.find('#id-dlg-chart-range-lbl2');
 
             me.inputRange3 = new Common.UI.InputFieldBtn({
@@ -157,10 +161,12 @@ define([
                 validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
+                if (newValue == oldValue) return;
+                me.updateRangeData(3, newValue);
             }).on('changing', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
                 // me.onInputChanging(input, newValue, oldValue);
-            }).on('button:click', _.bind(this.onSelectData, this));
+            }).on('button:click', _.bind(this.onSelectData, this, 3));
             this.lblRange3 = $window.find('#id-dlg-chart-range-lbl3');
 
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
@@ -179,19 +185,24 @@ define([
             var me = this;
             this.api = settings.api;
             this.props = settings.props;
+            this.chartSettings = settings.chartSettings;
 
-            if (this.props.series) {
-                var series = this.props.series;
-                this.inputRange1.setValue(series.asc_getName());
-                (this.inputRange1.getValue()!=='') && this.lblRange1.html('= ' + series.getName());
-                if (this.props.isScatter) {
-                    this.inputRange2.setValue(series.asc_getXValues());
-                    (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getXValuesArr().join('; '));
-                    this.inputRange3.setValue(series.asc_getYValues());
-                    (this.inputRange3.getValue()!=='') && this.lblRange3.html('= ' + series.asc_getYValuesArr().join('; '));
-                } else {
-                    this.inputRange2.setValue(series.asc_getValues());
-                    (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getValuesArr().join('; '));
+            if (this.type==1) {
+                if (this.props.series) {
+                    var series = this.props.series;
+                    this.inputRange1.setValue(series.asc_getName());
+                    (this.inputRange1.getValue()!=='') && this.lblRange1.html('= ' + series.getName());
+                    if (this.props.isScatter) {
+                        this.inputRange2.setValue(series.asc_getXValues());
+                        (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getXValuesArr().join('; '));
+                        this.inputRange3.setValue(series.asc_getYValues());
+                        (this.inputRange3.getValue()!=='') && this.lblRange3.html('= ' + series.asc_getYValuesArr().join('; '));
+                    } else {
+                        this.inputRange2.setValue(series.asc_getValues());
+                        (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getValuesArr().join('; '));
+                    }
+                } else { // add series
+
                 }
             } else {
                 this.inputRange1.setValue(this.props.category || '');
@@ -201,16 +212,16 @@ define([
         },
 
         getSettings: function () {
-            return {name: this.inputRange1.getValue(), value: this.inputRange2.getValue()};
+            return {name: this.inputRange1.getValue(), valuesX: this.inputRange2.getValue(), valuesY: this.inputRange3.getValue()};
         },
 
-        onSelectData: function(input) {
+        onSelectData: function(type, input) {
             var me = this;
             if (me.api) {
-                var changedValue = input.getValue();
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
-                        changedValue = dlg.getSettings();
+                        input.setValue(dlg.getSettings());
+                        me.updateRangeData(type, dlg.getSettings());
                     }
                 };
 
@@ -218,7 +229,6 @@ define([
                     allowBlank: true,
                     handler: handlerDlg
                 }).on('close', function() {
-                    input.setValue(changedValue);
                     // me.onInputChanging(input);
                     me.show();
                     _.delay(function(){
@@ -239,6 +249,57 @@ define([
             }
         },
 
+        isRangeValid: function(type, value) {
+            var isvalid;
+            if (!_.isEmpty(value)) {
+                //change validation!!
+                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, true, false, this.chartSettings.getType());
+                if (isvalid == Asc.c_oAscError.ID.No)
+                    return true;
+            } else
+                return true;
+
+            if (isvalid == Asc.c_oAscError.ID.StockChartError) {
+                Common.UI.warning({msg: this.errorStockChart});
+            } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
+                Common.UI.warning({msg: this.errorMaxRows});
+            } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
+                Common.UI.warning({msg: this.errorMaxPoints});
+            return false;
+        },
+
+        updateRangeData: function(type, value) {
+            if (!this.isRangeValid(type, value)) return;
+
+            if (this.props.series) {
+                var series = this.props.series;
+                switch (type) {
+                    case 1:
+                        series.asc_setName(value);
+                        (this.inputRange1.getValue()!=='') && this.lblRange1.html('= ' + series.getName());
+                        break;
+                    case 2:
+                        if (this.isScatter) {
+                            series.asc_setXValues(value);
+                            (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getXValuesArr().join('; '));
+                        } else {
+                            series.asc_setValues(value);
+                            (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getValuesArr().join('; '));
+                        }
+                        break;
+                    case 3:
+                        series.asc_setYValues(value);
+                        (this.inputRange3.getValue()!=='') && this.lblRange3.html('= ' + series.asc_getYValuesArr().join('; '));
+                        break;
+                }
+            } else {
+                // this.chartSettings.setCatFormula(value);
+                var values = this.chartSettings.getCatValues();
+                // if (this.inputRange1.getValue()!=='')
+                values && this.lblRange1.html('= ' + values.join('; '));
+            }
+        },
+
         onBtnClick: function(event) {
             this._handleInput(event.currentTarget.attributes['result'].value);
         },
@@ -246,12 +307,9 @@ define([
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    if (this.inputRange1.checkValidate() !== true)
-                        return;
-                    if (this.type==1 && this.inputRange2.checkValidate() !== true)
-                        return;
-                    if (this.type==1 && this.isScatter && this.inputRange3.checkValidate() !== true)
-                        return;
+                    if (!this.isRangeValid(1, this.inputRange1.getValue())) return;
+                    if (this.type==1 && !this.isRangeValid(2, this.inputRange1.getValue())) return;
+                    if (this.type==1 && this.isScatter && !this.isRangeValid(3, this.inputRange1.getValue())) return;
                 }
                 if (this.options.handler.call(this, this, state))
                     return;
