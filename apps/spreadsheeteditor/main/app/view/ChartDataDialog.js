@@ -244,7 +244,7 @@ define([
                     }
 
                     var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? (me.textError + ' ' + me.textInvalidRange) : true;
                 };
 
                 this.updateSeriesList(props.getSeries(), 0);
@@ -289,8 +289,9 @@ define([
                 Common.UI.warning({msg: this.errorMaxRows});
             } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
                 Common.UI.warning({msg: this.errorMaxPoints});
-            else
-                this.txtDataRange.cmpEl.find('input').focus();
+            else {
+                Common.UI.warning({msg: this.textInvalidRange});
+            }
             return false;
         },
 
@@ -354,6 +355,7 @@ define([
         updateButtons: function() {
             this.btnEdit.setDisabled(this.seriesList.store.length<1);
             this.btnDelete.setDisabled(this.seriesList.store.length<1);
+            this.btnSwitch.setDisabled(this.seriesList.store.length<1 || !this.chartSettings.getRange());
             this.updateMoveButtons();
         },
 
@@ -509,11 +511,12 @@ define([
 
         textTitle: 'Chart Data',
         txtEmpty:           'This field is required',
-        textInvalidRange:   'ERROR! Invalid cells range',
+        textInvalidRange:   'Invalid cells range',
+        textError:   'ERROR!',
         textSelectData: 'Select data',
-        errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
+        errorMaxRows: 'The maximum number of data series per chart is 255.',
         errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
-        errorMaxPoints: 'ERROR! The maximum number of points in series per chart is 4096.',
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
         textSeries: 'Legend Entries (Series)',
         textAdd: 'Add',
         textEdit: 'Edit',

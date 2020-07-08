@@ -267,6 +267,8 @@ define([
                 Common.UI.warning({msg: this.errorMaxRows});
             } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
                 Common.UI.warning({msg: this.errorMaxPoints});
+            else
+                Common.UI.warning({msg: this.textInvalidRange});
             return false;
         },
 
@@ -332,6 +334,11 @@ define([
         txtChoose: 'Choose range',
         textSelectData: 'Select data',
         txtEmpty    : 'This field is required',
-        txtInvalidRange: 'ERROR! Invalid cells range'
+        textInvalidRange:   'Invalid cells range',
+        textError:   'ERROR!',
+        errorMaxRows: 'The maximum number of data series per chart is 255.',
+        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
+
     }, SSE.Views.ChartDataRangeDialog || {}))
 });
