@@ -136,8 +136,8 @@ define([
                 name        : 'range',
                 style       : 'width: 100%;',
                 btnHint     : this.textSelectData,
-                allowBlank  : true,
-                validateOnChange: true
+                allowBlank  : true
+                // validateOnChange: true
             });
             this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
             this.txtDataRange.on('changed:after', function(input, newValue, oldValue, e) {
@@ -192,7 +192,7 @@ define([
             this.btnSwitch = new Common.UI.Button({
                 el: $('#chart-dlg-btn-switch')
             });
-            // this.btnSwitch.on('click', _.bind(this.onSwitch, this));
+            this.btnSwitch.on('click', _.bind(this.onSwitch, this));
 
             this.categoryList = new Common.UI.ListView({
                 el: $('#chart-dlg-category-list', this.$window),
@@ -403,14 +403,7 @@ define([
                     me = this;
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
-                        // var changedValue = dlg.getSettings();
-                        // series.asc_setName(changedValue.name);
-                        // if (isScatter) {
-                        //     series.asc_setXValues(changedValue.valuesX);
-                        //     series.asc_setYValues(changedValue.valuesY);
-                        // } else {
-                        //     series.asc_setValues(changedValue.valuesX);
-                        // }
+                        rec.set('value', series.asc_getSeriesName());
                     }
                 };
                 // me.setStartPointHistory();
@@ -422,8 +415,7 @@ define([
             var me = this;
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
-                    // var changedValue = dlg.getSettings();
-                    // me.chartSettings.setCatFormula(changedValue.name);
+                    me.updateCategoryList(me.chartSettings.getCatValues());
                 }
             };
             // me.setStartPointHistory();
@@ -481,7 +473,7 @@ define([
                 var item = series[i],
                     rec = new Common.UI.DataViewModel();
                 rec.set({
-                    value: item.getSeriesName(),
+                    value: item.asc_getSeriesName(),
                     index: item.asc_getIdx(),
                     order: item.asc_getOrder(),
                     series: item
@@ -506,6 +498,13 @@ define([
             }
             store.reset(arr);
             (len>0) && this.categoryList.selectByIndex(0);
+        },
+
+        onSwitch: function() {
+            this.chartSettings.switchRowCol();
+            this.updateSeriesList(this.chartSettings.getSeries(), 0);
+            this.updateCategoryList(this.chartSettings.getCatValues());
+            this.updateButtons();
         },
 
         textTitle: 'Chart Data',

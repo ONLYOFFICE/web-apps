@@ -128,7 +128,7 @@ define([
                 el: $('#id-dlg-chart-range-range1'),
                 style: '100%',
                 textSelectData: 'Select data',
-                validateOnChange: true,
+                // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
@@ -143,7 +143,7 @@ define([
                 el: $('#id-dlg-chart-range-range2'),
                 style: '100%',
                 textSelectData: 'Select data',
-                validateOnChange: true,
+                // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
@@ -158,7 +158,7 @@ define([
                 el: $('#id-dlg-chart-range-range3'),
                 style: '100%',
                 textSelectData: 'Select data',
-                validateOnChange: true,
+                // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
@@ -191,23 +191,25 @@ define([
                 if (this.props.series) {
                     var series = this.props.series;
                     this.inputRange1.setValue(series.asc_getName());
-                    (this.inputRange1.getValue()!=='') && this.lblRange1.html('= ' + series.getName());
+                    this.lblRange1.html((this.inputRange1.getValue()!=='') ? ('= ' + (series.asc_getNameVal() || '')) : this.txtChoose);
                     if (this.props.isScatter) {
+                        var arr = series.asc_getXValuesArr();
                         this.inputRange2.setValue(series.asc_getXValues());
-                        (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getXValuesArr().join('; '));
-                        this.inputRange3.setValue(series.asc_getYValues());
-                        (this.inputRange3.getValue()!=='') && this.lblRange3.html('= ' + series.asc_getYValuesArr().join('; '));
-                    } else {
-                        this.inputRange2.setValue(series.asc_getValues());
-                        (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getValuesArr().join('; '));
-                    }
-                } else { // add series
+                        this.lblRange2.html((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
 
+                        this.inputRange3.setValue(series.asc_getYValues());
+                        arr = series.asc_getYValuesArr();
+                        this.lblRange3.html((this.inputRange3.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                    } else {
+                        var arr = series.asc_getValuesArr();
+                        this.inputRange2.setValue(series.asc_getValues());
+                        this.lblRange2.html((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
+                    }
                 }
             } else {
+                var arr = this.props.values;
                 this.inputRange1.setValue(this.props.category || '');
-                // if (this.inputRange1.getValue()!=='')
-                    this.props.values && this.lblRange1.html('= ' + this.props.values.join('; '));
+                this.lblRange1.html((this.inputRange1.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
             }
         },
 
@@ -276,27 +278,29 @@ define([
                 switch (type) {
                     case 1:
                         series.asc_setName(value);
-                        (this.inputRange1.getValue()!=='') && this.lblRange1.html('= ' + series.getName());
+                        this.lblRange1.html((this.inputRange1.getValue()!=='') ? ('= ' + (series.asc_getNameVal() || '')) : this.txtChoose);
                         break;
                     case 2:
                         if (this.isScatter) {
+                            var arr = series.asc_getXValuesArr();
                             series.asc_setXValues(value);
-                            (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getXValuesArr().join('; '));
+                            this.lblRange2.html((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
                         } else {
+                            var arr = series.asc_getValuesArr();
                             series.asc_setValues(value);
-                            (this.inputRange2.getValue()!=='') && this.lblRange2.html('= ' + series.asc_getValuesArr().join('; '));
+                            this.lblRange2.html((this.inputRange2.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
                         }
                         break;
                     case 3:
+                        var arr = series.asc_getYValuesArr();
                         series.asc_setYValues(value);
-                        (this.inputRange3.getValue()!=='') && this.lblRange3.html('= ' + series.asc_getYValuesArr().join('; '));
+                        this.lblRange3.html((this.inputRange3.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
                         break;
                 }
             } else {
                 // this.chartSettings.setCatFormula(value);
-                var values = this.chartSettings.getCatValues();
-                // if (this.inputRange1.getValue()!=='')
-                values && this.lblRange1.html('= ' + values.join('; '));
+                var arr = this.chartSettings.getCatValues();
+                this.lblRange1.html((this.inputRange1.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
             }
         },
 
