@@ -59,7 +59,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
-                    {panelId: 'id-chart-settings-dlg-style',        panelCaption: this.textTypeData},
+                    {panelId: 'id-chart-settings-dlg-style',        panelCaption: this.textType},
                     {panelId: 'id-chart-settings-dlg-layout',       panelCaption: this.textLayout},
                     {panelId: 'id-chart-settings-dlg-vert',         panelCaption: this.textVertAxis},
                     {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis},
@@ -138,26 +138,26 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.btnChartType.render($('#chart-dlg-button-type'));
             this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
 
-            this.cmbDataDirect = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-range'),
-                menuStyle   : 'min-width: 120px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: 0, displayValue: this.textDataRows },
-                    { value: 1, displayValue: this.textDataColumns }
-                ]
-            });
-
-            this.txtDataRange = new Common.UI.InputFieldBtn({
-                el          : $('#chart-dlg-txt-range'),
-                name        : 'range',
-                style       : 'width: 100%;',
-                btnHint     : this.textSelectData,
-                allowBlank  : true,
-                validateOnChange: true
-            });
-            this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
+            // this.cmbDataDirect = new Common.UI.ComboBox({
+            //     el          : $('#chart-dlg-combo-range'),
+            //     menuStyle   : 'min-width: 120px;',
+            //     editable    : false,
+            //     cls         : 'input-group-nr',
+            //     data        : [
+            //         { value: 0, displayValue: this.textDataRows },
+            //         { value: 1, displayValue: this.textDataColumns }
+            //     ]
+            // });
+            //
+            // this.txtDataRange = new Common.UI.InputFieldBtn({
+            //     el          : $('#chart-dlg-txt-range'),
+            //     name        : 'range',
+            //     style       : 'width: 100%;',
+            //     btnHint     : this.textSelectData,
+            //     allowBlank  : true,
+            //     validateOnChange: true
+            // });
+            // this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
 
             this.cmbChartTitle = new Common.UI.ComboBox({
                 el          : $('#chart-dlg-combo-chart-title'),
@@ -1293,24 +1293,24 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                     this._noApply = false;
 
-                    var value = props.getRange();
-                    this.txtDataRange.setValue((value) ? value : '');
-                    this.dataRangeValid = value;
-
-                    this.txtDataRange.validation = function(value) {
-                        if (_.isEmpty(value)) {
-                            if (!me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(true);
-                            return true;
-                        }
-
-                        if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
-
-                        var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                        return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                    };
-
-                    this.cmbDataDirect.setDisabled(value===null);
-                    this.cmbDataDirect.setValue(props.getInColumns() ? 1 : 0);
+                    // var value = props.getRange();
+                    // this.txtDataRange.setValue((value) ? value : '');
+                    // this.dataRangeValid = value;
+                    //
+                    // this.txtDataRange.validation = function(value) {
+                    //     if (_.isEmpty(value)) {
+                    //         if (!me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(true);
+                    //         return true;
+                    //     }
+                    //
+                    //     if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
+                    //
+                    //     var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    //     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                    // };
+                    //
+                    // this.cmbDataDirect.setDisabled(value===null);
+                    // this.cmbDataDirect.setValue(props.getInColumns() ? 1 : 0);
 
                     this.cmbChartTitle.setValue(props.getTitle());
                     this.cmbLegendPos.setValue(props.getLegendPos());
@@ -1321,7 +1321,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.chCategoryName.setValue(this.chartSettings.getShowCatName(), true);
                     this.chValue.setValue(this.chartSettings.getShowVal(), true);
 
-                    value = props.getSeparator();
+                    var value = props.getSeparator();
                     this.txtSeparator.setValue((value) ? value : '');
 
                     // Vertical Axis
@@ -1423,8 +1423,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                 this.chartSettings.putType(type);
 
-                this.chartSettings.putInColumns(this.cmbDataDirect.getValue()==1);
-                this.chartSettings.putRange(this.txtDataRange.getValue());
+                // this.chartSettings.putInColumns(this.cmbDataDirect.getValue()==1);
+                // this.chartSettings.putRange(this.txtDataRange.getValue());
 
                 this.chartSettings.putTitle(this.cmbChartTitle.getValue());
                 this.chartSettings.putLegendPos(this.cmbLegendPos.getValue());
@@ -1484,63 +1484,64 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         isRangeValid: function() {
-            if (this.isChart) {
-                var isvalid;
-                if (!_.isEmpty(this.txtDataRange.getValue())) {
-                    var rec = this.mnuChartTypePicker.getSelectedRec(),
-                        type = (rec) ? rec.get('type') : this.currentChartType;
-
-                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, type);
-                    if (isvalid == Asc.c_oAscError.ID.No)
-                        return true;
-                } else
-                    return true;
-
-                this.setActiveCategory(0);
-                if (isvalid == Asc.c_oAscError.ID.StockChartError) {
-                    Common.UI.warning({msg: this.errorStockChart});
-                } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
-                    Common.UI.warning({msg: this.errorMaxRows});
-                } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
-                    Common.UI.warning({msg: this.errorMaxPoints});
-                else
-                    this.txtDataRange.cmpEl.find('input').focus();
-                return false;
-            } else
-                return true;
+            return true;
+            // if (this.isChart) {
+            //     var isvalid;
+            //     if (!_.isEmpty(this.txtDataRange.getValue())) {
+            //         var rec = this.mnuChartTypePicker.getSelectedRec(),
+            //             type = (rec) ? rec.get('type') : this.currentChartType;
+            //
+            //         isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, type);
+            //         if (isvalid == Asc.c_oAscError.ID.No)
+            //             return true;
+            //     } else
+            //         return true;
+            //
+            //     this.setActiveCategory(0);
+            //     if (isvalid == Asc.c_oAscError.ID.StockChartError) {
+            //         Common.UI.warning({msg: this.errorStockChart});
+            //     } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
+            //         Common.UI.warning({msg: this.errorMaxRows});
+            //     } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
+            //         Common.UI.warning({msg: this.errorMaxPoints});
+            //     else
+            //         this.txtDataRange.cmpEl.find('input').focus();
+            //     return false;
+            // } else
+            //     return true;
         },
 
-        onSelectData: function() {
-            var me = this;
-            if (me.api) {
-                me.btnChartType.menu.options.additionalAlign = me.menuAddAlign;
-                me.btnSparkType.menu.options.additionalAlign = me.menuAddAlign;
-
-                var handlerDlg = function(dlg, result) {
-                    if (result == 'ok') {
-                        me.dataRangeValid = dlg.getSettings();
-                        me.txtDataRange.setValue(me.dataRangeValid);
-                        me.txtDataRange.checkValidate();
-                    }
-                };
-
-                var win = new SSE.Views.CellRangeDialog({
-                    handler: handlerDlg
-                }).on('close', function() {
-                    me.show();
-                });
-
-                var xy = me.$window.offset();
-                me.hide();
-                win.show(xy.left + 160, xy.top + 125);
-                win.setSettings({
-                    api     : me.api,
-                    isRows  : (me.cmbDataDirect.getValue()==0),
-                    range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.Chart
-                });
-            }
-        },
+        // onSelectData: function() {
+        //     var me = this;
+        //     if (me.api) {
+        //         me.btnChartType.menu.options.additionalAlign = me.menuAddAlign;
+        //         me.btnSparkType.menu.options.additionalAlign = me.menuAddAlign;
+        //
+        //         var handlerDlg = function(dlg, result) {
+        //             if (result == 'ok') {
+        //                 me.dataRangeValid = dlg.getSettings();
+        //                 me.txtDataRange.setValue(me.dataRangeValid);
+        //                 me.txtDataRange.checkValidate();
+        //             }
+        //         };
+        //
+        //         var win = new SSE.Views.CellRangeDialog({
+        //             handler: handlerDlg
+        //         }).on('close', function() {
+        //             me.show();
+        //         });
+        //
+        //         var xy = me.$window.offset();
+        //         me.hide();
+        //         win.show(xy.left + 160, xy.top + 125);
+        //         win.setSettings({
+        //             api     : me.api,
+        //             isRows  : (me.cmbDataDirect.getValue()==0),
+        //             range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
+        //             type    : Asc.c_oAscSelectionDialogType.Chart
+        //         });
+        //     }
+        // },
 
         onSelectDataLabels: function(obj, rec, e) {
             var disable = rec.value == Asc.c_oAscChartDataLabelsPos.none;
@@ -1614,10 +1615,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
          show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
 
-            var me = this;
-            _.delay(function(){
-                me.txtDataRange.cmpEl.find('input').focus();
-            },50);
+            // var me = this;
+            // _.delay(function(){
+            //     me.txtDataRange.cmpEl.find('input').focus();
+            // },50);
         },
 
         close: function () {
