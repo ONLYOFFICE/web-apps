@@ -207,7 +207,7 @@ define([
                     }, this));
                 }
 
-                var mnuitemHideFormulaBar = new Common.UI.MenuItem({
+                me.header.mnuitemHideFormulaBar = new Common.UI.MenuItem({
                     caption     : me.textHideFBar,
                     checked     : Common.localStorage.getBool('sse-hidden-formula'),
                     checkable   : true,
@@ -261,7 +261,7 @@ define([
                         style: 'min-width: 180px;',
                         items: [
                             me.header.mnuitemCompactToolbar,
-                            mnuitemHideFormulaBar,
+                            me.header.mnuitemHideFormulaBar,
                             {caption:'--'},
                             me.header.mnuitemHideHeadings,
                             me.header.mnuitemHideGridlines,
@@ -391,6 +391,7 @@ define([
             case 'celleditor':
                 if (arguments[1]) {
                     this.boxSdk.css('border-top', arguments[1]=='hidden'?'none':'');
+                    this.header.mnuitemHideFormulaBar.setChecked(arguments[1]=='hidden', true);
                 }
                 this.viewport.celayout.doLayout();
                 break;

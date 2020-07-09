@@ -62,8 +62,11 @@ define([
         setApi: function (api) {
             if (api) {
                 this.api = api;
+                this.api.asc_registerCallback('asc_onZoomChanged',              this.onApiZoomChange.bind(this));
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
-                this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
+                // this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
+                this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
+                this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -77,9 +80,17 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
-                    'viewtab:freeze': this.onFreeze
+                    'viewtab:freeze': this.onFreeze,
+                    'viewtab:formula': this.onViewSettings,
+                    'viewtab:headings': this.onViewSettings,
+                    'viewtab:gridlines': this.onViewSettings,
+                    'viewtab:zoom': this.onZoom
+                },
+                'Statusbar': {
+                    'sheet:changed': this.onApiSheetChanged.bind(this)
                 }
             });
+            Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
         },
 
         SetDisabled: function(state) {
@@ -99,22 +110,58 @@ define([
             if (!this.toolbar.editMode || !this.view) return;
         },
 
-        onFreeze: function() {
-            var me = this;
-            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+        onFreeze: function(state) {
+            if (this.api) {
+                this.api.asc_freezePane();
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onWorksheetLocked: function(index,locked) {
-            if (index == this.api.asc_getActiveWorksheetIndex()) {
-                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
+        onZoom: function(zoom) {
+            if (this.api) {
+                this.api.asc_setZoom(zoom/100);
             }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
         },
+
+        onViewSettings: function(type, value){
+            if (this.api) {
+                switch (type) {
+                    case 0: this.getApplication().getController('Viewport').header.fireEvent('formulabar:hide', [ value!=='checked']); break;
+                    case 1: this.api.asc_setDisplayHeadings(value=='checked'); break;
+                    case 2: this.api.asc_setDisplayGridlines( value=='checked'); break;
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        // onWorksheetLocked: function(index,locked) {
+        //     if (index == this.api.asc_getActiveWorksheetIndex()) {
+        //         Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
+        //     }
+        // },
 
         onApiSheetChanged: function() {
             if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge) return;
 
-            var currentSheet = this.api.asc_getActiveWorksheetIndex();
-            this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+            var params  = this.api.asc_getSheetViewSettings();
+            this.view.chHeadings.setValue(!!params.asc_getShowRowColHeaders(), true);
+            this.view.chGridlines.setValue(!!params.asc_getShowGridLines(), true);
+            this.view.btnFreezePanes.toggle(!!params.asc_getIsFreezePane(), true);
+
+            // var currentSheet = this.api.asc_getActiveWorksheetIndex();
+            // this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+        },
+
+        onLayoutChanged: function(area) {
+            if (area=='celleditor' && arguments[1]) {
+                this.view.chFormula.setValue(arguments[1]=='showed', true);
+            }
+        },
+
+        onApiZoomChange: function(zf, type){
+            var value = Math.floor((zf + .005) * 100);
+            this.view.cmbZoom.setValue(value, value + '%');
         }
 
     }, SSE.Controllers.ViewTab || {}));

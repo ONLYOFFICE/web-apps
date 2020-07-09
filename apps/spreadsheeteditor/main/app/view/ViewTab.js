@@ -51,6 +51,19 @@ define([
             me.btnFreezePanes.on('click', function (btn, e) {
                 me.fireEvent('viewtab:freeze', [btn.pressed]);
             });
+            this.chFormula.on('change', function (field, value) {
+                me.fireEvent('viewtab:formula', [0, value]);
+            });
+            this.chHeadings.on('change', function (field, value) {
+                me.fireEvent('viewtab:headings', [1, value]);
+            });
+            this.chGridlines.on('change', function (field, value) {
+                me.fireEvent('viewtab:gridlines', [2, value]);
+            });
+
+            this.cmbZoom.on('selected', function(combo, record) {
+                me.fireEvent('viewtab:zoom', [record.value]);
+            });
         }
 
         return {
@@ -108,6 +121,7 @@ define([
                 this.lockedControls.push(this.btnFreezePanes);
 
                 this.cmbZoom = new Common.UI.ComboBox({
+                    el          : $host.find('#slot-field-zoom'),
                     cls         : 'input-group-nr',
                     menuStyle   : 'min-width: 55px;',
                     hint        : me.tipFontSize,
@@ -123,11 +137,12 @@ define([
                         { displayValue: "200%", value: 200 }
                     ]
                 });
-                Common.Utils.injectComponent($host.find('#slot-field-zoom'), this.cmbZoom);
+                this.cmbZoom.setValue(100);
 
                 this.chFormula = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-formula'),
                     labelText: this.textFormula,
+                    value: !Common.localStorage.getBool('sse-hidden-formula'),
                     lock        : [_set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.chFormula);
