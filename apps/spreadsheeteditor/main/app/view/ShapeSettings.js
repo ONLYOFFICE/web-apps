@@ -1778,6 +1778,7 @@ define([
         },
 
         onAddGradientStep: function() {
+            if (this.GradColor.colors.length > 9) return;
             var curIndex = this.GradColor.currentIdx;
             var pos = (this.GradColor.values[curIndex] + this.GradColor.values[curIndex < this.GradColor.colors.length - 1 ? curIndex + 1 : curIndex - 1]) / 2;
 
