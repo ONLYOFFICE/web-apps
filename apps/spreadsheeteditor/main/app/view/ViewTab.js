@@ -60,7 +60,6 @@ define([
             this.chGridlines.on('change', function (field, value) {
                 me.fireEvent('viewtab:gridlines', [2, value]);
             });
-
             this.cmbZoom.on('selected', function(combo, record) {
                 me.fireEvent('viewtab:zoom', [record.value]);
             });
@@ -222,7 +221,7 @@ define([
 
             setButtonMenu: function(btn) {
                 var me = this,
-                    arr = [{caption: me.textDefault, value: 'default'}];
+                    arr = [{caption: me.textDefault, value: 'default', checkable: true, allowDepress: false}];
                 btn.setMenu(new Common.UI.Menu({
                     items: [
                         {template: _.template('<div id="id-toolbar-sheet-view-menu-" style="display: flex;" class="open"></div>')},
@@ -242,6 +241,8 @@ define([
                     _.delay(function() {
                         menu._innerMenu && menu._innerMenu.cmpEl.focus();
                     }, 10);
+                }).on('show:before', function (menu, e) {
+                    me.fireEvent('viewtab:showview');
                 }).on('keydown:before', _.bind(me.onBeforeKeyDown, this));
 
                 var menu = new Common.UI.Menu({
@@ -257,8 +258,9 @@ define([
                     top         : 0
                 });
                 menu.cmpEl.attr({tabindex: "-1"});
-                menu.on('item:click', function (menu, item, e) {
-                    me.fireEvent('viewtab:openview', [{name: item.caption, value: item.value}]);
+                menu.on('item:toggle', function (menu, item, state, e) {
+                    if (!!state)
+                        me.fireEvent('viewtab:openview', [{name: item.caption, value: item.value}]);
                 }).on('keydown:before', _.bind(me.onBeforeKeyDown, this));
                 btn.menu._innerMenu = menu;
                 menu._outerMenu = btn.menu;

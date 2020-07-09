@@ -84,7 +84,10 @@ define([
                     'viewtab:formula': this.onViewSettings,
                     'viewtab:headings': this.onViewSettings,
                     'viewtab:gridlines': this.onViewSettings,
-                    'viewtab:zoom': this.onZoom
+                    'viewtab:zoom': this.onZoom,
+                    'viewtab:showview': this.onShowView,
+                    'viewtab:openview': this.onOpenView
+                    // 'viewtab:manager': this.onOpenManager
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged.bind(this)
@@ -133,6 +136,29 @@ define([
                 }
             }
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        onShowView: function() {
+            var views = this.api.asc_getNamedSheetViews(),
+                menu = this.view.btnSheetView.menu._innerMenu,
+                active = false;
+
+            menu.removeItems(1, menu.items.length-1);
+            _.each(views, function(item, index) {
+                menu.addItem(new Common.UI.MenuItem({
+                    caption : item.asc_getName(),
+                    checkable: true,
+                    allowDepress: false,
+                    checked : item.asc_getIsActive()
+                }));
+                if (item.asc_getIsActive())
+                    active = true;
+            });
+            menu.items[0].setChecked(!active, true);
+        },
+
+        onOpenView: function(item) {
+            this.api && this.api.asc_setActiveNamedSheetView((item.value == 'default') ? null : item.name);
         },
 
         // onWorksheetLocked: function(index,locked) {
