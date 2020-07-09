@@ -3304,6 +3304,10 @@ define([
                                 me.toolbar.addTab(tab, $panel, 7);
                         }
                     }
+
+                    var viewtab = me.getApplication().getController('ViewTab');
+                    viewtab.setApi(me.api).setConfig({toolbar: me});
+
                 }
             }
         },
