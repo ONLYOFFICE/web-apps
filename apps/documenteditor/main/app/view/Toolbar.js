@@ -644,6 +644,31 @@ define([
                                 },
                                 {caption: '--'},
                                 {
+                                    caption: this.textNewFieldControl,
+                                    value: 'new-field'
+                                },
+                                {
+                                    caption: this.textNewPictureControl,
+                                    value: 'new-picture'
+                                },
+                                {
+                                    caption: this.textNewComboboxControl,
+                                    value: 'new-combobox'
+                                },
+                                {
+                                    caption: this.textNewDropdownControl,
+                                    value: 'new-dropdown'
+                                },
+                                {
+                                    caption: this.textNewCheckboxControl,
+                                    value: 'new-checkbox'
+                                },
+                                {
+                                    caption: this.textNewRadioboxControl,
+                                    value: 'new-radiobox'
+                                },
+                                {caption: '--'},
+                                {
                                     caption: this.textRemoveControl,
                                     // iconCls: 'menu__icon cc-remove',
                                     value: 'remove'
@@ -1957,7 +1982,7 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
-                this.btnContentControls.menu.items[10].setVisible(mode.canEditContentControl);
+                this.btnContentControls.menu.items[17].setVisible(mode.canEditContentControl);
                 this.mnuInsertImage.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
@@ -2321,7 +2346,13 @@ define([
             mniEraseTable: 'Erase Table',
             textListSettings: 'List Settings',
             capBtnDateTime: 'Date & Time',
-            tipDateTime: 'Insert current date and time'
+            tipDateTime: 'Insert current date and time',
+            textNewFieldControl: 'New text field',
+            textNewPictureControl: 'New picture',
+            textNewComboboxControl: 'New combo box',
+            textNewCheckboxControl: 'New check box',
+            textNewRadioboxControl: 'New radio box',
+            textNewDropdownControl: 'New drop-down list'
         }
     })(), DE.Views.Toolbar || {}));
 });

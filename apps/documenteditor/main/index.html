@@ -201,6 +201,9 @@
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
+
+        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
+            document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
     </script>
 
     <!-- debug begin -->

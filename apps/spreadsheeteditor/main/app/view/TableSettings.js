@@ -184,6 +184,10 @@ define([
             return this;
         },
 
+        setMode: function(mode) {
+            this.mode = mode;
+        },
+
         createDelayedControls: function() {
             var me = this;
             this.chHeader = new Common.UI.CheckBox({
@@ -311,6 +315,14 @@ define([
             });
             this.btnSlicer.on('click', _.bind(this.onInsertSlicerClick, this));
             this.lockedControls.push(this.btnSlicer);
+
+            this.btnPivot = new Common.UI.Button({
+                el: $('#table-btn-pivot')
+            });
+            this.btnPivot.on('click', _.bind(this.onInsertPivotClick, this));
+            this.lockedControls.push(this.btnPivot);
+
+            this.$el.find('.pivot-only').toggleClass('hidden', !this.mode.canFeaturePivot);
 
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
 
@@ -551,6 +563,10 @@ define([
             }
         },
 
+        onInsertPivotClick: function() {
+            this.fireEvent('pivottable:create');
+        },
+
         onApiEditCell: function(state) {
             this.isEditCell = (state != Asc.c_oAscCellEditorState.editEnd);
             if ( state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd)
@@ -609,7 +625,8 @@ define([
         textLongOperation: 'Long operation',
         warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
         textRemDuplicates: 'Remove duplicates',
-        textSlicer: 'Insert slicer'
-
+        textSlicer: 'Insert slicer',
+        textPivot: 'Insert pivot table'
+        
     }, SSE.Views.TableSettings || {}));
 });

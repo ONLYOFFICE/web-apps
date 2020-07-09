@@ -31,7 +31,8 @@
  *
 */
 define([
-    'common/main/lib/view/DocumentAccessDialog'
+    'common/main/lib/view/DocumentAccessDialog',
+    'common/main/lib/view/AutoCorrectDialog'
 ], function () {
     'use strict';
 
@@ -257,6 +258,7 @@ define([
 
         setApi: function(api) {
             this.generalSettings && this.generalSettings.setApi(api);
+            this.spellcheckSettings && this.spellcheckSettings.setApi(api);
         },
 
         txtGeneral: 'General',
@@ -1238,6 +1240,10 @@ define([
                 '<td class="right"><span id="fms-chb-ignore-numbers-words"></span></td>',
             '</tr>','<tr class="divider"></tr>',
             '<tr>',
+                '<td class="left"><label><%= scope.txtProofing %></label></td>',
+                '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;"><%= scope.txtAutoCorrect %></button></div></td>',
+            '</tr>','<tr class="divider"></tr>',
+            '<tr>',
                 '<td class="left"></td>',
                 '<td class="right"><button id="fms-spellcheck-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
             '</tr>',
@@ -1271,6 +1277,11 @@ define([
                 editable: false,
                 menuStyle: 'min-width: 267px; max-height: 209px;'
             });
+
+            this.btnAutoCorrect = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-auto-correct')
+            });
+            this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-spellcheck-btn-apply')
@@ -1362,11 +1373,35 @@ define([
             }
         },
 
+        autoCorrect: function() {
+            if (!this._mathCorrect) {
+                var arr = (this.api) ? this.api.asc_getAutoCorrectMathSymbols() : [],
+                    data = [];
+                _.each(arr, function(item, index){
+                    var itm = {replaced: item[0]};
+                    if (typeof item[1]=='object') {
+                        itm.by = '';
+                        _.each(item[1], function(ch){
+                            itm.by += Common.Utils.String.encodeSurrogateChar(ch);
+                        });
+                    } else {
+                        itm.by = Common.Utils.String.encodeSurrogateChar(item[1]);
+                    }
+                    data.push(itm);
+                });
+                this._mathCorrect = data;
+            }
+            (new Common.Views.AutoCorrectDialog({
+                props: this._mathCorrect
+            })).show();
+        },
+
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
         strIgnoreWordsWithNumbers: 'Ignore words with numbers',
         strDictionaryLanguage: 'Dictionary language',
-        okButtonText: 'Apply'
-
+        okButtonText: 'Apply',
+        txtProofing: 'Proofing',
+        txtAutoCorrect: 'AutoCorrect options...'
     }, SSE.Views.FileMenuPanels.MainSpellCheckSettings || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

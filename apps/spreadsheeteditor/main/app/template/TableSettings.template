@@ -88,6 +88,11 @@
             <button type="button" class="btn btn-text-default" id="table-btn-slicer" style="width:100%;"><%= scope.textSlicer %></button>
         </td>
     </tr>
+    <tr class="pivot-only">
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="table-btn-pivot" style="width:100%;"><%= scope.textPivot %></button>
+        </td>
+    </tr>
     <tr>
         <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>

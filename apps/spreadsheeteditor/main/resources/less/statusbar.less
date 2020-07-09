@@ -122,16 +122,17 @@
     #status-math-box,
     #status-filtered-box {
         float: right;
+        padding-top: 6px;
+        padding-right: 14px;
 
         label {
-            padding-top: 6px;
-            height: 25px;
             &:not(:last-child) {
                 padding-right: 10px;
             }
-            &:last-child {
-                padding-right: 14px;
-            }
+        }
+
+        .separator {
+            margin-top: -6px;
         }
     }
 
@@ -350,4 +351,8 @@
     opacity: 0;
     background-color: @gray-light;
     z-index: @zindex-modal - 1;
+}
+
+.over-box {
+    display: none;
 }

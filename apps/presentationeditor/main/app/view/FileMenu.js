@@ -223,6 +223,7 @@ define([
 
             if ( !!this.api ) {
                 this.panels['info'].setApi(this.api);
+                if (this.panels['opts']) this.panels['opts'].setApi(this.api);
                 if ( this.panels['protect'] )
                     this.panels['protect'].setApi(this.api);
             }
@@ -352,6 +353,7 @@ define([
 
             if ( this.rendered ) {
                 this.panels['info'].setApi(api);
+                if (this.panels['opts']) this.panels['opts'].setApi(api);
                 if (this.panels['protect']) this.panels['protect'].setApi(api);
             }
             this.api.asc_registerCallback('asc_onDocumentName',  _.bind(this.onDocumentName, this));

@@ -199,10 +199,13 @@ define([
                 previewData: data,
                 settings: me._state.CSVOptions,
                 api: me.api,
-                handler: function (result, encoding, delimiter, delimiterChar) {
+                handler: function (result, encoding, delimiter, delimiterChar, decimal, thousands) {
                     if (result == 'ok') {
                         if (me && me.api) {
-                            me.api.asc_TextToColumns(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
+                            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+                            decimal && options.asc_setNumberDecimalSeparator(decimal);
+                            thousands && options.asc_setNumberGroupSeparator(thousands);
+                            me.api.asc_TextToColumns(options);
                         }
                     }
                 }

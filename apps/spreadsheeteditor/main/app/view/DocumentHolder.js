@@ -979,6 +979,23 @@ define([
                 mnu.cmpEl.removeAttr('oo_editor_input').attr('oo_editor_keyboard', true);
             });
 
+            this.tableTotalMenu = new Common.UI.Menu({
+                maxHeight: 160,
+                cyclic: false,
+                cls: 'lang-menu',
+                items: [
+                    {caption: this.textNone, value: Asc.ETotalsRowFunction.totalrowfunctionNone, checkable: true},
+                    {caption: this.textAverage, value: Asc.ETotalsRowFunction.totalrowfunctionAverage, checkable: true },
+                    {caption: this.textCount, value: Asc.ETotalsRowFunction.totalrowfunctionCount, checkable: true },
+                    {caption: this.textMax, value: Asc.ETotalsRowFunction.totalrowfunctionMax, checkable: true },
+                    {caption: this.textMin, value: Asc.ETotalsRowFunction.totalrowfunctionMin, checkable: true },
+                    {caption: this.textSum, value: Asc.ETotalsRowFunction.totalrowfunctionSum, checkable: true },
+                    {caption: this.textStdDev, value: Asc.ETotalsRowFunction.totalrowfunctionStdDev, checkable: true },
+                    {caption: this.textVar, value: Asc.ETotalsRowFunction.totalrowfunctionVar, checkable: true },
+                    {caption: this.textMore, value: Asc.ETotalsRowFunction.totalrowfunctionCustom, checkable: true }
+                ]
+            });
+
             me.fireEvent('createdelayedelements', [me]);
         },
 
@@ -1111,7 +1128,15 @@ define([
         textCropFit: 'Fit',
         textListSettings: 'List Settings',
         textFromStorage: 'From Storage',
-        advancedSlicerText: 'Slicer Advanced Settings'
+        advancedSlicerText: 'Slicer Advanced Settings',
+        textAverage: 'Average',
+        textMax: 'Max',
+        textMin: 'Min',
+        textCount: 'Count',
+        textSum: 'Sum',
+        textStdDev: 'StdDev',
+        textVar: 'Var',
+        textMore: 'More functions'
 
     }, SSE.Views.DocumentHolder || {}));
 });

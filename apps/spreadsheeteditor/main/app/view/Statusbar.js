@@ -353,19 +353,64 @@ define([
                         });
                     });
 
+                var customizeStatusBarMenuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
+                    '<div style="position: relative;">'+
+                    '<div style="position: absolute; left: 0; width: 100px;"><%= caption %></div>' +
+                    '<label style="width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                    '</div></a>');
+
                 this.customizeStatusBarMenu = new Common.UI.Menu({
                     style: 'margin-top: -14px; margin-left: -7px;',
                     menuAlign: 'bl-tl',
                     items: [
                         //{template: _.template('<div style="padding-left: 6px; padding-top: 2px;">' + this.textCustomizeStatusBar + '</div>')},
                         //{caption: '--'},
-                        {caption: this.itemAverage, value: 'average', checkable: true, checked: true, leaveopen: true},
-                        {caption: this.itemCount, value: 'count', checkable: true, checked: true, leaveopen: true},
-                        {caption: this.itemMinimum, value: 'min', checkable: true, checked: true, leaveopen: true},
-                        {caption: this.itemMaximum, value: 'max', checkable: true, checked: true, leaveopen: true},
-                        {caption: this.itemSum, value: 'sum', checkable: true, checked: true, leaveopen: true}
-                    ],
-                    leaveopen: true
+                        {
+                            id: 'math-item-average',
+                            caption: this.itemAverage,
+                            value: 'average',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {
+                            id: 'math-item-count',
+                            caption: this.itemCount,
+                            value: 'count',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {
+                            id: 'math-item-min',
+                            caption: this.itemMinimum,
+                            value: 'min',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {
+                            id: 'math-item-max',
+                            caption: this.itemMaximum,
+                            value: 'max',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {
+                            id: 'math-item-sum',
+                            caption: this.itemSum,
+                            value: 'sum',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        }
+                    ]
                 });
 
                 this.tabbar.$el.append('<div class="dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"></div>');
@@ -498,12 +543,35 @@ define([
                     this.labelMax.text((info.max && info.max.length) ? (this.textMax + ': ' + info.max) : '');
                     this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum) : '');
                     this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average) : '');
+
+                    this.customizeStatusBarMenu.items.forEach(function (item) {
+                        if (item.options.id === 'math-item-average') {
+                            item.options.exampleval = (info.average && info.average.length) ? info.average : '';
+                        } else if (item.options.id === 'math-item-min') {
+                            item.options.exampleval = (info.min && info.min.length) ? info.min : '';
+                        } else if (item.options.id === 'math-item-max') {
+                            item.options.exampleval = (info.max && info.max.length) ? info.max : '';
+                        } else if (item.options.id === 'math-item-count') {
+                            item.options.exampleval = (info.count) ? String(info.count) : '';
+                        } else if (item.options.id === 'math-item-sum') {
+                            item.options.exampleval = (info.sum && info.sum.length) ? info.sum : '';
+                        } else {
+                            item.options.exampleval = '';
+                        }
+                        $(item.el).find('label').text(item.options.exampleval);
+                    });
                 } else {
+                    this.customizeStatusBarMenu.items.forEach(function (item) {
+                        item.options.exampleval = '';
+                        $(item.el).find('label').text('');
+                    });
                     if (this.boxMath.is(':visible')) this.boxMath.hide();
                 }
 
                 var me = this;
                 _.delay(function(){
+                    me.updateVisibleItemsBoxMath();
+                    me.updateTabbarBorders();
                     me.onTabInvisible(undefined, me.tabbar.checkInvisible(true));
                 },30);
             },
@@ -667,6 +735,19 @@ define([
                 this.tabBarBox.css('right',  right + 'px');
             },
 
+            updateVisibleItemsBoxMath: function () {
+                var widthStatusbar = parseInt(this.$el.css('width'));
+                var width = parseInt(this.boxZoom.css('width')) + parseInt($('#status-tabs-scroll').css('width')) + parseInt($('#status-addtabs-box').css('width'));
+                if (this.boxFiltered.is(':visible')) {
+                    width += parseInt(this.boxFiltered.css('width'));
+                }
+                this.$el.find('.over-box').removeClass('over-box');
+                while (width + parseInt(this.boxMath.css('width')) + 100 > widthStatusbar) {
+                    var items = this.boxMath.find('label:not(.hide, .over-box)');
+                    $(items[items.length - 1]).addClass('over-box');
+                }
+            },
+
             changeViewMode: function (edit) {
                 if (edit) {
                     this.tabBarBox.css('left',  '152px');
@@ -720,6 +801,9 @@ define([
                         this.boxMath.find('.separator').show();
                     }
                 }
+                this.updateVisibleItemsBoxMath();
+                this.updateTabbarBorders();
+                this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
                 event.stopPropagation();
                 item.$el.find('a').blur();
             },
