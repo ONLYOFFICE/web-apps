@@ -171,7 +171,12 @@ define([
             var me = this;
             (new SSE.Views.ViewManagerDlg({
                 api: this.api,
-                handler: function(result) {
+                handler: function(result, value) {
+                    if (result == 'ok' && value) {
+                        if (me.api) {
+                            me.api.asc_setActiveNamedSheetView(value);
+                        }
+                    }
                     Common.NotificationCenter.trigger('edit:complete', me.view);
                 },
                 views: this.api.asc_getNamedSheetViews()

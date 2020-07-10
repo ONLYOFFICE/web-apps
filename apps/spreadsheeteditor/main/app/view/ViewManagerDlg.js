@@ -89,14 +89,13 @@ define([
                     '</div>',
                     '<div class="separator horizontal"></div>',
                     '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="apply" style="width: 86px;">' + this.textGoTo + '</button>',
+                    '<button class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.textGoTo + '</button>',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
                 ].join('')
             }, options);
 
             this.api        = options.api;
-            this.handler    = options.handler;
             this.views     = options.views || [];
             this.userTooltip = true;
             this.currentView = undefined;
@@ -261,21 +260,12 @@ define([
                         }
                     }
                 })).show();
-                this.api.asc_deleteNamedSheetViews([rec.get('view')]);
             }
         },
 
         getSettings: function() {
-            return this.sort;
-        },
-
-        onPrimary: function() {
-            return true;
-        },
-
-        onDlgBtnClick: function(event) {
-            this.handler && this.handler.call(this, event.currentTarget.attributes['result'].value);
-            this.close();
+            var rec = this.viewList.getSelectedRec();
+            return rec ? rec.get('name') : null;
         },
 
         getUserName: function(id){
@@ -305,16 +295,11 @@ define([
             }
         },
 
-        hide: function () {
-            this.userTipHide();
-            Common.UI.Window.prototype.hide.call(this);
-        },
-
         close: function () {
             this.userTipHide();
             this.api.asc_unregisterCallback('asc_onRefreshNamedSheetViewList', this.wrapEvents.onRefreshNamedSheetViewList);
 
-            Common.UI.Window.prototype.close.call(this);
+            Common.Views.AdvancedSettingsWindow.prototype.close.call(this);
         },
 
         onKeyDown: function (lisvView, record, e) {
@@ -323,6 +308,7 @@ define([
         },
 
         onDblClickItem: function (lisvView, record, e) {
+            this.onPrimary();
         },
 
         txtTitle: 'Sheet View Manager',
