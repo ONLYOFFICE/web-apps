@@ -51,6 +51,12 @@ define([
             me.btnFreezePanes.on('click', function (btn, e) {
                 me.fireEvent('viewtab:freeze', [btn.pressed]);
             });
+            me.btnCloseView.on('click', function (btn, e) {
+                me.fireEvent('viewtab:openview', [{name: 'default', value: 'default'}]);
+            });
+            me.btnCreateView.on('click', function (btn, e) {
+                me.fireEvent('viewtab:createview');
+            });
             this.chFormula.on('change', function (field, value) {
                 me.fireEvent('viewtab:formula', [0, value]);
             });

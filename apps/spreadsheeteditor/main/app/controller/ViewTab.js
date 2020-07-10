@@ -86,7 +86,8 @@ define([
                     'viewtab:gridlines': this.onViewSettings,
                     'viewtab:zoom': this.onZoom,
                     'viewtab:showview': this.onShowView,
-                    'viewtab:openview': this.onOpenView
+                    'viewtab:openview': this.onOpenView,
+                    'viewtab:createview': this.onCreateView
                     // 'viewtab:manager': this.onOpenManager
                 },
                 'Statusbar': {
@@ -159,6 +160,10 @@ define([
 
         onOpenView: function(item) {
             this.api && this.api.asc_setActiveNamedSheetView((item.value == 'default') ? null : item.name);
+        },
+
+        onCreateView: function(item) {
+            this.api && this.api.asc_addNamedSheetView();
         },
 
         // onWorksheetLocked: function(index,locked) {
