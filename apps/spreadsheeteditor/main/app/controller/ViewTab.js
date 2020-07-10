@@ -163,7 +163,7 @@ define([
         },
 
         onCreateView: function(item) {
-            this.api && this.api.asc_addNamedSheetView();
+            this.api && this.api.asc_addNamedSheetView(null, true);
         },
 
         // onWorksheetLocked: function(index,locked) {
