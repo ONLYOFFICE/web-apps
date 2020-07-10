@@ -158,7 +158,7 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
 
         _setDefaults: function (props) {
             this.refreshList(this.views, 0);
-            // this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', this.wrapEvents.onRefreshNamedSheetViewList);
+            this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', this.wrapEvents.onRefreshNamedSheetViewList);
         },
 
         onRefreshNamedSheetViewList: function() {
