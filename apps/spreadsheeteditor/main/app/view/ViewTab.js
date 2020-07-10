@@ -127,7 +127,7 @@ define([
                     caption: this.capBtnFreeze,
                     split: false,
                     enableToggle: true,
-                    lock: [_set.lostConnect, _set.coAuth]
+                    lock: [_set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.btnFreezePanes);
 
@@ -161,14 +161,14 @@ define([
                 this.chHeadings = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-heading'),
                     labelText: this.textHeadings,
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.chHeadings);
 
                 this.chGridlines = new Common.UI.CheckBox({
                     el: $host.findById('#slot-chk-gridlines'),
                     labelText: this.textGridlines,
-                    lock        : [_set.lostConnect, _set.coAuth]
+                    lock        : [_set.sheetLock, _set.lostConnect, _set.coAuth]
                 });
                 this.lockedControls.push(this.chGridlines);
 

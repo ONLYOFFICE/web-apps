@@ -125,6 +125,7 @@ define([
             this.api.asc_registerCallback('asc_onZoomChanged',              this.onApiZoomChange.bind(this));
             this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
             this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
+            this.api.asc_registerCallback('asc_onWorksheetLocked',          this.onWorksheetLocked.bind(this));
             this.api.asc_registerCallback('asc_onEditCell',                 this.onApiEditCell.bind(this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',this.onApiCoAuthoringDisconnect.bind(this));
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
@@ -218,6 +219,7 @@ define([
                     caption     : me.textHideHeadings,
                     checkable   : true,
                     checked     : me.header.mnuitemHideHeadings.isChecked(),
+                    disabled    : me.header.mnuitemHideHeadings.isDisabled(),
                     value       : 'headings'
                 });
 
@@ -225,6 +227,7 @@ define([
                     caption     : me.textHideGridlines,
                     checkable   : true,
                     checked     : me.header.mnuitemHideGridlines.isChecked(),
+                    disabled    : me.header.mnuitemHideGridlines.isDisabled(),
                     value       : 'gridlines'
                 });
 
@@ -232,6 +235,7 @@ define([
                     caption     : me.textFreezePanes,
                     checkable   : true,
                     checked     : me.header.mnuitemFreezePanes.isChecked(),
+                    disabled    : me.header.mnuitemFreezePanes.isDisabled(),
                     value       : 'freezepanes'
                 });
 
@@ -434,6 +438,21 @@ define([
                 me.header.mnuitemHideHeadings.setChecked(!params.asc_getShowRowColHeaders());
                 me.header.mnuitemHideGridlines.setChecked(!params.asc_getShowGridLines());
                 me.header.mnuitemFreezePanes.setChecked(params.asc_getIsFreezePane());
+
+                var currentSheet = me.api.asc_getActiveWorksheetIndex();
+                this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+            }
+        },
+
+        onWorksheetLocked: function(index,locked) {
+            var me = this;
+            var appConfig = me.viewport.mode;
+            if ( !!appConfig && !appConfig.isEditDiagram && !appConfig.isEditMailMerge ) {
+                if (index == this.api.asc_getActiveWorksheetIndex()) {
+                    me.header.mnuitemHideHeadings.setDisabled(locked);
+                    me.header.mnuitemHideGridlines.setDisabled(locked);
+                    me.header.mnuitemFreezePanes.setDisabled(locked);
+                }
             }
         },
 

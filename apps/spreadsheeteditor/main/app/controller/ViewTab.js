@@ -65,7 +65,7 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onZoomChanged',              this.onApiZoomChange.bind(this));
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
-                // this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
+                this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
@@ -185,11 +185,11 @@ define([
             }).show();
         },
 
-        // onWorksheetLocked: function(index,locked) {
-        //     if (index == this.api.asc_getActiveWorksheetIndex()) {
-        //         Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
-        //     }
-        // },
+        onWorksheetLocked: function(index,locked) {
+            if (index == this.api.asc_getActiveWorksheetIndex()) {
+                Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: [this.view.chHeadings, this.view.chGridlines, this.view.btnFreezePanes]});
+            }
+        },
 
         onApiSheetChanged: function() {
             if (!this.toolbar.mode || !this.toolbar.mode.isEdit || this.toolbar.mode.isEditDiagram || this.toolbar.mode.isEditMailMerge) return;
@@ -199,8 +199,8 @@ define([
             this.view.chGridlines.setValue(!!params.asc_getShowGridLines(), true);
             this.view.btnFreezePanes.toggle(!!params.asc_getIsFreezePane(), true);
 
-            // var currentSheet = this.api.asc_getActiveWorksheetIndex();
-            // this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+            var currentSheet = this.api.asc_getActiveWorksheetIndex();
+            this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
         },
 
         onLayoutChanged: function(area) {

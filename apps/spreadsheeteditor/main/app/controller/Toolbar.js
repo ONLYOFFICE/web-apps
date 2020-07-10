@@ -3307,7 +3307,7 @@ define([
 
                     var viewtab = me.getApplication().getController('ViewTab');
                     viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
-
+                    Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
                 }
             }
         },
