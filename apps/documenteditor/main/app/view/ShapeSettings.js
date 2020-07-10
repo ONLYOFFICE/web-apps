@@ -513,6 +513,7 @@ define([
 
         onGradientChange: function(slider, newValue, oldValue){
             this.GradColor.values = slider.getValues();
+            this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx], true);
             this._sliderChanged = true;
             if (this.api && !this._noApply) {
                 if (this._sendUndoPoint)  {
@@ -1856,7 +1857,10 @@ define([
         },
 
         onPositionChange: function(btn) {
-            var pos = btn.getNumberValue();
+            var pos = btn.getNumberValue(),
+                minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
+                maxValue = (this.GradColor.currentIdx+1<this.GradColor.values.length) ? this.GradColor.values[this.GradColor.currentIdx+1] : 100,
+                needSort = pos < minValue || pos > maxValue;
             if (this.api) {
                 this.GradColor.values[this.GradColor.currentIdx] = pos;
                 var props = new Asc.asc_CShapeProperty();
@@ -1872,6 +1876,12 @@ define([
                 props.asc_putFill(fill);
                 this.imgprops.put_ShapeProperties(props);
                 this.api.ImgApply(this.imgprops);
+
+                if (needSort) {
+                    this.sldrGradient.sortThumbs();
+                    this.sldrGradient.trigger('change', this.sldrGradient);
+                    this.sldrGradient.trigger('changecomplete', this.sldrGradient);
+                }
             }
         },
 
