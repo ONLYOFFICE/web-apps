@@ -3306,7 +3306,7 @@ define([
                     }
 
                     var viewtab = me.getApplication().getController('ViewTab');
-                    viewtab.setApi(me.api).setConfig({toolbar: me});
+                    viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
 
                 }
             }

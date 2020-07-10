@@ -48,14 +48,17 @@ define([
     SSE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         function setEvents() {
             var me = this;
+            if ( me.appConfig.canFeatureViews ) {
+                me.btnCloseView.on('click', function (btn, e) {
+                    me.fireEvent('viewtab:openview', [{name: 'default', value: 'default'}]);
+                });
+                me.btnCreateView.on('click', function (btn, e) {
+                    me.fireEvent('viewtab:createview');
+                });
+            }
+
             me.btnFreezePanes.on('click', function (btn, e) {
                 me.fireEvent('viewtab:freeze', [btn.pressed]);
-            });
-            me.btnCloseView.on('click', function (btn, e) {
-                me.fireEvent('viewtab:openview', [{name: 'default', value: 'default'}]);
-            });
-            me.btnCreateView.on('click', function (btn, e) {
-                me.fireEvent('viewtab:createview');
             });
             this.chFormula.on('change', function (field, value) {
                 me.fireEvent('viewtab:formula', [0, value]);
@@ -77,6 +80,7 @@ define([
             initialize: function (options) {
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
+                this.appConfig = options.mode;
 
                 this.lockedControls = [];
 
@@ -84,35 +88,37 @@ define([
                     $host = me.toolbar.$el,
                     _set = SSE.enumLock;
 
-                this.btnSheetView = new Common.UI.Button({
-                    parentEl: $host.find('#slot-btn-sheet-view'),
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-sheetview',
-                    caption: me.capBtnSheetView,
-                    lock        : [_set.lostConnect, _set.coAuth],
-                    menu: true
-                });
-                this.lockedControls.push(this.btnSheetView);
+                if ( me.appConfig.canFeatureViews ) {
+                    this.btnSheetView = new Common.UI.Button({
+                        parentEl: $host.find('#slot-btn-sheet-view'),
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-sheetview',
+                        caption: me.capBtnSheetView,
+                        lock        : [_set.lostConnect, _set.coAuth],
+                        menu: true
+                    });
+                    this.lockedControls.push(this.btnSheetView);
 
-                this.btnCreateView = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-createview',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-createview',
-                    caption     : this.textCreate,
-                    lock        : [_set.coAuth, _set.lostConnect]
-                });
-                this.lockedControls.push(this.btnCreateView);
-                Common.Utils.injectComponent($host.find('#slot-createview'), this.btnCreateView);
+                    this.btnCreateView = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-createview',
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'toolbar__icon btn-createview',
+                        caption     : this.textCreate,
+                        lock        : [_set.coAuth, _set.lostConnect]
+                    });
+                    this.lockedControls.push(this.btnCreateView);
+                    Common.Utils.injectComponent($host.find('#slot-createview'), this.btnCreateView);
 
-                this.btnCloseView = new Common.UI.Button({
-                    id          : 'id-toolbar-btn-closeview',
-                    cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-closeview',
-                    caption     : this.textClose,
-                    lock        : [_set.coAuth, _set.lostConnect]
-                });
-                this.lockedControls.push(this.btnCloseView);
-                Common.Utils.injectComponent($host.find('#slot-closeview'), this.btnCloseView);
+                    this.btnCloseView = new Common.UI.Button({
+                        id          : 'id-toolbar-btn-closeview',
+                        cls         : 'btn-toolbar',
+                        iconCls     : 'toolbar__icon btn-closeview',
+                        caption     : this.textClose,
+                        lock        : [_set.coAuth, _set.lostConnect]
+                    });
+                    this.lockedControls.push(this.btnCloseView);
+                    Common.Utils.injectComponent($host.find('#slot-closeview'), this.btnCloseView);
+                }
 
                 this.btnFreezePanes = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-freeze'),
@@ -180,11 +186,16 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    me.btnSheetView.updateHint( me.tipSheetView );
-                    me.setButtonMenu(me.btnSheetView);
+                    if (!config.canFeatureViews) {
+                        me.toolbar && me.toolbar.$el.find('.group.sheet-views').hide();
+                        me.toolbar && me.toolbar.$el.find('.separator.sheet-views').hide();
+                    } else {
+                        me.btnSheetView.updateHint( me.tipSheetView );
+                        me.setButtonMenu(me.btnSheetView);
 
-                    me.btnCreateView.updateHint(me.tipCreate);
-                    me.btnCloseView.updateHint(me.tipClose);
+                        me.btnCreateView.updateHint(me.tipCreate);
+                        me.btnCloseView.updateHint(me.tipClose);
+                    }
                     me.btnFreezePanes.updateHint(me.tipFreeze);
 
                     setEvents.call(me);

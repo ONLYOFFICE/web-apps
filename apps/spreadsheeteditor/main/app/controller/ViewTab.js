@@ -77,7 +77,8 @@ define([
         setConfig: function(config) {
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
-                toolbar: this.toolbar.toolbar
+                toolbar: this.toolbar.toolbar,
+                mode: config.mode
             });
             this.addListeners({
                 'ViewTab': {
