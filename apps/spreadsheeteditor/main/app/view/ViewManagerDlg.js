@@ -39,7 +39,9 @@
  *
  */
 
-define([  'common/main/lib/view/AdvancedSettingsWindow',
+define([
+    'common/main/lib/view/EditNameDialog',
+    'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/ListView',
     'common/main/lib/component/InputField'
@@ -132,17 +134,17 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
             this.btnNew = new Common.UI.Button({
                 el: $('#view-manager-btn-new')
             });
-            // this.btnNew.on('click', _.bind(this.onNew, this));
+            this.btnNew.on('click', _.bind(this.onNew, this, false));
 
             this.btnRename = new Common.UI.Button({
                 el: $('#view-manager-btn-rename')
             });
-            // this.btnRename.on('click', _.bind(this.onRename, this));
+            this.btnRename.on('click', _.bind(this.onRename, this));
             
             this.btnDuplicate = new Common.UI.Button({
                 el: $('#view-manager-btn-duplicate')
             });
-            // this.btnDuplicate.on('click', _.bind(this.onDuplicate, this));
+            this.btnDuplicate.on('click', _.bind(this.onNew, this, true));
 
             this.btnDelete = new Common.UI.Button({
                 el: $('#view-manager-btn-delete')
@@ -232,9 +234,33 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
             if (typeof this.userTooltip == 'object') this.userTipHide();
         },
 
+        onNew: function (duplicate) {
+            var rec = duplicate ? this.viewList.getSelectedRec().get('view') : undefined;
+            this.currentView = this.viewList.store.length;
+            this.api.asc_addNamedSheetView(rec);
+        },
+
         onDelete: function () {
             var rec = this.viewList.getSelectedRec();
             if (rec) {
+                this.api.asc_deleteNamedSheetViews([rec.get('view')]);
+            }
+        },
+
+        onRename: function () {
+            var rec = this.viewList.getSelectedRec();
+            if (rec) {
+                var me = this;
+                (new Common.Views.EditNameDialog({
+                    label: this.textRenameLabel,
+                    error: this.textRenameError,
+                    value: rec.get('name'),
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            rec.get('view').asc_setName(value);
+                        }
+                    }
+                })).show();
                 this.api.asc_deleteNamedSheetViews([rec.get('view')]);
             }
         },
@@ -309,7 +335,9 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
         textGoTo: 'Go to view...',
         textEmpty: 'No views have been created yet.',
         guestText: 'Guest',
-        tipIsLocked: 'This element is being edited by another user.'
+        tipIsLocked: 'This element is being edited by another user.',
+        textRenameLabel: 'Rename view',
+        textRenameError: 'View name must not be empty.'
 
     }, SSE.Views.ViewManagerDlg || {}));
 });
