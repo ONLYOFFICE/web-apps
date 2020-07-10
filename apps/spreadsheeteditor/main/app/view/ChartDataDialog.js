@@ -150,7 +150,8 @@ define([
                 el: $('#chart-dlg-series-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>')
             });
             this.seriesList.onKeyDown = _.bind(this.onListKeyDown, this, 'series');
             this.seriesList.on('item:select', _.bind(this.onSelectSeries, this));
@@ -198,7 +199,8 @@ define([
                 el: $('#chart-dlg-category-list', this.$window),
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>')
             });
 
             this.btnEditCategory = new Common.UI.Button({
@@ -239,6 +241,7 @@ define([
                 this.dataRangeValid = value;
 
                 this.txtDataRange.validation = function(value) {
+                    return true;
                     if (_.isEmpty(value)) {
                         return true;
                     }
@@ -276,9 +279,8 @@ define([
         isRangeValid: function() {
             var isvalid;
             if (!_.isEmpty(this.txtDataRange.getValue())) {
-                //change validation!!
-                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.dataDirect===0, this.currentChartType);
-                if (isvalid == Asc.c_oAscError.ID.No)
+                isvalid = this.chartSettings.isValidRange(this.txtDataRange.getValue());
+                if (isvalid === true || isvalid == Asc.c_oAscError.ID.No)
                     return true;
             } else
                 return true;
@@ -300,7 +302,7 @@ define([
             if (me.isRangeValid(settings)) {
                 me.dataRangeValid = settings;
                 me.txtDataRange.checkValidate();
-                me.chartSettings.putRange(me.dataRangeValid);
+                me.chartSettings.setRange(me.dataRangeValid);
 
                 me.updateSeriesList(me.chartSettings.getSeries(), 0);
                 me.updateCategoryList(me.chartSettings.getCatValues());
@@ -314,7 +316,9 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         input.setValue(dlg.getSettings());
-                        me.changeChartRange(dlg.getSettings());
+                        _.delay(function(){
+                            me.changeChartRange(dlg.getSettings());
+                        },10);
                     }
                 };
 
@@ -330,7 +334,8 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.Chart
+                    type    : Asc.c_oAscSelectionDialogType.Chart,
+                    validation: function() {return true;}
                 });
             }
         },
@@ -371,7 +376,7 @@ define([
                 isScatter = false,
                 me = this;
                 rec && (isScatter = rec.get('series').asc_IsScatter());
-            // me.setStartPointHistory();
+            me.chartSettings.startEditData();
             var series;
             if (isScatter) {
                 series = me.chartSettings.addScatterSeries();
@@ -382,6 +387,8 @@ define([
                 if (result == 'ok') {
                     me.updateSeriesList(me.chartSettings.getSeries(), me.seriesList.store.length-1);
                     me.updateButtons();
+                    me.chartSettings.endEditData();
+                    me._isEditRanges = false;
                 }
             };
             this.changeDataRange(1, {series: series, isScatter: isScatter}, handlerDlg);
@@ -391,7 +398,8 @@ define([
             var rec = this.seriesList.getSelectedRec();
             if (rec) {
                 var order = rec.get('order');
-                // this.chartSettings.deleteSeries(rec.get('index'));
+                rec.get('series').asc_Remove();
+                this.txtDataRange.setValue(this.chartSettings.getRange() || '');
                 this.updateSeriesList(this.chartSettings.getSeries(), order);
             }
             this.updateButtons();
@@ -406,9 +414,11 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         rec.set('value', series.asc_getSeriesName());
+                        me.chartSettings.endEditData();
+                        me._isEditRanges = false;
                     }
                 };
-                // me.setStartPointHistory();
+                me.chartSettings.startEditData();
                 this.changeDataRange(1, {series: series, isScatter: isScatter }, handlerDlg);
             }
         },
@@ -418,10 +428,12 @@ define([
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
                     me.updateCategoryList(me.chartSettings.getCatValues());
+                    me.chartSettings.endEditData();
+                    me._isEditRanges = false;
                 }
             };
-            // me.setStartPointHistory();
-            this.changeDataRange(0, {category: '', values: this.chartSettings.getCatValues()}, handlerDlg);
+            me.chartSettings.startEditData();
+            this.changeDataRange(0, {category: this.chartSettings.getCatFormula(), values: this.chartSettings.getCatValues()}, handlerDlg);
         },
 
         changeDataRange: function(type, props, handlerDlg) {
@@ -431,10 +443,12 @@ define([
                 isScatter: !!props.isScatter,
                 handler: handlerDlg
             }).on('close', function() {
+                me._isEditRanges && me.chartSettings.cancelEditData();
+                me._isEditRanges = false;
                 me.show();
-                // me.setEndPointHistory(); when cancel
             });
 
+            me._isEditRanges = true;
             var xy = me.$window.offset();
             me.hide();
             win.show(xy.left + 160, xy.top + 125);
@@ -458,7 +472,7 @@ define([
                 store.add(store.remove(rec), {at: newindex});
                 rec.set('order', neworder);
                 newrec.set('order', order);
-                // this.chartSettings.changeSeriesOrder(rec.get('index'), neworder, newrec.get('index'), order);
+                up ? rec.get('series').asc_MoveUp() : rec.get('series').asc_MoveDown();
                 this.seriesList.selectRecord(rec);
                 this.seriesList.scrollToRecord(rec);
             }

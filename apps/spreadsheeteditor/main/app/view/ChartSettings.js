@@ -899,22 +899,27 @@ define([
 
         onSelectData:   function() {
             var me = this;
-            var win, props;
+            var props;
             if (me.api){
                 props = me.api.asc_getChartObject();
                 if (props) {
-                    (new SSE.Views.ChartDataDialog(
-                        {
-                            chartSettings: props,
-                            api: me.api,
-                            handler: function(result, value) {
-                                if (result == 'ok') {
-                                    if (me.api) {
-                                    }
-                                }
-                                Common.NotificationCenter.trigger('edit:complete', me);
+                    me._isEditRanges = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartDataDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditRanges = false;
                             }
-                        })).show();
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditRanges && props.cancelEdit();
+                        me._isEditRanges = false;
+                    });
+                    win.show();
                 }
             }
         },

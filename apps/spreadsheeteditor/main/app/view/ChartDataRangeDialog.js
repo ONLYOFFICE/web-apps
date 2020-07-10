@@ -223,7 +223,9 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         input.setValue(dlg.getSettings());
-                        me.updateRangeData(type, dlg.getSettings());
+                        _.delay(function(){
+                            me.updateRangeData(type, dlg.getSettings());
+                        },10);
                     }
                 };
 
@@ -246,7 +248,8 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(input.getValue()) ? input.getValue() : '',
-                    type    : Asc.c_oAscSelectionDialogType.Chart
+                    type    : Asc.c_oAscSelectionDialogType.Chart,
+                    validation: function() {return true;}
                 });
             }
         },
@@ -254,9 +257,26 @@ define([
         isRangeValid: function(type, value) {
             var isvalid;
             if (!_.isEmpty(value)) {
-                //change validation!!
-                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, true, false, this.chartSettings.getType());
-                if (isvalid == Asc.c_oAscError.ID.No)
+                switch (type) {
+                    case 1:
+                        if (this.props.series) {
+                            isvalid = this.props.series.asc_IsValidName(value);
+                        } else {
+                            isvalid = this.chartSettings.isValidCatFormula(value);
+                        }
+                        break;
+                    case 2:
+                        if (this.props.isScatter) {
+                            isvalid = this.props.series.asc_IsValidXValues(value);
+                        } else {
+                            isvalid = this.props.series.asc_IsValidValues(value);
+                        }
+                        break;
+                    case 3:
+                        isvalid = this.props.series.asc_IsValidYValues(value);
+                        break;
+                }
+                if (isvalid === true || isvalid == Asc.c_oAscError.ID.No)
                     return true;
             } else
                 return true;
@@ -300,7 +320,7 @@ define([
                         break;
                 }
             } else {
-                // this.chartSettings.setCatFormula(value);
+                this.chartSettings.setCatFormula(value);
                 var arr = this.chartSettings.getCatValues();
                 this.lblRange1.html((this.inputRange1.getValue()!=='') ? ('= ' + (arr ? arr.join('; ') : '')) : this.txtChoose);
             }
