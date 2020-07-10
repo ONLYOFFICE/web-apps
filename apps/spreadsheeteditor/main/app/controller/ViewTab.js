@@ -41,7 +41,8 @@
 
 define([
     'core',
-    'spreadsheeteditor/main/app/view/ViewTab'
+    'spreadsheeteditor/main/app/view/ViewTab',
+    'spreadsheeteditor/main/app/view/ViewManagerDlg'
 ], function () {
     'use strict';
 
@@ -87,8 +88,8 @@ define([
                     'viewtab:zoom': this.onZoom,
                     'viewtab:showview': this.onShowView,
                     'viewtab:openview': this.onOpenView,
-                    'viewtab:createview': this.onCreateView
-                    // 'viewtab:manager': this.onOpenManager
+                    'viewtab:createview': this.onCreateView,
+                    'viewtab:manager': this.onOpenManager
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged.bind(this)
@@ -164,6 +165,18 @@ define([
 
         onCreateView: function(item) {
             this.api && this.api.asc_addNamedSheetView(null, true);
+        },
+
+        onOpenManager: function(item) {
+            var me = this;
+            (new SSE.Views.ViewManagerDlg({
+                api: this.api,
+                handler: function(result) {
+                    Common.NotificationCenter.trigger('edit:complete', me.view);
+                },
+                views: this.api.asc_getNamedSheetViews()
+            })).on('close', function(win){
+            }).show();
         },
 
         // onWorksheetLocked: function(index,locked) {
