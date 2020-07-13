@@ -945,10 +945,11 @@ define([
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
             });
-            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
-                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+            this.sldrGradient.on('addthumb', function(cmp, index, pos){
+                me.GradColor.colors[index] = me.GradColor.colors[me.GradColor.currentIdx];
                 me.GradColor.currentIdx = index;
-                me.sldrGradient.addNewThumb(index, color);
+                var color = me.sldrGradient.addNewThumb(index, pos);
+                me.GradColor.colors[me.GradColor.currentIdx] = color;
             });
             this.sldrGradient.on('removethumb', function(cmp, index){
                 me.sldrGradient.removeThumb(index);
@@ -1226,7 +1227,8 @@ define([
 
             this.GradColor.colors[this.GradColor.colors.length] = this.GradColor.colors[curIndex];
             this.GradColor.currentIdx = this.GradColor.colors.length - 1;
-            this.sldrGradient.addNewThumb(undefined, undefined, pos, curIndex);
+            var color = this.sldrGradient.addNewThumb(undefined, pos, curIndex);
+            this.GradColor.colors[this.GradColor.currentIdx] = color;
 
             this.sldrGradient.trigger('change', this.sldrGradient);
             this.sldrGradient.trigger('changecomplete', this.sldrGradient);
