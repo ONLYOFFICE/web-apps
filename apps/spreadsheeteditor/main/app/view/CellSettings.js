@@ -288,6 +288,12 @@ define([
                 me.sldrGradient.removeThumb(index);
                 me.GradColor.values.splice(index, 1);
                 me.sldrGradient.changeGradientStyle();
+                if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= me.GradColor.colors.length) {
+                    var newIndex = index > 0 ? index - 1 : index;
+                    newIndex = (newIndex === 0 && me.GradColor.values.length > 2) ? me.GradColor.values.length - 2 : newIndex;
+                    me.GradColor.currentIdx = newIndex;
+                }
+                me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
             });
             this.fillControls.push(this.sldrGradient);
 
@@ -1260,10 +1266,13 @@ define([
 
         onRemoveGradientStep: function() {
             if (this.GradColor.values.length < 3) return;
+            var index = this.GradColor.currentIdx;
             this.GradColor.values.splice(this.GradColor.currentIdx, 1);
             this.sldrGradient.removeThumb(this.GradColor.currentIdx);
             if (_.isUndefined(this.GradColor.currentIdx) || this.GradColor.currentIdx >= this.GradColor.colors.length) {
-                this.GradColor.currentIdx = 0;
+                var newIndex = index > 0 ? index - 1 : index;
+                newIndex = (newIndex === 0 && this.GradColor.values.length > 2) ? this.GradColor.values.length - 2 : newIndex;
+                this.GradColor.currentIdx = newIndex;
             }
             this.sldrGradient.setActiveThumb(this.GradColor.currentIdx);
         },
