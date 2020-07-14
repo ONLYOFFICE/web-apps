@@ -180,7 +180,7 @@ define([
 
                 this.btnAddPivot = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-add-pivot',
+                    iconCls: 'toolbar__icon btn-pivot-sum',
                     caption: this.txtCreate,
                     disabled    : false,
                     lock        : [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer]
