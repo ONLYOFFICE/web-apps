@@ -95,13 +95,15 @@ define([
                 ].join('')
             }, options);
 
-            this.api        = options.api;
+            this.api       = options.api;
             this.views     = options.views || [];
+            this.locked    = options.locked || false;
             this.userTooltip = true;
             this.currentView = undefined;
 
             this.wrapEvents = {
-                onRefreshNamedSheetViewList: _.bind(this.onRefreshNamedSheetViewList, this)
+                onRefreshNamedSheetViewList: _.bind(this.onRefreshNamedSheetViewList, this),
+                onLockNamedSheetViewManager: _.bind(this.onLockNamedSheetViewManager, this)
             };
             
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
@@ -117,7 +119,7 @@ define([
                 emptyText: this.textEmpty,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                        '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
+                        '<div id="<%= id %>" class="list-item" style="width: 100%;height: 20px;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div style="width:100%;"><%= name %></div>',
                             '<% if (lock) { %>',
                                 '<div class="lock-user"><%=lockuser%></div>',
@@ -160,10 +162,15 @@ define([
         _setDefaults: function (props) {
             this.refreshList(this.views, 0);
             this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', this.wrapEvents.onRefreshNamedSheetViewList);
+            this.api.asc_registerCallback('asc_onLockNamedSheetViewManager', this.wrapEvents.onLockNamedSheetViewManager);
         },
 
         onRefreshNamedSheetViewList: function() {
             this.refreshList(this.api.asc_getNamedSheetViews(), this.currentView);
+        },
+
+        onLockNamedSheetViewManager: function(state) {
+            this.locked = state;
         },
 
         refreshList: function(views, selectedItem) {
@@ -171,13 +178,14 @@ define([
                 this.views = views;
                 var arr = [];
                 for (var i=0; i<this.views.length; i++) {
-                    var view = this.views[i];
+                    var view = this.views[i],
+                        id = view.asc_getIsLock();
                     arr.push({
                         name: view.asc_getName(true),
+                        active: view.asc_getIsActive(),
                         view: view,
-                        lock: false
-                        // lock: (id!==null && id!==undefined),
-                        // lockuser: (id) ? this.getUserName(id) : this.guestText,
+                        lock: (id!==null && id!==undefined),
+                        lockuser: (id) ? this.getUserName(id) : this.guestText
                     });
                 }
                 this.viewList.store.reset(arr);
@@ -197,8 +205,8 @@ define([
                     }, 50);
 
                 }
-                // if (this.userTooltip===true && this.viewList.cmpEl.find('.lock-user').length>0)
-                //     this.viewList.cmpEl.on('mouseover',  _.bind(me.onMouseOverLock, me)).on('mouseout',  _.bind(me.onMouseOutLock, me));
+                if (this.userTooltip===true && this.viewList.cmpEl.find('.lock-user').length>0)
+                    this.viewList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
             }
 
             var me = this;
@@ -234,19 +242,48 @@ define([
         },
 
         onNew: function (duplicate) {
+            if (this.locked) {
+                Common.NotificationCenter.trigger('sheetview:locked');
+                return;
+            }
             var rec = duplicate ? this.viewList.getSelectedRec().get('view') : undefined;
             this.currentView = this.viewList.store.length;
             this.api.asc_addNamedSheetView(rec);
         },
 
         onDelete: function () {
-            var rec = this.viewList.getSelectedRec();
+            var me = this,
+                rec = this.viewList.getSelectedRec(),
+                res;
             if (rec) {
-                this.api.asc_deleteNamedSheetViews([rec.get('view')]);
+                if (rec.get('active')) {
+                    Common.UI.warning({
+                        msg: this.warnDeleteView.replace('%1', rec.get('name')),
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        callback: function(btn) {
+                            if (btn == 'yes') {
+                                res = me.api.asc_deleteNamedSheetViews([rec.get('view')]);
+                                if (res) {// error when deleting
+                                    Common.UI.warning({msg: me.errorDeleteView.replace('%1', rec.get('name')), maxwidth: 500});
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    res = this.api.asc_deleteNamedSheetViews([rec.get('view')]);
+                    if (res) {// error when deleting
+                        Common.UI.warning({msg: this.errorDeleteView.replace('%1', rec.get('name')), maxwidth: 500});
+                    }
+                }
             }
         },
 
         onRename: function () {
+            if (this.locked) {
+                Common.NotificationCenter.trigger('sheetview:locked');
+                return;
+            }
             var rec = this.viewList.getSelectedRec();
             if (rec) {
                 var me = this;
@@ -290,14 +327,15 @@ define([
                     return;
                 }
                 this.currentView = _.indexOf(this.viewList.store.models, record);
-                // this.btnRename.setDisabled(rawData.lock);
-                // this.btnDelete.setDisabled(rawData.lock);
+                this.btnRename.setDisabled(rawData.lock);
+                this.btnDelete.setDisabled(rawData.lock);
             }
         },
 
         close: function () {
             this.userTipHide();
             this.api.asc_unregisterCallback('asc_onRefreshNamedSheetViewList', this.wrapEvents.onRefreshNamedSheetViewList);
+            this.api.asc_unregisterCallback('asc_onLockNamedSheetViewManager', this.wrapEvents.onLockNamedSheetViewManager);
 
             Common.Views.AdvancedSettingsWindow.prototype.close.call(this);
         },
@@ -323,7 +361,9 @@ define([
         guestText: 'Guest',
         tipIsLocked: 'This element is being edited by another user.',
         textRenameLabel: 'Rename view',
-        textRenameError: 'View name must not be empty.'
+        textRenameError: 'View name must not be empty.',
+        warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?",
+        errorDeleteView: "You cannot delete view '%1' because it is currently being used by other users."
 
     }, SSE.Views.ViewManagerDlg || {}));
 });
