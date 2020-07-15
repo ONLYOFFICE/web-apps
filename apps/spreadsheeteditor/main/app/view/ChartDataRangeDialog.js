@@ -256,39 +256,53 @@ define([
 
         isRangeValid: function(type, value) {
             var isvalid;
-            if (!_.isEmpty(value)) {
-                switch (type) {
-                    case 1:
-                        if (this.props.series) {
-                            isvalid = this.props.series.asc_IsValidName(value);
-                        } else {
-                            isvalid = this.chartSettings.isValidCatFormula(value);
-                        }
-                        break;
-                    case 2:
-                        if (this.props.isScatter) {
-                            isvalid = this.props.series.asc_IsValidXValues(value);
-                        } else {
-                            isvalid = this.props.series.asc_IsValidValues(value);
-                        }
-                        break;
-                    case 3:
-                        isvalid = this.props.series.asc_IsValidYValues(value);
-                        break;
-                }
-                if (isvalid === true || isvalid == Asc.c_oAscError.ID.No)
-                    return true;
-            } else
+            switch (type) {
+                case 1:
+                    if (this.props.series) {
+                        isvalid = this.props.series.asc_IsValidName(value);
+                    } else {
+                        isvalid = this.chartSettings.isValidCatFormula(value);
+                    }
+                    break;
+                case 2:
+                    if (this.props.isScatter) {
+                        isvalid = this.props.series.asc_IsValidXValues(value);
+                    } else {
+                        isvalid = this.props.series.asc_IsValidValues(value);
+                    }
+                    break;
+                case 3:
+                    isvalid = this.props.series.asc_IsValidYValues(value);
+                    break;
+            }
+            if (isvalid === true || isvalid == Asc.c_oAscError.ID.No)
                 return true;
 
-            if (isvalid == Asc.c_oAscError.ID.StockChartError) {
-                Common.UI.warning({msg: this.errorStockChart});
-            } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
-                Common.UI.warning({msg: this.errorMaxRows});
-            } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
-                Common.UI.warning({msg: this.errorMaxPoints});
-            else
-                Common.UI.warning({msg: this.textInvalidRange});
+            var error = this.textInvalidRange;
+            switch (isvalid) {
+                case Asc.c_oAscError.ID.StockChartError:
+                    error = this.errorStockChart;
+                    break;
+                case Asc.c_oAscError.ID.MaxDataSeriesError:
+                    error = this.errorMaxRows;
+                    break;
+                case Asc.c_oAscError.ID.MaxDataPointsError:
+                    error = this.errorMaxPoints;
+                    break;
+                case Asc.c_oAscError.ID.ErrorInFormula:
+                    error = this.errorInFormula;
+                    break;
+                case Asc.c_oAscError.ID.InvalidReference:
+                    error = this.errorInvalidReference;
+                    break;
+                case Asc.c_oAscError.ID.NoSingleRowCol:
+                    error = this.errorNoSingleRowCol;
+                    break;
+                case Asc.c_oAscError.ID.NoValues:
+                    error = this.errorNoValues;
+                    break;
+            }
+            Common.UI.warning({msg: error, maxwidth: 600});
             return false;
         },
 
@@ -334,8 +348,8 @@ define([
             if (this.options.handler) {
                 if (state == 'ok') {
                     if (!this.isRangeValid(1, this.inputRange1.getValue())) return;
-                    if (this.type==1 && !this.isRangeValid(2, this.inputRange1.getValue())) return;
-                    if (this.type==1 && this.isScatter && !this.isRangeValid(3, this.inputRange1.getValue())) return;
+                    if (this.type==1 && !this.isRangeValid(2, this.inputRange2.getValue())) return;
+                    if (this.type==1 && this.isScatter && !this.isRangeValid(3, this.inputRange3.getValue())) return;
                 }
                 if (this.options.handler.call(this, this, state))
                     return;
@@ -358,7 +372,11 @@ define([
         textError:   'ERROR!',
         errorMaxRows: 'The maximum number of data series per chart is 255.',
         errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
-        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
+        errorInFormula: "There's an error in formula you entered.",
+        errorInvalidReference: 'The reference is not valid. Reference must be to an open worksheet.',
+        errorNoSingleRowCol: 'The reference is not valid. References for titles, values, sizes, or data labels must be a single cell, row, or column.',
+        errorNoValues: 'To create a chart, the series must contain at least one value.'
 
     }, SSE.Views.ChartDataRangeDialog || {}))
 });

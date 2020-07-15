@@ -123,7 +123,6 @@ define([
 
             this.api = this.options.api;
             this.chartSettings = this.options.chartSettings;
-            this.dataRangeValid = '';
             this.currentChartType = Asc.c_oAscChartTypeSettings.barNormal;
         },
 
@@ -238,16 +237,9 @@ define([
 
                 var value = props.getRange();
                 this.txtDataRange.setValue((value) ? value : '');
-                this.dataRangeValid = value;
 
                 this.txtDataRange.validation = function(value) {
                     return true;
-                    if (_.isEmpty(value)) {
-                        return true;
-                    }
-
-                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? (me.textError + ' ' + me.textInvalidRange) : true;
                 };
 
                 this.updateSeriesList(props.getSeries(), 0);
@@ -261,7 +253,6 @@ define([
         },
 
         onDlgBtnClick: function(event) {
-            var me = this;
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'ok') {
                 if (!this.isRangeValid()) return;
@@ -278,31 +269,43 @@ define([
 
         isRangeValid: function() {
             var isvalid;
-            if (!_.isEmpty(this.txtDataRange.getValue())) {
-                isvalid = this.chartSettings.isValidRange(this.txtDataRange.getValue());
-                if (isvalid === true || isvalid == Asc.c_oAscError.ID.No)
-                    return true;
-            } else
+            isvalid = this.chartSettings.isValidRange(this.txtDataRange.getValue());
+            if (isvalid === true || isvalid == Asc.c_oAscError.ID.No)
                 return true;
 
-            if (isvalid == Asc.c_oAscError.ID.StockChartError) {
-                Common.UI.warning({msg: this.errorStockChart});
-            } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
-                Common.UI.warning({msg: this.errorMaxRows});
-            } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
-                Common.UI.warning({msg: this.errorMaxPoints});
-            else {
-                Common.UI.warning({msg: this.textInvalidRange});
+            var error = this.textInvalidRange;
+            switch (isvalid) {
+                case Asc.c_oAscError.ID.StockChartError:
+                    error = this.errorStockChart;
+                    break;
+                case Asc.c_oAscError.ID.MaxDataSeriesError:
+                    error = this.errorMaxRows;
+                    break;
+                case Asc.c_oAscError.ID.MaxDataPointsError:
+                    error = this.errorMaxPoints;
+                    break;
+                case Asc.c_oAscError.ID.ErrorInFormula:
+                    error = this.errorInFormula;
+                    break;
+                case Asc.c_oAscError.ID.InvalidReference:
+                    error = this.errorInvalidReference;
+                    break;
+                case Asc.c_oAscError.ID.NoSingleRowCol:
+                    error = this.errorNoSingleRowCol;
+                    break;
+                case Asc.c_oAscError.ID.NoValues:
+                    error = this.errorNoValues;
+                    break;
             }
+            Common.UI.warning({msg: error, maxwidth: 600});
             return false;
         },
 
         changeChartRange: function(settings) {
             var me = this;
             if (me.isRangeValid(settings)) {
-                me.dataRangeValid = settings;
                 me.txtDataRange.checkValidate();
-                me.chartSettings.setRange(me.dataRangeValid);
+                me.chartSettings.setRange(settings);
 
                 me.updateSeriesList(me.chartSettings.getSeries(), 0);
                 me.updateCategoryList(me.chartSettings.getCatValues());
@@ -333,7 +336,7 @@ define([
                 win.show(xy.left + 160, xy.top + 125);
                 win.setSettings({
                     api     : me.api,
-                    range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
+                    range   : me.txtDataRange.getValue(),
                     type    : Asc.c_oAscSelectionDialogType.Chart,
                     validation: function() {return true;}
                 });
@@ -355,6 +358,10 @@ define([
 
         onSelectSeries: function(lisvView, itemView, record) {
             this.updateMoveButtons();
+        },
+
+        updateRange: function() {
+            this.txtDataRange.setValue(this.chartSettings.getRange() || '');
         },
 
         updateButtons: function() {
@@ -385,6 +392,7 @@ define([
             }
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
+                    me.updateRange();
                     me.updateSeriesList(me.chartSettings.getSeries(), me.seriesList.store.length-1);
                     me.updateButtons();
                     me.chartSettings.endEditData();
@@ -399,10 +407,10 @@ define([
             if (rec) {
                 var order = rec.get('order');
                 rec.get('series').asc_Remove();
-                this.txtDataRange.setValue(this.chartSettings.getRange() || '');
+                this.updateRange();
                 this.updateSeriesList(this.chartSettings.getSeries(), order);
+                this.updateButtons();
             }
-            this.updateButtons();
         },
 
         onEditSeries: function() {
@@ -414,6 +422,8 @@ define([
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
                         rec.set('value', series.asc_getSeriesName());
+                        me.updateRange();
+                        me.updateButtons();
                         me.chartSettings.endEditData();
                         me._isEditRanges = false;
                     }
@@ -428,6 +438,8 @@ define([
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
                     me.updateCategoryList(me.chartSettings.getCatValues());
+                    me.updateRange();
+                    me.updateButtons();
                     me.chartSettings.endEditData();
                     me._isEditRanges = false;
                 }
@@ -475,8 +487,9 @@ define([
                 up ? rec.get('series').asc_MoveUp() : rec.get('series').asc_MoveDown();
                 this.seriesList.selectRecord(rec);
                 this.seriesList.scrollToRecord(rec);
+                this.updateRange();
+                this.updateButtons();
             }
-            this.updateMoveButtons();
         },
 
         updateSeriesList: function(series, index) {
@@ -520,6 +533,7 @@ define([
             this.chartSettings.switchRowCol();
             this.updateSeriesList(this.chartSettings.getSeries(), 0);
             this.updateCategoryList(this.chartSettings.getCatValues());
+            this.updateRange();
             this.updateButtons();
         },
 
@@ -539,6 +553,11 @@ define([
         textCategory: 'Horizontal (Category) Axis Labels',
         textUp: 'Up',
         textDown: 'Down',
-        textData: 'Data'
-    }, SSE.Views.ChartDataDialog || {}))
+        textData: 'Data',
+        errorInFormula: "There's an error in formula you entered.",
+        errorInvalidReference: 'The reference is not valid. Reference must be to an open worksheet.',
+        errorNoSingleRowCol: 'The reference is not valid. References for titles, values, sizes, or data labels must be a single cell, row, or column.',
+        errorNoValues: 'To create a chart, the series must contain at least one value.'
+
+}, SSE.Views.ChartDataDialog || {}))
 });
