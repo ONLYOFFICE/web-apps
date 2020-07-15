@@ -1484,31 +1484,29 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         isRangeValid: function() {
-            return true;
-            // if (this.isChart) {
-            //     var isvalid;
-            //     if (!_.isEmpty(this.txtDataRange.getValue())) {
-            //         var rec = this.mnuChartTypePicker.getSelectedRec(),
-            //             type = (rec) ? rec.get('type') : this.currentChartType;
-            //
-            //         isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, type);
-            //         if (isvalid == Asc.c_oAscError.ID.No)
-            //             return true;
-            //     } else
-            //         return true;
-            //
-            //     this.setActiveCategory(0);
-            //     if (isvalid == Asc.c_oAscError.ID.StockChartError) {
-            //         Common.UI.warning({msg: this.errorStockChart});
-            //     } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
-            //         Common.UI.warning({msg: this.errorMaxRows});
-            //     } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
-            //         Common.UI.warning({msg: this.errorMaxPoints});
-            //     else
-            //         this.txtDataRange.cmpEl.find('input').focus();
-            //     return false;
-            // } else
-            //     return true;
+            if (this.isChart) {
+                var isvalid,
+                    range = this.chartSettings.getRange();
+                if (!_.isEmpty(range)) {
+                    var rec = this.mnuChartTypePicker.getSelectedRec(),
+                        type = (rec) ? rec.get('type') : this.currentChartType;
+
+                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !this.chartSettings.getInColumns(), type);
+                    if (isvalid == Asc.c_oAscError.ID.No)
+                        return true;
+                } else
+                    return true;
+
+                this.setActiveCategory(0);
+                if (isvalid == Asc.c_oAscError.ID.StockChartError) {
+                    Common.UI.warning({msg: this.errorStockChart});
+                } else if (isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) {
+                    Common.UI.warning({msg: this.errorMaxRows});
+                } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
+                    Common.UI.warning({msg: this.errorMaxPoints});
+                return false;
+            } else
+                return true;
         },
 
         // onSelectData: function() {
