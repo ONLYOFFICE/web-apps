@@ -194,6 +194,7 @@
 
                         box-shadow: 0px 4px 0 #49795d inset;
                         border-top-width: 0;
+                        padding-top: 1px;
                         font-weight: bold;
                     }
                 }
@@ -207,14 +208,14 @@
                 }
 
                 &.coauth-locked {
-                    vertical-align: top;
                     &.active {
                         > span {
-                            border-top-width: 1px;
+                            border-top-width: 0px;
                         }
                     }
                     > span {
                         outline: none;
+                        position: relative;
                     }
                     > span:after {
                         position: absolute;
