@@ -104,6 +104,8 @@ define([
             this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
             this.api.asc_registerCallback('asc_onFilterInfo',   _.bind(this.onApiFilterInfo , this));
             this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
+            this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
+            this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', _.bind(this.onRefreshNamedSheetViewList, this));
 
             this.statusbar.setApi(api);
         },
@@ -708,6 +710,24 @@ define([
 
         onApiActiveSheetChanged: function (index) {
             this.statusbar.tabMenu.hide();
+        },
+
+        onRefreshNamedSheetViewList: function() {
+            var views = this.api.asc_getNamedSheetViews(),
+                active = false,
+                name="";
+            for (var i=0; i<views.length; i++) {
+                if (views[i].asc_getIsActive()) {
+                    active = true;
+                    name = views[i].asc_getName();
+                    break;
+                }
+            }
+            var tab = this.statusbar.tabbar.getAt(this.statusbar.tabbar.getActive());
+            if (tab) {
+                tab.changeIconState(active, name);
+            }
+                
         },
 
         zoomText        : 'Zoom {0}%',
