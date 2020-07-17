@@ -727,13 +727,33 @@ define([
             if (tab) {
                 tab.changeIconState(active, name);
             }
-                
+
+            if (active && !Common.localStorage.getBool("sse-hide-sheet-view-tip") && !Common.Utils.InternalSettings.get("sse-hide-sheet-view-tip")) {
+                Common.Utils.InternalSettings.set("sse-hide-sheet-view-tip", true);
+                var tip = new Common.UI.SynchronizeTip({
+                    target      : $('#editor_sdk'),
+                    extCls      : 'no-arrow',
+                    text        : this.textSheetViewTip,
+                    placement   : 'target'
+                });
+                tip.on({
+                    'dontshowclick': function() {
+                        Common.localStorage.setBool("sse-hide-sheet-view-tip", true);
+                        this.close();
+                    },
+                    'closeclick': function() {
+                        this.close();
+                    }
+                });
+                tip.show();
+            }
         },
 
         zoomText        : 'Zoom {0}%',
         errorLastSheet  : 'Workbook must have at least one visible worksheet.',
         errorRemoveSheet: 'Can\'t delete the worksheet.',
         warnDeleteSheet : 'The worksheet maybe has data. Proceed operation?',
-        strSheet        : 'Sheet'
+        strSheet        : 'Sheet',
+        textSheetViewTip: 'You are in Sheet View mode. Filters and sorting are visible only to you and those who are still in this view.'
     }, SSE.Controllers.Statusbar || {}));
 });
