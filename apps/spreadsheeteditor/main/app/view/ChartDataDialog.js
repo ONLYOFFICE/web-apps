@@ -394,6 +394,7 @@ define([
                 if (result == 'ok') {
                     me.updateRange();
                     me.updateSeriesList(me.chartSettings.getSeries(), me.seriesList.store.length-1);
+                    me.updateCategoryList(me.chartSettings.getCatValues());
                     me.updateButtons();
                     me.chartSettings.endEditData();
                     me._isEditRanges = false;
@@ -409,6 +410,7 @@ define([
                 rec.get('series').asc_Remove();
                 this.updateRange();
                 this.updateSeriesList(this.chartSettings.getSeries(), order);
+                this.updateCategoryList(this.chartSettings.getCatValues());
                 this.updateButtons();
             }
         },
@@ -423,6 +425,7 @@ define([
                     if (result == 'ok') {
                         rec.set('value', series.asc_getSeriesName());
                         me.updateRange();
+                        me.updateCategoryList(me.chartSettings.getCatValues());
                         me.updateButtons();
                         me.chartSettings.endEditData();
                         me._isEditRanges = false;
@@ -488,6 +491,7 @@ define([
                 this.seriesList.selectRecord(rec);
                 this.seriesList.scrollToRecord(rec);
                 this.updateRange();
+                this.updateCategoryList(this.chartSettings.getCatValues());
                 this.updateButtons();
             }
         },
