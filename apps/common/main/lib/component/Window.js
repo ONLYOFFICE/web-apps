@@ -951,6 +951,13 @@ define([
                         this.$window.find('.resize-border').remove();
                     }
                     this.resizable = resizable;
+                } else {
+                    if (resizable) {
+                        (minSize && minSize.length>1) && (this.initConfig.minwidth = minSize[0]);
+                        (minSize && minSize.length>1) && (this.initConfig.minheight = minSize[1]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxwidth = maxSize[0]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxheight = maxSize[1]);
+                    }
                 }
             },
 
