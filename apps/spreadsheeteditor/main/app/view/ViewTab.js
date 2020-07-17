@@ -92,7 +92,7 @@ define([
                     this.btnSheetView = new Common.UI.Button({
                         parentEl: $host.find('#slot-btn-sheet-view'),
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-sheetview',
+                        iconCls: 'toolbar__icon btn-sheet-view',
                         caption: me.capBtnSheetView,
                         lock        : [_set.lostConnect, _set.coAuth],
                         menu: true
@@ -102,7 +102,7 @@ define([
                     this.btnCreateView = new Common.UI.Button({
                         id          : 'id-toolbar-btn-createview',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-createview',
+                        iconCls     : 'toolbar__icon btn-sheet-view-new',
                         caption     : this.textCreate,
                         lock        : [_set.coAuth, _set.lostConnect]
                     });
@@ -112,7 +112,7 @@ define([
                     this.btnCloseView = new Common.UI.Button({
                         id          : 'id-toolbar-btn-closeview',
                         cls         : 'btn-toolbar',
-                        iconCls     : 'toolbar__icon btn-closeview',
+                        iconCls     : 'toolbar__icon btn-sheet-view-close',
                         caption     : this.textClose,
                         lock        : [_set.coAuth, _set.lostConnect]
                     });
@@ -123,7 +123,7 @@ define([
                 this.btnFreezePanes = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-freeze'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-to-freeze',
+                    iconCls: 'toolbar__icon btn-freeze-panes',
                     caption: this.capBtnFreeze,
                     split: false,
                     enableToggle: true,
