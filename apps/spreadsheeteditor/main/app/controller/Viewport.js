@@ -395,7 +395,7 @@ define([
             case 'celleditor':
                 if (arguments[1]) {
                     this.boxSdk.css('border-top', arguments[1]=='hidden'?'none':'');
-                    this.header.mnuitemHideFormulaBar.setChecked(arguments[1]=='hidden', true);
+                    this.header.mnuitemHideFormulaBar && this.header.mnuitemHideFormulaBar.setChecked(arguments[1]=='hidden', true);
                 }
                 this.viewport.celayout.doLayout();
                 break;
