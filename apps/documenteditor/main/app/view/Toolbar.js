@@ -645,31 +645,31 @@ define([
                                     value: 'checkbox'
                                 },
                                 {caption: '--'},
-                                {
-                                    caption: this.textNewFieldControl,
-                                    value: 'new-field'
-                                },
-                                {
-                                    caption: this.textNewPictureControl,
-                                    value: 'new-picture'
-                                },
-                                {
-                                    caption: this.textNewComboboxControl,
-                                    value: 'new-combobox'
-                                },
-                                {
-                                    caption: this.textNewDropdownControl,
-                                    value: 'new-dropdown'
-                                },
-                                {
-                                    caption: this.textNewCheckboxControl,
-                                    value: 'new-checkbox'
-                                },
-                                {
-                                    caption: this.textNewRadioboxControl,
-                                    value: 'new-radiobox'
-                                },
-                                {caption: '--'},
+                                // {
+                                //     caption: this.textNewFieldControl,
+                                //     value: 'new-field'
+                                // },
+                                // {
+                                //     caption: this.textNewPictureControl,
+                                //     value: 'new-picture'
+                                // },
+                                // {
+                                //     caption: this.textNewComboboxControl,
+                                //     value: 'new-combobox'
+                                // },
+                                // {
+                                //     caption: this.textNewDropdownControl,
+                                //     value: 'new-dropdown'
+                                // },
+                                // {
+                                //     caption: this.textNewCheckboxControl,
+                                //     value: 'new-checkbox'
+                                // },
+                                // {
+                                //     caption: this.textNewRadioboxControl,
+                                //     value: 'new-radiobox'
+                                // },
+                                // {caption: '--'},
                                 {
                                     caption: this.textRemoveControl,
                                     iconCls: 'menu__icon cc-remove',
@@ -2041,7 +2041,7 @@ define([
 
                 this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
-                this.btnContentControls.menu.items[17].setVisible(mode.canEditContentControl);
+                this.btnContentControls.menu.items[10].setVisible(mode.canEditContentControl);
                 this.mnuInsertImage.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
             },
 
