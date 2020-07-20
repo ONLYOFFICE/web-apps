@@ -52,7 +52,7 @@
                 <div class="padding-small" id="sliceradv-check-hide-nodata"></div>
                 <div class="padding-small" id="sliceradv-check-indicate-nodata"></div>
                 <div class="padding-small" id="sliceradv-check-show-nodata-last"></div>
-                <div class="padding-small" id="sliceradv-check-show-deleted"></div>
+                <!--<div class="padding-small" id="sliceradv-check-show-deleted"></div>-->
             </div>
         </div>
     </div>
