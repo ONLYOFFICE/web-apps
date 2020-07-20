@@ -183,7 +183,7 @@ define([
                     iconCls: 'toolbar__icon btn-pivot-sum',
                     caption: this.txtCreate,
                     disabled    : false,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer]
+                    lock        : [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell]
                 });
 
                 this.btnPivotLayout = new Common.UI.Button({
