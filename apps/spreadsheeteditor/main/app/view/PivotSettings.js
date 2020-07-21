@@ -371,6 +371,7 @@ define([
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
                                 me._originalProps.asc_set(me.api, value);
+                                Common.NotificationCenter.trigger('edit:complete', me);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
@@ -646,10 +647,6 @@ define([
 
                 if (isLabel || event.target.className.match('checkbox')) {
                     this.updateFieldCheck(listView, record);
-
-                    _.delay(function () {
-                        listView.$el.find('.listview').focus();
-                    }, 100, this);
                 }
             }
         },
@@ -665,6 +662,7 @@ define([
                     } else {
                         this._originalProps.asc_removeField(this.api, record.get('index'));
                     }
+                    Common.NotificationCenter.trigger('edit:complete', this);
                 }
 
                 // listView.isSuspendEvents = false;
@@ -830,6 +828,7 @@ define([
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
                                 field.asc_set(me.api, me._originalProps, dataIndex, value);
+                                Common.NotificationCenter.trigger('edit:complete', me);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
@@ -848,6 +847,7 @@ define([
                             handler: function(result, value) {
                                 if (result == 'ok' && me.api && value) {
                                     pivotField.asc_set(me.api, me._originalProps, pivotIndex, value);
+                                    Common.NotificationCenter.trigger('edit:complete', me);
                                 }
 
                                 Common.NotificationCenter.trigger('edit:complete', me);
@@ -860,24 +860,28 @@ define([
         onAddFilter: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
                 this._originalProps.asc_addPageField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
         onAddRow: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
                 this._originalProps.asc_addRowField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
         onAddColumn: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
                 this._originalProps.asc_addColField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
         onAddValues: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
                 this._originalProps.asc_addDataField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
@@ -887,6 +891,7 @@ define([
                     this._originalProps.asc_removeDataField(this.api, _.isNumber(pivotindex) ? pivotindex : this._state.field.record.get('pivotIndex'), _.isNumber(index) ? index : this._state.field.record.get('index'));
                 else
                     this._originalProps.asc_removeNoDataField(this.api, _.isNumber(pivotindex) ? pivotindex : this._state.field.record.get('pivotIndex'));
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
@@ -933,6 +938,7 @@ define([
                     this._originalProps.asc_movePageField(this.api, from, to);
                     break;
             }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onMoveTo: function(type, pivotindex, to) {
@@ -953,6 +959,7 @@ define([
                         this._originalProps.asc_moveToPageField(this.api, pivotIndex, index);
                         break;
                 }
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
         
