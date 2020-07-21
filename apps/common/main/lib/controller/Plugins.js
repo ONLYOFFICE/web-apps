@@ -203,7 +203,6 @@ define([
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
                 plugin.set_BaseUrl(item.get('baseUrl'));
-                plugin.set_Help(item.get('help'));
 
                 var variations = item.get('variations'),
                     variationsArr = [];
@@ -226,6 +225,7 @@ define([
                     variation.set_Size(itemVar.get('size'));
                     variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
                     variation.set_Events(itemVar.get('events'));
+                    variation.set_Help(itemVar.get('help'));
 
                     variationsArr.push(variation);
                 });
@@ -381,7 +381,7 @@ define([
                         });
                     }
 
-                    var help = plugin.get_Help();
+                    var help = variation.get_Help();
                     me.pluginDlg = new Common.Views.PluginDlg({
                         cls: isCustomWindow ? 'plain' : '',
                         header: !isCustomWindow,
@@ -541,7 +541,8 @@ define([
                                 url: itemVar.url,
                                 icons: itemVar.icons,
                                 buttons: itemVar.buttons,
-                                visible: visible
+                                visible: visible,
+                                help: itemVar.help
                             });
 
                             variationsArr.push(model);
@@ -561,8 +562,7 @@ define([
                             currentVariation: 0,
                             visible: pluginVisible,
                             groupName: (item.group) ? item.group.name : '',
-                            groupRank: (item.group) ? item.group.rank : 0,
-                            help: item.help
+                            groupRank: (item.group) ? item.group.rank : 0
                         }));
                     }
                 });
