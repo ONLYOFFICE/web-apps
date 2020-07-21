@@ -203,6 +203,7 @@ define([
                 plugin.set_Name(item.get('name'));
                 plugin.set_Guid(item.get('guid'));
                 plugin.set_BaseUrl(item.get('baseUrl'));
+                plugin.set_Help(item.get('help'));
 
                 var variations = item.get('variations'),
                     variationsArr = [];
@@ -380,6 +381,7 @@ define([
                         });
                     }
 
+                    var help = plugin.get_Help();
                     me.pluginDlg = new Common.Views.PluginDlg({
                         cls: isCustomWindow ? 'plain' : '',
                         header: !isCustomWindow,
@@ -389,7 +391,8 @@ define([
                         url: url,
                         frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
-                        toolcallback: _.bind(this.onToolClose, this)
+                        toolcallback: _.bind(this.onToolClose, this),
+                        help: !!help
                     });
                     me.pluginDlg.on({
                         'render:after': function(obj){
@@ -404,6 +407,9 @@ define([
                         },
                         'resize': function(args){
                             me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        },
+                        'help': function(){
+                            help && window.open(help, '_blank');
                         }
                     });
 
@@ -555,7 +561,8 @@ define([
                             currentVariation: 0,
                             visible: pluginVisible,
                             groupName: (item.group) ? item.group.name : '',
-                            groupRank: (item.group) ? item.group.rank : 0
+                            groupRank: (item.group) ? item.group.rank : 0,
+                            help: item.help
                         }));
                     }
                 });
