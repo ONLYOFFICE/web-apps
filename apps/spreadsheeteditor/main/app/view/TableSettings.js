@@ -294,8 +294,13 @@ define([
             this.lockedControls.push(this.btnEdit);
 
             this.btnConvertRange = new Common.UI.Button({
-                el: $('#table-btn-convert-range')
+                parentEl: $('#table-btn-convert-range'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-convert-to-range',
+                caption     : this.textConvertRange,
+                style       : 'width: 100%;text-align: left;'
             });
+
             this.btnConvertRange.on('click', _.bind(function(btn){
                 if (this.api) this.api.asc_convertTableToRange(this._state.TableName);
                 Common.NotificationCenter.trigger('edit:complete', this);
@@ -303,7 +308,11 @@ define([
             this.lockedControls.push(this.btnConvertRange);
 
             this.btnRemDuplicates = new Common.UI.Button({
-                el: $('#table-btn-rem-duplicates')
+                parentEl: $('#table-btn-rem-duplicates'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-remove-duplicates',
+                caption     : this.textRemDuplicates,
+                style       : 'width: 100%;text-align: left;'
             });
             this.btnRemDuplicates.on('click', _.bind(function(btn){
                 Common.NotificationCenter.trigger('data:remduplicates', this);
@@ -311,13 +320,21 @@ define([
             this.lockedControls.push(this.btnRemDuplicates);
 
             this.btnSlicer = new Common.UI.Button({
-                el: $('#table-btn-slicer')
+                parentEl: $('#table-btn-slicer'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-slicer',
+                caption     : this.textSlicer,
+                style       : 'width: 100%;text-align: left;'
             });
             this.btnSlicer.on('click', _.bind(this.onInsertSlicerClick, this));
             this.lockedControls.push(this.btnSlicer);
 
             this.btnPivot = new Common.UI.Button({
-                el: $('#table-btn-pivot')
+                parentEl: $('#table-btn-pivot'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-pivot-sum',
+                caption     : this.textPivot,
+                style       : 'width: 100%;text-align: left;'
             });
             this.btnPivot.on('click', _.bind(this.onInsertPivotClick, this));
             this.lockedControls.push(this.btnPivot);
@@ -626,7 +643,8 @@ define([
         warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
         textRemDuplicates: 'Remove duplicates',
         textSlicer: 'Insert slicer',
-        textPivot: 'Insert pivot table'
+        textPivot: 'Insert pivot table',
+        textActions: 'Table actions'
         
     }, SSE.Views.TableSettings || {}));
 });

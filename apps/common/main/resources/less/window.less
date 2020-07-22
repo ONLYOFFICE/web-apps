@@ -59,6 +59,12 @@
 
         cursor: move;
 
+        .tools {
+            position: absolute;
+            right: 0;
+            padding-right: 6px;
+        }
+
         .tool {
             float: right;
             width: 16px;
@@ -77,6 +83,25 @@
 
                 &.disabled {
                     background-position: @but-close-offset-x @but-close-offset-y - 32px;
+                    cursor: default;
+                }
+            }
+
+            &.help {
+                width: 20px;
+                margin-right:0;
+                line-height: 14px;
+                font-size: 14px;
+                font-weight: bold;
+                color: #444;
+                opacity: 0.7;
+
+                &:hover {
+                    opacity: 1;
+                }
+
+                &.disabled {
+                    opacity: 0.3;
                     cursor: default;
                 }
             }

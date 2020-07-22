@@ -152,6 +152,7 @@ define([
                 alias:      'Window',
                 cls:        '',
                 toolclose:  'close',
+                help:       false,
                 maxwidth: undefined,
                 maxheight: undefined,
                 minwidth: 0,
@@ -162,9 +163,14 @@ define([
         var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
                             '<% if (header==true) { %>' +
                                 '<div class="header">' +
+                                    '<div class="tools">' +
                                     '<% if (closable!==false) %>' +
                                         '<div class="tool close img-commonctrl"></div>' +
                                     '<% %>' +
+                                    '<% if (help===true) %>' +
+                                        '<div class="tool help">?</div>' +
+                                    '<% %>' +
+                                    '</div>' +
                                     '<div class="title"><%= title %></div> ' +
                                 '</div>' +
                             '<% } %>' +
@@ -284,7 +290,7 @@ define([
 
         /* window drag's functions */
         function _dragstart(event) {
-            if ( $(event.target).hasClass('close') ) return;
+            if ( $(event.target).hasClass('close') || $(event.target).hasClass('help') ) return;
             Common.UI.Menu.Manager.hideAll();
             var zoom = (event instanceof jQuery.Event) ? Common.Utils.zoom() : 1;
             this.dragging.enabled = true;
@@ -635,8 +641,13 @@ define([
                         else
                             (this.initConfig.toolclose=='hide') ? this.hide() : this.close();
                     };
+                    var dohelp = function() {
+                        if ( this.$window.find('.tool.help').hasClass('disabled') ) return;
+                        this.fireEvent('help',this);
+                    };
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
+                    this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
 
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
@@ -951,6 +962,13 @@ define([
                         this.$window.find('.resize-border').remove();
                     }
                     this.resizable = resizable;
+                } else {
+                    if (resizable) {
+                        (minSize && minSize.length>1) && (this.initConfig.minwidth = minSize[0]);
+                        (minSize && minSize.length>1) && (this.initConfig.minheight = minSize[1]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxwidth = maxSize[0]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxheight = maxSize[1]);
+                    }
                 }
             },
 
