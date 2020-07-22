@@ -106,7 +106,7 @@ define([
             // special
             this.mathList = new Common.UI.ListView({
                 el: $window.find('#auto-correct-math-list'),
-                store: new Common.UI.DataViewStore(this.props),
+                store: new Common.UI.DataViewStore(this.props.slice(0, 11)),
                 simpleAddMode: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
@@ -179,6 +179,10 @@ define([
             var me = this;
             _.delay(function(){
                 $('input', me.inputReplace.cmpEl).select().focus();
+            },100);
+
+            _.delay(function(){
+                me.mathList.store.reset(me.props);
             },100);
         },
 
