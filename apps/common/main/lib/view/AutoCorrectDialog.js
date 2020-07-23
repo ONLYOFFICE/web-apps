@@ -154,14 +154,14 @@ define([
                         }
                     });
                     if (_selectedItem) {
-                        me.mathList.selectRecord(_selectedItem, true);
-                        me.mathList.scrollToRecord(_selectedItem);
-                    } else {
-                        me.mathList.deselectAll();
+                        me.mathList.scrollToRecord(_selectedItem, true);
+                        if (_selectedItem.get('replaced') == value)
+                            me.mathList.selectRecord(_selectedItem, true);
+                        else
+                            _selectedItem = null;
                     }
-                } else {
-                    me.mathList.deselectAll();
                 }
+                (!_selectedItem) && me.mathList.deselectAll();
                 me.updateControls(_selectedItem);
             });
 
@@ -226,7 +226,7 @@ define([
                 this.btnEdit.setDisabled(!this.inputBy.getValue() || this.inputBy.getValue() === rec.get('by'));
             } else {
                 this.btnDelete.setCaption(this.textDelete);
-                this.btnDelete.setCaption(this.textDelete);
+                this.btnEdit.setDisabled(!this.inputBy.getValue());
             }
             this.btnDelete.setDisabled(!rec);
             this.btnEdit.setCaption(rec ? this.textEdit : this.textAdd);
