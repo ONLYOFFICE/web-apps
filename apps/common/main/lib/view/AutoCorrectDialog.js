@@ -48,6 +48,7 @@ define([
     Common.Views.AutoCorrectDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 448,
+            height: 444,
             cls: 'modal-dlg',
             buttons: null
         },
@@ -302,21 +303,42 @@ define([
 
         onEdit: function() {
             var rec = this.mathList.getSelectedRec(),
-                by = '';
+                by = '',
+                me = this,
+                applySettings = function(by) {
+                    var path = me.appPrefix + "settings-math-correct-add";
+                    var val = JSON.stringify(me.arrAdd);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    me.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), by);
+                };
             if (rec) {
                 var idx = _.findIndex(this.arrAdd, function(item){return (item[0]==rec.get('replaced'));});
-                if (!this.inputBy.getValue() && rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'))) {// reset to default
-                    by = rec.get('defaultValue');
-                    rec.set('by', rec.get('defaultValueStr'));
-                    (idx>=0) && this.arrAdd.splice(idx, 1);
-                } else { // replace
-                    by = this.inputBy.getValue();
-                    rec.set('by', by);
-                    if (idx<0)
-                        this.arrAdd.push([rec.get('replaced'), by]);
-                    else
-                        this.arrAdd[idx][1] = by;
-                }
+                var restore = !this.inputBy.getValue() && rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'));
+                Common.UI.warning({
+                    width: 500,
+                    msg: restore ? this.warnRestore.replace('%1', rec.get('replaced')) : this.warnReplace.replace('%1', rec.get('replaced')),
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    callback: _.bind(function(btn, dontshow){
+                        if (btn == 'yes') {
+                            if (restore) {// reset to default
+                                by = rec.get('defaultValue');
+                                rec.set('by', rec.get('defaultValueStr'));
+                                (idx>=0) && this.arrAdd.splice(idx, 1);
+                            } else { // replace
+                                by = this.inputBy.getValue();
+                                rec.set('by', by);
+                                if (idx<0)
+                                    this.arrAdd.push([rec.get('replaced'), by]);
+                                else
+                                    this.arrAdd[idx][1] = by;
+                            }
+                            applySettings(by);
+                        }
+                    }, this)
+                });
+
             } else {
                 rec = this.mathStore.add({
                     replaced: this.inputReplace.getValue(),
@@ -327,17 +349,23 @@ define([
                 this.mathList.scrollToRecord(rec);
                 by = rec.get('by');
                 this.arrAdd.push([rec.get('replaced'), by]);
+                applySettings(by);
             }
-            var path = this.appPrefix + "settings-math-correct-add";
-            var val = JSON.stringify(this.arrAdd);
-            Common.Utils.InternalSettings.set(path, val);
-            Common.localStorage.setItem(path, val);
-            this.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), by);
         },
 
         onResetToDefault: function() {
-            this.api.asc_resetToDefaultAutoCorrectMathSymbols();
-            this.onResetList();
+            Common.UI.warning({
+                width: 500,
+                msg: this.warnReset,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: _.bind(function(btn, dontshow){
+                    if (btn == 'yes') {
+                        this.api.asc_resetToDefaultAutoCorrectMathSymbols();
+                        this.onResetList();
+                    }
+                }, this)
+            });
         },
 
         onResetList: function() {
@@ -354,6 +382,7 @@ define([
             this.mathStore.remove(this.mathStore.where({defaultValue: undefined}));
             this.mathStore.each(function(item, index){
                 item.set('by', item.get('defaultValueStr'));
+                item.set('defaultDisabled', false);
             });
             this.mathList.deselectAll();
             if (this.mathList.scroller) {
@@ -424,7 +453,10 @@ define([
         textDelete: 'Delete',
         textRestore: 'Restore',
         textReset: 'Reset',
-        textReplaceType: 'Replace text as you type'
+        textReplaceType: 'Replace text as you type',
+        warnReset: 'Any autocorrect you added will be removed and the changed ones will be restored to their original values. Do you want to continue?',
+        warnReplace: 'The autocorrect entry for %1 already exists. Do you want to replace it?',
+        warnRestore: 'The autocorrect entry for %1 will be reset to its original value. Do you want to continue?'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });
