@@ -103,7 +103,7 @@ define([
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
-            this.mathStore = this.options.mathStore || [];
+            this.mathStore = this.options.mathStore || new Common.UI.DataViewStore();
             this.api = this.options.api;
 
             var path = this.appPrefix + "settings-math-correct";
@@ -127,7 +127,7 @@ define([
             this.mathList = new Common.UI.ListView({
                 el: $window.find('#auto-correct-math-list'),
                 store: this.mathStore,
-                simpleAddMode: true,
+                simpleAddMode: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
@@ -317,6 +317,15 @@ define([
 
         onResetList: function(clear) {
             if (this.mathStore.length>0 && !clear) return;
+
+            if (this.mathStore.length==0) {
+                this.mathStore.comparator = function(item1, item2) {
+                    var n1 = item1.get('replaced').toLowerCase(),
+                        n2 = item2.get('replaced').toLowerCase();
+                    if (n1==n2) return 0;
+                    return (n1<n2) ? -1 : 1;
+                };
+            }
 
             if (clear) {
                 // remove storage data
