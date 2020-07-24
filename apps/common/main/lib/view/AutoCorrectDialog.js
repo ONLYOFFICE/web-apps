@@ -88,7 +88,7 @@ define([
                             '</tr>',
                             '<tr>',
                                 '<td style="padding-bottom: 16px;">',
-                                    '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 100px;">' + this.textReset + '</button>',
+                                    '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 100px;">' + this.textResetAll + '</button>',
                                     '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-delete" style="min-width: 100px;float: right;">' + this.textDelete + '</button>',
                                     '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-edit" style="min-width: 100px;float: right;margin-right:5px;">' + this.textAdd+ '</button>',
                                 '</td>',
@@ -192,7 +192,7 @@ define([
             this.btnReset = new Common.UI.Button({
                 el: $('#auto-correct-btn-reset')
             });
-            this.btnReset.on('click', _.bind(this.onResetList, this, true));
+            this.btnReset.on('click', _.bind(this.onResetToDefault, this));
 
             this.btnEdit = new Common.UI.Button({
                 el: $('#auto-correct-btn-edit')
@@ -221,15 +221,19 @@ define([
             if (!this.mathList) return;
 
             rec = rec || this.mathList.getSelectedRec();
+            var inputBy = this.inputBy.getValue();
             if (rec) {
-                this.btnDelete.setCaption(rec.get('defaultDisabled') ? this.textRestore : this.textDelete);
-                this.btnEdit.setDisabled(!this.inputBy.getValue() || this.inputBy.getValue() === rec.get('by'));
+                var disabled = rec.get('defaultDisabled'),
+                    defChanged = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'));
+                this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
+                this.btnEdit.setDisabled(disabled || inputBy === rec.get('by') || !inputBy && !defChanged );
+                this.btnEdit.setCaption(!inputBy && defChanged ? this.textReset : this.textEdit);
             } else {
                 this.btnDelete.setCaption(this.textDelete);
-                this.btnEdit.setDisabled(!this.inputBy.getValue());
+                this.btnEdit.setDisabled(!inputBy);
+                this.btnEdit.setCaption(this.textAdd);
             }
             this.btnDelete.setDisabled(!rec);
-            this.btnEdit.setCaption(rec ? this.textEdit : this.textAdd);
         },
 
         show: function() {
@@ -272,9 +276,18 @@ define([
         },
 
         onEdit: function() {
-            var rec = this.mathList.getSelectedRec();
+            var rec = this.mathList.getSelectedRec(),
+                by = '';
             if (rec) {
-                rec.set('by', this.inputBy.getValue());
+                if (!this.inputBy.getValue() && rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'))) {
+                    by = rec.get('defaultValue');
+                    rec.set('by', rec.get('defaultValueStr'));
+                    delete this.arrAdd[rec.get('replaced')];
+                } else {
+                    by = this.inputBy.getValue();
+                    rec.set('by', by);
+                    this.arrAdd[rec.get('replaced')] = by;
+                }
             } else {
                 rec = this.mathStore.add({
                     replaced: this.inputReplace.getValue(),
@@ -283,13 +296,19 @@ define([
                 });
                 this.mathList.selectRecord(rec);
                 this.mathList.scrollToRecord(rec);
+                by = rec.get('by');
+                this.arrAdd[rec.get('replaced')] = by;
             }
-            this.arrAdd[rec.get('replaced')] = rec.get('by');
             var path = this.appPrefix + "settings-math-correct-add";
             var val = JSON.stringify(this.arrAdd);
             Common.Utils.InternalSettings.set(path, val);
             Common.localStorage.setItem(path, val);
-            this.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), rec.get('by'));
+            this.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), by);
+        },
+
+        onResetToDefault: function() {
+            this.api.asc_resetToDefaultAutoCorrectMathSymbols();
+            this.onResetList(true);
         },
 
         onResetList: function(clear) {
@@ -314,18 +333,19 @@ define([
             _.each(arr, function(item, index){
                 var itm = {
                     replaced: item[0],
+                    defaultValue: item[1],
                     defaultDisabled: arrRem.indexOf(item[0])>-1
                 };
                 var by = arrAdd[item[0]];
                 if (typeof item[1]=='object') {
-                    itm.defaultValue = '';
+                    itm.defaultValueStr = '';
                     _.each(item[1], function(ch){
-                        itm.defaultValue += Common.Utils.String.encodeSurrogateChar(ch);
+                        itm.defaultValueStr += Common.Utils.String.encodeSurrogateChar(ch);
                     });
-                    itm.by = by ? by : itm.defaultValue;
+                    itm.by = by ? by : itm.defaultValueStr;
                 } else {
-                    itm.defaultValue = Common.Utils.String.encodeSurrogateChar(item[1]);
-                    itm.by = by ? by : itm.defaultValue;
+                    itm.defaultValueStr = Common.Utils.String.encodeSurrogateChar(item[1]);
+                    itm.by = by ? by : itm.defaultValueStr;
                 }
                 data.push(itm);
                 by && (arrAdd[item[0]] = undefined);
@@ -348,11 +368,12 @@ define([
         textMathCorrect: 'Math AutoCorrect',
         textReplace: 'Replace:',
         textBy: 'By:',
-        textReset: 'Reset to default',
+        textResetAll: 'Reset to default',
         textAdd: 'Add',
         textEdit: 'Replace',
         textDelete: 'Delete',
-        textRestore: 'Restore'
+        textRestore: 'Restore',
+        textReset: 'Reset'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });
