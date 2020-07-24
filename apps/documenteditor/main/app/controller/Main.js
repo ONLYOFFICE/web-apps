@@ -1057,7 +1057,7 @@ define([
                     // autocorrection
                     value = Common.localStorage.getItem("de-settings-math-correct-add");
                     Common.Utils.InternalSettings.set("de-settings-math-correct-add", value);
-                    var arrAdd = value ? JSON.parse(value) : {};
+                    var arrAdd = value ? JSON.parse(value) : [];
                     value = Common.localStorage.getItem("de-settings-math-correct-rem");
                     Common.Utils.InternalSettings.set("de-settings-math-correct-rem", value);
                     var arrRem = value ? JSON.parse(value) : [];

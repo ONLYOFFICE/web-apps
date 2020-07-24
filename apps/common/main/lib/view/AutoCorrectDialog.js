@@ -108,7 +108,7 @@ define([
 
             var path = this.appPrefix + "settings-math-correct";
             var value = Common.Utils.InternalSettings.get(path + "-add");
-            this.arrAdd = value ? JSON.parse(value) : {};
+            this.arrAdd = value ? JSON.parse(value) : [];
             value = Common.Utils.InternalSettings.get(path + "-rem");
             this.arrRem = value ? JSON.parse(value) : [];
 
@@ -279,14 +279,18 @@ define([
             var rec = this.mathList.getSelectedRec(),
                 by = '';
             if (rec) {
-                if (!this.inputBy.getValue() && rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'))) {
+                var idx = _.findIndex(this.arrAdd, function(item){return (item[0]==rec.get('replaced'));});
+                if (!this.inputBy.getValue() && rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'))) {// reset to default
                     by = rec.get('defaultValue');
                     rec.set('by', rec.get('defaultValueStr'));
-                    delete this.arrAdd[rec.get('replaced')];
-                } else {
+                    (idx>=0) && this.arrAdd.splice(idx, 1);
+                } else { // replace
                     by = this.inputBy.getValue();
                     rec.set('by', by);
-                    this.arrAdd[rec.get('replaced')] = by;
+                    if (idx<0)
+                        this.arrAdd.push([rec.get('replaced'), by]);
+                    else
+                        this.arrAdd[idx][1] = by;
                 }
             } else {
                 rec = this.mathStore.add({
@@ -297,7 +301,7 @@ define([
                 this.mathList.selectRecord(rec);
                 this.mathList.scrollToRecord(rec);
                 by = rec.get('by');
-                this.arrAdd[rec.get('replaced')] = by;
+                this.arrAdd.push([rec.get('replaced'), by]);
             }
             var path = this.appPrefix + "settings-math-correct-add";
             var val = JSON.stringify(this.arrAdd);
@@ -322,7 +326,7 @@ define([
                 Common.localStorage.setItem(path + "-add", val);
                 Common.Utils.InternalSettings.set(path + "-rem", val);
                 Common.localStorage.setItem(path + "-rem", val);
-                this.arrAdd = {};
+                this.arrAdd = [];
                 this.arrRem = [];
             }
             var arrAdd = this.arrAdd,
@@ -336,31 +340,33 @@ define([
                     defaultValue: item[1],
                     defaultDisabled: arrRem.indexOf(item[0])>-1
                 };
-                var by = arrAdd[item[0]];
                 if (typeof item[1]=='object') {
                     itm.defaultValueStr = '';
                     _.each(item[1], function(ch){
                         itm.defaultValueStr += Common.Utils.String.encodeSurrogateChar(ch);
                     });
-                    itm.by = by ? by : itm.defaultValueStr;
+                    itm.by = itm.defaultValueStr;
                 } else {
-                    itm.defaultValueStr = Common.Utils.String.encodeSurrogateChar(item[1]);
-                    itm.by = by ? by : itm.defaultValueStr;
+                    itm.by = itm.defaultValueStr = Common.Utils.String.encodeSurrogateChar(item[1]);
                 }
                 data.push(itm);
-                by && (arrAdd[item[0]] = undefined);
             });
-            for(var key in arrAdd){
-                if(arrAdd.hasOwnProperty(key) && arrAdd[key]){
-                    var itm = {
-                        replaced: key,
-                        by: arrAdd[key],
+
+            var dataAdd = [];
+            _.each(arrAdd, function(item, index){
+                var idx = _.findIndex(data, {replaced: item[0]});
+                if (idx<0) {
+                    dataAdd.push({
+                        replaced: item[0],
+                        by: item[1],
                         defaultDisabled: false
-                    };
-                    data.push(itm);
+                    });
+                } else {
+                    var changed = data[idx];
+                    changed.by = item[1];
                 }
-            }
-            this.mathStore.reset(data);
+            });
+            this.mathStore.reset(data.concat(dataAdd));
             this.updateControls();
         },
 
