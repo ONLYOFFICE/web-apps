@@ -65,8 +65,13 @@ define([
                     '<div id="symbol-table-pnl-special">',
                         '<table cols="1" style="width: 100%;">',
                             '<tr>',
-                                '<td style="padding-bottom: 8px;">',
+                                '<td style="padding-bottom: 16px;">',
                                     '<label style="font-weight: bold;">' + this.textMathCorrect + '</label>',
+                                '</td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td style="padding-bottom: 8px;">',
+                                    '<div id="auto-correct-chb-replace-type"></div>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
@@ -87,7 +92,7 @@ define([
                                 '</td>',
                             '</tr>',
                             '<tr>',
-                                '<td style="padding-bottom: 16px;">',
+                                '<td style="padding-bottom: 8px;">',
                                     '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 100px;">' + this.textResetAll + '</button>',
                                     '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-delete" style="min-width: 100px;float: right;">' + this.textDelete + '</button>',
                                     '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-edit" style="min-width: 100px;float: right;margin-right:5px;">' + this.textAdd+ '</button>',
@@ -96,7 +101,6 @@ define([
                         '</table>',
                     '</div>',
                 '</div>',
-                '<div class="separator"></div>',
                 '<div class="footer center">',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                 '</div>'
@@ -120,6 +124,17 @@ define([
 
             var $window = this.getChild();
             var me = this;
+
+            this.chReplaceType = new Common.UI.CheckBox({
+                el: $window.findById('#auto-correct-chb-replace-type'),
+                labelText: this.textReplaceType,
+                value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-math-correct-replace-type")
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()==='checked');
+                Common.localStorage.setBool(me.appPrefix + "settings-math-correct-replace-type", checked);
+                Common.Utils.InternalSettings.set(me.appPrefix + "settings-math-correct-replace-type", checked);
+                me.api.asc_updateFlagAutoCorrectMathSymbols(checked);
+            });
 
             this.onInitList();
 
@@ -408,7 +423,8 @@ define([
         textEdit: 'Replace',
         textDelete: 'Delete',
         textRestore: 'Restore',
-        textReset: 'Reset'
+        textReset: 'Reset',
+        textReplaceType: 'Replace text as you type'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });
