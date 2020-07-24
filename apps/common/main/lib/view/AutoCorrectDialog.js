@@ -121,12 +121,12 @@ define([
             var $window = this.getChild();
             var me = this;
 
-            this.onResetList();
+            this.onInitList();
 
             // special
             this.mathList = new Common.UI.ListView({
                 el: $window.find('#auto-correct-math-list'),
-                store: this.mathStore,
+                store: new Common.UI.DataViewStore(this.mathStore.slice(0, 9)),
                 simpleAddMode: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
@@ -242,7 +242,17 @@ define([
             var me = this;
             _.delay(function(){
                 $('input', me.inputReplace.cmpEl).select().focus();
+            },50);
+
+            _.delay(function(){
+                me.mathList.setStore(me.mathStore);
+                me.mathList.onResetItems();
             },100);
+        },
+
+        close: function() {
+            Common.UI.Window.prototype.close.apply(this, arguments);
+            this.mathList && this.mathList.deselectAll();
         },
 
         onBtnClick: function(event) {
@@ -312,32 +322,42 @@ define([
 
         onResetToDefault: function() {
             this.api.asc_resetToDefaultAutoCorrectMathSymbols();
-            this.onResetList(true);
+            this.onResetList();
         },
 
-        onResetList: function(clear) {
-            if (this.mathStore.length>0 && !clear) return;
+        onResetList: function() {
+            // remove storage data
+            var path = this.appPrefix + "settings-math-correct";
+            var val = JSON.stringify([]);
+            Common.Utils.InternalSettings.set(path + "-add", val);
+            Common.localStorage.setItem(path + "-add", val);
+            Common.Utils.InternalSettings.set(path + "-rem", val);
+            Common.localStorage.setItem(path + "-rem", val);
+            this.arrAdd = [];
+            this.arrRem = [];
 
-            if (this.mathStore.length==0) {
-                this.mathStore.comparator = function(item1, item2) {
-                    var n1 = item1.get('replaced').toLowerCase(),
-                        n2 = item2.get('replaced').toLowerCase();
-                    if (n1==n2) return 0;
-                    return (n1<n2) ? -1 : 1;
-                };
+            this.mathStore.remove(this.mathStore.where({defaultValue: undefined}));
+            this.mathStore.each(function(item, index){
+                item.set('by', item.get('defaultValueStr'));
+            });
+            this.mathList.deselectAll();
+            if (this.mathList.scroller) {
+                this.mathList.scroller.update();
+                this.mathList.scroller.scrollTop(0);
             }
+            this.updateControls();
+        },
 
-            if (clear) {
-                // remove storage data
-                var path = this.appPrefix + "settings-math-correct";
-                var val = JSON.stringify([]);
-                Common.Utils.InternalSettings.set(path + "-add", val);
-                Common.localStorage.setItem(path + "-add", val);
-                Common.Utils.InternalSettings.set(path + "-rem", val);
-                Common.localStorage.setItem(path + "-rem", val);
-                this.arrAdd = [];
-                this.arrRem = [];
-            }
+        onInitList: function() {
+            if (this.mathStore.length>0) return;
+
+            this.mathStore.comparator = function(item1, item2) {
+                var n1 = item1.get('replaced').toLowerCase(),
+                    n2 = item2.get('replaced').toLowerCase();
+                if (n1==n2) return 0;
+                return (n1<n2) ? -1 : 1;
+            };
+
             var arrAdd = this.arrAdd,
                 arrRem = this.arrRem;
 
