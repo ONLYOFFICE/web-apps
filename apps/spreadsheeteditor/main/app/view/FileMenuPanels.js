@@ -1374,25 +1374,11 @@ define([
         },
 
         autoCorrect: function() {
-            if (!this._mathCorrect) {
-                var arr = (this.api) ? this.api.asc_getAutoCorrectMathSymbols() : [],
-                    data = [];
-                _.each(arr, function(item, index){
-                    var itm = {replaced: item[0]};
-                    if (typeof item[1]=='object') {
-                        itm.by = '';
-                        _.each(item[1], function(ch){
-                            itm.by += Common.Utils.String.encodeSurrogateChar(ch);
-                        });
-                    } else {
-                        itm.by = Common.Utils.String.encodeSurrogateChar(item[1]);
-                    }
-                    data.push(itm);
-                });
-                this._mathCorrect = data;
-            }
+            if (!this._mathCorrect)
+                this._mathCorrect = new Common.UI.DataViewStore();
             (new Common.Views.AutoCorrectDialog({
-                props: this._mathCorrect
+                mathStore: this._mathCorrect,
+                api: this.api
             })).show();
         },
 
