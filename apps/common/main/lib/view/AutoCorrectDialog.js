@@ -316,7 +316,7 @@ define([
                 var idx = _.findIndex(this.arrAdd, function(item){return (item[0]==rec.get('replaced'));});
                 var restore = !this.inputBy.getValue() && rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'));
                 Common.UI.warning({
-                    width: 500,
+                    maxwidth: 500,
                     msg: restore ? this.warnRestore.replace('%1', rec.get('replaced')) : this.warnReplace.replace('%1', rec.get('replaced')),
                     buttons: ['yes', 'no'],
                     primary: 'yes',
@@ -355,7 +355,7 @@ define([
 
         onResetToDefault: function() {
             Common.UI.warning({
-                width: 500,
+                maxwidth: 500,
                 msg: this.warnReset,
                 buttons: ['yes', 'no'],
                 primary: 'yes',
