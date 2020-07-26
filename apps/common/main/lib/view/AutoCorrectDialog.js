@@ -77,8 +77,8 @@ define([
                             '</tr>',
                             '<tr>',
                                 '<td>',
-                                    '<label style="width: 117px;">' + this.textReplace + '</label>',
-                                    '<label>' + this.textBy + '</label>',
+                                    '<label style="width: 117px;">' + this.textReplace + ':</label>',
+                                    '<label>' + this.textBy + ':</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
@@ -243,7 +243,7 @@ define([
                     defChanged = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'));
                 this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
                 this.btnEdit.setDisabled(disabled || inputBy === rec.get('by') || !inputBy && !defChanged );
-                this.btnEdit.setCaption(!inputBy && defChanged ? this.textReset : this.textEdit);
+                this.btnEdit.setCaption(!inputBy && defChanged ? this.textReset : this.textReplace);
             } else {
                 this.btnDelete.setCaption(this.textDelete);
                 this.btnEdit.setDisabled(!inputBy);
@@ -445,11 +445,10 @@ define([
 
         textTitle: 'AutoCorrect',
         textMathCorrect: 'Math AutoCorrect',
-        textReplace: 'Replace:',
-        textBy: 'By:',
+        textReplace: 'Replace',
+        textBy: 'By',
         textResetAll: 'Reset to default',
         textAdd: 'Add',
-        textEdit: 'Replace',
         textDelete: 'Delete',
         textRestore: 'Restore',
         textReset: 'Reset',
