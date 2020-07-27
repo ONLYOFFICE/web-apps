@@ -208,10 +208,13 @@ define([
                 statusbar = this.statusbar;
 
             statusbar.isEditFormula = disableAdd;
+            statusbar.tabbar && (statusbar.tabbar.isEditFormula = disableAdd);
             statusbar.btnZoomUp.setDisabled(disable);
             statusbar.btnZoomDown.setDisabled(disable);
             statusbar.labelZoom[disable?'addClass':'removeClass']('disabled');
             statusbar.btnAddWorksheet.setDisabled(disable || this.api.asc_isWorkbookLocked() || statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+
+            statusbar.$el.find('#statusbar_bottom li span').attr('oo_editor_input', !disableAdd);
 
             if (disableAdd && mask.length>0 || !disableAdd && mask.length==0) return;
             statusbar.$el.find('.statusbar').toggleClass('masked', disableAdd);

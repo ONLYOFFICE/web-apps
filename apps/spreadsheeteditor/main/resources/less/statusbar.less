@@ -246,10 +246,17 @@
 
                 &.mousemove {
 
+                    &:first-child {
+                        > span {
+                            padding-left: 8px;
+                        }
+                    }
+
                     > span {
                         border-left: 2px solid @gray-deep;
                         padding-left: 9px;
                     }
+                    
                     &.right {
                         > span {
                             border-left: 1px solid @gray-dark;
