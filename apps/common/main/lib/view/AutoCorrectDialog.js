@@ -237,16 +237,17 @@ define([
             if (!this.mathList) return;
 
             rec = rec || this.mathList.getSelectedRec();
-            var inputBy = this.inputBy.getValue();
+            var inputBy = this.inputBy.getValue(),
+                inputReplace = this.inputReplace.getValue();
             if (rec) {
                 var disabled = rec.get('defaultDisabled'),
                     defChanged = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'));
                 this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
-                this.btnEdit.setDisabled(disabled || inputBy === rec.get('by') || !inputBy && !defChanged );
-                this.btnEdit.setCaption(!inputBy && defChanged ? this.textReset : this.textReplace);
+                this.btnEdit.setDisabled(disabled || inputBy === rec.get('by') && !defChanged || !inputBy || !inputReplace);
+                this.btnEdit.setCaption(defChanged && (inputBy === rec.get('by')) ? this.textReset : this.textReplace);
             } else {
                 this.btnDelete.setCaption(this.textDelete);
-                this.btnEdit.setDisabled(!inputBy);
+                this.btnEdit.setDisabled(!inputBy || !inputReplace);
                 this.btnEdit.setCaption(this.textAdd);
             }
             this.btnDelete.setDisabled(!rec);
@@ -297,6 +298,7 @@ define([
                 } else {
                     this.mathStore.remove(rec);
                 }
+                this.updateControls();
                 this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));
             }
         },
@@ -305,16 +307,21 @@ define([
             var rec = this.mathList.getSelectedRec(),
                 by = '',
                 me = this,
-                applySettings = function(by) {
+                applySettings = function(record, by) {
                     var path = me.appPrefix + "settings-math-correct-add";
                     var val = JSON.stringify(me.arrAdd);
                     Common.Utils.InternalSettings.set(path, val);
                     Common.localStorage.setItem(path, val);
-                    me.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), by);
+                    me.api.asc_AddOrEditFromAutoCorrectMathSymbols(record.get('replaced'), by);
+                    me.mathList.selectRecord(record);
+                    me.mathList.scrollToRecord(record);
                 };
+            if (!rec) {
+                rec = this.mathStore.findWhere({replaced: this.inputReplace.getValue()})
+            }
             if (rec) {
                 var idx = _.findIndex(this.arrAdd, function(item){return (item[0]==rec.get('replaced'));});
-                var restore = !this.inputBy.getValue() && rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'));
+                var restore = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by')) && (this.inputBy.getValue() === rec.get('by'));
                 Common.UI.warning({
                     maxwidth: 500,
                     msg: restore ? this.warnRestore.replace('%1', rec.get('replaced')) : this.warnReplace.replace('%1', rec.get('replaced')),
@@ -334,7 +341,7 @@ define([
                                 else
                                     this.arrAdd[idx][1] = by;
                             }
-                            applySettings(by);
+                            applySettings(rec, by);
                         }
                     }, this)
                 });
@@ -345,11 +352,9 @@ define([
                     by: this.inputBy.getValue(),
                     defaultDisabled: false
                 });
-                this.mathList.selectRecord(rec);
-                this.mathList.scrollToRecord(rec);
                 by = rec.get('by');
                 this.arrAdd.push([rec.get('replaced'), by]);
-                applySettings(by);
+                applySettings(rec, by);
             }
         },
 
@@ -379,7 +384,7 @@ define([
             this.arrAdd = [];
             this.arrRem = [];
 
-            this.mathStore.remove(this.mathStore.where({defaultValue: undefined}));
+            this.mathStore.remove(this.mathStore.findWhere({defaultValue: undefined}));
             this.mathStore.each(function(item, index){
                 item.set('by', item.get('defaultValueStr'));
                 item.set('defaultDisabled', false);
