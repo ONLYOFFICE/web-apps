@@ -225,49 +225,48 @@ define([
             this.cmbBulletFormat.selectRecord(rec);
             this.bulletProps = {symbol: rec.get('symbol'), font: rec.get('font')};
             this.cmbBulletFormat.on('selected', _.bind(function (combo, record) {
-                if (this._changedProps) {
-                    if (record.value === 1) {
-                        var me = this,
-                            props = me.bulletProps,
-                            handler = function(dlg, result, settings) {
-                                if (result == 'ok') {
-                                    props.changed = true;
-                                    props.code = settings.code;
-                                    props.font = settings.font;
-                                    props.symbol = settings.symbol;
-                                    if (me._changedProps) {
-                                        me._changedProps.asc_putFont(props.font);
-                                        me._changedProps.asc_putSymbol(props.symbol);
-                                    }
+                if (record.value === 1) {
+                    var me = this,
+                        props = me.bulletProps,
+                        handler = function(dlg, result, settings) {
+                            if (result == 'ok') {
+                                props.changed = true;
+                                props.code = settings.code;
+                                props.font = settings.font;
+                                props.symbol = settings.symbol;
+                                if (me._changedProps) {
+                                    me._changedProps.asc_putFont(props.font);
+                                    me._changedProps.asc_putSymbol(props.symbol);
                                 }
-                                var store = combo.store;
-                                if (!store.findWhere({value: 0, symbol: props.symbol, font: props.font}))
-                                    store.add({ displayValue: me.txtSymbol + ': ', value: 0, symbol: props.symbol, font: props.font }, {at: store.length-1});
-                                combo.setData(store.models);
-                                combo.selectRecord(combo.store.findWhere({value: 0, symbol: props.symbol, font: props.font}));
-                            },
-                            win = new Common.Views.SymbolTableDialog({
-                                api: me.options.api,
-                                lang: me.options.interfaceLang,
-                                modal: true,
-                                type: 0,
-                                font: props.font,
-                                symbol: props.symbol,
-                                handler: handler
-                            });
-                        win.show();
-                        win.on('symbol:dblclick', handler);
-                    } else if (record.value == -1) {
+                            }
+                            var store = combo.store;
+                            if (!store.findWhere({value: 0, symbol: props.symbol, font: props.font}))
+                                store.add({ displayValue: me.txtSymbol + ': ', value: 0, symbol: props.symbol, font: props.font }, {at: store.length-1});
+                            combo.setData(store.models);
+                            combo.selectRecord(combo.store.findWhere({value: 0, symbol: props.symbol, font: props.font}));
+                        },
+                        win = new Common.Views.SymbolTableDialog({
+                            api: me.options.api,
+                            lang: me.options.interfaceLang,
+                            modal: true,
+                            type: 0,
+                            font: props.font,
+                            symbol: props.symbol,
+                            handler: handler
+                        });
+                    win.show();
+                    win.on('symbol:dblclick', handler);
+                } else if (record.value == -1) {
+                    if (this._changedProps)
                         this._changedProps.asc_putListType(0, record.value);
-                    } else {
-                        this.bulletProps.changed = true;
-                        this.bulletProps.code = record.code;
-                        this.bulletProps.font = record.font;
-                        this.bulletProps.symbol = record.symbol;
-                        if (this._changedProps) {
-                            this._changedProps.asc_putFont(this.bulletProps.font);
-                            this._changedProps.asc_putSymbol(this.bulletProps.symbol);
-                        }
+                } else {
+                    this.bulletProps.changed = true;
+                    this.bulletProps.code = record.code;
+                    this.bulletProps.font = record.font;
+                    this.bulletProps.symbol = record.symbol;
+                    if (this._changedProps) {
+                        this._changedProps.asc_putFont(this.bulletProps.font);
+                        this._changedProps.asc_putSymbol(this.bulletProps.symbol);
                     }
                 }
             }, this));
