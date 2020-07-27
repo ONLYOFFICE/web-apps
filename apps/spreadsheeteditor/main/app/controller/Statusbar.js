@@ -208,6 +208,7 @@ define([
                 statusbar = this.statusbar;
 
             statusbar.isEditFormula = disableAdd;
+            statusbar.tabbar && (statusbar.tabbar.isEditFormula = disableAdd);
             statusbar.btnZoomUp.setDisabled(disable);
             statusbar.btnZoomDown.setDisabled(disable);
             statusbar.labelZoom[disable?'addClass':'removeClass']('disabled');
