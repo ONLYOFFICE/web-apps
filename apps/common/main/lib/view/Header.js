@@ -117,7 +117,6 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
-                                    // '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
                                     '<label id="title-doc-name" />' +
                                 '</div>' +
                                 '<label id="title-user-name" style="pointer-events: none;"></label>' +
@@ -206,11 +205,21 @@ define([
         }
 
         function onAppShowed(config) {
-            if ( config.isCrypted && this.labelDocName ) {
-                this.labelDocName.before(
-                    '<div class="inner-box-icon crypted">' +
-                        '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
-                    '</div>');
+            if ( this.labelDocName ) {
+                if ( config.isCrypted ) {
+                    this.labelDocName.before(
+                        '<div class="inner-box-icon crypted">' +
+                            '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
+                        '</div>');
+                }
+
+                var $tools = this.btnSave.$el.parent('#header-tools');
+                var _left_width = $tools.prev().outerWidth() + $tools.outerWidth(),
+                    _right_width = this.labelUserName.outerWidth();
+
+                if ( _left_width < _right_width )
+                    this.labelDocName.parent().css('padding-left', _right_width - _left_width);
+                else this.labelDocName.parent().css('padding-right', _left_width - _right_width);
             }
         }
 
