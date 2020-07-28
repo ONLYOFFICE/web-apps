@@ -565,7 +565,7 @@ define([
             }
         },
 
-        scrollToRecord: function (record) {
+        scrollToRecord: function (record, force) {
             if (!record) return;
             var innerEl = $(this.el).find('.inner'),
                 inner_top = innerEl.offset().top,
@@ -576,7 +576,7 @@ define([
             var div_top = div.offset().top,
                 div_first = $(this.dataViewItems[0].el),
                 div_first_top = (div_first.length>0) ? div_first[0].clientTop : 0;
-            if (div_top < inner_top + div_first_top || div_top+div.outerHeight()*0.9 > inner_top + div_first_top + innerEl.height()) {
+            if (force || div_top < inner_top + div_first_top || div_top+div.outerHeight()*0.9 > inner_top + div_first_top + innerEl.height()) {
                 if (this.scroller && this.allowScrollbar) {
                     this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top, 0);
                 } else {

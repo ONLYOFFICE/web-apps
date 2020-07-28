@@ -48,11 +48,15 @@ define([
     Common.Views.AutoCorrectDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 448,
+            height: 444,
             cls: 'modal-dlg',
             buttons: null
         },
 
         initialize : function(options) {
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
             _.extend(this.options, {
                 title: this.textTitle
             }, options || {});
@@ -62,14 +66,19 @@ define([
                     '<div id="symbol-table-pnl-special">',
                         '<table cols="1" style="width: 100%;">',
                             '<tr>',
-                                '<td style="padding-bottom: 8px;">',
+                                '<td style="padding-bottom: 16px;">',
                                     '<label style="font-weight: bold;">' + this.textMathCorrect + '</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
+                                '<td style="padding-bottom: 8px;">',
+                                    '<div id="auto-correct-chb-replace-type"></div>',
+                                '</td>',
+                            '</tr>',
+                            '<tr>',
                                 '<td>',
-                                    '<label style="width: 117px;">' + this.textReplace + '</label>',
-                                    '<label>' + this.textBy + '</label>',
+                                    '<label style="width: 117px;">' + this.textReplace + ':</label>',
+                                    '<label>' + this.textBy + ':</label>',
                                 '</td>',
                             '</tr>',
                             '<tr>',
@@ -79,8 +88,15 @@ define([
                                 '</td>',
                             '</tr>',
                             '<tr>',
-                                '<td>',
-                                    '<div id="auto-correct-math-list" class="" style="width:100%; height: 254px;"></div>',
+                                '<td style="padding-bottom: 8px;">',
+                                    '<div id="auto-correct-math-list" class="" style="width:100%; height: 208px;"></div>',
+                                '</td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td style="padding-bottom: 8px;">',
+                                    '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 100px;">' + this.textResetAll + '</button>',
+                                    '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-delete" style="min-width: 100px;float: right;">' + this.textDelete + '</button>',
+                                    '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-edit" style="min-width: 100px;float: right;margin-right:5px;">' + this.textAdd+ '</button>',
                                 '</td>',
                             '</tr>',
                         '</table>',
@@ -92,7 +108,14 @@ define([
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
-            this.props = this.options.props || [];
+            this.mathStore = this.options.mathStore || new Common.UI.DataViewStore();
+            this.api = this.options.api;
+
+            var path = this.appPrefix + "settings-math-correct";
+            var value = Common.Utils.InternalSettings.get(path + "-add");
+            this.arrAdd = value ? JSON.parse(value) : [];
+            value = Common.Utils.InternalSettings.get(path + "-rem");
+            this.arrRem = value ? JSON.parse(value) : [];
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -103,16 +126,29 @@ define([
             var $window = this.getChild();
             var me = this;
 
+            this.chReplaceType = new Common.UI.CheckBox({
+                el: $window.findById('#auto-correct-chb-replace-type'),
+                labelText: this.textReplaceType,
+                value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-math-correct-replace-type")
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()==='checked');
+                Common.localStorage.setBool(me.appPrefix + "settings-math-correct-replace-type", checked);
+                Common.Utils.InternalSettings.set(me.appPrefix + "settings-math-correct-replace-type", checked);
+                me.api.asc_updateFlagAutoCorrectMathSymbols(checked);
+            });
+
+            this.onInitList();
+
             // special
             this.mathList = new Common.UI.ListView({
                 el: $window.find('#auto-correct-math-list'),
-                store: new Common.UI.DataViewStore(this.props),
-                simpleAddMode: true,
+                store: new Common.UI.DataViewStore(this.mathStore.slice(0, 9)),
+                simpleAddMode: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
-                        '<div style="min-width:110px;padding-right: 5px;"><%= replaced %></div>',
-                        '<div style="flex-grow:1;font-family: Cambria Math;font-size:13px;"><%= by %></div>',
+                        '<div style="min-width:110px;padding-right: 5px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
+                        '<div style="flex-grow:1;font-family: Cambria Math;font-size:13px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
                     '</div>'
                 ].join('')),
                 scrollAlwaysVisible: true
@@ -125,22 +161,24 @@ define([
                 validateOnChange : true,
                 validation       : function () { return true; }
             }).on ('changing', function (input, value) {
+                var _selectedItem;
                 if (value.length) {
                     var store = me.mathList.store;
-                    var _selectedItem = store.find(function(item) {
+                    _selectedItem = store.find(function(item) {
                         if ( item.get('replaced').indexOf(value) == 0) {
                             return true;
                         }
                     });
                     if (_selectedItem) {
-                        me.mathList.selectRecord(_selectedItem, true);
-                        me.mathList.scrollToRecord(_selectedItem);
-                    } else {
-                        me.mathList.deselectAll();
+                        me.mathList.scrollToRecord(_selectedItem, true);
+                        if (_selectedItem.get('replaced') == value)
+                            me.mathList.selectRecord(_selectedItem, true);
+                        else
+                            _selectedItem = null;
                     }
-                } else {
-                    me.mathList.deselectAll();
                 }
+                (!_selectedItem) && me.mathList.deselectAll();
+                me.updateControls(_selectedItem);
             });
 
             this.inputReplace.cmpEl.find('input').on('keydown', function(event){
@@ -162,15 +200,57 @@ define([
                 allowBlank       : true,
                 validateOnChange : true,
                 validation       : function () { return true; }
+            }).on ('changing', function (input, value) {
+                me.updateControls();
             });
             // this.inputBy.cmpEl.find('input').css('font-size', '13px');
+
+            this.btnReset = new Common.UI.Button({
+                el: $('#auto-correct-btn-reset')
+            });
+            this.btnReset.on('click', _.bind(this.onResetToDefault, this));
+
+            this.btnEdit = new Common.UI.Button({
+                el: $('#auto-correct-btn-edit')
+            });
+            this.btnEdit.on('click', _.bind(this.onEdit, this, false));
+
+            this.btnDelete = new Common.UI.Button({
+                el: $('#auto-correct-btn-delete')
+            });
+            this.btnDelete.on('click', _.bind(this.onDelete, this, false));
+
+            this.updateControls();
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
 
         onSelectMathItem: function(lisvView, itemView, record) {
-            this.inputReplace.setValue(record.get('replaced'));
-            this.inputBy.setValue(record.get('by'));
+            if (record) {
+                this.inputReplace.setValue(record.get('replaced'));
+                this.inputBy.setValue(record.get('by'));
+            }
+            this.updateControls(record);
+        },
+
+        updateControls: function(rec) {
+            if (!this.mathList) return;
+
+            rec = rec || this.mathList.getSelectedRec();
+            var inputBy = this.inputBy.getValue(),
+                inputReplace = this.inputReplace.getValue();
+            if (rec) {
+                var disabled = rec.get('defaultDisabled'),
+                    defChanged = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'));
+                this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
+                this.btnEdit.setDisabled(disabled || inputBy === rec.get('by') && !defChanged || !inputBy || !inputReplace);
+                this.btnEdit.setCaption(defChanged && (inputBy === rec.get('by')) ? this.textReset : this.textReplace);
+            } else {
+                this.btnDelete.setCaption(this.textDelete);
+                this.btnEdit.setDisabled(!inputBy || !inputReplace);
+                this.btnEdit.setCaption(this.textAdd);
+            }
+            this.btnDelete.setDisabled(!rec);
         },
 
         show: function() {
@@ -179,7 +259,17 @@ define([
             var me = this;
             _.delay(function(){
                 $('input', me.inputReplace.cmpEl).select().focus();
+            },50);
+
+            _.delay(function(){
+                me.mathList.setStore(me.mathStore);
+                me.mathList.onResetItems();
             },100);
+        },
+
+        close: function() {
+            Common.UI.Window.prototype.close.apply(this, arguments);
+            this.mathList && this.mathList.deselectAll();
         },
 
         onBtnClick: function(event) {
@@ -190,10 +280,187 @@ define([
             return true;
         },
 
+        onDelete: function() {
+            var rec = this.mathList.getSelectedRec();
+            if (rec) {
+                if (rec.get('defaultValue')) {
+                    var path = this.appPrefix + "settings-math-correct-rem";
+                    var disabled = !rec.get('defaultDisabled');
+                    rec.set('defaultDisabled', disabled);
+                    if (disabled)
+                        this.arrRem.push(rec.get('replaced'));
+                    else
+                        this.arrRem.splice(this.arrRem.indexOf(rec.get('replaced')), 1);
+                    var val = JSON.stringify(this.arrRem);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
+                } else {
+                    this.mathStore.remove(rec);
+                }
+                this.updateControls();
+                this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));
+            }
+        },
+
+        onEdit: function() {
+            var rec = this.mathList.getSelectedRec(),
+                by = '',
+                me = this,
+                applySettings = function(record, by) {
+                    var path = me.appPrefix + "settings-math-correct-add";
+                    var val = JSON.stringify(me.arrAdd);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    me.api.asc_AddOrEditFromAutoCorrectMathSymbols(record.get('replaced'), by);
+                    me.mathList.selectRecord(record);
+                    me.mathList.scrollToRecord(record);
+                };
+            if (!rec) {
+                rec = this.mathStore.findWhere({replaced: this.inputReplace.getValue()})
+            }
+            if (rec) {
+                var idx = _.findIndex(this.arrAdd, function(item){return (item[0]==rec.get('replaced'));});
+                var restore = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by')) && (this.inputBy.getValue() === rec.get('by'));
+                Common.UI.warning({
+                    maxwidth: 500,
+                    msg: restore ? this.warnRestore.replace('%1', rec.get('replaced')) : this.warnReplace.replace('%1', rec.get('replaced')),
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    callback: _.bind(function(btn, dontshow){
+                        if (btn == 'yes') {
+                            if (restore) {// reset to default
+                                by = rec.get('defaultValue');
+                                rec.set('by', rec.get('defaultValueStr'));
+                                (idx>=0) && this.arrAdd.splice(idx, 1);
+                            } else { // replace
+                                by = this.inputBy.getValue();
+                                rec.set('by', by);
+                                if (idx<0)
+                                    this.arrAdd.push([rec.get('replaced'), by]);
+                                else
+                                    this.arrAdd[idx][1] = by;
+                            }
+                            applySettings(rec, by);
+                        }
+                    }, this)
+                });
+
+            } else {
+                rec = this.mathStore.add({
+                    replaced: this.inputReplace.getValue(),
+                    by: this.inputBy.getValue(),
+                    defaultDisabled: false
+                });
+                by = rec.get('by');
+                this.arrAdd.push([rec.get('replaced'), by]);
+                applySettings(rec, by);
+            }
+        },
+
+        onResetToDefault: function() {
+            Common.UI.warning({
+                maxwidth: 500,
+                msg: this.warnReset,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: _.bind(function(btn, dontshow){
+                    if (btn == 'yes') {
+                        this.api.asc_resetToDefaultAutoCorrectMathSymbols();
+                        this.onResetList();
+                    }
+                }, this)
+            });
+        },
+
+        onResetList: function() {
+            // remove storage data
+            var path = this.appPrefix + "settings-math-correct";
+            var val = JSON.stringify([]);
+            Common.Utils.InternalSettings.set(path + "-add", val);
+            Common.localStorage.setItem(path + "-add", val);
+            Common.Utils.InternalSettings.set(path + "-rem", val);
+            Common.localStorage.setItem(path + "-rem", val);
+            this.arrAdd = [];
+            this.arrRem = [];
+
+            this.mathStore.remove(this.mathStore.findWhere({defaultValue: undefined}));
+            this.mathStore.each(function(item, index){
+                item.set('by', item.get('defaultValueStr'));
+                item.set('defaultDisabled', false);
+            });
+            this.mathList.deselectAll();
+            if (this.mathList.scroller) {
+                this.mathList.scroller.update();
+                this.mathList.scroller.scrollTop(0);
+            }
+            this.updateControls();
+        },
+
+        onInitList: function() {
+            if (this.mathStore.length>0) return;
+
+            this.mathStore.comparator = function(item1, item2) {
+                var n1 = item1.get('replaced').toLowerCase(),
+                    n2 = item2.get('replaced').toLowerCase();
+                if (n1==n2) return 0;
+                return (n1<n2) ? -1 : 1;
+            };
+
+            var arrAdd = this.arrAdd,
+                arrRem = this.arrRem;
+
+            var arr = (this.api) ? this.api.asc_getAutoCorrectMathSymbols() : [],
+                data = [];
+            _.each(arr, function(item, index){
+                var itm = {
+                    replaced: item[0],
+                    defaultValue: item[1],
+                    defaultDisabled: arrRem.indexOf(item[0])>-1
+                };
+                if (typeof item[1]=='object') {
+                    itm.defaultValueStr = '';
+                    _.each(item[1], function(ch){
+                        itm.defaultValueStr += Common.Utils.String.encodeSurrogateChar(ch);
+                    });
+                    itm.by = itm.defaultValueStr;
+                } else {
+                    itm.by = itm.defaultValueStr = Common.Utils.String.encodeSurrogateChar(item[1]);
+                }
+                data.push(itm);
+            });
+
+            var dataAdd = [];
+            _.each(arrAdd, function(item, index){
+                var idx = _.findIndex(data, {replaced: item[0]});
+                if (idx<0) {
+                    dataAdd.push({
+                        replaced: item[0],
+                        by: item[1],
+                        defaultDisabled: false
+                    });
+                } else {
+                    var changed = data[idx];
+                    changed.by = item[1];
+                }
+            });
+            this.mathStore.reset(data.concat(dataAdd));
+            this.updateControls();
+        },
+
         textTitle: 'AutoCorrect',
         textMathCorrect: 'Math AutoCorrect',
-        textReplace: 'Replace:',
-        textBy: 'By:'
+        textReplace: 'Replace',
+        textBy: 'By',
+        textResetAll: 'Reset to default',
+        textAdd: 'Add',
+        textDelete: 'Delete',
+        textRestore: 'Restore',
+        textReset: 'Reset',
+        textReplaceType: 'Replace text as you type',
+        warnReset: 'Any autocorrect you added will be removed and the changed ones will be restored to their original values. Do you want to continue?',
+        warnReplace: 'The autocorrect entry for %1 already exists. Do you want to replace it?',
+        warnRestore: 'The autocorrect entry for %1 will be reset to its original value. Do you want to continue?'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });

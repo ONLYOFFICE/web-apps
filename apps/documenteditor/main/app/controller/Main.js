@@ -1054,6 +1054,18 @@ define([
                     Common.Utils.InternalSettings.set("de-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
+                    // autocorrection
+                    value = Common.localStorage.getItem("de-settings-math-correct-add");
+                    Common.Utils.InternalSettings.set("de-settings-math-correct-add", value);
+                    var arrAdd = value ? JSON.parse(value) : [];
+                    value = Common.localStorage.getItem("de-settings-math-correct-rem");
+                    Common.Utils.InternalSettings.set("de-settings-math-correct-rem", value);
+                    var arrRem = value ? JSON.parse(value) : [];
+                    value = Common.localStorage.getBool("de-settings-math-correct-replace-type", true); // replace on type
+                    Common.Utils.InternalSettings.set("de-settings-math-correct-replace-type", value);
+
+                    me.api.asc_refreshOnStartAutoCorrectMathSymbols(arrRem, arrAdd, value);
+
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
                     var timer_sl = setInterval(function(){
