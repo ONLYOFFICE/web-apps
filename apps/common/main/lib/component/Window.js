@@ -803,7 +803,7 @@ define([
                         }
                     }
 
-                    Common.NotificationCenter.trigger('modal:close', this);
+                    Common.NotificationCenter.trigger('modal:close', this, hide_mask);
                 }
 
                 this.$window.remove();
@@ -843,7 +843,7 @@ define([
                                 }
                             }
                         }
-                        Common.NotificationCenter.trigger('modal:hide', this);
+                        Common.NotificationCenter.trigger('modal:hide', this, hide_mask);
                     }
                     this.$window.hide();
                     this.$window.removeClass('notransform');
