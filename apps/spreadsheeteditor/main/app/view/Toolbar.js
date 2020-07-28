@@ -1718,19 +1718,19 @@ define([
                         {
                             caption     : this.textInsideBorders,
                             iconCls     : 'menu__icon btn-border-inside',
-                            icls        : 'btn-border-center',
+                            icls        : 'btn-border-inside',
                             borderId    : 'inner'
                         },
                         {
                             caption     : this.textCenterBorders,
                             iconCls     : 'menu__icon btn-border-insidevert',
-                            icls        : 'btn-border-vmiddle',
+                            icls        : 'btn-border-insidevert',
                             borderId    : Asc.c_oAscBorderOptions.InnerV
                         },
                         {
                             caption     : this.textMiddleBorders,
                             iconCls     : 'menu__icon btn-border-insidehor',
-                            icls        : 'btn-border-hmiddle',
+                            icls        : 'btn-border-insidehor',
                             borderId    : Asc.c_oAscBorderOptions.InnerH
                         },
                         {
