@@ -53,7 +53,6 @@ define([
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers;
-        var $saveStatus;
         var _readonlyRights = false;
 
         var templateUserItem =
@@ -77,7 +76,6 @@ define([
                                 // '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
                                 '<label id="rib-doc-name" />' +
                             '</section>' +
-                            '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<section style="display: inherit;">' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
@@ -273,17 +271,6 @@ define([
                 $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
             }
 
-            if ( $saveStatus ) {
-                $saveStatus.attr('data-width', me.textSaveExpander);
-                if (appConfig.canUseHistory) {
-                    // $saveStatus.on('click', function(e) {
-                    //     me.fireEvent('history:show', ['header']);
-                    // });
-                } else {
-                    $saveStatus.addClass('locked');
-                }
-            }
-
             if ( me.btnPrint ) {
                 me.btnPrint.updateHint(me.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
                 me.btnPrint.on('click', function (e) {
@@ -456,8 +443,7 @@ define([
                 if ( role == 'right' ) {
                     var $html = $(_.template(templateRightBox)({
                         tipUsers: this.labelCoUsersDescr,
-                        txtAccessRights: this.txtAccessRights,
-                        textSaveEnd: this.textSaveEnd
+                        txtAccessRights: this.txtAccessRights
                     }));
 
                     if ( !me.labelDocName ) {
@@ -472,10 +458,6 @@ define([
                     if ( !_.isUndefined(this.options.canRename) ) {
                         this.setCanRename(this.options.canRename);
                     }
-
-                    // $saveStatus = $html.find('#rib-save-status');
-                    $html.find('#rib-save-status').hide();
-                    // if ( config.isOffline ) $saveStatus = false;
 
                     if ( this.options.canBack === true ) {
                         me.btnGoBack.render($html.find('#slot-btn-back'));
@@ -635,21 +617,6 @@ define([
                 }
             },
 
-            setSaveStatus: function (status) {
-                if ( $saveStatus ) {
-                    if ( $saveStatus.is(':hidden') ) $saveStatus.show();
-
-                    var _text;
-                    switch ( status ) {
-                    case 'begin': _text = this.textSaveBegin; break;
-                    case 'changed': _text = this.textSaveChanged; break;
-                    default: _text = this.textSaveEnd;
-                    }
-
-                    $saveStatus.text( _text );
-                }
-            },
-
             setUserName: function(name) {
                 if ( !!this.labelUserName ) {
                     if ( !!name ) {
@@ -707,10 +674,6 @@ define([
 
             textBack: 'Go to Documents',
             txtRename: 'Rename',
-            textSaveBegin: 'Saving...',
-            textSaveEnd: 'All changes saved',
-            textSaveChanged: 'Modified',
-            textSaveExpander: 'All changes saved',
             txtAccessRights: 'Change access rights',
             tipAccessRights: 'Manage document access rights',
             labelCoUsersDescr: 'Document is currently being edited by several users.',
