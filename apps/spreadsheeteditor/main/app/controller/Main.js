@@ -774,7 +774,8 @@ define([
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
-                    pluginsController.setApi(me.api);
+                     pluginsController.setApi(me.api);
+                     this.api && this.api.asc_setFrozenPaneBorderType(Common.localStorage.getBool('sse-freeze-shadow') ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
                  }
 
                 leftMenuView.disableMenu('all',false);
