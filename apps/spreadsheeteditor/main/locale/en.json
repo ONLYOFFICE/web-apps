@@ -1203,6 +1203,7 @@
   "SSE.Controllers.Toolbar.txtInsertCells": "Insert Cells",
   "SSE.Controllers.Toolbar.txtDeleteCells": "Delete Cells",
   "SSE.Controllers.Viewport.textFreezePanes": "Freeze Panes",
+  "SSE.Controllers.Viewport.textFreezePanesShadow:": "Show Freezed Panes Shadow",
   "SSE.Controllers.Viewport.textHideFBar": "Hide Formula Bar",
   "SSE.Controllers.Viewport.textHideGridlines": "Hide Gridlines",
   "SSE.Controllers.Viewport.textHideHeadings": "Hide Headings",
