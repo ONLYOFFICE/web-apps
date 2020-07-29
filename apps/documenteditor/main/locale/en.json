@@ -218,7 +218,7 @@
   "Common.Views.Header.tipRedo": "Redo",
   "Common.Views.Header.tipSave": "Save",
   "Common.Views.Header.tipUndo": "Undo",
-  "Common.Views.Header.tipUndock": "Undock into separate window",
+  "del_Common.Views.Header.tipUndock": "Undock into separate window",
   "Common.Views.Header.tipViewSettings": "View settings",
   "Common.Views.Header.tipViewUsers": "View users and manage document access rights",
   "Common.Views.Header.txtAccessRights": "Change access rights",

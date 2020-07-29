@@ -99,7 +99,6 @@ define([
                                     '</section>'+
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot" id="slot-btn-undock"></div>' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
                                 '</div>' +
@@ -334,21 +333,6 @@ define([
         }
 
         function onAppConfig(config) {
-            var me = this;
-            if ( config.canUndock ) {
-                me.btnUndock = new Common.UI.Button({
-                    cls: 'btn-header no-caret',
-                    iconCls: 'svgicon svg-btn-undock',
-                    hint: me.tipUndock,
-                    split: true
-                });
-
-                me.btnUndock.on('click', function (e) {
-                    Common.NotificationCenter.trigger('action:undocking', 'undock');
-                });
-
-                me.btnUndock.render($('#toolbar .box-tabs #slot-btn-undock'));
-            }
         }
 
         function onDocNameKeyDown(e) {
@@ -382,13 +366,6 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
-            }
-        }
-
-        function onAppUndocked(c) {
-            var me = this;
-            if ( me.btnUndock ) {
-                c.status == 'undocked' ? me.btnUndock.hide() : me.btnUndock.show();
             }
         }
 
@@ -442,8 +419,7 @@ define([
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
-                    'app:config' : function (c) {Common.Utils.asyncCall(onAppConfig, me, c);},
-                    'undock:status': onAppUndocked.bind(this)
+                    'app:config' : function (c) {Common.Utils.asyncCall(onAppConfig, me, c);}
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
             },
@@ -745,7 +721,6 @@ define([
             tipSave: 'Save',
             tipUndo: 'Undo',
             tipRedo: 'Redo',
-            tipUndock: 'Undock',
             textCompactView: 'Hide Toolbar',
             textHideStatusBar: 'Hide Status Bar',
             textHideLines: 'Hide Rulers',
