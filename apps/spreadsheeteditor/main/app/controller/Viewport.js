@@ -238,7 +238,7 @@ define([
                 me.header.mnuitemFreezePanesShadow = new Common.UI.MenuItem({
                     caption     : me.textFreezePanesShadow,
                     checkable   : true,
-                    checked     : Common.localStorage.getBool('sse-freeze-shadow'),
+                    checked     : Common.localStorage.getBool('sse-freeze-shadow', true),
                     value       : 'freezepanesshadow'
                 });
 
