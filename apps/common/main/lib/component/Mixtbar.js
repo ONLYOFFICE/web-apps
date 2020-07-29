@@ -462,8 +462,10 @@ define([
             },
 
             setVisible: function (tab, visible) {
-                if ( tab && this.$tabs )
+                if ( tab && this.$tabs ) {
                     this.$tabs.find('> a[data-tab=' + tab + ']').parent().css('display', visible ? '' : 'none');
+                    this.onResize();
+                }
             }
         };
     }()));
