@@ -65,18 +65,19 @@ define([
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<label class="header">', me.textLocation,'</label>',
+                                            '<label class="header">', me.textLocation,'</label>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td class="padding-large">',
-                                            '<label class="input-label" style="margin-top: 4px;">', me.textFootnote,'</label>',
+                                        '<td class="padding-small">',
+                                            '<div id="note-settings-radio-foot" style="margin-top: 4px;display: inline-block"></div>',
                                             '<div id="note-settings-combo-footnote" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td>',
-                                            '<div class="padding-large"></div>',
+                                        '<td class="padding-large">',
+                                            '<div id="note-settings-radio-end" style="margin-top: 4px;display: inline-block"></div>',
+                                            '<div id="note-settings-combo-endnote" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -108,11 +109,6 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td>',
-                                            '<div class="padding-large"></div>',
-                                        '</td>',
-                                    '</tr>',
-                                    '<tr>',
                                         '<td class="padding-small">',
                                             '<label class="header" style="margin-top: 4px;">', me.textApplyTo,'</label>',
                                             '<div id="note-settings-combo-apply" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
@@ -133,16 +129,49 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this.isEndNote  = options.isEndNote || false;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
-            this.FormatType = 1;
-            this.StartValue = 1;
+            this._state = {
+                footnote: {
+                    numbering: Asc.c_oAscFootnoteRestart.Continuous,
+                    format: Asc.c_oAscNumberingFormat.Decimal,
+                    start: 1
+                },
+                endnote: {
+                    numbering: Asc.c_oAscFootnoteRestart.Continuous,
+                    format: Asc.c_oAscNumberingFormat.LowerRoman,
+                    start: 1
+                }};
         },
 
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
+
+            this.radioFootnote = new Common.UI.RadioBox({
+                el: $('#note-settings-radio-foot'),
+                name: 'asc-radio-notes',
+                labelText: this.textFootnote,
+                checked: true
+            });
+            this.radioFootnote.on('change', function(field, newValue, eOpts) {
+                if (newValue) {
+                    me.changeNoteType(false);
+                }
+            });
+
+            this.radioEndnote = new Common.UI.RadioBox({
+                el: $('#note-settings-radio-end'),
+                labelText: this.textEndnote,
+                name: 'asc-radio-notes'
+            });
+            this.radioEndnote.on('change', function(field, newValue, eOpts) {
+                if (newValue) {
+                    me.changeNoteType(true);
+                }
+            });
 
             this.cmbFootnote = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-footnote'),
@@ -155,6 +184,18 @@ define([
                 ]
             });
             this.cmbFootnote.setValue(Asc.c_oAscFootnotePos.PageBottom);
+
+            this.cmbEndnote = new Common.UI.ComboBox({
+                el: $('#note-settings-combo-endnote'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 150px;',
+                editable: false,
+                data: [
+                    { displayValue: this.textSectEnd,   value: Asc.c_oAscFootnotePos.SectEnd },
+                    { displayValue: this.textPageBottom,   value: Asc.c_oAscFootnotePos.PageBottom }
+                ]
+            });
+            this.cmbEndnote.setValue(Asc.c_oAscFootnotePos.PageBottom);
 
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-format'),
@@ -169,10 +210,9 @@ define([
                     { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman, maskExp: /[IVXLCDM]/, defValue: 'I' }
                 ]
             });
-            this.cmbFormat.setValue(this.FormatType);
+            this.cmbFormat.setValue(this._state.footnote.format);
             this.cmbFormat.on('selected', _.bind(this.onFormatSelect, this));
 
-            // this.spnStart = new Common.UI.MetricSpinner({
             this.spnStart = new Common.UI.CustomSpinner({
                 el: $('#note-settings-spin-start'),
                 step: 1,
@@ -185,16 +225,17 @@ define([
                 maskExp: /[0-9]/
             });
 
+            this._arrNumbering = [
+                { displayValue: this.textContinue,   value: Asc.c_oAscFootnoteRestart.Continuous },
+                { displayValue: this.textEachSection,   value: Asc.c_oAscFootnoteRestart.EachSect },
+                { displayValue: this.textEachPage,   value: Asc.c_oAscFootnoteRestart.EachPage }
+            ];
             this.cmbNumbering = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-numbering'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 150px;',
                 editable: false,
-                data: [
-                    { displayValue: this.textContinue,   value: Asc.c_oAscFootnoteRestart.Continuous },
-                    { displayValue: this.textEachSection,   value: Asc.c_oAscFootnoteRestart.EachSect },
-                    { displayValue: this.textEachPage,   value: Asc.c_oAscFootnoteRestart.EachPage }
-                ]
+                data: this._arrNumbering
             });
             this.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.Continuous);
 
@@ -239,9 +280,13 @@ define([
         },
 
         _setDefaults: function (props) {
+
+            this.isEndNote ? this.radioEndnote.setValue(true, true) : this.radioFootnote.setValue(true, true);
+            this.changeNoteType(this.isEndNote);
+
             if (props) {
                 var val = props.get_Pos();
-                this.cmbFootnote.setValue(val);
+                this.isEndNote ? this.cmbEndnote.setValue(val) : this.cmbFootnote.setValue(val);
 
                 val = props.get_NumFormat();
                 this.cmbFormat.setValue(val);
@@ -258,7 +303,7 @@ define([
         getSettings: function () {
             var props   = new Asc.CAscFootnotePr();
 
-            props.put_Pos(this.cmbFootnote.getValue());
+            props.put_Pos(this.isEndNote ? this.cmbEndnote.getValue() : this.cmbFootnote.getValue());
             props.put_NumRestart(this.cmbNumbering.getValue());
 
             var val = this.txtCustom.getValue();
@@ -268,7 +313,7 @@ define([
                 props.put_NumStart(this.spnStart.getNumberValue());
             }
 
-            return {props: props, applyToAll: (this.cmbApply.getValue()==1), custom: _.isEmpty(val) ? undefined : val};
+            return {props: props, applyToAll: (this.cmbApply.getValue()==1), custom: _.isEmpty(val) ? undefined : val, isEndNote: this.isEndNote};
         },
 
         onDlgBtnClick: function(event) {
@@ -315,7 +360,7 @@ define([
             }
 
             this.spnStart.setValue(this.spnStart.getValue());
-            this.FormatType = record.value;
+            this._state[this.isEndNote ? 'endnote' : 'footnote'].format = record.value;
         },
 
         _10toS: function(value) {
@@ -411,6 +456,26 @@ define([
             return result;
         },
 
+        changeNoteType: function(isEndNote) {
+            this._state[this.isEndNote ? 'endnote' : 'footnote'].start = this.spnStart.getNumberValue(); // save prev start
+            this._state[this.isEndNote ? 'endnote' : 'footnote'].numbering = this.cmbNumbering.getValue(); // save prev numbering
+
+            this.isEndNote = isEndNote;
+
+            this.cmbFootnote.setDisabled(isEndNote);
+            this.cmbEndnote.setDisabled(!isEndNote);
+
+            var state = this._state[isEndNote ? 'endnote' : 'footnote'],
+                arr = isEndNote ? this._arrNumbering.slice(0,2) : this._arrNumbering;
+            this.cmbNumbering.setData(arr);
+            this.cmbNumbering.setValue(state.numbering);
+
+            this.cmbFormat.setValue(state.format);
+            this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord());
+
+            this.spnStart.setValue(state.start);
+        },
+
         textTitle:    'Notes Settings',
         textLocation: 'Location',
         textFootnote: 'Footnote',
@@ -428,7 +493,9 @@ define([
         textSection: 'Current section',
         textApply: 'Apply',
         textInsert: 'Insert',
-        textCustom: 'Custom Mark'
+        textCustom: 'Custom Mark',
+        textSectEnd: 'End of section',
+        textEndnote: 'Endnote'
 
     }, DE.Views.NoteSettingsDialog || {}))
 });
