@@ -352,19 +352,14 @@ module.exports = function(grunt) {
                 help: {
                     files: packageFile['main']['copy']['help']
                 },
-                'index-page': {
-                    files: packageFile['main']['copy']['index-page']
+                indexhtml: {
+                    files: packageFile['main']['copy']['indexhtml']
                 }
             },
 
             inline: {
-                'index-page': {
-                    src: packageFile.main.copy['index-page'][0].dest,
-                    dest: packageFile.main.copy['index-page'][0].dest
-                },
-                'old-loader-page': {
-                    src: packageFile.main.copy['index-page'][1].dest,
-                    dest: packageFile.main.copy['index-page'][1].dest
+                dist: {
+                    src: '<%= pkg.main.copy.indexhtml[0].dest %>/*.html'
                 }
             },
 
@@ -594,7 +589,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-es6-promise',            ['es6-promise-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
-                                                            'requirejs', 'concat', 'copy', 'svgmin', 'inline:index-page', 'inline:old-loader-page', 'json-minify',
+                                                            'requirejs', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
