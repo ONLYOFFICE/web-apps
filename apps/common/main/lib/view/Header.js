@@ -78,30 +78,32 @@ define([
                                 '<label id="rib-doc-name" />' +
                             '</section>' +
                             '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
-                            '<div class="hedset">' +
-                                '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
-                                '<div class="btn-slot" id="slot-hbtn-print"></div>' +
-                                '<div class="btn-slot" id="slot-hbtn-download"></div>' +
-                            '</div>' +
-                            '<div class="hedset">' +
-                                // '<span class="btn-slot text" id="slot-btn-users"></span>' +
-                                '<section id="tlb-box-users" class="box-cousers dropdown"">' +
-                                    '<div class="btn-users">' +
-                                        '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
-                                        '<label class="caption">&plus;</label>' +
-                                    '</div>' +
-                                    '<div class="cousers-menu dropdown-menu">' +
-                                        '<label id="tlb-users-menu-descr"><%= tipUsers %></label>' +
-                                        '<div class="cousers-list"></div>' +
-                                        '<label id="tlb-change-rights" class="link"><%= txtAccessRights %></label>' +
-                                    '</div>' +
-                                '</section>'+
-                            '</div>' +
-                            '<div class="hedset">' +
-                                '<div class="btn-slot" id="slot-btn-undock"></div>' +
-                                '<div class="btn-slot" id="slot-btn-back"></div>' +
-                                '<div class="btn-slot" id="slot-btn-options"></div>' +
-                            '</div>' +
+                            '<section style="display: inherit;">' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
+                                    '<div class="btn-slot" id="slot-hbtn-print"></div>' +
+                                    '<div class="btn-slot" id="slot-hbtn-download"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    // '<span class="btn-slot text" id="slot-btn-users"></span>' +
+                                    '<section id="tlb-box-users" class="box-cousers dropdown"">' +
+                                        '<div class="btn-users">' +
+                                            '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
+                                            '<label class="caption">&plus;</label>' +
+                                        '</div>' +
+                                        '<div class="cousers-menu dropdown-menu">' +
+                                            '<label id="tlb-users-menu-descr"><%= tipUsers %></label>' +
+                                            '<div class="cousers-list"></div>' +
+                                            '<label id="tlb-change-rights" class="link"><%= txtAccessRights %></label>' +
+                                        '</div>' +
+                                    '</section>'+
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-undock"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-back"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-options"></div>' +
+                                '</div>' +
+                            '</section>' +
                         '</section>';
 
         var templateLeftBox = '<section class="logo">' +
@@ -110,7 +112,7 @@ define([
 
         var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
-                                '<div class="hedset" id="header-tools">' +
+                                '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-dt-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
@@ -213,9 +215,9 @@ define([
                         '</div>');
                 }
 
-                var $tools = this.btnSave.$el.parent('#header-tools');
-                var _left_width = $tools.prev().outerWidth() + $tools.outerWidth(),
-                    _right_width = this.labelUserName.outerWidth();
+                var $parent = this.labelDocName.parent();
+                var _left_width = $parent.position().left,
+                    _right_width = $parent.next().outerWidth();
 
                 if ( _left_width < _right_width )
                     this.labelDocName.parent().css('padding-left', _right_width - _left_width);
@@ -241,34 +243,36 @@ define([
                     }
                 });
 
-            onResetUsers(storeUsers);
+            if ( $panelUsers ) {
+                onResetUsers(storeUsers);
 
-            $panelUsers.on('shown.bs.dropdown', function () {
-                $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
-            });
+                $panelUsers.on('shown.bs.dropdown', function () {
+                    $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+                });
 
-            $panelUsers.find('.cousers-menu')
-                .on('click', function(e) { return false; });
+                $panelUsers.find('.cousers-menu')
+                    .on('click', function(e) { return false; });
 
-            var editingUsers = storeUsers.getEditingCount();
-            $btnUsers.tooltip({
-                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
-                titleNorm: me.tipAccessRights,
-                titleExt: me.tipViewUsers,
-                placement: 'bottom',
-                html: true
-            });
+                var editingUsers = storeUsers.getEditingCount();
+                $btnUsers.tooltip({
+                    title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
+                    titleNorm: me.tipAccessRights,
+                    titleExt: me.tipViewUsers,
+                    placement: 'bottom',
+                    html: true
+                });
 
-            $btnUsers.on('click', onUsersClick.bind(me));
+                $btnUsers.on('click', onUsersClick.bind(me));
 
-            var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
-            $labelChangeRights.on('click', function(e) {
-                $panelUsers.removeClass('open');
-                Common.NotificationCenter.trigger('collaboration:sharing');
-            });
+                var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
+                $labelChangeRights.on('click', function(e) {
+                    $panelUsers.removeClass('open');
+                    Common.NotificationCenter.trigger('collaboration:sharing');
+                });
 
-            $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
-            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
+                $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
+                $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
+            }
 
             if ( $saveStatus ) {
                 $saveStatus.attr('data-width', me.textSaveExpander);
