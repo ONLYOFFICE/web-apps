@@ -77,7 +77,9 @@ define([
                 'Toolbar': {
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
-                        toolbar.setExtra('right', me.header.getPanel('right', config));
+                        if (!config.isEditDiagram && !config.isEditMailMerge)
+                            toolbar.setExtra('right', me.header.getPanel('right', config));
+
                         if (!config.isEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
