@@ -1,9 +1,0 @@
-<div class="views">
-    <div class="view view-main">
-        <div class="pages navbar-through">
-            <div data-page="index" class="page">
-                <div id="editor-container" class="page-content no-fastclick"><div id="editor_sdk" class="no-fastclick with-logo"></div></div>
-            </div>
-        </div>
-    </div>
-</div>
