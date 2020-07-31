@@ -38,7 +38,18 @@ if (Common.Utils === undefined) {
     Common.Utils = {};
 }
 
-Common.Utils = _.extend(new(function() {
+function _extend_object(dest, source) {
+    if ( typeof _ != "undefined" ) {
+        return _.extend({}, dest, source);
+    } else
+    if ( !!Object ) {
+        return Object.assign({}, dest, source);
+    }
+
+    return source;
+}
+
+var utils = new(function() {
     var userAgent = navigator.userAgent.toLowerCase(),
         check = function(regex){
             return regex.test(userAgent);
@@ -221,7 +232,9 @@ Common.Utils = _.extend(new(function() {
         croppedGeometry: function() {return {left:0, top: Common.Utils.InternalSettings.get('window-inactive-area-top'),
                                         width: me.innerWidth, height: me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top')}}
     }
-})(), Common.Utils || {});
+})();
+
+Common.Utils = _extend_object(Common.Utils, utils);
 
 Common.Utils.ThemeColor = new(function() {
     return {
@@ -306,7 +319,7 @@ Common.Utils.ThemeColor = new(function() {
     }
 })();
 
-Common.Utils.Metric = _.extend( new(function() {
+var metrics = new(function() {
     var me = this;
 
     me.c_MetricUnits = {
@@ -377,7 +390,9 @@ Common.Utils.Metric = _.extend( new(function() {
             return value;
         }
     }
-})(), Common.Utils.Metric || {});
+})();
+
+Common.Utils.Metric = _extend_object(Common.Utils.Metric, metrics);
 
 Common.Utils.RGBColor = function(colorString) {
     var r, g, b;
