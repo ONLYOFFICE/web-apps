@@ -1800,9 +1800,11 @@ define([
                         item.setChecked(checked, true);
                         if (checked) isCustomConditions = false;
                     });
-                else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo ||
-                                           cond1 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo)){
-                    items[6].setChecked(true, true); // between filter
+                else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo)){
+                    items[isPivot && !isValueFilter ? 13 : 6].setChecked(true, true); // between filter
+                    isCustomConditions = false;
+                } else if (isPivot && (cond1 == Asc.c_oAscCustomAutoFilter.isLessThan && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThan)) {
+                    items[!isValueFilter ? 14 : 7].setChecked(true, true); // not between filter
                     isCustomConditions = false;
                 }
                 if (isCustomConditions)
