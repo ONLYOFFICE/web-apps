@@ -350,6 +350,24 @@ define([
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }, 50);
                     break;
+                case 'to-endnotes':
+                    this.api.asc_ConvertFootnoteType(false, true, false);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'to-footnotes':
+                    this.api.asc_ConvertFootnoteType(false, false, true);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'swap':
+                    this.api.asc_ConvertFootnoteType(false, true, true);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
             }
         },
 

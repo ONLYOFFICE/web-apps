@@ -82,6 +82,9 @@ define([
                 button.on('click', function (b, e) {
                     me.fireEvent('links:notes', ['ins_footnote']);
                 });
+                button.menu.items[7].menu.on('item:click', function (menu, item, e) {//convert
+                    me.fireEvent('links:notes', [item.value]);
+                });
             });
 
             this.btnsPrevNote.forEach(function(button) {
@@ -265,7 +268,17 @@ define([
                                 }),
                                 {caption: '--'},
                                 {caption: me.mniDelFootnote, value: 'delele'},
-                                {caption: me.mniConvertNote, value: 'convert'},
+                                {
+                                    caption: me.mniConvertNote, value: 'convert',
+                                    menu: new Common.UI.Menu({
+                                        menuAlign   : 'tl-tr',
+                                        items: [
+                                            {caption: me.textConvertToEndnotes, value: 'to-endnotes'},
+                                            {caption: me.textConvertToFootnotes, value: 'to-footnotes'},
+                                            {caption: me.textSwapNotes, value: 'swap'}
+                                        ]
+                                    })
+                                },
                                 {caption: me.mniNoteSettings, value: 'settings'}
                             ]
                         });
@@ -341,7 +354,10 @@ define([
             tipCaption: 'Insert caption',
             mniConvertNote: 'Convert All Notes',
             textGotoEndnote: 'Go to Endnote',
-            mniInsEndnote: 'Insert Endnote'
+            mniInsEndnote: 'Insert Endnote',
+            textConvertToEndnotes: 'Convert All Footnotes to Endnotes',
+            textConvertToFootnotes: 'Convert All Endnotes to Footnotes',
+            textSwapNotes: 'Swap Footnotes and Endnotes'
         }
     }()), DE.Views.Links || {}));
 });
