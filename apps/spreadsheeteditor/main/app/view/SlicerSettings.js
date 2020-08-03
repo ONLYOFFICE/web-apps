@@ -243,7 +243,7 @@ define([
             this.numCols = new Common.UI.MetricSpinner({
                 el: $('#slicer-spin-cols'),
                 step: 1,
-                width: 50,
+                width: 55,
                 defaultUnit : "",
                 defaultValue : 1,
                 value: '1',
