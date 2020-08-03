@@ -46,7 +46,8 @@ define([
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/TableOfContentsSettings',
     'documenteditor/main/app/view/BookmarksDialog',
-    'documenteditor/main/app/view/CaptionDialog'
+    'documenteditor/main/app/view/CaptionDialog',
+    'documenteditor/main/app/view/NotesRemoveDialog'
 ], function () {
     'use strict';
 
@@ -292,33 +293,37 @@ define([
                 case 'ins_footnote':
                     this.api.asc_AddFootnote();
                     break;
+                case 'ins_endnote':
+                    this.api.asc_AddEndnote();
+                    break;
                 case 'delele':
-                    Common.UI.warning({
-                        msg: this.view.confirmDeleteFootnotes,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function (btn) {
-                            if (btn == 'yes') {
-                                this.api.asc_RemoveAllFootnotes();
+                    (new DE.Views.NotesRemoveDialog({
+                        handler: function (dlg, result) {
+                            if (result=='ok') {
+                                var settings = dlg.getSettings();
+                                (settings.footnote || settings.endnote) && me.api.asc_RemoveAllFootnotes(settings.footnote, settings.endnote);
                             }
-                            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                        }, this)
-                    });
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    })).show();
                     break;
                 case 'settings':
+                    var isEndNote = me.api.asc_IsCursorInEndnote();
                     (new DE.Views.NoteSettingsDialog({
                         api: me.api,
                         handler: function (result, settings) {
                             if (settings) {
-                                me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
+                                settings.isEndNote ? me.api.asc_SetEndnoteProps(settings.props, settings.applyToAll) :
+                                                     me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
                                 if (result == 'insert')
                                     setTimeout(function() {
-                                        me.api.asc_AddFootnote(settings.custom);
+                                        settings.isEndNote ? me.api.asc_AddEndnote(settings.custom) : me.api.asc_AddFootnote(settings.custom);
                                     }, 1);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         },
-                        props: me.api.asc_GetFootnoteProps()
+                        isEndNote: isEndNote,
+                        props: isEndNote ? me.api.asc_GetEndnoteProps() : me.api.asc_GetFootnoteProps()
                     })).show();
                     break;
                 case 'prev':
@@ -329,6 +334,36 @@ define([
                     break;
                 case 'next':
                     this.api.asc_GotoFootnote(true);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'prev-end':
+                    this.api.asc_GotoEndnote(false);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'next-end':
+                    this.api.asc_GotoEndnote(true);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'to-endnotes':
+                    this.api.asc_ConvertFootnoteType(false, true, false);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'to-footnotes':
+                    this.api.asc_ConvertFootnoteType(false, false, true);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'swap':
+                    this.api.asc_ConvertFootnoteType(false, true, true);
                     setTimeout(function() {
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }, 50);
