@@ -96,7 +96,7 @@
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
-                <div class="group flex" id="slot-field-styles" style="width: 100%; min-width: 148px; max-width: 100%;"></div>
+                <div class="group flex" id="slot-field-styles" style="width: 100%; min-width: 148px;" data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">

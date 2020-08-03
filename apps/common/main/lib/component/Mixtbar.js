@@ -391,7 +391,8 @@ define([
                         if (!_flex) {
                             _flex = [];
                             _.each($active.find('.group.flex'), function(item) {
-                                _flex.push($(item));
+                                var el = $(item);
+                                _flex.push({el: el, width: el.attr('data-group-width') || el.attr('max-width')}); //save flex element and it's initial width
                             });
                             data.flex = _flex;
                         }
@@ -399,7 +400,7 @@ define([
                         if ( _rightedge > _maxright) {
                             if (_flex.length>0) {
                                 for (var i=0; i<_flex.length; i++) {
-                                    var item = _flex[i];
+                                    var item = _flex[i].el;
                                     if (item.outerWidth() > parseInt(item.css('min-width')))
                                         return;
                                     else
@@ -433,7 +434,7 @@ define([
                             if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
                                 for (var i=0; i<_flex.length; i++) {
                                     var item = _flex[i];
-                                    item.css('width', item.css('max-width'));
+                                    item.el.css('width', item.width);
                                 }
                             }
                         }
