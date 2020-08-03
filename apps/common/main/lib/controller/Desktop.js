@@ -37,8 +37,7 @@
  */
 
 define([
-    'core',
-    'backbone'
+    'core'
 ], function () {
     'use strict';
 
@@ -57,16 +56,6 @@ define([
             'btn-save': 'save',
             'btn-save-coauth': 'coauth',
             'btn-synch': 'synch' };
-        var _supported = [
-            Asc.c_oAscFileType.TXT,
-            Asc.c_oAscFileType.ODT,
-            Asc.c_oAscFileType.DOCX,
-            Asc.c_oAscFileType.HTML,
-            Asc.c_oAscFileType.PDF,
-            Asc.c_oAscFileType.PDFA,
-            Asc.c_oAscFileType.DOTX,
-            Asc.c_oAscFileType.OTT
-        ];
 
 
         if ( !!native ) {
@@ -152,37 +141,6 @@ define([
                 }
             };
 
-            window.onupdaterecents = function (params) {
-                var filemenu = webapp.getController('LeftMenu').getView('LeftMenu').getMenu('file');
-                if ( !filemenu.panels['recent'] ) {
-                    var store = filemenu.panels['recent'].viewRecentPicker.store;
-                }
-
-                var _re_name = /([^\\/]+\.[a-zA-Z0-9]{3,})$/;
-                var _recent = [];
-                params.forEach(function(file) {
-                    if ( _supported.includes(file.type) && _re_name.test(file.path) &&
-                            store && !store.findWhere('id', file.id) )
-                    {
-                        var name = _re_name.exec(file.path)[1];
-                        var model = {
-                            url: file.path,
-                            id: file.id,
-                            title: name,
-                            folder: file.path.slice(0, file.path.length - name.length - 1),
-                            fileType: file.type,
-                        };
-
-                        _recent.push(model);
-                    }
-                });
-
-                if ( _recent.length )
-                    if ( !store )
-                        filemenu.panels['recent'] = (new webapp.Views.FileMenuPanels.RecentFiles({menu:filemenu, recent: _recent})).render();
-                    else store.add(_recent);
-            };
-
             window.on_native_message('editor:config', 'request');
             if ( !!window.native_message_cmd ) {
                 for ( var c in window.native_message_cmd ) {
@@ -249,8 +207,6 @@ define([
                                 maincontroller.warningDocumentIsLocked();
                             }
                         }
-
-                        native.LocalFileRecents();
                     });
 
                     Common.NotificationCenter.on('action:undocking', function (opts) {
