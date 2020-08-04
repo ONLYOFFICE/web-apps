@@ -165,16 +165,6 @@ module.exports = {
 
         },
       },
-      {
-        test: /jquery.+\.js$/,
-        use: [{
-            loader: 'expose-loader',
-            options: 'jQuery'
-        },{
-            loader: 'expose-loader',
-            options: '$'
-        }]
-      },
 
     ],
   },
@@ -223,10 +213,5 @@ module.exports = {
 
       ],
     }),
-    new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery"
-    }),
-
   ],
 };
