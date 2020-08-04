@@ -108,7 +108,7 @@ define([
                     me.fireEvent('reviewchange:accept', [me.btnAccept, 'current']);
                 });
 
-                this.btnAccept.menu.on('item:click', function (menu, item, e) {
+                this.btnAccept.menu && this.btnAccept.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('reviewchange:accept', [menu, item]);
                 });
 
@@ -116,7 +116,7 @@ define([
                     me.fireEvent('reviewchange:reject', [me.btnReject, 'current']);
                 });
 
-                this.btnReject.menu.on('item:click', function (menu, item, e) {
+                this.btnReject.menu && this.btnReject.menu.on('item:click', function (menu, item, e) {
                     me.fireEvent('reviewchange:reject', [menu, item]);
                 });
 
@@ -202,14 +202,14 @@ define([
                     this.btnAccept = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtAccept,
-                        split: true,
+                        split: !this.appConfig.canUseReviewPermissions,
                         iconCls: 'toolbar__icon btn-review-save'
                     });
 
                     this.btnReject = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         caption: this.txtReject,
-                        split: true,
+                        split: !this.appConfig.canUseReviewPermissions,
                         iconCls: 'toolbar__icon btn-review-deny'
                     });
 
@@ -358,36 +358,37 @@ define([
                     if ( config.canReview ) {
                         me.btnTurnOn.updateHint(me.tipReview);
 
-                        me.btnAccept.setMenu(
-                            new Common.UI.Menu({
-                                items: [
-                                    {
-                                        caption: me.txtAcceptCurrent,
-                                        value: 'current'
-                                    },
-                                    {
-                                        caption: me.txtAcceptAll,
-                                        value: 'all'
-                                    }
-                                ]
-                            })
-                        );
+                        if (!me.appConfig.canUseReviewPermissions) {
+                            me.btnAccept.setMenu(
+                                new Common.UI.Menu({
+                                    items: [
+                                        {
+                                            caption: me.txtAcceptCurrent,
+                                            value: 'current'
+                                        },
+                                        {
+                                            caption: me.txtAcceptAll,
+                                            value: 'all'
+                                        }
+                                    ]
+                                })
+                            );
+                            me.btnReject.setMenu(
+                                new Common.UI.Menu({
+                                    items: [
+                                        {
+                                            caption: me.txtRejectCurrent,
+                                            value: 'current'
+                                        },
+                                        {
+                                            caption: me.txtRejectAll,
+                                            value: 'all'
+                                        }
+                                    ]
+                                })
+                            );
+                        }
                         me.btnAccept.updateHint([me.tipAcceptCurrent, me.txtAcceptChanges]);
-
-                        me.btnReject.setMenu(
-                            new Common.UI.Menu({
-                                items: [
-                                    {
-                                        caption: me.txtRejectCurrent,
-                                        value: 'current'
-                                    },
-                                    {
-                                        caption: me.txtRejectAll,
-                                        value: 'all'
-                                    }
-                                ]
-                            })
-                        );
                         me.btnReject.updateHint([me.tipRejectCurrent, me.txtRejectChanges]);
 
                         if (config.canFeatureComparison) {
@@ -583,7 +584,7 @@ define([
             },
 
             getUserName: function (username) {
-                return Common.Utils.String.htmlEncode(username);
+                return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
             },
 
             turnChanges: function(state) {
@@ -771,7 +772,7 @@ define([
                 caption     : this.txtAccept,
                 split       : true,
                 disabled    : this.mode.isReviewOnly,
-                menu        : new Common.UI.Menu({
+                menu        : this.mode.canUseReviewPermissions ? false : new Common.UI.Menu({
                     items: [
                         this.mnuAcceptCurrent = new Common.UI.MenuItem({
                             caption: this.txtAcceptCurrent,
@@ -791,7 +792,7 @@ define([
                 caption     : this.txtReject,
                 split       : true,
                 disabled    : this.mode.isReviewOnly,
-                menu        : new Common.UI.Menu({
+                menu        : this.mode.canUseReviewPermissions ? false : new Common.UI.Menu({
                     items: [
                         this.mnuRejectCurrent = new Common.UI.MenuItem({
                             caption: this.txtRejectCurrent,
@@ -819,7 +820,7 @@ define([
                 me.fireEvent('reviewchange:accept', [me.btnAccept, 'current']);
             });
 
-            this.btnAccept.menu.on('item:click', function (menu, item, e) {
+            this.btnAccept.menu && this.btnAccept.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('reviewchange:accept', [menu, item]);
             });
 
@@ -827,7 +828,7 @@ define([
                 me.fireEvent('reviewchange:reject', [me.btnReject, 'current']);
             });
 
-            this.btnReject.menu.on('item:click', function (menu, item, e) {
+            this.btnReject.menu && this.btnReject.menu.on('item:click', function (menu, item, e) {
                 me.fireEvent('reviewchange:reject', [menu, item]);
             });
 
