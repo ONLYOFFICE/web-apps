@@ -177,7 +177,7 @@ define([
                         if (isAndroid) {
                             template += '<div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>';
                         }
-                        template += '<div class="user-name">' + comment.username + '</div>' +
+                        template += '<div class="user-name">' + me.getUserName(comment.username) + '</div>' +
                             '<div class="comment-date">' + comment.date + '</div>';
                         if (isAndroid) {
                             template += '</div>';
@@ -202,7 +202,7 @@ define([
                                 if (isAndroid) {
                                     template += '<div class="initials-reply" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>'
                                 }
-                                template += '<div class="user-name">' + reply.username + '</div>' +
+                                template += '<div class="user-name">' + me.getUserName(reply.username) + '</div>' +
                                     '<div class="reply-date">' + reply.date + '</div>' +
                                     '</div>';
                                 if (isAndroid) {
@@ -249,7 +249,7 @@ define([
                             '<div class="item-inner">',
                             '<div class="header-comment"><div class="comment-left">',
                             '<% if (android) { %><div class="initials-comment" style="background-color:<%= item.usercolor %> "> <%= item.userInitials %></div><div><% } %>',
-                            '<div class="user-name"><%= item.username %></div>',
+                            '<div class="user-name"><%= scope.getUserName(item.username) %></div>',
                             '<div class="comment-date"><%= item.date %></div>',
                             '<% if (android) { %></div><% } %>',
                             '</div>',
@@ -271,7 +271,7 @@ define([
                                 '<div class="header-reply">',
                                     '<div class="reply-left">',
                                         '<% if (android) { %><div class="initials-reply" style="background-color: <%= reply.usercolor %>;"><%= reply.userInitials %></div><div><% } %>',
-                                        '<div class="user-name"><%= reply.username %></div>',
+                                        '<div class="user-name"><%= scope.getUserName(reply.username) %></div>',
                                         '<div class="reply-date"><%= reply.date %></div>',
                                     '</div>',
                                     '<% if (android) { %></div><% } %>',
@@ -292,7 +292,8 @@ define([
                             item: comment,
                             replys: comment.replys.length,
                             viewmode: me.viewmode,
-                            quote: me.sliceQuote(comment.quote)
+                            quote: me.sliceQuote(comment.quote),
+                            scope: me
                         }));
                     });
                     $listComments.html(items.join(''));
@@ -304,7 +305,7 @@ define([
                 var isAndroid = Framework7.prototype.device.android === true;
                 var template = '<div class="wrap-comment">' +
                     (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
-                    '<div class="user-name">' + comment.username + '</div>' +
+                    '<div class="user-name">' + this.getUserName(comment.username) + '</div>' +
                     '<div class="comment-date">' + comment.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
@@ -317,7 +318,7 @@ define([
                 var isAndroid = Framework7.prototype.device.android === true;
                 var template = '<div class="wrap-reply">' +
                     (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + color + ';">' + initials + '</div><div>' : '') +
-                    '<div class="user-name">' + name + '</div>' +
+                    '<div class="user-name">' + this.getUserName(name) + '</div>' +
                     '<div class="comment-date">' + date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea class="reply-textarea" placeholder="' + this.textAddReply + '">' + '</textarea></div>' +
@@ -330,7 +331,7 @@ define([
                 var isAndroid = Framework7.prototype.device.android === true;
                 var template = '<div class="wrap-comment">' +
                     (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>' : '') +
-                    '<div class="user-name">' + reply.username + '</div>' +
+                    '<div class="user-name">' + this.getUserName(reply.username) + '</div>' +
                     '<div class="comment-date">' + reply.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea id="comment-text" class="edit-reply-textarea">' + reply.reply + '</textarea></div>' +
@@ -354,7 +355,7 @@ define([
                     '<div class="page-content">' +
                     '<div class="wrap-reply">' +
                     (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + color + ';">' + initial + '</div><div>' : '') +
-                    '<div class="user-name">' + name + '</div>' +
+                    '<div class="user-name">' + this.getUserName(name) + '</div>' +
                     '<div class="comment-date">' + date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea class="reply-textarea" placeholder="' + this.textAddReply + '"></textarea></div>' +
@@ -401,7 +402,7 @@ define([
                     '<div class="page-content">' +
                     '<div class="wrap-comment">' +
                     (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
-                    '<div class="user-name">' + comment.username + '</div>' +
+                    '<div class="user-name">' + this.getUserName(comment.username) + '</div>' +
                     '<div class="comment-date">' + comment.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
@@ -427,7 +428,7 @@ define([
                     '<div class="page-content">' +
                     '<div class="wrap-comment">' +
                     (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>' : '') +
-                    '<div class="user-name">' + reply.username + '</div>' +
+                    '<div class="user-name">' + this.getUserName(reply.username) + '</div>' +
                     '<div class="comment-date">' + reply.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea id="comment-text" class="edit-reply-textarea">' + reply.reply + '</textarea></div>' +
@@ -442,11 +443,15 @@ define([
             renderChangeReview: function(change) {
                 var isAndroid = Framework7.prototype.device.android === true;
                 var template = (isAndroid ? '<div class="header-change"><div class="initials-change" style="background-color: #' + change.color + ';">' + change.initials + '</div><div>' : '') +
-                    '<div id="user-name">' + change.user + '</div>' +
+                    '<div id="user-name">' + this.getUserName(change.user) + '</div>' +
                     '<div id="date-change">' + change.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div id="text-change">' + change.text + '</div>';
                 $('#current-change').html(_.template(template));
+            },
+
+            getUserName: function (username) {
+                return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
             },
 
             textCollaboration: 'Collaboration',

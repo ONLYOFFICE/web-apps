@@ -241,7 +241,7 @@ define([
                     value = props.asc_getModified();
                     value ? $('#settings-pe-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
                     value = props.asc_getLastModifiedBy();
-                    value ? $('#settings-pe-mod-by').html(value) : $('.display-mode-by').remove();
+                    value ? $('#settings-pe-mod-by').html(Common.Utils.UserInfoParser.getParsedName(value)) : $('.display-mode-by').remove();
                     value = props.asc_getCreated();
                     value ? $('#settings-pe-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
                     value = props.asc_getCreator();
