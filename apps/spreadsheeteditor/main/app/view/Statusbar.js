@@ -244,6 +244,7 @@ define([
                                  var key = _.findWhere(arrData, {type: 'key'}).value;
                                  if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
                                      this.api.asc_moveWorksheet(index, _.findWhere(arrData, {type: 'indexes'}).value);
+                                     this.api.asc_enableKeyEvents(true);
                                      Common.NotificationCenter.trigger('tabs:dragend', this);
                                  } else {
                                      var names = [], wc = this.api.asc_getWorksheetsCount();
