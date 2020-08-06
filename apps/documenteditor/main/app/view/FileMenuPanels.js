@@ -846,7 +846,8 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-                '<table class="main">',
+            '<div id="fms-flex-info">',
+                '<table class="main" style="margin: 30px 0 0;">',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
@@ -929,12 +930,17 @@ define([
                             '</table>',
                         '</div></td>',
                     '</tr>',
-                    '<tr class="divider"></tr>',
+                    '<tr style="height: 5px;"></tr>',
+                '</table>',
+            '</div>',
+            '<div>',
+                '<table class="main" style="margin: 10px 0;">',
                     '<tr>',
                         '<td class="left"></td>',
                         '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                     '</tr>',
-                '</table>'
+                '</table>',
+            '</div>'
             ].join(''));
 
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
@@ -1011,6 +1017,7 @@ define([
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
                     me.authors.splice(idx, 1);
+                    me.updateScroller(true);
                 }
             });
 
@@ -1032,6 +1039,7 @@ define([
                             if (!isFromApply) {
                                 var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
                                 me.trAuthor.before(div);
+                                me.updateScroller();
                             }
                         }
                     });
@@ -1044,6 +1052,8 @@ define([
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
+            this.pnlInfo = $markup.findById('#fms-flex-info');
+
             this.rendered = true;
 
             this.updateInfo(this.doc);
@@ -1051,11 +1061,18 @@ define([
             this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
+                    el: this.pnlInfo,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
             }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
             return this;
         },
 
@@ -1064,13 +1081,24 @@ define([
 
             this.updateStatisticInfo();
             this.updateFileInfo();
-            this.scroller && this.scroller.update();
+            this.updateScroller();
+            this.scroller && this.scroller.scrollTop(0);
         },
 
         hide: function() {
             Common.UI.BaseView.prototype.hide.call(this,arguments);
 
             this.stopUpdatingStatisticInfo();
+        },
+
+        updateScroller: function(destroy) {
+            if (this.scroller) {
+                this.scroller.update(destroy ? {
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
+                } : undefined);
+                this.pnlInfo.toggleClass('bordered', this.scroller.isVisible());
+            }
         },
 
         updateInfo: function(doc) {
@@ -1322,7 +1350,7 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-                '<table class="main">',
+                '<table class="main" style="margin: 30px 0;">',
                     '<tr class="rights">',
                         '<td class="left" style="vertical-align: top;"><label>' + this.txtRights + '</label></td>',
                         '<td class="right"><div id="id-info-rights"></div></td>',
