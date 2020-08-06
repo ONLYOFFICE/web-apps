@@ -254,22 +254,19 @@ define([
                                      var newNames = [];
                                      var arrNames = _.findWhere(arrData, {type: 'names'}).value;
                                      arrNames.forEach(function (name) {
-                                         var ind = 0,
+                                         var ind = 1,
                                              name = name;
-                                         var first = name;
-                                         if (names.indexOf(name.toLowerCase()) !== -1) {
-                                             while (true) {
-                                                 if (names.indexOf(name.toLowerCase()) === -1) {
-                                                     newNames.push(name);
-                                                     break;
-                                                 } else {
-                                                     ind++;
-                                                     name = first + '(' + ind + ')';
-                                                 }
-                                             }
-                                         } else {
-                                             newNames.push(name);
+                                         var re = /^(.*)\((\d)\)$/.exec(name);
+                                         var first = re ? re[1] : name + ' ';
+                                         var arr = [];
+                                         newNames.length > 0 && newNames.forEach(function (item) {
+                                             arr.push(item.toLowerCase());
+                                         });
+                                         while (names.indexOf(name.toLowerCase()) !== -1 || arr.indexOf(name.toLowerCase()) !== -1) {
+                                             ind++;
+                                             name = first + '(' + ind + ')';
                                          }
+                                         newNames.push(name);
                                      });
                                      this.api.asc_EndMoveSheet(index, newNames, _.findWhere(arrData, {type: 'onlyoffice'}).value);
                                  }
