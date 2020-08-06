@@ -933,7 +933,7 @@ define([
                     '<tr style="height: 5px;"></tr>',
                 '</table>',
             '</div>',
-            '<div>',
+            '<div id="fms-flex-apply">',
                 '<table class="main" style="margin: 10px 0;">',
                     '<tr>',
                         '<td class="left"></td>',
@@ -1053,6 +1053,7 @@ define([
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
             this.pnlInfo = $markup.findById('#fms-flex-info');
+            this.pnlApply = $markup.findById('#fms-flex-apply');
 
             this.rendered = true;
 
@@ -1081,8 +1082,8 @@ define([
 
             this.updateStatisticInfo();
             this.updateFileInfo();
-            this.updateScroller();
             this.scroller && this.scroller.scrollTop(0);
+            this.updateScroller();
         },
 
         hide: function() {
@@ -1235,7 +1236,7 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.inputAuthor.setVisible(mode.isEdit);
-            this.btnApply.setVisible(mode.isEdit);
+            this.pnlApply.toggleClass('hidden', !mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
