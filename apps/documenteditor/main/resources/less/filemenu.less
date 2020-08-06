@@ -122,11 +122,20 @@
 
 #panel-settings {
   #file-menu-panel & {
-    padding: 0 30px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #fms-flex-settings {
+    &.bordered {
+      border-bottom: 1px solid @gray;
+    }
+    overflow: hidden;
+    position: relative;
   }
 
   table {
-    margin: 30px 0;
     width: 100%;
 
     tr {

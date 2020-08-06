@@ -188,7 +188,8 @@ define([
         menu: undefined,
 
         template: _.template([
-            '<table><tbody>',
+        '<div id="fms-flex-settings">',
+            '<table style="margin: 30px 0 0;"><tbody>',
                 /** coauthoring begin **/
                 '<tr class="comments">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
@@ -261,11 +262,16 @@ define([
                         '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
                 '</tr>','<tr class="divider macros"></tr>',
+            '</tbody></table>',
+        '</div>',
+        '<div>',
+            '<table style="margin: 10px 0;"><tbody>',
                 '<tr>',
-                    '<td class="left"></td>',
-                    '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                '<td class="left"></td>',
+                '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                 '</tr>',
-            '</tbody></table>'
+            '</tbody></table>',
+        '</div>'
         ].join('')),
 
         initialize: function(options) {
@@ -333,7 +339,7 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                menuStyle   : 'max-height: 210px;',
+                menuStyle   : 'max-height: 157px;',
                 data        : [
                     { value: -1, displayValue: this.txtFitPage },
                     { value: -2, displayValue: this.txtFitWidth },
@@ -446,15 +452,24 @@ define([
 
             this.btnApply.on('click', this.applySettings.bind(this));
 
+            this.pnlSettings = $markup.findById('#fms-flex-settings');
+
             this.$el = $(node).html($markup);
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
+                    el: this.pnlSettings,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
             }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
             return this;
         },
 
@@ -462,7 +477,14 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateSettings();
-            this.scroller && this.scroller.update();
+            this.updateScroller();
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
         },
 
         setMode: function(mode) {
