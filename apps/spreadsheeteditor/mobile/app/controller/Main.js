@@ -1096,6 +1096,10 @@ define([
                         config.msg = this.errorUpdateVersionOnDisconnect;
                         break;
 
+                    case  Asc.c_oAscError.ID.FrmlMaxLength:
+                        config.msg = this.errorFrmlMaxLength;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1731,7 +1735,8 @@ define([
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
             textYes: 'Yes',
-            textNo: 'No'
+            textNo: 'No',
+            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.'
         }
     })(), SSE.Controllers.Main || {}))
 });

@@ -1515,6 +1515,11 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case  Asc.c_oAscError.ID.FrmlMaxLength:
+                        config.msg = this.errorFrmlMaxLength;
+                        config.maxwidth = 600;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2613,7 +2618,8 @@ define([
             txtBlank: '(blank)',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
-            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.'
+            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.',
+            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.'
         }
     })(), SSE.Controllers.Main || {}))
 });
