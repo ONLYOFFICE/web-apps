@@ -189,19 +189,22 @@
             }
         }
 
-        #panel-settings {
+        .flex-settings {
+            &.bordered {
+                border-bottom: 1px solid @gray;
+            }
+            overflow: hidden;
+            position: relative;
+        }
+
+        #panel-settings,
+        #panel-info {
             padding: 0;
             display: flex;
             flex-direction: column;
+        }
 
-            #fms-flex-settings {
-                &.bordered {
-                    border-bottom: 1px solid @gray;
-                }
-                overflow: hidden;
-                position: relative;
-            }
-
+        #panel-settings {
             table {
                 width: 100%;
 
@@ -383,21 +386,6 @@
                     padding: 16px 2px 4px 10px;
                 }
             }
-        }
-
-        #panel-info {
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-
-            #fms-flex-info {
-                &.bordered {
-                    border-bottom: 1px solid @gray;
-                }
-                overflow: hidden;
-                position: relative;
-            }
-
         }
 
         #panel-rights {

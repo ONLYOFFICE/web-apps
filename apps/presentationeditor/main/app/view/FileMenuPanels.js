@@ -180,7 +180,7 @@ define([
         menu: undefined,
 
         template: _.template([
-        '<div id="fms-flex-settings">',
+        '<div class="flex-settings">',
             '<table style="margin: 30px 0 0;"><tbody>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
@@ -395,7 +395,7 @@ define([
 
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
-            this.pnlSettings = $markup.findById('#fms-flex-settings');
+            this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
 
             this.$el = $(node).html($markup);
 
@@ -752,7 +752,7 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-            '<div id="fms-flex-info">',
+            '<div class="flex-settings">',
                 '<table class="main" style="margin: 30px 0 0;">',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
@@ -926,7 +926,7 @@ define([
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
-            this.pnlInfo = $markup.findById('#fms-flex-info');
+            this.pnlInfo = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.findById('#fms-flex-apply');
 
             this.rendered = true;
