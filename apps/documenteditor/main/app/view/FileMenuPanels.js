@@ -188,7 +188,8 @@ define([
         menu: undefined,
 
         template: _.template([
-            '<table><tbody>',
+        '<div class="flex-settings">',
+            '<table style="margin: 30px 0 0;"><tbody>',
                 /** coauthoring begin **/
                 '<tr class="comments">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
@@ -261,11 +262,16 @@ define([
                         '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
                 '</tr>','<tr class="divider macros"></tr>',
+            '</tbody></table>',
+        '</div>',
+        '<div>',
+            '<table style="margin: 10px 0;"><tbody>',
                 '<tr>',
-                    '<td class="left"></td>',
-                    '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                '<td class="left"></td>',
+                '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                 '</tr>',
-            '</tbody></table>'
+            '</tbody></table>',
+        '</div>'
         ].join('')),
 
         initialize: function(options) {
@@ -333,7 +339,7 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                menuStyle   : 'max-height: 210px;',
+                menuStyle   : 'max-height: 157px;',
                 data        : [
                     { value: -1, displayValue: this.txtFitPage },
                     { value: -2, displayValue: this.txtFitWidth },
@@ -446,15 +452,24 @@ define([
 
             this.btnApply.on('click', this.applySettings.bind(this));
 
+            this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+
             this.$el = $(node).html($markup);
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
+                    el: this.pnlSettings,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
             }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
             return this;
         },
 
@@ -462,7 +477,14 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateSettings();
-            this.scroller && this.scroller.update();
+            this.updateScroller();
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
         },
 
         setMode: function(mode) {
@@ -824,7 +846,8 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-                '<table class="main">',
+            '<div class="flex-settings">',
+                '<table class="main" style="margin: 30px 0 0;">',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
@@ -907,12 +930,17 @@ define([
                             '</table>',
                         '</div></td>',
                     '</tr>',
-                    '<tr class="divider"></tr>',
+                    '<tr style="height: 5px;"></tr>',
+                '</table>',
+            '</div>',
+            '<div id="fms-flex-apply">',
+                '<table class="main" style="margin: 10px 0;">',
                     '<tr>',
                         '<td class="left"></td>',
                         '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                     '</tr>',
-                '</table>'
+                '</table>',
+            '</div>'
             ].join(''));
 
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
@@ -989,6 +1017,7 @@ define([
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
                     me.authors.splice(idx, 1);
+                    me.updateScroller(true);
                 }
             });
 
@@ -1010,6 +1039,7 @@ define([
                             if (!isFromApply) {
                                 var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
                                 me.trAuthor.before(div);
+                                me.updateScroller();
                             }
                         }
                     });
@@ -1022,6 +1052,9 @@ define([
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
+            this.pnlInfo = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+            this.pnlApply = $markup.findById('#fms-flex-apply');
+
             this.rendered = true;
 
             this.updateInfo(this.doc);
@@ -1029,11 +1062,18 @@ define([
             this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
+                    el: this.pnlInfo,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
             }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
             return this;
         },
 
@@ -1042,13 +1082,24 @@ define([
 
             this.updateStatisticInfo();
             this.updateFileInfo();
-            this.scroller && this.scroller.update();
+            this.scroller && this.scroller.scrollTop(0);
+            this.updateScroller();
         },
 
         hide: function() {
             Common.UI.BaseView.prototype.hide.call(this,arguments);
 
             this.stopUpdatingStatisticInfo();
+        },
+
+        updateScroller: function(destroy) {
+            if (this.scroller) {
+                this.scroller.update(destroy ? {
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
+                } : undefined);
+                this.pnlInfo.toggleClass('bordered', this.scroller.isVisible());
+            }
         },
 
         updateInfo: function(doc) {
@@ -1185,7 +1236,7 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.inputAuthor.setVisible(mode.isEdit);
-            this.btnApply.setVisible(mode.isEdit);
+            this.pnlApply.toggleClass('hidden', !mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
@@ -1300,7 +1351,7 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-                '<table class="main">',
+                '<table class="main" style="margin: 30px 0;">',
                     '<tr class="rights">',
                         '<td class="left" style="vertical-align: top;"><label>' + this.txtRights + '</label></td>',
                         '<td class="right"><div id="id-info-rights"></div></td>',

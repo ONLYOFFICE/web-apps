@@ -120,13 +120,27 @@
   }
 }
 
-#panel-settings {
+.flex-settings {
   #file-menu-panel & {
-    padding: 0 30px;
+    &.bordered {
+      border-bottom: 1px solid @gray;
+    }
+    overflow: hidden;
+    position: relative;
   }
+}
 
+#panel-settings,
+#panel-info {
+  #file-menu-panel & {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+#panel-settings {
   table {
-    margin: 30px 0;
     width: 100%;
 
     tr {
@@ -306,12 +320,14 @@
   }
 }
 
-#panel-info,
 #panel-rights {
   #file-menu-panel & {
     padding: 0 30px;
   }
+}
 
+#panel-info,
+#panel-rights {
   table {
     tr {
       td {
@@ -340,7 +356,6 @@
 
     &.main {
       width: 100%;
-      margin: 30px 0;
     }
   }
 
