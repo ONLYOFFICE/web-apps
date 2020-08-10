@@ -40,17 +40,17 @@
  */
 if (Common === undefined)
     var Common = {};
-define([
+define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
     'common/main/lib/component/ListView',
     'common/main/lib/component/Window'
-], function () { 'use strict';
+], function (contentTemplate) { 'use strict';
 
-    Common.Views.AutoCorrectDialog = Common.UI.Window.extend(_.extend({
+    Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            width: 448,
-            height: 444,
-            cls: 'modal-dlg',
-            buttons: null
+            contentWidth: 375,
+            height: 430,
+            buttons: null,
+            toggleGroup: 'autocorrect-dialog-group'
         },
 
         initialize : function(options) {
@@ -58,58 +58,32 @@ define([
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
             _.extend(this.options, {
-                title: this.textTitle
+                title: this.textTitle,
+                storageName: this.appPrefix + 'autocorrect-dialog-category',
+                items: [
+                    {panelId: 'id-autocorrect-dialog-settings-math', panelCaption: this.textMathCorrect},
+                    {panelId: 'id-autocorrect-dialog-settings-recognized',    panelCaption: this.textLock}
+                ],
+                template: [
+                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                        '<div class="menu-panel" style="overflow: hidden;">',
+                            '<% _.each(items, function(item) { %>',
+                            '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
+                            '<% }); %>',
+                        '</div>',
+                        '<div class="separator"></div>',
+                        '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
+                    '</div>',
+                    '<div class="separator horizontal"></div>',
+                    '<div class="footer center">',
+                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
+                    '</div>'
+                ].join('')
             }, options || {});
 
-            this.template = [
-                '<div class="box">',
-                    '<div id="symbol-table-pnl-special">',
-                        '<table cols="1" style="width: 100%;">',
-                            '<tr>',
-                                '<td style="padding-bottom: 16px;">',
-                                    '<label style="font-weight: bold;">' + this.textMathCorrect + '</label>',
-                                '</td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td style="padding-bottom: 8px;">',
-                                    '<div id="auto-correct-chb-replace-type"></div>',
-                                '</td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td>',
-                                    '<label style="width: 117px;">' + this.textReplace + ':</label>',
-                                    '<label>' + this.textBy + ':</label>',
-                                '</td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td>',
-                                    '<div id="auto-correct-replace" style="height:22px;width: 115px;margin-right: 2px;display: inline-block;"></div>',
-                                    '<div id="auto-correct-by" style="height:22px;width: 299px;display: inline-block;"></div>',
-                                '</td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td style="padding-bottom: 8px;">',
-                                    '<div id="auto-correct-math-list" class="" style="width:100%; height: 208px;"></div>',
-                                '</td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td style="padding-bottom: 8px;">',
-                                    '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 100px;">' + this.textResetAll + '</button>',
-                                    '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-delete" style="min-width: 100px;float: right;">' + this.textDelete + '</button>',
-                                    '<button type="button" class="btn btn-text-default auto" id="auto-correct-btn-edit" style="min-width: 100px;float: right;margin-right:5px;">' + this.textAdd+ '</button>',
-                                '</td>',
-                            '</tr>',
-                        '</table>',
-                    '</div>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                '</div>'
-            ].join('');
-
-            this.options.tpl = _.template(this.template)(this.options);
             this.mathStore = this.options.mathStore || new Common.UI.DataViewStore();
             this.api = this.options.api;
+            this.handler = this.options.handler;
 
             var path = this.appPrefix + "settings-math-correct";
             var value = Common.Utils.InternalSettings.get(path + "-add");
@@ -117,11 +91,11 @@ define([
             value = Common.Utils.InternalSettings.get(path + "-rem");
             this.arrRem = value ? JSON.parse(value) : [];
 
-            Common.UI.Window.prototype.initialize.call(this, this.options);
+            Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
         render: function() {
-            Common.UI.Window.prototype.render.call(this);
+            Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
             var $window = this.getChild();
             var me = this;
@@ -220,9 +194,21 @@ define([
             });
             this.btnDelete.on('click', _.bind(this.onDelete, this, false));
 
-            this.updateControls();
+            this.btnsCategory[0].on('click', _.bind(this.onMathCategoryClick, this, false));
 
-            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+            this.afterRender();
+        },
+
+        afterRender: function() {
+            this.updateControls();
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
+        },
+
+        getSettings: function() {
+            return;
         },
 
         onSelectMathItem: function(lisvView, itemView, record) {
@@ -254,30 +240,29 @@ define([
         },
 
         show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
+            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
 
-            var me = this;
-            _.delay(function(){
-                $('input', me.inputReplace.cmpEl).select().focus();
-            },50);
-
-            _.delay(function(){
-                me.mathList.setStore(me.mathStore);
-                me.mathList.onResetItems();
-            },100);
+            var value = this.getActiveCategory();
+            if (value==0) this.onMathCategoryClick(true);
         },
 
         close: function() {
-            Common.UI.Window.prototype.close.apply(this, arguments);
+            Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
             this.mathList && this.mathList.deselectAll();
         },
 
-        onBtnClick: function(event) {
-            this.close();
-        },
+        onMathCategoryClick: function(delay) {
+            var me = this;
+            _.delay(function(){
+                $('input', me.inputReplace.cmpEl).select().focus();
+            },delay ? 50 : 0);
 
-        onPrimary: function(event) {
-            return true;
+            if (me.mathList.store.length < me.mathStore.length) {
+                _.delay(function(){
+                    me.mathList.setStore(me.mathStore);
+                    me.mathList.onResetItems();
+                },delay ? 100 : 10);
+            }
         },
 
         onDelete: function() {
