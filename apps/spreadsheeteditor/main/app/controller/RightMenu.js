@@ -110,15 +110,23 @@ define([
         onRightMenuClick: function(menu, type, minimized, event) {
             if (!minimized && this.editMode) {
                 if (event) { // user click event
-                    if (type == Common.Utils.documentSettingsType.Table)
+                    if (type == Common.Utils.documentSettingsType.Table) {
                         Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 1);
-                    else if (type == Common.Utils.documentSettingsType.Pivot)
+                        if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden)
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", 0);
+                    } else if (type == Common.Utils.documentSettingsType.Pivot)
                         Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 1);
-                    else if (Common.Utils.documentSettingsType.Cell) {
+                    else if (type == Common.Utils.documentSettingsType.Chart && !this._settings[Common.Utils.documentSettingsType.Cell].hidden) {//sparkline
+                        Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", 1);
+                        if (!this._settings[Common.Utils.documentSettingsType.Table].hidden)
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 0);
+                    } else if (Common.Utils.documentSettingsType.Cell) {
                         if (!this._settings[Common.Utils.documentSettingsType.Table].hidden)
                             Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 0);
                         if (!this._settings[Common.Utils.documentSettingsType.Pivot].hidden)
                             Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 0);
+                        if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden)
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", 0);
                     }
                 }
 
@@ -259,11 +267,17 @@ define([
                 var active;
 
                 if (priorityactive<0 && !this._settings[Common.Utils.documentSettingsType.Cell].hidden &&
-                                        (!this._settings[Common.Utils.documentSettingsType.Table].hidden || !this._settings[Common.Utils.documentSettingsType.Pivot].hidden)) {
+                                        (!this._settings[Common.Utils.documentSettingsType.Table].hidden || !this._settings[Common.Utils.documentSettingsType.Pivot].hidden ||
+                                         !this._settings[Common.Utils.documentSettingsType.Chart].hidden)) {
+                    var tableactive = !!Common.Utils.InternalSettings.get("sse-rightpanel-active-table") && !this._settings[Common.Utils.documentSettingsType.Table].hidden,
+                        pivotactive = !!Common.Utils.InternalSettings.get("sse-rightpanel-active-pivot") && !this._settings[Common.Utils.documentSettingsType.Pivot].hidden,
+                        sparkactive = !!Common.Utils.InternalSettings.get("sse-rightpanel-active-spark") && !this._settings[Common.Utils.documentSettingsType.Chart].hidden;
                     if (!this._settings[Common.Utils.documentSettingsType.Table].hidden)
-                        priorityactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-table")==0 ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Table;
+                        priorityactive = !tableactive ? (sparkactive ? Common.Utils.documentSettingsType.Chart : Common.Utils.documentSettingsType.Cell) : Common.Utils.documentSettingsType.Table;
+                    if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden)
+                        priorityactive = !sparkactive ? (tableactive ? Common.Utils.documentSettingsType.Table : Common.Utils.documentSettingsType.Cell) : Common.Utils.documentSettingsType.Chart;
                     if (!this._settings[Common.Utils.documentSettingsType.Pivot].hidden)
-                        priorityactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-pivot")==0 ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Pivot;
+                        priorityactive = !pivotactive ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Pivot;
                 }
 
                 if (priorityactive>-1) active = priorityactive;
