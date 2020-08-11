@@ -364,6 +364,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     disabled ? this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced')) : this.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), rec.get('defaultValue'));
                 } else {
                     this.mathStore.remove(rec);
+                    this.mathList.scroller && this.mathList.scroller.update({});
                     this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));
                 }
                 this.updateControls();
@@ -622,6 +623,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     disabled ? this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value')) : this.api.asc_AddFromAutoCorrectMathFunctions(rec.get('value'));
                 } else {
                     this.functionsStore.remove(rec);
+                    this.mathRecList.scroller && this.mathRecList.scroller.update({});
                     this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value'));
                 }
                 this.updateRecControls();
