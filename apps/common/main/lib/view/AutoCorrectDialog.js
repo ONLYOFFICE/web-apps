@@ -558,7 +558,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 primary: 'yes',
                 callback: _.bind(function(btn, dontshow){
                     if (btn == 'yes') {
-                        this.api.asc_resetToDefaultAutoCorrectMathSymbols();
+                        this.api.asc_resetToDefaultAutoCorrectMathFunctions();
                         this.onResetRecList();
                     }
                 }, this)
