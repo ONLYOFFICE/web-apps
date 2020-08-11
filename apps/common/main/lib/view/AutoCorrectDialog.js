@@ -279,6 +279,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
         afterRender: function() {
             this.updateControls();
+            this.updateRecControls();
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
