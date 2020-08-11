@@ -35,5 +35,29 @@
 </div>
 <div id="id-autocorrect-dialog-settings-recognized" class="settings-panel">
     <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr>
+                <td style="padding-bottom: 8px;">
+                    <label><%= scope.textRecognizedDesc %></label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="auto-correct-rec-find" style="height:22px;width: 100%;margin-bottom: 4px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 8px;">
+                    <div id="auto-correct-recognized-list" class="" style="width:100%; height: 208px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom: 8px;">
+                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-rec-reset" style="min-width: 86px;"><%= scope.textResetAll %></button>
+                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-rec-delete" style="min-width: 86px;float: right;"><%= scope.textDelete %></button>
+                    <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-rec-edit" style="min-width: 86px;float: right;margin-right:5px;"><%= scope.textAdd %></button>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
