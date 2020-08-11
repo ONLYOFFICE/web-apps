@@ -1065,8 +1065,15 @@ define([
                     var arrRem = value ? JSON.parse(value) : [];
                     value = Common.localStorage.getBool("de-settings-math-correct-replace-type", true); // replace on type
                     Common.Utils.InternalSettings.set("de-settings-math-correct-replace-type", value);
-
                     me.api.asc_refreshOnStartAutoCorrectMathSymbols(arrRem, arrAdd, value);
+
+                    value = Common.localStorage.getItem("de-settings-rec-functions-add");
+                    Common.Utils.InternalSettings.set("de-settings-rec-functions-add", value);
+                    arrAdd = value ? JSON.parse(value) : [];
+                    value = Common.localStorage.getItem("de-settings-rec-functions-rem");
+                    Common.Utils.InternalSettings.set("de-settings-rec-functions-rem", value);
+                    arrRem = value ? JSON.parse(value) : [];
+                    me.api.asc_refreshOnStartAutoCorrectMathFunctions(arrRem, arrAdd);
 
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
