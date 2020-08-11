@@ -360,11 +360,12 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(path, val);
                     Common.localStorage.setItem(path, val);
                     this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
+                    disabled ? this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced')) : this.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), rec.get('defaultValue'));
                 } else {
                     this.mathStore.remove(rec);
+                    this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));
                 }
                 this.updateControls();
-                this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));
             }
         },
 
@@ -449,7 +450,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.arrAdd = [];
             this.arrRem = [];
 
-            this.mathStore.remove(this.mathStore.findWhere({defaultValue: undefined}));
+            this.mathStore.remove(this.mathStore.where({defaultValue: undefined}));
             this.mathStore.each(function(item, index){
                 item.set('by', item.get('defaultValueStr'));
                 item.set('defaultDisabled', false);
@@ -576,7 +577,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.arrAddRec = [];
             this.arrRemRec = [];
 
-            this.functionsStore.remove(this.functionsStore.findWhere({defaultValue: false}));
+            this.functionsStore.remove(this.functionsStore.where({defaultValue: false}));
             this.functionsStore.each(function(item, index){
                 item.set('defaultDisabled', false);
             });
@@ -617,11 +618,12 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     Common.Utils.InternalSettings.set(path, val);
                     Common.localStorage.setItem(path, val);
                     this.btnDeleteRec.setCaption(disabled ? this.textRestore : this.textDelete);
+                    disabled ? this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value')) : this.api.asc_AddFromAutoCorrectMathFunctions(rec.get('value'));
                 } else {
                     this.functionsStore.remove(rec);
+                    this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value'));
                 }
                 this.updateRecControls();
-                this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value'));
             }
         },
 
