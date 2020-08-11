@@ -1097,10 +1097,7 @@ define([
 
         updateScroller: function(destroy) {
             if (this.scroller) {
-                this.scroller.update(destroy ? {
-                    suppressScrollX: true,
-                    alwaysVisibleY: true
-                } : undefined);
+                this.scroller.update(destroy ? {} : undefined);
                 this.pnlInfo.toggleClass('bordered', this.scroller.isVisible());
             }
         },
