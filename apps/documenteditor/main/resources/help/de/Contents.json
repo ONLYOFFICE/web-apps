@@ -22,7 +22,7 @@
   },
   {
     "src": "ProgramInterface/ReferencesTab.htm",
-    "name": "Registerkarte Referenzen"
+    "name": "Registerkarte Verweise"
   },
   {
     "src": "ProgramInterface/ReviewTab.htm",
@@ -39,7 +39,7 @@
   },
   {
     "src": "UsageInstructions/CopyPasteUndoRedo.htm",
-    "name": "Textpassagen kopieren/einfügen, Aktionen rückgängig machen/wiederholen"
+    "name": "Textpassagen kopieren/einfügen, Vorgänge rückgängig machen/wiederholen"
   },
   {
     "src": "UsageInstructions/ChangeColorScheme.htm",
@@ -70,6 +70,11 @@
     "src": "UsageInstructions/InsertFootnotes.htm",
     "name": "Fußnoten einfügen"
   },
+    {
+        "src": "UsageInstructions/InsertBookmarks.htm",
+        "name": "Lesezeichen hinzufügen"
+    },
+    {"src": "UsageInstructions/AddWatermark.htm", "name": "Wasserzeichen hinzufügen"},
   {
     "src": "UsageInstructions/AlignText.htm",
     "name": "Text in einem Absatz ausrichten",
@@ -93,7 +98,7 @@
   },
   {
     "src": "UsageInstructions/AddBorders.htm",
-    "name": "Rahmen hinzufügen"
+    "name": "Rahmenlinien hinzufügen"
   },
   {
     "src": "UsageInstructions/SetTabStops.htm",
@@ -132,6 +137,10 @@
     "src": "UsageInstructions/InsertTables.htm",
     "name": "Tabellen einfügen",
     "headername": "Objekte bearbeiten"
+  },
+  {
+    "src": "UsageInstructions/AddFormulasInTables.htm",
+    "name": "Formeln in Tabellen verwenden"
   },
   {
     "src": "UsageInstructions/InsertImages.htm",
@@ -220,6 +229,6 @@
   },
   {
     "src": "HelpfulHints/KeyboardShortcuts.htm",
-    "name": "Tastenkombinationen"
+    "name": "Tastaturkürzel"
   }
 ]
