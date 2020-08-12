@@ -742,7 +742,9 @@ define([
                 this.$el.find('.over-box').removeClass('over-box');
                 while (width + parseInt(this.boxMath.css('width')) + 100 > widthStatusbar) {
                     var items = this.boxMath.find('label:not(.hide, .over-box)');
-                    $(items[items.length - 1]).addClass('over-box');
+                    (items.length>0) && $(items[items.length - 1]).addClass('over-box');
+                    if (items.length<=1)
+                        break;
                 }
             },
 
