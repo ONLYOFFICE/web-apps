@@ -1056,24 +1056,7 @@ define([
                     Common.Utils.InternalSettings.set("de-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
-                    // autocorrection
-                    value = Common.localStorage.getItem("de-settings-math-correct-add");
-                    Common.Utils.InternalSettings.set("de-settings-math-correct-add", value);
-                    var arrAdd = value ? JSON.parse(value) : [];
-                    value = Common.localStorage.getItem("de-settings-math-correct-rem");
-                    Common.Utils.InternalSettings.set("de-settings-math-correct-rem", value);
-                    var arrRem = value ? JSON.parse(value) : [];
-                    value = Common.localStorage.getBool("de-settings-math-correct-replace-type", true); // replace on type
-                    Common.Utils.InternalSettings.set("de-settings-math-correct-replace-type", value);
-                    me.api.asc_refreshOnStartAutoCorrectMathSymbols(arrRem, arrAdd, value);
-
-                    value = Common.localStorage.getItem("de-settings-rec-functions-add");
-                    Common.Utils.InternalSettings.set("de-settings-rec-functions-add", value);
-                    arrAdd = value ? JSON.parse(value) : [];
-                    value = Common.localStorage.getItem("de-settings-rec-functions-rem");
-                    Common.Utils.InternalSettings.set("de-settings-rec-functions-rem", value);
-                    arrRem = value ? JSON.parse(value) : [];
-                    me.api.asc_refreshOnStartAutoCorrectMathFunctions(arrRem, arrAdd);
+                    me.loadAutoCorrectSettings();
 
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
@@ -2306,6 +2289,44 @@ define([
                         });
                     }
                 }
+            },
+
+            loadAutoCorrectSettings: function() {
+                // autocorrection
+                var me = this;
+                var value = Common.localStorage.getItem("de-settings-math-correct-add");
+                Common.Utils.InternalSettings.set("de-settings-math-correct-add", value);
+                var arrAdd = value ? JSON.parse(value) : [];
+                value = Common.localStorage.getItem("de-settings-math-correct-rem");
+                Common.Utils.InternalSettings.set("de-settings-math-correct-rem", value);
+                var arrRem = value ? JSON.parse(value) : [];
+                value = Common.localStorage.getBool("de-settings-math-correct-replace-type", true); // replace on type
+                Common.Utils.InternalSettings.set("de-settings-math-correct-replace-type", value);
+                me.api.asc_refreshOnStartAutoCorrectMathSymbols(arrRem, arrAdd, value);
+
+                value = Common.localStorage.getItem("de-settings-rec-functions-add");
+                Common.Utils.InternalSettings.set("de-settings-rec-functions-add", value);
+                arrAdd = value ? JSON.parse(value) : [];
+                value = Common.localStorage.getItem("de-settings-rec-functions-rem");
+                Common.Utils.InternalSettings.set("de-settings-rec-functions-rem", value);
+                arrRem = value ? JSON.parse(value) : [];
+                me.api.asc_refreshOnStartAutoCorrectMathFunctions(arrRem, arrAdd);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-bulleted", true);
+                Common.Utils.InternalSettings.set("de-settings-autoformat-bulleted", value);
+                me.api.asc_SetAutomaticBulletedLists(value);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-numbered", true);
+                Common.Utils.InternalSettings.set("de-settings-autoformat-numbered", value);
+                me.api.asc_SetAutomaticNumberedLists(value);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-smart-quotes", true);
+                Common.Utils.InternalSettings.set("de-settings-autoformat-smart-quotes", value);
+                me.api.asc_SetAutoCorrectSmartQuotes(value);
+
+                value = Common.localStorage.getBool("de-settings-autoformat-hyphens", true);
+                Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
+                me.api.asc_SetAutoCorrectHyphensWithDash(value);
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
