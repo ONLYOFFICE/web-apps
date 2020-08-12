@@ -782,24 +782,7 @@ define([
                     Common.Utils.InternalSettings.set("pe-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
-                    // autocorrection
-                    value = Common.localStorage.getItem("pe-settings-math-correct-add");
-                    Common.Utils.InternalSettings.set("pe-settings-math-correct-add", value);
-                    var arrAdd = value ? JSON.parse(value) : [];
-                    value = Common.localStorage.getItem("pe-settings-math-correct-rem");
-                    Common.Utils.InternalSettings.set("pe-settings-math-correct-rem", value);
-                    var arrRem = value ? JSON.parse(value) : [];
-                    value = Common.localStorage.getBool("pe-settings-math-correct-replace-type", true); // replace on type
-                    Common.Utils.InternalSettings.set("pe-settings-math-correct-replace-type", value);
-                    me.api.asc_refreshOnStartAutoCorrectMathSymbols(arrRem, arrAdd, value);
-
-                    value = Common.localStorage.getItem("pe-settings-rec-functions-add");
-                    Common.Utils.InternalSettings.set("pe-settings-rec-functions-add", value);
-                    arrAdd = value ? JSON.parse(value) : [];
-                    value = Common.localStorage.getItem("pe-settings-rec-functions-rem");
-                    Common.Utils.InternalSettings.set("pe-settings-rec-functions-rem", value);
-                    arrRem = value ? JSON.parse(value) : [];
-                    me.api.asc_refreshOnStartAutoCorrectMathFunctions(arrRem, arrAdd);
+                    me.loadAutoCorrectSettings();
 
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
@@ -1955,6 +1938,28 @@ define([
                 }
             },
 
+            loadAutoCorrectSettings: function() {
+                // autocorrection
+                var me = this;
+                var value = Common.localStorage.getItem("pe-settings-math-correct-add");
+                Common.Utils.InternalSettings.set("pe-settings-math-correct-add", value);
+                var arrAdd = value ? JSON.parse(value) : [];
+                value = Common.localStorage.getItem("pe-settings-math-correct-rem");
+                Common.Utils.InternalSettings.set("pe-settings-math-correct-rem", value);
+                var arrRem = value ? JSON.parse(value) : [];
+                value = Common.localStorage.getBool("pe-settings-math-correct-replace-type", true); // replace on type
+                Common.Utils.InternalSettings.set("pe-settings-math-correct-replace-type", value);
+                me.api.asc_refreshOnStartAutoCorrectMathSymbols(arrRem, arrAdd, value);
+
+                value = Common.localStorage.getItem("pe-settings-rec-functions-add");
+                Common.Utils.InternalSettings.set("pe-settings-rec-functions-add", value);
+                arrAdd = value ? JSON.parse(value) : [];
+                value = Common.localStorage.getItem("pe-settings-rec-functions-rem");
+                Common.Utils.InternalSettings.set("pe-settings-rec-functions-rem", value);
+                arrRem = value ? JSON.parse(value) : [];
+                me.api.asc_refreshOnStartAutoCorrectMathFunctions(arrRem, arrAdd);
+            },
+            
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
