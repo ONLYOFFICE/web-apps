@@ -12,10 +12,12 @@
     "src": "ProgramInterface/HomeTab.htm",
     "name": "Onglet Accueil"
   },
-  {
-    "src": "ProgramInterface/InsertTab.htm",
-    "name": "Onglet Insertion"
-  },
+    {
+        "src": "ProgramInterface/InsertTab.htm",
+        "name": "Onglet Insertion"
+    },
+  { "src": "ProgramInterface/FormulaTab.htm", "name": "Onglet Formule" },
+  { "src": "ProgramInterface/DataTab.htm", "name": "Onglet Données" },
   {
     "src": "ProgramInterface/PivotTableTab.htm",
     "name": "Onglet Tableau croisé dynamique"
@@ -41,11 +43,12 @@
     "src": "UsageInstructions/UndoRedo.htm",
     "name": "Annuler/rétablir vos actions"
   },
-  {
-    "src": "UsageInstructions/ManageSheets.htm",
-    "name": "Gérer des feuilles de calcul",
-    "headername": "Opérations avec les feuilles"
-  },
+    {
+        "src": "UsageInstructions/ManageSheets.htm",
+        "name": "Gérer des feuilles de calcul",
+        "headername": "Opérations avec les feuilles"
+    },
+    {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Insérer des en-têtes et pieds de page"},
   {
     "src": "UsageInstructions/FontTypeSizeStyle.htm",
     "name": "Définir le type de police, la taille, le style et la couleur",
@@ -85,10 +88,11 @@
     "src": "UsageInstructions/SortData.htm",
     "name": "Trier et filtrer les données"
   },
-  {
-    "src": "UsageInstructions/PivotTables.htm",
-    "name": "Modifier les tableaux croisés dynamiques"
-  },
+    {
+        "src": "UsageInstructions/PivotTables.htm",
+        "name": "Modifier les tableaux croisés dynamiques"
+    },
+    {"src": "UsageInstructions/GroupData.htm", "name": "Grouper des données" },
   {
     "src": "UsageInstructions/InsertFunction.htm",
     "name": "Insérer une fonction",
@@ -111,10 +115,11 @@
     "src": "UsageInstructions/InsertAutoshapes.htm",
     "name": "Insérer et mettre en forme des formes automatiques"
   },
-  {
-    "src": "UsageInstructions/InsertTextObjects.htm",
-    "name": "Insérer des objets textuels"
-  },
+    {
+        "src": "UsageInstructions/InsertTextObjects.htm",
+        "name": "Insérer des objets textuels"
+    },
+    { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
     "src": "UsageInstructions/ManipulateObjects.htm",
     "name": "Manipuler des objets"
@@ -129,11 +134,12 @@
     "name": "Edition collaborative des classeurs",
     "headername": "Co-édition des classeurs"
   },
-  {
-    "src": "UsageInstructions/ViewDocInfo.htm",
-    "name": "Afficher les informations de fichier",
-    "headername": "Outils et paramètres"
-  },
+    {
+        "src": "UsageInstructions/ViewDocInfo.htm",
+        "name": "Afficher les informations de fichier",
+        "headername": "Outils et paramètres"
+    },
+    {"src": "UsageInstructions/ScaleToFit.htm", "name": "Mettre une feuille de calcul à l’échelle"},
   {
     "src": "UsageInstructions/SavePrintDownload.htm",
     "name": "Enregistrer/imprimer/télécharger votre classeur"
@@ -146,10 +152,11 @@
     "src": "HelpfulHints/Navigation.htm",
     "name": "Paramètres d'affichage et outils de navigation"
   },
-  {
-    "src": "HelpfulHints/Search.htm",
-    "name": "Fonctions de recherche et remplacement"
-  },
+    {
+        "src": "HelpfulHints/Search.htm",
+        "name": "Fonctions de recherche et remplacement"
+    },
+    {"src": "HelpfulHints/SpellChecking.htm", "name": "Vérification de l’orthographe"},
   {
     "src": "HelpfulHints/About.htm",
     "name": "A propos de Spreadsheet Editor",
