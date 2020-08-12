@@ -1475,6 +1475,10 @@ define([
                         config.msg = this.errorFrmlMaxTextLength;
                         break;
 
+                    case Asc.c_oAscError.ID.FrmlMaxReference:
+                        config.msg = this.errorFrmlMaxReference;
+                        break;
+
                     case Asc.c_oAscError.ID.DataValidate:
                         var icon = errData ? errData.asc_getErrorStyle() : undefined;
                         if (icon!==undefined) {
@@ -2619,7 +2623,8 @@ define([
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
             errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.',
-            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.'
+            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
+            errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.'
         }
     })(), SSE.Controllers.Main || {}))
 });

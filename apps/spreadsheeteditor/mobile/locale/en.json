@@ -173,6 +173,7 @@
   "SSE.Controllers.Main.errorFormulaParsing": "Internal error while parsing the formula.",
   "SSE.Controllers.Main.errorFrmlMaxTextLength": "Text values in formulas are limited to 255 characters.<br>Use the CONCATENATE function or concatenation operator (&).",
   "SSE.Controllers.Main.errorFrmlWrongReferences": "The function refers to a sheet that does not exist.<br>Please check the data and try again.",
+  "SSE.Controllers.Main.errorFrmlMaxReference": "You cannot enter this formula because it has too many values,<br>cell references, and/or names.",
   "SSE.Controllers.Main.errorInvalidRef": "Enter a correct name for the selection or a valid reference to go to.",
   "SSE.Controllers.Main.errorKeyEncrypt": "Unknown key descriptor",
   "SSE.Controllers.Main.errorKeyExpire": "Key descriptor expired",
