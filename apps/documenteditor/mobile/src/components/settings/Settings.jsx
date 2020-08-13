@@ -11,7 +11,9 @@ import {
     List
 } from 'framework7-react';
 
-export default class Settings extends Component {
+import { withTranslation } from 'react-i18next';
+
+class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,49 +21,41 @@ export default class Settings extends Component {
         };
     }
     render() {
-        const textSettings = "Settings";
-        const textDone = "Done";
-        const textFindAndReplace = "Find and Replace";
-        const textDocumentSettings = "Document Settings";
-        const textApplicationSettings = "Application Settings";
-        const textDownload = "Download";
-        const textPrint = "Print";
-        const textDocumentInfo = "Document Info";
-        const textHelp = "Help";
-        const textAbout = "About";
+        const { t } = this.props;
+        const _trarr = t('ViewSettings', {returnObjects: true});
 
         return (
             <Popup className="settings-popup" opened={this.state.popupOpened} onPopupClosed={() => this.setState({popupOpened : false})}>
                 <View>
                 <Page>
-                    <Navbar title={textSettings}>
+                    <Navbar title={t('ViewSettings.textSettings')}>
                         <NavRight>
-                            <Link popupClose=".settings-popup">{textDone}</Link>
+                            <Link popupClose=".settings-popup">{t('ViewSettings.textDone')}</Link>
                         </NavRight>
                     </Navbar>
                     <List>
-                        <ListItem title={textFindAndReplace}>
+                        <ListItem title={_trarr.textFindAndReplace}>
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
-                        <ListItem title={textDocumentSettings} link="/document-settings/">
+                        <ListItem title={_trarr.textDocumentSettings} link="/document-settings/">
                             <Icon slot="media" icon="icon-doc-setup"></Icon>
                         </ListItem>
-                        <ListItem title={textApplicationSettings} link="#">
+                        <ListItem title={_trarr.textApplicationSettings} link="#">
                             <Icon slot="media" icon="icon-app-settings"></Icon>
                         </ListItem>
-                        <ListItem title={textDownload} link="#">
+                        <ListItem title={_trarr.textDownload} link="#">
                             <Icon slot="media" icon="icon-download"></Icon>
                         </ListItem>
-                        <ListItem title={textPrint}>
+                        <ListItem title={t('ViewSettings.textPrint')}>
                             <Icon slot="media" icon="icon-print"></Icon>
                         </ListItem>
-                        <ListItem title={textDocumentInfo} link="#">
+                        <ListItem title={t('ViewSettings.textDocumentInfo')} link="#">
                             <Icon slot="media" icon="icon-info"></Icon>
                         </ListItem>
-                        <ListItem title={textHelp} link="#">
+                        <ListItem title={t('ViewSettings.textHelp')} link="#">
                             <Icon slot="media" icon="icon-help"></Icon>
                         </ListItem>
-                        <ListItem title={textAbout} link="#">
+                        <ListItem title={t('ViewSettings.textAbout')} link="#">
                             <Icon slot="media" icon="icon-about"></Icon>
                         </ListItem>
                     </List>
@@ -71,3 +65,5 @@ export default class Settings extends Component {
         )
     }
 };
+
+export default withTranslation()(Settings);

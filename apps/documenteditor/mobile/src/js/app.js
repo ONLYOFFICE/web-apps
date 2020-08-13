@@ -1,5 +1,5 @@
 // Import React and ReactDOM
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 
 // Import Framework7
@@ -21,12 +21,18 @@ import '../css/app.less';
 
 // Import App Component
 import App from '../components/app.jsx';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
 
 // Init F7 React Plugin
 Framework7.use(Framework7React)
 
 // Mount React App
 ReactDOM.render(
-  React.createElement(App),
+    <I18nextProvider i18n={i18n}>
+        <Suspense fallback="loading">
+            <App />
+        </Suspense>
+    </I18nextProvider>,
   document.getElementById('app'),
 );

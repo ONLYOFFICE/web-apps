@@ -22,6 +22,7 @@ import {
   BlockFooter
 } from 'framework7-react';
 
+import i18n from '../js/i18n';
 import routes from '../js/routes';
 
 import '../../../../common/Gateway.js';
@@ -105,7 +106,6 @@ export default class extends React.Component {
   }
   componentDidMount() {
     this.$f7ready((f7) => {
-
       // Call F7 APIs here
     });
 
