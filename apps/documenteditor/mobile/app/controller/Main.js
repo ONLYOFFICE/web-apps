@@ -1002,6 +1002,18 @@ define([
                         config.msg = this.errorBadImageUrl;
                         break;
 
+                    case Asc.c_oAscError.ID.SessionAbsolute:
+                        config.msg = this.errorSessionAbsolute;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionIdle:
+                        config.msg = this.errorSessionIdle;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionToken:
+                        config.msg = this.errorSessionToken;
+                        break;
+
                     case Asc.c_oAscError.ID.DataEncrypted:
                         config.msg = this.errorDataEncrypted;
                         break;
@@ -1561,7 +1573,10 @@ define([
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
             textYes: 'Yes',
-            textNo: 'No'
+            textNo: 'No',
+            errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
+            errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
+            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.'
         }
     })(), DE.Controllers.Main || {}))
 });

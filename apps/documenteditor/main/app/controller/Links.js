@@ -299,7 +299,7 @@ define([
                         primary: 'yes',
                         callback: _.bind(function (btn) {
                             if (btn == 'yes') {
-                                this.api.asc_RemoveAllFootnotes();
+                                this.api.asc_RemoveAllFootnotes(true, false);
                             }
                             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                         }, this)

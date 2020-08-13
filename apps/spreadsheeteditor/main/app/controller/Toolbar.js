@@ -1560,40 +1560,54 @@ define([
                     },
                     'command+shift+=,ctrl+shift+=': function(e) {
                         if (me.editMode && !me.toolbar.btnAddCell.isDisabled()) {
-                            var items = me.toolbar.btnAddCell.menu.items,
-                                arr = [];
-                            for (var i=0; i<4; i++)
-                                arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
-                            (new SSE.Views.CellsAddDialog({
-                                title: me.txtInsertCells,
-                                items: arr,
-                                handler: function (dlg, result) {
-                                    if (result=='ok') {
-                                        me.api.asc_insertCells(dlg.getSettings());
+                            var cellinfo = me.api.asc_getCellInfo(),
+                                selectionType = cellinfo.asc_getSelectionType();
+                            if (selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeCol) {
+                                me.api.asc_insertCells(selectionType === Asc.c_oAscSelectionType.RangeRow ? Asc.c_oAscInsertOptions.InsertRows :Asc.c_oAscInsertOptions.InsertColumns );
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            } else {
+                                var items = me.toolbar.btnAddCell.menu.items,
+                                    arr = [];
+                                for (var i=0; i<4; i++)
+                                    arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
+                                (new SSE.Views.CellsAddDialog({
+                                    title: me.txtInsertCells,
+                                    items: arr,
+                                    handler: function (dlg, result) {
+                                        if (result=='ok') {
+                                            me.api.asc_insertCells(dlg.getSettings());
+                                        }
+                                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                                     }
-                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                }
-                            })).show();
+                                })).show();
+                            }
                         }
 
                         return false;
                     },
                     'command+shift+-,ctrl+shift+-': function(e) {
                         if (me.editMode && !me.toolbar.btnDeleteCell.isDisabled()) {
-                            var items = me.toolbar.btnDeleteCell.menu.items,
-                                arr = [];
-                            for (var i=0; i<4; i++)
-                                arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
-                            (new SSE.Views.CellsAddDialog({
-                                title: me.txtDeleteCells,
-                                items: arr,
-                                handler: function (dlg, result) {
-                                    if (result=='ok') {
-                                        me.api.asc_deleteCells(dlg.getSettings());
+                            var cellinfo = me.api.asc_getCellInfo(),
+                                selectionType = cellinfo.asc_getSelectionType();
+                            if (selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeCol) {
+                                me.api.asc_deleteCells(selectionType === Asc.c_oAscSelectionType.RangeRow ? Asc.c_oAscDeleteOptions.DeleteRows :Asc.c_oAscDeleteOptions.DeleteColumns );
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            } else {
+                                var items = me.toolbar.btnDeleteCell.menu.items,
+                                    arr = [];
+                                for (var i=0; i<4; i++)
+                                    arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
+                                (new SSE.Views.CellsAddDialog({
+                                    title: me.txtDeleteCells,
+                                    items: arr,
+                                    handler: function (dlg, result) {
+                                        if (result=='ok') {
+                                            me.api.asc_deleteCells(dlg.getSettings());
+                                        }
+                                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                                     }
-                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                }
-                            })).show();
+                                })).show();
+                            }
                         }
 
                         return false;
