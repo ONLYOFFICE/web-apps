@@ -1498,8 +1498,7 @@ define([
             this.api.asc_registerCallback('asc_onStopFormatPainter',        _.bind(this.onApiStyleChange, this));
             this.api.asc_registerCallback('asc_onSelectionChanged',         _.bind(this.onApiSelectionChanged, this));
 
-            Common.util.Shortcuts.delegateShortcuts({
-                shortcuts: {
+            var shortcuts = {
                     'command+l,ctrl+l': function(e) {
                         if ( me.editMode && !me._state.multiselect && me.appConfig.canModifyFilter) {
                             var cellinfo = me.api.asc_getCellInfo(),
@@ -1557,8 +1556,9 @@ define([
                         }
 
                         return false;
-                    },
-                    'command+shift+=,ctrl+shift+=': function(e) {
+                    }
+            };
+            shortcuts['command+shift+=,ctrl+shift+=' + (Common.Utils.isGecko ? ',ctrl+shift+ff=' : '')] = function(e) {
                         if (me.editMode && !me.toolbar.btnAddCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
@@ -1584,8 +1584,8 @@ define([
                         }
 
                         return false;
-                    },
-                    'command+shift+-,ctrl+shift+-': function(e) {
+                    };
+            shortcuts['command+shift+-,ctrl+shift+-' + (Common.Utils.isGecko ? ',ctrl+shift+ff-' : '')] = function(e) {
                         if (me.editMode && !me.toolbar.btnDeleteCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
@@ -1611,9 +1611,8 @@ define([
                         }
 
                         return false;
-                    }
-                }
-            });
+                    };
+            Common.util.Shortcuts.delegateShortcuts({shortcuts: shortcuts});
 
             this.onApiSelectionChanged(this.api.asc_getCellInfo());
             this.attachToControlEvents();
