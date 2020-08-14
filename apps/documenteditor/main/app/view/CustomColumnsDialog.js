@@ -99,6 +99,8 @@ define([
             this.spnColumns.on('change', function(field, newValue, oldValue, eOpts){
                 var space = Common.Utils.Metric.fnRecalcToMM(me.spnSpacing.getNumberValue()),
                     num = me.spnColumns.getNumberValue();
+                me.chSeparator.setDisabled(num<2);
+                me.spnSpacing.setDisabled(num<2);
                 (num<2) && (num = 2);
                 var maxspace = parseFloat(((me.totalWidth-num*12.7)/(num-1)).toFixed(1));
                 me.spnSpacing.setMaxValue(Common.Utils.Metric.fnRecalcFromMM(maxspace));
@@ -158,6 +160,8 @@ define([
                     maxcols = parseInt((total+minspace)/(12.7+minspace));
                 this.spnColumns.setMaxValue(maxcols);
                 this.spnColumns.setValue(num, true);
+                this.chSeparator.setDisabled(num<2);
+                this.spnSpacing.setDisabled(num<2);
 
                 (num<2) && (num = 2);
                 (num>maxcols) && (num = maxcols);
