@@ -1558,7 +1558,7 @@ define([
                         return false;
                     }
             };
-            shortcuts['command+shift+=,ctrl+shift+=' + (Common.Utils.isGecko ? ',ctrl+shift+ff=' : '')] = function(e) {
+            shortcuts['command+shift+=,ctrl+shift+=' + (Common.Utils.isGecko ? ',command+shift+ff=,ctrl+shift+ff=' : '')] = function(e) {
                         if (me.editMode && !me.toolbar.btnAddCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
@@ -1585,7 +1585,7 @@ define([
 
                         return false;
                     };
-            shortcuts['command+shift+-,ctrl+shift+-' + (Common.Utils.isGecko ? ',ctrl+shift+ff-' : '')] = function(e) {
+            shortcuts['command+shift+-,ctrl+shift+-' + (Common.Utils.isGecko ? ',command+shift+ff-,ctrl+shift+ff-' : '')] = function(e) {
                         if (me.editMode && !me.toolbar.btnDeleteCell.isDisabled()) {
                             var cellinfo = me.api.asc_getCellInfo(),
                                 selectionType = cellinfo.asc_getSelectionType();
