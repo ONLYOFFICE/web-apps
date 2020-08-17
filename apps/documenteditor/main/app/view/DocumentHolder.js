@@ -359,7 +359,7 @@ define([
                 if (usersStore){
                     var rec = usersStore.findUser(id);
                     if (rec)
-                        return rec.get('username');
+                        return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
                 }
                 return me.guestText;
             };

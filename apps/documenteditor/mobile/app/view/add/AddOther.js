@@ -177,7 +177,7 @@ define([
                     var $commentInfo = $('#comment-info');
                     var template = [
                         '<% if (android) { %><div class="header-comment"><div class="initials-comment" style="background-color: <%= comment.usercolor %>;"><%= comment.userInitials %></div><div><% } %>',
-                        '<div class="user-name"><%= comment.username %></div>',
+                        '<div class="user-name"><%= scope.getUserName(comment.username) %></div>',
                         '<div class="comment-date"><%= comment.date %></div>',
                         '<% if (android) { %></div></div><% } %>',
                         '<div class="wrap-textarea"><textarea id="comment-text" class="comment-textarea" placeholder="<%= textAddComment %>" autofocus></textarea></div>'
@@ -185,7 +185,8 @@ define([
                     var insert = _.template(template)({
                         android: Framework7.prototype.device.android,
                         comment: comment,
-                        textAddComment: me.textAddComment
+                        textAddComment: me.textAddComment,
+                        scope: me
                     });
                     $commentInfo.html(insert);
                     _.defer(function () {
@@ -205,6 +206,10 @@ define([
                         };
                     });
                 }, 100);
+            },
+
+            getUserName: function (username) {
+                return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
             },
 
             renderNumFormat: function (dataFormat, selectFormat) {

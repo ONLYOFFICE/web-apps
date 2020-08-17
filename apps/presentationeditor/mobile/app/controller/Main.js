@@ -730,6 +730,9 @@ define([
                 me.appOptions.canBranding  = params.asc_getCustomization();
                 me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
 
+                me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object');
+                Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
+
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 

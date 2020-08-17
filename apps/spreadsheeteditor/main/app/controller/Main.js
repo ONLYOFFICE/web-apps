@@ -360,8 +360,7 @@ define([
                 this.appOptions.canFeaturePivot = !!this.api.asc_isSupportFeature("pivot-tables");
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
-                                .setUserName(this.appOptions.user.fullname);
+                this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
 
                 var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
                     isUseBaseSeparator = Common.localStorage.getBool("sse-settings-use-base-separator", true),
@@ -1022,6 +1021,9 @@ define([
                         this.headerView.setBranding(this.editorConfig.customization);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
+                    this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
+                    Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
+                    this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
                 } else
                     this.appOptions.canModifyFilter = true;
 

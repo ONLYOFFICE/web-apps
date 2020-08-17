@@ -128,7 +128,9 @@ define([
                     $userList.html(templateUserList({
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
-                        fnEncode: Common.Utils.String.htmlEncode
+                        fnEncode: function(username) {
+                            return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
+                        }
                     }));
 
                     $userList.scroller = new Common.UI.Scroller({

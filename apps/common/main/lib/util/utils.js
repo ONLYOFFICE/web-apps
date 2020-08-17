@@ -960,3 +960,30 @@ Common.Utils.ModalWindow = new(function() {
         }
     }
 })();
+
+Common.Utils.UserInfoParser = new(function() {
+    var parse = false;
+    return {
+        setParser: function(value) {
+            parse = !!value;
+        },
+
+        getParsedName: function(username) {
+            if (parse && username) {
+                return username.substring(username.indexOf(':')+1);
+            } else
+                return username;
+        },
+
+        getParsedGroups: function(username) {
+            if (parse && username) {
+                var idx = username.indexOf(':'),
+                    groups = (idx>-1) ? username.substring(0, idx).split(',') : [];
+                for (var i=0; i<groups.length; i++)
+                    groups[i] = groups[i].trim();
+                return groups;
+            } else
+                return undefined;
+        }
+    }
+})();

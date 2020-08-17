@@ -800,6 +800,9 @@ define([
                     me.appOptions.canUseHistory = me.appOptions.canReview = me.appOptions.isReviewOnly = false;
                 }
 
+                me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object');
+                Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
+                
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 
