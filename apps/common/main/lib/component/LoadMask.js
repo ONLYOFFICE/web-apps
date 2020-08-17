@@ -149,7 +149,7 @@ define([
                     timerId = 0;
                 }
                 if (ownerEl && ownerEl.ismasked) {
-                    if (ownerEl.closest('.asc-window.modal').length==0)
+                    if (ownerEl.closest('.asc-window.modal').length==0 && !Common.Utils.ModalWindow.isVisible())
                         Common.util.Shortcuts.resumeEvents();
 
                     maskeEl     && maskeEl.remove();
