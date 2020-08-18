@@ -330,7 +330,6 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 hint        : this.textColor,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-left',
-                    custom: true,
                     items: [
                     {
                         id: 'watermark-auto-color',

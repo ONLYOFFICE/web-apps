@@ -150,12 +150,11 @@ define([
                 offset      : [0, 0],
                 cyclic      : true,
                 search      : false,
-                scrollAlwaysVisible: true,
-                custom      : false
+                scrollAlwaysVisible: true
             },
 
             template: _.template([
-                '<ul class="dropdown-menu <% if(!options.custom) { %> shifted-right <% } %> <%= options.cls %>" oo_editor_input="true" style="<%= options.style %>" role="menu"></ul>'
+                '<ul class="dropdown-menu <%= options.cls %>" oo_editor_input="true" style="<%= options.style %>" role="menu"></ul>'
             ].join('')),
 
             initialize : function(options) {
@@ -621,12 +620,11 @@ define([
             offset      : [0, 0],
             cyclic      : true,
             search      : false,
-            scrollAlwaysVisible: true,
-            custom      : false
+            scrollAlwaysVisible: true
         },
 
         template: _.template([
-            '<ul class="dropdown-menu <% if(!options.custom) { %> shifted-right <% } %> <%= options.cls %>" oo_editor_input="true" style="<%= options.style %>" role="menu">',
+            '<ul class="dropdown-menu <%= options.cls %>" oo_editor_input="true" style="<%= options.style %>" role="menu">',
                 '<% _.each(items, function(item) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
                     '<% item.checked = item.checked || false;  %>',

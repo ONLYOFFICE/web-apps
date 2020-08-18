@@ -883,6 +883,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1053,6 +1054,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1080,6 +1082,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1099,6 +1102,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1128,6 +1132,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1180,6 +1185,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -2019,6 +2025,7 @@ define([
             }).on('click', _.bind(me.onPrintSelection, me));
 
             this.viewModeMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties())),
                         isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties())),
@@ -2122,7 +2129,7 @@ define([
                         me.fireEvent('editcomplete', me);
                     }
                     return new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
+                        cls: 'ppm-toolbar shifted-right',
                         menuAlign: 'tl-tr',
                         items: [
                             new Common.UI.MenuItem({
@@ -2208,7 +2215,7 @@ define([
                     }
 
                     return new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
+                        cls: 'ppm-toolbar shifted-right',
                         menuAlign: 'tl-tr',
                         items: [
                             new Common.UI.MenuItem({
@@ -2277,7 +2284,7 @@ define([
                     }
 
                     return new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
+                        cls: 'ppm-toolbar shifted-right',
                         menuAlign: 'tl-tr',
                         items: [
                             new Common.UI.MenuItem({
@@ -2411,6 +2418,7 @@ define([
             var menuImgReplace = new Common.UI.MenuItem({
                 caption     : me.textReplace,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
@@ -2478,6 +2486,7 @@ define([
             var menuImgRotate = new Common.UI.MenuItem({
                 caption     : me.textRotate,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
@@ -2508,6 +2517,7 @@ define([
             me.menuImgCrop = new Common.UI.MenuItem({
                 caption     : me.textCrop,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
@@ -2529,6 +2539,7 @@ define([
             });
 
             this.pictureMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
                         return;
@@ -2734,6 +2745,7 @@ define([
             var menuTableCellAlign = new Common.UI.MenuItem({
                 caption     : me.cellAlignText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuTableCellTop = new Common.UI.MenuItem({
@@ -2795,6 +2807,7 @@ define([
             var menuHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.hyperlinkText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         menuEditHyperlinkTable,
@@ -2816,6 +2829,7 @@ define([
             var menuTableControl = new Common.UI.MenuItem({
                 caption: me.textContentControls,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         menuTableRemoveControl,
@@ -2827,6 +2841,7 @@ define([
             var menuTableTOC = new Common.UI.MenuItem({
                 caption     : me.textTOC,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         {
@@ -2871,6 +2886,7 @@ define([
             me.menuSpellMoreTable = new Common.UI.MenuItem({
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: true,
                     items   : [
@@ -2935,6 +2951,7 @@ define([
                 iconCls: 'menu__icon btn-ic-docspell',
                 caption     : me.spellcheckText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuSpellTable,
@@ -3003,7 +3020,7 @@ define([
             var menuTableDirection = new Common.UI.MenuItem({
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar',
+                    cls: 'ppm-toolbar shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuTableDirectH = new Common.UI.MenuItem({
@@ -3052,6 +3069,7 @@ define([
             var menuNumberingTable = new Common.UI.MenuItem({
                 caption     : me.bulletsText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         menuTableStartNewList,
@@ -3073,6 +3091,7 @@ define([
             });
 
             this.tableMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function(value){
                     // table properties
                     if (_.isUndefined(value.tableProps))
@@ -3244,6 +3263,7 @@ define([
                     {
                         caption     : me.selectText,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             style   : 'width: 100px',
                             items   : [
@@ -3277,6 +3297,7 @@ define([
                     {
                         caption     : me.insertText,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             style   : 'width: 100px',
                             items   : [
@@ -3315,6 +3336,7 @@ define([
                     {
                         caption     : me.deleteText,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             style   : 'width: 100px',
                             items   : [
@@ -3407,6 +3429,7 @@ define([
             var menuParagraphVAlign = new Common.UI.MenuItem({
                 caption     : me.vertAlignText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuParagraphTop = new Common.UI.MenuItem({
@@ -3451,7 +3474,7 @@ define([
             var menuParagraphDirection = new Common.UI.MenuItem({
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar',
+                    cls: 'ppm-toolbar shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
@@ -3527,6 +3550,7 @@ define([
             var menuHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.hyperlinkText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         menuEditHyperlinkPara,
@@ -3539,6 +3563,7 @@ define([
             var menuStyle = new Common.UI.MenuItem({
                 caption: me.styleText,
                 menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuStyleSave = new Common.UI.MenuItem({
@@ -3559,6 +3584,7 @@ define([
             me.menuSpellMorePara = new Common.UI.MenuItem({
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: true,
                     items: []
@@ -3658,6 +3684,7 @@ define([
             var menuParaTOCRefresh = new Common.UI.MenuItem({
                 caption     : me.textUpdateTOC,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         {
@@ -3715,6 +3742,7 @@ define([
             });
 
             this.textMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));
@@ -3948,6 +3976,7 @@ define([
             });
 
             this.hdrMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function(value){
                     menuEditHeaderFooter.setCaption(value.Header ? me.editHeaderText : me.editFooterText, true);
                     menuEditHeaderFooter.off('click').on('click', function(item) {
