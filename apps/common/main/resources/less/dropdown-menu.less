@@ -84,4 +84,25 @@
             }
         }
     }
+
+    &.shifted-right {
+        li {
+            & > a {
+                padding-left: 28px;
+            }
+            .menu-item-icon {
+                margin: -3px 0 0 -24px;
+            }
+            .checked:not(.no-checkmark):before  {
+                margin-left: -22px;
+            }
+        }
+    }
+    &.shifted-left {
+        li {
+            & > a {
+                padding-left: 12px;
+            }
+        }
+    }
 }

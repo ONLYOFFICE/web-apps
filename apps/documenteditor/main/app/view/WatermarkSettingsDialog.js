@@ -329,15 +329,17 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-left',
+                    custom: true,
                     items: [
                     {
                         id: 'watermark-auto-color',
                         caption: this.textAuto,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #000;"></span><%= caption %></a>')
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
                     },
                     {caption: '--'},
                         { template: _.template('<div id="watermark-menu-textcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="watermark-menu-textcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        { template: _.template('<a id="watermark-menu-textcolor-new">' + this.textNewColor + '</a>') }
                     ]
                 })
             });

@@ -107,10 +107,12 @@ define([
                 var id = Common.UI.getId(),
                     menu = new Common.UI.Menu({
                     id: id,
+                    cls: 'shifted-left',
+                    custom: true,
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItems ? options.additionalItems : []).concat([
                         { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="' + id + '-color-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        { template: _.template('<a id="' + id + '-color-new" style="">' + this.textNewColor + '</a>') }
                     ])
                 });
                 return menu;

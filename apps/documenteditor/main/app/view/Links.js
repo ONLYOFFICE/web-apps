@@ -195,7 +195,8 @@ define([
                         btn.updateHint( me.tipContents );
 
                         var _menu = new Common.UI.Menu({
-                            cls: 'toc-menu',
+                            cls: 'toc-menu shifted-left',
+                            custom: true,
                             items: [
                                 {template: contentsTemplate, offsety: 0, value: 0},
                                 {template: contentsTemplate, offsety: 72, value: 1},
@@ -208,7 +209,8 @@ define([
                     });
 
                     me.contentsMenu = new Common.UI.Menu({
-                        cls: 'toc-menu',
+                        cls: 'toc-menu shifted-left',
+                        custom: true,
                         items: [
                             {template: contentsTemplate, offsety: 0, value: 0},
                             {template: contentsTemplate, offsety: 72, value: 1},
