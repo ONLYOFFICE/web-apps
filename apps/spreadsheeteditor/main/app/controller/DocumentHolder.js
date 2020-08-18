@@ -1701,7 +1701,7 @@ define([
                             documentHolder.mnuChartEdit.chartInfo = elValue;
                             ischartmenu = true;
                             has_chartprops = true;
-                        }  if ( elValue.asc_getSlicerProperties() ) {
+                        }  else if ( elValue.asc_getSlicerProperties() ) {
                             documentHolder.mnuSlicerAdvanced.imageInfo = elValue;
                             isslicermenu = true;
                         } else {

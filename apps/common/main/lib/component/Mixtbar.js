@@ -61,7 +61,7 @@ define([
         };
 
         function onTabDblclick(e) {
-            var tab = $(e.target).data('tab');
+            var tab = $(e.currentTarget).find('> a[data-tab]').data('tab');
             if ( this.dblclick_el == tab )
                 this.fireEvent('change:compact', [tab]);
         }
@@ -235,7 +235,6 @@ define([
 
             onTabClick: function (e) {
                 var me = this;
-
                 var $target = $(e.currentTarget);
                 var tab = $target.find('> a[data-tab]').data('tab');
                 var islone = $target.hasClass('x-lone');
@@ -245,8 +244,12 @@ define([
                         // me.fireEvent('')
                     } else
                     if ( $target.hasClass('active') ) {
-                        me.collapse();
+                        !me._timerSetTab && me.collapse();
                     } else {
+                        me._timerSetTab = true;
+                        setTimeout(function(){
+                            me._timerSetTab = false;
+                        }, 500);
                         me.setTab(tab);
                         me.processPanelVisible(null, true);
                     }
