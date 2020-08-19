@@ -114,29 +114,29 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             // Layout
 
-            this.btnChartType = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'svgicon chart-bar-normal',
-                menu        : new Common.UI.Menu({
-                    style: 'width: 364px; padding-top: 12px;',
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
-                    ]
-                })
-            });
-            this.btnChartType.on('render:after', function(btn) {
-                me.mnuChartTypePicker = new Common.UI.DataView({
-                    el: $('#id-chart-dlg-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 421,
-                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
-                    store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
-                });
-            });
-            this.btnChartType.render($('#chart-dlg-button-type'));
-            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
+            // this.btnChartType = new Common.UI.Button({
+            //     cls         : 'btn-large-dataview',
+            //     iconCls     : 'svgicon chart-bar-normal',
+            //     menu        : new Common.UI.Menu({
+            //         style: 'width: 364px; padding-top: 12px;',
+            //         additionalAlign: this.menuAddAlign,
+            //         items: [
+            //             { template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+            //         ]
+            //     })
+            // });
+            // this.btnChartType.on('render:after', function(btn) {
+            //     me.mnuChartTypePicker = new Common.UI.DataView({
+            //         el: $('#id-chart-dlg-menu-type'),
+            //         parentMenu: btn.menu,
+            //         restoreHeight: 421,
+            //         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
+            //         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
+            //         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+            //     });
+            // });
+            // this.btnChartType.render($('#chart-dlg-button-type'));
+            // this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
 
             // this.cmbDataDirect = new Common.UI.ComboBox({
             //     el          : $('#chart-dlg-combo-range'),
@@ -979,11 +979,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.setTitle((this.isChart) ? this.textTitle : this.textTitleSparkline);
 
+            this.btnsCategory[0].setVisible(false); // hide type for charts
             if (this.isChart) {
                 this.btnsCategory[4].setVisible(false);
                 this.btnsCategory[5].setVisible(false);
             } else {
-                this.btnsCategory[0].setVisible(false);
                 this.btnsCategory[1].setVisible(false);
                 this.btnsCategory[2].setVisible(false);
                 this.btnsCategory[3].setVisible(false);
@@ -1284,12 +1284,12 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                     // Layout
 
-                    var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
-                    this.mnuChartTypePicker.selectRecord(record, true);
-                    if (record) {
-                        this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
-                    } else
-                        this.btnChartType.setIconCls('svgicon');
+                    // var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
+                    // this.mnuChartTypePicker.selectRecord(record, true);
+                    // if (record) {
+                    //     this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
+                    // } else
+                    //     this.btnChartType.setIconCls('svgicon');
 
                     this._noApply = false;
 
@@ -1418,8 +1418,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             var value;
 
             if (this.isChart) {
-                var rec = this.mnuChartTypePicker.getSelectedRec(),
-                    type = (rec) ? rec.get('type') : this.currentChartType;
+                // var rec = this.mnuChartTypePicker.getSelectedRec(),
+                //     type = (rec) ? rec.get('type') : this.currentChartType;
+                var type = this.currentChartType;
 
                 this.chartSettings.putType(type);
 
@@ -1488,8 +1489,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 var isvalid,
                     range = this.chartSettings.getRange();
                 if (!_.isEmpty(range)) {
-                    var rec = this.mnuChartTypePicker.getSelectedRec(),
-                        type = (rec) ? rec.get('type') : this.currentChartType;
+                    // var rec = this.mnuChartTypePicker.getSelectedRec(),
+                    //     type = (rec) ? rec.get('type') : this.currentChartType;
+                    var type = this.currentChartType;
 
                     isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !this.chartSettings.getInColumns(), type);
                     if (isvalid == Asc.c_oAscError.ID.No)
