@@ -62,8 +62,10 @@ define([
 
         function onTabDblclick(e) {
             var tab = $(e.currentTarget).find('> a[data-tab]').data('tab');
-            if ( this.dblclick_el == tab )
+            if ( this.dblclick_el == tab ) {
                 this.fireEvent('change:compact', [tab]);
+                this.dblclick_el = undefined;
+            }
         }
 
         function onShowFullviewPanel(state) {
@@ -237,14 +239,19 @@ define([
                 var me = this;
                 var $target = $(e.currentTarget);
                 var tab = $target.find('> a[data-tab]').data('tab');
-                var islone = $target.hasClass('x-lone');
-                if ( me.isFolded ) {
-                    if ( $target.hasClass('x-lone') ) {
-                        me.collapse();
-                        // me.fireEvent('')
-                    } else
+                if ($target.hasClass('x-lone')) {
+                    me.isFolded && me.collapse();
+                } else {
                     if ( $target.hasClass('active') ) {
-                        !me._timerSetTab && me.collapse();
+                        if (!me._timerSetTab) {
+                            me.dblclick_el = tab;
+                            if ( me.isFolded ) {
+                                me.collapse();
+                                setTimeout(function(){
+                                    me.dblclick_el = undefined;
+                                }, 500);
+                            }
+                        }
                     } else {
                         me._timerSetTab = true;
                         setTimeout(function(){
@@ -252,11 +259,13 @@ define([
                         }, 500);
                         me.setTab(tab);
                         me.processPanelVisible(null, true);
-                    }
-                } else {
-                    if ( !$target.hasClass('active') && !islone ) {
-                        me.setTab(tab);
-                        me.processPanelVisible(null, true);
+                        if ( !me.isFolded ) {
+                            if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
+                            me.dblclick_timer = setTimeout(function () {
+                                me.dblclick_el = tab;
+                                delete me.dblclick_timer;
+                            },500);
+                        }
                     }
                 }
             },
@@ -291,12 +300,6 @@ define([
                     if ( $tp.length ) {
                         $tp.addClass('active');
                     }
-
-                    if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
-                    me.dblclick_timer = setTimeout(function () {
-                        me.dblclick_el = tab;
-                        delete me.dblclick_timer;
-                    },300);
 
                     this.fireEvent('tab:active', [tab]);
                 }
