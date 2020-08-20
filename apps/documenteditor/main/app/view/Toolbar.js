@@ -2006,6 +2006,7 @@ define([
 
                 if (this.mnuColorSchema == null) {
                     this.mnuColorSchema = new Common.UI.Menu({
+                        cls: 'shifted-left',
                         restoreHeight: true
                     });
                 }
