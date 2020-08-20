@@ -1701,7 +1701,7 @@ define([
                             documentHolder.mnuChartEdit.chartInfo = elValue;
                             ischartmenu = true;
                             has_chartprops = true;
-                        }  if ( elValue.asc_getSlicerProperties() ) {
+                        }  else if ( elValue.asc_getSlicerProperties() ) {
                             documentHolder.mnuSlicerAdvanced.imageInfo = elValue;
                             isslicermenu = true;
                         } else {
@@ -2726,6 +2726,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2896,6 +2897,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2923,6 +2925,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2942,6 +2945,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2971,6 +2975,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -3023,6 +3028,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {

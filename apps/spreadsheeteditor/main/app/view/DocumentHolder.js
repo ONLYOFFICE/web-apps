@@ -90,11 +90,13 @@ define([
             var me = this;
 
             me.menuViewCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
                 caption: me.txtCopy,
                 value: 'copy'
             });
 
             me.menuViewUndo = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-undo',
                 caption: me.textUndo
             });
 
@@ -103,6 +105,7 @@ define([
             });
 
             me.menuViewAddComment = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-comments',
                 id: 'id-context-menu-item-view-add-comment',
                 caption: me.txtAddComment
             });
@@ -114,6 +117,7 @@ define([
             me.menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
 
             this.viewModeMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 items: [
                     me.menuViewCopy,
                     me.menuViewUndo,
@@ -139,11 +143,13 @@ define([
             });
 
             me.pmiCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
                 caption     : me.txtCopy,
                 value       : 'copy'
             });
 
             me.pmiPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
                 caption     : me.txtPaste,
                 value       : 'paste'
             });
@@ -151,6 +157,7 @@ define([
             me.pmiSelectTable = new Common.UI.MenuItem({
                 caption     : me.txtSelect,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         { caption: this.selectRowText,      value:  Asc.c_oAscChangeSelectionFormatTable.row},
@@ -166,8 +173,10 @@ define([
             });
 
             me.pmiInsertCells = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-addcell',
                 caption     : me.txtInsert,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         {
@@ -188,8 +197,10 @@ define([
             });
             
             me.pmiInsertTable = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-addcell',
                 caption     : me.txtInsert,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         { caption: me.insertRowAboveText, value: Asc.c_oAscInsertOptions.InsertTableRowAbove},
@@ -205,8 +216,10 @@ define([
             });
 
             me.pmiDeleteCells = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-delcell',
                 caption     : me.txtDelete,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         {
@@ -227,8 +240,10 @@ define([
             });
 
             me.pmiDeleteTable = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-delcell',
                 caption     : me.txtDelete,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         { caption: this.deleteRowText,      value: Asc.c_oAscDeleteOptions.DeleteRows},
@@ -239,8 +254,10 @@ define([
             });
 
             me.pmiClear = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-clearstyle',
                 caption     : me.txtClear,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         {
@@ -270,12 +287,15 @@ define([
             me.pmiSortCells = new Common.UI.MenuItem({
                 caption     : me.txtSort,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         {
+                            iconCls: 'menu__icon btn-sort-down',
                             caption : me.txtAscending,
                             value   : Asc.c_oAscSortOptions.Ascending
                         },{
+                            iconCls: 'menu__icon btn-sort-up',
                             caption : me.txtDescending,
                             value   : Asc.c_oAscSortOptions.Descending
                         },{
@@ -290,8 +310,10 @@ define([
             });
 
             me.pmiFilterCells = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-autofilter',
                 caption     : me.txtFilter,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         {
@@ -313,6 +335,7 @@ define([
             });
 
             me.pmiInsFunction = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-function',
                 caption     : me.txtFormula
             });
 
@@ -333,6 +356,7 @@ define([
             me.menuHyperlink = new Common.UI.MenuItem({
                 caption     : me.txtInsHyperlink,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlink,
@@ -344,6 +368,7 @@ define([
             me.pmiRowHeight = new Common.UI.MenuItem({
                 caption     : me.txtRowHeight,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         { caption: me.txtAutoRowHeight, value: 'auto-row-height' },
@@ -355,6 +380,7 @@ define([
             me.pmiColumnWidth = new Common.UI.MenuItem({
                 caption     : me.txtColumnWidth,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         { caption: me.txtAutoColumnWidth, value: 'auto-column-width' },
@@ -372,6 +398,7 @@ define([
             });
 
             me.pmiAddComment = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-comments',
                 id          : 'id-context-menu-item-add-comment',
                 caption     : me.txtAddComment
             });
@@ -396,6 +423,7 @@ define([
             me.pmiSparklines = new Common.UI.MenuItem({
                 caption     : me.txtSparklines,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         { caption: me.txtClearSparklines, value: Asc.c_oAscCleanOptions.Sparklines },
@@ -413,6 +441,7 @@ define([
             me.pmiNumFormat = new Common.UI.MenuItem({
                 caption: me.txtNumFormat,
                 menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         {
@@ -505,6 +534,7 @@ define([
             });
 
             me.ssMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 id          : 'id-context-menu-cell',
                 items       : [
                     me.pmiCut,
@@ -560,10 +590,12 @@ define([
             });
 
             me.mnuShapeAdvanced = new Common.UI.MenuItem({
+                iconCls     : 'menu__icon btn-menu-shape',
                 caption : me.advancedShapeText
             });
 
             me.mnuImgAdvanced = new Common.UI.MenuItem({
+                iconCls     : 'menu__icon btn-menu-image',
                 caption : me.advancedImgText
             });
 
@@ -572,10 +604,12 @@ define([
             });
 
             me.mnuSlicerAdvanced = new Common.UI.MenuItem({
+                iconCls     : 'menu__icon btn-slicer',
                 caption : me.advancedSlicerText
             });
 
             me.mnuChartEdit = new Common.UI.MenuItem({
+                iconCls     : 'menu__icon btn-menu-chart',
                 caption : me.chartText
             });
 
@@ -585,11 +619,13 @@ define([
             });
 
             me.pmiImgCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
                 caption     : me.txtCopy,
                 value       : 'copy'
             });
 
             me.pmiImgPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
                 caption     : me.txtPaste,
                 value       : 'paste'
             });
@@ -605,6 +641,7 @@ define([
             me.menuImgReplace = new Common.UI.MenuItem({
                 caption     : me.textReplace,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({caption     : this.textFromFile, value: 'file'}),
@@ -617,6 +654,7 @@ define([
             me.menuImgCrop = new Common.UI.MenuItem({
                 caption     : me.textCrop,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
@@ -665,6 +703,7 @@ define([
             me.menuImageArrange = new Common.UI.MenuItem({
                 caption : me.textArrange,
                 menu    : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         me.mnuBringToFront,
@@ -681,6 +720,7 @@ define([
             me.menuImageAlign = new Common.UI.MenuItem({
                 caption     : me.textAlign,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [{
                         caption : me.textShapeAlignLeft,
@@ -724,25 +764,30 @@ define([
             me.menuImgRotate = new Common.UI.MenuItem({
                 caption     : me.textRotate,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-rotate-90',
                             caption: me.textRotate90,
                             type   : 'rotate',
                             value  : 1
                         }),
                         new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-rotate-270',
                             caption: me.textRotate270,
                             type   : 'rotate',
                             value  : 0
                         }),
                         { caption: '--' },
                         new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-flip-hor',
                             caption: me.textFlipH,
                             type   : 'flip',
                             value  : 1
                         }),
                         new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-flip-vert',
                             caption: me.textFlipV,
                             type   : 'flip',
                             value  : 0
@@ -752,6 +797,7 @@ define([
             });
 
             this.imgMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 items: [
                     me.pmiImgCut,
                     me.pmiImgCopy,
@@ -778,23 +824,30 @@ define([
             this.menuParagraphVAlign = new Common.UI.MenuItem({
                 caption     : this.vertAlignText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign   : 'tl-tr',
                     items: [
                         me.menuParagraphTop = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-top',
                             caption     : me.topCellText,
                             checkable   : true,
+                            checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
                             value       : Asc.c_oAscVAlign.Top
                         }),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-middle',
                             caption     : me.centerCellText,
                             checkable   : true,
+                            checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
                             value       : Asc.c_oAscVAlign.Center
                         }),
                         this.menuParagraphBottom = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-bottom',
                             caption     : me.bottomCellText,
                             checkable   : true,
+                            checkmark   : false,
                             toggleGroup : 'popupparagraphvalign',
                             value       : Asc.c_oAscVAlign.Bottom
                         })
@@ -805,6 +858,7 @@ define([
             me.menuParagraphDirection = new Common.UI.MenuItem({
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
@@ -839,8 +893,10 @@ define([
             });
 
             me.menuParagraphBullets = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-setmarkers',
                 caption     : me.bulletsText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         { template: _.template('<div id="id-docholder-menu-bullets" class="menu-layouts" style="width: 184px; margin: 0 4px;"></div>') },
@@ -897,6 +953,7 @@ define([
             me.menuHyperlinkShape = new Common.UI.MenuItem({
                 caption     : me.txtInsHyperlink,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuEditHyperlinkShape,
@@ -906,6 +963,7 @@ define([
             });
 
             this.pmiTextAdvanced = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paragraph',
                 caption     : me.txtTextAdvanced
             });
 
@@ -915,16 +973,19 @@ define([
             });
 
             me.pmiTextCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
                 caption     : me.txtCopy,
                 value       : 'copy'
             });
 
             me.pmiTextPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
                 caption     : me.txtPaste,
                 value       : 'paste'
             });
 
             this.textInShapeMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 items: [
                     me.pmiTextCut,
                     me.pmiTextCopy,
@@ -946,16 +1007,19 @@ define([
             });
 
             me.pmiCommonCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
                 caption     : me.txtCopy,
                 value       : 'copy'
             });
 
             me.pmiCommonPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
                 caption     : me.txtPaste,
                 value       : 'paste'
             });
 
             this.copyPasteMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 items: [
                     me.pmiCommonCut,
                     me.pmiCommonCopy,
