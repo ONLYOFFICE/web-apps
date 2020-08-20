@@ -244,8 +244,8 @@ define([
                 if (firstChild) {
                     firstChild.find('.menu-item-icon').removeClass(this.iconCls).addClass(iconCls);
                 }
-                this.iconCls = iconCls;
             }
+            this.iconCls = iconCls;
         },
 
         setChecked: function(check, suppressEvent) {

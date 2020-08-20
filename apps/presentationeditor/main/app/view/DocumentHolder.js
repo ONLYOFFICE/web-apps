@@ -2188,6 +2188,7 @@ define([
             });
 
             var menuTableCellAlign = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-align-top',
                 caption     : me.cellAlignText,
                 menu    : (function(){
                     function onItemClick(item, e) {
@@ -2766,6 +2767,7 @@ define([
             }).on('click', _.bind(me.editChartClick, me, undefined));
 
             var menuParagraphVAlign = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-align-top',
                 caption     : me.vertAlignText,
                 menu        : (function(){
                     function onItemClick(item) {
@@ -2824,6 +2826,7 @@ define([
             };
 
             var menuParagraphDirection = new Common.UI.MenuItem({
+                iconCls: 'menu__icon text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -3100,14 +3103,43 @@ define([
                     menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if (isInShape || isInChart) {
                         var align = value.shapeProps.value.get_VerticalTextAlign();
+                        var cls = '';
+                        switch (align) {
+                            case Asc.c_oAscVAlign.Top:
+                                cls = 'menu__icon btn-align-top';
+                                break;
+                            case Asc.c_oAscVAlign.Center:
+                                cls = 'menu__icon btn-align-middle';
+                                break;
+                            case Asc.c_oAscVAlign.Bottom:
+                                cls = 'menu__icon btn-align-bottom';
+                                break;
+                        }
+                        menuParagraphVAlign.setIconCls(cls);
                         me.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         me.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         me.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
                         var dir = value.shapeProps.value.get_Vert();
+                        cls = '';
+                        switch (dir) {
+                            case Asc.c_oAscVertDrawingText.normal:
+                                cls = 'menu__icon text-orient-hor';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert:
+                                cls = 'menu__icon text-orient-rdown';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert270:
+                                cls = 'menu__icon btn-align-rup';
+                                break;
+                        }
+                        menuParagraphDirection.setIconCls(cls);
                         me.menuParagraphDirectH.setChecked(dir == Asc.c_oAscVertDrawingText.normal);
                         me.menuParagraphDirect90.setChecked(dir == Asc.c_oAscVertDrawingText.vert);
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
+                    } else {
+                        menuParagraphVAlign.setIconCls('');
+                        menuParagraphDirection.setIconCls('');
                     }
                     menuParagraphVAlign.setDisabled(disabled);
                     menuParagraphDirection.setDisabled(disabled);
@@ -3224,9 +3256,23 @@ define([
 
                     var disabled = (value.slideProps!==undefined && value.slideProps.locked);
 
-                    me.menuTableCellTop.setChecked(value.tableProps.value.get_CellsVAlign() == Asc.c_oAscVertAlignJc.Top);
-                    me.menuTableCellCenter.setChecked(value.tableProps.value.get_CellsVAlign() == Asc.c_oAscVertAlignJc.Center);
-                    me.menuTableCellBottom.setChecked(value.tableProps.value.get_CellsVAlign() == Asc.c_oAscVertAlignJc.Bottom);
+                    var align = value.tableProps.value.get_CellsVAlign();
+                    var cls = '';
+                    switch (align) {
+                        case Asc.c_oAscVertAlignJc.Top:
+                            cls = 'menu__icon btn-align-top';
+                            break;
+                        case Asc.c_oAscVertAlignJc.Center:
+                            cls = 'menu__icon btn-align-middle';
+                            break;
+                        case Asc.c_oAscVertAlignJc.Bottom:
+                            cls = 'menu__icon btn-align-bottom';
+                            break;
+                    }
+                    menuTableCellAlign.setIconCls(cls);
+                    me.menuTableCellTop.setChecked(align == Asc.c_oAscVertAlignJc.Top);
+                    me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
+                    me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
 
                     if (me.api) {
                         mnuTableMerge.setDisabled(value.tableProps.locked || disabled || !me.api.CheckBeforeMergeCells());

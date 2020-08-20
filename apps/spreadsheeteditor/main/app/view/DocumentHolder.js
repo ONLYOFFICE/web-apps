@@ -822,6 +822,7 @@ define([
             });
 
             this.menuParagraphVAlign = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-align-top',
                 caption     : this.vertAlignText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -856,6 +857,7 @@ define([
             });
 
             me.menuParagraphDirection = new Common.UI.MenuItem({
+                iconCls: 'menu__icon text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',

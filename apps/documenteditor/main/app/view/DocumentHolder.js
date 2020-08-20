@@ -2744,6 +2744,7 @@ define([
             };
 
             var menuTableCellAlign = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-align-top',
                 caption     : me.cellAlignText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -3019,6 +3020,7 @@ define([
             };
 
             var menuTableDirection = new Common.UI.MenuItem({
+                iconCls: 'menu__icon text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar shifted-right',
@@ -3105,11 +3107,37 @@ define([
                     }
 
                     var align = value.tableProps.value.get_CellsVAlign();
+                    var cls = '';
+                    switch (align) {
+                        case Asc.c_oAscVertAlignJc.Top:
+                            cls = 'menu__icon btn-align-top';
+                            break;
+                        case Asc.c_oAscVertAlignJc.Center:
+                            cls = 'menu__icon btn-align-middle';
+                            break;
+                        case Asc.c_oAscVertAlignJc.Bottom:
+                            cls = 'menu__icon btn-align-bottom';
+                            break;
+                    }
+                    menuTableCellAlign.setIconCls(cls);
                     me.menuTableCellTop.setChecked(align == Asc.c_oAscVertAlignJc.Top);
                     me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
 
                     var dir = value.tableProps.value.get_CellsTextDirection();
+                    cls = '';
+                    switch (dir) {
+                        case Asc.c_oAscCellTextDirection.LRTB:
+                            cls = 'menu__icon text-orient-hor';
+                            break;
+                        case Asc.c_oAscCellTextDirection.TBRL:
+                            cls = 'menu__icon text-orient-rdown';
+                            break;
+                        case Asc.c_oAscCellTextDirection.BTLR:
+                            cls = 'menu__icon btn-align-rup';
+                            break;
+                    }
+                    menuTableDirection.setIconCls(cls);
                     me.menuTableDirectH.setChecked(dir == Asc.c_oAscCellTextDirection.LRTB);
                     me.menuTableDirect90.setChecked(dir == Asc.c_oAscCellTextDirection.TBRL);
                     me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
@@ -3127,7 +3155,6 @@ define([
                     menuTableDistCols.setDisabled(disabled);
                     menuTableCellAlign.setDisabled(disabled);
                     menuTableDirection.setDisabled(disabled);
-
                     menuTableAdvanced.setDisabled(disabled);
 
                     var cancopy = me.api && me.api.can_CopyCut();
@@ -3430,6 +3457,7 @@ define([
             };
 
             var menuParagraphVAlign = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-align-top',
                 caption     : me.vertAlignText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -3475,6 +3503,7 @@ define([
             };
 
             var menuParagraphDirection = new Common.UI.MenuItem({
+                iconCls: 'menu__icon text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
                     cls: 'ppm-toolbar shifted-right',
@@ -3755,11 +3784,37 @@ define([
                     menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if ( isInShape || isInChart ) {
                         var align = value.imgProps.value.get_VerticalTextAlign();
+                        var cls = '';
+                        switch (align) {
+                            case Asc.c_oAscVAlign.Top:
+                                cls = 'menu__icon btn-align-top';
+                                break;
+                            case Asc.c_oAscVAlign.Center:
+                                cls = 'menu__icon btn-align-middle';
+                                break;
+                            case Asc.c_oAscVAlign.Bottom:
+                                cls = 'menu__icon btn-align-bottom';
+                                break;
+                        }
+                        menuParagraphVAlign.setIconCls(cls);
                         me.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         me.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         me.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
                         var dir = value.imgProps.value.get_Vert();
+                        cls = '';
+                        switch (dir) {
+                            case Asc.c_oAscVertDrawingText.normal:
+                                cls = 'menu__icon text-orient-hor';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert:
+                                cls = 'menu__icon text-orient-rdown';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert270:
+                                cls = 'menu__icon btn-align-rup';
+                                break;
+                        }
+                        menuParagraphDirection.setIconCls(cls);
                         me.menuParagraphDirectH.setChecked(dir == Asc.c_oAscVertDrawingText.normal);
                         me.menuParagraphDirect90.setChecked(dir == Asc.c_oAscVertDrawingText.vert);
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
