@@ -2161,6 +2161,7 @@ define([
             });
 
             var mnuTableMerge = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-merge',
                 caption     : me.mergeCellsText
             }).on('click', function(item) {
                 if (me.api)
@@ -3326,6 +3327,7 @@ define([
                         })
                     }),
                     {
+                        iconCls: 'menu__icon btn-addcell',
                         caption     : me.insertText,
                         menu        : new Common.UI.Menu({
                             cls: 'shifted-right',
@@ -3360,6 +3362,7 @@ define([
                         })
                     },
                     new Common.UI.MenuItem({
+                        iconCls: 'menu__icon btn-delcell',
                         caption     : me.deleteText,
                         menu        : new Common.UI.Menu({
                             cls: 'shifted-right',
