@@ -458,7 +458,9 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                     this.chShowNoData.setDisabled(checked || (this.chIndNoData.getValue()!='checked'));
                     this.chShowDel.setDisabled(checked);
 
-                    this.inputName.setValue(slicerprops.asc_getName());
+                    value = slicerprops.asc_getName();
+                    this.inputName.setValue(value !== null && value !== undefined ? value : '');
+                    this.inputName.setDisabled(value === null || value === undefined);
                     this.lblSource.text(slicerprops.asc_getSourceName());
                     this.lblFormula.text(slicerprops.asc_getNameInFormulas());
 
