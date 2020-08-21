@@ -324,6 +324,7 @@ define([
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                         split: true,
                         menu: new Common.UI.Menu({
+                            cls: 'shifted-left',
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>')}
@@ -521,6 +522,7 @@ define([
                         caption: me.capInsertTable,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         menu: new Common.UI.Menu({
+                            cls: 'shifted-left',
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
                                 {caption: me.mniCustomTable, value: 'custom'}
@@ -636,6 +638,7 @@ define([
                         iconCls: 'toolbar__icon btn-colorschemas',
                         lock: [_set.themeLock, _set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         menu: new Common.UI.Menu({
+                            cls: 'shifted-left',
                             items: [],
                             restoreHeight: true
                         })
@@ -676,6 +679,7 @@ define([
                         iconCls: 'toolbar__icon shape-align-left',
                         lock: [_set.slideDeleted, _set.shapeLock, _set.lostConnect, _set.noSlides, _set.noObjectSelected, _set.disableOnStart],
                         menu: new Common.UI.Menu({
+                            cls: 'shifted-right',
                             items: [
                                 {
                                     caption: me.textShapeAlignLeft,
@@ -1106,9 +1110,10 @@ define([
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
+                        cls: 'shifted-left',
                         style: 'min-width: 139px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 16px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
                             this.mnuMarkerSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 value: 'settings'
@@ -1119,8 +1124,9 @@ define([
 
                 this.btnNumbers.setMenu(
                     new Common.UI.Menu({
+                        cls: 'shifted-left',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 16px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
                             this.mnuNumberSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 value: 'settings'
@@ -1296,6 +1302,7 @@ define([
 
                     if (mnuColorSchema == null) {
                         mnuColorSchema = new Common.UI.Menu({
+                            cls: 'shifted-left',
                             restoreHeight: true
                         });
                     }

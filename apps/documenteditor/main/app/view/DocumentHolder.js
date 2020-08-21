@@ -883,6 +883,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1053,6 +1054,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1080,6 +1082,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1099,6 +1102,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1128,6 +1132,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1180,6 +1185,7 @@ define([
                             equation    : true,
                             disabled    : me._currentParaObjDisabled,
                             menu        : new Common.UI.Menu({
+                                cls: 'shifted-right',
                                 menuAlign: 'tl-tr',
                                 items   : [
                                     {
@@ -1986,11 +1992,13 @@ define([
             var me = this;
 
             var menuViewCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
                 caption: me.textCopy,
                 value: 'copy'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuViewUndo = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-undo',
                 caption: me.textUndo
             }).on('click', function () {
                 me.api.Undo();
@@ -2001,6 +2009,7 @@ define([
             });
 
             var menuViewAddComment = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-comments',
                 caption: me.addCommentText
             }).on('click', _.bind(me.addComment, me));
 
@@ -2011,10 +2020,12 @@ define([
             var menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
 
             var menuViewPrint = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
             }).on('click', _.bind(me.onPrintSelection, me));
 
             this.viewModeMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties())),
                         isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties())),
@@ -2118,7 +2129,7 @@ define([
                         me.fireEvent('editcomplete', me);
                     }
                     return new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
+                        cls: 'ppm-toolbar shifted-right',
                         menuAlign: 'tl-tr',
                         items: [
                             new Common.UI.MenuItem({
@@ -2204,7 +2215,7 @@ define([
                     }
 
                     return new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
+                        cls: 'ppm-toolbar shifted-right',
                         menuAlign: 'tl-tr',
                         items: [
                             new Common.UI.MenuItem({
@@ -2246,6 +2257,7 @@ define([
             });
 
             this.menuImageWrap = new Common.UI.MenuItem({
+                iconCls: 'menu__icon wrap-inline',
                 caption : me.textWrap,
                 menu    : (function(){
                     function onItemClick(item, e) {
@@ -2272,7 +2284,7 @@ define([
                     }
 
                     return new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
+                        cls: 'ppm-toolbar shifted-right',
                         menuAlign: 'tl-tr',
                         items: [
                             new Common.UI.MenuItem({
@@ -2339,6 +2351,7 @@ define([
             });
 
             var menuImageAdvanced = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-image',
                 caption : me.advancedText
             }).on('click', function(item, e) {
                 var elType, elValue;
@@ -2405,6 +2418,7 @@ define([
             var menuImgReplace = new Common.UI.MenuItem({
                 caption     : me.textReplace,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
@@ -2444,11 +2458,13 @@ define([
             });
 
             var menuImgCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
                 caption : me.textCopy,
                 value : 'copy'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuImgPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
                 value : 'paste'
             }).on('click', _.bind(me.onCutCopyPaste, me));
@@ -2459,6 +2475,7 @@ define([
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuImgPrint = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
             }).on('click', _.bind(me.onPrintSelection, me));
 
@@ -2469,22 +2486,27 @@ define([
             var menuImgRotate = new Common.UI.MenuItem({
                 caption     : me.textRotate,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-rotate-90',
                             caption: this.textRotate90,
                             value  : 1
                         }).on('click', _.bind(me.onImgRotate, me)),
                         new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-rotate-270',
                             caption: this.textRotate270,
                             value  : 0
                         }).on('click', _.bind(me.onImgRotate, me)),
                         { caption: '--' },
                         new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-flip-hor',
                             caption: this.textFlipH,
                             value  : 1
                         }).on('click', _.bind(me.onImgFlip, me)),
                         new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-flip-vert',
                             caption: this.textFlipV,
                             value  : 0
                         }).on('click', _.bind(me.onImgFlip, me))
@@ -2495,6 +2517,7 @@ define([
             me.menuImgCrop = new Common.UI.MenuItem({
                 caption     : me.textCrop,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         new Common.UI.MenuItem({
@@ -2516,6 +2539,7 @@ define([
             });
 
             this.pictureMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function(value){
                     if (_.isUndefined(value.imgProps))
                         return;
@@ -2525,50 +2549,63 @@ define([
 
                     me.menuImageWrap._originalProps = value.imgProps.value;
 
+                    var cls = 'menu__icon ';
                     if (notflow) {
                         for (var i = 0; i < 6; i++) {
                             me.menuImageWrap.menu.items[i].setChecked(false);
                         }
+                        cls += 'wrap-inline';
                     } else {
                         switch (wrapping) {
                             case Asc.c_oAscWrapStyle2.Inline:
                                 me.menuImageWrap.menu.items[0].setChecked(true);
+                                cls += 'wrap-inline';
                                 break;
                             case Asc.c_oAscWrapStyle2.Square:
                                 me.menuImageWrap.menu.items[1].setChecked(true);
+                                cls += 'wrap-square';
                                 break;
                             case Asc.c_oAscWrapStyle2.Tight:
                                 me.menuImageWrap.menu.items[2].setChecked(true);
+                                cls += 'wrap-tight';
                                 break;
                             case Asc.c_oAscWrapStyle2.Through:
                                 me.menuImageWrap.menu.items[3].setChecked(true);
+                                cls += 'wrap-through';
                                 break;
                             case Asc.c_oAscWrapStyle2.TopAndBottom:
                                 me.menuImageWrap.menu.items[4].setChecked(true);
+                                cls += 'wrap-topandbottom';
                                 break;
                             case Asc.c_oAscWrapStyle2.Behind:
                                 me.menuImageWrap.menu.items[6].setChecked(true);
+                                cls += 'wrap-behind';
                                 break;
                             case Asc.c_oAscWrapStyle2.InFront:
                                 me.menuImageWrap.menu.items[5].setChecked(true);
+                                cls += 'wrap-infront';
                                 break;
                             default:
                                 for (var i = 0; i < 6; i++) {
                                     me.menuImageWrap.menu.items[i].setChecked(false);
                                 }
+                                cls += 'wrap-infront';
                                 break;
                         }
                     }
+                    me.menuImageWrap.setIconCls(cls);
                     _.each(me.menuImageWrap.menu.items, function(item) {
                         item.setDisabled(notflow);
                     });
 
                     var onlyCommonProps = ( value.imgProps.isImg && value.imgProps.isChart || value.imgProps.isImg && value.imgProps.isShape ||
                                                        value.imgProps.isShape && value.imgProps.isChart);
-                    if (onlyCommonProps)
+                    if (onlyCommonProps) {
                         menuImageAdvanced.setCaption(me.advancedText, true);
-                    else {
+                        menuImageAdvanced.setIconCls('menu__icon btn-menu-image');
+                    } else {
                         menuImageAdvanced.setCaption((value.imgProps.isImg) ? me.imageText : ((value.imgProps.isChart) ? me.chartText : me.shapeText), true);
+                        menuImageAdvanced.setIconCls('menu__icon ' + (value.imgProps.isImg ? 'btn-menu-image' : (value.imgProps.isChart ? 'btn-menu-chart' : 'btn-menu-shape')));
                     }
 
                     menuChartEdit.setVisible(!_.isNull(value.imgProps.value.get_ChartProperties()) && !onlyCommonProps);
@@ -2672,6 +2709,7 @@ define([
             }).on('click', _.bind(me.onInsertCaption, me));
 
             var mnuTableMerge = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-merge',
                 caption     : me.mergeCellsText
             }).on('click', function(item) {
                 if (me.api)
@@ -2706,27 +2744,35 @@ define([
             };
 
             var menuTableCellAlign = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-align-top',
                 caption     : me.cellAlignText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuTableCellTop = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-top',
                             caption     : me.textShapeAlignTop,
                             toggleGroup : 'popuptablecellalign',
+                            checkmark   : false,
                             checkable   : true,
                             checked     : false,
                             valign      : Asc.c_oAscVertAlignJc.Top
                         }).on('click', _.bind(tableCellsVAlign, me)),
                         me.menuTableCellCenter = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-middle',
                             caption     : me.textShapeAlignMiddle,
                             toggleGroup : 'popuptablecellalign',
+                            checkmark   : false,
                             checkable   : true,
                             checked     : false,
                             valign      : Asc.c_oAscVertAlignJc.Center
                         }).on('click', _.bind(tableCellsVAlign, me)),
                         me.menuTableCellBottom = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-bottom',
                             caption     : me.textShapeAlignBottom,
                             toggleGroup : 'popuptablecellalign',
+                            checkmark   : false,
                             checkable   : true,
                             checked     : false,
                             valign      : Asc.c_oAscVertAlignJc.Bottom
@@ -2736,10 +2782,12 @@ define([
             });
 
             var menuTableAdvanced = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-table',
                 caption        : me.advancedTableText
             }).on('click', _.bind(me.advancedTableClick, me));
 
             var menuParagraphAdvancedInTable = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paragraph',
                 caption     : me.advancedParagraphText
             }).on('click', _.bind(me.advancedParagraphClick, me));
 
@@ -2761,6 +2809,7 @@ define([
             var menuHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.hyperlinkText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         menuEditHyperlinkTable,
@@ -2782,6 +2831,7 @@ define([
             var menuTableControl = new Common.UI.MenuItem({
                 caption: me.textContentControls,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         menuTableRemoveControl,
@@ -2793,6 +2843,7 @@ define([
             var menuTableTOC = new Common.UI.MenuItem({
                 caption     : me.textTOC,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         {
@@ -2816,6 +2867,7 @@ define([
 
             /** coauthoring begin **/
             var menuAddCommentTable = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-comments',
                 caption     : me.addCommentText
             }).on('click', _.bind(me.addComment, me));
             /** coauthoring end **/
@@ -2836,6 +2888,7 @@ define([
             me.menuSpellMoreTable = new Common.UI.MenuItem({
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: true,
                     items   : [
@@ -2851,6 +2904,7 @@ define([
             ].join(''));
 
             me.langTableMenu = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
                     cls: 'lang-menu',
@@ -2896,8 +2950,10 @@ define([
             });
 
             me.menuSpellCheckTable = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-ic-docspell',
                 caption     : me.spellcheckText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuSpellTable,
@@ -2913,11 +2969,13 @@ define([
             });
 
             var menuTableCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
                 caption : me.textCopy,
                 value : 'copy'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuTablePaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
                 value : 'paste'
             }).on('click', _.bind(me.onCutCopyPaste, me));
@@ -2928,6 +2986,7 @@ define([
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuTablePrint = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
             }).on('click', _.bind(me.onPrintSelection, me));
 
@@ -2961,9 +3020,10 @@ define([
             };
 
             var menuTableDirection = new Common.UI.MenuItem({
+                iconCls: 'menu__icon text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar',
+                    cls: 'ppm-toolbar shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuTableDirectH = new Common.UI.MenuItem({
@@ -3012,6 +3072,7 @@ define([
             var menuNumberingTable = new Common.UI.MenuItem({
                 caption     : me.bulletsText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         menuTableStartNewList,
@@ -3033,6 +3094,7 @@ define([
             });
 
             this.tableMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function(value){
                     // table properties
                     if (_.isUndefined(value.tableProps))
@@ -3045,11 +3107,37 @@ define([
                     }
 
                     var align = value.tableProps.value.get_CellsVAlign();
+                    var cls = '';
+                    switch (align) {
+                        case Asc.c_oAscVertAlignJc.Top:
+                            cls = 'menu__icon btn-align-top';
+                            break;
+                        case Asc.c_oAscVertAlignJc.Center:
+                            cls = 'menu__icon btn-align-middle';
+                            break;
+                        case Asc.c_oAscVertAlignJc.Bottom:
+                            cls = 'menu__icon btn-align-bottom';
+                            break;
+                    }
+                    menuTableCellAlign.setIconCls(cls);
                     me.menuTableCellTop.setChecked(align == Asc.c_oAscVertAlignJc.Top);
                     me.menuTableCellCenter.setChecked(align == Asc.c_oAscVertAlignJc.Center);
                     me.menuTableCellBottom.setChecked(align == Asc.c_oAscVertAlignJc.Bottom);
 
                     var dir = value.tableProps.value.get_CellsTextDirection();
+                    cls = '';
+                    switch (dir) {
+                        case Asc.c_oAscCellTextDirection.LRTB:
+                            cls = 'menu__icon text-orient-hor';
+                            break;
+                        case Asc.c_oAscCellTextDirection.TBRL:
+                            cls = 'menu__icon text-orient-rdown';
+                            break;
+                        case Asc.c_oAscCellTextDirection.BTLR:
+                            cls = 'menu__icon btn-align-rup';
+                            break;
+                    }
+                    menuTableDirection.setIconCls(cls);
                     me.menuTableDirectH.setChecked(dir == Asc.c_oAscCellTextDirection.LRTB);
                     me.menuTableDirect90.setChecked(dir == Asc.c_oAscCellTextDirection.TBRL);
                     me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
@@ -3067,7 +3155,6 @@ define([
                     menuTableDistCols.setDisabled(disabled);
                     menuTableCellAlign.setDisabled(disabled);
                     menuTableDirection.setDisabled(disabled);
-
                     menuTableAdvanced.setDisabled(disabled);
 
                     var cancopy = me.api && me.api.can_CopyCut();
@@ -3204,6 +3291,7 @@ define([
                     {
                         caption     : me.selectText,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             style   : 'width: 100px',
                             items   : [
@@ -3235,8 +3323,10 @@ define([
                         })
                     },
                     {
+                        iconCls: 'menu__icon btn-addcell',
                         caption     : me.insertText,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             style   : 'width: 100px',
                             items   : [
@@ -3273,8 +3363,10 @@ define([
                         })
                     },
                     {
+                        iconCls: 'menu__icon btn-delcell',
                         caption     : me.deleteText,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             style   : 'width: 100px',
                             items   : [
@@ -3365,26 +3457,34 @@ define([
             };
 
             var menuParagraphVAlign = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-align-top',
                 caption     : me.vertAlignText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuParagraphTop = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-top',
                             caption     : me.textShapeAlignTop,
+                            checkmark   : false,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
                             valign      : Asc.c_oAscVAlign.Top
                         }).on('click', _.bind(paragraphVAlign, me)),
                         me.menuParagraphCenter = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-middle',
                             caption     : me.textShapeAlignMiddle,
+                            checkmark   : false,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
                             valign      : Asc.c_oAscVAlign.Center
                         }).on('click', _.bind(paragraphVAlign, me)),
                         me.menuParagraphBottom = new Common.UI.MenuItem({
+                            iconCls: 'menu__icon btn-align-bottom',
                             caption     : me.textShapeAlignBottom,
+                            checkmark   : false,
                             checkable   : true,
                             checked     : false,
                             toggleGroup : 'popupparagraphvalign',
@@ -3403,9 +3503,10 @@ define([
             };
 
             var menuParagraphDirection = new Common.UI.MenuItem({
+                iconCls: 'menu__icon text-orient-hor',
                 caption     : me.directionText,
                 menu        : new Common.UI.Menu({
-                    cls: 'ppm-toolbar',
+                    cls: 'ppm-toolbar shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         me.menuParagraphDirectH = new Common.UI.MenuItem({
@@ -3440,6 +3541,7 @@ define([
             });
 
             var menuParagraphAdvanced = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paragraph',
                 caption     : me.advancedParagraphText
             }).on('click', _.bind(me.advancedParagraphClick, me));
 
@@ -3453,6 +3555,7 @@ define([
             });
 
             var menuAddCommentPara = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-menu-comments',
                 caption     : me.addCommentText
             }).on('click', _.bind(me.addComment, me));
             /** coauthoring end **/
@@ -3479,6 +3582,7 @@ define([
             var menuHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.hyperlinkText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         menuEditHyperlinkPara,
@@ -3491,6 +3595,7 @@ define([
             var menuStyle = new Common.UI.MenuItem({
                 caption: me.styleText,
                 menu: new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items: [
                         me.menuStyleSave = new Common.UI.MenuItem({
@@ -3511,6 +3616,7 @@ define([
             me.menuSpellMorePara = new Common.UI.MenuItem({
                 caption     : me.moreText,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     restoreHeight: true,
                     items: []
@@ -3518,6 +3624,7 @@ define([
             });
 
             me.langParaMenu = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-ic-doclang',
                 caption     : me.langText,
                 menu        : new Common.UI.MenuSimple({
                     cls: 'lang-menu',
@@ -3559,11 +3666,13 @@ define([
             });
 
             var menuParaCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
                 caption : me.textCopy,
                 value : 'copy'
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuParaPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
                 caption : me.textPaste,
                 value : 'paste'
             }).on('click', _.bind(me.onCutCopyPaste, me));
@@ -3574,6 +3683,7 @@ define([
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuParaPrint = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-print',
                 caption : me.txtPrintSelection
             }).on('click', _.bind(me.onPrintSelection, me));
 
@@ -3606,6 +3716,7 @@ define([
             var menuParaTOCRefresh = new Common.UI.MenuItem({
                 caption     : me.textUpdateTOC,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-right',
                     menuAlign: 'tl-tr',
                     items   : [
                         {
@@ -3663,6 +3774,7 @@ define([
             });
 
             this.textMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function(value){
                     var isInShape = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ShapeProperties()));
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties()));
@@ -3672,11 +3784,37 @@ define([
                     menuParagraphDirection.setVisible(isInShape && !isInChart && !isEquation); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
                     if ( isInShape || isInChart ) {
                         var align = value.imgProps.value.get_VerticalTextAlign();
+                        var cls = '';
+                        switch (align) {
+                            case Asc.c_oAscVAlign.Top:
+                                cls = 'menu__icon btn-align-top';
+                                break;
+                            case Asc.c_oAscVAlign.Center:
+                                cls = 'menu__icon btn-align-middle';
+                                break;
+                            case Asc.c_oAscVAlign.Bottom:
+                                cls = 'menu__icon btn-align-bottom';
+                                break;
+                        }
+                        menuParagraphVAlign.setIconCls(cls);
                         me.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         me.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         me.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
                         var dir = value.imgProps.value.get_Vert();
+                        cls = '';
+                        switch (dir) {
+                            case Asc.c_oAscVertDrawingText.normal:
+                                cls = 'menu__icon text-orient-hor';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert:
+                                cls = 'menu__icon text-orient-rdown';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert270:
+                                cls = 'menu__icon btn-align-rup';
+                                break;
+                        }
+                        menuParagraphDirection.setIconCls(cls);
                         me.menuParagraphDirectH.setChecked(dir == Asc.c_oAscVertDrawingText.normal);
                         me.menuParagraphDirect90.setChecked(dir == Asc.c_oAscVertDrawingText.vert);
                         me.menuParagraphDirect270.setChecked(dir == Asc.c_oAscVertDrawingText.vert270);
@@ -3896,6 +4034,7 @@ define([
             });
 
             this.hdrMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 initMenu: function(value){
                     menuEditHeaderFooter.setCaption(value.Header ? me.editHeaderText : me.editFooterText, true);
                     menuEditHeaderFooter.off('click').on('click', function(item) {
