@@ -68,10 +68,6 @@
                         !!appConfig.docTitle && (_url += encodeURIComponent('&text=' + appConfig.docTitle));
                         window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
                         break;
-                    case 'gplus':
-                        _url = 'https://plus.google.com/share?url=' + appConfig.shareUrl;
-                        window.open(_url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes');
-                        break;
                     case 'email':
                         window.open(_mailto, '_self');
                         break;
