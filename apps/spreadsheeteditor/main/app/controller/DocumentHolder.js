@@ -1918,8 +1918,8 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
-                documentHolder.pmiCut.setDisabled(isCellLocked || inPivot); // can't edit pivot cells
-                documentHolder.pmiPaste.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiCut.setDisabled(isCellLocked); // can't edit pivot cells
+                documentHolder.pmiPaste.setDisabled(isCellLocked);
                 documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot);
                 documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
