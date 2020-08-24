@@ -603,8 +603,9 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             var val = this.props.get_Type();
             if (val == Asc.c_oAscWatermarkType.Image) {
-                val = this.cmbScale.getValue();
-                val = props.put_Scale((val<0) ? val : val/100);
+                val = parseInt(this.cmbScale.getValue());
+                isNaN(val) && (val = -1);
+                props.put_Scale((val<0) ? val : val/100);
             } else {
                 props.put_Text(this.cmbText.getValue());
                 props.put_IsDiagonal(this.radioDiag.getValue());

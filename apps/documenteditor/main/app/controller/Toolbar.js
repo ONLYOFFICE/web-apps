@@ -832,7 +832,7 @@ define([
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
             var in_footnote = this.api.asc_IsCursorInFootnote();
-            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control || rich_edit_lock || plain_edit_lock || rich_del_lock;
+            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
             toolbar.btnsPageBreak.setDisabled(need_disable);
             toolbar.btnBlankPage.setDisabled(need_disable);
 
