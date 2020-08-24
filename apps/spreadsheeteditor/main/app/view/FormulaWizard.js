@@ -271,7 +271,7 @@ define([
                 lblName: div.find('#formula-wizard-lbl-name-arg'+argcount),
                 lblValue: div.find('#formula-wizard-lbl-val-arg'+argcount),
                 argInput: txt,
-                argName: me.textArgument + ' ' + (argcount+1),
+                argName: me.textArgument + (this.maxArgCount>1 ? (' ' + (argcount+1)) : ''),
                 // argDesc: 'some argument description',
                 argType: argtype,
                 argTypeName: me.getArgType(argtype)
