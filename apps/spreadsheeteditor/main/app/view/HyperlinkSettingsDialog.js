@@ -264,7 +264,7 @@ define([
                 var me = this;
                 me.settings = settings;
 
-                var type = (settings.props) ? settings.props.asc_getType() : (Common.Utils.InternalSettings.get("sse-settings-link-type") ? Asc.c_oAscHyperlinkType.RangeLink : Asc.c_oAscHyperlinkType.WebLink);
+                var type = (settings.props) ? settings.props.asc_getType() : (Common.Utils.InternalSettings.get("sse-settings-link-type") && settings.allowInternal ? Asc.c_oAscHyperlinkType.RangeLink : Asc.c_oAscHyperlinkType.WebLink);
                 (type == Asc.c_oAscHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
                 me.ShowHideElem(type, settings.props);
                 me.btnInternal.setDisabled(!settings.allowInternal && (type == Asc.c_oAscHyperlinkType.WebLink));
