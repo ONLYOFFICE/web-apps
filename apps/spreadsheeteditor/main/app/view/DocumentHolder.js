@@ -138,6 +138,7 @@ define([
             var me = this;
 
             me.pmiCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption     : me.txtCut,
                 value       : 'cut'
             });
@@ -340,6 +341,7 @@ define([
             });
 
             me.menuAddHyperlink = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.txtInsHyperlink,
                 inCell      : true
             });
@@ -354,6 +356,7 @@ define([
             });
 
             me.menuHyperlink = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.txtInsHyperlink,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -614,6 +617,7 @@ define([
             });
 
             me.pmiImgCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption     : me.txtCut,
                 value       : 'cut'
             });
@@ -941,6 +945,7 @@ define([
             };
 
             me.menuAddHyperlinkShape = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.txtInsHyperlink
             });
 
@@ -953,6 +958,7 @@ define([
             });
 
             me.menuHyperlinkShape = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.txtInsHyperlink,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -970,6 +976,7 @@ define([
             });
 
             me.pmiTextCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption     : me.txtCut,
                 value       : 'cut'
             });
@@ -1004,6 +1011,7 @@ define([
             });
 
             me.pmiCommonCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption     : me.txtCut,
                 value       : 'cut'
             });

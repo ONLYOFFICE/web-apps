@@ -2470,6 +2470,7 @@ define([
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuImgCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
@@ -2807,6 +2808,7 @@ define([
             });
 
             var menuHyperlinkTable = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -2873,6 +2875,7 @@ define([
             /** coauthoring end **/
 
             var menuAddHyperlinkTable = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText
             }).on('click', _.bind(me.addHyperlink, me));
 
@@ -2981,6 +2984,7 @@ define([
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuTableCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
@@ -3565,6 +3569,7 @@ define([
             });
 
             var menuAddHyperlinkPara = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText
             }).on('click', _.bind(me.addHyperlink, me));
 
@@ -3580,6 +3585,7 @@ define([
             });
 
             var menuHyperlinkPara = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-inserthyperlink',
                 caption     : me.hyperlinkText,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-right',
@@ -3678,6 +3684,7 @@ define([
             }).on('click', _.bind(me.onCutCopyPaste, me));
 
             var menuParaCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
                 caption : me.textCut,
                 value : 'cut'
             }).on('click', _.bind(me.onCutCopyPaste, me));
