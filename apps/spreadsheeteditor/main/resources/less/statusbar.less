@@ -166,6 +166,12 @@
                     }
                 }
 
+                &:last-of-type {
+                    span {
+                        margin-right: 0;
+                    }
+                }
+
                 > span {
                     display: inline-block;
                     .border-radius(0);
@@ -263,6 +269,18 @@
                             border-right: 2px solid @gray-deep;
                             padding-right: 9px;
                             padding-left: 10px;
+                        }
+                    }
+                }
+                &.separator-item {
+                    margin-left: 20px;
+                    width: 1px;
+                    > span {
+                        padding: 0;
+                        margin: 0;
+                        width: 1px;
+                        &::after {
+                            content: none;
                         }
                     }
                 }
