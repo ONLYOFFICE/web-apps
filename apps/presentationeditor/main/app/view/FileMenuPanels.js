@@ -1252,6 +1252,7 @@ define([
 
             this.menu = options.menu;
             this.urlPref = 'resources/help/en/';
+            this.openUrl = null;
 
             this.en_data = [
                 {"src": "ProgramInterface/ProgramInterface.htm", "name": "Introducing Presentation Editor user interface", "headername": "Program Interface"},
@@ -1315,7 +1316,7 @@ define([
             });
 
             this.viewHelpPicker.on('item:select', function(dataview, itemview, record) {
-                me.iFrame.src = me.urlPref + record.get('src');
+                me.onSelectItem(record.get('src'));
             });
 
             this.iFrame = document.createElement('iframe');
@@ -1361,9 +1362,14 @@ define([
                         }
                     },
                     success: function () {
-                        var rec = store.at(0);
-                        me.viewHelpPicker.selectRecord(rec);
-                        me.iFrame.src = me.urlPref + rec.get('src');
+                        var rec = me.openUrl ? store.find(function(record){
+                            return (me.openUrl.indexOf(record.get('src'))>=0);
+                        }) : store.at(0);
+                        if (rec) {
+                            me.viewHelpPicker.selectRecord(rec, true);
+                            me.viewHelpPicker.scrollToRecord(rec);
+                        }
+                        me.onSelectItem(me.openUrl ? me.openUrl : rec.get('src'));
                     }
                 };
                 store.url = 'resources/help/' + lang + '/Contents.json';
@@ -1372,12 +1378,29 @@ define([
             }
         },
 
-        show: function () {
+        show: function (url) {
             Common.UI.BaseView.prototype.show.call(this);
             if (!this._scrollerInited) {
                 this.viewHelpPicker.scroller.update();
                 this._scrollerInited = true;
             }
+            if (url) {
+                if (this.viewHelpPicker.store.length>0) {
+                    var rec = this.viewHelpPicker.store.find(function(record){
+                        return (url.indexOf(record.get('src'))>=0);
+                    });
+                    if (rec) {
+                        this.viewHelpPicker.selectRecord(rec, true);
+                        this.viewHelpPicker.scrollToRecord(rec);
+                    }
+                    this.onSelectItem(url);
+                } else
+                    this.openUrl = url;
+            }
+        },
+
+        onSelectItem: function(src) {
+            this.iFrame.src = this.urlPref + src;
         }
     });
 
