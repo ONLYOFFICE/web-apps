@@ -364,10 +364,9 @@ define([
                 this.tabs[this.tabs.length - 1].$el.removeClass('mousemove right');
             }, this));
             addEvent(this.$bar[0], 'drop', _.bind(function (event) {
-                var index = this.tabs.length;
                 this.$el.find('.mousemove').removeClass('mousemove right');
                 if (this.isDrop === undefined) {
-                    this.trigger('tab:drop', event.dataTransfer, index);
+                    this.trigger('tab:drop', event.dataTransfer, 'last');
                 } else {
                     this.isDrop = undefined;
                 }
