@@ -222,6 +222,12 @@ define([
                             this.bar.trigger('tab:manual', this.bar, this.bar.tabs.indexOf(tab), tab);
                         } else {
                             tab.changeState();
+                            if (this.bar.isEditFormula)
+                                setTimeout(function(){
+                                    $('#ce-cell-content').focus();
+                                    var $cellContent = $('#ce-cell-content')[0];
+                                    $cellContent.selectionStart = $cellContent.selectionEnd = $cellContent.value.length;
+                                }, 500);
                         }
                     }
                 }
@@ -250,7 +256,14 @@ define([
                 } else {
                     this.bar.$el.find('ul > li > span').attr('draggable', 'false');
                 }
-                this.bar.trigger('tab:drag', this.bar.selectTabs);
+                if ($('#ce-cell-content').is(':focus'))
+                    if (!this.bar.isEditFormula) {
+                        $('#ce-cell-content').blur();
+                    } else {
+                        setTimeout(function () {
+                            $('#ce-cell-content').focus();
+                        }, 500)
+                    }
             }, this)
         });
         tab.$el.children().on(
