@@ -212,13 +212,15 @@ define([
         },
 
         onFieldsDragStart: function (item, index, event) {
+            this._state.field = {record: item.model};
             event.originalEvent.dataTransfer.effectAllowed = 'move';
             event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
             this.pivotIndex = index;
             this.fromListView = this.fieldsList.$el[0].id;
         },
 
-        onItemsDragStart: function (listview, item, index, event) {
+        onItemsDragStart: function (type, listview, item, index, event) {
+            this._state.field = {record: item.model, type: type};
             event.originalEvent.dataTransfer.effectAllowed = 'move';
             event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
             this.itemIndex = index;
@@ -267,7 +269,7 @@ define([
         },
 
         onDragOver: function (listview, event) {
-            if ((this.pivotIndex === -2 && (this.enterListView === 'pivot-list-filters' || this.enterListView === 'pivot-list-values')) ||
+            if (event.originalEvent.dataTransfer.types[0] === 'onlyoffice' || (this.pivotIndex === -2 && (this.enterListView === 'pivot-list-filters' || this.enterListView === 'pivot-list-values')) ||
                 (this.fromListView === 'pivot-list-fields' && this.enterListView === 'pivot-list-fields')) {
                 event.originalEvent.dataTransfer.dropEffect = 'none';
             } else {
@@ -502,7 +504,7 @@ define([
                 });
                 this.columnsList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.columnsList, item, index));
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 0, me.columnsList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.columnsList, item, index));
@@ -512,7 +514,7 @@ define([
                 this.columnsList.$el.find('.item').last().css({'margin-bottom': '10px'});
                 this.rowsList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.rowsList, item, index));
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 1, me.rowsList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.rowsList, item, index));
@@ -522,7 +524,7 @@ define([
                 this.rowsList.$el.find('.item').last().css({'margin-bottom': '10px'});
                 this.valuesList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.valuesList, item, index));
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 2, me.valuesList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.valuesList, item, index));
@@ -532,7 +534,7 @@ define([
                 this.valuesList.$el.find('.item').last().css({'margin-bottom': '10px'});
                 this.filtersList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.filtersList, item, index));
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 3, me.filtersList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.filtersList, item, index));
