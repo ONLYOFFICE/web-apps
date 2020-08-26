@@ -203,8 +203,8 @@ define([
 
         getPageOptions: function(panel) {
             var props = new Asc.asc_CPageOptions();
-            props.asc_setGridLines(panel.chPrintGrid.getValue() == 'indeterminate' ? undefined : panel.chPrintGrid.getValue()=='checked'?1:0);
-            props.asc_setHeadings(panel.chPrintRows.getValue() == 'indeterminate' ? undefined : panel.chPrintRows.getValue()=='checked'?1:0);
+            props.asc_setGridLines(panel.chPrintGrid.getValue()==='checked');
+            props.asc_setHeadings(panel.chPrintRows.getValue()==='checked');
 
             var opt = new Asc.asc_CPageSetup();
             opt.asc_setOrientation(panel.cmbPaperOrientation.getValue() == '-' ? undefined : panel.cmbPaperOrientation.getValue());
