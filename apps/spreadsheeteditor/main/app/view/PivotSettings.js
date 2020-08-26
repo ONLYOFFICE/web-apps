@@ -267,7 +267,7 @@ define([
         },
 
         onDragOver: function (listview, event) {
-            if ((this.pivotIndex === -2 && (this.enterListView === 'pivot-list-filters' || this.enterListView === 'pivot-list-values')) ||
+            if (event.originalEvent.dataTransfer.types[0] === 'onlyoffice' || (this.pivotIndex === -2 && (this.enterListView === 'pivot-list-filters' || this.enterListView === 'pivot-list-values')) ||
                 (this.fromListView === 'pivot-list-fields' && this.enterListView === 'pivot-list-fields')) {
                 event.originalEvent.dataTransfer.dropEffect = 'none';
             } else {
