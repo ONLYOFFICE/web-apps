@@ -719,10 +719,10 @@ define([
             this.updateView(undefined, undefined, undefined, true);
 
             // special
-            var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: 'Alt+Ctrl+-', code: '2014'},
+            var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: 'Alt+Ctrl+Num -', code: '2014'},
                         {symbol: '–',   description: this.textEnDash,       shortcutKey: '', code: '2013'},
-                        {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: 'Ctrl+Shift+_', code: '2011'},
-                        {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
+                        {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: 'Ctrl+Shift+_', code: '002D', special: true},
+                        // {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
                         {symbol: '',    description: this.textEmSpace,      shortcutKey: '', code: '2003'},
                         {symbol: '',    description: this.textEnSpace,      shortcutKey: '', code: '2002'},
                         {symbol: '',    description: this.textQEmSpace,     shortcutKey: '', code: '2005'},
@@ -803,7 +803,7 @@ define([
 
         getSpecialSymbol: function() {
             var rec = this.specialList.getSelectedRec();
-            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16)};
+            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special')};
         },
 
         onBtnClick: function(event) {
