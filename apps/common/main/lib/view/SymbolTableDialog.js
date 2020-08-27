@@ -719,7 +719,7 @@ define([
             this.updateView(undefined, undefined, undefined, true);
 
             // special
-            var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: 'Alt+Ctrl+Num -', code: '2014'},
+            var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: 'Alt+Ctrl+-', code: '2014'},
                         {symbol: '–',   description: this.textEnDash,       shortcutKey: '', code: '2013'},
                         {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: 'Ctrl+Shift+_', code: '2011'},
                         {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
@@ -727,12 +727,12 @@ define([
                         {symbol: '',    description: this.textEnSpace,      shortcutKey: '', code: '2002'},
                         {symbol: '',    description: this.textQEmSpace,     shortcutKey: '', code: '2005'},
                         {symbol: '°',   description: this.textNBSpace,      shortcutKey: 'Ctrl+Shift+Space', code: '00A0'},
-                        {symbol: '©',   description: this.textCopyright,    shortcutKey: 'Alt+Ctrl+C', code: '00A9'},
-                        {symbol: '®',   description: this.textRegistered,   shortcutKey: 'Alt+Ctrl+R', code: '00AE'},
-                        {symbol: '™',  description: this.textTradeMark,    shortcutKey: 'Alt+Ctrl+T', code: '2122'},
+                        {symbol: '©',   description: this.textCopyright,    shortcutKey: '', code: '00A9'},
+                        {symbol: '®',   description: this.textRegistered,   shortcutKey: '', code: '00AE'},
+                        {symbol: '™',  description: this.textTradeMark,    shortcutKey: '', code: '2122'},
                         {symbol: '§',   description: this.textSection,      shortcutKey: '', code: '00A7'},
                         {symbol: '¶',   description: this.textPilcrow,      shortcutKey: '', code: '00B6'},
-                        {symbol: '…',  description: this.textEllipsis,     shortcutKey: 'Alt+Ctrl+.', code: '2026'},
+                        {symbol: '…',  description: this.textEllipsis,     shortcutKey: '', code: '2026'},
                         {symbol: '‛',   description: this.textSOQuote,      shortcutKey: '', code: '2018'},
                         {symbol: '’',   description: this.textSCQuote,      shortcutKey: '', code: '2019'},
                         {symbol: '‟',   description: this.textDOQuote,      shortcutKey: '', code: '201C'},
