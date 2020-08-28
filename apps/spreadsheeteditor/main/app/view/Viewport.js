@@ -135,7 +135,8 @@ define([
                     rely: true,
                     resize: {
                         min: 19,
-                        max: -100
+                        max: -100,
+                        multiply: { koeff: 18, offset: 2}
                     }
                 }, {
                     el: items[1],
