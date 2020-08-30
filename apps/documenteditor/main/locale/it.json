@@ -432,7 +432,6 @@
   "DE.Controllers.Main.errorKeyExpire": "Descrittore di chiave scaduto",
   "DE.Controllers.Main.errorMailMergeLoadFile": "Caricamento del documento non riuscito. Si prega di selezionare un altro file.",
   "DE.Controllers.Main.errorMailMergeSaveFile": "Unione non riuscita",
-  "DE.Controllers.Main.errorPasteSlicerError": "I filtri dei dati della tabella non possono essere copiati da una cartella di lavoro a un'altra. <br>Riprova selezionando l'intera tabella e i filtri dei dati.",
   "DE.Controllers.Main.errorProcessSaveResult": "Salvataggio non riuscito",
   "DE.Controllers.Main.errorServerVersion": "La versione dell'editor è stata aggiornata. La pagina verrà ricaricata per applicare le modifiche.",
   "DE.Controllers.Main.errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Si prega di ricaricare la pagina.",
