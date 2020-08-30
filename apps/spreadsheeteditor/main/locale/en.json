@@ -518,6 +518,7 @@
   "SSE.Controllers.Main.errorOpenWarning": "The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.",
   "SSE.Controllers.Main.errorOperandExpected": "The entered function syntax is not correct. Please check if you are missing one of the parentheses - '(' or ')'.",
   "SSE.Controllers.Main.errorPasteMaxRange": "The copy and paste area do not match.<br>Please select an area with the same size or click the first cell in a row to paste the copied cells.",
+  "SSE.Controllers.Main.errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
   "SSE.Controllers.Main.errorPivotOverlap": "A pivot table report cannot overlap a table.",
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Unfortunately, it is not possible to print more than 1500 pages at once in the current program version.<br>This restriction will be removed in the upcoming releases.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Saving failed",

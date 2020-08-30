@@ -432,7 +432,6 @@
   "DE.Controllers.Main.errorKeyExpire": "Срок действия дескриптора ключа истек",
   "DE.Controllers.Main.errorMailMergeLoadFile": "Загрузка документа не удалась. Выберите другой файл.",
   "DE.Controllers.Main.errorMailMergeSaveFile": "Не удалось выполнить слияние.",
-  "DE.Controllers.Main.errorPasteSlicerError": "Срезы таблиц нельзя копировать из одной рабочей книги в другую.<br>Попробуйте еще раз, выделив всю таблицу и срезы.",
   "DE.Controllers.Main.errorProcessSaveResult": "Сбой при сохранении.",
   "DE.Controllers.Main.errorServerVersion": "Версия редактора была обновлена. Страница будет перезагружена, чтобы применить изменения.",
   "DE.Controllers.Main.errorSessionAbsolute": "Время сеанса редактирования документа истекло. Пожалуйста, обновите страницу.",

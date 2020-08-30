@@ -432,7 +432,7 @@
   "DE.Controllers.Main.errorKeyExpire": "Key descriptor expired",
   "DE.Controllers.Main.errorMailMergeLoadFile": "Loading the document failed. Please select a different file.",
   "DE.Controllers.Main.errorMailMergeSaveFile": "Merge failed.",
-  "DE.Controllers.Main.errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
+  "del_DE.Controllers.Main.errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
   "DE.Controllers.Main.errorProcessSaveResult": "Saving failed.",
   "DE.Controllers.Main.errorServerVersion": "The editor version has been updated. The page will be reloaded to apply the changes.",
   "DE.Controllers.Main.errorSessionAbsolute": "The document editing session has expired. Please reload the page.",
