@@ -268,6 +268,7 @@ define([
                                          }
                                          newNames.push(name);
                                      });
+                                     var index = _.isNumber(index) ? index : this.api.asc_getWorksheetsCount();
                                      this.api.asc_EndMoveSheet(index, newNames, _.findWhere(arrData, {type: 'onlyoffice'}).value);
                                  }
                              }
