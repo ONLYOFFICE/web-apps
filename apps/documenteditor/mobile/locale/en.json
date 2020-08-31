@@ -10,5 +10,8 @@
         "textDocumentInfo": "Document Info",
         "textHelp": "Help",
         "textAbout": "About"
-      }
+      },
+    "Collaboration": {
+      "textEditUser": "Users who are editing the file:"
+    }
 }

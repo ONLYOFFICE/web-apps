@@ -24,15 +24,20 @@ import App from '../components/app.jsx';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 
+import { Provider } from 'react-redux'
+import { store } from '../store/store.js'
+
 // Init F7 React Plugin
 Framework7.use(Framework7React)
 
 // Mount React App
 ReactDOM.render(
     <I18nextProvider i18n={i18n}>
-        <Suspense fallback="loading">
-            <App />
-        </Suspense>
+        <Provider store={store}>
+            <Suspense fallback="loading">
+                <App />
+            </Suspense>
+        </Provider>
     </I18nextProvider>,
   document.getElementById('app'),
 );

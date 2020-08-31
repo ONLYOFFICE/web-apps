@@ -64,6 +64,7 @@ module.exports = {
         },
         include: [
           resolvePath('../../apps/documenteditor/mobile/src'),
+          resolvePath('../../apps/common/mobile/lib'),
           resolvePath('node_modules/framework7'),
 
           resolvePath('node_modules/framework7-react'),
@@ -106,6 +107,7 @@ module.exports = {
             }
           }),
           'css-loader',
+          'less-loader',
             {
                 loader: 'postcss-loader',
                 options: {

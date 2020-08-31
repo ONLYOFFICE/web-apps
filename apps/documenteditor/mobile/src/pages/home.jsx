@@ -21,6 +21,7 @@ import {
 
 import EditPopup from '../components/edit/Edit.jsx';
 import SettingsPopup from '../components/settings/Settings.jsx';
+import { CollaborationPopover, CollaborationSheet } from '../../../../common/mobile/lib/view/Collaboration.jsx'
 
 export default class Home extends Component {
   constructor(props) {
@@ -39,6 +40,8 @@ export default class Home extends Component {
             </NavLeft>
             <NavRight>
               <Link href={false} popupOpen=".edit-popup">Edit</Link>
+              {/*<Link href={false} popoverOpen=".collab__popover">Users</Link>*/}
+              <Link href={false} sheetOpen=".collab__sheet">Users</Link>
               <Link href={false} popupOpen=".settings-popup">Settings</Link>
             </NavRight>
           </Navbar>
@@ -47,6 +50,8 @@ export default class Home extends Component {
           </View>
           <EditPopup />
           <SettingsPopup />
+          <CollaborationPopover />
+          <CollaborationSheet />
         </Page>
     )
   }

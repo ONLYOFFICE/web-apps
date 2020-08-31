@@ -27,6 +27,7 @@ import routes from '../js/routes';
 
 import '../../../../common/Gateway.js';
 import '../../../../common/main/lib/util/utils.js';
+import { CollaborationController } from '../../../../common/mobile/lib/controller/Collaboration.jsx';
 
 export default class extends React.Component {
   constructor() {
@@ -140,8 +141,8 @@ export default class extends React.Component {
               let me = this;
               console.log('load config');
 
-              me.editorConfig = Object.assign({}, this.editorConfig, data);
-              // me.appOptions.user = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, "Local.User"/*me.textAnonymous*/);
+              me.editorConfig = Object.assign({}, this.editorConfig, data.config);
+              me.appOptions.user = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, "Local.User"/*me.textAnonymous*/);
           };
 
           const loadDocument = data => {
@@ -155,8 +156,8 @@ export default class extends React.Component {
 
                   let _permissions = Object.assign({}, data.doc.permissions),
                       _user = new Asc.asc_CUserInfo();
-                  // _user.put_Id(this.appOptions.user.id);
-                  // _user.put_FullName(this.appOptions.user.fullname);
+                  _user.put_Id(this.appOptions.user.id);
+                  _user.put_FullName(this.appOptions.user.fullname);
 
                   docInfo = new Asc.asc_CDocInfo();
                   docInfo.put_Id(data.doc.key);
@@ -242,6 +243,11 @@ export default class extends React.Component {
                   // Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
                   Common.Gateway.on('opendocument',   loadDocument);
                   Common.Gateway.appReady();
+
+                  Common.Controllers = {};
+                  Common.Controllers.Collaboration = new CollaborationController();
+                  Common.Controllers.Collaboration.setApi(this.api, "");
+
               }, error => {
                   console.log('promise failed ' + error);
               });

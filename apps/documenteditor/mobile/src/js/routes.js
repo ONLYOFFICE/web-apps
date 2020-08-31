@@ -9,6 +9,8 @@ import LeftPage2 from '../pages/left-page-2.jsx';
 import DynamicRoutePage from '../pages/dynamic-route.jsx';
 import RequestAndLoad from '../pages/request-and-load.jsx';
 
+import { PageCollaboration, PageUsers } from '../../../../common/mobile/lib/view/Collaboration.jsx';
+
 var routes = [
   {
     path: '/',
@@ -17,6 +19,14 @@ var routes = [
   {
     path: '/document-settings/',
     component: DocumentSettings,
+  },
+  {
+    path: '/users/',
+    component: PageUsers
+  },
+  {
+    path: '/collab-main/',
+    component: PageCollaboration
   },
   {
     path: '/margins/',
