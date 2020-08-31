@@ -30,8 +30,8 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
 */
-if (Common === undefined) {
-    var Common = {};
+if (window.Common === undefined) {
+    window.Common = {};
 }
 
 if (Common.Utils === undefined) {
@@ -726,7 +726,7 @@ Common.Utils.applyCustomizationPlugins = function(plugins) {
 Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
-    _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
+    _user.fullname = !_user.name ? defname : _user.name;
     return _user;
 };
 
