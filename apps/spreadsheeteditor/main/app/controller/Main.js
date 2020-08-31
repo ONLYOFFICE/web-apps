@@ -2622,7 +2622,7 @@ define([
             txtBlank: '(blank)',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
-            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.',
+            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.',
             errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
             errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.'
         }
