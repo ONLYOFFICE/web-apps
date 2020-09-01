@@ -1011,7 +1011,7 @@ define([
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
-                    this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
+                    this.appOptions.canRename      = this.editorConfig.canRename && (this.permissions.rename!==false);
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = params.asc_getCustomization();
@@ -1019,6 +1019,8 @@ define([
                         this.headerView.setBranding(this.editorConfig.customization);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
+                    if (this.permissions.rename !== undefined)
+                        console.warn("Obsolete: The rename parameter of the document permission section is deprecated. Please use onRequestRename event instead.");
                 } else
                     this.appOptions.canModifyFilter = true;
 
