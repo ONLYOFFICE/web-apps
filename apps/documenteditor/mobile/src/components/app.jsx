@@ -28,6 +28,7 @@ import routes from '../js/routes';
 import '../../../../common/Gateway.js';
 import '../../../../common/main/lib/util/utils.js';
 import { CollaborationController } from '../../../../common/mobile/lib/controller/Collaboration.jsx';
+import Notifications from '../../../../common/mobile/utils/notifications.js'
 
 export default class extends React.Component {
   constructor() {
@@ -48,6 +49,11 @@ export default class extends React.Component {
       username: '',
       password: '',
     }
+
+      Common.Notifications = new Notifications();
+
+      Common.Controllers = {};
+      Common.Controllers.Collaboration = new CollaborationController();
   }
   render() {
     return (
@@ -244,10 +250,7 @@ export default class extends React.Component {
                   Common.Gateway.on('opendocument',   loadDocument);
                   Common.Gateway.appReady();
 
-                  Common.Controllers = {};
-                  Common.Controllers.Collaboration = new CollaborationController();
-                  Common.Controllers.Collaboration.setApi(this.api, "");
-
+                  Common.Notifications.trigger('engineCreated', this.api);
               }, error => {
                   console.log('promise failed ' + error);
               });
