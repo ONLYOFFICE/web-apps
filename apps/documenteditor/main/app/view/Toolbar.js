@@ -260,15 +260,16 @@ define([
                         iconCls: 'toolbar__icon btn-fontcolor',
                         split: true,
                         menu: new Common.UI.Menu({
+                            cls: 'shifted-left',
                             items: [
                                 {
                                     id: 'id-toolbar-menu-auto-fontcolor',
                                     caption: this.textAutoColor,
-                                    template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #000;"></span><%= caption %></a>')
+                                    template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
                                 },
                                 {caption: '--'},
                                 {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
-                                {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
+                                {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="">' + this.textNewColor + '</a>')}
                             ]
                         })
                     });
@@ -436,6 +437,7 @@ define([
                         iconCls: 'toolbar__icon btn-inserttable',
                         caption: me.capBtnInsTable,
                         menu: new Common.UI.Menu({
+                            cls: 'shifted-left',
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
                                 {caption: this.mniCustomTable, value: 'custom'},
@@ -565,7 +567,7 @@ define([
                         iconCls: 'toolbar__icon btn-dropcap',
                         caption: me.capBtnInsDropcap,
                         menu: new Common.UI.Menu({
-                            cls: 'ppm-toolbar',
+                            cls: 'ppm-toolbar shifted-right',
                             items: [
                                 {
                                     caption: this.textNone,
@@ -605,16 +607,16 @@ define([
                         iconCls: 'toolbar__icon btn-controls',
                         caption: me.capBtnInsControls,
                         menu: new Common.UI.Menu({
-                            cls: 'ppm-toolbar',
+                            cls: 'ppm-toolbar shifted-right',
                             items: [
                                 {
                                     caption: this.textPlainControl,
-                                    // iconCls: 'menu__icon cc-plaintext',
+                                    iconCls: 'menu__icon cc-plaintext',
                                     value: 'plain'
                                 },
                                 {
                                     caption: this.textRichControl,
-                                    // iconCls: 'menu__icon cc-richtext',
+                                    iconCls: 'menu__icon cc-richtext',
                                     value: 'rich'
                                 },
                                 {
@@ -670,7 +672,7 @@ define([
                                 {caption: '--'},
                                 {
                                     caption: this.textRemoveControl,
-                                    // iconCls: 'menu__icon cc-remove',
+                                    iconCls: 'menu__icon cc-remove',
                                     value: 'remove'
                                 },
                                 {caption: '--'},
@@ -706,7 +708,7 @@ define([
                         iconCls: 'toolbar__icon btn-columns',
                         caption: me.capBtnColumns,
                         menu: new Common.UI.Menu({
-                            cls: 'ppm-toolbar',
+                            cls: 'ppm-toolbar shifted-right',
                             items: [
                                 {
                                     caption: this.textColumnsOne,
@@ -992,6 +994,7 @@ define([
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-colorschemas',
                         menu: new Common.UI.Menu({
+                            cls: 'shifted-left',
                             items: [],
                             restoreHeight: true
                         })
@@ -1467,6 +1470,7 @@ define([
                     });
 
                     me.btnImgAlign.setMenu(new Common.UI.Menu({
+                        cls: 'shifted-right',
                         items: [{
                                 caption : _holder_view.textShapeAlignLeft,
                                 iconCls : 'menu__icon shape-align-left',
@@ -1645,9 +1649,10 @@ define([
 
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
+                        cls: 'shifted-left',
                         style: 'min-width: 139px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 16px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
                             this.mnuMarkerSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
@@ -1659,8 +1664,9 @@ define([
 
                 this.btnNumbers.setMenu(
                     new Common.UI.Menu({
+                        cls: 'shifted-left',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 16px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
                             this.mnuNumberSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
@@ -1672,9 +1678,10 @@ define([
 
                 this.btnMultilevels.setMenu(
                     new Common.UI.Menu({
+                        cls: 'shifted-left',
                         style: 'min-width: 90px',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 16px;"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 9px;"></div>')},
                             this.mnuMultilevelSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuMultilevelPicker.conf.index || 0)==0,
@@ -1694,7 +1701,9 @@ define([
                                 caption: this.textInsertPageNumber,
                                 disabled: this.mnuInsertPageNum.isDisabled(),
                                 menu: new Common.UI.Menu({
+                                    cls: 'shifted-left',
                                     menuAlign: 'tl-tr',
+                                    style: 'min-width: 90px;',
                                     items: [
                                         {template: _.template('<div id="id-toolbar-menu-pageposition" class="menu-pageposition"></div>')},
                                         this.mnuPageNumCurrentPos = new Common.UI.MenuItem({
@@ -1997,6 +2006,7 @@ define([
 
                 if (this.mnuColorSchema == null) {
                     this.mnuColorSchema = new Common.UI.Menu({
+                        cls: 'shifted-left',
                         restoreHeight: true
                     });
                 }

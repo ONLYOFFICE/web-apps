@@ -1046,6 +1046,7 @@ define([
                     iconCls     : 'toolbar__icon toolbar__icon btn-colorschemas',
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
+                        cls: 'shifted-left',
                         items: [],
                         restoreHeight: true
                     })
@@ -1985,6 +1986,7 @@ define([
 
             if (this.mnuColorSchema == null) {
                 this.mnuColorSchema = new Common.UI.Menu({
+                    cls: 'shifted-left',
                     restoreHeight: true
                 });
             }

@@ -261,6 +261,7 @@ define([
                 ascComment.asc_putUserName(comment.get('username'));
                 ascComment.asc_putSolved(!comment.get('resolved'));
                 ascComment.asc_putGuid(comment.get('guid'));
+                ascComment.asc_putUserData(comment.get('userdata'));
 
                 if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                     ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -276,6 +277,7 @@ define([
                             addReply.asc_putOnlyOfficeTime(t.ooDateToString(new Date(reply.get('time'))));
                             addReply.asc_putUserId(reply.get('userid'));
                             addReply.asc_putUserName(reply.get('username'));
+                            addReply.asc_putUserData(reply.get('userdata'));
 
                             ascComment.asc_addReply(addReply);
                         }
@@ -354,6 +356,7 @@ define([
                     ascComment.asc_putUserName(t.currentUserName);
                     ascComment.asc_putSolved(comment.get('resolved'));
                     ascComment.asc_putGuid(comment.get('guid'));
+                    ascComment.asc_putUserData(comment.get('userdata'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -380,6 +383,7 @@ define([
                                 addReply.asc_putOnlyOfficeTime(t.ooDateToString(new Date(reply.get('time'))));
                                 addReply.asc_putUserId(reply.get('userid'));
                                 addReply.asc_putUserName(reply.get('username'));
+                                addReply.asc_putUserData(reply.get('userdata'));
 
                                 ascComment.asc_addReply(addReply);
                             }
@@ -411,6 +415,7 @@ define([
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
                     ascComment.asc_putGuid(comment.get('guid'));
+                    ascComment.asc_putUserData(comment.get('userdata'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -434,6 +439,7 @@ define([
 
                                 addReply.asc_putTime(me.utcDateToString(new Date(reply.get('time'))));
                                 addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.get('time'))));
+                                addReply.asc_putUserData(reply.get('userdata'));
 
                                 ascComment.asc_addReply(addReply);
                             }
@@ -474,6 +480,7 @@ define([
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
                     ascComment.asc_putGuid(comment.get('guid'));
+                    ascComment.asc_putUserData(comment.get('userdata'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -490,6 +497,7 @@ define([
                                 addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.get('time'))));
                                 addReply.asc_putUserId(reply.get('userid'));
                                 addReply.asc_putUserName(reply.get('username'));
+                                addReply.asc_putUserData(reply.get('userdata'));
 
                                 ascComment.asc_addReply(addReply);
                             }
@@ -533,6 +541,7 @@ define([
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
                     ascComment.asc_putGuid(comment.get('guid'));
+                    ascComment.asc_putUserData(comment.get('userdata'));
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -549,6 +558,7 @@ define([
                                     addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.get('time'))));
                                     addReply.asc_putUserId(reply.get('userid'));
                                     addReply.asc_putUserName(reply.get('username'));
+                                    addReply.asc_putUserData(reply.get('userdata'));
 
                                     ascComment.asc_addReply(addReply);
                                 }
@@ -762,6 +772,7 @@ define([
                 comment.set('usercolor', (user) ? user.get('color') : null);
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
+                comment.set('userdata', data.asc_getUserData());
                 comment.set('time',     date.getTime());
                 comment.set('date',     t.dateToLocaleTimeString(date));
 
@@ -783,6 +794,7 @@ define([
                         usercolor           : (user) ? user.get('color') : null,
                         date                : t.dateToLocaleTimeString(dateReply),
                         reply               : data.asc_getReply(i).asc_getText(),
+                        userdata            : data.asc_getReply(i).asc_getUserData(),
                         time                : dateReply.getTime(),
                         editText            : false,
                         editTextInPopover   : false,
@@ -1217,6 +1229,7 @@ define([
                 comment             : data.asc_getText(),
                 resolved            : data.asc_getSolved(),
                 unattached          : !_.isUndefined(data.asc_getDocumentFlag) ? data.asc_getDocumentFlag() : false,
+                userdata            : data.asc_getUserData(),
                 id                  : Common.UI.getId(),
                 time                : date.getTime(),
                 showReply           : false,
@@ -1257,6 +1270,7 @@ define([
                         usercolor           : (user) ? user.get('color') : null,
                         date                : this.dateToLocaleTimeString(date),
                         reply               : data.asc_getReply(i).asc_getText(),
+                        userdata            : data.asc_getReply(i).asc_getUserData(),
                         time                : date.getTime(),
                         editText            : false,
                         editTextInPopover   : false,
