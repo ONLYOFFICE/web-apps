@@ -481,7 +481,7 @@ define([
 
         checkUserGroups: function(username) {
             var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-            return this.currentUserGroups && groups && (_.intersection(this.currentUserGroups, groups).length>0);
+            return this.currentUserGroups && groups && (_.intersection(this.currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
         },
 
         getUserName: function(id){

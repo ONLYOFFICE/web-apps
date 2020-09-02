@@ -700,7 +700,7 @@ define([
 
             checkUserGroups: function(username) {
                 var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-                return _currentUserGroups && groups && (_.intersection(_currentUserGroups, groups).length>0);
+                return _currentUserGroups && groups && (_.intersection(_currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
             },
 
             dateToLocaleTimeString: function (date) {
