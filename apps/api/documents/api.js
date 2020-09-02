@@ -70,7 +70,8 @@
 
                 user: {
                     id: 'user id',
-                    name: 'user name'
+                    name: 'user name',
+                    group: 'group name' // for customization.reviewPermissions parameter
                 },
                 recent: [
                     {
@@ -112,6 +113,11 @@
                         text: 'Go to London',
                         blank: true,
                         requestClose: false // if true - goback send onRequestClose event instead opening url
+                    },
+                    reviewPermissions: {
+                        "Group1": ["Group2"], // users from Group1 can accept/reject review changes made by users from Group2
+                        "Group2": ["Group1", "Group2"] // users from Group2 can accept/reject review changes made by users from Group1 and Group2
+                        "Group3": [""] // users from Group3 can accept/reject review changes made by users without a group
                     },
                     chat: true,
                     comments: true,
