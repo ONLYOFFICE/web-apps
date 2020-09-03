@@ -203,6 +203,7 @@ define([
 
                     }, this),
                     'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
+                        Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         var arrTabs = [],
                             arrName = [],
