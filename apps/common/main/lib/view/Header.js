@@ -321,9 +321,6 @@ define([
                 me.btnOptions.updateHint(me.tipViewSettings);
         }
 
-        function onAppConfig(config) {
-        }
-
         function onDocNameKeyDown(e) {
             var me = this;
 
@@ -407,8 +404,7 @@ define([
 
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
-                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
-                    'app:config' : function (c) {Common.Utils.asyncCall(onAppConfig, me, c);}
+                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
             },
