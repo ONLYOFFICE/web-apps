@@ -518,6 +518,7 @@
   "SSE.Controllers.Main.errorOperandExpected": "La sintassi per la funzione inserita non è corretta. Controlla se hai dimenticato una delle parentesi - '(' oppure ')'.",
   "SSE.Controllers.Main.errorPasteMaxRange": "l'area di copia-incolla non coincide.<br>Selezionare un'area con le stesse dimensioni o fare click sulla prima cella in una riga per incollare le celle copiate.",
   "SSE.Controllers.Main.errorPasteSlicerError": "I filtri dei dati della tabella non possono essere copiati da una cartella di lavoro a un'altra.",
+  "SSE.Controllers.Main.errorMoveSlicerError": "I filtri dei dati della tabella non possono essere copiati da una cartella di lavoro a un'altra. <br>Riprova selezionando l'intera tabella e i filtri dei dati.",
   "SSE.Controllers.Main.errorPivotOverlap": "Un report di tabella pivot non può sovrapporsi a una tabella.",
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Purtroppo non è possibile stampare più di 1500 pagine alla volta con la versione attuale del programma.<br>Questa limitazione sarà rimossa nelle prossime versioni del programma.",
   "SSE.Controllers.Main.errorProcessSaveResult": "Salvataggio non riuscito",
