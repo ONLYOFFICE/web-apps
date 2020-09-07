@@ -2251,10 +2251,15 @@ define([
                 var me = this;
                 var _disable_ui = function (disable) {
                     me.disableEditing(disable);
-                    DE.getController('DocumentHolder').getView().SetDisabled(disable, true);
-                    DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
-                    DE.getController('LeftMenu').setPreviewMode(disable);
-                    var comments = DE.getController('Common.Controllers.Comments');
+                    var app = me.getApplication();
+                    app.getController('DocumentHolder').getView().SetDisabled(disable, true);
+                    app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+
+                    var leftMenu = app.getController('LeftMenu');
+                    leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+                    leftMenu.setPreviewMode(disable);
+
+                    var comments = app.getController('Common.Controllers.Comments');
                     if (comments) comments.setPreviewMode(disable);
                 };
 

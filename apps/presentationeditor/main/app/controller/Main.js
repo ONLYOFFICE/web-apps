@@ -1899,12 +1899,15 @@ define([
                 var me = this;
                 Common.Utils.warningDocumentIsLocked({
                     disablefunc: function (disable) {
+                        var app = me.getApplication();
                         me.disableEditing(disable);
-                        PE.getController('RightMenu').SetDisabled(disable, true);
-                        PE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                        PE.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
-                        PE.getController('LeftMenu').setPreviewMode(disable);
-                        var comments = PE.getController('Common.Controllers.Comments');
+                        app.getController('RightMenu').SetDisabled(disable, true);
+                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                        app.getController('DocumentHolder').getView('DocumentHolder').SetDisabled(disable);
+                        var leftMenu = app.getController('LeftMenu');
+                        leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+                        leftMenu.setPreviewMode(disable);
+                        var comments = app.getController('Common.Controllers.Comments');
                         if (comments) comments.setPreviewMode(disable);
                     }});
             },
