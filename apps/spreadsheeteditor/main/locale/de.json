@@ -1403,7 +1403,7 @@
   "SSE.Views.CreatePivotDialog.textInvalidRange": "Ungültiger Zellenbereich",
   "SSE.Views.CreatePivotDialog.textNew": "Neues Arbeitsblatt",
   "SSE.Views.CreatePivotDialog.textSelectData": "Daten auswählen",
-  "SSE.Views.CreatePivotDialog.textTitle": "Tabelle erstellen",
+  "SSE.Views.CreatePivotDialog.textTitle": "Pivot-Tabelle erstellen",
   "SSE.Views.DataTab.capBtnGroup": "Gruppieren",
   "SSE.Views.DataTab.capBtnTextCustomSort": "Benutzerdefinierte Sortierung",
   "SSE.Views.DataTab.capBtnTextRemDuplicates": "Entferne Duplikate",

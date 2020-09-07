@@ -1356,7 +1356,7 @@
   "SSE.Views.CreatePivotDialog.textInvalidRange": "Intervalo de células inválido",
   "SSE.Views.CreatePivotDialog.textNew": "Nova planilha",
   "SSE.Views.CreatePivotDialog.textSelectData": "Selecionar dados",
-  "SSE.Views.CreatePivotDialog.textTitle": "Criar tabela",
+  "SSE.Views.CreatePivotDialog.textTitle": "Criar tabela dinâmica",
   "SSE.Views.DataTab.capBtnGroup": "Grupo",
   "SSE.Views.DataTab.capBtnTextCustomSort": "Classificação personalizada",
   "SSE.Views.DataTab.capBtnTextRemDuplicates": "Remover duplicatas",

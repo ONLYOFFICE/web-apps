@@ -1439,7 +1439,7 @@
   "SSE.Views.CreatePivotDialog.textInvalidRange": "Intervallo di celle non valido",
   "SSE.Views.CreatePivotDialog.textNew": "Nuovo foglio di lavoro",
   "SSE.Views.CreatePivotDialog.textSelectData": "Seleziona dati",
-  "SSE.Views.CreatePivotDialog.textTitle": "Crea tabella",
+  "SSE.Views.CreatePivotDialog.textTitle": "Crea tabella pivot",
   "SSE.Views.CreatePivotDialog.txtEmpty": "Campo obbligatorio",
   "SSE.Views.DataTab.capBtnGroup": "Raggruppa",
   "SSE.Views.DataTab.capBtnTextCustomSort": "Ordinamento personalizzato",
