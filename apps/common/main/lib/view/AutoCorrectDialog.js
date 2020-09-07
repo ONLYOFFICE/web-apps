@@ -64,6 +64,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             ];
             if (this.appPrefix=='de-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-de-autoformat',  panelCaption: this.textAutoFormat});
+            else if (this.appPrefix=='sse-')
+                items.push({panelId: 'id-autocorrect-dialog-settings-sse-autoformat',  panelCaption: this.textAutoFormat});
 
             _.extend(this.options, {
                 title: this.textTitle,
@@ -127,6 +129,16 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         Common.localStorage.setBool("de-settings-autoformat-hyphens", value);
                         Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
                         me.api.asc_SetAutoCorrectHyphensWithDash(value);
+                    }
+                };
+            } else if (this.appPrefix=='sse-') {
+                var me = this;
+                this.options.handler = function(result, value) {
+                    if ( result == 'ok' ) {
+                        var value = me.chNewRows.getValue()==='checked';
+                        Common.localStorage.setBool("sse-settings-autoformat-new-rows", value);
+                        Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", value);
+                        me.api.asc_setIncludeNewRowColTable(value);
                     }
                 };
             }
@@ -324,6 +336,12 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     el: $('#id-autocorrect-dialog-chk-numbered'),
                     labelText: this.textNumbered,
                     value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-numbered")
+                });
+            } else if (this.appPrefix=='sse-') {
+                this.chNewRows = new Common.UI.CheckBox({
+                    el: $('#id-autocorrect-dialog-chk-new-rows'),
+                    labelText: this.textNewRowCol,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-new-rows")
                 });
             }
 
@@ -777,7 +795,9 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         textQuotes: '"Straight quotes" with "smart quotes"',
         textHyphens: 'Hyphens (--) with dash (—)',
         textBulleted: 'Automatic bulleted lists',
-        textNumbered: 'Automatic numbered lists'
+        textNumbered: 'Automatic numbered lists',
+        textApplyAsWork: 'Apply as you work',
+        textNewRowCol: 'Include new rows and columns in table'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });

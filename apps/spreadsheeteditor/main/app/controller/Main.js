@@ -2267,6 +2267,10 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-rec-functions-rem", value);
                 arrRem = value ? JSON.parse(value) : [];
                 me.api.asc_refreshOnStartAutoCorrectMathFunctions(arrRem, arrAdd);
+
+                value = Common.localStorage.getBool("sse-settings-autoformat-new-rows", true);
+                Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", value);
+                me.api.asc_setIncludeNewRowColTable(value);
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

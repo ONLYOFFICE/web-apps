@@ -79,3 +79,13 @@
         </div>
     </div>
 </div>
+<div id="id-autocorrect-dialog-settings-sse-autoformat" class="settings-panel">
+    <div class="inner-content" style="width: 100%;">
+        <div class="padding-small">
+            <label class="header"><%= scope.textApplyAsWork %></label>
+        </div>
+        <div class="padding-large">
+            <div id="id-autocorrect-dialog-chk-new-rows"></div>
+        </div>
+    </div>
+</div>
