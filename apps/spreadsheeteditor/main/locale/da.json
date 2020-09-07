@@ -1408,7 +1408,7 @@
   "SSE.Views.CreatePivotDialog.textInvalidRange": "Ugyldig felt-rækkevidde",
   "SSE.Views.CreatePivotDialog.textNew": "Nyt regneark",
   "SSE.Views.CreatePivotDialog.textSelectData": "Vælg data",
-  "SSE.Views.CreatePivotDialog.textTitle": "Opret tabel",
+  "SSE.Views.CreatePivotDialog.textTitle": "Opret pivottabel",
   "SSE.Views.CreatePivotDialog.txtEmpty": "Dette felt skal udfyldes",
   "SSE.Views.DataTab.capBtnGroup": "Gruppe",
   "SSE.Views.DataTab.capBtnTextCustomSort": "Brugerdefineret sortering",

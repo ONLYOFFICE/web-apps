@@ -1439,7 +1439,7 @@
   "SSE.Views.CreatePivotDialog.textInvalidRange": "Недопустимый диапазон ячеек",
   "SSE.Views.CreatePivotDialog.textNew": "Новый лист",
   "SSE.Views.CreatePivotDialog.textSelectData": "Выбор данных",
-  "SSE.Views.CreatePivotDialog.textTitle": "Создать таблицу",
+  "SSE.Views.CreatePivotDialog.textTitle": "Создать сводную таблицу",
   "SSE.Views.CreatePivotDialog.txtEmpty": "Это поле необходимо заполнить",
   "SSE.Views.DataTab.capBtnGroup": "Сгруппировать",
   "SSE.Views.DataTab.capBtnTextCustomSort": "Настраиваемая сортировка",

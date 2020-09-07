@@ -1152,7 +1152,7 @@
   "SSE.Views.CreatePivotDialog.textExist": "Befintligt kalkylblad",
   "SSE.Views.CreatePivotDialog.textNew": "Nytt kalkylblad",
   "SSE.Views.CreatePivotDialog.textSelectData": "Välj data",
-  "SSE.Views.CreatePivotDialog.textTitle": "Skapa tabell",
+  "SSE.Views.CreatePivotDialog.textTitle": "Skapa pivottabell",
   "SSE.Views.DataTab.capBtnGroup": "Grupp",
   "SSE.Views.DataTab.capBtnTextCustomSort": "Anpassad sortering",
   "SSE.Views.DataTab.capBtnTextRemDuplicates": "Ta bort dubbletter",
