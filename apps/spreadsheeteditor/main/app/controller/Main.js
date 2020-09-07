@@ -2212,13 +2212,15 @@ define([
                 Common.Utils.warningDocumentIsLocked({
                     disablefunc: function (disable) {
                         me.disableEditing(disable);
-
-                        SSE.getController('RightMenu').SetDisabled(disable, true);
-                        SSE.getController('Statusbar').SetDisabled(disable);
-                        SSE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                        SSE.getController('DocumentHolder').SetDisabled(disable, true);
-                        SSE.getController('LeftMenu').setPreviewMode(disable);
-                        var comments = SSE.getController('Common.Controllers.Comments');
+                        var app = me.getApplication();
+                        app.getController('RightMenu').SetDisabled(disable, true);
+                        app.getController('Statusbar').SetDisabled(disable);
+                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                        app.getController('DocumentHolder').SetDisabled(disable, true);
+                        var leftMenu = app.getController('LeftMenu');
+                        leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+                        leftMenu.setPreviewMode(disable);
+                        var comments = app.getController('Common.Controllers.Comments');
                         if (comments) comments.setPreviewMode(disable);
                 }});
             },

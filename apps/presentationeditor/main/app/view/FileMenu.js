@@ -147,6 +147,10 @@ define([
                 caption : this.btnProtectCaption,
                 canFocused: false
             });
+            if ( !!this.options.miProtect ) {
+                this.miProtect.setDisabled(this.options.miProtect.isDisabled());
+                delete this.options.miProtect;
+            }
 
             this.miRecent = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-recent'),
@@ -410,11 +414,20 @@ define([
         },
 
         getButton: function(type) {
-            if (type == 'save') {
-                if (this.rendered)
-                    return this.miSave;
-                else
+            if ( !this.rendered ) {
+                if (type == 'save') {
                     return this.options.miSave ? this.options.miSave : (this.options.miSave = new Common.UI.MenuItem({}));
+                } else
+                if (type == 'protect') {
+                    return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
+                }
+            } else {
+                if (type == 'save') {
+                    return this.miSave;
+                } else
+                if (type == 'protect') {
+                    return this.miProtect;
+                }
             }
         },
 
