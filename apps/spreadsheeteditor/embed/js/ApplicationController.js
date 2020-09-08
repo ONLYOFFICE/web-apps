@@ -175,6 +175,9 @@ SSE.ApplicationController = new(function(){
     function onDocumentContentReady() {
         hidePreloader();
 
+        if ( permissions.print === false)
+            $('#idt-print').hide();
+
         if ( !embedConfig.saveUrl && permissions.print === false)
             $('#idt-download').hide();
 
@@ -219,6 +222,12 @@ SSE.ApplicationController = new(function(){
                 }
 
                 Common.Analytics.trackEvent('Save');
+            });
+
+        SSE.ApplicationView.tools.get('#idt-print')
+            .on('click', function(){
+                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+                Common.Analytics.trackEvent('Print');
             });
 
         $('#id-btn-close').on('click', function(){
