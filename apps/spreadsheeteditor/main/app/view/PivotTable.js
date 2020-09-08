@@ -239,7 +239,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-select-pivot',
                     caption: this.txtSelect,
-                    lock: [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock]
+                    lock: [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit]
                 });
                 this.lockedControls.push(this.btnSelectPivot);
 
