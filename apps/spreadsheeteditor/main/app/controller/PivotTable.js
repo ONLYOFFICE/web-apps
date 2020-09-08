@@ -386,6 +386,7 @@ define([
             var pivotInfo = info.asc_getPivotTableInfo();
 
             Common.Utils.lockControls(SSE.enumLock.noPivot, !pivotInfo, {array: this.view.lockedControls});
+            Common.Utils.lockControls(SSE.enumLock.pivotLock, pivotInfo && (info.asc_getLockedPivotTable()===true), {array: this.view.lockedControls});
             Common.Utils.lockControls(SSE.enumLock.editPivot, !!pivotInfo, {array: [this.view.btnAddPivot]});
 
             if (pivotInfo)
