@@ -548,7 +548,7 @@ define([
                 win.show();
                 win.setSettings({
                     sheets  : items,
-                    ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All),
+                    ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All, true),
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
@@ -1944,8 +1944,8 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
-                documentHolder.pmiCut.setDisabled(isCellLocked || inPivot); // can't edit pivot cells
-                documentHolder.pmiPaste.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiCut.setDisabled(isCellLocked); // can't edit pivot cells
+                documentHolder.pmiPaste.setDisabled(isCellLocked);
                 documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot);
                 documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);

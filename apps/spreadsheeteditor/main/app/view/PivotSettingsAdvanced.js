@@ -133,7 +133,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
             this.numWrap = new Common.UI.MetricSpinner({
                 el: $('#pivot-adv-spin-wrap'),
                 step: 1,
-                width: 85,
+                width: 60,
                 allowDecimal: false,
                 defaultUnit : "",
                 value: '0',

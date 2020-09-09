@@ -222,7 +222,7 @@
   "PE.Controllers.Main.uploadImageSizeMessage": "È stata superata la dimensione massima per l'immagine.",
   "PE.Controllers.Main.uploadImageTextText": "Caricamento dell'immagine in corso...",
   "PE.Controllers.Main.uploadImageTitleText": "Caricamento dell'immagine",
-  "PE.Controllers.Main.waitText": "Per favore, attendi...",
+  "PE.Controllers.Main.waitText": "Attendere prego...",
   "PE.Controllers.Main.warnLicenseExp": "La tua licenza è scaduta.<br>Si prega di aggiornare la licenza e ricaricare la pagina.",
   "PE.Controllers.Main.warnLicenseExceeded": "Hai raggiunto il limite per le connessioni simultanee agli editor %1. Questo documento verrà aperto in sola lettura.<br>Contatta l’amministratore per saperne di più.",
   "PE.Controllers.Main.warnLicenseUsersExceeded": "Hai raggiunto il limite per gli utenti con accesso agli editor %1. Contatta l’amministratore per saperne di più.",

@@ -61,9 +61,11 @@ define([
         };
 
         function onTabDblclick(e) {
-            var tab = $(e.target).data('tab');
-            if ( this.dblclick_el == tab )
+            var tab = $(e.currentTarget).find('> a[data-tab]').data('tab');
+            if ( this.dblclick_el == tab ) {
                 this.fireEvent('change:compact', [tab]);
+                this.dblclick_el = undefined;
+            }
         }
 
         function onShowFullviewPanel(state) {
@@ -235,25 +237,35 @@ define([
 
             onTabClick: function (e) {
                 var me = this;
-
                 var $target = $(e.currentTarget);
                 var tab = $target.find('> a[data-tab]').data('tab');
-                var islone = $target.hasClass('x-lone');
-                if ( me.isFolded ) {
-                    if ( $target.hasClass('x-lone') ) {
-                        me.collapse();
-                        // me.fireEvent('')
-                    } else
-                    if ( $target.hasClass('active') ) {
-                        me.collapse();
-                    } else {
-                        me.setTab(tab);
-                        me.processPanelVisible(null, true);
-                    }
+                if ($target.hasClass('x-lone')) {
+                    me.isFolded && me.collapse();
                 } else {
-                    if ( !$target.hasClass('active') && !islone ) {
+                    if ( $target.hasClass('active') ) {
+                        if (!me._timerSetTab) {
+                            me.dblclick_el = tab;
+                            if ( me.isFolded ) {
+                                me.collapse();
+                                setTimeout(function(){
+                                    me.dblclick_el = undefined;
+                                }, 500);
+                            }
+                        }
+                    } else {
+                        me._timerSetTab = true;
+                        setTimeout(function(){
+                            me._timerSetTab = false;
+                        }, 500);
                         me.setTab(tab);
                         me.processPanelVisible(null, true);
+                        if ( !me.isFolded ) {
+                            if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
+                            me.dblclick_timer = setTimeout(function () {
+                                me.dblclick_el = tab;
+                                delete me.dblclick_timer;
+                            },500);
+                        }
                     }
                 }
             },
@@ -288,12 +300,6 @@ define([
                     if ( $tp.length ) {
                         $tp.addClass('active');
                     }
-
-                    if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
-                    me.dblclick_timer = setTimeout(function () {
-                        me.dblclick_el = tab;
-                        delete me.dblclick_timer;
-                    },300);
 
                     this.fireEvent('tab:active', [tab]);
                 }
@@ -391,7 +397,8 @@ define([
                         if (!_flex) {
                             _flex = [];
                             _.each($active.find('.group.flex'), function(item) {
-                                _flex.push($(item));
+                                var el = $(item);
+                                _flex.push({el: el, width: el.attr('data-group-width') || el.attr('max-width')}); //save flex element and it's initial width
                             });
                             data.flex = _flex;
                         }
@@ -399,7 +406,7 @@ define([
                         if ( _rightedge > _maxright) {
                             if (_flex.length>0) {
                                 for (var i=0; i<_flex.length; i++) {
-                                    var item = _flex[i];
+                                    var item = _flex[i].el;
                                     if (item.outerWidth() > parseInt(item.css('min-width')))
                                         return;
                                     else
@@ -433,7 +440,7 @@ define([
                             if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
                                 for (var i=0; i<_flex.length; i++) {
                                     var item = _flex[i];
-                                    item.css('width', item.css('max-width'));
+                                    item.el.css('width', item.width);
                                 }
                             }
                         }
@@ -462,8 +469,10 @@ define([
             },
 
             setVisible: function (tab, visible) {
-                if ( tab && this.$tabs )
+                if ( tab && this.$tabs ) {
                     this.$tabs.find('> a[data-tab=' + tab + ']').parent().css('display', visible ? '' : 'none');
+                    this.onResize();
+                }
             }
         };
     }()));

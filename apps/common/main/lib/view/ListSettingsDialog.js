@@ -159,7 +159,7 @@ define([
                 data        : [
                     { displayValue: this.txtNone,       value: -1 },
                     { displayValue: 'A, B, C,...',      value: 4 },
-                    { displayValue: 'a), b), c),...',   value: 6 },
+                    { displayValue: 'a), b), c),...',   value: 5 },
                     { displayValue: 'a, b, c,...',      value: 6 },
                     { displayValue: '1, 2, 3,...',      value: 1 },
                     { displayValue: '1), 2), 3),...',   value: 2 },

@@ -236,7 +236,7 @@
   "Common.Views.SignSettingsDialog.textShowDate": "Afficher la date de signature à côté de la signature",
   "Common.Views.SignSettingsDialog.textTitle": "Mise en place de la signature",
   "Common.Views.SignSettingsDialog.txtEmpty": "Ce champ est obligatoire",
-  "Common.Views.SymbolTableDialog.textCode": "Valeur Unicode HEX",
+  "Common.Views.SymbolTableDialog.textCode": "Valeur hexadécimale Unicode",
   "Common.Views.SymbolTableDialog.textFont": "Police",
   "Common.Views.SymbolTableDialog.textRange": "Plage",
   "Common.Views.SymbolTableDialog.textRecent": "Caractères spéciaux récemment utilisés",

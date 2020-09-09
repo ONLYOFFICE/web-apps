@@ -1099,6 +1099,14 @@ define([
                         config.msg = this.errorUpdateVersionOnDisconnect;
                         break;
 
+                    case  Asc.c_oAscError.ID.FrmlMaxLength:
+                        config.msg = this.errorFrmlMaxLength;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlMaxReference:
+                        config.msg = this.errorFrmlMaxReference;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1734,7 +1742,9 @@ define([
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
             textYes: 'Yes',
-            textNo: 'No'
+            textNo: 'No',
+            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
+            errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.'
         }
     })(), SSE.Controllers.Main || {}))
 });

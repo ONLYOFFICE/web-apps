@@ -771,7 +771,7 @@ define([
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
-                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
+                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -1226,7 +1226,7 @@ define([
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
-                this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
+                this.appOptions.canRename      = this.editorConfig.canRename && (this.permissions.rename!==false);
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
@@ -1291,6 +1291,8 @@ define([
 
                 if (this.permissions.changeHistory !== undefined)
                     console.warn("Obsolete: The changeHistory parameter of the document permission section is deprecated. Please use onRequestRestore event instead.");
+                if (this.permissions.rename !== undefined)
+                    console.warn("Obsolete: The rename parameter of the document permission section is deprecated. Please use onRequestRename event instead.");
             },
 
             applyModeCommonElements: function() {
@@ -2246,7 +2248,7 @@ define([
                 });
                 win.$window.find('#id-equation-convert-help').on('click', function (e) {
                     win && win.close();
-                    me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm');
+                    me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
                 })
             },
 
@@ -2254,10 +2256,15 @@ define([
                 var me = this;
                 var _disable_ui = function (disable) {
                     me.disableEditing(disable);
-                    DE.getController('DocumentHolder').getView().SetDisabled(disable, true);
-                    DE.getController('Navigation') && DE.getController('Navigation').SetDisabled(disable);
-                    DE.getController('LeftMenu').setPreviewMode(disable);
-                    var comments = DE.getController('Common.Controllers.Comments');
+                    var app = me.getApplication();
+                    app.getController('DocumentHolder').getView().SetDisabled(disable, true);
+                    app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+
+                    var leftMenu = app.getController('LeftMenu');
+                    leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+                    leftMenu.setPreviewMode(disable);
+
+                    var comments = app.getController('Common.Controllers.Comments');
                     if (comments) comments.setPreviewMode(disable);
                 };
 

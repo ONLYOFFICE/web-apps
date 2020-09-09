@@ -1013,7 +1013,7 @@ define([
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
-                    this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
+                    this.appOptions.canRename      = this.editorConfig.canRename && (this.permissions.rename!==false);
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = params.asc_getCustomization();
@@ -1024,6 +1024,8 @@ define([
                     this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
                     Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
                     this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
+                    if (this.permissions.rename !== undefined)
+                        console.warn("Obsolete: The rename parameter of the document permission section is deprecated. Please use onRequestRename event instead.");
                 } else
                     this.appOptions.canModifyFilter = true;
 
@@ -1480,6 +1482,10 @@ define([
                         config.msg = this.errorFrmlMaxTextLength;
                         break;
 
+                    case Asc.c_oAscError.ID.FrmlMaxReference:
+                        config.msg = this.errorFrmlMaxReference;
+                        break;
+
                     case Asc.c_oAscError.ID.DataValidate:
                         var icon = errData ? errData.asc_getErrorStyle() : undefined;
                         if (icon!==undefined) {
@@ -1518,6 +1524,15 @@ define([
                         config.buttons  = ['ok'];
                         config.msg = (errData.asc_getDuplicateValues()!==null && errData.asc_getUniqueValues()!==null) ? Common.Utils.String.format(this.errRemDuplicates, errData.asc_getDuplicateValues(), errData.asc_getUniqueValues()) : this.errNoDuplicates;
                         config.maxwidth = 600;
+                        break;
+
+                    case  Asc.c_oAscError.ID.FrmlMaxLength:
+                        config.msg = this.errorFrmlMaxLength;
+                        config.maxwidth = 600;
+                        break;
+
+                    case  Asc.c_oAscError.ID.MoveSlicerError:
+                        config.msg = this.errorMoveSlicerError;
                         break;
 
                     default:
@@ -2206,13 +2221,15 @@ define([
                 Common.Utils.warningDocumentIsLocked({
                     disablefunc: function (disable) {
                         me.disableEditing(disable);
-
-                        SSE.getController('RightMenu').SetDisabled(disable, true);
-                        SSE.getController('Statusbar').SetDisabled(disable);
-                        SSE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                        SSE.getController('DocumentHolder').SetDisabled(disable, true);
-                        SSE.getController('LeftMenu').setPreviewMode(disable);
-                        var comments = SSE.getController('Common.Controllers.Comments');
+                        var app = me.getApplication();
+                        app.getController('RightMenu').SetDisabled(disable, true);
+                        app.getController('Statusbar').SetDisabled(disable);
+                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                        app.getController('DocumentHolder').SetDisabled(disable, true);
+                        var leftMenu = app.getController('LeftMenu');
+                        leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+                        leftMenu.setPreviewMode(disable);
+                        var comments = app.getController('Common.Controllers.Comments');
                         if (comments) comments.setPreviewMode(disable);
                 }});
             },
@@ -2644,7 +2661,10 @@ define([
             txtBlank: '(blank)',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
-            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.'
+            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.',
+            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
+            errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
+            errorMoveSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.'
         }
     })(), SSE.Controllers.Main || {}))
 });

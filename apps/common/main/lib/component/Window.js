@@ -704,13 +704,12 @@ define([
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
                     } else {
-                        var opacity = mask.css('opacity');
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
 
                         setTimeout(function () {
-                            mask.css(_getTransformation(opacity));
+                            mask.css(_getTransformation('0.2'));
                         }, 1);
                     }
 
@@ -796,12 +795,11 @@ define([
 
                     if ( hide_mask ) {
                         if (this.options.animate !== false) {
-                            var opacity = mask.css('opacity');
                             mask.css(_getTransformation(0));
 
                             setTimeout(function () {
-                                mask.css('opacity', opacity);
                                 if (parseInt(mask.attr('counter'))<1) {
+                                    mask.css('opacity', '0.2');
                                     mask.hide();
                                     mask.attr('counter', 0);
                                 }
@@ -814,7 +812,7 @@ define([
                         }
                     }
 
-                    Common.NotificationCenter.trigger('modal:close', this, hide_mask);
+                    Common.NotificationCenter.trigger('modal:close', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                 }
 
                 this.$window.remove();
@@ -837,12 +835,11 @@ define([
 
                         if ( hide_mask ) {
                             if (this.options.animate !== false) {
-                                var opacity = mask.css('opacity');
                                 mask.css(_getTransformation(0));
 
                                 setTimeout(function () {
-                                    mask.css('opacity', opacity);
                                     if (parseInt(mask.attr('counter'))<1) {
+                                        mask.css('opacity', '0.2');
                                         mask.hide();
                                         mask.attr('counter', 0);
                                     }
@@ -854,7 +851,7 @@ define([
                                 }
                             }
                         }
-                        Common.NotificationCenter.trigger('modal:hide', this, hide_mask);
+                        Common.NotificationCenter.trigger('modal:hide', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                     }
                     this.$window.hide();
                     this.$window.removeClass('notransform');

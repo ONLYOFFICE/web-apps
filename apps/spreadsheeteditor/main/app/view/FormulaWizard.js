@@ -204,7 +204,7 @@ define([
                 }
             }
             if (this.args.length<1) {
-                this.panelArgs.text('This function has no arguments');
+                this.panelArgs.text(this.textNoArgs);
                 this.lblArgDesc.addClass('hidden');
             } else {
                 if (this.args.length==1 && this.repeatedArg && this.repeatedArg.length<this.maxArgCount) {// add new repeated arguments
@@ -271,7 +271,7 @@ define([
                 lblName: div.find('#formula-wizard-lbl-name-arg'+argcount),
                 lblValue: div.find('#formula-wizard-lbl-val-arg'+argcount),
                 argInput: txt,
-                argName: 'Argument ' + (argcount+1),
+                argName: me.textArgument + (this.maxArgCount>1 ? (' ' + (argcount+1)) : ''),
                 // argDesc: 'some argument description',
                 argType: argtype,
                 argTypeName: me.getArgType(argtype)
@@ -314,19 +314,19 @@ define([
             var str = '';
             switch (type) {
                 case Asc.c_oAscFormulaArgumentType.number:
-                    str = 'number';
+                    str = this.textNumber;
                     break;
                 case Asc.c_oAscFormulaArgumentType.text:
-                    str = 'text';
+                    str = this.textText;
                     break;
                 case Asc.c_oAscFormulaArgumentType.reference:
-                    str = 'reference';
+                    str = this.textRef;
                     break;
                 case Asc.c_oAscFormulaArgumentType.any:
-                    str = 'any';
+                    str = this.textAny;
                     break;
                 case Asc.c_oAscFormulaArgumentType.logical:
-                    str = 'logical';
+                    str = this.textLogical;
                     break;
             }
             return str;
@@ -434,7 +434,14 @@ define([
         textValue: 'Formula result',
         textFunctionRes: 'Function result',
         textFunction: 'Function',
-        textHelp: 'Help on this function'
+        textHelp: 'Help on this function',
+        textNoArgs: 'This function has no arguments',
+        textArgument: 'Argument',
+        textNumber: 'number',
+        textText: 'text',
+        textRef: 'reference',
+        textAny: 'any',
+        textLogical: 'logical'
 
     }, SSE.Views.FormulaWizard || {}))
 });

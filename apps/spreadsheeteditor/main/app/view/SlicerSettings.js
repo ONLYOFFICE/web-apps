@@ -243,7 +243,7 @@ define([
             this.numCols = new Common.UI.MetricSpinner({
                 el: $('#slicer-spin-cols'),
                 step: 1,
-                width: 50,
+                width: 55,
                 defaultUnit : "",
                 defaultValue : 1,
                 value: '1',
@@ -264,7 +264,7 @@ define([
 
             this.radioAsc = new Common.UI.RadioBox({
                 el: $('#slicer-radio-asc'),
-                name: 'asc-radio-sliceradv-sort',
+                name: 'asc-radio-slicer-sort',
                 labelText: this.textAsc + ' (' + this.textAZ + ')',
                 checked: true
             });
@@ -281,7 +281,7 @@ define([
 
             this.radioDesc = new Common.UI.RadioBox({
                 el: $('#slicer-radio-desc'),
-                name: 'asc-radio-sliceradv-sort',
+                name: 'asc-radio-slicer-sort',
                 labelText: this.textDesc + ' (' + this.textZA + ')',
                 checked: false
             });

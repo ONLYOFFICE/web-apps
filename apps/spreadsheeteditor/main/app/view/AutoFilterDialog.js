@@ -1694,12 +1694,6 @@ define([
         _setDefaults: function() {
             this.initialFilterType = this.configTo.asc_getFilterObj().asc_getType();
             var menuPanel = this.$window.find('.menu-panel');
-            this.menuPanelWidth = menuPanel.innerWidth();
-            var width = this.getWidth();
-            if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
-                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0] + this.menuPanelWidth;
-            }
-
             var pivotObj = this.configTo.asc_getPivotObj(),
                 isPivot = !!pivotObj,
                 isValueFilter = false;
@@ -1709,18 +1703,11 @@ define([
             this.miSortOptions.setVisible(isPivot);
 
             if (isPivot) {
-                if (pivotObj.asc_getIsPageFilter()) {
-                    this.setResizable(true, [this.initConfig.minwidth - this.menuPanelWidth, this.initConfig.minheight]);
-                    menuPanel.addClass('hidden');
-                    width -= this.menuPanelWidth;
-                    this.menuPanelWidth = 0;
-                }
                 this.miReapplySeparator.setVisible(false);
                 this.miReapply.setVisible(false);
 
                 isValueFilter = (pivotObj.asc_getDataFieldIndexFilter()!==0);
             }
-            this.setSize(width, this.getHeight());
 
             var filterObj = this.configTo.asc_getFilterObj(),
                 isCustomFilter = (this.initialFilterType === Asc.c_oAscAutoFilterTypes.CustomFilters),
@@ -1800,9 +1787,11 @@ define([
                         item.setChecked(checked, true);
                         if (checked) isCustomConditions = false;
                     });
-                else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo ||
-                                           cond1 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo)){
-                    items[6].setChecked(true, true); // between filter
+                else if ((isPivot || !isTextFilter) && (cond1 == Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo && cond2 == Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo)){
+                    items[isPivot && !isValueFilter ? 13 : 6].setChecked(true, true); // between filter
+                    isCustomConditions = false;
+                } else if (isPivot && (cond1 == Asc.c_oAscCustomAutoFilter.isLessThan && cond2 == Asc.c_oAscCustomAutoFilter.isGreaterThan)) {
+                    items[!isValueFilter ? 14 : 7].setChecked(true, true); // not between filter
                     isCustomConditions = false;
                 }
                 if (isCustomConditions)
@@ -1831,6 +1820,23 @@ define([
             this.miClear.setDisabled(this.initialFilterType === Asc.c_oAscAutoFilterTypes.None);
             this.miReapply.setDisabled(this.initialFilterType === Asc.c_oAscAutoFilterTypes.None);
             this.btnOk.setDisabled(this.initialFilterType !== Asc.c_oAscAutoFilterTypes.Filters && this.initialFilterType !== Asc.c_oAscAutoFilterTypes.None);
+
+            this.menuPanelWidth = menuPanel.innerWidth();
+            var width = this.getWidth();
+            if (width-this.menuPanelWidth<260) {
+                width = Math.ceil(this.menuPanelWidth + 260);
+                this.setResizable(true, [width, this.initConfig.minheight]);
+            }
+            if (Common.Utils.InternalSettings.get('sse-settings-size-filter-window')) {
+                width = Common.Utils.InternalSettings.get('sse-settings-size-filter-window')[0] + this.menuPanelWidth;
+            }
+            if (isPivot && pivotObj.asc_getIsPageFilter()) {
+                this.setResizable(true, [this.initConfig.minwidth - this.menuPanelWidth, this.initConfig.minheight]);
+                menuPanel.addClass('hidden');
+                width -= this.menuPanelWidth;
+                this.menuPanelWidth = 0;
+            }
+            this.setSize(width, this.getHeight());
         },
 
         setupDataCells: function() {

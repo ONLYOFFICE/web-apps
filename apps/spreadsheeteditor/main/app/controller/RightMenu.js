@@ -71,11 +71,14 @@ define([
                     'insertpivot': this.onInsertPivot
                 }
             });
+
+            Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 1);
+            Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 1);
+            Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", 1);
         },
 
         onLaunch: function() {
             this.rightmenu = this.createView('RightMenu');
-
             this.rightmenu.on('render:after', _.bind(this.onRightMenuAfterRender, this));
         },
 
@@ -110,15 +113,25 @@ define([
         onRightMenuClick: function(menu, type, minimized, event) {
             if (!minimized && this.editMode) {
                 if (event) { // user click event
-                    if (type == Common.Utils.documentSettingsType.Table)
-                        Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 1);
-                    else if (type == Common.Utils.documentSettingsType.Pivot)
+                    if (type == Common.Utils.documentSettingsType.Table) {
+                        Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 2);
+                        if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", Math.min(Common.Utils.InternalSettings.get("sse-rightpanel-active-spark"), 1));
+                        }
+                    } else if (type == Common.Utils.documentSettingsType.Pivot)
                         Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 1);
-                    else if (Common.Utils.documentSettingsType.Cell) {
+                    else if (type == Common.Utils.documentSettingsType.Chart && !this._settings[Common.Utils.documentSettingsType.Cell].hidden) {//sparkline
+                        Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", 2);
+                        if (!this._settings[Common.Utils.documentSettingsType.Table].hidden) {
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-table", Math.min(Common.Utils.InternalSettings.get("sse-rightpanel-active-table"), 1));
+                        }
+                    } else if (Common.Utils.documentSettingsType.Cell) {
                         if (!this._settings[Common.Utils.documentSettingsType.Table].hidden)
                             Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 0);
                         if (!this._settings[Common.Utils.documentSettingsType.Pivot].hidden)
                             Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 0);
+                        if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden)
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", 0);
                     }
                 }
 
@@ -259,11 +272,23 @@ define([
                 var active;
 
                 if (priorityactive<0 && !this._settings[Common.Utils.documentSettingsType.Cell].hidden &&
-                                        (!this._settings[Common.Utils.documentSettingsType.Table].hidden || !this._settings[Common.Utils.documentSettingsType.Pivot].hidden)) {
-                    if (!this._settings[Common.Utils.documentSettingsType.Table].hidden)
-                        priorityactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-table")==0 ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Table;
+                                        (!this._settings[Common.Utils.documentSettingsType.Table].hidden || !this._settings[Common.Utils.documentSettingsType.Pivot].hidden ||
+                                         !this._settings[Common.Utils.documentSettingsType.Chart].hidden)) {
+                    var tableactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-table"),
+                        pivotactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-pivot"),
+                        sparkactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-spark");
+                    if (!this._settings[Common.Utils.documentSettingsType.Table].hidden && !this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
+                        if (tableactive == sparkactive)
+                            priorityactive = (tableactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Chart;
+                        else
+                            priorityactive = (tableactive > sparkactive) ? Common.Utils.documentSettingsType.Table : Common.Utils.documentSettingsType.Chart;
+                    } else if (!this._settings[Common.Utils.documentSettingsType.Table].hidden) {
+                        priorityactive = (tableactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Table;
+                    } else if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
+                        priorityactive = (sparkactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Chart;
+                    }
                     if (!this._settings[Common.Utils.documentSettingsType.Pivot].hidden)
-                        priorityactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-pivot")==0 ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Pivot;
+                        priorityactive = (pivotactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Pivot;
                 }
 
                 if (priorityactive>-1) active = priorityactive;
