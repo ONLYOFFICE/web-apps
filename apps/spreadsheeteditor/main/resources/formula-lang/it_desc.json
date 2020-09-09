@@ -763,6 +763,10 @@
 		"a": "(matrice , k)",
 		"d": "Restituisce il k-esimo valore più grande in un set di dati."
 	},
+	"LINEST": {
+		"a": "( known_y's, [known_x's], [const], [stats] )",
+		"d": "Questa funzione è disponibile per calcola le statistiche per una linea utilizzando il metodo dei minimi quadrati per calcolare la retta che meglio rappresenta i dati e restituisce una matrice che descrive la retta; dal momento che questa funzione restituisce una matrice di valori, deve essere immessa come formula in forma di matrice"
+	},
 	"LOGINV": {
 		"a": "(x , media , dev_standard)",
 		"d": "Questa funzione è disponibile per consentire la compatibilità con Excel 2007 e precedenti. Restituisce l'inversa della distribuzione lognormale di x, in cui ln(x) è distribuito normalmente con i parametri Media e Dev_standard"
@@ -1650,6 +1654,10 @@
 	"VLOOKUP": {
 		"a": "(val , matrice , indice_col [ , [ intervallo ] ])",
 		"d": "Ricerca il valore in verticale nell'indice"
+	},
+	"CELL": {
+		"a": "(info_type, [reference])",
+		"d": "Restituisce informazioni sulla formattazione, la posizione o il contenuto di una cella"
 	},
 	"ERROR.TYPE": {
 		"a": "(val)",
