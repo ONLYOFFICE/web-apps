@@ -177,7 +177,7 @@ define([
 
                     if (i == Common.Utils.documentSettingsType.Slide) {
                         if (pnl.locked!==undefined)
-                            this.rightmenu.slideSettings.SetSlideDisabled(this._state.no_slides || pnl.lockedBackground || pnl.locked,
+                            this.rightmenu.slideSettings.setLocked(this._state.no_slides || pnl.lockedBackground || pnl.locked,
                                                                           this._state.no_slides || pnl.lockedEffects || pnl.locked,
                                                                           this._state.no_slides || pnl.lockedTiming || pnl.locked,
                                                                           this._state.no_slides || pnl.lockedHeader || pnl.locked);

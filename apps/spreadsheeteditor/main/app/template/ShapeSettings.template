@@ -52,17 +52,31 @@
                 </div>
             </div>
             <div id="shape-panel-gradient-fill" class="settings-hidden padding-small" style="width: 100%;">
-                <div style="height:80px;">
-                    <div style="display: inline-block;">
-                        <label class="input-label" style=""><%= scope.textStyle %></label>
-                        <div id="shape-combo-grad-type" style="width: 90px;"></div>
-                    </div>
-                    <div style="display: inline-block;float: right;">
-                        <label class="input-label" style=""><%= scope.textDirection %></label>
-                        <div id="shape-button-direction" style=""></div>
-                    </div>
-                </div>
-                <label class="header" style="display:block;margin-bottom: 5px;"><%= scope.textGradient %></label>
+                <table cols="3" style="margin-bottom: 10px;">
+                    <tr valign="top">
+                        <td colspan="2">
+                            <div>
+                                <label class="input-label" style=""><%= scope.textStyle %></label>
+                                <div id="shape-combo-grad-type" style="width: 100%;"></div>
+                            </div>
+                        </td>
+                        <td rowspan="2" style="width: 100%;">
+                            <div style="float: right;">
+                                <label class="input-label"><%= scope.textDirection %></label>
+                                <div id="shape-button-direction"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr valign="bottom">
+                        <td>
+                            <label class="input-label" style="margin-right: 5px;margin-bottom: 3px;"><%= scope.textAngle %></label>
+                        </td>
+                        <td>
+                            <div id="shape-spin-gradient-angle" style="display: inline-block; width: 60px;"></div>
+                        </td>
+                    </tr>
+                </table>
+                <label class="input-label" style="display:block;margin-bottom: 5px;"><%= scope.textGradient %></label>
                 <div style="display: inline-block; margin-top: 3px;">
                     <div id="shape-slider-gradient" style="display: inline-block; vertical-align: middle;"></div>
                 </div>
