@@ -394,6 +394,8 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                 else
                     this.btnDirection.setIconCls('');
+                this.numGradientAngle.setValue(this.GradLinearDirectionType);
+                this.numGradientAngle.setDisabled(this._locked);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
                 this.mnuDirectionPicker.store.reset(this._viewDataRadial);
                 this.mnuDirectionPicker.cmpEl.width(60);
@@ -403,6 +405,8 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
                 else
                     this.btnDirection.setIconCls('');
+                this.numGradientAngle.setValue(0);
+                this.numGradientAngle.setDisabled(true);
             }
 
             if (this.api && !this._noApply) {
@@ -443,6 +447,8 @@ define([
             (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                    this.numGradientAngle.setValue(rawData.type);
+
                     var props = new Asc.asc_CShapeProperty();
                     var fill = new Asc.asc_CShapeFill();
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
@@ -849,8 +855,10 @@ define([
                                 this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                             else
                                 this.btnDirection.setIconCls('');
+                            this.numGradientAngle.setValue(value);
                         }
-                    }
+                    } else
+                        this.numGradientAngle.setValue(0);
 
                     var me = this;
                     var colors = fill.get_colors(),
@@ -1322,19 +1330,19 @@ define([
                 minValue: 0,
                 disabled: this._locked
             });
-            this.lockedControls.push(this.spnGradPosition);
+            this.fillControls.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
-            this.spnGradPosition.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+            this.spnGradPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.btnAddGradientStep = new Common.UI.Button({
                 parentEl: $('#shape-gradient-add-step'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-add-breakpoint',
                 disabled: this._locked,
-                hint: this.tipAddGradientPoint,
+                hint: this.tipAddGradientPoint
             });
             this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
-            this.lockedControls.push(this.btnAddGradientStep);
+            this.fillControls.push(this.btnAddGradientStep);
 
             this.btnRemoveGradientStep = new Common.UI.Button({
                 parentEl: $('#shape-gradient-remove-step'),
@@ -1344,7 +1352,22 @@ define([
                 hint: this.tipRemoveGradientPoint
             });
             this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
-            this.lockedControls.push(this.btnRemoveGradientStep);
+            this.fillControls.push(this.btnRemoveGradientStep);
+
+            this.numGradientAngle = new Common.UI.MetricSpinner({
+                el: $('#shape-spin-gradient-angle'),
+                step: 1,
+                width: 60,
+                defaultUnit : "°",
+                value: '0 °',
+                allowDecimal: true,
+                maxValue: 359.9,
+                minValue: 0,
+                disabled: this._locked
+            });
+            this.fillControls.push(this.numGradientAngle);
+            this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
+            this.numGradientAngle.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
                 el: $('#shape-combo-border-size'),
@@ -1693,6 +1716,7 @@ define([
                 });
                 this.lblTransparencyStart.toggleClass('disabled', disable);
                 this.lblTransparencyEnd.toggleClass('disabled', disable);
+                this.numGradientAngle.setDisabled(disable || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
             }
         },
 
@@ -1792,6 +1816,20 @@ define([
             this.sldrGradient.trigger('changecomplete', this.sldrGradient);
         },
 
+        onGradientAngleChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api) {
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
+                fill.put_fill( new Asc.asc_CFillGrad());
+                fill.get_fill().put_grad_type(this.GradFillType);
+                fill.get_fill().put_linear_angle(field.getNumberValue() * 60000);
+                fill.get_fill().put_linear_scale(true);
+                props.put_fill(fill);
+                this.api.ShapeApply(props);
+            }
+        },
+
         txtNoBorders            : 'No Line',
         strStroke               : 'Stroke',
         strColor                : 'Color',
@@ -1830,7 +1868,7 @@ define([
         textRadial: 'Radial',
         textDirection: 'Direction',
         textStyle: 'Style',
-        textGradient: 'Gradient',
+        textGradient: 'Gradient Points',
         textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
         strType: 'Type',
         textRotation: 'Rotation',
@@ -1845,6 +1883,7 @@ define([
         textSelectImage: 'Select Picture',
         textPosition: 'Position',
         tipAddGradientPoint: 'Add gradient point',
-        tipRemoveGradientPoint: 'Remove gradient point'
+        tipRemoveGradientPoint: 'Remove gradient point',
+        textAngle: 'Angle'
     }, PE.Views.ShapeSettings || {}));
 });
