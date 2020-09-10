@@ -1419,7 +1419,7 @@ define([
             });
             this.fillControls.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
-            this.spnGradPosition.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+            this.spnGradPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.btnAddGradientStep = new Common.UI.Button({
                 parentEl: $('#shape-gradient-add-step'),
@@ -1454,6 +1454,7 @@ define([
             });
             this.fillControls.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
+            this.numGradientAngle.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
                 el: $('#shape-combo-border-size'),
