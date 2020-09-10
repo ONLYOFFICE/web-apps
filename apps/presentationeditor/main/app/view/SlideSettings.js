@@ -77,12 +77,13 @@ define([
 
             this.FillItems = [];
 
-            this._stateDisabled = {
-                background: true,
-                effects: true,
-                timing: true,
-                header: true
+            this._locked = {
+                background: false,
+                effects: false,
+                timing: false,
+                header: false
             };
+            this._stateDisabled = {};
 
             this._state = {
                 FillType:undefined,
@@ -496,7 +497,7 @@ define([
                 else
                     this.btnDirection.setIconCls('');
                 this.numGradientAngle.setValue(this.GradLinearDirectionType);
-                this.numGradientAngle.setDisabled(this._stateDisabled.background);
+                this.numGradientAngle.setDisabled(this._locked.background);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
                 this.mnuDirectionPicker.store.reset(this._viewDataRadial);
                 this.mnuDirectionPicker.cmpEl.width(60);
@@ -871,7 +872,7 @@ define([
                 allowDecimal: false,
                 maxValue: 100,
                 minValue: 0,
-                disabled: this._stateDisabled.background
+                disabled: this._locked.background
             });
             this.FillItems.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -881,7 +882,7 @@ define([
                 parentEl: $('#slide-gradient-add-step'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-add-breakpoint',
-                disabled: this._stateDisabled.background,
+                disabled: this._locked.background,
                 hint: this.tipAddGradientPoint
             });
             this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
@@ -891,7 +892,7 @@ define([
                 parentEl: $('#slide-gradient-remove-step'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-remove-breakpoint',
-                disabled: this._stateDisabled.background,
+                disabled: this._locked.background,
                 hint: this.tipRemoveGradientPoint
             });
             this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
@@ -906,7 +907,7 @@ define([
                 allowDecimal: true,
                 maxValue: 359.9,
                 minValue: 0,
-                disabled: this._stateDisabled.background
+                disabled: this._locked.background
             });
             this.FillItems.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -1059,9 +1060,9 @@ define([
                 this.EffectType = undefined;
             }
 
-            this.cmbEffectType.setDisabled(arr.length<1 || this._stateDisabled.effects);
-            this.numDuration.setDisabled(arr.length<1 || this._stateDisabled.effects);
-            this.btnPreview.setDisabled(arr.length<1 || this._stateDisabled.effects);
+            this.cmbEffectType.setDisabled(arr.length<1 || this._locked.effects);
+            this.numDuration.setDisabled(arr.length<1 || this._locked.effects);
+            this.btnPreview.setDisabled(arr.length<1 || this._locked.effects);
         },
 
         onEffectNameSelect: function(combo, record) {
@@ -1195,6 +1196,7 @@ define([
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
+            this.SetSlideDisabled(this._locked.background, this._locked.effects, this._locked.timing, this._locked.header);
 
             if (props)
             {
@@ -1525,7 +1527,16 @@ define([
             }
         },
 
+        setLocked: function (background, effects, timing, header) {
+            this._locked = {
+                background: background, effects: effects, timing: timing, header: header
+            };
+        },
+
         SetSlideDisabled: function(background, effects, timing, header) {
+            this._locked = {
+                background: background, effects: effects, timing: timing, header: header
+            };
             if (this._initSettings) return;
             
             if (background !== this._stateDisabled.background) {
