@@ -43,8 +43,6 @@
                     reader: <can view in readable mode>,
                     review: <can review>, // default = edit
                     print: <can print>, // default = true
-                    rename: <can rename>, // default = false
-                    changeHistory: <can change history>, // default = false // must be deprecated, check onRequestRestore event instead
                     comment: <can comment in view mode> // default = edit,
                     modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                     modifyContentControl: <can modify content controls in documenteditor> // default = true

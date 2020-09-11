@@ -1013,7 +1013,7 @@ define([
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
-                    this.appOptions.canRename      = this.editorConfig.canRename && (this.permissions.rename!==false);
+                    this.appOptions.canRename      = this.editorConfig.canRename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = params.asc_getCustomization();
@@ -1024,8 +1024,6 @@ define([
                     this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
                     Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
                     this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
-                    if (this.permissions.rename !== undefined)
-                        console.warn("Obsolete: The rename parameter of the document permission section is deprecated. Please use onRequestRename event instead.");
                 } else
                     this.appOptions.canModifyFilter = true;
 
