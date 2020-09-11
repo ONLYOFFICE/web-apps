@@ -1356,7 +1356,7 @@ define([
 
             this.numGradientAngle = new Common.UI.MetricSpinner({
                 el: $('#shape-spin-gradient-angle'),
-                step: 1,
+                step: 10,
                 width: 60,
                 defaultUnit : "°",
                 value: '0 °',
