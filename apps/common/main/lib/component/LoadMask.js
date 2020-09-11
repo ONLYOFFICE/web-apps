@@ -68,12 +68,6 @@ define([
     'use strict';
 
     Common.UI.LoadMask = Common.UI.BaseView.extend((function() {
-        var ownerEl,
-            maskeEl,
-            loaderEl;
-        var timerId = 0;
-
-        maskeEl = $('<div class="asc-loadmask"></div>');
         return {
             options : {
                 cls     : '',
@@ -95,13 +89,15 @@ define([
                 this.template   = this.options.template || this.template;
                 this.title      = this.options.title;
 
-                ownerEl     = (this.options.owner instanceof Common.UI.BaseView) ? $(this.options.owner.el) : $(this.options.owner);
-                loaderEl    = $(this.template({
+                this.ownerEl     = (this.options.owner instanceof Common.UI.BaseView) ? $(this.options.owner.el) : $(this.options.owner);
+                this.loaderEl    = $(this.template({
                     id      : this.id,
                     cls     : this.options.cls,
                     style   : this.options.style,
                     title   : this.title
                 }));
+                this.maskeEl = $('<div class="asc-loadmask"></div>');
+                this.timerId = 0;
             },
 
             render: function() {
@@ -113,6 +109,9 @@ define([
                 //     return;
 
                 // The owner is already masked
+                var ownerEl = this.ownerEl,
+                    loaderEl = this.loaderEl,
+                    maskeEl = this.maskeEl;
                 if (!!ownerEl.ismasked)
                     return this;
 
@@ -125,7 +124,7 @@ define([
                 }
 
                 // show mask after 500 ms if it wont be hided
-                timerId = setTimeout(function () {
+                me.timerId = setTimeout(function () {
                     ownerEl.append(maskeEl);
                     ownerEl.append(loaderEl);
 
@@ -144,16 +143,17 @@ define([
             },
 
             hide: function() {
-                if (timerId) {
-                    clearTimeout(timerId);
-                    timerId = 0;
+                var ownerEl = this.ownerEl;
+                if (this.timerId) {
+                    clearTimeout(this.timerId);
+                    this.timerId = 0;
                 }
                 if (ownerEl && ownerEl.ismasked) {
                     if (ownerEl.closest('.asc-window.modal').length==0 && !Common.Utils.ModalWindow.isVisible())
                         Common.util.Shortcuts.resumeEvents();
 
-                    maskeEl     && maskeEl.remove();
-                    loaderEl    && loaderEl.remove();
+                    this.maskeEl     && this.maskeEl.remove();
+                    this.loaderEl    && this.loaderEl.remove();
                 }
                 delete ownerEl.ismasked;
             },
@@ -161,16 +161,18 @@ define([
             setTitle: function(title) {
                 this.title = title;
 
-                if (ownerEl && ownerEl.ismasked && loaderEl){
-                    $('.asc-loadmask-title', loaderEl).html(title);
+                if (this.ownerEl && this.ownerEl.ismasked && this.loaderEl){
+                    $('.asc-loadmask-title', this.loaderEl).html(title);
                 }
             },
 
             isVisible: function() {
-                return !!ownerEl.ismasked;
+                return !!this.ownerEl.ismasked;
             },
 
             updatePosition: function() {
+                var ownerEl = this.ownerEl,
+                    loaderEl = this.loaderEl;
                 if (ownerEl && ownerEl.ismasked && loaderEl){
                     loaderEl.css({
                         top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
