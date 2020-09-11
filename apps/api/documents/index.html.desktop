@@ -53,7 +53,7 @@
                 type: urlParams['type'],
                 width: '100%',
                 height: '100%',
-                documentType: urlParams['doctype'] || 'text',
+                documentType: urlParams['doctype'] || 'word',
                 document: doc,
                 editorConfig: cfg,
                 events: {
