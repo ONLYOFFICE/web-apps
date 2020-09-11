@@ -762,6 +762,8 @@ Common.Utils.loadConfig = function(url, callback) {
             else return 'error';
         }).then(function(json){
             callback(json);
+        }).catch(function(e) {
+            callback('error');
         });
 };
 

@@ -159,7 +159,7 @@ define([
         hide: function () {
             var val = this.cmbFuncGroup.getValue();
             (val=='Recommended') && (val = 'Last10');
-            if (this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
+            if (this.cmbFuncGroup.store.length>0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
                 this.cmbFuncGroup.store.shift();
                 this.cmbFuncGroup.onResetItems();
             }
@@ -337,7 +337,7 @@ define([
                     var removed = arr.splice(idx, 1);
                     arr.unshift(removed[0]);
                 }
-            } else if (arr.length==0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
+            } else if (arr.length==0 && this.cmbFuncGroup.store.length>0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
                 this.cmbFuncGroup.store.shift();
                 this.cmbFuncGroup.onResetItems();
             }
