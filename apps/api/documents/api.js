@@ -14,7 +14,7 @@
             type: 'desktop or mobile',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide',// deprecate 'text' | 'spreadsheet' | 'presentation',
             document: {
                 title: 'document title',
                 url: 'document url'
@@ -167,7 +167,7 @@
             type: 'embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide',// deprecate 'text' | 'spreadsheet' | 'presentation',
             document: {
                 title: 'document title',
                 url: 'document url',
@@ -338,8 +338,14 @@
                         'text': 'docx',
                         'text-pdf': 'pdf',
                         'spreadsheet': 'xlsx',
-                        'presentation': 'pptx'
+                        'presentation': 'pptx',
+                        'word': 'docx',
+                        'cell': 'xlsx',
+                        'slide': 'pptx'
                     }, app;
+
+                if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
+                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
                     app = appMap[_config.documentType.toLowerCase()];
@@ -359,9 +365,9 @@
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
                         return false;
                     } else if (typeof _config.documentType !== 'string' || _config.documentType == ''){
-                        if (typeof type[1] === 'string') _config.documentType = 'spreadsheet'; else
-                        if (typeof type[2] === 'string') _config.documentType = 'presentation'; else
-                        if (typeof type[3] === 'string') _config.documentType = 'text';
+                        if (typeof type[1] === 'string') _config.documentType = 'cell'; else
+                        if (typeof type[2] === 'string') _config.documentType = 'slide'; else
+                        if (typeof type[3] === 'string') _config.documentType = 'word';
                     }
                 }
 
@@ -741,9 +747,12 @@
                 'text': 'documenteditor',
                 'text-pdf': 'documenteditor',
                 'spreadsheet': 'spreadsheeteditor',
-                'presentation': 'presentationeditor'
+                'presentation': 'presentationeditor',
+                'word': 'documenteditor',
+                'cell': 'spreadsheeteditor',
+                'slide': 'presentationeditor'
             },
-            app = appMap['text'];
+            app = appMap['word'];
 
         if (typeof config.documentType === 'string') {
             app = appMap[config.documentType.toLowerCase()];
@@ -752,8 +761,8 @@
             var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
                             .exec(config.document.fileType);
             if (type) {
-                if (typeof type[1] === 'string') app = appMap['spreadsheet']; else
-                if (typeof type[2] === 'string') app = appMap['presentation'];
+                if (typeof type[1] === 'string') app = appMap['cell']; else
+                if (typeof type[2] === 'string') app = appMap['slide'];
             }
         }
 
