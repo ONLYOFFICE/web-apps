@@ -43,11 +43,14 @@
                 <li>in the opened <b>Chart - Advanced Settings</b> window make all the necessary changes,</li>
                 <li>click the <b>OK</b> button to apply the changes and close the window.</li>
             </ol>   
-            <p>The description of the chart settings that can be edited using the <b>Chart - Advanced Settings</b> window you can find below.</p>
+            <p>Below you can find the description of the chart settings that can be edited using the <b>Chart - Advanced Settings</b> window.</p>
 					<p>The <b>Type &amp Data</b> tab allows you to change the chart type as well as the data you wish to use to create a chart.</p>
 						<ul>
 							<li>Change the chart <b>Type</b> selecting one of the available options: Column, Line, Pie, Bar, Area, XY (Scatter), or Stock.</li>
-							<li>Check the selected <b>Data Range</b> and modify it, if necessary, clicking the <b>Select Data</b> button and entering the desired data range in the following format: <em>Sheet1!A1:B4</em>.</li>
+                            <li>Check the selected <b>Data Range</b> and modify it, if necessary. To do that, click the <img alt="Source data range icon" src="../images/changerange.png" /> icon.
+                                <p><img alt="Select Data Range window" src="../images/pivot_selectdata.png" /></p>
+                                <p>In the <b>Select Data Range</b> window, enter the necessary data range in the following format: <em>Sheet1!$A$1:$E$10</em>. You can also select the necessary cell range in the sheet using the mouse. When ready, click <b>OK</b>.</p>
+                            </li>
 							<li>Choose the way to arrange the data. You can either select the <b>Data series</b> to be used on the X axis: <b>in rows</b> or <b>in columns</b>.</li> 
 						</ul>
 						<p><img alt="Chart - Advanced Settings" src="../images/chartwindow.png" /></p>
@@ -180,7 +183,7 @@
             <p>The <b>Cell Snapping</b> tab contains the following parameters:</p>
             <ul>
                 <li><b>Move and size with cells</b> - this option allows you to snap the chart to the cell behind it. If the cell moves (e.g. if you insert or delete some rows/columns), the chart will be moved together with the cell. If you increase or decrease the width or height of the cell, the chart will change its size as well.</li>
-                <li><b>Move but don't size with cells</b> - this option allows to snap the chart to the cell behind it preventing the image from being resized. If the cell moves, the chart will be moved together with the cell, but if you change the cell size, the chart dimensions remain unchanged.</li>
+                <li><b>Move but don't size with cells</b> - this option allows to snap the chart to the cell behind it preventing the chart from being resized. If the cell moves, the chart will be moved together with the cell, but if you change the cell size, the chart dimensions remain unchanged.</li>
                 <li><b>Don't move or size with cells</b> - this option allows to prevent the chart from being moved or resized if the cell position or size was changed.</li>
             </ul>
             <p><img alt="Chart - Advanced Settings: Cell Snapping" src="../images/chartwindow5.png" /></p>
@@ -196,6 +199,10 @@
                 When you select a vertical or horizontal axis or gridlines, the stroke settings are only available on the <b>Shape Settings</b> tab: <em>color</em>, <em>width</em> and <em>type</em>. For more details on how to work with shape colors, fills and stroke, please refer to <a href="../UsageInstructions/InsertAutoshapes.htm" onclick="onhyperlinkclick(this)">this page</a>.
             </p>
             <p class="note"><b>Note</b>: the <b>Show shadow</b> option is also available on the <b>Shape settings</b> tab, but it is disabled for chart elements.</p>
+            <p>If you need to resize chart elements, left-click to select the needed element and drag one of 8 white squares <img alt="Square icon" src="../images/resize_square.png" /> located along the perimeter of the element.</p>
+            <p><img alt="Resize chart elements" src="../images/resizeelement.png" /></p>
+            <p>To change the position of the element, left-click on it, make sure your cursor changed to <img alt="Arrow" src="../images/arrow.png" />, hold the left mouse button and drag the element to the needed position.</p>
+            <p><img alt="Move chart elements" src="../images/moveelement.png" /></p>
             <p>To delete a chart element, select it by left-clicking and press the <b>Delete</b> key on the keyboard.</p>
             <p>You can also rotate 3D charts using the mouse. Left-click within the plot area and hold the mouse button. Drag the cursor without releasing the mouse button to change the 3D chart orientation.</p>
             <p><img alt="3D chart" src="../images/3dchart.png" /></p>
