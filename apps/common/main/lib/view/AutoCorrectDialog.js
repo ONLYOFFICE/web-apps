@@ -40,79 +40,141 @@
  */
 if (Common === undefined)
     var Common = {};
-define([
+define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
     'common/main/lib/component/ListView',
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+    'common/main/lib/component/Window',
+    'common/main/lib/component/CheckBox'
+], function (contentTemplate) { 'use strict';
 
-    Common.Views.AutoCorrectDialog = Common.UI.Window.extend(_.extend({
+    Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            width: 448,
-            cls: 'modal-dlg',
-            buttons: null
+            contentWidth: 375,
+            height: 430,
+            buttons: null,
+            toggleGroup: 'autocorrect-dialog-group'
         },
 
         initialize : function(options) {
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
+            var items = [
+                {panelId: 'id-autocorrect-dialog-settings-math',        panelCaption: this.textMathCorrect},
+                {panelId: 'id-autocorrect-dialog-settings-recognized',  panelCaption: this.textRecognized}
+            ];
+            if (this.appPrefix=='de-')
+                items.push({panelId: 'id-autocorrect-dialog-settings-de-autoformat',  panelCaption: this.textAutoFormat});
+            else if (this.appPrefix=='sse-')
+                items.push({panelId: 'id-autocorrect-dialog-settings-sse-autoformat',  panelCaption: this.textAutoFormat});
+
             _.extend(this.options, {
-                title: this.textTitle
+                title: this.textTitle,
+                storageName: this.appPrefix + 'autocorrect-dialog-category',
+                items: items,
+                template: [
+                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
+                        '<div class="menu-panel" style="overflow: hidden;">',
+                            '<% _.each(items, function(item) { %>',
+                            '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
+                            '<% }); %>',
+                        '</div>',
+                        '<div class="separator"></div>',
+                        '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
+                    '</div>',
+                    '<div class="separator horizontal"></div>',
+                    '<div class="footer center">',
+                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
+                        '<button class="btn normal dlg-btn primary can-apply hidden" result="ok" style="width: 86px;">' + this.okButtonText + '</button>',
+                        '<button class="btn normal dlg-btn can-apply hidden" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
+                    '</div>'
+                ].join('')
             }, options || {});
 
-            this.template = [
-                '<div class="box">',
-                    '<div id="symbol-table-pnl-special">',
-                        '<table cols="1" style="width: 100%;">',
-                            '<tr>',
-                                '<td style="padding-bottom: 8px;">',
-                                    '<label style="font-weight: bold;">' + this.textMathCorrect + '</label>',
-                                '</td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td>',
-                                    '<label style="width: 117px;">' + this.textReplace + '</label>',
-                                    '<label>' + this.textBy + '</label>',
-                                '</td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td>',
-                                    '<div id="auto-correct-replace" style="height:22px;width: 115px;margin-right: 2px;display: inline-block;"></div>',
-                                    '<div id="auto-correct-by" style="height:22px;width: 299px;display: inline-block;"></div>',
-                                '</td>',
-                            '</tr>',
-                            '<tr>',
-                                '<td>',
-                                    '<div id="auto-correct-math-list" class="" style="width:100%; height: 254px;"></div>',
-                                '</td>',
-                            '</tr>',
-                        '</table>',
-                    '</div>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                '</div>'
-            ].join('');
+            this.mathStore = this.options.mathStore || new Common.UI.DataViewStore();
+            this.functionsStore = this.options.functionsStore || new Common.UI.DataViewStore();
+            this.api = this.options.api;
 
-            this.options.tpl = _.template(this.template)(this.options);
-            this.props = this.options.props || [];
+            var path = this.appPrefix + "settings-math-correct";
+            var value = Common.Utils.InternalSettings.get(path + "-add");
+            this.arrAdd = value ? JSON.parse(value) : [];
+            value = Common.Utils.InternalSettings.get(path + "-rem");
+            this.arrRem = value ? JSON.parse(value) : [];
 
-            Common.UI.Window.prototype.initialize.call(this, this.options);
+            path = this.appPrefix + "settings-rec-functions";
+            value = Common.Utils.InternalSettings.get(path + "-add");
+            this.arrAddRec = value ? JSON.parse(value) : [];
+            value = Common.Utils.InternalSettings.get(path + "-rem");
+            this.arrRemRec = value ? JSON.parse(value) : [];
+
+            if (this.appPrefix=='de-') {
+                var me = this;
+                this.options.handler = function(result, value) {
+                    if ( result == 'ok' ) {
+                        var value = me.chBulleted.getValue()==='checked';
+                        Common.localStorage.setBool("de-settings-autoformat-bulleted", value);
+                        Common.Utils.InternalSettings.set("de-settings-autoformat-bulleted", value);
+                        me.api.asc_SetAutomaticBulletedLists(value);
+
+                        value = me.chNumbered.getValue()==='checked';
+                        Common.localStorage.setBool("de-settings-autoformat-numbered", value);
+                        Common.Utils.InternalSettings.set("de-settings-autoformat-numbered", value);
+                        me.api.asc_SetAutomaticNumberedLists(value);
+
+                        value = me.chQuotes.getValue()==='checked';
+                        Common.localStorage.setBool("de-settings-autoformat-smart-quotes", value);
+                        Common.Utils.InternalSettings.set("de-settings-autoformat-smart-quotes", value);
+                        me.api.asc_SetAutoCorrectSmartQuotes(value);
+
+                        value = me.chHyphens.getValue()==='checked';
+                        Common.localStorage.setBool("de-settings-autoformat-hyphens", value);
+                        Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
+                        me.api.asc_SetAutoCorrectHyphensWithDash(value);
+                    }
+                };
+            } else if (this.appPrefix=='sse-') {
+                var me = this;
+                this.options.handler = function(result, value) {
+                    if ( result == 'ok' ) {
+                        var value = me.chNewRows.getValue()==='checked';
+                        Common.localStorage.setBool("sse-settings-autoformat-new-rows", value);
+                        Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", value);
+                        me.api.asc_setIncludeNewRowColTable(value);
+                    }
+                };
+            }
+
+            Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
         render: function() {
-            Common.UI.Window.prototype.render.call(this);
+            Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
             var $window = this.getChild();
             var me = this;
 
-            // special
+            // Math correct
+            this.chReplaceType = new Common.UI.CheckBox({
+                el: $window.findById('#auto-correct-chb-replace-type'),
+                labelText: this.textReplaceType,
+                value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-math-correct-replace-type")
+            }).on('change', function(field, newValue, oldValue, eOpts){
+                var checked = (field.getValue()==='checked');
+                Common.localStorage.setBool(me.appPrefix + "settings-math-correct-replace-type", checked);
+                Common.Utils.InternalSettings.set(me.appPrefix + "settings-math-correct-replace-type", checked);
+                me.api.asc_updateFlagAutoCorrectMathSymbols(checked);
+            });
+
+            this.onInitList();
+
             this.mathList = new Common.UI.ListView({
                 el: $window.find('#auto-correct-math-list'),
-                store: new Common.UI.DataViewStore(this.props),
-                simpleAddMode: true,
+                store: new Common.UI.DataViewStore(this.mathStore.slice(0, 9)),
+                simpleAddMode: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
-                        '<div style="min-width:110px;padding-right: 5px;"><%= replaced %></div>',
-                        '<div style="flex-grow:1;font-family: Cambria Math;font-size:13px;"><%= by %></div>',
+                        '<div style="min-width:110px;padding-right: 5px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
+                        '<div style="flex-grow:1;font-family: Cambria Math;font-size:13px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
                     '</div>'
                 ].join('')),
                 scrollAlwaysVisible: true
@@ -125,22 +187,24 @@ define([
                 validateOnChange : true,
                 validation       : function () { return true; }
             }).on ('changing', function (input, value) {
+                var _selectedItem;
                 if (value.length) {
                     var store = me.mathList.store;
-                    var _selectedItem = store.find(function(item) {
+                    _selectedItem = store.find(function(item) {
                         if ( item.get('replaced').indexOf(value) == 0) {
                             return true;
                         }
                     });
                     if (_selectedItem) {
-                        me.mathList.selectRecord(_selectedItem, true);
-                        me.mathList.scrollToRecord(_selectedItem);
-                    } else {
-                        me.mathList.deselectAll();
+                        me.mathList.scrollToRecord(_selectedItem, true);
+                        if (_selectedItem.get('replaced') == value)
+                            me.mathList.selectRecord(_selectedItem, true);
+                        else
+                            _selectedItem = null;
                     }
-                } else {
-                    me.mathList.deselectAll();
                 }
+                (!_selectedItem) && me.mathList.deselectAll();
+                me.updateControls(_selectedItem);
             });
 
             this.inputReplace.cmpEl.find('input').on('keydown', function(event){
@@ -162,38 +226,578 @@ define([
                 allowBlank       : true,
                 validateOnChange : true,
                 validation       : function () { return true; }
+            }).on ('changing', function (input, value) {
+                me.updateControls();
             });
             // this.inputBy.cmpEl.find('input').css('font-size', '13px');
 
-            $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+            this.btnReset = new Common.UI.Button({
+                el: $('#auto-correct-btn-reset')
+            });
+            this.btnReset.on('click', _.bind(this.onResetToDefault, this));
+
+            this.btnEdit = new Common.UI.Button({
+                el: $('#auto-correct-btn-edit')
+            });
+            this.btnEdit.on('click', _.bind(this.onEdit, this, false));
+
+            this.btnDelete = new Common.UI.Button({
+                el: $('#auto-correct-btn-delete')
+            });
+            this.btnDelete.on('click', _.bind(this.onDelete, this, false));
+
+            // Recognized functions
+            this.onInitRecList();
+
+            this.mathRecList = new Common.UI.ListView({
+                el: $window.find('#auto-correct-recognized-list'),
+                store: new Common.UI.DataViewStore(this.functionsStore.slice(0, 9)),
+                simpleAddMode: false,
+                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="list-item" style="<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= value %></div>'
+                ].join('')),
+                scrollAlwaysVisible: true
+            });
+            this.mathRecList.on('item:select', _.bind(this.onSelectRecItem, this));
+
+            this.inputRecFind = new Common.UI.InputField({
+                el               : $window.find('#auto-correct-rec-find'),
+                allowBlank       : true,
+                validateOnChange : true,
+                validation       : function () { return true; }
+            }).on ('changing', function (input, value) {
+                var _selectedItem;
+                if (value.length) {
+                    var store = me.mathRecList.store;
+                    _selectedItem = store.find(function(item) {
+                        if ( item.get('value').indexOf(value) == 0) {
+                            return true;
+                        }
+                    });
+                    if (_selectedItem) {
+                        me.mathRecList.scrollToRecord(_selectedItem, true);
+                        if (_selectedItem.get('value') == value)
+                            me.mathRecList.selectRecord(_selectedItem, true);
+                        else
+                            _selectedItem = null;
+                    }
+                }
+                (!_selectedItem) && me.mathRecList.deselectAll();
+                me.updateRecControls(_selectedItem);
+            });
+
+            this.inputRecFind.cmpEl.find('input').on('keydown', function(event){
+                if (event.key == 'ArrowDown') {
+                    var _selectedItem = me.mathRecList.getSelectedRec() || me.mathRecList.store.at(0);
+                    if (_selectedItem) {
+                        me.mathRecList.selectRecord(_selectedItem);
+                        me.mathRecList.scrollToRecord(_selectedItem);
+                    }
+                    _.delay(function(){
+                        me.mathRecList.cmpEl.find('.listview').focus();
+                    },10);
+
+                }
+            });
+
+            this.btnResetRec = new Common.UI.Button({
+                el: $('#auto-correct-btn-rec-reset')
+            });
+            this.btnResetRec.on('click', _.bind(this.onResetRecToDefault, this));
+
+            this.btnAddRec = new Common.UI.Button({
+                el: $('#auto-correct-btn-rec-edit')
+            });
+            this.btnAddRec.on('click', _.bind(this.onAddRec, this, false));
+
+            this.btnDeleteRec = new Common.UI.Button({
+                el: $('#auto-correct-btn-rec-delete')
+            });
+            this.btnDeleteRec.on('click', _.bind(this.onDeleteRec, this, false));
+
+            if (this.appPrefix=='de-') {
+                this.chQuotes = new Common.UI.CheckBox({
+                    el: $('#id-autocorrect-dialog-chk-quotes'),
+                    labelText: this.textQuotes,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-smart-quotes")
+                });
+                this.chHyphens = new Common.UI.CheckBox({
+                    el: $('#id-autocorrect-dialog-chk-hyphens'),
+                    labelText: this.textHyphens,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-hyphens")
+                });
+                this.chBulleted = new Common.UI.CheckBox({
+                    el: $('#id-autocorrect-dialog-chk-bulleted'),
+                    labelText: this.textBulleted,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-bulleted")
+                });
+                this.chNumbered = new Common.UI.CheckBox({
+                    el: $('#id-autocorrect-dialog-chk-numbered'),
+                    labelText: this.textNumbered,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-numbered")
+                });
+            } else if (this.appPrefix=='sse-') {
+                this.chNewRows = new Common.UI.CheckBox({
+                    el: $('#id-autocorrect-dialog-chk-new-rows'),
+                    labelText: this.textNewRowCol,
+                    value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-new-rows")
+                });
+            }
+
+            this.applyButtons = $window.find('.dlg-btn.can-apply');
+            this.closeButtons = $window.find('.dlg-btn:not(.can-apply)');
+
+            this.btnsCategory[0].on('click', _.bind(this.onMathCategoryClick, this, false));
+            this.btnsCategory[1].on('click', _.bind(this.onRecCategoryClick, this, false));
+            this.btnsCategory[2] && this.btnsCategory[2].on('click', _.bind(this.updateFooterButtons, this, true));
+
+            this.afterRender();
+        },
+
+        afterRender: function() {
+            this.updateControls();
+            this.updateRecControls();
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
+        },
+
+        getSettings: function() {
+            return;
         },
 
         onSelectMathItem: function(lisvView, itemView, record) {
-            this.inputReplace.setValue(record.get('replaced'));
-            this.inputBy.setValue(record.get('by'));
+            if (record) {
+                this.inputReplace.setValue(record.get('replaced'));
+                this.inputBy.setValue(record.get('by'));
+            }
+            this.updateControls(record);
+        },
+
+        updateControls: function(rec) {
+            if (!this.mathList) return;
+
+            rec = rec || this.mathList.getSelectedRec();
+            var inputBy = this.inputBy.getValue(),
+                inputReplace = this.inputReplace.getValue();
+            if (rec) {
+                var disabled = rec.get('defaultDisabled'),
+                    defChanged = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by'));
+                this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
+                this.btnEdit.setDisabled(disabled || inputBy === rec.get('by') && !defChanged || !inputBy || !inputReplace);
+                this.btnEdit.setCaption(defChanged && (inputBy === rec.get('by')) ? this.textReset : this.textReplace);
+            } else {
+                this.btnDelete.setCaption(this.textDelete);
+                this.btnEdit.setDisabled(!inputBy || !inputReplace);
+                this.btnEdit.setCaption(this.textAdd);
+            }
+            this.btnDelete.setDisabled(!rec);
         },
 
         show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
+            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+
+            var value = this.getActiveCategory();
+            if (value==0) this.onMathCategoryClick(true);
+            else if (value==1) this.onRecCategoryClick(true);
+            this.updateFooterButtons(value>1);
+        },
+
+        close: function() {
+            Common.Views.AdvancedSettingsWindow.prototype.close.apply(this, arguments);
+            this.mathList && this.mathList.deselectAll();
+            this.mathRecList && this.mathRecList.deselectAll();
+        },
+
+        onMathCategoryClick: function(delay) {
+            this.updateFooterButtons(false);
 
             var me = this;
             _.delay(function(){
                 $('input', me.inputReplace.cmpEl).select().focus();
-            },100);
+            },delay ? 50 : 0);
+
+            if (me.mathList.store.length < me.mathStore.length) {
+                _.delay(function(){
+                    me.mathList.setStore(me.mathStore);
+                    me.mathList.onResetItems();
+                },delay ? 100 : 10);
+            }
         },
 
-        onBtnClick: function(event) {
-            this.close();
+        onDelete: function() {
+            var rec = this.mathList.getSelectedRec();
+            if (rec) {
+                if (rec.get('defaultValue')) {
+                    var path = this.appPrefix + "settings-math-correct-rem";
+                    var disabled = !rec.get('defaultDisabled');
+                    rec.set('defaultDisabled', disabled);
+                    if (disabled)
+                        this.arrRem.push(rec.get('replaced'));
+                    else
+                        this.arrRem.splice(this.arrRem.indexOf(rec.get('replaced')), 1);
+                    var val = JSON.stringify(this.arrRem);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
+                    disabled ? this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced')) : this.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), rec.get('defaultValue'));
+                } else {
+                    this.mathStore.remove(rec);
+                    this.mathList.scroller && this.mathList.scroller.update({});
+                    this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));
+                }
+                this.updateControls();
+            }
         },
 
-        onPrimary: function(event) {
-            return true;
+        onEdit: function() {
+            var rec = this.mathList.getSelectedRec(),
+                by = '',
+                me = this,
+                applySettings = function(record, by) {
+                    var path = me.appPrefix + "settings-math-correct-add";
+                    var val = JSON.stringify(me.arrAdd);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    me.api.asc_AddOrEditFromAutoCorrectMathSymbols(record.get('replaced'), by);
+                    me.mathList.selectRecord(record);
+                    me.mathList.scrollToRecord(record);
+                };
+            if (!rec) {
+                rec = this.mathStore.findWhere({replaced: this.inputReplace.getValue()})
+            }
+            if (rec) {
+                var idx = _.findIndex(this.arrAdd, function(item){return (item[0]==rec.get('replaced'));});
+                var restore = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by')) && (this.inputBy.getValue() === rec.get('by'));
+                Common.UI.warning({
+                    maxwidth: 500,
+                    msg: restore ? this.warnRestore.replace('%1', rec.get('replaced')) : this.warnReplace.replace('%1', rec.get('replaced')),
+                    buttons: ['yes', 'no'],
+                    primary: 'yes',
+                    callback: _.bind(function(btn, dontshow){
+                        if (btn == 'yes') {
+                            if (restore) {// reset to default
+                                by = rec.get('defaultValue');
+                                rec.set('by', rec.get('defaultValueStr'));
+                                (idx>=0) && this.arrAdd.splice(idx, 1);
+                            } else { // replace
+                                by = this.inputBy.getValue();
+                                rec.set('by', by);
+                                if (idx<0)
+                                    this.arrAdd.push([rec.get('replaced'), by]);
+                                else
+                                    this.arrAdd[idx][1] = by;
+                            }
+                            applySettings(rec, by);
+                        }
+                    }, this)
+                });
+
+            } else {
+                rec = this.mathStore.add({
+                    replaced: this.inputReplace.getValue(),
+                    by: this.inputBy.getValue(),
+                    defaultDisabled: false
+                });
+                by = rec.get('by');
+                this.arrAdd.push([rec.get('replaced'), by]);
+                applySettings(rec, by);
+            }
         },
+
+        onResetToDefault: function() {
+            Common.UI.warning({
+                maxwidth: 500,
+                msg: this.warnReset,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: _.bind(function(btn, dontshow){
+                    if (btn == 'yes') {
+                        this.api.asc_resetToDefaultAutoCorrectMathSymbols();
+                        this.onResetList();
+                    }
+                }, this)
+            });
+        },
+
+        onResetList: function() {
+            // remove storage data
+            var path = this.appPrefix + "settings-math-correct";
+            var val = JSON.stringify([]);
+            Common.Utils.InternalSettings.set(path + "-add", val);
+            Common.localStorage.setItem(path + "-add", val);
+            Common.Utils.InternalSettings.set(path + "-rem", val);
+            Common.localStorage.setItem(path + "-rem", val);
+            this.arrAdd = [];
+            this.arrRem = [];
+
+            this.mathStore.remove(this.mathStore.where({defaultValue: undefined}));
+            this.mathStore.each(function(item, index){
+                item.set('by', item.get('defaultValueStr'));
+                item.set('defaultDisabled', false);
+            });
+            this.mathList.deselectAll();
+            if (this.mathList.scroller) {
+                this.mathList.scroller.update();
+                this.mathList.scroller.scrollTop(0);
+            }
+            this.updateControls();
+        },
+
+        onInitList: function() {
+            if (this.mathStore.length>0) return;
+
+            this.mathStore.comparator = function(item1, item2) {
+                var n1 = item1.get('replaced').toLowerCase(),
+                    n2 = item2.get('replaced').toLowerCase();
+                if (n1==n2) return 0;
+                return (n1<n2) ? -1 : 1;
+            };
+
+            var arrAdd = this.arrAdd,
+                arrRem = this.arrRem;
+
+            var arr = (this.api) ? this.api.asc_getAutoCorrectMathSymbols() : [],
+                data = [];
+            _.each(arr, function(item, index){
+                var itm = {
+                    replaced: item[0],
+                    defaultValue: item[1],
+                    defaultDisabled: arrRem.indexOf(item[0])>-1
+                };
+                if (typeof item[1]=='object') {
+                    itm.defaultValueStr = '';
+                    _.each(item[1], function(ch){
+                        itm.defaultValueStr += Common.Utils.String.encodeSurrogateChar(ch);
+                    });
+                    itm.by = itm.defaultValueStr;
+                } else {
+                    itm.by = itm.defaultValueStr = Common.Utils.String.encodeSurrogateChar(item[1]);
+                }
+                data.push(itm);
+            });
+
+            var dataAdd = [];
+            _.each(arrAdd, function(item, index){
+                var idx = _.findIndex(data, {replaced: item[0]});
+                if (idx<0) {
+                    dataAdd.push({
+                        replaced: item[0],
+                        by: item[1],
+                        defaultDisabled: false
+                    });
+                } else {
+                    var changed = data[idx];
+                    changed.by = item[1];
+                }
+            });
+            this.mathStore.reset(data.concat(dataAdd));
+            this.updateControls();
+        },
+
+        onInitRecList: function() {
+            if (this.functionsStore.length>0) return;
+
+            this.functionsStore.comparator = function(item1, item2) {
+                var n1 = item1.get('value').toLowerCase(),
+                    n2 = item2.get('value').toLowerCase();
+                if (n1==n2) return 0;
+                return (n1<n2) ? -1 : 1;
+            };
+
+            var arrAdd = this.arrAddRec,
+                arrRem = this.arrRemRec;
+
+            var arr = (this.api) ? this.api.asc_getAutoCorrectMathFunctions() : [],
+                data = [];
+            _.each(arr, function(item, index){
+                data.push({
+                    value: item,
+                    defaultValue: true,
+                    defaultDisabled: arrRem.indexOf(item)>-1
+                });
+            });
+
+            var dataAdd = [];
+            _.each(arrAdd, function(item, index){
+                if (_.findIndex(data, {value: item})<0) {
+                    dataAdd.push({
+                        value: item,
+                        defaultValue: false,
+                        defaultDisabled: false
+                    });
+                }
+            });
+            this.functionsStore.reset(data.concat(dataAdd));
+            this.updateRecControls();
+        },
+
+        onResetRecToDefault: function() {
+            Common.UI.warning({
+                maxwidth: 500,
+                msg: this.textWarnResetRec,
+                buttons: ['yes', 'no'],
+                primary: 'yes',
+                callback: _.bind(function(btn, dontshow){
+                    if (btn == 'yes') {
+                        this.api.asc_resetToDefaultAutoCorrectMathFunctions();
+                        this.onResetRecList();
+                    }
+                }, this)
+            });
+        },
+
+        onResetRecList: function() {
+            // remove storage data
+            var path = this.appPrefix + "settings-rec-functions";
+            var val = JSON.stringify([]);
+            Common.Utils.InternalSettings.set(path + "-add", val);
+            Common.localStorage.setItem(path + "-add", val);
+            Common.Utils.InternalSettings.set(path + "-rem", val);
+            Common.localStorage.setItem(path + "-rem", val);
+            this.arrAddRec = [];
+            this.arrRemRec = [];
+
+            this.functionsStore.remove(this.functionsStore.where({defaultValue: false}));
+            this.functionsStore.each(function(item, index){
+                item.set('defaultDisabled', false);
+            });
+            this.mathRecList.deselectAll();
+            if (this.mathRecList.scroller) {
+                this.mathRecList.scroller.update();
+                this.mathRecList.scroller.scrollTop(0);
+            }
+            this.updateRecControls();
+        },
+
+        onRecCategoryClick: function(delay) {
+            this.updateFooterButtons(false);
+
+            var me = this;
+            _.delay(function(){
+                $('input', me.inputRecFind.cmpEl).select().focus();
+            },delay ? 50 : 0);
+
+            if (me.mathRecList.store.length < me.functionsStore.length) {
+                _.delay(function(){
+                    me.mathRecList.setStore(me.functionsStore);
+                    me.mathRecList.onResetItems();
+                },delay ? 100 : 10);
+            }
+        },
+
+        onDeleteRec: function() {
+            var rec = this.mathRecList.getSelectedRec();
+            if (rec) {
+                if (rec.get('defaultValue')) {
+                    var path = this.appPrefix + "settings-rec-functions-rem";
+                    var disabled = !rec.get('defaultDisabled');
+                    rec.set('defaultDisabled', disabled);
+                    if (disabled)
+                        this.arrRemRec.push(rec.get('value'));
+                    else
+                        this.arrRemRec.splice(this.arrRemRec.indexOf(rec.get('value')), 1);
+                    var val = JSON.stringify(this.arrRemRec);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    this.btnDeleteRec.setCaption(disabled ? this.textRestore : this.textDelete);
+                    disabled ? this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value')) : this.api.asc_AddFromAutoCorrectMathFunctions(rec.get('value'));
+                } else {
+                    this.functionsStore.remove(rec);
+                    this.mathRecList.scroller && this.mathRecList.scroller.update({});
+                    this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value'));
+                }
+                this.updateRecControls();
+            }
+        },
+
+        onAddRec: function() {
+            var rec = this.mathRecList.getSelectedRec(),
+                me = this,
+                applySettings = function(record) {
+                    var path = me.appPrefix + "settings-rec-functions-add";
+                    var val = JSON.stringify(me.arrAddRec);
+                    Common.Utils.InternalSettings.set(path, val);
+                    Common.localStorage.setItem(path, val);
+                    me.api.asc_AddFromAutoCorrectMathFunctions(record.get('value'));
+                    me.mathRecList.selectRecord(record);
+                    me.mathRecList.scrollToRecord(record);
+                };
+            if (!rec) {
+                rec = this.functionsStore.findWhere({value: this.inputRecFind.getValue()})
+            }
+            if (!rec) {
+                if (/^[A-Z]+$/i.test(this.inputRecFind.getValue())) {
+                    rec = this.functionsStore.add({
+                        value: this.inputRecFind.getValue(),
+                        defaultValue: false,
+                        defaultDisabled: false
+                    });
+                    this.arrAddRec.push(rec.get('value'));
+                    applySettings(rec);
+                } else
+                    Common.UI.warning({
+                        maxwidth: 500,
+                        msg: this.textWarnAddRec
+                    });
+            } else {
+                me.mathRecList.selectRecord(rec);
+                me.mathRecList.scrollToRecord(rec);
+            }
+        },
+
+        onSelectRecItem: function(lisvView, itemView, record) {
+            if (record) {
+                this.inputRecFind.setValue(record.get('value'));
+            }
+            this.updateRecControls(record);
+        },
+
+        updateRecControls: function(rec) {
+            if (!this.mathRecList) return;
+
+            rec = rec || this.mathRecList.getSelectedRec();
+            var value = this.inputRecFind.getValue();
+
+            this.btnDeleteRec.setCaption(rec && rec.get('defaultDisabled') ? this.textRestore : this.textDelete);
+            this.btnDeleteRec.setDisabled(!rec);
+            this.btnAddRec.setDisabled(!!rec || !value);
+        },
+
+        updateFooterButtons: function(apply) {
+            this.applyButtons.toggleClass('hidden', !apply);
+            this.closeButtons.toggleClass('hidden', apply);
+        },
+
 
         textTitle: 'AutoCorrect',
         textMathCorrect: 'Math AutoCorrect',
-        textReplace: 'Replace:',
-        textBy: 'By:'
+        textReplace: 'Replace',
+        textBy: 'By',
+        textResetAll: 'Reset to default',
+        textAdd: 'Add',
+        textDelete: 'Delete',
+        textRestore: 'Restore',
+        textReset: 'Reset',
+        textReplaceType: 'Replace text as you type',
+        warnReset: 'Any autocorrect you added will be removed and the changed ones will be restored to their original values. Do you want to continue?',
+        warnReplace: 'The autocorrect entry for %1 already exists. Do you want to replace it?',
+        warnRestore: 'The autocorrect entry for %1 will be reset to its original value. Do you want to continue?',
+        textRecognized: 'Recognized Functions',
+        textRecognizedDesc: 'The following expressions are recognized math expressions. They will not be automatically italicized.',
+        textWarnAddRec: 'Recognized functions must contain only the letters A through Z, uppercase or lowercase.',
+        textWarnResetRec: 'Any expression you added will be removed and the removed ones will be restored. Do you want to continue?',
+        textAutoFormat: 'AutoFormat As You Type',
+        textReplaceText: 'Replace As You Type',
+        textApplyText: 'Apply As You Type',
+        textQuotes: '"Straight quotes" with "smart quotes"',
+        textHyphens: 'Hyphens (--) with dash (—)',
+        textBulleted: 'Automatic bulleted lists',
+        textNumbered: 'Automatic numbered lists',
+        textApplyAsWork: 'Apply as you work',
+        textNewRowCol: 'Include new rows and columns in table'
 
     }, Common.Views.AutoCorrectDialog || {}))
 });

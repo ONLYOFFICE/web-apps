@@ -203,6 +203,7 @@ define([
 
                     }, this),
                     'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
+                        Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         var arrTabs = [],
                             arrName = [],
@@ -243,7 +244,8 @@ define([
                              if (arrData) {
                                  var key = _.findWhere(arrData, {type: 'key'}).value;
                                  if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
-                                     this.api.asc_moveWorksheet(index, _.findWhere(arrData, {type: 'indexes'}).value);
+                                     this.api.asc_moveWorksheet(_.isNumber(index) ? index : this.api.asc_getWorksheetsCount(), _.findWhere(arrData, {type: 'indexes'}).value);
+                                     this.api.asc_enableKeyEvents(true);
                                      Common.NotificationCenter.trigger('tabs:dragend', this);
                                  } else {
                                      var names = [], wc = this.api.asc_getWorksheetsCount();
@@ -253,23 +255,21 @@ define([
                                      var newNames = [];
                                      var arrNames = _.findWhere(arrData, {type: 'names'}).value;
                                      arrNames.forEach(function (name) {
-                                         var ind = 0,
+                                         var ind = 1,
                                              name = name;
-                                         var first = name;
-                                         if (names.indexOf(name.toLowerCase()) !== -1) {
-                                             while (true) {
-                                                 if (names.indexOf(name.toLowerCase()) === -1) {
-                                                     newNames.push(name);
-                                                     break;
-                                                 } else {
-                                                     ind++;
-                                                     name = first + '(' + ind + ')';
-                                                 }
-                                             }
-                                         } else {
-                                             newNames.push(name);
+                                         var re = /^(.*)\((\d)\)$/.exec(name);
+                                         var first = re ? re[1] : name + ' ';
+                                         var arr = [];
+                                         newNames.length > 0 && newNames.forEach(function (item) {
+                                             arr.push(item.toLowerCase());
+                                         });
+                                         while (names.indexOf(name.toLowerCase()) !== -1 || arr.indexOf(name.toLowerCase()) !== -1) {
+                                             ind++;
+                                             name = first + '(' + ind + ')';
                                          }
+                                         newNames.push(name);
                                      });
+                                     var index = _.isNumber(index) ? index : this.api.asc_getWorksheetsCount();
                                      this.api.asc_EndMoveSheet(index, newNames, _.findWhere(arrData, {type: 'onlyoffice'}).value);
                                  }
                              }
@@ -748,7 +748,9 @@ define([
                 this.$el.find('.over-box').removeClass('over-box');
                 while (width + parseInt(this.boxMath.css('width')) + 100 > widthStatusbar) {
                     var items = this.boxMath.find('label:not(.hide, .over-box)');
-                    $(items[items.length - 1]).addClass('over-box');
+                    (items.length>0) && $(items[items.length - 1]).addClass('over-box');
+                    if (items.length<=1)
+                        break;
                 }
             },
 

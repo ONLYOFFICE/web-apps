@@ -161,12 +161,16 @@ define([
 
             var value = props.asc_getPrintTitlesHeight();
             panel.txtRangeTop.setValue((value) ? value : '');
+            this._noApply = true;
             panel.txtRangeTop.checkValidate();
+            this._noApply = false;
             panel.dataRangeTop = value;
 
             value = props.asc_getPrintTitlesWidth();
             panel.txtRangeLeft.setValue((value) ? value : '');
+            this._noApply = true;
             panel.txtRangeLeft.checkValidate();
+            this._noApply = false;
             panel.dataRangeLeft = value;
 
             value = (this.api.asc_getActiveWorksheetIndex()==sheet);
@@ -203,8 +207,8 @@ define([
 
         getPageOptions: function(panel) {
             var props = new Asc.asc_CPageOptions();
-            props.asc_setGridLines(panel.chPrintGrid.getValue() == 'indeterminate' ? undefined : panel.chPrintGrid.getValue()=='checked'?1:0);
-            props.asc_setHeadings(panel.chPrintRows.getValue() == 'indeterminate' ? undefined : panel.chPrintRows.getValue()=='checked'?1:0);
+            props.asc_setGridLines(panel.chPrintGrid.getValue()==='checked');
+            props.asc_setHeadings(panel.chPrintRows.getValue()==='checked');
 
             var opt = new Asc.asc_CPageSetup();
             opt.asc_setOrientation(panel.cmbPaperOrientation.getValue() == '-' ? undefined : panel.cmbPaperOrientation.getValue());
@@ -448,7 +452,7 @@ define([
         fillComponents: function(panel, selectdata) {
             var me = this;
             panel.txtRangeTop.validation = function(value) {
-                me.propertyChange(panel);
+                !me._noApply && me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }
@@ -458,7 +462,7 @@ define([
             selectdata && panel.txtRangeTop.updateBtnHint(this.textSelectRange);
 
             panel.txtRangeLeft.validation = function(value) {
-                me.propertyChange(panel);
+                !me._noApply &&  me.propertyChange(panel);
                 if (_.isEmpty(value)) {
                     return true;
                 }

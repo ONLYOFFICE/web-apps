@@ -117,6 +117,16 @@ define([
 
             if (data) {
                 this.currentUserId      =   data.config.user.id;
+                if (this.appConfig && this.appConfig.canUseReviewPermissions) {
+                    var permissions = this.appConfig.customization.reviewPermissions,
+                        arr = [],
+                        groups  =  Common.Utils.UserInfoParser.getParsedGroups(data.config.user.fullname);
+                    groups && groups.forEach(function(group) {
+                        var item = permissions[group.trim()];
+                        item && (arr = arr.concat(item));
+                    });
+                    this.currentUserGroups = arr;
+                }
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
             return this;
@@ -183,7 +193,8 @@ define([
                         posY = sdkchange[0].get_Y(),
                         animate = ( Math.abs(this._state.posx-posX)>0.001 || Math.abs(this._state.posy-posY)>0.001) || (sdkchange.length !== this._state.changes_length),
                         lock = (sdkchange[0].get_LockUserId()!==null),
-                        lockUser = this.getUserName(sdkchange[0].get_LockUserId());
+                        lockUser = this.getUserName(sdkchange[0].get_LockUserId()),
+                        editable = changes[0].get('editable');
 
                     this.getPopover().hideTips();
                     this.popoverChanges.reset(changes);
@@ -195,14 +206,15 @@ define([
 
                     this.getPopover().showReview(animate, lock, lockUser);
 
-                    if (this.appConfig.canReview && !this.appConfig.isReviewOnly && this._state.lock !== lock) {
-                        this.view.btnAccept.setDisabled(lock==true);
-                        this.view.btnReject.setDisabled(lock==true);
+                    var btnlock = lock || !editable;
+                    if (this.appConfig.canReview && !this.appConfig.isReviewOnly && this._state.lock !== btnlock) {
+                        this.view.btnAccept.setDisabled(btnlock);
+                        this.view.btnReject.setDisabled(btnlock);
                         if (this.dlgChanges) {
-                            this.dlgChanges.btnAccept.setDisabled(lock==true);
-                            this.dlgChanges.btnReject.setDisabled(lock==true);
+                            this.dlgChanges.btnAccept.setDisabled(btnlock);
+                            this.dlgChanges.btnReject.setDisabled(btnlock);
                         }
-                        this._state.lock = lock;
+                        this._state.lock = btnlock;
                     }
                     this._state.posx = posX;
                     this._state.posy = posY;
@@ -459,7 +471,7 @@ define([
                         scope       : me.view,
                         hint        : !me.appConfig.canReview,
                         goto        : (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom),
-                        editable    : (item.get_UserId() == me.currentUserId)
+                        editable    : me.appConfig.isReviewOnly && (item.get_UserId() == me.currentUserId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || me.checkUserGroups(item.get_UserName()))
                     });
 
                 arr.push(change);
@@ -467,10 +479,15 @@ define([
             return arr;
         },
 
+        checkUserGroups: function(username) {
+            var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
+            return this.currentUserGroups && groups && (_.intersection(this.currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
+        },
+
         getUserName: function(id){
             if (this.userCollection && id!==null){
                 var rec = this.userCollection.findUser(id);
-                if (rec) return rec.get('username');
+                if (rec) return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
             }
             return '';
         },

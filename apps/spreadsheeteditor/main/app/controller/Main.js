@@ -312,9 +312,11 @@ define([
                 });
 
                 me.defaultTitleText = '{{APP_TITLE_TEXT}}';
-                me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
-                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
-                me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicense  = me.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
+                me.textNoLicenseTitle = me.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnLicenseExceeded = me.warnLicenseExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnLicenseUsersExceeded = me.warnLicenseUsersExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -359,8 +361,7 @@ define([
                 this.appOptions.canFeatureViews = !!this.api.asc_isSupportFeature("sheet-views");
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
-                                .setUserName(this.appOptions.user.fullname);
+                this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
 
                 var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
                     isUseBaseSeparator = Common.localStorage.getBool("sse-settings-use-base-separator", true),
@@ -773,7 +774,8 @@ define([
                 leftmenuController.setMode(me.appOptions).createDelayedElements().setApi(me.api);
 
                  if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
-                    pluginsController.setApi(me.api);
+                     pluginsController.setApi(me.api);
+                     this.api && this.api.asc_setFrozenPaneBorderType(Common.localStorage.getBool('sse-freeze-shadow', true) ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
                  }
 
                 leftMenuView.disableMenu('all',false);
@@ -817,6 +819,8 @@ define([
                     if (value===null) value = '1';
                     Common.Utils.InternalSettings.set("sse-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
+
+                    me.loadAutoCorrectSettings();
 
                     if (me.needToUpdateVersion) {
                         Common.NotificationCenter.trigger('api:disconnect');
@@ -1000,6 +1004,7 @@ define([
                     this.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     this.appOptions.isOffline      = this.api.asc_isOffline();
+                    this.appOptions.isCrypted      = this.api.asc_isCrypto();
                     this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                     this.appOptions.isLightVersion = params.asc_getIsLight();
                     /** coauthoring begin **/
@@ -1009,7 +1014,7 @@ define([
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
-                    this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
+                    this.appOptions.canRename      = this.editorConfig.canRename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = params.asc_getCustomization();
@@ -1017,6 +1022,9 @@ define([
                         this.headerView.setBranding(this.editorConfig.customization);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
+                    this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
+                    Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
+                    this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
                 } else
                     this.appOptions.canModifyFilter = true;
 
@@ -1473,6 +1481,10 @@ define([
                         config.msg = this.errorFrmlMaxTextLength;
                         break;
 
+                    case Asc.c_oAscError.ID.FrmlMaxReference:
+                        config.msg = this.errorFrmlMaxReference;
+                        break;
+
                     case Asc.c_oAscError.ID.DataValidate:
                         var icon = errData ? errData.asc_getErrorStyle() : undefined;
                         if (icon!==undefined) {
@@ -1511,6 +1523,15 @@ define([
                         config.buttons  = ['ok'];
                         config.msg = (errData.asc_getDuplicateValues()!==null && errData.asc_getUniqueValues()!==null) ? Common.Utils.String.format(this.errRemDuplicates, errData.asc_getDuplicateValues(), errData.asc_getUniqueValues()) : this.errNoDuplicates;
                         config.maxwidth = 600;
+                        break;
+
+                    case  Asc.c_oAscError.ID.FrmlMaxLength:
+                        config.msg = this.errorFrmlMaxLength;
+                        config.maxwidth = 600;
+                        break;
+
+                    case  Asc.c_oAscError.ID.MoveSlicerError:
+                        config.msg = this.errorMoveSlicerError;
                         break;
 
                     default:
@@ -2199,13 +2220,15 @@ define([
                 Common.Utils.warningDocumentIsLocked({
                     disablefunc: function (disable) {
                         me.disableEditing(disable);
-
-                        SSE.getController('RightMenu').SetDisabled(disable, true);
-                        SSE.getController('Statusbar').SetDisabled(disable);
-                        SSE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                        SSE.getController('DocumentHolder').SetDisabled(disable, true);
-                        SSE.getController('LeftMenu').setPreviewMode(disable);
-                        var comments = SSE.getController('Common.Controllers.Comments');
+                        var app = me.getApplication();
+                        app.getController('RightMenu').SetDisabled(disable, true);
+                        app.getController('Statusbar').SetDisabled(disable);
+                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                        app.getController('DocumentHolder').SetDisabled(disable, true);
+                        var leftMenu = app.getController('LeftMenu');
+                        leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+                        leftMenu.setPreviewMode(disable);
+                        var comments = app.getController('Common.Controllers.Comments');
                         if (comments) comments.setPreviewMode(disable);
                 }});
             },
@@ -2238,6 +2261,32 @@ define([
                         });
                     }
                 }
+            },
+
+            loadAutoCorrectSettings: function() {
+                // autocorrection
+                var me = this;
+                var value = Common.localStorage.getItem("sse-settings-math-correct-add");
+                Common.Utils.InternalSettings.set("sse-settings-math-correct-add", value);
+                var arrAdd = value ? JSON.parse(value) : [];
+                value = Common.localStorage.getItem("sse-settings-math-correct-rem");
+                Common.Utils.InternalSettings.set("sse-settings-math-correct-rem", value);
+                var arrRem = value ? JSON.parse(value) : [];
+                value = Common.localStorage.getBool("sse-settings-math-correct-replace-type", true); // replace on type
+                Common.Utils.InternalSettings.set("sse-settings-math-correct-replace-type", value);
+                me.api.asc_refreshOnStartAutoCorrectMathSymbols(arrRem, arrAdd, value);
+
+                value = Common.localStorage.getItem("sse-settings-rec-functions-add");
+                Common.Utils.InternalSettings.set("sse-settings-rec-functions-add", value);
+                arrAdd = value ? JSON.parse(value) : [];
+                value = Common.localStorage.getItem("sse-settings-rec-functions-rem");
+                Common.Utils.InternalSettings.set("sse-settings-rec-functions-rem", value);
+                arrRem = value ? JSON.parse(value) : [];
+                me.api.asc_refreshOnStartAutoCorrectMathFunctions(arrRem, arrAdd);
+
+                value = Common.localStorage.getBool("sse-settings-autoformat-new-rows", true);
+                Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", value);
+                me.api.asc_setIncludeNewRowColTable(value);
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2346,7 +2395,7 @@ define([
             errorOpenWarning: 'The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.',
             errorFrmlWrongReferences: 'The function refers to a sheet that does not exist.<br>Please check the data and try again.',
             textBuyNow: 'Visit website',
-            textNoLicenseTitle: '%1 open source version',
+            textNoLicenseTitle: 'License limit reached',
             textContactUs: 'Contact sales',
             confirmPutMergeRange: 'The source data contains merged cells.<br>They will be unmerged before they are pasted into the table.',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
@@ -2389,10 +2438,10 @@ define([
             txtStyle_Comma: 'Comma',
             errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
             errorMaxPoints: "The maximum number of points in series per chart is 4096.",
-            warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
-            warnNoLicenseUsers: 'This version of %1 Editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
-            warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
-            warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
+            warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
+            warnLicenseExceeded: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact your administrator to learn more.",
+            warnLicenseUsersExceeded: "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             textClose: 'Close',
             textPaidFeature: 'Paid feature',
@@ -2611,7 +2660,10 @@ define([
             txtBlank: '(blank)',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
-            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.'
+            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.',
+            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
+            errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
+            errorMoveSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.'
         }
     })(), SSE.Controllers.Main || {}))
 });

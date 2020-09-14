@@ -110,11 +110,11 @@
             <div id="slicer-check-show-nodata-last"></div>
         </td>
     </tr>
-    <tr>
-        <td class="padding-small" colspan=2>
-            <div id="slicer-check-show-deleted"></div>
-        </td>
-    </tr>
+    <!--<tr>-->
+        <!--<td class="padding-small" colspan=2>-->
+            <!--<div id="slicer-check-show-deleted"></div>-->
+        <!--</td>-->
+    <!--</tr>-->
     <tr>
         <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>

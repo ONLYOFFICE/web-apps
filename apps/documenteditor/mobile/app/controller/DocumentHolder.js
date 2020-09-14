@@ -63,7 +63,9 @@ define([
             _isComments = false,
             _menuPos = [],
             _timer = 0,
-            _canViewComments = true;
+            _canViewComments = true,
+            _isRestrictedEdit = false,
+            _canFillForms = true;
 
         return {
             models: [],
@@ -104,8 +106,14 @@ define([
 
             setMode: function (mode) {
                 _isEdit = mode.isEdit;
+                _isRestrictedEdit = mode.isRestrictedEdit;
                 _canReview = mode.canReview;
                 _canViewComments = mode.canViewComments;
+                _canFillForms = mode.canFillForms;
+                if (_isEdit || _isRestrictedEdit && _canFillForms) {
+                    this.api && this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
+                    this.api && this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                }
             },
 
             // When our application is ready, lets get started
@@ -346,7 +354,7 @@ define([
                     if (usersStore){
                         var rec = usersStore.findUser(id);
                         if (rec)
-                            return rec.get('username');
+                            return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
                     }
                     return me.textGuest;
                 };
@@ -449,6 +457,21 @@ define([
 
             onApiHideComment: function() {
                 _isComments = false;
+            },
+
+            onShowContentControlsActions: function(obj, x, y) {
+                var type = obj.type;
+                if (type==Asc.c_oAscContentControlSpecificType.Picture) {
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    this.api.asc_addImage(obj);
+                }
+            },
+
+            onHideContentControlsActions: function() {
             },
 
             // Internal

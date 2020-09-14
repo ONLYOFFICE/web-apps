@@ -230,6 +230,9 @@ PE.ApplicationController = new(function(){
         var zf = (config.customization && config.customization.zoom ? parseInt(config.customization.zoom) : -1);
         (zf == -1) ? api.zoomFitToPage() : ((zf == -2) ? api.zoomFitToWidth() : api.zoom(zf>0 ? zf : 100));
 
+        if ( permissions.print === false)
+            $('#idt-print').hide();
+
         if (!embedConfig.saveUrl && permissions.print === false)
             $('#idt-download').hide();
 
@@ -282,6 +285,12 @@ PE.ApplicationController = new(function(){
                 }
 
                 Common.Analytics.trackEvent('Save');
+            });
+
+        PE.ApplicationView.tools.get('#idt-print')
+            .on('click', function(){
+                api.asc_Print(new Asc.asc_CDownloadOptions(null, $.browser.chrome || $.browser.safari || $.browser.opera));
+                Common.Analytics.trackEvent('Print');
             });
 
         var $pagenum = $('#page-number');

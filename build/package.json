@@ -4,7 +4,6 @@
   "homepage": "http://www.onlyoffice.com",
   "private": true,
   "dependencies": {
-    "chai": "1.9.1",
     "grunt": "^1.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^0.5.1",
@@ -17,7 +16,6 @@
     "grunt-contrib-uglify": "^4.0.1",
     "grunt-inline": "0.3.4",
     "grunt-json-minify": "^1.1.0",
-    "grunt-mocha": "^1.0.0",
     "grunt-spritesmith": "^6.8.0",
     "grunt-svgmin": "^6.0.0",
     "grunt-text-replace": "0.3.11",
@@ -25,7 +23,11 @@
     "iconv-lite": "^0.5.1",
     "less-plugin-clean-css": "1.5.0",
     "lodash": "^4.0.0",
-    "mocha": "^6.2.2",
     "vinyl-fs": "^3.0.3"
-  }
+  },
+  "devDependencies": {
+    "chai": "1.9.1",
+    "mocha": "^6.2.2",
+    "grunt-mocha": "^1.0.0"
+  } 
 }

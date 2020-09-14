@@ -126,5 +126,5 @@ define([
                 new IScroll(targetSelector);
             }, 500);
         }
-    }
+    };
 });

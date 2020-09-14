@@ -270,7 +270,7 @@ define([
             }
         },
 
-        textTitle: 'Create Table',
+        textTitle: 'Create Pivot Table',
         textDataRange: 'Source data range',
         textSelectData: 'Select data',
         textDestination: 'Choose, where to place the table',

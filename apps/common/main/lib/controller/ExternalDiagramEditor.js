@@ -59,7 +59,7 @@ define([
             externalEditor = new DocsAPI.DocEditor('id-diagram-editor-placeholder', {
                 width       : '100%',
                 height      : '100%',
-                documentType: 'spreadsheet',
+                documentType: 'cell',
                 document    : {
                     url         : '_chart_',
                     permissions : {

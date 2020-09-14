@@ -284,7 +284,7 @@ define([
         },
 
         onNameBeforeShow: function() {
-            var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook),
+            var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook, true),
                 rangesMenu = this.editor.btnNamedRanges.menu,
                 prev_name='';
 

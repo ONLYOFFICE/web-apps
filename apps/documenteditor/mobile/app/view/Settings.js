@@ -110,7 +110,7 @@ define([
                 _canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
                 _canDownload = mode.canDownload;
                 _canDownloadOrigin = mode.canDownloadOrigin;
-                _canReader = !mode.isEdit && mode.canReader;
+                _canReader = !mode.isEdit && !mode.isRestrictedEdit && mode.canReader;
                 _canPrint = mode.canPrint;
                 _canReview = mode.canReview;
                 _isReviewOnly = mode.isReviewOnly;

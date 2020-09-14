@@ -42,7 +42,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/InputField',
-    'spreadsheeteditor/main/app/view/CellRangeDialog'
+    'spreadsheeteditor/main/app/view/CellRangeDialog',
+    'spreadsheeteditor/main/app/view/ChartDataRangeDialog'
 ], function (contentTemplate) {
     'use strict';
 
@@ -58,7 +59,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
-                    {panelId: 'id-chart-settings-dlg-style',        panelCaption: this.textTypeData},
+                    {panelId: 'id-chart-settings-dlg-style',        panelCaption: this.textType},
                     {panelId: 'id-chart-settings-dlg-layout',       panelCaption: this.textLayout},
                     {panelId: 'id-chart-settings-dlg-vert',         panelCaption: this.textVertAxis},
                     {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis},
@@ -113,50 +114,50 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             // Layout
 
-            this.btnChartType = new Common.UI.Button({
-                cls         : 'btn-large-dataview',
-                iconCls     : 'svgicon chart-bar-normal',
-                menu        : new Common.UI.Menu({
-                    style: 'width: 364px; padding-top: 12px;',
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
-                    ]
-                })
-            });
-            this.btnChartType.on('render:after', function(btn) {
-                me.mnuChartTypePicker = new Common.UI.DataView({
-                    el: $('#id-chart-dlg-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 421,
-                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
-                    store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
-                });
-            });
-            this.btnChartType.render($('#chart-dlg-button-type'));
-            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
+            // this.btnChartType = new Common.UI.Button({
+            //     cls         : 'btn-large-dataview',
+            //     iconCls     : 'svgicon chart-bar-normal',
+            //     menu        : new Common.UI.Menu({
+            //         style: 'width: 364px; padding-top: 12px;',
+            //         additionalAlign: this.menuAddAlign,
+            //         items: [
+            //             { template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+            //         ]
+            //     })
+            // });
+            // this.btnChartType.on('render:after', function(btn) {
+            //     me.mnuChartTypePicker = new Common.UI.DataView({
+            //         el: $('#id-chart-dlg-menu-type'),
+            //         parentMenu: btn.menu,
+            //         restoreHeight: 421,
+            //         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
+            //         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
+            //         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+            //     });
+            // });
+            // this.btnChartType.render($('#chart-dlg-button-type'));
+            // this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
 
-            this.cmbDataDirect = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-range'),
-                menuStyle   : 'min-width: 120px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: 0, displayValue: this.textDataRows },
-                    { value: 1, displayValue: this.textDataColumns }
-                ]
-            });
-
-            this.txtDataRange = new Common.UI.InputFieldBtn({
-                el          : $('#chart-dlg-txt-range'),
-                name        : 'range',
-                style       : 'width: 100%;',
-                btnHint     : this.textSelectData,
-                allowBlank  : true,
-                validateOnChange: true
-            });
-            this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
+            // this.cmbDataDirect = new Common.UI.ComboBox({
+            //     el          : $('#chart-dlg-combo-range'),
+            //     menuStyle   : 'min-width: 120px;',
+            //     editable    : false,
+            //     cls         : 'input-group-nr',
+            //     data        : [
+            //         { value: 0, displayValue: this.textDataRows },
+            //         { value: 1, displayValue: this.textDataColumns }
+            //     ]
+            // });
+            //
+            // this.txtDataRange = new Common.UI.InputFieldBtn({
+            //     el          : $('#chart-dlg-txt-range'),
+            //     name        : 'range',
+            //     style       : 'width: 100%;',
+            //     btnHint     : this.textSelectData,
+            //     allowBlank  : true,
+            //     validateOnChange: true
+            // });
+            // this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
 
             this.cmbChartTitle = new Common.UI.ComboBox({
                 el          : $('#chart-dlg-combo-chart-title'),
@@ -978,11 +979,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.setTitle((this.isChart) ? this.textTitle : this.textTitleSparkline);
 
+            this.btnsCategory[0].setVisible(false); // hide type for charts
             if (this.isChart) {
                 this.btnsCategory[4].setVisible(false);
                 this.btnsCategory[5].setVisible(false);
             } else {
-                this.btnsCategory[0].setVisible(false);
                 this.btnsCategory[1].setVisible(false);
                 this.btnsCategory[2].setVisible(false);
                 this.btnsCategory[3].setVisible(false);
@@ -1283,33 +1284,33 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                     // Layout
 
-                    var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
-                    this.mnuChartTypePicker.selectRecord(record, true);
-                    if (record) {
-                        this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
-                    } else
-                        this.btnChartType.setIconCls('svgicon');
+                    // var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
+                    // this.mnuChartTypePicker.selectRecord(record, true);
+                    // if (record) {
+                    //     this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
+                    // } else
+                    //     this.btnChartType.setIconCls('svgicon');
 
                     this._noApply = false;
 
-                    var value = props.getRange();
-                    this.txtDataRange.setValue((value) ? value : '');
-                    this.dataRangeValid = value;
-
-                    this.txtDataRange.validation = function(value) {
-                        if (_.isEmpty(value)) {
-                            if (!me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(true);
-                            return true;
-                        }
-
-                        if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
-
-                        var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                        return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                    };
-
-                    this.cmbDataDirect.setDisabled(value===null);
-                    this.cmbDataDirect.setValue(props.getInColumns() ? 1 : 0);
+                    // var value = props.getRange();
+                    // this.txtDataRange.setValue((value) ? value : '');
+                    // this.dataRangeValid = value;
+                    //
+                    // this.txtDataRange.validation = function(value) {
+                    //     if (_.isEmpty(value)) {
+                    //         if (!me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(true);
+                    //         return true;
+                    //     }
+                    //
+                    //     if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
+                    //
+                    //     var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
+                    //     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
+                    // };
+                    //
+                    // this.cmbDataDirect.setDisabled(value===null);
+                    // this.cmbDataDirect.setValue(props.getInColumns() ? 1 : 0);
 
                     this.cmbChartTitle.setValue(props.getTitle());
                     this.cmbLegendPos.setValue(props.getLegendPos());
@@ -1320,7 +1321,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.chCategoryName.setValue(this.chartSettings.getShowCatName(), true);
                     this.chValue.setValue(this.chartSettings.getShowVal(), true);
 
-                    value = props.getSeparator();
+                    var value = props.getSeparator();
                     this.txtSeparator.setValue((value) ? value : '');
 
                     // Vertical Axis
@@ -1417,13 +1418,14 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             var value;
 
             if (this.isChart) {
-                var rec = this.mnuChartTypePicker.getSelectedRec(),
-                    type = (rec) ? rec.get('type') : this.currentChartType;
+                // var rec = this.mnuChartTypePicker.getSelectedRec(),
+                //     type = (rec) ? rec.get('type') : this.currentChartType;
+                var type = this.currentChartType;
 
                 this.chartSettings.putType(type);
 
-                this.chartSettings.putInColumns(this.cmbDataDirect.getValue()==1);
-                this.chartSettings.putRange(this.txtDataRange.getValue());
+                // this.chartSettings.putInColumns(this.cmbDataDirect.getValue()==1);
+                // this.chartSettings.putRange(this.txtDataRange.getValue());
 
                 this.chartSettings.putTitle(this.cmbChartTitle.getValue());
                 this.chartSettings.putLegendPos(this.cmbLegendPos.getValue());
@@ -1484,12 +1486,14 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
         isRangeValid: function() {
             if (this.isChart) {
-                var isvalid;
-                if (!_.isEmpty(this.txtDataRange.getValue())) {
-                    var rec = this.mnuChartTypePicker.getSelectedRec(),
-                        type = (rec) ? rec.get('type') : this.currentChartType;
+                var isvalid,
+                    range = this.chartSettings.getRange();
+                if (!_.isEmpty(range)) {
+                    // var rec = this.mnuChartTypePicker.getSelectedRec(),
+                    //     type = (rec) ? rec.get('type') : this.currentChartType;
+                    var type = this.currentChartType;
 
-                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, type);
+                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !this.chartSettings.getInColumns(), type);
                     if (isvalid == Asc.c_oAscError.ID.No)
                         return true;
                 } else
@@ -1502,44 +1506,42 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     Common.UI.warning({msg: this.errorMaxRows});
                 } else if (isvalid == Asc.c_oAscError.ID.MaxDataPointsError)
                     Common.UI.warning({msg: this.errorMaxPoints});
-                else
-                    this.txtDataRange.cmpEl.find('input').focus();
                 return false;
             } else
                 return true;
         },
 
-        onSelectData: function() {
-            var me = this;
-            if (me.api) {
-                me.btnChartType.menu.options.additionalAlign = me.menuAddAlign;
-                me.btnSparkType.menu.options.additionalAlign = me.menuAddAlign;
-
-                var handlerDlg = function(dlg, result) {
-                    if (result == 'ok') {
-                        me.dataRangeValid = dlg.getSettings();
-                        me.txtDataRange.setValue(me.dataRangeValid);
-                        me.txtDataRange.checkValidate();
-                    }
-                };
-
-                var win = new SSE.Views.CellRangeDialog({
-                    handler: handlerDlg
-                }).on('close', function() {
-                    me.show();
-                });
-
-                var xy = me.$window.offset();
-                me.hide();
-                win.show(xy.left + 160, xy.top + 125);
-                win.setSettings({
-                    api     : me.api,
-                    isRows  : (me.cmbDataDirect.getValue()==0),
-                    range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.Chart
-                });
-            }
-        },
+        // onSelectData: function() {
+        //     var me = this;
+        //     if (me.api) {
+        //         me.btnChartType.menu.options.additionalAlign = me.menuAddAlign;
+        //         me.btnSparkType.menu.options.additionalAlign = me.menuAddAlign;
+        //
+        //         var handlerDlg = function(dlg, result) {
+        //             if (result == 'ok') {
+        //                 me.dataRangeValid = dlg.getSettings();
+        //                 me.txtDataRange.setValue(me.dataRangeValid);
+        //                 me.txtDataRange.checkValidate();
+        //             }
+        //         };
+        //
+        //         var win = new SSE.Views.CellRangeDialog({
+        //             handler: handlerDlg
+        //         }).on('close', function() {
+        //             me.show();
+        //         });
+        //
+        //         var xy = me.$window.offset();
+        //         me.hide();
+        //         win.show(xy.left + 160, xy.top + 125);
+        //         win.setSettings({
+        //             api     : me.api,
+        //             isRows  : (me.cmbDataDirect.getValue()==0),
+        //             range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
+        //             type    : Asc.c_oAscSelectionDialogType.Chart
+        //         });
+        //     }
+        // },
 
         onSelectDataLabels: function(obj, rec, e) {
             var disable = rec.value == Asc.c_oAscChartDataLabelsPos.none;
@@ -1613,10 +1615,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
          show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
 
-            var me = this;
-            _.delay(function(){
-                me.txtDataRange.cmpEl.find('input').focus();
-            },50);
+            // var me = this;
+            // _.delay(function(){
+            //     me.txtDataRange.cmpEl.find('input').focus();
+            // },50);
         },
 
         close: function () {

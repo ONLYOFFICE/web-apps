@@ -212,13 +212,15 @@ define([
         },
 
         onFieldsDragStart: function (item, index, event) {
+            this._state.field = {record: item.model};
             event.originalEvent.dataTransfer.effectAllowed = 'move';
             event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
             this.pivotIndex = index;
             this.fromListView = this.fieldsList.$el[0].id;
         },
 
-        onItemsDragStart: function (listview, item, index, event) {
+        onItemsDragStart: function (type, listview, item, index, event) {
+            this._state.field = {record: item.model, type: type};
             event.originalEvent.dataTransfer.effectAllowed = 'move';
             event.originalEvent.dataTransfer.setDragImage(this.getDragElement(item.model.get('value')), 14, 14);
             this.itemIndex = index;
@@ -267,7 +269,7 @@ define([
         },
 
         onDragOver: function (listview, event) {
-            if ((this.pivotIndex === -2 && (this.enterListView === 'pivot-list-filters' || this.enterListView === 'pivot-list-values')) ||
+            if (event.originalEvent.dataTransfer.types[0] === 'onlyoffice' || (this.pivotIndex === -2 && (this.enterListView === 'pivot-list-filters' || this.enterListView === 'pivot-list-values')) ||
                 (this.fromListView === 'pivot-list-fields' && this.enterListView === 'pivot-list-fields')) {
                 event.originalEvent.dataTransfer.dropEffect = 'none';
             } else {
@@ -371,6 +373,7 @@ define([
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
                                 me._originalProps.asc_set(me.api, value);
+                                Common.NotificationCenter.trigger('edit:complete', me);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
@@ -501,7 +504,7 @@ define([
                 });
                 this.columnsList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.columnsList, item, index));
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 0, me.columnsList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.columnsList, item, index));
@@ -511,7 +514,7 @@ define([
                 this.columnsList.$el.find('.item').last().css({'margin-bottom': '10px'});
                 this.rowsList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.rowsList, item, index));
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 1, me.rowsList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.rowsList, item, index));
@@ -521,7 +524,7 @@ define([
                 this.rowsList.$el.find('.item').last().css({'margin-bottom': '10px'});
                 this.valuesList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.valuesList, item, index));
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 2, me.valuesList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.valuesList, item, index));
@@ -531,7 +534,7 @@ define([
                 this.valuesList.$el.find('.item').last().css({'margin-bottom': '10px'});
                 this.filtersList.dataViewItems.forEach(function (item, index) {
                     item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, me.filtersList, item, index));
+                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 3, me.filtersList, item, index));
                     item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
                     item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
                     item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.filtersList, item, index));
@@ -646,10 +649,6 @@ define([
 
                 if (isLabel || event.target.className.match('checkbox')) {
                     this.updateFieldCheck(listView, record);
-
-                    _.delay(function () {
-                        listView.$el.find('.listview').focus();
-                    }, 100, this);
                 }
             }
         },
@@ -665,6 +664,7 @@ define([
                     } else {
                         this._originalProps.asc_removeField(this.api, record.get('index'));
                     }
+                    Common.NotificationCenter.trigger('edit:complete', this);
                 }
 
                 // listView.isSuspendEvents = false;
@@ -830,6 +830,7 @@ define([
                         handler: function(result, value) {
                             if (result == 'ok' && me.api && value) {
                                 field.asc_set(me.api, me._originalProps, dataIndex, value);
+                                Common.NotificationCenter.trigger('edit:complete', me);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
@@ -848,6 +849,7 @@ define([
                             handler: function(result, value) {
                                 if (result == 'ok' && me.api && value) {
                                     pivotField.asc_set(me.api, me._originalProps, pivotIndex, value);
+                                    Common.NotificationCenter.trigger('edit:complete', me);
                                 }
 
                                 Common.NotificationCenter.trigger('edit:complete', me);
@@ -860,24 +862,28 @@ define([
         onAddFilter: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
                 this._originalProps.asc_addPageField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
         onAddRow: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
                 this._originalProps.asc_addRowField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
         onAddColumn: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
                 this._originalProps.asc_addColField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
         onAddValues: function(index, moveTo) {
             if (this.api && !this._locked && this._state.field){
                 this._originalProps.asc_addDataField(this.api, _.isNumber(index) ? index : this._state.field.record.get('index'), _.isNumber(moveTo) ? moveTo : undefined);
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
@@ -887,6 +893,7 @@ define([
                     this._originalProps.asc_removeDataField(this.api, _.isNumber(pivotindex) ? pivotindex : this._state.field.record.get('pivotIndex'), _.isNumber(index) ? index : this._state.field.record.get('index'));
                 else
                     this._originalProps.asc_removeNoDataField(this.api, _.isNumber(pivotindex) ? pivotindex : this._state.field.record.get('pivotIndex'));
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
 
@@ -933,6 +940,7 @@ define([
                     this._originalProps.asc_movePageField(this.api, from, to);
                     break;
             }
+            Common.NotificationCenter.trigger('edit:complete', this);
         },
 
         onMoveTo: function(type, pivotindex, to) {
@@ -953,6 +961,7 @@ define([
                         this._originalProps.asc_moveToPageField(this.api, pivotIndex, index);
                         break;
                 }
+                Common.NotificationCenter.trigger('edit:complete', this);
             }
         },
         

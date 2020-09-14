@@ -410,6 +410,8 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                 else
                     this.btnDirection.setIconCls('');
+                this.numGradientAngle.setValue(this.GradLinearDirectionType);
+                this.numGradientAngle.setDisabled(this._locked);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
                 this.mnuDirectionPicker.store.reset(this._viewDataRadial);
                 this.mnuDirectionPicker.cmpEl.width(60);
@@ -419,6 +421,8 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
                 else
                     this.btnDirection.setIconCls('');
+                this.numGradientAngle.setValue(0);
+                this.numGradientAngle.setDisabled(true);
             }
 
             if (this.api && !this._noApply) {
@@ -455,11 +459,12 @@ define([
             } else {
                 rawData = record;
             }
-
             this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
             (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                    this.numGradientAngle.setValue(rawData.type);
+
                     var props = new Asc.asc_CShapeProperty();
                     var fill = new Asc.asc_CShapeFill();
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
@@ -513,6 +518,7 @@ define([
 
         onGradientChange: function(slider, newValue, oldValue){
             this.GradColor.values = slider.getValues();
+            this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx], true);
             this._sliderChanged = true;
             if (this.api && !this._noApply) {
                 if (this._sendUndoPoint)  {
@@ -935,8 +941,10 @@ define([
                                 this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                             else
                                 this.btnDirection.setIconCls('');
+                            this.numGradientAngle.setValue(value);
                         }
-                    }
+                    } else
+                        this.numGradientAngle.setValue(0);
 
                     var me = this;
                     var colors = fill.get_colors(),
@@ -973,6 +981,7 @@ define([
                         me.GradColor.currentIdx = 0;
                     }
                     me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
+                    this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx]);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1298,7 +1307,7 @@ define([
             this.cmbGradType = new Common.UI.ComboBox({
                 el: $('#shape-combo-grad-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 90px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 data: this._arrGradType
             });
@@ -1348,7 +1357,7 @@ define([
 
             this.sldrGradient = new Common.UI.MultiSliderGradient({
                 el: $('#shape-slider-gradient'),
-                width: 125,
+                width: 192,
                 minValue: 0,
                 maxValue: 100,
                 values: [0, 100]
@@ -1360,6 +1369,8 @@ define([
                 var color = me.GradColor.colors[me.GradColor.currentIdx];
                 me.btnGradColor.setColor(color);
                 me.colorsGrad.select(color,false);
+                var pos = me.GradColor.values[me.GradColor.currentIdx];
+                me.spnGradPosition.setValue(pos, true);
             });
             this.sldrGradient.on('thumbdblclick', function(cmp){
                 me.btnGradColor.cmpEl.find('button').dropdown('toggle');
@@ -1376,17 +1387,74 @@ define([
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
             });
-            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
-                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+            this.sldrGradient.on('addthumb', function(cmp, index, pos){
+                me.GradColor.colors[index] = me.GradColor.colors[me.GradColor.currentIdx];
                 me.GradColor.currentIdx = index;
-                me.sldrGradient.addNewThumb(index, color);
+                var color = me.sldrGradient.addNewThumb(index, pos);
+                me.GradColor.colors[me.GradColor.currentIdx] = color;
             });
             this.sldrGradient.on('removethumb', function(cmp, index){
                 me.sldrGradient.removeThumb(index);
                 me.GradColor.values.splice(index, 1);
                 me.sldrGradient.changeGradientStyle();
+                if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= me.GradColor.colors.length) {
+                    var newIndex = index > 0 ? index - 1 : index;
+                    newIndex = (newIndex === 0 && me.GradColor.values.length > 2) ? me.GradColor.values.length - 2 : newIndex;
+                    me.GradColor.currentIdx = newIndex;
+                }
+                me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
             });
             this.fillControls.push(this.sldrGradient);
+
+            this.spnGradPosition = new Common.UI.MetricSpinner({
+                el: $('#shape-gradient-position'),
+                step: 1,
+                width: 60,
+                defaultUnit : "%",
+                value: '50 %',
+                allowDecimal: false,
+                maxValue: 100,
+                minValue: 0,
+                disabled: this._locked
+            });
+            this.fillControls.push(this.spnGradPosition);
+            this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
+            this.spnGradPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            this.btnAddGradientStep = new Common.UI.Button({
+                parentEl: $('#shape-gradient-add-step'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-add-breakpoint',
+                disabled: this._locked,
+                hint: this.tipAddGradientPoint
+            });
+            this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
+            this.fillControls.push(this.btnAddGradientStep);
+
+            this.btnRemoveGradientStep = new Common.UI.Button({
+                parentEl: $('#shape-gradient-remove-step'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-remove-breakpoint',
+                disabled: this._locked,
+                hint: this.tipRemoveGradientPoint
+            });
+            this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
+            this.fillControls.push(this.btnRemoveGradientStep);
+
+            this.numGradientAngle = new Common.UI.MetricSpinner({
+                el: $('#shape-spin-gradient-angle'),
+                step: 10,
+                width: 60,
+                defaultUnit : "°",
+                value: '0 °',
+                allowDecimal: true,
+                maxValue: 359.9,
+                minValue: 0,
+                disabled: this._locked
+            });
+            this.fillControls.push(this.numGradientAngle);
+            this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
+            this.numGradientAngle.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
                 el: $('#shape-combo-border-size'),
@@ -1775,6 +1843,7 @@ define([
                 });
                 this.lblTransparencyStart.toggleClass('disabled', disable);
                 this.lblTransparencyEnd.toggleClass('disabled', disable);
+                this.numGradientAngle.setDisabled(disable || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
             }
         },
 
@@ -1817,6 +1886,79 @@ define([
             }
         },
 
+        onPositionChange: function(btn) {
+            var pos = btn.getNumberValue(),
+                minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
+                maxValue = (this.GradColor.currentIdx+1<this.GradColor.values.length) ? this.GradColor.values[this.GradColor.currentIdx+1] : 100,
+                needSort = pos < minValue || pos > maxValue;
+            if (this.api) {
+                this.GradColor.values[this.GradColor.currentIdx] = pos;
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
+                fill.asc_putType(Asc.c_oAscFill.FILL_TYPE_GRAD);
+                fill.asc_putFill( new Asc.asc_CFillGrad());
+                fill.asc_getFill().asc_putGradType(this.GradFillType);
+                var arr = [];
+                this.GradColor.values.forEach(function(item){
+                    arr.push(item*1000);
+                });
+                fill.asc_getFill().asc_putPositions(arr);
+                props.asc_putFill(fill);
+                this.imgprops.put_ShapeProperties(props);
+                this.api.ImgApply(this.imgprops);
+
+                if (needSort) {
+                    this.sldrGradient.sortThumbs();
+                    this.sldrGradient.trigger('change', this.sldrGradient);
+                    this.sldrGradient.trigger('changecomplete', this.sldrGradient);
+                }
+            }
+        },
+
+        onAddGradientStep: function() {
+            if (this.GradColor.colors.length > 9) return;
+            var curIndex = this.GradColor.currentIdx;
+            var pos = (this.GradColor.values[curIndex] + this.GradColor.values[curIndex < this.GradColor.colors.length - 1 ? curIndex + 1 : curIndex - 1]) / 2;
+
+            this.GradColor.colors[this.GradColor.colors.length] = this.GradColor.colors[curIndex];
+            this.GradColor.currentIdx = this.GradColor.colors.length - 1;
+            var color = this.sldrGradient.addNewThumb(undefined, pos, curIndex);
+            this.GradColor.colors[this.GradColor.currentIdx] = color;
+
+            this.sldrGradient.trigger('change', this.sldrGradient);
+            this.sldrGradient.trigger('changecomplete', this.sldrGradient);
+        },
+
+        onRemoveGradientStep: function() {
+            if (this.GradColor.values.length < 3) return;
+            var index = this.GradColor.currentIdx;
+            this.GradColor.values.splice(this.GradColor.currentIdx, 1);
+            this.sldrGradient.removeThumb(this.GradColor.currentIdx);
+            if (_.isUndefined(this.GradColor.currentIdx) || this.GradColor.currentIdx >= this.GradColor.colors.length) {
+                var newIndex = index > 0 ? index - 1 : index;
+                newIndex = (newIndex === 0 && this.GradColor.values.length > 2) ? this.GradColor.values.length - 2 : newIndex;
+                this.GradColor.currentIdx = newIndex;
+            }
+            this.sldrGradient.setActiveThumb(this.GradColor.currentIdx);
+            this.sldrGradient.trigger('change', this.sldrGradient);
+            this.sldrGradient.trigger('changecomplete', this.sldrGradient);
+        },
+
+        onGradientAngleChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api) {
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
+                fill.put_fill( new Asc.asc_CFillGrad());
+                fill.get_fill().put_grad_type(this.GradFillType);
+                fill.get_fill().put_linear_angle(field.getNumberValue() * 60000);
+                fill.get_fill().put_linear_scale(true);
+                props.put_fill(fill);
+                this.imgprops.put_ShapeProperties(props);
+                this.api.ImgApply(this.imgprops);
+            }
+        },
+
         txtNoBorders            : 'No Line',
         strStroke               : 'Stroke',
         strColor                : 'Color',
@@ -1855,7 +1997,7 @@ define([
         textRadial: 'Radial',
         textDirection: 'Direction',
         textStyle: 'Style',
-        textGradient: 'Gradient',
+        textGradient: 'Gradient Points',
         textWrap:  'Wraping Style',
         txtInline: 'Inline',
         txtSquare: 'Square',
@@ -1875,6 +2017,10 @@ define([
         textHintFlipH: 'Flip Horizontally',
         strShadow: 'Show shadow',
         textFromStorage: 'From Storage',
-        textSelectImage: 'Select Picture'
+        textSelectImage: 'Select Picture',
+        textPosition: 'Position',
+        tipAddGradientPoint: 'Add gradient point',
+        tipRemoveGradientPoint: 'Remove gradient point',
+        textAngle: 'Angle'
     }, DE.Views.ShapeSettings || {}));
 });

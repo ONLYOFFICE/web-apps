@@ -166,6 +166,12 @@
                     }
                 }
 
+                &:last-of-type {
+                    span {
+                        margin-right: 0;
+                    }
+                }
+
                 > span {
                     display: inline-block;
                     .border-radius(0);
@@ -259,10 +265,18 @@
                 }
 
                 &.mousemove {
+
+                    &:first-child {
+                        > span {
+                            padding-left: 8px;
+                        }
+                    }
+
                     > span {
                         border-left: 2px solid @gray-deep;
                         padding-left: 9px;
                     }
+                    
                     &.right {
                         > span {
                             border-left: 1px solid @gray-dark;
@@ -279,6 +293,18 @@
                             > span {
                                 padding-left: 25px;
                             }
+                        }
+                    }
+                }
+                &.separator-item {
+                    margin-left: 20px;
+                    width: 1px;
+                    > span {
+                        padding: 0;
+                        margin: 0;
+                        width: 1px;
+                        &::after {
+                            content: none;
                         }
                     }
                 }

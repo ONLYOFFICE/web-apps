@@ -61,12 +61,6 @@
         <rect x="3" y="10" width="14" height="1"/>
         <rect x="3" y="14" width="14" height="1"/>
     </symbol>
-    <symbol id="svg-btn-undock" viewBox="0 0 20 20">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 7H6V8V9H3V16H12V14H13V16C13 16.5523 12.5523 17 12 17H3C2.44772 17 2 16.5523 2 16V8C2 7.44769 2.44772 7 3 7Z"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M17 5H8L8 12H17V5ZM7 4C7 3.44772 7.44772 3 8 3H17C17.5523 3 18 3.44772 18 4V12C18 12.5523 17.5523 13 17 13H8C7.44771 13 7 12.5523 7 12V4Z"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.64645 10.6464L14.1464 6.14642L14.8536 6.85353L10.3536 11.3535L9.64645 10.6464Z"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 6H11V7H14L14 10H15V7V6H14Z"/>
-    </symbol>
     <symbol id="svg-btn-align-left" viewBox="0 0 20 20">
 		<path d="M16 5H4V6H16V5Z"/>
 		<path d="M11 7H4V8H11V7Z"/>
@@ -180,5 +174,8 @@
 		<path d="M20 22H8V23H20V22Z"/>
 		<path d="M22 3V12H6V3H5V12C5 12.6 5.4 13 6 13H22C22.6 13 23 12.6 23 12V3H22Z"/>
 		<path d="M6 19H22V25H23V19C23 18.4 22.6 18 22 18H6C5.4 18 5 18.4 5 19V25H6V19Z"/>
+    </symbol>
+    <symbol id="svg-icon-crypted" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M10 3.00049C6.99987 4.99948 4 5.00023 4 5.00023V8.50023C4 10.5001 4.56284 15.9767 9.99961 17.0001C15.4364 15.9767 16 10.5001 16 8.50023V5.00023C16 5.00023 13.0001 4.99948 10 3.00049ZM14.0232 7.96528L12.9768 7.03517L9.42726 11.0284L6.94813 8.96247L6.05187 10.038L9.57274 12.972L14.0232 7.96528Z" fill="white"/>
     </symbol>
 </svg>

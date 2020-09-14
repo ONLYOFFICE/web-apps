@@ -90,7 +90,7 @@ define([
                         '<% } %>',
                         '<div class="user-name">',
                             '<div class="color" style="display: inline-block; background-color:' + '<%=usercolor%>;' + '" >',
-                            '</div><%= Common.Utils.String.htmlEncode(username) %>',
+                            '</div><%= Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username)) %>',
                         '</div>',
                         '<% if (canRestore && selected) { %>',
                             '<label class="revision-restore" role="presentation" tabindex="-1">' + this.textRestore + '</label>',

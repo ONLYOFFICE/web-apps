@@ -14,7 +14,7 @@
             type: 'desktop or mobile',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide',// deprecate 'text' | 'spreadsheet' | 'presentation',
             document: {
                 title: 'document title',
                 url: 'document url'
@@ -43,8 +43,6 @@
                     reader: <can view in readable mode>,
                     review: <can review>, // default = edit
                     print: <can print>, // default = true
-                    rename: <can rename>, // default = false
-                    changeHistory: <can change history>, // default = false // must be deprecated, check onRequestRestore event instead
                     comment: <can comment in view mode> // default = edit,
                     modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                     modifyContentControl: <can modify content controls in documenteditor> // default = true
@@ -70,7 +68,8 @@
 
                 user: {
                     id: 'user id',
-                    name: 'user name'
+                    name: 'user name',
+                    group: 'group name' // for customization.reviewPermissions parameter
                 },
                 recent: [
                     {
@@ -112,6 +111,11 @@
                         text: 'Go to London',
                         blank: true,
                         requestClose: false // if true - goback send onRequestClose event instead opening url
+                    },
+                    reviewPermissions: {
+                        "Group1": ["Group2"], // users from Group1 can accept/reject review changes made by users from Group2
+                        "Group2": ["Group1", "Group2"] // users from Group2 can accept/reject review changes made by users from Group1 and Group2
+                        "Group3": [""] // users from Group3 can accept/reject review changes made by users without a group
                     },
                     chat: true,
                     comments: true,
@@ -163,7 +167,7 @@
             type: 'embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide',// deprecate 'text' | 'spreadsheet' | 'presentation',
             document: {
                 title: 'document title',
                 url: 'document url',
@@ -334,8 +338,14 @@
                         'text': 'docx',
                         'text-pdf': 'pdf',
                         'spreadsheet': 'xlsx',
-                        'presentation': 'pptx'
+                        'presentation': 'pptx',
+                        'word': 'docx',
+                        'cell': 'xlsx',
+                        'slide': 'pptx'
                     }, app;
+
+                if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
+                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
                     app = appMap[_config.documentType.toLowerCase()];
@@ -348,15 +358,16 @@
                 }
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
+                    _config.document.fileType = _config.document.fileType.toLowerCase();
                     var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
                         return false;
                     } else if (typeof _config.documentType !== 'string' || _config.documentType == ''){
-                        if (typeof type[1] === 'string') _config.documentType = 'spreadsheet'; else
-                        if (typeof type[2] === 'string') _config.documentType = 'presentation'; else
-                        if (typeof type[3] === 'string') _config.documentType = 'text';
+                        if (typeof type[1] === 'string') _config.documentType = 'cell'; else
+                        if (typeof type[2] === 'string') _config.documentType = 'slide'; else
+                        if (typeof type[3] === 'string') _config.documentType = 'word';
                     }
                 }
 
@@ -736,9 +747,12 @@
                 'text': 'documenteditor',
                 'text-pdf': 'documenteditor',
                 'spreadsheet': 'spreadsheeteditor',
-                'presentation': 'presentationeditor'
+                'presentation': 'presentationeditor',
+                'word': 'documenteditor',
+                'cell': 'spreadsheeteditor',
+                'slide': 'presentationeditor'
             },
-            app = appMap['text'];
+            app = appMap['word'];
 
         if (typeof config.documentType === 'string') {
             app = appMap[config.documentType.toLowerCase()];
@@ -747,8 +761,8 @@
             var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
                             .exec(config.document.fileType);
             if (type) {
-                if (typeof type[1] === 'string') app = appMap['spreadsheet']; else
-                if (typeof type[2] === 'string') app = appMap['presentation'];
+                if (typeof type[1] === 'string') app = appMap['cell']; else
+                if (typeof type[2] === 'string') app = appMap['slide'];
             }
         }
 

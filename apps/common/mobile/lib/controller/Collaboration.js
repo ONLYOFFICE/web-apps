@@ -63,7 +63,8 @@ define([
             canViewReview,
             arrChangeReview = [],
             dateChange = [],
-            _fileKey;
+            _fileKey,
+            _currentUserGroups;
 
 
         return {
@@ -113,6 +114,18 @@ define([
                 if (editor === 'DE') {
                     _fileKey = mode.fileKey;
                 }
+
+                if (mode && mode.canUseReviewPermissions) {
+                    var permissions = mode.customization.reviewPermissions,
+                        arr = [],
+                        groups  =  Common.Utils.UserInfoParser.getParsedGroups(mode.user.fullname);
+                    groups && groups.forEach(function(group) {
+                        var item = permissions[group.trim()];
+                        item && (arr = arr.concat(item));
+                    });
+                    _currentUserGroups = arr;
+                }
+
                 return this;
             },
 
@@ -231,7 +244,8 @@ define([
             getUsersInfo: function() {
                 var usersArray = [];
                 _.each(editUsers, function(item){
-                    var fio = item.asc_getUserName().split(' ');
+                    var name = Common.Utils.UserInfoParser.getParsedName(item.asc_getUserName());
+                    var fio = name.split(' ');
                     var initials = fio[0].substring(0, 1).toUpperCase();
                     if (fio.length > 1) {
                         initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
@@ -241,7 +255,7 @@ define([
                             color: item.asc_getColor(),
                             id: item.asc_getId(),
                             idOriginal: item.asc_getIdOriginal(),
-                            name: item.asc_getUserName(),
+                            name: name,
                             view: item.asc_getView(),
                             initial: initials
                         };
@@ -299,6 +313,13 @@ define([
                     $('#settings-review').hide();
                     $('#settings-accept-all').hide();
                     $('#settings-reject-all').hide();
+                }
+                if (this.appConfig.canUseReviewPermissions) {
+                    $('#settings-accept-all').hide();
+                    $('#settings-reject-all').hide();
+                }
+                if (this.appConfig.isRestrictedEdit) {
+                    $('#display-mode-settings').hide();
                 }
             },
 
@@ -406,6 +427,11 @@ define([
                     if(arrChangeReview.length != 0 && arrChangeReview[0].editable) {
                         $('.accept-reject').html('<a href="#" id="btn-delete-change" class="link">' + this.textDelete + '</a>');
                         $('#btn-delete-change').single('click', _.bind(this.onDeleteChange, this));
+                    }
+                } else {
+                    if(arrChangeReview.length != 0 && !arrChangeReview[0].editable) {
+                        $('#btn-accept-change').addClass('disabled');
+                        $('#btn-reject-change').addClass('disabled');
                     }
                 }
                 if(displayMode == "final" || displayMode == "original") {
@@ -663,9 +689,7 @@ define([
                             userColor = item.get_UserColor(),
                             goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
                         date = me.dateToLocaleTimeString(date);
-                        var editable = (item.get_UserId() == _userId);
-
-
+                        var editable = me.appConfig.isReviewOnly && (item.get_UserId() == _userId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || me.checkUserGroups(item.get_UserName()));
                         arr.push({date: date, user: user, usercolor: userColor, changetext: changetext, goto: goto, editable: editable});
                     });
                     arrChangeReview = arr;
@@ -675,6 +699,11 @@ define([
                     dateChange = [];
                 }
                 this.updateInfoChange();
+            },
+
+            checkUserGroups: function(username) {
+                var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
+                return _currentUserGroups && groups && (_.intersection(_currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
             },
 
             dateToLocaleTimeString: function (date) {
@@ -736,7 +765,7 @@ define([
             },
 
             getInitials: function(name) {
-                var fio = name.split(' ');
+                var fio = Common.Utils.UserInfoParser.getParsedName(name).split(' ');
                 var initials = fio[0].substring(0, 1).toUpperCase();
                 if (fio.length > 1) {
                     initials += fio[fio.length - 1].substring(0, 1).toUpperCase();

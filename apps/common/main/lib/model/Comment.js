@@ -64,6 +64,7 @@ define([
             lock                : false,
             lockuserid          : '',
             unattached          : false,
+            userdata            : '',
 
             id                  : Common.UI.getId(),        //  internal
             time                : 0,
@@ -89,6 +90,7 @@ define([
             usercolor           : null,
             reply               : '',
             date                : undefined,
+            userdata            : '',
 
             id                  : Common.UI.getId(),    //  internal
             editText            : false,

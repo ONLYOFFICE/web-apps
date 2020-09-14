@@ -152,6 +152,7 @@ define([
                 alias:      'Window',
                 cls:        '',
                 toolclose:  'close',
+                help:       false,
                 maxwidth: undefined,
                 maxheight: undefined,
                 minwidth: 0,
@@ -162,9 +163,14 @@ define([
         var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
                             '<% if (header==true) { %>' +
                                 '<div class="header">' +
+                                    '<div class="tools">' +
                                     '<% if (closable!==false) %>' +
                                         '<div class="tool close img-commonctrl"></div>' +
                                     '<% %>' +
+                                    '<% if (help===true) %>' +
+                                        '<div class="tool help">?</div>' +
+                                    '<% %>' +
+                                    '</div>' +
                                     '<div class="title"><%= title %></div> ' +
                                 '</div>' +
                             '<% } %>' +
@@ -284,7 +290,7 @@ define([
 
         /* window drag's functions */
         function _dragstart(event) {
-            if ( $(event.target).hasClass('close') ) return;
+            if ( $(event.target).hasClass('close') || $(event.target).hasClass('help') ) return;
             Common.UI.Menu.Manager.hideAll();
             var zoom = (event instanceof jQuery.Event) ? Common.Utils.zoom() : 1;
             this.dragging.enabled = true;
@@ -635,8 +641,13 @@ define([
                         else
                             (this.initConfig.toolclose=='hide') ? this.hide() : this.close();
                     };
+                    var dohelp = function() {
+                        if ( this.$window.find('.tool.help').hasClass('disabled') ) return;
+                        this.fireEvent('help',this);
+                    };
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
+                    this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
 
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
@@ -693,13 +704,12 @@ define([
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
                     } else {
-                        var opacity = mask.css('opacity');
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
 
                         setTimeout(function () {
-                            mask.css(_getTransformation(opacity));
+                            mask.css(_getTransformation('0.2'));
                         }, 1);
                     }
 
@@ -785,12 +795,11 @@ define([
 
                     if ( hide_mask ) {
                         if (this.options.animate !== false) {
-                            var opacity = mask.css('opacity');
                             mask.css(_getTransformation(0));
 
                             setTimeout(function () {
-                                mask.css('opacity', opacity);
                                 if (parseInt(mask.attr('counter'))<1) {
+                                    mask.css('opacity', '0.2');
                                     mask.hide();
                                     mask.attr('counter', 0);
                                 }
@@ -803,7 +812,7 @@ define([
                         }
                     }
 
-                    Common.NotificationCenter.trigger('modal:close', this);
+                    Common.NotificationCenter.trigger('modal:close', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                 }
 
                 this.$window.remove();
@@ -826,12 +835,11 @@ define([
 
                         if ( hide_mask ) {
                             if (this.options.animate !== false) {
-                                var opacity = mask.css('opacity');
                                 mask.css(_getTransformation(0));
 
                                 setTimeout(function () {
-                                    mask.css('opacity', opacity);
                                     if (parseInt(mask.attr('counter'))<1) {
+                                        mask.css('opacity', '0.2');
                                         mask.hide();
                                         mask.attr('counter', 0);
                                     }
@@ -843,7 +851,7 @@ define([
                                 }
                             }
                         }
-                        Common.NotificationCenter.trigger('modal:hide', this);
+                        Common.NotificationCenter.trigger('modal:hide', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                     }
                     this.$window.hide();
                     this.$window.removeClass('notransform');

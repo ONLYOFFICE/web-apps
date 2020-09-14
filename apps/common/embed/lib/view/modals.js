@@ -55,7 +55,6 @@ common.view.modals = new(function() {
                         '<div class="share-buttons">' +
                             '<span class="svg big-facebook" data-name="facebook"></span>' +
                             '<span class="svg big-twitter" data-name="twitter"></span>' +
-                            '<span class="svg big-gplus" data-name="gplus"></span>' +
                             '<span class="svg big-email" data-name="email"></span>' +
                             '<div class="autotest" id="email" style="display: none"></div>' +
                         '</div>';

@@ -78,28 +78,11 @@ define([
                 } else
                 if (/window:features/.test(cmd)) {
                     var obj = JSON.parse(param);
-
-                    if ( obj.canUndock == 'true' ) {
-                        if ( !config.canUndock ) {
-                            config.canUndock = true;
-
-                            if ( !_.isEmpty(config) )
-                                Common.NotificationCenter.trigger('app:config', {canUndock:true});
-                        }
-                    }
-
                     if (_.isNumber(obj.skiptoparea)) {
                         if ( $('.asc-window.modal').length && $('.asc-window.modal').position().top < obj.skiptoparea )
                             $('.asc-window.modal').css('top', obj.skiptoparea);
 
                         Common.Utils.InternalSettings.set('window-inactive-area-top', obj.skiptoparea);
-                    }
-                } else
-                if (/window:status/.test(cmd)) {
-                    var obj = JSON.parse(param);
-
-                    if ( obj.action == 'undocking' ) {
-                        Common.NotificationCenter.trigger('undock:status', {status:obj.status=='undocked'?'undocked':'docked'});
                     }
                 } else
                 if (/editor:config/.test(cmd)) {
@@ -209,20 +192,12 @@ define([
                         }
                     });
 
-                    Common.NotificationCenter.on('action:undocking', function (opts) {
-                        native.execCommand('editor:event', JSON.stringify({action:'undocking', state: opts == 'dock' ? 'dock' : 'undock'}));
-                    });
-
                     Common.NotificationCenter.on('app:face', function (mode) {
-                        if ( config.canUndock ) {
-                            Common.NotificationCenter.trigger('app:config', {canUndock: true});
-                        }
+                        native.execCommand('webapps:features', JSON.stringify(
+                            {version: config.version, eventloading:true, titlebuttons:true, viewmode:!mode.isEdit, crypted:mode.isCrypted} ));
 
                         titlebuttons = {};
-                        if ( !mode.isEdit ) {
-                            native.execCommand('webapps:features', JSON.stringify(
-                                    {version: config.version, eventloading:true, titlebuttons:true, viewmode:true} ));
-                        } else {
+                        if ( mode.isEdit ) {
                             var header = webapp.getController('Viewport').getView('Common.Views.Header');
                             if (!!header.btnSave) {
                                 titlebuttons['save'] = {btn: header.btnSave};

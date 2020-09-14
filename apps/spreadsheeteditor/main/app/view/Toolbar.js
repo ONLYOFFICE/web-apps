@@ -95,7 +95,8 @@ define([
         noSubitems: 'no-subitems',
         noSlicerSource: 'no-slicer-source',
         selSlicer: 'sel-slicer',
-        cantSort: 'cant-sort'
+        cantSort: 'cant-sort',
+        pivotLock: 'pivot-lock'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -1048,6 +1049,7 @@ define([
                     iconCls     : 'toolbar__icon toolbar__icon btn-colorschemas',
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
+                        cls: 'shifted-left',
                         items: [],
                         restoreHeight: true
                     })
@@ -1757,19 +1759,19 @@ define([
                         {
                             caption     : this.textInsideBorders,
                             iconCls     : 'menu__icon btn-border-inside',
-                            icls        : 'btn-border-center',
+                            icls        : 'btn-border-inside',
                             borderId    : 'inner'
                         },
                         {
                             caption     : this.textCenterBorders,
                             iconCls     : 'menu__icon btn-border-insidevert',
-                            icls        : 'btn-border-vmiddle',
+                            icls        : 'btn-border-insidevert',
                             borderId    : Asc.c_oAscBorderOptions.InnerV
                         },
                         {
                             caption     : this.textMiddleBorders,
                             iconCls     : 'menu__icon btn-border-insidehor',
-                            icls        : 'btn-border-hmiddle',
+                            icls        : 'btn-border-insidehor',
                             borderId    : Asc.c_oAscBorderOptions.InnerH
                         },
                         {
@@ -1987,6 +1989,7 @@ define([
 
             if (this.mnuColorSchema == null) {
                 this.mnuColorSchema = new Common.UI.Menu({
+                    cls: 'shifted-left',
                     restoreHeight: true
                 });
             }

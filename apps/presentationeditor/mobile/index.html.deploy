@@ -220,7 +220,7 @@
                 logo = /*params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : */null;
             var logoOO = null;
             if (!logo) {
-                logoOO = /Android/.test(navigator.userAgent) ? "../../../apps/presentationeditor/mobile/resources/img/header/header-logo-android.png" : "../../../apps/presentationeditor/mobile/resources/img/header/header-logo-ios.png";
+                logoOO = /Android/.test(navigator.userAgent) ? "../../../apps/presentationeditor/mobile/resources/img/header/logo-android.svg" : "../../../apps/presentationeditor/mobile/resources/img/header/logo-ios.svg";
             }
 
                 window.frameEditorId = params["frameEditorId"];

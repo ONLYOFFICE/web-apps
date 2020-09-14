@@ -548,7 +548,7 @@ define([
                 win.show();
                 win.setSettings({
                     sheets  : items,
-                    ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All),
+                    ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All, true),
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
@@ -1065,7 +1065,7 @@ define([
                     if (usersStore){
                         var rec = usersStore.findUser(id);
                         if (rec)
-                            return rec.get('username');
+                            return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
                     }
                     return me.guestText;
                 };
@@ -1701,7 +1701,7 @@ define([
                             documentHolder.mnuChartEdit.chartInfo = elValue;
                             ischartmenu = true;
                             has_chartprops = true;
-                        }  if ( elValue.asc_getSlicerProperties() ) {
+                        }  else if ( elValue.asc_getSlicerProperties() ) {
                             documentHolder.mnuSlicerAdvanced.imageInfo = elValue;
                             isslicermenu = true;
                         } else {
@@ -1778,10 +1778,36 @@ define([
                             direct = value.asc_getVert(),
                             listtype = this.api.asc_getCurrentListType();
                         isObjLocked = isObjLocked || value.asc_getLocked();
+                        var cls = '';
+                        switch (align) {
+                            case Asc.c_oAscVAlign.Top:
+                                cls = 'menu__icon btn-align-top';
+                                break;
+                            case Asc.c_oAscVAlign.Center:
+                                cls = 'menu__icon btn-align-middle';
+                                break;
+                            case Asc.c_oAscVAlign.Bottom:
+                                cls = 'menu__icon btn-align-bottom';
+                                break;
+                        }
+                        documentHolder.menuParagraphVAlign.setIconCls(cls);
                         documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
+                        cls = '';
+                        switch (direct) {
+                            case Asc.c_oAscVertDrawingText.normal:
+                                cls = 'menu__icon text-orient-hor';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert:
+                                cls = 'menu__icon text-orient-rdown';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert270:
+                                cls = 'menu__icon btn-align-rup';
+                                break;
+                        }
+                        documentHolder.menuParagraphDirection.setIconCls(cls);
                         documentHolder.menuParagraphDirectH.setChecked(direct == Asc.c_oAscVertDrawingText.normal);
                         documentHolder.menuParagraphDirect90.setChecked(direct == Asc.c_oAscVertDrawingText.vert);
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
@@ -1918,8 +1944,8 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
-                documentHolder.pmiCut.setDisabled(isCellLocked || inPivot); // can't edit pivot cells
-                documentHolder.pmiPaste.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiCut.setDisabled(isCellLocked); // can't edit pivot cells
+                documentHolder.pmiPaste.setDisabled(isCellLocked);
                 documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot);
                 documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
@@ -2727,6 +2753,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2897,6 +2924,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2924,6 +2952,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2943,6 +2972,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2972,6 +3002,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -3024,6 +3055,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {

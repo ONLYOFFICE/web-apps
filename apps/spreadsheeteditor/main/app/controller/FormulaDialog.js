@@ -233,12 +233,13 @@ define([
                 // show formula settings
                 var me = this;
                 var name = props.asc_getName(),
+                    origin = this.api.asc_getFormulaNameByLocale(name),
                     descrarr = this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     funcprops = {
-                        name: this.api.asc_getFormulaLocaleName(name),
-                        origin: name,
-                        args: ((descrarr && descrarr[name]) ? descrarr[name].a : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()),
-                        desc: (descrarr && descrarr[name]) ? descrarr[name].d : ''
+                        name: name,
+                        origin: origin,
+                        args: ((descrarr && descrarr[origin]) ? descrarr[origin].a : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()),
+                        desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : ''
                     };
 
                 (new SSE.Views.FormulaWizard({

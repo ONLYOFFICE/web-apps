@@ -267,7 +267,7 @@ define([
         },
 
         getUserName: function (username) {
-            return Common.Utils.String.htmlEncode(username);
+            return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
         },
 
         hide: function () {

@@ -77,7 +77,9 @@ define([
                 'Toolbar': {
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
-                        toolbar.setExtra('right', me.header.getPanel('right', config));
+                        if (!config.isEditDiagram && !config.isEditMailMerge)
+                            toolbar.setExtra('right', me.header.getPanel('right', config));
+
                         if (!config.isEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
@@ -239,6 +241,13 @@ define([
                     value       : 'freezepanes'
                 });
 
+                me.header.mnuitemFreezePanesShadow = new Common.UI.MenuItem({
+                    caption     : me.textFreezePanesShadow,
+                    checkable   : true,
+                    checked     : Common.localStorage.getBool('sse-freeze-shadow', true),
+                    value       : 'freezepanesshadow'
+                });
+
                 me.header.mnuZoom = new Common.UI.MenuItem({
                     template: _.template([
                         '<div id="hdr-menu-zoom" class="menu-zoom" style="height: 25px;" ',
@@ -271,6 +280,7 @@ define([
                             me.header.mnuitemHideGridlines,
                             {caption:'--'},
                             me.header.mnuitemFreezePanes,
+                            me.header.mnuitemFreezePanesShadow,
                             {caption:'--'},
                             me.header.mnuZoom,
                             {caption:'--'},
@@ -285,7 +295,6 @@ define([
                     me.header.mnuitemHideGridlines.hide();
                     me.header.mnuitemFreezePanes.hide();
                     menu.items[5].hide();
-                    menu.items[7].hide();
                     if (!config.canViewComments) { // show advanced settings for editing and commenting mode
                         // mnuitemAdvSettings.hide();
                         // menu.items[9].hide();
@@ -476,6 +485,10 @@ define([
             case 'headings': me.api.asc_setDisplayHeadings(!item.isChecked()); break;
             case 'gridlines': me.api.asc_setDisplayGridlines(!item.isChecked()); break;
             case 'freezepanes': me.api.asc_freezePane(); break;
+            case 'freezepanesshadow':
+                me.api.asc_setFrozenPaneBorderType(item.isChecked() ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
+                Common.localStorage.setBool('sse-freeze-shadow', item.isChecked());
+                break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
             }
         },
@@ -494,6 +507,7 @@ define([
         textHideFBar: 'Hide Formula Bar',
         textHideHeadings: 'Hide Headings',
         textHideGridlines: 'Hide Gridlines',
-        textFreezePanes: 'Freeze Panes'
+        textFreezePanes: 'Freeze Panes',
+        textFreezePanesShadow: 'Show Freezed Panes Shadow'
     }, SSE.Controllers.Viewport));
 });

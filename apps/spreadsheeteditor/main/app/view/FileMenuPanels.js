@@ -270,7 +270,9 @@ define([
         menu: undefined,
 
         template: _.template([
-            '<table class="main"><tbody>',
+            '<div>',
+            '<div class="flex-settings">',
+            '<table class="main" style="margin: 30px 0 0;"><tbody>',
                 '<tr>',
                     '<td class="left"><label><%= scope.textSettings %></label></td>',
                     '<td class="right"><div id="advsettings-print-combo-sheets" class="input-group-nr"></div></td>',
@@ -307,7 +309,7 @@ define([
                             '</tr>',
                         '</table>',
                     '</div></td>',
-                '</tr>','<tr class="divider"></tr>',
+                '</tr>',
                 '<tr>',
                     '<td class="left" style="vertical-align: top;"><label><%= scope.strMargins %></label></td>',
                     '<td class="right" style="vertical-align: top;"><div id="advsettings-margins">',
@@ -330,19 +332,25 @@ define([
                             '</tr>',
                         '</table>',
                     '</div></td>',
-                '</tr>','<tr class="divider"></tr>',
+                '</tr>',
                 '<tr>',
                 '<td class="left" style="vertical-align: top;"><label><%= scope.strPrint %></label></td>',
                 '<td class="right" style="vertical-align: top;"><div id="advsettings-print">',
                     '<div id="advsettings-print-chb-grid" style="margin-bottom: 10px;"></div>',
                     '<div id="advsettings-print-chb-rows"></div>',
                 '</div></td>',
-                '</tr>','<tr class="divider"></tr>','<tr class="divider"></tr>',
+                '</tr>','<tr class="divider"></tr>',
+            '</tbody></table>',
+        '</div>',
+        '<div>',
+            '<table class="main" style="margin: 10px 0;"><tbody>',
                 '<tr>',
                 '<td class="left"></td>',
                 '<td class="right"><button id="advsettings-print-button-save" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                 '</tr>',
-            '</tbody></table>'
+            '</tbody></table>',
+        '</div>',
+        '</div>'
         ].join('')),
 
         initialize: function(options) {
@@ -512,17 +520,26 @@ define([
                 el: $markup.findById('#advsettings-print-button-save')
             });
 
+            this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+
             // if (parentEl)
             //     this.setElement(parentEl, false);
             this.$el = $(parentEl).html($markup);
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
+                    el: this.pnlSettings,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
             }
+
+            var me = this;
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
 
             this.fireEvent('render:after', this);
             return this;
@@ -582,8 +599,19 @@ define([
                 this.updateMetricUnit();
                 this._initSettings = false;
             }
-            this.scroller && this.scroller.update();
+            this.updateScroller();
             this.fireEvent('show', this);
+        },
+
+        isVisible: function() {
+            return (this.$el || $(this.el)).is(":visible");
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
         },
 
         okButtonText:           'Save',
@@ -618,7 +646,9 @@ define([
         menu: undefined,
 
         template: _.template([
-            '<table class="main"><tbody>',
+        '<div>',
+        '<div class="flex-settings">',
+            '<table class="main" style="margin: 30px 0 0;"><tbody>',
                 /** coauthoring begin **/
                 '<tr class="comments">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
@@ -693,11 +723,17 @@ define([
                         '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
                 '</tr>','<tr class="divider macros"></tr>',
+            '</tbody></table>',
+        '</div>',
+        '<div>',
+            '<table class="main" style="margin: 10px 0;"><tbody>',
                 '<tr>',
                     '<td class="left"></td>',
                     '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                 '</tr>',
-            '</tbody></table>'
+            '</tbody></table>',
+        '</div>',
+        '</div>'
         ].join('')),
 
         initialize: function(options) {
@@ -751,7 +787,7 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                menuStyle   : 'max-height: 210px;',
+                menuStyle   : 'max-height: 157px;',
                 data        : [
                     { value: 50, displayValue: "50%" },
                     { value: 60, displayValue: "60%" },
@@ -946,18 +982,26 @@ define([
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-apply')
             });
-
             this.btnApply.on('click', _.bind(this.applySettings, this));
+
+            this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
 
             this.$el = $(node).html($markup);
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
+                    el: this.pnlSettings,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
             }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
             return this;
         },
 
@@ -965,7 +1009,18 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateSettings();
-            this.scroller && this.scroller.update();
+            this.updateScroller();
+        },
+
+        isVisible: function() {
+            return (this.$el || $(this.el)).is(":visible");
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
         },
 
         setMode: function(mode) {
@@ -1226,7 +1281,7 @@ define([
         menu: undefined,
 
         template: _.template([
-            '<table class="main"><tbody>',
+            '<table class="main" style="margin: 30px 0;"><tbody>',
             '<tr>',
                 '<td class="left" style="padding-bottom: 8px;"><label><%= scope.strDictionaryLanguage %></label></td>',
                 '<td class="right" style="padding-bottom: 8px;"><span id="fms-cmb-dictionary-language"></span></td>',
@@ -1374,25 +1429,14 @@ define([
         },
 
         autoCorrect: function() {
-            if (!this._mathCorrect) {
-                var arr = (this.api) ? this.api.asc_getAutoCorrectMathSymbols() : [],
-                    data = [];
-                _.each(arr, function(item, index){
-                    var itm = {replaced: item[0]};
-                    if (typeof item[1]=='object') {
-                        itm.by = '';
-                        _.each(item[1], function(ch){
-                            itm.by += Common.Utils.String.encodeSurrogateChar(ch);
-                        });
-                    } else {
-                        itm.by = Common.Utils.String.encodeSurrogateChar(item[1]);
-                    }
-                    data.push(itm);
-                });
-                this._mathCorrect = data;
-            }
+            if (!this._mathCorrect)
+                this._mathCorrect = new Common.UI.DataViewStore();
+            if (!this._funcCorrect)
+                this._funcCorrect = new Common.UI.DataViewStore();
             (new Common.Views.AutoCorrectDialog({
-                props: this._mathCorrect
+                mathStore: this._mathCorrect,
+                functionsStore: this._funcCorrect,
+                api: this.api
             })).show();
         },
 
@@ -1556,7 +1600,8 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-                '<table class="main">',
+            '<div class="flex-settings">',
+                '<table class="main" style="margin: 30px 0 0;">',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
@@ -1613,12 +1658,17 @@ define([
                             '</table>',
                         '</div></td>',
                     '</tr>',
-                    '<tr class="divider"></tr>',
+                '<tr style="height: 5px;"></tr>',
+                '</table>',
+            '</div>',
+            '<div id="fms-flex-apply">',
+                '<table class="main" style="margin: 10px 0;">',
                     '<tr>',
                         '<td class="left"></td>',
                         '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                     '</tr>',
-                '</table>'
+                '</table>',
+            '</div>'
             ].join(''));
 
             this.menu = options.menu;
@@ -1685,6 +1735,7 @@ define([
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
                     me.authors.splice(idx, 1);
+                    me.updateScroller(true);
                 }
             });
 
@@ -1706,6 +1757,7 @@ define([
                             if (!isFromApply) {
                                 var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
                                 me.trAuthor.before(div);
+                                me.updateScroller();
                             }
                         }
                     });
@@ -1718,6 +1770,9 @@ define([
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
+            this.pnlInfo = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+            this.pnlApply = $markup.findById('#fms-flex-apply');
+
             this.rendered = true;
 
             this.updateInfo(this.doc);
@@ -1725,11 +1780,17 @@ define([
             this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
+                    el: this.pnlInfo,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
             }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
 
             return this;
         },
@@ -1738,11 +1799,19 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateFileInfo();
-            this.scroller && this.scroller.update();
+            this.scroller && this.scroller.scrollTop(0);
+            this.updateScroller();
         },
 
         hide: function() {
             Common.UI.BaseView.prototype.hide.call(this,arguments);
+        },
+
+        updateScroller: function(destroy) {
+            if (this.scroller) {
+                this.scroller.update(destroy ? {} : undefined);
+                this.pnlInfo.toggleClass('bordered', this.scroller.isVisible());
+            }
         },
 
         updateInfo: function(doc) {
@@ -1815,7 +1884,7 @@ define([
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
-                    this.lblModifyBy.text(value);
+                    this.lblModifyBy.text(Common.Utils.UserInfoParser.getParsedName(value));
                 visible = this._ShowHideInfoItem(this.lblModifyBy, !!value) || visible;
                 $('tr.divider.modify', this.el)[visible?'show':'hide']();
 
@@ -1855,7 +1924,7 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.inputAuthor.setVisible(mode.isEdit);
-            this.btnApply.setVisible(mode.isEdit);
+            this.pnlApply.toggleClass('hidden', !mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
@@ -1927,7 +1996,7 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-                '<table class="main">',
+                '<table class="main" style="margin: 30px 0;">',
                     '<tr class="rights">',
                         '<td class="left" style="vertical-align: top;"><label>' + this.txtRights + '</label></td>',
                         '<td class="right"><div id="id-info-rights"></div></td>',

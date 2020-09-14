@@ -238,6 +238,16 @@ define([
                 this.cmpEl.find('a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
         },
 
+        setIconCls: function(iconCls) {
+            if (this.rendered && !_.isEmpty(this.iconCls)) {
+                var firstChild = this.cmpEl.children(':first');
+                if (firstChild) {
+                    firstChild.find('.menu-item-icon').removeClass(this.iconCls).addClass(iconCls);
+                }
+            }
+            this.iconCls = iconCls;
+        },
+
         setChecked: function(check, suppressEvent) {
             this.toggle(check, suppressEvent);
         },
