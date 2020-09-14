@@ -318,6 +318,9 @@ define([
                     $('#settings-accept-all').hide();
                     $('#settings-reject-all').hide();
                 }
+                if (this.appConfig.isRestrictedEdit) {
+                    $('#display-mode-settings').hide();
+                }
             },
 
             onTrackChanges: function(e) {

@@ -300,7 +300,7 @@ define([
 
                 if (me.api) {
                     me.api.asc_enableKeyEvents(mode.isEdit);
-                    me.api.asc_setViewMode(!mode.isEdit);
+                    me.api.asc_setViewMode(!mode.isEdit && !mode.isRestrictedEdit);
                 }
             },
 
@@ -593,6 +593,11 @@ define([
                     } else {
                         me.api.SetCollaborativeMarksShowType(me._state.fastCoauth ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges);
                     }
+                } else if (!me.appOptions.isEdit && me.appOptions.isRestrictedEdit) {
+                    me._state.fastCoauth = true;
+                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
+                    me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+                    me.api.asc_setAutoSaveGap(1);
                 } else {
                     me._state.fastCoauth = false;
                     me.api.asc_SetFastCollaborative(me._state.fastCoauth);
@@ -639,7 +644,7 @@ define([
                         var viewReviewMode = Common.localStorage.getItem("de-view-review-mode");
                         if (viewReviewMode===null)
                             viewReviewMode = me.appOptions.customization && /^(original|final|markup)$/i.test(me.appOptions.customization.reviewDisplay) ? me.appOptions.customization.reviewDisplay.toLocaleLowerCase() : 'original';
-                        viewReviewMode = me.appOptions.isEdit ? 'markup' : viewReviewMode;
+                        viewReviewMode = (me.appOptions.isEdit || me.appOptions.isRestrictedEdit) ? 'markup' : viewReviewMode;
                         DE.getController('Common.Controllers.Collaboration').turnDisplayMode(viewReviewMode);
                     }
                 }
@@ -787,6 +792,8 @@ define([
                 me.appOptions.canEditStyles   = me.appOptions.canLicense && me.appOptions.canEdit;
                 me.appOptions.canPrint        = (me.permissions.print !== false);
                 me.appOptions.fileKey = me.document.key;
+                me.appOptions.canFillForms   = ((me.permissions.fillForms===undefined) ? me.appOptions.isEdit : me.permissions.fillForms) && (me.editorConfig.mode !== 'view');
+                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && me.appOptions.canFillForms;
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
                 me.appOptions.canDownloadOrigin = me.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -806,7 +813,8 @@ define([
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 
-                me.api.asc_setViewMode(!me.appOptions.isEdit);
+                me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
+                me.appOptions.isRestrictedEdit && me.appOptions.canFillForms && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 me.api.asc_LoadDocument();
                 me.api.Resize();
 
