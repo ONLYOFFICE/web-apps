@@ -238,6 +238,7 @@ define([
                         this.dropTabs = selectTabs;
                     }, this),
                     'tab:drop': _.bind(function (dataTransfer, index) {
+                         if (this.isEditFormula) return;
                          var data = dataTransfer.getData("onlyoffice");
                          if (data) {
                              var arrData = JSON.parse(data);
