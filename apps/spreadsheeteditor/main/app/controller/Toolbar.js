@@ -1739,6 +1739,7 @@ define([
                 return;
             }
 
+            var rec = listStyles.menuPicker.getSelectedRec();
             listStyles.menuPicker.store.reset([]); // remove all
 
             var mainController = this.getApplication().getController('Main');
@@ -1752,8 +1753,9 @@ define([
             });
 
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
-                listStyles.fillComboView(listStyles.menuPicker.store.at(0), true);
-                listStyles.selectByIndex(0);
+                rec = rec ? listStyles.menuPicker.store.findWhere({name: rec.get('name')}) : null;
+                listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true);
+                rec ? listStyles.selectRecord(rec) : listStyles.selectByIndex(0);
             }
 
             window.styles_loaded = true;
@@ -2357,6 +2359,8 @@ define([
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
                             { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates) });
+
+                toolbar.lockToolbar(SSE.enumLock.tableHasSlicer, filterInfo && filterInfo.asc_getIsSlicerAdded(), { array: toolbar.btnsSetAutofilter });
 
                 need_disable = (selectionType !== Asc.c_oAscSelectionType.RangeSlicer) && (this._state.controlsdisabled.filters || (val===null));
                 toolbar.lockToolbar(SSE.enumLock.cantSort, need_disable, { array: toolbar.btnsSortDown.concat(toolbar.btnsSortUp) });
