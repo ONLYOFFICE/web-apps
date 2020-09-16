@@ -462,10 +462,7 @@ define([
 
         onSendThemeColors: function() {
             // get new table templates
-            if (this.cmbTableTemplate) {
-                this.onApiInitTableTemplates(this.api.asc_getTablePictures(this._originalProps));
-                this.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
-            }
+            this.btnTableTemplate && this.onApiInitTableTemplates(this.api.asc_getTablePictures(this._originalProps));
         },
 
         onApiInitTableTemplates: function(Templates){
