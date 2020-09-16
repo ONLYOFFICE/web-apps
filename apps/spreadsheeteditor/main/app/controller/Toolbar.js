@@ -1739,23 +1739,37 @@ define([
                 return;
             }
 
-            listStyles.menuPicker.store.reset([]); // remove all
-
             var mainController = this.getApplication().getController('Main');
-            _.each(styles, function(style){
-                listStyles.menuPicker.store.add({
-                    imageUrl: style.asc_getImage(),
-                    name    : style.asc_getName(),
-                    tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
-                    uid     : Common.UI.getId()
+            var count = listStyles.menuPicker.store.length;
+            var rec;
+            if (count>0 && count==styles.length) {
+                rec = listStyles.menuPicker.getSelectedRec();
+                var data = listStyles.menuPicker.dataViewItems;
+                data && _.each(styles, function(style, index){
+                    var img = style.asc_getImage();
+                    data[index].model.set('imageUrl', img, {silent: true});
+                    data[index].model.set({
+                        name    : style.asc_getName(),
+                        tip     : mainController.translationTable[style.get_Name()] || style.get_Name()
+                    });
+                    $(data[index].el).find('img').attr('src', img);
                 });
-            });
-
-            if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
-                listStyles.fillComboView(listStyles.menuPicker.store.at(0), true);
-                listStyles.selectByIndex(0);
+            } else {
+                var arr = [];
+                _.each(styles, function(style){
+                    arr.push({
+                        imageUrl: style.asc_getImage(),
+                        name    : style.asc_getName(),
+                        tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
+                        uid     : Common.UI.getId()
+                    });
+                });
+                listStyles.menuPicker.store.reset(arr);
             }
-
+            if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
+                listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true, true);
+                rec ? listStyles.selectRecord(rec) : listStyles.selectByIndex(0);
+            }
             window.styles_loaded = true;
         },
 

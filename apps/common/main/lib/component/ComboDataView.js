@@ -459,6 +459,13 @@ define([
             this.menuPicker.selectByIndex(index);
         },
 
+        selectRecord: function(record) {
+            if (!record)
+                this.fieldPicker.deselectAll();
+
+            this.menuPicker.selectRecord(record);
+        },
+
         setItemWidth: function(width) {
             if (this.itemWidth != width)
                 this.itemWidth = window.devicePixelRatio > 1 ? width / 2 : width;
