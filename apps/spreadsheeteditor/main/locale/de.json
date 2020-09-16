@@ -2707,6 +2707,8 @@
   "SSE.Views.Toolbar.txtTime": "Zeit",
   "SSE.Views.Toolbar.txtUnmerge": "Zellverbund aufheben",
   "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Toolbar.capBtnPrintTitles": "Drucke Titel",
+  "SSE.Views.Toolbar.tipPrintTitles": "Drucke titel",
   "SSE.Views.Top10FilterDialog.textType": "Anzeigen",
   "SSE.Views.Top10FilterDialog.txtBottom": "Unten",
   "SSE.Views.Top10FilterDialog.txtBy": "nach",

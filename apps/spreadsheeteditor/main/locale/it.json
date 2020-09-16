@@ -2814,6 +2814,8 @@
   "SSE.Views.Toolbar.txtTime": "Ora",
   "SSE.Views.Toolbar.txtUnmerge": "Dividi celle",
   "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Toolbar.capBtnPrintTitles": "Stampa titoli",
+  "SSE.Views.Toolbar.tipPrintTitles": "Stampa titoli",
   "SSE.Views.Top10FilterDialog.textType": "Visualizza",
   "SSE.Views.Top10FilterDialog.txtBottom": "In basso",
   "SSE.Views.Top10FilterDialog.txtBy": "di",

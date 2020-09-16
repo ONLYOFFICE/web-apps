@@ -2251,6 +2251,8 @@
   "SSE.Views.Toolbar.txtText": "Text",
   "SSE.Views.Toolbar.txtTime": "Tid",
   "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Toolbar.capBtnPrintTitles": "Skriv ut titlar",
+  "SSE.Views.Toolbar.tipPrintTitles": "Skriv ut titlar",
   "SSE.Views.Top10FilterDialog.textType": "Visa",
   "SSE.Views.Top10FilterDialog.txtBottom": "Botten",
   "SSE.Views.Top10FilterDialog.txtItems": "Element",

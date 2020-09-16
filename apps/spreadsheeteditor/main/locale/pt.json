@@ -2562,6 +2562,8 @@
   "SSE.Views.Toolbar.txtTime": "Hora",
   "SSE.Views.Toolbar.txtUnmerge": "Desfaz a mesclagem de células",
   "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Toolbar.capBtnPrintTitles": "Imprimir títulos",
+  "SSE.Views.Toolbar.tipPrintTitles": "Imprimir títulos",
   "SSE.Views.Top10FilterDialog.textType": "Exibir",
   "SSE.Views.Top10FilterDialog.txtBottom": "Inferior",
   "SSE.Views.Top10FilterDialog.txtItems": "Item",

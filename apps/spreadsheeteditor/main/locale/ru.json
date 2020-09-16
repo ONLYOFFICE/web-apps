@@ -2814,6 +2814,8 @@
   "SSE.Views.Toolbar.txtTime": "Время",
   "SSE.Views.Toolbar.txtUnmerge": "Отменить объединение ячеек",
   "SSE.Views.Toolbar.txtYen": "¥ Иена",
+  "SSE.Views.Toolbar.capBtnPrintTitles": "Печатать заголовки",
+  "SSE.Views.Toolbar.tipPrintTitles": "Печатать заголовки",
   "SSE.Views.Top10FilterDialog.textType": "Показать",
   "SSE.Views.Top10FilterDialog.txtBottom": "Наименьшие",
   "SSE.Views.Top10FilterDialog.txtBy": "по",
