@@ -1739,6 +1739,7 @@ define([
                 return;
             }
 
+            var rec = listStyles.menuPicker.getSelectedRec();
             listStyles.menuPicker.store.reset([]); // remove all
 
             var mainController = this.getApplication().getController('Main');
@@ -1752,8 +1753,9 @@ define([
             });
 
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
-                listStyles.fillComboView(listStyles.menuPicker.store.at(0), true);
-                listStyles.selectByIndex(0);
+                rec = rec ? listStyles.menuPicker.store.findWhere({name: rec.get('name')}) : null;
+                listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true);
+                rec ? listStyles.selectRecord(rec) : listStyles.selectByIndex(0);
             }
 
             window.styles_loaded = true;
