@@ -332,9 +332,9 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.getSelectedRec(),true);
+                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.getSelectedRec(),true, true);
                         else
-                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.store.at(0), true);
+                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.store.at(0), true, true);
                     }
                     this._state.TemplateName=value;
                 }
@@ -357,9 +357,11 @@ define([
 
             var count = styles.menuPicker.store.length;
             if (count>0 && count==Templates.length) {
-                var data = styles.menuPicker.store.models;
-                _.each(Templates, function(template, index){
-                    data[index].set('imageUrl', template.asc_getImage());
+                var data = styles.menuPicker.dataViewItems;
+                data && _.each(Templates, function(template, index){
+                    var img = template.asc_getImage();
+                    data[index].model.set('imageUrl', img, {silent: true});
+                    $(data[index].el).find('img').attr('src', img);
                 });
             } else {
                 styles.menuPicker.store.reset([]);
