@@ -2360,6 +2360,8 @@ define([
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
                             { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates) });
 
+                toolbar.lockToolbar(SSE.enumLock.tableHasSlicer, filterInfo && filterInfo.asc_getIsSlicerAdded(), { array: toolbar.btnsSetAutofilter });
+
                 need_disable = (selectionType !== Asc.c_oAscSelectionType.RangeSlicer) && (this._state.controlsdisabled.filters || (val===null));
                 toolbar.lockToolbar(SSE.enumLock.cantSort, need_disable, { array: toolbar.btnsSortDown.concat(toolbar.btnsSortUp) });
 
