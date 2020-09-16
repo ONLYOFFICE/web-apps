@@ -1741,9 +1741,8 @@ define([
 
             var mainController = this.getApplication().getController('Main');
             var count = listStyles.menuPicker.store.length;
-            var rec;
+            var rec = listStyles.menuPicker.getSelectedRec();
             if (count>0 && count==styles.length) {
-                rec = listStyles.menuPicker.getSelectedRec();
                 var data = listStyles.menuPicker.dataViewItems;
                 data && _.each(styles, function(style, index){
                     var img = style.asc_getImage();
@@ -1767,6 +1766,7 @@ define([
                 listStyles.menuPicker.store.reset(arr);
             }
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
+                rec = rec ? listStyles.menuPicker.store.findWhere({name: rec.get('name')}) : null;
                 listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true, true);
                 rec ? listStyles.selectRecord(rec) : listStyles.selectByIndex(0);
             }
