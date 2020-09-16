@@ -2418,7 +2418,7 @@
   "SSE.Views.SortDialog.textZA": "От Я до А",
   "SSE.Views.SortDialog.txtInvalidRange": "Недопустимый диапазон ячеек.",
   "SSE.Views.SortDialog.txtTitle": "Сортировка",
-  "SSE.Views.SortFilterDialog.textAsc": "По возрастанию (от А до Я) по полю",
+  "SSE.Views.SortFilterDialog.textAsc": "По возрастанию (от А до Я) по",
   "SSE.Views.SortFilterDialog.textDesc": "По убыванию (от Я до А) по",
   "SSE.Views.SortFilterDialog.txtTitle": "Сортировать",
   "SSE.Views.SortOptionsDialog.textCase": "С учетом регистра",
