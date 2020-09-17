@@ -395,6 +395,7 @@ define([
                 this._state.TableName=props.asc_getName();
 
                 var me = this,
+                    isChecked = [],
                     cache_names = props.asc_getCacheFields(),
                     pivot_names = props.asc_getPivotFields();
 
@@ -403,145 +404,109 @@ define([
                     me._state.names[index] = item.asc_getName() || cache_names[index].asc_getName();
                 });
 
-                var arr = [], isChecked = [],
-                value = props.asc_getColumnFields();
-                value && value.forEach(function (item, index) {
-                    var pivotIndex = item.asc_getIndex();
-                    if (pivotIndex>-1 || pivotIndex == -2) {
-                        var name = (pivotIndex>-1) ? me._state.names[pivotIndex] : me.textValues;
-                        arr.push(new Common.UI.DataViewModel({
-                            selected        : false,
-                            allowSelected   : false,
-                            pivotIndex      : pivotIndex,
-                            index           : index,
-                            value           : name,
-                            tip             : (name.length>10) ? name : ''
-                        }));
-                        isChecked[name] = true;
+                var fillList = function(propValue, list, eventIndex, getNameFunction) {
+                    var arr = [];
+                    var models = list.store.models,
+                        equalArr = list.store.length === (propValue ? propValue.length : 0);
+                    propValue && propValue.forEach(function (item, index) {
+                        var pivotIndex = item.asc_getIndex();
+                        var name = getNameFunction ? getNameFunction(pivotIndex) : item.asc_getName();
+                        if (equalArr) {
+                            models[index].set({
+                                pivotIndex: pivotIndex,
+                                index           : index,
+                                value           : name,
+                                tip             : (name.length>10) ? name : ''
+                            });
+                        } else
+                            arr.push(new Common.UI.DataViewModel({
+                                selected        : false,
+                                allowSelected   : false,
+                                pivotIndex      : pivotIndex,
+                                index           : index,
+                                value           : name,
+                                tip             : (name.length>10) ? name : ''
+                            }));
+                        isChecked[getNameFunction ? name : me._state.names[pivotIndex]] = true;
+                    });
+                    if (!equalArr) {
+                        list.store.reset(arr);
+                        list.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                        list.dataViewItems.forEach(function (item, index) {
+                            item.$el.attr('draggable', true);
+                            item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, eventIndex, list, item, index));
+                            item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
+                            item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
+                            item.$el.on('dragover', _.bind(me.onDragItemOver, me, list, item, index));
+                            item.$el.on('drop', _.bind(me.onDrop, me));
+                            item.$el.on('dragend', _.bind(me.onDragEnd, me));
+                        });
+                        list.$el.find('.item').last().css({'margin-bottom': '10px'});
                     }
-                });
-                this.columnsList.store.reset(arr);
-                this.columnsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                };
 
-                arr = [];
+                var value = props.asc_getColumnFields();
+                value && (value = _.filter(value, function(item){
+                    var pivotIndex = item.asc_getIndex();
+                    return (pivotIndex>-1 || pivotIndex == -2);
+                }));
+                fillList(value, this.columnsList, 0, function(pivotIndex) {
+                    return (pivotIndex>-1) ? me._state.names[pivotIndex] : me.textValues;
+                });
+
                 value = props.asc_getRowFields();
-                value && value.forEach(function (item, index) {
+                value && (value = _.filter(value, function(item){
                     var pivotIndex = item.asc_getIndex();
-                    if (pivotIndex>-1 || pivotIndex == -2) {
-                        var name = (pivotIndex>-1) ? me._state.names[pivotIndex] : me.textValues;
-                        arr.push(new Common.UI.DataViewModel({
-                            selected        : false,
-                            allowSelected   : false,
-                            pivotIndex      : pivotIndex,
-                            index           : index,
-                            value            : name,
-                            tip             : (name.length>10) ? name : ''
-                        }));
-                        isChecked[name] = true;
-                    }
+                    return (pivotIndex>-1 || pivotIndex == -2);
+                }));
+                fillList(value, this.rowsList, 1, function(pivotIndex) {
+                    return (pivotIndex>-1) ? me._state.names[pivotIndex] : me.textValues;
                 });
-                this.rowsList.store.reset(arr);
-                this.rowsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
 
-                arr = [];
                 value = props.asc_getDataFields();
-                value && value.forEach(function (item, index) {
-                    var pivotIndex = item.asc_getIndex();
-                    if (pivotIndex>-1) {
-                        var name = item.asc_getName();
-                        arr.push(new Common.UI.DataViewModel({
-                            selected        : false,
-                            allowSelected   : false,
-                            pivotIndex      : pivotIndex,
-                            index           : index,
-                            value           : name,
-                            tip             : (name.length>10) ? name : ''
-                        }));
-                        isChecked[me._state.names[pivotIndex]] = true;
-                    }
-                });
-                this.valuesList.store.reset(arr);
-                this.valuesList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                value && (value = _.filter(value, function(item){
+                    return (item.asc_getIndex()>-1);
+                }));
+                fillList(value, this.valuesList, 2);
 
-                arr = [];
                 value = props.asc_getPageFields();
-                value && value.forEach(function (item, index) {
-                    var pivotIndex = item.asc_getIndex();
-                    if (pivotIndex>-1) {
-                        var name = me._state.names[pivotIndex];
+                value && (value = _.filter(value, function(item){
+                    return (item.asc_getIndex()>-1);
+                }));
+                fillList(value, this.filtersList, 3, function(pivotIndex) {
+                    return me._state.names[pivotIndex];
+                });
+
+                var arr = [];
+                var models = this.fieldsList.store.models;
+                var equalArr = this.fieldsList.store.length === me._state.names.length;
+                me._state.names.forEach(function (item, index) {
+                    if (equalArr) {
+                        models[index].set({
+                            value           : item,
+                            index           : index,
+                            tip             : (item.length>25) ? item : '',
+                            check           : isChecked[item]
+                        });
+                    } else
                         arr.push(new Common.UI.DataViewModel({
                             selected        : false,
                             allowSelected   : false,
-                            pivotIndex      : pivotIndex,
+                            value           : item,
                             index           : index,
-                            value            : name,
-                            tip             : (name.length>10) ? name : ''
+                            tip             : (item.length>25) ? item : '',
+                            check           : isChecked[item]
                         }));
-                        isChecked[name] = true;
-                    }
                 });
-                this.filtersList.store.reset(arr);
-                this.filtersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
-
-                arr = [];
-                me._state.names.forEach(function (item, index) {
-                    arr.push(new Common.UI.DataViewModel({
-                        selected        : false,
-                        allowSelected   : false,
-                        value           : item,
-                        index           : index,
-                        tip             : (item.length>25) ? item : '',
-                        check           : isChecked[item]
-                    }));
-                });
-                this.fieldsList.store.reset(arr);
-                this.fieldsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
-
-                this.fieldsList.dataViewItems.forEach(function (item, index) {
-                    item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onFieldsDragStart, me, item, index));
-                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
-                });
-                this.columnsList.dataViewItems.forEach(function (item, index) {
-                    item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 0, me.columnsList, item, index));
-                    item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
-                    item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
-                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.columnsList, item, index));
-                    item.$el.on('drop', _.bind(me.onDrop, me));
-                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
-                });
-                this.columnsList.$el.find('.item').last().css({'margin-bottom': '10px'});
-                this.rowsList.dataViewItems.forEach(function (item, index) {
-                    item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 1, me.rowsList, item, index));
-                    item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
-                    item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
-                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.rowsList, item, index));
-                    item.$el.on('drop', _.bind(me.onDrop, me));
-                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
-                });
-                this.rowsList.$el.find('.item').last().css({'margin-bottom': '10px'});
-                this.valuesList.dataViewItems.forEach(function (item, index) {
-                    item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 2, me.valuesList, item, index));
-                    item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
-                    item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
-                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.valuesList, item, index));
-                    item.$el.on('drop', _.bind(me.onDrop, me));
-                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
-                });
-                this.valuesList.$el.find('.item').last().css({'margin-bottom': '10px'});
-                this.filtersList.dataViewItems.forEach(function (item, index) {
-                    item.$el.attr('draggable', true);
-                    item.$el.on('dragstart', _.bind(me.onItemsDragStart, me, 3, me.filtersList, item, index));
-                    item.$el.on('dragenter', _.bind(me.onDragItemEnter, me, item, index));
-                    item.$el.on('dragleave', _.bind(me.onDragItemLeave, me, item, index));
-                    item.$el.on('dragover', _.bind(me.onDragItemOver, me, me.filtersList, item, index));
-                    item.$el.on('drop', _.bind(me.onDrop, me));
-                    item.$el.on('dragend', _.bind(me.onDragEnd, me));
-                });
-                this.filtersList.$el.find('.item').last().css({'margin-bottom': '10px'});
+                if (!equalArr) {
+                    this.fieldsList.store.reset(arr);
+                    this.fieldsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
+                    this.fieldsList.dataViewItems.forEach(function (item, index) {
+                        item.$el.attr('draggable', true);
+                        item.$el.on('dragstart', _.bind(me.onFieldsDragStart, me, item, index));
+                        item.$el.on('dragend', _.bind(me.onDragEnd, me));
+                    });
+                }
             }
         },
 
