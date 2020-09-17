@@ -1769,7 +1769,6 @@ define([
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
                 rec = rec ? listStyles.menuPicker.store.findWhere({name: rec.get('name')}) : null;
                 listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true, true);
-                rec ? listStyles.selectRecord(rec) : listStyles.selectByIndex(0);
             }
             window.styles_loaded = true;
         },
