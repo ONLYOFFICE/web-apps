@@ -779,6 +779,10 @@
 		"a": "(matrice , k)",
 		"d": "Fonction statistique utilisée pour analyser une plage de cellules et renvoyer la k-ième plus grande valeur."
 	},
+	"LINEST": {
+		"a": "( known_y's, [known_x's], [const], [stats] )",
+		"d": "Fonction statistique utilisée pour calcule les statistiques d’une droite par la méthode des moindres carrés afin de calculer une droite s’ajustant au plus près de vos données, puis renvoie une matrice qui décrit cette droite; dans la mesure où cette fonction renvoie une matrice de valeurs, elle doit être tapée sous la forme d’une formule matricielle"
+	},
 	"LOGINV": {
 		"a": "(x, moyenne, écart_type)",
 		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la fonction de distribution de x suivant une loi lognormale cumulée en utilisant les paramètres spécifiés"
@@ -1686,6 +1690,10 @@
 	"VLOOKUP": {
 		"a": "(valeur_cherchée, table_matrice, no_index_col[, [valeur_proche]])",
 		"d": "Fonction de recherche et référence utilisée pour effectuer la recherche verticale d'une valeur dans la première colonne à gauche d'un tableau et retourner la valeur qui se trouve dans la même ligne à la base d'un numéro d'index de colonne spécifié"
+	},
+	"CELL": {
+		"a": "(info_type, [reference])",
+		"d": "Fonction d’information utilisée pour renvoie des informations sur la mise en forme, l’emplacement ou le contenu d’une cellule"
 	},
 	"ERROR.TYPE": {
 		"a": "(valeur)",

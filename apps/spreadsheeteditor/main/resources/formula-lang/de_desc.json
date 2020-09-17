@@ -779,6 +779,10 @@
 		"a": "(Matrix;k)",
 		"d": "Statistische Funktion - gibt den k-größten Wert eines Datensatzes in einem bestimmten Zellbereich zurück"
 	},
+	"LINEST": {
+		"a": "( known_y's, [known_x's], [const], [stats] )",
+		"d": "Statistische Funktion - berechnet die Statistik für eine Linie nach der Methode der kleinsten Quadrate, um eine gerade Linie zu berechnen, die am besten an die Daten angepasst ist, und gibt dann eine Matrix zurück, die die Linie beschreibt; da diese Funktion eine Matrix von Werten zurückgibt, muss die Formel als Matrixformel eingegeben werden"
+	},
 	"LOGINV": {
 		"a": "(x;Mittelwert;Standabwn)",
 		"d": "Statistische Funktion - gibt Quantile der Lognormalverteilung von Wahrsch zurück, wobei ln(x) mit den Parametern Mittelwert und Standabwn normal verteilt ist"
@@ -1686,6 +1690,10 @@
 	"VLOOKUP": {
 		"a": "(Suchkriterium; Matrix; Spaltenindex; [Bereich_Verweis])",
 		"d": "Nachschlage- und Verweisfunktion - führt eine vertikale Suche nach einem Wert in der linken Spalte einer Tabelle oder eines Arrays aus und gibt den Wert in derselben Zeile basierend auf einer angegebenen Spaltenindexnummer zurück"
+	},
+	"CELL": {
+		"a": "(info_type; [reference])",
+		"d": "Informationsfunktion - werden Informationen zur Formatierung, zur Position oder zum Inhalt einer Zelle zurückgegeben"
 	},
 	"ERROR.TYPE": {
 		"a": "(Wert)",

@@ -275,19 +275,27 @@ define([
                 this.bar.trigger('tab:dragstart', event.dataTransfer, this.bar.selectTabs);
             }, this),
             dragenter: $.proxy(function (e) {
-                this.bar.$el.find('.mousemove').removeClass('mousemove right');
-                $(e.currentTarget).parent().addClass('mousemove');
                 var event = e.originalEvent;
-                var data = event.dataTransfer.getData("onlyoffice");
-                event.dataTransfer.dropEffect = data ? 'move' : 'none';
+                if (!this.bar.isEditFormula) {
+                    this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                    $(e.currentTarget).parent().addClass('mousemove');
+                    var data = event.dataTransfer.getData("onlyoffice");
+                    event.dataTransfer.dropEffect = data ? 'move' : 'none';
+                } else {
+                    event.dataTransfer.dropEffect = 'none';
+                }
             }, this),
             dragover: $.proxy(function (e) {
                 var event = e.originalEvent;
                 if (event.preventDefault) {
                     event.preventDefault(); // Necessary. Allows us to drop.
                 }
-                this.bar.$el.find('.mousemove').removeClass('mousemove right');
-                $(e.currentTarget).parent().addClass('mousemove');
+                if (!this.bar.isEditFormula) {
+                    this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                    $(e.currentTarget).parent().addClass('mousemove');
+                } else {
+                    event.dataTransfer.dropEffect = 'none';
+                }
                 return false;
             }, this),
             dragleave: $.proxy(function (e) {
@@ -349,14 +357,14 @@ define([
             }, this));
             addEvent(this.$bar[0], 'dragenter', _.bind(function (event) {
                 var data = event.dataTransfer.getData("onlyoffice");
-                event.dataTransfer.dropEffect = data ? 'move' : 'none';
+                event.dataTransfer.dropEffect = (!this.isEditFormula && data) ? 'move' : 'none';
             }, this));
             addEvent(this.$bar[0], 'dragover', _.bind(function (event) {
                 if (event.preventDefault) {
                     event.preventDefault(); // Necessary. Allows us to drop.
                 }
-                event.dataTransfer.dropEffect = 'move';
-                this.tabs[this.tabs.length - 1].$el.addClass('mousemove right');
+                event.dataTransfer.dropEffect = !this.isEditFormula ? 'move' : 'none';
+                !this.isEditFormula && this.tabs[this.tabs.length - 1].$el.addClass('mousemove right');
                 return false;
             }, this));
             addEvent(this.$bar[0], 'dragleave', _.bind(function (event) {

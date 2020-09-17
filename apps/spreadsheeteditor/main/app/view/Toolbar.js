@@ -96,7 +96,8 @@ define([
         noSlicerSource: 'no-slicer-source',
         selSlicer: 'sel-slicer',
         cantSort: 'cant-sort',
-        pivotLock: 'pivot-lock'
+        pivotLock: 'pivot-lock',
+        tableHasSlicer: 'table-has-slicer'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({

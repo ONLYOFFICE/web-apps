@@ -108,7 +108,7 @@ define([
             }).on ('changing', function (input, value) {
                 if (value.length) {
                     value = value.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
-                    me.filter = new RegExp(value, 'ig');
+                    me.filter = value.toLowerCase();
                 } else {
                     me.filter = undefined;
                 }
@@ -159,7 +159,7 @@ define([
         hide: function () {
             var val = this.cmbFuncGroup.getValue();
             (val=='Recommended') && (val = 'Last10');
-            if (this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
+            if (this.cmbFuncGroup.store.length>0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
                 this.cmbFuncGroup.store.shift();
                 this.cmbFuncGroup.onResetItems();
             }
@@ -321,13 +321,23 @@ define([
             }
 
             var me = this,
+                filter_reg = new RegExp(me.filter, 'ig'),
                 arr = this.allFunctions.filter(function(item) {
-                return !!item.get('name').match(me.filter);
+                return !!item.get('name').match(filter_reg);
             });
-            if (arr.length>0 && this.cmbFuncGroup.store.at(0).get('value')!='Recommended') {
-                this.cmbFuncGroup.store.unshift({value: 'Recommended', displayValue: this.txtRecommended});
-                this.cmbFuncGroup.onResetItems();
-            } else if (arr.length==0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
+            if (arr.length>0) {
+                if (this.cmbFuncGroup.store.at(0).get('value')!='Recommended') {
+                    this.cmbFuncGroup.store.unshift({value: 'Recommended', displayValue: this.txtRecommended});
+                    this.cmbFuncGroup.onResetItems();
+                }
+                var idx = _.findIndex(arr, function(item) {
+                    return (item.get('name').toLowerCase()===me.filter);
+                });
+                if (idx>0) {
+                    var removed = arr.splice(idx, 1);
+                    arr.unshift(removed[0]);
+                }
+            } else if (arr.length==0 && this.cmbFuncGroup.store.length>0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
                 this.cmbFuncGroup.store.shift();
                 this.cmbFuncGroup.onResetItems();
             }

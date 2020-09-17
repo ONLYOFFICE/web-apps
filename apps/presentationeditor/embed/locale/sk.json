@@ -1,5 +1,6 @@
 {
   "common.view.modals.txtCopy": "Skopírovať do schránky",
+  "common.view.modals.txtEmbed": "Vložiť",
   "common.view.modals.txtHeight": "Výška",
   "common.view.modals.txtShare": "Zdieľať odkaz",
   "common.view.modals.txtWidth": "Šírka",
@@ -23,6 +24,7 @@
   "PE.ApplicationController.unsupportedBrowserErrorText": "Váš prehliadač nie je podporovaný.",
   "PE.ApplicationController.waitText": "Prosím čakajte...",
   "PE.ApplicationView.txtDownload": "Stiahnuť",
+  "PE.ApplicationView.txtEmbed": "Vložiť",
   "PE.ApplicationView.txtFullScreen": "Celá obrazovka",
   "PE.ApplicationView.txtShare": "Zdieľať"
 }

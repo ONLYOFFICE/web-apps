@@ -790,7 +790,7 @@ define([
             this.type = options.type;
 
             _.extend(_options,  {
-                width           : 215,
+                width           : 250,
                 height          : 215,
                 contentWidth    : 180,
                 header          : true,
@@ -805,9 +805,9 @@ define([
                     '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
                         '<div id="id-sort-filter-radio-asc" style="margin-bottom: 4px;"></div>',
-                        '<div id="id-sort-filter-fields-asc" class="input-group-nr" style="width:150px;margin-bottom: 10px;margin-left: 22px;"></div>',
+                        '<div id="id-sort-filter-fields-asc" class="input-group-nr" style="margin-bottom: 10px;margin-left: 22px;"></div>',
                         '<div id="id-sort-filter-radio-desc" style="margin-bottom: 4px;"></div>',
-                        '<div id="id-sort-filter-fields-desc" class="input-group-nr" style="width:150px;margin-left: 22px;"></div>',
+                        '<div id="id-sort-filter-fields-desc" class="input-group-nr" style="margin-left: 22px;"></div>',
                     '</div>',
                     '</div>',
                     '<div class="separator horizontal" style="width:100%"></div>'

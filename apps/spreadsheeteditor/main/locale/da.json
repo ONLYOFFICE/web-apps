@@ -2651,6 +2651,8 @@
   "SSE.Views.Toolbar.txtTime": "Tid",
   "SSE.Views.Toolbar.txtUnmerge": "Adskil celler",
   "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Toolbar.capBtnPrintTitles": "Print Titler",
+  "SSE.Views.Toolbar.tipPrintTitles": "Print titler",
   "SSE.Views.Top10FilterDialog.textType": "Vis",
   "SSE.Views.Top10FilterDialog.txtBottom": "Bund",
   "SSE.Views.Top10FilterDialog.txtItems": "Element",
