@@ -1553,6 +1553,8 @@ define([
                 me.fireEvent('file:open');
                 me.setTab(tab);
             }
+            if ( me.isTabActive('home'))
+                me.fireEvent('home:open');
         },
 
         rendererComponents: function(html) {
