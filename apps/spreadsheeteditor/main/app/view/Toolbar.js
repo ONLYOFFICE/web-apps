@@ -1553,6 +1553,13 @@ define([
                 me.fireEvent('file:open');
                 me.setTab(tab);
             }
+            if ( me.isTabActive('home'))
+                me.fireEvent('home:open');
+
+            if ( me.isTabActive('pivot')) {
+                var pivottab = SSE.getController('PivotTable');
+                pivottab && pivottab.getView('PivotTable').fireEvent('pivot:open');
+            }
         },
 
         rendererComponents: function(html) {

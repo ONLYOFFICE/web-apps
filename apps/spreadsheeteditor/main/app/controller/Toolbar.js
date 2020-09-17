@@ -80,7 +80,8 @@ define([
                     'add:chart'     : this.onSelectChart,
                     'insert:textart': this.onInsertTextart,
                     'change:scalespn': this.onClickChangeScaleInMenu.bind(me),
-                    'click:customscale': this.onScaleClick.bind(me)
+                    'click:customscale': this.onScaleClick.bind(me),
+                    'home:open'         : this.onHomeOpen
                 },
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
@@ -1771,6 +1772,15 @@ define([
                 rec ? listStyles.selectRecord(rec) : listStyles.selectByIndex(0);
             }
             window.styles_loaded = true;
+        },
+
+        onHomeOpen: function() {
+            var listStyles = this.toolbar.listStyles;
+            if (listStyles && listStyles.needFillComboView &&  listStyles.menuPicker.store.length > 0 && listStyles.rendered){
+                var styleRec;
+                if (this._state.prstyle) styleRec = listStyles.menuPicker.store.findWhere({name: this._state.prstyle});
+                listStyles.fillComboView((styleRec) ? styleRec : listStyles.menuPicker.store.at(0), true);
+            }
         },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {

@@ -65,7 +65,8 @@ define([
                     'pivottable:layout':        _.bind(this.onPivotLayout, this),
                     'pivottable:blankrows':     _.bind(this.onPivotBlankRows, this),
                     'pivottable:subtotals':     _.bind(this.onPivotSubtotals, this),
-                    'pivottable:grandtotals':   _.bind(this.onPivotGrandTotals, this)
+                    'pivottable:grandtotals':   _.bind(this.onPivotGrandTotals, this),
+                    'pivot:open':               _.bind(this.onPivotOpen, this)
                 },
                 'TableSettings': {
                     'pivottable:create':        _.bind(this.onCreateClick, this)
@@ -332,9 +333,9 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.getSelectedRec(),true, true);
+                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.getSelectedRec(),true);
                         else
-                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.store.at(0), true, true);
+                            view.pivotStyles.fillComboView(view.pivotStyles.menuPicker.store.at(0), true);
                     }
                     this._state.TemplateName=value;
                 }
@@ -363,6 +364,7 @@ define([
                     data[index].model.set('imageUrl', img, {silent: true});
                     $(data[index].el).find('img').attr('src', img);
                 });
+                styles.fieldPicker.store.reset(styles.fieldPicker.store.models);
             } else {
                 styles.menuPicker.store.reset([]);
                 var arr = [];
@@ -379,6 +381,15 @@ define([
                     });
                 });
                 styles.menuPicker.store.add(arr);
+            }
+        },
+
+        onPivotOpen: function() {
+            var styles = this.view.pivotStyles;
+            if (styles && styles.needFillComboView &&  styles.menuPicker.store.length > 0 && styles.rendered){
+                var styleRec;
+                if (this._state.TemplateName) styleRec = styles.menuPicker.store.findWhere({name: this._state.TemplateName});
+                styles.fillComboView((styleRec) ? styleRec : styles.menuPicker.store.at(0), true);
             }
         },
 
