@@ -235,8 +235,8 @@ define([
             }
         },
 
-        onLockNamedSheetViewManager: function(state) {
-            this._state.viewlocked = state;
+        onLockNamedSheetViewManager: function(index, state) {
+            // this._state.viewlocked = state;
         },
 
         errorEditView: 'The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.'

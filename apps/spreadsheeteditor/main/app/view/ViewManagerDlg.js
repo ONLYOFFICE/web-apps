@@ -169,8 +169,8 @@ define([
             this.refreshList(this.api.asc_getNamedSheetViews(), this.currentView);
         },
 
-        onLockNamedSheetViewManager: function(state) {
-            this.locked = state;
+        onLockNamedSheetViewManager: function(index, state) {
+            // this.locked = state;
         },
 
         refreshList: function(views, selectedItem) {
