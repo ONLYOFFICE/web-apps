@@ -1,6 +1,6 @@
 
 import HomePage from '../pages/home.jsx';
-import DocumentSettings from "../components/settings/document-settings/DocumentSettings.jsx";
+import { DocumentSettings } from "../controllers/Settings";
 import Margins from "../components/settings/document-settings/Margins.jsx";
 import DocumentFormats from "../components/settings/document-settings/DocumentFormats.jsx";
 
@@ -18,7 +18,7 @@ var routes = [
   },
   {
     path: '/document-settings/',
-    component: DocumentSettings,
+    component: DocumentSettings
   },
   {
     path: '/users/',

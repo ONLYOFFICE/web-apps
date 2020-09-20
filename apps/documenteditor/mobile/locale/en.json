@@ -1,17 +1,23 @@
 {
-      "ViewSettings": {
-        "textSettings": "Settings",
-        "textDone": "Done",
-        "textFindAndReplace": "Find and Replace",
-        "textDocumentSettings": "Document Settings",
-        "textApplicationSettings": "Application Settings",
-        "textDownload": "Download",
-        "textPrint": "Print",
-        "textDocumentInfo": "Document Info",
-        "textHelp": "Help",
-        "textAbout": "About"
-      },
-    "Collaboration": {
-      "textEditUser": "Users who are editing the file:"
-    }
+  "ViewSettings": {
+    "textSettings": "Settings",
+    "textDone": "Done",
+    "textFindAndReplace": "Find and Replace",
+    "textDocumentSettings": "Document Settings",
+    "textApplicationSettings": "Application Settings",
+    "textDownload": "Download",
+    "textPrint": "Print",
+    "textDocumentInfo": "Document Info",
+    "textHelp": "Help",
+    "textAbout": "About",
+    "textOrientation": "Orientation",
+    "textPortrait": "Portrait",
+    "textLandscape": "Landscape",
+    "textFormat": "Format",
+    "textMargins": "Margins",
+    "textBack": "Back"
+  },
+  "Collaboration": {
+    "textEditUser": "Users who are editing the file:"
+  }
 }

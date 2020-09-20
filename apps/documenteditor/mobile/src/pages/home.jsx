@@ -19,9 +19,9 @@ import {
   Icon, Popup
 } from 'framework7-react';
 
-import EditPopup from '../components/edit/Edit.jsx';
-import SettingsPopup from '../components/settings/Settings.jsx';
-import { CollaborationPopover, CollaborationSheet } from '../../../../common/mobile/lib/view/Collaboration.jsx'
+import EditPopup from '../components/edit/Edit';
+import SettingsPopup from '../components/settings/Settings';
+import { CollaborationPopover, CollaborationSheet } from '../../../../common/mobile/lib/view/Collaboration.jsx';
 
 export default class Home extends Component {
   constructor(props) {

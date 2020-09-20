@@ -1,17 +1,7 @@
-import React, {Component} from 'react';
-import {
-    View,
-    Page,
-    Navbar,
-    NavRight,
-    Link,
-    Popup,
-    Icon,
-    ListItem,
-    List
-} from 'framework7-react';
-
+import React, { Component } from 'react';
+import { View, Page, Navbar, NavRight, Link, Popup, Icon, ListItem, List } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
+import {changePageOrient} from "../../store/actions/actions";
 
 class Settings extends Component {
     constructor(props) {

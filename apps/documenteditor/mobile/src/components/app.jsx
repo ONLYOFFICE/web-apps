@@ -1,36 +1,19 @@
 import React from 'react';
-
-import {
-  App,
-  Panel,
-  Views,
-  View,
-  Popup,
-  Page,
-  Navbar,
-  Toolbar,
-  NavRight,
-  Link,
-  Block,
-  BlockTitle,
-  LoginScreen,
-  LoginScreenTitle,
-  List,
-  ListItem,
-  ListInput,
-  ListButton,
-  BlockFooter
-} from 'framework7-react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { App, Panel, View, Popup, Page, Navbar, NavRight, Link, Block, BlockTitle, List, ListItem } from 'framework7-react';
 
 import i18n from '../js/i18n';
 import routes from '../js/routes';
+
+import { initApi } from '../store/actions/actions';
 
 import '../../../../common/Gateway.js';
 import '../../../../common/main/lib/util/utils.js';
 import { CollaborationController } from '../../../../common/mobile/lib/controller/Collaboration.jsx';
 import Notifications from '../../../../common/mobile/utils/notifications.js'
 
-export default class extends React.Component {
+class ComponentApp extends React.Component {
   constructor() {
     super();
 
@@ -251,6 +234,8 @@ export default class extends React.Component {
                   Common.Gateway.appReady();
 
                   Common.Notifications.trigger('engineCreated', this.api);
+                  const { initApi } = this.props;
+                  initApi(this.api);
               }, error => {
                   console.log('promise failed ' + error);
               });
@@ -263,3 +248,9 @@ export default class extends React.Component {
       document.body.appendChild(script);
   }
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    initApi
+}, dispatch);
+
+export default connect(undefined, mapDispatchToProps)(ComponentApp);
