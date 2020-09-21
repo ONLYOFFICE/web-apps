@@ -69,7 +69,6 @@ define([
                 this.api.asc_registerCallback('asc_onWorksheetLocked',      _.bind(this.onWorksheetLocked, this));
                 this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
                 this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
-                this.api.asc_registerCallback('asc_onLockNamedSheetViewManager', this.onLockNamedSheetViewManager.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
             }
@@ -99,7 +98,6 @@ define([
                 }
             });
             Common.NotificationCenter.on('layout:changed', _.bind(this.onLayoutChanged, this));
-            Common.NotificationCenter.on('sheetview:locked', _.bind(this.onSheetViewLocked, this));
         },
 
         SetDisabled: function(state) {
@@ -168,10 +166,6 @@ define([
         },
 
         onCreateView: function(item) {
-            if (this._state.viewlocked) {
-                Common.NotificationCenter.trigger('sheetview:locked');
-                return;
-            }
             this.api && this.api.asc_addNamedSheetView(null, true);
         },
 
@@ -179,7 +173,6 @@ define([
             var me = this;
             (new SSE.Views.ViewManagerDlg({
                 api: this.api,
-                locked: this._state.viewlocked,
                 handler: function(result, value) {
                     if (result == 'ok' && value) {
                         if (me.api) {
@@ -220,26 +213,6 @@ define([
         onApiZoomChange: function(zf, type){
             var value = Math.floor((zf + .005) * 100);
             this.view.cmbZoom.setValue(value, value + '%');
-        },
-
-        onSheetViewLocked: function() {
-            var me = this;
-            if ($('.asc-window.modal.alert:visible').length < 1) {
-                Common.UI.warning({
-                    msg: this.errorEditView,
-                    maxwidth: 500,
-                    callback: _.bind(function(btn){
-                        Common.NotificationCenter.trigger('edit:complete', me.view);
-                    }, this)
-                });
-            }
-        },
-
-        onLockNamedSheetViewManager: function(index, state) {
-            // this._state.viewlocked = state;
-        },
-
-        errorEditView: 'The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.'
-
+        }
     }, SSE.Controllers.ViewTab || {}));
 });

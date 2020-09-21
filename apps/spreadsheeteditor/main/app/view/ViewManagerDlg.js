@@ -97,13 +97,11 @@ define([
 
             this.api       = options.api;
             this.views     = options.views || [];
-            this.locked    = options.locked || false;
             this.userTooltip = true;
             this.currentView = undefined;
 
             this.wrapEvents = {
-                onRefreshNamedSheetViewList: _.bind(this.onRefreshNamedSheetViewList, this),
-                onLockNamedSheetViewManager: _.bind(this.onLockNamedSheetViewManager, this)
+                onRefreshNamedSheetViewList: _.bind(this.onRefreshNamedSheetViewList, this)
             };
             
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
@@ -162,15 +160,10 @@ define([
         _setDefaults: function (props) {
             this.refreshList(this.views, 0);
             this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', this.wrapEvents.onRefreshNamedSheetViewList);
-            this.api.asc_registerCallback('asc_onLockNamedSheetViewManager', this.wrapEvents.onLockNamedSheetViewManager);
         },
 
         onRefreshNamedSheetViewList: function() {
             this.refreshList(this.api.asc_getNamedSheetViews(), this.currentView);
-        },
-
-        onLockNamedSheetViewManager: function(index, state) {
-            // this.locked = state;
         },
 
         refreshList: function(views, selectedItem) {
@@ -242,10 +235,6 @@ define([
         },
 
         onNew: function (duplicate) {
-            if (this.locked) {
-                Common.NotificationCenter.trigger('sheetview:locked');
-                return;
-            }
             var rec = duplicate ? this.viewList.getSelectedRec().get('view') : undefined;
             this.currentView = this.viewList.store.length;
             this.api.asc_addNamedSheetView(rec);
@@ -263,27 +252,17 @@ define([
                         primary: 'yes',
                         callback: function(btn) {
                             if (btn == 'yes') {
-                                res = me.api.asc_deleteNamedSheetViews([rec.get('view')]);
-                                if (res) {// error when deleting
-                                    Common.UI.warning({msg: me.errorDeleteView.replace('%1', rec.get('name')), maxwidth: 500});
-                                }
+                                me.api.asc_deleteNamedSheetViews([rec.get('view')]);
                             }
                         }
                     });
                 } else {
-                    res = this.api.asc_deleteNamedSheetViews([rec.get('view')]);
-                    if (res) {// error when deleting
-                        Common.UI.warning({msg: this.errorDeleteView.replace('%1', rec.get('name')), maxwidth: 500});
-                    }
+                    this.api.asc_deleteNamedSheetViews([rec.get('view')]);
                 }
             }
         },
 
         onRename: function () {
-            if (this.locked) {
-                Common.NotificationCenter.trigger('sheetview:locked');
-                return;
-            }
             var rec = this.viewList.getSelectedRec();
             if (rec) {
                 var me = this;
@@ -310,7 +289,7 @@ define([
             if (usersStore){
                 var rec = usersStore.findUser(id);
                 if (rec)
-                    return rec.get('username');
+                    return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
             }
             return this.guestText;
         },
@@ -335,7 +314,6 @@ define([
         close: function () {
             this.userTipHide();
             this.api.asc_unregisterCallback('asc_onRefreshNamedSheetViewList', this.wrapEvents.onRefreshNamedSheetViewList);
-            this.api.asc_unregisterCallback('asc_onLockNamedSheetViewManager', this.wrapEvents.onLockNamedSheetViewManager);
 
             Common.Views.AdvancedSettingsWindow.prototype.close.call(this);
         },
@@ -362,8 +340,7 @@ define([
         tipIsLocked: 'This element is being edited by another user.',
         textRenameLabel: 'Rename view',
         textRenameError: 'View name must not be empty.',
-        warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?",
-        errorDeleteView: "You cannot delete view '%1' because it is currently being used by other users."
+        warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?"
 
     }, SSE.Views.ViewManagerDlg || {}));
 });
