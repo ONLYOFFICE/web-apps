@@ -1657,43 +1657,8 @@ define([
             }
         },
 
-        advancedFrameClick: function(item, e, eOpt){
-            var win, me = this;
-            if (me.api){
-                var selectedElements = me.api.getSelectedElements();
-                if (selectedElements && _.isArray(selectedElements)){
-                    for (var i = selectedElements.length - 1; i >= 0; i--) {
-                        var elType, elValue;
-                        elType = selectedElements[i].get_ObjectType();
-                        elValue = selectedElements[i].get_ObjectValue(); // заменить на свойства рамки
-                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                            win = new DE.Views.DropcapSettingsAdvanced({
-                                tableStylerRows     : 2,
-                                tableStylerColumns  : 1,
-                                paragraphProps      : elValue,
-                                borderProps         : me.borderAdvancedProps,
-                                api                 : me.api,
-                                isFrame             : true,
-                                handler: function(result, value) {
-                                    if (result == 'ok') {
-                                        me.borderAdvancedProps = value.borderProps;
-                                        if (value.paragraphProps && value.paragraphProps.get_Wrap() === c_oAscFrameWrap.None) {
-                                            me.api.removeDropcap(false);
-                                        } else
-                                            me.api.put_FramePr(value.paragraphProps);
-                                    }
-                                    me.fireEvent('editcomplete', me);
-                                }
-                            });
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (win) {
-                win.show();
-            }
+        advancedFrameClick: function(isFrame, item, e, eOpt){
+            Common.NotificationCenter.trigger('dropcap:settings', isFrame);
         },
 
         advancedTableClick: function(item, e, eOpt){
@@ -3551,7 +3516,12 @@ define([
 
             var menuFrameAdvanced = new Common.UI.MenuItem({
                 caption     : me.advancedFrameText
-            }).on('click', _.bind(me.advancedFrameClick, me));
+            }).on('click', _.bind(me.advancedFrameClick, me, true));
+
+            var menuDropCapAdvanced = new Common.UI.MenuItem({
+                iconCls: 'menu__icon dropcap-intext',
+                caption     : me.advancedDropCapText
+            }).on('click', _.bind(me.advancedFrameClick, me, false));
 
             /** coauthoring begin **/
             var menuCommentSeparatorPara = new Common.UI.MenuItem({
@@ -3871,6 +3841,7 @@ define([
                     menuParagraphKeepLines.setDisabled(disabled);
                     menuParagraphAdvanced.setDisabled(disabled);
                     menuFrameAdvanced.setDisabled(disabled);
+                    menuDropCapAdvanced.setDisabled(disabled);
                     menuParagraphVAlign.setDisabled(disabled);
                     menuParagraphDirection.setDisabled(disabled);
 
@@ -3914,7 +3885,11 @@ define([
                     menuEquationInsertCaption.setVisible(isEquation);
                     menuEquationInsertCaptionSeparator.setVisible(isEquation);
 
-                    menuFrameAdvanced.setVisible(value.paraProps.value.get_FramePr() !== undefined);
+                    var frame_pr = value.paraProps.value.get_FramePr();
+                    menuFrameAdvanced.setVisible(frame_pr !== undefined);
+                    menuDropCapAdvanced.setVisible(frame_pr !== undefined);
+                    if (frame_pr)
+                        menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon dropcap-intext' : 'menu__icon dropcap-inmargin');
 
                     menuStyleSeparator.setVisible(me.mode.canEditStyles && !isInChart);
                     menuStyle.setVisible(me.mode.canEditStyles && !isInChart);
@@ -4009,6 +3984,7 @@ define([
                     menuParagraphDirection,
                     menuParagraphAdvanced,
                     menuFrameAdvanced,
+                    menuDropCapAdvanced,
                 /** coauthoring begin **/
                     menuCommentSeparatorPara,
                     menuAddCommentPara,
@@ -4569,7 +4545,8 @@ define([
         textSeveral: 'Several Rows/Columns',
         txtInsertCaption: 'Insert Caption',
         txtEmpty: '(Empty)',
-        textFromStorage: 'From Storage'
+        textFromStorage: 'From Storage',
+        advancedDropCapText: 'Drop Cap Settings'
 
     }, DE.Views.DocumentHolder || {}));
 });

@@ -1234,6 +1234,7 @@
   "DE.Views.DateTimeDialog.txtTitle": "Date & Time",
   "DE.Views.DocumentHolder.aboveText": "Above",
   "DE.Views.DocumentHolder.addCommentText": "Add Comment",
+  "DE.Views.DocumentHolder.advancedDropCapText": "Drop Cap Settings",
   "DE.Views.DocumentHolder.advancedFrameText": "Frame Advanced Settings",
   "DE.Views.DocumentHolder.advancedParagraphText": "Paragraph Advanced Settings",
   "DE.Views.DocumentHolder.advancedTableText": "Table Advanced Settings",

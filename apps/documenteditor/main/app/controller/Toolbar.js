@@ -310,7 +310,7 @@ define([
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
             toolbar.btnDropCap.menu.on('item:click',                    _.bind(this.onDropCapSelect, this));
             toolbar.btnContentControls.menu.on('item:click',            _.bind(this.onControlsSelect, this));
-            toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this));
+            toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this, false));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
@@ -394,6 +394,7 @@ define([
                 this.api.asc_registerCallback('asc_onTableEraseModeChanged', _.bind(this.onTableErase, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this));
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
+                Common.NotificationCenter.on('dropcap:settings', _.bind(this.onDropCapAdvancedClick, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -1742,11 +1743,11 @@ define([
             this._state.dropcap = v;
         },
 
-        onDropCapAdvancedClick: function() {
+        onDropCapAdvancedClick: function(isFrame) {
             var win, props, text,
                 me = this;
 
-            if (_.isUndefined(me.fontstore)) {
+            if (!isFrame && _.isUndefined(me.fontstore)) {
                 me.fontstore = new Common.Collections.Fonts();
                 var fonts = me.toolbar.cmbFontName.store.toJSON();
                 var arr = [];
@@ -1776,16 +1777,18 @@ define([
                     (new DE.Views.DropcapSettingsAdvanced({
                         tableStylerRows: 2,
                         tableStylerColumns: 1,
-                        fontStore: me.fontstore,
+                        fontStore: !isFrame ? me.fontstore : null,
                         paragraphProps: props,
                         borderProps: me.borderAdvancedProps,
                         api: me.api,
-                        isFrame: false,
+                        isFrame: !!isFrame,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 me.borderAdvancedProps = value.borderProps;
-                                if (value.paragraphProps && value.paragraphProps.get_DropCap() === Asc.c_oAscDropCap.None) {
-                                    me.api.removeDropcap(true);
+                                if (value.paragraphProps &&
+                                    ( !isFrame && value.paragraphProps.get_DropCap() === Asc.c_oAscDropCap.None ||
+                                      isFrame && value.paragraphProps.get_Wrap() === c_oAscFrameWrap.None)) {
+                                    me.api.removeDropcap(!isFrame);
                                 } else
                                     me.api.put_FramePr(value.paragraphProps);
                             }
