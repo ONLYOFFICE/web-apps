@@ -47,7 +47,8 @@ define([
     'documenteditor/main/app/view/TableOfContentsSettings',
     'documenteditor/main/app/view/BookmarksDialog',
     'documenteditor/main/app/view/CaptionDialog',
-    'documenteditor/main/app/view/NotesRemoveDialog'
+    'documenteditor/main/app/view/NotesRemoveDialog',
+    'documenteditor/main/app/view/CrossReferenceDialog'
 ], function () {
     'use strict';
 
@@ -69,7 +70,8 @@ define([
                     'links:notes': this.onNotesClick,
                     'links:hyperlink': this.onHyperlinkClick,
                     'links:bookmarks': this.onBookmarksClick,
-                    'links:caption': this.onCaptionClick
+                    'links:caption': this.onCaptionClick,
+                    'links:crossref': this.onCrossRefClick
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -171,6 +173,9 @@ define([
 
             need_disable = in_header;
             this.view.btnCaption.setDisabled(need_disable);
+
+            need_disable = paragraph_locked || header_locked || in_image;
+            this.view.btnCrossRef.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -443,6 +448,18 @@ define([
 
         onShowContentControlsActions: function(obj, x, y) {
             (obj.type == Asc.c_oAscContentControlSpecificType.TOC) && this.onShowTOCActions(obj, x, y);
+        },
+
+        onCrossRefClick: function(btn) {
+            var me = this;
+            (new DE.Views.CrossReferenceDialog({
+                api: me.api,
+                handler: function (result, settings) {
+                    if (result == 'ok') {
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         }
 
     }, DE.Controllers.Links || {}));
