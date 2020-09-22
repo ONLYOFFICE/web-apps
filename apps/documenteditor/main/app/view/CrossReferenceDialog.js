@@ -160,7 +160,7 @@ define([
                 labelText: this.textSeparate
             }).on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var checked = field.getValue() === 'checked';
-                this.inputSeparator.setDisabled(checked);
+                this.inputSeparator.setDisabled(!checked);
             }, this));
 
             this.inputSeparator = new Common.UI.InputField({
