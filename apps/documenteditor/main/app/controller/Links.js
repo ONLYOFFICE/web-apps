@@ -174,7 +174,7 @@ define([
             need_disable = in_header;
             this.view.btnCaption.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_image;
+            need_disable = paragraph_locked || header_locked;
             this.view.btnCrossRef.setDisabled(need_disable);
         },
 

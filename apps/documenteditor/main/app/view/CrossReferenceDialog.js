@@ -89,7 +89,7 @@ define([
                         '<tr>',
                             '<td colspan="2" style="width: 100%;">',
                                 '<label id="id-dlg-cross-which">' + this.textWhich + '</label>',
-                                '<div id="id-dlg-cross-list" class="no-borders" style="width:100%; height:161px;margin-top: 2px; "></div>',
+                                '<div id="id-dlg-cross-list" class="no-borders" style="width:368px; height:161px;margin-top: 2px; "></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -150,15 +150,7 @@ define([
                 cls         : 'input-group-nr',
                 data        : []
             });
-            this.cmbReference.on('selected', _.bind(function (combo, record) {
-                if (this._changedProps) {
-                    if (!this._changedProps.get_TextPr()) this._changedProps.put_TextPr(new AscCommonWord.CTextPr());
-                    this._changedProps.get_TextPr().put_FontSize((record.value>0) ? record.value : undefined);
-                }
-                if (this.api) {
-                    this.api.SetDrawImagePreviewBullet('bulleted-list-preview', this.props, this.level, this.type==2);
-                }
-            }, this));
+            this.cmbReference.on('selected', _.bind(this.onReferenceSelected, this));
 
             this.chInsertAs = new Common.UI.CheckBox({
                 el: $window.find('#id-dlg-cross-insert-as'),
@@ -187,11 +179,16 @@ define([
 
             this.refList = new Common.UI.ListView({
                 el: $window.find('#id-dlg-cross-list'),
-                store: new Common.UI.DataViewStore()
+                store: new Common.UI.DataViewStore(),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;white-space: nowrap;"><%= value %></div>')
             });
-            this.refList.on('item:select', _.bind(this.onSelectReference, this));
 
             this.lblWhich = $window.find('#id-dlg-cross-which');
+
+            this.btnInsert = new Common.UI.Button({
+                el: $window.find('.primary'),
+                disabled: true
+            });
 
             this.afterRender();
         },
@@ -205,6 +202,7 @@ define([
                 this.options.handler.call(this, state, {});
             }
             if (state=='ok') {
+                this.insertReference();
                 return;
             }
             this.close();
@@ -226,13 +224,41 @@ define([
             }
         },
 
-        onSelectReference: function(listView, itemView, record) {
-            // record.get('value');
+        insertReference: function() {
+            var record = this.refList.getSelectedRec(),
+                typeRec = this.cmbType.getSelectedRecord(),
+                type = (typeRec.type==1 || typeRec.value>4) ? 5 : typeRec.value,
+                reftype = this.cmbReference.getValue(),
+                link = this.chInsertAs.getValue()=='checked',
+                below = this.chBelowAbove.getValue()=='checked',
+                separator = (this.chSeparator.getValue()=='checked') ? this.inputSeparator.getValue() : undefined;
+
+            switch (type) {
+                case 0: // paragraph
+                case 1: // heading
+                    this.api.asc_AddCrossRefToParagraph(record.get('para'), reftype, link, below, separator);
+                    break;
+                case 2: // bookmark
+                    this.api.asc_AddCrossRefToBookmark(record.get('value'), reftype, link, below, separator);
+                    break;
+                case 3: // footnote
+                case 4: // endnote
+                    this.api.asc_AddCrossRefToNote(record.get('para'), reftype, link, below);
+                    break;
+                case 5: // caption
+                    if (reftype==Asc.c_oAscDocumentRefenceToType.OnlyCaptionText && record.get('para').asc_canAddRefToCaptionText()===false) {
+                        Common.UI.warning({
+                            msg  : this.textEmpty
+                        });
+                    } else
+                        this.api.asc_AddCrossRefToCaption(record.get('value'), record.get('para'), reftype, link, below);
+                    break;
+            }
         },
 
         onTypeSelected: function (combo, record) {
             var arr = [],
-                str = this.textWhich;
+                str = this.textWhich, type = 5;
             if (record.type==1 || record.value > 4) {
                 // custom labels from caption dialog and Equation, Figure, Table
                 arr = [
@@ -243,6 +269,7 @@ define([
                     { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
                 ];
             } else {
+                type = record.value;
                 switch (record.value) {
                     case 0: // paragraph
                         arr = [
@@ -300,6 +327,58 @@ define([
             this.cmbReference.setData(arr);
             this.cmbReference.setValue(arr[0].value);
             this.lblWhich.text(str);
+            this.refreshReferences(type);
+        },
+
+        refreshReferences: function(type) {
+            var store = this.refList.store,
+                arr = [],
+                props;
+            switch (type) {
+                case 0: // paragraph
+                    props = this.api.asc_GetAllNumberedParagraphs();
+                    break;
+                case 1: // heading
+                    props = this.api.asc_GetAllHeadingParagraphs();
+                    break;
+                case 2: // bookmark
+                    props = this.api.asc_GetBookmarksManager();
+                    break;
+                case 3: // footnote
+                    props = this.api.asc_GetAllFootNoteParagraphs();
+                    break;
+                case 4: // endnote
+                    props = this.api.asc_GetAllEndNoteParagraphs();
+                    break;
+                case 5: // caption
+                    props = this.api.asc_GetAllCaptionParagraphs(this.cmbType.getSelectedRecord().displayValue);
+                    break;
+            }
+            if (type==2) { // bookmark
+                var count = props.asc_GetCount();
+                for (var i=0; i<count; i++) {
+                    var name = props.asc_GetName(i);
+                    if (!props.asc_IsInternalUseBookmark(name)) {
+                        arr.push({value: name});
+                    }
+                }
+            } else {
+                for (var i=0; i<props.length; i++) {
+                    arr.push({value: props[i].asc_getText(), para: props[i]});
+                }
+            }
+
+            store.reset(arr);
+            if (store.length>0) {
+                var rec = store.at(0);
+                this.refList.selectRecord(rec);
+                this.refList.scrollToRecord(rec);
+            }
+            this.btnInsert.setDisabled(arr.length<1);
+        },
+
+        onReferenceSelected: function(combo, record) {
+
         },
 
         txtTitle: 'Cross-reference',
@@ -340,7 +419,8 @@ define([
         textWhichBookmark: 'For which bookmark',
         textWhichNote: 'For which footnote',
         textWhichEndnote: 'For which endnote',
-        textWhichPara: 'For which numbered item'
+        textWhichPara: 'For which numbered item',
+        textEmpty: 'The request reference is empty.'
 
     }, DE.Views.CrossReferenceDialog || {}))
 });
