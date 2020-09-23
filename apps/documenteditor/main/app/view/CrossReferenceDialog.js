@@ -154,7 +154,8 @@ define([
 
             this.chInsertAs = new Common.UI.CheckBox({
                 el: $window.find('#id-dlg-cross-insert-as'),
-                labelText: this.textInsertAs
+                labelText: this.textInsertAs,
+                value: true
             });
 
             this.chBelowAbove = new Common.UI.CheckBox({
@@ -180,7 +181,7 @@ define([
             this.refList = new Common.UI.ListView({
                 el: $window.find('#id-dlg-cross-list'),
                 store: new Common.UI.DataViewStore(),
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;white-space: nowrap;"><%= value %></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= value %></div>')
             });
 
             this.lblWhich = $window.find('#id-dlg-cross-which');
@@ -326,6 +327,7 @@ define([
             }
             this.cmbReference.setData(arr);
             this.cmbReference.setValue(arr[0].value);
+            this.onReferenceSelected(this.cmbReference, this.cmbReference.getSelectedRecord());
             this.lblWhich.text(str);
             this.refreshReferences(type);
         },
@@ -358,7 +360,7 @@ define([
                 var count = props.asc_GetCount();
                 for (var i=0; i<count; i++) {
                     var name = props.asc_GetName(i);
-                    if (!props.asc_IsInternalUseBookmark(name)) {
+                    if (!props.asc_IsInternalUseBookmark(name) && !props.asc_IsHiddenBookmark(name)) {
                         arr.push({value: name});
                     }
                 }
@@ -378,7 +380,14 @@ define([
         },
 
         onReferenceSelected: function(combo, record) {
-
+            var refType = record.value,
+                typeRec = this.cmbType.getSelectedRecord(),
+                type = (typeRec.type==1 || typeRec.value>4) ? 5 : typeRec.value;
+            var disable = (type==5 && refType!==Asc.c_oAscDocumentRefenceToType.PageNum) || (type<5) && (refType==Asc.c_oAscDocumentRefenceToType.Text || refType==Asc.c_oAscDocumentRefenceToType.AboveBelow);
+            this.chBelowAbove.setDisabled(disable);
+            disable = !(type==0 || type==2) || (refType!==Asc.c_oAscDocumentRefenceToType.ParaNumFullContex);
+            this.chSeparator.setDisabled(disable);
+            this.inputSeparator.setDisabled(disable || this.chSeparator.getValue()!=='checked');
         },
 
         txtTitle: 'Cross-reference',
@@ -405,7 +414,7 @@ define([
         textCaption: 'Entire caption',
         textLabelNum: 'Only label and number',
         textOnlyCaption: 'Only caption text',
-        textParagraph: 'Paragraph',
+        textParagraph: 'Numbered item',
         textHeading: 'Heading',
         textBookmark: 'Bookmark',
         textFootnote: 'Footnote',
