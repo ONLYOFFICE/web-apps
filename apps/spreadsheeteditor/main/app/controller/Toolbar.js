@@ -3314,6 +3314,7 @@ define([
                     if ( config.canFeaturePivot ) {
                         tab = {action: 'pivot', caption: me.textPivot};
                         var pivottab = me.getApplication().getController('PivotTable');
+                        pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
                         if ($panel) {
                             me.toolbar.addTab(tab, $panel, 5);

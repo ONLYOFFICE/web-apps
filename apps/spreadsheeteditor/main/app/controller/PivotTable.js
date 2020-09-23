@@ -89,12 +89,10 @@ define([
             Common.NotificationCenter.on('api:disconnect', _.bind(this.SetDisabled, this));
         },
 
-        setConfig: function (data, api) {
-            this.view =   this.createView('PivotTable');
-            this.setApi(api);
-            if (data) {
-                this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
-            }
+        setConfig: function (config) {
+            this.view =   this.createView('PivotTable', {
+                toolbar: config.toolbar.toolbar
+            });
         },
 
         setApi: function (api) {
@@ -106,6 +104,7 @@ define([
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
                 Common.NotificationCenter.on('cells:range',                 _.bind(this.onCellsRange, this));
             }
+            return this;
         },
 
         setMode: function(mode) {
@@ -400,7 +399,7 @@ define([
 
             Common.Utils.lockControls(SSE.enumLock.noPivot, !pivotInfo, {array: this.view.lockedControls});
             Common.Utils.lockControls(SSE.enumLock.pivotLock, pivotInfo && (info.asc_getLockedPivotTable()===true), {array: this.view.lockedControls});
-            Common.Utils.lockControls(SSE.enumLock.editPivot, !!pivotInfo, {array: [this.view.btnAddPivot]});
+            Common.Utils.lockControls(SSE.enumLock.editPivot, !!pivotInfo, {array: this.view.btnsAddPivot});
 
             if (pivotInfo)
                 this.ChangeSettings(pivotInfo);
