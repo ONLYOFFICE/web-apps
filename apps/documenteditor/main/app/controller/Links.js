@@ -156,11 +156,14 @@ define([
             this._state.in_object = in_image || in_table || in_equation;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false,
+                lock_type = control_props ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
             var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
                 rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
                 plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
                 plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
+
 
             var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain || rich_edit_lock || plain_edit_lock;
             this.view.btnsNotes.setDisabled(need_disable);
@@ -174,8 +177,9 @@ define([
             need_disable = in_header;
             this.view.btnCaption.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked;
+            need_disable = paragraph_locked || header_locked || control_plain || rich_edit_lock || plain_edit_lock || content_locked;
             this.view.btnCrossRef.setDisabled(need_disable);
+            this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible() && this.dlgCrossRefDialog.setLocked(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -451,15 +455,17 @@ define([
         },
 
         onCrossRefClick: function(btn) {
+            if (this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible()) return;
+
             var me = this;
-            (new DE.Views.CrossReferenceDialog({
+            me.dlgCrossRefDialog = new DE.Views.CrossReferenceDialog({
                 api: me.api,
                 handler: function (result, settings) {
-                    if (result == 'ok') {
-                    }
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    if (result != 'ok')
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
-            })).show();
+            });
+            me.dlgCrossRefDialog.show();
         }
 
     }, DE.Controllers.Links || {}));

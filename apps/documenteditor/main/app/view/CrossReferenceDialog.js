@@ -48,7 +48,8 @@ define([
             width: 400,
             height: 406,
             style: 'min-width: 240px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            modal: false
         },
 
         initialize : function(options) {
@@ -99,6 +100,7 @@ define([
             this.props = options.props;
             this.api = options.api;
             this.options.tpl = _.template(this.template)(this.options);
+            this._locked = false;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -376,7 +378,7 @@ define([
                 this.refList.selectRecord(rec);
                 this.refList.scrollToRecord(rec);
             }
-            this.btnInsert.setDisabled(arr.length<1);
+            this.btnInsert.setDisabled(arr.length<1 || this._locked);
         },
 
         onReferenceSelected: function(combo, record) {
@@ -388,6 +390,11 @@ define([
             disable = !(type==0 || type==2) || (refType!==Asc.c_oAscDocumentRefenceToType.ParaNumFullContex);
             this.chSeparator.setDisabled(disable);
             this.inputSeparator.setDisabled(disable || this.chSeparator.getValue()!=='checked');
+        },
+
+        setLocked: function(locked){
+            this._locked = locked;
+            this.btnInsert.setDisabled(this.refList.store.length<1 || this._locked);
         },
 
         txtTitle: 'Cross-reference',
