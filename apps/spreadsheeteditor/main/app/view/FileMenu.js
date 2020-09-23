@@ -258,10 +258,6 @@ define([
             }
 
             if (!this.mode) return;
-            if ( this.mode.disableEditing != undefined ) {
-                this.panels['opts'].disableEditing(this.mode.disableEditing);
-                delete this.mode.disableEditing;
-            }
 
             this.miDownload[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
             var isBCSupport = window["AscDesktopEditor"] ? window["AscDesktopEditor"]["isBlockchainSupport"]() : false;
@@ -325,6 +321,12 @@ define([
             if (this.mode.canHelp && !this.panels['help']) {
                 this.panels['help'] = ((new SSE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
+            }
+
+            if ( this.mode.disableEditing != undefined ) {
+                this.panels['opts'].disableEditing(this.mode.disableEditing);
+                this.miProtect.setDisabled(this.mode.disableEditing);
+                delete this.mode.disableEditing;
             }
         },
 
@@ -415,11 +417,11 @@ define([
         },
 
         disableEditing: function(disabled) {
-            this.miProtect.setDisabled(disabled);
             if ( !this.panels ) {
                 this.mode.disableEditing = disabled;
             } else {
                 this.panels['opts'].disableEditing(disabled);
+                this.miProtect.setDisabled(disabled);
             }
         },
 

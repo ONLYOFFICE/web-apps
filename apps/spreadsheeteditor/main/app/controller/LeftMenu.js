@@ -195,7 +195,6 @@ define([
             this.leftMenu.btnSpellcheck.setDisabled(disabled);
 
             this.leftMenu.getMenu('file').disableEditing(disabled);
-            this.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
         },
 
         createDelayedElements: function() {
