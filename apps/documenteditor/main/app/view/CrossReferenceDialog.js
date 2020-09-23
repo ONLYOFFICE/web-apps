@@ -46,7 +46,7 @@ define([
     DE.Views.CrossReferenceDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 400,
-            height: 406,
+            height: 407,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             modal: false
