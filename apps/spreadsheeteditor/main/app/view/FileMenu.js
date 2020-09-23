@@ -258,6 +258,10 @@ define([
             }
 
             if (!this.mode) return;
+            if ( this.mode.disableEditing != undefined ) {
+                this.panels['opts'].disableEditing(this.mode.disableEditing);
+                delete this.mode.disableEditing;
+            }
 
             this.miDownload[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
             var isBCSupport = window["AscDesktopEditor"] ? window["AscDesktopEditor"]["isBlockchainSupport"]() : false;
@@ -407,6 +411,15 @@ define([
                 if (type == 'protect') {
                     return this.miProtect;
                 }
+            }
+        },
+
+        disableEditing: function(disabled) {
+            this.miProtect.setDisabled(disabled);
+            if ( !this.panels ) {
+                this.mode.disableEditing = disabled;
+            } else {
+                this.panels['opts'].disableEditing(disabled);
             }
         },
 

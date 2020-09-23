@@ -484,6 +484,10 @@ define([
             }
         },
 
+        disableEditing: function (disabled) {
+            this.header.btnOptions.menu.items[6].setDisabled(disabled);
+        },
+
         textHideFBar: 'Hide Formula Bar',
         textHideHeadings: 'Hide Headings',
         textHideGridlines: 'Hide Gridlines',

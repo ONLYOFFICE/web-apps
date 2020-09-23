@@ -188,6 +188,16 @@ define([
             return this;
         },
 
+        disableEditing: function(disabled) {
+            this.leftMenu.btnComments.setDisabled(disabled);
+            this.leftMenu.btnChat.setDisabled(disabled);
+            this.leftMenu.btnPlugins.setDisabled(disabled);
+            this.leftMenu.btnSpellcheck.setDisabled(disabled);
+
+            this.leftMenu.getMenu('file').disableEditing(disabled);
+            this.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+        },
+
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {

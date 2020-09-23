@@ -261,6 +261,20 @@ define([
             this.spellcheckSettings && this.spellcheckSettings.setApi(api);
         },
 
+        disableEditing: function(disabled) {
+            if ( disabled ) {
+                $(this.viewSettingsPicker.dataViewItems[1].el).hide();
+                $(this.viewSettingsPicker.dataViewItems[2].el).hide();
+            } else {
+                if ( this.mode.canPrint )
+                    $(this.viewSettingsPicker.dataViewItems[1].el).show();
+
+                if ( this.mode.isEdit ) {
+                    $(this.viewSettingsPicker.dataViewItems[2].el).show();
+                }
+            }
+        },
+
         txtGeneral: 'General',
         txtPageSettings: 'Page Settings',
         txtSpellChecking: 'Spell checking'

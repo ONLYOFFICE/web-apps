@@ -860,6 +860,7 @@ define([
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
+                            me.warningDocumentIsLocked();
                         }
                     }, 50);
                 } else {
@@ -2220,13 +2221,16 @@ define([
                     disablefunc: function (disable) {
                         me.disableEditing(disable);
                         var app = me.getApplication();
+                        app.getController('Toolbar').DisableToolbar(disable,disable);
                         app.getController('RightMenu').SetDisabled(disable, true);
                         app.getController('Statusbar').SetDisabled(disable);
                         app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                         app.getController('DocumentHolder').SetDisabled(disable, true);
                         var leftMenu = app.getController('LeftMenu');
-                        leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
                         leftMenu.setPreviewMode(disable);
+                        leftMenu.disableEditing(disable);
+                        app.getController('CellEditor').disableEditing(disable);
+                        app.getController('Viewport').disableEditing(disable);
                         var comments = app.getController('Common.Controllers.Comments');
                         if (comments) comments.setPreviewMode(disable);
                 }});
