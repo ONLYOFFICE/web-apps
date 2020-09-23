@@ -88,7 +88,7 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td colspan="2" style="width: 100%;">',
-                                '<label>' + this.textWhich + '</label>',
+                                '<label id="id-dlg-cross-which">' + this.textWhich + '</label>',
                                 '<div id="id-dlg-cross-list" class="no-borders" style="width:100%; height:161px;margin-top: 2px; "></div>',
                             '</td>',
                         '</tr>',
@@ -110,9 +110,27 @@ define([
                 $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+            var arr = Common.Utils.InternalSettings.get("de-settings-captions");
+            if (arr==null || arr==undefined) {
+                arr = Common.localStorage.getItem("de-settings-captions") || '';
+                Common.Utils.InternalSettings.set("de-settings-captions", arr);
+            }
+            arr = arr ? JSON.parse(arr) : [];
+
+            // 0 - not removable
+            arr = arr.concat([{ value: 5, displayValue: this.textEquation },
+                              { value: 6, displayValue: this.textFigure },
+                              { value: 7, displayValue: this.textTable }
+                             ]);
+            arr.sort(function(a,b){
+                var sa = a.displayValue.toLowerCase(),
+                    sb = b.displayValue.toLowerCase();
+                return sa>sb ? 1 : (sa<sb ? -1 : 0);
+            });
+
             this.cmbType = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-cross-type'),
-                menuStyle   : 'min-width: 100%;',
+                menuStyle   : 'min-width: 100%;max-height: 233px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
@@ -120,17 +138,14 @@ define([
                     { value: 1, displayValue: this.textHeading },
                     { value: 2, displayValue: this.textBookmark },
                     { value: 3, displayValue: this.textFootnote },
-                    { value: 4, displayValue: this.textEndnote },
-                    { value: 5, displayValue: this.textEquation },
-                    { value: 6, displayValue: this.textFigure },
-                    { value: 7, displayValue: this.textTable }
-                ]
+                    { value: 4, displayValue: this.textEndnote }
+                ].concat(arr)
             });
             this.cmbType.on('selected', _.bind(this.onTypeSelected, this));
 
             this.cmbReference = new Common.UI.ComboBox({
                 el          : $window.find('#id-dlg-cross-ref'),
-                menuStyle   : 'min-width: 100%;max-height: 183px;',
+                menuStyle   : 'min-width: 100%;max-height: 233px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : []
@@ -176,6 +191,8 @@ define([
             });
             this.refList.on('item:select', _.bind(this.onSelectReference, this));
 
+            this.lblWhich = $window.find('#id-dlg-cross-which');
+
             this.afterRender();
         },
 
@@ -214,68 +231,75 @@ define([
         },
 
         onTypeSelected: function (combo, record) {
-            var arr = [];
-            switch (record.value) {
-                case 0: // paragraph
-                    arr = [
-                        { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.ParaNum, displayValue: this.textParaNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.ParaNumNoContext, displayValue: this.textParaNumNo },
-                        { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textParaNumFull },
-                        { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textText },
-                        { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
-                    ];
-                    break;
-                case 1: // heading
-                    arr = [
-                        { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textHeadingText },
-                        { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.ParaNum, displayValue: this.textHeadingNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.ParaNumNoContext, displayValue: this.textHeadingNumNo },
-                        { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textHeadingNumFull },
-                        { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
-                    ];
-                    break;
-                case 2: // bookmark
-                    arr = [
-                        { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textBookmarkText },
-                        { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.ParaNum, displayValue: this.textParaNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.ParaNumNoContext, displayValue: this.textParaNumNo },
-                        { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textParaNumFull },
-                        { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
-                    ];
-                    break;
-                case 3: // note
-                    arr = [
-                        { value: Asc.c_oAscDocumentRefenceToType.NoteNumber, displayValue: this.textNoteNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow },
-                        { value: Asc.c_oAscDocumentRefenceToType.NoteNumberFormatted, displayValue: this.textNoteNumForm }
-                    ];
-                    break;
-                case 4: // end note
-                    arr = [
-                        { value: Asc.c_oAscDocumentRefenceToType.NoteNumber, displayValue: this.textEndNoteNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow },
-                        { value: Asc.c_oAscDocumentRefenceToType.NoteNumberFormatted, displayValue: this.textEndNoteNumForm }
-                    ];
-                    break;
-                case 5: // Equation
-                case 6: // Shape
-                case 7: // Table
-                    arr = [
-                        { value: Asc.c_oAscDocumentRefenceToType.EntireCaption, displayValue: this.textCaption },
-                        { value: Asc.c_oAscDocumentRefenceToType.OnlyLabelAndNumber, displayValue: this.textLabelNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.OnlyCaptionText, displayValue: this.textOnlyCaption },
-                        { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
-                        { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
-                    ];
-                    break;
+            var arr = [],
+                str = this.textWhich;
+            if (record.type==1 || record.value > 4) {
+                // custom labels from caption dialog and Equation, Figure, Table
+                arr = [
+                    { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textCaption },
+                    { value: Asc.c_oAscDocumentRefenceToType.OnlyLabelAndNumber, displayValue: this.textLabelNum },
+                    { value: Asc.c_oAscDocumentRefenceToType.OnlyCaptionText, displayValue: this.textOnlyCaption },
+                    { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
+                    { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
+                ];
+            } else {
+                switch (record.value) {
+                    case 0: // paragraph
+                        arr = [
+                            { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNum, displayValue: this.textParaNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumNoContext, displayValue: this.textParaNumNo },
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textParaNumFull },
+                            { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textText },
+                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
+                        ];
+                        str = this.textWhichPara;
+                        break;
+                    case 1: // heading
+                        arr = [
+                            { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textHeadingText },
+                            { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNum, displayValue: this.textHeadingNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumNoContext, displayValue: this.textHeadingNumNo },
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textHeadingNumFull },
+                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
+                        ];
+                        str = this.textWhichHeading;
+                        break;
+                    case 2: // bookmark
+                        arr = [
+                            { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textBookmarkText },
+                            { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNum, displayValue: this.textParaNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumNoContext, displayValue: this.textParaNumNo },
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textParaNumFull },
+                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
+                        ];
+                        str = this.textWhichBookmark;
+                        break;
+                    case 3: // note
+                        arr = [
+                            { value: Asc.c_oAscDocumentRefenceToType.NoteNumber, displayValue: this.textNoteNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow },
+                            { value: Asc.c_oAscDocumentRefenceToType.NoteNumberFormatted, displayValue: this.textNoteNumForm }
+                        ];
+                        str = this.textWhichNote;
+                        break;
+                    case 4: // end note
+                        arr = [
+                            { value: Asc.c_oAscDocumentRefenceToType.NoteNumber, displayValue: this.textEndNoteNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
+                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow },
+                            { value: Asc.c_oAscDocumentRefenceToType.NoteNumberFormatted, displayValue: this.textEndNoteNumForm }
+                        ];
+                        str = this.textWhichEndnote;
+                        break;
+                }
             }
             this.cmbReference.setData(arr);
             this.cmbReference.setValue(arr[0].value);
+            this.lblWhich.text(str);
         },
 
         txtTitle: 'Cross-reference',
@@ -284,7 +308,6 @@ define([
         textInsertAs: 'Insert as hyperlink',
         textSeparate: 'Separate numbers with',
         textIncludeAbove: 'Include above/below',
-        textWhich: 'For which caption',
         textPageNum: 'Page number',
         textParaNum: 'Paragraph number',
         textParaNumNo: 'Paragraph number (no context)',
@@ -311,7 +334,13 @@ define([
         textEquation: 'Equation',
         textFigure: 'Figure',
         textTable: 'Table',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        textWhich: 'For which caption',
+        textWhichHeading: 'For which heading',
+        textWhichBookmark: 'For which bookmark',
+        textWhichNote: 'For which footnote',
+        textWhichEndnote: 'For which endnote',
+        textWhichPara: 'For which numbered item'
 
     }, DE.Views.CrossReferenceDialog || {}))
 });
