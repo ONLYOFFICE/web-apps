@@ -860,7 +860,6 @@ define([
 
                             Common.NotificationCenter.trigger('document:ready', 'main');
                             me.applyLicense();
-                            me.warningDocumentIsLocked();
                         }
                     }, 50);
                 } else {
