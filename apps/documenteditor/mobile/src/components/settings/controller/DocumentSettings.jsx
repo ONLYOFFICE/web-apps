@@ -6,8 +6,6 @@ import DocumentSettings from '../document-settings/DocumentSettings'
 class DocumentSettingsController extends Component {
     constructor(props) {
         super(props);
-
-        console.log('controller created');
     }
 
     onPageOrientation(value){
