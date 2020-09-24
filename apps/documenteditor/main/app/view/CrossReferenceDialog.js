@@ -249,7 +249,7 @@ define([
                     this.api.asc_AddCrossRefToNote(record.get('para'), reftype, link, below);
                     break;
                 case 5: // caption
-                    if (reftype==Asc.c_oAscDocumentRefenceToType.OnlyCaptionText && record.get('para').asc_canAddRefToCaptionText()===false) {
+                    if (reftype==Asc.c_oAscDocumentRefenceToType.OnlyCaptionText && record.get('para').asc_canAddRefToCaptionText(record.get('value'))===false) {
                         Common.UI.warning({
                             msg  : this.textEmpty
                         });
