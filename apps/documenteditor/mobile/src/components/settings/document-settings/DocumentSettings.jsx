@@ -28,8 +28,8 @@ export default class DocumentSettings extends Component {
                 <Navbar title={textDocumentSettings} backLink={textBack} />
                 <BlockTitle>{textOrientation}</BlockTitle>
                 <List>
-                    <ListItem checkbox title={textPortrait} name="orientation-checkbox" defaultChecked></ListItem>
-                    <ListItem checkbox title={textLandscape} name="orientation-checkbox"></ListItem>
+                    <ListItem radio title={textPortrait} name="orientation-checkbox" defaultChecked onChange={e => this.props.onPageOrientation('portrait')}></ListItem>
+                    <ListItem radio title={textLandscape} name="orientation-checkbox" onChange={e => this.props.onPageOrientation('landscape')}></ListItem>
                 </List>
                 <BlockTitle>{textFormat}</BlockTitle>
                 <List mediaList>

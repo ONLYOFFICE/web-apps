@@ -1,8 +1,9 @@
 
 import HomePage from '../pages/home.jsx';
-import DocumentSettings from "../components/settings/document-settings/DocumentSettings.jsx";
+// import DocumentSettings from "../components/settings/document-settings/DocumentSettings.jsx";
 import Margins from "../components/settings/document-settings/Margins.jsx";
 import DocumentFormats from "../components/settings/document-settings/DocumentFormats.jsx";
+import DocumentSettingsController from "../components/settings/controller/DocumentSettings.jsx";
 
 import LeftPage1 from '../pages/left-page-1.jsx';
 import LeftPage2 from '../pages/left-page-2.jsx';
@@ -18,7 +19,7 @@ var routes = [
   },
   {
     path: '/document-settings/',
-    component: DocumentSettings,
+    component: DocumentSettingsController,
   },
   {
     path: '/users/',
