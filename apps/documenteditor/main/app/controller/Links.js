@@ -460,10 +460,14 @@ define([
             var me = this;
             me.dlgCrossRefDialog = new DE.Views.CrossReferenceDialog({
                 api: me.api,
+                crossRefProps: me.crossRefProps,
                 handler: function (result, settings) {
                     if (result != 'ok')
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
+            });
+            me.dlgCrossRefDialog.on('close', function(obj){
+                me.crossRefProps = me.dlgCrossRefDialog.getSettings();
             });
             me.dlgCrossRefDialog.show();
         }

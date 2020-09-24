@@ -97,7 +97,7 @@ define([
                 '</div>'
             ].join('');
 
-            this.props = options.props;
+            this.crossRefProps = options.crossRefProps;
             this.api = options.api;
             this.options.tpl = _.template(this.template)(this.options);
             this._locked = false;
@@ -197,12 +197,12 @@ define([
         },
 
         afterRender: function() {
-            this._setDefaults(this.props);
+            this._setDefaults();
         },
 
         _handleInput: function(state) {
             if (this.options.handler) {
-                this.options.handler.call(this, state, {});
+                this.options.handler.call(this, state);
             }
             if (state=='ok') {
                 this.insertReference();
@@ -220,11 +220,19 @@ define([
             return false;
         },
 
-        _setDefaults: function (props) {
-            this.cmbType.setValue(0);
-            this.onTypeSelected(this.cmbType, this.cmbType.getSelectedRecord());
-            if (props) {
+        getSettings: function() {
+            return {type: this.cmbType.getValue(), refType: this.cmbReference.getValue()};
+        },
+
+        _setDefaults: function () {
+            var rec,
+                currentRef;
+            if (this.crossRefProps) {
+                rec = this.cmbType.store.findWhere({value: this.crossRefProps.type});
+                rec && (currentRef = this.crossRefProps.refType);
             }
+            rec ? this.cmbType.selectRecord(rec) : this.cmbType.setValue(0);
+            this.refreshReferenceTypes(this.cmbType.getSelectedRecord(), currentRef);
         },
 
         insertReference: function() {
@@ -260,6 +268,10 @@ define([
         },
 
         onTypeSelected: function (combo, record) {
+            this.refreshReferenceTypes(record);
+        },
+
+        refreshReferenceTypes: function(record, currentRef) {
             var arr = [],
                 str = this.textWhich, type = 5;
             if (record.type==1 || record.value > 4) {
@@ -328,7 +340,7 @@ define([
                 }
             }
             this.cmbReference.setData(arr);
-            this.cmbReference.setValue(arr[0].value);
+            this.cmbReference.setValue(currentRef ? currentRef : arr[0].value);
             this.onReferenceSelected(this.cmbReference, this.cmbReference.getSelectedRecord());
             this.lblWhich.text(str);
             this.refreshReferences(type);
