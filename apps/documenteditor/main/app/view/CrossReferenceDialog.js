@@ -249,12 +249,12 @@ define([
                     this.api.asc_AddCrossRefToNote(record.get('para'), reftype, link, below);
                     break;
                 case 5: // caption
-                    if (reftype==Asc.c_oAscDocumentRefenceToType.OnlyCaptionText && record.get('para').asc_canAddRefToCaptionText(record.get('value'))===false) {
+                    if (reftype==Asc.c_oAscDocumentRefenceToType.OnlyCaptionText && record.get('para').asc_canAddRefToCaptionText(typeRec.displayValue)===false) {
                         Common.UI.warning({
                             msg  : this.textEmpty
                         });
                     } else
-                        this.api.asc_AddCrossRefToCaption(record.get('value'), record.get('para'), reftype, link, below);
+                        this.api.asc_AddCrossRefToCaption(typeRec.displayValue, record.get('para'), reftype, link, below);
                     break;
             }
         },
