@@ -185,6 +185,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= value %></div>')
             });
+            this.refList.on('entervalue', _.bind(this.onPrimary, this));
 
             this.lblWhich = $window.find('#id-dlg-cross-which');
 
@@ -205,7 +206,10 @@ define([
                 this.options.handler.call(this, state);
             }
             if (state=='ok') {
-                this.insertReference();
+                if(document.activeElement && document.activeElement.localName == 'textarea' && /area_id/.test(document.activeElement.id)){
+                    return;
+                }
+                !this.btnInsert.isDisabled() && this.insertReference();
                 return;
             }
             this.close();
