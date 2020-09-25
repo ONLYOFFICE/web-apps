@@ -52,7 +52,8 @@ define([
         options: {
             alias: 'NamedRangeEditDlg',
             contentWidth: 380,
-            height: 250
+            height: 250,
+            focusManager: true
         },
 
         initialize: function (options) {
@@ -150,7 +151,8 @@ define([
                 menuStyle   : 'min-width: 100%;max-height: 280px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             });
 
             this.txtDataRange = new Common.UI.InputFieldBtn({
@@ -170,7 +172,9 @@ define([
                 }
             });
             this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
-            
+
+            this.focusManager.add([this.inputName, this.cmbScope, this.txtDataRange], '.form-control');
+
             this.afterRender();
         },
 

@@ -100,7 +100,7 @@ Common.UI.FocusManager = function (tabindex, parent) {
             this.trapFirst.on('focus', function() {
                 for (var i=0; i<me.fields.length; i++) {
                     var field = me.fields[i];
-                    if (field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) {
+                    if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
                         var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector).addBack().filter(field.selector) : field.el;
                         el.focus();
                         break;
@@ -113,7 +113,7 @@ Common.UI.FocusManager = function (tabindex, parent) {
             this.trapLast.on('focus', function() {
                 for (var i=me.fields.length-1; i>=0; i--) {
                     var field = me.fields[i];
-                    if (field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) {
+                    if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
                         var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector).addBack().filter(field.selector) : field.el;
                         el.focus();
                         break;

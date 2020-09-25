@@ -47,7 +47,8 @@ define([
         options: {
             width: 330,
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -94,6 +95,8 @@ define([
 
             var $window = this.getChild();
             $window.find('.btn').on('click',     _.bind(this.onBtnClick, this));
+
+            this.focusManager.add([this.inputDecimalSeparator, this.inputThousandsSeparator], '.form-control');
 
             this.afterRender();
         },
