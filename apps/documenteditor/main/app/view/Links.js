@@ -184,7 +184,7 @@ define([
                 this.btnCrossRef = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-crossref'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-crossref',
+                    iconCls: 'toolbar__icon btn-cross-reference',
                     caption: this.capBtnCrossRef,
                     disabled: true
                 });
