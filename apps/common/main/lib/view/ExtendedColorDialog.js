@@ -58,7 +58,8 @@ define([
                 }),
                 header: false,
                 width: 340,
-                height: 272
+                height: 272,
+                focusManager: true
             });
 
             this.hexRe = /\s*#?([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)\s*/;
@@ -85,7 +86,6 @@ define([
                 defaultUnit : "",
                 maxValue: 255,
                 minValue: 0,
-                tabindex: 1,
                 maskExp: /[0-9]/,
                 allowDecimal: false
             });
@@ -98,7 +98,6 @@ define([
                 defaultUnit : "",
                 maxValue: 255,
                 minValue: 0,
-                tabindex: 2,
                 maskExp: /[0-9]/,
                 allowDecimal: false
             });
@@ -111,7 +110,6 @@ define([
                 defaultUnit : "",
                 maxValue: 255,
                 minValue: 0,
-                tabindex: 3,
                 maskExp: /[0-9]/,
                 allowDecimal: false
             });
@@ -128,7 +126,6 @@ define([
             this.spinB.on('change', _.bind(this.showColor, this, null, true)).on('changing', _.bind(this.onChangingRGB, this, 3));
             this.textColor.on('change', _.bind(this.onChangeMaskedField, this));
             this.textColor.on('changed', _.bind(this.onChangedMaskedField, this));
-            this.textColor.$el.attr('tabindex', 4);
             this.spinR.$el.find('input').attr('maxlength', 3);
             this.spinG.$el.find('input').attr('maxlength', 3);
             this.spinB.$el.find('input').attr('maxlength', 3);
@@ -146,6 +143,9 @@ define([
             this.rendered = true;
             if (this.color!==undefined)
                 this.setColor(this.color);
+
+            this.focusManager.add([this.spinR, this.spinG, this.spinB], '.form-control');
+            this.focusManager.add(this.textColor, 'input');
             return this;
         },
 
