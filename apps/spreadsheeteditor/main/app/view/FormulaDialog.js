@@ -63,7 +63,8 @@ define([
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
-                buttons: null
+                buttons: null,
+                focusManager: true
             }, options);
 
             this.template   =   options.template || [
@@ -114,6 +115,7 @@ define([
                 }
                 me.filterFormulas();
             });
+            this.focusManager.add(this.inputSearch._input);
 
             this.btnOk = new Common.UI.Button({
                 el: $('#formula-dlg-btn-ok')
@@ -149,9 +151,10 @@ define([
 
             if (this.cmbListFunctions) {
                 this.inputSearch.setValue('');
-                _.delay(function (me) {
+                var me = this;
+                setTimeout(function () {
                     me.inputSearch.$el.find('input').focus();
-                }, 100, this);
+                }, 100);
             }
             this._preventCloseCellEditor = false;
         },
@@ -242,10 +245,11 @@ define([
                         menuStyle   : 'min-width: 100%;',
                         cls         : 'input-group-nr',
                         data        : groupsListItems,
-                        editable    : false
+                        editable    : false,
+                        takeFocusOnClose: true
                     });
-
                     this.cmbFuncGroup.on('selected', _.bind(this.onSelectGroup, this));
+                    this.focusManager.add(this.cmbFuncGroup, '.form-control');
                 } else {
                     this.cmbFuncGroup.setData(groupsListItems);
                 }
@@ -266,6 +270,7 @@ define([
                     this.cmbListFunctions = new Common.UI.ListView({
                         el: $('#formula-dlg-combo-functions'),
                         store: this.functions,
+                        tabindex: 1,
                         itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= value %></div>')
                     });
 
@@ -275,6 +280,8 @@ define([
                     this.cmbListFunctions.onKeyDown = _.bind(this.onKeyDown, this.cmbListFunctions);
                     this.cmbListFunctions.scrollToRecord =  _.bind(this.onScrollToRecordCustom, this.cmbListFunctions);
                     this.onUpdateFocus();
+
+                    this.focusManager.add(this.cmbListFunctions, '.listview');
                 }
 
                 if (this.functions) {

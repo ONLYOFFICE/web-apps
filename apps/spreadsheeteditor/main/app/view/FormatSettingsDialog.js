@@ -49,7 +49,8 @@ define([
     SSE.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 340
+            height: 340,
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -171,7 +172,8 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 264px;',
                 editable: false,
-                data: this.numFormatData
+                data: this.numFormatData,
+                takeFocusOnClose: true
             });
             this.cmbFormat.setValue(this.FormatType);
             this.cmbFormat.on('selected', _.bind(this.onFormatSelect, this));
@@ -182,7 +184,8 @@ define([
                 menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             });
             this.cmbNegative.on('selected', _.bind(this.onNegativeSelect, this));
 
@@ -210,7 +213,8 @@ define([
                 menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             });
             this.cmbSymbols.on('selected', _.bind(this.onSymbolsSelect, this));
 
@@ -220,7 +224,8 @@ define([
                 menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             });
             this.cmbType.on('selected', _.bind(this.onTypeSelect, this));
 
@@ -230,7 +235,8 @@ define([
                 menuStyle: 'min-width: 310px;max-height:235px;',
                 editable: false,
                 data: [],
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             });
             this.cmbCode.on('selected', _.bind(this.onCodeSelect, this));
 
@@ -243,11 +249,17 @@ define([
 
             this.lblExample         = this.$window.find('#format-settings-label-example');
 
+            this.focusManager.add([this.cmbFormat, this.spnDecimal, this.cmbSymbols, this.cmbNegative, this.cmbType, this.cmbCode], '.form-control');
+
             this.afterRender();
         },
 
         afterRender: function() {
             this._setDefaults(this.props);
+            var cmp = this.cmbFormat;
+            setTimeout(function(){
+                (cmp.$el || $(cmp.el)).find('.form-control').focus();
+            }, 10);
         },
 
         show: function() {
@@ -489,7 +501,7 @@ define([
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
 
             this._decimalPanel.toggleClass('hidden', !hasDecimal);
-            this._negativePanel.css('visibility', hasNegative ? '' : 'hidden');
+            this._negativePanel.toggleClass('hidden', !hasNegative);
             this._separatorPanel.toggleClass('hidden', !hasSeparator);
             this._typePanel.toggleClass('hidden', !hasType);
             this._symbolsPanel.toggleClass('hidden', !hasSymbols);

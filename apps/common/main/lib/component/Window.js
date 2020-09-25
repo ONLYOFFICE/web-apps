@@ -137,7 +137,8 @@
 
 define([
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/component/CheckBox',
+    'common/main/lib/component/FocusManager'
 ], function () {
     'use strict';
 
@@ -611,6 +612,9 @@ define([
 
                 !this.initConfig.id && (this.initConfig.id = 'window-' + this.cid);
                 !this.initConfig.tpl && (this.initConfig.tpl = '');
+
+                if (options.focusManager)
+                    this.focusManager = Common.UI.FocusManager(1, this);
 
                 Common.UI.BaseView.prototype.initialize.call(this, this.initConfig);
             },

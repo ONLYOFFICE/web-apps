@@ -86,7 +86,8 @@ define([
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
-                scrollAlwaysVisible: false
+                scrollAlwaysVisible: false,
+                takeFocusOnClose: false
             },
 
             template: _.template([
@@ -340,6 +341,10 @@ define([
                 this.cmpEl.find('.dropdown-toggle').blur();
                 this.trigger('hide:after', this, e, isFromInputControl);
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
+                if (this.options.takeFocusOnClose) {
+                    var me = this;
+                    setTimeout(function(){me._input.focus();}, 1);
+                }
             },
 
             onAfterKeydownMenu: function(e) {
