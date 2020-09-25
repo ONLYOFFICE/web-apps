@@ -185,7 +185,8 @@ define([
                 store: new Common.UI.DataViewStore(),
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= value %></div>')
             });
-            this.refList.on('entervalue', _.bind(this.onPrimary, this));
+            this.refList.on('entervalue', _.bind(this.onPrimary, this))
+                        .on('item:dblclick', _.bind(this.onPrimary, this));
 
             this.lblWhich = $window.find('#id-dlg-cross-which');
 
@@ -201,12 +202,12 @@ define([
             this._setDefaults();
         },
 
-        _handleInput: function(state) {
+        _handleInput: function(state, fromButton) {
             if (this.options.handler) {
                 this.options.handler.call(this, state);
             }
             if (state=='ok') {
-                if(document.activeElement && document.activeElement.localName == 'textarea' && /area_id/.test(document.activeElement.id)){
+                if(!fromButton && document.activeElement && document.activeElement.localName == 'textarea' && /area_id/.test(document.activeElement.id)){
                     return;
                 }
                 !this.btnInsert.isDisabled() && this.insertReference();
@@ -216,7 +217,7 @@ define([
         },
 
         onBtnClick: function(event) {
-            this._handleInput(event.currentTarget.attributes['result'].value);
+            this._handleInput(event.currentTarget.attributes['result'].value, true);
         },
 
         onPrimary: function(event) {
