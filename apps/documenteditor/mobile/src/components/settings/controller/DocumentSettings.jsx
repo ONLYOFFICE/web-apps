@@ -9,7 +9,8 @@ class DocumentSettingsController extends Component {
     }
 
     onPageOrientation(value){
-        console.log(`changed page orientation: ${value}`);
+        const api = Common.EditorApi.get();
+        api.change_PageOrient(value=='portrait');
     }
 
     render() {

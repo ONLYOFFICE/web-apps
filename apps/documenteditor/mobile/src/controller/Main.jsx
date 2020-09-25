@@ -1,5 +1,7 @@
 
 import {Component} from 'react'
+import {connect} from 'react-redux'
+import * as Actions from '../store/actions/actions'
 
 class MainController extends Component {
     constructor(props) {
@@ -133,6 +135,7 @@ class MainController extends Component {
                     });
 
                     this.appOptions   = {};
+                    this.bindEvents();
 
                     Common.Gateway.on('init',           loadConfig);
                     // Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
@@ -140,6 +143,7 @@ class MainController extends Component {
                     Common.Gateway.appReady();
 
                     Common.Notifications.trigger('engineCreated', this.api);
+                    Common.EditorApi = {get: () => this.api};
                 }, error => {
                     console.log('promise failed ' + error);
                 });
@@ -152,9 +156,16 @@ class MainController extends Component {
         document.body.appendChild(script);
     }
 
+    bindEvents() {
+        const {dispatch} = this.props;
+        this.api.asc_registerCallback('asc_onPageOrient', isPortrait => {
+            dispatch(Actions.changePageOrientation(isPortrait === true));
+        });
+    }
+
     render() {
         return null
     }
 }
 
-export default MainController;
+export default connect(null,null,null,{forwardRef:true})(MainController);
