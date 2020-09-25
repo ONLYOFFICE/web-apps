@@ -63,7 +63,7 @@ Common.UI.FocusManager = function (tabindex, parent) {
         }
 
         fields.forEach(function(cmp, index) {
-            var elem = selector ? (cmp.$el || $(cmp.el)).find(selector) : (el && el[index] ? el[index] : cmp);
+            var elem = selector ? (cmp.$el || $(cmp.el)).find(selector).addBack().filter(selector) : (el && el[index] ? el[index] : cmp);
             elem && elem.attr && elem.attr('tabindex', tabindex.toString());
             arr.push({
                 cmp: cmp,
@@ -101,7 +101,7 @@ Common.UI.FocusManager = function (tabindex, parent) {
                 for (var i=0; i<me.fields.length; i++) {
                     var field = me.fields[i];
                     if (field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) {
-                        var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector) : field.el;
+                        var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector).addBack().filter(field.selector) : field.el;
                         el.focus();
                         break;
                     }
@@ -114,7 +114,7 @@ Common.UI.FocusManager = function (tabindex, parent) {
                 for (var i=me.fields.length-1; i>=0; i--) {
                     var field = me.fields[i];
                     if (field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) {
-                        var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector) : field.el;
+                        var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector).addBack().filter(field.selector) : field.el;
                         el.focus();
                         break;
                     }
