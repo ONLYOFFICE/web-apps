@@ -250,7 +250,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                     this.rangeList.cmpEl.on('mouseover',  _.bind(me.onMouseOverLock, me)).on('mouseout',  _.bind(me.onMouseOutLock, me));
             }
             _.delay(function () {
-                me.rangeList.cmpEl.find('.listview').focus();
+                me.rangeList.focus();
                 me.rangeList.scroller.update({alwaysVisibleY: true});
             }, 100, this);
         },
@@ -311,7 +311,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             }).on('close', function() {
                 me.show();
                 _.delay(function () {
-                    me.rangeList.cmpEl.find('.listview').focus();
+                    me.rangeList.focus();
                 }, 100, me);
             });
             

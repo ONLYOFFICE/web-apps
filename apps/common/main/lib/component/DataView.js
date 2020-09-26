@@ -764,6 +764,10 @@ define([
 
         onResize: function() {
             this._layoutParams = undefined;
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.find('.dataview').focus();
         }
     });
 
@@ -1193,6 +1197,10 @@ define([
 
         onResize: function() {
             this._layoutParams = undefined;
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.find('.dataview').focus();
         }
     });
 

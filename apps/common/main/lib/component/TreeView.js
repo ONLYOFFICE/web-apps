@@ -280,6 +280,10 @@ define([
                     this.store.collapseSubItems(record);
                     this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: this.scrollAlwaysVisible});
                 }
+            },
+
+            focus: function() {
+                this.cmpEl && this.cmpEl.find('.treeview').focus();
             }
         }
     })());

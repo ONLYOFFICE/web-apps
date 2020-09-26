@@ -187,7 +187,7 @@ define([
 
             var me = this;
             _.delay(function(){
-                me.inputName.cmpEl.find('input').focus();
+                me.inputName.focus();
             },200);        },
 
         show: function() {
@@ -274,12 +274,12 @@ define([
                 var checkname = this.inputName.checkValidate(),
                     checkrange = this.txtDataRange.checkValidate();
                 if (checkname !== true)  {
-                    this.inputName.cmpEl.find('input').focus();
+                    this.inputName.focus();
                     this.isInputFirstChange = true;
                     return;
                 }
                 if (checkrange !== true) {
-                    this.txtDataRange.cmpEl.find('input').focus();
+                    this.txtDataRange.focus();
                     return;
                 }
                 this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);

@@ -215,7 +215,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         me.mathList.scrollToRecord(_selectedItem);
                     }
                     _.delay(function(){
-                        me.mathList.cmpEl.find('.listview').focus();
+                        me.mathList.focus();
                     },10);
 
                 }
@@ -295,7 +295,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         me.mathRecList.scrollToRecord(_selectedItem);
                     }
                     _.delay(function(){
-                        me.mathRecList.cmpEl.find('.listview').focus();
+                        me.mathRecList.focus();
                     },10);
 
                 }

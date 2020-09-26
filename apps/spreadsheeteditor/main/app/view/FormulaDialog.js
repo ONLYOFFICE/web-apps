@@ -214,7 +214,7 @@ define([
         onUpdateFocus: function () {
             if (this.cmbListFunctions) {
                 _.delay(function (me) {
-                    me.cmbListFunctions.$el.find('.listview').focus();
+                    me.cmbListFunctions.focus();
                 }, 100, this);
             }
         },

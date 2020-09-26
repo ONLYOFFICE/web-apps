@@ -679,7 +679,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                                 me.disableListButtons();
                             }
                         }
-                        me.list.cmpEl.find('.listview').focus();
+                        me.list.focus();
                     }
                 });
             win.show();
@@ -699,7 +699,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                                 });
                             }
                         }
-                        me.list.cmpEl.find('.listview').focus();
+                        me.list.focus();
                     }
                 });
             rec && win.show();
@@ -719,7 +719,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 }
             }
             this.disableListButtons();
-            this.list.cmpEl.find('.listview').focus();
+            this.list.focus();
         },
 
         onMoveItem: function(up) {
@@ -732,7 +732,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 this.list.selectRecord(rec);
                 this.list.scrollToRecord(rec);
             }
-            this.list.cmpEl.find('.listview').focus();
+            this.list.focus();
         },
 
         updateFormats: function(lang) {

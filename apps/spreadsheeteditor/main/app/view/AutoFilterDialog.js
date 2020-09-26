@@ -1628,7 +1628,7 @@ define([
                     this.updateCellCheck(listView, record);
 
                     _.delay(function () {
-                        listView.$el.find('.listview').focus();
+                        listView.focus();
                     }, 100, this);
                 }
             }

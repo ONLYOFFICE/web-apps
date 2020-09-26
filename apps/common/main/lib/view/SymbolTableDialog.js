@@ -1472,7 +1472,7 @@ define([
             this.specialPanel.toggleClass('hidden', !special);
             var me = this;
             _.delay(function(){
-                special ? me.specialList.cmpEl.find('.listview').focus() : me.previewPanel.focus();
+                special ? me.specialList.focus() : me.previewPanel.focus();
             },50);
 
         },
