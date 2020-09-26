@@ -300,7 +300,7 @@ define([
             },
 
             focus: function() {
-                this._input.focus();
+                this._input && this._input.focus();
             },
 
             checkValidate: function() {

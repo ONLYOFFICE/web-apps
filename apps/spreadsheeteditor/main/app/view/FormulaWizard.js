@@ -215,7 +215,7 @@ define([
 
                 _.delay(function(){
                     me._noApply = true;
-                    me.args[0].argInput.cmpEl.find('input').focus();
+                    me.args[0].argInput.focus();
                     me._noApply = false;
                 },100);
             }
@@ -367,7 +367,7 @@ define([
                     me.show();
                     _.delay(function(){
                         me._noApply = true;
-                        input.cmpEl.find('input').focus();
+                        input.focus();
                         me._noApply = false;
                     },1);
                 });

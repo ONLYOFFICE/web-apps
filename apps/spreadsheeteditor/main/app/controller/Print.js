@@ -521,6 +521,9 @@ define([
                         handler: handlerDlg
                     }).on('close', function() {
                         panel.show();
+                        _.delay(function(){
+                            txtRange.focus();
+                        },1);
                     });
 
                     var xy = panel.$window.offset();
@@ -544,6 +547,9 @@ define([
                     panel.dataRangeTop = value;
                 else
                     panel.dataRangeLeft = value;
+                _.delay(function(){
+                    txtRange.focus();
+                },1);
             }
         },
 

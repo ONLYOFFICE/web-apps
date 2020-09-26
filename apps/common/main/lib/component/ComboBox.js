@@ -343,7 +343,7 @@ define([
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
                 if (this.options.takeFocusOnClose) {
                     var me = this;
-                    setTimeout(function(){me._input.focus();}, 1);
+                    setTimeout(function(){me.focus();}, 1);
                 }
             },
 
@@ -677,6 +677,10 @@ define([
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 }, this.options.scroller));
+            },
+
+            focus: function() {
+                this._input && this._input.focus();
             }
         }
     })());

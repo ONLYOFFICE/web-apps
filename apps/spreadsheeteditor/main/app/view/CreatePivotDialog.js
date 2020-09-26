@@ -169,15 +169,15 @@ define([
 
         afterRender: function() {
             this._setDefaults(this.props);
+
+            var me = this;
+            _.delay(function(){
+                me.txtSourceRange.focus();
+            },50);
         },
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                me.txtSourceRange.cmpEl.find('input').focus();
-            },50);
         },
 
         _setDefaults: function (props) {
@@ -260,6 +260,9 @@ define([
                     handler: handlerDlg
                 }).on('close', function() {
                     me.show();
+                    _.delay(function(){
+                        txtRange.focus();
+                    },1);
                 });
 
                 var xy = me.$window.offset();

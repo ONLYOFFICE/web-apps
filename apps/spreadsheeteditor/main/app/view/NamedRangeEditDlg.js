@@ -184,15 +184,14 @@ define([
 
             this.api.asc_registerCallback('asc_onLockDefNameManager', this.wrapEvents.onLockDefNameManager);
             this.api.asc_registerCallback('asc_onRefreshDefNameList', this.wrapEvents.onRefreshDefNameList);
-        },
-
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
 
             var me = this;
             _.delay(function(){
                 me.inputName.cmpEl.find('input').focus();
-            },200);
+            },200);        },
+
+        show: function() {
+            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
         },
 
         _setDefaults: function (props) {
@@ -231,6 +230,9 @@ define([
                     handler: handlerDlg
                 }).on('close', function() {
                     me.show();
+                    _.delay(function(){
+                        me.txtDataRange.focus();
+                    },1);
                 });
 
                 var xy = me.$window.offset();
