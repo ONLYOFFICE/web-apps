@@ -58,7 +58,8 @@ define([
             width: 350,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -181,6 +182,10 @@ define([
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
+
+            this.focusManager.add(this.inputUrl, '.form-control');
+            this.focusManager.add(this.internalList, '.treeview');
+            this.focusManager.add([this.inputDisplay, this.inputTip], '.form-control');
         },
 
         ShowHideElem: function(value) {
@@ -269,8 +274,17 @@ define([
                 }
                 var rec = this.internalList.getSelectedRec();
                 this.btnOk.setDisabled(!rec || rec.get('level')==0 && rec.get('index')>0);
-            } else
+                var me = this;
+                _.delay(function(){
+                    me.inputDisplay.focus();
+                },50);
+            } else {
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
+                var me = this;
+                _.delay(function(){
+                    me.inputUrl.focus();
+                },50);
+            }
         },
 
         onLinkTypeClick: function(type, btn, event) {
@@ -296,11 +310,6 @@ define([
 
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                me.inputUrl.cmpEl.find('input').focus();
-            },50);
         },
 
         setSettings: function (props) {
@@ -414,7 +423,7 @@ define([
                     if (this.btnExternal.isActive()) {//WebLink
                         if (this.inputUrl.checkValidate() !== true)  {
                             this.isInputFirstChange = true;
-                            this.inputUrl.cmpEl.find('input').focus();
+                            this.inputUrl.focus();
                             return;
                         }
                     } else {
@@ -423,7 +432,7 @@ define([
                             return;
                     }
                     if (this.inputDisplay.checkValidate() !== true) {
-                        this.inputDisplay.cmpEl.find('input').focus();
+                        this.inputDisplay.focus();
                         return;
                     }
                     (!this._originalProps.get_Bookmark() && !this._originalProps.get_Value()) &&  Common.Utils.InternalSettings.set("de-settings-link-type", this.btnInternal.isActive()); // save last added hyperlink

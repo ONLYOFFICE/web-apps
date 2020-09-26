@@ -52,7 +52,8 @@ define([
             header: true,
             style: 'min-width: 214px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -85,6 +86,7 @@ define([
                 style: 'width: 110px;',
                 menuStyle: 'min-width: 110px;',
                 editable: false,
+                takeFocusOnClose: true,
                 scrollAlwaysVisible: true,
                 data: [
                     { value: 0, displayValue: this.textRow},
@@ -126,6 +128,12 @@ define([
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+
+            this.focusManager.add([this.cmbRowCol, this.spnCount], '.form-control');
+            var me = this;
+            setTimeout(function(){
+                me.spnCount.focus();
+            }, 100);
         },
 
         _handleInput: function(state) {

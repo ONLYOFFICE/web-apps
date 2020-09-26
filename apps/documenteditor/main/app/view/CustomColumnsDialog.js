@@ -50,7 +50,8 @@ define([
             header: true,
             style: 'min-width: 216px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -128,6 +129,11 @@ define([
             this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
+
+            this.focusManager.add([this.spnColumns, this.spnSpacing], '.form-control');
+            setTimeout(function(){
+                me.spnColumns.focus();
+            }, 100);
         },
 
         _handleInput: function(state) {

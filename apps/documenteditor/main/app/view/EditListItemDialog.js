@@ -49,7 +49,8 @@ define([
             width: 330,
             header: false,
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -123,6 +124,8 @@ define([
 
             var $window = this.getChild();
             $window.find('.btn').on('click',     _.bind(this.onBtnClick, this));
+
+            this.focusManager.add([this.inputName, this.inputValue], '.form-control');
         },
 
         show: function() {
@@ -130,7 +133,7 @@ define([
 
             var me = this;
             _.delay(function(){
-                me.inputName.cmpEl.find('input').focus();
+                me.inputName.focus();
             },50);
         },
 
@@ -147,11 +150,11 @@ define([
             if (this.options.handler) {
                 if (state == 'ok') {
                     if (this.inputName.checkValidate() !== true)  {
-                        this.inputName.cmpEl.find('input').focus();
+                        this.inputName.focus();
                         return;
                     }
                     if (this.inputValue.checkValidate() !== true)  {
-                        this.inputValue.cmpEl.find('input').focus();
+                        this.inputValue.focus();
                         return;
                     }
                 }

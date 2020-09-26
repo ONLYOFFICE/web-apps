@@ -702,6 +702,10 @@ define([
             Common.UI.ComboBox.prototype.selectRecord.call(this, record);
             if (this.options.updateFormControl)
                 this.options.updateFormControl.call(this, this._selectedItem);
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.find('.form-control').focus();
         }
     }, Common.UI.ComboBoxCustom || {}));
 });
