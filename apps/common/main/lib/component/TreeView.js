@@ -159,7 +159,8 @@ define([
                 showLast: true,
                 allowScrollbar: true,
                 scrollAlwaysVisible: true,
-                emptyItemText: ''
+                emptyItemText: '',
+                keyMoveDirection: 'both'
             },
 
             template: _.template([
@@ -279,6 +280,77 @@ define([
                     record.set('isExpanded', false);
                     this.store.collapseSubItems(record);
                     this.scroller.update({minScrollbarLength: 40, alwaysVisibleY: this.scrollAlwaysVisible});
+                }
+            },
+
+            onKeyDown: function (e, data) {
+                if ( this.disabled ) return;
+                if (data===undefined) data = e;
+                if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
+                    data.preventDefault();
+                    data.stopPropagation();
+                    var rec = this.getSelectedRec();
+                    if (data.keyCode==Common.UI.Keys.RETURN) {
+                        if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
+                            rec = this.selectedBeforeHideRec;
+                        this.trigger('item:click', this, this, rec, e);
+                        if (this.parentMenu)
+                            this.parentMenu.hide();
+                    } else {
+                        var idx = _.indexOf(this.store.models, rec);
+                        if (idx<0) {
+                            if (data.keyCode==Common.UI.Keys.LEFT) {
+                                var target = $(e.target).closest('.dropdown-submenu.over');
+                                if (target.length>0) {
+                                    target.removeClass('over');
+                                    target.find('> a').focus();
+                                } else
+                                    idx = 0;
+                            } else
+                                idx = 0;
+                        } else if (this.options.keyMoveDirection == 'both') {
+                            var hasSubItems = rec.get('hasSubItems');
+                            var hasParent = rec.get('hasParent');
+                            var isExpanded = rec.get('isExpanded');
+                            if (data.keyCode==Common.UI.Keys.LEFT) {
+                                if (hasSubItems && isExpanded)
+                                    this.collapseRecord(rec);
+                            } else if (data.keyCode==Common.UI.Keys.RIGHT) {
+                                if (hasSubItems && !isExpanded)
+                                    this.expandRecord(rec);
+                            } else {
+                                if (data.keyCode==Common.UI.Keys.DOWN) {
+                                    for (var i=idx+1; i<this.store.length; i++) {
+                                        if (this.store.at(i).get('isVisible')) {
+                                            idx=i;
+                                            break;
+                                        }
+                                    }
+                                } else if (data.keyCode==Common.UI.Keys.UP) {
+                                    for (var i=idx-1; i>=0; i--) {
+                                        if (this.store.at(i).get('isVisible')) {
+                                            idx=i;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
+                                ? Math.max(0, idx-1)
+                                : Math.min(this.store.length - 1, idx + 1) ;
+                        }
+
+                        if (idx !== undefined && idx>=0) rec = this.store.at(idx);
+                        if (rec) {
+                            this._fromKeyDown = true;
+                            this.selectRecord(rec);
+                            this._fromKeyDown = false;
+                            this.scrollToRecord(rec);
+                        }
+                    }
+                } else {
+                    this.trigger('item:keydown', this, rec, e);
                 }
             },
 
