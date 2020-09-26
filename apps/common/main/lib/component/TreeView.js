@@ -290,10 +290,15 @@ define([
                     data.preventDefault();
                     data.stopPropagation();
                     var rec = this.getSelectedRec();
+                    if (this.lastSelectedRec===null)
+                        this.lastSelectedRec = rec;
                     if (data.keyCode==Common.UI.Keys.RETURN) {
+                        this.lastSelectedRec = null;
                         if (this.selectedBeforeHideRec) // only for ComboDataView menuPicker
                             rec = this.selectedBeforeHideRec;
                         this.trigger('item:click', this, this, rec, e);
+                        this.trigger('item:select', this, this, rec, e);
+                        this.trigger('entervalue', this, rec, e);
                         if (this.parentMenu)
                             this.parentMenu.hide();
                     } else {
