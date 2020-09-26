@@ -55,7 +55,8 @@ define([
             width   : 350,
             style   : 'min-width: 230px;',
             cls     : 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -202,6 +203,7 @@ define([
             me.internalList = new Common.UI.TreeView({
                 el: $('#id-dlg-hyperlink-list'),
                 store: new Common.UI.TreeViewStore(),
+                tabindex: 1,
                 enableKeyEvents: true
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
@@ -248,15 +250,14 @@ define([
 
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
+
+            this.focusManager.add(this.inputUrl, '.form-control');
+            this.focusManager.add(this.internalList, '.treeview');
+            this.focusManager.add([this.inputRange, this.inputDisplay, this.inputTip], '.form-control');
         },
 
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                if (me.focusedInput) me.focusedInput.focus();
-            },50);
         },
 
         setSettings: function(settings) {
@@ -273,13 +274,11 @@ define([
                 var defrange = '';
                 if (!settings.props) { // add link
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.text);
-                    this.focusedInput = (type == Asc.c_oAscHyperlinkType.WebLink) ? this.inputUrl.cmpEl.find('input') : this.inputRange.cmpEl.find('input');
                 } else {
                     if (type == Asc.c_oAscHyperlinkType.RangeLink) {
                         if (settings.props.asc_getSheet()) {
                             this.inputRange.setValue(settings.props.asc_getRange());
                             this.dataRangeValid = this.inputRange.getValue();
-                            this.focusedInput = this.inputRange.cmpEl.find('input');
                             defrange = settings.props.asc_getSheet() + '!' +  settings.props.asc_getRange();
                         } else {// named range
                             this.inputRange.setDisabled(true);
@@ -287,7 +286,6 @@ define([
                         }
                     } else {
                         this.inputUrl.setValue(settings.props.asc_getHyperlinkUrl().replace(new RegExp(" ",'g'), "%20"));
-                        this.focusedInput = this.inputUrl.cmpEl.find('input');
                         this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
                     }
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.props.asc_getText());
@@ -356,17 +354,17 @@ define([
                         checkrange = (this.btnInternal.isActive()) ? this.inputRange.checkValidate() : true,
                         checkdisp = this.inputDisplay.checkValidate();
                     if (checkurl !== true)  {
-                        this.inputUrl.cmpEl.find('input').focus();
+                        this.inputUrl.focus();
                         this.isInputFirstChange_url = true;
                         return;
                     }
                     if (checkrange !== true)  {
-                        this.inputRange.cmpEl.find('input').focus();
+                        this.inputRange.focus();
                         this.isInputFirstChange_range = true;
                         return;
                     }
                     if (checkdisp !== true) {
-                        this.inputDisplay.cmpEl.find('input').focus();
+                        this.inputDisplay.focus();
                         return;
                     }
                     !this.settings.props && Common.Utils.InternalSettings.set("sse-settings-link-type", this.btnInternal.isActive()); // save last added hyperlink
@@ -448,8 +446,20 @@ define([
                 }
                 var rec = this.internalList.getSelectedRec();
                 this.btnOk.setDisabled(!rec || rec.get('level')==0 || rec.get('type')==0 && $.trim(this.inputRange.getValue())=='');
-            } else
+                var me = this;
+                _.delay(function(){
+                    if (me.inputRange.isDisabled())
+                        me.internalList.focus();
+                    else
+                        me.inputRange.focus();
+                },50);
+            } else {
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
+                var me = this;
+                _.delay(function(){
+                    me.inputUrl.focus();
+                },50);
+            }
         },
 
         onLinkTypeClick: function(type, btn, event) {
@@ -521,6 +531,9 @@ define([
                     handler: handlerDlg
                 }).on('close', function() {
                     me.show();
+                    _.delay(function(){
+                        me.inputRange.focus();
+                    },1);
                 });
 
                 var xy = me.$window.offset();
