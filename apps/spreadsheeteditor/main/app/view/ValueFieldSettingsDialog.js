@@ -49,7 +49,8 @@ define([
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 220
+            height: 220,
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -129,6 +130,7 @@ define([
                 menuStyle: 'min-width: 264px;max-height:160px;',
                 scrollAlwaysVisible: true,
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { value: Asc.c_oAscDataConsolidateFunction.Sum,     displayValue: this.txtSum },
                     { value: Asc.c_oAscDataConsolidateFunction.Count,   displayValue: this.txtCount },
@@ -191,6 +193,11 @@ define([
             this.lblSourceName = this.$window.find('#value-field-settings-source');
 
             this.afterRender();
+
+            this.focusManager.add([this.inputCustomName, this.cmbSummarize], '.form-control');
+            setTimeout(function(){
+                me.inputCustomName.focus();
+            },100);
         },
 
         afterRender: function() {

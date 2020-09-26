@@ -52,7 +52,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             alias: 'PrintSettings',
             contentWidth: 280,
             height: 575,
-            buttons: null
+            buttons: null,
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -93,6 +94,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 style       : 'width: 132px;',
                 menuStyle   : 'min-width: 132px;max-height: 280px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                  data        : [
                     { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.textCurrentSheet },
@@ -113,7 +115,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 menuStyle   : 'min-width: 242px;max-height: 280px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             });
 
             this.cmbPaperSize = new Common.UI.ComboBox({
@@ -121,6 +124,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 style       : 'width: 242px;',
                 menuStyle   : 'max-height: 280px; min-width: 242px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data : [
                     {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
@@ -144,6 +148,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 style       : 'width: 132px;',
                 menuStyle   : 'min-width: 132px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
@@ -218,6 +223,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 style       : 'width: 242px;',
                 menuStyle   : 'min-width: 242px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.textActualSize },
@@ -271,6 +277,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             var value = Common.localStorage.getItem("sse-hide-print-settings");
             this.extended = (value!==null && parseInt(value)==0);
             this.handlerShowDetails(this.btnHide);
+
+            this.focusManager.add([this.cmbRange, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout, this.txtRangeTop, this.txtRangeLeft,
+                                    this.spnMarginTop, this.spnMarginBottom, this.spnMarginLeft, this.spnMarginRight], '.form-control');
+            var me = this;
+            setTimeout(function(){
+                me.cmbRange.focus();
+            },100);
         },
 
         addCustomScale: function (add) {

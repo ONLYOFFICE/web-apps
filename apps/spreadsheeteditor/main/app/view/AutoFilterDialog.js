@@ -61,7 +61,8 @@ define([
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
-                items           : []
+                items           : [],
+                focusManager: true
             }, options);
 
             this.template   =   options.template || [
@@ -123,7 +124,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : this.conditions,
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
 
@@ -135,7 +137,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : this.conditions,
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbCondition2.setValue(0);
 
@@ -157,7 +160,8 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 225px;max-height: 135px;',
                 scrollAlwaysVisible: true,
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             });
 
             this.cmbValue2 = new Common.UI.ComboBox({
@@ -165,7 +169,8 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 225px;max-height: 135px;',
                 scrollAlwaysVisible: true,
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             });
 
             var comparator = function(item1, item2) {
@@ -183,6 +188,8 @@ define([
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.loadDefaults();
+
+            this.focusManager.add([this.cmbCondition1, this.cmbValue1, this.cmbCondition2, this.cmbValue2], '.form-control');
         },
         show: function () {
             Common.UI.Window.prototype.show.call(this);
@@ -190,7 +197,7 @@ define([
             var me  = this;
             _.defer(function () {
                 if (me.cmbValue1) {
-                    me.cmbValue1._input.focus();
+                    me.cmbValue1.focus();
                 }
             }, 500);
         },
@@ -314,7 +321,8 @@ define([
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
-                buttons: ['ok', 'cancel']
+                buttons: ['ok', 'cancel'],
+                focusManager: true
             }, options);
 
             this.template   =   options.template || [
@@ -352,7 +360,8 @@ define([
                     { value: true, displayValue: this.txtTop },
                     { value: false, displayValue: this.txtBottom }
                 ],
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbType.setValue(true);
 
@@ -368,7 +377,8 @@ define([
                 menuStyle   : 'min-width: 85px;',
                 cls         : 'input-group-nr',
                 data        : data,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbItem.setValue(false);
             this.cmbItem.on('selected', _.bind(function(combo, record) {
@@ -392,7 +402,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : [],
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbFields.setVisible(this.type=='value');
             (this.type!=='value') && this.$window.find('#id-top10-lblby').addClass('hidden');
@@ -400,6 +411,7 @@ define([
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.loadDefaults();
+            this.focusManager.add([this.cmbType, this.spnCount, this.cmbItem, this.cmbFields], '.form-control');
         },
         show: function () {
             Common.UI.Window.prototype.show.call(this);
@@ -407,7 +419,7 @@ define([
             var me  = this;
             _.defer(function () {
                 if (me.spnCount) {
-                    me.spnCount.$input.focus();
+                    me.spnCount.focus();
                 }
             }, 500);
         },
@@ -518,7 +530,8 @@ define([
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : (options.type=='label') ?  t.txtTitleLabel : t.txtTitleValue,
-                items           : []
+                items           : [],
+                focusManager: true
             }, options);
 
             this.api        =   options.api;
@@ -582,7 +595,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : this.conditions,
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
             this.cmbCondition1.on('selected', _.bind(function(combo, record) {
@@ -593,7 +607,7 @@ define([
                 var me = this;
                 _.defer(function () {
                     if (me.inputValue) {
-                        me.inputValue._input.focus();
+                        me.inputValue.focus();
                     }
                 }, 10);
             }, this));
@@ -605,14 +619,15 @@ define([
                 cls         : 'input-group-nr',
                 data        : [],
                 scrollAlwaysVisible: true,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbFields.setVisible(this.type=='value');
             this.cmbFields.on('selected', _.bind(function(combo, record) {
                 var me = this;
                 _.defer(function () {
                     if (me.inputValue) {
-                        me.inputValue._input.focus();
+                        me.inputValue.focus();
                     }
                 }, 10);
             }, this));
@@ -636,6 +651,7 @@ define([
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.loadDefaults();
+            this.focusManager.add([this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2], '.form-control');
         },
         show: function () {
             Common.UI.Window.prototype.show.call(this);
@@ -643,7 +659,7 @@ define([
             var me  = this;
             _.defer(function () {
                 if (me.inputValue) {
-                    me.inputValue._input.focus();
+                    me.inputValue.focus();
                 }
             }, 500);
         },
@@ -1352,7 +1368,7 @@ define([
             var me = this;
             if (this.input) {
                 _.delay(function () {
-                    me.input.$el.find('input').focus();
+                    me.input.focus();
                 }, 500, this);
             }
         },
@@ -1955,7 +1971,7 @@ define([
                     callback: function() {
                         me._skipCheckDocumentClick = false;
                         _.delay(function () {
-                            me.input.$el.find('input').focus();
+                            me.input.focus();
                         }, 100, this);
                     }
                 });

@@ -50,7 +50,8 @@ define([
             style: 'min-width: 216px;',
             cls: 'modal-dlg',
             id: 'window-page-margins',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -184,15 +185,20 @@ define([
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
             this.setSettings();
+
+            this.focusManager.add([this.txtRangeTop, this.txtRangeLeft], '.form-control');
+            setTimeout(function(){
+                me.txtRangeTop.focus();
+            },100);
         },
 
         isRangeValid: function() {
             if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, this.txtRangeTop.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
-                this.txtRangeTop.cmpEl.find('input').focus();
+                this.txtRangeTop.focus();
                 return false;
             }
             if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, this.txtRangeLeft.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
-                this.txtRangeLeft.cmpEl.find('input').focus();
+                this.txtRangeLeft.focus();
                 return false;
             }
             return true;
@@ -260,6 +266,9 @@ define([
                         handler: handlerDlg
                     }).on('close', function() {
                         me.show();
+                        _.delay(function(){
+                            txtRange.focus();
+                        },1);
                     });
 
                     var xy = me.$window.offset();
@@ -279,6 +288,9 @@ define([
                     this.dataRangeTop = value;
                 else
                     this.dataRangeLeft = value;
+                _.delay(function(){
+                    txtRange.focus();
+                },1);
             }
         },
 

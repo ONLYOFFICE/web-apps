@@ -50,7 +50,8 @@ define([
             header: true,
             style: 'min-width: 215px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -126,7 +127,8 @@ define([
                 menuStyle   : 'min-width: 90px;',
                 editable: true,
                 data: this.arrDataScale,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             }).on('selected', _.bind(this.changeWidthHeight, this, 'width'))
               .on('changed:after', _.bind(this.changeWidthHeight, this, 'width'))
               .on('changed:before', _.bind(this.onChangeComboScale, this, 'width'));
@@ -138,7 +140,8 @@ define([
                 menuStyle   : 'min-width: 90px;',
                 editable: true,
                 data: this.arrDataScale,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             }).on('selected', _.bind(this.changeWidthHeight, this, 'height'))
               .on('changed:after', _.bind(this.changeWidthHeight, this, 'height'))
               .on('changed:before', _.bind(this.onChangeComboScale, this, 'height'));
@@ -163,6 +166,8 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.afterRender();
+
+            this.focusManager.add([this.cmbScaleWidth, this.cmbScaleHeight, this.spnScale], '.form-control');
         },
 
         afterRender: function() {
@@ -250,6 +255,13 @@ define([
                 }
 
                 this.spnScale.setValue((scale !== null && scale !== undefined) ? scale : '', true);
+                var me = this;
+                setTimeout(function(){
+                    if (me.radioScaleTo.getValue())
+                        me.spnScale.focus();
+                    else
+                        me.cmbScaleWidth.focus();
+                },100);
             }
         },
 
