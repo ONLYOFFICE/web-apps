@@ -350,11 +350,7 @@ define([
             onAfterKeydownMenu: function(e) {
                 if (e.keyCode == Common.UI.Keys.DOWN && !this.editable && !this.isMenuOpen()) {
                     this.openMenu();
-                    var me = this;
-                    _.delay(function() {
-                        me._skipInputChange = true;
-                        me.cmpEl.find('ul li:first a').focus();
-                    }, 10);
+                    this.onAfterShowMenu();
                     return false;
                 }
                 else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {

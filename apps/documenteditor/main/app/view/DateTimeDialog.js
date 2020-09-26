@@ -105,6 +105,7 @@ define([
                 editable    : false,
                 takeFocusOnClose: true,
                 data        : data,
+                search: true,
                 scrollAlwaysVisible: true
             });
             this.cmbLang.setValue(0x0409);

@@ -212,7 +212,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 menuStyle   : 'min-width: 100%; max-height: 185px;',
                 cls         : 'input-group-nr',
                 editable    : false,
-                data        : data
+                data        : data,
+                search: true,
+                scrollAlwaysVisible: true
             });
             this.cmbLang.setValue(0x0409);
             this.cmbLang.on('selected',function(combo, record) {
