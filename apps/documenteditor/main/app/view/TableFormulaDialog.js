@@ -48,7 +48,8 @@ define([
             width: 300,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -96,7 +97,8 @@ define([
             this.cmbFormat = new Common.UI.ComboBox({
                 el          : $('#id-dlg-formula-format'),
                 cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100%; max-height: 200px;'
+                menuStyle   : 'min-width: 100%; max-height: 200px;',
+                takeFocusOnClose: true
             });
 
             this.cmbFunction = new Common.UI.ComboBox({
@@ -104,6 +106,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 100%; max-height: 150px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 scrollAlwaysVisible: true,
                 data: [
                     {displayValue: 'ABS', value: 1},
@@ -141,7 +144,8 @@ define([
                 el          : $('#id-dlg-formula-bookmark'),
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 100%; max-height: 150px;',
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             });
             this.cmbBookmark.on('selected', _.bind(function(combo, record) {
                 combo.setValue(this.textBookmark);
@@ -160,6 +164,8 @@ define([
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.afterRender();
+
+            this.focusManager.add([this.inputFormula, this.cmbFormat, this.cmbFunction, this.cmbBookmark], '.form-control');
         },
 
         onSelectItem: function(picker, item, record, e){
@@ -171,7 +177,7 @@ define([
 
             var me = this;
             _.delay(function(){
-                me.inputFormula.cmpEl.find('input').focus();
+                me.inputFormula.focus();
             },500);
         },
 

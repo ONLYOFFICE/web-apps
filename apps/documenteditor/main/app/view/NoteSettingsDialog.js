@@ -50,7 +50,8 @@ define([
         options: {
             contentWidth: 300,
             height: 380,
-            buttons: null
+            buttons: null,
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -159,6 +160,9 @@ define([
             this.radioFootnote.on('change', function(field, newValue, eOpts) {
                 if (newValue) {
                     me.changeNoteType(false);
+                    setTimeout(function(){
+                        me.cmbFootnote.focus();
+                    }, 1);
                 }
             });
 
@@ -170,6 +174,9 @@ define([
             this.radioEndnote.on('change', function(field, newValue, eOpts) {
                 if (newValue) {
                     me.changeNoteType(true);
+                    setTimeout(function(){
+                        me.cmbEndnote.focus();
+                    }, 1);
                 }
             });
 
@@ -178,6 +185,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 150px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: this.textPageBottom,   value: Asc.c_oAscFootnotePos.PageBottom },
                     { displayValue: this.textTextBottom,   value: Asc.c_oAscFootnotePos.BeneathText }
@@ -190,6 +198,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 150px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: this.textSectEnd,   value: Asc.c_oAscFootnotePos.SectEnd },
                     { displayValue: this.textPageBottom,   value: Asc.c_oAscFootnotePos.PageBottom }
@@ -202,6 +211,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 150px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal, maskExp: /[0-9]/, defValue: 1 },
                     { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter, maskExp: /[a-z]/, defValue: 'a' },
@@ -235,6 +245,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 150px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrNumbering
             });
             this.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.Continuous);
@@ -257,6 +268,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 150px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: this.textDocument,   value: 1 },
                     { displayValue: this.textSection,   value: 0 }
@@ -273,6 +285,12 @@ define([
 
         afterRender: function() {
             this._setDefaults(this.props);
+
+            this.focusManager.add([this.cmbFootnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply], '.form-control');
+            var me = this;
+            setTimeout(function(){
+                me.cmbFormat.focus();
+            }, 100);
         },
 
         show: function() {

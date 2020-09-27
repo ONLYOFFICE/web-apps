@@ -50,7 +50,8 @@ define([
             style: 'min-width: 216px;',
             cls: 'modal-dlg',
             id: 'window-page-size',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -129,6 +130,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 183px;max-height: 208px;',
                 editable: false,
+                takeFocusOnClose: true,
                 scrollAlwaysVisible: true,
                 data: [
                     { value: 0, displayValue: 'US Letter', size: [215.9, 279.4]},
@@ -166,6 +168,12 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
+
+            this.focusManager.add([this.cmbPreset, this.spnWidth, this.spnHeight], '.form-control');
+            var me = this;
+            setTimeout(function(){
+                me.cmbPreset.focus();
+            }, 100);
         },
 
         _handleInput: function(state) {
