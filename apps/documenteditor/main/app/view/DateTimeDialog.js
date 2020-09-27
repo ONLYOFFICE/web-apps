@@ -175,7 +175,8 @@ define([
 
             this._setDefaults();
 
-            this.focusManager.add([this.cmbLang, this.listFormats], '.form-control');
+            this.focusManager.add([this.cmbLang], '.form-control');
+            this.focusManager.add([this.listFormats], '.listview');
             setTimeout(function(){
                 me.cmbLang.focus();
             }, 100);
