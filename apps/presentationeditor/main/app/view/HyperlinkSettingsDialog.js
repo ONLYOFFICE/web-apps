@@ -60,7 +60,8 @@ define([
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             id: 'window-hyperlink-settings',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -171,7 +172,8 @@ define([
             me.internalList = new Common.UI.TreeView({
                 el: $('#id-dlg-hyperlink-list'),
                 store: new Common.UI.TreeViewStore(),
-                enableKeyEvents: true
+                enableKeyEvents: true,
+                tabindex: 1
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
@@ -184,6 +186,10 @@ define([
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
+
+            this.focusManager.add(this.inputUrl, '.form-control');
+            this.focusManager.add(this.internalList, '.treeview');
+            this.focusManager.add([this.inputDisplay, this.inputTip], '.form-control');
         },
 
         setSettings: function (props) {
@@ -205,11 +211,6 @@ define([
                 this.isTextChanged = false;
                 this.inputTip.setValue(props.get_ToolTip());
 
-                if (type==c_oHyperlinkType.WebLink) {
-                    _.delay(function(){
-                        me.inputUrl.cmpEl.find('input').focus();
-                    },50);
-                }
                 me._originalProps = props;
             }
         },
@@ -269,11 +270,11 @@ define([
                         checkdisp = this.inputDisplay.checkValidate();
                     if (checkurl !== true)  {
                         this.isInputFirstChange = true;
-                        this.inputUrl.cmpEl.find('input').focus();
+                        this.inputUrl.focus();
                         return;
                     }
                     if (checkdisp !== true) {
-                        this.inputDisplay.cmpEl.find('input').focus();
+                        this.inputDisplay.focus();
                         return;
                     }
                     !this._originalProps.get_Value() &&  Common.Utils.InternalSettings.set("pe-settings-link-type", this.btnInternal.isActive());
@@ -372,8 +373,17 @@ define([
                 var rec = this.internalList.getSelectedRec();
                 rec && this.internalList.scrollToRecord(rec);
                 this.btnOk.setDisabled(!rec || rec.get('index')==4);
-            } else
+                var me = this;
+                _.delay(function(){
+                    me.inputDisplay.focus();
+                },50);
+            } else {
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
+                var me = this;
+                _.delay(function(){
+                    me.inputUrl.focus();
+                },50);
+            }
         },
 
         onLinkTypeClick: function(type, btn, event) {

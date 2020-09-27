@@ -50,7 +50,8 @@ define([
             style: 'min-width: 250px;',
             cls: 'modal-dlg',
             id: 'window-slide-size-settings',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -101,6 +102,7 @@ define([
                 style: 'width: 100%;',
                 menuStyle: 'min-width: 218px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     {value:0, displayValue: this.txtStandard , size: [254, 190.5]},
                     {value:1, displayValue: this.txtWidescreen1 , size: [254, 143]},
@@ -179,6 +181,7 @@ define([
                 style: 'width: 100%;',
                 menuStyle: 'min-width: 218px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     {value:0, displayValue: this.strPortrait},
                     {value:1, displayValue: this.strLandscape}
@@ -200,6 +203,12 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
+
+            this.focusManager.add([this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation], '.form-control');
+            var me = this;
+            setTimeout(function(){
+                me.cmbSlideSize.focus();
+            }, 100);
         },
 
         _handleInput: function(state) {

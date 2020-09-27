@@ -50,7 +50,8 @@ define([
             width: 350,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
         initialize : function (options) {
@@ -102,6 +103,7 @@ define([
                 menuStyle   : 'min-width: 100%; max-height: 185px;',
                 cls         : 'input-group-nr',
                 editable    : false,
+                takeFocusOnClose: true,
                 data        : data,
                 search: true,
                 scrollAlwaysVisible: true
@@ -122,13 +124,13 @@ define([
             this.listFormats = new Common.UI.ListView({
                 el: $('#datetime-dlg-format'),
                 store: new Common.UI.DataViewStore(),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
 
             this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
             this.listFormats.on('item:dblclick', _.bind(this.onDblClickFormat, this));
             this.listFormats.on('entervalue', _.bind(this.onPrimary, this));
-            this.listFormats.$el.find('.listview').focus();
 
             this.btnDefault = new Common.UI.Button({
                 el: $('#datetime-dlg-default')
@@ -172,6 +174,11 @@ define([
             });
 
             this._setDefaults();
+
+            this.focusManager.add([this.cmbLang, this.listFormats], '.form-control');
+            setTimeout(function(){
+                me.cmbLang.focus();
+            }, 100);
         },
 
         _setDefaults: function () {
