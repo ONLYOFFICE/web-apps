@@ -170,7 +170,8 @@ define([
             me.internalList = new Common.UI.TreeView({
                 el: $('#id-dlg-hyperlink-list'),
                 store: new Common.UI.TreeViewStore(),
-                enableKeyEvents: true
+                enableKeyEvents: true,
+                tabindex: 1
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
