@@ -48,7 +48,8 @@ define([
             height: 196,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
+            buttons: ['ok', 'cancel'],
+            focusManager: true
         },
 
             initialize : function(options) {
@@ -103,11 +104,14 @@ define([
                 style       : 'width: 100%;',
                 menuStyle   : 'width: 100%; max-height: 210px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : this.options.formats,
                 disabled    : (this.options.formats.length==0)
             });
             this.cmbNextStyle.setValue(-1);
+
+            this.focusManager.add([this.inputTitle, this.cmbNextStyle], '.form-control');
         },
 
         show: function() {
@@ -115,7 +119,7 @@ define([
 
             var me = this;
             _.delay(function(){
-                me.inputTitle.cmpEl.find('input').focus();
+                me.inputTitle.focus();
             },500);
         },
 
@@ -143,7 +147,7 @@ define([
                 if (state == 'ok') {
                     var checkurl = this.inputTitle.checkValidate();
                     if (checkurl !== true)  {
-                        this.inputTitle.cmpEl.find('input').focus();
+                        this.inputTitle.focus();
                         return;
                     }
                 }

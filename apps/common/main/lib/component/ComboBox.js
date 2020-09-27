@@ -321,6 +321,9 @@ define([
                         $list.scrollTop(height);
                     }
                     setTimeout(function(){$selected.find('a').focus();}, 1);
+                } else {
+                    var me = this;
+                    setTimeout(function(){me.cmpEl.find('ul li:first a').focus();}, 1);
                 }
 
                 if (this.scroller)
