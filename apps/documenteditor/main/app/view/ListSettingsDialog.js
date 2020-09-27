@@ -160,13 +160,15 @@ define([
                         id: 'id-dlg-bullet-text-color',
                         caption: this.txtLikeText,
                         checkable: true,
-                        toggleGroup: 'list-settings-color'
+                        toggleGroup: 'list-settings-color',
+                        style: 'padding-left: 20px;'
                     },
                     {
                         id: 'id-dlg-bullet-auto-color',
                         caption: this.textAuto,
                         checkable: true,
-                        toggleGroup: 'list-settings-color'
+                        toggleGroup: 'list-settings-color',
+                        style: 'padding-left: 20px;'
                     },
                     {caption: '--'}],
                 additionalAlign: this.menuAddAlign
