@@ -47,7 +47,8 @@ define([
     'documenteditor/main/app/view/TableOfContentsSettings',
     'documenteditor/main/app/view/BookmarksDialog',
     'documenteditor/main/app/view/CaptionDialog',
-    'documenteditor/main/app/view/NotesRemoveDialog'
+    'documenteditor/main/app/view/NotesRemoveDialog',
+    'documenteditor/main/app/view/CrossReferenceDialog'
 ], function () {
     'use strict';
 
@@ -69,7 +70,8 @@ define([
                     'links:notes': this.onNotesClick,
                     'links:hyperlink': this.onHyperlinkClick,
                     'links:bookmarks': this.onBookmarksClick,
-                    'links:caption': this.onCaptionClick
+                    'links:caption': this.onCaptionClick,
+                    'links:crossref': this.onCrossRefClick
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -154,11 +156,14 @@ define([
             this._state.in_object = in_image || in_table || in_equation;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false,
+                lock_type = control_props ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
             var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
                 rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
                 plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
                 plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
+
 
             var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain || rich_edit_lock || plain_edit_lock;
             this.view.btnsNotes.setDisabled(need_disable);
@@ -171,6 +176,10 @@ define([
 
             need_disable = in_header;
             this.view.btnCaption.setDisabled(need_disable);
+
+            need_disable = paragraph_locked || header_locked || control_plain || rich_edit_lock || plain_edit_lock || content_locked;
+            this.view.btnCrossRef.setDisabled(need_disable);
+            this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible() && this.dlgCrossRefDialog.setLocked(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -443,6 +452,24 @@ define([
 
         onShowContentControlsActions: function(obj, x, y) {
             (obj.type == Asc.c_oAscContentControlSpecificType.TOC) && this.onShowTOCActions(obj, x, y);
+        },
+
+        onCrossRefClick: function(btn) {
+            if (this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible()) return;
+
+            var me = this;
+            me.dlgCrossRefDialog = new DE.Views.CrossReferenceDialog({
+                api: me.api,
+                crossRefProps: me.crossRefProps,
+                handler: function (result, settings) {
+                    if (result != 'ok')
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            });
+            me.dlgCrossRefDialog.on('close', function(obj){
+                me.crossRefProps = me.dlgCrossRefDialog.getSettings();
+            });
+            me.dlgCrossRefDialog.show();
         }
 
     }, DE.Controllers.Links || {}));

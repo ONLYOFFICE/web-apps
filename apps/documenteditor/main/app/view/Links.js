@@ -124,6 +124,10 @@ define([
             this.btnCaption.on('click', function (b, e) {
                 me.fireEvent('links:caption');
             });
+
+            this.btnCrossRef.on('click', function (b, e) {
+                me.fireEvent('links:crossref');
+            });
         }
 
         return {
@@ -176,6 +180,15 @@ define([
                     disabled: true
                 });
                 this.paragraphControls.push(this.btnCaption);
+
+                this.btnCrossRef = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-crossref'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-cross-reference',
+                    caption: this.capBtnCrossRef,
+                    disabled: true
+                });
+                this.paragraphControls.push(this.btnCrossRef);
 
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
@@ -308,6 +321,7 @@ define([
 
                     me.btnBookmarks.updateHint(me.tipBookmarks);
                     me.btnCaption.updateHint(me.tipCaption);
+                    me.btnCrossRef.updateHint(me.tipCrossRef);
 
                     setEvents.call(me);
                 });
@@ -357,7 +371,9 @@ define([
             mniInsEndnote: 'Insert Endnote',
             textConvertToEndnotes: 'Convert All Footnotes to Endnotes',
             textConvertToFootnotes: 'Convert All Endnotes to Footnotes',
-            textSwapNotes: 'Swap Footnotes and Endnotes'
+            textSwapNotes: 'Swap Footnotes and Endnotes',
+            capBtnCrossRef: 'Cross-reference',
+            tipCrossRef: 'Insert cross-reference'
         }
     }()), DE.Views.Links || {}));
 });
