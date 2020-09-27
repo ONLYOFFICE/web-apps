@@ -164,7 +164,7 @@ define([
             },
 
             template: _.template([
-                '<div class="treeview inner"></div>'
+                '<div class="treeview inner" style="<%= style %>"></div>'
             ].join('')),
 
             initialize : function(options) {

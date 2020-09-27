@@ -87,7 +87,7 @@ define([
                                 '</div>',
                             '</div>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;border: 1px solid #cfcfcf;"></div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 115px;"></div>',
                         '<div class="input-row">',
                             '<label>' + this.strRange + '</label>',
                         '</div>',

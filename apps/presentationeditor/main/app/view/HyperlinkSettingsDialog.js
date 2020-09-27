@@ -85,7 +85,7 @@ define([
                         '<div class="input-row">',
                             '<label>' + this.strLinkTo + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;border: 1px solid #cfcfcf;"></div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.strDisplay + '</label>',
