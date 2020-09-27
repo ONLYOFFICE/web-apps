@@ -1009,15 +1009,13 @@ define([
                                 {
                                     caption: this.textSuppressForCurrentParagraph,
                                     checkable: true,
-                                    toggleGroup: 'menuLineNumbers',
+                                    allowDepress: true,
                                     value: 4
                                 },
                                 {caption: '--'},
                                 {
                                     caption: this.textCustomLineNumbers,
-                                    value: 5,
-                                    checkable: true,
-                                    toggleGroup: 'menuLineNumbers'
+                                    value: 5
                                 }
                             ]
                         })
@@ -2420,8 +2418,8 @@ define([
             textRestartEachPage: 'Restart Each Page',
             textRestartEachSection: 'Restart Each Section',
             textSuppressForCurrentParagraph: 'Suppress for Current Paragraph',
-            textCustomLineNumbers: 'Custom Line Numbers',
-            tipLineNumbers: 'Line Numbers'
+            textCustomLineNumbers: 'Line Numbering Options',
+            tipLineNumbers: 'Show line numbers'
         }
     })(), DE.Views.Toolbar || {}));
 });

@@ -350,6 +350,11 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 el: $('#paragraphadv-checkbox-suppress-line-numbers'),
                 labelText: this.strSuppressLineNumbers
             });
+            this.chLineNumbers.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    // this._changedProps.put_SuppressLineNumbers(field.getValue()=='checked');
+                }
+            }, this));
 
             // Borders
 
@@ -778,6 +783,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
 
                 this.chKeepNext.setValue((props.get_KeepNext() !== null && props.get_KeepNext() !== undefined) ? props.get_KeepNext() : 'indeterminate', true);
                 this.chOrphan.setValue((props.get_WidowControl() !== null && props.get_WidowControl() !== undefined) ? props.get_WidowControl() : 'indeterminate', true);
+
+                // this.chLineNumbers.setValue((props.get_SuppressLineNumbers() !== null && props.get_SuppressLineNumbers() !== undefined) ? props.get_SuppressLineNumbers() : 'indeterminate', true);
 
                 this.Borders = new Asc.asc_CParagraphBorders(props.get_Borders());
 

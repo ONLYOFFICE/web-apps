@@ -47,9 +47,11 @@ define([
     DE.Views.LineNumbersDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 290,
+            height: 273,
             header: true,
             style: 'min-width: 290px;',
-            cls: 'modal-dlg'
+            cls: 'modal-dlg',
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -69,10 +71,6 @@ define([
                 '<div id="line-numbers-restart-each-page" style="margin-bottom: 8px;"></div>',
                 '<div id="line-numbers-restart-each-section" style="margin-bottom: 8px;"></div>',
                 '<div id="line-numbers-continuous" style="margin-bottom: 5px;"></div>',
-                '</div>',
-                '<div class="footer center">',
-                '<button class="btn normal dlg-btn primary" result="ok" style="margin-right: 10px;">' + this.okButtonText + '</button>',
-                '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
                 '</div>'
             ].join('');
 
@@ -107,7 +105,8 @@ define([
                 defaultUnit : '',
                 value: 1,
                 maxValue: 32767,
-                minValue: 1
+                minValue: 1,
+                disabled: true
             });
 
             this.spnFromText = new Common.UI.MetricSpinner({
@@ -118,7 +117,8 @@ define([
                 value: 'Auto',
                 maxValue: 55.87,
                 minValue: 0.1,
-                allowAuto: true
+                allowAuto: true,
+                disabled: true
             });
             this.spinners.push(this.spnFromText);
 
@@ -129,25 +129,30 @@ define([
                 defaultUnit : '',
                 value: 1,
                 maxValue: 100,
-                minValue: 1
+                minValue: 1,
+                disabled: true
             });
 
             this.rbRestartEachPage = new Common.UI.RadioBox({
                 el: $('#line-numbers-restart-each-page'),
                 labelText: this.textRestartEachPage,
-                name: 'asc-radio-line-numbers'
+                name: 'asc-radio-line-numbers',
+                disabled: true,
+                checked: true
             });
 
             this.rbRestartEachSection = new Common.UI.RadioBox({
                 el: $('#line-numbers-restart-each-section'),
                 labelText: this.textRestartEachSection,
-                name: 'asc-radio-line-numbers'
+                name: 'asc-radio-line-numbers',
+                disabled: true
             });
 
             this.rbContinuous = new Common.UI.RadioBox({
                 el: $('#line-numbers-continuous'),
                 labelText: this.textContinuous,
-                name: 'asc-radio-line-numbers'
+                name: 'asc-radio-line-numbers',
+                disabled: true
             });
 
 
@@ -157,11 +162,21 @@ define([
         },
 
         afterRender: function() {
-            this._setDefaults();
         },
 
-        _setDefaults: function() {
-
+        setSettings: function (props) {
+            if (props) {
+                // var type = props.asc_getType();
+                // this.chAddLineNumbering.setValue(type !== case Asc.None);
+                // switch (type) {
+                //     case Asc.Continuous:   this.rbContinuous.setValue(true, true); break;
+                //     case Asc.Page:   this.rbRestartEachPage.setValue(true, true); break;
+                //     case Asc.Section: this.rbRestartEachSection.setValue(true, true); break;
+                // }
+                // this.spnStartAt.setValue(props.get_StartAt()!==null ? props.get_StartAt() : '', true);
+                // this.spnFromText.setValue(props.get_FromText()!==null ? (props.get_FromText()<0 ? -1 : Common.Utils.Metric.fnRecalcFromMM(props.get_FromText())) : '', true);
+                // this.spnCountBy.setValue(props.get_Count()!==null ? props.get_Count() : '', true);
+            }
         },
 
         _handleInput: function(state) {
@@ -182,7 +197,22 @@ define([
         },
 
         getSettings: function() {
-            return this;
+            // var props = new Asc.CDocumentLineNumberProps();
+            // if (this.chAddLineNumbering.getValue()!=='checked') {
+            //     props.put_Type(Asc.None);
+            // } else {
+            //     if (this.rbContinuous.getValue())
+            //         props.put_Type(Asc.Continuous);
+            //     else if (this.rbRestartEachPage.getValue())
+            //         props.put_Type(Asc.Page);
+            //     else if (this.rbRestartEachSection.getValue())
+            //         props.put_Type(Asc.Section);
+            //     props.put_StartAt(this.spnStartAt.getNumberValue());
+            //     var value = this.spnFromText.getNumberValue();
+            //     props.put_FromText(value<0 ? -1 : Common.Utils.Metric.fnRecalcToMM());
+            //     props.put_Count(this.spnCountBy.getNumberValue());
+            // }
+            // return props;
         },
 
         updateMetricUnit: function() {
@@ -196,9 +226,7 @@ define([
 
         },
 
-        textTitle: 'Line Numbers Settings',
-        cancelButtonText: 'Cancel',
-        okButtonText: 'Ok',
+        textTitle: 'Line Numbers',
         textAddLineNumbering: 'Add line numbering',
         textStartAt: 'Start at',
         textFromText: 'From text',

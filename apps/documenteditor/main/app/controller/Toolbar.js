@@ -387,6 +387,7 @@ define([
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
                 this.api.asc_registerCallback('asc_onColumnsProps', _.bind(this.onColumnsProps, this));
                 this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
+                this.api.asc_registerCallback('asc_onLineNumbersProps', _.bind(this.onLineNumbersProps, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onShowParaMarks', _.bind(this.onShowParaMarks, this));
                 this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
@@ -1677,16 +1678,21 @@ define([
         },
 
         onLineNumbersSelect: function(menu, item) {
+            if (_.isUndefined(item.value))
+                return;
+
             switch (item.value) {
                 case 0:
-                    break;
                 case 1:
-                    break;
                 case 2:
-                    break;
                 case 3:
+                    this._state.linenum = undefined;
+                    if (this.api && item.checked) {
+
+                    }
                     break;
                 case 4:
+                    this.api && this.api.put_ParagraphSuppressLineNumbers(item.checked);
                     break;
                 case 5:
                     var win,
@@ -1694,12 +1700,36 @@ define([
                     win = new DE.Views.LineNumbersDialog({
                         handler: function(dlg, result) {
                             if (result == 'ok') {
+                                // var props = dlg.getSettings();
+                                // me.api.asc_SetLineNumbersProps(props);
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             }
                         }
                     });
                     win.show();
+                    // win.setSettings(me.api.asc_GetLineNumbersProps());
                     break;
+            }
+        },
+
+        onLineNumbersProps: function(props) {
+            if (props) {
+                // var type = props.asc_getType();
+                var index = -1;
+                // switch (type) {
+                //     case Asc.None:   index = 0; break;
+                //     case Asc.Continuous:   index = 1; break;
+                //     case Asc.Page:   index = 2; break;
+                //     case Asc.Section: index = 3; break;
+                // }
+                if (this._state.linenum === index)
+                    return;
+                if (index < 0)
+                    this.toolbar.btnLineNumbers.menu.clearAll();
+                else
+                    this.toolbar.btnLineNumbers.menu.items[index].setChecked(true);
+
+                this._state.linenum = index;
             }
         },
 
