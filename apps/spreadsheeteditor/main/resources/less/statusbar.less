@@ -236,6 +236,20 @@
                     }
                 }
 
+                &.icon-visible {
+                    > span {
+                        padding-left: 25px;
+                        > .toolbar__icon {
+                            width: 20px;
+                            height: 20px;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            margin: 3px;
+                        }
+                    }
+                }
+
                 &.disabled {
                     opacity: 0.5;
 
@@ -269,6 +283,16 @@
                             border-right: 2px solid @gray-deep;
                             padding-right: 9px;
                             padding-left: 10px;
+                        }
+                    }
+                    &.icon-visible {
+                        > span {
+                            padding-left: 24px;
+                        }
+                        &.right {
+                            > span {
+                                padding-left: 25px;
+                            }
                         }
                     }
                 }

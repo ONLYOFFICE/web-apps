@@ -664,9 +664,11 @@ define([
 
             fakeMenuItem: function() {
                 return {
-                    conf: {checked: false},
+                    conf: {checked: false, disabled: false},
                     setChecked: function (val) { this.conf.checked = val; },
-                    isChecked: function () { return this.conf.checked; }
+                    isChecked: function () { return this.conf.checked; },
+                    setDisabled: function (val) { this.conf.disabled = val; },
+                    isDisabled: function () { return this.conf.disabled; }
                 };
             },
 
