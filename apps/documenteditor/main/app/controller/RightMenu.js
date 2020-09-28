@@ -80,6 +80,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.MailMerge] = {panelId: "id-mail-merge-settings", panel: rightMenu.mergeSettings,    btn: rightMenu.btnMailMerge,   hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Form] = {panelId: "id-form-settings",  panel: rightMenu.formSettings, btn: rightMenu.btnForm,  hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -262,6 +263,7 @@ define([
             this.rightmenu.chartSettings.updateMetricUnit();
             this.rightmenu.imageSettings.updateMetricUnit();
             this.rightmenu.tableSettings.updateMetricUnit();
+            this.rightmenu.formSettings && this.rightmenu.formSettings.updateMetricUnit();
         },
 
         createDelayedElements: function() {
@@ -347,6 +349,7 @@ define([
                 this.rightmenu.headerSettings.disableControls(disabled);
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.imageSettings.disableControls(disabled);
+                this.rightmenu.formSettings && this.rightmenu.formSettings.disableControls(disabled);
                 if (!allowMerge && this.rightmenu.mergeSettings) {
                     this.rightmenu.mergeSettings.disableControls(disabled);
                     disabled && this.rightmenu.btnMailMerge.setDisabled(disabled);
@@ -365,6 +368,7 @@ define([
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
+                    this.rightmenu.btnForm && this.rightmenu.btnForm.setDisabled(disabled);
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)

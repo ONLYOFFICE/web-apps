@@ -1,0 +1,57 @@
+<table cols="1">
+    <tr>
+        <td>
+            <label class="header" id="form-settings-name"><%= scope.textField %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textKey %></label>
+            <div id="form-combo-key" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textPlaceholder %></label>
+            <div id="form-txt-pholder"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large">
+            <label class="input-label"><%= scope.textTip %></label>
+            <textarea id="form-txt-help" class="form-control" style="width: 100%; height: 90px;"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-chb-max-chars" style="display: inline-block;margin-right: 10px;"></div>
+            <div id="form-spin-max-chars" style="display: inline-block;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-chb-comb"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan="2">
+            <label class="input-label" style="margin-right: 10px;"><%= scope.textWidth %></label>
+            <div id="form-spin-width" style=""></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-btn-delete" style="width:100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-btn-lock" style="width:100%;"></div>
+        </td>
+    </tr>
+</table>

@@ -106,7 +106,8 @@ Common.Utils = _.extend(new(function() {
             Signature  : 9,
             Pivot      : 10,
             Cell       : 11,
-            Slicer     : 12
+            Slicer     : 12,
+            Form       : 13
         },
         importTextType = {
             DRM: 0,
