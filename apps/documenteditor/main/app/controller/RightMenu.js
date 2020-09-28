@@ -125,6 +125,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             var isChart = false;
+            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
             for (i=0; i<SelectedObjects.length; i++)
             {
                 var content_locked = false;
@@ -138,8 +139,7 @@ define([
 
                 var value = SelectedObjects[i].get_ObjectValue();
                 if (settingsType == Common.Utils.documentSettingsType.Image) {
-                    var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                    var lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                     content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
 
                     if (value.get_ChartProperties() !== null) {
@@ -165,6 +165,13 @@ define([
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked();
                 if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
+            }
+
+            if (control_props) {
+                settingsType = Common.Utils.documentSettingsType.Form;
+                this._settings[settingsType].props = control_props;
+                this._settings[settingsType].locked = false;
+                this._settings[settingsType].hidden = 0;
             }
 
             if ( this._settings[Common.Utils.documentSettingsType.Header].locked ) { // если находимся в locked header/footer, то считаем, что все элементы в нем тоже недоступны

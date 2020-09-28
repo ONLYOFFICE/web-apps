@@ -172,6 +172,30 @@ define([
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
+            this.btnRemForm = new Common.UI.Button({
+                parentEl: $markup.findById('#form-btn-delete'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-remove-duplicates',
+                caption     : this.textDelete,
+                style       : 'width: 100%;text-align: left;'
+            });
+            this.btnRemForm.on('click', _.bind(function(btn){
+                this.api.asc_RemoveContentControlWrapper(this._state.id);
+            }, this));
+            this.lockedControls.push(this.btnRemForm);
+
+            this.btnLockForm = new Common.UI.Button({
+                parentEl: $markup.findById('#form-btn-lock'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-remove-duplicates',
+                caption     : this.textLock,
+                style       : 'width: 100%;text-align: left;'
+            });
+            this.btnLockForm.on('click', _.bind(function(btn){
+
+            }, this));
+            this.lockedControls.push(this.btnLockForm);
+
             this.updateMetricUnit();
         },
 
