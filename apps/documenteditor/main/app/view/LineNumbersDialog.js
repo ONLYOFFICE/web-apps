@@ -47,7 +47,7 @@ define([
     DE.Views.LineNumbersDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 290,
-            height: 273,
+            height: 308,
             header: true,
             style: 'min-width: 290px;',
             cls: 'modal-dlg',
@@ -70,7 +70,10 @@ define([
                 '<div style="margin-bottom: 8px;"><label>' + this.textNumbering + '</label></div>',
                 '<div id="line-numbers-restart-each-page" style="margin-bottom: 8px;"></div>',
                 '<div id="line-numbers-restart-each-section" style="margin-bottom: 8px;"></div>',
-                '<div id="line-numbers-continuous" style="margin-bottom: 5px;"></div>',
+                '<div id="line-numbers-continuous" style="margin-bottom: 15px;"></div>',
+                '<div style="margin-bottom: 5px;">',
+                    '<label style="margin-top: 4px;">' + this.textApplyTo + '</label><div id="line-numbers-combo-apply" class="input-group-nr" style="display: inline-block; width:125px;float:right;"></div>',
+                '</div>',
                 '</div>'
             ].join('');
 
@@ -155,6 +158,18 @@ define([
                 disabled: true
             });
 
+            this.cmbApply = new Common.UI.ComboBox({
+                el: $('#line-numbers-combo-apply'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 125px;',
+                editable: false,
+                data: [
+                    { displayValue: this.textSection,   value: Asc.c_oAscSectionApplyType.Current },
+                    { displayValue: this.textForward,   value: Asc.c_oAscSectionApplyType.ToEnd },
+                    { displayValue: this.textDocument,   value: Asc.c_oAscSectionApplyType.All }
+                ]
+            });
+            this.cmbApply.setValue(this.options.applyTo);
 
             this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
@@ -166,17 +181,18 @@ define([
 
         setSettings: function (props) {
             if (props) {
-                // var type = props.asc_getType();
-                // this.chAddLineNumbering.setValue(type !== case Asc.None);
-                // switch (type) {
-                //     case Asc.Continuous:   this.rbContinuous.setValue(true, true); break;
-                //     case Asc.Page:   this.rbRestartEachPage.setValue(true, true); break;
-                //     case Asc.Section: this.rbRestartEachSection.setValue(true, true); break;
-                // }
-                // this.spnStartAt.setValue(props.get_StartAt()!==null ? props.get_StartAt() : '', true);
-                // this.spnFromText.setValue(props.get_FromText()!==null ? (props.get_FromText()<0 ? -1 : Common.Utils.Metric.fnRecalcFromMM(props.get_FromText())) : '', true);
-                // this.spnCountBy.setValue(props.get_Count()!==null ? props.get_Count() : '', true);
-            }
+                var type = props.get_Restart();
+                this.chAddLineNumbering.setValue(true);
+                switch (type) {
+                    case Asc.c_oAscLineNumberRestartType.Continuous:   this.rbContinuous.setValue(true, true); break;
+                    case Asc.c_oAscLineNumberRestartType.NewPage:   this.rbRestartEachPage.setValue(true, true); break;
+                    case Asc.c_oAscLineNumberRestartType.NewSection: this.rbRestartEachSection.setValue(true, true); break;
+                }
+                this.spnStartAt.setValue(props.get_Start()!==null && props.get_Start()!==undefined ? props.get_Start() : '', true);
+                this.spnFromText.setValue(props.get_Distance()!==null && props.get_Distance()!==undefined ? Common.Utils.Metric.fnRecalcFromMM(props.get_Distance() * 25.4 / 20 / 72.0) : -1, true);
+                this.spnCountBy.setValue(props.get_CountBy()!==null && props.get_CountBy()!==undefined ? props.get_CountBy() : '', true);
+            } else
+                this.chAddLineNumbering.setValue(false);
         },
 
         _handleInput: function(state) {
@@ -197,22 +213,21 @@ define([
         },
 
         getSettings: function() {
-            // var props = new Asc.CDocumentLineNumberProps();
-            // if (this.chAddLineNumbering.getValue()!=='checked') {
-            //     props.put_Type(Asc.None);
-            // } else {
-            //     if (this.rbContinuous.getValue())
-            //         props.put_Type(Asc.Continuous);
-            //     else if (this.rbRestartEachPage.getValue())
-            //         props.put_Type(Asc.Page);
-            //     else if (this.rbRestartEachSection.getValue())
-            //         props.put_Type(Asc.Section);
-            //     props.put_StartAt(this.spnStartAt.getNumberValue());
-            //     var value = this.spnFromText.getNumberValue();
-            //     props.put_FromText(value<0 ? -1 : Common.Utils.Metric.fnRecalcToMM());
-            //     props.put_Count(this.spnCountBy.getNumberValue());
-            // }
-            // return props;
+            var props;
+            if (this.chAddLineNumbering.getValue()==='checked') {
+                props = new Asc.CSectionLnNumType();
+                if (this.rbContinuous.getValue())
+                    props.put_Restart(Asc.c_oAscLineNumberRestartType.Continuous);
+                else if (this.rbRestartEachPage.getValue())
+                    props.put_Restart(Asc.c_oAscLineNumberRestartType.NewPage);
+                else if (this.rbRestartEachSection.getValue())
+                    props.put_Restart(Asc.c_oAscLineNumberRestartType.NewSection);
+                props.put_Start(this.spnStartAt.getValue()!=='' ? this.spnStartAt.getNumberValue() : undefined);
+                var value = this.spnFromText.getNumberValue();
+                props.put_Distance(value<0 ? null : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4));
+                props.put_CountBy(this.spnCountBy.getValue()!=='' ? this.spnCountBy.getNumberValue() : undefined);
+            }
+            return {props: props, type: this.cmbApply.getValue()};
         },
 
         updateMetricUnit: function() {
@@ -234,6 +249,10 @@ define([
         textNumbering: 'Numbering',
         textRestartEachPage: 'Restart Each Page',
         textRestartEachSection: 'Restart Each Section',
-        textContinuous: 'Continuous'
+        textContinuous: 'Continuous',
+        textApplyTo: 'Apply changes to',
+        textDocument: 'Whole document',
+        textSection: 'Current section',
+        textForward: 'This point forward'
     }, DE.Views.LineNumbersDialog || {}))
 });
