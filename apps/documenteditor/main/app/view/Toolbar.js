@@ -977,7 +977,7 @@ define([
                     this.btnLineNumbers = new Common.UI.Button({
                         id: 'tlbtn-line-numbers',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-columns',
+                        iconCls: 'toolbar__icon btn-line-numbering',
                         caption: me.capBtnLineNumbers,
                         menu: new Common.UI.Menu({
                             cls: 'ppm-toolbar',
