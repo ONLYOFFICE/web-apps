@@ -103,7 +103,8 @@ define([
                 fontsize: undefined,
                 in_equation: false,
                 in_chart: false,
-                linenum_apply: Asc.c_oAscSectionApplyType.All
+                linenum_apply: Asc.c_oAscSectionApplyType.All,
+                suppress_num: undefined
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -337,6 +338,7 @@ define([
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
             toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
+            toolbar.btnLineNumbers.menu.on('show:after',                _.bind(this.onLineNumbersShow, this));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
             Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
@@ -889,6 +891,10 @@ define([
                 this.btnsComment.setDisabled(need_disable);
 
             toolbar.btnWatermark.setDisabled(header_locked);
+
+            if (frame_pr) {
+                this._state.suppress_num = !!frame_pr.get_SuppressLineNumbers();
+            }
 
             this._state.in_equation = in_equation;
         },
@@ -1733,6 +1739,10 @@ define([
                 return;
             this.toolbar.btnLineNumbers.menu.items[index].setChecked(true);
             this._state.linenum = index;
+        },
+
+        onLineNumbersShow: function(menu) {
+            menu.items[4].setChecked(this._state.suppress_num);
         },
 
         onColorSchemaClick: function(menu, item) {
