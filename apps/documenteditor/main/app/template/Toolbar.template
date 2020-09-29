@@ -130,6 +130,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-pagesize"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-columns"></span>
                     <span class="btn-slot text x-huge btn-pagebreak"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-line-numbers"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

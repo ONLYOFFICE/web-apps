@@ -79,6 +79,11 @@
                     <div id="paragraphadv-checkbox-keep-next"></div>
                 </td>
             </tr>
+            <tr>
+                <td class="padding-small" colspan="2">
+                    <div id="paragraphadv-checkbox-suppress-line-numbers"></div>
+                </td>
+            </tr>
         </table>
     </div>
 </div>

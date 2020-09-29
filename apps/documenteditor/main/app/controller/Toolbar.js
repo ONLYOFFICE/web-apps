@@ -60,7 +60,8 @@ define([
     'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/CompareSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
-    'documenteditor/main/app/view/DateTimeDialog'
+    'documenteditor/main/app/view/DateTimeDialog',
+    'documenteditor/main/app/view/LineNumbersDialog'
 ], function () {
     'use strict';
 
@@ -101,7 +102,8 @@ define([
                 pgmargins: undefined,
                 fontsize: undefined,
                 in_equation: false,
-                in_chart: false
+                in_chart: false,
+                linenum_apply: Asc.c_oAscSectionApplyType.All
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -334,6 +336,7 @@ define([
             toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
+            toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
             Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
@@ -385,6 +388,7 @@ define([
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
                 this.api.asc_registerCallback('asc_onColumnsProps', _.bind(this.onColumnsProps, this));
                 this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
+                this.api.asc_registerCallback('asc_onLineNumbersProps', _.bind(this.onLineNumbersProps, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onShowParaMarks', _.bind(this.onShowParaMarks, this));
                 this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
@@ -1672,6 +1676,63 @@ define([
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onLineNumbersSelect: function(menu, item) {
+            if (_.isUndefined(item.value))
+                return;
+
+            switch (item.value) {
+                case 0:
+                    this.api.asc_SetLineNumbersProps(this._state.linenum_apply, null);
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    this._state.linenum = undefined;
+                    if (this.api && item.checked) {
+                        var props = new Asc.CSectionLnNumType();
+                        props.put_Restart(item.value==1 ? Asc.c_oAscLineNumberRestartType.Continuous : (item.value==2 ? Asc.c_oAscLineNumberRestartType.NewPage : Asc.c_oAscLineNumberRestartType.NewSection));
+                        this.api.asc_SetLineNumbersProps(this._state.linenum_apply, props);
+                    }
+                    break;
+                case 4:
+                    this.api && this.api.asc_SetParagraphSuppressLineNumbers(item.checked);
+                    break;
+                case 5:
+                    var win,
+                        me = this;
+                    win = new DE.Views.LineNumbersDialog({
+                        applyTo: me._state.linenum_apply,
+                        handler: function(dlg, result) {
+                            if (result == 'ok') {
+                                var settings = dlg.getSettings();
+                                me.api.asc_SetLineNumbersProps(settings.type, settings.props);
+                                me._state.linenum_apply = settings.type;
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        }
+                    });
+                    win.show();
+                    win.setSettings(me.api.asc_GetLineNumbersProps());
+                    break;
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onLineNumbersProps: function(props) {
+            var index = 0;
+            if (props) {
+                switch (props.get_Restart()) {
+                    case Asc.c_oAscLineNumberRestartType.Continuous:   index = 1; break;
+                    case Asc.c_oAscLineNumberRestartType.NewPage:   index = 2; break;
+                    case Asc.c_oAscLineNumberRestartType.NewSection: index = 3; break;
+                }
+            }
+            if (this._state.linenum === index)
+                return;
+            this.toolbar.btnLineNumbers.menu.items[index].setChecked(true);
+            this._state.linenum = index;
         },
 
         onColorSchemaClick: function(menu, item) {
