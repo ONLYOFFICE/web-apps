@@ -1,8 +1,9 @@
 
-import {Component} from 'react'
-import {connect} from 'react-redux'
-import * as Actions from '../store/actions/actions'
+import React, {Component} from 'react'
+import {inject} from "mobx-react";
+import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
+@inject("storeDocumentSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -157,15 +158,15 @@ class MainController extends Component {
     }
 
     bindEvents() {
-        const {dispatch} = this.props;
+        const storeSettings = this.props.storeDocumentSettings;
         this.api.asc_registerCallback('asc_onPageOrient', isPortrait => {
-            dispatch(Actions.changePageOrientation(isPortrait === true));
+            storeSettings.isPortrait = isPortrait === true;
         });
     }
 
     render() {
-        return null
+        return <CollaborationController />
     }
 }
 
-export default connect(null,null,null,{forwardRef:true})(MainController);
+export default MainController;

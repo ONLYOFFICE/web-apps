@@ -1,33 +1,11 @@
 import React from 'react';
 
-import {
-  App,
-  Panel,
-  Views,
-  View,
-  Popup,
-  Page,
-  Navbar,
-  Toolbar,
-  NavRight,
-  Link,
-  Block,
-  BlockTitle,
-  LoginScreen,
-  LoginScreenTitle,
-  List,
-  ListItem,
-  ListInput,
-  ListButton,
-  BlockFooter
-} from 'framework7-react';
+import {App,Panel,Views,View,Popup,Page,Navbar,Toolbar,NavRight,Link,Block,BlockTitle,LoginScreen,LoginScreenTitle,List,ListItem,ListInput,ListButton,BlockFooter} from 'framework7-react';
 
-import i18n from '../js/i18n';
 import routes from '../js/routes';
 
 import '../../../../common/Gateway.js';
 import '../../../../common/main/lib/util/utils.js';
-import { CollaborationController } from '../../../../common/mobile/lib/controller/Collaboration.jsx';
 import Notifications from '../../../../common/mobile/utils/notifications.js'
 import MainController from '../controller/Main';
 
@@ -52,9 +30,6 @@ export default class extends React.Component {
     }
 
       Common.Notifications = new Notifications();
-
-      Common.Controllers = {};
-      Common.Controllers.Collaboration = new CollaborationController();
   }
   render() {
     return (

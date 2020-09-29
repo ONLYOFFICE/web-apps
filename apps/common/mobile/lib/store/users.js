@@ -1,11 +1,10 @@
-import * as actionTypes from './actions/actions'
 
-const usersReducer = (state = [], action) => {
-    if (action.type == actionTypes.RESET_USERS) {
-        return [...action.payload];
+import {observable, action} from 'mobx';
+
+export class storeUsers {
+    @observable users = []
+
+    @action reset(users) {
+        this.users = Object.values(users)
     }
-
-    return state;
-};
-
-export default usersReducer
+}

@@ -1,24 +1,33 @@
 import React, { Component } from 'react';
-import { useSelector } from 'react-redux';
+import { observer, inject } from "mobx-react";
 import { Popover, List, ListItem, Navbar, NavTitle, NavRight } from 'framework7-react';
 import { Sheet, Toolbar, BlockTitle, Link, Page, View, Icon } from 'framework7-react';
 import { withTranslation, useTranslation } from 'react-i18next';
 
-const PageUsers = () => {
-    const { t } = useTranslation();
-    const userlist = useSelector(state => state.users);
-    return (
-        <Page name="collab__users">
-            <Navbar title="Users" backLink="Back"></Navbar>
-            <BlockTitle>{t("Collaboration.textEditUser")}</BlockTitle>
-            <List className="coauth__list">
-                {userlist.map((model, i) => (
-                    <ListItem title={model.asc_getUserName()} key={i}>
-                        <Icon slot="media" icon="coauth__list__icon" style={{ backgroundColor:model.asc_getColor() }}></Icon>
-                    </ListItem>
-                ))}
-            </List>
-        </Page>)
+@inject('users')
+@observer
+class PageUsers extends Component {
+    constructor(props){
+        super(props)
+    }
+
+    render() {
+        const { t } = this.props;
+        const userlist = this.props.users;
+        return (
+            <Page name="collab__users">
+                <Navbar title="Users" backLink="Back"></Navbar>
+                <BlockTitle>{t("Collaboration.textEditUser")}</BlockTitle>
+                <List className="coauth__list">
+                    {userlist.users.map((model, i) => (
+                        <ListItem title={model.asc_getUserName()} key={i}>
+                            <Icon slot="media" icon="coauth__list__icon"
+                                  style={{backgroundColor: model.asc_getColor()}}></Icon>
+                        </ListItem>
+                    ))}
+                </List>
+            </Page>)
+    }
 };
 
 const PageCollaboration = () => {
@@ -77,5 +86,6 @@ class CollaborationSheet extends Component {
     }
 }
 
+const pageusers = withTranslation()(PageUsers);
 // export withTranslation()(CollaborationPopover);
-export {CollaborationPopover, CollaborationSheet, PageCollaboration, PageUsers, }
+export {CollaborationPopover, CollaborationSheet, PageCollaboration, pageusers as PageUsers}
