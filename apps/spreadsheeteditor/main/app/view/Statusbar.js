@@ -494,7 +494,7 @@ define([
 
                     while (++i < wc) {
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
-                        name = me.api.asc_getActiveNamedSheetView(i) || '';
+                        name = me.api.asc_getActiveNamedSheetView ? me.api.asc_getActiveNamedSheetView(i) || '' : '';
                         tab = {
                             sheetindex    : i,
                             index         : items.length,

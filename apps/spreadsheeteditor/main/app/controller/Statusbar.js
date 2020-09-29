@@ -712,7 +712,7 @@ define([
 
         onApiActiveSheetChanged: function (index) {
             this.statusbar.tabMenu.hide();
-            if (this._sheetViewTip && this._sheetViewTip.isVisible() && !this.api.asc_getActiveNamedSheetView(index)) { // hide tip when sheet in the default mode
+            if (this._sheetViewTip && this._sheetViewTip.isVisible() && this.api.asc_getActiveNamedSheetView && !this.api.asc_getActiveNamedSheetView(index)) { // hide tip when sheet in the default mode
                 this._sheetViewTip.hide();
             }
         },
