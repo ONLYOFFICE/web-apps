@@ -2940,7 +2940,7 @@
   "SSE.Views.ViewManagerDlg.textRename": "Rename",
   "SSE.Views.ViewManagerDlg.textDuplicate": "Duplicate",
   "SSE.Views.ViewManagerDlg.textDelete": "Delete",
-  "SSE.Views.ViewManagerDlg.textGoTo": "Go to view...",
+  "SSE.Views.ViewManagerDlg.textGoTo": "Go to view",
   "SSE.Views.ViewManagerDlg.textEmpty": "No views have been created yet.",
   "SSE.Views.ViewManagerDlg.guestText": "Guest",
   "SSE.Views.ViewManagerDlg.tipIsLocked": "This element is being edited by another user.",

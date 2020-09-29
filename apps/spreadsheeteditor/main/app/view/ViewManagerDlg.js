@@ -334,7 +334,7 @@ define([
         textRename: 'Rename',
         textDuplicate: 'Duplicate',
         textDelete: 'Delete',
-        textGoTo: 'Go to view...',
+        textGoTo: 'Go to view',
         textEmpty: 'No views have been created yet.',
         guestText: 'Guest',
         tipIsLocked: 'This element is being edited by another user.',
