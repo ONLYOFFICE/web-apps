@@ -226,7 +226,7 @@ define([
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
                     // '<div style="width:65px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= name %></div>',
-                    '<div style="width:65px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= value %></div>',
+                    '<div style="width:65px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= name %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -514,6 +514,7 @@ define([
                             });
                         }
                         this.list.store.reset(arr);
+                        this.txtNewValue.setValue('');
                     }
                     this.disableListButtons();
                 } else if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
