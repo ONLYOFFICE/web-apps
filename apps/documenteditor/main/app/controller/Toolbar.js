@@ -1835,6 +1835,7 @@ define([
                     oPr, oFormPr;
                 if (isnew) {
                     oFormPr = new AscCommon.CSdtFormPr();
+                    this.toolbar.fireEvent('insertcontrol', this.toolbar);
                 }
                 if (item.value == 'plain' || item.value == 'rich')
                     this.api.asc_AddContentControl((item.value=='plain') ? Asc.c_oAscSdtLevelType.Inline : Asc.c_oAscSdtLevelType.Block);

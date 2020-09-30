@@ -261,6 +261,11 @@ define([
             this._settings[Common.Utils.documentSettingsType.TextArt].needShow = true;
         },
 
+        onInsertControl:  function() {
+            if (this._settings[Common.Utils.documentSettingsType.Form])
+                this._settings[Common.Utils.documentSettingsType.Form].needShow = true;
+        },
+
         UpdateThemeColors:  function() {
             this.rightmenu.paragraphSettings.UpdateThemeColors();
             this.rightmenu.tableSettings.UpdateThemeColors();
