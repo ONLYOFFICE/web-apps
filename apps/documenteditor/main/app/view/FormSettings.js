@@ -88,7 +88,12 @@ define([
                 scope: this
             }));
 
-            this.textFieldContainer = el.find('.form-panel-textfield');
+            this.TextOnlySettings = el.find('.form-textfield');
+            this.PlaceholderSettings = el.find('.form-placeholder');
+            this.CheckOnlySettings = el.find('.form-checkbox');
+            this.RadioOnlySettings = el.find('.form-radiobox');
+            this.ListOnlySettings = el.find('.form-list');
+            this.ImageOnlySettings = el.find('.form-image');
         },
 
         createDelayedElements: function() {
@@ -100,7 +105,7 @@ define([
 
             this.labelFormName = $markup.findById('#form-settings-name');
 
-            // Short Size
+            // Common props
             this.cmbKey = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-key'),
                 cls: 'input-group-nr',
@@ -129,13 +134,14 @@ define([
 
             this.textareaHelp = new Common.UI.TextareaField({
                 el          : $markup.findById('#form-txt-help'),
-                style       : 'width: 100%; height: 90px;',
+                style       : 'width: 100%; height: 60px;',
                 value       : ''
             });
             this.lockedControls.push(this.textareaHelp);
             this.textareaHelp.on('changed:after', this.onHelpChanged.bind(this));
             this.textareaHelp.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
+            // Text props
             this.chMaxChars = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-max-chars'),
                 labelText: this.textMaxChars
@@ -176,6 +182,29 @@ define([
             this.lockedControls.push(this.spnWidth);
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            // Check/Radio props
+            this.chSelected = new Common.UI.CheckBox({
+                el: $markup.findById('#form-chb-selected'),
+                labelText: this.textChecked
+            });
+            this.chSelected.on('change', this.onChSelectedChanged.bind(this));
+            this.lockedControls.push(this.chSelected);
+
+            // Radio props
+            this.cmbGroupKey = new Common.UI.ComboBox({
+                el: $markup.findById('#form-combo-group-key'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;',
+                editable: true,
+                data: [],
+                disabled: this._locked
+            });
+            this.cmbGroupKey.setValue('');
+            this.lockedControls.push(this.cmbGroupKey);
+            this.cmbGroupKey.on('selected', this.onGroupKeyChanged.bind(this));
+            this.cmbGroupKey.on('changed:after', this.onGroupKeyChanged.bind(this));
+            this.cmbGroupKey.on('hide:after', this.onHideMenus.bind(this));
 
             this.btnRemForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-delete'),
@@ -313,6 +342,28 @@ define([
             }
         },
 
+        onChSelectedChanged: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
+                // specProps.put_Selected(field.getValue()=='checked');
+                props.put_CheckBoxPr(specProps);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onGroupKeyChanged: function(combo, record) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
+                specProps.put_GroupKey(record.value);
+                props.put_CheckBoxPr(specProps);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -363,7 +414,6 @@ define([
                     specProps = props.get_CheckBoxPr();
                     this._originalCheckProps = specProps;
                 }
-
                 this.type = type;
 
                 // form settings
@@ -387,13 +437,18 @@ define([
                     if (type == Asc.c_oAscContentControlSpecificType.CheckBox && specProps) {
                         val = specProps.get_GroupKey();
                         if (this._state.groupkey!==val) {
-                            this.txtGroupKey.setValue(val ? val : '');
+                            this.cmbGroupKey.setValue(val ? val : '');
                             this._state.groupkey=val;
                         }
                         hidden = (typeof val !== 'string');
                         this.labelFormName.text(hidden ? this.textCheckbox : this.textRadiobox);
+                        this.chSelected.setCaption(hidden ? this.textChecked : this.textSelected);
+                        // val = formTextPr.get_Selected();
+                        // if ( this._state.Selected!==val ) {
+                        //     this.chSelected.setValue(!!val, true);
+                        //     this._state.Selected=val;
+                        // }
                     }
-                    this.$el.find('.group-key').toggleClass('hidden', hidden);
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -420,6 +475,8 @@ define([
                     this.spnMaxChars.setValue(val && val>=0 ? val : 10);
                 }
                 this._noApply = false;
+
+                this.showHideControls(formTextPr, specProps);
             }
         },
 
@@ -451,10 +508,48 @@ define([
             this.btnRemForm.setDisabled(this._lockedControl || disable);
         },
 
-        hideTextOnlySettings: function(value) {
-            if (this._state.HideTextOnlySettings !== value) {
-                this._state.HideTextOnlySettings = value;
-                this.TextOnlySettings.toggleClass('hidden', value==true);
+        showHideControls: function(textProps, specProps) {
+            var textOnly = false,
+                checkboxOnly = false,
+                radioboxOnly = false,
+                listOnly = false,
+                imageOnly = false;
+            if (this.type == Asc.c_oAscContentControlSpecificType.ComboBox || this.type == Asc.c_oAscContentControlSpecificType.DropDownList) {
+                listOnly = !!specProps;
+            } else if (this.type == Asc.c_oAscContentControlSpecificType.CheckBox) {
+                if (specProps) {
+                    checkboxOnly = (typeof specProps.get_GroupKey() !== 'string');
+                    radioboxOnly = !checkboxOnly;
+                }
+            } else if (this.type == Asc.c_oAscContentControlSpecificType.Picture) {
+                imageOnly = true;
+            } else if (this.type == Asc.c_oAscContentControlSpecificType.None) {
+                textOnly = !!textProps;
+            }
+            if (this._state.TextOnlySettings !== textOnly) {
+                this._state.TextOnlySettings = textOnly;
+                this.TextOnlySettings.toggleClass('hidden', !textOnly);
+            }
+            if (this._state.CheckOnlySettings !== checkboxOnly) {
+                this._state.CheckOnlySettings = checkboxOnly;
+                this.CheckOnlySettings.toggleClass('hidden', !checkboxOnly);
+            }
+            if (this._state.RadioOnlySettings !== radioboxOnly) {
+                this._state.RadioOnlySettings = radioboxOnly;
+                this.RadioOnlySettings.toggleClass('hidden', !radioboxOnly);
+            }
+            if (this._state.ListOnlySettings !== listOnly) {
+                this._state.ListOnlySettings = listOnly;
+                this.ListOnlySettings.toggleClass('hidden', !listOnly);
+            }
+            if (this._state.ImageOnlySettings !== imageOnly) {
+                this._state.ImageOnlySettings = imageOnly;
+                this.ImageOnlySettings.toggleClass('hidden', !imageOnly);
+            }
+            var value = !(checkboxOnly || radioboxOnly);
+            if (this._state.PlaceholderSettings !== value) {
+                this._state.PlaceholderSettings = value;
+                this.PlaceholderSettings.toggleClass('hidden', !value);
             }
         },
 
@@ -472,7 +567,10 @@ define([
         textCheckbox: 'Checkbox',
         textCombobox: 'Combo box',
         textDropDown: 'Dropdown',
-        textImage: 'Image'
+        textImage: 'Image',
+        textChecked: 'Checked by default',
+        textSelected: 'Selected by default',
+        textGroupKey: 'Group key'
 
     }, DE.Views.FormSettings || {}));
 });

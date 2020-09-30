@@ -4,13 +4,19 @@
             <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
         </td>
     </tr>
-    <tr>
+    <tr class="form-textfield form-checkbox form-list form-image">
         <td class="padding-small">
             <label class="input-label"><%= scope.textKey %></label>
             <div id="form-combo-key" style="width: 100%;"></div>
         </td>
     </tr>
-    <tr class="form-panel-textfield">
+    <tr class="form-radiobox">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textGroupKey %></label>
+            <div id="form-combo-group-key" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-placeholder">
         <td class="padding-small">
             <label class="input-label"><%= scope.textPlaceholder %></label>
             <div id="form-txt-pholder"></div>
@@ -22,21 +28,26 @@
             <div id="form-txt-help"></div>
         </td>
     </tr>
-    <tr class="form-panel-textfield">
+    <tr class="form-textfield">
         <td class="padding-small">
             <div id="form-chb-max-chars" style="display: inline-block;margin-top: 4px;"></div>
             <div id="form-spin-max-chars" style="display: inline-block;float: right;"></div>
         </td>
     </tr>
-    <tr class="form-panel-textfield">
+    <tr class="form-textfield">
         <td class="padding-small">
             <div id="form-chb-comb"></div>
         </td>
     </tr>
-    <tr class="form-panel-textfield">
-        <td class="padding-small" colspan="2">
+    <tr class="form-textfield">
+        <td class="padding-large" colspan="2">
             <label class="input-label" style="margin-left: 22px;margin-top: 4px;"><%= scope.textWidth %></label>
             <div id="form-spin-width" style="display: inline-block; float: right;"></div>
+        </td>
+    </tr>
+    <tr class="form-checkbox form-radiobox">
+        <td class="padding-large" colspan=2>
+            <div id="form-chb-selected"></div>
         </td>
     </tr>
     <tr>
