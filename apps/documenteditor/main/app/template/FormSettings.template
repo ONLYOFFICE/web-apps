@@ -4,7 +4,7 @@
             <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
         </td>
     </tr>
-    <tr class="form-textfield form-checkbox form-list form-image">
+    <tr class="form-keyfield">
         <td class="padding-small">
             <label class="input-label"><%= scope.textKey %></label>
             <div id="form-combo-key" style="width: 100%;"></div>
@@ -40,16 +40,43 @@
         </td>
     </tr>
     <tr class="form-textfield">
-        <td class="padding-large" colspan="2">
+        <td class="padding-large">
             <label class="input-label" style="margin-left: 22px;margin-top: 4px;"><%= scope.textWidth %></label>
             <div id="form-spin-width" style="display: inline-block; float: right;"></div>
         </td>
     </tr>
-    <tr class="form-checkbox form-radiobox">
-        <td class="padding-large" colspan=2>
+    <tr class="form-checkbox">
+        <td class="padding-large">
             <div id="form-chb-selected"></div>
         </td>
     </tr>
+</table>
+<table cols="2" class="form-list">
+    <tr>
+        <td colspan="2" class="padding-small">
+            <label class="input-label"><%= scope.textValue %></label>
+        </td>
+    </tr>
+    <tr style="vertical-align: top;">
+        <td class="padding-small">
+            <div id="form-txt-new-value" style="margin-right: 5px;"></div>
+        </td>
+        <td class="padding-small">
+            <div id="form-list-add" style="margin-left: 5px;"></div>
+        </td>
+    </tr>
+    <tr style="vertical-align: top;">
+        <td class="padding-large">
+            <div id="form-list-list" style="height: 95px;margin-right: 5px;background-color: #fff;"></div>
+        </td>
+        <td class="padding-large">
+            <div id="form-list-delete" style="margin-bottom: 5px;margin-left: 5px;"></div>
+            <div id="form-list-up" style="margin-bottom: 5px;margin-left: 5px;"></div>
+            <div id="form-list-down" style="margin-left: 5px;"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>

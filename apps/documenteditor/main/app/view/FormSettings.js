@@ -90,6 +90,7 @@ define([
 
             this.TextOnlySettings = el.find('.form-textfield');
             this.PlaceholderSettings = el.find('.form-placeholder');
+            this.KeySettings = el.find('.form-keyfield');
             this.CheckOnlySettings = el.find('.form-checkbox');
             this.RadioOnlySettings = el.find('.form-radiobox');
             this.ListOnlySettings = el.find('.form-list');
@@ -206,10 +207,67 @@ define([
             this.cmbGroupKey.on('changed:after', this.onGroupKeyChanged.bind(this));
             this.cmbGroupKey.on('hide:after', this.onHideMenus.bind(this));
 
+            // combobox & dropdown list
+            this.txtNewValue = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-new-value'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : ''
+            });
+            this.lockedControls.push(this.txtNewValue);
+
+            this.list = new Common.UI.ListView({
+                el: $markup.findById('#form-list-list'),
+                store: new Common.UI.DataViewStore(),
+                emptyText: '',
+                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                itemTemplate: _.template([
+                    '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
+                    // '<div style="width:65px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= name %></div>',
+                    '<div style="width:65px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= value %></div>',
+                    '</div>'
+                ].join(''))
+            });
+            this.list.on('item:select', _.bind(this.onSelectItem, this));
+
+            this.btnListAdd = new Common.UI.Button({
+                parentEl: $markup.findById('#form-list-add'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-add',
+                hint: this.textTipAdd
+            });
+            this.btnListAdd.on('click', _.bind(this.onAddItem, this));
+
+            this.btnListDelete = new Common.UI.Button({
+                parentEl: $markup.findById('#form-list-delete'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon cc-remove',
+                hint: this.textTipDelete
+            });
+            this.btnListDelete.on('click', _.bind(this.onDeleteItem, this));
+
+            this.btnListUp = new Common.UI.Button({
+                parentEl: $markup.findById('#form-list-up'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-up',
+                hint: this.textTipUp
+            });
+            this.btnListUp.on('click', _.bind(this.onMoveItem, this, true));
+
+            this.btnListDown = new Common.UI.Button({
+                parentEl: $markup.findById('#form-list-down'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-down',
+                hint: this.textTipDown
+            });
+            this.btnListDown.on('click', _.bind(this.onMoveItem, this, false));
+
             this.btnRemForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-delete'),
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-remove-duplicates',
+                iconCls     : 'toolbar__icon cc-remove',
                 caption     : this.textDelete,
                 style       : 'text-align: left;'
             });
@@ -346,7 +404,7 @@ define([
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
-                // specProps.put_Selected(field.getValue()=='checked');
+                specProps.put_Checked(field.getValue()=='checked');
                 props.put_CheckBoxPr(specProps);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
@@ -362,6 +420,54 @@ define([
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
+        },
+
+        fillListProps: function() {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var specProps = this._originalListProps || new AscCommon.CSdtComboBoxPr();
+                specProps.clear();
+                this.list.store.each(function (item, index) {
+                    specProps.add_Item(item.get('name'), item.get('value'));
+                });
+                (this.type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.put_ComboBoxPr(specProps) : props.put_DropDownListPr(specProps);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+            }
+        },
+
+        onAddItem: function() {
+            var store = this.list.store,
+                value = this.txtNewValue.getValue();
+            if (value!=='') {
+                var rec = store.findWhere({value: value});
+                if (!rec) {
+                    store.add({value: value, name: value});
+                    this.fillListProps();
+                }
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onDeleteItem: function(btn, eOpts){
+            var rec = this.list.getSelectedRec();
+            if (rec) {
+                var store = this.list.store;
+                store.remove(rec);
+                this.fillListProps();
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onMoveItem: function(up) {
+            var store = this.list.store,
+                length = store.length,
+                rec = this.list.getSelectedRec();
+            if (rec) {
+                var index = store.indexOf(rec);
+                store.add(store.remove(rec), {at: up ? Math.max(0, index-1) : Math.min(length-1, index+1)});
+                this.fillListProps();
+            }
+            this.fireEvent('editcomplete', this);
         },
 
         ChangeSettings: function(props) {
@@ -414,7 +520,6 @@ define([
                     specProps = props.get_CheckBoxPr();
                     this._originalCheckProps = specProps;
                 }
-                this.type = type;
 
                 // form settings
                 var formPr = props.get_FormPr();
@@ -443,11 +548,11 @@ define([
                         hidden = (typeof val !== 'string');
                         this.labelFormName.text(hidden ? this.textCheckbox : this.textRadiobox);
                         this.chSelected.setCaption(hidden ? this.textChecked : this.textSelected);
-                        // val = formTextPr.get_Selected();
-                        // if ( this._state.Selected!==val ) {
-                        //     this.chSelected.setValue(!!val, true);
-                        //     this._state.Selected=val;
-                        // }
+                        val = specProps.get_Checked();
+                        if ( this._state.Selected!==val ) {
+                            this.chSelected.setValue(!!val, true);
+                            this._state.Selected=val;
+                        }
                     }
                 }
 
@@ -476,7 +581,9 @@ define([
                 }
                 this._noApply = false;
 
-                this.showHideControls(formTextPr, specProps);
+                if (this.type !== type || type == Asc.c_oAscContentControlSpecificType.CheckBox)
+                    this.showHideControls(type, formTextPr, specProps);
+                this.type = type;
             }
         },
 
@@ -508,49 +615,44 @@ define([
             this.btnRemForm.setDisabled(this._lockedControl || disable);
         },
 
-        showHideControls: function(textProps, specProps) {
+        showHideControls: function(type, textProps, specProps) {
             var textOnly = false,
                 checkboxOnly = false,
                 radioboxOnly = false,
                 listOnly = false,
                 imageOnly = false;
-            if (this.type == Asc.c_oAscContentControlSpecificType.ComboBox || this.type == Asc.c_oAscContentControlSpecificType.DropDownList) {
+            if (type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList) {
                 listOnly = !!specProps;
-            } else if (this.type == Asc.c_oAscContentControlSpecificType.CheckBox) {
+            } else if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
                 if (specProps) {
                     checkboxOnly = (typeof specProps.get_GroupKey() !== 'string');
                     radioboxOnly = !checkboxOnly;
                 }
-            } else if (this.type == Asc.c_oAscContentControlSpecificType.Picture) {
+            } else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
                 imageOnly = true;
-            } else if (this.type == Asc.c_oAscContentControlSpecificType.None) {
+            } else if (type == Asc.c_oAscContentControlSpecificType.None) {
                 textOnly = !!textProps;
             }
-            if (this._state.TextOnlySettings !== textOnly) {
-                this._state.TextOnlySettings = textOnly;
-                this.TextOnlySettings.toggleClass('hidden', !textOnly);
-            }
-            if (this._state.CheckOnlySettings !== checkboxOnly) {
-                this._state.CheckOnlySettings = checkboxOnly;
-                this.CheckOnlySettings.toggleClass('hidden', !checkboxOnly);
-            }
-            if (this._state.RadioOnlySettings !== radioboxOnly) {
-                this._state.RadioOnlySettings = radioboxOnly;
-                this.RadioOnlySettings.toggleClass('hidden', !radioboxOnly);
-            }
-            if (this._state.ListOnlySettings !== listOnly) {
-                this._state.ListOnlySettings = listOnly;
-                this.ListOnlySettings.toggleClass('hidden', !listOnly);
-            }
-            if (this._state.ImageOnlySettings !== imageOnly) {
-                this._state.ImageOnlySettings = imageOnly;
-                this.ImageOnlySettings.toggleClass('hidden', !imageOnly);
-            }
-            var value = !(checkboxOnly || radioboxOnly);
-            if (this._state.PlaceholderSettings !== value) {
-                this._state.PlaceholderSettings = value;
-                this.PlaceholderSettings.toggleClass('hidden', !value);
-            }
+            this.TextOnlySettings.toggleClass('hidden', !textOnly);
+            this.ListOnlySettings.toggleClass('hidden', !listOnly);
+            this.ImageOnlySettings.toggleClass('hidden', !imageOnly);
+            this.RadioOnlySettings.toggleClass('hidden', !radioboxOnly);
+            this.KeySettings.toggleClass('hidden', radioboxOnly);
+            var value = (checkboxOnly || radioboxOnly);
+            this.PlaceholderSettings.toggleClass('hidden', value);
+            this.CheckOnlySettings.toggleClass('hidden', !value);
+        },
+
+        onSelectItem: function(listView, itemView, record) {
+            this.disableListButtons(false);
+        },
+
+        disableListButtons: function(disabled) {
+            if (disabled===undefined)
+                disabled = !this.list.getSelectedRec();
+            this.btnListDelete.setDisabled(disabled);
+            this.btnListUp.setDisabled(disabled);
+            this.btnListDown.setDisabled(disabled);
         },
 
         textField: 'Text field',
@@ -570,7 +672,12 @@ define([
         textImage: 'Image',
         textChecked: 'Checked by default',
         textSelected: 'Selected by default',
-        textGroupKey: 'Group key'
+        textGroupKey: 'Group key',
+        textTipAdd: 'Add new value',
+        textTipDelete: 'Delete value',
+        textTipUp: 'Move up',
+        textTipDown: 'Move down',
+        textValue: 'Value Options'
 
     }, DE.Views.FormSettings || {}));
 });
