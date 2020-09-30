@@ -526,11 +526,21 @@ define([
                 if (formPr) {
                     this._originalFormProps = formPr;
 
+                    var data = [];
+                    if (type == Asc.c_oAscContentControlSpecificType.CheckBox)
+                        data = this.api.asc_GetCheckBoxFormKeys();
+                    else if (type == Asc.c_oAscContentControlSpecificType.Picture)
+                        data = this.api.asc_GetPictureFormKeys();
+                    else
+                        data = this.api.asc_GetTextFormKeys();
+                    var arr = [];
+                    data.forEach(function(item) {
+                        arr.push({ displayValue: item,  value: item });
+                    });
+                    this.cmbKey.setData(arr);
+
                     val = formPr.get_Key();
-                    if (this._state.key!==val) {
-                        this.cmbKey.setValue(val ? val : '');
-                        this._state.key = val;
-                    }
+                    this.cmbKey.setValue(val ? val : '');
 
                     val = formPr.get_HelpText();
                     if (this._state.help!==val) {
@@ -538,16 +548,20 @@ define([
                         this._state.help=val;
                     }
 
-                    var hidden = true;
                     if (type == Asc.c_oAscContentControlSpecificType.CheckBox && specProps) {
                         val = specProps.get_GroupKey();
-                        if (this._state.groupkey!==val) {
+                        var ischeckbox = (typeof val !== 'string');
+                        if (!ischeckbox) {
+                            var arr = [];
+                            this.api.asc_GetRadioButtonGroupKeys().forEach(function(item) {
+                                arr.push({ displayValue: item,  value: item });
+                            });
+                            this.cmbGroupKey.setData(arr);
                             this.cmbGroupKey.setValue(val ? val : '');
-                            this._state.groupkey=val;
                         }
-                        hidden = (typeof val !== 'string');
-                        this.labelFormName.text(hidden ? this.textCheckbox : this.textRadiobox);
-                        this.chSelected.setCaption(hidden ? this.textChecked : this.textSelected);
+
+                        this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
+                        this.chSelected.setCaption(ischeckbox ? this.textChecked : this.textSelected);
                         val = specProps.get_Checked();
                         if ( this._state.Selected!==val ) {
                             this.chSelected.setValue(!!val, true);
