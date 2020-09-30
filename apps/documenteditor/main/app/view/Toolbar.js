@@ -515,6 +515,14 @@ define([
                     this.paragraphControls.push(this.mnuInsertPageCount);
                     this.toolbarControls.push(this.btnEditHeader);
 
+                    this.btnInsDateTime = new Common.UI.Button({
+                        id: 'id-toolbar-btn-datetime',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-datetime',
+                        caption: me.capBtnDateTime
+                    });
+                    this.paragraphControls.push(this.btnInsDateTime);
+
                     this.btnBlankPage = new Common.UI.Button({
                         id: 'id-toolbar-btn-blankpage',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -635,6 +643,31 @@ define([
                                     value: 'checkbox'
                                 },
                                 {caption: '--'},
+                                // {
+                                //     caption: this.textNewFieldControl,
+                                //     value: 'new-field'
+                                // },
+                                // {
+                                //     caption: this.textNewPictureControl,
+                                //     value: 'new-picture'
+                                // },
+                                // {
+                                //     caption: this.textNewComboboxControl,
+                                //     value: 'new-combobox'
+                                // },
+                                // {
+                                //     caption: this.textNewDropdownControl,
+                                //     value: 'new-dropdown'
+                                // },
+                                // {
+                                //     caption: this.textNewCheckboxControl,
+                                //     value: 'new-checkbox'
+                                // },
+                                // {
+                                //     caption: this.textNewRadioboxControl,
+                                //     value: 'new-radiobox'
+                                // },
+                                // {caption: '--'},
                                 {
                                     caption: this.textRemoveControl,
                                     // iconCls: 'menu__icon cc-remove',
@@ -1129,12 +1162,12 @@ define([
 
                     this.listStyles.fieldPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"/>',
+                        '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"></div>',
                         '</div>'
                     ].join(''));
                     this.listStyles.menuPicker.itemTemplate = _.template([
                         '<div class="style" id="<%= id %>">',
-                        '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"/>',
+                        '<div style="background-image: url(<%= imageUrl %>); width: ' + this.listStyles.itemWidth + 'px; height: ' + this.listStyles.itemHeight + 'px;"></div>',
                         '</div>'
                     ].join(''));
                     this.paragraphControls.push(this.listStyles);
@@ -1309,6 +1342,7 @@ define([
                 _injectComponent('#slot-btn-controls', this.btnContentControls);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
+                _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-insequation', this.btnInsertEquation);
@@ -1589,6 +1623,7 @@ define([
                 this.btnInsertText.updateHint(this.tipInsertText);
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnEditHeader.updateHint(this.tipEditHeader);
+                this.btnInsDateTime.updateHint(this.tipDateTime);
                 this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
@@ -1681,7 +1716,7 @@ define([
                 this.paragraphControls.push(this.mnuInsertPageCount);
 
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
-                    style: 'width: 435px;',
+                    style: 'width: 364px;',
                     items: [
                         {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
                     ]
@@ -1695,7 +1730,7 @@ define([
                         restoreHeight: 421,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                        itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
                     picker.on('item:click', function (picker, item, record, e) {
                         if (record)
@@ -2309,7 +2344,15 @@ define([
             tipInsertSymbol: 'Insert symbol',
             mniDrawTable: 'Draw Table',
             mniEraseTable: 'Erase Table',
-            textListSettings: 'List Settings'
+            textListSettings: 'List Settings',
+            capBtnDateTime: 'Date & Time',
+            tipDateTime: 'Insert current date and time',
+            textNewFieldControl: 'New text field',
+            textNewPictureControl: 'New picture',
+            textNewComboboxControl: 'New combo box',
+            textNewCheckboxControl: 'New check box',
+            textNewRadioboxControl: 'New radio box',
+            textNewDropdownControl: 'New drop-down list'
         }
     })(), DE.Views.Toolbar || {}));
 });

@@ -53,6 +53,7 @@ define([
         // Private
         var _stack = [],
             _slideObject = undefined,
+            _slideLayoutIndex = -1,
             _themeId = -1,
             _effect = Asc.c_oAscSlideTransitionTypes.None,
             _effectType = -1,
@@ -120,7 +121,8 @@ define([
                         paletteFillColor && paletteFillColor.on('select', _.bind(me.onFillColor, me));
 
                     } else if (pageId == '#edit-slide-layout') {
-                        $('.container-edit .slide-layout li').single('click',  _.buffered(me.onLayoutClick, 100, me));
+                        $('.container-edit .slide-layout li').removeClass('active').single('click',  _.buffered(me.onLayoutClick, 100, me));
+                        $('.container-edit .slide-layout li[data-type=' + _slideLayoutIndex + ']').addClass('active');
                     } else if (pageId == '#edit-slide-theme') {
                         this.getView('EditSlide').renderThemes();
 
@@ -253,6 +255,7 @@ define([
             updateLayouts: function(layouts){
                 this.getView('EditSlide').updateLayouts();
                 $('.container-edit .slide-layout li').single('click',  _.buffered(this.onLayoutClick, 100, this));
+                $('.container-edit .slide-layout li[data-type=' + _slideLayoutIndex + ']').addClass('active');
             },
 
             onEffectClick: function (e) {
@@ -367,6 +370,11 @@ define([
                 if (slides.length > 0) {
                     var object = slides[slides.length - 1]; // get top slide
                     _slideObject = object.get_ObjectValue();
+                    _slideLayoutIndex = _slideObject.get_LayoutIndex();
+                    if ($('.container-edit .slide-layout').length > 0) {
+                        $('.container-edit .slide-layout li').removeClass('active');
+                        $('.container-edit .slide-layout li[data-type=' + _slideLayoutIndex + ']').addClass('active');
+                    }
                 } else {
                     _slideObject = undefined;
                 }

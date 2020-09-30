@@ -61,7 +61,11 @@ define([
         };
 
         function onTabDblclick(e) {
-            this.fireEvent('change:compact', [$(e.target).data('tab')]);
+            var tab = $(e.currentTarget).find('> a[data-tab]').data('tab');
+            if ( this.dblclick_el == tab ) {
+                this.fireEvent('change:compact', [tab]);
+                this.dblclick_el = undefined;
+            }
         }
 
         function onShowFullviewPanel(state) {
@@ -233,25 +237,35 @@ define([
 
             onTabClick: function (e) {
                 var me = this;
-
                 var $target = $(e.currentTarget);
                 var tab = $target.find('> a[data-tab]').data('tab');
-                var islone = $target.hasClass('x-lone');
-                if ( me.isFolded ) {
-                    if ( $target.hasClass('x-lone') ) {
-                        me.collapse();
-                        // me.fireEvent('')
-                    } else
-                    if ( $target.hasClass('active') ) {
-                        me.collapse();
-                    } else {
-                        me.setTab(tab);
-                        me.processPanelVisible(null, true);
-                    }
+                if ($target.hasClass('x-lone')) {
+                    me.isFolded && me.collapse();
                 } else {
-                    if ( !$target.hasClass('active') && !islone ) {
+                    if ( $target.hasClass('active') ) {
+                        if (!me._timerSetTab) {
+                            me.dblclick_el = tab;
+                            if ( me.isFolded ) {
+                                me.collapse();
+                                setTimeout(function(){
+                                    me.dblclick_el = undefined;
+                                }, 500);
+                            }
+                        }
+                    } else {
+                        me._timerSetTab = true;
+                        setTimeout(function(){
+                            me._timerSetTab = false;
+                        }, 500);
                         me.setTab(tab);
                         me.processPanelVisible(null, true);
+                        if ( !me.isFolded ) {
+                            if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
+                            me.dblclick_timer = setTimeout(function () {
+                                me.dblclick_el = tab;
+                                delete me.dblclick_timer;
+                            },500);
+                        }
                     }
                 }
             },
@@ -286,6 +300,7 @@ define([
                     if ( $tp.length ) {
                         $tp.addClass('active');
                     }
+
                     this.fireEvent('tab:active', [tab]);
                 }
             },
@@ -365,20 +380,68 @@ define([
                     if ( $active && $active.length ) {
                         var _maxright = $active.parents('.box-controls').width();
                         var data = $active.data(),
-                            _rightedge = data.rightedge;
+                            _rightedge = data.rightedge,
+                            _btns = data.buttons,
+                            _flex = data.flex;
 
                         if ( !_rightedge ) {
                             _rightedge = $active.get(0).getBoundingClientRect().right;
                         }
+                        if ( !_btns ) {
+                            _btns = [];
+                            _.each($active.find('.btn-slot .x-huge'), function(item) {
+                                _btns.push($(item).closest('.btn-slot'));
+                            });
+                            data.buttons = _btns;
+                        }
+                        if (!_flex) {
+                            _flex = [];
+                            _.each($active.find('.group.flex'), function(item) {
+                                var el = $(item);
+                                _flex.push({el: el, width: el.attr('data-group-width') || el.attr('max-width')}); //save flex element and it's initial width
+                            });
+                            data.flex = _flex;
+                        }
 
-                        if ( _rightedge > _maxright ) {
-                            if ( !$active.hasClass('compactwidth') ) {
-                                $active.addClass('compactwidth');
-                                data.rightedge = _rightedge;
+                        if ( _rightedge > _maxright) {
+                            if (_flex.length>0) {
+                                for (var i=0; i<_flex.length; i++) {
+                                    var item = _flex[i].el;
+                                    if (item.outerWidth() > parseInt(item.css('min-width')))
+                                        return;
+                                    else
+                                        item.css('width', item.css('min-width'));
+                                }
                             }
+                            for (var i=_btns.length-1; i>=0; i--) {
+                                var btn = _btns[i];
+                                if ( !btn.hasClass('compactwidth') ) {
+                                    btn.addClass('compactwidth');
+                                    _rightedge = $active.get(0).getBoundingClientRect().right;
+                                    if (_rightedge <= _maxright)
+                                        break;
+                                }
+                            }
+                            data.rightedge = _rightedge;
                         } else {
-                            if ($active.hasClass('compactwidth')) {
-                                $active.removeClass('compactwidth');
+                            for (var i=0; i<_btns.length; i++) {
+                                var btn = _btns[i];
+                                if ( btn.hasClass('compactwidth') ) {
+                                    btn.removeClass('compactwidth');
+                                    _rightedge = $active.get(0).getBoundingClientRect().right;
+                                    if ( _rightedge > _maxright) {
+                                        btn.addClass('compactwidth');
+                                        _rightedge = $active.get(0).getBoundingClientRect().right;
+                                        break;
+                                    }
+                                }
+                            }
+                            data.rightedge = _rightedge;
+                            if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
+                                for (var i=0; i<_flex.length; i++) {
+                                    var item = _flex[i];
+                                    item.el.css('width', item.width);
+                                }
                             }
                         }
                     }
@@ -406,8 +469,10 @@ define([
             },
 
             setVisible: function (tab, visible) {
-                if ( tab && this.$tabs )
+                if ( tab && this.$tabs ) {
                     this.$tabs.find('> a[data-tab=' + tab + ']').parent().css('display', visible ? '' : 'none');
+                    this.onResize();
+                }
             }
         };
     }()));

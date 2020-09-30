@@ -51,7 +51,7 @@ define([
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 360,
+            height: 366,
             buttons: null
         },
 
@@ -85,7 +85,7 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                        '<div id="bookmarks-list" style="width:290px; height: 130px;"></div>',
+                                        '<div id="bookmarks-list" style="width:290px; height: 139px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',

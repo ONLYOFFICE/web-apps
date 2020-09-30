@@ -100,7 +100,7 @@ define([
             textLink: 'Link',
             textDisplay: 'Display',
             textTip: 'Screen Tip',
-            textEdit: 'Edit Link',
+            textEdit: 'Save Link',
             textRemove: 'Remove Link'
         }
     })(), DE.Views.EditHyperlink || {}))

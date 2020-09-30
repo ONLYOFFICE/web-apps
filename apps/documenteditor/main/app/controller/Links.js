@@ -167,6 +167,9 @@ define([
 
             need_disable = in_header || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
             this.view.btnsContents.setDisabled(need_disable);
+
+            need_disable = in_header;
+            this.view.btnCaption.setDisabled(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -296,7 +299,7 @@ define([
                         primary: 'yes',
                         callback: _.bind(function (btn) {
                             if (btn == 'yes') {
-                                this.api.asc_RemoveAllFootnotes();
+                                this.api.asc_RemoveAllFootnotes(true, false);
                             }
                             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                         }, this)

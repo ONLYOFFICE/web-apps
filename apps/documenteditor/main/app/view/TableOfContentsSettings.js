@@ -107,7 +107,7 @@ define([
                                                         '<label class="input-label" style="">' + me.textLevel + '</label>',
                                                     '</td></tr>',
                                                     '<tr><td>',
-                                                        '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 122px;"></div>',
+                                                        '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 121px;"></div>',
                                                 '</td></tr></table>',
                                             '</div>',
                                         '</td>',
@@ -120,7 +120,7 @@ define([
                             '</div></div>',
                         '</div>',
                     '</div>',
-                    '<div class="separator horizontal"/>'
+                    '<div class="separator horizontal"></div>'
                 ].join('')
             }, options);
 

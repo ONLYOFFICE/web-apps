@@ -50,7 +50,8 @@ define([
     DE.Controllers.EditContainer = Backbone.Controller.extend(_.extend((function() {
         // Private
         var _settings = [],
-            _headerType = 1;
+            _headerType = 1,
+            _activeTab;
 
         return {
             models: [],
@@ -238,10 +239,7 @@ define([
                 var $layoutPages = $(
                     '<div class="pages">' +
                         '<div class="page" data-page="index">' +
-                            '<div class="page-content">' +
-                                '<div class="tabs-animated-wrap">' +
-                                    '<div class="tabs"></div>' +
-                                '</div>' +
+                            '<div class="page-content tabs">' +
                             '</div>' +
                         '</div>' +
                     '</div>'
@@ -334,12 +332,17 @@ define([
                 });
 
                 Common.NotificationCenter.trigger('editcontainer:show');
+
+                if (_activeTab === 'edit-link') {
+                    uiApp.showTab('#' + _activeTab, false);
+                }
             },
 
             // API handlers
 
             onApiFocusObject: function (objects) {
                 _settings = [];
+                _activeTab = undefined;
 
                 // Paragraph  : 0,
                 // Table      : 1,
@@ -368,6 +371,9 @@ define([
                         }
                     } else if (Asc.c_oAscTypeSelectElement.Hyperlink == type) {
                         _settings.push('hyperlink');
+                        if (_.isUndefined(_activeTab)) {
+                            _activeTab = 'edit-link';
+                        }
                     } else if (Asc.c_oAscTypeSelectElement.Header == type) {
                         _settings.push('header');
                         _headerType = object.get_ObjectValue().get_Type();

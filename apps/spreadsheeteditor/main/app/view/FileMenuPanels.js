@@ -31,7 +31,8 @@
  *
 */
 define([
-    'common/main/lib/view/DocumentAccessDialog'
+    'common/main/lib/view/DocumentAccessDialog',
+    'common/main/lib/view/AutoCorrectDialog'
 ], function () {
     'use strict';
 
@@ -84,11 +85,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         onFormatClick: function(e) {
@@ -145,11 +152,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         onFormatClick: function(e) {
@@ -169,9 +182,9 @@ define([
             '<div style="width:100%; height:100%; position: relative;">',
                 '<div id="id-settings-menu" style="position: absolute; width:200px; top: 0; bottom: 0;" class="no-padding"></div>',
                 '<div id="id-settings-content" style="position: absolute; left: 200px; top: 0; right: 0; bottom: 0;" class="no-padding">',
-                    '<div id="panel-settings-general" style="width:100%; height:100%;" class="no-padding main-settings-panel active"></div>',
-                    '<div id="panel-settings-print" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
-                    '<div id="panel-settings-spellcheck" style="width:100%; height:100%;" class="no-padding main-settings-panel"></div>',
+                    '<div id="panel-settings-general" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel active"></div>',
+                    '<div id="panel-settings-print" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel"></div>',
+                    '<div id="panel-settings-spellcheck" style="width:100%; height:100%;position:relative;" class="no-padding main-settings-panel"></div>',
                 '</div>',
             '</div>'
         ].join('')),
@@ -245,6 +258,7 @@ define([
 
         setApi: function(api) {
             this.generalSettings && this.generalSettings.setApi(api);
+            this.spellcheckSettings && this.spellcheckSettings.setApi(api);
         },
 
         txtGeneral: 'General',
@@ -259,19 +273,40 @@ define([
             '<table class="main"><tbody>',
                 '<tr>',
                     '<td class="left"><label><%= scope.textSettings %></label></td>',
-                    '<td class="right"><div id="advsettings-print-combo-sheets" class="input-group-nr" /></td>',
+                    '<td class="right"><div id="advsettings-print-combo-sheets" class="input-group-nr"></div></td>',
                 '</tr>','<tr class="divider"></tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.textPageSize %></label></td>',
-                    '<td class="right"><div id="advsettings-print-combo-pages" class="input-group-nr" /></td>',
+                    '<td class="right"><div id="advsettings-print-combo-pages" class="input-group-nr"></div></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.textPageOrientation %></label></td>',
-                    '<td class="right"><span id="advsettings-print-combo-orient" /></td>',
+                    '<td class="right"><span id="advsettings-print-combo-orient"></span></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.textPageScaling %></label></td>',
-                    '<td class="right"><span id="advsettings-print-combo-layout" /></td>',
+                    '<td class="right"><span id="advsettings-print-combo-layout"></span></td>',
+                '</tr>','<tr class="divider"></tr>',
+                '<tr>',
+                    '<td class="left" style="vertical-align: top;"><label><%= scope.strPrintTitles %></label></td>',
+                    '<td class="right" style="vertical-align: top;"><div id="advsettings-print-titles">',
+                        '<table cols="2" class="no-padding">',
+                            '<tr>',
+                                '<td colspan="2" ><label><%= scope.textRepeatTop %></label></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td class="padding-small" style="padding-right: 10px;"><div id="advsettings-txt-top"></div></td>',
+                                '<td class="padding-small"><div id="advsettings-presets-top"></div></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td colspan="2" ><label><%= scope.textRepeatLeft %></label></td>',
+                            '</tr>',
+                            '<tr>',
+                                '<td class="padding-small" style="padding-right: 10px;"><div id="advsettings-txt-left"></div></td>',
+                                '<td class="padding-small"><div id="advsettings-presets-left"></div></td>',
+                            '</tr>',
+                        '</table>',
+                    '</div></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left" style="vertical-align: top;"><label><%= scope.strMargins %></label></td>',
@@ -299,8 +334,8 @@ define([
                 '<tr>',
                 '<td class="left" style="vertical-align: top;"><label><%= scope.strPrint %></label></td>',
                 '<td class="right" style="vertical-align: top;"><div id="advsettings-print">',
-                    '<div id="advsettings-print-chb-grid" style="margin-bottom: 10px;"/>',
-                    '<div id="advsettings-print-chb-rows"/>',
+                    '<div id="advsettings-print-chb-grid" style="margin-bottom: 10px;"></div>',
+                    '<div id="advsettings-print-chb-rows"></div>',
                 '</div></td>',
                 '</tr>','<tr class="divider"></tr>','<tr class="divider"></tr>',
                 '<tr>',
@@ -443,6 +478,36 @@ define([
             });
             this.spinners.push(this.spnMarginRight);
 
+            this.txtRangeTop = new Common.UI.InputField({
+                el          : $markup.findById('#advsettings-txt-top'),
+                style       : 'width: 147px',
+                allowBlank  : true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsTop = new Common.UI.Button({
+                parentEl: $markup.findById('#advsettings-presets-top'),
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 85px;',
+                menu: true
+            });
+
+            this.txtRangeLeft = new Common.UI.InputField({
+                el          : $markup.findById('#advsettings-txt-left'),
+                style       : 'width: 147px',
+                allowBlank  : true,
+                validateOnChange: true
+            });
+
+            this.btnPresetsLeft = new Common.UI.Button({
+                parentEl: $markup.findById('#advsettings-presets-left'),
+                cls: 'btn-text-menu-default',
+                caption: this.textRepeat,
+                style: 'width: 85px;',
+                menu: true
+            });
+
             this.btnOk = new Common.UI.Button({
                 el: $markup.findById('#advsettings-print-button-save')
             });
@@ -454,7 +519,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -516,6 +582,7 @@ define([
                 this.updateMetricUnit();
                 this._initSettings = false;
             }
+            this.scroller && this.scroller.update();
             this.fireEvent('show', this);
         },
 
@@ -539,7 +606,11 @@ define([
         textFitCols:            'Fit All Columns on One Page',
         textFitRows:            'Fit All Rows on One Page',
         textCustomOptions:      'Custom Options',
-        textCustom:             'Custom'
+        textCustom:             'Custom',
+        strPrintTitles:         'Print Titles',
+        textRepeatTop:          'Repeat rows at top',
+        textRepeatLeft:         'Repeat columns at left',
+        textRepeat:             'Repeat...'
     }, SSE.Views.MainSettingsPrint || {}));
 
     SSE.Views.FileMenuPanels.MainSettingsGeneral = Common.UI.BaseView.extend(_.extend({
@@ -551,67 +622,77 @@ define([
                 /** coauthoring begin **/
                 '<tr class="comments">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
-                    '<td class="right"><div id="fms-chb-live-comment"/></td>',
+                    '<td class="right"><div id="fms-chb-live-comment"></div></td>',
                 '</tr>','<tr class="divider comments"></tr>',
                 '<tr class="comments">',
                     '<td class="left"></td>',
-                    '<td class="right"><div id="fms-chb-resolved-comment"/></td>',
+                    '<td class="right"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>','<tr class="divider comments"></tr>',
                 '<tr class="autosave">',
                     '<td class="left"><label id="fms-lbl-autosave"><%= scope.textAutoSave %></label></td>',
-                    '<td class="right"><span id="fms-chb-autosave" /></td>',
+                    '<td class="right"><span id="fms-chb-autosave"></span></td>',
                 '</tr>','<tr class="divider autosave"></tr>',
                 '<tr class="forcesave">',
                     '<td class="left"><label id="fms-lbl-forcesave"><%= scope.textForceSave %></label></td>',
-                    '<td class="right"><span id="fms-chb-forcesave" /></td>',
+                    '<td class="right"><span id="fms-chb-forcesave"></span></td>',
                 '</tr>','<tr class="divider forcesave"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.textRefStyle %></label></td>',
-                    '<td class="right"><div id="fms-chb-r1c1-style"/></td>',
+                    '<td class="right"><div id="fms-chb-r1c1-style"></div></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr class="coauth changes">',
                     '<td class="left"><label><%= scope.strCoAuthMode %></label></td>',
                     '<td class="right">',
-                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
+                        '<div><div id="fms-cmb-coauth-mode" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
-                    '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr" /></td>',
+                    '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strFontRender %></label></td>',
-                    '<td class="right"><span id="fms-cmb-font-render" /></td>',
+                    '<td class="right"><span id="fms-cmb-font-render"></span></td>',
                 '</tr>','<tr class="divider"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strUnit %></label></td>',
-                    '<td class="right"><span id="fms-cmb-unit" /></td>',
+                    '<td class="right"><span id="fms-cmb-unit"></span></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strFuncLocale %></label></td>',
                     '<td class="right">',
-                        '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
+                        '<div><div id="fms-cmb-func-locale" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-func-locale" style="vertical-align: middle;"><%= scope.strFuncLocaleEx %></label></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strRegSettings %></label></td>',
                     '<td class="right">',
-                        '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"/>',
+                        '<div><div id="fms-cmb-reg-settings" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-reg-settings" style="vertical-align: middle;"></label></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strSeparator %></label></td>',
-                    '<td class="right"><div id="fms-chb-separator-settings"/></td>',
+                    '<td class="right"><div id="fms-chb-separator-settings"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
                     '<td class="left"></td>',
-                    '<td class="right"><div id="fms-decimal-separator"/><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strDecimalSeparator %></label></td>',
+                    '<td class="right"><div id="fms-decimal-separator"></div><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strDecimalSeparator %></label></td>',
                 '</tr>',
                 '<tr class="edit">',
                     '<td class="left"></td>',
-                    '<td class="right"><div id="fms-thousands-separator"/><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strThousandsSeparator %></label></td>',
+                    '<td class="right"><div id="fms-thousands-separator"></div><label class="label-separator" style="margin-left: 10px; padding-top: 4px;"><%= scope.strThousandsSeparator %></label></td>',
                 '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strPaste %></label></td>',
+                    '<td class="right"><div id="fms-chb-paste-settings"></div></td>',
+                '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="macros">',
+                    '<td class="left"><label><%= scope.strMacrosSettings %></label></td>',
+                    '<td class="right">',
+                        '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
+                        '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
+                '</tr>','<tr class="divider macros"></tr>',
                 '<tr>',
                     '<td class="left"></td>',
                     '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
@@ -842,6 +923,26 @@ define([
             var $thousandsSeparatorInput = this.inputThousandsSeparator.$el.find('input');
             $thousandsSeparatorInput.on('keydown', keyDown);
 
+            this.cmbMacros = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-macros'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
+                    { value: 0, displayValue: this.txtWarnMacros, descValue: this.txtWarnMacrosDesc },
+                    { value: 1, displayValue: this.txtRunMacros, descValue: this.txtRunMacrosDesc }
+                ]
+            }).on('selected', function(combo, record) {
+                me.lblMacrosDesc.text(record.descValue);
+            });
+            this.lblMacrosDesc = $markup.findById('#fms-lbl-macros');
+
+            this.chPaste = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-paste-settings'),
+                labelText: this.strPasteButton
+            });
+            
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-apply')
             });
@@ -853,10 +954,10 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
-
             return this;
         },
 
@@ -864,6 +965,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateSettings();
+            this.scroller && this.scroller.update();
         },
 
         setMode: function(mode) {
@@ -877,6 +979,7 @@ define([
             $('tr.forcesave', this.el)[mode.canForcesave ? 'show' : 'hide']();
             $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring? 'show' : 'hide']();
+            $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
         },
 
         setApi: function(api) {
@@ -961,6 +1064,12 @@ define([
             } else {
                 this.$el.find('.label-separator').removeClass('disabled');
             }
+
+            item = this.cmbMacros.store.findWhere({value: Common.Utils.InternalSettings.get("sse-macros-mode")});
+            this.cmbMacros.setValue(item ? item.get('value') : 0);
+            this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
+
+            this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
         },
 
         applySettings: function() {
@@ -1000,6 +1109,11 @@ define([
             }
             Common.localStorage.setBool("sse-settings-use-base-separator", isChecked);
             Common.Utils.InternalSettings.set("sse-settings-use-base-separator", isChecked);
+
+            Common.localStorage.setItem("sse-macros-mode", this.cmbMacros.getValue());
+            Common.Utils.InternalSettings.set("sse-macros-mode", this.cmbMacros.getValue());
+
+            Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
 
             Common.localStorage.save();
             if (this.menu) {
@@ -1095,7 +1209,16 @@ define([
         strUseSeparatorsBasedOnRegionalSettings: 'Use separators based on regional settings',
         strDecimalSeparator: 'Decimal separator',
         strThousandsSeparator: 'Thousands separator',
-        txtCacheMode: 'Default cache mode'
+        txtCacheMode: 'Default cache mode',
+        strMacrosSettings: 'Macros Settings',
+        txtWarnMacros: 'Show Notification',
+        txtRunMacros: 'Enable All',
+        txtStopMacros: 'Disable All',
+        txtWarnMacrosDesc: 'Disable all macros with notification',
+        txtRunMacrosDesc: 'Enable all macros without notification',
+        txtStopMacrosDesc: 'Disable all macros without notification',
+        strPaste: 'Cut, copy and paste',
+        strPasteButton: 'Show Paste Options button when content is pasted'
     }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
     SSE.Views.FileMenuPanels.MainSpellCheckSettings = Common.UI.BaseView.extend(_.extend({
@@ -1106,15 +1229,19 @@ define([
             '<table class="main"><tbody>',
             '<tr>',
                 '<td class="left" style="padding-bottom: 8px;"><label><%= scope.strDictionaryLanguage %></label></td>',
-                '<td class="right" style="padding-bottom: 8px;"><span id="fms-cmb-dictionary-language" /></td>',
+                '<td class="right" style="padding-bottom: 8px;"><span id="fms-cmb-dictionary-language"></span></td>',
             '</tr>',
             '<tr>',
                 '<td class="left" style="padding-bottom: 8px;"></td>',
-                '<td class="right" style="padding-bottom: 8px;"><span id="fms-chb-ignore-uppercase-words" /></td>',
+                '<td class="right" style="padding-bottom: 8px;"><span id="fms-chb-ignore-uppercase-words"></span></td>',
             '</tr>',
             '<tr>',
                 '<td class="left"></td>',
-                '<td class="right"><span id="fms-chb-ignore-numbers-words" /></td>',
+                '<td class="right"><span id="fms-chb-ignore-numbers-words"></span></td>',
+            '</tr>','<tr class="divider"></tr>',
+            '<tr>',
+                '<td class="left"><label><%= scope.txtProofing %></label></td>',
+                '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;"><%= scope.txtAutoCorrect %></button></div></td>',
             '</tr>','<tr class="divider"></tr>',
             '<tr>',
                 '<td class="left"></td>',
@@ -1151,6 +1278,11 @@ define([
                 menuStyle: 'min-width: 267px; max-height: 209px;'
             });
 
+            this.btnAutoCorrect = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-auto-correct')
+            });
+            this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
+
             this.btnApply = new Common.UI.Button({
                 el: $markup.findById('#fms-spellcheck-btn-apply')
             });
@@ -1162,7 +1294,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -1173,6 +1306,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateSettings();
+            this.scroller && this.scroller.update();
         },
 
         setMode: function(mode) {
@@ -1239,11 +1373,35 @@ define([
             }
         },
 
+        autoCorrect: function() {
+            if (!this._mathCorrect) {
+                var arr = (this.api) ? this.api.asc_getAutoCorrectMathSymbols() : [],
+                    data = [];
+                _.each(arr, function(item, index){
+                    var itm = {replaced: item[0]};
+                    if (typeof item[1]=='object') {
+                        itm.by = '';
+                        _.each(item[1], function(ch){
+                            itm.by += Common.Utils.String.encodeSurrogateChar(ch);
+                        });
+                    } else {
+                        itm.by = Common.Utils.String.encodeSurrogateChar(item[1]);
+                    }
+                    data.push(itm);
+                });
+                this._mathCorrect = data;
+            }
+            (new Common.Views.AutoCorrectDialog({
+                props: this._mathCorrect
+            })).show();
+        },
+
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
         strIgnoreWordsWithNumbers: 'Ignore words with numbers',
         strDictionaryLanguage: 'Dictionary language',
-        okButtonText: 'Apply'
-
+        okButtonText: 'Apply',
+        txtProofing: 'Proofing',
+        txtAutoCorrect: 'AutoCorrect options...'
     }, SSE.Views.FileMenuPanels.MainSpellCheckSettings || {}));
 
     SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -1269,9 +1427,13 @@ define([
                 store: new Common.UI.DataViewStore(this.recent),
                 itemTemplate: _.template([
                     '<div class="recent-wrap">',
-                        '<div class="recent-icon"></div>',
-                        '<div class="file-name"><%= Common.Utils.String.htmlEncode(title) %></div>',
-                        '<div class="file-info"><%= Common.Utils.String.htmlEncode(folder) %></div>',
+                        '<div class="recent-icon">',
+                            '<svg>',
+                                '<use xlink:href="#svg-file-recent"></use>',
+                            '</svg>',
+                        '</div>',
+                        '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
+                        '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -1281,11 +1443,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         onRecentFileClick: function(view, itemview, record){
@@ -1309,8 +1477,8 @@ define([
             '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
             '<div class="blank-document">',
                 '<div class="blank-document-btn">',
-                    '<svg class="btn-doc-format">',
-                        '<use xlink:href="#svg-format-xlsx"></use>',
+                    '<svg class="btn-blank-format">',
+                        '<use xlink:href="#svg-format-blank"></use>',
                     '</svg>',
                 '</div>',
                 '<div class="blank-document-info">',
@@ -1323,13 +1491,13 @@ define([
                 '<% _.each(docs, function(item) { %>',
                     '<div class="thumb-wrap" template="<%= item.url %>">',
                         '<div class="thumb"',
-                            '<% if (!_.isEmpty(item.icon)) { ' +
-                                'print(\" style=\'background-image: url(item.icon);\'>\")' +
-                            ' } else { ' +
-                                'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
+                            '<% if (!_.isEmpty(item.image)) { %> ',
+                            ' style="background-image: url(<%= item.image %>);">',
+                            '<% } else { ' +
+                                'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
                             ' } %>',
                         '</div>',
-                        '<div class="title"><%= item.name %></div>',
+                        '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
                     '</div>',
                 '<% }) %>',
             '</div>'
@@ -1350,11 +1518,17 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
             return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         _onBlankDocument: function() {
@@ -1552,7 +1726,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -1563,6 +1738,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateFileInfo();
+            this.scroller && this.scroller.update();
         },
 
         hide: function() {
@@ -1793,7 +1969,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -1805,6 +1982,7 @@ define([
 
         show: function() {
             Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.scroller && this.scroller.update();
         },
 
         hide: function() {
@@ -2083,7 +2261,8 @@ define([
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: this.$el,
-                    suppressScrollX: true
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
                 });
             }
 
@@ -2097,6 +2276,7 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
             this.updateSignatures();
             this.updateEncrypt();
+            this.scroller && this.scroller.update();
         },
 
         setMode: function(mode) {

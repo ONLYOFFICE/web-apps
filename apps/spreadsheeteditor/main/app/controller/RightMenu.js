@@ -66,13 +66,19 @@ define([
                 },
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
+                },
+                'PivotTable': {
+                    'insertpivot': this.onInsertPivot
                 }
             });
+
+            Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 1);
+            Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 1);
+            Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", 1);
         },
 
         onLaunch: function() {
             this.rightmenu = this.createView('RightMenu');
-
             this.rightmenu.on('render:after', _.bind(this.onRightMenuAfterRender, this));
         },
 
@@ -89,6 +95,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Pivot] =     {panelId: "id-pivot-settings",      panel: rightMenu.pivotSettings,    btn: rightMenu.btnPivot,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Cell] =      {panelId: "id-cell-settings",       panel: rightMenu.cellSettings,     btn: rightMenu.btnCell,        hidden: 1, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Slicer] =    {panelId: "id-slicer-settings",     panel: rightMenu.slicerSettings,   btn: rightMenu.btnSlicer,      hidden: 1, locked: false};
         },
 
         setApi: function(api) {
@@ -103,8 +110,31 @@ define([
             this.editMode = mode.isEdit;
         },
 
-        onRightMenuClick: function(menu, type, minimized) {
+        onRightMenuClick: function(menu, type, minimized, event) {
             if (!minimized && this.editMode) {
+                if (event) { // user click event
+                    if (type == Common.Utils.documentSettingsType.Table) {
+                        Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 2);
+                        if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", Math.min(Common.Utils.InternalSettings.get("sse-rightpanel-active-spark"), 1));
+                        }
+                    } else if (type == Common.Utils.documentSettingsType.Pivot)
+                        Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 1);
+                    else if (type == Common.Utils.documentSettingsType.Chart && !this._settings[Common.Utils.documentSettingsType.Cell].hidden) {//sparkline
+                        Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", 2);
+                        if (!this._settings[Common.Utils.documentSettingsType.Table].hidden) {
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-table", Math.min(Common.Utils.InternalSettings.get("sse-rightpanel-active-table"), 1));
+                        }
+                    } else if (Common.Utils.documentSettingsType.Cell) {
+                        if (!this._settings[Common.Utils.documentSettingsType.Table].hidden)
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-table", 0);
+                        if (!this._settings[Common.Utils.documentSettingsType.Pivot].hidden)
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-pivot", 0);
+                        if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden)
+                            Common.Utils.InternalSettings.set("sse-rightpanel-active-spark", 0);
+                    }
+                }
+
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
@@ -117,13 +147,13 @@ define([
             if (this.rangeSelectionMode) return;
             
             var SelectedObjects = [],
-                selectType = info.asc_getFlags().asc_getSelectionType(),
+                selectType = info.asc_getSelectionType(),
                 formatTableInfo = info.asc_getFormatTableInfo(),
                 sparkLineInfo = info.asc_getSparklineInfo(),
                 cellInfo = info,
-                pivotInfo = null;//info.asc_getPivotTableInfo();
+                pivotInfo = info.asc_getPivotTableInfo();
 
-            if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
+            if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape || selectType == Asc.c_oAscSelectionType.RangeSlicer ||
                 selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
@@ -174,6 +204,8 @@ define([
                             this._settings[Common.Utils.documentSettingsType.TextArt].hidden = 0;
                             this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.asc_getLocked();
                         }
+                    } else if (value.asc_getSlicerProperties() !== null) {
+                        settingsType = Common.Utils.documentSettingsType.Slicer;
                     }
                 }
 
@@ -200,12 +232,12 @@ define([
                 this._settings[settingsType].btn.updateHint(this.rightmenu.txtSparklineSettings);
             }
 
-            // if (pivotInfo) {
-            //     settingsType = Common.Utils.documentSettingsType.Pivot;
-            //     this._settings[settingsType].props = pivotInfo;
-            //     this._settings[settingsType].locked = isPivotLocked || true; // disable pivot settings
-            //     this._settings[settingsType].hidden = 0;
-            // }
+            if (pivotInfo && this.rightmenu.mode.canFeaturePivot) {
+                settingsType = Common.Utils.documentSettingsType.Pivot;
+                this._settings[settingsType].props = pivotInfo;
+                this._settings[settingsType].locked = isPivotLocked; // disable pivot settings
+                this._settings[settingsType].hidden = 0;
+            }
 
             if (SelectedObjects.length<=0) { // cell is selected
                 settingsType = Common.Utils.documentSettingsType.Cell;
@@ -239,6 +271,26 @@ define([
             if (!this.rightmenu.minimizedMode || this._openRightMenu) {
                 var active;
 
+                if (priorityactive<0 && !this._settings[Common.Utils.documentSettingsType.Cell].hidden &&
+                                        (!this._settings[Common.Utils.documentSettingsType.Table].hidden || !this._settings[Common.Utils.documentSettingsType.Pivot].hidden ||
+                                         !this._settings[Common.Utils.documentSettingsType.Chart].hidden)) {
+                    var tableactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-table"),
+                        pivotactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-pivot"),
+                        sparkactive = Common.Utils.InternalSettings.get("sse-rightpanel-active-spark");
+                    if (!this._settings[Common.Utils.documentSettingsType.Table].hidden && !this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
+                        if (tableactive == sparkactive)
+                            priorityactive = (tableactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Chart;
+                        else
+                            priorityactive = (tableactive > sparkactive) ? Common.Utils.documentSettingsType.Table : Common.Utils.documentSettingsType.Chart;
+                    } else if (!this._settings[Common.Utils.documentSettingsType.Table].hidden) {
+                        priorityactive = (tableactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Table;
+                    } else if (!this._settings[Common.Utils.documentSettingsType.Chart].hidden) {
+                        priorityactive = (sparkactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Chart;
+                    }
+                    if (!this._settings[Common.Utils.documentSettingsType.Pivot].hidden)
+                        priorityactive = (pivotactive===0) ? Common.Utils.documentSettingsType.Cell : Common.Utils.documentSettingsType.Pivot;
+                }
+
                 if (priorityactive>-1) active = priorityactive;
                 else if (lastactive>=0 && currentactive<0) active = lastactive;
                 else if (currentactive>=0) active = currentactive;
@@ -259,6 +311,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
             this._settings[Common.Utils.documentSettingsType.Chart].needShow = false;
             this._settings[Common.Utils.documentSettingsType.Table].needShow = false;
+            this._settings[Common.Utils.documentSettingsType.Pivot].needShow = false;
         },
 
         onCoAuthoringDisconnect: function() {
@@ -283,7 +336,11 @@ define([
         },
 
         onInsertTable:  function() {
-            this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
+            // this._settings[Common.Utils.documentSettingsType.Table].needShow = true;
+        },
+
+        onInsertPivot:  function() {
+            // this._settings[Common.Utils.documentSettingsType.Pivot].needShow = true;
         },
 
         UpdateThemeColors:  function() {
@@ -297,6 +354,7 @@ define([
             this.rightmenu.paragraphSettings.updateMetricUnit();
             this.rightmenu.chartSettings.updateMetricUnit();
             this.rightmenu.imageSettings.updateMetricUnit();
+            this.rightmenu.slicerSettings.updateMetricUnit();
         },
 
         createDelayedElements: function() {
@@ -355,7 +413,7 @@ define([
 
         SetDisabled: function(disabled, allowSignature) {
             this.setMode({isEdit: !disabled});
-            if (this.rightmenu) {
+            if (this.rightmenu && this.rightmenu.paragraphSettings) {
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);
                 this.rightmenu.imageSettings.disableControls(disabled);
@@ -363,6 +421,7 @@ define([
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.pivotSettings.disableControls(disabled);
                 this.rightmenu.cellSettings.disableControls(disabled);
+                this.rightmenu.slicerSettings.disableControls(disabled);
 
                 if (!allowSignature && this.rightmenu.signatureSettings) {
                     this.rightmenu.btnSignature.setDisabled(disabled);
@@ -381,6 +440,7 @@ define([
                     this.rightmenu.btnChart.setDisabled(disabled);
                     this.rightmenu.btnPivot.setDisabled(disabled);
                     this.rightmenu.btnCell.setDisabled(disabled);
+                    this.rightmenu.btnSlicer.setDisabled(disabled);
                 } else {
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }

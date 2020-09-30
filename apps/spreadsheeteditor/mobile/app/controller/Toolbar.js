@@ -176,7 +176,7 @@ define([
                 if ( !info ) info = this.api.asc_getCellInfo();
                 var islocked = false;
 
-                switch (info.asc_getFlags().asc_getSelectionType()) {
+                switch (info.asc_getSelectionType()) {
                 case Asc.c_oAscSelectionType.RangeChart:
                 case Asc.c_oAscSelectionType.RangeImage:
                 case Asc.c_oAscSelectionType.RangeShape:

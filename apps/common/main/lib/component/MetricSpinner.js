@@ -262,10 +262,10 @@ define([
             this.lastValue = this.value;
             if ( typeof value === 'undefined' || value === ''){
                 this.value = '';
-            } else if (this.options.allowAuto && (Math.abs(parseFloat(value)+1.)<0.0001 || value==this.options.autoText)) {
+            } else if (this.options.allowAuto && (Math.abs(Common.Utils.String.parseFloat(value)+1.)<0.0001 || value==this.options.autoText)) {
                 this.value = this.options.autoText;
             } else {
-                var number = this._add(parseFloat(value), 0, (this.options.allowDecimal) ? 3 : 0);
+                var number = this._add(Common.Utils.String.parseFloat(value), 0, (this.options.allowDecimal) ? 3 : 0);
                 if ( typeof value === 'undefined' || isNaN(number)) {
                     number = this.oldValue;
                     showError = true;
@@ -448,12 +448,12 @@ define([
                 var val = me.options.step;
                 if (me._fromKeyDown) {
                     val = this.getRawValue();
-                    val = _.isEmpty(val) ? me.oldValue : parseFloat(val);
+                    val = _.isEmpty(val) ? me.oldValue : Common.Utils.String.parseFloat(val);
                 } else if(me.getValue() !== '') {
                     if (me.options.allowAuto && me.getValue()==me.options.autoText) {
                         val = me.options.minValue-me.options.step;
                     } else
-                        val = parseFloat(me.getValue());
+                        val = Common.Utils.String.parseFloat(me.getValue());
                     if (isNaN(val))
                         val = this.oldValue;
                 } else {
@@ -469,12 +469,12 @@ define([
                 var val = me.options.step;
                 if (me._fromKeyDown) {
                     val = this.getRawValue();
-                    val = _.isEmpty(val) ? me.oldValue : parseFloat(val);
+                    val = _.isEmpty(val) ? me.oldValue : Common.Utils.String.parseFloat(val);
                 } else if(me.getValue() !== '') {
                     if (me.options.allowAuto && me.getValue()==me.options.autoText) {
                         val = me.options.minValue;
                     } else
-                        val = parseFloat(me.getValue());
+                        val = Common.Utils.String.parseFloat(me.getValue());
 
                     if (isNaN(val))
                         val = this.oldValue;

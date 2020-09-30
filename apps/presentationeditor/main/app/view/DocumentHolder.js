@@ -221,7 +221,7 @@ define([
             var onContextMenu = function(event){
                 _.delay(function(){
                     if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
-                        !me._isDisabled && showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
+                        showPopupMenu.call(me, (me.mode.isEdit && !me._isDisabled) ? me.slideMenu : me.viewModeMenuSlide, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
                     } else {
                         showObjectMenu.call(me, event);
                     }
@@ -285,6 +285,11 @@ define([
                         }
                         else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
                             me.api.zoomOut();
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
+                        } else if (key === 48 || key === 96) {// 0
+                            me.api.zoomFitToPage();
                             event.preventDefault();
                             event.stopPropagation();
                             return false;
@@ -435,7 +440,7 @@ define([
             });
 
             var onHyperlinkClick = function(url) {
-                if (url && me.api.asc_getUrlType(url)>0) {
+                if (url /*&& me.api.asc_getUrlType(url)>0*/) {
                     window.open(url);
                 }
             };
@@ -1506,11 +1511,11 @@ define([
                     me.cmpEl.append(pasteContainer);
 
                     me.btnSpecialPaste = new Common.UI.Button({
+                        parentEl: $('#id-document-holder-btn-special-paste'),
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-paste',
                         menu        : new Common.UI.Menu({items: []})
                     });
-                    me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
                 }
 
                 if (pasteItems.length>0) {
@@ -1811,6 +1816,60 @@ define([
                 me.currentMenu = null;
             });
 
+            var mnuPreview = new Common.UI.MenuItem({
+                caption : me.txtPreview
+            }).on('click', function(item) {
+                var current = me.api.getCurrentPage();
+                Common.NotificationCenter.trigger('preview:start', _.isNumber(current) ? current : 0);
+            });
+
+            var mnuSelectAll = new Common.UI.MenuItem({
+                caption : me.txtSelectAll
+            }).on('click', function(item){
+                if (me.api){
+                    me.api.SelectAllSlides();
+
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Select All Slides');
+                }
+            });
+
+            var mnuPrintSelection = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', function(item){
+                if (me.api){
+                    var printopt = new Asc.asc_CAdjustPrint();
+                    printopt.asc_setPrintType(Asc.c_oAscPrintType.Selection);
+                    var opts = new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
+                    opts.asc_setAdvancedOptions(printopt);
+                    me.api.asc_Print(opts);
+                    me.fireEvent('editcomplete', me);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Print Selection');
+                }
+            });
+
+            this.viewModeMenuSlide = new Common.UI.Menu({
+                initMenu: function (value) {
+                    mnuSelectAll.setDisabled(me.slidesCount<2);
+                    mnuPrintSelection.setVisible(me.mode.canPrint && value.fromThumbs===true);
+                    mnuPrintSelection.setDisabled(me.slidesCount<1);
+                    mnuPreview.setDisabled(me.slidesCount<1);
+                },
+                items: [
+                    mnuSelectAll,
+                    mnuPrintSelection,
+                    {caption: '--'},
+                    mnuPreview
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+                me.currentMenu = null;
+            });
         },
 
         createDelayedElements: function(){
@@ -1957,7 +2016,7 @@ define([
                         me.slideMenu.items[i].setDisabled(locked);
                     }
                     mnuPreview.setDisabled(me.slidesCount<1);
-                    mnuSelectAll.setDisabled(locked || me.slidesCount<2);
+                    mnuSelectAll.setDisabled(me.slidesCount<2);
                     mnuDeleteSlide.setDisabled(lockedDeleted || locked);
                     mnuChangeSlide.setDisabled(lockedLayout || locked);
                     mnuResetSlide.setDisabled(lockedLayout || locked);
@@ -2019,7 +2078,7 @@ define([
                     store       : PE.getCollection('SlideLayouts'),
                     itemTemplate: _.template([
                         '<div class="layout" id="<%= id %>" style="width: <%= itemWidth %>px;">',
-                            '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"/>',
+                            '<div style="background-image: url(<%= imageUrl %>); width: <%= itemWidth %>px; height: <%= itemHeight %>px;"></div>',
                             '<div class="title"><%= title %></div> ',
                         '</div>'
                     ].join(''))
@@ -2058,7 +2117,7 @@ define([
                     store       : PE.getCollection('SlideThemes'),
                     itemTemplate: _.template([
                         '<div class="style" id="<%= id %>"">',
-                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"/>',
+                        '<div class="item-theme" style="' + '<% if (typeof imageUrl !== "undefined") { %>' + 'background-image: url(<%= imageUrl %>);' + '<% } %> background-position: 0 -<%= offsety %>px;"></div>',
                         '</div>'
                     ].join(''))
                 }).on('item:click', function(picker, item, record, e) {
@@ -2789,7 +2848,12 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : this.textFromUrl
-                        }).on('click', _.bind(me.onInsertImageUrl, me, false))
+                        }).on('click', _.bind(me.onInsertImageUrl, me, false)),
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromStorage
+                        }).on('click', function(item) {
+                            Common.NotificationCenter.trigger('storage:image-load', 'change');
+                        })
                     ]
                 })
             });
@@ -3298,7 +3362,8 @@ define([
                     menuImgReplace.setVisible(isimage && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgReplace.isVisible())
                         menuImgReplace.setDisabled(disabled || pluginGuid===null);
-
+                    menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    
                     me.menuImgCrop.setVisible(me.api.asc_canEditCrop());
                     if (me.menuImgCrop.isVisible())
                         me.menuImgCrop.setDisabled(disabled);
@@ -3459,7 +3524,7 @@ define([
 
             if (!menu) {
                 this.placeholderMenuChart = menu = new Common.UI.Menu({
-                    style: 'width: 435px;',
+                    style: 'width: 364px;',
                     items: [
                         {template: _.template('<div id="id-placeholder-menu-chart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
                     ]
@@ -3481,7 +3546,7 @@ define([
                     // restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
                 picker.on('item:click', function (picker, item, record, e) {
                     me.editChartClick(record.get('type'), me._state.placeholderObj);
@@ -3752,7 +3817,8 @@ define([
         txtPrintSelection: 'Print Selection',
         addToLayoutText: 'Add to Layout',
         txtResetLayout: 'Reset Slide',
-        mniCustomTable: 'Insert Custom Table'
+        mniCustomTable: 'Insert Custom Table',
+        textFromStorage: 'From Storage'
 
     }, PE.Views.DocumentHolder || {}));
 });

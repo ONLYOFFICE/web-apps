@@ -114,6 +114,18 @@ input, textarea {
     background-color: #fff;
   }
 }
+.container-add {
+  .categories {
+    i.icon {
+      opacity: 0.5;
+    }
+    .active {
+      i.icon {
+        opacity: 1;
+      }
+    }
+  }
+}
 
 // Table styles
 
@@ -305,6 +317,21 @@ input, textarea {
 
       &.empty {
         background: transparent;
+      }
+    }
+  }
+}
+
+// Macros settings
+.page-macros-settings[data-page="settings-macros-view"] {
+  .list-block {
+    li.media-item {
+      .item-title {
+        font-weight: normal;
+      }
+      .item-subtitle {
+        font-size: 14px;
+        color: @gray;
       }
     }
   }

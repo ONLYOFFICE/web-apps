@@ -105,7 +105,8 @@ Common.Utils = _.extend(new(function() {
             MailMerge  : 8,
             Signature  : 9,
             Pivot      : 10,
-            Cell       : 11
+            Cell       : 11,
+            Slicer     : 12
         },
         importTextType = {
             DRM: 0,
@@ -216,7 +217,9 @@ Common.Utils = _.extend(new(function() {
         zoom: function() {return me.zoom;},
         topOffset: 0,
         innerWidth: function() {return me.innerWidth;},
-        innerHeight: function() {return me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top');}
+        innerHeight: function() {return me.innerHeight;},
+        croppedGeometry: function() {return {left:0, top: Common.Utils.InternalSettings.get('window-inactive-area-top'),
+                                        width: me.innerWidth, height: me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top')}}
     }
 })(), Common.Utils || {});
 
@@ -586,6 +589,25 @@ Common.Utils.String = new (function() {
             }
 
             return Common.Utils.String.format(template, string);
+        },
+
+        parseFloat: function(string) {
+            (typeof string === 'string') && (string = string.replace(',', '.'));
+            return parseFloat(string)
+        },
+
+        encodeSurrogateChar: function(nUnicode) {
+            if (nUnicode < 0x10000)
+            {
+                return String.fromCharCode(nUnicode);
+            }
+            else
+            {
+                nUnicode = nUnicode - 0x10000;
+                var nLeadingChar = 0xD800 | (nUnicode >> 10);
+                var nTrailingChar = 0xDC00 | (nUnicode & 0x3FF);
+                return String.fromCharCode(nLeadingChar) + String.fromCharCode(nTrailingChar);
+            }
         }
     }
 })();
@@ -740,6 +762,8 @@ Common.Utils.loadConfig = function(url, callback) {
             else return 'error';
         }).then(function(json){
             callback(json);
+        }).catch(function(e) {
+            callback('error');
         });
 };
 
@@ -825,6 +849,7 @@ Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split,
         /x-huge/.test(el.className) && (_cls += ' x-huge icon-top');
 
         var button = new Common.UI.Button({
+            parentEl: $slots.eq(index),
             id: id + index,
             cls: _cls,
             iconCls: iconCls,
@@ -834,7 +859,7 @@ Common.Utils.injectButtons = function($slots, id, iconCls, caption, lock, split,
             enableToggle: toggle || false,
             lock: lock,
             disabled: true
-        }).render( $slots.eq(index) );
+        });
 
         btnsArr.add(button);
     });
@@ -845,6 +870,30 @@ Common.Utils.injectComponent = function ($slot, cmp) {
     if (cmp && $slot.length) {
         cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
     }
+};
+
+Common.Utils.warningDocumentIsLocked = function (opts) {
+    if ( opts.disablefunc )
+        opts.disablefunc(true);
+
+    var app = window.DE || window.PE || window.SSE;
+    var tip = new Common.UI.SynchronizeTip({
+        extCls      : 'simple',
+        text        : Common.Locale.get("warnFileLocked",{name:"Common.Translation", default:'Document is in use by another application. You can continue editing and save it as a copy.'}),
+        textLink    : Common.Locale.get("txtContinueEditing",{name:app.nameSpace + ".Views.SignatureSettings", default:'Edit anyway'}),
+        placement   : 'document'
+    });
+    tip.on({
+        'dontshowclick': function() {
+            if ( opts.disablefunc ) opts.disablefunc(false);
+            app.getController('Main').api.asc_setIsReadOnly(false);
+            this.close();
+        },
+        'closeclick': function() {
+            this.close();
+        }
+    });
+    tip.show();
 };
 
 jQuery.fn.extend({
@@ -896,3 +945,20 @@ Common.Utils.InternalSettings.set('window-inactive-area-top', 0);
 
 Common.Utils.InternalSettings.set('toolbar-height-compact', Common.Utils.InternalSettings.get('toolbar-height-tabs'));
 Common.Utils.InternalSettings.set('toolbar-height-normal', Common.Utils.InternalSettings.get('toolbar-height-tabs') + Common.Utils.InternalSettings.get('toolbar-height-controls'));
+
+Common.Utils.ModalWindow = new(function() {
+    var count = 0;
+    return {
+        show: function() {
+            count++;
+        },
+
+        close: function() {
+            count--;
+        },
+
+        isVisible: function() {
+            return count>0;
+        }
+    }
+})();

@@ -779,6 +779,10 @@
 		"a": "( conjunto , k )",
 		"d": "Función estadística utilizada para analizar el rango de celdas y devolver el mayor valor"
 	},
+	"LINEST": {
+		"a": "( known_y's, [known_x's], [const], [stats] )",
+		"d": "Función estadística utilizada para calcula las estadísticas de una línea con el método de los 'mínimos cuadrados' para calcular la línea recta que mejor se ajuste a los datos y después devuelve una matriz que describe la línea; debido a que esta función devuelve una matriz de valores, debe ser especificada como fórmula de matriz"
+	},
 	"LOGINV": {
 		"a": "(x, media, desviación-estándar)",
 		"d": "Función estadística utilizada para devolver el inverso de la función de distribución acumulativa logarítmica del valor x dado con los parámetros especificados"
@@ -1686,6 +1690,10 @@
 	"VLOOKUP": {
 		"a": "(valor-buscar, tabla-conjunto, col-índice-núm[, [rango-buscar-marcador]])",
 		"d": "Función de búsqueda y referencia utilizada para realizar la búsqueda vertical de un valor en la columna de la izquierda de una tabla o conjunto y devolver el valor en la misma fila basado en un número de índice de columna especificado."
+	},
+	"CELL": {
+		"a": "(info_type, [reference])",
+		"d": "Función de información utilizada para devuelve información sobre el formato, la ubicación o el contenido de una celda"
 	},
 	"ERROR.TYPE": {
 		"a": "(valor)",

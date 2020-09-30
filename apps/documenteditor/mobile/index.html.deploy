@@ -169,10 +169,11 @@
                 logo = /*params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : */null,
                 logoOO = null;
             if (!logo) {
-                logoOO = /Android/.test(navigator.userAgent) ? "../../../apps/documenteditor/mobile/resources/img/header/header-logo-android.png" : "../../../apps/documenteditor/mobile/resources/img/header/header-logo-ios.png";
+                logoOO = /Android/.test(navigator.userAgent) ? "../../../apps/documenteditor/mobile/resources/img/header/logo-android.svg" : "../../../apps/documenteditor/mobile/resources/img/header/logo-ios.svg";
             }
 
             window.frameEditorId = params["frameEditorId"];
+            window.parentOrigin = params["parentOrigin"];
 
             var brendpanel = document.getElementsByClassName('brendpanel')[0];
             if (brendpanel) {

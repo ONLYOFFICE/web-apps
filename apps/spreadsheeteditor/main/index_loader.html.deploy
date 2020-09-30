@@ -232,6 +232,7 @@
             logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
 
         window.frameEditorId = params["frameEditorId"];
+        window.parentOrigin = params["parentOrigin"];
 
         if ( lang == 'de')      loading = 'Ladevorgang...';
         else if ( lang == 'es') loading = 'Cargando...';
@@ -311,6 +312,9 @@
     <inline src="resources/img/doc-formats/csv.svg" />
     <inline src="resources/img/doc-formats/blank.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
+    <inline src="resources/img/toolbar/charttypes.svg" />
+    <inline src="resources/img/recent-file.svg" />
+    <inline src="resources/img/file-template.svg" />
 
     <div id="viewport"></div>
 

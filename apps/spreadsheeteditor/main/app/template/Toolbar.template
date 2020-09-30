@@ -144,6 +144,10 @@
                     <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssymbol"></span>
                 </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-insslicer"></span>
+                </div>
             </section>
             <section class="panel" data-tab="layout">
                 <div class="group">
@@ -153,6 +157,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-printarea"></span>
                     <span class="btn-slot text x-huge slot-editheader"></span>
                     <span class="btn-slot text" id="slot-btn-scale"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-printtitles"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -180,6 +185,10 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-named-range-huge"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-calculate"></span>
                 </div>
             </section>
@@ -200,6 +209,7 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-text-column"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-rem-duplicates"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

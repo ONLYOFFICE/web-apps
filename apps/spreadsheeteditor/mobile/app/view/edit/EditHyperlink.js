@@ -153,7 +153,7 @@ define([
             textLink: 'Link',
             textDisplay: 'Display',
             textScreenTip: 'Screen Tip',
-            textEditLink: 'Edit Link',
+            textEditLink: 'Save Link',
             textRemoveLink: 'Remove Link'
         }
     })(), SSE.Views.EditHyperlink || {}))

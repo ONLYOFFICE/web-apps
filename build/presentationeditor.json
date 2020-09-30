@@ -1,7 +1,7 @@
 {
     "name": "presentationeditor",
     "version": "4.3.0",
-    "build": 782,
+    "build": 790,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {
@@ -166,14 +166,16 @@
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/help/"
                 }
             ],
-            "index-page": [
+            "indexhtml": [
                 {
-                    "src": "../apps/presentationeditor/main/index.html.deploy",
-                    "dest": "../deploy/web-apps/apps/presentationeditor/main/index.html"
-                },
-                {
-                    "src": "../apps/presentationeditor/main/index_loader.html.deploy",
-                    "dest": "../deploy/web-apps/apps/presentationeditor/main/index_loader.html"
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/main",
+                    "src": [
+                        "*.html.deploy",
+                        "!*.reporter.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/"
                 }
             ]
         },
@@ -182,6 +184,12 @@
                 {
                     "expand": true,
                     "cwd": "../apps/common/main/resources/img",
+                    "src": "**/*.svg",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/main/resources/img",
                     "src": "**/*.svg",
                     "dest": "../deploy/web-apps/apps/presentationeditor/main/resources/img"
                 }

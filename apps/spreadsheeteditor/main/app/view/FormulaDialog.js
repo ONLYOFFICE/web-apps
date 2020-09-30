@@ -63,23 +63,26 @@ define([
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
-                buttons: ['ok', 'cancel']
+                buttons: null
             }, options);
 
             this.template   =   options.template || [
                 '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
                     '<div class="content-panel" >',
-
+                        '<div id="formula-dlg-search" style="height:22px; margin-bottom:10px;"></div>',
                         '<label class="header">' + t.textGroupDescription + '</label>',
-                        '<div id="formula-dlg-combo-group" class="input-group-nr" style="margin-top: 10px"/>',
-                        '<label class="header" style="margin-top:10px">' + t.textListDescription + '</label>',
-                        '<div id="formula-dlg-combo-functions" class="combo-functions"/>',
+                        '<div id="formula-dlg-combo-group" class="input-group-nr" style=""></div>',
+                        '<label class="header" style="margin-top: 10px">' + t.textListDescription + '</label>',
+                        '<div id="formula-dlg-combo-functions" class="combo-functions"></div>',
                         '<label id="formula-dlg-args" style="margin-top: 7px">' + '</label>',
                         '<label id="formula-dlg-desc" style="margin-top: 4px; display: block;">' + '</label>',
-
                     '</div>',
                 '</div>',
-                '<div class="separator horizontal"/>'
+                '<div class="separator horizontal"></div>',
+                '<div class="footer center">',
+                    '<button id="formula-dlg-btn-ok" class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.okButtonText + '</button>',
+                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
+                '</div>'
             ].join('');
 
             this.api            =   options.api;
@@ -94,6 +97,27 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+
+            var me = this;
+            this.inputSearch = new Common.UI.InputField({
+                el               : $('#formula-dlg-search', this.$window),
+                allowBlank       : true,
+                placeHolder      : this.txtSearch,
+                validateOnChange : true,
+                validation       : function () { return true; }
+            }).on ('changing', function (input, value) {
+                if (value.length) {
+                    value = value.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+                    me.filter = value.toLowerCase();
+                } else {
+                    me.filter = undefined;
+                }
+                me.filterFormulas();
+            });
+
+            this.btnOk = new Common.UI.Button({
+                el: $('#formula-dlg-btn-ok')
+            });
 
             this.syntaxLabel = $('#formula-dlg-args');
             this.descLabel = $('#formula-dlg-desc');
@@ -120,47 +144,38 @@ define([
 
             Common.UI.Window.prototype.show.call(this);
 
-            this.mask = $('.modals-mask');
-            this.mask.on('mousedown',_.bind(this.onUpdateFocus, this));
-            this.$window.on('mousedown',_.bind(this.onUpdateFocus, this));
-
             group && this.cmbFuncGroup.setValue(group);
             (group || this.cmbFuncGroup.getValue()=='Last10') && this.fillFunctions(this.cmbFuncGroup.getValue());
 
             if (this.cmbListFunctions) {
+                this.inputSearch.setValue('');
                 _.delay(function (me) {
-                    me.cmbListFunctions.$el.find('.listview').focus();
+                    me.inputSearch.$el.find('input').focus();
                 }, 100, this);
             }
+            this._preventCloseCellEditor = false;
         },
 
         hide: function () {
-            //NOTE: scroll to top
-            //if (this.cmbListFunctions && this.functions && this.functions.length) {
-            //    $(this.cmbListFunctions.scroller.el).scrollTop(-this.cmbListFunctions.scroller.getScrollTop());
-            //}
-
-            this.mask.off('mousedown',_.bind(this.onUpdateFocus, this));
-            this.$window.off('mousedown',_.bind(this.onUpdateFocus, this));
+            var val = this.cmbFuncGroup.getValue();
+            (val=='Recommended') && (val = 'Last10');
+            if (this.cmbFuncGroup.store.length>0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
+                this.cmbFuncGroup.store.shift();
+                this.cmbFuncGroup.onResetItems();
+            }
+            this.cmbFuncGroup.setValue(val);
+            this.recommended = this.filter = undefined;
 
             Common.UI.Window.prototype.hide.call(this);
+
+            !this._preventCloseCellEditor && this.api.asc_closeCellEditor(true);
         },
 
         onBtnClick: function (event) {
-            if ('ok' === event.currentTarget.attributes['result'].value) {
-                if (this.handler) {
-                    this.handler.call(this, this.applyFunction);
-                }
-            }
-
-            this.hide();
+            this._handleInput(event.currentTarget.attributes['result'].value);
         },
         onDblClickFunction: function () {
-            if (this.handler) {
-                this.handler.call(this, this.applyFunction);
-            }
-
-            this.hide();
+            this._handleInput('ok');
         },
         onSelectGroup: function (combo, record) {
             if (!_.isUndefined(record) && !_.isUndefined(record.value)) {
@@ -172,14 +187,21 @@ define([
         onSelectFunction: function (listView, itemView, record) {
             var funcId, functions, func;
 
-            if (this.formulasGroups) {
+            if (this.formulasGroups && record) {
                 this.applyFunction = {name: record.get('value'), origin: record.get('origin')};
                 this.syntaxLabel.text(this.applyFunction.name + record.get('args'));
                 this.descLabel.text(record.get('desc'));
             }
         },
         onPrimary: function(list, record, event) {
-            if (this.handler) {
+            this._handleInput('ok');
+        },
+
+        _handleInput: function(state) {
+            if (this.handler && state == 'ok') {
+                if (this.btnOk.isDisabled())
+                    return;
+                this._preventCloseCellEditor = true;
                 this.handler.call(this, this.applyFunction);
             }
 
@@ -187,9 +209,11 @@ define([
         },
 
         onUpdateFocus: function () {
-            _.delay(function(me) {
-                me.cmbListFunctions.$el.find('.listview').focus();
-            }, 100, this);
+            if (this.cmbListFunctions) {
+                _.delay(function (me) {
+                    me.cmbListFunctions.$el.find('.listview').focus();
+                }, 100, this);
+            }
         },
 
         //
@@ -228,6 +252,9 @@ define([
                 this.cmbFuncGroup.setValue('Last10');
                 this.fillFunctions('Last10');
 
+                this.allFunctions = new Common.UI.DataViewStore();
+                var group = this.formulasGroups.findWhere({name : 'All'});
+                group && this.allFunctions.reset(group.get('functions'));
             }
         },
         fillFunctions: function (name) {
@@ -246,46 +273,77 @@ define([
                     this.cmbListFunctions.on('item:dblclick', _.bind(this.onDblClickFunction, this));
                     this.cmbListFunctions.on('entervalue', _.bind(this.onPrimary, this));
                     this.cmbListFunctions.onKeyDown = _.bind(this.onKeyDown, this.cmbListFunctions);
-                    this.cmbListFunctions.$el.find('.listview').focus();
                     this.cmbListFunctions.scrollToRecord =  _.bind(this.onScrollToRecordCustom, this.cmbListFunctions);
+                    this.onUpdateFocus();
                 }
 
                 if (this.functions) {
                     this.functions.reset();
 
-                    var i = 0,
-                        length = 0,
-                        functions = null,
-                        group = this.formulasGroups.findWhere({name : name});
-
-                    if (group) {
-                        functions = group.get('functions');
-                        if (functions && functions.length) {
-                            length = functions.length;
-                            for (i = 0; i < length; ++i) {
-                                this.functions.push(new Common.UI.DataViewModel({
-                                    id              : functions[i].get('index'),
-                                    selected        : i < 1,
-                                    allowSelected   : true,
-                                    value           : functions[i].get('name'),
-                                    args            : functions[i].get('args'),
-                                    desc            : functions[i].get('desc'),
-                                    origin          : functions[i].get('origin')
-                                }));
-                            }
-
-                            this.applyFunction = {name: functions[0].get('name'), origin: functions[0].get('origin')};
-
-                            this.syntaxLabel.text(this.applyFunction.name + functions[0].get('args'));
-                            this.descLabel.text(functions[0].get('desc'));
-                            this.cmbListFunctions.scroller.update({
-                                minScrollbarLength  : 40,
-                                alwaysVisibleY      : true
-                            });
-                        }
+                    var functions = null;
+                    if (name=='Recommended') {
+                        functions = this.recommended;
+                    } else {
+                        var group = this.formulasGroups.findWhere({name : name});
+                        group && (functions = group.get('functions'));
                     }
+                    var length = functions ? functions.length : 0;
+                    for (var i = 0; i < length; ++i) {
+                        this.functions.push(new Common.UI.DataViewModel({
+                            id              : functions[i].get('index'),
+                            selected        : i < 1,
+                            allowSelected   : true,
+                            value           : functions[i].get('name'),
+                            args            : functions[i].get('args'),
+                            desc            : functions[i].get('desc'),
+                            origin          : functions[i].get('origin')
+                        }));
+                    }
+
+                    this.applyFunction = length ? {name: functions[0].get('name'), origin: functions[0].get('origin')} : undefined;
+
+                    this.syntaxLabel.text(length ? this.applyFunction.name + functions[0].get('args') : '');
+                    this.descLabel.text(length ? functions[0].get('desc') : '');
+                    this.cmbListFunctions.scroller.update({
+                        minScrollbarLength  : 40,
+                        alwaysVisibleY      : true
+                    });
+                    this.btnOk.setDisabled(!length);
                 }
             }
+        },
+
+        filterFormulas: function() {
+            if (!this.filter) {
+                this.cmbFuncGroup.setValue('Last10');
+                this.fillFunctions('Last10');
+                return;
+            }
+
+            var me = this,
+                filter_reg = new RegExp(me.filter, 'ig'),
+                arr = this.allFunctions.filter(function(item) {
+                return !!item.get('name').match(filter_reg);
+            });
+            if (arr.length>0) {
+                if (this.cmbFuncGroup.store.at(0).get('value')!='Recommended') {
+                    this.cmbFuncGroup.store.unshift({value: 'Recommended', displayValue: this.txtRecommended});
+                    this.cmbFuncGroup.onResetItems();
+                }
+                var idx = _.findIndex(arr, function(item) {
+                    return (item.get('name').toLowerCase()===me.filter);
+                });
+                if (idx>0) {
+                    var removed = arr.splice(idx, 1);
+                    arr.unshift(removed[0]);
+                }
+            } else if (arr.length==0 && this.cmbFuncGroup.store.length>0 && this.cmbFuncGroup.store.at(0).get('value')=='Recommended') {
+                this.cmbFuncGroup.store.shift();
+                this.cmbFuncGroup.onResetItems();
+            }
+            this.cmbFuncGroup.setValue('Recommended');
+            this.recommended = arr;
+            this.fillFunctions('Recommended');
         },
 
         onKeyDown: function (e, event) {
@@ -374,7 +432,9 @@ define([
         textGroupDescription:           'Select Function Group',
         textListDescription:            'Select Function',
         sDescription:                   'Description',
-        txtTitle:                       'Insert Function'
+        txtTitle:                       'Insert Function',
+        txtSearch: 'Search',
+        txtRecommended: 'Recommended'
 
     }, SSE.Views.FormulaDialog || {}));
 });

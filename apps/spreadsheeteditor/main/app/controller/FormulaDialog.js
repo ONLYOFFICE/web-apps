@@ -44,7 +44,8 @@ define([
     'core',
     'spreadsheeteditor/main/app/collection/FormulaGroups',
     'spreadsheeteditor/main/app/view/FormulaDialog',
-    'spreadsheeteditor/main/app/view/FormulaTab'
+    'spreadsheeteditor/main/app/view/FormulaTab',
+    'spreadsheeteditor/main/app/view/FormulaWizard'
 ], function () {
     'use strict';
 
@@ -95,7 +96,10 @@ define([
                 if (func.origin === 'more') {
                     this.showDialog(group);
                 } else {
-                    this.api.asc_insertFormula(func.name, Asc.c_oAscPopUpSelectorType.Func, !!autocomplete);
+                    if (autocomplete)
+                        this.api.asc_insertInCell(func.name, Asc.c_oAscPopUpSelectorType.Func, !!autocomplete);
+                    else
+                        this.api.asc_startWizard(func.name, this._cleanCell);
                     !autocomplete && this.updateLast10Formulas(func.origin);
                 }
             }
@@ -112,6 +116,7 @@ define([
 
         setApi: function (api) {
             this.api = api;
+            this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
 
             if (this.formulasGroups && this.api) {
                 Common.Utils.InternalSettings.set("sse-settings-func-last", Common.localStorage.getItem("sse-settings-func-last"));
@@ -128,6 +133,7 @@ define([
                 });
                 this.formulas.on({
                     'hide': function () {
+                        me._cleanCell = undefined; // _cleanCell - clean cell when change formula in formatted table total row
                         me.api.asc_enableKeyEvents(true);
                     }
                 });
@@ -207,7 +213,7 @@ define([
             return null;
         },
 
-        showDialog: function (group) {
+        showDialog: function (group, clean) {
             if (this.formulas) {
                 if ( this.needUpdateFormula ) {
                     this.needUpdateFormula = false;
@@ -216,9 +222,42 @@ define([
                         this.formulas.fillFormulasGroups();
                     }
                 }
-                this.formulas.show(group);
+                this._formulagroup = group;
+                this._cleanCell = clean;
+                this.api.asc_startWizard();
             }
         },
+
+        onSendFunctionWizardInfo: function(props) {
+            if (props) {
+                // show formula settings
+                var me = this;
+                var name = props.asc_getName(),
+                    origin = this.api.asc_getFormulaNameByLocale(name),
+                    descrarr = this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                    funcprops = {
+                        name: name,
+                        origin: origin,
+                        args: ((descrarr && descrarr[origin]) ? descrarr[origin].a : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()),
+                        desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : ''
+                    };
+
+                (new SSE.Views.FormulaWizard({
+                    api     : this.api,
+                    lang    : this.appOptions.lang,
+                    funcprops: funcprops,
+                    props   : props,
+                    handler : function(dlg, result, settings) {
+                        if (result == 'ok') {
+                        }
+                    }
+                })).show();
+                this._cleanCell = undefined;
+            } else
+                this.formulas.show(this._formulagroup);
+            this._formulagroup = undefined;
+        },
+
         hideDialog: function () {
             if (this.formulas && this.formulas.isVisible()) {
                 this.formulas.hide();

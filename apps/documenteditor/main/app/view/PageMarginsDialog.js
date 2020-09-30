@@ -309,9 +309,9 @@ define([
             if (this.options.handler) {
                 if (state == 'ok') {
                     var errmsg = null;
-                    if (this.spnLeft.getNumberValue() + this.spnRight.getNumberValue() > this.maxMarginsW )
+                    if (this.spnLeft.getNumberValue() + this.spnRight.getNumberValue() + (this.cmbGutterPosition.getValue() ? 0 : this.spnGutter.getNumberValue()) > this.maxMarginsW )
                         errmsg = this.txtMarginsW;
-                    else if (Math.abs(this.spnTop.getNumberValue() + this.spnBottom.getNumberValue()) > this.maxMarginsH )
+                    else if (Math.abs(this.spnTop.getNumberValue() + this.spnBottom.getNumberValue() + (this.cmbGutterPosition.getValue() ? this.spnGutter.getNumberValue() : 0)) > this.maxMarginsH )
                         errmsg = this.txtMarginsH;
                     if (errmsg) {
                         Common.UI.warning({

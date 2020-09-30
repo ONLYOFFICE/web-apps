@@ -229,6 +229,14 @@ define([
                 if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
                     $('#editor_sdk').append('<div class="doc-placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div>');
 
+                var value = Common.localStorage.getItem("pe-mobile-macros-mode");
+                if (value === null) {
+                    value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
+                    value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
+                } else
+                    value = parseInt(value);
+                Common.Utils.InternalSettings.set("pe-mobile-macros-mode", value);
+
 //                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
 //                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
@@ -259,10 +267,16 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
+
+                    var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                    docInfo.asc_putIsEnabledPlugins(!!enable);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -560,6 +574,7 @@ define([
                 if (me.api) {
                     me.api.Resize();
                     me.api.zoomFitToPage();
+                    me.api.asc_GetDefaultTableStyles && _.defer(function () {me.api.asc_GetDefaultTableStyles()});
                 }
 
                 me.applyLicense();
@@ -700,7 +715,10 @@ define([
                 me.appOptions.canHistoryClose = me.editorConfig.canHistoryClose;
                 me.appOptions.canUseMailMerge = me.appOptions.canLicense && me.appOptions.canEdit && !me.appOptions.isDesktopApp;
                 me.appOptions.canSendEmailAddresses  = me.appOptions.canLicense && me.editorConfig.canSendEmailAddresses && me.appOptions.canEdit && me.appOptions.canCoAuthoring;
-                me.appOptions.canComments     = me.appOptions.canLicense && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
+                me.appOptions.canComments     = me.appOptions.canLicense && (me.permissions.comment===undefined ? me.appOptions.isEdit : me.permissions.comment) && (me.editorConfig.mode !== 'view');
+                me.appOptions.canComments     = me.appOptions.canComments && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
+                me.appOptions.canViewComments = me.appOptions.canComments || !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
+                me.appOptions.canEditComments = me.appOptions.isOffline || !(typeof (me.editorConfig.customization) == 'object' && me.editorConfig.customization.commentAuthorOnly);
                 me.appOptions.canChat         = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                 me.appOptions.canEditStyles   = me.appOptions.canLicense && me.appOptions.canEdit;
                 me.appOptions.canPrint        = (me.permissions.print !== false);
@@ -906,6 +924,18 @@ define([
 
                     case Asc.c_oAscError.ID.UplImageUrl:
                         config.msg = this.errorBadImageUrl;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionAbsolute:
+                        config.msg = this.errorSessionAbsolute;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionIdle:
+                        config.msg = this.errorSessionIdle;
+                        break;
+
+                    case Asc.c_oAscError.ID.SessionToken:
+                        config.msg = this.errorSessionToken;
                         break;
 
                     case Asc.c_oAscError.ID.DataEncrypted:
@@ -1276,6 +1306,51 @@ define([
                 return false;
             },
 
+            onRunAutostartMacroses: function() {
+                var me = this,
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                if (enable) {
+                    var value = Common.Utils.InternalSettings.get("pe-mobile-macros-mode");
+                    if (value==1)
+                        this.api.asc_runAutostartMacroses();
+                    else if (value === 0) {
+                        uiApp.modal({
+                            title: this.notcriticalErrorTitle,
+                            text: this.textHasMacros,
+                            afterText: '<label class="label-checkbox item-content no-ripple">' +
+                            '<input type="checkbox" name="checkbox-show-macros">' +
+                            '<div class="item-media" style="margin-top: 10px; display: flex; align-items: center;">' +
+                            '<i class="icon icon-form-checkbox"></i><span style="margin-left: 10px;">' + this.textRemember + '</span>' +
+                            '</div>' +
+                            '</label>',
+                            buttons: [{
+                                text: this.textYes,
+                                onClick: function () {
+                                    var dontshow = $('input[name="checkbox-show-macros"]').prop('checked');
+                                    if (dontshow) {
+                                        Common.Utils.InternalSettings.set("pe-mobile-macros-mode", 1);
+                                        Common.localStorage.setItem("pe-mobile-macros-mode", 1);
+                                    }
+                                    setTimeout(function() {
+                                        me.api.asc_runAutostartMacroses();
+                                    }, 1);
+                                }
+                            },
+                                {
+                                    text: this.textNo,
+                                    onClick: function () {
+                                        var dontshow = $('input[name="checkbox-show-macros"]').prop('checked');
+                                        if (dontshow) {
+                                            Common.Utils.InternalSettings.set("pe-mobile-macros-mode", 2);
+                                            Common.localStorage.setItem("pe-mobile-macros-mode", 2);
+                                        }
+                                    }
+                                }]
+                        });
+                    }
+                }
+            },
+
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' to await the autosave of the document. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
@@ -1440,7 +1515,14 @@ define([
             waitText: 'Please, wait...',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            errorOpensource: 'Using the free Community version you can open documents for viewing only. To access mobile web editors, a commercial license is required.'
+            errorOpensource: 'Using the free Community version you can open documents for viewing only. To access mobile web editors, a commercial license is required.',
+            textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
+            textRemember: 'Remember my choice',
+            textYes: 'Yes',
+            textNo: 'No',
+            errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
+            errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
+            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.'
         }
     })(), PE.Controllers.Main || {}))
 });

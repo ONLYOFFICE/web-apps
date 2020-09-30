@@ -96,7 +96,7 @@
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
-                <div class="group" id="slot-field-styles" style="width: 100%; min-width: 148px;"></div>
+                <div class="group flex" id="slot-field-styles" style="width: 100%; min-width: 148px;" data-group-width="100%"></div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -130,6 +130,11 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insertequation"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssymbol"></span>
+                </div>
+                <div class="separator media long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-insaudio"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-insvideo"></span>
                 </div>
             </section>
         </section>

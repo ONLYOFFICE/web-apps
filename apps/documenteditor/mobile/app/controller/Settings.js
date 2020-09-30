@@ -237,7 +237,7 @@ define([
                     $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
                     $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
                     $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
-                    var displayComments = Common.localStorage.getBool("de-settings-livecomment", true);
+                    var displayComments = Common.localStorage.getBool("de-mobile-settings-livecomment", true);
                     $('#settings-display-comments input:checkbox').attr('checked', displayComments);
                     $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
                     var displayResolved = Common.localStorage.getBool("de-settings-resolvedcomment", true);
@@ -254,6 +254,9 @@ define([
                 } else if ('#margins-view' == pageId) {
                     me.initPageMargin();
                     Common.Utils.addScrollIfNeed('.page[data-page=margin-view]', '.page[data-page=margin-view] .page-content');
+                } else if ('#macros-settings-view' == pageId) {
+                    me.initPageMacrosSettings();
+                    Common.Utils.addScrollIfNeed('.page[data-page=macros-settings-view]', '.page[data-page=macros-settings-view] .page-content');
                 } else {
                     $('#settings-readermode input:checkbox').attr('checked', Common.SharedSettings.get('readerMode'));
                     $('#settings-search').single('click',                       _.bind(me.onSearch, me));
@@ -273,6 +276,20 @@ define([
                 }
             },
 
+            initPageMacrosSettings: function() {
+                var me = this,
+                    $pageMacrosSettings = $('.page[data-page="macros-settings-view"] input:radio[name=macros-settings]'),
+                    value = Common.Utils.InternalSettings.get("de-mobile-macros-mode") || 0;
+                $pageMacrosSettings.single('change', _.bind(me.onChangeMacrosSettings, me));
+                $pageMacrosSettings.val([value]);
+            },
+
+            onChangeMacrosSettings: function(e) {
+                var value = parseInt($(e.currentTarget).val());
+                Common.Utils.InternalSettings.set("de-mobile-macros-mode", value);
+                Common.localStorage.setItem("de-mobile-macros-mode", value);
+            },
+
             onChangeDisplayComments: function(e) {
                 var displayComments = $(e.currentTarget).is(':checked');
                 if (!displayComments) {
@@ -285,11 +302,11 @@ define([
                     this.api.asc_showComments(resolved);
                     $("#settings-display-resolved").removeClass("disabled");
                 }
-                Common.localStorage.setBool("de-settings-livecomment", displayComments);
+                Common.localStorage.setBool("de-mobile-settings-livecomment", displayComments);
             },
 
             onChangeDisplayResolved: function(e) {
-                var displayComments = Common.localStorage.getBool("de-settings-livecomment");
+                var displayComments = Common.localStorage.getBool("de-mobile-settings-livecomment");
                 if (displayComments) {
                     var resolved = $(e.currentTarget).is(':checked');
                     if (this.api) {
@@ -384,18 +401,25 @@ define([
             initPageDocumentSettings: function () {
                 var me = this,
                     $pageOrientation = $('.page[data-page=settings-document-view] input:radio[name=doc-orientation]'),
-                    $pageSize = $('#settings-document-format');
+                    $pageSize = $('#settings-document-format'),
+                    curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
+                    sizeW,
+                    sizeH;
 
                 // Init orientation
                 $pageOrientation.val([_isPortrait]);
                 $pageOrientation.single('change', _.bind(me.onOrientationChange, me));
 
                 // Init format
-                $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
-                var curMetricName = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
-                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2)),
+                if (_pageSizesIndex === -1) {
+                    $pageSize.find('.item-title').text(me.textCustomSize);
+                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizesCurrent[0]).toFixed(2));
+                    sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizesCurrent[1]).toFixed(2));
+                } else {
+                    $pageSize.find('.item-title').text(_pageSizes[_pageSizesIndex]['caption']);
+                    sizeW = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][0]).toFixed(2));
                     sizeH = parseFloat(Common.Utils.Metric.fnRecalcFromMM(_pageSizes[_pageSizesIndex]['value'][1]).toFixed(2));
-
+                }
                 var pageSizeTxt = sizeW + ' ' + curMetricName + ' x ' + sizeH + ' ' + curMetricName;
                 $pageSize.find('.item-subtitle').text(pageSizeTxt);
             },
@@ -737,12 +761,16 @@ define([
                 if (Math.abs(_pageSizesCurrent[0] - w) > 0.1 ||
                     Math.abs(_pageSizesCurrent[1] - h) > 0.1) {
                     _pageSizesCurrent = [w, h];
-
+                    var ind = -1;
                     _.find(_pageSizes, function(size, index) {
                         if (Math.abs(size.value[0] - w) < 0.1 && Math.abs(size.value[1] - h) < 0.1) {
                             _pageSizesIndex = index;
+                            ind = index;
                         }
                     }, this);
+                    if (ind === -1) {
+                        _pageSizesIndex = -1;
+                    }
                 }
 
                 this.initPageDocumentSettings();
@@ -756,7 +784,8 @@ define([
             txtLoading              : 'Loading...',
             notcriticalErrorTitle   : 'Warning',
             warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
-            warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?'
+            warnDownloadAsRTF       : 'If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?',
+            textCustomSize          : 'Custom Size'
         }
     })(), DE.Controllers.Settings || {}))
 });

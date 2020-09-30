@@ -75,6 +75,15 @@ define([
 
             },
 
+            setMode: function (mode) {
+                this.view = this.getView('AddOther');
+                this.view.canViewComments = mode.canViewComments;
+            },
+
+            setHideAddComment: function(hide) {
+                this.view.isComments = hide; //prohibit adding multiple comments in one cell
+            },
+
             onLaunch: function () {
                 this.createView('AddOther').render();
             },
@@ -83,6 +92,17 @@ define([
                 if ( args && !(_.indexOf(args.panels, 'image') < 0) ) {
                     this.onPageShow(this.getView('AddOther'), '#addother-insimage');
                 }
+                this.view.hideInsertComments = this.isHideInsertComment();
+            },
+
+            isHideInsertComment: function() {
+                var cellinfo = this.api.asc_getCellInfo();
+                var iscelllocked    = cellinfo.asc_getLocked(),
+                    seltype         = cellinfo.asc_getSelectionType();
+                if (seltype === Asc.c_oAscSelectionType.RangeCells && !iscelllocked) {
+                    return false;
+                }
+                return true;
             },
 
             onPageShow: function (view, pageId) {
@@ -100,10 +120,51 @@ define([
                     $('#addimage-file').single('click', function () {
                         me.onInsertImage({islocal:true});
                     });
+                } else if (pageId === "#addother-insert-comment") {
+                    me.initInsertComment(false);
                 }
             },
 
             // Handlers
+
+            initInsertComment: function (documentFlag) {
+                var comment = SSE.getController('Common.Controllers.Collaboration').getCommentInfo();
+                if (comment) {
+                    this.getView('AddOther').renderComment(comment);
+                    $('#done-comment').single('click', _.bind(this.onDoneComment, this, documentFlag));
+                    $('.back-from-add-comment').single('click', _.bind(function () {
+                        if ($('#comment-text').val().length > 0) {
+                            uiApp.modal({
+                                title: '',
+                                text: this.textDeleteDraft,
+                                buttons: [
+                                    {
+                                        text: this.textCancel
+                                    },
+                                    {
+                                        text: this.textDelete,
+                                        bold: true,
+                                        onClick: function () {
+                                            SSE.getController('AddContainer').rootView.router.back();
+                                        }
+                                    }]
+                            })
+                        } else {
+                            SSE.getController('AddContainer').rootView.router.back();
+                        }
+                    }, this))
+                }
+            },
+
+            onDoneComment: function(documentFlag) {
+                var value = $('#comment-text').val().trim();
+                if (value.length > 0) {
+                    if (SSE.getController('Common.Controllers.Collaboration').onAddNewComment(value, documentFlag)) {
+                        this.view.isComments = true;
+                    }
+                    SSE.getController('AddContainer').hideModal();
+                }
+            },
 
             onInsertImage: function (args) {
                 if ( !args.islocal ) {
@@ -137,7 +198,11 @@ define([
             },
 
             textEmptyImgUrl : 'You need to specify image URL.',
-            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
+            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
+            textDeleteDraft: 'Do you really want to delete draft?',
+            textCancel: 'Cancel',
+            //textContinue: 'Continue',
+            textDelete: 'Delete'
         }
     })(), SSE.Controllers.AddOther || {}))
 });

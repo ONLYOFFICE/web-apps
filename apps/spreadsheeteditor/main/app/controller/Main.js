@@ -121,7 +121,16 @@ define([
                         'Tab': this.txtTab,
                         'File': this.txtFile,
                         'Column': this.txtColumn,
-                        'Row': this.txtRow
+                        'Row': this.txtRow,
+                        '%1 of %2': this.txtByField,
+                        '(All)': this.txtAll,
+                        'Values': this.txtValues,
+                        'Grand Total': this.txtGrandTotal,
+                        'Row Labels': this.txtRowLbls,
+                        'Column Labels': this.txtColLbls,
+                        'Multi-Select (Alt+S)': this.txtMultiSelect,
+                        'Clear Filter (Alt+C)':  this.txtClearFilter,
+                        '(blank)': this.txtBlank
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -143,7 +152,6 @@ define([
                 var me = this;
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
-                this.isModalShowed = 0;
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -210,9 +218,9 @@ define([
                     if (e && e.target && !/area_id/.test(e.target.id)) {
                         if (/msg-reply/.test(e.target.className))
                             me.dontCloseDummyComment = true;
-                        else if (/chat-msg-text/.test(e.target.id))
-                            me.dontCloseChat = true;
-                        else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                        else if (/textarea-control/.test(e.target.className))
+                            me.inTextareaControl = true;
+                        else if (!Common.Utils.ModalWindow.isVisible() && /form-control/.test(e.target.className))
                             me.inFormControl = true;
                     }
                 });
@@ -220,7 +228,7 @@ define([
                 $(document.body).on('blur', 'input, textarea', function(e) {
                     if (me.isAppDisabled === true || me.isFrameClosed) return;
 
-                    if ((!me.isModalShowed || $('.asc-window.enable-key-events:visible').length>0) && !(me.loadMask && me.loadMask.isVisible())) {
+                    if ((!Common.Utils.ModalWindow.isVisible() || $('.asc-window.enable-key-events:visible').length>0) && !(me.loadMask && me.loadMask.isVisible())) {
                         if (/form-control/.test(e.target.className))
                             me.inFormControl = false;
                         if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
@@ -236,13 +244,13 @@ define([
                             me.api.asc_enableKeyEvents(true);
                             if (/msg-reply/.test(e.target.className))
                                 me.dontCloseDummyComment = false;
-                            else if (/chat-msg-text/.test(e.target.id))
-                                me.dontCloseChat = false;
+                            else if (/textarea-control/.test(e.target.className))
+                                me.inTextareaControl = false;
                         }
                     }
                 }).on('dragover', function(e) {
                     var event = e.originalEvent;
-                    if (event.target && $(event.target).closest('#editor_sdk').length<1 ) {
+                    if (event.target && $(event.target).closest('#editor_sdk').length<1 && !($(event.target).is('#statusbar_bottom') || $.contains($('#statusbar_bottom'), $(event.target))) ) {
                         event.preventDefault();
                         event.dataTransfer.dropEffect ="none";
                         return false;
@@ -260,30 +268,30 @@ define([
 
                 Common.NotificationCenter.on({
                     'modal:show': function(e){
-                        me.isModalShowed++;
+                        Common.Utils.ModalWindow.show();
                         me.api.asc_enableKeyEvents(false);
                     },
                     'modal:close': function(dlg) {
-                        me.isModalShowed--;
-                        if (!me.isModalShowed)
+                        Common.Utils.ModalWindow.close();
+                        if (!Common.Utils.ModalWindow.isVisible())
                             me.api.asc_enableKeyEvents(true);
                     },
                     'modal:hide': function(dlg) {
-                        me.isModalShowed--;
-                        if (!me.isModalShowed)
+                        Common.Utils.ModalWindow.close();
+                        if (!Common.Utils.ModalWindow.isVisible())
                             me.api.asc_enableKeyEvents(true);
                     },
                     'dataview:focus': function(e){
                     },
                     'dataview:blur': function(e){
-                        if (!me.isModalShowed) {
+                        if (!Common.Utils.ModalWindow.isVisible()) {
                             me.api.asc_enableKeyEvents(true);
                         }
                     },
                     'menu:show': function(e){
                     },
                     'menu:hide': function(menu, isFromInputControl){
-                        if (!me.isModalShowed && (!menu || !menu.cmpEl.hasClass('from-cell-edit')) && !isFromInputControl) {
+                        if (!Common.Utils.ModalWindow.isVisible() && (!menu || !menu.cmpEl.hasClass('from-cell-edit')) && !isFromInputControl) {
                             me.api.asc_InputClearKeyboardElement();
                             me.api.asc_enableKeyEvents(true);
                         }
@@ -319,11 +327,12 @@ define([
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = !_.isEmpty(this.editorConfig.createUrl);
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
+                this.appOptions.canRequestCreateNew = this.editorConfig.canRequestCreateNew;
                 this.appOptions.lang            = this.editorConfig.lang;
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
                 this.appOptions.region          = (typeof (this.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
@@ -347,6 +356,8 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
+                this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
+                this.appOptions.canFeaturePivot = true;
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '')
@@ -385,6 +396,14 @@ define([
                     $('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
                 }
 
+                var value = Common.localStorage.getItem("sse-macros-mode");
+                if (value === null) {
+                    value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
+                    value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
+                } else
+                    value = parseInt(value);
+                Common.Utils.InternalSettings.set("sse-macros-mode", value);
+
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge);
                 Common.Controllers.Desktop.init(this.appOptions);
             },
@@ -417,11 +436,19 @@ define([
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
 
+                    var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                    docInfo.asc_putIsEnabledPlugins(!!enable);
+
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
+
+                    Common.Utils.InternalSettings.set("sse-doc-info-key", data.doc.key);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
             },
@@ -522,7 +549,7 @@ define([
             },
 
             onSelectionChanged: function(info){
-                if (!this._isChartDataReady && info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart) {
+                if (!this._isChartDataReady && info.asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart) {
                     this._isChartDataReady = true;
                     Common.Gateway.internalMessage('chartDataReady');
                 }
@@ -558,12 +585,12 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.dontCloseChat && !this.isModalShowed && !this.inFormControl)
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.inTextareaControl && !Common.Utils.ModalWindow.isVisible() && !this.inFormControl)
                             this.api.asc_enableKeyEvents(true);
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
             },
@@ -787,6 +814,11 @@ define([
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
 
+                    value = Common.localStorage.getItem("sse-settings-paste-button");
+                    if (value===null) value = '1';
+                    Common.Utils.InternalSettings.set("sse-settings-paste-button", parseInt(value));
+                    me.api.asc_setVisiblePasteButton(!!parseInt(value));
+
                     if (me.needToUpdateVersion) {
                         Common.NotificationCenter.trigger('api:disconnect');
                         toolbarController.onApiCoAuthoringDisconnect();
@@ -979,7 +1011,7 @@ define([
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
-                    this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
+                    this.appOptions.canRename      = this.editorConfig.canRename && (this.permissions.rename!==false);
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = params.asc_getCustomization();
@@ -987,6 +1019,8 @@ define([
                         this.headerView.setBranding(this.editorConfig.customization);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
+                    if (this.permissions.rename !== undefined)
+                        console.warn("Obsolete: The rename parameter of the document permission section is deprecated. Please use onRequestRename event instead.");
                 } else
                     this.appOptions.canModifyFilter = true;
 
@@ -1111,7 +1145,7 @@ define([
                         statusbarController.getView('Statusbar').changeViewMode(true);
                     }
 
-                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram)
+                    if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && me.appOptions.canFeaturePivot)
                         application.getController('PivotTable').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
@@ -1394,6 +1428,14 @@ define([
                         config.msg = this.errorLockedCellPivot;
                         break;
 
+                    case Asc.c_oAscError.ID.PivotLabledColumns:
+                        config.msg = this.errorLabledColumnsPivot;
+                        break;
+
+                    case Asc.c_oAscError.ID.PivotOverlap:
+                        config.msg = this.errorPivotOverlap;
+                        break;
+
                     case Asc.c_oAscError.ID.ForceSaveButton:
                         config.msg = this.errorForceSave;
                         break;
@@ -1435,6 +1477,10 @@ define([
                         config.msg = this.errorFrmlMaxTextLength;
                         break;
 
+                    case Asc.c_oAscError.ID.FrmlMaxReference:
+                        config.msg = this.errorFrmlMaxReference;
+                        break;
+
                     case Asc.c_oAscError.ID.DataValidate:
                         var icon = errData ? errData.asc_getErrorStyle() : undefined;
                         if (icon!==undefined) {
@@ -1455,6 +1501,35 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case Asc.c_oAscError.ID.FTChangeTableRangeError:
+                        config.msg = this.errorFTChangeTableRangeError;
+                        break;
+
+                    case Asc.c_oAscError.ID.FTRangeIncludedOtherTables:
+                        config.msg = this.errorFTRangeIncludedOtherTables;
+                        break;
+
+                    case  Asc.c_oAscError.ID.PasteSlicerError:
+                        config.msg = this.errorPasteSlicerError;
+                        break;
+
+                    case Asc.c_oAscError.ID.RemoveDuplicates:
+                        config.iconCls = 'info';
+                        config.title = Common.UI.Window.prototype.textInformation;
+                        config.buttons  = ['ok'];
+                        config.msg = (errData.asc_getDuplicateValues()!==null && errData.asc_getUniqueValues()!==null) ? Common.Utils.String.format(this.errRemDuplicates, errData.asc_getDuplicateValues(), errData.asc_getUniqueValues()) : this.errNoDuplicates;
+                        config.maxwidth = 600;
+                        break;
+
+                    case  Asc.c_oAscError.ID.FrmlMaxLength:
+                        config.msg = this.errorFrmlMaxLength;
+                        config.maxwidth = 600;
+                        break;
+
+                    case  Asc.c_oAscError.ID.MoveSlicerError:
+                        config.msg = this.errorMoveSlicerError;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1469,7 +1544,7 @@ define([
                     config.closable = false;
 
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
-                        config.msg += '<br/><br/>' + this.criticalErrorExtText;
+                        config.msg += '<br><br>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok') {
                                 Common.NotificationCenter.trigger('goback', true);
@@ -1501,10 +1576,12 @@ define([
                     }, this);
                 }
 
-                if (id == Asc.c_oAscError.ID.EditingError || $('.asc-window.modal.alert:visible').length < 1 && (id !== Asc.c_oAscError.ID.ForceSaveTimeout)) {
-                    Common.UI.alert(config);
-                    Common.component.Analytics.trackEvent('Internal Error', id.toString());
+                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout) {
+                    if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                        Common.UI.alert(config).$window.attr('data-value', id);
                 }
+
+                (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
 
             onCoAuthoringDisconnect: function() {
@@ -1928,7 +2005,7 @@ define([
                         this.isAppDisabled = data.data;
                         break;
                     case 'queryClose':
-                        if ($('body .asc-window:visible').length === 0) {
+                        if (!Common.Utils.ModalWindow.isVisible()) {
                             this.isFrameClosed = true;
                             this.api.asc_closeCellEditor();
                             Common.UI.Menu.Manager.hideAll();
@@ -2099,7 +2176,7 @@ define([
             },
 
             onPrint: function() {
-                if (!this.appOptions.canPrint || this.isModalShowed) return;
+                if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 Common.NotificationCenter.trigger('print', this);
             },
 
@@ -2132,6 +2209,54 @@ define([
                     };
                 }
                 if (url) this.iframePrint.src = url;
+            },
+
+            warningDocumentIsLocked: function() {
+                var me = this;
+                Common.Utils.warningDocumentIsLocked({
+                    disablefunc: function (disable) {
+                        me.disableEditing(disable);
+                        var app = me.getApplication();
+                        app.getController('RightMenu').SetDisabled(disable, true);
+                        app.getController('Statusbar').SetDisabled(disable);
+                        app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                        app.getController('DocumentHolder').SetDisabled(disable, true);
+                        var leftMenu = app.getController('LeftMenu');
+                        leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+                        leftMenu.setPreviewMode(disable);
+                        var comments = app.getController('Common.Controllers.Comments');
+                        if (comments) comments.setPreviewMode(disable);
+                }});
+            },
+
+            onRunAutostartMacroses: function() {
+                var me = this,
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                if (enable) {
+                    var value = Common.Utils.InternalSettings.get("sse-macros-mode");
+                    if (value==1)
+                        this.api.asc_runAutostartMacroses();
+                    else if (value === 0) {
+                        Common.UI.warning({
+                            msg: this.textHasMacros + '<br>',
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            dontshow: true,
+                            textDontShow: this.textRemember,
+                            callback: function(btn, dontshow){
+                                if (dontshow) {
+                                    Common.Utils.InternalSettings.set("sse-macros-mode", (btn == 'yes') ? 1 : 2);
+                                    Common.localStorage.setItem("sse-macros-mode", (btn == 'yes') ? 1 : 2);
+                                }
+                                if (btn == 'yes') {
+                                    setTimeout(function() {
+                                        me.api.asc_runAutostartMacroses();
+                                    }, 1);
+                                }
+                            }
+                        });
+                    }
+                }
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2485,9 +2610,30 @@ define([
             txtTab: 'Tab',
             txtFile: 'File',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
+            errorLabledColumnsPivot: 'To create a pivot table report, you must use data that is organized as a list with labeled columns.',
+            errorPivotOverlap: 'A pivot table report cannot overlap a table.',
             txtColumn: 'Column',
             txtRow: 'Row',
-            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.'
+            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
+            errorFTChangeTableRangeError: 'Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.',
+            errorFTRangeIncludedOtherTables: 'Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.',
+            txtByField: '%1 of %2',
+            txtAll: '(All)',
+            txtValues: 'Values',
+            txtGrandTotal: 'Grand Total',
+            txtRowLbls: 'Row Labels',
+            txtColLbls: 'Column Labels',
+            errNoDuplicates: 'No duplicate values found.',
+            errRemDuplicates: 'Duplicate values found and deleted: {0}, unique values left: {1}.',
+            txtMultiSelect: 'Multi-Select (Alt+S)',
+            txtClearFilter: 'Clear Filter (Alt+C)',
+            txtBlank: '(blank)',
+            textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
+            textRemember: 'Remember my choice',
+            errorPasteSlicerError: 'Table slicers cannot be copied from one workbook to another.',
+            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
+            errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
+            errorMoveSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.'
         }
     })(), SSE.Controllers.Main || {}))
 });

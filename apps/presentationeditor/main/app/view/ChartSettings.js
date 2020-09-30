@@ -119,7 +119,7 @@ define([
 
                 value = props.get_SeveralChartTypes();
                 if (this._state.SeveralCharts && value) {
-                    this.btnChartType.setIconCls('');
+                    this.btnChartType.setIconCls('svgicon');
                     this._state.ChartType = null;
                 } else {
                     var type = props.getType();
@@ -127,9 +127,9 @@ define([
                         var record = this.mnuChartTypePicker.store.findWhere({type: type});
                         this.mnuChartTypePicker.selectRecord(record, true);
                         if (record) {
-                            this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                            this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                         } else
-                            this.btnChartType.setIconCls('');
+                            this.btnChartType.setIconCls('svgicon');
                         this.updateChartStyles(this.api.asc_getChartPreviews(type));
                         this._state.ChartType = type;
                     }
@@ -200,9 +200,9 @@ define([
             var me = this;
             this.btnChartType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
-                iconCls     : 'item-chartlist bar-normal',
+                iconCls     : 'svgicon chart-bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 435px; padding-top: 12px;',
+                    style: 'width: 364px; padding-top: 12px;',
                     items: [
                         { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -215,7 +215,7 @@ define([
                     restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
             this.btnChartType.render($('#chart-button-type'));
@@ -258,13 +258,13 @@ define([
             this.spnHeight.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.btnRatio = new Common.UI.Button({
+                parentEl: $('#chart-button-ratio'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
             });
-            this.btnRatio.render($('#chart-button-ratio')) ;
             this.lockedControls.push(this.btnRatio);
 
             this.btnRatio.on('click', _.bind(function(btn, e) {
@@ -320,7 +320,7 @@ define([
                 rawData = record;
             }
 
-            this.btnChartType.setIconCls('item-chartlist ' + rawData.iconCls);
+            this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
             this._state.ChartType = -1;
 
             if (this.api && !this._noApply) {

@@ -150,6 +150,7 @@ require([
             'AddImage',
             'AddLink',
             'AddSlide',
+            'AddOther',
             'Common.Controllers.Collaboration'
         ]
     });
@@ -218,6 +219,7 @@ require([
             'presentationeditor/mobile/app/controller/add/AddImage',
             'presentationeditor/mobile/app/controller/add/AddLink',
             'presentationeditor/mobile/app/controller/add/AddSlide',
+            'presentationeditor/mobile/app/controller/add/AddOther',
             'common/mobile/lib/controller/Collaboration'
 
         ], function() {

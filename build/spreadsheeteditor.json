@@ -1,7 +1,7 @@
 {
     "name": "spreadsheeteditor",
     "version": "4.3.0",
-    "build": 886,
+    "build": 903,
     "homepage": "http://www.onlyoffice.com",
     "private": true,
     "main": {
@@ -180,14 +180,15 @@
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/help/"
                 }
             ],
-            "index-page": [
+            "indexhtml": [
                 {
-                    "src": "../apps/spreadsheeteditor/main/index.html.deploy",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/index.html"
-                },
-                {
-                    "src": "../apps/spreadsheeteditor/main/index_loader.html.deploy",
-                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/index_loader.html"
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/main",
+                    "src": [
+                        "*.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main"
                 }
             ]
         },
@@ -196,6 +197,12 @@
                 {
                     "expand": true,
                     "cwd": "../apps/common/main/resources/img",
+                    "src": "**/*.svg",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/main/resources/img",
                     "src": "**/*.svg",
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/main/resources/img"
                 }

@@ -202,6 +202,7 @@
             loading = 'Loading...',
             logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
         window.frameEditorId = params["frameEditorId"];
+        window.parentOrigin = params["parentOrigin"];
         if ( lang == 'de')      loading = 'Ladevorgang...';
         else if ( lang == 'es') loading = 'Cargando...';
         else if ( lang == 'fr') loading = 'Chargement en cours...';
@@ -260,6 +261,9 @@
 <img class="inline-svg" src="../../common/main/resources/img/doc-formats/csv.svg">
 <img class="inline-svg" src="../../common/main/resources/img/doc-formats/blank.svg">
 <img class="inline-svg" src="../../common/main/resources/img/toolbar/shapetypes.svg">
+<img class="inline-svg" src="../../common/main/resources/img/toolbar/charttypes.svg">
+<img class="inline-svg" src="resources/img/recent-file.svg">
+<img class="inline-svg" src="resources/img/file-template.svg">
 <script>
     var svgpoints = document.querySelectorAll('img.inline-svg');
     SVGInjector(svgpoints);

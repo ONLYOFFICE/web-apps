@@ -258,12 +258,28 @@ define([
                     me.initRegSettings();
                 } else if ('#settings-info-view' == pageId) {
                     me.initPageInfo();
+                } else if ('#settings-macros-view' == pageId) {
+                    me.initPageMacrosSettings();
                 } else {
                     var _userCount = SSE.getController('Main').returnUserCount();
                     if (_userCount > 0) {
                         $('#settings-collaboration').show();
                     }
                 }
+            },
+
+            initPageMacrosSettings: function() {
+                var me = this,
+                    $pageMacrosSettings = $('.page[data-page="settings-macros-view"] input:radio[name=macros-settings]'),
+                    value = Common.Utils.InternalSettings.get("sse-mobile-macros-mode") || 0;
+                $pageMacrosSettings.single('change', _.bind(me.onChangeMacrosSettings, me));
+                $pageMacrosSettings.val([value]);
+            },
+
+            onChangeMacrosSettings: function(e) {
+                var value = parseInt($(e.currentTarget).val());
+                Common.Utils.InternalSettings.set("sse-mobile-macros-mode", value);
+                Common.localStorage.setItem("sse-mobile-macros-mode", value);
             },
 
             initPageInfo: function() {
@@ -595,7 +611,7 @@ define([
                 $r1c1Style.single('change',    _.bind(me.clickR1C1Style, me));
 
                 //init Commenting Display
-                var displayComments = Common.localStorage.getBool("sse-settings-livecomment", true);
+                var displayComments = Common.localStorage.getBool("sse-mobile-settings-livecomment", true);
                 $('#settings-display-comments input:checkbox').attr('checked', displayComments);
                 $('#settings-display-comments input:checkbox').single('change',   _.bind(me.onChangeDisplayComments, me));
                 var displayResolved = Common.localStorage.getBool("sse-settings-resolvedcomment", true);
@@ -619,11 +635,11 @@ define([
                     this.api.asc_showComments(resolved);
                     $("#settings-display-resolved").removeClass("disabled");
                 }
-                Common.localStorage.setBool("sse-settings-livecomment", displayComments);
+                Common.localStorage.setBool("sse-mobile-settings-livecomment", displayComments);
             },
 
             onChangeDisplayResolved: function(e) {
-                var displayComments = Common.localStorage.getBool("sse-settings-livecomment");
+                var displayComments = Common.localStorage.getBool("sse-mobile-settings-livecomment");
                 if (displayComments) {
                     var resolved = $(e.currentTarget).is(':checked');
                     if (this.api) {

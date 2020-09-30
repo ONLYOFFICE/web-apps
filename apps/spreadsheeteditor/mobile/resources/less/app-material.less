@@ -109,6 +109,18 @@ input, textarea {
     background-color: #fff;
   }
 }
+.container-add {
+  .categories {
+    i.icon {
+      opacity: 0.5;
+    }
+    .active {
+      i.icon {
+        opacity: 1;
+      }
+    }
+  }
+}
 
 // Table styles
 
@@ -328,6 +340,34 @@ input, textarea {
       background: linear-gradient(#f1f1f1 19px, #d5d5d5 20px) 0 0;
       background-size: 20px 20px;
       width: 25px;
+    }
+  }
+}
+
+//Comments
+.picker-modal.container-view-comment {
+  &.onHide {
+    .swipe-container, .toolbar-inner, .pages {
+      opacity: 0.6;
+    }
+  }
+  background-color: #efeff4;
+  .swipe-container, .toolbar, .pages {
+    background-color: #FFFFFF;
+  }
+}
+
+// Macros settings
+.page-macros-settings[data-page="settings-macros-view"] {
+  .list-block {
+    li.media-item {
+      .item-title {
+        font-weight: normal;
+      }
+      .item-subtitle {
+        font-size: 14px;
+        color: @gray;
+      }
     }
   }
 }

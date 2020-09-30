@@ -316,6 +316,8 @@ define([
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onEditHeaderClick, this, 'datetime'));
             toolbar.btnInsSlideNum.on('click',                          _.bind(this.onEditHeaderClick, this, 'slidenum'));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
+            toolbar.btnInsAudio && toolbar.btnInsAudio.on('click',      _.bind(this.onAddAudio, this));
+            toolbar.btnInsVideo && toolbar.btnInsVideo.on('click',      _.bind(this.onAddVideo, this));
 
             this.onSetupCopyStyleButton();
         },
@@ -366,6 +368,8 @@ define([
                 this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
                 this.api.asc_registerCallback('asc_onContextMenu',          _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
+                Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
+                Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
@@ -394,7 +398,7 @@ define([
         },
 
         onApiChangeFont: function(font) {
-            !this.getApplication().getController('Main').isModalShowed && this.toolbar.cmbFontName.onApiChangeFont(font);
+            !Common.Utils.ModalWindow.isVisible() && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
@@ -482,7 +486,6 @@ define([
                             this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
                         else
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
-                        this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
                         var idx = 0;
@@ -511,7 +514,6 @@ define([
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
                         this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
-                        this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
                         break;
                 }
             }
@@ -639,7 +641,7 @@ define([
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
                 ]});
                 this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides,
-                    { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt) });
+                    { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt, this.toolbar.btnInsAudio, this.toolbar.btnInsVideo) });
                 if (this.btnsComment)
                     this.toolbar.lockToolbar(PE.enumLock.noSlides, this._state.no_slides, { array:  this.btnsComment });
             }
@@ -1136,7 +1138,8 @@ define([
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
-                                me.api.paraApply(value);
+                                props.asc_putBullet(value);
+                                me.api.paraApply(props);
                             }
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1152,7 +1155,7 @@ define([
         onFontNameSelect: function(combo, record) {
             if (this.api) {
                 if (record.isNewFont) {
-                    !this.getApplication().getController('Main').isModalShowed &&
+                    !Common.Utils.ModalWindow.isVisible() &&
                     Common.UI.warning({
                         width: 500,
                         closable: false,
@@ -1204,7 +1207,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*\.?\d+)$|^\+?(\d+\.?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
 
                     if (!value) {
                         value = this._getApiTextSize();
@@ -1225,7 +1228,7 @@ define([
                     }
                 }
             } else {
-                value = parseFloat(record.value);
+                value = Common.Utils.String.parseFloat(record.value);
                 value = value > 300 ? 300 :
                     value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
 
@@ -1355,23 +1358,31 @@ define([
 
                 text = me.api.can_AddHyperlink();
 
+                var _arr = [];
+                for (var i=0; i<me.api.getCountPages(); i++) {
+                    _arr.push({
+                        displayValue: i+1,
+                        value: i
+                    });
+                }
                 if (text !== false) {
-                    var _arr = [];
-                    for (var i=0; i<me.api.getCountPages(); i++) {
-                        _arr.push({
-                            displayValue: i+1,
-                            value: i
+                    props = new Asc.CHyperlinkProperty();
+                    props.put_Text(text);
+                } else {
+                    var selectedElements = me.api.getSelectedElements();
+                    if (selectedElements && _.isArray(selectedElements)){
+                        _.each(selectedElements, function(el, i) {
+                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
+                                props = selectedElements[i].get_ObjectValue();
                         });
                     }
+                }
+                if (props) {
                     win = new PE.Views.HyperlinkSettingsDialog({
                         api: me.api,
                         handler: handlerDlg,
                         slides: _arr
                     });
-
-                    props = new Asc.CHyperlinkProperty();
-                    props.put_Text(text);
-
                     win.show();
                     win.setSettings(props);
                 }
@@ -1443,24 +1454,34 @@ define([
                     }
                 })).show();
             } else if (opts === 'storage') {
-                if (this.toolbar.mode.canRequestInsertImage) {
-                    Common.Gateway.requestInsertImage();
-                } else {
-                    (new Common.Views.SelectFileDlg({
-                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                    })).on('selectfile', function(obj, file){
-                        me.insertImage(file);
-                    }).show();
-                }
+                Common.NotificationCenter.trigger('storage:image-load', 'add');
             }
         },
 
-        insertImage: function(data) {
-            if (data && data.url) {
+        openImageFromStorage: function(type) {
+            var me = this;
+            if (this.toolbar.mode.canRequestInsertImage) {
+                Common.Gateway.requestInsertImage(type);
+            } else {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    file && (file.c = type);
+                    me.insertImage(file);
+                }).show();
+            }
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data.url && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
                 this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
+        },
+
+        insertImage: function(data) { // gateway
+            Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
         onInsertText: function(status) {
@@ -1687,8 +1708,6 @@ define([
 
             this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
             this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
-            this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
-            this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
         },
 
         _getApiTextSize: function () {
@@ -1851,17 +1870,18 @@ define([
                         api: me.api,
                         lang: me.toolbar.mode.lang,
                         type: 1,
+                        special: true,
                         buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.asc_insertSymbol(settings.font, settings.code);
+                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
                 win.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font, settings.code);
+                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
                 });
             }
         },
@@ -2226,6 +2246,14 @@ define([
 
         onTextLanguage: function(langId) {
             this._state.lang = langId;
+        },
+
+        onAddAudio: function() {
+            this.api && this.api.asc_AddAudio();
+        },
+
+        onAddVideo: function() {
+            this.api && this.api.asc_AddVideo();
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

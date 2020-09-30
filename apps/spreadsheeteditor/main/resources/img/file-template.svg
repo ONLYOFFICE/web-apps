@@ -1,0 +1,33 @@
+<svg fill="none" height="96" viewBox="0 0 96 96" width="96" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="svg-file-template">
+    <clipPath id="a">
+        <path d="m0 0h96v96h-96z"/>
+    </clipPath>
+        <g clip-path="url(#a)">
+            <path d="m.499997 94 .000003-74c0-.8284.67157-1.5 1.5-1.5h92c.8284 0 1.5.6716 1.5 1.5v74c0 .8284-.6716 1.5-1.5 1.5h-92c-.82843 0-1.500003-.6716-1.500003-1.5z" fill="#fff" stroke="#bfbfbf"/>
+            <g fill="#444">
+                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="38"/>
+                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="48"/>
+                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="56"/>
+                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="64"/>
+                <rect height="4" opacity=".4" rx="1" width="12" x="15" y="72"/>
+                <rect height="4" opacity=".4" rx="1" width="12" x="33" y="38"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="33" y="48"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="33" y="56"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="33" y="64"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="33" y="72"/>
+                <rect height="4" opacity=".4" rx="1" width="12" x="51" y="38"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="51" y="48"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="51" y="56"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="51" y="64"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="51" y="72"/>
+                <rect height="4" opacity=".4" rx="1" width="12" x="69" y="38"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="69" y="48"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="69" y="56"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="69" y="64"/>
+                <rect height="4" opacity=".2" rx="1" width="12" x="69" y="72"/>
+                <path clip-rule="evenodd" d="m67 36h16v8h-16zm-2 0h-16v8h16zm-18 0h-16v8h16zm-18 0h-16v8h16zm-16 10v32h16v-32zm18 32h52v-32h-16-2-16-2-16zm-20-42c0-1.1046.8954-2 2-2h70c1.1046 0 2 .8954 2 2v42c0 1.1046-.8954 2-2 2h-70c-1.1046 0-2-.8954-2-2z" fill-rule="evenodd" opacity=".2"/>
+            </g>
+        </g>
+    </symbol>
+</svg>

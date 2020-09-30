@@ -571,6 +571,8 @@ define([
                         }
                     }
                 } else {
+                    var cg = Common.Utils.croppedGeometry();
+                    docH = cg.height - 10;
                     if (top + menuH > docH) {
                         if (fixedAlign && typeof fixedAlign == 'string') { // how to align if menu height > window height
                             m = fixedAlign.match(/^([a-z]+)-([a-z]+)/);
@@ -579,13 +581,18 @@ define([
                             top = docH - menuH;
                     }
 
-                    if (top < 0)
-                        top = 0;
+
+                    if (top < cg.top)
+                        top = cg.top;
                 }
                 if (this.options.additionalAlign)
                     this.options.additionalAlign.call(this, menuRoot, left, top);
-                else
-                    menuRoot.css({left: Math.ceil(left), top: Math.ceil(top)});
+                else {
+                    var _css = {left: Math.ceil(left), top: Math.ceil(top)};
+                    if (!(menuH < docH)) _css['margin-top'] = 0;
+
+                    menuRoot.css(_css);
+                }
             },
 
             clearAll: function() {

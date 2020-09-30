@@ -59,7 +59,8 @@ define([
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/CompareSettingsDialog',
-    'documenteditor/main/app/view/ListSettingsDialog'
+    'documenteditor/main/app/view/ListSettingsDialog',
+    'documenteditor/main/app/view/DateTimeDialog'
 ], function () {
     'use strict';
 
@@ -322,6 +323,7 @@ define([
             toolbar.btnMailRecepients.on('click',                       _.bind(this.onSelectRecepientsClick, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
+            toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
             toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
             toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
@@ -390,6 +392,8 @@ define([
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
                 this.api.asc_registerCallback('asc_onTableDrawModeChanged', _.bind(this.onTableDraw, this));
                 this.api.asc_registerCallback('asc_onTableEraseModeChanged', _.bind(this.onTableErase, this));
+                Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this));
+                Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -420,7 +424,7 @@ define([
         },
 
         onApiChangeFont: function(font) {
-            !this.getApplication().getController('Main').isModalShowed && this.toolbar.cmbFontName.onApiChangeFont(font);
+            !Common.Utils.ModalWindow.isVisible() && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
@@ -827,12 +831,12 @@ define([
             need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled() || control_plain;
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
-            var in_footnote = this.api.asc_IsCursorInFootnote();
-            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control || rich_edit_lock || plain_edit_lock || rich_del_lock;
+            var in_footnote = this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
             toolbar.btnsPageBreak.setDisabled(need_disable);
             toolbar.btnBlankPage.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_equation || control_plain || content_locked;
+            need_disable = paragraph_locked || header_locked || in_equation || control_plain || content_locked || in_footnote;
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
 
@@ -852,6 +856,7 @@ define([
             toolbar.btnInsertEquation.setDisabled(need_disable);
 
             toolbar.btnInsertSymbol.setDisabled(!in_para || paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock);
+            toolbar.btnInsDateTime.setDisabled(!in_para || paragraph_locked || header_locked || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock);
 
             need_disable = paragraph_locked || header_locked || in_equation || rich_edit_lock || plain_edit_lock;
             toolbar.btnSuperscript.setDisabled(need_disable);
@@ -1231,7 +1236,7 @@ define([
         onFontNameSelect: function(combo, record) {
             if (this.api) {
                 if (record.isNewFont) {
-                    !this.getApplication().getController('Main').isModalShowed &&
+                    !Common.Utils.ModalWindow.isVisible() &&
                     Common.UI.warning({
                         width: 500,
                         closable: false,
@@ -1283,7 +1288,7 @@ define([
                 });
 
                 if (!item) {
-                    value = /^\+?(\d*\.?\d+)$|^\+?(\d+\.?\d*)$/.exec(record.value);
+                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
 
                     if (!value) {
                         value = this._getApiTextSize();
@@ -1304,7 +1309,7 @@ define([
                     }
                 }
             } else {
-                value = parseFloat(record.value);
+                value = Common.Utils.String.parseFloat(record.value);
                 value = value > 100
                     ? 100
                     : value < 1
@@ -1505,24 +1510,34 @@ define([
                     }
                 })).show();
             } else if (item.value === 'storage') {
-                if (this.toolbar.mode.canRequestInsertImage) {
-                    Common.Gateway.requestInsertImage();
-                } else {
-                    (new Common.Views.SelectFileDlg({
-                        fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
-                    })).on('selectfile', function(obj, file){
-                        me.insertImage(file);
-                    }).show();
-                }
+                Common.NotificationCenter.trigger('storage:image-load', 'add');
             }
         },
 
-        insertImage: function(data) {
-            if (data && data.url) {
+        openImageFromStorage: function(type) {
+            var me = this;
+            if (this.toolbar.mode.canRequestInsertImage) {
+                Common.Gateway.requestInsertImage(type);
+            } else {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.toolbar.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    file && (file.c = type);
+                    me.insertImage(file);
+                }).show();
+            }
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data.url && (!data.c || data.c=='add')) {
                 this.toolbar.fireEvent('insertimage', this.toolbar);
                 this.api.AddImageUrl(data.url, undefined, data.token);// for loading from storage
                 Common.component.Analytics.trackEvent('ToolBar', 'Image');
             }
+        },
+
+        insertImage: function(data) { // gateway
+            Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
         onBtnInsertTextClick: function(btn, e) {
@@ -1813,16 +1828,29 @@ define([
                     }
                 }
             } else {
+                var isnew = (item.value.indexOf('new-')==0),
+                    oPr, oFormPr;
+                if (isnew) {
+                    oFormPr = new AscCommon.CSdtFormPr();
+                }
                 if (item.value == 'plain' || item.value == 'rich')
                     this.api.asc_AddContentControl((item.value=='plain') ? Asc.c_oAscSdtLevelType.Inline : Asc.c_oAscSdtLevelType.Block);
-                else if (item.value == 'picture')
-                    this.api.asc_AddContentControlPicture();
-                else if (item.value == 'checkbox')
-                    this.api.asc_AddContentControlCheckBox();
-                else if (item.value == 'date')
+                else if (item.value.indexOf('picture')>=0)
+                    this.api.asc_AddContentControlPicture(oFormPr);
+                else if (item.value.indexOf('checkbox')>=0 || item.value.indexOf('radiobox')>=0) {
+                    if (isnew) {
+                        oPr = new AscCommon.CSdtCheckBoxPr();
+                        (item.value.indexOf('radiobox')>=0) && oPr.put_GroupKey('Group 1');
+                    }
+                    this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
+                } else if (item.value == 'date')
                     this.api.asc_AddContentControlDatePicker();
-                else if (item.value == 'combobox' || item.value == 'dropdown')
-                    this.api.asc_AddContentControlList(item.value == 'combobox');
+                else if (item.value.indexOf('combobox')>=0 || item.value.indexOf('dropdown')>=0)
+                    this.api.asc_AddContentControlList(item.value.indexOf('combobox')>=0, oPr, oFormPr);
+                else if (item.value == 'new-field') {
+                    oPr = new AscCommon.CSdtTextFormPr();
+                    this.api.asc_AddContentControlTextForm(oPr, oFormPr);
+                }
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
             }
@@ -1858,7 +1886,7 @@ define([
 
             if (this.api) {
                 if (item.value == 'advanced') {
-                    var win, props = this.api.asc_GetSectionProps(),
+                    var win,
                         me = this;
                     win = new DE.Views.CustomColumnsDialog({
                         handler: function(dlg, result) {
@@ -2052,6 +2080,7 @@ define([
                         props: me.api.asc_GetWatermarkProps(),
                         api: me.api,
                         lang: me.mode.lang,
+                        storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                         fontStore: me.fontstore,
                         handler: function(result, value) {
                             if (result == 'ok') {
@@ -2561,17 +2590,19 @@ define([
                     lang: me.mode.lang,
                     modal: false,
                     type: 1,
+                    special: true,
+                    showShortcutKey: true,
                     buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                     handler: function(dlg, result, settings) {
                         if (result == 'ok') {
-                            me.api.asc_insertSymbol(settings.font, settings.code);
+                            me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
                         } else
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 });
                 me.dlgSymbolTable.show();
                 me.dlgSymbolTable.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font, settings.code);
+                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
                 });
             }
         },
@@ -3031,6 +3062,23 @@ define([
 
         onTextLanguage: function(langId) {
             this._state.lang = langId;
+        },
+
+        onInsDateTimeClick: function() {
+            //insert date time
+            var me = this;
+            (new DE.Views.DateTimeDialog({
+                api: this.api,
+                lang: this._state.lang,
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_addDateTime(value);
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',

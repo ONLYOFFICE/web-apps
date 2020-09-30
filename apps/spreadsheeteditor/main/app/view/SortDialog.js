@@ -116,7 +116,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
-            var span = $('<span style="position: absolute; visibility: hidden;"/>');
+            var span = $('<span style="position: absolute; visibility: hidden;"></span>');
             me.$window.append(span);
             span.text(this.textSortBy);
             var captionWidth = span.width();
@@ -176,19 +176,19 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             this.btnOptions.on('click', _.bind(this.onOptions, this, false));
 
             this.btnUp = new Common.UI.Button({
+                parentEl: $('#sort-dialog-btn-up'),
                 cls: 'btn-toolbar',
                 iconCls: 'caret-up',
                 hint: this.textUp
             });
-            this.btnUp.render($('#sort-dialog-btn-up')) ;
             this.btnUp.on('click', _.bind(this.onMoveClick, this, true));
 
             this.btnDown = new Common.UI.Button({
+                parentEl: $('#sort-dialog-btn-down'),
                 cls: 'btn-toolbar',
                 iconCls: 'caret-down',
                 hint: this.textDown
             });
-            this.btnDown.render($('#sort-dialog-btn-down')) ;
             this.btnDown.on('click', _.bind(this.onMoveClick, this, false));
 
             this.lblColumn = $('#sort-dialog-label-column');

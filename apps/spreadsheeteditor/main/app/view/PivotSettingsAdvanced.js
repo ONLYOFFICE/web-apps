@@ -72,8 +72,16 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
             }, options);
 
             this.api        = options.api;
-            this.handler    = options.handler;
             this.props      = options.props;
+
+            this.options.handler = function(result, value) {
+                if ( result != 'ok' || this.isRangeValid() ) {
+                    if (options.handler)
+                        options.handler.call(this, result, value);
+                    return;
+                }
+                return true;
+            };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -125,7 +133,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
             this.numWrap = new Common.UI.MetricSpinner({
                 el: $('#pivot-adv-spin-wrap'),
                 step: 1,
-                width: 85,
+                width: 60,
                 allowDecimal: false,
                 defaultUnit : "",
                 value: '0',
@@ -140,19 +148,16 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
                 labelText: this.textShowHeaders
             });
 
-            this.txtDataRange = new Common.UI.InputField({
+            this.txtDataRange = new Common.UI.InputFieldBtn({
                 el          : $('#pivot-adv-txt-range'),
                 name        : 'range',
                 style       : 'width: 100%;',
+                btnHint     : this.textSelectData,
                 allowBlank  : true,
                 blankError  : this.txtEmpty,
                 validateOnChange: true
             });
-
-            this.btnSelectData = new Common.UI.Button({
-                el: $('#pivot-adv-btn-data')
-            });
-            this.btnSelectData.on('click', _.bind(this.onSelectData, this));
+            this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
 
             // Alt Text
 
@@ -203,56 +208,60 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
 
                 this.chHeaders.setValue(props.asc_getShowHeaders(), true);
 
-                // var value = props.getRange();
-                // this.txtDataRange.setValue((value) ? value : '');
-                // this.dataRangeValid = value;
+                var value = props.asc_getDataRef();
+                this.txtDataRange.setValue((value) ? value : '');
+                this.dataRangeValid = value;
 
                 this.txtDataRange.validation = function(value) {
-                    // var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, value, false);
-                    // return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                    return true;
+                    var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableData, value, false);
+                    return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
                 };
+
+                value = props.asc_getTitle();
+                this.inputAltTitle.setValue(value ? value : '');
+
+                value = props.asc_getDescription();
+                this.textareaAltDescription.val(value ? value : '');
             }
         },
 
         getSettings: function () {
             var props = new Asc.CT_pivotTableDefinition();
+            props.asc_setName(this.inputName.getValue());
             props.asc_setRowGrandTotals(this.chCols.getValue() == 'checked');
             props.asc_setColGrandTotals(this.chRows.getValue() == 'checked');
+            props.asc_setPageOverThenDown(this.radioOver.getValue());
+            props.asc_setPageWrap(this.numWrap.getNumberValue());
+            props.asc_setShowHeaders(this.chHeaders.getValue() == 'checked');
+            props.asc_setDataRef(this.txtDataRange.getValue());
+
+            if (this.isAltTitleChanged)
+                props.asc_setTitle(this.inputAltTitle.getValue());
+            if (this.isAltDescChanged)
+                props.asc_setDescription(this.textareaAltDescription.val());
 
             return props;
         },
 
-        onDlgBtnClick: function(event) {
-            var me = this;
-            var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
-            if (state == 'ok' && this.isRangeValid()) {
-                this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
-            }
-
-            this.close();
-        },
-
-        onPrimary: function() {
-            this.onDlgBtnClick('ok');
-            return false;
-        },
-
         isRangeValid: function() {
-            if (this.isChart) {
-                var isvalid;
-                if (!_.isEmpty(this.txtDataRange.getValue())) {
-                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Pivot, this.txtDataRange.getValue());
-                    if (isvalid == Asc.c_oAscError.ID.No)
-                        return true;
-                } else
-                    this.txtDataRange.showError([this.txtEmpty]);
+            var isvalid = true,
+                txtError = '';
 
+            if (_.isEmpty(this.txtDataRange.getValue())) {
+                isvalid = false;
+                txtError = this.txtEmpty;
+            } else {
+                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PivotTableData, this.txtDataRange.getValue());
+                isvalid = (isvalid == Asc.c_oAscError.ID.No);
+                !isvalid && (txtError = this.textInvalidRange);
+            }
+            if (!isvalid) {
                 this.setActiveCategory(1);
+                this.txtDataRange.showError([txtError]);
                 this.txtDataRange.cmpEl.find('input').focus();
-                return false;
-            } else
-                return true;
+                return isvalid;
+            }
+            return isvalid;
         },
 
         onSelectData: function() {
@@ -278,7 +287,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(me.txtDataRange.getValue()) && (me.txtDataRange.checkValidate()==true)) ? me.txtDataRange.getValue() : me.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.Pivot
+                    type    : Asc.c_oAscSelectionDialogType.PivotTableData
                 });
             }
         },
@@ -291,7 +300,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         textShowCols: 'Show for columns',
         textDataSource: 'Data Source',
         textDataRange: 'Data Range',
-        textSelectData: 'Select Data',
+        textSelectData: 'Select data',
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',

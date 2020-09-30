@@ -285,6 +285,11 @@ define([
                             event.preventDefault();
                             event.stopPropagation();
                             return false;
+                        } else if (key === 48 || key === 96) {// 0
+                            me.api.zoom(100);
+                            event.preventDefault();
+                            event.stopPropagation();
+                            return false;
                         }
                     }
                     if (me.currentMenu && me.currentMenu.isVisible()) {
@@ -435,7 +440,7 @@ define([
             });
 
             var onHyperlinkClick = function(url) {
-                if (url && me.api.asc_getUrlType(url)>0) {
+                if (url /*&& me.api.asc_getUrlType(url)>0*/) {
                     window.open(url);
                 }
             };
@@ -634,11 +639,11 @@ define([
                     me.cmpEl.append(pasteContainer);
 
                     me.btnSpecialPaste = new Common.UI.Button({
+                        parentEl: $('#id-document-holder-btn-special-paste'),
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-paste',
                         menu        : new Common.UI.Menu({items: []})
                     });
-                    me.btnSpecialPaste.render($('#id-document-holder-btn-special-paste')) ;
                 }
 
                 if (pasteItems.length>0) {
@@ -1727,6 +1732,8 @@ define([
         },
 
         onRulerDblClick: function(type) {
+            Common.UI.Menu.Manager.hideAll();
+
             var win, me = this;
             if (type == 'tables') {
                 win = this.advancedTableClick();
@@ -2003,6 +2010,10 @@ define([
             var menuSignatureRemove     = new Common.UI.MenuItem({caption: this.strDelete,    value: 3 }).on('click', _.bind(me.onSignatureClick, me));
             var menuViewSignSeparator   = new Common.UI.MenuItem({caption: '--' });
 
+            var menuViewPrint = new Common.UI.MenuItem({
+                caption : me.txtPrintSelection
+            }).on('click', _.bind(me.onPrintSelection, me));
+
             this.viewModeMenu = new Common.UI.Menu({
                 initMenu: function (value) {
                     var isInChart = (value.imgProps && value.imgProps.value && !_.isNull(value.imgProps.value.get_ChartProperties())),
@@ -2046,10 +2057,13 @@ define([
 
                     var cancopy = me.api && me.api.can_CopyCut();
                     menuViewCopy.setDisabled(!cancopy);
+                    menuViewPrint.setVisible(me.mode.canPrint);
+                    menuViewPrint.setDisabled(!cancopy);
                 },
                 items: [
                     menuViewCopy,
                     menuViewUndo,
+                    menuViewPrint,
                     menuViewCopySeparator,
                     menuSignatureViewSign,
                     menuSignatureDetails,
@@ -2348,6 +2362,7 @@ define([
                                 var win = new DE.Views.ImageSettingsAdvanced({
                                     imageProps  : elValue,
                                     sizeOriginal: imgsizeOriginal,
+                                    api         : me.api,
                                     sectionProps: me.api.asc_GetSectionProps(),
                                     handler     : function(result, value) {
                                         if (result == 'ok') {
@@ -2418,6 +2433,11 @@ define([
                                     me.fireEvent('editcomplete', me);
                                 }
                             })).show();
+                        }),
+                        new Common.UI.MenuItem({
+                            caption     : this.textFromStorage
+                        }).on('click', function(item) {
+                            Common.NotificationCenter.trigger('storage:image-load', 'change');
                         })
                     ]
                 })
@@ -2564,6 +2584,7 @@ define([
                     menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgReplace.isVisible())
                         menuImgReplace.setDisabled(islocked || pluginGuid===null);
+                    menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
                     menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
                     if (menuImgRotate.isVisible())
@@ -4050,6 +4071,13 @@ define([
                         me.api.asc_UncheckContentControlButtons();
                     }
                 });
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+
             }
             this.cmpCalendar.setDate(new Date(specProps ? specProps.get_FullDate() : undefined));
 
@@ -4394,7 +4422,8 @@ define([
         textCells: 'Cells',
         textSeveral: 'Several Rows/Columns',
         txtInsertCaption: 'Insert Caption',
-        txtEmpty: '(Empty)'
+        txtEmpty: '(Empty)',
+        textFromStorage: 'From Storage'
 
     }, DE.Views.DocumentHolder || {}));
 });

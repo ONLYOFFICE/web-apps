@@ -42,10 +42,11 @@
     "src": "UsageInstructions/SetSlideParameters.htm",
     "name": "Définir les paramètres de la diapositive"
   },
-  {
-    "src": "UsageInstructions/ApplyTransitions.htm",
-    "name": "Appliquer des transitions"
-  },
+    {
+        "src": "UsageInstructions/ApplyTransitions.htm",
+        "name": "Appliquer des transitions"
+    },
+    {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Insert footers"},
   {
     "src": "UsageInstructions/PreviewPresentation.htm",
     "name": "Aperçu de la présentation"
@@ -80,10 +81,12 @@
     "src": "UsageInstructions/InsertCharts.htm",
     "name": "Insérer et modifier des graphiques"
   },
-  {
-    "src": "UsageInstructions/InsertTables.htm",
-    "name": "Insérer et mettre en forme des tableaux"
-  },
+    {
+        "src": "UsageInstructions/InsertTables.htm",
+        "name": "Insérer et mettre en forme des tableaux"
+    },
+    
+    { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
     "src": "UsageInstructions/FillObjectsSelectColor.htm",
     "name": "Remplir des objets et sélectionner des couleurs"

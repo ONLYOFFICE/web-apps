@@ -137,7 +137,9 @@ define([
                     "Error! Main Document Only.": this.txtMainDocOnly,
                     "Error! Not a valid bookmark self-reference.": this.txtNotValidBookmark,
                     "Error! No text of specified style in document.": this.txtNoText,
-                    "Choose an item.": this.txtChoose
+                    "Choose an item.": this.txtChoose,
+                    "Enter a date.": this.txtEnterDate,
+                    "Type equation here.": this.txtTypeEquation
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -155,7 +157,7 @@ define([
 
                 this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
                 this.languages = null;
-                this.isModalShowed = 0;
+
                 // Initialize viewport
 
                 if (!Common.Utils.isBrowserSupported()){
@@ -225,15 +227,15 @@ define([
                             if (/msg-reply/.test(e.target.className)) {
                                 me.dontCloseDummyComment = true;
                                 me.beforeShowDummyComment = me.beforeCloseDummyComment = false;
-                            } else if (/chat-msg-text/.test(e.target.id))
-                                me.dontCloseChat = true;
-                            else if (!me.isModalShowed && /form-control/.test(e.target.className))
+                            } else if (/textarea-control/.test(e.target.className))
+                                me.inTextareaControl = true;
+                            else if (!Common.Utils.ModalWindow.isVisible() && /form-control/.test(e.target.className))
                                 me.inFormControl = true;
                         }
                     });
 
                     $(document.body).on('blur', 'input, textarea', function(e) {
-                        if (!me.isModalShowed) {
+                        if (!Common.Utils.ModalWindow.isVisible()) {
                             if (/form-control/.test(e.target.className))
                                 me.inFormControl = false;
                             if (me.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file').isVisible())
@@ -253,8 +255,8 @@ define([
                                     else
                                         me.beforeCloseDummyComment = true;
                                 }
-                                else if (/chat-msg-text/.test(e.target.id))
-                                    me.dontCloseChat = false;
+                                else if (/textarea-control/.test(e.target.className))
+                                    me.inTextareaControl = false;
                             }
                         }
                     }).on('dragover', function(e) {
@@ -281,31 +283,31 @@ define([
 
                     Common.NotificationCenter.on({
                         'modal:show': function(){
-                            me.isModalShowed++;
+                            Common.Utils.ModalWindow.show();
                             me.api.asc_enableKeyEvents(false);
                         },
                         'modal:close': function(dlg) {
-                            me.isModalShowed--;
-                            if (!me.isModalShowed)
+                            Common.Utils.ModalWindow.close();
+                            if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'modal:hide': function(dlg) {
-                            me.isModalShowed--;
-                            if (!me.isModalShowed)
+                            Common.Utils.ModalWindow.close();
+                            if (!Common.Utils.ModalWindow.isVisible())
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'settings:unitschanged':_.bind(this.unitsChanged, this),
                         'dataview:focus': function(e){
                         },
                         'dataview:blur': function(e){
-                            if (!me.isModalShowed) {
+                            if (!Common.Utils.ModalWindow.isVisible()) {
                                 me.api.asc_enableKeyEvents(true);
                             }
                         },
                         'menu:show': function(e){
                         },
                         'menu:hide': function(e, isFromInputControl){
-                            if (!me.isModalShowed && !isFromInputControl)
+                            if (!Common.Utils.ModalWindow.isVisible() && !isFromInputControl)
                                 me.api.asc_enableKeyEvents(true);
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
@@ -337,11 +339,12 @@ define([
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
-                this.appOptions.canCreateNew    = !_.isEmpty(this.editorConfig.createUrl);
+                this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
+                this.appOptions.canRequestCreateNew = this.editorConfig.canRequestCreateNew;
                 this.appOptions.lang            = this.editorConfig.lang;
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
@@ -384,6 +387,14 @@ define([
                     $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
                 }
 
+                var value = Common.localStorage.getItem("de-macros-mode");
+                if (value === null) {
+                    value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
+                    value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
+                } else
+                    value = parseInt(value);
+                Common.Utils.InternalSettings.set("de-macros-mode", value);
+
                 Common.Controllers.Desktop.init(this.appOptions);
             },
 
@@ -415,6 +426,11 @@ define([
                     docInfo.put_Token(data.doc.token);
                     docInfo.put_Permissions(_permissions);
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
+
+                    var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                    docInfo.asc_putIsEnabledPlugins(!!enable);
 //                    docInfo.put_Review(this.permissions.review);
 
                     var type = /^(?:(pdf|djvu|xps))$/.exec(data.doc.fileType);
@@ -425,6 +441,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -755,7 +772,7 @@ define([
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
-                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.dontCloseChat || this.isModalShowed || this.inFormControl)) ) {
+                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -901,6 +918,8 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+                Common.Utils.InternalSettings.set("de-settings-datetime-default", Common.localStorage.getItem("de-settings-datetime-default"));
+
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("de-settings-livecomment", this.isLiveCommenting);
@@ -1031,6 +1050,11 @@ define([
                         Common.Utils.InternalSettings.set("de-settings-forcesave", me.appOptions.forcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
                     }
+
+                    value = Common.localStorage.getItem("de-settings-paste-button");
+                    if (value===null) value = '1';
+                    Common.Utils.InternalSettings.set("de-settings-paste-button", parseInt(value));
+                    me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
@@ -1201,7 +1225,7 @@ define([
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 this.appOptions.canEditStyles  = this.appOptions.canLicense && this.appOptions.canEdit;
                 this.appOptions.canPrint       = (this.permissions.print !== false);
-                this.appOptions.canRename      = this.editorConfig.canRename && !!this.permissions.rename;
+                this.appOptions.canRename      = this.editorConfig.canRename && (this.permissions.rename!==false);
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
@@ -1262,6 +1286,8 @@ define([
 
                 if (this.permissions.changeHistory !== undefined)
                     console.warn("Obsolete: The changeHistory parameter of the document permission section is deprecated. Please use onRequestRestore event instead.");
+                if (this.permissions.rename !== undefined)
+                    console.warn("Obsolete: The rename parameter of the document permission section is deprecated. Please use onRequestRename event instead.");
             },
 
             applyModeCommonElements: function() {
@@ -1345,6 +1371,7 @@ define([
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
+                    me.api.asc_registerCallback('asc_onConvertEquationToMath',_.bind(me.onConvertEquationToMath, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -1548,8 +1575,12 @@ define([
                         config.maxwidth = 600;
                         break;
 
-                    case Asc.c_oAscError.ID.DirectUrl:
+                   case Asc.c_oAscError.ID.DirectUrl:
                         config.msg = this.errorDirectUrl;
+                        break;
+
+                   case Asc.c_oAscError.ID.CannotCompareInCoEditing:
+                        config.msg = this.errorCompare;
                         break;
 
                     default:
@@ -1567,7 +1598,7 @@ define([
                     config.closable = false;
 
                     if (this.appOptions.canBackToFolder && !this.appOptions.isDesktopApp && typeof id !== 'string') {
-                        config.msg += '<br/><br/>' + this.criticalErrorExtText;
+                        config.msg += '<br><br>' + this.criticalErrorExtText;
                         config.callback = function(btn) {
                             if (btn == 'ok')
                                 Common.NotificationCenter.trigger('goback', true);
@@ -1614,10 +1645,12 @@ define([
                     }, this);
                 }
 
-                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout)
-                    Common.UI.alert(config);
+                if (id !== Asc.c_oAscError.ID.ForceSaveTimeout) {
+                    if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                        Common.UI.alert(config).$window.attr('data-value', id);
+                }
 
-                Common.component.Analytics.trackEvent('Internal Error', id.toString());
+                (id!==undefined) && Common.component.Analytics.trackEvent('Internal Error', id.toString());
             },
 
             onCoAuthoringDisconnect: function() {
@@ -2135,7 +2168,7 @@ define([
             },
 
             onPrint: function() {
-                if (!this.appOptions.canPrint || this.isModalShowed) return;
+                if (!this.appOptions.canPrint || Common.Utils.ModalWindow.isVisible()) return;
                 
                 if (this.api)
                     this.api.asc_Print(new Asc.asc_CDownloadOptions(null, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera)); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
@@ -2188,6 +2221,79 @@ define([
             DisableVersionHistory: function() {
                 this.editorConfig.canUseHistory = false;
                 this.appOptions.canUseHistory = false;
+            },
+
+            onConvertEquationToMath: function(equation) {
+                var me = this,
+                    win;
+                var msg = this.textConvertEquation + '<br><br><a id="id-equation-convert-help" style="cursor: pointer;">' + this.textLearnMore + '</a>';
+                win = Common.UI.warning({
+                    width: 500,
+                    msg: msg,
+                    buttons: ['yes', 'cancel'],
+                    primary: 'yes',
+                    dontshow: true,
+                    textDontShow: this.textApplyAll,
+                    callback: _.bind(function(btn, dontshow){
+                        if (btn == 'yes') {
+                            this.api.asc_ConvertEquationToMath(equation, dontshow);
+                        }
+                        this.onEditComplete();
+                    }, this)
+                });
+                win.$window.find('#id-equation-convert-help').on('click', function (e) {
+                    win && win.close();
+                    me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
+                })
+            },
+
+            warningDocumentIsLocked: function() {
+                var me = this;
+                var _disable_ui = function (disable) {
+                    me.disableEditing(disable);
+                    var app = me.getApplication();
+                    app.getController('DocumentHolder').getView().SetDisabled(disable, true);
+                    app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+
+                    var leftMenu = app.getController('LeftMenu');
+                    leftMenu.leftMenu.getMenu('file').getButton('protect').setDisabled(disable);
+                    leftMenu.setPreviewMode(disable);
+
+                    var comments = app.getController('Common.Controllers.Comments');
+                    if (comments) comments.setPreviewMode(disable);
+                };
+
+                Common.Utils.warningDocumentIsLocked({disablefunc: _disable_ui});
+            },
+
+            onRunAutostartMacroses: function() {
+                var me = this,
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                if (enable) {
+                    var value = Common.Utils.InternalSettings.get("de-macros-mode");
+                    if (value==1)
+                        this.api.asc_runAutostartMacroses();
+                    else if (value === 0) {
+                        Common.UI.warning({
+                            msg: this.textHasMacros + '<br>',
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            dontshow: true,
+                            textDontShow: this.textRemember,
+                            callback: function(btn, dontshow){
+                                if (dontshow) {
+                                    Common.Utils.InternalSettings.set("de-macros-mode", (btn == 'yes') ? 1 : 2);
+                                    Common.localStorage.setItem("de-macros-mode", (btn == 'yes') ? 1 : 2);
+                                }
+                                if (btn == 'yes') {
+                                    setTimeout(function() {
+                                        me.api.asc_runAutostartMacroses();
+                                    }, 1);
+                                }
+                            }
+                        });
+                    }
+                }
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2535,7 +2641,15 @@ define([
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
             txtChoose: 'Choose an item.',
             errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.',
-            txtStyle_Caption: 'Caption'
+            txtStyle_Caption: 'Caption',
+            errorCompare: 'The Compare documents feature is not available in the co-editing mode.',
+            textConvertEquation: 'This equation was created with an old version of equation editor which is no longer supported. Converting this equation to Office Math ML format will make it editable.<br>Do you want to convert this equation?',
+            textApplyAll: 'Apply to all equations',
+            textLearnMore: 'Learn More',
+            txtEnterDate: 'Enter a date.',
+            txtTypeEquation: 'Type equation here.',
+            textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
+            textRemember: 'Remember my choice'
         }
     })(), DE.Controllers.Main || {}))
 });

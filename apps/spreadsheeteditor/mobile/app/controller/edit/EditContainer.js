@@ -231,10 +231,7 @@ define([
                 var $layoutPages = $(
                     '<div class="pages">' +
                         '<div class="page" data-page="index">' +
-                            '<div class="page-content">' +
-                                '<div class="tabs-animated-wrap">' +
-                                    '<div class="tabs"></div>' +
-                                '</div>' +
+                            '<div class="page-content tabs">' +
                             '</div>' +
                         '</div>' +
                     '</div>'
@@ -381,7 +378,7 @@ define([
                 _settings = [];
 
                 var isCell, isRow, isCol, isAll, isChart, isImage, isTextShape, isShape, isTextChart,
-                    selType             = cellInfo.asc_getFlags().asc_getSelectionType(),
+                    selType             = cellInfo.asc_getSelectionType(),
                     isCellLocked        = cellInfo.asc_getLocked(),
                     isTableLocked       = cellInfo.asc_getLockedTable()===true,
                     isObjLocked         = false;
@@ -498,10 +495,10 @@ define([
                 //         formatTableInfo = cellInfo.asc_getFormatTableInfo(),
                 //         isinsparkline = (cellInfo.asc_getSparklineInfo()!==null),
                 //         isintable = (formatTableInfo !== null),
-                //         ismultiselect = cellInfo.asc_getFlags().asc_getMultiselect();
+                //         ismultiselect = cellInfo.asc_getMultiselect();
                 //     documentHolder.ssMenu.formatTableName = (isintable) ? formatTableInfo.asc_getTableName() : null;
                 //     documentHolder.ssMenu.cellColor = cellInfo.asc_getFill().asc_getColor();
-                //     documentHolder.ssMenu.fontColor = cellInfo.asc_getFont().asc_getColor();
+                //     documentHolder.ssMenu.fontColor = cellInfo.asc_getXfs().asc_getFontColor();
                 //
                 //     documentHolder.pmiInsertEntire.setVisible(isRow||isCol);
                 //     documentHolder.pmiInsertEntire.setCaption((isRow) ? this.textInsertTop : this.textInsertLeft);

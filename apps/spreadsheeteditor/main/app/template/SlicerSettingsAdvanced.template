@@ -1,0 +1,119 @@
+<div id="id-adv-slicer-style" class="settings-panel active">
+    <div class="inner-content">
+        <div>
+            <div class="padding-small" style="display: inline-block;">
+                <label class="input-label"><%= scope.textHeader %></label>
+                <div id="sliceradv-text-header"></div>
+            </div>
+        </div>
+        <div class="padding-large" id="sliceradv-checkbox-header"></div>
+        <div style="padding-bottom: 4px;"><label class="header"><%= scope.strStyle %></label></div>
+        <div class="padding-large">
+            <div id="sliceradv-btn-style" style="width: 100%;height: 52px;"></div>
+        </div>
+        <div style="padding-bottom: 4px;"><label class="header"><%= scope.strSize %></label></div>
+        <div>
+            <div class="padding-large" style="display: inline-block; margin-right: 5px;">
+                <label class="input-label"><%= scope.strWidth %></label>
+                <div id="sliceradv-spin-width"></div>
+            </div>
+            <div id="sliceradv-button-ratio" style="display: inline-block; margin-right: 5px;"></div>
+            <div class="padding-large" style="display: inline-block;">
+                <label class="input-label"><%= scope.strHeight %></label>
+                <div id="sliceradv-spin-height"></div>
+            </div>
+        </div>
+        <div style="padding-bottom: 4px;"><label class="header"><%= scope.strButtons %></label></div>
+        <div>
+            <div style="display: inline-block; margin-right: 5px;">
+                <label class="input-label"><%= scope.strColumns %></label>
+                <div id="sliceradv-spin-columns"></div>
+            </div>
+            <div style="display: inline-block;">
+                <label class="input-label"><%= scope.strHeight %></label>
+                <div id="sliceradv-spin-col-height"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="id-adv-slicer-sorting" class="settings-panel">
+    <div class="inner-content" style="width: 100%;">
+        <div class="padding-small">
+            <label class="header"><%= scope.textSort %></label>
+        </div>
+        <div class="padding-large">
+            <div style="display: inline-block;">
+                <div class="padding-small" id="sliceradv-radio-asc"></div>
+                <div class="padding-small" id="sliceradv-radio-desc"></div>
+            </div>
+        </div>
+        <div>
+            <div style="display: inline-block;">
+                <div class="padding-small" id="sliceradv-check-hide-nodata"></div>
+                <div class="padding-small" id="sliceradv-check-indicate-nodata"></div>
+                <div class="padding-small" id="sliceradv-check-show-nodata-last"></div>
+                <!--<div class="padding-small" id="sliceradv-check-show-deleted"></div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<div id="id-adv-slicer-references" class="settings-panel">
+    <div class="inner-content">
+        <div class="padding-large">
+            <label class="header" style="display: block;"><%= scope.textSourceName %></label>
+            <label class="input-label" id="sliceradv-lbl-source"></label>
+        </div>
+        <div class="padding-large">
+            <label class="header" style="display: block;"><%= scope.textFormulaName %></label>
+            <label class="input-label" id="sliceradv-lbl-formula"></label>
+        </div>
+        <div class="padding-large">
+            <label class="header"><%= scope.textName %></label>
+            <div id="sliceradv-text-name"></div>
+        </div>
+    </div>
+</div>
+<div id="id-adv-slicer-snap" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1">
+            <tr>
+                <td class="padding-small">
+                    <div id="slicer-advanced-radio-twocell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="slicer-advanced-radio-onecell"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="slicer-advanced-radio-absolute"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-slicer-alttext" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" width="100%">
+            <tr>
+                <td class="padding-large">
+                    <label class="header"><%= scope.textAltTitle %></label>
+                    <div id="sliceradv-alt-title"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="header"><%= scope.textAltDescription %></label>
+                    <textarea id="sliceradv-alt-description" class="form-control" style="width: 100%; height: 120px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textAltTip %></label>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

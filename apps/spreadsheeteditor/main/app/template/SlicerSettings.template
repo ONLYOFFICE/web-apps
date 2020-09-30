@@ -1,0 +1,129 @@
+<table cols="3">
+    <tr>
+        <td class="padding-large" width="88px">
+            <label class="input-label"><%= scope.textWidth %></label>
+            <div id="slicer-spin-width"></div>
+        </td>
+        <td class="padding-large" width="28px" style="vertical-align: bottom;">
+            <div id="slicer-button-ratio"></div>
+        </td>
+        <td class="padding-large" width="88px">
+            <label class="input-label"><%= scope.textHeight %></label>
+            <div id="slicer-spin-height"></div>
+        </td>
+    </tr>
+</table>
+<table cols="2">
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label class="header"><%= scope.textPosition %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" width="50%">
+            <label class="input-label"><%= scope.textHor %></label>
+            <div id="slicer-spin-hor"></div>
+        </td>
+        <td class="padding-small" width="50%">
+            <label class="input-label"><%= scope.textVert %></label>
+            <div id="slicer-spin-vert"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-checkbox-disable-resize"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textButtons %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label class="input-label"><%= scope.textColumns %></label>
+            <div id="slicer-spin-cols" style="display: inline-block;margin-left:5px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" width="50%">
+            <label class="input-label"><%= scope.textWidth %></label>
+            <div id="slicer-spin-col-width"></div>
+        </td>
+        <td class="padding-small" width="50%">
+            <label class="input-label"><%= scope.textHeight %></label>
+            <div id="slicer-spin-col-height"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textStyle %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-btn-style" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label class="header"><%= scope.strSorting %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-radio-asc"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large" colspan=2>
+            <div id="slicer-radio-desc"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-check-hide-nodata"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-check-indicate-nodata"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="slicer-check-show-nodata-last"></div>
+        </td>
+    </tr>
+    <!--<tr>-->
+        <!--<td class="padding-small" colspan=2>-->
+            <!--<div id="slicer-check-show-deleted"></div>-->
+        <!--</td>-->
+    <!--</tr>-->
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan=2>
+            <label class="link" id="slicer-advanced-link"><%= scope.textAdvanced %></label>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

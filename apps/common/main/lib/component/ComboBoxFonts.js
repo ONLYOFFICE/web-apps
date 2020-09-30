@@ -76,7 +76,7 @@ define([
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>">',
-                            '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"/>',
+                            '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"></a>',
                         '</li>',
                     '<% }); %>',
                     '</ul>',
@@ -344,7 +344,7 @@ define([
             onApiChangeFontInternal: function(font) {
                 if (this.inFormControl) return;
 
-                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getName());
+                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
 
                 if (this.getRawValue() !== name) {
                     var record = this.store.findWhere({
@@ -380,7 +380,7 @@ define([
             onInsertItem: function(item) {
                 $(this.el).find('ul').prepend(_.template([
                     '<li id="<%= item.id %>">',
-                        '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"/>',
+                        '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"></a>',
                     '</li>'
                 ].join(''))({
                     item: item.attributes,

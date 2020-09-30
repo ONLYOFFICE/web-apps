@@ -136,7 +136,8 @@
     var Common = {};
 
 define([
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/component/CheckBox'
 ], function () {
     'use strict';
 
@@ -219,25 +220,34 @@ define([
             }
         }
 
-        function _centre() {
+        function _readDocumetGeometry() {
             if (window.innerHeight == undefined) {
-                var main_width  = document.documentElement.offsetWidth;
-                var main_height = document.documentElement.offsetHeight;
+                var width  = document.documentElement.offsetWidth,
+                height = document.documentElement.offsetHeight;
             } else {
-                main_width  = Common.Utils.innerWidth();
-                main_height = Common.Utils.innerHeight();
+                width  = Common.Utils.innerWidth();
+                height = Common.Utils.innerHeight();
             }
+            height -= Common.Utils.InternalSettings.get('window-inactive-area-top');
+            return {width: width, height: height, top: Common.Utils.InternalSettings.get('window-inactive-area-top')};
+        }
+
+        function _centre() {
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
 
             if (this.initConfig.height == 'auto') {
                 var win_height = parseInt(this.$window.find('.body').css('height'));
                 this.initConfig.header && (win_height += parseInt(this.$window.find('.header').css('height')));
-            } else
+            } else {
                 win_height = this.initConfig.height;
+                win_height > main_height && (win_height = main_height);
+            }
 
             var win_width = (this.initConfig.width=='auto') ? parseInt(this.$window.find('.body').css('width')) : this.initConfig.width;
             
-            var top  = Common.Utils.InternalSettings.get('window-inactive-area-top') +
-                        Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
+            var top  = main_geometry.top + Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
             this.$window.css('left',left);
@@ -245,18 +255,21 @@ define([
         }
 
         function _setVisible() {
-            if (window.innerHeight == undefined) {
-                var main_width  = document.documentElement.offsetWidth;
-                var main_height = document.documentElement.offsetHeight;
-            } else {
-                main_width  = Common.Utils.innerWidth();
-                main_height = Common.Utils.innerHeight();
-            }
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
 
             if (this.getLeft() + this.getWidth() > main_width)
                 this.$window.css('left', main_width - this.getWidth());
-            if (this.getTop() + this.getHeight() > main_height)
-                this.$window.css('top', main_height - this.getHeight());
+
+            if (this.getTop() < main_geometry.top )
+                this.$window.css('top', main_geometry.top);
+            else
+            if (this.getTop() + this.getHeight() > main_height) {
+                if (main_height - this.getHeight() < 0)
+                    this.$window.css('top', main_geometry.top);
+                else this.$window.css('top', main_geometry.top + main_height - this.getHeight());
+            }
         }
 
         function _getTransformation(end) {
@@ -278,16 +291,15 @@ define([
             this.dragging.initx = event.pageX*zoom - this.getLeft();
             this.dragging.inity = event.pageY*zoom - this.getTop();
 
-            if (window.innerHeight == undefined) {
-                var main_width  = document.documentElement.offsetWidth;
-                var main_height = document.documentElement.offsetHeight;
-            } else {
-                main_width  = Common.Utils.innerWidth();
-                main_height = Common.Utils.innerHeight();
-            }
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
 
             this.dragging.maxx  = main_width - this.getWidth();
-            this.dragging.maxy  = main_height - this.getHeight() + Common.Utils.InternalSettings.get('window-inactive-area-top');
+            this.dragging.maxy  = main_height - this.getHeight();
+            if (this.dragging.maxy < 0)
+                    this.dragging.maxy = 0;
+            this.dragging.maxy += main_geometry.top;
 
             $(document).on('mousemove', this.binding.drag);
             $(document).on('mouseup', this.binding.dragStop);
@@ -345,9 +357,10 @@ define([
             this.resizing.inith = this.getHeight();
             this.resizing.type = [el.hasClass('left') ? -1 : (el.hasClass('right') ? 1 : 0), el.hasClass('top') ? -1 : (el.hasClass('bottom') ? 1 : 0)];
 
-            var main_width  = (window.innerHeight == undefined) ? document.documentElement.offsetWidth : Common.Utils.innerWidth(),
-                main_height = (window.innerHeight == undefined) ? document.documentElement.offsetHeight : Common.Utils.innerHeight(),
-                maxwidth = (this.initConfig.maxwidth) ? this.initConfig.maxwidth : main_width,
+            var main_geometry = _readDocumetGeometry(),
+                main_width = main_geometry.width,
+                main_height = main_geometry.height;
+            var maxwidth = (this.initConfig.maxwidth) ? this.initConfig.maxwidth : main_width,
                 maxheight = (this.initConfig.maxheight) ? this.initConfig.maxheight : main_height;
 
             this.resizing.minw  = this.initConfig.minwidth;
@@ -427,12 +440,12 @@ define([
             if (!options.width) options.width = 'auto';
             
             var template =  '<div class="info-box">' +
-                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl <%= iconCls %>" /><% } %>' +
+                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl <%= iconCls %>"></div><% } %>' +
                                 '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-left:10px;" <% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
-                            '<% if (dontshow) { %><div class="separator horizontal" style="width: 100%;"/><% } %>';
+                            '<% if (dontshow) { %><div class="separator horizontal" style="width: 100%;"></div><% } %>';
 
             _.extend(options, {
                 cls: 'alert',
@@ -495,7 +508,7 @@ define([
                     footer.find('.dlg-btn').on('click', onBtnClick);
                     chDontShow = new Common.UI.CheckBox({
                         el: win.$window.find('.dont-show-checkbox'),
-                        labelText: win.textDontShow
+                        labelText: options.textDontShow || win.textDontShow
                     });
                     autoSize(obj);
                 },
@@ -508,13 +521,14 @@ define([
             });
 
             win.show();
+            return win;
         };
 
         Common.UI.error = function(options) {
             options = options || {};
             !options.title && (options.title = this.Window.prototype.textError);
 
-            Common.UI.alert(
+            return Common.UI.alert(
                 _.extend(options, {
                     iconCls: 'error'
                 })
@@ -525,7 +539,7 @@ define([
             options = options || {};
             !options.title && (options.title = this.Window.prototype.textConfirmation);
 
-            Common.UI.alert(
+            return Common.UI.alert(
                 _.extend(options, {
                     iconCls: 'confirm'
                 })
@@ -536,7 +550,7 @@ define([
             options = options || {};
             !options.title && (options.title = this.Window.prototype.textInformation);
 
-            Common.UI.alert(
+            return Common.UI.alert(
                 _.extend(options, {
                     iconCls: 'info'
                 })
@@ -547,7 +561,7 @@ define([
             options = options || {};
             !options.title && (options.title = this.Window.prototype.textWarning);
 
-            Common.UI.alert(
+            return Common.UI.alert(
                 _.extend(options, {
                     iconCls: 'warn'
                 })
@@ -595,7 +609,7 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, this.initConfig);
             },
 
-            render : function() {
+            render: function() {
                 var renderto = this.initConfig.renderTo || document.body;
                 $(renderto).append(
                     _.template(template)(this.initConfig)
@@ -652,6 +666,22 @@ define([
 
                 this.initConfig.footerCls && this.$window.find('.footer').addClass(this.initConfig.footerCls);
 
+                this.menuAddAlign = function(menuRoot, left, top) {
+                    var self = this;
+                    if (!me.$window.hasClass('notransform')) {
+                        me.$window.addClass('notransform');
+                        menuRoot.addClass('hidden');
+                        setTimeout(function() {
+                            menuRoot.removeClass('hidden');
+                            menuRoot.css({left: left, top: top});
+                            self.options.additionalAlign = null;
+                        }, 300);
+                    } else {
+                        menuRoot.css({left: left, top: top});
+                        self.options.additionalAlign = null;
+                    }
+                };
+
                 this.fireEvent('render:after',this);
                 return this;
             },
@@ -663,13 +693,12 @@ define([
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
                     } else {
-                        var opacity = mask.css('opacity');
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
 
                         setTimeout(function () {
-                            mask.css(_getTransformation(opacity));
+                            mask.css(_getTransformation('0.2'));
                         }, 1);
                     }
 
@@ -755,12 +784,11 @@ define([
 
                     if ( hide_mask ) {
                         if (this.options.animate !== false) {
-                            var opacity = mask.css('opacity');
                             mask.css(_getTransformation(0));
 
                             setTimeout(function () {
-                                mask.css('opacity', opacity);
                                 if (parseInt(mask.attr('counter'))<1) {
+                                    mask.css('opacity', '0.2');
                                     mask.hide();
                                     mask.attr('counter', 0);
                                 }
@@ -773,7 +801,7 @@ define([
                         }
                     }
 
-                    Common.NotificationCenter.trigger('modal:close', this);
+                    Common.NotificationCenter.trigger('modal:close', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                 }
 
                 this.$window.remove();
@@ -796,12 +824,11 @@ define([
 
                         if ( hide_mask ) {
                             if (this.options.animate !== false) {
-                                var opacity = mask.css('opacity');
                                 mask.css(_getTransformation(0));
 
                                 setTimeout(function () {
-                                    mask.css('opacity', opacity);
                                     if (parseInt(mask.attr('counter'))<1) {
+                                        mask.css('opacity', '0.2');
                                         mask.hide();
                                         mask.attr('counter', 0);
                                     }
@@ -813,7 +840,7 @@ define([
                                 }
                             }
                         }
-                        Common.NotificationCenter.trigger('modal:hide', this);
+                        Common.NotificationCenter.trigger('modal:hide', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                     }
                     this.$window.hide();
                     this.$window.removeClass('notransform');
@@ -921,6 +948,13 @@ define([
                         this.$window.find('.resize-border').remove();
                     }
                     this.resizable = resizable;
+                } else {
+                    if (resizable) {
+                        (minSize && minSize.length>1) && (this.initConfig.minwidth = minSize[0]);
+                        (minSize && minSize.length>1) && (this.initConfig.minheight = minSize[1]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxwidth = maxSize[0]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxheight = maxSize[1]);
+                    }
                 }
             },
 

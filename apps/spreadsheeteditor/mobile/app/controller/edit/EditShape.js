@@ -361,7 +361,7 @@ define([
 
                 var me = this,
                     selectedObjects = [],
-                    selectType = info.asc_getFlags().asc_getSelectionType();
+                    selectType = info.asc_getSelectionType();
 
                 if (selectType == Asc.c_oAscSelectionType.RangeShape) {
                     selectedObjects = me.api.asc_getGraphicObjectProps();

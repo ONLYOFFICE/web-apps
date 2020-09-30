@@ -64,7 +64,7 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                     {panelId: 'id-adv-shape-width',      panelCaption: this.textSize},
                     {panelId: 'id-adv-shape-rotate',     panelCaption: this.textRotation},
                     {panelId: 'id-adv-shape-shape',      panelCaption: this.textWeightArrows},
-                    {panelId: 'id-adv-shape-margins',    panelCaption: this.strMargins},
+                    {panelId: 'id-adv-shape-margins',    panelCaption: this.textTextBox},
                     {panelId: 'id-adv-shape-columns',    panelCaption: this.strColumns},
                     {panelId: 'id-adv-shape-snap',       panelCaption: this.textSnap},
                     {panelId: 'id-adv-shape-alttext',    panelCaption: this.textAlt}
@@ -144,13 +144,13 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             this.spinners.push(this.spnHeight);
 
             this.btnRatio = new Common.UI.Button({
+                parentEl: $('#shape-advanced-button-ratio'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
             });
-            this.btnRatio.render($('#shape-advanced-button-ratio')) ;
             this.btnRatio.on('click', _.bind(function(btn, e) {
                 if (btn.pressed && this.spnHeight.getNumberValue()>0) {
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
@@ -248,6 +248,30 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 }
             }, this));
             this.spinners.push(this.spnMarginRight);
+
+            this.chAutofit = new Common.UI.CheckBox({
+                el: $('#shape-checkbox-autofit'),
+                labelText: this.textResizeFit
+            });
+            this.chAutofit.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
+                        this._changedProps.asc_putShapeProperties(new Asc.asc_CShapeProperty());
+                    this._changedProps.asc_getShapeProperties().asc_putTextFitType(field.getValue()=='checked' ? AscFormat.text_fit_Auto : AscFormat.text_fit_No);
+                }
+            }, this));
+
+            this.chOverflow = new Common.UI.CheckBox({
+                el: $('#shape-checkbox-overflow'),
+                labelText: this.textOverflow
+            });
+            this.chOverflow.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedProps) {
+                    if (this._changedProps.asc_getShapeProperties()===null || this._changedProps.asc_getShapeProperties()===undefined)
+                        this._changedProps.asc_putShapeProperties(new Asc.asc_CShapeProperty());
+                    this._changedProps.asc_getShapeProperties().asc_putVertOverflowType(field.getValue()=='checked' ? AscFormat.nOTOwerflow : AscFormat.nOTClip);
+                }
+            }, this));
 
             // Rotation
             this.spnAngle = new Common.UI.MetricSpinner({
@@ -588,6 +612,9 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
                 }
                 this.btnsCategory[3].setDisabled(null === margins);   // Margins
 
+                this.chAutofit.setValue(shapeprops.asc_getTextFitType()==AscFormat.text_fit_Auto);
+                this.chOverflow.setValue(shapeprops.asc_getVertOverflowType()==AscFormat.nOTOwerflow);
+
                 var shapetype = shapeprops.asc_getType();
                 this.btnsCategory[4].setDisabled(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
                     || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
@@ -863,7 +890,11 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
         textSnap: 'Cell Snapping',
         textAbsolute: 'Don\'t move or size with cells',
         textOneCell: 'Move but don\'t size with cells',
-        textTwoCell: 'Move and size with cells'
+        textTwoCell: 'Move and size with cells',
+        textTextBox: 'Text Box',
+        textAutofit: 'AutoFit',
+        textResizeFit: 'Resize shape to fit text',
+        textOverflow: 'Allow text to overflow shape'
 
     }, SSE.Views.ShapeSettingsAdvanced || {}));
 });

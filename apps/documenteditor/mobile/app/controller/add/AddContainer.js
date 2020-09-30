@@ -75,6 +75,7 @@ define([
                 uiApp.closeModal();
 
                 me._showByStack(Common.SharedSettings.get('phone'));
+                uiApp.showTab('#add-other');
 
                 DE.getController('Toolbar').getView('Toolbar').hideSearch();
             },
@@ -92,6 +93,7 @@ define([
                 addViews.push({
                     caption: me.textTable,
                     id: 'add-table',
+                    icon: 'icon-add-table',
                     layout: DE.getController('AddTable')
                         .getView('AddTable')
                         .rootLayout()
@@ -100,6 +102,7 @@ define([
                 addViews.push({
                     caption: me.textShape,
                     id: 'add-shape',
+                    icon: 'icon-add-shape',
                     layout: DE.getController('AddShape')
                         .getView('AddShape')
                         .rootLayout()
@@ -108,6 +111,7 @@ define([
                 addViews.push({
                     caption: me.textImage,
                     id: 'add-image',
+                    icon: 'icon-add-image',
                     layout: DE.getController('AddImage')
                         .getView('AddImage')
                         .rootLayout()
@@ -116,6 +120,7 @@ define([
                 addViews.push({
                     caption: me.textOther,
                     id: 'add-other',
+                    icon: 'icon-add-other',
                     layout: DE.getController('AddOther')
                         .getView('AddOther')
                         .rootLayout()
@@ -153,7 +158,7 @@ define([
                         $layoutNavbar
                             .find('.toolbar-inner')
                             .append(
-                                '<a href="#' + layout.id + '" class="tab-link ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
+                                '<a href="#' + layout.id + '" class="tab-link ' + (index < 1 ? 'active' : '') + '"><i class="icon ' + layout.icon + '"></i></a>'
                             );
                     });
                     $layoutNavbar
@@ -168,7 +173,7 @@ define([
                         $layoutNavbar
                             .find('.buttons-row')
                             .append(
-                                '<a href="#' + layout.id + '" class="tab-link button ' + (index < 1 ? 'active' : '') + '">' + layout.caption + '</a>'
+                                '<a href="#' + layout.id + '" class="tab-link button ' + (index < 1 ? 'active' : '') + '"><i class="icon ' + layout.icon + '"></i></a>'
                             );
                     });
                 }
@@ -179,10 +184,7 @@ define([
                 var $layoutPages = $(
                     '<div class="pages">' +
                         '<div class="page" data-page="index">' +
-                            '<div class="page-content">' +
-                                '<div class="tabs-animated-wrap">' +
-                                    '<div class="tabs"></div>' +
-                                '</div>' +
+                            '<div class="page-content tabs">' +
                             '</div>' +
                         '</div>' +
                     '</div>'
@@ -247,7 +249,8 @@ define([
                 }
 
                 me.rootView = uiApp.addView('.add-root-view', {
-                    dynamicNavbar: true
+                    dynamicNavbar: true,
+                    domCache: true
                 });
 
                 Common.NotificationCenter.trigger('addcontainer:show');

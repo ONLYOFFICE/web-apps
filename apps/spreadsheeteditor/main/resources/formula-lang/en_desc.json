@@ -779,6 +779,10 @@
 		"a": "(  array , k )",
 		"d": "Statistical function used to analyze the range of cells and return the k-th largest value"
 	},
+	"LINEST": {
+		"a": "( known_y's, [known_x's], [const], [stats] )",
+		"d": "Statistical function used to calculate the statistics for a line by using the least squares method to calculate a straight line that best fits your data, and then returns an array that describes the line; because this function returns an array of values, it must be entered as an array formula"
+	},
 	"LOGINV": {
 		"a": "( x , mean , standard-deviation )",
 		"d": "Statistical function used to return the inverse of the lognormal cumulative distribution function of the given x value with the specified parameters"
@@ -1686,6 +1690,10 @@
 	"VLOOKUP": {
 		"a": "( lookup-value  ,  table-array  ,  col-index-num  [  ,  [  range-lookup-flag  ] ] )",
 		"d": "Lookup and reference function used to perform the vertical search for a value in the left-most column of a table or an array and return the value in the same row based on a specified column index number"
+	},
+	"CELL": {
+		"a": "(info_type, [reference])",
+		"d": "Information function used to return information about the formatting, location, or contents of a cell"
 	},
 	"ERROR.TYPE": {
 		"a": "(value)",

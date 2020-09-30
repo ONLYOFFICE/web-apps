@@ -48,7 +48,8 @@ define([
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/ComboDataView',
     'spreadsheeteditor/main/app/view/TableOptionsDialog',
-    'spreadsheeteditor/main/app/view/TableSettingsAdvanced'
+    'spreadsheeteditor/main/app/view/TableSettingsAdvanced',
+    'spreadsheeteditor/main/app/view/SlicerAddDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -183,6 +184,10 @@ define([
             return this;
         },
 
+        setMode: function(mode) {
+            this.mode = mode;
+        },
+
         createDelayedControls: function() {
             var me = this;
             this.chHeader = new Common.UI.CheckBox({
@@ -251,6 +256,7 @@ define([
             this.lockedControls.push(this.btnSelectData);
 
             this.btnEdit = new Common.UI.Button({
+                parentEl: $('#table-btn-edit'),
                 cls: 'btn-icon-default',
                 iconCls: 'btn-edit-table',
                 menu        : new Common.UI.Menu({
@@ -272,7 +278,6 @@ define([
                     ]
                 })
             });
-            this.btnEdit.render( $('#table-btn-edit')) ;
             this.btnEdit.menu.on('show:after', _.bind( function(menu){
                 if (this.api) {
                     menu.items[5].setDisabled(!this._originalProps.asc_getIsInsertRowAbove());
@@ -289,13 +294,52 @@ define([
             this.lockedControls.push(this.btnEdit);
 
             this.btnConvertRange = new Common.UI.Button({
-                el: $('#table-btn-convert-range')
+                parentEl: $('#table-btn-convert-range'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-convert-to-range',
+                caption     : this.textConvertRange,
+                style       : 'width: 100%;text-align: left;'
             });
+
             this.btnConvertRange.on('click', _.bind(function(btn){
                 if (this.api) this.api.asc_convertTableToRange(this._state.TableName);
                 Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.lockedControls.push(this.btnConvertRange);
+
+            this.btnRemDuplicates = new Common.UI.Button({
+                parentEl: $('#table-btn-rem-duplicates'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-remove-duplicates',
+                caption     : this.textRemDuplicates,
+                style       : 'width: 100%;text-align: left;'
+            });
+            this.btnRemDuplicates.on('click', _.bind(function(btn){
+                Common.NotificationCenter.trigger('data:remduplicates', this);
+            }, this));
+            this.lockedControls.push(this.btnRemDuplicates);
+
+            this.btnSlicer = new Common.UI.Button({
+                parentEl: $('#table-btn-slicer'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-slicer',
+                caption     : this.textSlicer,
+                style       : 'width: 100%;text-align: left;'
+            });
+            this.btnSlicer.on('click', _.bind(this.onInsertSlicerClick, this));
+            this.lockedControls.push(this.btnSlicer);
+
+            this.btnPivot = new Common.UI.Button({
+                parentEl: $('#table-btn-pivot'),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-pivot-sum',
+                caption     : this.textPivot,
+                style       : 'width: 100%;text-align: left;'
+            });
+            this.btnPivot.on('click', _.bind(this.onInsertPivotClick, this));
+            this.lockedControls.push(this.btnPivot);
+
+            this.$el.find('.pivot-only').toggleClass('hidden', !this.mode.canFeaturePivot);
 
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
 
@@ -418,10 +462,7 @@ define([
 
         onSendThemeColors: function() {
             // get new table templates
-            if (this.cmbTableTemplate) {
-                this.onApiInitTableTemplates(this.api.asc_getTablePictures(this._originalProps));
-                this.cmbTableTemplate.menuPicker.scroller.update({alwaysVisibleY: true});
-            }
+            this.btnTableTemplate && this.onApiInitTableTemplates(this.api.asc_getTablePictures(this._originalProps));
         },
 
         onApiInitTableTemplates: function(Templates){
@@ -520,6 +561,26 @@ define([
             }
         },
 
+        onInsertSlicerClick: function() {
+            var me = this,
+                props = me.api.asc_beforeInsertSlicer();
+            if (props) {
+                (new SSE.Views.SlicerAddDialog({
+                    props: props,
+                    handler: function (result, settings) {
+                        if (me && me.api && result == 'ok') {
+                            me.api.asc_insertSlicer(settings);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me);
+                    }
+                })).show();
+            }
+        },
+
+        onInsertPivotClick: function() {
+            this.fireEvent('pivottable:create');
+        },
+
         onApiEditCell: function(state) {
             this.isEditCell = (state != Asc.c_oAscCellEditorState.editEnd);
             if ( state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd)
@@ -576,7 +637,11 @@ define([
         textAdvanced:   'Show advanced settings',
         textConvertRange: 'Convert to range',
         textLongOperation: 'Long operation',
-        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?'
-
+        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
+        textRemDuplicates: 'Remove duplicates',
+        textSlicer: 'Insert slicer',
+        textPivot: 'Insert pivot table',
+        textActions: 'Table actions'
+        
     }, SSE.Views.TableSettings || {}));
 });

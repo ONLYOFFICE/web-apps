@@ -2,7 +2,7 @@
   {
     "src": "ProgramInterface/ProgramInterface.htm",
     "name": "Présentation de l'interface de Document Editor",
-    "headername": "Interface du Programme"
+    "headername": "Interface du programme"
   },
   {
     "src": "ProgramInterface/FileTab.htm",
@@ -70,15 +70,21 @@
     "src": "UsageInstructions/InsertFootnotes.htm",
     "name": "Insérer les notes de bas de page"
   },
+    {
+        "src": "UsageInstructions/InsertBookmarks.htm",
+        "name": "Ajouter des marque-pages"
+    },
+    {"src": "UsageInstructions/AddWatermark.htm", "name": "Ajouter un filigrane"},
   {
     "src": "UsageInstructions/AlignText.htm",
     "name": "Alignement du texte d'un paragraphe",
     "headername": "Mise en forme de paragraphe"
   },
-  {
-    "src": "UsageInstructions/BackgroundColor.htm",
-    "name": "Sélectionner la couleur d'arrière-plan pour un paragraphe"
-  },
+    {
+        "src": "UsageInstructions/BackgroundColor.htm",
+        "name": "Sélectionner la couleur d'arrière-plan pour un paragraphe"
+    },
+    {"src": "UsageInstructions/SetOutlineLevel.htm", "name": "Configurer le niveau hiérarchique de paragraphe"},
   {
     "src": "UsageInstructions/ParagraphIndents.htm",
     "name": "Changer les retraits de paragraphe"
@@ -131,7 +137,11 @@
   {
     "src": "UsageInstructions/InsertTables.htm",
     "name": "Insérer des tableaux",
-    "headername": "Opérations sur des objets"
+    "headername": "Opérations sue les objets"
+  },
+  {
+    "src": "UsageInstructions/AddFormulasInTables.htm",
+    "name": "Utiliser des formules dans les tableaux"
   },
   {
     "src": "UsageInstructions/InsertImages.htm",
@@ -145,10 +155,12 @@
     "src": "UsageInstructions/InsertCharts.htm",
     "name": "Insérer des graphiques"
   },
-  {
-    "src": "UsageInstructions/InsertTextObjects.htm",
-    "name": "Insérer des objets textuels"
-  },
+    {
+        "src": "UsageInstructions/InsertTextObjects.htm",
+        "name": "Insérer des objets textuels"
+    },
+    { "src": "UsageInstructions/AddCaption.htm", "name": "Ajouter une légende" },
+    { "src": "UsageInstructions/InsertSymbols.htm", "name": "Insérer des symboles et des caractères" },
   {
     "src": "UsageInstructions/InsertContentControls.htm",
     "name": "Insérer des contrôles de contenu"
@@ -167,7 +179,7 @@
   },
   {
     "src": "UsageInstructions/UseMailMerge.htm",
-    "name": "Utiliser le publipostage,",
+    "name": "Utiliser le publipostage",
     "headername": "Publipostage"
   },
   {
@@ -180,10 +192,11 @@
     "name": "Édition collaborative des documents",
     "headername": "Édition collaborative du document"
   },
-  {
-    "src": "HelpfulHints/Review.htm",
-    "name": "Révision du document"
-  },
+    {
+        "src": "HelpfulHints/Review.htm",
+        "name": "Révision du document"
+    },
+    {"src": "HelpfulHints/Comparison.htm", "name": "Comparer les documents"},
   {
     "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Afficher les informations sur le document",

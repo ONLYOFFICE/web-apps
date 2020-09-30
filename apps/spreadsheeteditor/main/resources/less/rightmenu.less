@@ -5,6 +5,7 @@
         border-left: 1px solid @gray-dark;
         background-color: @gray-light;
         right: 0;
+        overflow: hidden;
     }
 }
 
@@ -76,6 +77,11 @@
             opacity: 0.65;
             cursor: default !important;
         }
+    }
+}
+.right-panel .settings-panel {
+    label.input-label{
+        vertical-align: baseline;
     }
 }
 
@@ -203,13 +209,23 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
     width: 95px;
     height: 130px;
 
-    .item {
+    .listview:not(.disabled) > .item {
         padding: 3px;
+        border-top: none;
+        &.insert {
+            background: linear-gradient(to bottom, #656565, #fff 5%);
+            &.last {
+                background: linear-gradient(to top, #656565, #fff 5%);
+            }
+        }
+        &:hover {
+            border-top: none;
+        }
     }
 
     .list-item > div:nth-child(1) {
-        width:70px;
-        padding-right: 5px;
+        width:65px;
+        padding-right: 0;
         display: inline-block;
         white-space: pre;
         overflow: hidden;
@@ -219,9 +235,9 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 
     .listitem-icon {
         vertical-align: middle;
-        width: 16px;
+        width: 22px;
         height: 16px;
-        background-position: -1px -274px;
+        background-position: 1px -274px;
         display: inline-block;
     }
 }
@@ -285,5 +301,35 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 .combo-border-size.cell-border-type {
     img, .image {
         background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize.png)";
+
+        @media only screen {
+          //@media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+          //        (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+          //        (min-resolution: 144dpi) and (max-resolution: 191dpi)
+          //{
+          //    background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@1.5x.png)";
+          //    background-size:  60px auto;
+          //}
+
+            @media (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 2dppx),
+            (min-resolution: 192dpi)
+            {
+                background-image: ~"url(@{app-image-const-path}/toolbar/BorderSize@2x.png)";
+                background-size: 60px auto;
+            }
+        }
+    }
+}
+
+.sheet-template-slicer {
+    width: 56px;
+    height: 55px;
+}
+
+.menu-slicer-template {
+    .item {
+        border: none;
+        .box-shadow(none);
     }
 }

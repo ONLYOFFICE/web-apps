@@ -68,7 +68,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     {panelId: 'id-adv-image-wrap',       panelCaption: this.textBtnWrap},
                     {panelId: 'id-adv-image-position',   panelCaption: this.textPosition},
                     {panelId: 'id-adv-image-shape',      panelCaption: this.textWeightArrows},
-                    {panelId: 'id-adv-image-margins',    panelCaption: this.strMargins},
+                    {panelId: 'id-adv-image-margins',    panelCaption: this.textTextBox},
                     {panelId: 'id-adv-image-alttext',    panelCaption: this.textAlt}
                 ],
                 contentTemplate: _.template(contentTemplate)({
@@ -103,6 +103,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.sectionProps = this.options.sectionProps;
             this.pageWidth = this.options.sectionProps ? this.options.sectionProps.get_W() : 210;
             this.pageHeight = this.options.sectionProps ? this.options.sectionProps.get_H() : 297;
+            this.api = this.options.api;
             this._changedProps = null;
             this._changedShapeProps = null;
         },
@@ -184,13 +185,13 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }, this));
 
             this.btnRatio = new Common.UI.Button({
+                parentEl: $('#image-advanced-button-ratio'),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon advanced-btn-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio
             });
-            this.btnRatio.render($('#image-advanced-button-ratio')) ;
             this.btnRatio.on('click', _.bind(function(btn, e) {
                 if (btn.pressed && this.spnHeight.getNumberValue()>0) {
                     this._nRatio = this.spnWidth.getNumberValue()/this.spnHeight.getNumberValue();
@@ -398,6 +399,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             // Wrapping
 
             this.btnWrapInline = new Common.UI.Button({
+                parentEl: $('#image-advanced-button-wrap-inline'),
                 cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-inline',
                 posId: Asc.c_oAscWrapStyle2.Inline,
@@ -406,10 +408,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'imgAdvWrapGroup'
             });
-            this.btnWrapInline.render( $('#image-advanced-button-wrap-inline')) ;
             this.btnWrapInline.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapSquare = new Common.UI.Button({
+                parentEl: $('#image-advanced-button-wrap-square'),
                 cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-square',
                 posId: Asc.c_oAscWrapStyle2.Square,
@@ -418,10 +420,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'imgAdvWrapGroup'
             });
-            this.btnWrapSquare.render( $('#image-advanced-button-wrap-square')) ;
             this.btnWrapSquare.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapTight = new Common.UI.Button({
+                parentEl: $('#image-advanced-button-wrap-tight'),
                 cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-tight',
                 posId: Asc.c_oAscWrapStyle2.Tight,
@@ -430,10 +432,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'imgAdvWrapGroup'
             });
-            this.btnWrapTight.render( $('#image-advanced-button-wrap-tight')) ;
             this.btnWrapTight.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapThrough = new Common.UI.Button({
+                parentEl: $('#image-advanced-button-wrap-through'),
                 cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-through',
                 posId: Asc.c_oAscWrapStyle2.Through,
@@ -442,10 +444,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'imgAdvWrapGroup'
             });
-            this.btnWrapThrough.render( $('#image-advanced-button-wrap-through')) ;
             this.btnWrapThrough.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapTopBottom = new Common.UI.Button({
+                parentEl: $('#image-advanced-button-wrap-topbottom'),
                 cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-topbottom',
                 posId: Asc.c_oAscWrapStyle2.TopAndBottom,
@@ -454,10 +456,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'imgAdvWrapGroup'
             });
-            this.btnWrapTopBottom.render( $('#image-advanced-button-wrap-topbottom')) ;
             this.btnWrapTopBottom.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapBehind = new Common.UI.Button({
+                parentEl: $('#image-advanced-button-wrap-behind'),
                 cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-behind',
                 posId: Asc.c_oAscWrapStyle2.Behind,
@@ -466,10 +468,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'imgAdvWrapGroup'
             });
-            this.btnWrapBehind.render( $('#image-advanced-button-wrap-behind')) ;
             this.btnWrapBehind.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.btnWrapInFront = new Common.UI.Button({
+                parentEl: $('#image-advanced-button-wrap-infront'),
                 cls: 'btn-options huge-1',
                 iconCls: 'icon-advanced-wrap btn-wrap-infront',
                 posId: Asc.c_oAscWrapStyle2.InFront,
@@ -478,7 +480,6 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 allowDepress: false,
                 toggleGroup : 'imgAdvWrapGroup'
             });
-            this.btnWrapInFront.render( $('#image-advanced-button-wrap-infront')) ;
             this.btnWrapInFront.on('click', _.bind(this.onBtnWrapClick, this));
 
             this.spnTop = new Common.UI.MetricSpinner({
@@ -913,6 +914,16 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }, this));
             this.spinners.push(this.spnMarginRight);
 
+            this.chAutofit = new Common.UI.CheckBox({
+                el: $('#shape-checkbox-autofit'),
+                labelText: this.textResizeFit
+            });
+            this.chAutofit.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                if (this._changedShapeProps) {
+                    this._changedShapeProps.asc_putTextFitType(field.getValue()=='checked' ? AscFormat.text_fit_Auto : AscFormat.text_fit_No);
+                }
+            }, this));
+
             // Shape
             this._arrCapType = [
                 {displayValue: this.textFlat,   value: Asc.c_oAscLineCapType.Flat},
@@ -1300,8 +1311,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
                 this.btnsCategory[5].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Shapes
                 this.btnsCategory[6].setVisible(shapeprops!==null && !shapeprops.get_FromChart());   // Margins
-                this.btnsCategory[3].setDisabled(props.get_FromGroup()); // Wrapping
                 this.btnsCategory[2].setVisible(!chartprops && (pluginGuid === null || pluginGuid === undefined)); // Rotation
+
+                var control_props = this.api && this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+                this.btnsCategory[3].setDisabled(props.get_FromGroup() || !!control_props && (control_props.get_SpecificType()==Asc.c_oAscContentControlSpecificType.Picture)); // Wrapping
 
                 if (shapeprops) {
                     this._objectType = Asc.c_oAscTypeSelectElement.Shape;
@@ -1363,6 +1376,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         val = margins.get_Bottom();
                         this.spnMarginBottom.setValue((null !== val && undefined !== val) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
                     }
+
+                    this.chAutofit.setValue(shapeprops.asc_getTextFitType()==AscFormat.text_fit_Auto);
 
                     this.btnsCategory[6].setDisabled(null === margins);   // Margins
                     this.btnsCategory[5].setDisabled(shapeprops.get_stroke().get_type() == Asc.c_oAscStrokeType.STROKE_NONE);   // Weights & Arrows
@@ -2080,7 +2095,10 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         textAngle: 'Angle',
         textFlipped: 'Flipped',
         textHorizontally: 'Horizontally',
-        textVertically: 'Vertically'
+        textVertically: 'Vertically',
+        textTextBox: 'Text Box',
+        textAutofit: 'AutoFit',
+        textResizeFit: 'Resize shape to fit text'
 
     }, DE.Views.ImageSettingsAdvanced || {}));
 });

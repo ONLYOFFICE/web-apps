@@ -142,8 +142,10 @@ define([
                                 me.bar.$bar.scrollLeft(me.scrollLeft);
                                 me.bar.scrollX = undefined;
                             }
+                            me.bar.checkInvisible();
 
                             me.drag  = undefined;
+                            me.bar.trigger('tab:drop', this);
                         }
                     }
                     function dragMove (event) {
@@ -187,6 +189,7 @@ define([
                             $(document).off('mouseup.tabbar');
                             $(document).off('mousemove.tabbar', dragMove);
                         });
+                        this.bar.trigger('tab:drag', this.bar.selectTabs);
                     }
                 }
             }
@@ -219,10 +222,16 @@ define([
                             this.bar.trigger('tab:manual', this.bar, this.bar.tabs.indexOf(tab), tab);
                         } else {
                             tab.changeState();
+                            if (this.bar.isEditFormula)
+                                setTimeout(function(){
+                                    $('#ce-cell-content').focus();
+                                    var $cellContent = $('#ce-cell-content')[0];
+                                    $cellContent.selectionStart = $cellContent.selectionEnd = $cellContent.value.length;
+                                }, 500);
                         }
                     }
                 }
-                !tab.disabled && Common.NotificationCenter.trigger('edit:complete', this.bar);
+                !tab.disabled && Common.NotificationCenter.trigger('edit:complete', 'tab');
             }, this),
             dblclick: $.proxy(function() {
                 this.trigger('tab:dblclick', this, this.tabs.indexOf(tab), tab);
@@ -231,14 +240,82 @@ define([
                 this.trigger('tab:contextmenu', this, this.tabs.indexOf(tab), tab, this.selectTabs);
             }, this.bar),
             mousedown: $.proxy(function (e) {
-                if (this.bar.options.draggable && !_.isUndefined(dragHelper) && (3 !== e.which)) {
-                    if (!tab.isLockTheDrag) {
-                        if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
-                            tab.changeState();
-                            dragHelper.setHookTabs(e, this.bar, this.bar.selectTabs);
+                if ((3 !== e.which) && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                    var lockDrag = tab.isLockTheDrag;
+                    this.bar.selectTabs.forEach(function (item) {
+                        if (item.isLockTheDrag) {
+                            lockDrag = true;
                         }
+                    });
+                    if (this.bar.selectTabs.length === this.bar.tabs.length || this.bar.tabs.length === 1 || this.bar.isEditFormula) {
+                        lockDrag = true;
                     }
+                    this.bar.$el.find('ul > li > span').attr('draggable', !lockDrag);
+                    if (!lockDrag)
+                        tab.changeState();
+                } else {
+                    this.bar.$el.find('ul > li > span').attr('draggable', 'false');
                 }
+                if ($('#ce-cell-content').is(':focus'))
+                    if (!this.bar.isEditFormula) {
+                        $('#ce-cell-content').blur();
+                    } else {
+                        setTimeout(function () {
+                            $('#ce-cell-content').focus();
+                        }, 500)
+                    }
+            }, this)
+        });
+        tab.$el.children().on(
+            {dragstart: $.proxy(function (e) {
+                var event = e.originalEvent,
+                    img = document.createElement('div');
+                event.dataTransfer.setDragImage(img, 0, 0);
+                event.dataTransfer.effectAllowed = 'move';
+                this.bar.trigger('tab:dragstart', event.dataTransfer, this.bar.selectTabs);
+            }, this),
+            dragenter: $.proxy(function (e) {
+                var event = e.originalEvent;
+                if (!this.bar.isEditFormula) {
+                    this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                    $(e.currentTarget).parent().addClass('mousemove');
+                    var data = event.dataTransfer.getData("onlyoffice");
+                    event.dataTransfer.dropEffect = data ? 'move' : 'none';
+                } else {
+                    event.dataTransfer.dropEffect = 'none';
+                }
+            }, this),
+            dragover: $.proxy(function (e) {
+                var event = e.originalEvent;
+                if (event.preventDefault) {
+                    event.preventDefault(); // Necessary. Allows us to drop.
+                }
+                if (!this.bar.isEditFormula) {
+                    this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                    $(e.currentTarget).parent().addClass('mousemove');
+                } else {
+                    event.dataTransfer.dropEffect = 'none';
+                }
+                return false;
+            }, this),
+            dragleave: $.proxy(function (e) {
+                $(e.currentTarget).parent().removeClass('mousemove right');
+            }, this),
+            dragend: $.proxy(function (e) {
+                var event = e.originalEvent;
+                if (event.dataTransfer.dropEffect === 'move') {
+                    this.bar.trigger('tab:dragend', true);
+                } else {
+                    this.bar.trigger('tab:dragend', false);
+                }
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
+            }, this),
+            drop: $.proxy(function (e) {
+                var event = e.originalEvent,
+                    index = $(event.currentTarget).data('index');
+                this.bar.$el.find('.mousemove').removeClass('mousemove right');
+                this.bar.trigger('tab:drop', event.dataTransfer, index);
+                this.bar.isDrop = true;
             }, this)
         });
     };
@@ -255,7 +332,7 @@ define([
         },
 
         tabs: [],
-        template: _.template('<ul class="nav nav-tabs <%= placement %>" />'),
+        template: _.template('<ul id="statusbar_bottom" class="nav nav-tabs <%= placement %>"></ul>'),
         selectTabs: [],
 
         initialize : function (options) {
@@ -275,6 +352,33 @@ define([
 
             var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
             addEvent(this.$bar[0], eventname, _.bind(this._onMouseWheel,this));
+            addEvent(this.$bar[0], 'dragstart', _.bind(function (event) {
+                event.dataTransfer.effectAllowed = 'move';
+            }, this));
+            addEvent(this.$bar[0], 'dragenter', _.bind(function (event) {
+                var data = event.dataTransfer.getData("onlyoffice");
+                event.dataTransfer.dropEffect = (!this.isEditFormula && data) ? 'move' : 'none';
+            }, this));
+            addEvent(this.$bar[0], 'dragover', _.bind(function (event) {
+                if (event.preventDefault) {
+                    event.preventDefault(); // Necessary. Allows us to drop.
+                }
+                event.dataTransfer.dropEffect = !this.isEditFormula ? 'move' : 'none';
+                !this.isEditFormula && this.tabs[this.tabs.length - 1].$el.addClass('mousemove right');
+                return false;
+            }, this));
+            addEvent(this.$bar[0], 'dragleave', _.bind(function (event) {
+                event.dataTransfer.dropEffect = 'none';
+                this.tabs[this.tabs.length - 1].$el.removeClass('mousemove right');
+            }, this));
+            addEvent(this.$bar[0], 'drop', _.bind(function (event) {
+                this.$el.find('.mousemove').removeClass('mousemove right');
+                if (this.isDrop === undefined) {
+                    this.trigger('tab:drop', event.dataTransfer, 'last');
+                } else {
+                    this.isDrop = undefined;
+                }
+            }, this));
 
             this.manager = new StateManager({bar: this});
 
@@ -459,19 +563,24 @@ define([
                 this.checkInvisible(suppress);
             } else if ( index >= (this.tabs.length - 1) || index == 'last') {
                 var tab = this.tabs[this.tabs.length-1].$el;
-                this.$bar.scrollLeft(this.$bar.scrollLeft() + (tab.position().left + parseInt(tab.css('width')) - this.$bar.width()) + 1);
+                if (this.$bar.find('.separator-item').length === 0) {
+                    this.$bar.append('<li class="separator-item"><span></span></li>');
+                }
+                this.$bar.scrollLeft(this.$bar.scrollLeft() + (tab.position().left + parseInt(tab.css('width')) - this.$bar.width()) + (this.$bar.width() > 400 ? 20 : 5));
                 this.checkInvisible(suppress);
             } else {
+                if (!this.isTabVisible(this.tabs.length - 1) && this.$bar.find('.separator-item').length === 0) {
+                    this.$bar.append('<li class="separator-item"><span></span></li>');
+                }
                 var rightbound = this.$bar.width(),
                     tab, right, left;
-
                 if (index == 'forward') {
                     for (var i = 0; i < this.tabs.length; i++) {
                         tab = this.tabs[i].$el;
                         right = tab.position().left + parseInt(tab.css('width'));
 
                         if (right > rightbound) {
-                            this.$bar.scrollLeft(this.$bar.scrollLeft() + (right - rightbound) + 20);
+                            this.$bar.scrollLeft(this.$bar.scrollLeft() + (right - rightbound) + (this.$bar.width() > 400 ? 20 : 5));
                             this.checkInvisible(suppress);
                             break;
                         }
@@ -540,7 +649,7 @@ define([
                 //left = tab.position().left;
                 //right = left + tab.width();
 
-                return !(left < leftbound) && !(right - rightbound > 0.1);
+                return !(left < leftbound) && !(right - rightbound > 0.5);
             }
 
             return false;

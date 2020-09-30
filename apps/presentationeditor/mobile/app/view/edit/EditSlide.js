@@ -310,7 +310,7 @@ define([
                         '<% _.each(themes, function(row) { %>',
                             '<div class="row">',
                             '<% _.each(row, function(theme) { %>',
-                                '<div class="item-theme" data-type="<%= theme.themeId %>" style="' + '<% if (typeof theme.imageUrl !== "undefined") { %>' + 'background-image: url(<%= theme.imageUrl %>);' + '<% } %> background-position: 0 -<%= theme.offsety %>px;"/>',
+                                '<div class="item-theme" data-type="<%= theme.themeId %>" style="' + '<% if (typeof theme.imageUrl !== "undefined") { %>' + 'background-image: url(<%= theme.imageUrl %>);' + '<% } %> background-position: 0 -<%= theme.offsety %>px;"></div>',
                             '<% }); %>',
                             '</div>',
                         '<% }); %>'

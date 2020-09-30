@@ -135,6 +135,8 @@ if (Common === undefined) {
 
         var _onMessage = function(msg) {
             // TODO: check message origin
+            if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin) return;
+
             var data = msg.data;
             if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
                 return;
@@ -304,8 +306,8 @@ if (Common === undefined) {
                 _postMessage({event:'onRequestSendNotify', data: emails});
             },
 
-            requestInsertImage:  function () {
-                _postMessage({event:'onRequestInsertImage'});
+            requestInsertImage:  function (command) {
+                _postMessage({event:'onRequestInsertImage', data: {c: command}});
             },
 
             requestMailMergeRecipients:  function () {
@@ -318,6 +320,10 @@ if (Common === undefined) {
 
             requestSharingSettings:  function () {
                 _postMessage({event:'onRequestSharingSettings'});
+            },
+
+            requestCreateNew:  function () {
+                _postMessage({event:'onRequestCreateNew'});
             },
 
             on: function(event, handler){

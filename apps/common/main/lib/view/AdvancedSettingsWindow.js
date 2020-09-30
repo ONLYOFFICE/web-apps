@@ -62,10 +62,10 @@ define([
                         '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
                     '<% }); %>',
                     '</div>',
-                    '<div class="separator"/>',
+                    '<div class="separator"></div>',
                     '<div class="content-panel" >' + _options.contentTemplate + '</div>',
                 '</div>',
-                '<div class="separator horizontal"/>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);
@@ -107,22 +107,6 @@ define([
             this.content_panels = $window.find('.settings-panel');
             if (this.btnsCategory.length>0)
                 this.btnsCategory[0].toggle(true, true);
-
-            me.menuAddAlign = function(menuRoot, left, top) {
-                var self = this;
-                if (!$window.hasClass('notransform')) {
-                    $window.addClass('notransform');
-                    menuRoot.addClass('hidden');
-                    setTimeout(function() {
-                        menuRoot.removeClass('hidden');
-                        menuRoot.css({left: left, top: top});
-                        self.options.additionalAlign = null;
-                    }, 300);
-                } else {
-                    menuRoot.css({left: left, top: top});
-                    self.options.additionalAlign = null;
-                }
-            }
         },
 
         setHeight: function(height) {

@@ -68,10 +68,6 @@ define([
     'use strict';
 
     Common.UI.LoadMask = Common.UI.BaseView.extend((function() {
-        var ownerEl,
-            maskeEl,
-            loaderEl;
-
         return {
             options : {
                 cls     : '',
@@ -91,10 +87,17 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this, options);
 
                 this.template   = this.options.template || this.template;
-                this.cls        = this.options.cls;
-                this.style      = this.options.style;
                 this.title      = this.options.title;
-                this.owner      = this.options.owner;
+
+                this.ownerEl     = (this.options.owner instanceof Common.UI.BaseView) ? $(this.options.owner.el) : $(this.options.owner);
+                this.loaderEl    = $(this.template({
+                    id      : this.id,
+                    cls     : this.options.cls,
+                    style   : this.options.style,
+                    title   : this.title
+                }));
+                this.maskeEl = $('<div class="asc-loadmask"></div>');
+                this.timerId = 0;
             },
 
             render: function() {
@@ -102,66 +105,75 @@ define([
             },
 
             show: function(){
-                if (maskeEl || loaderEl)
-                    return;
-
-                ownerEl = (this.owner instanceof Common.UI.BaseView) ? $(this.owner.el) : $(this.owner);
+                // if (maskeEl || loaderEl)
+                //     return;
 
                 // The owner is already masked
-                if (ownerEl.hasClass('masked'))
+                var ownerEl = this.ownerEl,
+                    loaderEl = this.loaderEl,
+                    maskeEl = this.maskeEl;
+                if (!!ownerEl.ismasked)
                     return this;
 
+                ownerEl.ismasked = true;
+
                 var me = this;
+                if (me.title != me.options.title) {
+                    me.options.title = me.title;
+                    $('.asc-loadmask-title', loaderEl).html(me.title);
+                }
 
-                maskeEl     = $('<div class="asc-loadmask"></div>');
-                loaderEl    = $(this.template({
-                    id      : me.id,
-                    cls     : me.cls,
-                    style   : me.style,
-                    title   : me.title
-                }));
+                // show mask after 500 ms if it wont be hided
+                me.timerId = setTimeout(function () {
+                    ownerEl.append(maskeEl);
+                    ownerEl.append(loaderEl);
 
-                ownerEl.addClass('masked');
-                ownerEl.append(maskeEl);
-                ownerEl.append(loaderEl);
+                    loaderEl.css({
+                        top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
+                        left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'
+                    });
+                    // if (ownerEl.height()<1 || ownerEl.width()<1)
+                    //     loaderEl.css({visibility: 'hidden'});
 
-                loaderEl.css({
-                    top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
-                    left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'
-
-                });
-                if (ownerEl.height()<1 || ownerEl.width()<1)
-                    loaderEl.css({visibility: 'hidden'});
-
-                Common.util.Shortcuts.suspendEvents();
+                    if (ownerEl && ownerEl.closest('.asc-window.modal').length==0)
+                        Common.util.Shortcuts.suspendEvents();
+                },500);
 
                 return this;
             },
 
             hide: function() {
-                ownerEl     && ownerEl.removeClass('masked');
-                maskeEl     && maskeEl.remove();
-                loaderEl    && loaderEl.remove();
-                maskeEl  = null;
-                loaderEl = null;
-                Common.util.Shortcuts.resumeEvents();
+                var ownerEl = this.ownerEl;
+                if (this.timerId) {
+                    clearTimeout(this.timerId);
+                    this.timerId = 0;
+                }
+                if (ownerEl && ownerEl.ismasked) {
+                    if (ownerEl.closest('.asc-window.modal').length==0 && !Common.Utils.ModalWindow.isVisible())
+                        Common.util.Shortcuts.resumeEvents();
+
+                    this.maskeEl     && this.maskeEl.remove();
+                    this.loaderEl    && this.loaderEl.remove();
+                }
+                delete ownerEl.ismasked;
             },
 
             setTitle: function(title) {
                 this.title = title;
 
-                if (ownerEl && ownerEl.hasClass('masked') && loaderEl){
-                    $('.asc-loadmask-title', loaderEl).html(title);
+                if (this.ownerEl && this.ownerEl.ismasked && this.loaderEl){
+                    $('.asc-loadmask-title', this.loaderEl).html(title);
                 }
-
             },
 
             isVisible: function() {
-                return !_.isEmpty(loaderEl);
+                return !!this.ownerEl.ismasked;
             },
 
             updatePosition: function() {
-                if (ownerEl && ownerEl.hasClass('masked') && loaderEl){
+                var ownerEl = this.ownerEl,
+                    loaderEl = this.loaderEl;
+                if (ownerEl && ownerEl.ismasked && loaderEl){
                     loaderEl.css({
                         top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
                         left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'

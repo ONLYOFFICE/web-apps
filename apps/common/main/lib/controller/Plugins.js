@@ -151,15 +151,17 @@ define([
         setApi: function(api) {
             this.api = api;
 
-            this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
-            this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
-            this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
-            this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
-            this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
-            this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
-            this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
+            if (!this.appOptions.customization || (this.appOptions.customization.plugins!==false)) {
+                this.api.asc_registerCallback("asc_onPluginShow", _.bind(this.onPluginShow, this));
+                this.api.asc_registerCallback("asc_onPluginClose", _.bind(this.onPluginClose, this));
+                this.api.asc_registerCallback("asc_onPluginResize", _.bind(this.onPluginResize, this));
+                this.api.asc_registerCallback("asc_onPluginMouseUp", _.bind(this.onPluginMouseUp, this));
+                this.api.asc_registerCallback("asc_onPluginMouseMove", _.bind(this.onPluginMouseMove, this));
+                this.api.asc_registerCallback('asc_onPluginsReset', _.bind(this.resetPluginsList, this));
+                this.api.asc_registerCallback('asc_onPluginsInit', _.bind(this.onPluginsInit, this));
 
-            this.loadPlugins();
+                this.loadPlugins();
+            }
             return this;
         },
 

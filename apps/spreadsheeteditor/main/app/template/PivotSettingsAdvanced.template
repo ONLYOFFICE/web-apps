@@ -58,18 +58,15 @@
 </div>
 <div id="id-adv-pivot-data" class="settings-panel">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="1" style="width: 100%;">
             <tr>
-                <td colspan=2 >
+                <td>
                     <label class="header"><%= scope.textDataRange %></label>
                 </td>
             </tr>
             <tr>
                 <td class="padding-small" width="220">
-                    <div id="pivot-adv-txt-range" class="input-row" style="margin-right: 10px;"></div>
-                </td>
-                <td class="padding-small" style="text-align: right;">
-                    <button type="button" class="btn btn-text-default" id="pivot-adv-btn-data" style="min-width: 100px;width: auto;"><%= scope.textSelectData %></button>
+                    <div id="pivot-adv-txt-range" class="input-row"></div>
                 </td>
             </tr>
         </table>

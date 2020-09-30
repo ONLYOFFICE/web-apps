@@ -43,13 +43,10 @@
 
 define([
     'core',
-    'presentationeditor/mobile/app/view/add/AddTable'
 ], function (core) {
     'use strict';
 
     PE.Controllers.AddTable = Backbone.Controller.extend(_.extend((function() {
-        var _initDefaultStyles = false;
-
         return {
             models: [],
             collections: [],
@@ -58,8 +55,8 @@ define([
             ],
 
             initialize: function () {
-                Common.NotificationCenter.on('addcontainer:show', _.bind(this.initEvents, this));
                 this._styles = [];
+                this._initDefaultStyles = false;
             },
 
             setApi: function (api) {
@@ -67,21 +64,9 @@ define([
                 me.api = api;
             },
 
-            onLaunch: function () {
-                this.createView('AddTable').render();
-            },
-
             initEvents: function () {
                 var me = this;
-
-                if (!_initDefaultStyles) {
-                    _initDefaultStyles = true;
-                    me._styles = [];
-
-                    me.api.asc_GetDefaultTableStyles && me.api.asc_GetDefaultTableStyles();
-                }
-
-                $('#add-table li').single('click',  _.buffered(me.onStyleClick, 100, me));
+                $('.page[data-page="addother-insert-table"] li').single('click',  _.buffered(me.onStyleClick, 100, me));
             },
 
             onStyleClick: function (e) {

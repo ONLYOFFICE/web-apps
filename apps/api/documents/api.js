@@ -48,7 +48,8 @@
                     comment: <can comment in view mode> // default = edit,
                     modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                     modifyContentControl: <can modify content controls in documenteditor> // default = true
-                   fillForms:  <can edit forms in view mode> // default = edit || review
+                    fillForms:  <can edit forms in view mode> // default = edit || review,
+                    copy: <can copy data> // default = true
                 }
             },
             editorConfig: {
@@ -75,14 +76,14 @@
                     {
                         title: 'document title',
                         url: 'document url',
-                        folder: 'path to document'
+                        folder: 'path to document',
                     },
                     ...
                 ],
                 templates: [
                     {
-                        name: 'template name',
-                        icon: 'template icon url',
+                        title: 'template name', // name - is deprecated
+                        image: 'template icon url',
                         url: 'http://...'
                     },
                     ...
@@ -133,7 +134,10 @@
                     spellcheck: true,
                     compatibleFeatures: false,
                     unit: 'cm' // cm, pt, inch,
-                    mentionShare : true // customize tooltip for mention
+                    mentionShare : true // customize tooltip for mention,
+                    macros: true // can run macros in document
+                    plugins: true // can run plugins in document
+                    macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn'
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -212,7 +216,9 @@
         _config.editorConfig.canRequestMailMergeRecipients = _config.events && !!_config.events.onRequestMailMergeRecipients;
         _config.editorConfig.canRequestCompareFile = _config.events && !!_config.events.onRequestCompareFile;
         _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
+        _config.editorConfig.canRequestCreateNew = _config.events && !!_config.events.onRequestCreateNew;
         _config.frameEditorId = placeholderId;
+        _config.parentOrigin = window.location.origin;
 
         var onMouseUp = function (evt) {
             _processMouse(evt);
@@ -394,6 +400,10 @@
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
+            if (iframe.src) {
+                var pathArray = iframe.src.split('/');
+                this.frameOrigin = pathArray[0] + '//' + pathArray[2];
+            }
             target.parentNode && target.parentNode.replaceChild(iframe, target);
             var _msgDispatcher = new MessageDispatcher(_onMessage, this);
         }
@@ -682,7 +692,7 @@
 
         var _onMessage = function(msg) {
             // TODO: check message origin
-            if (msg && window.JSON) {
+            if (msg && window.JSON && _scope.frameOrigin==msg.origin ) {
 
                 try {
                     var msg = window.JSON.parse(msg.data);
@@ -762,7 +772,9 @@
             if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
-            }
+            } else if (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge')
+                index = "/index_internal.html";
+
         }
         path += index;
         return path;
@@ -804,6 +816,9 @@
 
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";
+
+        if (config.parentOrigin)
+            params += "&parentOrigin=" + config.parentOrigin;
 
         return params;
     }

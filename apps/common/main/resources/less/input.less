@@ -47,19 +47,19 @@
         position: relative;
     }
 
-    &.error {
-        input {
-            border-color: @brand-danger;
-        }
-
-        .input-error {
-            display: block;
-        }
-    }
-
     &.form-control:focus,
     .form-control:focus {
         border-color: @gray-darker;
+    }
+
+    &.error {
+        input:not([disabled]) {
+            border-color: @brand-danger;
+        }
+
+        input:not([disabled]) + .input-error {
+            display: block;
+        }
     }
 }
 
@@ -93,4 +93,23 @@ input[type="text"]::selection, textarea::selection {
 
 textarea.form-control:focus {
     border-color: @gray-darker;
+}
+
+.input-field-btn {
+    position: relative;
+
+    .select-button {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+    }
+    .input-error {
+        &:before {
+            right: 22px;
+        }
+    }
+    
+    input {
+        padding-right: 20px;
+    }
 }

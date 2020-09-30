@@ -132,6 +132,8 @@ define([
                     me.initBorderColorPage();
                 } else if ('#edit-text-format' == pageId) {
                     me.initTextFormat();
+                } else if ('#edit-text-orientation' == pageId) {
+                    me.initTextOrientation();
                 } else if ('#edit-border-style' == pageId) {
                     me.initBorderStyle();
                 } else if (!_.isUndefined(pageId) && pageId.indexOf('#edit-cell-format') > -1) {
@@ -189,7 +191,7 @@ define([
 
                 var me = this,
                     palette = me.getView('EditCell').paletteFillColor,
-                    color = me._sdkToThemeColor(me._cellInfo.asc_getFill().asc_getColor());
+                    color = me._sdkToThemeColor(me._cellInfo.asc_getXfs().asc_getFillColor());
 
                 if (palette) {
                     palette.select(color);
@@ -215,11 +217,12 @@ define([
 
                 var me = this,
                     $pageTextFormat = $('.page[data-page=edit-text-format]'),
-                    hAlign = me._cellInfo.asc_getHorAlign(),
-                    vAlign = me._cellInfo.asc_getVertAlign(),
+                    xfs = me._cellInfo.asc_getXfs(),
+                    hAlign = xfs.asc_getHorAlign(),
+                    vAlign = xfs.asc_getVertAlign(),
                     hAlignStr = 'left',
                     vAlignStr = 'bottom',
-                    isWrapText = me._cellInfo.asc_getFlags().asc_getWrapText();
+                    isWrapText = xfs.asc_getWrapText();
 
                 if (vAlign == Asc.c_oAscVAlign.Top)
                     vAlignStr = 'top';
@@ -278,20 +281,20 @@ define([
                 var me = this;
 
                 // Init font name
-                var fontName = fontObj.asc_getName() || this.textFonts;
+                var fontName = fontObj.asc_getFontName() || this.textFonts;
                 this._fontInfo.name = fontName;
 
                 $('#font-fonts .item-title').html(fontName);
 
 
                 // Init font style
-                $('#font-bold').toggleClass('active', fontObj.asc_getBold() === true);
-                $('#font-italic').toggleClass('active', fontObj.asc_getItalic() === true);
-                $('#font-underline').toggleClass('active', fontObj.asc_getUnderline() === true);
+                $('#font-bold').toggleClass('active', fontObj.asc_getFontBold() === true);
+                $('#font-italic').toggleClass('active', fontObj.asc_getFontItalic() === true);
+                $('#font-underline').toggleClass('active', fontObj.asc_getFontUnderline() === true);
 
 
                 // Init font size
-                this._fontInfo.size = fontObj.asc_getSize();
+                this._fontInfo.size = fontObj.asc_getFontSize();
                 var displaySize = this._fontInfo.size;
 
                 _.isUndefined(displaySize) ? displaySize = this.textAuto : displaySize = displaySize + ' ' + this.textPt;
@@ -301,7 +304,7 @@ define([
 
 
                 // Init font color
-                this._fontInfo.color = fontObj.asc_getColor();
+                this._fontInfo.color = fontObj.asc_getFontColor();
 
                 var color = this._fontInfo.color,
                     clr = me._sdkToThemeColor(color);
@@ -316,17 +319,17 @@ define([
                 }
 
                 var me = this,
-                    selectionType = cellInfo.asc_getFlags().asc_getSelectionType(),
+                    selectionType = cellInfo.asc_getSelectionType(),
                     // coAuthDisable = (!this.toolbar.mode.isEditMailMerge && !this.toolbar.mode.isEditDiagram) ? (cellInfo.asc_getLocked()===true || cellInfo.asc_getLockedTable()===true) : false,
                     // editOptionsDisabled = this._disableEditOptions(selectionType, coAuthDisable),
-                    _fontInfo = cellInfo.asc_getFont(),
+                    xfs = cellInfo.asc_getXfs(),
                     val,
                     need_disable = false;
 
-                me.initFontSettings(_fontInfo);
+                me.initFontSettings(xfs);
 
                 // Init fill color
-                var color = cellInfo.asc_getFill().asc_getColor(),
+                var color = xfs.asc_getFillColor(),
                     clr = me._sdkToThemeColor(color);
 
                 $('#fill-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
@@ -337,6 +340,8 @@ define([
                 if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText) {
                     return;
                 }
+
+                me.initTextOrientation();
 
                 me.initTextFormat();
             },
@@ -501,6 +506,49 @@ define([
                 }
 
                 return clr;
+            },
+
+            initTextOrientation: function() {
+                if (_.isUndefined(this._cellInfo)) return;
+
+                var me = this,
+                    $pageTextOrientation = $('.page[data-page=edit-text-orientation]'),
+                    orientationStr = 'horizontal',
+                    xfs = this._cellInfo.asc_getXfs();
+
+                var textAngle = xfs.asc_getAngle();
+
+                switch(textAngle) {
+                    case 45:    orientationStr = 'anglecount'; break;
+                    case -45:   orientationStr = 'angleclock'; break;
+                    case 255:   orientationStr = 'vertical'; break;
+                    case 90:    orientationStr = 'rotateup'; break;
+                    case -90:   orientationStr = 'rotatedown'; break;
+                    case 0:     orientationStr = 'horizontal'; break;
+                }
+
+                $('#text-orientation .item-media i').removeClass().addClass(Common.Utils.String.format('icon icon-text-orientation-{0}', orientationStr));
+
+                if ($pageTextOrientation.length > 0) {
+                    var $radioOrientation = $pageTextOrientation.find('input:radio[name=text-orientation]');
+                    $radioOrientation.val([orientationStr]);
+                    $radioOrientation.single('change', _.bind(me.onTextOrientationChange, me));
+                }
+            },
+
+            onTextOrientationChange: function(e) {
+                var $target = $(e.currentTarget),
+                    value = $target.prop('value');
+                var angle = 0;
+                switch (value) {
+                    case 'anglecount':  angle =  45;    break;
+                    case 'angleclock':  angle = -45;    break;
+                    case 'vertical':    angle =  255;   break;
+                    case 'rotateup':    angle =  90;    break;
+                    case 'rotatedown':  angle = -90;    break;
+                }
+                if (this.api)
+                    this.api.asc_setCellAngle(angle);
             },
 
             textFonts: 'Fonts',
