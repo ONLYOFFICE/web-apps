@@ -167,11 +167,15 @@ define([
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
             }
 
-            if (control_props) {
-                settingsType = Common.Utils.documentSettingsType.Form;
-                this._settings[settingsType].props = control_props;
-                this._settings[settingsType].locked = false;
-                this._settings[settingsType].hidden = 0;
+            if (control_props && control_props.get_FormPr()) {
+                var spectype = control_props.get_SpecificType();
+                if (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
+                    settingsType = Common.Utils.documentSettingsType.Form;
+                    this._settings[settingsType].props = control_props;
+                    this._settings[settingsType].locked = false;
+                    this._settings[settingsType].hidden = 0;
+                }
             }
 
             if ( this._settings[Common.Utils.documentSettingsType.Header].locked ) { // если находимся в locked header/footer, то считаем, что все элементы в нем тоже недоступны

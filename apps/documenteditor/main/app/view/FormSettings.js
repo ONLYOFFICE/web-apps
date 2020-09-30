@@ -45,6 +45,7 @@ define([
     'backbone',
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/MetricSpinner',
+    'common/main/lib/component/TextareaField',
     'common/main/lib/component/CheckBox'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -71,7 +72,12 @@ define([
             };
             this.spinners = [];
             this.lockedControls = [];
+            this.internalId = null;
             this._locked = true;
+            this._originalTextFormProps = null;
+            this._originalFormProps = null;
+            this._originalProps = null;
+            this._lockedControl = false;
 
             this.render();
         },
@@ -82,16 +88,12 @@ define([
                 scope: this
             }));
 
-            this.FillColorContainer = $('#shape-panel-color-fill');
-            this.FillImageContainer = $('#shape-panel-image-fill');
-            this.FillPatternContainer = $('#shape-panel-pattern-fill');
-            this.FillGradientContainer = $('#shape-panel-gradient-fill');
-            this.TransparencyContainer = $('#shape-panel-transparent-fill');
-            this.ShapeOnlySettings = $('.shape-only');
-            this.CanChangeType = $('.change-type');
+            this.textFieldContainer = el.find('.form-panel-textfield');
         },
 
         createDelayedElements: function() {
+            this._initSettings = false;
+
             var $markup = this.$el || $(this.el);
 
             var me = this;
@@ -102,14 +104,14 @@ define([
             this.cmbKey = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-key'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 85px;',
+                menuStyle: 'min-width: 100%;',
                 editable: true,
                 data: [],
                 disabled: this._locked
             });
             this.cmbKey.setValue('');
             this.lockedControls.push(this.cmbKey);
-            this.cmbKey.on('selected', this.onKeySelect.bind(this));
+            this.cmbKey.on('selected', this.onKeyChanged.bind(this));
             this.cmbKey.on('changed:after', this.onKeyChanged.bind(this));
             this.cmbKey.on('hide:after', this.onHideMenus.bind(this));
 
@@ -123,14 +125,16 @@ define([
             });
             this.lockedControls.push(this.txtPlaceholder);
             this.txtPlaceholder.on('changed:after', this.onPlaceholderChanged.bind(this));
+            this.txtPlaceholder.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
-            this.textareaHelp = $markup.findById('#form-txt-help');
-            this.textareaHelp.keydown(function (event) {
-                if (event.keyCode == Common.UI.Keys.RETURN) {
-                    event.stopPropagation();
-                }
-                me.isHelpChanged = true;
+            this.textareaHelp = new Common.UI.TextareaField({
+                el          : $markup.findById('#form-txt-help'),
+                style       : 'width: 100%; height: 90px;',
+                value       : ''
             });
+            this.lockedControls.push(this.textareaHelp);
+            this.textareaHelp.on('changed:after', this.onHelpChanged.bind(this));
+            this.textareaHelp.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.chMaxChars = new Common.UI.CheckBox({
                 el: $markup.findById('#form-chb-max-chars'),
@@ -142,7 +146,7 @@ define([
             this.spnMaxChars = new Common.UI.MetricSpinner({
                 el: $markup.findById('#form-spin-max-chars'),
                 step: 1,
-                width: 53,
+                width: 48,
                 defaultUnit : "",
                 value: '10',
                 maxValue: 1000000,
@@ -162,9 +166,10 @@ define([
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $markup.findById('#form-spin-width'),
                 step: .1,
-                width: 80,
+                width: 64,
                 defaultUnit : "cm",
-                value: '3 cm',
+                value: 'Auto',
+                allowAuto: true,
                 maxValue: 55.88,
                 minValue: 0.1
             });
@@ -177,7 +182,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-remove-duplicates',
                 caption     : this.textDelete,
-                style       : 'width: 100%;text-align: left;'
+                style       : 'text-align: left;'
             });
             this.btnRemForm.on('click', _.bind(function(btn){
                 this.api.asc_RemoveContentControlWrapper(this._state.id);
@@ -189,10 +194,14 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-remove-duplicates',
                 caption     : this.textLock,
-                style       : 'width: 100%;text-align: left;'
+                style       : 'text-align: left;'
             });
             this.btnLockForm.on('click', _.bind(function(btn){
-
+                if (this.api  && !this._noApply) {
+                    var props   = this._originalProps || new AscCommon.CContentControlPr();
+                    props.put_Lock(!this._lockedControl ? Asc.c_oAscSdtLockType.SdtContentLocked : Asc.c_oAscSdtLockType.Unlocked);
+                    this.api.asc_SetContentControlProperties(props, this.internalId);
+                }
             }, this));
             this.lockedControls.push(this.btnLockForm);
 
@@ -207,74 +216,101 @@ define([
             return this;
         },
 
-        onKeySelect: function(combo, record) {
-            if (this.api)
-                this.api.put_PrLineSpacing(record.value, record.defaultValue);
-            this.numLineHeight.setDefaultUnit(this._arrLineRule[record.value].defaultUnit);
-            this.numLineHeight.setMinValue(this._arrLineRule[record.value].minValue);
-            this.numLineHeight.setStep(this._arrLineRule[record.value].step);
-            this.fireEvent('editcomplete', this);
-        },
-
         onKeyChanged: function(combo, record) {
-            if (me._changedProps) {
-                me._changedProps.put_XAlign(undefined);
-                me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_Key(record.value);
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
             }
-            this.fireEvent('editcomplete', this);
         },
 
         onPlaceholderChanged: function(input, newValue, oldValue, e) {
-            var val = parseInt(me.txtFieldNum.getValue());
-            if (val !== parseInt(oldValue)) {
-                me.api.asc_PreviewMailMergeResult(val-1);
-                me.fireEvent('editcomplete', me);
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                props.put_PlaceholderText(newValue);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onHelpChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
+                formPr.put_HelpText(newValue);
+                props.put_FormPr(formPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
             }
         },
 
         onChMaxCharsChanged: function(field, newValue, oldValue, eOpts){
             this.spnMaxChars.setDisabled(field.getValue()!='checked');
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                var checked = (field.getValue()=='checked' || this.chComb.getValue()=='checked');
+                formTextPr.put_MaxCharacters(checked ? (this.spnMaxChars.getNumberValue() || 10) : checked);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         onMaxCharsChange: function(field, newValue, oldValue, eOpts){
-            if ( this.cmbLineRule.getRawValue() === '' )
-                return;
-            var type = c_paragraphLinerule.LINERULE_AUTO;
-            if (this.api)
-                this.api.put_PrLineSpacing(this.cmbLineRule.getValue(), (this.cmbLineRule.getValue()==c_paragraphLinerule.LINERULE_AUTO) ? field.getNumberValue() : Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                var checked = (this.chMaxChars.getValue()=='checked' || this.chComb.getValue()=='checked');
+                formTextPr.put_MaxCharacters(checked ? (field.getNumberValue() || 10) : checked);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         onChCombChanged: function(field, newValue, oldValue, eOpts){
             var checked = (field.getValue()=='checked');
             if (checked) {
-                this.chMaxChars.setValue(true);
+                this.chMaxChars.setValue(true, true);
+                this.spnMaxChars.setDisabled(false);
             }
             this.spnWidth.setDisabled(!checked);
-            if (this.api)
-                this.api.put_AddSpaceBetweenPrg((field.getValue()=='checked'));
-            this.fireEvent('editcomplete', this);
-        },
-
-        onNumSpacingBeforeChange: function(field, newValue, oldValue, eOpts){
-            if (this.api)  {
-                var num = field.getNumberValue();
-                this._state.LineSpacingBefore = (num<0) ? -1 : Common.Utils.Metric.fnRecalcToMM(num);
-                this.api.put_LineSpacingBeforeAfter(0, this._state.LineSpacingBefore);
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_Comb(checked);
+                if (checked) {
+                    formTextPr.put_MaxCharacters(this.spnMaxChars.getNumberValue() || 10);
+                    if (this.spnWidth.getValue()) {
+                        var value = this.spnWidth.getNumberValue();
+                        formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4));
+                    } else
+                        formTextPr.put_Width(0);
+                }
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
             }
         },
 
-        onNumSpacingAfterChange: function(field, newValue, oldValue, eOpts){
-            if (this.api){
-                var num = field.getNumberValue();
-                this._state.LineSpacingAfter = (num<0) ? -1 : Common.Utils.Metric.fnRecalcToMM(num);
-                this.api.put_LineSpacingBeforeAfter(1, this._state.LineSpacingAfter);
-            }
-        },
+        onWidthChange: function(field, newValue, oldValue, eOpts){
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                if (this.spnWidth.getValue()) {
+                    var value = this.spnWidth.getNumberValue();
+                    formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4));
+                } else
+                    formTextPr.put_Width(0);
 
-        onAddIntervalChange: function(field, newValue, oldValue, eOpts){
-            if (this.api)
-                this.api.put_AddSpaceBetweenPrg((field.getValue()=='checked'));
-            this.fireEvent('editcomplete', this);
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         ChangeSettings: function(props) {
@@ -284,12 +320,25 @@ define([
             this.disableControls(this._locked);
 
             if (props) {
+                this._originalProps = props;
+
+                this._noApply = true;
+
+                this.internalId = props.get_InternalId();
+
                 var val = props.get_PlaceholderText();
-                this.txtPlaceholder.setValue(val ? val : '');
+                if (this._state.placeholder !== val) {
+                    this.txtPlaceholder.setValue(val ? val : '');
+                    this._state.placeholder = val;
+                }
 
                 val = props.get_Lock();
                 (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
-                // this.btnLock.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
+                if (this._lockedControl !== val) {
+                    this._lockedControl = (val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
+                    this.btnLockForm.setCaption(this._lockedControl ? this.textUnlock : this.textLock);
+                    this.btnRemForm.setDisabled(this._lockedControl || this._locked);
+                }
 
                 var type = props.get_SpecificType();
                 var specProps;
@@ -298,6 +347,7 @@ define([
                     this.labelFormName.text(type == Asc.c_oAscContentControlSpecificType.ComboBox ? this.textCombobox : this.textDropDown);
                     specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr();
                     if (specProps) {
+                        this._originalListProps = specProps;
                         var count = specProps.get_ItemsCount();
                         var arr = [];
                         for (var i=0; i<count; i++) {
@@ -309,10 +359,9 @@ define([
                         this.list.store.reset(arr);
                     }
                     this.disableListButtons();
-                }
-
-                if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
+                } else if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
                     specProps = props.get_CheckBoxPr();
+                    this._originalCheckProps = specProps;
                 }
 
                 this.type = type;
@@ -320,24 +369,37 @@ define([
                 // form settings
                 var formPr = props.get_FormPr();
                 if (formPr) {
+                    this._originalFormProps = formPr;
+
                     val = formPr.get_Key();
-                    this.cmbKey.setValue(val ? val : '');
+                    if (this._state.key!==val) {
+                        this.cmbKey.setValue(val ? val : '');
+                        this._state.key = val;
+                    }
 
                     val = formPr.get_HelpText();
-                    this.textareaHelp.val(val ? val : '');
+                    if (this._state.help!==val) {
+                        this.textareaHelp.setValue(val ? val : '');
+                        this._state.help=val;
+                    }
 
                     var hidden = true;
                     if (type == Asc.c_oAscContentControlSpecificType.CheckBox && specProps) {
                         val = specProps.get_GroupKey();
-                        this.txtGroupKey.setValue(val ? val : '');
+                        if (this._state.groupkey!==val) {
+                            this.txtGroupKey.setValue(val ? val : '');
+                            this._state.groupkey=val;
+                        }
                         hidden = (typeof val !== 'string');
-                        this.labelFormName.text(hidden ? this.textCheckBox : this.textRadiobox);
+                        this.labelFormName.text(hidden ? this.textCheckbox : this.textRadiobox);
                     }
                     this.$el.find('.group-key').toggleClass('hidden', hidden);
                 }
 
                 var formTextPr = props.get_TextFormPr();
                 if (formTextPr) {
+                    this._originalTextFormProps = formTextPr;
+
                     this.labelFormName.text(this.textField);
                     val = formTextPr.get_Comb();
                     if ( this._state.Comb!==val ) {
@@ -347,19 +409,17 @@ define([
 
                     this.spnWidth.setDisabled(!val);
                     val = formTextPr.get_Width();
-                    if ( Math.abs(this._state.Width-val)>0.1) {
-                        this.spnWidth.setValue(val ? val : '', true);
+                    if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
+                        this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
                         this._state.Width=val;
                     }
 
                     val = formTextPr.get_MaxCharacters();
-                    if ( Math.abs(this._state.MaxChars-val)>0.1) {
-                        this.chMaxChars.setValue(val && val>=0, true);
-                        this.spnMaxChars.setDisabled(!val || val<0);
-                        this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
-                        this._state.MaxChars=val;
-                    }
+                    this.chMaxChars.setValue(val && val>=0);
+                    this.spnMaxChars.setDisabled(!val || val<0);
+                    this.spnMaxChars.setValue(val && val>=0 ? val : 10);
                 }
+                this._noApply = false;
             }
         },
 
@@ -387,8 +447,8 @@ define([
                 _.each(this.lockedControls, function(item) {
                     item.setDisabled(disable);
                 });
-                this.textTip.toggleClass('disabled', disable);
             }
+            this.btnRemForm.setDisabled(this._lockedControl || disable);
         },
 
         hideTextOnlySettings: function(value) {
@@ -406,7 +466,13 @@ define([
         textComb: 'Comb of characters',
         textWidth: 'Width',
         textDelete: 'Delete',
-        textLock: 'Lock'
+        textLock: 'Lock',
+        textUnlock: 'Unlock',
+        textRadiobox: 'Radio button',
+        textCheckbox: 'Checkbox',
+        textCombobox: 'Combo box',
+        textDropDown: 'Dropdown',
+        textImage: 'Image'
 
     }, DE.Views.FormSettings || {}));
 });
