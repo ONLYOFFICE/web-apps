@@ -729,9 +729,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 }
             }, this));
 
-            this.btnsCategory[2].on('click', _.bind(this.onVCategoryClick, this));
-            this.btnsCategory[3].on('click', _.bind(this.onHCategoryClick, this));
-
             // Sparklines
             this.btnSparkType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
@@ -998,6 +995,15 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 if (value==2) this.onVCategoryClick();
                 else if (value==3) this.onHCategoryClick();
             }
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            if (index==2)
+                this.onVCategoryClick(btn);
+            else if (index==3)
+                this.onHCategoryClick(btn);
         },
 
         onSelectType: function(btn, picker, itemView, record) {

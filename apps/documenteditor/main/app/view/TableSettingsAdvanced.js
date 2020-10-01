@@ -995,8 +995,14 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.CellBackContainer = $('#tableadv-panel-cell-back');
             this.TableBackContainer = $('#tableadv-panel-table-back');
 
-            this.btnsCategory[1].on('click', _.bind(this.onCellCategoryClick, this));
             this.afterRender();
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            if (index==1)
+                this.onCellCategoryClick(btn);
         },
 
         afterRender: function() {
