@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {inject} from "mobx-react";
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeDocumentSettings")
+@inject("storeDocumentSettings", "storeFocusObjects")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -161,6 +161,10 @@ class MainController extends Component {
         const storeSettings = this.props.storeDocumentSettings;
         this.api.asc_registerCallback('asc_onPageOrient', isPortrait => {
             storeSettings.isPortrait = isPortrait === true;
+        });
+        const storeFocusObjects = this.props.storeFocusObjects;
+        this.api.asc_registerCallback('asc_onFocusObject', objects => {
+            storeFocusObjects.resetFocusObjects(objects);
         });
     }
 
