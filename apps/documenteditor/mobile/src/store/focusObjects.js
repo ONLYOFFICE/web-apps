@@ -1,14 +1,17 @@
 import {action, observable, computed} from 'mobx';
 
 export class storeFocusObjects {
-    @observable focusObjects = [];
-    @observable headerType = 1;
+    @observable _focusObjects = [];
+    @observable _headerType = 1;
 
     @action resetFocusObjects (objects) {
-        this.focusObjects = objects;
+        this._focusObjects = objects;
+    }
+
+    @computed get settings() {
         let _settings = [];
-        for (let object of objects) {
-            var type = object.get_ObjectType();
+        for (let object of this._focusObjects) {
+            let type = object.get_ObjectType();
             if (Asc.c_oAscTypeSelectElement.Paragraph === type) {
                 _settings.push('text', 'paragraph');
             } else if (Asc.c_oAscTypeSelectElement.Table === type) {
@@ -25,13 +28,21 @@ export class storeFocusObjects {
                 _settings.push('hyperlink');
             } else if (Asc.c_oAscTypeSelectElement.Header === type) {
                 _settings.push('header');
-                this.headerType = object.get_ObjectValue().get_Type();
             }
         }
         // Exclude shapes if chart exist
         if (_settings.indexOf('chart') > -1) {
             _settings = _settings.filter((value) => value !== 'shape');
         }
-        this.focusObjects = _settings.filter((value, index, self) => self.indexOf(value) === index);
+        return _settings.filter((value, index, self) => self.indexOf(value) === index);
+    }
+    @computed get headerType() {
+        for (let object of this._focusObjects) {
+            let type = object.get_ObjectType();
+            if (Asc.c_oAscTypeSelectElement.Header === type) {
+                return object.get_ObjectValue().get_Type();
+            }
+        }
+        return this._headerType;
     }
 }

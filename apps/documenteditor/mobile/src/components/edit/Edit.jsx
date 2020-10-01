@@ -59,7 +59,7 @@ const EditLayoutContent = ({ editors }) => {
 const EditSheet = props => {
     const { t } = useTranslation();
 
-    const settings = props.storeFocusObjects.focusObjects;
+    const settings = props.storeFocusObjects.settings;
     const headerType = props.storeFocusObjects.headerType;
     let editors = [];
     if (settings.length < 1) {
