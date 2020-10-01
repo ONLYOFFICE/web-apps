@@ -792,10 +792,10 @@ define([
             toolbar.btnContentControls.setDisabled(paragraph_locked || header_locked);
             if (!(paragraph_locked || header_locked)) {
                 var control_disable = control_plain || content_locked;
-                for (var i=0; i<14; i++)
+                for (var i=0; i<7; i++)
                     toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
-                toolbar.btnContentControls.menu.items[15].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                toolbar.btnContentControls.menu.items[17].setDisabled(!in_control);
+                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                toolbar.btnContentControls.menu.items[10].setDisabled(!in_control);
             }
 
             var need_text_disable = paragraph_locked || header_locked || in_chart || rich_edit_lock || plain_edit_lock;
