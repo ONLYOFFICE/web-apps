@@ -18,8 +18,10 @@ export class storeFocusObjects {
                 _settings.push('table');
             } else if (Asc.c_oAscTypeSelectElement.Image === type) {
                 if (object.get_ObjectValue().get_ChartProperties()) {
-                    _settings.push('chart');
-                } else if (object.get_ObjectValue().get_ShapeProperties()) {
+                    // Exclude shapes if chart exist
+                    let si = _settings.indexOf('shape');
+                    si < 0 ? _settings.push('chart') : _settings.splice(si,1,'chart');
+                } else if (object.get_ObjectValue().get_ShapeProperties() && !_settings.includes('chart')) {
                     _settings.push('shape');
                 } else {
                     _settings.push('image');
@@ -29,10 +31,6 @@ export class storeFocusObjects {
             } else if (Asc.c_oAscTypeSelectElement.Header === type) {
                 _settings.push('header');
             }
-        }
-        // Exclude shapes if chart exist
-        if (_settings.indexOf('chart') > -1) {
-            _settings = _settings.filter((value) => value !== 'shape');
         }
         return _settings.filter((value, index, self) => self.indexOf(value) === index);
     }
