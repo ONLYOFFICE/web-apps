@@ -803,6 +803,8 @@ define([
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.style          = me.options.style        || '';
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
+            me.tabindex = me.options.tabindex || 0;
+
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
