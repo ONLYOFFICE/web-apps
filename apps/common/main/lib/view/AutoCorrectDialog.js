@@ -51,7 +51,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             contentWidth: 375,
             height: 430,
             buttons: null,
-            toggleGroup: 'autocorrect-dialog-group'
+            toggleGroup: 'autocorrect-dialog-group',
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -177,7 +178,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         '<div style="flex-grow:1;font-family: Cambria Math;font-size:13px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
                     '</div>'
                 ].join('')),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.mathList.on('item:select', _.bind(this.onSelectMathItem, this));
 
@@ -257,7 +259,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= value %></div>'
                 ].join('')),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.mathRecList.on('item:select', _.bind(this.onSelectRecItem, this));
 
@@ -351,6 +354,14 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.btnsCategory[0].on('click', _.bind(this.onMathCategoryClick, this, false));
             this.btnsCategory[1].on('click', _.bind(this.onRecCategoryClick, this, false));
             this.btnsCategory[2] && this.btnsCategory[2].on('click', _.bind(this.updateFooterButtons, this, true));
+
+            // 0 tab
+            this.focusManager.add([this.inputReplace, this.inputBy], '.form-control');
+            this.focusManager.add(this.mathList, '.listview');
+
+            // 1 tab
+            this.focusManager.add([this.inputRecFind], '.form-control');
+            this.focusManager.add(this.mathRecList, '.listview');
 
             this.afterRender();
         },

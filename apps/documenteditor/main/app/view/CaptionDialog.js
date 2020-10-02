@@ -49,7 +49,8 @@ define([
     DE.Views.CaptionDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 351,
-            height: 350
+            height: 350,
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -152,6 +153,7 @@ define([
                 menuStyle: 'min-width: 75px;',
                 editable: false,
                 disabled: !this.isObject,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: this.textBefore,   value: 1 },
                     { displayValue: this.textAfter,   value: 0 }
@@ -180,6 +182,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;max-height:155px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this.arrLabel,
                 alwaysVisibleY: true
             });
@@ -264,6 +267,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal, maskExp: /[0-9]/, defValue: 1 },
                     { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter, maskExp: /[a-z]/, defValue: 'a' },
@@ -305,6 +309,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;max-height:135px;',
                 editable: false,
+                takeFocusOnClose: true,
                 disabled: true,
                 data: this._arrLevel
             });
@@ -320,6 +325,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;',
                 editable: false,
+                takeFocusOnClose: true,
                 disabled: true,
                 data: [
                     { displayValue: '-     (' + this.textHyphen + ')',      value: '-' },
@@ -338,11 +344,18 @@ define([
 
             this.lblExample = this.$window.find('#caption-label-example');
 
+            this.focusManager.add([this.txtCaption, this.cmbPosition, this.cmbLabel, this.cmbNumbering, this.cmbChapter, this.cmbSeparator], '.form-control');
+
             this.afterRender();
         },
 
         afterRender: function() {
             this._setDefaults(this.props);
+
+            var me = this;
+            setTimeout(function(){
+                me.txtCaption.focus();
+            }, 100);
         },
 
         show: function() {

@@ -53,7 +53,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             contentWidth: 310,
             height: 392,
             toggleGroup: 'control-adv-settings-group',
-            storageName: 'de-control-settings-adv-category'
+            storageName: 'de-control-settings-adv-category',
+            focusManager: true
         },
 
         initialize : function(options) {
@@ -120,6 +121,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 120px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: this.textBox,   value: Asc.c_oAscSdtAppearance.Frame },
                     { displayValue: this.textNone,  value: Asc.c_oAscSdtAppearance.Hidden }
@@ -168,7 +170,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= name %></div>',
                     '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= value %></div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.list.on('item:select', _.bind(this.onSelectItem, this));
 
@@ -212,6 +215,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 menuStyle   : 'min-width: 100%; max-height: 185px;',
                 cls         : 'input-group-nr',
                 editable    : false,
+                takeFocusOnClose: true,
                 data        : data,
                 search: true,
                 scrollAlwaysVisible: true
@@ -224,7 +228,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.listFormats = new Common.UI.ListView({
                 el: $('#control-settings-format'),
                 store: new Common.UI.DataViewStore(),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
 
@@ -345,7 +350,32 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 this.spnWidth.setDisabled(!checked);
             }, this));
 
+            // 0 tab
+            this.focusManager.add([this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow], '.form-control');
+
+            // 2 tab
+            this.focusManager.add([this.list], '.listview');
+
+            // 3 tab
+            this.focusManager.add([this.txtDate], '.form-control');
+            this.focusManager.add([this.listFormats], '.listview');
+            this.focusManager.add([this.cmbLang], '.form-control');
+
             this.afterRender();
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                if (index==0) {
+                    me.txtName.focus();
+                } else if (index==2) {
+                    me.list.focus();
+                } else if (index==3)
+                    me.txtDate.focus();
+            }, 100);
         },
 
         onColorsSelect: function(btn, color) {
