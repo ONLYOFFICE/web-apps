@@ -489,9 +489,18 @@ define([
             var init = (aFontSelects.length<1);
             init && this.initFonts();
 
+            //fill recents
+            this.fillRecentSymbols();
+
+            var lastfont;
             if (options.font) {
+                lastfont = options.font;
+            } else if (aRecents.length>0) {
+                lastfont = aRecents[0].font;
+            }
+            if (lastfont) {
                 for(var i = 0; i < aFontSelects.length; ++i){
-                    if(aFontSelects[i].displayValue === options.font){
+                    if(aFontSelects[i].displayValue === lastfont){
                         nCurrentFont = i;
                         break;
                     }
@@ -526,6 +535,8 @@ define([
                 nCurrentSymbol = options.code;
             } else if (options.symbol) {
                 nCurrentSymbol = this.fixedCharCodeAt(options.symbol, 0);
+            } else if (aRecents.length>0) {
+                nCurrentSymbol = aRecents[0].symbol;
             }
 
             if (init && this.options.lang && this.options.lang != 'en') {
@@ -539,6 +550,8 @@ define([
 
             this.on('resizing', _.bind(this.onWindowResizing, this));
             this.on('resize', _.bind(this.onWindowResize, this));
+
+            bMainFocus = true;
         },
 
         initFonts: function() {
@@ -705,9 +718,6 @@ define([
                 me.updateInput();
             });
 
-            //fill recents
-            this.fillRecentSymbols();
-
             this.symbolTablePanel = $window.find('#symbol-table-scrollable-div');
             this.previewPanel = $window.find('#id-preview-data');
             this.previewParent = this.previewPanel.parent();
@@ -822,7 +832,7 @@ define([
                 this.options.handler.call(this, this, state, settings);
             }
             if (state=='ok') {
-                !special && settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
+                !special && this.checkRecent(nCurrentSymbol, settings.font);
                 !special && settings.updateRecents && this.updateRecents();
                 if (this.type)
                     return;
@@ -1050,7 +1060,7 @@ define([
                 this._handleInput('ok');
             else {
                 var settings = this.getPasteSymbol($(e.target).attr('id'));
-                settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
+                this.checkRecent(nCurrentSymbol, settings.font);
                 settings.updateRecents && this.updateView(false, undefined, undefined, true);
                 this.fireEvent('symbol:dblclick', this, 'ok', settings);
             }

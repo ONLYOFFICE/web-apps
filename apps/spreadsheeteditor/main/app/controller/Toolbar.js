@@ -2846,12 +2846,15 @@ define([
         onInsertSymbolClick: function() {
             if (this.api) {
                 var me = this,
+                    selected = me.api.asc_GetSelectedText(),
                     win = new Common.Views.SymbolTableDialog({
                         api: me.api,
                         lang: me.toolbar.mode.lang,
                         type: 1,
                         special: true,
                         buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        font: selected && selected.length>0 ? me.api.asc_getCellInfo().asc_getXfs().asc_getFontName() : undefined,
+                        symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
                                 me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getXfs().asc_getFontName(), settings.code, settings.special);

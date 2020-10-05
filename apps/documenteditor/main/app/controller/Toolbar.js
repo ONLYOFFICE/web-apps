@@ -2658,7 +2658,8 @@ define([
             if (this.dlgSymbolTable && this.dlgSymbolTable.isVisible()) return;
 
             if (this.api) {
-                var me = this;
+                var me = this,
+                    selected = me.api.asc_GetSelectedText();
                 me.dlgSymbolTable = new Common.Views.SymbolTableDialog({
                     api: me.api,
                     lang: me.mode.lang,
@@ -2666,6 +2667,8 @@ define([
                     type: 1,
                     special: true,
                     showShortcutKey: true,
+                    font: selected && selected.length>0 ? this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name() : undefined,
+                    symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                     buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                     handler: function(dlg, result, settings) {
                         if (result == 'ok') {
