@@ -45,6 +45,11 @@
             <div id="form-spin-width" style="display: inline-block; float: right;"></div>
         </td>
     </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <div id="form-button-replace" style="width:100%;"></div>
+        </td>
+    </tr>
 </table>
 <table cols="2" class="form-list">
     <tr>

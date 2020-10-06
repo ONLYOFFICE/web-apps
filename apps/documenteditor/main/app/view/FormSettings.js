@@ -46,7 +46,8 @@ define([
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/TextareaField',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/component/CheckBox',
+    'common/main/lib/view/ImageFromUrlDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -259,6 +260,26 @@ define([
             this.btnListDown.on('click', _.bind(this.onMoveItem, this, false));
             this.lockedControls.push(this.btnListDown);
 
+            // image props
+            this.btnSelectImage = new Common.UI.Button({
+                parentEl: $('#form-button-replace'),
+                cls: 'btn-text-menu-default',
+                caption: this.textSelectImage,
+                style: "width:100%;",
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 194px;',
+                    maxHeight: 200,
+                    items: [
+                        {caption: this.textFromFile, value: 0},
+                        {caption: this.textFromUrl, value: 1},
+                        {caption: this.textFromStorage, value: 2}
+                    ]
+                })
+            });
+            this.lockedControls.push(this.btnSelectImage);
+            this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
+            this.btnSelectImage.menu.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
+
             this.btnRemForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-delete'),
                 cls         : 'btn-toolbar',
@@ -295,6 +316,10 @@ define([
                 // this.api.asc_registerCallback('asc_onParaSpacingLine', _.bind(this._onLineSpacing, this));
             }
             return this;
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
         },
 
         onKeyChanged: function(combo, record) {
@@ -451,6 +476,43 @@ define([
                 this.fillListProps();
             }
             this.fireEvent('editcomplete', this);
+        },
+
+        setImageUrl: function(url, token) {
+            this.api.AddImageUrl(url, this._originalProps, token);
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data.url && data.c=='control') {
+                this.setImageUrl(data.url, data.token);
+            }
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value==1) {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.setImageUrl(checkUrl);
+                                }
+                            }
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                })).show();
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'control');
+            } else {
+                if (this._isFromFile) return;
+                this._isFromFile = true;
+                if (this.api) this.api.asc_addImage(this._originalProps);
+                this.fireEvent('editcomplete', this);
+                this._isFromFile = false;
+            }
         },
 
         ChangeSettings: function(props) {
@@ -666,7 +728,11 @@ define([
         textTipDelete: 'Delete value',
         textTipUp: 'Move up',
         textTipDown: 'Move down',
-        textValue: 'Value Options'
+        textValue: 'Value Options',
+        textSelectImage: 'Select Image',
+        textFromUrl:    'From URL',
+        textFromFile:   'From File',
+        textFromStorage: 'From Storage'
 
     }, DE.Views.FormSettings || {}));
 });
