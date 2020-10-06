@@ -125,7 +125,8 @@ define([
             this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             var isChart = false;
-            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                control_lock = false;
             for (i=0; i<SelectedObjects.length; i++)
             {
                 var content_locked = false;
@@ -154,9 +155,11 @@ define([
                             this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked() || content_locked;
                         }
                     }
+                    control_lock = control_lock || value.get_Locked();
                 } else if (settingsType == Common.Utils.documentSettingsType.Paragraph) {
                     this._settings[settingsType].panel.isChart = isChart;
                     can_add_table = value.get_CanAddTable();
+                    control_lock = control_lock || value.get_Locked();
                 }
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
@@ -173,7 +176,7 @@ define([
                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
                     settingsType = Common.Utils.documentSettingsType.Form;
                     this._settings[settingsType].props = control_props;
-                    this._settings[settingsType].locked = false;
+                    this._settings[settingsType].locked = control_lock;
                     this._settings[settingsType].hidden = 0;
                 }
             }

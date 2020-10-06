@@ -68,7 +68,8 @@ define([
             this._initSettings = true;
 
             this._state = {
-                DisabledControls: true
+                DisabledControls: undefined,
+                LockDelete: undefined
             };
             this.spinners = [];
             this.lockedControls = [];
@@ -77,7 +78,6 @@ define([
             this._originalTextFormProps = null;
             this._originalFormProps = null;
             this._originalProps = null;
-            this._lockedControl = false;
 
             this.render();
         },
@@ -112,8 +112,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: true,
-                data: [],
-                disabled: this._locked
+                data: []
             });
             this.cmbKey.setValue('');
             this.lockedControls.push(this.cmbKey);
@@ -184,22 +183,13 @@ define([
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
-            // Check/Radio props
-            this.chSelected = new Common.UI.CheckBox({
-                el: $markup.findById('#form-chb-selected'),
-                labelText: this.textChecked
-            });
-            this.chSelected.on('change', this.onChSelectedChanged.bind(this));
-            this.lockedControls.push(this.chSelected);
-
             // Radio props
             this.cmbGroupKey = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-group-key'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: true,
-                data: [],
-                disabled: this._locked
+                data: []
             });
             this.cmbGroupKey.setValue('');
             this.lockedControls.push(this.cmbGroupKey);
@@ -231,6 +221,7 @@ define([
                 ].join(''))
             });
             this.list.on('item:select', _.bind(this.onSelectItem, this));
+            this.lockedControls.push(this.list);
 
             this.btnListAdd = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-add'),
@@ -239,6 +230,7 @@ define([
                 hint: this.textTipAdd
             });
             this.btnListAdd.on('click', _.bind(this.onAddItem, this));
+            this.lockedControls.push(this.btnListAdd);
 
             this.btnListDelete = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-delete'),
@@ -247,6 +239,7 @@ define([
                 hint: this.textTipDelete
             });
             this.btnListDelete.on('click', _.bind(this.onDeleteItem, this));
+            this.lockedControls.push(this.btnListDelete);
 
             this.btnListUp = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-up'),
@@ -255,6 +248,7 @@ define([
                 hint: this.textTipUp
             });
             this.btnListUp.on('click', _.bind(this.onMoveItem, this, true));
+            this.lockedControls.push(this.btnListUp);
 
             this.btnListDown = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-down'),
@@ -263,6 +257,7 @@ define([
                 hint: this.textTipDown
             });
             this.btnListDown.on('click', _.bind(this.onMoveItem, this, false));
+            this.lockedControls.push(this.btnListDown);
 
             this.btnRemForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-delete'),
@@ -286,11 +281,10 @@ define([
             this.btnLockForm.on('click', _.bind(function(btn){
                 if (this.api  && !this._noApply) {
                     var props   = this._originalProps || new AscCommon.CContentControlPr();
-                    props.put_Lock(!this._lockedControl ? Asc.c_oAscSdtLockType.SdtContentLocked : Asc.c_oAscSdtLockType.Unlocked);
+                    props.put_Lock(!this._state.LockDelete ? Asc.c_oAscSdtLockType.SdtLocked : Asc.c_oAscSdtLockType.Unlocked);
                     this.api.asc_SetContentControlProperties(props, this.internalId);
                 }
             }, this));
-            this.lockedControls.push(this.btnLockForm);
 
             this.updateMetricUnit();
         },
@@ -400,17 +394,6 @@ define([
             }
         },
 
-        onChSelectedChanged: function(field, newValue, oldValue, eOpts){
-            if (this.api && !this._noApply) {
-                var props   = this._originalProps || new AscCommon.CContentControlPr();
-                var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
-                specProps.put_Checked(field.getValue()=='checked');
-                props.put_CheckBoxPr(specProps);
-                this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
-            }
-        },
-
         onGroupKeyChanged: function(combo, record) {
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
@@ -474,8 +457,6 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
-            this.disableControls(this._locked);
-
             if (props) {
                 this._originalProps = props;
 
@@ -491,11 +472,11 @@ define([
 
                 val = props.get_Lock();
                 (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
-                if (this._lockedControl !== val) {
-                    this._lockedControl = (val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
-                    this.btnLockForm.setCaption(this._lockedControl ? this.textUnlock : this.textLock);
-                    this.btnRemForm.setDisabled(this._lockedControl || this._locked);
+                if (this._state.LockDelete !== (val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked)) {
+                    this._state.LockDelete = (val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked);
+                    this.btnLockForm.setCaption(this._state.LockDelete ? this.textUnlock : this.textLock);
                 }
+                this.disableControls(this._locked);
 
                 var type = props.get_SpecificType();
                 var specProps;
@@ -562,12 +543,6 @@ define([
                         }
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
-                        this.chSelected.setCaption(ischeckbox ? this.textChecked : this.textSelected);
-                        val = specProps.get_Checked();
-                        if ( this._state.Selected!==val ) {
-                            this.chSelected.setValue(!!val, true);
-                            this._state.Selected=val;
-                        }
                     }
                 }
 
@@ -621,13 +596,14 @@ define([
         },
 
         disableControls: function(disable) {
-            if (this._state.DisabledControls!==disable) {
-                this._state.DisabledControls = disable;
+            var me = this;
+            if (this._state.DisabledControls!==(this._state.LockDelete || disable)) {
+                this._state.DisabledControls = this._state.LockDelete || disable;
                 _.each(this.lockedControls, function(item) {
-                    item.setDisabled(disable);
+                    item.setDisabled(me._state.DisabledControls);
                 });
             }
-            this.btnRemForm.setDisabled(this._lockedControl || disable);
+            this.btnLockForm.setDisabled(disable);
         },
 
         showHideControls: function(type, textProps, specProps) {
@@ -665,9 +641,9 @@ define([
         disableListButtons: function(disabled) {
             if (disabled===undefined)
                 disabled = !this.list.getSelectedRec();
-            this.btnListDelete.setDisabled(disabled);
-            this.btnListUp.setDisabled(disabled);
-            this.btnListDown.setDisabled(disabled);
+            this.btnListDelete.setDisabled(disabled || this._state.DisabledControls);
+            this.btnListUp.setDisabled(disabled || this._state.DisabledControls);
+            this.btnListDown.setDisabled(disabled || this._state.DisabledControls);
         },
 
         textField: 'Text field',
@@ -685,8 +661,6 @@ define([
         textCombobox: 'Combo box',
         textDropDown: 'Dropdown',
         textImage: 'Image',
-        textChecked: 'Checked by default',
-        textSelected: 'Selected by default',
         textGroupKey: 'Group key',
         textTipAdd: 'Add new value',
         textTipDelete: 'Delete value',
