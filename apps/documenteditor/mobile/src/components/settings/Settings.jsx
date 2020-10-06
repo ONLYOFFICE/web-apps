@@ -1,31 +1,18 @@
-import React, {Component} from 'react';
-import {
-    View,
-    Page,
-    Navbar,
-    NavRight,
-    Link,
-    Popup,
-    Icon,
-    ListItem,
-    List
-} from 'framework7-react';
-
+import React, {Component, useEffect} from 'react';
+import {View,Page,Navbar,NavRight,Link,Popup,Icon,ListItem,List} from 'framework7-react';
 import { withTranslation } from 'react-i18next';
+import { f7 } from 'framework7-react';
 
-class Settings extends Component {
+class SettingsPopup extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            popupOpened: false,
-        };
     }
     render() {
         const { t } = this.props;
         const _trarr = t('ViewSettings', {returnObjects: true});
 
         return (
-            <Popup className="settings-popup" opened={this.state.popupOpened} onPopupClosed={() => this.setState({popupOpened : false})}>
+            <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
                 <View>
                 <Page>
                     <Navbar title={t('ViewSettings.textSettings')}>
@@ -64,6 +51,26 @@ class Settings extends Component {
             </Popup>
         )
     }
+}
+
+const HOCSettingsPopup = withTranslation()(SettingsPopup);
+
+const Settings = props => {
+    useEffect(() => {
+        f7.popup.open('.settings-popup');
+
+        return () => {
+            // component will unmount
+        }
+    });
+
+
+    const onviewclosed = () => {
+        if ( props.onclosed )
+            props.onclosed();
+    };
+
+    return <HOCSettingsPopup onclosed={onviewclosed} />
 };
 
-export default withTranslation()(Settings);
+export default Settings;

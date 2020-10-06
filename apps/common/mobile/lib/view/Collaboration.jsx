@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { observer, inject } from "mobx-react";
 import { Popover, List, ListItem, Navbar, NavTitle, NavRight } from 'framework7-react';
 import { Sheet, Toolbar, BlockTitle, Link, Page, View, Icon } from 'framework7-react';
+import { f7 } from 'framework7-react';
 import { withTranslation, useTranslation } from 'react-i18next';
 
 @inject('users')
@@ -77,7 +78,7 @@ class CollaborationSheet extends Component {
     }
     render() {
         return (
-            <Sheet className="collab__sheet" push>
+            <Sheet className="coauth__sheet" push onSheetClosed={e => this.props.onclosed()}>
                 <View>
                     <PageCollaboration />
                 </View>
@@ -86,6 +87,25 @@ class CollaborationSheet extends Component {
     }
 }
 
+const CollaborationView = props => {
+    useEffect(() => {
+        f7.sheet.open('.coauth__sheet');
+
+        return () => {
+            // component will unmount
+        }
+    });
+
+    const onviewclosed = () => {
+        if ( props.onclosed ) props.onclosed();
+    };
+
+    return (
+        <CollaborationSheet onclosed={onviewclosed} />
+    )
+};
+
 const pageusers = withTranslation()(PageUsers);
 // export withTranslation()(CollaborationPopover);
 export {CollaborationPopover, CollaborationSheet, PageCollaboration, pageusers as PageUsers}
+export default CollaborationView;

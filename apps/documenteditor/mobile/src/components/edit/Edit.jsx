@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
 import { Page, Navbar, NavRight, NavLeft, NavTitle, Link, Sheet, Tabs, Tab, View } from 'framework7-react';
+import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import EditText from "./EditText";
 import EditParagraph from "./EditParagraph";
@@ -125,8 +126,9 @@ const EditSheet = props => {
             })
         }*/
     }
+
     return (
-        <Sheet className="edit__sheet" push>
+        <Sheet className="edit__sheet" push onSheetClosed={e => props.onclosed()}>
             <View>
                 <Page pageContent={false}>
                     <EditLayoutNavbar editors={editors} />
@@ -137,4 +139,24 @@ const EditSheet = props => {
     )
 };
 
-export default inject("storeFocusObjects")(observer(EditSheet));
+const HOC_EditSheet = inject("storeFocusObjects")(observer(EditSheet));
+
+const EditOptions = props => {
+    useEffect(() => {
+        f7.sheet.open('.edit__sheet');
+
+        return () => {
+            // component will unmount
+        }
+    });
+
+    const onsheetclosed = () => {
+        if ( props.onclosed ) props.onclosed();
+    };
+
+    return (
+        <HOC_EditSheet onclosed={onsheetclosed} />
+    )
+};
+
+export default EditOptions;

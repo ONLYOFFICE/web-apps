@@ -25,10 +25,10 @@ var routes = [
     path: '/users/',
     component: PageUsers
   },
-  {
-    path: '/collab-main/',
-    component: PageCollaboration
-  },
+  // {
+  //   path: '/collab-main/',
+  //   component: PageCollaboration
+  // },
   {
     path: '/margins/',
     component: Margins,
