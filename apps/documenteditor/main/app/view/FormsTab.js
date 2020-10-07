@@ -105,7 +105,7 @@ define([
                 this.btnTextField = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-form-field'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-update',
+                    iconCls: 'toolbar__icon btn-text-field',
                     caption: this.capBtnText,
                     disabled: true
                 });
@@ -114,7 +114,7 @@ define([
                 this.btnComboBox = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-form-combobox'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-update',
+                    iconCls: 'toolbar__icon btn-combo-box',
                     caption: this.capBtnComboBox,
                     disabled: true
                 });
@@ -123,7 +123,7 @@ define([
                 this.btnDropDown = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-form-dropdown'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-update',
+                    iconCls: 'toolbar__icon btn-dropdown',
                     caption: this.capBtnDropDown,
                     disabled: true
                 });
@@ -132,7 +132,7 @@ define([
                 this.btnCheckBox = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-form-checkbox'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-update',
+                    iconCls: 'toolbar__icon btn-checkbox',
                     caption: this.capBtnCheckBox,
                     disabled: true
                 });
@@ -141,7 +141,7 @@ define([
                 this.btnRadioBox = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-form-radiobox'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-update',
+                    iconCls: 'toolbar__icon btn-radio-button',
                     caption: this.capBtnRadioBox,
                     disabled: true
                 });
@@ -150,7 +150,7 @@ define([
                 this.btnImageField = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-form-image'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-update',
+                    iconCls: 'toolbar__icon btn-insertimage',
                     caption: this.capBtnImage,
                     disabled: true
                 });
@@ -159,7 +159,7 @@ define([
                 this.btnViewForm = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-form-view'),
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-update',
+                    iconCls: 'toolbar__icon btn-sheet-view',
                     caption: this.capBtnView,
                     enableToggle: true,
                     disabled: true

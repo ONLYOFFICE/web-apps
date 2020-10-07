@@ -295,7 +295,7 @@ define([
             this.btnLockForm = new Common.UI.Button({
                 parentEl: $markup.findById('#form-btn-lock'),
                 cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon btn-remove-duplicates',
+                iconCls     : 'toolbar__icon btn-lock',
                 caption     : this.textLock,
                 style       : 'text-align: left;'
             });
@@ -660,7 +660,7 @@ define([
 
         disableControls: function(disable) {
             if (this._initSettings) return;
-            
+
             var me = this;
             if (this._state.DisabledControls!==(this._state.LockDelete || disable)) {
                 this._state.DisabledControls = this._state.LockDelete || disable;
