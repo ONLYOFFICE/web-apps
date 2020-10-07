@@ -573,9 +573,10 @@ define([
                     var data = [];
                     if (type == Asc.c_oAscContentControlSpecificType.CheckBox)
                         data = this.api.asc_GetCheckBoxFormKeys();
-                    else if (type == Asc.c_oAscContentControlSpecificType.Picture)
+                    else if (type == Asc.c_oAscContentControlSpecificType.Picture) {
                         data = this.api.asc_GetPictureFormKeys();
-                    else
+                        this.labelFormName.text(this.textImage);
+                    } else
                         data = this.api.asc_GetTextFormKeys();
                     var arr = [];
                     data.forEach(function(item) {
