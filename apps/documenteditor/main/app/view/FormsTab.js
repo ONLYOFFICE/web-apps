@@ -65,23 +65,28 @@ define([
                 me.fireEvent('forms:insert', ['radiobox']);
             });
             this.btnImageField.on('click', function (b, e) {
-                me.fireEvent('forms:insert', ['image']);
+                me.fireEvent('forms:insert', ['picture']);
             });
             this.btnViewForm.on('click', function (b, e) {
                 me.fireEvent('forms:mode', [b.pressed]);
             });
-            this.btnClearFields.on('click', function (b, e) {
-                me.fireEvent('forms:clear');
-            });
-            $('#id-toolbar-menu-new-form-color').on('click', function (b, e) {
-                me.fireEvent('forms:new-color');
-            });
-            this.mnuNoControlsColor.on('click', function (item) {
-                me.fireEvent('forms:no-color', [item]);
-            });
-            this.mnuControlsColorPicker.on('select', function(picker, color) {
-                me.fireEvent('forms:select-color', [color]);
-            });
+            if (this.mnuFormsColorPicker) {
+                this.btnClearFields.on('click', function (b, e) {
+                    me.fireEvent('forms:clear');
+                });
+                $('#id-toolbar-menu-new-form-color').on('click', function (b, e) {
+                    me.fireEvent('forms:new-color');
+                });
+                this.mnuNoFormsColor.on('click', function (item) {
+                    me.fireEvent('forms:no-color', [item]);
+                });
+                this.mnuFormsColorPicker.on('select', function(picker, color) {
+                    me.fireEvent('forms:select-color', [color]);
+                });
+                this.btnHighlight.menu.on('show:after', function(picker, color) {
+                    me.fireEvent('forms:open-color', [color]);
+                });
+            }
         }
 
         return {
@@ -175,6 +180,7 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-highlight',
                     caption     : this.textHighlight,
+                    menu        : true,
                     disabled: true
                 });
                 this.paragraphControls.push(this.btnHighlight);
@@ -192,21 +198,25 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
-                    me.btnHighlight.setMenu(new Common.UI.Menu({
-                        items: [
-                            me.mnuNoControlsColor = new Common.UI.MenuItem({
-                                id: 'id-toolbar-menu-no-highlight-form',
-                                caption: me.textNoHighlight,
-                                checkable: true
-                            }),
-                            {caption: '--'},
-                            {template: _.template('<div id="id-toolbar-menu-form-color" style="width: 169px; height: 220px; margin: 10px;"></div>')},
-                            {template: _.template('<a id="id-toolbar-menu-new-form-color" style="padding-left:12px;">' + me.textNewColor + '</a>')}
-                        ]
-                    }));
-                    me.mnuControlsColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-form-color')
-                    });
+                    if (config.canEditContentControl) {
+                        me.btnHighlight.setMenu(new Common.UI.Menu({
+                            items: [
+                                me.mnuNoFormsColor = new Common.UI.MenuItem({
+                                    id: 'id-toolbar-menu-no-highlight-form',
+                                    caption: me.textNoHighlight,
+                                    checkable: true
+                                }),
+                                {caption: '--'},
+                                {template: _.template('<div id="id-toolbar-menu-form-color" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<a id="id-toolbar-menu-new-form-color" style="padding-left:12px;">' + me.textNewColor + '</a>')}
+                            ]
+                        }));
+                        me.mnuFormsColorPicker = new Common.UI.ThemeColorPalette({
+                            el: $('#id-toolbar-menu-form-color')
+                        });
+                    } else {
+                        me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
+                    }
 
                     me.btnTextField.updateHint(me.tipTextField);
                     me.btnComboBox.updateHint(me.tipComboBox);

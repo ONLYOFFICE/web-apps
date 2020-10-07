@@ -55,22 +55,10 @@ define([
         sdkViewName : '#id_main',
 
         initialize: function () {
-
-            this.addListeners({
-                'FormsTab': {
-                    'forms:insert': this.onControlsSelect,
-                    'forms:new-color': this.onNewControlsColor,
-                    'forms:clear': this.onClearClick,
-                    'forms:no-color': this.onNoControlsColor,
-                    'forms:select-color': this.onSelectControlsColor,
-                    'forms:mode': this.onModeClick
-                }
-            });
         },
         onLaunch: function () {
             this._state = {
-                prcontrolsdisable:undefined,
-                in_object: false
+                prcontrolsdisable:undefined
             };
         },
 
@@ -80,6 +68,9 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject', this.onApiFocusObject.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
+                this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
+
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
             }
@@ -90,6 +81,17 @@ define([
             this.toolbar = config.toolbar;
             this.view = this.createView('FormsTab', {
                 toolbar: this.toolbar.toolbar
+            });
+            this.addListeners({
+                'FormsTab': {
+                    'forms:insert': this.onControlsSelect,
+                    'forms:new-color': this.onNewControlsColor,
+                    'forms:clear': this.onClearClick,
+                    'forms:no-color': this.onNoControlsColor,
+                    'forms:select-color': this.onSelectControlsColor,
+                    'forms:open-color': this.onColorsShow,
+                    'forms:mode': this.onModeClick
+                }
             });
         },
 
@@ -111,12 +113,7 @@ define([
 
             var pr, i = -1, type,
                 paragraph_locked = false,
-                header_locked = false,
-                in_header = false,
-                in_equation = false,
-                in_image = false,
-                in_table = false,
-                frame_pr = null;
+                header_locked = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -124,93 +121,97 @@ define([
 
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
-                    frame_pr = pr;
                 } else if (type === Asc.c_oAscTypeSelectElement.Header) {
                     header_locked = pr.get_Locked();
-                    in_header = true;
-                } else if (type === Asc.c_oAscTypeSelectElement.Image) {
-                    in_image = true;
-                } else if (type === Asc.c_oAscTypeSelectElement.Math) {
-                    in_equation = true;
-                } else if (type === Asc.c_oAscTypeSelectElement.Table) {
-                    in_table = true;
                 }
             }
-            this._state.prcontrolsdisable = paragraph_locked || header_locked;
-            this._state.in_object = in_image || in_table || in_equation;
+            var in_control = this.api.asc_IsContentControl();
+            var control_props = in_control ? this.api.asc_GetContentControlProperties() : null,
+                lock_type = (in_control&&control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                control_plain = (in_control&&control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+            (lock_type===undefined) && (lock_type = Asc.c_oAscSdtLockType.Unlocked);
+            var content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+            var need_disable = (paragraph_locked || header_locked || control_plain || content_locked);
+            if (this._state.prcontrolsdisable !== need_disable) {
+                this.view.btnTextField.setDisabled(need_disable);
+                this.view.btnComboBox.setDisabled(need_disable);
+                this.view.btnDropDown.setDisabled(need_disable);
+                this.view.btnCheckBox.setDisabled(need_disable);
+                this.view.btnRadioBox.setDisabled(need_disable);
+                this.view.btnImageField.setDisabled(need_disable);
+                this.view.btnTextField.setDisabled(need_disable);
+                this._state.prcontrolsdisable = need_disable;
+            }
+        },
 
-            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false,
-                lock_type = control_props ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
-                content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
-            var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
-                rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
-                plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
-                plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
+        onSendThemeColors: function() {
+            this._needUpdateColors = true;
+        },
 
+        updateThemeColors: function() {
+            var updateColors = function(picker, defaultColorIndex) {
+                if (picker) {
+                    var clr;
 
-            var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain || rich_edit_lock || plain_edit_lock;
+                    var effectcolors = Common.Utils.ThemeColor.getEffectColors();
+                    for (var i = 0; i < effectcolors.length; i++) {
+                        if (typeof(picker.currentColor) == 'object' &&
+                            clr === undefined &&
+                            picker.currentColor.effectId == effectcolors[i].effectId)
+                            clr = effectcolors[i];
+                    }
+
+                    picker.updateColors(effectcolors, Common.Utils.ThemeColor.getStandartColors());
+                    if (picker.currentColor === undefined) {
+                        picker.currentColor = effectcolors[defaultColorIndex];
+                    } else if ( clr!==undefined ) {
+                        picker.currentColor = clr;
+                    }
+                }
+            };
+
+            this.view && this.view.mnuFormsColorPicker && updateColors(this.view.mnuFormsColorPicker, 1);
+            this.onChangeSdtGlobalSettings();
+        },
+
+        onChangeSdtGlobalSettings: function() {
+            var show = this.api.asc_GetGlobalContentControlShowHighlight();
+            if (this.view && this.view.mnuFormsColorPicker) {
+                this.view.mnuNoFormsColor.setChecked(!show, true);
+                this.view.mnuFormsColorPicker.clearSelection();
+                if (show){
+                    var clr = this.api.asc_GetGlobalContentControlHighlightColor();
+                    if (clr) {
+                        clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
+                        this.view.mnuFormsColorPicker.selectByRGB(clr, true);
+                    }
+                }
+            }
+        },
+
+        onColorsShow: function(menu) {
+            this._needUpdateColors && this.updateThemeColors();
+            this._needUpdateColors = false;
         },
 
         onControlsSelect: function(type) {
-            if (!(this.mode && this.mode.canFeatureContentControl)) return;
+            if (!(this.toolbar.mode && this.toolbar.mode.canFeatureContentControl)) return;
 
-            if (item.value == 'settings' || item.value == 'remove') {
-                if (this.api.asc_IsContentControl()) {
-                    var props = this.api.asc_GetContentControlProperties();
-                    if (props) {
-                        var id = props.get_InternalId();
-                        if (item.value == 'settings') {
-                            var me = this;
-                            (new DE.Views.ControlSettingsDialog({
-                                props: props,
-                                api: me.api,
-                                controlLang: me._state.lang,
-                                interfaceLang: me.mode.lang,
-                                handler: function(result, value) {
-                                    if (result == 'ok') {
-                                        me.api.asc_SetContentControlProperties(value, id);
-                                    }
-
-                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                }
-                            })).show();
-
-                        } else {
-                            this.api.asc_RemoveContentControlWrapper(id);
-                            Common.component.Analytics.trackEvent('ToolBar', 'Remove Content Control');
-                        }
-                    }
-                }
-            } else {
-                var isnew = (item.value.indexOf('new-')==0),
-                    oPr, oFormPr;
-                if (isnew) {
-                    oFormPr = new AscCommon.CSdtFormPr();
-                    this.toolbar.fireEvent('insertcontrol', this.toolbar);
-                }
-                if (item.value == 'plain' || item.value == 'rich')
-                    this.api.asc_AddContentControl((item.value=='plain') ? Asc.c_oAscSdtLevelType.Inline : Asc.c_oAscSdtLevelType.Block);
-                else if (item.value.indexOf('picture')>=0)
-                    this.api.asc_AddContentControlPicture(oFormPr);
-                else if (item.value.indexOf('checkbox')>=0 || item.value.indexOf('radiobox')>=0) {
-                    if (isnew) {
-                        oPr = new AscCommon.CSdtCheckBoxPr();
-                        (item.value.indexOf('radiobox')>=0) && oPr.put_GroupKey('Group 1');
-                    }
-                    this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
-                } else if (item.value == 'date')
-                    this.api.asc_AddContentControlDatePicker();
-                else if (item.value.indexOf('combobox')>=0 || item.value.indexOf('dropdown')>=0)
-                    this.api.asc_AddContentControlList(item.value.indexOf('combobox')>=0, oPr, oFormPr);
-                else if (item.value == 'new-field') {
-                    oPr = new AscCommon.CSdtTextFormPr();
-                    this.api.asc_AddContentControlTextForm(oPr, oFormPr);
-                }
-
-                Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
+            var oPr,
+                oFormPr = new AscCommon.CSdtFormPr();
+            this.toolbar.toolbar.fireEvent('insertcontrol', this.toolbar.toolbar);
+            if (type == 'picture')
+                this.api.asc_AddContentControlPicture(oFormPr);
+            else if (type == 'checkbox' || type == 'radiobox') {
+                oPr = new AscCommon.CSdtCheckBoxPr();
+                (type == 'radiobox') && oPr.put_GroupKey('Group 1');
+                this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
+            } else if (type == 'combobox' || type == 'dropdown')
+                this.api.asc_AddContentControlList(type == 'combobox', oPr, oFormPr);
+            else if (type == 'text') {
+                oPr = new AscCommon.CSdtTextFormPr();
+                this.api.asc_AddContentControlTextForm(oPr, oFormPr);
             }
-
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -229,7 +230,7 @@ define([
         },
 
         onNewControlsColor: function() {
-            this.view.mnuControlsColorPicker.addNewColor();
+            this.view.mnuFormsColorPicker.addNewColor();
         },
 
         onNoControlsColor: function(item) {

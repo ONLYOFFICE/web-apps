@@ -3013,9 +3013,14 @@ define([
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
 
-                var forms = me.getApplication().getController('FormsTab');
-                forms.setApi(me.api).setConfig({toolbar: me});
-                Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                if (config.canFeatureContentControl) {
+                    tab = {caption: me.textTabForms, action: 'forms'};
+                    var forms = me.getApplication().getController('FormsTab');
+                    forms.setApi(me.api).setConfig({toolbar: me});
+                    me.toolbar.addTab(tab, $panel, 4);
+                    me.toolbar.setVisible('forms', true);
+                    Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                }
             }
         },
 
@@ -3437,7 +3442,8 @@ define([
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
         txtMarginsH: 'Top and bottom margins are too high for a given page height',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        textTabForms: 'Forms'
 
     }, DE.Controllers.Toolbar || {}));
 });

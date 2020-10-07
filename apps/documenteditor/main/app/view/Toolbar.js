@@ -113,8 +113,7 @@ define([
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit'},
                                 {caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
                                 {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
-                                {caption: me.textTabLinks, action: 'links', extcls: 'canedit'},
-                                {caption: me.textTabForms, action: 'forms', extcls: 'canedit'}
+                                {caption: me.textTabLinks, action: 'links', extcls: 'canedit'}
                             ]
                         }
                     );
@@ -2363,8 +2362,7 @@ define([
             textNewComboboxControl: 'New combo box',
             textNewCheckboxControl: 'New check box',
             textNewRadioboxControl: 'New radio box',
-            textNewDropdownControl: 'New drop-down list',
-            textTabForms: 'Forms'
+            textNewDropdownControl: 'New drop-down list'
         }
     })(), DE.Views.Toolbar || {}));
 });

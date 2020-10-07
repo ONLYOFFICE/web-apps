@@ -659,6 +659,8 @@ define([
         },
 
         disableControls: function(disable) {
+            if (this._initSettings) return;
+            
             var me = this;
             if (this._state.DisabledControls!==(this._state.LockDelete || disable)) {
                 this._state.DisabledControls = this._state.LockDelete || disable;
