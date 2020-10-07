@@ -2981,7 +2981,7 @@ define([
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel )
-                me.toolbar.addTab(tab, $panel, 4);
+                me.toolbar.addTab(tab, $panel, 5);
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
@@ -3005,13 +3005,17 @@ define([
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 
-                        if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                        if ($panel) me.toolbar.addTab(tab, $panel, 6);
                     }
                 }
 
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+
+                var forms = me.getApplication().getController('FormsTab');
+                forms.setApi(me.api).setConfig({toolbar: me});
+                Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
             }
         },
 
