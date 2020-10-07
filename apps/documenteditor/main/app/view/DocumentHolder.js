@@ -2786,13 +2786,14 @@ define([
             });
 
             var menuTableRemoveControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon cc-remove',
                 caption: me.textRemove,
                 value: 'remove'
             }).on('click', _.bind(me.onControlsSelect, me));
 
             var menuTableControlSettings = new Common.UI.MenuItem({
-                    caption: me.textSettings,
-                    value: 'settings'
+                caption: me.textSettings,
+                value: 'settings'
             }).on('click', _.bind(me.onControlsSelect, me));
 
             var menuTableControl = new Common.UI.MenuItem({
@@ -3222,9 +3223,11 @@ define([
                     menuTableControl.setVisible(in_control);
                     if (in_control) {
                         var control_props = me.api.asc_GetContentControlProperties(),
-                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                            is_form = control_props && control_props.get_FormPr();
                         menuTableRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                        menuTableControlSettings.setVisible(me.mode.canEditContentControl);
+                        menuTableRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
+                        menuTableControlSettings.setVisible(me.mode.canEditContentControl && !is_form);
 
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
@@ -3669,6 +3672,7 @@ define([
             });
 
             var menuParaRemoveControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon cc-remove',
                 caption: me.textRemoveControl,
                 value: 'remove'
             }).on('click', _.bind(me.onControlsSelect, me));
@@ -3901,14 +3905,16 @@ define([
                                                             !value.paraProps.value.can_DeleteInlineContentControl() || !value.paraProps.value.can_EditInlineContentControl()) : false;
 
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
-                        in_control = !in_toc && me.api.asc_IsContentControl() ;
+                        in_control = !in_toc && me.api.asc_IsContentControl(),
+                        control_props = in_control ? me.api.asc_GetContentControlProperties() : null,
+                        is_form = control_props && control_props.get_FormPr();
                     menuParaRemoveControl.setVisible(in_control);
-                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl);
+                    menuParaControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
                     menuParaControlSeparator.setVisible(in_control);
                     if (in_control) {
-                        var control_props = me.api.asc_GetContentControlProperties(),
-                            lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                        var lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                         menuParaRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        menuParaRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
 
                         var spectype = control_props ? control_props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
                         control_lock = control_lock || spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
@@ -4320,6 +4326,23 @@ define([
             this._state.lock_doc = false;
         },
 
+        getControlLabel: function(props) {
+            var type = props ? props.get_SpecificType() : Asc.c_oAscContentControlSpecificType.None;
+            switch (type) {
+                case Asc.c_oAscContentControlSpecificType.CheckBox:
+                    var specProps = props.get_CheckBoxPr();
+                    return (typeof specProps.get_GroupKey() !== 'string') ? this.textRemCheckBox : this.textRemRadioBox;
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    return this.textRemComboBox;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                    return this.textRemDropdown;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    return this.textRemPicture;
+                default:
+                    return this.textRemField;
+            }
+        },
+
         focus: function() {
             var me = this;
             _.defer(function(){  me.cmpEl.focus(); }, 50);
@@ -4546,7 +4569,14 @@ define([
         txtInsertCaption: 'Insert Caption',
         txtEmpty: '(Empty)',
         textFromStorage: 'From Storage',
-        advancedDropCapText: 'Drop Cap Settings'
+        advancedDropCapText: 'Drop Cap Settings',
+        textRemCheckBox: 'Remove Checkbox',
+        textRemRadioBox: 'Remove Radio Button',
+        textRemComboBox: 'Remove Combo Box',
+        textRemDropdown: 'Remove Dropdown',
+        textRemPicture: 'Remove Image',
+        textRemField: 'Remove Text Field'
 
-    }, DE.Views.DocumentHolder || {}));
+
+}, DE.Views.DocumentHolder || {}));
 });

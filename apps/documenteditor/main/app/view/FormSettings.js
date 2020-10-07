@@ -227,7 +227,7 @@ define([
             this.btnListAdd = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-add'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-add',
+                iconCls: 'toolbar__icon btn-zoomup',
                 hint: this.textTipAdd
             });
             this.btnListAdd.on('click', _.bind(this.onAddItem, this));
@@ -711,7 +711,7 @@ define([
             this.btnListDown.setDisabled(disabled || this._state.DisabledControls);
         },
 
-        textField: 'Text field',
+        textField: 'Text Field',
         textKey: 'Key',
         textPlaceholder: 'Placeholder',
         textTip: 'Tip',
@@ -721,9 +721,9 @@ define([
         textDelete: 'Delete',
         textLock: 'Lock',
         textUnlock: 'Unlock',
-        textRadiobox: 'Radio button',
+        textRadiobox: 'Radio Button',
         textCheckbox: 'Checkbox',
-        textCombobox: 'Combo box',
+        textCombobox: 'Combo Box',
         textDropDown: 'Dropdown',
         textImage: 'Image',
         textGroupKey: 'Group key',
