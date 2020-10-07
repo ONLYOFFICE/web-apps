@@ -214,6 +214,9 @@ define([
                         me.mnuFormsColorPicker = new Common.UI.ThemeColorPalette({
                             el: $('#id-toolbar-menu-form-color')
                         });
+                        var colorVal = $('<div class="btn-color-value-line"></div>');
+                        $('button:first-child', me.btnHighlight.cmpEl).append(colorVal);
+                        colorVal.css('background-color', me.btnHighlight.currentColor || 'transparent');
                     } else {
                         me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
                     }

@@ -175,17 +175,20 @@ define([
         },
 
         onChangeSdtGlobalSettings: function() {
-            var show = this.api.asc_GetGlobalContentControlShowHighlight();
             if (this.view && this.view.mnuFormsColorPicker) {
+                var show = this.api.asc_GetGlobalContentControlShowHighlight(),
+                    clr;
                 this.view.mnuNoFormsColor.setChecked(!show, true);
                 this.view.mnuFormsColorPicker.clearSelection();
                 if (show){
-                    var clr = this.api.asc_GetGlobalContentControlHighlightColor();
+                    clr = this.api.asc_GetGlobalContentControlHighlightColor();
                     if (clr) {
                         clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
                         this.view.mnuFormsColorPicker.selectByRGB(clr, true);
                     }
                 }
+                this.view.btnHighlight.currentColor = clr;
+                $('.btn-color-value-line', this.view.btnHighlight.cmpEl).css('background-color', clr ? '#' + clr : 'transparent');
             }
         },
 
