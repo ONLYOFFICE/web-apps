@@ -220,7 +220,8 @@ define([
 
         onModeClick: function(state) {
             if (this.api) {
-
+                this.disableEditing(state);
+                this.api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -250,6 +251,28 @@ define([
                 this.api.asc_SetGlobalContentControlShowHighlight(true, clr.get_r(), clr.get_g(), clr.get_b());
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        disableEditing: function(disable) {
+            if (this._state.DisabledEditing != disable) {
+                this._state.DisabledEditing = disable;
+
+                var app = this.getApplication();
+                var rightMenuController = app.getController('RightMenu');
+                rightMenuController.getView('RightMenu').clearSelection();
+                rightMenuController.SetDisabled(disable);
+                app.getController('Toolbar').DisableToolbar(disable, false, false, true);
+                app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
+                app.getController('DocumentHolder').getView().SetDisabled(disable);
+                app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
+                app.getController('LeftMenu').setPreviewMode(disable);
+                var comments = app.getController('Common.Controllers.Comments');
+                if (comments)
+                    comments.setPreviewMode(disable);
+                if (this.view)
+                    this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
+            }
         }
 
     }, DE.Controllers.FormsTab || {}));

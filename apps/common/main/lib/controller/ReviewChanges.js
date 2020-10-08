@@ -739,7 +739,7 @@ define([
             leftMenu.setPreviewMode(disable);
 
             if (this.view) {
-                this.view.$el.find('.no-group-mask').css('opacity', 1);
+                this.view.$el.find('.no-group-mask.review').css('opacity', 1);
 
                 this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
                     if ( button ) {

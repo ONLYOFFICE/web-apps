@@ -180,7 +180,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group no-group-mask form-view">
                     <span class="btn-slot text x-huge" id="slot-btn-form-view"></span>
                 </div>
             </section>
