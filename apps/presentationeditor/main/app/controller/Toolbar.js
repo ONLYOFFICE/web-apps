@@ -686,7 +686,7 @@ define([
                     shape_locked = pr.get_Locked();
                     no_object = false;
                     if (type == Asc.c_oAscTypeSelectElement.Table ||
-                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage() && !pr.get_FromChart()) {
+                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage()) {
                         no_text = false;
                     }
                     in_chart = type == Asc.c_oAscTypeSelectElement.Chart;
