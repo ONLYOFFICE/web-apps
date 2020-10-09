@@ -28,6 +28,11 @@
 </head>
 <body>
     <script>
+        const isAndroid = /Android/.test(navigator.userAgent);
+        if ( isAndroid && navigator.platform == 'Win32' )
+            // Framework7 doesn't set Device.android flag when navigator.platform == 'Win32', change it for debug
+            navigator.__defineGetter__('platform', () => 'Win32Debug');
+
         const getUrlParams = () => {
             let e,
                 a = /\+/g,  // Regex for replacing addition symbol with a space
@@ -53,7 +58,7 @@
             logo = /*params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : */null,
             logoOO = null;
         if (!logo) {
-            logoOO = /Android/.test(navigator.userAgent) ? "../../common/mobile/resources/img/header/header-logo-android.png" : "../../common/mobile/resources/img/header/header-logo-ios.png";
+            logoOO = isAndroid ? "../../common/mobile/resources/img/header/header-logo-android.png" : "../../common/mobile/resources/img/header/header-logo-ios.png";
         }
 
         window.frameEditorId = params["frameEditorId"];
@@ -62,7 +67,7 @@
 
         let brendpanel = document.getElementsByClassName('brendpanel')[0];
         if (brendpanel) {
-            if (/Android/.test(navigator.userAgent)) {
+            if ( isAndroid ) {
                 brendpanel.classList.add('android');
             }
             brendpanel.classList.add('visible');
@@ -74,7 +79,7 @@
                 elem.style.opacity = 1;
             }
             var placeholder = document.getElementsByClassName('placeholder')[0];
-            if (placeholder && /Android/.test(navigator.userAgent)) {
+            if (placeholder && isAndroid) {
                 placeholder.classList.add('android');
             }
         }
