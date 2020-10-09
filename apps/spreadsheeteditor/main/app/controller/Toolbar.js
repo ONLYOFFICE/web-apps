@@ -951,6 +951,7 @@ define([
                             {
                                 chartSettings: props,
                                 imageSettings: imageSettings,
+                                isDiagramMode: me.toolbar.mode.isEditDiagram,
                                 isChart: true,
                                 api: me.api,
                                 handler: function(result, value) {
