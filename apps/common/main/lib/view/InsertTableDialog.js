@@ -52,8 +52,7 @@ define([
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             split: false,
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -106,12 +105,15 @@ define([
             });
 //            this.udColumns.on('entervalue', _.bind(this.onPrimary, this));
 //            this.udRows.on('entervalue', _.bind(this.onPrimary, this));
-            this.focusManager.add([this.udColumns, this.udRows], '.form-control');
             var me = this;
             setTimeout(function(){
                 me.udColumns.focus();
             }, 100);
 
+        },
+
+        getFocusedComponents: function() {
+            return [this.udColumns, this.udRows];
         },
 
         onBtnClick: function(event) {

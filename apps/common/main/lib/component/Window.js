@@ -777,7 +777,7 @@ define([
                     this.fireEvent('show', this);
                 }
 
-                Common.NotificationCenter.trigger('window:show');
+                Common.NotificationCenter.trigger('window:show', this);
             },
 
             close: function(suppressevent) {
@@ -982,6 +982,10 @@ define([
             },
 
             onPrimary: function() {},
+
+            getFocusedComponents: function() {
+                return [];
+            },
 
             cancelButtonText: 'Cancel',
             okButtonText: 'OK',

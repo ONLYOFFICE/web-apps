@@ -51,8 +51,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             contentWidth: 375,
             height: 430,
             buttons: null,
-            toggleGroup: 'autocorrect-dialog-group',
-            focusManager: true
+            toggleGroup: 'autocorrect-dialog-group'
         },
 
         initialize : function(options) {
@@ -355,14 +354,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.btnsCategory[1].on('click', _.bind(this.onRecCategoryClick, this, false));
             this.btnsCategory[2] && this.btnsCategory[2].on('click', _.bind(this.updateFooterButtons, this, true));
 
-            // 0 tab
-            this.focusManager.add([this.inputReplace, this.inputBy], '.form-control');
-            this.focusManager.add(this.mathList, '.listview');
-
-            // 1 tab
-            this.focusManager.add([this.inputRecFind], '.form-control');
-            this.focusManager.add(this.mathRecList, '.listview');
-
             this.afterRender();
         },
 
@@ -373,6 +364,13 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
             }
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.inputReplace, this.inputBy, {cmp: this.mathList, selector: '.listview'}, // 0 tab
+                this.inputRecFind, {cmp: this.mathRecList, selector: '.listview'} // 1 tab
+            ];
         },
 
         getSettings: function() {

@@ -128,3 +128,109 @@ Common.UI.FocusManager = function (tabindex, parent) {
         }
     }
 };
+
+Common.UI.FocusManager2 = new(function() {
+    var _tabindex = 1,
+        _windows = [];
+
+    var register = function(fields) {
+        var arr = [];
+        if (!fields.forEach) {
+            fields = [fields];
+        }
+        fields.forEach(function(field) {
+            if (field) {
+                var item = (field.cmp && typeof field.selector == 'string') ? field : {cmp: field, selector: '.form-control'};
+                item.el = (item.cmp.$el || $(item.cmp.el)).find(item.selector).addBack().filter(item.selector);
+                item.el && item.el.attr && item.el.attr('tabindex', _tabindex.toString());
+                arr.push(item);
+            }
+        });
+        return arr;
+    };
+
+    var addTraps = function(current) {
+        if (!current || current.traps || !current.fields || current.fields.length<1) return;
+
+        var trapFirst = $('<span aria-hidden="true" tabindex="' + _tabindex + '"></span>');
+        trapFirst.on('focus', function() {
+            if (current.hidden) return;
+            var fields = current.fields;
+            for (var i=0; i<fields.length; i++) {
+                var field = fields[i];
+                if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
+                    var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector).addBack().filter(field.selector) : field.el;
+                    el.focus();
+                    break;
+                }
+            }
+        });
+        current.parent.$window.prepend(trapFirst);
+
+        var trapLast = $('<span aria-hidden="true" tabindex="' + (_tabindex+1) + '"></span>');
+        trapLast.on('focus', function() {
+            if (current.hidden) return;
+            var fields = current.fields;
+            for (var i=fields.length-1; i>=0; i--) {
+                var field = fields[i];
+                if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
+                    var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector).addBack().filter(field.selector) : field.el;
+                    el.focus();
+                    break;
+                }
+            }
+        });
+        current.parent.$window.append(trapLast);
+        current.traps = [trapFirst, trapLast];
+    };
+
+    var _add = function(e, fields) {
+        if (e && e.cid) {
+            if (_windows[e.cid]) {
+                _windows[e.cid].fields.concat(register(fields));
+            } else {
+                _windows[e.cid] = {
+                    parent: e,
+                    fields: register(fields),
+                    hidden: false
+                };
+            }
+            addTraps(_windows[e.cid]);
+        }
+    };
+
+    Common.NotificationCenter.on({
+        'modal:show': function(e){
+            if (e && e.cid) {
+                if (_windows[e.cid]) {
+                    _windows[e.cid].hidden = false;
+                } else {
+                    _windows[e.cid] = {
+                        parent: e,
+                        hidden: false
+                    };
+                }
+            }
+        },
+        'window:show': function(e){
+            if (e && e.cid && _windows[e.cid] && !_windows[e.cid].fields) {
+                _windows[e.cid].fields = register(e.getFocusedComponents());
+                addTraps(_windows[e.cid]);
+            }
+        },
+        'modal:close': function(e, last) {
+            if (e && e.cid && _windows[e.cid]) {
+                delete _windows[e.cid];
+            }
+        },
+        'modal:hide': function(e, last) {
+            if (e && e.cid && _windows[e.cid]) {
+                _windows[e.cid].hidden = true;
+            }
+        }
+    });
+
+    return {
+        add: _add
+    }
+})();
