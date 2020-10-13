@@ -282,7 +282,7 @@ define([
                 me.args[argcount].lblName.html(me.args[argcount].argName);
             me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
 
-            Common.UI.FocusManager2.add(this, txt);
+            Common.UI.FocusManager.add(this, txt);
         },
 
         onInputChanging: function(input, newValue, oldValue, e) {
