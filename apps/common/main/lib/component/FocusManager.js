@@ -59,7 +59,7 @@ Common.UI.FocusManager = new(function() {
         fields.forEach(function(field) {
             if (field) {
                 var item = (field.cmp && typeof field.selector == 'string') ? field : {cmp: field, selector: '.form-control'};
-                item.el = (item.cmp.$el || $(item.cmp.el)).find(item.selector).addBack().filter(item.selector);
+                item.el = (item.cmp.$el || $(item.cmp.el || item.cmp)).find(item.selector).addBack().filter(item.selector);
                 item.el && item.el.attr && item.el.attr('tabindex', _tabindex.toString());
                 arr.push(item);
             }
@@ -77,7 +77,7 @@ Common.UI.FocusManager = new(function() {
             for (var i=0; i<fields.length; i++) {
                 var field = fields[i];
                 if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
-                    var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector).addBack().filter(field.selector) : field.el;
+                    var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el || field.cmp)).find(field.selector).addBack().filter(field.selector) : field.el;
                     el.focus();
                     break;
                 }
@@ -92,7 +92,7 @@ Common.UI.FocusManager = new(function() {
             for (var i=fields.length-1; i>=0; i--) {
                 var field = fields[i];
                 if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
-                    var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el)).find(field.selector).addBack().filter(field.selector) : field.el;
+                    var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el || field.cmp)).find(field.selector).addBack().filter(field.selector) : field.el;
                     el.focus();
                     break;
                 }

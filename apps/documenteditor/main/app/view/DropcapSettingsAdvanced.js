@@ -62,8 +62,7 @@ define([
             contentWidth: 320,
             height      : 380,
             toggleGroup : 'dropcap-adv-settings-group',
-            storageName: 'de-dropcap-settings-adv-category',
-            focusManager: true
+            storageName: 'de-dropcap-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -641,15 +640,6 @@ define([
             this.on('show', _.bind(this.onShowDialog, this));
 
             this.afterRender();
-
-            // 0 tab
-            this.focusManager.add([this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX,
-                                   this.cmbVAlign, this.cmbVRelative, this.spnY], '.form-control');
-            // 1 tab
-            this.focusManager.add([this.cmbFonts, this.spnRowHeight, this.numDistance], '.form-control');
-
-            // 3 tab
-            this.focusManager.add([this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight], '.form-control');
         },
 
         afterRender: function() {
@@ -703,6 +693,14 @@ define([
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
             }
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, // 0 tab
+                this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
+                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
+            ];
         },
 
         onCategoryClick: function(btn, index) {

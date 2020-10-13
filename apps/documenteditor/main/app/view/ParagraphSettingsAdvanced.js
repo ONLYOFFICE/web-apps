@@ -237,7 +237,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 editable: false,
                 data: this._arrLineRule,
                 style: 'width: 85px;',
-                menuStyle   : 'min-width: 85px;'
+                menuStyle   : 'min-width: 85px;',
+                takeFocusOnClose: true
             });
             this.cmbLineRule.setValue(this.CurLineRuleIdx);
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
@@ -265,7 +266,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 editable: false,
                 data: this._arrSpecial,
                 style: 'width: 85px;',
-                menuStyle   : 'min-width: 85px;'
+                menuStyle   : 'min-width: 85px;',
+                takeFocusOnClose: true
             });
             this.cmbSpecial.setValue('');
             this.cmbSpecial.on('selected', _.bind(this.onSpecialSelect, this));
@@ -289,7 +291,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 editable: false,
                 data: this._arrTextAlignment,
                 style: 'width: 173px;',
-                menuStyle   : 'min-width: 173px;'
+                menuStyle   : 'min-width: 173px;',
+                takeFocusOnClose: true
             });
             this.cmbTextAlignment.setValue('');
 
@@ -299,7 +302,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 editable: false,
                 data: this._arrOutlinelevel,
                 style: 'width: 174px;',
-                menuStyle   : 'min-width: 174px;'
+                menuStyle   : 'min-width: 174px;',
+                takeFocusOnClose: true
             });
             this.cmbOutlinelevel.setValue(-1);
             this.cmbOutlinelevel.on('selected', _.bind(this.onOutlinelevelSelect, this));
@@ -528,7 +532,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     '<div style="width:121px;display: inline-block;"><%= displayTabAlign %></div>',
                     '<div style="width:96px;display: inline-block;"><%= displayTabLeader %></div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.tabList.store.comparator = function(rec) {
                 return rec.get("tabPos");
@@ -549,7 +554,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 menuStyle   : 'min-width: 108px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : this._arrTabAlign
+                data        : this._arrTabAlign,
+                takeFocusOnClose: true
             });
             this.cmbAlign.setValue(Asc.c_oAscTabType.Left);
 
@@ -559,7 +565,8 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                 menuStyle   : 'min-width: 108px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : this._arrTabLeader
+                data        : this._arrTabLeader,
+                takeFocusOnClose: true
             });
             this.cmbLeader.setValue(Asc.c_oAscTabLeader.None);
 
@@ -654,6 +661,38 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
             this.TextOnlySettings = $('.text-only');
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.cmbTextAlignment, this.cmbOutlinelevel, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
+                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
+                this.numSpacing, this.numPosition, // 3 tab
+                this.numDefaultTab, this.numTab, this.cmbAlign, this.cmbLeader, {cmp: this.tabList, selector: '.listview'}, // 4 tab
+                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 5 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.cmbTextAlignment.focus();
+                        break;
+                    case 3:
+                        me.numSpacing.focus();
+                        break;
+                    case 4:
+                        me.numDefaultTab.focus();
+                        break;
+                    case 5:
+                        me.spnMarginTop.focus();
+                        break;
+                }
+            }, 10);
         },
 
         getSettings: function() {

@@ -351,7 +351,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHRelativePc
+                data: this._arrHRelativePc,
+                takeFocusOnClose: true
             });
             this.cmbWidthPc.setDisabled(true);
             this.cmbWidthPc.setValue(this._state.ShapeWidthPcFrom);
@@ -369,7 +370,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVRelativePc
+                data: this._arrVRelativePc,
+                takeFocusOnClose: true
             });
             this.cmbHeightPc.setDisabled(true);
             this.cmbHeightPc.setValue(this._state.ShapeHeightPcFrom);
@@ -622,7 +624,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHAlign
+                data: this._arrHAlign,
+                takeFocusOnClose: true
             });
             this.cmbHAlign.setValue(this._state.HAlignType);
             this.cmbHAlign.on('selected', _.bind(this.onHAlignSelect, this));
@@ -641,7 +644,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHRelative
+                data: this._arrHRelative,
+                takeFocusOnClose: true
             });
             this.cmbHRelative.setValue(this._state.HAlignFrom);
             this.cmbHRelative.on('selected', _.bind(this.onHRelativeSelect, this));
@@ -651,7 +655,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHRelative
+                data: this._arrHRelative,
+                takeFocusOnClose: true
             });
             this.cmbHPosition.setDisabled(true);
             this.cmbHPosition.setValue(this._state.HPositionFrom);
@@ -686,7 +691,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHRelativePc
+                data: this._arrHRelativePc,
+                takeFocusOnClose: true
             });
             this.cmbHPositionPc.setDisabled(true);
             this.cmbHPositionPc.setValue(this._state.HPositionPcFrom);
@@ -704,7 +710,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVAlign
+                data: this._arrVAlign,
+                takeFocusOnClose: true
             });
             this.cmbVAlign.setValue(this._state.VAlignType);
             this.cmbVAlign.on('selected', _.bind(this.onVAlignSelect, this));
@@ -723,7 +730,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVRelative
+                data: this._arrVRelative,
+                takeFocusOnClose: true
             });
             this.cmbVRelative.setValue(this._state.VAlignFrom);
             this.cmbVRelative.on('selected', _.bind(this.onVRelativeSelect, this));
@@ -733,7 +741,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVRelative
+                data: this._arrVRelative,
+                takeFocusOnClose: true
             });
             this.cmbVPosition.setDisabled(true);
             this.cmbVPosition.setValue(this._state.VPositionFrom);
@@ -768,7 +777,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVRelativePc
+                data: this._arrVRelativePc,
+                takeFocusOnClose: true
             });
             this.cmbVPositionPc.setDisabled(true);
             this.cmbVPositionPc.setValue(this._state.VPositionPcFrom);
@@ -936,7 +946,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100px;',
                 editable: false,
-                data: this._arrCapType
+                data: this._arrCapType,
+                takeFocusOnClose: true
             });
             this.cmbCapType.setValue(Asc.c_oAscLineCapType.Flat);
             this.cmbCapType.on('selected', _.bind(function(combo, record){
@@ -958,7 +969,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100px;',
                 editable: false,
-                data: this._arrJoinType
+                data: this._arrJoinType,
+                takeFocusOnClose: true
             });
             this.cmbJoinType.setValue(Asc.c_oAscLineJoinType.Round);
             this.cmbJoinType.on('selected', _.bind(function(combo, record){
@@ -1130,6 +1142,59 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             });
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.spnWidth, this.spnHeight, // 0 tab
+                this.spnShapeWidth , this.spnShapeWidthPc, this.cmbWidthPc, this.spnShapeHeight, this.spnShapeHeightPc, this.cmbHeightPc, // 1 tab
+                this.spnAngle,  // 2 tab
+                this.spnTop, this.spnLeft, this.spnBottom, this.spnRight, // 3 tab
+                this.cmbHAlign , this.cmbHRelative, this.spnX, this.cmbHPosition, this.spnXPc, this.cmbHPositionPc,
+                this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, this.spnYPc, this.cmbVPositionPc, // 4 tab
+                this.cmbCapType, this.cmbJoinType, // 5 tab
+                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 6 tab
+                this.inputAltTitle, this.textareaAltDescription  // 7 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.spnWidth.focus();
+                        break;
+                    case 1:
+                        me.spnShapeWidth.focus();
+                        break;
+                    case 2:
+                        me.spnAngle.focus();
+                        break;
+                    case 3:
+                        me.spnTop.focus();
+                        break;
+                    case 4:
+                        if (!me.cmbHAlign.isDisabled())
+                            me.cmbHAlign.focus();
+                        else if (!me.spnX.isDisabled())
+                            me.spnX.focus();
+                        else
+                            me.spnXPc.focus();
+                        break;
+                    case 5:
+                        me.cmbCapType.focus();
+                        break;
+                    case 6:
+                        me.spnMarginTop.focus();
+                        break;
+                    case 7:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
         },
 
         afterRender: function() {
@@ -1714,6 +1779,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }
             if (newValue) {
                 this.cmbHAlign.setDisabled(false);
+                this.cmbHAlign.focus();
                 this.cmbHRelative.setDisabled(false);
                 this.spnX.setDisabled(true);
                 this.cmbHPosition.setDisabled(true);
@@ -1738,6 +1804,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.cmbHAlign.setDisabled(true);
                 this.cmbHRelative.setDisabled(true);
                 this.spnX.setDisabled(false);
+                this.spnX.focus();
                 this.cmbHPosition.setDisabled(false);
                 this.spnXPc.setDisabled(true);
                 this.cmbHPositionPc.setDisabled(true);
@@ -1762,6 +1829,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.spnX.setDisabled(true);
                 this.cmbHPosition.setDisabled(true);
                 this.spnXPc.setDisabled(false);
+                this.spnXPc.focus();
                 this.cmbHPositionPc.setDisabled(false);
             }
         },
@@ -1780,6 +1848,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }
             if (newValue) {
                 this.cmbVAlign.setDisabled(false);
+                this.cmbVAlign.focus();
                 this.cmbVRelative.setDisabled(false);
                 this.spnY.setDisabled(true);
                 this.cmbVPosition.setDisabled(true);
@@ -1806,6 +1875,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.cmbVAlign.setDisabled(true);
                 this.cmbVRelative.setDisabled(true);
                 this.spnY.setDisabled(false);
+                this.spnY.focus();
                 this.cmbVPosition.setDisabled(false);
                 this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Line || this._state.VPositionFrom==Asc.c_oAscRelativeFromV.Paragraph, true);
                 this.chMove.setDisabled(false);
@@ -1834,6 +1904,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.chMove.setValue(false, true);
                 this.chMove.setDisabled(true);
                 this.spnYPc.setDisabled(false);
+                this.spnYPc.focus();
                 this.cmbVPositionPc.setDisabled(false);
             }
         },
@@ -1850,6 +1921,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.cmbWidthPc.setDisabled(true);
                 this.spnShapeWidthPc.setDisabled(true);
                 this.spnShapeWidth.setDisabled(false);
+                this.spnShapeWidth.focus();
             }
         },
 
@@ -1867,6 +1939,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.chRatio.setDisabled(true);
                 this.cmbWidthPc.setDisabled(false);
                 this.spnShapeWidthPc.setDisabled(false);
+                this.spnShapeWidthPc.focus();
                 this.spnShapeWidth.setDisabled(true);
             }
         },
@@ -1883,6 +1956,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.cmbHeightPc.setDisabled(true);
                 this.spnShapeHeightPc.setDisabled(true);
                 this.spnShapeHeight.setDisabled(false);
+                this.spnShapeHeight.focus();
             }
         },
 
@@ -1900,6 +1974,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.chRatio.setDisabled(true);
                 this.cmbHeightPc.setDisabled(false);
                 this.spnShapeHeightPc.setDisabled(false);
+                this.spnShapeHeightPc.focus();
                 this.spnShapeHeight.setDisabled(true);
             }
         },

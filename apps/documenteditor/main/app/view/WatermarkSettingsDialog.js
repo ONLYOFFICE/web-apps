@@ -148,6 +148,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     // disable text
                     this.props.put_Type(Asc.c_oAscWatermarkType.Image);
                     this.disableControls(Asc.c_oAscWatermarkType.Image);
+                    this.focusControls();
                 }
             }, this));
 
@@ -162,6 +163,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     // disable image
                     this.props.put_Type(Asc.c_oAscWatermarkType.Text);
                     this.disableControls(Asc.c_oAscWatermarkType.Text);
+                    this.focusControls();
                 }
             }, this));
 
@@ -198,7 +200,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 el          : $('#watermark-combo-scale'),
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 142px;',
-                data        : this._arrScale
+                data        : this._arrScale,
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
             }, this));
             this.cmbScale.setValue(this._arrScale[0].value);
@@ -211,7 +214,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 editable    : false,
                 menuStyle   : 'min-width: 100%;max-height: 210px;',
                 scrollAlwaysVisible: true,
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             }).on('selected', _.bind(this.onSelectLang, this));
             this.cmbLang.setValue(Common.util.LanguageInfo.getLocalLanguageName(9)[1]);//en
             this.textControls.push(this.cmbLang);
@@ -222,7 +226,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 menuStyle   : 'min-width: 100%;max-height: 210px;',
                 scrollAlwaysVisible: true,
                 displayField: 'value',
-                data        : [{value: "ASAP"}, {value: "CONFIDENTIAL"}, {value: "COPY"}, {value: "DO NOT COPY"}, {value: "DRAFT"}, {value: "ORIGINAL"}, {value: "PERSONAL"}, {value: "SAMPLE"}, {value: "TOP SECRET"}, {value: "URGENT"} ]
+                data        : [{value: "ASAP"}, {value: "CONFIDENTIAL"}, {value: "COPY"}, {value: "DO NOT COPY"}, {value: "DRAFT"}, {value: "ORIGINAL"}, {value: "PERSONAL"}, {value: "SAMPLE"}, {value: "TOP SECRET"}, {value: "URGENT"} ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
             }, this));
             this.cmbText.setValue(this.cmbText.options.data[0].value);
@@ -236,7 +241,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
                 recent      : 0,
-                hint        : this.tipFontName
+                hint        : this.tipFontName,
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 this.fontName = record.name;
             }, this));
@@ -266,7 +272,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 menuCls     : 'scrollable-menu',
                 menuStyle: 'min-width: 55px;max-height: 270px;',
                 hint: this.tipFontSize,
-                data: data
+                data: data,
+                takeFocusOnClose: true
             });
             this.cmbFontSize.setValue(-1);
             this.textControls.push(this.cmbFontSize);
@@ -376,6 +383,20 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [ this.cmbLang, this.cmbText, this.cmbFonts, this.cmbFontSize, this.cmbScale ];
+        },
+
+        focusControls: function() {
+            var me = this;
+            setTimeout(function(){
+                if (!me.cmbLang.isDisabled())
+                    me.cmbLang.focus();
+                else if (!me.cmbScale.isDisabled())
+                    me.cmbScale.focus();
+            }, 10);
+        },
+
         onColorSelect: function(picker, color) {
             var clr_item = this.btnTextColor.menu.$el.find('#watermark-auto-color > a');
             clr_item.hasClass('selected') && clr_item.removeClass('selected');
@@ -434,6 +455,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+
+            this.focusControls();
         },
 
         loadLanguages: function() {
