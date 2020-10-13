@@ -49,8 +49,7 @@ define([
     DE.Views.CaptionDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 351,
-            height: 350,
-            focusManager: true
+            height: 350
         },
 
         initialize : function(options) {
@@ -344,9 +343,11 @@ define([
 
             this.lblExample = this.$window.find('#caption-label-example');
 
-            this.focusManager.add([this.txtCaption, this.cmbPosition, this.cmbLabel, this.cmbNumbering, this.cmbChapter, this.cmbSeparator], '.form-control');
-
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.txtCaption, this.cmbPosition, this.cmbLabel, this.cmbNumbering, this.cmbChapter, this.cmbSeparator];
         },
 
         afterRender: function() {

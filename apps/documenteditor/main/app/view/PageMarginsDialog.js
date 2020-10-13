@@ -50,8 +50,7 @@ define([
             style: 'min-width: 404px;',
             cls: 'modal-dlg',
             id: 'window-page-margins',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -308,11 +307,14 @@ define([
 
             this.updateMetricUnit();
 
-            this.focusManager.add([this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages], '.form-control');
             var me = this;
             setTimeout(function(){
                 me.spnTop.focus();
             }, 100);
+        },
+
+        getFocusedComponents: function() {
+            return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages];
         },
 
         _handleInput: function(state) {

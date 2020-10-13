@@ -52,8 +52,7 @@ define([
         options: {
             alias: 'NamedRangeEditDlg',
             contentWidth: 380,
-            height: 250,
-            focusManager: true
+            height: 250
         },
 
         initialize: function (options) {
@@ -173,9 +172,11 @@ define([
             });
             this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
 
-            this.focusManager.add([this.inputName, this.cmbScope, this.txtDataRange], '.form-control');
-
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.inputName, this.cmbScope, this.txtDataRange];
         },
 
         afterRender: function() {

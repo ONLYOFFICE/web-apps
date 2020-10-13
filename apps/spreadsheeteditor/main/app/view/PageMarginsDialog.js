@@ -50,8 +50,7 @@ define([
             style: 'min-width: 216px;',
             cls: 'modal-dlg',
             id: 'window-page-margins',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -147,13 +146,16 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
-            this.focusManager.add(this.spinners, '.form-control');
             var cmp = this.spnTop;
             setTimeout(function(){
                 (cmp.$el || $(cmp.el)).find('.form-control').focus();
             }, 10);
 
             this.updateMetricUnit();
+        },
+
+        getFocusedComponents: function() {
+            return this.spinners;
         },
 
         _handleInput: function(state) {

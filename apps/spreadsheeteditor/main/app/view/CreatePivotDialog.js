@@ -48,8 +48,7 @@ define([
     SSE.Views.CreatePivotDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 250,
-            focusManager: true
+            height: 250
         },
 
         initialize : function(options) {
@@ -162,9 +161,11 @@ define([
                 me.txtDestRange.cmpEl.find('input').focus();
             });
 
-            this.focusManager.add([this.txtSourceRange, this.txtDestRange], '.form-control');
-
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.txtSourceRange, this.txtDestRange];
         },
 
         afterRender: function() {

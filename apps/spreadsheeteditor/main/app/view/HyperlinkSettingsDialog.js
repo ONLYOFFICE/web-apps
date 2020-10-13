@@ -55,8 +55,7 @@ define([
             width   : 350,
             style   : 'min-width: 230px;',
             cls     : 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -250,10 +249,10 @@ define([
 
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
+        },
 
-            this.focusManager.add(this.inputUrl, '.form-control');
-            this.focusManager.add(this.internalList, '.treeview');
-            this.focusManager.add([this.inputRange, this.inputDisplay, this.inputTip], '.form-control');
+        getFocusedComponents: function() {
+            return [this.inputUrl, {cmp: this.internalList, selector: '.treeview'}, this.inputRange, this.inputDisplay, this.inputTip];
         },
 
         show: function() {

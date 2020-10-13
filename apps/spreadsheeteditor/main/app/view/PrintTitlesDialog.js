@@ -50,8 +50,7 @@ define([
             style: 'min-width: 216px;',
             cls: 'modal-dlg',
             id: 'window-page-margins',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -186,10 +185,13 @@ define([
 
             this.setSettings();
 
-            this.focusManager.add([this.txtRangeTop, this.txtRangeLeft], '.form-control');
             setTimeout(function(){
                 me.txtRangeTop.focus();
             },100);
+        },
+
+        getFocusedComponents: function() {
+            return [this.txtRangeTop, this.txtRangeLeft];
         },
 
         isRangeValid: function() {

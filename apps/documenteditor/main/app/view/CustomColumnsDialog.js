@@ -50,8 +50,7 @@ define([
             header: true,
             style: 'min-width: 216px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -130,10 +129,13 @@ define([
 
             this.updateMetricUnit();
 
-            this.focusManager.add([this.spnColumns, this.spnSpacing], '.form-control');
             setTimeout(function(){
                 me.spnColumns.focus();
             }, 100);
+        },
+
+        getFocusedComponents: function() {
+            return [this.spnColumns, this.spnSpacing];
         },
 
         _handleInput: function(state) {

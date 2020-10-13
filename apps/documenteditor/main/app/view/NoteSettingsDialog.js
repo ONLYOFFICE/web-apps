@@ -50,8 +50,7 @@ define([
         options: {
             contentWidth: 300,
             height: 380,
-            buttons: null,
-            focusManager: true
+            buttons: null
         },
 
         initialize : function(options) {
@@ -283,10 +282,13 @@ define([
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [this.cmbFootnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply];
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
 
-            this.focusManager.add([this.cmbFootnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply], '.form-control');
             var me = this;
             setTimeout(function(){
                 me.cmbFormat.focus();

@@ -52,8 +52,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             alias: 'PrintSettings',
             contentWidth: 280,
             height: 575,
-            buttons: null,
-            focusManager: true
+            buttons: null
         },
 
         initialize : function(options) {
@@ -278,12 +277,15 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.extended = (value!==null && parseInt(value)==0);
             this.handlerShowDetails(this.btnHide);
 
-            this.focusManager.add([this.cmbRange, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout, this.txtRangeTop, this.txtRangeLeft,
-                                    this.spnMarginTop, this.spnMarginBottom, this.spnMarginLeft, this.spnMarginRight], '.form-control');
             var me = this;
             setTimeout(function(){
                 me.cmbRange.focus();
             },100);
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbRange, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout, this.txtRangeTop, this.txtRangeLeft,
+                    this.spnMarginTop, this.spnMarginBottom, this.spnMarginLeft, this.spnMarginRight];
         },
 
         addCustomScale: function (add) {

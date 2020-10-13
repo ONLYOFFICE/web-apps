@@ -48,8 +48,7 @@ define([
             height: 196,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
             initialize : function(options) {
@@ -110,8 +109,10 @@ define([
                 disabled    : (this.options.formats.length==0)
             });
             this.cmbNextStyle.setValue(-1);
+        },
 
-            this.focusManager.add([this.inputTitle, this.cmbNextStyle], '.form-control');
+        getFocusedComponents: function() {
+            return [this.inputTitle, this.cmbNextStyle];
         },
 
         show: function() {

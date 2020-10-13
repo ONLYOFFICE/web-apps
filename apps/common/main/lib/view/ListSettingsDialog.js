@@ -58,8 +58,7 @@ define([
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
             split: false,
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -319,8 +318,10 @@ define([
             el.width(Math.max($window.find('.numbering .text').width(), el.width()));
 
             this.afterRender();
+        },
 
-            this.focusManager.add([this.cmbNumFormat, this.cmbBulletFormat, this.spnSize, this.spnStart], '.form-control');
+        getFocusedComponents: function() {
+            return [this.cmbNumFormat, this.cmbBulletFormat, this.spnSize, this.spnStart];
         },
 
         afterRender: function() {

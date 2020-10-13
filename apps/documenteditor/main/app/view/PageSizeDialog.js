@@ -50,8 +50,7 @@ define([
             style: 'min-width: 216px;',
             cls: 'modal-dlg',
             id: 'window-page-size',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -169,11 +168,14 @@ define([
 
             this.updateMetricUnit();
 
-            this.focusManager.add([this.cmbPreset, this.spnWidth, this.spnHeight], '.form-control');
             var me = this;
             setTimeout(function(){
                 me.cmbPreset.focus();
             }, 100);
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbPreset, this.spnWidth, this.spnHeight];
         },
 
         _handleInput: function(state) {

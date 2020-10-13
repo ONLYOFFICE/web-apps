@@ -49,8 +49,7 @@ define([
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 220,
-            focusManager: true
+            height: 220
         },
 
         initialize : function(options) {
@@ -194,10 +193,13 @@ define([
 
             this.afterRender();
 
-            this.focusManager.add([this.inputCustomName, this.cmbSummarize], '.form-control');
             setTimeout(function(){
                 me.inputCustomName.focus();
             },100);
+        },
+
+        getFocusedComponents: function() {
+            return [this.inputCustomName, this.cmbSummarize];
         },
 
         afterRender: function() {

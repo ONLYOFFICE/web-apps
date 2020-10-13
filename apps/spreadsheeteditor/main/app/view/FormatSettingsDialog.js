@@ -49,8 +49,7 @@ define([
     SSE.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            height: 340,
-            focusManager: true
+            height: 340
         },
 
         initialize : function(options) {
@@ -249,9 +248,11 @@ define([
 
             this.lblExample         = this.$window.find('#format-settings-label-example');
 
-            this.focusManager.add([this.cmbFormat, this.spnDecimal, this.cmbSymbols, this.cmbNegative, this.cmbType, this.cmbCode], '.form-control');
-
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbFormat, this.spnDecimal, this.cmbSymbols, this.cmbNegative, this.cmbType, this.cmbCode];
         },
 
         afterRender: function() {

@@ -61,8 +61,7 @@ define([
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : t.txtTitle,
-                items           : [],
-                focusManager: true
+                items           : []
             }, options);
 
             this.template   =   options.template || [
@@ -188,9 +187,12 @@ define([
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.loadDefaults();
-
-            this.focusManager.add([this.cmbCondition1, this.cmbValue1, this.cmbCondition2, this.cmbValue2], '.form-control');
         },
+
+        getFocusedComponents: function() {
+            return [this.cmbCondition1, this.cmbValue1, this.cmbCondition2, this.cmbValue2];
+        },
+
         show: function () {
             Common.UI.Window.prototype.show.call(this);
 
@@ -321,8 +323,7 @@ define([
                 contentTemplate : '',
                 title           : t.txtTitle,
                 items           : [],
-                buttons: ['ok', 'cancel'],
-                focusManager: true
+                buttons: ['ok', 'cancel']
             }, options);
 
             this.template   =   options.template || [
@@ -411,8 +412,12 @@ define([
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.loadDefaults();
-            this.focusManager.add([this.cmbType, this.spnCount, this.cmbItem, this.cmbFields], '.form-control');
         },
+
+        getFocusedComponents: function() {
+            return [this.cmbType, this.spnCount, this.cmbItem, this.cmbFields];
+        },
+
         show: function () {
             Common.UI.Window.prototype.show.call(this);
 
@@ -530,8 +535,7 @@ define([
                 cls             : 'filter-dlg',
                 contentTemplate : '',
                 title           : (options.type=='label') ?  t.txtTitleLabel : t.txtTitleValue,
-                items           : [],
-                focusManager: true
+                items           : []
             }, options);
 
             this.api        =   options.api;
@@ -651,8 +655,12 @@ define([
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.loadDefaults();
-            this.focusManager.add([this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2], '.form-control');
         },
+
+        getFocusedComponents: function() {
+            return [this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2];
+        },
+
         show: function () {
             Common.UI.Window.prototype.show.call(this);
 

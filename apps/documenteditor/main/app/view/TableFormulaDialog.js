@@ -48,8 +48,7 @@ define([
             width: 300,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -164,8 +163,10 @@ define([
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.afterRender();
+        },
 
-            this.focusManager.add([this.inputFormula, this.cmbFormat, this.cmbFunction, this.cmbBookmark], '.form-control');
+        getFocusedComponents: function() {
+            return [this.inputFormula, this.cmbFormat, this.cmbFunction, this.cmbBookmark];
         },
 
         onSelectItem: function(picker, item, record, e){

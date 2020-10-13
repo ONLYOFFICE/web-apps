@@ -50,8 +50,7 @@ define([
             width: 350,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function (options) {
@@ -175,10 +174,13 @@ define([
 
             this._setDefaults();
 
-            this.focusManager.add([this.cmbLang, this.listFormats], '.form-control');
             setTimeout(function(){
                 me.cmbLang.focus();
             }, 100);
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbLang, {cmp: this.listFormats, selector: '.listview'}];
         },
 
         _setDefaults: function () {

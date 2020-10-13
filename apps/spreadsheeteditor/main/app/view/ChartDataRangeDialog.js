@@ -52,8 +52,7 @@ define([
             type: 0, // 0 - category, 1 - series
             width   : 350,
             cls     : 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -172,10 +171,13 @@ define([
 
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
 
-            this.focusManager.add([me.inputRange1, me.inputRange2, me.inputRange3], '.form-control');
             setTimeout(function(){
                 me.inputRange1.cmpEl.find('input').focus();
             }, 10);
+        },
+
+        getFocusedComponents: function() {
+            return [this.inputRange1, this.inputRange2, this.inputRange3];
         },
 
         onPrimary: function() {

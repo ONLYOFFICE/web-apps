@@ -50,8 +50,7 @@ define([
             style: 'min-width: 250px;',
             cls: 'modal-dlg',
             id: 'window-slide-size-settings',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -204,11 +203,14 @@ define([
 
             this.updateMetricUnit();
 
-            this.focusManager.add([this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation], '.form-control');
             var me = this;
             setTimeout(function(){
                 me.cmbSlideSize.focus();
             }, 100);
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation];
         },
 
         _handleInput: function(state) {

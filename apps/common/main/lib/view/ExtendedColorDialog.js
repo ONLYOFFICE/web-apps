@@ -58,8 +58,7 @@ define([
                 }),
                 header: false,
                 width: 340,
-                height: 272,
-                focusManager: true
+                height: 272
             });
 
             this.hexRe = /\s*#?([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)\s*/;
@@ -144,9 +143,11 @@ define([
             if (this.color!==undefined)
                 this.setColor(this.color);
 
-            this.focusManager.add([this.spinR, this.spinG, this.spinB], '.form-control');
-            this.focusManager.add(this.textColor, 'input');
             return this;
+        },
+
+        getFocusedComponents: function() {
+            return [this.spinR, this.spinG, this.spinB, {cmp: this.textColor, selector: 'input'}];
         },
 
         onChangeColor: function(o, color) {
