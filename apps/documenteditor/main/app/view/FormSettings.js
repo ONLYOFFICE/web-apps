@@ -245,7 +245,7 @@ define([
             this.btnListUp = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-up'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-up',
+                iconCls: 'toolbar__icon btn-arrow-up',
                 hint: this.textTipUp
             });
             this.btnListUp.on('click', _.bind(this.onMoveItem, this, true));
@@ -254,7 +254,7 @@ define([
             this.btnListDown = new Common.UI.Button({
                 parentEl: $markup.findById('#form-list-down'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-down',
+                iconCls: 'toolbar__icon btn-arrow-down',
                 hint: this.textTipDown
             });
             this.btnListDown.on('click', _.bind(this.onMoveItem, this, false));
