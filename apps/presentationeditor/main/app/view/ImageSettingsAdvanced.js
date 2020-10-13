@@ -220,6 +220,33 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.spnWidth, this.spnHeight, this.spnX, this.spnY,// 0 tab
+                this.spnAngle,  // 1 tab
+                this.inputAltTitle, this.textareaAltDescription  // 2 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.spnWidth.focus();
+                        break;
+                    case 1:
+                        me.spnAngle.focus();
+                        break;
+                    case 2:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
+        },
+
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);

@@ -138,7 +138,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 editable    : false,
                 data        : data,
                 search: true,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             });
             this.cmbLang.setValue(0x0409);
             this.cmbLang.on('selected', _.bind(function(combo, record) {
@@ -151,7 +152,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 menuStyle   : 'min-width: 100%; max-height: 185px;',
                 cls         : 'input-group-nr',
                 editable    : false,
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             });
             this.dateControls.push(this.cmbFormat);
 
@@ -185,6 +187,27 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [ this.cmbFormat, this.cmbLang, this.inputFixed, this.inputFooter ];
+        },
+
+        focusControls: function() {
+            var me = this;
+            setTimeout(function(){
+                if (!me.cmbFormat.isDisabled())
+                    me.cmbFormat.focus();
+                else if (!me.inputFixed.isDisabled())
+                    me.inputFixed.focus();
+                else if (!me.inputFooter.isDisabled())
+                    me.inputFooter.focus();
+            }, 10);
+        },
+
+        show: function() {
+            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+            this.focusControls();
+        },
+
         afterRender: function() {
             var me = this,
                 value =  Common.Utils.InternalSettings.get("pe-settings-datetime-default"),
@@ -207,6 +230,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 });
                 newValue && this.setDateTimeType(this.radioFixed.getValue() ? 'fixed' : 'update', null, true);
                 this.props.put_ShowDateTime(newValue);
+                this.focusControls();
             } else if (type == 'slide') {
                 this.props.put_ShowSlideNum(newValue);
             } else if (type == 'footer') {
@@ -243,10 +267,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 this.cmbLang.setDisabled(type == 'fixed');
                 this.cmbFormat.setDisabled(type == 'fixed');
                 this.inputFixed.setDisabled(type == 'update');
-                (type == 'fixed') && setTimeout(function(){
-                    me.inputFixed.cmpEl.find('input').focus();
-                },50);
-
+                this.focusControls();
             }
         },
 
