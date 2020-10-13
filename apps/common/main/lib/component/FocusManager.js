@@ -199,7 +199,7 @@ Common.UI.FocusManager2 = new(function() {
     var _add = function(e, fields) {
         if (e && e.cid) {
             if (_windows[e.cid]) {
-                _windows[e.cid].fields.concat(register(fields));
+                _windows[e.cid].fields = (_windows[e.cid].fields || []).concat(register(fields));
             } else {
                 _windows[e.cid] = {
                     parent: e,

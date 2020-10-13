@@ -46,8 +46,7 @@ define([
     SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 580,
-            height: 397,
-            focusManager: true
+            height: 397
         },
 
         initialize : function(options) {
@@ -283,7 +282,7 @@ define([
                 me.args[argcount].lblName.html(me.args[argcount].argName);
             me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
 
-            this.focusManager.add(txt._input);
+            Common.UI.FocusManager2.add(this, txt);
         },
 
         onInputChanging: function(input, newValue, oldValue, e) {
