@@ -49,8 +49,7 @@ define([
             width: 330,
             header: false,
             cls: 'modal-dlg',
-            buttons: ['ok', 'cancel'],
-            focusManager: true
+            buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
@@ -124,8 +123,10 @@ define([
 
             var $window = this.getChild();
             $window.find('.btn').on('click',     _.bind(this.onBtnClick, this));
+        },
 
-            this.focusManager.add([this.inputName, this.inputValue], '.form-control');
+        getFocusedComponents: function() {
+            return [this.inputName, this.inputValue];
         },
 
         show: function() {

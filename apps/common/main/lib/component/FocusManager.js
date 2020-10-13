@@ -131,7 +131,8 @@ Common.UI.FocusManager = function (tabindex, parent) {
 
 Common.UI.FocusManager2 = new(function() {
     var _tabindex = 1,
-        _windows = [];
+        _windows = [],
+        _count = 0;
 
     var register = function(fields) {
         var arr = [];
@@ -184,6 +185,17 @@ Common.UI.FocusManager2 = new(function() {
         current.traps = [trapFirst, trapLast];
     };
 
+    var updateTabIndexes = function(increment) {
+        var step = increment ? 1 : -1;
+        for (var cid in _windows) {
+            if (_windows.hasOwnProperty(cid)) {
+                var item = _windows[cid];
+                if (item && item.index < _count-1 && item.traps)
+                    item.traps[1].attr('tabindex', (parseInt(item.traps[1].attr('tabindex')) + step).toString());
+            }
+        }
+    };
+
     var _add = function(e, fields) {
         if (e && e.cid) {
             if (_windows[e.cid]) {
@@ -192,7 +204,8 @@ Common.UI.FocusManager2 = new(function() {
                 _windows[e.cid] = {
                     parent: e,
                     fields: register(fields),
-                    hidden: false
+                    hidden: false,
+                    index: _count++
                 };
             }
             addTraps(_windows[e.cid]);
@@ -207,8 +220,10 @@ Common.UI.FocusManager2 = new(function() {
                 } else {
                     _windows[e.cid] = {
                         parent: e,
-                        hidden: false
+                        hidden: false,
+                        index: _count++
                     };
+                    updateTabIndexes(true);
                 }
             }
         },
@@ -220,7 +235,9 @@ Common.UI.FocusManager2 = new(function() {
         },
         'modal:close': function(e, last) {
             if (e && e.cid && _windows[e.cid]) {
+                updateTabIndexes(false);
                 delete _windows[e.cid];
+                _count--;
             }
         },
         'modal:hide': function(e, last) {

@@ -53,8 +53,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             contentWidth: 310,
             height: 392,
             toggleGroup: 'control-adv-settings-group',
-            storageName: 'de-control-settings-adv-category',
-            focusManager: true
+            storageName: 'de-control-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -350,18 +349,15 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 this.spnWidth.setDisabled(!checked);
             }, this));
 
-            // 0 tab
-            this.focusManager.add([this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow], '.form-control');
-
-            // 2 tab
-            this.focusManager.add([this.list], '.listview');
-
-            // 3 tab
-            this.focusManager.add([this.txtDate], '.form-control');
-            this.focusManager.add([this.listFormats], '.listview');
-            this.focusManager.add([this.cmbLang], '.form-control');
-
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, // 0 tab
+                {cmp: this.list, selector: '.listview'}, // 2 tab
+                this.txtDate, {cmp: this.listFormats, selector: '.listview'}, this.cmbLang // 3 tab
+            ];
         },
 
         onCategoryClick: function(btn, index) {
