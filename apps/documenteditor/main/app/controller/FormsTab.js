@@ -228,7 +228,7 @@ define([
 
         onClearClick: function() {
             if (this.api) {
-                // this.api.asc_ClearControls();
+                this.api.asc_ClearAllSpecialForms();
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
