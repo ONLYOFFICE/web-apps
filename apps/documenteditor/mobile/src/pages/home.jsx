@@ -57,7 +57,7 @@ export default class Home extends Component {
             <NavRight>
               <Link href={false} onClick={e => this.handleClickToOpenOptions('edit')}>Edit</Link>
               <Link href={false} onClick={e => this.handleClickToOpenOptions('coauth')}>Users</Link>
-              <Link href={false} onClick={e => this.handleClickToOpenOptions('settings')}>Settings</Link>
+              <Link href={false} onClick={e => this.handleClickToOpenOptions('settings')} id='btn-settings'>Settings</Link>
             </NavRight>
           </Navbar>
           {/* Page content */}
