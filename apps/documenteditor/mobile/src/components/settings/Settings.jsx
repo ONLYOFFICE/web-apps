@@ -9,7 +9,7 @@ const SettingsView = props => {
     const {t} = props;
     const _t = t('ViewSettings', {returnObjects: true});
     const navbar = <Navbar title={t('ViewSettings.textSettings')}>
-                    {!props.isPopover  && <NavRight><Link popupClose=".settings-popup">{t('ViewSettings.textDone')}</Link></NavRight>}
+                    {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{t('ViewSettings.textDone')}</Link></NavRight>}
                     </Navbar>;
 
     const onoptionclick = page => {
@@ -81,7 +81,7 @@ class SettingsPopover extends Component {
     render() {
         return (
             <Popover className="settings__popover" onPopoverClosed={() => this.props.onclosed()}>
-                <TSettingsView isPopover={true} onOptionClick={this.onoptionclick} style={{height: '430px', width: '360px'}} />
+                <TSettingsView inPopover={true} onOptionClick={this.onoptionclick} style={{height: '430px', width: '360px'}} />
             </Popover>
         )
     }
