@@ -43,4 +43,18 @@ export class storeFocusObjects {
         }
         return this._headerType;
     }
+    @computed get paragraphObject() {
+        let paragraphs = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+                paragraphs.push(object);
+            }
+        }
+        if (paragraphs.length > 0) {
+            let object = paragraphs[paragraphs.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
 }

@@ -3,7 +3,7 @@ import {observer, inject} from "mobx-react";
 import { Page, Navbar, NavRight, NavLeft, NavTitle, Link, Sheet, Tabs, Tab, View } from 'framework7-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
-import EditText from "./EditText";
+import EditTextController from "./controller/EditText";
 import EditParagraph from "./EditParagraph";
 
 const EmptyEditLayout = () => {
@@ -73,7 +73,7 @@ const EditSheet = props => {
             editors.push({
                 caption: t("Edit.textText"),
                 id: 'edit-text',
-                component: <EditText />
+                component: <EditTextController />
             })
         }
         if (settings.indexOf('paragraph') > -1) {

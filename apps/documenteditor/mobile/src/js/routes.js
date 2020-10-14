@@ -12,10 +12,34 @@ import RequestAndLoad from '../pages/request-and-load.jsx';
 
 import { PageCollaboration, PageUsers } from '../../../../common/mobile/lib/view/Collaboration.jsx';
 
+// Edit text
+import { PageFonts, PageAdditionalFormatting, PageBullets, PageNumbers, PageLineSpacing } from "../components/edit/EditText";
+
 var routes = [
   {
     path: '/',
     component: HomePage,
+  },
+    //Edit text
+  {
+    path: '/edit-text-fonts/',
+    component: PageFonts,
+  },
+  {
+    path: '/edit-text-add-formatting/',
+    component: PageAdditionalFormatting,
+  },
+  {
+    path: '/edit-text-bullets/',
+    component: PageBullets,
+  },
+  {
+    path: '/edit-text-numbers/',
+    component: PageNumbers,
+  },
+  {
+    path: '/edit-text-line-spacing/',
+    component: PageLineSpacing,
   },
   {
     path: '/document-settings/',

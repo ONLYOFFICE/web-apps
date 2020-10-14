@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {inject} from "mobx-react";
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeDocumentSettings", "storeFocusObjects")
+@inject("storeDocumentSettings", "storeFocusObjects", "storeTextSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -165,6 +165,58 @@ class MainController extends Component {
         const storeFocusObjects = this.props.storeFocusObjects;
         this.api.asc_registerCallback('asc_onFocusObject', objects => {
             storeFocusObjects.resetFocusObjects(objects);
+        });
+
+        const storeTextSettings = this.props.storeTextSettings;
+        this.api.asc_registerCallback('asc_onInitEditorFonts', (fonts, select) => {
+            storeTextSettings.initEditorFonts(fonts, select);
+        });
+        this.api.asc_registerCallback('asc_onFontFamily', (font) => {
+            storeTextSettings.resetFontName(font);
+        });
+        this.api.asc_registerCallback('asc_onFontSize', (size) => {
+            storeTextSettings.resetFontSize(size);
+        });
+        this.api.asc_registerCallback('asc_onBold', (isBold) => {
+            storeTextSettings.resetIsBold(isBold);
+        });
+        this.api.asc_registerCallback('asc_onItalic', (isItalic) => {
+            storeTextSettings.resetIsItalic(isItalic);
+        });
+        this.api.asc_registerCallback('asc_onUnderline', (isUnderline) => {
+            storeTextSettings.resetIsUnderline(isUnderline);
+        });
+        this.api.asc_registerCallback('asc_onStrikeout', (isStrikeout) => {
+            storeTextSettings.resetIsStrikeout(isStrikeout);
+        });
+        this.api.asc_registerCallback('asc_onVerticalAlign', (typeBaseline) => {
+            storeTextSettings.resetTypeBaseline(typeBaseline);
+        });
+        this.api.asc_registerCallback('asc_onListType', (data) => {
+            let type    = data.get_ListType();
+            let subtype = data.get_ListSubType();
+            storeTextSettings.resetListType(type);
+            switch (type) {
+                case 0:
+                    storeTextSettings.resetBullets(subtype);
+                    break;
+                case 1:
+                    storeTextSettings.resetNumbers(subtype);
+                    break;
+            }
+        });
+        this.api.asc_registerCallback('asc_onPrAlign', (align) => {
+            storeTextSettings.resetParagraphAlign(align);
+        });
+        this.api.asc_registerCallback('asc_onTextColor', (color) => {
+            storeTextSettings.resetTextColor(color);
+        });
+        this.api.asc_registerCallback('asc_onParaSpacingLine', (vc) => {
+            storeTextSettings.resetLineSpacing(vc);
+        });
+        this.api.asc_registerCallback('asc_onTextShd', (shd) => {
+            let color = shd.get_Color();
+            storeTextSettings.resetBackgroundColor(color);
         });
     }
 
