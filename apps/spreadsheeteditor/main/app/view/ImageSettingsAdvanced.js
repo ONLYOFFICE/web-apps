@@ -146,6 +146,29 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.spnAngle,  // 0 tab
+                this.inputAltTitle, this.textareaAltDescription  // 2 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.spnAngle.focus();
+                        break;
+                    case 2:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
+        },
+
         onRadioSnapChange: function(field, newValue, eOpts) {
             if (newValue && this._changedProps) {
                 this._changedProps.asc_putAnchor(field.options.value);

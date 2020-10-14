@@ -127,7 +127,8 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 editable: false,
                 data: this._arrTextAlignment,
                 style: 'width: 173px;',
-                menuStyle   : 'min-width: 173px;'
+                menuStyle   : 'min-width: 173px;',
+                takeFocusOnClose: true
             });
             this.cmbTextAlignment.setValue('');
 
@@ -176,7 +177,8 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 editable: false,
                 data: this._arrSpecial,
                 style: 'width: 85px;',
-                menuStyle   : 'min-width: 85px;'
+                menuStyle   : 'min-width: 85px;',
+                takeFocusOnClose: true
             });
             this.cmbSpecial.setValue('');
             this.cmbSpecial.on('selected', _.bind(this.onSpecialSelect, this));
@@ -240,7 +242,8 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 editable: false,
                 data: this._arrLineRule,
                 style: 'width: 85px;',
-                menuStyle   : 'min-width: 85px;'
+                menuStyle   : 'min-width: 85px;',
+                takeFocusOnClose: true
             });
             this.cmbLineRule.setValue(this.CurLineRuleIdx);
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
@@ -355,7 +358,8 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                     '<div style="width: 117px;display: inline-block;"><%= value %></div>',
                     '<div style="display: inline-block;"><%= displayTabAlign %></div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.tabList.store.comparator = function(rec) {
                 return rec.get("tabPos");
@@ -376,7 +380,8 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
                 menuStyle   : 'min-width: 108px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : this._arrTabAlign
+                data        : this._arrTabAlign,
+                takeFocusOnClose: true
             });
             this.cmbAlign.setValue(Asc.c_oAscTabType.Left);
 
@@ -395,11 +400,35 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
             });
             this.btnRemoveAll.on('click', _.bind(this.removeAllTabs, this));
 
-            this.on('show', function(obj) {
-                obj.getChild('.footer .primary').focus();
-            });
-
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.cmbTextAlignment, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
+                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
+                this.numSpacing, // 1 tab
+                this.numDefaultTab, this.numTab, this.cmbAlign, {cmp: this.tabList, selector: '.listview'} // 2 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.cmbTextAlignment.focus();
+                        break;
+                    case 1:
+                        me.numSpacing.focus();
+                        break;
+                    case 2:
+                        me.numDefaultTab.focus();
+                        break;
+                }
+            }, 10);
         },
 
         getSettings: function() {

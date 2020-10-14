@@ -384,6 +384,33 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.inputHeader, this.numWidth, this.numHeight, this.numCols, this.numColHeight, // 0 tab
+                this.inputName,  // 2 tab
+                this.inputAltTitle, this.textareaAltDescription  // 4 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.inputHeader.focus();
+                        break;
+                    case 2:
+                        me.inputName.focus();
+                        break;
+                    case 4:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
+        },
+
         getSettings: function() {
             if (this.isCaptionChanged)
                 this._changedProps.asc_setCaption(this.inputHeader.getValue());
