@@ -115,6 +115,9 @@ define([
 
         onSelectionChanged: function(info) {
             if (!this.toolbar.editMode || !this.view) return;
+
+            Common.Utils.lockControls(SSE.enumLock.sheetView, this.api.asc_getActiveNamedSheetView && !this.api.asc_getActiveNamedSheetView(this.api.asc_getActiveWorksheetIndex()),
+                                      {array: [this.view.btnCloseView]});
         },
 
         onFreeze: function(state) {

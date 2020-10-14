@@ -114,7 +114,7 @@ define([
                         cls         : 'btn-toolbar',
                         iconCls     : 'toolbar__icon btn-sheet-view-close',
                         caption     : this.textClose,
-                        lock        : [_set.coAuth, _set.lostConnect]
+                        lock        : [_set.sheetView, _set.coAuth, _set.lostConnect]
                     });
                     this.lockedControls.push(this.btnCloseView);
                     Common.Utils.injectComponent($host.find('#slot-closeview'), this.btnCloseView);
