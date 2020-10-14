@@ -22,9 +22,11 @@ const SettingsView = props => {
             <Page>
                 {navbar}
                 <List>
-                    <ListItem title={_t.textFindAndReplace}>
-                        <Icon slot="media" icon="icon-search"></Icon>
-                    </ListItem>
+                    {!props.inPopover &&
+                        <ListItem title={_t.textFindAndReplace}>
+                            <Icon slot="media" icon="icon-search"></Icon>
+                        </ListItem>
+                    }
                     <ListItem title={_t.textDocumentSettings} link="/document-settings/" onClick={onoptionclick.bind(this, '/document-settings/')}>
                         <Icon slot="media" icon="icon-doc-setup"></Icon>
                     </ListItem>
