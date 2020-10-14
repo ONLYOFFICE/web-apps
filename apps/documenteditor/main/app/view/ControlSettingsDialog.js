@@ -524,6 +524,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     val = formTextPr.get_Width();
                     this.spnWidth.setValue(val ? val : '', true);
                 }
+
+                if ((type == Asc.c_oAscContentControlSpecificType.CheckBox || type == Asc.c_oAscContentControlSpecificType.Picture) && !formPr )  {// standart checkbox or picture
+                    this.txtPlaceholder.cmpEl && this.txtPlaceholder.cmpEl.closest('tr').hide();
+                }
             }
         },
 
