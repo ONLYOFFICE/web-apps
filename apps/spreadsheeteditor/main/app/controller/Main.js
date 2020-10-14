@@ -1538,6 +1538,10 @@ define([
                         config.msg = this.errorEditView;
                         break;
 
+                    case  Asc.c_oAscError.ID.ChangeFilteredRangeError:
+                        config.msg = this.errorChangeFilteredRange;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2671,7 +2675,8 @@ define([
             errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
             errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
             errorMoveSlicerError: 'Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.',
-            errorEditView: 'The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.'
+            errorEditView: 'The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.',
+            errorChangeFilteredRange: 'This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.'
         }
     })(), SSE.Controllers.Main || {}))
 });
