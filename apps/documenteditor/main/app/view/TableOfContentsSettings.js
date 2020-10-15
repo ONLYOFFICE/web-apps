@@ -637,12 +637,10 @@ define([
 
             arr = [];
             _.each(this.api.asc_getAllUsedParagraphStyles(), function (style, index) {
-                var name = style.get_Name(),
-                    level = me.api.asc_GetHeadingLevel(name);
+                var name = style.get_Name();
                 arr.push({
                     displayValue: name,
-                    value: index,
-                    level: level
+                    value: index
                 });
             });
             this.cmbTOFStyles.setData(arr);
@@ -741,7 +739,7 @@ define([
                 } else {
                     props.put_Caption(null);
                     var rec = this.cmbTOFStyles.getSelectedRecord();
-                    rec && props.add_Style(rec.displayValue, rec.level);
+                    rec && props.add_Style(rec.displayValue, 0);
                 }
             } else {
                 if (this._needUpdateOutlineLevels) {
@@ -819,7 +817,7 @@ define([
                 var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                 properties.put_Caption(null);
                 properties.clear_Styles();
-                properties.add_Style(record.displayValue, record.level);
+                properties.add_Style(record.displayValue, 0);
                 this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                 this.scrollerY.update();
             }
