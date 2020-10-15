@@ -161,6 +161,11 @@
                     <span class="btn-slot text x-huge" id="slot-btn-caption"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-crossref"></span>
                 </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-tof"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-tof-update"></span>
+                </div>
             </section>
         </section>
     </section>

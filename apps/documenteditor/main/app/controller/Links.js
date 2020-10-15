@@ -71,7 +71,9 @@ define([
                     'links:hyperlink': this.onHyperlinkClick,
                     'links:bookmarks': this.onBookmarksClick,
                     'links:caption': this.onCaptionClick,
-                    'links:crossref': this.onCrossRefClick
+                    'links:crossref': this.onCrossRefClick,
+                    'links:tof': this.onTableFigures,
+                    'links:tof-update': this.onTableFiguresUpdate
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -98,6 +100,8 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onAscReplaceCurrentTOF',_.bind(this.onAscReplaceCurrentTOF, this));
+                this.api.asc_registerCallback('asc_onAscTOFUpdate',_.bind(this.onAscTOFUpdate, this));
             }
             return this;
         },
@@ -269,6 +273,7 @@ define([
                         win = new DE.Views.TableOfContentsSettings({
                         api: this.api,
                         props: props,
+                        type: 0,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 (props) ? me.api.asc_SetTableOfContentsPr(value) : me.api.asc_AddTableOfContents(null, value);
@@ -470,6 +475,45 @@ define([
                 me.crossRefProps = me.dlgCrossRefDialog.getSettings();
             });
             me.dlgCrossRefDialog.show();
+        },
+
+        onTableFigures: function(){
+            var props = this.api.asc_GetTableOfFiguresPr();
+            var me = this,
+                win = new DE.Views.TableOfContentsSettings({
+                    api: this.api,
+                    props: props,
+                    type: 1,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api.asc_AddTableOfFigures(value);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+            win.show();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTableFiguresUpdate: function(){
+            this.api.asc_UpdateTablesOfFigures();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onAscReplaceCurrentTOF: function(apiCallback) {
+            Common.UI.warning({
+                msg: this.view.confirmReplaceTOF,
+                buttons: ['ok', 'cancel'],
+                primary: 'ok',
+                callback: _.bind(function(btn) {
+                    apiCallback && apiCallback(btn === 'ok');
+                    Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                }, this)
+            });
+        },
+
+        onAscTOFUpdate: function(apiCallback) {
+            if (apiCallback) apiCallback.call();
         }
 
     }, DE.Controllers.Links || {}));
