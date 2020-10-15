@@ -479,7 +479,7 @@ define([
         },
 
         setImageUrl: function(url, token) {
-            this.api.AddImageUrl(url, this._originalProps, token);
+            this.api.asc_SetContentControlPictureUrl(url, this.internalId, token);
         },
 
         insertImageFromStorage: function(data) {
