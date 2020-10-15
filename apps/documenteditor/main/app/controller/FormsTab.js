@@ -68,8 +68,9 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject', this.onApiFocusObject.bind(this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
+                this.api.asc_registerCallback('asc_onChangeSpecialFormsGlobalSettings', _.bind(this.onChangeSpecialFormsGlobalSettings, this));
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
+                Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
 
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
@@ -171,21 +172,18 @@ define([
             };
 
             this.view && this.view.mnuFormsColorPicker && updateColors(this.view.mnuFormsColorPicker, 1);
-            this.onChangeSdtGlobalSettings();
+            this.onChangeSpecialFormsGlobalSettings();
         },
 
-        onChangeSdtGlobalSettings: function() {
+        onChangeSpecialFormsGlobalSettings: function() {
             if (this.view && this.view.mnuFormsColorPicker) {
-                var show = this.api.asc_GetGlobalContentControlShowHighlight(),
-                    clr;
+                var clr = this.api.asc_GetSpecialFormsHighlightColor(),
+                    show = !!clr;
                 this.view.mnuNoFormsColor.setChecked(!show, true);
                 this.view.mnuFormsColorPicker.clearSelection();
-                if (show){
-                    clr = this.api.asc_GetGlobalContentControlHighlightColor();
-                    if (clr) {
-                        clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
-                        this.view.mnuFormsColorPicker.selectByRGB(clr, true);
-                    }
+                if (clr) {
+                    clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
+                    this.view.mnuFormsColorPicker.selectByRGB(clr, true);
                 }
                 this.view.btnHighlight.currentColor = clr;
                 $('.btn-color-value-line', this.view.btnHighlight.cmpEl).css('background-color', clr ? '#' + clr : 'transparent');
@@ -239,16 +237,16 @@ define([
 
         onNoControlsColor: function(item) {
             if (!item.isChecked())
-                this.api.asc_SetGlobalContentControlShowHighlight(true, 220, 220, 220);
+                this.api.asc_SetSpecialFormsHighlightColor(255, 192, 0);
             else
-                this.api.asc_SetGlobalContentControlShowHighlight(false);
+                this.api.asc_SetSpecialFormsHighlightColor();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onSelectControlsColor: function(color) {
             var clr = Common.Utils.ThemeColor.getRgbColor(color);
             if (this.api) {
-                this.api.asc_SetGlobalContentControlShowHighlight(true, clr.get_r(), clr.get_g(), clr.get_b());
+                this.api.asc_SetSpecialFormsHighlightColor(clr.get_r(), clr.get_g(), clr.get_b());
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -273,6 +271,19 @@ define([
                 if (this.view)
                     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
             }
+        },
+
+        onAppReady: function (config) {
+            var me = this;
+            (new Promise(function (accept, reject) {
+                accept();
+            })).then(function(){
+                if (config.canEditContentControl) {
+                    var clr = me.api.asc_GetSpecialFormsHighlightColor();
+                    clr && (clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b()));
+                    me.view.btnHighlight.currentColor = clr;
+                }
+            });
         }
 
     }, DE.Controllers.FormsTab || {}));

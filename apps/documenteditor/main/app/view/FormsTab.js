@@ -216,7 +216,7 @@ define([
                         });
                         var colorVal = $('<div class="btn-color-value-line"></div>');
                         $('button:first-child', me.btnHighlight.cmpEl).append(colorVal);
-                        colorVal.css('background-color', me.btnHighlight.currentColor || 'transparent');
+                        colorVal.css('background-color', me.btnHighlight.currentColor ? '#' + me.btnHighlight.currentColor : 'transparent');
                     } else {
                         me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
                     }
