@@ -48,7 +48,8 @@ define([
     'documenteditor/main/app/view/BookmarksDialog',
     'documenteditor/main/app/view/CaptionDialog',
     'documenteditor/main/app/view/NotesRemoveDialog',
-    'documenteditor/main/app/view/CrossReferenceDialog'
+    'documenteditor/main/app/view/CrossReferenceDialog',
+    'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
 
@@ -503,17 +504,33 @@ define([
         onAscReplaceCurrentTOF: function(apiCallback) {
             Common.UI.warning({
                 msg: this.view.confirmReplaceTOF,
-                buttons: ['ok', 'cancel'],
-                primary: 'ok',
+                buttons: ['yes', 'no', 'cancel'],
+                primary: 'yes',
                 callback: _.bind(function(btn) {
-                    apiCallback && apiCallback(btn === 'ok');
+                    if (btn=='yes' || btn=='no') {
+                        apiCallback && apiCallback(btn === 'yes');
+                    }
                     Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 }, this)
             });
         },
 
         onAscTOFUpdate: function(apiCallback) {
-            if (apiCallback) apiCallback.call();
+            var me = this;
+            (new Common.Views.OptionsDialog({
+                width: 300,
+                title: this.view.titleUpdateTOF,
+                items: [
+                    {caption: this.view.textUpdatePages, value: true, checked: true},
+                    {caption: this.view.textUpdateAll, value: false, checked: false}
+                ],
+                handler: function (dlg, result) {
+                    if (result=='ok') {
+                        apiCallback && apiCallback(dlg.getSettings());
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         }
 
     }, DE.Controllers.Links || {}));

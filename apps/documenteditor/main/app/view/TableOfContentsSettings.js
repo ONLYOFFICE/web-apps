@@ -174,7 +174,7 @@ define([
                         properties.put_RightAlignTab(this.chAlign.getValue() == 'checked');
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
@@ -193,7 +193,7 @@ define([
                     if (checked) {
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
@@ -216,7 +216,7 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_TabLeader(record.value);
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
@@ -230,7 +230,7 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_Hyperlink(field.getValue()=='checked');
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
@@ -297,7 +297,7 @@ define([
                     if (this.api && !this._noApply) {
                         var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                         properties.put_IncludeLabelAndNumber(field.getValue()=='checked');
-                        this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                        this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties);
                         this.scrollerY.update();
                     }
                 }, this));
@@ -410,7 +410,7 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_StylesType(record.value);
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
@@ -438,7 +438,7 @@ define([
         },
 
         close: function() {
-            this.api.SetDrawImagePlaceContents(null);
+            (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures(null) : this.api.SetDrawImagePlaceContents(null);
             this.scrollerY.update();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this);
         },
@@ -482,7 +482,7 @@ define([
                 }
             }
 
-            this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
+            (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', this._originalProps) : this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
             this.scrollerY.update();
 
             this._noApply = false;
@@ -807,7 +807,7 @@ define([
                 var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                 properties.put_Caption(record.value);
                 properties.clear_Styles();
-                this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties);
                 this.scrollerY.update();
             }
         },
@@ -818,7 +818,7 @@ define([
                 properties.put_Caption(null);
                 properties.clear_Styles();
                 properties.add_Style(record.displayValue, 0);
-                this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties);
                 this.scrollerY.update();
             }
         },

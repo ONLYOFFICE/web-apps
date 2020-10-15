@@ -406,7 +406,8 @@ define([
             capBtnTOF: 'Table of Figures',
             tipTableFiguresUpdate: 'Refresh table of figures',
             tipTableFigures: 'Insert table of figures',
-            confirmReplaceTOF: 'Do you want to replace the selected table of figures?'
+            confirmReplaceTOF: 'Do you want to replace the selected table of figures?',
+            titleUpdateTOF: 'Refresh Table of Figures'
         }
     }()), DE.Views.Links || {}));
 });
