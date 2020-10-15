@@ -301,7 +301,7 @@ define([
                 if (callback) {
                     this.spriteThumbs = new Image();
                     this.spriteThumbs.onload = callback;
-                    this.spriteThumbs.src = (window.devicePixelRatio > 1) ? thumbPath2x : thumbPath;
+                    this.spriteThumbs.src = isRetina ? thumbPath2x : thumbPath;
                 }
             },
 
