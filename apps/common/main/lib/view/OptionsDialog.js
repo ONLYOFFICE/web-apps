@@ -31,9 +31,9 @@
  *
  */
 /**
- *  CellsAddDialog.js
+ *  OptionsDialog.js
  *
- *  Created by Julia Radzhabova on 08.05.2020
+ *  Created by Julia Radzhabova on 15.10.2020
  *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
  *
  */
@@ -42,13 +42,13 @@ define([
     'common/main/lib/component/RadioBox'
 ], function () { 'use strict';
 
-    SSE.Views.CellsAddDialog = Common.UI.Window.extend(_.extend({
+    Common.Views.OptionsDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 214,
-            height: 195,
             header: true,
             style: 'min-width: 214px;',
             cls: 'modal-dlg',
+            items: [],
             buttons: ['ok', 'cancel']
         },
 
@@ -57,14 +57,15 @@ define([
 
             this.template = [
                 '<div class="box">',
-                '<div id="cell-ins-radio-1" style="margin-bottom: 10px;"></div>',
-                '<div id="cell-ins-radio-2" style="margin-bottom: 10px;"></div>',
-                '<div id="cell-ins-radio-3" style="margin-bottom: 10px;"></div>',
-                '<div id="cell-ins-radio-4" style="margin-bottom: 2px;"></div>',
+                '<% _.each(items, function(item, index) { %>',
+                    '<% if (!item.id) item.id = Common.UI.getId(); %>',
+                    '<div id="<%= item.id %>" style="margin-bottom: 10px;"></div>',
+                '<% }) %>',
                 '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
+            this.radio = [];
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -73,30 +74,32 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             var me = this,
+                $window = me.getChild(),
                 items = this.options.items,
-                checked = true;
+                checked = true,
+                checkedIndex = -1;
             if (items) {
-                for (var i=0; i<4; i++) {
-                    var radio = new Common.UI.RadioBox({
-                        el: $('#cell-ins-radio-' + (i+1)),
-                        labelText: items[i].caption,
-                        name: 'asc-radio-cell-ins',
-                        value: items[i].value,
-                        disabled: items[i].disabled,
-                        checked: checked && !items[i].disabled
+                for (var i=0; i<items.length; i++) {
+                    var item = items[i];
+                    this.radio.push(new Common.UI.RadioBox({
+                        el: $window.find('#' + item.id),
+                        labelText: item.caption || '',
+                        name: 'asc-radio-opt-dlg',
+                        value: item.value,
+                        disabled: !!item.disabled,
+                        checked: checked && !item.disabled
                     }).on('change', function(field, newValue, eOpts) {
                         if (newValue) {
                             me.currentCell = field.options.value;
                         }
-                    });
-                    if (checked && !items[i].disabled) {
+                    }));
+                    if ((checked || item.checked)&& !item.disabled) {
                         checked = false;
-                        me.currentCell = items[i].value;
+                        checkedIndex = i;
                     }
                 }
+                (checkedIndex>=0) && this.radio[checkedIndex].setValue(true);
             }
-
-            var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
 
@@ -121,5 +124,5 @@ define([
             return false;
         }
 
-    }, SSE.Views.CellsAddDialog || {}))
+    }, Common.Views.OptionsDialog || {}))
 });

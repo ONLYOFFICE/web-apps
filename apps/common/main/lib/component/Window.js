@@ -238,6 +238,14 @@ define([
             return {width: width, height: height, top: Common.Utils.InternalSettings.get('window-inactive-area-top')};
         }
 
+        function _autoSize() {
+            if (this.initConfig.height == 'auto') {
+                var height = parseInt(this.$window.find('> .body').css('height'));
+                this.initConfig.header && (height += parseInt(this.$window.find('> .header').css('height')));
+                this.$window.height(height);
+            }
+        }
+
         function _centre() {
             var main_geometry = _readDocumetGeometry(),
                 main_width = main_geometry.width,
@@ -658,11 +666,7 @@ define([
                     });
                 }
 
-                if (this.initConfig.height == 'auto') {
-                    var height = parseInt(this.$window.find('> .body').css('height'));
-                    this.initConfig.header && (height += parseInt(this.$window.find('> .header').css('height')));
-                    this.$window.height(height);
-                } else {
+                if (this.initConfig.height !== 'auto') {
                     this.$window.css('height',this.initConfig.height);
                 }
 
@@ -719,6 +723,7 @@ define([
 
                 if (!this.$window) {
                     this.render();
+                    _autoSize.call(this);
 
                     if (_.isNumber(x) && _.isNumber(y)) {
                         this.$window.css('left',Math.floor(x));

@@ -42,9 +42,9 @@
 define([
     'core',
     'spreadsheeteditor/main/app/view/DataTab',
-    'spreadsheeteditor/main/app/view/GroupDialog',
     'spreadsheeteditor/main/app/view/SortDialog',
-    'spreadsheeteditor/main/app/view/RemoveDuplicatesDialog'
+    'spreadsheeteditor/main/app/view/RemoveDuplicatesDialog',
+    'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
 
@@ -131,9 +131,12 @@ define([
             } else {
                 var val = me.api.asc_checkAddGroup(true);
                 if (val===null) {
-                    (new SSE.Views.GroupDialog({
+                    (new Common.Views.OptionsDialog({
                         title: me.view.capBtnUngroup,
-                        props: 'rows',
+                        items: [
+                            {caption: this.textRows, value: true, checked: true},
+                            {caption: this.textColumns, value: false, checked: false}
+                        ],
                         handler: function (dlg, result) {
                             if (result=='ok') {
                                 me.api.asc_ungroup(dlg.getSettings());
@@ -160,9 +163,12 @@ define([
                 var me = this,
                     val = me.api.asc_checkAddGroup();
                 if (val===null) {
-                    (new SSE.Views.GroupDialog({
+                    (new Common.Views.OptionsDialog({
                         title: me.view.capBtnGroup,
-                        props: 'rows',
+                        items: [
+                            {caption: this.textRows, value: true, checked: true},
+                            {caption: this.textColumns, value: false, checked: false}
+                        ],
                         handler: function (dlg, result) {
                             if (result=='ok') {
                                 me.api.asc_group(dlg.getSettings());
@@ -324,7 +330,9 @@ define([
         txtRemDuplicates: 'Remove Duplicates',
         txtExpandRemDuplicates: 'The data next to the selection will not be removed. Do you want to expand the selection to include the adjacent data or continue with the currently selected cells only?',
         txtExpand: 'Expand',
-        txtRemSelected: 'Remove in selected'
+        txtRemSelected: 'Remove in selected',
+        textRows: 'Rows',
+        textColumns: 'Columns'
 
     }, SSE.Controllers.DataTab || {}));
 });
