@@ -205,6 +205,7 @@ define([
                 editable    : false,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
+                takeFocusOnClose: true,
                 data        : [
                     { displayValue: this.txtNone,       value: Asc.c_oAscNumberingFormat.None },
                     { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
@@ -274,7 +275,8 @@ define([
                     { value: AscCommon.align_Left, displayValue: this.textLeft },
                     { value: AscCommon.align_Center, displayValue: this.textCenter },
                     { value: AscCommon.align_Right, displayValue: this.textRight }
-                ]
+                ],
+                takeFocusOnClose: true
             });
             this.cmbAlign.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps)
@@ -308,7 +310,8 @@ define([
                     { value: 48, displayValue: "48" },
                     { value: 72, displayValue: "72" },
                     { value: 96, displayValue: "96" }
-                ]
+                ],
+                takeFocusOnClose: true
             });
             this.cmbSize.on('selected', _.bind(function (combo, record) {
                 if (this._changedProps) {
@@ -326,11 +329,16 @@ define([
             this.levelsList = new Common.UI.ListView({
                 el: $('#levels-list', this.$window),
                 store: new Common.UI.DataViewStore(levels),
+                tabindex: 1,
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;line-height: 15px;"><%= (value+1) %></div>')
             });
             this.levelsList.on('item:select', _.bind(this.onSelectLevel, this));
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbFormat, this.cmbAlign, this.cmbSize, {cmp: this.levelsList, selector: '.listview'}];
         },
 
         afterRender: function() {
@@ -344,6 +352,15 @@ define([
             this.on('close', function(obj){
                 me.api.asc_unregisterCallback('asc_onPreviewLevelChange', onApiLevelChange);
             });
+        },
+
+        show: function() {
+            Common.UI.Window.prototype.show.apply(this, arguments);
+
+            var me = this;
+            _.delay(function(){
+                (me.type>0) ? me.cmbFormat.focus() : me.cmbAlign.focus();
+            },100);
         },
 
         updateThemeColors: function() {
