@@ -57,6 +57,9 @@ define([
 
             this.template = [
                 '<div class="box">',
+                '<% if (typeof label !== "undefined" && label !=="") { %>',
+                    '<label style="margin-bottom: 10px;"><%= label %></label>',
+                '<% } %>',
                 '<% _.each(items, function(item, index) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
                     '<div id="<%= item.id %>" style="margin-bottom: 10px;"></div>',

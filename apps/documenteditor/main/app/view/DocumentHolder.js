@@ -50,13 +50,13 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/OptionsDialog',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',
-    'documenteditor/main/app/view/CellsRemoveDialog',
     'documenteditor/main/app/view/CellsAddDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
@@ -1920,9 +1920,16 @@ define([
 
         onCellsRemove: function() {
             var me = this;
-            (new DE.Views.CellsRemoveDialog({
-                handler: function (result, value) {
-                    if (result == 'ok') {
+            (new Common.Views.OptionsDialog({
+                title: me.textTitleCellsRemove,
+                items: [
+                    {caption: this.textLeft, value: 'left'},
+                    {caption: this.textRow, value: 'row'},
+                    {caption: this.textCol, value: 'col'}
+                ],
+                handler: function (dlg, result) {
+                    if (result=='ok') {
+                        var value = dlg.getSettings();
                         if (value == 'row')
                             me.api.remRow();
                         else if (value == 'col')
@@ -4546,7 +4553,11 @@ define([
         txtInsertCaption: 'Insert Caption',
         txtEmpty: '(Empty)',
         textFromStorage: 'From Storage',
-        advancedDropCapText: 'Drop Cap Settings'
+        advancedDropCapText: 'Drop Cap Settings',
+        textTitleCellsRemove: 'Delete Cells',
+        textLeft: 'Shift cells left',
+        textRow: 'Delete entire row',
+        textCol: 'Delete entire column'
 
     }, DE.Views.DocumentHolder || {}));
 });
