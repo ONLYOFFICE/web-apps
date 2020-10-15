@@ -48,7 +48,8 @@ define([
     'common/main/lib/collection/ReviewChanges',
     'common/main/lib/view/ReviewChanges',
     'common/main/lib/view/ReviewPopover',
-    'common/main/lib/view/LanguageDialog'
+    'common/main/lib/view/LanguageDialog',
+    'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
 
@@ -630,13 +631,19 @@ define([
                         }).show();
                     }
                 } else if (item === 'settings') {
-                    (new DE.Views.CompareSettingsDialog({
-                        props: me._state.compareSettings,
-                        handler: function(result, value) {
-                            if (result == 'ok') {
-                                me._state.compareSettings = value;
+                    var value = me._state.compareSettings ? me._state.compareSettings.getWords() : true;
+                    (new Common.Views.OptionsDialog({
+                        title: me.textTitleComparison,
+                        items: [
+                            {caption: me.textChar, value: false, checked: (value===false)},
+                            {caption: me.textWord, value: true, checked: (value!==false)}
+                        ],
+                        label: me.textShow,
+                        handler: function (dlg, result) {
+                            if (result=='ok') {
+                                me._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                                me._state.compareSettings.putWords(dlg.getSettings());
                             }
-
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     })).show();
@@ -964,6 +971,11 @@ define([
         textParaMoveFromUp: '<b>Moved Up:</b>',
         textParaMoveFromDown: '<b>Moved Down:</b>',
         textUrl: 'Paste a document URL',
-        textAcceptBeforeCompare: 'In order to compare documents all the tracked changes in them will be considered to have been accepted. Do you want to continue?'
+        textAcceptBeforeCompare: 'In order to compare documents all the tracked changes in them will be considered to have been accepted. Do you want to continue?',
+        textTitleComparison: 'Comparison Settings',
+        textShow: 'Show changes at',
+        textChar: 'Character level',
+        textWord: 'Word level'
+
     }, Common.Controllers.ReviewChanges || {}));
 });
