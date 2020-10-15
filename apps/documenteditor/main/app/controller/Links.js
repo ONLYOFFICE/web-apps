@@ -178,6 +178,8 @@ define([
 
             need_disable = in_header || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
             this.view.btnsContents.setDisabled(need_disable);
+            this.view.btnTableFigures.setDisabled(need_disable);
+            this.view.btnTableFiguresUpdate.setDisabled(need_disable || paragraph_locked || !this.api.asc_CanUpdateTablesOfFigures());
 
             need_disable = in_header;
             this.view.btnCaption.setDisabled(need_disable);
