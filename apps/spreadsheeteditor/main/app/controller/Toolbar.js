@@ -45,6 +45,7 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/SelectFileDlg',
     'common/main/lib/view/SymbolTableDialog',
+    'common/main/lib/view/OptionsDialog',
     'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
@@ -60,7 +61,6 @@ define([
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
-    'spreadsheeteditor/main/app/view/CellsAddDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog'
 ], function () { 'use strict';
 
@@ -1571,7 +1571,7 @@ define([
                                     arr = [];
                                 for (var i=0; i<4; i++)
                                     arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
-                                (new SSE.Views.CellsAddDialog({
+                                (new Common.Views.OptionsDialog({
                                     title: me.txtInsertCells,
                                     items: arr,
                                     handler: function (dlg, result) {
@@ -1598,7 +1598,7 @@ define([
                                     arr = [];
                                 for (var i=0; i<4; i++)
                                     arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
-                                (new SSE.Views.CellsAddDialog({
+                                (new Common.Views.OptionsDialog({
                                     title: me.txtDeleteCells,
                                     items: arr,
                                     handler: function (dlg, result) {
