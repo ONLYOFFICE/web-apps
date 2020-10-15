@@ -630,6 +630,8 @@ define([
             getButton: function(type) {
                 if (type == 'save')
                     return this.btnSave;
+                else if (type == 'users')
+                    return $panelUsers;
             },
 
             lockHeaderBtns: function (alias, lock) {

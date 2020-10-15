@@ -545,6 +545,7 @@ define([
                 } else {
                     this.api.asc_coAuthoringDisconnect();
                     appHeader.setCanRename(false);
+                    appHeader.getButton('users') && appHeader.getButton('users').hide();
                     this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
                     this.disableEditing(true);
                     var versions = opts.data.history,
