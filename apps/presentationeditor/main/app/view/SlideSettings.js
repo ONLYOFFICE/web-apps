@@ -496,7 +496,7 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                 else
                     this.btnDirection.setIconCls('');
-                this.numGradientAngle.setValue(this.GradLinearDirectionType);
+                this.numGradientAngle.setValue(this.GradLinearDirectionType, true);
                 this.numGradientAngle.setDisabled(this._locked.background);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
                 this.mnuDirectionPicker.store.reset(this._viewDataRadial);
@@ -507,7 +507,7 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
                 else
                     this.btnDirection.setIconCls('');
-                this.numGradientAngle.setValue(0);
+                this.numGradientAngle.setValue(0, true);
                 this.numGradientAngle.setDisabled(true);
             }
 
@@ -549,7 +549,7 @@ define([
             (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                    this.numGradientAngle.setValue(rawData.type);
+                    this.numGradientAngle.setValue(rawData.type, true);
 
                     var props = new Asc.CAscSlideProps();
                     var fill = new Asc.asc_CShapeFill();
@@ -1303,10 +1303,10 @@ define([
                                 this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                             else
                                 this.btnDirection.setIconCls('');
-                            this.numGradientAngle.setValue(value);
+                            this.numGradientAngle.setValue(value, true);
                         }
                     } else
-                        this.numGradientAngle.setValue(0);
+                        this.numGradientAngle.setValue(0, true);
 
                     var me = this;
                     var colors = fill.get_colors(),
@@ -1627,7 +1627,7 @@ define([
         },
 
         onGradientAngleChange: function(field, newValue, oldValue, eOpts) {
-            if (this.api) {
+            if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
                 var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
