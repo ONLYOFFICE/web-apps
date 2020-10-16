@@ -4,8 +4,31 @@ import { withTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device'
 
+import DocumentSettingsController from "../settings/controller/DocumentSettings.jsx";
+import Margins from "../settings/document-settings/Margins.jsx";
+import DocumentFormats from "../settings/document-settings/DocumentFormats.jsx";
 
-const SettingsView = props => {
+const routes = [
+    {
+        path: '/',
+        component: 'TSettingsView'
+    },
+    {
+        path: '/document-settings/',
+        component: DocumentSettingsController,
+    },
+    {
+        path: '/margins/',
+        component: Margins,
+    },
+    {
+        path: '/document-formats/',
+        component: DocumentFormats,
+    },
+];
+
+
+const SettingsList = withTranslation()(props => {
     const {t} = props;
     const _t = t('ViewSettings', {returnObjects: true});
     const navbar = <Navbar title={t('ViewSettings.textSettings')}>
@@ -17,8 +40,11 @@ const SettingsView = props => {
             props.onOptionClick(page)
     };
 
+    useEffect(() => {
+    });
+
     return (
-        <View style={props.style}>
+        <View style={props.style} stackPages={true} routes={routes}>
             <Page>
                 {navbar}
                 <List>
@@ -27,7 +53,7 @@ const SettingsView = props => {
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
-                    <ListItem title={_t.textDocumentSettings} link="/document-settings/" onClick={onoptionclick.bind(this, '/document-settings/')}>
+                    <ListItem link="#" title={_t.textDocumentSettings} onClick={onoptionclick.bind(this, '/document-settings/')}>
                         <Icon slot="media" icon="icon-doc-setup"></Icon>
                     </ListItem>
                     <ListItem title={_t.textApplicationSettings} link="#">
@@ -52,24 +78,9 @@ const SettingsView = props => {
             </Page>
         </View>
     )
-};
+});
 
-const TSettingsView = withTranslation()(SettingsView);
-
-class SettingsPopup extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
-                <TSettingsView />
-            </Popup>
-        )
-    }
-}
-
-class SettingsPopover extends Component {
+class SettingsView extends Component {
     constructor(props) {
         super(props)
 
@@ -81,10 +92,15 @@ class SettingsPopover extends Component {
     }
 
     render() {
+        const show_popover = this.props.usePopover;
         return (
-            <Popover className="settings__popover" onPopoverClosed={() => this.props.onclosed()}>
-                <TSettingsView inPopover={true} onOptionClick={this.onoptionclick} style={{height: '430px', width: '360px'}} />
-            </Popover>
+            show_popover ?
+                <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
+                    <SettingsList inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} />
+                </Popover> :
+                <Popup className="settings-popup" onPopupClosed={() => this.props.onclosed()}>
+                    <SettingsList onOptionClick={this.onoptionclick} />
+                </Popup>
         )
     }
 }
@@ -93,7 +109,7 @@ const Settings = props => {
     useEffect(() => {
         if ( Device.phone )
             f7.popup.open('.settings-popup');
-        else f7.popover.open('.settings__popover', '#btn-settings');
+        else f7.popover.open('#settings-popover', '#btn-settings');
 
         return () => {
             // component will unmount
@@ -106,11 +122,11 @@ const Settings = props => {
             props.onclosed();
     };
 
-    if ( Device.phone ) {
-        return <SettingsPopup onclosed={onviewclosed} />
-    }
+    // if ( Device.phone ) {
+    //     return <SettingsPopup onclosed={onviewclosed} />
+    // }
 
-    return <SettingsPopover onclosed={onviewclosed} />
+    return <SettingsView usePopover={!Device.phone} onclosed={onviewclosed} />
 };
 
 export default Settings;
