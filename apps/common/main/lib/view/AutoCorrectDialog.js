@@ -62,7 +62,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 {panelId: 'id-autocorrect-dialog-settings-math',        panelCaption: this.textMathCorrect},
                 {panelId: 'id-autocorrect-dialog-settings-recognized',  panelCaption: this.textRecognized}
             ];
-            if (this.appPrefix=='de-')
+            if (this.appPrefix=='de-' || this.appPrefix=='pe-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-de-autoformat',  panelCaption: this.textAutoFormat});
             else if (this.appPrefix=='sse-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-sse-autoformat',  panelCaption: this.textAutoFormat});
@@ -106,28 +106,28 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             value = Common.Utils.InternalSettings.get(path + "-rem");
             this.arrRemRec = value ? JSON.parse(value) : [];
 
-            if (this.appPrefix=='de-') {
+            if (this.appPrefix=='de-' || this.appPrefix=='pe-') {
                 var me = this;
                 this.options.handler = function(result, value) {
                     if ( result == 'ok' ) {
                         var value = me.chBulleted.getValue()==='checked';
-                        Common.localStorage.setBool("de-settings-autoformat-bulleted", value);
-                        Common.Utils.InternalSettings.set("de-settings-autoformat-bulleted", value);
+                        Common.localStorage.setBool(this.appPrefix + "settings-autoformat-bulleted", value);
+                        Common.Utils.InternalSettings.set(this.appPrefix + "settings-autoformat-bulleted", value);
                         me.api.asc_SetAutomaticBulletedLists(value);
 
                         value = me.chNumbered.getValue()==='checked';
-                        Common.localStorage.setBool("de-settings-autoformat-numbered", value);
-                        Common.Utils.InternalSettings.set("de-settings-autoformat-numbered", value);
+                        Common.localStorage.setBool(this.appPrefix + "settings-autoformat-numbered", value);
+                        Common.Utils.InternalSettings.set(this.appPrefix + "settings-autoformat-numbered", value);
                         me.api.asc_SetAutomaticNumberedLists(value);
 
                         value = me.chQuotes.getValue()==='checked';
-                        Common.localStorage.setBool("de-settings-autoformat-smart-quotes", value);
-                        Common.Utils.InternalSettings.set("de-settings-autoformat-smart-quotes", value);
+                        Common.localStorage.setBool(this.appPrefix + "settings-autoformat-smart-quotes", value);
+                        Common.Utils.InternalSettings.set(this.appPrefix + "settings-autoformat-smart-quotes", value);
                         me.api.asc_SetAutoCorrectSmartQuotes(value);
 
                         value = me.chHyphens.getValue()==='checked';
-                        Common.localStorage.setBool("de-settings-autoformat-hyphens", value);
-                        Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
+                        Common.localStorage.setBool(this.appPrefix + "settings-autoformat-hyphens", value);
+                        Common.Utils.InternalSettings.set(this.appPrefix + "settings-autoformat-hyphens", value);
                         me.api.asc_SetAutoCorrectHyphensWithDash(value);
                     }
                 };
@@ -316,7 +316,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             });
             this.btnDeleteRec.on('click', _.bind(this.onDeleteRec, this, false));
 
-            if (this.appPrefix=='de-') {
+            if (this.appPrefix=='de-' || this.appPrefix=='pe-') {
                 this.chQuotes = new Common.UI.CheckBox({
                     el: $('#id-autocorrect-dialog-chk-quotes'),
                     labelText: this.textQuotes,

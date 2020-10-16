@@ -1964,6 +1964,23 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-rec-functions-rem", value);
                 arrRem = value ? JSON.parse(value) : [];
                 me.api.asc_refreshOnStartAutoCorrectMathFunctions(arrRem, arrAdd);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-bulleted", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-bulleted", value);
+                me.api.asc_SetAutomaticBulletedLists(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-numbered", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-numbered", value);
+                me.api.asc_SetAutomaticNumberedLists(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-smart-quotes", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-smart-quotes", value);
+                me.api.asc_SetAutoCorrectSmartQuotes(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-hyphens", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-hyphens", value);
+                me.api.asc_SetAutoCorrectHyphensWithDash(value);
+
             },
             
             // Translation
