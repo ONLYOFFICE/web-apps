@@ -200,8 +200,8 @@ define([
 
                 this.btnTableFigures = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-tof'),
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-caption',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-tof',
                     caption: this.capBtnTOF,
                     disabled: true
                 });
@@ -209,8 +209,8 @@ define([
 
                 this.btnTableFiguresUpdate = new Common.UI.Button({
                     parentEl: $host.find('#slot-btn-tof-update'),
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-caption',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-tof-update',
                     caption: this.capBtnContentsUpdate,
                     disabled: true
                 });
