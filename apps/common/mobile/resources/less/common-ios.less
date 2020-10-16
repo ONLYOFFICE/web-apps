@@ -1,0 +1,52 @@
+
+.device-ios {
+    .popover__titled {
+        .popover-inner {
+            //border-radius: var(--f7-popover-border-radius);
+
+            > .view {
+                border-radius: var(--f7-popover-border-radius);
+            }
+        }
+
+        .navbar-bg {
+            //-webkit-backdrop-filter: none;
+            backdrop-filter: none;
+        }
+
+        .list:first-child {
+            li:first-child {
+                a {
+                    border-radius: 0;
+                }
+            }
+        }
+
+        .list:last-child {
+            li:last-child {
+                a {
+                    border-radius: 0;
+                }
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    background-color: var(--f7-navbar-border-color, var(--f7-bars-border-color));
+                    display: block;
+                    //z-index: 15;
+                    top: auto;
+                    right: auto;
+                    bottom: 0;
+                    left: 0;
+                    height: 1px;
+                    width: 100%;
+                    transform-origin: 50% 100%;
+                    transform: scaleY(calc(1 / var(--f7-device-pixel-ratio)));
+
+                    -webkit-backface-visibility: hidden;
+                    backface-visibility: hidden;
+                }
+            }
+        }
+    }
+}

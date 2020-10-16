@@ -1,8 +1,5 @@
 
 import HomePage from '../pages/home.jsx';
-import { DocumentSettings } from "../controllers/Settings";
-import Margins from "../components/settings/document-settings/Margins.jsx";
-import DocumentFormats from "../components/settings/document-settings/DocumentFormats.jsx";
 
 import LeftPage1 from '../pages/left-page-1.jsx';
 import LeftPage2 from '../pages/left-page-2.jsx';
@@ -11,30 +8,38 @@ import RequestAndLoad from '../pages/request-and-load.jsx';
 
 import { PageCollaboration, PageUsers } from '../../../../common/mobile/lib/view/Collaboration.jsx';
 
+// Edit text
+import { PageFonts, PageAdditionalFormatting, PageBullets, PageNumbers, PageLineSpacing } from "../components/edit/EditText";
+
 var routes = [
   {
     path: '/',
     component: HomePage,
   },
+    //Edit text
   {
-    path: '/document-settings/',
-    component: DocumentSettings
+    path: '/edit-text-fonts/',
+    component: PageFonts,
+  },
+  {
+    path: '/edit-text-add-formatting/',
+    component: PageAdditionalFormatting,
+  },
+  {
+    path: '/edit-text-bullets/',
+    component: PageBullets,
+  },
+  {
+    path: '/edit-text-numbers/',
+    component: PageNumbers,
+  },
+  {
+    path: '/edit-text-line-spacing/',
+    component: PageLineSpacing,
   },
   {
     path: '/users/',
     component: PageUsers
-  },
-  {
-    path: '/collab-main/',
-    component: PageCollaboration
-  },
-  {
-    path: '/margins/',
-    component: Margins,
-  },
-  {
-    path: '/document-formats/',
-    component: DocumentFormats,
   },
   {
     path: '/left-page-1/',
