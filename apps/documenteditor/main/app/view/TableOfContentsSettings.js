@@ -391,21 +391,30 @@ define([
                 this.stylesContainer = $('#tableofcontents-from-styles');
             }
 
+            var arr = (this.type==1) ? [
+                { displayValue: this.txtCurrent,     value: Asc.c_oAscTOFStylesType.Current },
+                { displayValue: this.txtSimple,     value: Asc.c_oAscTOFStylesType.Simple },
+                { displayValue: this.txtOnline,     value: Asc.c_oAscTOFStylesType.Web },
+                { displayValue: this.txtClassic,     value: Asc.c_oAscTOFStylesType.Classic },
+                { displayValue: this.txtDistinctive,     value: Asc.c_oAscTOFStylesType.Distinctive },
+                { displayValue: this.txtCentered,     value: Asc.c_oAscTOFStylesType.Centered },
+                { displayValue: this.txtFormal,     value: Asc.c_oAscTOFStylesType.Formal }
+            ] : [
+                { displayValue: this.txtCurrent,     value: Asc.c_oAscTOCStylesType.Current },
+                { displayValue: this.txtSimple,     value: Asc.c_oAscTOCStylesType.Simple },
+                { displayValue: this.txtOnline,     value: Asc.c_oAscTOCStylesType.Web },
+                { displayValue: this.txtStandard,     value: Asc.c_oAscTOCStylesType.Standard },
+                { displayValue: this.txtModern,     value: Asc.c_oAscTOCStylesType.Modern },
+                { displayValue: this.txtClassic,     value: Asc.c_oAscTOCStylesType.Classic }
+            ];
             this.cmbStyles = new Common.UI.ComboBox({
                 el: $('#tableofcontents-combo-styles'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 95px;',
                 editable: false,
-                data: [
-                    { displayValue: this.txtCurrent,     value: Asc.c_oAscTOCStylesType.Current },
-                    { displayValue: this.txtSimple,     value: Asc.c_oAscTOCStylesType.Simple },
-                    { displayValue: this.txtOnline,     value: Asc.c_oAscTOCStylesType.Web },
-                    { displayValue: this.txtStandard,     value: Asc.c_oAscTOCStylesType.Standard },
-                    { displayValue: this.txtModern,     value: Asc.c_oAscTOCStylesType.Modern },
-                    { displayValue: this.txtClassic,     value: Asc.c_oAscTOCStylesType.Classic }
-                ]
+                data: arr
             });
-            this.cmbStyles.setValue(Asc.c_oAscTOCStylesType.Current);
+            this.cmbStyles.setValue(this.type==1 ? Asc.c_oAscTOFStylesType.Current : Asc.c_oAscTOCStylesType.Current);
             this.cmbStyles.on('selected', _.bind(function(combo, record) {
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
@@ -739,7 +748,7 @@ define([
                 } else {
                     props.put_Caption(null);
                     var rec = this.cmbTOFStyles.getSelectedRecord();
-                    rec && props.add_Style(rec.displayValue, 0);
+                    rec && props.add_Style(rec.displayValue);
                 }
             } else {
                 if (this._needUpdateOutlineLevels) {
@@ -817,7 +826,7 @@ define([
                 var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                 properties.put_Caption(null);
                 properties.clear_Styles();
-                properties.add_Style(record.displayValue, 0);
+                properties.add_Style(record.displayValue);
                 this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties);
                 this.scrollerY.update();
             }
@@ -873,7 +882,10 @@ define([
         strFullCaption: 'Include label and number',
         textEquation: 'Equation',
         textFigure: 'Figure',
-        textTable: 'Table'
+        textTable: 'Table',
+        txtDistinctive: 'Distinctive',
+        txtCentered: 'Centered',
+        txtFormal: 'Formal'
 
     }, DE.Views.TableOfContentsSettings || {}))
 });
