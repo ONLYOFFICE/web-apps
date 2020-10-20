@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {inject} from "mobx-react";
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeDocumentSettings", "storeFocusObjects", "storeTextSettings")
+@inject("storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -167,6 +167,7 @@ class MainController extends Component {
             storeFocusObjects.resetFocusObjects(objects);
         });
 
+        //text settings
         const storeTextSettings = this.props.storeTextSettings;
         this.api.asc_registerCallback('asc_onInitEditorFonts', (fonts, select) => {
             storeTextSettings.initEditorFonts(fonts, select);
@@ -218,6 +219,16 @@ class MainController extends Component {
             let color = shd.get_Color();
             storeTextSettings.resetBackgroundColor(color);
         });
+
+        //paragraph settings
+        const storeParagraphSettings = this.props.storeParagraphSettings;
+        this.api.asc_registerCallback('asc_onInitEditorStyles', (styles) => {
+            storeParagraphSettings.initEditorStyles(styles);
+        });
+        this.api.asc_registerCallback('asc_onParaStyleName', (name) => {
+            storeParagraphSettings.changeParaStyleName(name);
+        });
+
     }
 
     render() {

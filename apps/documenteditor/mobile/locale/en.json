@@ -45,7 +45,6 @@
     "textAuto": "Auto",
     "textPt": "pt",
     "textSize": "Size",
-    "textAuto": "Auto",
     "textStrikethrough": "Strikethrough",
     "textDoubleStrikethrough": "Double Strikethrough",
     "textSuperscript": "Superscript",
@@ -53,6 +52,19 @@
     "textSmallCaps": "Small Caps",
     "textAllCaps": "All Caps",
     "textLetterSpacing": "Letter Spacing",
-    "textNone": "None"
+    "textNone": "None",
+    "textBackground": "Background",
+    "textAdvancedSettings": "Advanced Settings",
+    "textParagraphStyles": "Paragraph Styles",
+    "textAdvanced": "Advanced",
+    "textDistanceFromText": "Distance from text",
+    "textBefore": "Before",
+    "textAfter": "After",
+    "textFirstLine": "FirstLine",
+    "textSpaceBetweenParagraphs": "Space Between Paragraphs",
+    "textPageBreakBefore": "Page Break Before",
+    "textOrphanControl": "Orphan Control",
+    "textKeepLinesTogether": "Keep Lines Together",
+    "textKeepWithNext": "Keep with Next"
   }
 }

@@ -4,7 +4,7 @@ import { Page, Navbar, NavRight, NavLeft, NavTitle, Link, Sheet, Tabs, Tab, View
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import EditTextController from "./controller/EditText";
-import EditParagraph from "./EditParagraph";
+import EditParagraphController from "./controller/EditParagraph";
 
 const EmptyEditLayout = () => {
     const { t } = useTranslation();
@@ -80,7 +80,7 @@ const EditSheet = props => {
             editors.push({
                 caption: t("Edit.textParagraph"),
                 id: 'edit-paragraph',
-                component: <EditParagraph />
+                component: <EditParagraphController />
             })
         }
         /*if (settings.indexOf('table') > -1) {

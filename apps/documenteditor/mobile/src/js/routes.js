@@ -8,8 +8,9 @@ import RequestAndLoad from '../pages/request-and-load.jsx';
 
 import { PageCollaboration, PageUsers } from '../../../../common/mobile/lib/view/Collaboration.jsx';
 
-// Edit text
+// Edit
 import { PageFonts, PageAdditionalFormatting, PageBullets, PageNumbers, PageLineSpacing } from "../components/edit/EditText";
+import { PageAdvancedSettings } from "../components/edit/EditParagraph";
 
 var routes = [
   {
@@ -36,6 +37,11 @@ var routes = [
   {
     path: '/edit-text-line-spacing/',
     component: PageLineSpacing,
+  },
+    //Edit paragraph
+  {
+    path: '/edit-paragraph-adv/',
+    component: PageAdvancedSettings,
   },
   {
     path: '/users/',
