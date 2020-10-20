@@ -153,7 +153,7 @@ define([
             this.spnMaxChars = new Common.UI.MetricSpinner({
                 el: $markup.findById('#form-spin-max-chars'),
                 step: 1,
-                width: 48,
+                width: 45,
                 defaultUnit : "",
                 value: '10',
                 maxValue: 1000000,
@@ -308,6 +308,7 @@ define([
             }, this));
 
             this.updateMetricUnit();
+            this.UpdateThemeColors();
         },
 
         setApi: function(api) {
@@ -515,6 +516,29 @@ define([
             }
         },
 
+        onColorPickerSelect: function(btn, color) {
+            this.BorderColor = color;
+            this._state.BorderColor = this.BorderColor;
+
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                if (color == 'transparent') {
+                    formTextPr.put_CombBorder();
+                } else {
+                    var brd = formTextPr.get_CombBorder();
+                    if (!brd)
+                        brd = new Asc.asc_CTextBorder();
+                    brd.put_Value(1);
+                    brd.put_Color(Common.Utils.ThemeColor.getRgbColor(color));
+                    formTextPr.put_CombBorder(brd);
+                }
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
@@ -620,6 +644,8 @@ define([
                         this._state.Comb=val;
                     }
 
+                    this.btnColor.setDisabled(!val);
+
                     this.spnWidth.setDisabled(!val);
                     val = formTextPr.get_Width();
                     if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
@@ -631,7 +657,34 @@ define([
                     this.chMaxChars.setValue(val && val>=0);
                     this.spnMaxChars.setDisabled(!val || val<0);
                     this.spnMaxChars.setValue(val && val>=0 ? val : 10);
+
+                    var brd = formTextPr.get_CombBorder();
+                    if (brd) {
+                        var color = brd.get_Color();
+                        if (color) {
+                            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                                this.BorderColor = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                            } else {
+                                this.BorderColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                            }
+                        } else
+                            this.BorderColor = 'transparent';
+                    } else
+                        this.BorderColor = 'transparent';
+
+                    var type1 = typeof(this.BorderColor),
+                        type2 = typeof(this._state.BorderColor);
+                    if ( (type1 !== type2) || (type1=='object' &&
+                        (this.BorderColor.effectValue!==this._state.BorderColor.effectValue || this._state.BorderColor.color.indexOf(this.BorderColor.color)<0)) ||
+                        (type1!='object' && this._state.BorderColor.indexOf(this.BorderColor)<0 )) {
+
+                        this.btnColor.setColor(this.BorderColor);
+                        this.mnuColorPicker.clearSelection();
+                        this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
+                        this._state.BorderColor = this.BorderColor;
+                    }
                 }
+
                 this._noApply = false;
 
                 if (this.type !== type || type == Asc.c_oAscContentControlSpecificType.CheckBox)
@@ -650,6 +703,26 @@ define([
             }
         },
 
+        UpdateThemeColors: function() {
+            if (this._initSettings) return;
+
+            if (!this.btnColor) {
+                this.btnColor = new Common.UI.ColorButton({
+                    parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
+                    transparent: true,
+                    menu        : true
+                });
+                this.lockedControls.push(this.btnColor);
+                this.btnColor.on('color:select', this.onColorPickerSelect.bind(this));
+                this.btnColor.setMenu();
+                this.mnuColorPicker = this.btnColor.getPicker();
+            }
+
+            this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            this.mnuColorPicker.clearSelection();
+            this.BorderColor && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
+        },
+        
         onHideMenus: function(menu, e, isFromInputControl){
             if (!isFromInputControl) this.fireEvent('editcomplete', this);
         },
@@ -735,7 +808,8 @@ define([
         textSelectImage: 'Select Image',
         textFromUrl:    'From URL',
         textFromFile:   'From File',
-        textFromStorage: 'From Storage'
+        textFromStorage: 'From Storage',
+        textColor: 'Border color'
 
     }, DE.Views.FormSettings || {}));
 });
