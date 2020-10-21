@@ -149,6 +149,11 @@ Common.UI.FocusManager = new(function() {
                 _windows[e.cid].fields = register(e.getFocusedComponents());
                 addTraps(_windows[e.cid]);
             }
+
+            if (e && e.getDefaultFocusableComponent())
+                setTimeout(function(){
+                    e.getDefaultFocusableComponent().focus();
+                }, 100);
         },
         'modal:close': function(e, last) {
             if (e && e.cid && _windows[e.cid]) {
