@@ -214,7 +214,7 @@ define([
                 }
 
                 if (/^[a-fA-F0-9]{6}|transparent$/.test(color) || _.indexOf(Common.Utils.ThemeColor.getStandartColors(), color) > -1 || _.indexOf(this.dynamicColors, color) > -1) {
-                    el.find('.color-palette a[data-color=' + color + ']').first().addClass('active');
+                    el.find('.standart-colors a[data-color=' + color + '], .dynamic-colors a[data-color=' + color + ']').first().addClass('active');
                 }
 
             }
