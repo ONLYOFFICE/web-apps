@@ -449,6 +449,8 @@
   "SSE.Controllers.DocumentHolder.txtUndoExpansion": "Undo table autoexpansion",
   "SSE.Controllers.DocumentHolder.txtUseTextImport": "Use text import wizard",
   "SSE.Controllers.DocumentHolder.txtWidth": "Width",
+  "SSE.Controllers.DocumentHolder.textStopExpand": "Stop automatically expanding tables",
+  "SSE.Controllers.DocumentHolder.textAutoCorrectSettings": "AutoCorrect options",
   "SSE.Controllers.FormulaDialog.sCategoryAll": "All",
   "SSE.Controllers.FormulaDialog.sCategoryCube": "Cube",
   "SSE.Controllers.FormulaDialog.sCategoryDatabase": "Database",

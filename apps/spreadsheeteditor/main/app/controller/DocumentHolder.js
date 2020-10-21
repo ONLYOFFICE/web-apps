@@ -2666,8 +2666,8 @@ define([
             // Prepare menu container
             if (pasteContainer.length < 1) {
                 me._arrAutoCorrectPaste = [];
-                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.UndoTableAutoExpansion] = me.txtUndoExpansion;
-                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.RedoTableAutoExpansion] = me.txtRedoExpansion;
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.UndoTableAutoExpansion] = {caption: me.txtUndoExpansion, icon: 'menu__icon btn-undo'};
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.RedoTableAutoExpansion] = {caption: me.txtRedoExpansion, icon: 'menu__icon btn-redo'};
 
                 pasteContainer = $('<div id="autocorrect-paste-container" style="position: absolute;"><div id="id-document-holder-btn-autocorrect-paste"></div></div>');
                 documentHolderView.cmpEl.append(pasteContainer);
@@ -2675,9 +2675,10 @@ define([
                 me.btnAutoCorrectPaste = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-autocorrect-paste'),
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-paste',
-                    menu        : new Common.UI.Menu({items: []})
+                    iconCls     : 'toolbar__icon btn-autocorrect',
+                    menu        : new Common.UI.Menu({cls: 'shifted-right', items: []})
                 });
+                me.btnAutoCorrectPaste.menu.on('show:after', _.bind(me.onAutoCorrectOpenAfter, me));
             }
 
             if (pasteItems.length>0) {
@@ -2690,14 +2691,32 @@ define([
                 var group_prev = -1;
                 _.each(pasteItems, function(menuItem, index) {
                     var mnu = new Common.UI.MenuItem({
-                        caption: me._arrAutoCorrectPaste[menuItem],
-                        value: menuItem
+                        caption: me._arrAutoCorrectPaste[menuItem].caption,
+                        value: menuItem,
+                        iconCls: me._arrAutoCorrectPaste[menuItem].icon
                     }).on('click', function(item, e) {
                         me.api.asc_applyAutoCorrectOptions(item.value);
                         setTimeout(function(){menu.hide();}, 100);
                     });
                     menu.addItem(mnu);
                 });
+                me.mnuAutoCorrectStop = new Common.UI.MenuItem({
+                    caption: me.textStopExpand,
+                    checkable: true,
+                    allowDepress: true,
+                    checked: !Common.Utils.InternalSettings.get("sse-settings-autoformat-new-rows")
+                }).on('click', function(item){
+                    Common.localStorage.setBool("sse-settings-autoformat-new-rows", !item.checked);
+                    Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", !item.checked);
+                    me.api.asc_setIncludeNewRowColTable(!item.checked);
+                    setTimeout(function(){menu.hide();}, 100);
+                });
+                menu.addItem(me.mnuAutoCorrectStop);
+                menu.addItem({caption: '--'});
+                var mnu = new Common.UI.MenuItem({
+                    caption: me.textAutoCorrectSettings
+                }).on('click', _.bind(me.onAutoCorrectOptions, me));
+                menu.addItem(mnu);
             }
 
             var width = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
@@ -3487,6 +3506,20 @@ define([
             }
         },
 
+        onAutoCorrectOpenAfter: function(menu) {
+            this.mnuAutoCorrectStop && this.mnuAutoCorrectStop.setChecked(!Common.Utils.InternalSettings.get("sse-settings-autoformat-new-rows"));
+        },
+
+        onAutoCorrectOptions: function() {
+            var win = (new Common.Views.AutoCorrectDialog({
+                api: this.api
+            }));
+            if (win) {
+                win.show();
+                win.setActiveCategory(2);
+            }
+        },
+        
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
             this._canProtect = canProtect;
@@ -3638,7 +3671,9 @@ define([
         txtBlanks: '(Blanks)',
         txtColumn: 'Column',
         txtImportWizard: 'Text Import Wizard',
-        textPasteSpecial: 'Paste special'
+        textPasteSpecial: 'Paste special',
+        textStopExpand: 'Stop automatically expanding tables',
+        textAutoCorrectSettings: 'AutoCorrect options'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });
