@@ -1,26 +1,61 @@
 import React, {useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import { Page, Navbar, NavRight, NavLeft, NavTitle, Link, Sheet, Tabs, Tab, View } from 'framework7-react';
+import { Popover, Sheet, View, Page, Navbar, NavRight, NavLeft, NavTitle, Tabs, Tab, Link } from 'framework7-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import {Device} from '../../../../../common/mobile/utils/device';
+
 import EditTextController from "./controller/EditText";
 import EditParagraphController from "./controller/EditParagraph";
+import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers} from "./EditText";
+import {PageAdvancedSettings} from "./EditParagraph";
+
+const routes = [
+    //Edit text
+    {
+        path: '/edit-text-fonts/',
+        component: PageFonts,
+    },
+    {
+        path: '/edit-text-add-formatting/',
+        component: PageAdditionalFormatting,
+    },
+    {
+        path: '/edit-text-bullets/',
+        component: PageBullets,
+    },
+    {
+        path: '/edit-text-numbers/',
+        component: PageNumbers,
+    },
+    {
+        path: '/edit-text-line-spacing/',
+        component: PageLineSpacing,
+    },
+    //Edit paragraph
+    {
+        path: '/edit-paragraph-adv/',
+        component: PageAdvancedSettings,
+    }
+];
 
 const EmptyEditLayout = () => {
     const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
     return (
         <Page>
             <div className="content-block inset">
                 <div className="content-block-inner">
-                    <p>{t("Edit.textSelectObjectToEdit")}</p>
+                    <p>{_t.textSelectObjectToEdit}</p>
                 </div>
             </div>
         </Page>
     )
 };
 
-const EditLayoutNavbar = ({ editors }) => {
+const EditLayoutNavbar = ({ editors, inPopover }) => {
     const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
     return (
         <Navbar>
         {
@@ -30,9 +65,7 @@ const EditLayoutNavbar = ({ editors }) => {
                 </NavLeft> :
                 <NavTitle>{ editors[0].caption }</NavTitle>
         }
-            <NavRight>
-                <Link sheetClose>{t("Edit.textClose")}</Link>
-            </NavRight>
+        { !inPopover && <NavRight><Link sheetClose>{_t.textClose}</Link></NavRight> }
         </Navbar>
     )
 };
@@ -57,70 +90,71 @@ const EditLayoutContent = ({ editors }) => {
     }
 };
 
-const EditSheet = props => {
+const EditTabs = props => {
     const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
 
     const settings = props.storeFocusObjects.settings;
     const headerType = props.storeFocusObjects.headerType;
     let editors = [];
     if (settings.length < 1) {
         editors.push({
-            caption: t("Edit.textSettings"),
+            caption: _t.textSettings,
             component: <EmptyEditLayout />
         });
     } else {
         if (settings.indexOf('text') > -1) {
             editors.push({
-                caption: t("Edit.textText"),
+                caption: _t.textText,
                 id: 'edit-text',
                 component: <EditTextController />
             })
         }
         if (settings.indexOf('paragraph') > -1) {
             editors.push({
-                caption: t("Edit.textParagraph"),
+                caption: _t.textParagraph,
                 id: 'edit-paragraph',
                 component: <EditParagraphController />
             })
         }
         /*if (settings.indexOf('table') > -1) {
             editors.push({
-                caption: t("Edit.textTable"),
+                caption: _t.textTable,
                 id: 'edit-table',
                 component: <EditTable />
             })
         }
         if (settings.indexOf('header') > -1) {
             editors.push({
-                caption: headerType==2 ? t("Edit.textFooter") : t("Edit.textHeader"),
+                caption: headerType==2 ? _t.textFooter : _t.textHeader,
                 id: 'edit-header',
                 component: <EditHeader />
             })
         }
         if (settings.indexOf('shape') > -1) {
             editors.push({
-                caption: t("Edit.textShape"),
+                caption: _t.textShape,
                 id: 'edit-shape',
                 component: <EditShape />
             })
         }
         if (settings.indexOf('image') > -1) {
             editors.push({
-                caption: t("Edit.textImage"),
+                caption: _t.textImage,
                 id: 'edit-image',
                 component: <EditImage />
             })
         }
         if (settings.indexOf('chart') > -1) {
             editors.push({
-                caption: t("Edit.textChart"),
+                caption: _t.textChart,
                 id: 'edit-chart',
                 component: <EditChart />
             })
         }
         if (settings.indexOf('hyperlink') > -1) {
             editors.push({
-                caption: t("Edit.textHyperlink"),
+                caption: _t.textHyperlink,
                 id: 'edit-link',
                 component: <EditHyperlink />
             })
@@ -128,34 +162,52 @@ const EditSheet = props => {
     }
 
     return (
-        <Sheet className="edit__sheet" push onSheetClosed={e => props.onclosed()}>
-            <View>
-                <Page pageContent={false}>
-                    <EditLayoutNavbar editors={editors} />
-                    <EditLayoutContent editors={editors} />
-                </Page>
-            </View>
-        </Sheet>
+        <View style={props.style} stackPages={true} routes={routes}>
+            <Page pageContent={false}>
+                <EditLayoutNavbar editors={editors} inPopover={props.inPopover}/>
+                <EditLayoutContent editors={editors} />
+            </Page>
+        </View>
+
     )
 };
 
-const HOC_EditSheet = inject("storeFocusObjects")(observer(EditSheet));
+const EditTabsContainer = inject("storeFocusObjects")(observer(EditTabs));
+
+const EditView = props => {
+    const onOptionClick = (page) => {
+        $f7.views.current.router.navigate(page);
+    };
+    const show_popover = props.usePopover;
+    return (
+        show_popover ?
+            <Popover id="edit-popover" className="popover__titled" onPopoverClosed={() => props.onClosed()}>
+                <EditTabsContainer inPopover={true} onOptionClick={onOptionClick} style={{height: '410px'}} />
+            </Popover> :
+            <Sheet id="edit-sheet" push onSheetClosed={() => props.onClosed()}>
+                <EditTabsContainer onOptionClick={onOptionClick} />
+            </Sheet>
+    )
+};
 
 const EditOptions = props => {
     useEffect(() => {
-        f7.sheet.open('.edit__sheet');
+        if ( Device.phone )
+            f7.sheet.open('#edit-sheet');
+        else f7.popover.open('#edit-popover', '#btn-edit');
 
         return () => {
             // component will unmount
         }
     });
 
-    const onsheetclosed = () => {
-        if ( props.onclosed ) props.onclosed();
+    const onviewclosed = () => {
+        if ( props.onclosed )
+            props.onclosed();
     };
 
     return (
-        <HOC_EditSheet onclosed={onsheetclosed} />
+        <EditView usePopover={!Device.phone} onClosed={onviewclosed} />
     )
 };
 
