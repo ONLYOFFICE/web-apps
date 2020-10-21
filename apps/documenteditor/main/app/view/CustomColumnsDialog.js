@@ -129,13 +129,17 @@ define([
 
             this.updateMetricUnit();
 
-            setTimeout(function(){
-                me.spnColumns.focus();
-            }, 100);
+            // setTimeout(function(){
+                // me.spnColumns.focus();
+            // }, 100);
         },
 
         getFocusedComponents: function() {
             return [this.spnColumns, this.spnSpacing];
+        },
+
+        getDefaultFocusedComponent: function () {
+            return this.spnColumns;
         },
 
         _handleInput: function(state) {

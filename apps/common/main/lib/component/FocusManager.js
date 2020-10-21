@@ -143,6 +143,11 @@ Common.UI.FocusManager = new(function() {
                     updateTabIndexes(true);
                 }
             }
+
+            if ( e.getDefaultFocusedComponent )
+                setTimeout(function(){
+                    e.getDefaultFocusedComponent().focus();
+                }, 100);
         },
         'window:show': function(e){
             if (e && e.cid && _windows[e.cid] && !_windows[e.cid].fields) {
