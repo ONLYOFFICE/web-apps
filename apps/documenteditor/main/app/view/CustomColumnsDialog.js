@@ -128,17 +128,13 @@ define([
             this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
-
-            // setTimeout(function(){
-                // me.spnColumns.focus();
-            // }, 100);
         },
 
         getFocusedComponents: function() {
             return [this.spnColumns, this.spnSpacing];
         },
 
-        getDefaultFocusedComponent: function () {
+        getDefaultFocusableComponent: function () {
             return this.spnColumns;
         },
 

@@ -341,7 +341,7 @@ define([
             return [this.cmbFormat, this.cmbAlign, this.cmbSize, {cmp: this.levelsList, selector: '.listview'}];
         },
 
-        getDefaultFocusedComponent: function () {
+        getDefaultFocusableComponent: function () {
             return this.type > 0 ? this.cmbFormat : this.cmbAlign;
         },
 
@@ -360,11 +360,6 @@ define([
 
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
-
-            // var me = this;
-            // _.delay(function(){
-            //     (me.type>0) ? me.cmbFormat.focus() : me.cmbAlign.focus();
-            // },100);
         },
 
         updateThemeColors: function() {
