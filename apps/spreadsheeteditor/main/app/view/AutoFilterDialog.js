@@ -193,15 +193,8 @@ define([
             return [this.cmbCondition1, this.cmbValue1, this.cmbCondition2, this.cmbValue2];
         },
 
-        show: function () {
-            Common.UI.Window.prototype.show.call(this);
-
-            var me  = this;
-            _.defer(function () {
-                if (me.cmbValue1) {
-                    me.cmbValue1.focus();
-                }
-            }, 500);
+        getDefaultFocusableComponent: function () {
+            return this.cmbValue1;
         },
 
         close: function () {
@@ -418,15 +411,8 @@ define([
             return [this.cmbType, this.spnCount, this.cmbItem, this.cmbFields];
         },
 
-        show: function () {
-            Common.UI.Window.prototype.show.call(this);
-
-            var me  = this;
-            _.defer(function () {
-                if (me.spnCount) {
-                    me.spnCount.focus();
-                }
-            }, 500);
+        getDefaultFocusableComponent: function () {
+            return this.spnCount;
         },
 
         close: function () {
@@ -661,15 +647,8 @@ define([
             return [this.cmbFields, this.cmbCondition1, this.inputValue, this.inputValue2];
         },
 
-        show: function () {
-            Common.UI.Window.prototype.show.call(this);
-
-            var me  = this;
-            _.defer(function () {
-                if (me.inputValue) {
-                    me.inputValue.focus();
-                }
-            }, 500);
+        getDefaultFocusableComponent: function () {
+            return this.inputValue;
         },
 
         close: function () {

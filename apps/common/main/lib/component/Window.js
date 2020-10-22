@@ -985,7 +985,6 @@ define([
             },
 
             getDefaultFocusableComponent: function() {
-                return undefined;
             },
 
             cancelButtonText: 'Cancel',

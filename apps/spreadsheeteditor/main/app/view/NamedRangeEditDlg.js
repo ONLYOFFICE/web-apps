@@ -179,17 +179,19 @@ define([
             return [this.inputName, this.cmbScope, this.txtDataRange];
         },
 
+        getDefaultFocusableComponent: function () {
+            if (this._alreadyRendered) return; // focus only at first show
+            this._alreadyRendered = true;
+            return this.inputName;
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
             this.setTitle((this.isEdit) ? this.txtTitleEdit : this.txtTitleNew);
 
             this.api.asc_registerCallback('asc_onLockDefNameManager', this.wrapEvents.onLockDefNameManager);
             this.api.asc_registerCallback('asc_onRefreshDefNameList', this.wrapEvents.onRefreshDefNameList);
-
-            var me = this;
-            _.delay(function(){
-                me.inputName.focus();
-            },200);        },
+        },
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);

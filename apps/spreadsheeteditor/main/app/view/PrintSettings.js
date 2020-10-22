@@ -276,16 +276,17 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             var value = Common.localStorage.getItem("sse-hide-print-settings");
             this.extended = (value!==null && parseInt(value)==0);
             this.handlerShowDetails(this.btnHide);
-
-            var me = this;
-            setTimeout(function(){
-                me.cmbRange.focus();
-            },100);
         },
 
         getFocusedComponents: function() {
             return [this.cmbRange, this.cmbSheet, this.cmbPaperSize, this.cmbPaperOrientation, this.cmbLayout, this.txtRangeTop, this.txtRangeLeft,
                     this.spnMarginTop, this.spnMarginBottom, this.spnMarginLeft, this.spnMarginRight];
+        },
+
+        getDefaultFocusableComponent: function () {
+            if (this._alreadyRendered) return; // focus only at first show
+            this._alreadyRendered = true;
+            return this.cmbRange;
         },
 
         addCustomScale: function (add) {

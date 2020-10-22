@@ -105,15 +105,14 @@ define([
             });
 //            this.udColumns.on('entervalue', _.bind(this.onPrimary, this));
 //            this.udRows.on('entervalue', _.bind(this.onPrimary, this));
-            var me = this;
-            setTimeout(function(){
-                me.udColumns.focus();
-            }, 100);
-
         },
 
         getFocusedComponents: function() {
             return [this.udColumns, this.udRows];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.udColumns;
         },
 
         onBtnClick: function(event) {

@@ -191,21 +191,20 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             return [ this.cmbFormat, this.cmbLang, this.inputFixed, this.inputFooter ];
         },
 
-        focusControls: function() {
-            var me = this;
-            setTimeout(function(){
-                if (!me.cmbFormat.isDisabled())
-                    me.cmbFormat.focus();
-                else if (!me.inputFixed.isDisabled())
-                    me.inputFixed.focus();
-                else if (!me.inputFooter.isDisabled())
-                    me.inputFooter.focus();
-            }, 10);
+        getDefaultFocusableComponent: function () {
+            if (!this.cmbFormat.isDisabled())
+                return this.cmbFormat;
+            else if (!this.inputFixed.isDisabled())
+                return this.inputFixed;
+            else if (!this.inputFooter.isDisabled())
+                return this.inputFooter;
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
-            this.focusControls();
+        focusControls: function() {
+            var el = this.getDefaultFocusableComponent();
+            el && setTimeout(function(){
+                el.focus();
+            }, 10);
         },
 
         afterRender: function() {

@@ -129,13 +129,8 @@ define([
             return [this.inputName, this.inputValue];
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                me.inputName.focus();
-            },50);
+        getDefaultFocusableComponent: function () {
+            return this.inputName;
         },
 
         onPrimary: function(event) {

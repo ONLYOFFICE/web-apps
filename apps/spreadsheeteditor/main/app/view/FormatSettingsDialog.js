@@ -255,12 +255,12 @@ define([
             return [this.cmbFormat, this.spnDecimal, this.cmbSymbols, this.cmbNegative, this.cmbType, this.cmbCode];
         },
 
+        getDefaultFocusableComponent: function () {
+            return this.cmbFormat;
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
-            var cmp = this.cmbFormat;
-            setTimeout(function(){
-                (cmp.$el || $(cmp.el)).find('.form-control').focus();
-            }, 10);
         },
 
         show: function() {

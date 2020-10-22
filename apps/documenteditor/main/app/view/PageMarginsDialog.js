@@ -306,15 +306,14 @@ define([
             this.window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
-
-            var me = this;
-            setTimeout(function(){
-                me.spnTop.focus();
-            }, 100);
         },
 
         getFocusedComponents: function() {
             return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnTop;
         },
 
         _handleInput: function(state) {

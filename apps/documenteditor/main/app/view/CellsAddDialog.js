@@ -127,15 +127,14 @@ define([
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-
-            var me = this;
-            setTimeout(function(){
-                me.spnCount.focus();
-            }, 100);
         },
 
         getFocusedComponents: function() {
             return [this.cmbRowCol, this.spnCount];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnCount;
         },
 
         _handleInput: function(state) {

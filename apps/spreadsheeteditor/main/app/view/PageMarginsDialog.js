@@ -146,16 +146,15 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
-            var cmp = this.spnTop;
-            setTimeout(function(){
-                (cmp.$el || $(cmp.el)).find('.form-control').focus();
-            }, 10);
-
             this.updateMetricUnit();
         },
 
         getFocusedComponents: function() {
             return this.spinners;
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnTop;
         },
 
         _handleInput: function(state) {

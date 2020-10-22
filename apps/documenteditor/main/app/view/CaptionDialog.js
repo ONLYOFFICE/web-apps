@@ -350,17 +350,12 @@ define([
             return [this.txtCaption, this.cmbPosition, this.cmbLabel, this.cmbNumbering, this.cmbChapter, this.cmbSeparator];
         },
 
-        afterRender: function() {
-            this._setDefaults(this.props);
-
-            var me = this;
-            setTimeout(function(){
-                me.txtCaption.focus();
-            }, 100);
+        getDefaultFocusableComponent: function () {
+            return this.txtCaption;
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         close: function() {

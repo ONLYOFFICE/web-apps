@@ -167,15 +167,14 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
-
-            var me = this;
-            setTimeout(function(){
-                me.cmbPreset.focus();
-            }, 100);
         },
 
         getFocusedComponents: function() {
             return [this.cmbPreset, this.spnWidth, this.spnHeight];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbPreset;
         },
 
         _handleInput: function(state) {

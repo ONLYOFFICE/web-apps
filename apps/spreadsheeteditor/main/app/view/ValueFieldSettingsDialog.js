@@ -192,22 +192,18 @@ define([
             this.lblSourceName = this.$window.find('#value-field-settings-source');
 
             this.afterRender();
-
-            setTimeout(function(){
-                me.inputCustomName.focus();
-            },100);
         },
 
         getFocusedComponents: function() {
             return [this.inputCustomName, this.cmbSummarize];
         },
 
-        afterRender: function() {
-            this._setDefaults(this.props);
+        getDefaultFocusableComponent: function () {
+            return this.inputCustomName;
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         _setDefaults: function (props) {

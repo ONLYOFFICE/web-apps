@@ -128,6 +128,10 @@ define([
             return [this.inputSearch, this.cmbFuncGroup, {cmp: this.cmbListFunctions, selector: '.listview'}];
         },
 
+        getDefaultFocusableComponent: function () {
+            return this.inputSearch;
+        },
+
         show: function (group) {
             if (this.$window) {
                 var main_width, main_height, top, left, win_height = this.initConfig.height;
@@ -152,13 +156,7 @@ define([
             group && this.cmbFuncGroup.setValue(group);
             (group || this.cmbFuncGroup.getValue()=='Last10') && this.fillFunctions(this.cmbFuncGroup.getValue());
 
-            if (this.cmbListFunctions) {
-                this.inputSearch.setValue('');
-                var me = this;
-                setTimeout(function () {
-                    me.inputSearch.$el.find('input').focus();
-                }, 100);
-            }
+            this.inputSearch.setValue('');
             this._preventCloseCellEditor = false;
         },
 

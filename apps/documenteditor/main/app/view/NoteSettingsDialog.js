@@ -286,17 +286,12 @@ define([
             return [this.cmbFootnote, this.cmbEndnote, this.cmbFormat, this.spnStart, this.cmbNumbering, this.txtCustom, this.cmbApply];
         },
 
-        afterRender: function() {
-            this._setDefaults(this.props);
-
-            var me = this;
-            setTimeout(function(){
-                me.cmbFormat.focus();
-            }, 100);
+        getDefaultFocusableComponent: function () {
+            return this.cmbFormat;
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         _setDefaults: function (props) {

@@ -173,14 +173,14 @@ define([
             });
 
             this._setDefaults();
-
-            setTimeout(function(){
-                me.cmbLang.focus();
-            }, 100);
         },
 
         getFocusedComponents: function() {
             return [this.cmbLang, {cmp: this.listFormats, selector: '.listview'}];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbLang;
         },
 
         _setDefaults: function () {

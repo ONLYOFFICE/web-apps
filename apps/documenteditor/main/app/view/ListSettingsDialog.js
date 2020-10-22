@@ -358,10 +358,6 @@ define([
             });
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
-        },
-
         updateThemeColors: function() {
             this.colors.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },

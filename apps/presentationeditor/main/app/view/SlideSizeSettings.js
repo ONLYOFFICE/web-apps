@@ -202,15 +202,14 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
-
-            var me = this;
-            setTimeout(function(){
-                me.cmbSlideSize.focus();
-            }, 100);
         },
 
         getFocusedComponents: function() {
             return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbSlideSize;
         },
 
         _handleInput: function(state) {

@@ -184,14 +184,16 @@ define([
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
             this.setSettings();
-
-            setTimeout(function(){
-                me.txtRangeTop.focus();
-            },100);
         },
 
         getFocusedComponents: function() {
             return [this.txtRangeTop, this.txtRangeLeft];
+        },
+
+        getDefaultFocusableComponent: function () {
+            if (this._alreadyRendered) return; // focus only at first show
+            this._alreadyRendered = true;
+            return this.txtRangeTop;
         },
 
         isRangeValid: function() {

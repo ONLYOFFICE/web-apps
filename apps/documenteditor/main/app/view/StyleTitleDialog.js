@@ -115,13 +115,8 @@ define([
             return [this.inputTitle, this.cmbNextStyle];
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                me.inputTitle.focus();
-            },500);
+        getDefaultFocusableComponent: function () {
+            return this.inputTitle;
         },
 
         getTitle: function () {

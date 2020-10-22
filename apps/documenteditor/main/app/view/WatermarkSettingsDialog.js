@@ -387,13 +387,17 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             return [ this.cmbLang, this.cmbText, this.cmbFonts, this.cmbFontSize, this.cmbScale ];
         },
 
+        getDefaultFocusableComponent: function () {
+            if (!this.cmbLang.isDisabled())
+                return this.cmbLang;
+            else if (!this.cmbScale.isDisabled())
+                return this.cmbScale;
+        },
+
         focusControls: function() {
-            var me = this;
-            setTimeout(function(){
-                if (!me.cmbLang.isDisabled())
-                    me.cmbLang.focus();
-                else if (!me.cmbScale.isDisabled())
-                    me.cmbScale.focus();
+            var el = this.getDefaultFocusableComponent();
+            el && setTimeout(function(){
+                el.focus();
             }, 10);
         },
 
@@ -453,14 +457,9 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
-
-            this.focusControls();
-        },
-
         loadLanguages: function() {
-            var me = this;
+            var me = this,
+                focus = false;
             var callback = function(languages) {
                 var data = [];
                 me.languages = languages;
@@ -478,8 +477,10 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     me.text && me.cmbText.setValue(me.text);
                 } else
                     me.cmbLang.setDisabled(true);
+                focus && me.focusControls();
             };
             var languages = DE.Views.WatermarkText.get();
+            focus = !languages;
             if (languages)
                 callback(languages);
             else

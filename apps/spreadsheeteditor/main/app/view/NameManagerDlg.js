@@ -175,12 +175,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             return [ this.cmbFilter, {cmp: this.rangeList, selector: '.listview'} ];
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
-            var me = this;
-            _.delay(function () {
-                me.rangeList.focus();
-            }, 100, me);
+        getDefaultFocusableComponent: function () {
+            return this.rangeList;
         },
 
         afterRender: function() {

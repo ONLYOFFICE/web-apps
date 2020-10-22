@@ -169,17 +169,12 @@ define([
             return [this.inputFormula, this.cmbFormat, this.cmbFunction, this.cmbBookmark];
         },
 
-        onSelectItem: function(picker, item, record, e){
-            this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
+        getDefaultFocusableComponent: function () {
+            return this.inputFormula;
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                me.inputFormula.focus();
-            },500);
+        onSelectItem: function(picker, item, record, e){
+            this.btnOk.setDisabled(record.get('level')==0 && record.get('index')>0);
         },
 
         afterRender: function() {

@@ -171,6 +171,10 @@ define([
             return [this.cmbScaleWidth, this.cmbScaleHeight, this.spnScale];
         },
 
+        getDefaultFocusableComponent: function () {
+            return this.radioScaleTo.getValue() ? this.spnScale : this.cmbScaleWidth;
+        },
+
         afterRender: function() {
             this._setDefaults(this._originalProps);
         },
@@ -256,13 +260,6 @@ define([
                 }
 
                 this.spnScale.setValue((scale !== null && scale !== undefined) ? scale : '', true);
-                var me = this;
-                setTimeout(function(){
-                    if (me.radioScaleTo.getValue())
-                        me.spnScale.focus();
-                    else
-                        me.cmbScaleWidth.focus();
-                },100);
             }
         },
 

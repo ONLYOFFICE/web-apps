@@ -255,10 +255,6 @@ define([
             return [this.inputUrl, {cmp: this.internalList, selector: '.treeview'}, this.inputRange, this.inputDisplay, this.inputTip];
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
-        },
-
         setSettings: function(settings) {
             if (settings) {
                 var me = this;

@@ -168,17 +168,14 @@ define([
             return [this.txtSourceRange, this.txtDestRange];
         },
 
-        afterRender: function() {
-            this._setDefaults(this.props);
-
-            var me = this;
-            _.delay(function(){
-                me.txtSourceRange.focus();
-            },50);
+        getDefaultFocusableComponent: function () {
+            if (this._alreadyRendered) return; // focus only at first show
+            this._alreadyRendered = true;
+            return this.txtSourceRange;
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         _setDefaults: function (props) {

@@ -150,6 +150,10 @@ define([
             return [this.spinR, this.spinG, this.spinB, {cmp: this.textColor, selector: 'input'}];
         },
 
+        getDefaultFocusableComponent: function () {
+            return this.getChild('#extended-text-color');
+        },
+
         onChangeColor: function(o, color) {
             this.colorNew.css({'background-color' : color});
 
@@ -270,15 +274,6 @@ define([
             me.spinB.setValue(parseInt(values[3], 16));
             me.textColor.setValue((values[1]+values[2]+values[3]).toUpperCase());
             me.stopevents = false;
-        },
-
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                me.getChild('#extended-text-color').focus();
-            },50);
         },
 
         onPrimary: function() {
