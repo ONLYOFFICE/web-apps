@@ -80,7 +80,7 @@
             }
 
             function getDocumentData(urlParams) {
-                return {
+                let docparams = {
                     key: urlParams["key"],
                     url: urlParams["url"] || '_offline_',
                     title: urlParams["title"],
@@ -91,6 +91,11 @@
                         download: true
                     }
                 };
+                
+                if (urlParams['mode'] == 'review')
+                    docparams.permissions.edit = !(docparams.permissions.review = true);
+
+                return docparams;
             }
 
             function getEditorConfig(urlParams) {
