@@ -1230,7 +1230,7 @@
   "SSE.Views.AutoFilterDialog.txtLess": "Меньше...",
   "SSE.Views.AutoFilterDialog.txtLessEquals": "Меньше или равно...",
   "SSE.Views.AutoFilterDialog.txtNotBegins": "Не начинается с...",
-  "SSE.Views.AutoFilterDialog.txtNotBetween": "не между...",
+  "SSE.Views.AutoFilterDialog.txtNotBetween": "Не между...",
   "SSE.Views.AutoFilterDialog.txtNotContains": "Не содержит...",
   "SSE.Views.AutoFilterDialog.txtNotEnds": "Не оканчивается на...",
   "SSE.Views.AutoFilterDialog.txtNotEquals": "Не равно...",
