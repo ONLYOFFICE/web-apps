@@ -254,12 +254,12 @@ define([
             var me = this;
 
             if (me.sheets.length == 1) {
-                uiApp.alert(me.errorLastSheet);
+                uiApp.alert(me.errorLastSheet, me.notcriticalErrorTitle);
             } else {
-                uiApp.confirm(me.warnDeleteSheet, undefined, _.buffered(function() {
+                uiApp.confirm(me.warnDeleteSheet, me.notcriticalErrorTitle, _.buffered(function() {
                     if ( !me.api.asc_deleteWorksheet() ) {
                         _.defer(function(){
-                            uiApp.alert(me.errorRemoveSheet);
+                            uiApp.alert(me.errorRemoveSheet, me.notcriticalErrorTitle);
                         });
                     }
                 }, 300));
@@ -269,7 +269,7 @@ define([
         hideWorksheet: function(hide, index) {
             if ( hide ) {
                 this.sheets.length == 1 ?
-                    uiApp.alert(this.errorLastSheet) :
+                    uiApp.alert(this.errorLastSheet, this.notcriticalErrorTitle) :
                     this.api['asc_hideWorksheet']([index]);
             } else {
                 this.api['asc_showWorksheet'](index);

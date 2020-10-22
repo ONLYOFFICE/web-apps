@@ -467,8 +467,8 @@ define([
             textDeleteDraft: 'Do you really want to delete draft?',
             textCancel: 'Cancel',
             //textContinue: 'Continue',
-            textDelete: 'Delete'
-
+            textDelete: 'Delete',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), DE.Controllers.AddOther || {}))
 });

@@ -174,10 +174,10 @@ define([
                         if ((/((^https?)|(^ftp)):\/\/.+/i.test(url))) {
                             SSE.getController('AddContainer').hideModal();
                         } else {
-                            uiApp.alert(me.txtNotUrl);
+                            uiApp.alert(me.txtNotUrl, me.notcriticalErrorTitle);
                         }
                     } else {
-                        uiApp.alert(me.textEmptyImgUrl);
+                        uiApp.alert(me.textEmptyImgUrl, me.notcriticalErrorTitle);
                     }
                 } else {
                     SSE.getController('AddContainer').hideModal();
@@ -202,7 +202,8 @@ define([
             textDeleteDraft: 'Do you really want to delete draft?',
             textCancel: 'Cancel',
             //textContinue: 'Continue',
-            textDelete: 'Delete'
+            textDelete: 'Delete',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), SSE.Controllers.AddOther || {}))
 });

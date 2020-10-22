@@ -200,7 +200,7 @@ define([
                         isValidRange = /^[A-Z]+[1-9]\d*$/.test(range);
 
                     if (!isValidRange) {
-                        uiApp.alert(me.textInvalidRange);
+                        uiApp.alert(me.textInvalidRange, me.notcriticalErrorTitle);
                         return;
                     }
 
@@ -214,7 +214,7 @@ define([
                         var urlType = me.api.asc_getUrlType($.trim(url));
 
                         if (urlType < 1) {
-                            uiApp.alert(me.txtNotUrl);
+                            uiApp.alert(me.txtNotUrl, me.notcriticalErrorTitle);
                             return;
                         }
 
@@ -253,7 +253,8 @@ define([
             textDefault: 'Selected range',
             textInvalidRange: 'Invalid cells range',
             textEmptyImgUrl: 'You need to specify image URL.',
-            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
+            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), SSE.Controllers.EditHyperlink || {}))
 });
