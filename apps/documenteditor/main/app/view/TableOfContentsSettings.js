@@ -164,13 +164,14 @@ define([
                 value: 'checked'
             });
             this.chPages.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                var checked = (field.getValue()=='checked');
-                this.chAlign.setDisabled(!checked);
-                this.cmbLeader.setDisabled(!checked);
+                var checked = (field.getValue()=='checked'),
+                    centered = (this.type==1) && (this.cmbStyles.getValue()==Asc.c_oAscTOFStylesType.Centered);
+                this.chAlign.setDisabled(!checked || centered);
+                this.cmbLeader.setDisabled(!checked || centered);
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_ShowPageNumbers(checked);
-                    if (checked) {
+                    if (checked && !centered) {
                         properties.put_RightAlignTab(this.chAlign.getValue() == 'checked');
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
@@ -419,6 +420,14 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_StylesType(record.value);
+                    if (this.type==1) {
+                        var checked = (record.value!==Asc.c_oAscTOFStylesType.Centered);
+                        this.chAlign.setValue(checked, true);
+                        this.chAlign.setDisabled(!checked);
+                        this.cmbLeader.setDisabled(!checked);
+                        properties.put_RightAlignTab(checked);
+                        checked && properties.put_TabLeader(this.cmbLeader.getValue());
+                    }
                     (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
@@ -469,6 +478,8 @@ define([
                         value = props.get_TabLeader();
                         (value!==undefined) && this.cmbLeader.setValue(value);
                     }
+                } else {
+                    (this.type==1) && (this.cmbStyles.getValue()==Asc.c_oAscTOFStylesType.Centered) && this.chAlign.setValue(false);
                 }
             }
 
