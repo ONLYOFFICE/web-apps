@@ -158,8 +158,19 @@
                 <div class="group">
                     <span class="btn-slot text x-huge slot-inshyperlink"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-bookmarks"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-caption"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-crossref"></span>
+                </div>
+                <div class="group sheet-views" style="padding-left: 5px;">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-tof"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-btn-tof-update"></span>
+                    </div>
                 </div>
             </section>
         </section>
