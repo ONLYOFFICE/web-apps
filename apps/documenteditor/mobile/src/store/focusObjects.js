@@ -46,12 +46,28 @@ export class storeFocusObjects {
     @computed get paragraphObject() {
         let paragraphs = [];
         for (let object of this._focusObjects) {
-            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Paragraph) {
+            if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Paragraph) {
                 paragraphs.push(object);
             }
         }
         if (paragraphs.length > 0) {
             let object = paragraphs[paragraphs.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
+    @computed get shapeObject() {
+        let shapes = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
+                if (object.get_ObjectValue() && object.get_ObjectValue().get_ShapeProperties()) {
+                    shapes.push(object);
+                }
+            }
+        }
+        if (shapes.length > 0) {
+            let object = shapes[shapes.length - 1]; // get top
             return object.get_ObjectValue();
         } else {
             return undefined;

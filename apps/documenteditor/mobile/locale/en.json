@@ -65,6 +65,27 @@
     "textPageBreakBefore": "Page Break Before",
     "textOrphanControl": "Orphan Control",
     "textKeepLinesTogether": "Keep Lines Together",
-    "textKeepWithNext": "Keep with Next"
+    "textKeepWithNext": "Keep with Next",
+    "textStyle": "Style",
+    "textWrap": "Wrap",
+    "textReplace": "Replace",
+    "textReorder": "Reorder",
+    "textRemoveShape": "Remove Shape",
+    "textInline": "Inline",
+    "textSquare": "Square",
+    "textTight": "Tight",
+    "textThrough": "Through",
+    "textTopAndBottom": "Top and Bottom",
+    "textInFront": "In Front",
+    "textBehind": "Behind",
+    "textAlign": "Align",
+    "textMoveWithText": "Move with Text",
+    "textAllowOverlap": "Allow Overlap",
+    "textDistanceFromText": "Distance from Text",
+    "textBringToForeground": "Bring to Foreground",
+    "textSendToBackground": "Send to Background",
+    "textMoveForward": "Move Forward",
+    "textMoveBackward": "Move Backward"
+
   }
 }

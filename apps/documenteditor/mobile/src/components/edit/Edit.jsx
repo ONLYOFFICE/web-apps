@@ -7,8 +7,11 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import EditTextController from "./controller/EditText";
 import EditParagraphController from "./controller/EditParagraph";
+import EditShapeController from "./controller/EditShape";
+
 import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers} from "./EditText";
 import {PageAdvancedSettings} from "./EditParagraph";
+import {PageWrap, PageReorder, PageReplace} from "./EditShape";
 
 const routes = [
     //Edit text
@@ -36,6 +39,19 @@ const routes = [
     {
         path: '/edit-paragraph-adv/',
         component: PageAdvancedSettings,
+    },
+    //Edit shape
+    {
+        path: '/edit-shape-wrap/',
+        component: PageWrap,
+    },
+    {
+        path: '/edit-shape-reorder/',
+        component: PageReorder,
+    },
+    {
+        path: '/edit-shape-replace/',
+        component: PageReplace,
     }
 ];
 
@@ -130,15 +146,15 @@ const EditTabs = props => {
                 id: 'edit-header',
                 component: <EditHeader />
             })
-        }
+        }*/
         if (settings.indexOf('shape') > -1) {
             editors.push({
                 caption: _t.textShape,
                 id: 'edit-shape',
-                component: <EditShape />
+                component: <EditShapeController />
             })
         }
-        if (settings.indexOf('image') > -1) {
+        /*if (settings.indexOf('image') > -1) {
             editors.push({
                 caption: _t.textImage,
                 id: 'edit-image',
