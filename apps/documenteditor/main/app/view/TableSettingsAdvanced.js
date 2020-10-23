@@ -182,7 +182,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 data        : [
                     { value: 0, displayValue: (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm) },
                     { value: 1, displayValue: this.txtPercent }
-                ]
+                ],
+                takeFocusOnClose: true
             });
             this.cmbUnit.on('selected', _.bind(function(combo, record) {
                 if (this._changedProps) {
@@ -475,7 +476,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 data        : [
                     { value: 0, displayValue: (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm) },
                     { value: 1, displayValue: this.txtPercent }
-                ]
+                ],
+                takeFocusOnClose: true
             });
             this.cmbPrefWidthUnit.on('selected', _.bind(function(combo, record) {
                 if (this._changedProps) {
@@ -736,7 +738,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHAlign
+                data: this._arrHAlign,
+                takeFocusOnClose: true
             });
             this.cmbHAlign.setValue(this._state.HAlignType);
             this.cmbHAlign.on('selected', _.bind(this.onHAlignSelect, this));
@@ -752,7 +755,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHRelative
+                data: this._arrHRelative,
+                takeFocusOnClose: true
             });
             this.cmbHRelative.setValue(this._state.HAlignFrom);
             this.cmbHRelative.on('selected', _.bind(this.onHRelativeSelect, this));
@@ -762,7 +766,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHRelative
+                data: this._arrHRelative,
+                takeFocusOnClose: true
             });
             this.cmbHPosition.setDisabled(true);
             this.cmbHPosition.setValue(this._state.HPositionFrom);
@@ -780,7 +785,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVAlign
+                data: this._arrVAlign,
+                takeFocusOnClose: true
             });
             this.cmbVAlign.setValue(this._state.VAlignType);
             this.cmbVAlign.on('selected', _.bind(this.onVAlignSelect, this));
@@ -796,7 +802,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVRelative
+                data: this._arrVRelative,
+                takeFocusOnClose: true
             });
             this.cmbVRelative.setValue(this._state.VAlignFrom);
             this.cmbVRelative.on('selected', _.bind(this.onVRelativeSelect, this));
@@ -806,7 +813,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVRelative
+                data: this._arrVRelative,
+                takeFocusOnClose: true
             });
             this.cmbVPosition.setDisabled(true);
             this.cmbVPosition.setValue(this._state.VPositionFrom);
@@ -995,8 +1003,56 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.CellBackContainer = $('#tableadv-panel-cell-back');
             this.TableBackContainer = $('#tableadv-panel-table-back');
 
-            this.btnsCategory[1].on('click', _.bind(this.onCellCategoryClick, this));
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.nfWidth, this.cmbUnit, this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, this.nfSpacing, // 0 tab
+                this.nfPrefWidth, this.cmbPrefWidthUnit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 1 tab
+                this.cmbHAlign , this.cmbHRelative, this.spnX, this.cmbHPosition,
+                this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, // 3 tab
+                this.spnIndentLeft, this.spnDistanceTop, this.spnDistanceLeft, this.spnDistanceBottom, this.spnDistanceRight, // 4 tab
+                this.inputAltTitle, this.textareaAltDescription  // 5 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        if (!me.nfWidth.isDisabled())
+                            me.nfWidth.focus();
+                        else
+                            me.spnTableMarginTop.focus();
+                        break;
+                    case 1:
+                        me.onCellCategoryClick(btn);
+                        if (!me.nfPrefWidth.isDisabled())
+                            me.nfPrefWidth.focus();
+                        else if (!me.spnMarginTop.isDisabled())
+                            me.spnMarginTop.focus();
+                        break;
+                    case 3:
+                        if (!me.cmbHAlign.isDisabled())
+                            me.cmbHAlign.focus();
+                        else
+                            me.spnX.focus();
+                        break;
+                    case 4:
+                        if (me.spnIndentLeft.isVisible())
+                            me.spnIndentLeft.focus();
+                        else
+                            me.spnDistanceTop.focus();
+                        break;
+                    case 5:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
         },
 
         afterRender: function() {
@@ -1438,6 +1494,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.spnIndentLeft.setDisabled(!this.btnAlignLeft.pressed);
                 this._changedProps.put_TableIndent(Common.Utils.Metric.fnRecalcToMM(this.spnIndentLeft.getNumberValue()));
             }
+            !this.spnIndentLeft.isDisabled() && this.spnIndentLeft.focus();
         },
 
         onBtnFlowWrapClick: function(btn, e) {
@@ -1467,6 +1524,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.radioHPosition.setValue(true);
                 }
             }
+            this.spnDistanceTop.focus();
         },
 
         onHAlignSelect: function(combo, record){
@@ -1566,6 +1624,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
             if (newValue) {
                 this.cmbHAlign.setDisabled(false);
+                this.cmbHAlign.focus();
                 this.cmbHRelative.setDisabled(false);
                 this.spnX.setDisabled(true);
                 this.cmbHPosition.setDisabled(true);
@@ -1593,6 +1652,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbHAlign.setDisabled(true);
                 this.cmbHRelative.setDisabled(true);
                 this.spnX.setDisabled(false);
+                this.spnX.focus();
                 this.cmbHPosition.setDisabled(false);
                 this._state.alignChanged = false;
             }
@@ -1612,6 +1672,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
             if (newValue) {
                 this.cmbVAlign.setDisabled(false);
+                this.cmbVAlign.focus();
                 this.cmbVRelative.setDisabled(false);
                 this.spnY.setDisabled(true);
                 this.cmbVPosition.setDisabled(true);
@@ -1638,6 +1699,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbVAlign.setDisabled(true);
                 this.cmbVRelative.setDisabled(true);
                 this.spnY.setDisabled(false);
+                this.spnY.focus();
                 this.cmbVPosition.setDisabled(false);
                 this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscVAnchor.Text, true);
             }

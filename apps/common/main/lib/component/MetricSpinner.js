@@ -537,6 +537,10 @@ define([
                 v_out = parseFloat((v_out * 6.0 / 25.4).toFixed(6));
 
             return v_out;
+        },
+
+        focus: function() {
+            if (this.$input) this.$input.focus();
         }
     });
 

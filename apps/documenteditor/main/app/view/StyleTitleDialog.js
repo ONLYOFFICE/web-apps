@@ -103,6 +103,7 @@ define([
                 style       : 'width: 100%;',
                 menuStyle   : 'width: 100%; max-height: 210px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : this.options.formats,
                 disabled    : (this.options.formats.length==0)
@@ -110,13 +111,12 @@ define([
             this.cmbNextStyle.setValue(-1);
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
+        getFocusedComponents: function() {
+            return [this.inputTitle, this.cmbNextStyle];
+        },
 
-            var me = this;
-            _.delay(function(){
-                me.inputTitle.cmpEl.find('input').focus();
-            },500);
+        getDefaultFocusableComponent: function () {
+            return this.inputTitle;
         },
 
         getTitle: function () {
@@ -143,7 +143,7 @@ define([
                 if (state == 'ok') {
                     var checkurl = this.inputTitle.checkValidate();
                     if (checkurl !== true)  {
-                        this.inputTitle.cmpEl.find('input').focus();
+                        this.inputTitle.focus();
                         return;
                     }
                 }

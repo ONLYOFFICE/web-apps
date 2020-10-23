@@ -137,7 +137,8 @@
 
 define([
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/component/CheckBox',
+    'common/main/lib/component/FocusManager'
 ], function () {
     'use strict';
 
@@ -778,7 +779,7 @@ define([
                     this.fireEvent('show', this);
                 }
 
-                Common.NotificationCenter.trigger('window:show');
+                Common.NotificationCenter.trigger('window:show', this);
             },
 
             close: function(suppressevent) {
@@ -983,6 +984,13 @@ define([
             },
 
             onPrimary: function() {},
+
+            getFocusedComponents: function() {
+                return [];
+            },
+
+            getDefaultFocusableComponent: function() {
+            },
 
             cancelButtonText: 'Cancel',
             okButtonText: 'OK',

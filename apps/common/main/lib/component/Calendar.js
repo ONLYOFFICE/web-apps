@@ -237,7 +237,7 @@ define([
                 me.yearPicker.store.reset(arrYears);
 
             me.enableKeyEvents && _.delay(function() {
-                me.monthPicker.cmpEl.find('.dataview').focus();
+                me.monthPicker.focus();
             }, 10);
         },
 
@@ -312,7 +312,7 @@ define([
                 me.monthsPicker.store.reset(arrMonths);
 
             me.enableKeyEvents && _.delay(function() {
-                me.monthPicker.cmpEl.find('.dataview').focus();
+                me.monthPicker.focus();
             }, 10);
         },
 
@@ -435,7 +435,7 @@ define([
                 me.monthPicker.store.reset(arrDays);
 
             me.enableKeyEvents && _.delay(function() {
-                me.monthPicker.cmpEl.find('.dataview').focus();
+                me.monthPicker.focus();
             }, 10);
         },
 

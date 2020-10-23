@@ -120,6 +120,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 120px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: this.textBox,   value: Asc.c_oAscSdtAppearance.Frame },
                     { displayValue: this.textNone,  value: Asc.c_oAscSdtAppearance.Hidden }
@@ -168,7 +169,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= name %></div>',
                     '<div style="width:90px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= value %></div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.list.on('item:select', _.bind(this.onSelectItem, this));
 
@@ -212,7 +214,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 menuStyle   : 'min-width: 100%; max-height: 185px;',
                 cls         : 'input-group-nr',
                 editable    : false,
-                data        : data
+                takeFocusOnClose: true,
+                data        : data,
+                search: true,
+                scrollAlwaysVisible: true
             });
             this.cmbLang.setValue(0x0409);
             this.cmbLang.on('selected',function(combo, record) {
@@ -222,7 +227,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.listFormats = new Common.UI.ListView({
                 el: $('#control-settings-format'),
                 store: new Common.UI.DataViewStore(),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
 
@@ -344,6 +350,28 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             }, this));
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, // 0 tab
+                {cmp: this.list, selector: '.listview'}, // 2 tab
+                this.txtDate, {cmp: this.listFormats, selector: '.listview'}, this.cmbLang // 3 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                if (index==0) {
+                    me.txtName.focus();
+                } else if (index==2) {
+                    me.list.focus();
+                } else if (index==3)
+                    me.txtDate.focus();
+            }, 100);
         },
 
         onColorsSelect: function(btn, color) {
@@ -679,7 +707,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                                 me.disableListButtons();
                             }
                         }
-                        me.list.cmpEl.find('.listview').focus();
+                        me.list.focus();
                     }
                 });
             win.show();
@@ -699,7 +727,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                                 });
                             }
                         }
-                        me.list.cmpEl.find('.listview').focus();
+                        me.list.focus();
                     }
                 });
             rec && win.show();
@@ -719,7 +747,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 }
             }
             this.disableListButtons();
-            this.list.cmpEl.find('.listview').focus();
+            this.list.focus();
         },
 
         onMoveItem: function(up) {
@@ -732,7 +760,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 this.list.selectRecord(rec);
                 this.list.scrollToRecord(rec);
             }
-            this.list.cmpEl.find('.listview').focus();
+            this.list.focus();
         },
 
         updateFormats: function(lang) {

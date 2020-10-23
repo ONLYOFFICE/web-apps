@@ -1018,7 +1018,7 @@ define([
                 Common.UI.Window.prototype.show.apply(this, arguments);
 
                 _.delay(function(me){
-                    me.listNames.$el.find('.listview').focus();
+                    me.listNames.focus();
                 }, 100, this);
             },
 
@@ -1049,7 +1049,7 @@ define([
 
             onUpdateFocus: function () {
                 _.delay(function(me){
-                    me.listNames.$el.find('.listview').focus();
+                    me.listNames.focus();
                 }, 100, this);
             },
 

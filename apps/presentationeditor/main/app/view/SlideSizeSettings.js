@@ -101,6 +101,7 @@ define([
                 style: 'width: 100%;',
                 menuStyle: 'min-width: 218px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     {value:0, displayValue: this.txtStandard , size: [254, 190.5]},
                     {value:1, displayValue: this.txtWidescreen1 , size: [254, 143]},
@@ -179,6 +180,7 @@ define([
                 style: 'width: 100%;',
                 menuStyle: 'min-width: 218px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     {value:0, displayValue: this.strPortrait},
                     {value:1, displayValue: this.strLandscape}
@@ -200,6 +202,14 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbSlideSize;
         },
 
         _handleInput: function(state) {

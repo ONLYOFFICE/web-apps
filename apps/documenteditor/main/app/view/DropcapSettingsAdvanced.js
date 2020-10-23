@@ -141,6 +141,7 @@ define([
                 el          : $('#drop-advanced-input-bordersize'),
                 style       : 'width: 90px;',
                 store       : new Backbone.Collection(),
+                takeFocusOnClose: true,
                 data: [
                     {id: Common.UI.getId(), displayValue: this.txtNoBorders,   value: 0,    borderstyle: ''},
                     {id: Common.UI.getId(), displayValue: '0.5 ' + txtPt,            value: 0.5,  pxValue: 0.5,   offsety: 0},
@@ -353,7 +354,8 @@ define([
                 menuStyle   : 'min-width: 55px;max-height: 236px;',
                 store       : new Common.Collections.Fonts(),
                 recent      : 0,
-                hint: this.tipFontName
+                hint: this.tipFontName,
+                takeFocusOnClose: true
             })
             .on('selected', _.bind(function(combo, record) {
                 if (me._changedProps) {
@@ -418,6 +420,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 130px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 data        : this._arrWidth
             })
             .on('selected', _.bind(function(combo, record) {
@@ -457,6 +460,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 130px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 data        : this._arrHeight
             })
             .on('selected', _.bind(function(combo, record) {
@@ -539,7 +543,8 @@ define([
                 el          : $('#frame-advanced-input-hposition'),
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 130px;',
-                data        : this._arrHAlign
+                data        : this._arrHAlign,
+                takeFocusOnClose: true
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
@@ -564,7 +569,8 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 95px;',
                 data        : this._arrHRelative,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             })
             .on('selected', _.bind(function(combo, record) {
                 if (me._changedProps) {
@@ -582,7 +588,8 @@ define([
                 el          : $('#frame-advanced-input-vposition'),
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 130px;',
-                data        : this._arrVAlign
+                data        : this._arrVAlign,
+                takeFocusOnClose: true
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
@@ -607,7 +614,8 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 95px;',
                 data        : this._arrVRelative,
-                editable    : false
+                editable    : false,
+                takeFocusOnClose: true
             })
             .on('selected', _.bind(function(combo, record) {
                 if (me._changedProps) {
@@ -685,6 +693,28 @@ define([
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
             }
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, // 0 tab
+                this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
+                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                if (index==0) {
+                    me.cmbWidth.focus();
+                } else if (index==1) {
+                    me.cmbFonts.focus();
+                } else if (index==3)
+                    me.spnMarginTop.focus();
+            }, 100);
         },
 
         getSettings: function() {

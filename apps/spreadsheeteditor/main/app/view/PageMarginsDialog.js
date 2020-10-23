@@ -149,6 +149,14 @@ define([
             this.updateMetricUnit();
         },
 
+        getFocusedComponents: function() {
+            return this.spinners;
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnTop;
+        },
+
         _handleInput: function(state) {
             if (this.options.handler)
                 this.options.handler.call(this, this, state);

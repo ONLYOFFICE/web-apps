@@ -141,7 +141,7 @@ define([
                 this.rangeList.scroller.update({alwaysVisibleY: true});
 
                 _.delay(function () {
-                    me.rangeList.cmpEl.find('.listview').focus();
+                    me.rangeList.focus();
                 }, 100, this);
             }
         },

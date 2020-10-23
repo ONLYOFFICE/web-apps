@@ -85,6 +85,7 @@ define([
                 style: 'width: 110px;',
                 menuStyle: 'min-width: 110px;',
                 editable: false,
+                takeFocusOnClose: true,
                 scrollAlwaysVisible: true,
                 data: [
                     { value: 0, displayValue: this.textRow},
@@ -126,6 +127,14 @@ define([
 
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbRowCol, this.spnCount];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnCount;
         },
 
         _handleInput: function(state) {

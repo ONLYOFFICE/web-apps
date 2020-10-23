@@ -150,7 +150,8 @@ define([
                 menuStyle   : 'min-width: 100%;max-height: 280px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             });
 
             this.txtDataRange = new Common.UI.InputFieldBtn({
@@ -170,8 +171,18 @@ define([
                 }
             });
             this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
-            
+
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.inputName, this.cmbScope, this.txtDataRange];
+        },
+
+        getDefaultFocusableComponent: function () {
+            if (this._alreadyRendered) return; // focus only at first show
+            this._alreadyRendered = true;
+            return this.inputName;
         },
 
         afterRender: function() {
@@ -184,11 +195,6 @@ define([
 
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                me.inputName.cmpEl.find('input').focus();
-            },200);
         },
 
         _setDefaults: function (props) {
@@ -227,6 +233,9 @@ define([
                     handler: handlerDlg
                 }).on('close', function() {
                     me.show();
+                    _.delay(function(){
+                        me.txtDataRange.focus();
+                    },1);
                 });
 
                 var xy = me.$window.offset();
@@ -268,12 +277,12 @@ define([
                 var checkname = this.inputName.checkValidate(),
                     checkrange = this.txtDataRange.checkValidate();
                 if (checkname !== true)  {
-                    this.inputName.cmpEl.find('input').focus();
+                    this.inputName.focus();
                     this.isInputFirstChange = true;
                     return;
                 }
                 if (checkrange !== true) {
-                    this.txtDataRange.cmpEl.find('input').focus();
+                    this.txtDataRange.focus();
                     return;
                 }
                 this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);

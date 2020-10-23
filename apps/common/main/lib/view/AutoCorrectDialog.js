@@ -177,7 +177,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         '<div style="flex-grow:1;font-family: Cambria Math;font-size:13px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
                     '</div>'
                 ].join('')),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.mathList.on('item:select', _.bind(this.onSelectMathItem, this));
 
@@ -215,7 +216,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         me.mathList.scrollToRecord(_selectedItem);
                     }
                     _.delay(function(){
-                        me.mathList.cmpEl.find('.listview').focus();
+                        me.mathList.focus();
                     },10);
 
                 }
@@ -257,7 +258,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= value %></div>'
                 ].join('')),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.mathRecList.on('item:select', _.bind(this.onSelectRecItem, this));
 
@@ -295,7 +297,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         me.mathRecList.scrollToRecord(_selectedItem);
                     }
                     _.delay(function(){
-                        me.mathRecList.cmpEl.find('.listview').focus();
+                        me.mathRecList.focus();
                     },10);
 
                 }
@@ -362,6 +364,13 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
             }
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.inputReplace, this.inputBy, {cmp: this.mathList, selector: '.listview'}, // 0 tab
+                this.inputRecFind, {cmp: this.mathRecList, selector: '.listview'} // 1 tab
+            ];
         },
 
         getSettings: function() {

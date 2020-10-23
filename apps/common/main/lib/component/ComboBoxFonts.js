@@ -105,14 +105,17 @@ define([
 
             render : function(parentEl) {
                 var oldRawValue = null;
+                var oldTabindex = '';
 
                 if (!_.isUndefined(this._input)) {
                     oldRawValue = this._input.val();
+                    oldTabindex = this._input.attr('tabindex');
                 }
 
                 Common.UI.ComboBox.prototype.render.call(this, parentEl);
 
                 this.setRawValue(oldRawValue);
+                this._input.attr('tabindex', oldTabindex);
 
                 this._input.on('keyup',     _.bind(this.onInputKeyUp, this));
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
@@ -199,7 +202,7 @@ define([
                         me.closeMenu();
                         me.onAfterHideMenu(e);
                     }, 10);
-                } else if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode != Common.UI.Keys.CTRL && e.keyCode != Common.UI.Keys.SHIFT && e.keyCode != Common.UI.Keys.ALT){
+                } else if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode != Common.UI.Keys.CTRL && e.keyCode != Common.UI.Keys.SHIFT && e.keyCode != Common.UI.Keys.ALT && e.keyCode != Common.UI.Keys.TAB){
                     if (!this.isMenuOpen() && !e.ctrlKey)
                         this.openMenu();
 

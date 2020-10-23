@@ -181,6 +181,33 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.inputName, this.numWrap, // 0 tab
+                this.txtDataRange,  // 1 tab
+                this.inputAltTitle, this.textareaAltDescription  // 2 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.inputName.focus();
+                        break;
+                    case 1:
+                        me.txtDataRange.focus();
+                        break;
+                    case 2:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
             if (this.storageName) {

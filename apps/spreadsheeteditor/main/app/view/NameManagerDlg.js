@@ -107,7 +107,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                     { value: 2, displayValue: this.textFilterTableNames },
                     { value: 3, displayValue: this.textFilterSheet },
                     { value: 4, displayValue: this.textFilterWorkbook }
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', function(combo, record) {
                 me.refreshRangeList(null, 0);
             });
@@ -129,7 +130,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                                 '<div class="lock-user"><%=lockuser%></div>',
                             '<% } %>',
                         '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.rangeList.store.comparator = function(item1, item2) {
                 var n1 = item1.get(me.sort.type).toLowerCase(),
@@ -167,6 +169,14 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             }
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [ this.cmbFilter, {cmp: this.rangeList, selector: '.listview'} ];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.rangeList;
         },
 
         afterRender: function() {
@@ -250,7 +260,6 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                     this.rangeList.cmpEl.on('mouseover',  _.bind(me.onMouseOverLock, me)).on('mouseout',  _.bind(me.onMouseOutLock, me));
             }
             _.delay(function () {
-                me.rangeList.cmpEl.find('.listview').focus();
                 me.rangeList.scroller.update({alwaysVisibleY: true});
             }, 100, this);
         },
@@ -310,9 +319,6 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                 }
             }).on('close', function() {
                 me.show();
-                _.delay(function () {
-                    me.rangeList.cmpEl.find('.listview').focus();
-                }, 100, me);
             });
             
             me.hide();

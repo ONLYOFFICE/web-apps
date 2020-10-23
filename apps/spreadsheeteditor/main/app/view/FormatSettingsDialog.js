@@ -171,7 +171,8 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 264px;',
                 editable: false,
-                data: this.numFormatData
+                data: this.numFormatData,
+                takeFocusOnClose: true
             });
             this.cmbFormat.setValue(this.FormatType);
             this.cmbFormat.on('selected', _.bind(this.onFormatSelect, this));
@@ -182,7 +183,8 @@ define([
                 menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             });
             this.cmbNegative.on('selected', _.bind(this.onNegativeSelect, this));
 
@@ -210,7 +212,8 @@ define([
                 menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             });
             this.cmbSymbols.on('selected', _.bind(this.onSymbolsSelect, this));
 
@@ -220,7 +223,8 @@ define([
                 menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             });
             this.cmbType.on('selected', _.bind(this.onTypeSelect, this));
 
@@ -230,7 +234,8 @@ define([
                 menuStyle: 'min-width: 310px;max-height:235px;',
                 editable: false,
                 data: [],
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             });
             this.cmbCode.on('selected', _.bind(this.onCodeSelect, this));
 
@@ -244,6 +249,14 @@ define([
             this.lblExample         = this.$window.find('#format-settings-label-example');
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbFormat, this.spnDecimal, this.cmbSymbols, this.cmbNegative, this.cmbType, this.cmbCode];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbFormat;
         },
 
         afterRender: function() {
@@ -489,7 +502,7 @@ define([
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
 
             this._decimalPanel.toggleClass('hidden', !hasDecimal);
-            this._negativePanel.css('visibility', hasNegative ? '' : 'hidden');
+            this._negativePanel.toggleClass('hidden', !hasNegative);
             this._separatorPanel.toggleClass('hidden', !hasSeparator);
             this._typePanel.toggleClass('hidden', !hasType);
             this._symbolsPanel.toggleClass('hidden', !hasSymbols);

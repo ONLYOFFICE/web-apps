@@ -104,6 +104,25 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             }
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.inputAltTitle, this.textareaAltDescription  // 0 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
+        },
+
         _setDefaults: function(props) {
             if (props ){
                 var value = props.asc_getTitle();

@@ -214,7 +214,7 @@ define([
 
                 _.delay(function(){
                     me._noApply = true;
-                    me.args[0].argInput.cmpEl.find('input').focus();
+                    me.args[0].argInput.focus();
                     me._noApply = false;
                 },100);
             }
@@ -281,6 +281,8 @@ define([
             else
                 me.args[argcount].lblName.html(me.args[argcount].argName);
             me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
+
+            Common.UI.FocusManager.add(this, txt);
         },
 
         onInputChanging: function(input, newValue, oldValue, e) {
@@ -364,7 +366,7 @@ define([
                     me.show();
                     _.delay(function(){
                         me._noApply = true;
-                        input.cmpEl.find('input').focus();
+                        input.focus();
                         me._noApply = false;
                     },1);
                 });
