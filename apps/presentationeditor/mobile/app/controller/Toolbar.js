@@ -80,6 +80,7 @@ define([
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.displayCollaboration, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.displayCollaboration, this));
                 Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onApiCountPages, this));
             },
 
             setMode: function (mode) {
@@ -171,6 +172,10 @@ define([
                     $('#toolbar-add').toggleClass('disabled', slide_deleted);
                     $('#toolbar-edit').toggleClass('disabled', slide_deleted || (objectLocked || no_object) && slide_lock );
                 }
+            },
+
+            onApiCountPages: function (count) {
+                $('#toolbar-preview').toggleClass('disabled', count<=0);
             },
 
             activateControls: function() {
