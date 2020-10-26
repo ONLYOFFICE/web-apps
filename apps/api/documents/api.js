@@ -11,10 +11,11 @@
         # Full #
 
         config = {
-            type: 'desktop or mobile',
+            type: 'desktop or mobile or embedded',
             width: '100% by default',
             height: '100% by default',
             documentType: 'word' | 'cell' | 'slide',// deprecate 'text' | 'spreadsheet' | 'presentation',
+            token: <string> encrypted signature
             document: {
                 title: 'document title',
                 url: 'document url'
@@ -51,6 +52,12 @@
                 }
             },
             editorConfig: {
+                actionLink: { // open file and scroll to data, used with onMakeActionLink or the onRequestSendNotify event
+                    action: {
+                        type: "bookmark", // or type="comment"
+                        data: <bookmark name> // or comment id
+                    }
+                },
                 mode: 'view or edit',
                 lang: <language code>,
                 location: <location>,
@@ -155,9 +162,30 @@
             },
             events: {
                 'onAppReady': <application ready callback>,
-                'onBack': <back to folder callback>,
                 'onDocumentStateChange': <document state changed callback>
                 'onDocumentReady': <document ready callback>
+                'onRequestEditRights': <request rights for switching from view to edit>,
+                'onRequestHistory': <request version history>,// must call refreshHistory method
+                'onRequestHistoryData': <request version data>,// must call setHistoryData method
+                'onRequestRestore': <try to restore selected version>,
+                'onRequestHistoryClose': <request closing history>,
+                'onError': <error callback>,
+                'onWarning': <warning callback>,
+                'onInfo': <document open callback>,// send view or edit mode
+                'onOutdatedVersion': <outdated version callback>,// send when  previous version is opened
+                'onDownloadAs': <download as callback>,// send url of downloaded file as a response for downloadAs method
+                'onRequestSaveAs': <try to save copy of the document>,
+                'onCollaborativeChanges': <co-editing changes callback>,// send when other user co-edit document
+                'onRequestRename': <try to rename document>,
+                'onMetaChange': // send when meta information changed
+                'onRequestClose': <request close editor>,
+                'onMakeActionLink': <request link to document with bookmark, comment...>,// must call setActionLink method
+                'onRequestUsers': <request users list for mentions>,// must call setUsers method
+                'onRequestSendNotify': //send when user is mentioned in a comment,
+                'onRequestInsertImage': <try to insert image>,// must call insertImage method
+                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method
+                'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
+                'onRequestCreateNew': <try to create document>,
             }
         }
 
