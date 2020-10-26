@@ -98,33 +98,26 @@ const PageAdditionalFormatting = props => {
     )
 };
 
-import bulletImg1 from '../../../resources/img/bullets/bullet-01.png';
-import bulletImg2 from '../../../resources/img/bullets/bullet-02.png';
-import bulletImg3 from '../../../resources/img/bullets/bullet-03.png';
-import bulletImg4 from '../../../resources/img/bullets/bullet-04.png';
-import bulletImg5 from '../../../resources/img/bullets/bullet-05.png';
-import bulletImg6 from '../../../resources/img/bullets/bullet-06.png';
-import bulletImg7 from '../../../resources/img/bullets/bullet-07.png';
 const PageBullets = props => {
     const { t } = useTranslation();
     const bulletArrays = [
         [
             {type: -1, thumb: ''},
-            {type: 1, thumb: bulletImg1},
-            {type: 2, thumb: bulletImg2},
-            {type: 3, thumb: bulletImg3}
+            {type: 1, thumb: 'bullet-01.png'},
+            {type: 2, thumb: 'bullet-02.png'},
+            {type: 3, thumb: 'bullet-03.png'}
         ],
         [
-            {type: 4, thumb: bulletImg4},
-            {type: 5, thumb: bulletImg5},
-            {type: 6, thumb: bulletImg6},
-            {type: 7, thumb: bulletImg7}
+            {type: 4, thumb: 'bullet-04.png'},
+            {type: 5, thumb: 'bullet-05.png'},
+            {type: 6, thumb: 'bullet-06.png'},
+            {type: 7, thumb: 'bullet-07.png'}
         ]
     ];
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
     return(
-        <Page>
+        <Page className='bullets'>
             <Navbar title={t('Edit.textBullets')} backLink={t('Edit.textBack')} />
             {bulletArrays.map((bullets, index) => (
                     <ul className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
@@ -134,7 +127,7 @@ const PageBullets = props => {
                                     <div className="thumb" style={{position: 'relative'}}>
                                         <label>{t('Edit.textNone')}</label>
                                     </div> :
-                                    <div className="thumb" style={{height: '70px', width: '70px', backgroundImage: `url("${bullet.thumb}")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center'}}></div>
+                                    <div className="thumb" style={{backgroundImage: `url('resources/img/bullets/${bullet.thumb}')`}}></div>
                                 }
                             </li>
                         ))}
@@ -144,33 +137,26 @@ const PageBullets = props => {
     )
 };
 
-import numberImg1 from '../../../resources/img/numbers/number-01.png';
-import numberImg2 from '../../../resources/img/numbers/number-02.png';
-import numberImg3 from '../../../resources/img/numbers/number-03.png';
-import numberImg4 from '../../../resources/img/numbers/number-04.png';
-import numberImg5 from '../../../resources/img/numbers/number-05.png';
-import numberImg6 from '../../../resources/img/numbers/number-06.png';
-import numberImg7 from '../../../resources/img/numbers/number-07.png';
 const PageNumbers = props => {
     const { t } = useTranslation();
     const numberArrays = [
         [
             {type: -1, thumb: ''},
-            {type: 4, thumb: numberImg1},
-            {type: 5, thumb: numberImg2},
-            {type: 6, thumb: numberImg3}
+            {type: 4, thumb: 'number-01.png'},
+            {type: 5, thumb: 'number-02.png'},
+            {type: 6, thumb: 'number-03.png'}
         ],
         [
-            {type: 1, thumb: numberImg4},
-            {type: 2, thumb: numberImg5},
-            {type: 3, thumb: numberImg6},
-            {type: 7, thumb: numberImg7}
+            {type: 1, thumb: 'number-04.png'},
+            {type: 2, thumb: 'number-05.png'},
+            {type: 3, thumb: 'number-06.png'},
+            {type: 7, thumb: 'number-07.png'}
         ]
     ];
     const storeTextSettings = props.storeTextSettings;
     const typeNumbers = storeTextSettings.typeNumbers;
     return(
-        <Page>
+        <Page className='numbers'>
             <Navbar title={t('Edit.textNumbers')} backLink={t('Edit.textBack')} />
             {numberArrays.map((numbers, index) => (
                 <ul className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
@@ -180,7 +166,7 @@ const PageNumbers = props => {
                                 <div className="thumb" style={{position: 'relative'}}>
                                     <label>{t('Edit.textNone')}</label>
                                 </div> :
-                                <div className="thumb" style={{height: '70px', width: '70px', backgroundImage: `url("${number.thumb}")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center'}}></div>
+                                <div className="thumb" style={{backgroundImage: `url('resources/img/numbers/${number.thumb}')`}}></div>
                             }
                         </li>
                     ))}
