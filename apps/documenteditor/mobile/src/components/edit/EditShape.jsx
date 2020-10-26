@@ -97,7 +97,7 @@ const PageReplace = props => {
     let shapes = storeShapeSettings.getStyleGroups();
     shapes.splice(0, 1); // Remove line shapes
     return (
-        <Page>
+        <Page className="shapes">
             <Navbar title={_t.textReplace} backLink={_t.textBack} />
             {shapes.map((row, indexRow) => {
                 return (
@@ -106,7 +106,7 @@ const PageReplace = props => {
                             return (
                                 <li key={'shape-' + indexRow + '-' + index} onClick={() => {props.onReplace(shape.type)}}>
                                     <div className="thumb"
-                                         style={{maskImage: `url('../../../resources/img/shapes/'${shape.thumb})`}}>
+                                         style={{WebkitMaskImage: `url('resources/img/shapes/${shape.thumb}')`}}>
                                     </div>
                                 </li>
                             )
