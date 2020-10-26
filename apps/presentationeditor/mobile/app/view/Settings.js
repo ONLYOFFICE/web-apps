@@ -219,7 +219,9 @@ define([
 
             showSetApp: function () {
                 this.showPage('#settings-application-view');
-                $('.page[data-page=settings-application-view] .page-content > :not(.display-view)').hide();
+                if (!isEdit) {
+                    $('.page[data-page=settings-application-view] .page-content > :not(.display-view)').hide();
+                }
                 if (isShowMacros) {
                     $('#settings-macros').single('click', _.bind(this.showMacros, this));
                 }
