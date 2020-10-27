@@ -158,7 +158,7 @@
   "Common.Views.About.txtTel": "電話番号：",
   "Common.Views.About.txtVersion": "バージョン",
   "Common.Views.AutoCorrectDialog.textMathCorrect": "数式オートコレクト",
-  "Common.Views.AutoCorrectDialog.textReplace": "置き換える:",
+  "Common.Views.AutoCorrectDialog.textReplace": "置き換える",
   "Common.Views.AutoCorrectDialog.textTitle": "オートコレクト",
   "Common.Views.Chat.textSend": "送信",
   "Common.Views.Comments.textAdd": "追加",
