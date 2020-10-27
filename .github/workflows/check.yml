@@ -11,5 +11,6 @@ jobs:
             node-version: 12
       - name: Build using grunt
         run: |
+          cd build
           npm install
           grunt --level=ADVANCED
