@@ -44,7 +44,7 @@
   "Common.UI.Window.textWarning": "Advarsel",
   "Common.Utils.Metric.txtCm": "cm",
   "Common.Views.About.txtAddress": "adresse:",
-  "Common.Views.AutoCorrectDialog.textBy": "Av:",
+  "Common.Views.AutoCorrectDialog.textBy": "Av",
   "Common.Views.AutoCorrectDialog.textTitle": "Autokorrektur",
   "Common.Views.Comments.textAdd": "Legg til",
   "Common.Views.Comments.textAddComment": "Tilføy",
