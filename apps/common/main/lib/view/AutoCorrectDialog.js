@@ -86,8 +86,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     '<div class="separator horizontal"></div>',
                     '<div class="footer center">',
                         '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                        '<button class="btn normal dlg-btn primary can-apply hidden" result="ok" style="width: 86px;">' + this.okButtonText + '</button>',
-                        '<button class="btn normal dlg-btn can-apply hidden" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
                     '</div>'
                 ].join('')
             }, options || {});
@@ -105,44 +103,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.arrAddRec = value ? JSON.parse(value) : [];
             value = Common.Utils.InternalSettings.get(path + "-rem");
             this.arrRemRec = value ? JSON.parse(value) : [];
-
-            if (this.appPrefix=='de-' || this.appPrefix=='pe-') {
-                var me = this;
-                this.options.handler = function(result, value) {
-                    if ( result == 'ok' ) {
-                        var value = me.chBulleted.getValue()==='checked';
-                        Common.localStorage.setBool(this.appPrefix + "settings-autoformat-bulleted", value);
-                        Common.Utils.InternalSettings.set(this.appPrefix + "settings-autoformat-bulleted", value);
-                        me.api.asc_SetAutomaticBulletedLists(value);
-
-                        value = me.chNumbered.getValue()==='checked';
-                        Common.localStorage.setBool(this.appPrefix + "settings-autoformat-numbered", value);
-                        Common.Utils.InternalSettings.set(this.appPrefix + "settings-autoformat-numbered", value);
-                        me.api.asc_SetAutomaticNumberedLists(value);
-
-                        value = me.chQuotes.getValue()==='checked';
-                        Common.localStorage.setBool(this.appPrefix + "settings-autoformat-smart-quotes", value);
-                        Common.Utils.InternalSettings.set(this.appPrefix + "settings-autoformat-smart-quotes", value);
-                        me.api.asc_SetAutoCorrectSmartQuotes(value);
-
-                        value = me.chHyphens.getValue()==='checked';
-                        Common.localStorage.setBool(this.appPrefix + "settings-autoformat-hyphens", value);
-                        Common.Utils.InternalSettings.set(this.appPrefix + "settings-autoformat-hyphens", value);
-                        me.api.asc_SetAutoCorrectHyphensWithDash(value);
-                    }
-                };
-            } else if (this.appPrefix=='sse-') {
-                var me = this;
-                this.options.handler = function(result, value) {
-                    if ( result == 'ok' ) {
-                        var value = me.chNewRows.getValue()==='checked';
-                        Common.localStorage.setBool("sse-settings-autoformat-new-rows", value);
-                        Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", value);
-                        me.api.asc_setIncludeNewRowColTable(value);
-                    }
-                };
-            }
-
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
@@ -323,36 +283,57 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     el: $('#id-autocorrect-dialog-chk-quotes'),
                     labelText: this.textQuotes,
                     value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-smart-quotes")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-smart-quotes", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-smart-quotes", checked);
+                    me.api.asc_SetAutoCorrectSmartQuotes(checked);
                 });
                 this.chHyphens = new Common.UI.CheckBox({
                     el: $('#id-autocorrect-dialog-chk-hyphens'),
                     labelText: this.textHyphens,
                     value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-hyphens")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-hyphens", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-hyphens", checked);
+                    me.api.asc_SetAutoCorrectHyphensWithDash(checked);
                 });
                 this.chBulleted = new Common.UI.CheckBox({
                     el: $('#id-autocorrect-dialog-chk-bulleted'),
                     labelText: this.textBulleted,
                     value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-bulleted")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-bulleted", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-bulleted", checked);
+                    me.api.asc_SetAutomaticBulletedLists(checked);
                 });
                 this.chNumbered = new Common.UI.CheckBox({
                     el: $('#id-autocorrect-dialog-chk-numbered'),
                     labelText: this.textNumbered,
                     value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-numbered")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-numbered", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-numbered", checked);
+                    me.api.asc_SetAutomaticNumberedLists(checked);
                 });
             } else if (this.appPrefix=='sse-') {
                 this.chNewRows = new Common.UI.CheckBox({
                     el: $('#id-autocorrect-dialog-chk-new-rows'),
                     labelText: this.textNewRowCol,
                     value: Common.Utils.InternalSettings.get(this.appPrefix + "settings-autoformat-new-rows")
+                }).on('change', function(field, newValue, oldValue, eOpts){
+                    var checked = (field.getValue()==='checked');
+                    Common.localStorage.setBool(me.appPrefix + "settings-autoformat-new-rows", checked);
+                    Common.Utils.InternalSettings.set(me.appPrefix + "settings-autoformat-new-rows", checked);
+                    me.api.asc_setIncludeNewRowColTable(checked);
                 });
             }
 
-            this.applyButtons = $window.find('.dlg-btn.can-apply');
-            this.closeButtons = $window.find('.dlg-btn:not(.can-apply)');
-
             this.btnsCategory[0].on('click', _.bind(this.onMathCategoryClick, this, false));
             this.btnsCategory[1].on('click', _.bind(this.onRecCategoryClick, this, false));
-            this.btnsCategory[2] && this.btnsCategory[2].on('click', _.bind(this.updateFooterButtons, this, true));
 
             this.afterRender();
         },
@@ -411,7 +392,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             var value = this.getActiveCategory();
             if (value==0) this.onMathCategoryClick(true);
             else if (value==1) this.onRecCategoryClick(true);
-            this.updateFooterButtons(value>1);
         },
 
         close: function() {
@@ -421,8 +401,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         },
 
         onMathCategoryClick: function(delay) {
-            this.updateFooterButtons(false);
-
             var me = this;
             _.delay(function(){
                 $('input', me.inputReplace.cmpEl).select().focus();
@@ -682,8 +660,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         },
 
         onRecCategoryClick: function(delay) {
-            this.updateFooterButtons(false);
-
             var me = this;
             _.delay(function(){
                 $('input', me.inputRecFind.cmpEl).select().focus();
@@ -774,12 +750,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.btnDeleteRec.setDisabled(!rec);
             this.btnAddRec.setDisabled(!!rec || !value);
         },
-
-        updateFooterButtons: function(apply) {
-            this.applyButtons.toggleClass('hidden', !apply);
-            this.closeButtons.toggleClass('hidden', apply);
-        },
-
 
         textTitle: 'AutoCorrect',
         textMathCorrect: 'Math AutoCorrect',

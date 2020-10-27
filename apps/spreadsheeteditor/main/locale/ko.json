@@ -47,7 +47,7 @@
   "Common.Views.About.txtPoweredBy": "Powered by",
   "Common.Views.About.txtTel": "tel .:",
   "Common.Views.About.txtVersion": "버전",
-  "Common.Views.AutoCorrectDialog.textBy": "~로:",
+  "Common.Views.AutoCorrectDialog.textBy": "~로",
   "Common.Views.AutoCorrectDialog.textTitle": "자동 수정",
   "Common.Views.Chat.textSend": "보내기",
   "Common.Views.Comments.textAdd": "추가",

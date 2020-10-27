@@ -175,7 +175,8 @@ define([
             },
 
             textInvalidRange    : 'ERROR! Invalid cells range',
-            txtNotUrl           : 'This field should be a URL in the format \"http://www.example.com\"'
+            txtNotUrl           : 'This field should be a URL in the format \"http://www.example.com\"',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), SSE.Controllers.AddLink || {}))
 });

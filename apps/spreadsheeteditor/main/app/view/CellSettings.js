@@ -663,7 +663,7 @@ define([
                                     this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                                 else
                                     this.btnDirection.setIconCls('');
-                                this.numGradientAngle.setValue(value);
+                                this.numGradientAngle.setValue(value, true);
                             }
                         }
 
@@ -1049,7 +1049,7 @@ define([
 
             this.btnDirection.setIconCls('item-gradient ' + rawData.iconcls);
             this.GradLinearDirectionType = rawData.type;
-            this.numGradientAngle.setValue(rawData.type);
+            this.numGradientAngle.setValue(rawData.type, true);
 
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
@@ -1103,7 +1103,7 @@ define([
         },
 
         onGradientAngleChange: function(field, newValue, oldValue, eOpts) {
-            if (this.api) {
+            if (this.api && !this._noApply) {
                 if (this.gradient == null) {
                     this.gradient = new Asc.asc_CGradientFill();
                     this.gradient.asc_setType(this.GradFillType);

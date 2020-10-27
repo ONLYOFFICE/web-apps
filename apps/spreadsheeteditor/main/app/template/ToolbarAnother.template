@@ -30,6 +30,7 @@
             <div class="group">
                 <div class="elset">
                     <span class="btn-slot border" id="slot-btn-chart" style="width: auto;"></span>
+                    <span class="btn-slot border" id="slot-btn-chart-data" style="width: auto;margin-left: 12px;"></span>
                 </div>
             </div>
             <div class="group" style="width: 100%;"></div>

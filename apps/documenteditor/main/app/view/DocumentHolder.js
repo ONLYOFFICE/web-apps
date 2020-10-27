@@ -3110,7 +3110,7 @@ define([
                             cls = 'menu__icon text-orient-rdown';
                             break;
                         case Asc.c_oAscCellTextDirection.BTLR:
-                            cls = 'menu__icon btn-align-rup';
+                            cls = 'menu__icon text-orient-rup';
                             break;
                     }
                     menuTableDirection.setIconCls(cls);
@@ -3795,7 +3795,7 @@ define([
                                 cls = 'menu__icon text-orient-rdown';
                                 break;
                             case Asc.c_oAscVertDrawingText.vert270:
-                                cls = 'menu__icon btn-align-rup';
+                                cls = 'menu__icon text-orient-rup';
                                 break;
                         }
                         menuParagraphDirection.setIconCls(cls);

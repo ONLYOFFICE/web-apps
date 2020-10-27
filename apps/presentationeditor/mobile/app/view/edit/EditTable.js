@@ -115,7 +115,7 @@ define([
             renderStyles: function() {
                 var $styleContainer = $('#edit-table-styles .item-inner');
 
-                if ($styleContainer.length > 0) {
+                if ($styleContainer.length > 0 && $styleContainer.is(':visible')) {
                     var columns = parseInt($styleContainer.width() / 70), // magic
                         row = -1,
                         styles = [];

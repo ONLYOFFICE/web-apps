@@ -209,8 +209,8 @@ define([
             textLast: 'Last Slide',
             textSlide: 'Slide',
             textExternalLink: 'External Link',
-            textInternalLink: 'Slide in this Presentation'
-
+            textInternalLink: 'Slide in this Presentation',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), PE.Controllers.AddLink || {}))
 });

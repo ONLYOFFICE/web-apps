@@ -1,0 +1,15 @@
+name: check
+on: [push]
+jobs:
+  project-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+            node-version: 12
+      - name: Build using grunt
+        run: |
+          npm install --prefix build
+          grunt --level=ADVANCED --base build --gruntfile build/Gruntfile.js

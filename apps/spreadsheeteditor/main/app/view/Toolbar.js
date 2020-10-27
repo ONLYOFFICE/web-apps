@@ -97,7 +97,8 @@ define([
         selSlicer: 'sel-slicer',
         cantSort: 'cant-sort',
         pivotLock: 'pivot-lock',
-        tableHasSlicer: 'table-has-slicer'
+        tableHasSlicer: 'table-has-slicer',
+        sheetView: 'sheet-view'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -274,6 +275,14 @@ define([
                     cls         : 'btn-toolbar btn-text-value',
                     caption     : me.tipEditChart,
                     lock        : [_set.lostConnect],
+                    style       : 'width: 120px;'
+                });
+
+                me.btnEditChartData = new Common.UI.Button({
+                    id          : 'id-toolbar-rtn-edit-chart-data',
+                    cls         : 'btn-toolbar btn-text-value',
+                    caption     : me.tipEditChartData,
+                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
                     style       : 'width: 120px;'
                 });
             } else
@@ -1629,6 +1638,7 @@ define([
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
+            _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
             _injectComponent('#slot-btn-pageorient',    this.btnPageOrient);
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
@@ -1973,7 +1983,7 @@ define([
             if (mode.isDisconnected) {
                 this.lockToolbar( SSE.enumLock.lostConnect, true );
                 this.lockToolbar( SSE.enumLock.lostConnect, true,
-                    {array:[this.btnEditChart,this.btnUndo,this.btnRedo]} );
+                    {array:[this.btnEditChart, this.btnEditChartData, this.btnUndo,this.btnRedo]} );
                 if (!mode.enableDownload)
                     this.lockToolbar(SSE.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
@@ -2436,6 +2446,7 @@ define([
         capBtnInsSlicer: 'Slicer',
         tipInsertSlicer: 'Insert slicer',
         textVertical: 'Vertical Text',
-        textTabView: 'View'
+        textTabView: 'View',
+        tipEditChartData: 'Select Data'
     }, SSE.Views.Toolbar || {}));
 });

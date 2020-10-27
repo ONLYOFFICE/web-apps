@@ -58,7 +58,7 @@
   "Common.Views.About.txtPoweredBy": "Desarrollado por",
   "Common.Views.About.txtTel": "tel.: ",
   "Common.Views.About.txtVersion": "Versión ",
-  "Common.Views.AutoCorrectDialog.textBy": "Por:",
+  "Common.Views.AutoCorrectDialog.textBy": "Por",
   "Common.Views.AutoCorrectDialog.textMathCorrect": "Autocorrección matemática",
   "Common.Views.AutoCorrectDialog.textReplace": "Reemplazar",
   "Common.Views.AutoCorrectDialog.textTitle": "Autocorrección",

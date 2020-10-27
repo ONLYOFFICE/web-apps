@@ -207,7 +207,7 @@ define([
                 case 'merge':
                     if (me.api.asc_mergeCellsDataLost(Asc.c_oAscMergeOptions.Merge)) {
                         _.defer(function () {
-                            uiApp.confirm(me.warnMergeLostData, undefined, function(){
+                            uiApp.confirm(me.warnMergeLostData, me.notcriticalErrorTitle, function(){
                                 me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
                             });
                         });
@@ -521,7 +521,8 @@ define([
             menuAddComment: 'Add Comment',
             textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
             errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only.',
-            textDoNotShowAgain: 'Don\'t show again'
+            textDoNotShowAgain: 'Don\'t show again',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });

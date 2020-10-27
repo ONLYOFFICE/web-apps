@@ -7863,7 +7863,7 @@ html.pixel-ratio-3 .statusbar .button:after {
 .box-tabs ul {
   margin: 0;
   padding: 0;
-  white-space: nowrap;
+  white-space: pre;
   overflow: hidden;
 }
 .box-tabs ul > li {
