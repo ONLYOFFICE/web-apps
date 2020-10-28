@@ -544,7 +544,8 @@ define([
             onApiBullets: function(data) {
                 var type    = data.get_ListType(),
                     subtype = data.get_ListSubType();
-
+                $('.dataview.bullets li').removeClass('active');
+                $('.dataview.numbers li').removeClass('active');
                 switch (type) {
                     case 0:
                         $('.dataview.bullets li[data-type=' + subtype + ']').addClass('active');
@@ -552,6 +553,9 @@ define([
                     case 1:
                         $('.dataview.numbers li[data-type=' + subtype + ']').addClass('active');
                         break;
+                    default:
+                        $('.dataview.bullets li[data-type="-1"]').addClass('active');
+                        $('.dataview.numbers li[data-type="-1"]').addClass('active');
                 }
             },
 
