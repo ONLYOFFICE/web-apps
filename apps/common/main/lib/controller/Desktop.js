@@ -111,7 +111,7 @@ define([
                 } else
                 if (/button:click/.test(cmd)) {
                     var obj = JSON.parse(param);
-                    if ( !!obj.action ) {
+                    if ( !!obj.action && !!titlebuttons[obj.action] ) {
                         titlebuttons[obj.action].btn.click();
                     }
                 } else
