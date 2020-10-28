@@ -202,7 +202,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 width: 100,
                 defaultUnit : "cm",
                 value: '0.19 cm',
-                maxValue: 9.34,
+                maxValue: 55.87,
                 minValue: 0
             });
             this.spnMarginLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -220,7 +220,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 width: 100,
                 defaultUnit : "cm",
                 value: '0.19 cm',
-                maxValue: 9.34,
+                maxValue: 55.87,
                 minValue: 0
             });
             this.spnMarginRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){

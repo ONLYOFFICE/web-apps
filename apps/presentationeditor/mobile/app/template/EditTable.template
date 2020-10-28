@@ -73,7 +73,7 @@
                     <div class="item-inner">
                         <div class="item-input">
                             <div class="range-slider">
-                                <input type="range" min="0" max="150" value="0" step="1">
+                                <input type="range" min="0" max="55" value="0" step="1">
                             </div>
                         </div>
                         <div class="item-after value">0 pt</div>
