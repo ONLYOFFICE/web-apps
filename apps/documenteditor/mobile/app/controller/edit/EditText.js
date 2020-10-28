@@ -370,7 +370,9 @@ define([
                 }
 
                 if (this.api) {
-                    this.api.put_TextColor(Common.Utils.ThemeColor.getRgbColor("000000"));
+                    var color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                    this.api.put_TextColor(color);
                 }
             },
 
@@ -480,12 +482,17 @@ define([
 
             onApiTextColor: function (color) {
                 var me = this;
+                var palette = this.getView('EditText').paletteTextColor;
 
                 if (color.get_auto()) {
+                    if (palette) {
+                        palette.clearSelection();
+                    }
+
                     $('#font-color .color-preview').css('background-color', '#000');
+                    $('#font-color-auto').addClass('active');
                 } else {
-                    var palette = me.getView('EditText').paletteTextColor,
-                        clr;
+                    var clr;
 
                     if (color) {
                         if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -499,7 +506,7 @@ define([
 
                         $('#font-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
                     }
-
+                    $('#font-color-auto').removeClass('active');
                     if (palette) {
                         palette.select(clr);
                     }
