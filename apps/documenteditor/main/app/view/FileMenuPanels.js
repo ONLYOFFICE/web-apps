@@ -631,15 +631,18 @@ define([
         },
 
         autoCorrect: function() {
+            if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
+
             if (!this._mathCorrect)
                 this._mathCorrect = new Common.UI.DataViewStore();
             if (!this._funcCorrect)
                 this._funcCorrect = new Common.UI.DataViewStore();
-            (new Common.Views.AutoCorrectDialog({
+            this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
                 mathStore: this._mathCorrect,
                 functionsStore: this._funcCorrect,
                 api: this.api
-            })).show();
+            });
+            this.dlgAutoCorrect.show();
         },
 
         strLiveComment: 'Turn on option',
