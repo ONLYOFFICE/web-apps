@@ -294,7 +294,7 @@ define([
                     _.isUndefined(fontSize) || fontSize=='' ? this.api.FontSizeIn() : fontSize = Math.min(100, ++fontSize);
                 }
 
-                if (! _.isUndefined(fontSize)) {
+                if (!(_.isUndefined(fontSize) || fontSize=='')) {
                     this.api.put_TextPrFontSize(fontSize);
                 }
             },
