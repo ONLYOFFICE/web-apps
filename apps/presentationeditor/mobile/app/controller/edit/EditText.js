@@ -289,9 +289,9 @@ define([
                     fontSize = _fontInfo.size;
 
                 if ($button.hasClass('decrement')) {
-                    _.isUndefined(fontSize) ? this.api.FontSizeOut() : fontSize = Math.max(1, --fontSize);
+                    _.isUndefined(fontSize) || fontSize=='' ? this.api.FontSizeOut() : fontSize = Math.max(1, --fontSize);
                 } else {
-                    _.isUndefined(fontSize) ? this.api.FontSizeIn() : fontSize = Math.min(100, ++fontSize);
+                    _.isUndefined(fontSize) || fontSize=='' ? this.api.FontSizeIn() : fontSize = Math.min(100, ++fontSize);
                 }
 
                 if (! _.isUndefined(fontSize)) {
@@ -480,7 +480,7 @@ define([
                 _fontInfo.size = size;
                 var displaySize = _fontInfo.size;
 
-                _.isUndefined(displaySize) ? displaySize = this.textAuto : displaySize = displaySize + ' ' + this.textPt;
+                _.isUndefined(displaySize) || displaySize=='' ? displaySize = this.textAuto : displaySize = displaySize + ' ' + this.textPt;
 
                 $('#font-fonts .item-after span:first-child').html(displaySize);
                 $('#font-size .item-after label').html(displaySize);
