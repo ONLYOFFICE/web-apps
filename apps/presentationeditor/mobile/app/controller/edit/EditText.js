@@ -415,35 +415,58 @@ define([
 
             onDistanceBefore: function (e) {
                 var $button = $(e.currentTarget),
-                    distance = _paragraphInfo.spaceBefore;
+                    distance = _paragraphInfo.spaceBefore,
+                    step,
+                    maxValue;
+
+                if (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.01;
+                }
+
+                maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
 
                 if ($button.hasClass('decrement')) {
-                    distance = Math.max(-1, --distance);
+                    distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(100, ++distance);
+                    distance = (distance<0) ? 0 : Math.min(maxValue, distance + step);
                 }
+
+                var distanceFix = parseFloat(distance.toFixed(2));
 
                 _paragraphInfo.spaceBefore = distance;
 
-                $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : (_paragraphInfo.spaceBefore) + ' ' + metricText);
+                $('#paragraph-distance-before .item-after label').text(_paragraphInfo.spaceBefore < 0 ? 'Auto' : distanceFix + ' ' + metricText);
 
                 this.api.put_LineSpacingBeforeAfter(0, (_paragraphInfo.spaceBefore < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceBefore));
             },
 
             onDistanceAfter: function (e) {
                 var $button = $(e.currentTarget),
-                    distance = _paragraphInfo.spaceAfter;
+                    distance = _paragraphInfo.spaceAfter,
+                    step,
+                    maxValue;
+
+                if (Common.Utils.Metric.getCurrentMetric() == Common.Utils.Metric.c_MetricUnits.pt) {
+                    step = 1;
+                } else {
+                    step = 0.01;
+                }
+
+                maxValue = Common.Utils.Metric.fnRecalcFromMM(558.8);
 
                 if ($button.hasClass('decrement')) {
-                    distance = Math.max(-1, --distance);
+                    distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(100, ++distance);
+                    distance = (distance<0) ? 0 : Math.min(maxValue, distance + step);
                 }
+
+                var distanceFix = parseFloat(distance.toFixed(2));
 
                 _paragraphInfo.spaceAfter = distance;
 
-                $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : (_paragraphInfo.spaceAfter) + ' ' + metricText);
-
+                $('#paragraph-distance-after .item-after label').text(_paragraphInfo.spaceAfter < 0 ? 'Auto' : distanceFix + ' ' + metricText);
                 this.api.put_LineSpacingBeforeAfter(1, (_paragraphInfo.spaceAfter < 0) ? -1 : Common.Utils.Metric.fnRecalcToMM(_paragraphInfo.spaceAfter));
             },
 
