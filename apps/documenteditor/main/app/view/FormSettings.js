@@ -355,11 +355,16 @@ define([
         },
 
         onChMaxCharsChanged: function(field, newValue, oldValue, eOpts){
-            this.spnMaxChars.setDisabled(field.getValue()!='checked');
+            var checked = (field.getValue()=='checked');
+            this.spnMaxChars.setDisabled(!checked);
+            if (!checked) {
+                this.chComb.setValue(false, true);
+                this.spnWidth.setDisabled(true);
+            }
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
-                var checked = (field.getValue()=='checked' || this.chComb.getValue()=='checked');
+                (!checked) && formTextPr.put_Comb(checked);
                 formTextPr.put_MaxCharacters(checked ? (this.spnMaxChars.getNumberValue() || 10) : checked);
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
