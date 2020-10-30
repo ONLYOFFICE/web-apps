@@ -653,6 +653,12 @@ define([
                         this._state.Width=val;
                     }
 
+                    val = this.api.asc_GetTextFormAutoWidth();
+                    if ( (this._state.WidthPlaceholder!==val) || Math.abs(this._state.WidthPlaceholder-val)>0.01) {
+                        this.spnWidth.setDefaultValue(val!==undefined && val!==null ? Common.Utils.Metric.fnRecalcFromMM(val) : this.spnWidth.options.minValue);
+                        this._state.WidthPlaceholder=val;
+                    }
+
                     val = formTextPr.get_MaxCharacters();
                     this.chMaxChars.setValue(val && val>=0);
                     this.spnMaxChars.setDisabled(!val || val<0);

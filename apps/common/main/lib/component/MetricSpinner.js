@@ -448,7 +448,7 @@ define([
                     val = _.isEmpty(val) ? me.oldValue : Common.Utils.String.parseFloat(val);
                 } else if(me.getValue() !== '') {
                     if (me.checkAutoText(me.getValue())) {
-                        val = me.options.minValue-me.options.step;
+                        val = me.options.defaultValue-me.options.step;
                     } else
                         val = Common.Utils.String.parseFloat(me.getValue());
                     if (isNaN(val))
@@ -534,6 +534,10 @@ define([
                 v_out = parseFloat((v_out * 6.0 / 25.4).toFixed(6));
 
             return v_out;
+        },
+
+        setDefaultValue: function(value) {
+            this.options.defaultValue = value;
         },
 
         checkAutoText: function(value) {
