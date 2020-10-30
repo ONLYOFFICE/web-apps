@@ -532,7 +532,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             var props   = new AscCommon.CContentControlPr();
             props.put_Alias(this.txtName.getValue());
             props.put_Tag(this.txtTag.getValue());
-            props.put_PlaceholderText(this.txtPlaceholder.getValue());
+            props.put_PlaceholderText(this.txtPlaceholder.getValue() || '    ');
             props.put_Appearance(this.cmbShow.getValue());
 
             if (this.isSystemColor) {

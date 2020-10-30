@@ -337,7 +337,7 @@ define([
         onPlaceholderChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
-                props.put_PlaceholderText(newValue);
+                props.put_PlaceholderText(newValue || '    ');
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
             }
