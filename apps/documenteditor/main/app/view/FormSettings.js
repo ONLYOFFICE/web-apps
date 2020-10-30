@@ -796,7 +796,7 @@ define([
         textTip: 'Tip',
         textMaxChars: 'Characters limit',
         textComb: 'Comb of characters',
-        textWidth: 'Width',
+        textWidth: 'Cell width',
         textDelete: 'Delete',
         textLock: 'Lock',
         textUnlock: 'Unlock',
