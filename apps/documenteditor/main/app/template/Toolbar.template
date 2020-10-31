@@ -171,7 +171,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-form-image"></span>
                 </div>
                 <div class="separator long"></div>
-                <div class="group" style="padding-left: 5px;">
+                <div class="group">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-form-clear-fields"></span>
                     </div>
