@@ -4239,6 +4239,7 @@ define([
             var type = obj.type,
                 props = obj.pr,
                 specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
+                isForm = !!props.get_FormPr(),
                 menu = this.listControlMenu,
                 menuContainer = menu ? this.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
@@ -4275,14 +4276,25 @@ define([
                 });
             }
             if (specProps) {
+                if (isForm){ // for dropdown and combobox form control always add placeholder item
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : props.get_PlaceholderText(),
+                        value       : '',
+                        template    : _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                            '<%= caption %>',
+                            '</a>'
+                        ].join(''))
+                    }));
+                }
                 var count = specProps.get_ItemsCount();
                 for (var i=0; i<count; i++) {
-                    menu.addItem(new Common.UI.MenuItem({
+                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
                         caption     : specProps.get_ItemDisplayText(i),
                         value       : specProps.get_ItemValue(i)
                     }));
                 }
-                if (count<1) {
+                if (!isForm && menu.items.length<1) {
                     menu.addItem(new Common.UI.MenuItem({
                         caption     : this.txtEmpty,
                         value       : -1

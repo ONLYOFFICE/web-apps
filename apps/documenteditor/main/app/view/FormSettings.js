@@ -580,7 +580,7 @@ define([
                         var count = specProps.get_ItemsCount();
                         var arr = [];
                         for (var i=0; i<count; i++) {
-                            arr.push({
+                            (specProps.get_ItemValue(i)!=='') && arr.push({
                                 value: specProps.get_ItemValue(i),
                                 name: specProps.get_ItemDisplayText(i)
                             });
