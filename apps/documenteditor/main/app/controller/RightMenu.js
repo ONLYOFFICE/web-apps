@@ -80,6 +80,7 @@ define([
             this._settings[Common.Utils.documentSettingsType.Chart] = {panelId: "id-chart-settings",          panel: rightMenu.chartSettings,    btn: rightMenu.btnChart,       hidden: 1, locked: false};
             this._settings[Common.Utils.documentSettingsType.MailMerge] = {panelId: "id-mail-merge-settings", panel: rightMenu.mergeSettings,    btn: rightMenu.btnMailMerge,   hidden: 1, props: {}, locked: false};
             this._settings[Common.Utils.documentSettingsType.Signature] = {panelId: "id-signature-settings",  panel: rightMenu.signatureSettings, btn: rightMenu.btnSignature,  hidden: 1, props: {}, locked: false};
+            this._settings[Common.Utils.documentSettingsType.Form] = {panelId: "id-form-settings",  panel: rightMenu.formSettings, btn: rightMenu.btnForm,  hidden: 1, props: {}, locked: false};
         },
 
         setApi: function(api) {
@@ -124,6 +125,8 @@ define([
             this._settings[Common.Utils.documentSettingsType.Signature].locked = false;
 
             var isChart = false;
+            var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                control_lock = false;
             for (i=0; i<SelectedObjects.length; i++)
             {
                 var content_locked = false;
@@ -137,8 +140,7 @@ define([
 
                 var value = SelectedObjects[i].get_ObjectValue();
                 if (settingsType == Common.Utils.documentSettingsType.Image) {
-                    var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                    var lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
                     content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
 
                     if (value.get_ChartProperties() !== null) {
@@ -153,9 +155,11 @@ define([
                             this._settings[Common.Utils.documentSettingsType.TextArt].locked = value.get_Locked() || content_locked;
                         }
                     }
+                    control_lock = control_lock || value.get_Locked();
                 } else if (settingsType == Common.Utils.documentSettingsType.Paragraph) {
                     this._settings[settingsType].panel.isChart = isChart;
                     can_add_table = value.get_CanAddTable();
+                    control_lock = control_lock || value.get_Locked();
                 }
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
@@ -164,6 +168,17 @@ define([
                     this._settings[Common.Utils.documentSettingsType.MailMerge].locked = value.get_Locked();
                 if (!this._settings[Common.Utils.documentSettingsType.Signature].locked) // lock Signature, если хотя бы один объект locked
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
+            }
+
+            if (control_props && control_props.get_FormPr()) {
+                var spectype = control_props.get_SpecificType();
+                if (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
+                    spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
+                    settingsType = Common.Utils.documentSettingsType.Form;
+                    this._settings[settingsType].props = control_props;
+                    this._settings[settingsType].locked = control_lock;
+                    this._settings[settingsType].hidden = 0;
+                }
             }
 
             if ( this._settings[Common.Utils.documentSettingsType.Header].locked ) { // если находимся в locked header/footer, то считаем, что все элементы в нем тоже недоступны
@@ -249,11 +264,17 @@ define([
             this._settings[Common.Utils.documentSettingsType.TextArt].needShow = true;
         },
 
+        onInsertControl:  function() {
+            if (this._settings[Common.Utils.documentSettingsType.Form])
+                this._settings[Common.Utils.documentSettingsType.Form].needShow = true;
+        },
+
         UpdateThemeColors:  function() {
             this.rightmenu.paragraphSettings.UpdateThemeColors();
             this.rightmenu.tableSettings.UpdateThemeColors();
             this.rightmenu.shapeSettings.UpdateThemeColors();
             this.rightmenu.textartSettings.UpdateThemeColors();
+            this.rightmenu.formSettings && this.rightmenu.formSettings.UpdateThemeColors();
         },
 
         updateMetricUnit: function() {
@@ -262,6 +283,7 @@ define([
             this.rightmenu.chartSettings.updateMetricUnit();
             this.rightmenu.imageSettings.updateMetricUnit();
             this.rightmenu.tableSettings.updateMetricUnit();
+            this.rightmenu.formSettings && this.rightmenu.formSettings.updateMetricUnit();
         },
 
         createDelayedElements: function() {
@@ -347,6 +369,7 @@ define([
                 this.rightmenu.headerSettings.disableControls(disabled);
                 this.rightmenu.tableSettings.disableControls(disabled);
                 this.rightmenu.imageSettings.disableControls(disabled);
+                this.rightmenu.formSettings && this.rightmenu.formSettings.disableControls(disabled);
                 if (!allowMerge && this.rightmenu.mergeSettings) {
                     this.rightmenu.mergeSettings.disableControls(disabled);
                     disabled && this.rightmenu.btnMailMerge.setDisabled(disabled);
@@ -365,6 +388,7 @@ define([
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
+                    this.rightmenu.btnForm && this.rightmenu.btnForm.setDisabled(disabled);
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)

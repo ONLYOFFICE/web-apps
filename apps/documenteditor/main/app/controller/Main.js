@@ -1357,6 +1357,7 @@ define([
                         toolbarView.on('insertshape', _.bind(me.onInsertShape, me));
                         toolbarView.on('inserttextart', _.bind(me.onInsertTextArt, me));
                         toolbarView.on('insertchart', _.bind(me.onInsertChart, me));
+                        toolbarView.on('insertcontrol', _.bind(me.onInsertControl, me));
                     }
 
                     var value = Common.localStorage.getItem('de-settings-unit');
@@ -2031,6 +2032,10 @@ define([
 
             onInsertTextArt:  function() {
                 this.getApplication().getController('RightMenu').onInsertTextArt();
+            },
+
+            onInsertControl:  function() {
+                this.getApplication().getController('RightMenu').onInsertControl();
             },
 
             unitsChanged: function(m) {
