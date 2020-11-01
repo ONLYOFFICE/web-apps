@@ -88,6 +88,7 @@ define([
                 this.api = api;
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onChangeEditUsers, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onChangeEditUsers, this));
+                this.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(this.onUserConnection, this));
                 this.api.asc_registerCallback('asc_onAddComment', _.bind(this.onApiAddComment, this));
                 this.api.asc_registerCallback('asc_onAddComments', _.bind(this.onApiAddComments, this));
                 this.api.asc_registerCallback('asc_onChangeCommentData', _.bind(this.onApiChangeCommentData, this));
@@ -229,6 +230,13 @@ define([
                     me.initComments();
                     Common.Utils.addScrollIfNeed('.page[data-page=comments-view]', '.page[data-page=comments-view] .page-content');
                 } else {
+                    var length = 0;
+                    _.each(editUsers, function (item) {
+                        if ((item.asc_getState()!==false) && !item.asc_getView())
+                            length++;
+                    });
+                    (length<1) && $('#item-edit-users').hide();
+
                     if(editor === 'DE' && !this.appConfig.canReview && !canViewReview) {
                         $('#reviewing-settings').hide();
                     }
@@ -241,6 +249,20 @@ define([
                 editUsers = users;
             },
 
+            onUserConnection: function(change){
+                var changed = false;
+                for (var uid in editUsers) {
+                    if (undefined !== uid) {
+                        var user = editUsers[uid];
+                        if (user && user.asc_getId() == change.asc_getId()) {
+                            editUsers[uid] = change;
+                            changed = true;
+                        }
+                    }
+                }
+                !changed && change && (editUsers[change.asc_getId()] = change);
+            },
+
             getUsersInfo: function() {
                 var usersArray = [];
                 _.each(editUsers, function(item){
@@ -250,7 +272,7 @@ define([
                     if (fio.length > 1) {
                         initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
                     }
-                    if(!item.asc_getView()) {
+                    if((item.asc_getState()!==false) && !item.asc_getView()) {
                         var userAttr = {
                             color: item.asc_getColor(),
                             id: item.asc_getId(),
