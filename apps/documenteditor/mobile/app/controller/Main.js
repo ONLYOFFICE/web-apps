@@ -794,7 +794,9 @@ define([
                 me.appOptions.canPrint        = (me.permissions.print !== false);
                 me.appOptions.fileKey = me.document.key;
                 me.appOptions.canFillForms   = ((me.permissions.fillForms===undefined) ? me.appOptions.isEdit : me.permissions.fillForms) && (me.editorConfig.mode !== 'view');
-                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && me.appOptions.canFillForms;
+                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && (me.appOptions.canComments || me.appOptions.canFillForms);
+                if (me.appOptions.isRestrictedEdit && me.appOptions.canComments && me.appOptions.canFillForms) // must be one restricted mode, priority for filling forms
+                    me.appOptions.canComments = false;
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
                 me.appOptions.canDownloadOrigin = me.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -815,6 +817,7 @@ define([
                 me.applyModeEditorElements();
 
                 me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
+                me.appOptions.isRestrictedEdit && this.appOptions.canComments && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 me.appOptions.isRestrictedEdit && me.appOptions.canFillForms && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 me.api.asc_LoadDocument();
                 me.api.Resize();

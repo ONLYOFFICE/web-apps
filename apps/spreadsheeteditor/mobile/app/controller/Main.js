@@ -311,7 +311,7 @@ define([
 
                 if ( me.api ) {
                     me.api.asc_enableKeyEvents(mode.isEdit);
-                    me.api.asc_setViewMode(!mode.isEdit);
+                    me.api.asc_setViewMode(!mode.isEdit && !mode.isRestrictedEdit);
                 }
             },
 
@@ -754,11 +754,13 @@ define([
                 me.appOptions.isEdit         = (me.appOptions.canLicense || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && me.permissions.edit !== false && me.editorConfig.mode !== 'view' && me.isSupportEditFeature();
                 me.appOptions.canDownload    = (me.permissions.download !== false);
                 me.appOptions.canPrint       = (me.permissions.print !== false);
+                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && me.appOptions.canComments;
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 
-                me.api.asc_setViewMode(!me.appOptions.isEdit);
+                me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
+                (me.appOptions.isRestrictedEdit && me.appOptions.canComments) && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 me.api.asc_LoadDocument();
 
                 if (!me.appOptions.isEdit) {

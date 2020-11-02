@@ -298,7 +298,7 @@ define([
 
                 if (me.api) {
                     me.api.asc_enableKeyEvents(mode.isEdit);
-                    me.api.asc_setViewMode(!mode.isEdit);
+                    me.api.asc_setViewMode(!mode.isEdit && !mode.isRestrictedEdit);
                 }
             },
 
@@ -722,6 +722,7 @@ define([
                 me.appOptions.canChat         = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                 me.appOptions.canEditStyles   = me.appOptions.canLicense && me.appOptions.canEdit;
                 me.appOptions.canPrint        = (me.permissions.print !== false);
+                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && me.appOptions.canComments;
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
                 me.appOptions.canDownloadOrigin = me.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -736,7 +737,8 @@ define([
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 
-                me.api.asc_setViewMode(!me.appOptions.isEdit);
+                me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
+                (me.appOptions.isRestrictedEdit && me.appOptions.canComments) && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 me.api.asc_LoadDocument();
                 me.api.Resize();
 
