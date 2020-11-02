@@ -81,11 +81,20 @@
     "textAlign": "Align",
     "textMoveWithText": "Move with Text",
     "textAllowOverlap": "Allow Overlap",
-    "textDistanceFromText": "Distance from Text",
     "textBringToForeground": "Bring to Foreground",
     "textSendToBackground": "Send to Background",
     "textMoveForward": "Move Forward",
-    "textMoveBackward": "Move Backward"
-
+    "textMoveBackward": "Move Backward",
+    "textActualSize": "Actual Size",
+    "textRemoveImage": "Remove Image",
+    "textPictureFromLibrary": "Picture from Library",
+    "textPictureFromURL": "Picture from URL",
+    "textLinkSettings": "Link Settings",
+    "textAddress": "Address",
+    "textImageURL": "Image URL",
+    "textReplaceImage": "Replace Image",
+    "textEmptyImgUrl": "You need to specify image URL.",
+    "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+    "notcriticalErrorTitle": "Warning"
   }
 }

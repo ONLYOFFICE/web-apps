@@ -8,10 +8,12 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import EditTextController from "./controller/EditText";
 import EditParagraphController from "./controller/EditParagraph";
 import EditShapeController from "./controller/EditShape";
+import EditImageController from "./controller/EditImage";
 
 import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers} from "./EditText";
 import {PageAdvancedSettings} from "./EditParagraph";
 import {PageWrap, PageReorder, PageReplace} from "./EditShape";
+import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
 
 const routes = [
     //Edit text
@@ -52,6 +54,23 @@ const routes = [
     {
         path: '/edit-shape-replace/',
         component: PageReplace,
+    },
+    //Edit image
+    {
+        path: '/edit-image-wrap/',
+        component: PageImageWrap,
+    },
+    {
+        path: '/edit-image-replace/',
+        component: PageImageReplace,
+    },
+    {
+        path: '/edit-image-reorder/',
+        component: PageImageReorder,
+    },
+    {
+        path: '/edit-image-link/',
+        component: PageLinkSettings,
     }
 ];
 
@@ -154,14 +173,14 @@ const EditTabs = props => {
                 component: <EditShapeController />
             })
         }
-        /*if (settings.indexOf('image') > -1) {
+        if (settings.indexOf('image') > -1) {
             editors.push({
                 caption: _t.textImage,
                 id: 'edit-image',
-                component: <EditImage />
+                component: <EditImageController />
             })
         }
-        if (settings.indexOf('chart') > -1) {
+        /*if (settings.indexOf('chart') > -1) {
             editors.push({
                 caption: _t.textChart,
                 id: 'edit-chart',

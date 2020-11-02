@@ -73,4 +73,21 @@ export class storeFocusObjects {
             return undefined;
         }
     }
+    @computed get imageObject() {
+        let images = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                const imageObject = object.get_ObjectValue();
+                if (imageObject && imageObject.get_ShapeProperties() === null && imageObject.get_ChartProperties() === null) {
+                    images.push(object);
+                }
+            }
+        }
+        if (images.length > 0) {
+            let object = images[images.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
 }

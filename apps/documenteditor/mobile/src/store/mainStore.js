@@ -5,6 +5,7 @@ import {storeUsers} from '../../../../common/mobile/lib/store/users';
 import {storeTextSettings} from "./textSettings";
 import {storeParagraphSettings} from "./paragraphSettings";
 import {storeShapeSettings} from "./shapeSettings";
+import {storeImageSettings} from "./imageSettings";
 
 export const stores = {
     storeFocusObjects: new storeFocusObjects(),
@@ -12,6 +13,7 @@ export const stores = {
     users: new storeUsers(),
     storeTextSettings: new storeTextSettings(),
     storeParagraphSettings: new storeParagraphSettings(),
-    storeShapeSettings: new storeShapeSettings()
+    storeShapeSettings: new storeShapeSettings(),
+    storeImageSettings: new storeImageSettings()
 };
 
