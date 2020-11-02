@@ -1015,7 +1015,9 @@ define([
                     this.appOptions.canViewComments = this.appOptions.canComments || !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = this.editorConfig.canRename;
+                    this.appOptions.buildVersion   = params.asc_getBuildVersion();
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
+                    this.appOptions.isBeta         = params.asc_getIsBeta();
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = params.asc_getCustomization();
                     if (this.appOptions.canBranding)

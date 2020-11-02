@@ -192,7 +192,7 @@ define([
                 this.leftMenu.btnChat.hide();
                 this.leftMenu.btnComments.hide();
             }
-            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
+            (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
             this.leftMenu.btnThumbs.toggle(true);
@@ -205,7 +205,7 @@ define([
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
-            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
+            (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
         clickMenuFileItem: function(menu, action, isopts) {

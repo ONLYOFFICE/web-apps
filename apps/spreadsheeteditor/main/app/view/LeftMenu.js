@@ -349,16 +349,29 @@ define([
             return this;
         },
 
-        setDeveloperMode: function(mode) {
+        setDeveloperMode: function(mode, beta, version) {
             if ( !this.$el.is(':visible') ) return;
-
-            if (!this.developerHint) {
-                this.developerHint = $('<div id="developer-hint">' + ((mode == Asc.c_oLicenseMode.Trial) ? this.txtTrial.toLocaleUpperCase() : this.txtDeveloper.toLocaleUpperCase()) + '</div>').appendTo(this.$el);
-                this.devHeight = this.developerHint.outerHeight();
-                $(window).on('resize', _.bind(this.onWindowResize, this));
+            if (mode) {
+                if (!this.developerHint) {
+                    this.developerHint = $('<div id="developer-hint">' + ((mode == Asc.c_oLicenseMode.Trial) ? this.txtTrial.toLocaleUpperCase() : this.txtDeveloper.toLocaleUpperCase()) + '</div>').appendTo(this.$el);
+                    this.devHeight = this.developerHint.outerHeight();
+                    $(window).on('resize', _.bind(this.onWindowResize, this));
+                }
+                this.developerHint.toggleClass('hidden', !mode);
             }
-            this.developerHint.toggleClass('hidden', !mode);
-
+            if (beta) {
+                if (!this.betaHint) {
+                    var style = (mode) ? 'style="margin-top: 4px;"' : '',
+                        arr = (version || '').split('.'),
+                        ver = '';
+                    (arr.length>0) && (ver += ('v. ' + arr[0]));
+                    (arr.length>1) && (ver += ('.' + arr[0]));
+                    this.betaHint = $('<div id="beta-hint"' + style + '>' + (ver + ' (beta)' ) + '</div>').appendTo(this.$el);
+                    this.betaHeight = this.betaHint.outerHeight();
+                    $(window).on('resize', _.bind(this.onWindowResize, this));
+                }
+                this.betaHint.toggleClass('hidden', !beta);
+            }
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
             this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
@@ -366,7 +379,13 @@ define([
         },
 
         onWindowResize: function() {
-            this.developerHint.css('top', Math.max((this.$el.height()-this.devHeight)/2, this.minDevPosition));
+            var height = (this.devHeight || 0) + (this.betaHeight || 0);
+            var top = Math.max((this.$el.height()-height)/2, this.minDevPosition);
+            if (this.developerHint) {
+                this.developerHint.css('top', top);
+                top += this.devHeight;
+            }
+            this.betaHint && this.betaHint.css('top', top);
         },
 
         /** coauthoring begin **/
