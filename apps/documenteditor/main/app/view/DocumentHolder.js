@@ -4284,8 +4284,9 @@ define([
             }
             if (specProps) {
                 if (isForm){ // for dropdown and combobox form control always add placeholder item
+                    var text = props.get_PlaceholderText();
                     menu.addItem(new Common.UI.MenuItem({
-                        caption     : props.get_PlaceholderText(),
+                        caption     : (text.trim()!=='') ? text : this.txtEmpty,
                         value       : '',
                         template    : _.template([
                             '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
