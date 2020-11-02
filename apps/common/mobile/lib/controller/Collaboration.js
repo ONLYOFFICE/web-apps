@@ -296,7 +296,9 @@ define([
 
             initReviewingSettingsView: function () {
                 var me = this;
-                $('#settings-review input:checkbox').attr('checked', this.appConfig.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
+
+                var trackChanges = typeof (this.appConfig.customization) == 'object' ? this.appConfig.customization.trackChanges : undefined;
+                $('#settings-review input:checkbox').attr('checked', this.appConfig.isReviewOnly || trackChanges===true || (trackChanges!==false) && Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
                 $('#settings-review input:checkbox').single('change', _.bind(me.onTrackChanges, me));
                 $('#settings-accept-all').single('click', _.bind(me.onAcceptAllClick, me));
                 $('#settings-reject-all').single('click', _.bind(me.onRejectAllClick, me));

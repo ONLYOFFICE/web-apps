@@ -542,7 +542,8 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-                me.api.asc_SetTrackRevisions(me.appOptions.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (me.appOptions.fileKey || '')));
+                var trackChanges = typeof (me.appOptions.customization) == 'object' ? me.appOptions.customization.trackChanges : undefined;
+                me.api.asc_SetTrackRevisions(me.appOptions.isReviewOnly || trackChanges===true || (trackChanges!==false) && Common.localStorage.getBool("de-mobile-track-changes-" + (me.appOptions.fileKey || '')));
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-mobile-settings-livecomment", true);

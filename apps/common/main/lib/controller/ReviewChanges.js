@@ -779,7 +779,8 @@ define([
                         me.api.asc_SetTrackRevisions(state);
                     };
 
-                    var state = config.isReviewOnly || Common.localStorage.getBool(me.view.appPrefix + "track-changes-" + (config.fileKey || ''));
+                    var trackChanges = typeof (me.appConfig.customization) == 'object' ? me.appConfig.customization.trackChanges : undefined;
+                    var state = config.isReviewOnly || trackChanges===true || (trackChanges!==false) && Common.localStorage.getBool(me.view.appPrefix + "track-changes-" + (config.fileKey || ''));
                     me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
                     _setReviewStatus(state);
 
