@@ -1361,8 +1361,11 @@ define([
             onEditComment: function(comment) {
                 var value = $('#comment-text')[0].value.trim();
                 if (value && value.length > 0) {
+                    this.getCurrentUser();
                     if (!_.isUndefined(this.onChangeComment)) {
                         comment.comment = value;
+                        comment.userid = this.currentUser.asc_getIdOriginal();
+                        comment.username = this.currentUser.asc_getUserName();
                         this.onChangeComment(comment);
                     }
                     if ($('.container-view-comment').length > 0) {
@@ -1441,9 +1444,12 @@ define([
             onEditReply: function(comment, indReply) {
                 var value = $('.edit-reply-textarea')[0].value.trim();
                 if (value && value.length > 0) {
+                    this.getCurrentUser();
                     if ($('.container-view-comment').length > 0) {
                         if (!_.isUndefined(this.onChangeComment)) {
                             comment.replys[indReply].reply = value;
+                            comment.replys[indReply].userid = this.currentUser.asc_getIdOriginal();
+                            comment.replys[indReply].username = this.currentUser.asc_getUserName();
                             this.onChangeComment(comment);
                         }
                         if (Common.SharedSettings.get('phone')) {
@@ -1460,6 +1466,8 @@ define([
                     } else {
                         if (!_.isUndefined(this.onChangeComment)) {
                             comment.replys[indReply].reply = value;
+                            comment.replys[indReply].userid = this.currentUser.asc_getIdOriginal();
+                            comment.replys[indReply].username = this.currentUser.asc_getUserName();
                             this.onChangeComment(comment);
                         }
                         rootView.router.back();
