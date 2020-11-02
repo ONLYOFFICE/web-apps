@@ -1542,7 +1542,9 @@ define([
                         date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                             ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
-                        var user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        var user = _.find(editUsers, function(item){
+                            return (item.asc_getIdOriginal()==data.asc_getReply(i).asc_getUserId());
+                        });
                         var username = data.asc_getReply(i).asc_getUserName();
                         replies.push({
                             ind                  : i,
@@ -1563,8 +1565,10 @@ define([
             readSDKComment: function(id, data) {
                 var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                     ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
-                var user = _.findWhere(editUsers, {idOriginal: data.asc_getUserId()}),
-                    groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
+                var user = _.find(editUsers, function(item){
+                    return (item.asc_getIdOriginal()==data.asc_getUserId());
+                });
+                var groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
                 var username = data.asc_getUserName();
                 var comment = {
                     uid                 : id,
@@ -1605,7 +1609,9 @@ define([
                     date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
                         ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
 
-                    var user = _.findWhere(editUsers, {idOriginal: data.asc_getUserId()});
+                    var user = _.find(editUsers, function(item){
+                        return (item.asc_getIdOriginal()==data.asc_getUserId());
+                    });
                     comment.comment = data.asc_getText();
                     comment.userid = data.asc_getUserId();
                     comment.username = data.asc_getUserName();
@@ -1625,7 +1631,9 @@ define([
                         dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                             ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
-                        user = _.findWhere(editUsers, {idOriginal: data.asc_getReply(i).asc_getUserId()});
+                        user = _.find(editUsers, function(item){
+                            return (item.asc_getIdOriginal()==data.asc_getReply(i).asc_getUserId());
+                        });
                         var username = data.asc_getReply(i).asc_getUserName();
                         replies.push({
                             ind                 : i,
