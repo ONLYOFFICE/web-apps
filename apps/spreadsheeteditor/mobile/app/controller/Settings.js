@@ -295,7 +295,7 @@ define([
 
                 var appProps = (this.api) ? this.api.asc_getAppProps() : null;
                 if (appProps) {
-                    var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                    var appName = (appProps.asc_getApplication() || '') + (appProps.asc_getAppVersion() ? ' ' : '') + (appProps.asc_getAppVersion() || '');
                     appName ? $('#settings-sse-application').html(appName) : $('.display-application').remove();
                 }
 

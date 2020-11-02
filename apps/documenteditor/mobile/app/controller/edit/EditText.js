@@ -132,8 +132,8 @@ define([
                     _paragraphObject.get_SmallCaps() && $inputTextCaps.val(['small']).prop('prevValue', 'small');
                     _paragraphObject.get_AllCaps() && $inputTextCaps.val(['all']).prop('prevValue', 'all');
 
-                    _fontInfo.letterSpacing = Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_TextSpacing());
-                    $('#letter-spacing .item-after label').text(_fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
+                    _fontInfo.letterSpacing = (_paragraphObject.get_TextSpacing()===null || _paragraphObject.get_TextSpacing()===undefined) ? _paragraphObject.get_TextSpacing() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_TextSpacing());
+                    $('#letter-spacing .item-after label').text((_fontInfo.letterSpacing===null || _fontInfo.letterSpacing===undefined) ? '' : _fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
                 }
             },
 
@@ -327,9 +327,9 @@ define([
                     spacing = _fontInfo.letterSpacing;
 
                 if ($button.hasClass('decrement')) {
-                    spacing = Math.max(-100, --spacing);
+                    spacing = (spacing===null || spacing===undefined) ? 0 : Math.max(-100, --spacing);
                 } else {
-                    spacing = Math.min(100, ++spacing);
+                    spacing = (spacing===null || spacing===undefined) ? 0 : Math.min(100, ++spacing);
                 }
                 _fontInfo.letterSpacing = spacing;
 
