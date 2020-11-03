@@ -353,7 +353,18 @@ define([
             if ( !this.$el.is(':visible') ) return;
             if (mode) {
                 if (!this.developerHint) {
-                    this.developerHint = $('<div id="developer-hint">' + ((mode == Asc.c_oLicenseMode.Trial) ? this.txtTrial.toLocaleUpperCase() : this.txtDeveloper.toLocaleUpperCase()) + '</div>').appendTo(this.$el);
+                    var str = (mode == Asc.c_oLicenseMode.Trial) ? this.txtTrial.toLowerCase() : this.txtDeveloper.toLowerCase();
+                    var arr = str.split(' ');
+                    str = '';
+                    arr.forEach(function(item){
+                        item = item.trim();
+                        if (item!=='') {
+                            str += (item.charAt(0).toUpperCase() + item.substring(1, item.length));
+                            str += '  ';
+                        }
+                    });
+                    str = str.trim();
+                    this.developerHint = $('<div id="developer-hint">' + str + '</div>').appendTo(this.$el);
                     this.devHeight = this.developerHint.outerHeight();
                     $(window).on('resize', _.bind(this.onWindowResize, this));
                 }
