@@ -6,6 +6,7 @@ import {storeTextSettings} from "./textSettings";
 import {storeParagraphSettings} from "./paragraphSettings";
 import {storeShapeSettings} from "./shapeSettings";
 import {storeImageSettings} from "./imageSettings";
+import {storeTableSettings} from "./tableSettings";
 
 export const stores = {
     storeFocusObjects: new storeFocusObjects(),
@@ -14,6 +15,7 @@ export const stores = {
     storeTextSettings: new storeTextSettings(),
     storeParagraphSettings: new storeParagraphSettings(),
     storeShapeSettings: new storeShapeSettings(),
-    storeImageSettings: new storeImageSettings()
+    storeImageSettings: new storeImageSettings(),
+    storeTableSettings: new storeTableSettings()
 };
 

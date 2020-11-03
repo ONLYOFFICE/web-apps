@@ -90,4 +90,26 @@ export class storeFocusObjects {
             return undefined;
         }
     }
+    @computed get tableObject() {
+        let tables = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
+                tables.push(object);
+            }
+        }
+        if (tables.length > 0) {
+            let object = tables[tables.length - 1]; // get top table
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
+    @computed get isTableInStack() {
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

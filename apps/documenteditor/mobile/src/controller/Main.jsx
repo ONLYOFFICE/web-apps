@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {inject} from "mobx-react";
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings")
+@inject("storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -227,6 +227,12 @@ class MainController extends Component {
         });
         this.api.asc_registerCallback('asc_onParaStyleName', (name) => {
             storeParagraphSettings.changeParaStyleName(name);
+        });
+
+        //table settings
+        const storeTableSettings = this.props.storeTableSettings;
+        this.api.asc_registerCallback('asc_onInitTableTemplates', (templates) => {
+            storeTableSettings.initTableTemplates(templates);
         });
 
     }

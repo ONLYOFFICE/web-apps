@@ -95,6 +95,13 @@
     "textReplaceImage": "Replace Image",
     "textEmptyImgUrl": "You need to specify image URL.",
     "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
-    "notcriticalErrorTitle": "Warning"
+    "notcriticalErrorTitle": "Warning",
+    "textRemoveTable": "Remove Table",
+    "textTableOptions": "Table Options",
+    "textOptions": "Options",
+    "textRepeatAsHeaderRow": "Repeat as Header Row",
+    "textResizeToFitContent": "Resize to Fit Content",
+    "textCellMargins": "Cell Margins",
+    "textFlow": "Flow"
   }
 }

@@ -9,11 +9,13 @@ import EditTextController from "./controller/EditText";
 import EditParagraphController from "./controller/EditParagraph";
 import EditShapeController from "./controller/EditShape";
 import EditImageController from "./controller/EditImage";
+import EditTableController from "./controller/EditTable";
 
 import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers} from "./EditText";
 import {PageAdvancedSettings} from "./EditParagraph";
 import {PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
+import {PageTableOptions, PageTableWrap, PageTableStyle} from "./EditTable";
 
 const routes = [
     //Edit text
@@ -71,6 +73,19 @@ const routes = [
     {
         path: '/edit-image-link/',
         component: PageLinkSettings,
+    },
+    //Edit table
+    {
+        path: '/edit-table-options/',
+        component: PageTableOptions,
+    },
+    {
+        path: '/edit-table-wrap/',
+        component: PageTableWrap,
+    },
+    {
+        path: '/edit-table-style/',
+        component: PageTableStyle,
     }
 ];
 
@@ -152,14 +167,14 @@ const EditTabs = props => {
                 component: <EditParagraphController />
             })
         }
-        /*if (settings.indexOf('table') > -1) {
+        if (settings.indexOf('table') > -1) {
             editors.push({
                 caption: _t.textTable,
                 id: 'edit-table',
-                component: <EditTable />
+                component: <EditTableController />
             })
         }
-        if (settings.indexOf('header') > -1) {
+        /*if (settings.indexOf('header') > -1) {
             editors.push({
                 caption: headerType==2 ? _t.textFooter : _t.textHeader,
                 id: 'edit-header',
