@@ -830,18 +830,12 @@ define([
                     me.indexCurrentComment = 0;
                     me.updateViewComment();
                 }
-                if (window.SSE) {
-                    SSE.getController('AddOther').setHideAddComment(true);
-                }
             },
 
             apiHideComments: function() {
                 if ($('.container-view-comment').length > 0) {
                     uiApp.closeModal();
                     $('.container-view-comment').remove();
-                }
-                if (window.SSE) {
-                    SSE.getController('AddOther').setHideAddComment(false);
                 }
             },
 

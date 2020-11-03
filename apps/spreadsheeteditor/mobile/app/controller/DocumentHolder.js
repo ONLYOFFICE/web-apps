@@ -86,16 +86,6 @@ define([
                 this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
                 Common.NotificationCenter.on('api:disconnect',          _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect,this));
-                this.api.asc_registerCallback('asc_onShowComment',      _.bind(this.onApiShowComment, this));
-                this.api.asc_registerCallback('asc_onHideComment',        _.bind(this.onApiHideComment, this));
-            },
-
-            onApiShowComment: function(comments) {
-                _isComments = comments && comments.length>0;
-            },
-
-            onApiHideComment: function() {
-                _isComments = false;
             },
 
             setMode: function (mode) {
@@ -313,6 +303,7 @@ define([
                 var iscelllocked    = cellinfo.asc_getLocked(),
                     seltype         = cellinfo.asc_getSelectionType(),
                     xfs             = cellinfo.asc_getXfs();
+                _isComments      = cellinfo.asc_getComments().length>0; //prohibit adding multiple comments in one cell;
 
                 switch (seltype) {
                     case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
