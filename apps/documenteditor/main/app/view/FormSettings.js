@@ -208,6 +208,8 @@ define([
                 value       : ''
             });
             this.lockedControls.push(this.txtNewValue);
+            this.txtNewValue.on('changed:after', this.onAddItem.bind(this));
+            this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
             this.list = new Common.UI.ListView({
                 el: $markup.findById('#form-list-list'),
@@ -217,7 +219,7 @@ define([
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
                     // '<div style="width:65px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;margin-right: 5px;"><%= name %></div>',
-                    '<div style="width:65px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= name %></div>',
+                    '<div style="width:145px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= name %></div>',
                     '</div>'
                 ].join(''))
             });
@@ -784,6 +786,7 @@ define([
         },
 
         onSelectItem: function(listView, itemView, record) {
+            this.txtNewValue.setValue(record.get('name'));
             this.disableListButtons(false);
         },
 
