@@ -51,6 +51,7 @@ define([
 
     PE.Controllers.Toolbar = Backbone.Controller.extend(_.extend((function() {
         // private
+        var _users = [];
 
         return {
             models: [],
@@ -77,13 +78,15 @@ define([
                 this.api.asc_registerCallback('asc_onCanRedo',  _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.displayCollaboration, this));
-                this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.displayCollaboration, this));
+                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onUsersChanged, this));
+                this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onUsersChanged, this));
+                this.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(this.onUserConnection, this));
                 Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onApiCountPages, this));
             },
 
             setMode: function (mode) {
+                this.mode = mode;
                 this.getView('Toolbar').setMode(mode);
             },
 
@@ -200,19 +203,38 @@ define([
                 PE.getController('Settings').hideModal();
             },
 
-            displayCollaboration: function(users) {
-                if(users !== undefined) {
+            displayCollaboration: function() {
+                if(_users !== undefined) {
                     var length = 0;
-                    _.each(users, function (item) {
-                        if (!item.asc_getView())
+                    _.each(_users, function (item) {
+                        if ((item.asc_getState()!==false) && !item.asc_getView())
                             length++;
                     });
-                    if (length > 0) {
-                        $('#toolbar-collaboration').show();
-                    } else {
+                    if (length < 1 && this.mode && !this.mode.canViewComments)
                         $('#toolbar-collaboration').hide();
+                    else
+                        $('#toolbar-collaboration').show();
+                }
+            },
+
+            onUsersChanged: function(users) {
+                _users = users;
+                this.displayCollaboration();
+            },
+
+            onUserConnection: function(change){
+                var changed = false;
+                for (var uid in _users) {
+                    if (undefined !== uid) {
+                        var user = _users[uid];
+                        if (user && user.asc_getId() == change.asc_getId()) {
+                            _users[uid] = change;
+                            changed = true;
+                        }
                     }
                 }
+                !changed && change && (_users[change.asc_getId()] = change);
+                this.displayCollaboration();
             },
 
             dlgLeaveTitleText   : 'You leave the application',

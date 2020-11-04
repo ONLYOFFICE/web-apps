@@ -244,7 +244,7 @@ define([
                 if ($button.hasClass('decrement')) {
                     distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(maxValue, distance + step);
+                    distance = (distance<0) ? 0 : Math.min(maxValue, distance + step);
                 }
 
                 var distanceFix = parseFloat(distance.toFixed(2));
@@ -273,7 +273,7 @@ define([
                 if ($button.hasClass('decrement')) {
                     distance = Math.max(-1, distance - step);
                 } else {
-                    distance = Math.min(maxValue, distance + step);
+                    distance = (distance<0) ? 0 : Math.min(maxValue, distance + step);
                 }
 
                 var distanceFix = parseFloat(distance.toFixed(2));

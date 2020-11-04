@@ -147,7 +147,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 width: 85,
                 defaultUnit : "cm",
                 value: '0.19 cm',
-                maxValue: 9.34,
+                maxValue: 55.87,
                 minValue: 0
             });
             this.spnTableMarginLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -167,7 +167,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 width: 85,
                 defaultUnit : "cm",
                 value: '0.19 cm',
-                maxValue: 9.34,
+                maxValue: 55.87,
                 minValue: 0
             });
             this.spnTableMarginRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -259,7 +259,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 width: 85,
                 defaultUnit : "cm",
                 value: '0.19 cm',
-                maxValue: 9.34,
+                maxValue: 55.87,
                 minValue: 0
             });
             this.spnMarginLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -279,7 +279,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 width: 85,
                 defaultUnit : "cm",
                 value: '0.19 cm',
-                maxValue: 9.34,
+                maxValue: 55.87,
                 minValue: 0
             });
             this.spnMarginRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){

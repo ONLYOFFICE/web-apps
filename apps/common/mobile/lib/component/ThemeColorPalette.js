@@ -185,7 +185,7 @@ define([
                 el.find('.color-palette a').removeClass('active');
                 $target.addClass('active');
                 me.currentColor = color;
-                if (effectId) {
+                if (effectId!==undefined) {
                     me.currentColor = {color: color, effectId: effectId};
                 }
                 me.trigger('select', me, me.currentColor);

@@ -5929,6 +5929,10 @@ html.phone .document-menu .list-block .item-link {
 .custom-colors .color-picker-wheel .color-picker-sb-spectrum-handle.color-picker-sb-spectrum-handle-pressed:after {
   transform: scale(1.5) translate(-33.333%, -33.333%);
 }
+#font-color-auto.active .color-auto {
+  box-shadow: 0 0 0 1px white, 0 0 0 4px #446995;
+  border-radius: 1px;
+}
 .about .page-content {
   text-align: center;
 }

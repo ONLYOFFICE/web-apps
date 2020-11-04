@@ -639,9 +639,9 @@ define([
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
 
                 if (!me.appOptions.canReview) {
-                    var canViewReview = me.appOptions.isEdit || me.api.asc_HaveRevisionsChanges(true);
-                    DE.getController('Common.Controllers.Collaboration').setCanViewReview(canViewReview);
-                    if (canViewReview) {
+                    me.appOptions.canViewReview = me.appOptions.isEdit || me.api.asc_HaveRevisionsChanges(true);
+                    DE.getController('Common.Controllers.Collaboration').setCanViewReview(me.appOptions.canViewReview);
+                    if (me.appOptions.canViewReview) {
                         var viewReviewMode = Common.localStorage.getItem("de-view-review-mode");
                         if (viewReviewMode===null)
                             viewReviewMode = me.appOptions.customization && /^(original|final|markup)$/i.test(me.appOptions.customization.reviewDisplay) ? me.appOptions.customization.reviewDisplay.toLocaleLowerCase() : 'original';
@@ -649,6 +649,7 @@ define([
                         DE.getController('Common.Controllers.Collaboration').turnDisplayMode(viewReviewMode);
                     }
                 }
+                DE.getController('Toolbar').displayCollaboration();
 
                 Common.Gateway.documentReady();
 

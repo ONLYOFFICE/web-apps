@@ -11,7 +11,7 @@
             <div class="page-content">
                 <div class="list-block">
                     <ul>
-                        <li>
+                        <li id="item-edit-users">
                             <a id="list-edit-users" class="item-link" data-page="#edit-users-view">
                                 <div class="item-content">
                                     <div class="item-media">

@@ -1443,9 +1443,11 @@ define([
         },
 
         autoCorrect: function() {
-            (new Common.Views.AutoCorrectDialog({
+            if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
+            this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
                 api: this.api
-            })).show();
+            });
+            this.dlgAutoCorrect.show();
         },
 
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
@@ -1853,7 +1855,7 @@ define([
 
             var appname = (this.api) ? this.api.asc_getAppProps() : null;
             if (appname) {
-                appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
+                appname = (appname.asc_getApplication() || '') + (appname.asc_getAppVersion() ? ' ' : '') + (appname.asc_getAppVersion() || '');
                 this.lblApplication.text(appname);
             }
             this._ShowHideInfoItem(this.lblApplication, !!appname);
