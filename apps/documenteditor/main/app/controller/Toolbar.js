@@ -1690,7 +1690,7 @@ define([
 
             switch (item.value) {
                 case 0:
-                    this.api.asc_SetLineNumbersProps(this._state.linenum_apply, null);
+                    this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, null);
                     break;
                 case 1:
                 case 2:
@@ -1699,7 +1699,7 @@ define([
                     if (this.api && item.checked) {
                         var props = new Asc.CSectionLnNumType();
                         props.put_Restart(item.value==1 ? Asc.c_oAscLineNumberRestartType.Continuous : (item.value==2 ? Asc.c_oAscLineNumberRestartType.NewPage : Asc.c_oAscLineNumberRestartType.NewSection));
-                        this.api.asc_SetLineNumbersProps(this._state.linenum_apply, props);
+                        this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, props);
                     }
                     break;
                 case 4:
