@@ -18,13 +18,17 @@
 .asc-loadmask-body {
     position: absolute;
     z-index: @loadmask-zindex + 1;
-    padding: 20px;
+    padding: 24px;
     line-height: @loadmask-image-height;
     border: none;
     background-image: none;
     background-color: fade(@black, 90%);
     color: @gray-light;
     .border-radius(@border-radius-large);
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%);
 
     & > div {
         display: inline-block;
@@ -36,23 +40,30 @@
         height: @loadmask-image-height;
         width: @loadmask-image-width;
         float: left;
-        margin-left: 20px;
+        margin-left: 8px;
     }
 
     .asc-loadmask-title {
         .fontsize(@font-size-large);
-        margin: 0 20px;
+        margin: 0 8px 0 12px;
     }
 
     .left-panel & {
         line-height: @loadmask-small-image-height;
         background-color: transparent;
         color: @gray-deep;
+        padding: 8px;
+        top: 78px;
+        transform: translate(-50%, 0);
 
         .asc-loadmask-image {
             background-image: ~"url(@{common-image-const-path}/load-mask/loading-small.svg)";
             height: @loadmask-small-image-height;
             width: @loadmask-small-image-width;
+        }
+
+        .asc-loadmask-title {
+            margin: 0 8px;
         }
     }
 }
