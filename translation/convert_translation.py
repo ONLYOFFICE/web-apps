@@ -97,10 +97,11 @@ for i in range(len(app_names)):
                     f.write(u'}')
                     f.close()
                     print('    ' + lang + '.json - ' + changed)
-            add_langs = os.listdir(src_path)
-            for l in range(len(langs)):
-                add_langs.remove(langs[l])
-            for l in range(len(add_langs)):
-                lang = add_langs[l]
-                shutil.copyfile(src_path + lang, dest_path + lang)
-		print('    ' + lang + ' - ' + 'added')
+            if os.path.isdir(src_path):
+                add_langs = os.listdir(src_path)
+                for l in range(len(langs)):
+                    add_langs.remove(langs[l])
+                for l in range(len(add_langs)):
+                    lang = add_langs[l]
+                    shutil.copyfile(src_path + lang, dest_path + lang)
+                    print('    ' + lang + ' - ' + 'added')
