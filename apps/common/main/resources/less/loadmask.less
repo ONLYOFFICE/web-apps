@@ -1,4 +1,8 @@
 @loadmask-zindex: @zindex-modal + 100;
+@loadmask-image-height: 28px;
+@loadmask-image-width: 28px;
+@loadmask-small-image-height: 20px;
+@loadmask-small-image-width: 20px;
 
 .asc-loadmask {
     position: absolute;
@@ -15,10 +19,10 @@
     position: absolute;
     z-index: @loadmask-zindex + 1;
     padding: 20px;
-    line-height: 33px;
+    line-height: @loadmask-image-height;
     border: none;
     background-image: none;
-    background-color: fade(darken(@gray-deep, 15%), 70%);
+    background-color: fade(@black, 90%);
     color: @gray-light;
     .border-radius(@border-radius-large);
 
@@ -28,9 +32,9 @@
     }
 
     .asc-loadmask-image {
-        background-image: ~"url(@{common-image-const-path}/load-mask/loading.gif)";
-        height: 33px;
-        width: 33px;
+        background-image: ~"url(@{common-image-const-path}/load-mask/loading.svg)";
+        height: @loadmask-image-height;
+        width: @loadmask-image-width;
         float: left;
         margin-left: 20px;
     }
@@ -38,6 +42,18 @@
     .asc-loadmask-title {
         .fontsize(@font-size-large);
         margin: 0 20px;
+    }
+
+    .left-panel & {
+        line-height: @loadmask-small-image-height;
+        background-color: transparent;
+        color: @gray-deep;
+
+        .asc-loadmask-image {
+            background-image: ~"url(@{common-image-const-path}/load-mask/loading-small.svg)";
+            height: @loadmask-small-image-height;
+            width: @loadmask-small-image-width;
+        }
     }
 }
 
