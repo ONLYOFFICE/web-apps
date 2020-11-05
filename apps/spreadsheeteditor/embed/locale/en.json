@@ -24,8 +24,8 @@
   "SSE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "SSE.ApplicationController.waitText": "Please, wait...",
   "SSE.ApplicationView.txtDownload": "Download",
-  "SSE.ApplicationView.txtPrint": "Print",
   "SSE.ApplicationView.txtEmbed": "Embed",
   "SSE.ApplicationView.txtFullScreen": "Full Screen",
+  "SSE.ApplicationView.txtPrint": "Print",
   "SSE.ApplicationView.txtShare": "Share"
 }

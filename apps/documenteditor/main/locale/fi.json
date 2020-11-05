@@ -141,8 +141,6 @@
   "Common.Views.Header.textCompactView": "Piilota työkalupalkki",
   "Common.Views.Header.textHideLines": "Piilota viivaimet",
   "Common.Views.Header.textHideStatusBar": "Piilota tilapalkki",
-  "Common.Views.Header.textSaveBegin": "Tallennetaan...",
-  "Common.Views.Header.textSaveChanged": "Muokattu",
   "Common.Views.Header.textZoom": "Suurenna",
   "Common.Views.Header.tipAccessRights": "Hallinnoi asiakirjan käyttöoikeuksia",
   "Common.Views.Header.tipDownload": "Lataa tiedosto",
