@@ -50,9 +50,9 @@ const PageWrap = props => {
                                onClick={() => {
                                    props.onShapeAlign(Asc.c_oAscAlignH.Center)
                                }}>center</a>
-                            <a className={'button' + (align === Asc.c_oAscAlignH.Righ ? ' active' : '')}
+                            <a className={'button' + (align === Asc.c_oAscAlignH.Right ? ' active' : '')}
                                onClick={() => {
-                                   props.onShapeAlign(Asc.c_oAscAlignH.Righ)
+                                   props.onShapeAlign(Asc.c_oAscAlignH.Right)
                                }}>right</a>
                         </Row>
                     </ListItem>
