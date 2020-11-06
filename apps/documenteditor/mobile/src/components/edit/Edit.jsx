@@ -11,6 +11,7 @@ import EditShapeController from "./controller/EditShape";
 import EditImageController from "./controller/EditImage";
 import EditTableController from "./controller/EditTable";
 import EditChartController from "./controller/EditChart";
+import EditHyperlinkController from "./controller/EditHyperlink";
 
 import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers} from "./EditText";
 import {PageAdvancedSettings} from "./EditParagraph";
@@ -213,13 +214,13 @@ const EditTabs = props => {
                 component: <EditChartController />
             })
         }
-        /*if (settings.indexOf('hyperlink') > -1) {
+        if (settings.indexOf('hyperlink') > -1) {
             editors.push({
                 caption: _t.textHyperlink,
                 id: 'edit-link',
-                component: <EditHyperlink />
+                component: <EditHyperlinkController />
             })
-        }*/
+        }
     }
 
     return (

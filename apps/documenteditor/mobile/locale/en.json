@@ -103,6 +103,11 @@
     "textResizeToFitContent": "Resize to Fit Content",
     "textCellMargins": "Cell Margins",
     "textFlow": "Flow",
-    "textRemoveChart": "Remove Chart"
+    "textRemoveChart": "Remove Chart",
+    "textEditLink": "Edit Link",
+    "textRemoveLink": "Remove Link",
+    "textLink": "Link",
+    "textDisplay": "Display",
+    "textScreenTip": "Screen Tip"
   }
 }
