@@ -11,6 +11,9 @@ def strSplit(str):
     indLast = str.rfind('"')
     result.append(str[ind3+1:indLast])
     return result
+def sortByAlphabet(inputStr):
+    return inputStr.lower()
+
 app_names = ['documenteditor', 'presentationeditor', 'spreadsheeteditor']
 app_types = ['embed', 'main', 'mobile']
 prefix_apps = '../apps/'
@@ -40,6 +43,7 @@ for i in range(len(app_names)):
                     arr = strSplit(lines[k])
                     if len(arr) > 0:
                         str_apps.append(arr[0])
+                str_apps.sort(key=sortByAlphabet)
                 for l in range(len(langs)):
                     lang = langs[l].split('.')[0]
                     f = io.open(locale_path + lang+ '.json', mode='r', encoding='utf-8')
@@ -97,10 +101,11 @@ for i in range(len(app_names)):
                     f.write(u'}')
                     f.close()
                     print('    ' + lang + '.json - ' + changed)
-            add_langs = os.listdir(src_path)
-            for l in range(len(langs)):
-                add_langs.remove(langs[l])
-            for l in range(len(add_langs)):
-                lang = add_langs[l]
-                shutil.copyfile(src_path + lang, dest_path + lang)
-		print('    ' + lang + ' - ' + 'added')
+            if os.path.isdir(src_path):
+                add_langs = os.listdir(src_path)
+                for l in range(len(langs)):
+                    add_langs.remove(langs[l])
+                for l in range(len(add_langs)):
+                    lang = add_langs[l]
+                    shutil.copyfile(src_path + lang, dest_path + lang)
+                    print('    ' + lang + ' - ' + 'added')

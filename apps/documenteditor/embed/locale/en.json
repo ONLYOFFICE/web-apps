@@ -24,8 +24,8 @@
   "DE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "DE.ApplicationController.waitText": "Please, wait...",
   "DE.ApplicationView.txtDownload": "Download",
-  "DE.ApplicationView.txtPrint": "Print",
   "DE.ApplicationView.txtEmbed": "Embed",
   "DE.ApplicationView.txtFullScreen": "Full Screen",
+  "DE.ApplicationView.txtPrint": "Print",
   "DE.ApplicationView.txtShare": "Share"
 }

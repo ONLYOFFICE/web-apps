@@ -24,8 +24,8 @@
   "PE.ApplicationController.unsupportedBrowserErrorText": "Your browser is not supported.",
   "PE.ApplicationController.waitText": "Please, wait...",
   "PE.ApplicationView.txtDownload": "Download",
-  "PE.ApplicationView.txtPrint": "Print",
   "PE.ApplicationView.txtEmbed": "Embed",
   "PE.ApplicationView.txtFullScreen": "Full Screen",
+  "PE.ApplicationView.txtPrint": "Print",
   "PE.ApplicationView.txtShare": "Share"
 }
