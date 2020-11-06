@@ -155,6 +155,8 @@ define([
                 window["flat_desine"] = true;
                 this.api = this.getApplication().getController('Viewport').getApi();
 
+                Common.UI.FocusManager.init();
+                
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");

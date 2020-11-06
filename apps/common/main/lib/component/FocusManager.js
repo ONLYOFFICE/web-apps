@@ -129,45 +129,48 @@ Common.UI.FocusManager = new(function() {
         }
     };
 
-    Common.NotificationCenter.on({
-        'modal:show': function(e){
-            if (e && e.cid) {
-                if (_windows[e.cid]) {
-                    _windows[e.cid].hidden = false;
-                } else {
-                    _windows[e.cid] = {
-                        parent: e,
-                        hidden: false,
-                        index: _count++
-                    };
-                    updateTabIndexes(true);
+    var _init = function() {
+        Common.NotificationCenter.on({
+            'modal:show': function(e){
+                if (e && e.cid) {
+                    if (_windows[e.cid]) {
+                        _windows[e.cid].hidden = false;
+                    } else {
+                        _windows[e.cid] = {
+                            parent: e,
+                            hidden: false,
+                            index: _count++
+                        };
+                        updateTabIndexes(true);
+                    }
+                }
+            },
+            'window:show': function(e){
+                if (e && e.cid && _windows[e.cid] && !_windows[e.cid].fields) {
+                    _windows[e.cid].fields = register(e.getFocusedComponents());
+                    addTraps(_windows[e.cid]);
+                }
+
+                var el = e ? e.getDefaultFocusableComponent() : null;
+                el && setTimeout(function(){ el.focus(); }, 100);
+            },
+            'modal:close': function(e, last) {
+                if (e && e.cid && _windows[e.cid]) {
+                    updateTabIndexes(false);
+                    delete _windows[e.cid];
+                    _count--;
+                }
+            },
+            'modal:hide': function(e, last) {
+                if (e && e.cid && _windows[e.cid]) {
+                    _windows[e.cid].hidden = true;
                 }
             }
-        },
-        'window:show': function(e){
-            if (e && e.cid && _windows[e.cid] && !_windows[e.cid].fields) {
-                _windows[e.cid].fields = register(e.getFocusedComponents());
-                addTraps(_windows[e.cid]);
-            }
-
-            var el = e ? e.getDefaultFocusableComponent() : null;
-            el && setTimeout(function(){ el.focus(); }, 100);
-        },
-        'modal:close': function(e, last) {
-            if (e && e.cid && _windows[e.cid]) {
-                updateTabIndexes(false);
-                delete _windows[e.cid];
-                _count--;
-            }
-        },
-        'modal:hide': function(e, last) {
-            if (e && e.cid && _windows[e.cid]) {
-                _windows[e.cid].hidden = true;
-            }
-        }
-    });
+        });
+    };
 
     return {
+        init: _init,
         add: _add
     }
 })();
