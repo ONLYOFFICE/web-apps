@@ -45,7 +45,7 @@ const PageWrap = props => {
                                    }}>center</a>
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Right ? ' active' : '')}
                                    onClick={() => {
-                                       props.onAlign(Asc.c_oAscAlignH.Righ)
+                                       props.onAlign(Asc.c_oAscAlignH.Right)
                                    }}>right</a>
                             </Row>
                         </ListItem>
