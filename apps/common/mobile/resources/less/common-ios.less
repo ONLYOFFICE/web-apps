@@ -27,7 +27,7 @@
         .list:last-child {
             li:last-child {
                 a {
-                    border-radius: 0;
+                    //border-radius: 0;
                 }
 
                 &:after {
@@ -95,4 +95,15 @@
         }
     }
 
+    .popover li:last-child {
+        .segmented a {
+            &:first-child {
+                border-radius: var(--f7-button-border-radius) 0 0 var(--f7-button-border-radius);
+            }
+
+            &:last-child {
+                border-radius: 0 var(--f7-button-border-radius) var(--f7-button-border-radius) 0;
+            }
+        }
+    }
 }
