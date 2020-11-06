@@ -102,6 +102,7 @@
     "textRepeatAsHeaderRow": "Repeat as Header Row",
     "textResizeToFitContent": "Resize to Fit Content",
     "textCellMargins": "Cell Margins",
-    "textFlow": "Flow"
+    "textFlow": "Flow",
+    "textRemoveChart": "Remove Chart"
   }
 }

@@ -10,12 +10,14 @@ import EditParagraphController from "./controller/EditParagraph";
 import EditShapeController from "./controller/EditShape";
 import EditImageController from "./controller/EditImage";
 import EditTableController from "./controller/EditTable";
+import EditChartController from "./controller/EditChart";
 
 import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers} from "./EditText";
 import {PageAdvancedSettings} from "./EditParagraph";
 import {PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
 import {PageTableOptions, PageTableWrap, PageTableStyle} from "./EditTable";
+import {PageChartWrap, PageChartReorder} from "./EditChart";
 
 const routes = [
     //Edit text
@@ -86,6 +88,15 @@ const routes = [
     {
         path: '/edit-table-style/',
         component: PageTableStyle,
+    },
+    //Edit chart
+    {
+        path: '/edit-chart-wrap/',
+        component: PageChartWrap,
+    },
+    {
+        path: '/edit-chart-reorder/',
+        component: PageChartReorder,
     }
 ];
 
@@ -195,14 +206,14 @@ const EditTabs = props => {
                 component: <EditImageController />
             })
         }
-        /*if (settings.indexOf('chart') > -1) {
+        if (settings.indexOf('chart') > -1) {
             editors.push({
                 caption: _t.textChart,
                 id: 'edit-chart',
-                component: <EditChart />
+                component: <EditChartController />
             })
         }
-        if (settings.indexOf('hyperlink') > -1) {
+        /*if (settings.indexOf('hyperlink') > -1) {
             editors.push({
                 caption: _t.textHyperlink,
                 id: 'edit-link',

@@ -112,4 +112,18 @@ export class storeFocusObjects {
         }
         return false;
     }
+    @computed get chartObject() {
+        const charts = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectValue() && object.get_ObjectValue().get_ChartProperties()) {
+                charts.push(object);
+            }
+        }
+        if (charts.length > 0) {
+            let object = charts[charts.length - 1]; // get top table
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
 }
