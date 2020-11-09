@@ -614,7 +614,8 @@ define([
 
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
-                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS))
+                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                    || licType===Asc.c_oLicenseResult.ExpiredLimited))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady && this._state.licenseType)
@@ -638,10 +639,12 @@ define([
                     SSE.getController('Toolbar').activateControls();
                     return;
                 }
-                if (this._state.licenseType) {
+                if (this._state.licenseType || (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
                     var license = this._state.licenseType,
                         buttons = [{text: 'OK'}];
-                    if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                    if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
+                        license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                    } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                     } else {
                         license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
@@ -707,7 +710,6 @@ define([
             onEditorPermissions: function(params) {
                 var me = this,
                     licType = params ? params.asc_getLicenseType() : Asc.c_oLicenseResult.Error;
-
                 if (params && !(me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge)) {
                     if (Asc.c_oLicenseResult.Expired === licType ||
                         Asc.c_oLicenseResult.Error === licType ||
@@ -739,6 +741,7 @@ define([
                     me.appOptions.canViewComments = me.appOptions.canComments || !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
                     me.appOptions.canEditComments = me.appOptions.isOffline || !(typeof (me.editorConfig.customization) == 'object' && me.editorConfig.customization.commentAuthorOnly);
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
+                    me.appOptions.trialMode      = params.asc_getLicenseMode();
 
                     me.appOptions.canBranding  = params.asc_getCustomization();
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
@@ -1743,7 +1746,9 @@ define([
             textYes: 'Yes',
             textNo: 'No',
             errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
-            errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.'
+            errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
+            warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.'
         }
     })(), SSE.Controllers.Main || {}))
 });

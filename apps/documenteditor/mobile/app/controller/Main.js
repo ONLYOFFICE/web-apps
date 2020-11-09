@@ -658,7 +658,8 @@ define([
             onLicenseChanged: function(params) {
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
-                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS))
+                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                    || licType===Asc.c_oLicenseResult.ExpiredLimited))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady && this._state.licenseType)
@@ -683,10 +684,12 @@ define([
                     return;
                 }
 
-                if (this._state.licenseType) {
+                if (this._state.licenseType || (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
                     var license = this._state.licenseType,
                         buttons = [{text: 'OK'}];
-                    if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                    if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
+                        license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                    } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                     } else {
                         license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
@@ -752,7 +755,6 @@ define([
             onEditorPermissions: function(params) {
                 var me = this,
                     licType = params.asc_getLicenseType();
-
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
                     Asc.c_oLicenseResult.ExpiredTrial === licType) {
@@ -795,6 +797,7 @@ define([
                 me.appOptions.fileKey = me.document.key;
                 me.appOptions.canFillForms   = ((me.permissions.fillForms===undefined) ? me.appOptions.isEdit : me.permissions.fillForms) && (me.editorConfig.mode !== 'view');
                 me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && me.appOptions.canFillForms;
+                me.appOptions.trialMode      = params.asc_getLicenseMode();
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
                 me.appOptions.canDownloadOrigin = me.permissions.download !== false && (type && typeof type[1] === 'string');
@@ -1588,7 +1591,9 @@ define([
             textNo: 'No',
             errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
             errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
-            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.'
+            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
+            warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.'
         }
     })(), DE.Controllers.Main || {}))
 });

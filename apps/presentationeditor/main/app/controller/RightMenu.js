@@ -215,7 +215,7 @@ define([
 
         SetDisabled: function(disabled, allowSignature) {
             this.setMode({isEdit: !disabled});
-            if (this.rightmenu) {
+            if (this.rightmenu && this.rightmenu.paragraphSettings) {
                 this.rightmenu.slideSettings.SetSlideDisabled(disabled, disabled, disabled, disabled);
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);

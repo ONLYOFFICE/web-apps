@@ -384,12 +384,41 @@ define([
         setDeveloperMode: function(mode) {
             if ( !this.$el.is(':visible') ) return;
 
-            if (!this.developerHint) {
-                this.developerHint = $('<div id="developer-hint">' + ((mode == Asc.c_oLicenseMode.Trial) ? this.txtTrial.toLocaleUpperCase() : this.txtDeveloper.toLocaleUpperCase()) + '</div>').appendTo(this.$el);
-                this.devHeight = this.developerHint.outerHeight();
-                $(window).on('resize', _.bind(this.onWindowResize, this));
+            if ((mode & Asc.c_oLicenseMode.Trial) || (mode & Asc.c_oLicenseMode.Developer)) {
+                if (!this.developerHint) {
+                    var str = '';
+                    if ((mode & Asc.c_oLicenseMode.Trial) && (mode & Asc.c_oLicenseMode.Developer))
+                        str = this.txtTrialDev;
+                    else if ((mode & Asc.c_oLicenseMode.Trial)!==0)
+                        str = this.txtTrial;
+                    else if ((mode & Asc.c_oLicenseMode.Developer)!==0)
+                        str = this.txtDeveloper;
+                    str = str.toUpperCase();
+                    this.developerHint = $('<div id="developer-hint">' + str + '</div>').appendTo(this.$el);
+                    this.devHeight = this.developerHint.outerHeight();
+                    !this.devHintInited && $(window).on('resize', _.bind(this.onWindowResize, this));
+                    this.devHintInited = true;
+                }
             }
-            this.developerHint.toggleClass('hidden', !mode);
+            this.developerHint && this.developerHint.toggleClass('hidden', !((mode & Asc.c_oLicenseMode.Trial) || (mode & Asc.c_oLicenseMode.Developer)));
+
+            var btns = this.$el.find('button.btn-category:visible'),
+                lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
+            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.onWindowResize();
+        },
+
+        setLimitMode: function() {
+            if ( !this.$el.is(':visible') ) return;
+
+            if (!this.limitHint) {
+                var str = this.txtLimit.toUpperCase();
+                this.limitHint = $('<div id="limit-hint" style="margin-top: 4px;">' + str + '</div>').appendTo(this.$el);
+                this.limitHeight = this.limitHint.outerHeight();
+                !this.devHintInited && $(window).on('resize', _.bind(this.onWindowResize, this));
+                this.devHintInited = true;
+            }
+            this.limitHint && this.limitHint.toggleClass('hidden', false);
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
@@ -398,7 +427,13 @@ define([
         },
 
         onWindowResize: function() {
-            this.developerHint.css('top', Math.max((this.$el.height()-this.devHeight)/2, this.minDevPosition));
+            var height = (this.devHeight || 0) + (this.limitHeight || 0);
+            var top = Math.max((this.$el.height()-height)/2, this.minDevPosition);
+            if (this.developerHint) {
+                this.developerHint.css('top', top);
+                top += this.devHeight;
+            }
+            this.limitHint && this.limitHint.css('top', top);
         },
         /** coauthoring begin **/
         tipComments : 'Comments',
@@ -410,6 +445,8 @@ define([
         tipPlugins  : 'Plugins',
         txtDeveloper: 'DEVELOPER MODE',
         txtTrial: 'TRIAL MODE',
-        tipNavigation: 'Navigation'
+        txtTrialDev: 'Trial Developer Mode',
+        tipNavigation: 'Navigation',
+        txtLimit: 'Limit Access'
     }, DE.Views.LeftMenu || {}));
 });

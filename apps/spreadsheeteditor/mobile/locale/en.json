@@ -326,6 +326,8 @@
   "SSE.Controllers.Main.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "SSE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "SSE.Controllers.Main.warnLicenseLimitedRenewed": "License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access",
+  "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.",
   "SSE.Controllers.Search.textNoTextFound": "Text not found",
   "SSE.Controllers.Search.textReplaceAll": "Replace All",
   "SSE.Controllers.Settings.notcriticalErrorTitle": "Warning",
