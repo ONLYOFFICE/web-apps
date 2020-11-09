@@ -24,5 +24,6 @@
   "DE.ApplicationController.waitText": "Čekejte prosím…",
   "DE.ApplicationView.txtDownload": "Stáhnout",
   "DE.ApplicationView.txtFullScreen": "Na celou obrazovku",
+  "DE.ApplicationView.txtPrint": "Tisk",
   "DE.ApplicationView.txtShare": "Sdílet"
 }

@@ -24,5 +24,6 @@
   "SSE.ApplicationController.waitText": "Čekejte prosím…",
   "SSE.ApplicationView.txtDownload": "Stáhnout",
   "SSE.ApplicationView.txtFullScreen": "Na celou obrazovku",
+  "SSE.ApplicationView.txtPrint": "Tisk",
   "SSE.ApplicationView.txtShare": "Sdílet"
 }
