@@ -458,6 +458,8 @@ define([
                 var rec = store.findWhere({value: value});
                 if (!rec) {
                     store.add({value: value, name: value});
+                    this._state.listValue = value;
+                    this._state.listIndex = undefined;
                     this.fillListProps();
                 }
             }
@@ -468,6 +470,8 @@ define([
             var rec = this.list.getSelectedRec();
             if (rec) {
                 var store = this.list.store;
+                this._state.listIndex = store.indexOf(rec);
+                this._state.listValue = undefined;
                 store.remove(rec);
                 this.fillListProps();
             }
@@ -588,7 +592,20 @@ define([
                             });
                         }
                         this.list.store.reset(arr);
-                        this.txtNewValue.setValue('');
+                        var rec = null;
+                        if (arr.length>0 && this._state.internalId === this.internalId && (this._state.listValue!==undefined || this._state.listIndex!==undefined)) {
+                            if (this._state.listIndex!==undefined) {
+                                (this._state.listIndex>=this.list.store.length) && (this._state.listIndex = this.list.store.length-1);
+                            }
+                            rec = (this._state.listValue!==undefined) ? this.list.store.findWhere({value: this._state.listValue}) : this.list.store.at(this._state.listIndex);
+                        }
+                        if (rec) {
+                            this.list.selectRecord(rec);
+                            this.list.scrollToRecord(rec);
+                        } else {
+                            this.txtNewValue.setValue('');
+                            this._state.listValue = this._state.listIndex = undefined;
+                        }
                     }
                     this.disableListButtons();
                 } else if (type == Asc.c_oAscContentControlSpecificType.CheckBox) {
@@ -703,6 +720,8 @@ define([
                 if (this.type !== type || type == Asc.c_oAscContentControlSpecificType.CheckBox)
                     this.showHideControls(type, formTextPr, specProps);
                 this.type = type;
+
+                this._state.internalId = this.internalId;
             }
         },
 
@@ -787,6 +806,8 @@ define([
 
         onSelectItem: function(listView, itemView, record) {
             this.txtNewValue.setValue(record.get('name'));
+            this._state.listValue = record.get('name');
+            this._state.listIndex = undefined;
             this.disableListButtons(false);
         },
 
