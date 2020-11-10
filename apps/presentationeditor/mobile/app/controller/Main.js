@@ -1242,10 +1242,6 @@ define([
                 this._state.usersCount = length;
             },
 
-            returnUserCount: function() {
-                return this._state.usersCount;
-            },
-
             onDocumentName: function(name) {
 //                this.getApplication().getController('Viewport').getView('Common.Views.Header').setDocumentCaption(name);
                 this.updateWindowTitle(true);

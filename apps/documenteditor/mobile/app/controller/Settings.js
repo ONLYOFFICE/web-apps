@@ -269,10 +269,7 @@ define([
                     if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
                         $('#settings-document').addClass('disabled');
                     }
-                    var _userCount = DE.getController('Main').returnUserCount();
-                    if (_userCount > 0) {
-                        $('#settings-collaboration').show();
-                    }
+                    DE.getController('Toolbar').getDisplayCollaboration() && $('#settings-collaboration').show();
                 }
             },
 
