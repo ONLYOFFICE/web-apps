@@ -589,7 +589,7 @@ define([
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
                     (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
-                    || licType===Asc.c_oLicenseResult.ExpiredLimited))
+                    || (licType===Asc.c_oLicenseResult.SuccessLimit || licType===Asc.c_oLicenseResult.ExpiredLimited) && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady && this._state.licenseType)
@@ -614,7 +614,7 @@ define([
                     return;
                 }
 
-                if (this._state.licenseType || (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
+                if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = [{text: 'OK'}];
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
@@ -637,9 +637,13 @@ define([
                                         }
                                     }];
                     }
-                    PE.getController('Toolbar').activateViewControls();
-                    PE.getController('Toolbar').deactivateEditControls();
-                    Common.NotificationCenter.trigger('api:disconnect');
+                    if (this._state.licenseType===Asc.c_oLicenseResult.SuccessLimit) {
+                        PE.getController('Toolbar').activateControls();
+                    } else {
+                        PE.getController('Toolbar').activateViewControls();
+                        PE.getController('Toolbar').deactivateEditControls();
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
 
                     var value = Common.localStorage.getItem("pe-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
@@ -685,7 +689,6 @@ define([
             onEditorPermissions: function(params) {
                 var me = this,
                     licType = params.asc_getLicenseType();
-
                 if (Asc.c_oLicenseResult.Expired === licType ||
                     Asc.c_oLicenseResult.Error === licType ||
                     Asc.c_oLicenseResult.ExpiredTrial === licType) {

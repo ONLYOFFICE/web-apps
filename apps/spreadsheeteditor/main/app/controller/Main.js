@@ -866,7 +866,7 @@ define([
                 } else {
                     documentHolderView.createDelayedElementsViewer();
                     Common.NotificationCenter.trigger('document:ready', 'main');
-                    if (me.appOptions.canEdit && me.editorConfig.mode !== 'view') // if want to open editor, but viewer is loaded
+                    if (me.editorConfig.mode !== 'view') // if want to open editor, but viewer is loaded
                         me.applyLicense();
                 }
                 // TODO bug 43960
@@ -912,7 +912,7 @@ define([
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
                     (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
-                    || licType===Asc.c_oLicenseResult.ExpiredLimited))
+                    || (licType===Asc.c_oLicenseResult.SuccessLimit || licType===Asc.c_oLicenseResult.ExpiredLimited) && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady)
@@ -920,7 +920,7 @@ define([
             },
 
             applyLicense: function() {
-                if (this._state.licenseType || (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
+                if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = ['ok'],
                         primary = 'ok';
@@ -935,7 +935,7 @@ define([
                         primary = 'buynow';
                     }
 
-                    if (this._state.licenseType && this.appOptions.isEdit) {
+                    if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.isEdit) {
                         this.disableEditing(true);
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
