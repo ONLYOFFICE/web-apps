@@ -78,8 +78,8 @@ define([
 
             template: _.template([
                 '<div id="<%= id %>" class="asc-loadmask-body <%= cls %>" role="presentation" tabindex="-1">',
-                '<div class="asc-loadmask-image"></div>',
-                '<div class="asc-loadmask-title"><%= title %></div>',
+                    '<i id="loadmask-spinner" class="asc-loadmask-image"></i>',
+                    '<div class="asc-loadmask-title"><%= title %></div>',
                 '</div>'
             ].join('')),
 
