@@ -1449,10 +1449,6 @@ define([
                 this._state.usersCount = length;
             },
 
-            returnUserCount: function() {
-                return this._state.usersCount;
-            },
-
             applySettings: function() {
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var value = Common.localStorage.getItem("sse-settings-coauthmode"),

@@ -886,10 +886,6 @@ define([
                 }
             },
 
-            returnUserCount: function() {
-                return this._state.usersCount;
-            },
-
             onExternalMessage: function(msg) {
                 if (msg && msg.msg) {
                     msg.msg = (msg.msg).toString();
