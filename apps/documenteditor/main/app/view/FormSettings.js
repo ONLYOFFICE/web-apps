@@ -92,10 +92,12 @@ define([
             this.TextOnlySettings = el.find('.form-textfield');
             this.PlaceholderSettings = el.find('.form-placeholder');
             this.KeySettings = el.find('.form-keyfield');
+            this.KeySettingsTd = this.KeySettings.find('td');
             this.CheckOnlySettings = el.find('.form-checkbox');
             this.RadioOnlySettings = el.find('.form-radiobox');
             this.ListOnlySettings = el.find('.form-list');
             this.ImageOnlySettings = el.find('.form-image');
+            this.ConnectedSettings = el.find('.form-connected');
         },
 
         createDelayedElements: function() {
@@ -106,6 +108,8 @@ define([
             var me = this;
 
             this.labelFormName = $markup.findById('#form-settings-name');
+            this.labelConnectedFields = $markup.findById('#form-settings-connected');
+            $markup.findById('#form-settings-disconnect').on('click', _.bind(this.onDisconnect, this));
 
             // Common props
             this.cmbKey = new Common.UI.ComboBox({
@@ -575,7 +579,8 @@ define([
                 }
                 this.disableControls(this._locked);
 
-                var type = props.get_SpecificType();
+                var type = props.get_SpecificType(),
+                    connected = false;
                 var specProps;
                 //for list controls
                 if (type == Asc.c_oAscContentControlSpecificType.ComboBox || type == Asc.c_oAscContentControlSpecificType.DropDownList) {
@@ -634,6 +639,10 @@ define([
 
                     val = formPr.get_Key();
                     this.cmbKey.setValue(val ? val : '');
+
+                    val = 1;//formPr.get_Connected();
+                    connected = (val>1);
+                    connected && this.labelConnectedFields.text(this.textConnected + ': ' + val);
 
                     val = formPr.get_HelpText();
                     if (this._state.help!==val) {
@@ -717,6 +726,8 @@ define([
 
                 this._noApply = false;
 
+                this.KeySettingsTd.toggleClass('padding-small', !connected);
+                this.ConnectedSettings.toggleClass('hidden', !connected);
                 if (this.type !== type || type == Asc.c_oAscContentControlSpecificType.CheckBox)
                     this.showHideControls(type, formTextPr, specProps);
                 this.type = type;
@@ -811,6 +822,10 @@ define([
             this.disableListButtons(false);
         },
 
+        onDisconnect: function() {
+            this.onKeyChanged(this.cmbKey, {value: ""});
+        },
+
         disableListButtons: function(disabled) {
             if (disabled===undefined)
                 disabled = !this.list.getSelectedRec();
@@ -844,7 +859,9 @@ define([
         textFromUrl:    'From URL',
         textFromFile:   'From File',
         textFromStorage: 'From Storage',
-        textColor: 'Border color'
+        textColor: 'Border color',
+        textConnected: 'Fields connected',
+        textDisconnect: 'Disconnect'
 
     }, DE.Views.FormSettings || {}));
 });

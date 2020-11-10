@@ -10,6 +10,12 @@
             <div id="form-combo-key" style="width: 100%;"></div>
         </td>
     </tr>
+    <tr class="form-connected">
+        <td class="padding-small">
+            <label style="opacity: 0.5; margin-right: 5px;" id="form-settings-connected"><%= scope.textConnected %></label>
+            <label class="link-solid" id="form-settings-disconnect"><%= scope.textDisconnect %></label>
+        </td>
+    </tr>
     <tr class="form-radiobox">
         <td class="padding-small">
             <label class="input-label"><%= scope.textGroupKey %></label>
