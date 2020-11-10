@@ -615,7 +615,7 @@ define([
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
                     (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
-                    || licType===Asc.c_oLicenseResult.ExpiredLimited))
+                    || (licType===Asc.c_oLicenseResult.SuccessLimit || licType===Asc.c_oLicenseResult.ExpiredLimited) && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady && this._state.licenseType)
@@ -639,7 +639,7 @@ define([
                     SSE.getController('Toolbar').activateControls();
                     return;
                 }
-                if (this._state.licenseType || (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
+                if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = [{text: 'OK'}];
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
@@ -662,9 +662,13 @@ define([
                                         }
                                     }];
                     }
-                    SSE.getController('Toolbar').activateViewControls();
-                    SSE.getController('Toolbar').deactivateEditControls();
-                    Common.NotificationCenter.trigger('api:disconnect');
+                    if (this._state.licenseType===Asc.c_oLicenseResult.SuccessLimit) {
+                        SSE.getController('Toolbar').activateControls();
+                    } else {
+                        SSE.getController('Toolbar').activateViewControls();
+                        SSE.getController('Toolbar').deactivateEditControls();
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
 
                     var value = Common.localStorage.getItem("sse-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
