@@ -640,8 +640,10 @@ define([
                     val = formPr.get_Key();
                     this.cmbKey.setValue(val ? val : '');
 
-                    val = 1;//formPr.get_Connected();
-                    connected = (val>1);
+                    if (val) {
+                        val = this.api.asc_GetFormsCountByKey(val);
+                        connected = (val>1);
+                    }
                     connected && this.labelConnectedFields.text(this.textConnected + ': ' + val);
 
                     val = formPr.get_HelpText();
