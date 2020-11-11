@@ -869,6 +869,7 @@
   "SSE.Controllers.Statusbar.errorRemoveSheet": "Не удалось удалить лист.",
   "SSE.Controllers.Statusbar.strSheet": "Лист",
   "SSE.Controllers.Statusbar.textSheetViewTip": "Вы находитесь в режиме представления листа. Фильтры и сортировка видны только вам и тем, кто также находится в этом представлении.",
+  "SSE.Controllers.Statusbar.textSheetViewTipFilters": "Вы находитесь в режиме представления листа. Фильтры видны только вам и тем, кто также находится в этом представлении.",
   "SSE.Controllers.Statusbar.warnDeleteSheet": "Выбранный рабочий лист может содержать данные. Вы действительно хотите продолжить?",
   "SSE.Controllers.Statusbar.zoomText": "Масштаб {0}%",
   "SSE.Controllers.Toolbar.confirmAddFontName": "Шрифт, который вы хотите сохранить, недоступен на этом устройстве.<br>Стиль текста будет отображаться с помощью одного из системных шрифтов. Сохраненный шрифт будет использоваться, когда он станет доступен.<br>Вы хотите продолжить?",
