@@ -53,6 +53,7 @@ define([
 
         initialize: function() {
             this.editMode = true;
+            this._initSettings = true;
 
             this.addListeners({
                 'RightMenu': {
@@ -106,9 +107,12 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects, open) {
+        onFocusObject: function(SelectedObjects) {
             if (!this.editMode)
                 return;
+
+            var open = this._initSettings ? !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
+            this._initSettings = false;
 
             var can_add_table = false, 
                 in_equation = false,
@@ -280,7 +284,7 @@ define([
                 // this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
-                    this.onFocusObject(selectedElements, !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu));
+                    this.onFocusObject(selectedElements);
                 }
             }
         },
