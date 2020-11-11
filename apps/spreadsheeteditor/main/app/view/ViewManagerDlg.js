@@ -89,7 +89,7 @@ define([
                     '</div>',
                     '<div class="separator horizontal"></div>',
                     '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.textGoTo + '</button>',
+                    '<button class="btn normal dlg-btn primary" result="ok" style="min-width: 86px;width: auto;">' + this.textGoTo + '</button>',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
                 ].join('')
