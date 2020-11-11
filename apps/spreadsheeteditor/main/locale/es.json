@@ -869,6 +869,7 @@
   "SSE.Controllers.Statusbar.errorRemoveSheet": "Imposible borrar la hoja de cálculo.",
   "SSE.Controllers.Statusbar.strSheet": "Hoja",
   "SSE.Controllers.Statusbar.textSheetViewTip": "Está en el modo Vista de Hoja. Los filtros y la ordenación son visibles solo para usted y aquellos que aún están en esta vista.",
+  "SSE.Controllers.Statusbar.textSheetViewTipFilters": "Está en el modo Vista de Hoja. Los filtros son visibles solo para usted y aquellos que aún están en esta vista.",
   "SSE.Controllers.Statusbar.warnDeleteSheet": "Las hojas de trabajo seleccionadas pueden contener datos. ¿Está seguro de que quiere proceder?",
   "SSE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "SSE.Controllers.Toolbar.confirmAddFontName": "El tipo de letra que usted va a guardar no está disponible en este dispositivo. <br>El estilo de letra se mostrará usando uno de los tipos de letra del sistema, el tipo de letra guardado va a usarse cuando esté disponible.<br>¿Desea continuar?",

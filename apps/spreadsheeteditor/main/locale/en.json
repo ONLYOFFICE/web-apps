@@ -871,6 +871,7 @@
   "SSE.Controllers.Statusbar.errorRemoveSheet": "Cannot delete the worksheet.",
   "SSE.Controllers.Statusbar.strSheet": "Sheet",
   "SSE.Controllers.Statusbar.textSheetViewTip": "You are in Sheet View mode. Filters and sorting are visible only to you and those who are still in this view.",
+  "SSE.Controllers.Statusbar.textSheetViewTipFilters": "You are in Sheet View mode. Filters are visible only to you and those who are still in this view.",
   "SSE.Controllers.Statusbar.warnDeleteSheet": "The selected worksheets might contain data. Are you sure you want to proceed?",
   "SSE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "SSE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the system fonts, the saved font will be used when it is available.<br>Do you want to continue?",
