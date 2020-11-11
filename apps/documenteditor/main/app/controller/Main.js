@@ -1003,6 +1003,7 @@ define([
                     me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
                 }
                 Common.Utils.InternalSettings.set("de-settings-coauthmode", me._state.fastCoauth);
+                me.api.asc_SetPerformContentControlActionByClick(me.appOptions.isRestrictedEdit && me.appOptions.canFillForms);
 
                 /** coauthoring end **/
 

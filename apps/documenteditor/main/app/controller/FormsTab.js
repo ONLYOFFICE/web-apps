@@ -220,6 +220,7 @@ define([
             if (this.api) {
                 this.disableEditing(state);
                 this.api.asc_setRestriction(state ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
+                this.api.asc_SetPerformContentControlActionByClick(state);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
