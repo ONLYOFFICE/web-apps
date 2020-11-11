@@ -341,15 +341,20 @@ define([
 
             onApiChangeFont: function(font) {
                 var me = this;
-                setTimeout(function () {
-                    me.onApiChangeFontInternal(font);
-                }, 100);
+                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
+                if (this.__name !== name) {
+                    this.__name = name;
+                    if (!this.__nameId) {
+                        this.__nameId = setTimeout(function () {
+                            me.onApiChangeFontInternal(me.__name);
+                            me.__nameId = null;
+                        }, 100);
+                    }
+                }
             },
 
-            onApiChangeFontInternal: function(font) {
+            onApiChangeFontInternal: function(name) {
                 if (this.inFormControl) return;
-
-                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
 
                 if (this.getRawValue() !== name) {
                     var record = this.store.findWhere({
