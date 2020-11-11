@@ -308,11 +308,11 @@ define([
                     value = props.asc_getDescription();
                     value ? $('#settings-sse-comment').html(value) : $('.display-comment').remove();
                     value = props.asc_getModified();
-                    value ? $('#settings-sse-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
+                    value ? $('#settings-sse-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
                     value = props.asc_getLastModifiedBy();
                     value ? $('#settings-sse-mod-by').html(Common.Utils.UserInfoParser.getParsedName(value)) : $('.display-mode-by').remove();
                     value = props.asc_getCreated();
-                    value ? $('#settings-sse-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
+                    value ? $('#settings-sse-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
                     value = props.asc_getCreator();
                     var templateCreator = "";
                     value && value.split(/\s*[,;]\s*/).forEach(function(item) {
