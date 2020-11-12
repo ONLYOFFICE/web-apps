@@ -304,8 +304,8 @@
                 if ( msg.type === "onExternalPluginMessage" ) {
                     _sendCommand(msg);
                 } else if (msg.type === "onExternalPluginMessageCallback") {
-					postMessage(window.parent, msg);
-				} else
+                    postMessage(window.parent, msg);
+                } else
                 if ( msg.frameEditorId == placeholderId ) {
                     var events = _config.events || {},
                         handler = events[msg.event],
