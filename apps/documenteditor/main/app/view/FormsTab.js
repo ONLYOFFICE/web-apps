@@ -257,7 +257,7 @@ define([
             capBtnCheckBox: 'Checkbox',
             capBtnRadioBox: 'Radio Button',
             capBtnImage: 'Image',
-            capBtnView: 'View Form',
+            capBtnView: 'Fill Form',
             textClearFields: 'Clear All Fields',
             textHighlight: 'Highlight Settings',
             tipTextField: 'Insert text field',
