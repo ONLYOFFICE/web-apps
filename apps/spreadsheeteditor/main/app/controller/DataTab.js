@@ -328,7 +328,7 @@ define([
                         callback: function(btn){
                             if (btn == 'yes' || btn == 'no' || btn == 'ok') {
                                 setTimeout(function(){
-                                    var props = me.api.asc_getDataValidationProps(btn == 'yes');
+                                    var props = me.api.asc_getDataValidationProps((btn=='ok') ? null : (btn == 'yes'));
                                     me.showDataValidation(props);
                                 },1);
                             }
