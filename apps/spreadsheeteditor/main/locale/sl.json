@@ -595,7 +595,7 @@
   "SSE.Views.FormulaDialog.txtTitle": "Vstavi funkcijo",
   "SSE.Views.FormulaTab.textAutomatic": "Samodejeno",
   "SSE.Views.FormulaTab.txtAdditional": "Dodatno",
-  "SSE.Views.GroupDialog.textColumns": "Stolpci",
+  "SSE.Controllers.DataTab.textColumns": "Stolpci",
   "SSE.Views.HeaderFooterDialog.textAll": "Vse strani",
   "SSE.Views.HeaderFooterDialog.textBold": "Krepko",
   "SSE.Views.HeaderFooterDialog.textNewColor": "Dodaj novo barvo po meri",
