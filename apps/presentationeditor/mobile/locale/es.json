@@ -260,6 +260,8 @@
   "PE.Controllers.Main.waitText": "Por favor, espere...",
   "PE.Controllers.Main.warnLicenseExceeded": "Usted ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización.<br>Por favor, contacte con su administrador para recibir más información.",
   "PE.Controllers.Main.warnLicenseExp": "Su licencia ha expirado.<br>Por favor, actualice su licencia y después recargue la página.",
+  "PE.Controllers.Main.warnLicenseLimitedNoAccess": "Licencia expirada.<br>No tiene acceso a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador.",
+  "PE.Controllers.Main.warnLicenseLimitedRenewed": "La licencia requiere ser renovada.<br>Tiene un acceso limitado a la funcionalidad de edición de documentos.<br>Por favor, póngase en contacto con su administrador para obtener un acceso completo",
   "PE.Controllers.Main.warnLicenseUsersExceeded": "Usted ha alcanzado el límite de usuarios para los editores de %1. Por favor, contacte con su administrador para recibir más información.",
   "PE.Controllers.Main.warnNoLicense": "Usted ha alcanzado el límite de conexiones simultáneas con %1 editores. Este documento se abrirá sólo para su visualización.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",
   "PE.Controllers.Main.warnNoLicenseUsers": "Usted ha alcanzado el límite de usuarios para los editores de %1.<br>Contacte con el equipo de ventas de %1 para conocer los términos de actualización personal.",

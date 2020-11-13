@@ -84,7 +84,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Korvaa",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Korvaa Kaikki",
   "Common.UI.SynchronizeTip.textDontShow": "Älä näytä tätä viestiä uudelleen",
-  "Common.UI.SynchronizeTip.textSynchronize": "Asiakirja on toisen käyttäjän muuttama. Ole hyvä ja klikkaa tallentaaksesi muutoksesi ja lataa uudelleen muutokset.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Asiakirja on toisen käyttäjän muuttama.<br>Ole hyvä ja klikkaa tallentaaksesi muutoksesi ja lataa uudelleen muutokset.",
   "Common.UI.ThemeColorPalette.textStandartColors": "Vakiovärit",
   "Common.UI.ThemeColorPalette.textThemeColors": "Teeman värit",
   "Common.UI.Window.cancelButtonText": "Peruuta",

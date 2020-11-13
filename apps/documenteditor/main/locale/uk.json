@@ -92,7 +92,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Замінити",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Замінити усе",
   "Common.UI.SynchronizeTip.textDontShow": "Не показувати це повідомлення знову",
-  "Common.UI.SynchronizeTip.textSynchronize": "Документ був змінений іншим користувачем. <br/> Будь ласка, натисніть, щоб зберегти зміни та завантажити оновлення.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Документ був змінений іншим користувачем. <br> Будь ласка, натисніть, щоб зберегти зміни та завантажити оновлення.",
   "Common.UI.ThemeColorPalette.textStandartColors": "Стандартні кольори",
   "Common.UI.ThemeColorPalette.textThemeColors": "Колірна тема",
   "Common.UI.Window.cancelButtonText": "Скасувати",

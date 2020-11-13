@@ -83,7 +83,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Ganti",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Ganti Semua",
   "Common.UI.SynchronizeTip.textDontShow": "Jangan tampilkan pesan ini lagi",
-  "Common.UI.SynchronizeTip.textSynchronize": "Dokumen telah diubah oleh pengguna lain.<br/>Silakan klik untuk menyimpan perubahan dan memuat ulang pembaruan.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Dokumen telah diubah oleh pengguna lain.<br>Silakan klik untuk menyimpan perubahan dan memuat ulang pembaruan.",
   "Common.UI.Window.cancelButtonText": "Batalkan",
   "Common.UI.Window.closeButtonText": "Tutup",
   "Common.UI.Window.noButtonText": "Tidak",
