@@ -9,26 +9,27 @@
         <script type="text/javascript" src="../search/js/page-search.js"></script>
 	</head>
 	<body>
-		<div class="mainpart">
-        <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
-        </div>
-			<h1>Use formatted tables</h1>
+        <div class="mainpart">
+            <div class="search-field">
+                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+            </div>
+            <h1>Use formatted tables</h1>
             <h3>Create a new formatted table</h3>
-			<p>To make it easier for you to work with data, the <b>Spreadsheet Editor</b> allows you to apply a table template to the selected cell range and automatically enable the filter. To do that,</p>
-			<ol>
-				<li>select a range of cells you need to format,</li>
-				<li>click the <b>Format as table template</b> <img alt="Format as table template" src="../images/tabletemplate.png" /> icon situated on the <b>Home</b> tab of the top toolbar.</li>
-				<li>select the required template in the gallery,</li>
-				<li>in the opened pop-up window, check the cell range to be formatted as a table,</li>
-				<li>check the <b>Title</b> if you wish the table headers to be included in the selected cell range, otherwise, the header row will be added at the top while the selected cell range will be moved one row down,</li>
-				<li>click the <b>OK</b> button to apply the selected template.</li>
-			</ol>
-			<p>The template will be applied to the selected range of cells, and you will be able to edit the table headers and <a href="SortData.htm" onclick="onhyperlinkclick(this)">apply the filter</a> to work with your data.</p>
+            <p>To make it easier for you to work with data, the <b>Spreadsheet Editor</b> allows you to apply a table template to the selected cell range and automatically enable the filter. To do that,</p>
+            <ol>
+                <li>select a range of cells you need to format,</li>
+                <li>click the <b>Format as table template</b> <img alt="Format as table template" src="../images/tabletemplate.png" /> icon situated on the <b>Home</b> tab of the top toolbar.</li>
+                <li>select the required template in the gallery,</li>
+                <li>in the opened pop-up window, check the cell range to be formatted as a table,</li>
+                <li>check the <b>Title</b> if you wish the table headers to be included in the selected cell range, otherwise, the header row will be added at the top while the selected cell range will be moved one row down,</li>
+                <li>click the <b>OK</b> button to apply the selected template.</li>
+            </ol>
+            <p>The template will be applied to the selected range of cells, and you will be able to edit the table headers and <a href="SortData.htm" onclick="onhyperlinkclick(this)">apply the filter</a> to work with your data.</p>
             <p>It's also possible to insert a formatted table using the <b>Table</b> button on the <b>Insert</b> tab. In this case, the default table template is applied.</p>
-            <p class="note"><b>Note</b>: once you create a new formatted table, the <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">default name</a> (<em>Table1</em>, <em>Table2</em>, etc.) will be automatically assigned to the table. You can change this name making it more meaningful and use it for further work.</p> 
+            <p class="note"><b>Note</b>: once you create a new formatted table, the <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">default name</a> (<em>Table1</em>, <em>Table2</em>, etc.) will be automatically assigned to the table. You can change this name making it more meaningful and use it for further work.</p>
             <p>If you enter a new value in the cell below the last row of the table (if the table does not have the Total row) or in the cell to the right of the last column of the table, the formatted table will be automatically extended to include a new row or column. If you do not want to expand the table, click the Paste special button that will appear and select the <b>Undo table autoexpansion</b> option. Once you undo this action, the <b>Redo table autoexpansion</b> option will be available in this menu.</p>
             <p><img alt="Undo table autoexpansion" src="../images/undoautoexpansion.png" /></p>
+            <p class="note"><b>Note</b>: To enable/disable table auto-expansion, go to <b>Advanced Settings</b> -> <b>Spell Checking</b> -> <b>Proofing</b> -> <b>AutoCorrect Options</b> -> <b>AutoFormat As You Type</b>.</p>
             <h3>Select rows and columns</h3>
             <p>To select an entire row in the formatted table, move the mouse cursor over the left border of the table row until it turns into the black arrow <img alt="Select row" src="../images/selectrow_cursor.png" />, then left-click.</p>
             <p><img alt="Select row" src="../images/selectrow.png" /></p>
@@ -42,7 +43,8 @@
             <p>The <b>Rows</b> and <b>Columns</b> sections on the top allow you to emphasize certain rows/columns applying specific formatting to them, or highlight different rows/columns with different background colors to clearly distinguish them. The following options are available:</p>
             <ul>
                 <li><b>Header</b> - allows you to display the header row.</li>
-                <li><b>Total</b> - adds the <b>Summary</b> row at the bottom of the table.
+                <li>
+                    <b>Total</b> - adds the <b>Summary</b> row at the bottom of the table.
                     <p class="note"><b>Note</b>: if this option is selected, you can also select a function to calculate the summary values. Once you select a cell in the <b>Summary</b> row, the <img alt="Drop-Down Arrow" src="../images/dropdownarrow.png" /> button will be available to the right of the cell. Click it and choose the necessary function from the list: <em>Average</em>, <em>Count</em>, <em>Max</em>, <em>Min</em>, <em>Sum</em>, <em>StdDev</em>, or <em>Var</em>. The <em>More functions</em> option allows you to open the <b>Insert Function</b> window and choose any other function. If you choose the <em>None</em> option, the currently selected cell in the <b>Summary</b> row will not display a summary value for this column.</p>
                     <p><img alt="Summary" src="../images/summary.png" /></p>
                 </li>
@@ -77,7 +79,7 @@
             <p>To change the advanced table properties, use the <b>Show advanced settings</b> link on the right sidebar. The 'Table - Advanced Settings' window will open:</p>
             <p><img alt="Table - Advanced Settings" src="../images/tableadvancedsettings.png" /></p>
             <p>The <b>Alternative Text</b> tab allows you to specify the <b>Title</b> and the <b>Description</b> which will be read to people with vision or cognitive impairments to help them better understand what information the table contains.</p>
-           
-		</div>
+            <p class="note"><b>Note</b>: To enable/disable table auto-expansion, go to <b>Advanced Settings</b> -> <b>Spell Checking</b> -> <b>Proofing</b> -> <b>AutoCorrect Options</b> -> <b>AutoFormat As You Type</b>.</p>
+        </div>
 	</body>
 </html>
