@@ -44,12 +44,13 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
     'common/main/lib/component/InputField',
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/CheckBox',
+    'common/main/lib/component/TextareaField',
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) { 'use strict';
 
     SSE.Views.DataValidationDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 284,
+            contentWidth: 320,
             height: 350,
             toggleGroup: 'data-validation-group',
             storageName: 'sse-data-validation-category'
@@ -80,6 +81,192 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
+            var $window = this.getChild();
+
+            // settings
+            this.cmbAllow = new Common.UI.ComboBox({
+                el: $window.find('#data-validation-cmb-allow'),
+                cls: 'input-group-nr',
+                editable: false,
+                data:  [
+                    {value: Asc.EDataValidationType.None, displayValue: this.txtAny},
+                    {value: Asc.EDataValidationType.Whole, displayValue: this.txtWhole},
+                    {value: Asc.EDataValidationType.Decimal, displayValue: this.txtDecimal},
+                    {value: Asc.EDataValidationType.List, displayValue: this.txtList},
+                    {value: Asc.EDataValidationType.Date, displayValue: this.txtDate},
+                    {value: Asc.EDataValidationType.Time, displayValue: this.txtTime},
+                    {value: Asc.EDataValidationType.TextLength, displayValue: this.txtTextLength},
+                    {value: Asc.EDataValidationType.Custom, displayValue: this.txtOther}
+                ],
+                style: 'width: 100%;',
+                menuStyle   : 'min-width: 100%;',
+                takeFocusOnClose: true
+            });
+            this.cmbAllow.setValue(Asc.EDataValidationType.None);
+            this.cmbAllow.on('selected', _.bind(this.onAllowSelect, this));
+
+            this.cmbData = new Common.UI.ComboBox({
+                el: $window.find('#data-validation-cmb-data'),
+                cls: 'input-group-nr',
+                editable: false,
+                data: [
+                    {value: Asc.EDataValidationOperator.Between, displayValue: this.txtBetween},
+                    {value: Asc.EDataValidationOperator.NotBetween, displayValue: this.txtNotBetween},
+                    {value: Asc.EDataValidationOperator.Equal, displayValue: this.txtEqual},
+                    {value: Asc.EDataValidationOperator.NotEqual, displayValue: this.txtNotEqual},
+                    {value: Asc.EDataValidationOperator.GreaterThan, displayValue: this.txtGreaterThan},
+                    {value: Asc.EDataValidationOperator.LessThan, displayValue: this.txtLessThan},
+                    {value: Asc.EDataValidationOperator.GreaterThanOrEqual, displayValue: this.txtGreaterThanOrEqual},
+                    {value: Asc.EDataValidationOperator.LessThanOrEqual, displayValue: this.txtLessThanOrEqual}
+                ],
+                style: 'width: 100%;',
+                menuStyle   : 'min-width: 100%;',
+                takeFocusOnClose: true
+            });
+            this.cmbData.setValue(Asc.EDataValidationOperator.Between);
+            this.cmbData.on('selected', _.bind(this.onDataSelect, this));
+
+            this.chIgnore = new Common.UI.CheckBox({
+                el: $window.find('#data-validation-ch-ignore'),
+                labelText: this.textIgnore,
+                value: true
+            });
+            // this.chIgnore.on('change', _.bind(this.onIgnoreChange, this));
+
+            this.lblRangeMin = $window.find('#data-validation-label-min');
+            this.inputRangeMin = new Common.UI.InputFieldBtn({
+                el: $window.find('#data-validation-txt-min'),
+                style: '100%',
+                textSelectData: 'Select data',
+                // validateOnChange: true,
+                validateOnBlur: false
+            }).on('changed:after', function(input, newValue, oldValue, e) {
+                if (newValue == oldValue) return;
+            }).on('button:click', _.bind(this.onSelectData, this));
+
+            this.lblRangeMax = $window.find('#data-validation-label-max');
+            this.inputRangeMax = new Common.UI.InputFieldBtn({
+                el: $window.find('#data-validation-txt-max'),
+                style: '100%',
+                textSelectData: 'Select data',
+                // validateOnChange: true,
+                validateOnBlur: false
+            }).on('changed:after', function(input, newValue, oldValue, e) {
+                if (newValue == oldValue) return;
+            }).on('button:click', _.bind(this.onSelectData, this));
+
+            this.chShowDropDown = new Common.UI.CheckBox({
+                el: $window.find('#data-validation-ch-show-dropdown'),
+                labelText: this.textShowDropDown,
+                value: true
+            });
+            // this.chShowDropDown.on('change', _.bind(this.onDropDownChange, this));
+
+            this.lblRangeSource = $window.find('#data-validation-label-source');
+            this.inputRangeSource = new Common.UI.InputFieldBtn({
+                el: $window.find('#data-validation-txt-source'),
+                style: '100%',
+                textSelectData: 'Select data',
+                // validateOnChange: true,
+                validateOnBlur: false
+            }).on('changed:after', function(input, newValue, oldValue, e) {
+                if (newValue == oldValue) return;
+            }).on('button:click', _.bind(this.onSelectData, this));
+
+            this.chApply = new Common.UI.CheckBox({
+                el: $window.find('#data-validation-ch-apply'),
+                labelText: this.textApply
+            });
+            // this.chApply.on('change', _.bind(this.onApplyChange, this));
+
+            // input message
+            this.chShowInput = new Common.UI.CheckBox({
+                el: $window.find('#data-validation-ch-show-input'),
+                labelText: this.textShowInput,
+                value: true
+            });
+            this.chShowInput.on('change', _.bind(this.onShowInputChange, this));
+
+            this.inputInputTitle = new Common.UI.InputField({
+                el: $window.find('#data-validation-input-title'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isInputTitleChanged = true;
+            });
+
+            // this.textareaInput = $window.find('#data-validation-input-msg');
+            // this.textareaInput.keydown(function (event) {
+            //     if (event.keyCode == Common.UI.Keys.RETURN) {
+            //         event.stopPropagation();
+            //     }
+            //     me.isInputChanged = true;
+            // });
+
+            this.textareaInput = new Common.UI.TextareaField({
+                el          : $window.find('#data-validation-input-msg'),
+                style       : 'width: 100%; height: 70px;',
+                value       : ''
+            });
+            this.textareaInput.on('changed:after', function() {
+                me.isInputChanged = true;
+            });
+
+            // error message
+            this.chShowError = new Common.UI.CheckBox({
+                el: $window.find('#data-validation-ch-show-error'),
+                labelText: this.textShowError,
+                value: true
+            });
+            this.chShowError.on('change', _.bind(this.onShowErrorChange, this));
+
+            this.cmbStyle = new Common.UI.ComboBox({
+                el: $window.find('#data-validation-cmb-style'),
+                cls: 'input-group-nr',
+                editable: false,
+                data: [
+                    {value: 'error', displayValue: this.textStop},
+                    {value: 'warn', displayValue: this.textAlert},
+                    {value: 'info', displayValue: this.textMessage}
+                ],
+                style: 'width: 95px;',
+                menuStyle   : 'min-width: 95px;',
+                takeFocusOnClose: true
+            });
+            this.cmbStyle.setValue('error');
+            this.cmbStyle.on('selected', _.bind(this.onStyleSelect, this));
+
+            this.inputErrorTitle = new Common.UI.InputField({
+                el: $window.find('#data-validation-error-title'),
+                allowBlank  : true,
+                validateOnBlur: false,
+                style       : 'width: 100%;'
+            }).on('changed:after', function() {
+                me.isErrorTitleChanged = true;
+            });
+
+            // this.textareaError = $window.find('#data-validation-error-msg');
+            // this.textareaError.keydown(function (event) {
+            //     if (event.keyCode == Common.UI.Keys.RETURN) {
+            //         event.stopPropagation();
+            //     }
+            //     me.isErrorChanged = true;
+            // });
+
+            this.textareaError = new Common.UI.TextareaField({
+                el          : $window.find('#data-validation-error-msg'),
+                style       : 'width: 100%; height: 70px;',
+                value       : ''
+            });
+            this.textareaError.on('changed:after', function() {
+                me.isErrorChanged = true;
+            });
+
+            this.minMaxTr = $window.find('#data-validation-txt-min').closest('tr');
+            this.sourceTr = $window.find('#data-validation-txt-source').closest('tr');
+            this.dropdownTr = $window.find('#data-validation-ch-show-dropdown').closest('tr');
+            this.errorIcon = $window.find('#data-validation-img-style');
 
             this.afterRender();
         },
@@ -92,18 +279,117 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             }
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.cmbAllow, this.cmbData, this.inputRangeSource, this.inputRangeMin, this.inputRangeMax, // 0 tab
+                this.inputInputTitle, this.textareaInput,  // 1 tab
+                this.cmbStyle, this.inputErrorTitle, this.textareaError  // 2 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.cmbAllow.focus();
+                        break;
+                    case 1:
+                        me.inputInputTitle.focus();
+                        break;
+                    case 2:
+                        me.cmbStyle.focus();
+                        break;
+                }
+            }, 10);
+        },
+
         show: function() {
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        },
+
+        onSelectData: function(input) {
+            var me = this;
+            if (me.api) {
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        input.setValue(dlg.getSettings());
+                    }
+                };
+
+                var win = new SSE.Views.CellRangeDialog({
+                    handler: handlerDlg
+                }).on('close', function() {
+                    me.show();
+                    setTimeout(function(){
+                        me._noApply = true;
+                        input.focus();
+                        me._noApply = false;
+                    },1);
+                });
+
+                var xy = me.$window.offset();
+                me.hide();
+                win.show(xy.left + 160, xy.top + 125);
+                win.setSettings({
+                    api     : me.api,
+                    range   : input.getValue(),
+                    type    : Asc.c_oAscSelectionDialogType.Chart,
+                    validation: function() {return true;}
+                });
+            }
+        },
+
+        onAllowSelect: function(combo, record) {
+            this.ShowHideElem();
+        },
+
+        onDataSelect: function(combo, record) {
+            this.ShowHideElem();
+        },
+
+        onStyleSelect: function(combo, record) {
+            this.errorIcon.removeClass("error warn info");
+            this.errorIcon.addClass(record.value);
+        },
+
+        onShowInputChange: function(field, newValue, oldValue, eOpts) {
+            var checked = (field.getValue()=='checked');
+            this.inputInputTitle.setDisabled(!checked);
+            this.textareaInput.setDisabled(!checked);
+
+            if (this.api && !this._noApply) {
+                var properties = this.props;
+                // properties.asc_putStrikeout(field.getValue()=='checked');
+                // properties.asc_putDStrikeout(this.chDoubleStrike.getValue()=='checked');
+                // this.api.asc_setDrawImagePlaceParagraph('paragraphadv-font-img', properties);
+            }
+        },
+
+        onShowErrorChange: function(field, newValue, oldValue, eOpts) {
+            var checked = (field.getValue()=='checked');
+            this.inputErrorTitle.setDisabled(!checked);
+            this.cmbStyle.setDisabled(!checked);
+            this.textareaError.setDisabled(!checked);
+
+            if (this.api && !this._noApply) {
+                var properties = this.props;
+                // properties.asc_putStrikeout(field.getValue()=='checked');
+                // properties.asc_putDStrikeout(this.chDoubleStrike.getValue()=='checked');
+                // this.api.asc_setDrawImagePlaceParagraph('paragraphadv-font-img', properties);
+            }
         },
 
         _setDefaults: function (props) {
             if (props) {
             }
+            this.ShowHideElem();
         },
 
         getSettings: function () {
-            var props = new Asc.CDataValidation();
-            return props;
+            return this.props;
         },
 
         onDlgBtnClick: function(event) {
@@ -121,9 +407,110 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             return false;
         },
 
+        ShowHideElem: function() {
+            var allow = this.cmbAllow.getValue(),
+                data = this.cmbData.getValue();
+            var between = (data==Asc.EDataValidationOperator.Between || data==Asc.EDataValidationOperator.NotBetween);
+            var source = (allow==Asc.EDataValidationType.Custom || allow==Asc.EDataValidationType.List);
+            this.minMaxTr.toggleClass('hidden', allow==Asc.EDataValidationType.None || source || !between);
+            this.sourceTr.toggleClass('hidden', allow==Asc.EDataValidationType.None || !source && between );
+            this.dropdownTr.toggleClass('hidden', allow!=Asc.EDataValidationType.List);
+
+            this.chIgnore.setDisabled(allow===Asc.EDataValidationType.None);
+            this.cmbData.setDisabled(allow===Asc.EDataValidationType.None || allow===Asc.EDataValidationType.Custom || allow===Asc.EDataValidationType.List);
+
+            var str = this.textSource;
+            if (allow==Asc.EDataValidationType.Custom)
+                str = this.textFormula;
+            else if (data==Asc.EDataValidationOperator.Equal || data==Asc.EDataValidationOperator.NotEqual) { // equals, not equals
+                if (allow==Asc.EDataValidationType.Date)
+                    str = this.txtDate;
+                else if (allow==Asc.EDataValidationType.TextLength)
+                    str = this.txtLength;
+                else if (allow==Asc.EDataValidationType.Time)
+                    str = this.txtElTime;
+                else
+                    str = this.textCompare;
+            } else if (data==Asc.EDataValidationOperator.GreaterThan || data==Asc.EDataValidationOperator.GreaterThanOrEqual) { // greater, greater or equals
+                if (allow==Asc.EDataValidationType.Date)
+                    str = this.txtStartDate;
+                else if (allow==Asc.EDataValidationType.Time)
+                    str = this.txtStartTime;
+                else
+                    str = this.textMin;
+            } else if (data==Asc.EDataValidationOperator.LessThan || data==Asc.EDataValidationOperator.LessThanOrEqual) { // less, less or equals
+                if (allow==Asc.EDataValidationType.Date)
+                    str = this.txtEndDate;
+                else if (allow==Asc.EDataValidationType.Time)
+                    str = this.txtEndTime;
+                else
+                    str = this.textMax;
+            }
+            this.lblRangeSource.text(str);
+
+            var str1 = this.textMin,
+                str2 = this.textMax;
+            if (allow==Asc.EDataValidationType.Date) {
+                str1 = this.txtStartDate;
+                str2 = this.txtEndDate;
+            } else if (allow==Asc.EDataValidationType.Time) {
+                str1 = this.txtStartTime;
+                str2 = this.txtEndTime;
+            }
+            this.lblRangeMin.text(str1);
+            this.lblRangeMax.text(str2);
+        },
+
         strSettings: 'Settings',
         strInput: 'Input Message',
-        strError: 'Error Alert'
+        strError: 'Error Alert',
+        textAllow: 'Allow',
+        textData: 'Data',
+        textMin: 'Minimum',
+        textMax: 'Maximum',
+        textCompare: 'Compare to',
+        textSource: 'Source',
+        textStartDate: 'Start Date',
+        textEndDate: 'End Date',
+        textStartTime: 'Start Time',
+        textEndTime: 'End Time',
+        textFormula: 'Formula',
+        textIgnore: 'Ignore blank',
+        textApply: 'Apply these changes to all othes calls the same settings',
+        textShowDropDown: 'Show drop-down list in cell',
+        textCellSelected: 'When cell is selected, show this input message',
+        textTitle: 'Title',
+        textInput: 'Input Message',
+        textUserEnters: 'When user enters invalid data, show this error alert',
+        textStyle: 'Style',
+        textError: 'Error Message',
+        textShowInput: 'Show input message when cell is selected',
+        textShowError: 'Show error alert after invalid data is entered',
+        txtBetween: 'between',
+        txtNotBetween: 'not between',
+        txtEqual: 'equals',
+        txtNotEqual: 'does not equal',
+        txtLessThan: 'less than',
+        txtGreaterThan: 'greater than',
+        txtLessThanOrEqual: 'less than or equal to',
+        txtGreaterThanOrEqual: 'greater than or equal to',
+        txtAny: 'Any value',
+        txtWhole: 'Whole number',
+        txtDecimal: 'Decimal',
+        txtList: 'List',
+        txtDate: 'Date',
+        txtTime: 'Time',
+        txtTextLength: 'Text length',
+        txtLength: 'Length',
+        txtOther: 'Other',
+        txtElTime: 'Elapsed time',
+        txtStartDate: 'Start date',
+        txtStartTime: 'Start time',
+        txtEndDate: 'End date',
+        txtEndTime: 'End time',
+        textStop: 'Stop',
+        textAlert: 'Alert',
+        textMessage: 'Message'
 
     }, SSE.Views.DataValidationDialog || {}))
 });
