@@ -74,6 +74,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this._noApply = true;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -131,7 +132,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 labelText: this.textIgnore,
                 value: true
             });
-            // this.chIgnore.on('change', _.bind(this.onIgnoreChange, this));
+            this.chIgnore.on('change', _.bind(this.onIgnoreChange, this));
 
             this.lblRangeMin = $window.find('#data-validation-label-min');
             this.inputRangeMin = new Common.UI.InputFieldBtn({
@@ -140,9 +141,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 textSelectData: 'Select data',
                 // validateOnChange: true,
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue, e) {
-                if (newValue == oldValue) return;
-            }).on('button:click', _.bind(this.onSelectData, this));
+            }).on('changed:after', _.bind(this.onRangeChange, this, 1)).on('button:click', _.bind(this.onSelectData, this, 1));
 
             this.lblRangeMax = $window.find('#data-validation-label-max');
             this.inputRangeMax = new Common.UI.InputFieldBtn({
@@ -151,16 +150,14 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 textSelectData: 'Select data',
                 // validateOnChange: true,
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue, e) {
-                if (newValue == oldValue) return;
-            }).on('button:click', _.bind(this.onSelectData, this));
+            }).on('changed:after', _.bind(this.onRangeChange, this, 2)).on('button:click', _.bind(this.onSelectData, this, 2));
 
             this.chShowDropDown = new Common.UI.CheckBox({
                 el: $window.find('#data-validation-ch-show-dropdown'),
                 labelText: this.textShowDropDown,
                 value: true
             });
-            // this.chShowDropDown.on('change', _.bind(this.onDropDownChange, this));
+            this.chShowDropDown.on('change', _.bind(this.onDropDownChange, this));
 
             this.lblRangeSource = $window.find('#data-validation-label-source');
             this.inputRangeSource = new Common.UI.InputFieldBtn({
@@ -169,9 +166,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 textSelectData: 'Select data',
                 // validateOnChange: true,
                 validateOnBlur: false
-            }).on('changed:after', function(input, newValue, oldValue, e) {
-                if (newValue == oldValue) return;
-            }).on('button:click', _.bind(this.onSelectData, this));
+            }).on('changed:after', _.bind(this.onRangeChange, this, 3)).on('button:click', _.bind(this.onSelectData, this, 3));
 
             this.chApply = new Common.UI.CheckBox({
                 el: $window.find('#data-validation-ch-apply'),
@@ -196,14 +191,6 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 me.isInputTitleChanged = true;
             });
 
-            // this.textareaInput = $window.find('#data-validation-input-msg');
-            // this.textareaInput.keydown(function (event) {
-            //     if (event.keyCode == Common.UI.Keys.RETURN) {
-            //         event.stopPropagation();
-            //     }
-            //     me.isInputChanged = true;
-            // });
-
             this.textareaInput = new Common.UI.TextareaField({
                 el          : $window.find('#data-validation-input-msg'),
                 style       : 'width: 100%; height: 70px;',
@@ -226,15 +213,15 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 cls: 'input-group-nr',
                 editable: false,
                 data: [
-                    {value: 'error', displayValue: this.textStop},
-                    {value: 'warn', displayValue: this.textAlert},
-                    {value: 'info', displayValue: this.textMessage}
+                    {value: Asc.c_oAscEDataValidationErrorStyle.Stop, clsText: 'error', displayValue: this.textStop},
+                    {value: Asc.c_oAscEDataValidationErrorStyle.Warning, clsText: 'warn', displayValue: this.textAlert},
+                    {value: Asc.c_oAscEDataValidationErrorStyle.Information, clsText: 'info', displayValue: this.textMessage}
                 ],
                 style: 'width: 95px;',
                 menuStyle   : 'min-width: 95px;',
                 takeFocusOnClose: true
             });
-            this.cmbStyle.setValue('error');
+            this.cmbStyle.setValue(Asc.c_oAscEDataValidationErrorStyle.Stop);
             this.cmbStyle.on('selected', _.bind(this.onStyleSelect, this));
 
             this.inputErrorTitle = new Common.UI.InputField({
@@ -245,14 +232,6 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             }).on('changed:after', function() {
                 me.isErrorTitleChanged = true;
             });
-
-            // this.textareaError = $window.find('#data-validation-error-msg');
-            // this.textareaError.keydown(function (event) {
-            //     if (event.keyCode == Common.UI.Keys.RETURN) {
-            //         event.stopPropagation();
-            //     }
-            //     me.isErrorChanged = true;
-            // });
 
             this.textareaError = new Common.UI.TextareaField({
                 el          : $window.find('#data-validation-error-msg'),
@@ -310,12 +289,14 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
         },
 
-        onSelectData: function(input) {
+        onSelectData: function(type, input) {
             var me = this;
             if (me.api) {
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
-                        input.setValue(dlg.getSettings());
+                        var val = dlg.getSettings();
+                        input.setValue(val);
+                        me.onRangeChange(type, input, val);
                     }
                 };
 
@@ -342,17 +323,49 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             }
         },
 
+        onRangeChange: function(type, input, newValue, oldValue, e) {
+            if (newValue == oldValue) return;
+            if (!this._noApply) {
+                if (type==1 || type==3)
+                    this.props.asc_setFormula1(newValue);
+                else if (type==2)
+                    this.props.asc_setFormula2(newValue);
+            }
+        },
+
         onAllowSelect: function(combo, record) {
             this.ShowHideElem();
+            if (!this._noApply)
+                this.props.asc_setType(record.value);
+            this.inputRangeMin.setValue(this.props.asc_getFormula1() || '');
+            this.inputRangeSource.setValue(this.props.asc_getFormula1() || '');
+            this.inputRangeMax.setValue(this.props.asc_getFormula2() || '');
         },
 
         onDataSelect: function(combo, record) {
             this.ShowHideElem();
+            if (!this._noApply)
+                this.props.asc_setOperator(record.value);
+            this.inputRangeMin.setValue(this.props.asc_getFormula1() || '');
+            this.inputRangeSource.setValue(this.props.asc_getFormula1() || '');
+            this.inputRangeMax.setValue(this.props.asc_getFormula2() || '');
         },
 
         onStyleSelect: function(combo, record) {
             this.errorIcon.removeClass("error warn info");
-            this.errorIcon.addClass(record.value);
+            this.errorIcon.addClass(record.clsText);
+        },
+
+        onIgnoreChange: function(field, newValue, oldValue, eOpts) {
+            if (!this._noApply) {
+                this.props.asc_setAllowBlank(field.getValue()!=='checked');
+            }
+        },
+
+        onDropDownChange: function(field, newValue, oldValue, eOpts) {
+            if (!this._noApply) {
+                this.props.asc_setShowDropDown(field.getValue()=='checked');
+            }
         },
 
         onShowInputChange: function(field, newValue, oldValue, eOpts) {
@@ -361,10 +374,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.textareaInput.setDisabled(!checked);
 
             if (this.api && !this._noApply) {
-                var properties = this.props;
-                // properties.asc_putStrikeout(field.getValue()=='checked');
-                // properties.asc_putDStrikeout(this.chDoubleStrike.getValue()=='checked');
-                // this.api.asc_setDrawImagePlaceParagraph('paragraphadv-font-img', properties);
+                this.props.asc_setShowInputMessage(field.getValue()=='checked');
             }
         },
 
@@ -375,20 +385,51 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.textareaError.setDisabled(!checked);
 
             if (this.api && !this._noApply) {
-                var properties = this.props;
-                // properties.asc_putStrikeout(field.getValue()=='checked');
-                // properties.asc_putDStrikeout(this.chDoubleStrike.getValue()=='checked');
-                // this.api.asc_setDrawImagePlaceParagraph('paragraphadv-font-img', properties);
+                this.props.asc_setShowErrorMessage(field.getValue()=='checked');
             }
         },
 
         _setDefaults: function (props) {
+            this._noApply = true;
             if (props) {
+                var value = props.asc_getAllowBlank();
+                this.chIgnore.setValue(!value, true);
+                value = props.asc_getShowDropDown();
+                this.chShowDropDown.setValue(!!value, true);
+                value = props.asc_getType();
+                this.cmbAllow.setValue(value!==null ? value : Asc.EDataValidationType.None, true);
+                value = props.asc_getOperator();
+                this.cmbData.setValue(value!==null ? value : Asc.EDataValidationOperator.Between, true);
+                this.inputRangeMin.setValue(props.asc_getFormula1() || '');
+                this.inputRangeSource.setValue(props.asc_getFormula1() || '');
+                this.inputRangeMax.setValue(props.asc_getFormula2() || '');
+
+                // input
+                this.chShowInput.setValue(!!props.asc_getShowInputMessage());
+                this.inputInputTitle.setValue(props.asc_getPromptTitle() || '');
+                this.textareaInput.setValue(props.asc_getPrompt() || '');
+
+                // error
+                this.chShowError.setValue(!!props.asc_getShowErrorMessage());
+                this.inputErrorTitle.setValue(props.asc_getErrorTitle() || '');
+                this.textareaError.setValue(props.asc_getError() || '');
+                value = props.asc_getErrorStyle();
+                this.cmbStyle.setValue(value!==null ? value : Asc.EDataValidationErrorStyle.Stop);
+
             }
             this.ShowHideElem();
+            this._noApply = false;
         },
 
         getSettings: function () {
+            if (this.isInputTitleChanged)
+                this.props.asc_setPromptTitle(this.inputInputTitle.getValue());
+            if (this.isInputChanged)
+                this.props.asc_setPrompt(this.textareaInput.getValue());
+            if (this.isErrorTitleChanged)
+                this.props.asc_setErrorTitle(this.inputErrorTitle.getValue());
+            if (this.isErrorChanged)
+                this.props.asc_setError(this.textareaError.getValue());
             return this.props;
         },
 
