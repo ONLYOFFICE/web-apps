@@ -2788,6 +2788,7 @@
   "SSE.Views.Toolbar.tipDigStyleCurrency": "Valutanotatie",
   "SSE.Views.Toolbar.tipDigStylePercent": "Procentnotatie",
   "SSE.Views.Toolbar.tipEditChart": "Grafiek bewerken",
+  "SSE.Views.Toolbar.tipEditChartData": "Gegevens selecteren",
   "SSE.Views.Toolbar.tipEditHeader": "Koptekst of voettekst bewerken",
   "SSE.Views.Toolbar.tipFontColor": "Tekenkleur",
   "SSE.Views.Toolbar.tipFontName": "Lettertype",

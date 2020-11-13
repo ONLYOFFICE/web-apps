@@ -13,8 +13,8 @@
   "SSE.ApplicationController.errorDefaultMessage": "Kód chyby: %1",
   "SSE.ApplicationController.errorFilePassProtect": "Dokument je chránený heslom a nie je možné ho otvoriť.",
   "SSE.ApplicationController.errorFileSizeExceed": "Veľkosť súboru prekračuje limity vášho servera.<br> Kontaktujte prosím vášho správcu dokumentového servera o ďalšie podrobnosti.",
-  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Internetové spojen ie bolo obnovené a verzia súboru bola zmenená.<br>Predtým, než budete pokračovať v práci, potrebujete si stiahnuť súbor alebo kópiu jeho obsahu, aby sa nič nestratilo. Potom znovu načítajte stránku.",
-  "SSE.ApplicationController.errorUserDrop": "K súboru nie je možné získať prístup.",
+  "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "Internetové spojenie bolo obnovené a verzia súboru bola zmenená.<br>Predtým, než budete pokračovať v práci, potrebujete si stiahnuť súbor alebo kópiu jeho obsahu, aby sa nič nestratilo. Potom znovu načítajte stránku.",
+  "SSE.ApplicationController.errorUserDrop": "K súboru teraz nie je možné získať prístup.",
   "SSE.ApplicationController.notcriticalErrorTitle": "Upozornenie",
   "SSE.ApplicationController.scriptLoadError": "Spojenie je príliš pomalé, niektoré komponenty nemožno nahrať. Obnovte prosím stránku.",
   "SSE.ApplicationController.textLoadingDocument": "Načítavanie dokumentu",
@@ -26,5 +26,6 @@
   "SSE.ApplicationView.txtDownload": "Stiahnuť",
   "SSE.ApplicationView.txtEmbed": "Vložiť",
   "SSE.ApplicationView.txtFullScreen": "Celá obrazovka",
+  "SSE.ApplicationView.txtPrint": "Tlačiť",
   "SSE.ApplicationView.txtShare": "Zdieľať"
 }
