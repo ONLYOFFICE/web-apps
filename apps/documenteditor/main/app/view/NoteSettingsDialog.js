@@ -191,11 +191,11 @@ define([
                 menuStyle: 'min-width: 150px;',
                 editable: false,
                 data: [
-                    { displayValue: this.textSectEnd,   value: Asc.c_oAscFootnotePos.SectEnd },
-                    { displayValue: this.textPageBottom,   value: Asc.c_oAscFootnotePos.PageBottom }
+                    { displayValue: this.textSectEnd,   value: Asc.c_oAscEndnotePos.SectEnd },
+                    { displayValue: this.textDocEnd,   value: Asc.c_oAscEndnotePos.DocEnd }
                 ]
             });
-            this.cmbEndnote.setValue(Asc.c_oAscFootnotePos.PageBottom);
+            this.cmbEndnote.setValue(Asc.c_oAscEndnotePos.DocEnd);
 
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-format'),
@@ -503,6 +503,7 @@ define([
         textInsert: 'Insert',
         textCustom: 'Custom Mark',
         textSectEnd: 'End of section',
+        textDocEnd: 'End of document',
         textEndnote: 'Endnote'
 
     }, DE.Views.NoteSettingsDialog || {}))

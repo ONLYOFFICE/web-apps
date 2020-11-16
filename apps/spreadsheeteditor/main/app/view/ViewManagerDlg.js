@@ -150,6 +150,11 @@ define([
             });
             this.btnDelete.on('click', _.bind(this.onDelete, this));
 
+            this.btnOk = new Common.UI.Button({
+                el: this.$window.find('.primary'),
+                disabled: true
+            });
+            
             this.afterRender();
         },
 
@@ -188,6 +193,7 @@ define([
             this.btnRename.setDisabled(!val);
             this.btnDuplicate.setDisabled(!val);
             this.btnDelete.setDisabled(!val);
+            this.btnOk.setDisabled(!val);
             if (val>0) {
                 if (selectedItem===undefined || selectedItem===null) selectedItem = 0;
                 if (_.isNumber(selectedItem)) {
@@ -298,6 +304,8 @@ define([
         },
 
         onSelectItem: function(lisvView, itemView, record) {
+            if (!record) return;
+
             this.userTipHide();
             var rawData = {},
                 isViewSelect = _.isFunction(record.toJSON);
@@ -328,6 +336,16 @@ define([
 
         onDblClickItem: function (lisvView, record, e) {
             this.onPrimary();
+        },
+
+        onPrimary: function() {
+            if (this.btnOk.isDisabled()) return false;
+
+            if ( this.handler && this.handler.call(this, 'ok', this.getSettings()) )
+                return;
+
+            this.close();
+            return false;
         },
 
         txtTitle: 'Sheet View Manager',

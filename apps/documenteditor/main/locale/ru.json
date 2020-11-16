@@ -1930,6 +1930,7 @@
   "DE.Views.NoteSettingsDialog.textStart": "Начать с",
   "DE.Views.NoteSettingsDialog.textTextBottom": "Под текстом",
   "DE.Views.NoteSettingsDialog.textTitle": "Параметры сносок",
+  "DE.Views.NoteSettingsDialog.textDocEnd": "В конце документа",
   "DE.Views.NotesRemoveDialog.textEnd": "Удалить все концевые сноски",
   "DE.Views.NotesRemoveDialog.textFoot": "Удалить все обычные сноски",
   "DE.Views.NotesRemoveDialog.textTitle": "Удалить сноски",
