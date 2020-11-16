@@ -71,7 +71,7 @@ define([
                                 '<tr>',
                                     '<td class="padding-small">',
                                         '<label class="header">' + this.textViews + '</label>',
-                                        '<div id="view-manager-list" class="range-tableview" style="width:100%; height: 166px;"></div>',
+                                        '<div id="view-manager-list" class="range-tableview" style="width:440px; height: 166px;"></div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
@@ -270,6 +270,9 @@ define([
                     label: this.textRenameLabel,
                     error: this.textRenameError,
                     value: rec.get('name'),
+                    validation: function(value) {
+                        return value.length<=128 ? true : me.textLongName;
+                    },
                     handler: function(result, value) {
                         if (result == 'ok') {
                             rec.get('view').asc_setName(value);
@@ -340,7 +343,8 @@ define([
         tipIsLocked: 'This element is being edited by another user.',
         textRenameLabel: 'Rename view',
         textRenameError: 'View name must not be empty.',
-        warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?"
+        warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?",
+        textLongName: 'View name is limited to 128 characters.'
 
     }, SSE.Views.ViewManagerDlg || {}));
 });
