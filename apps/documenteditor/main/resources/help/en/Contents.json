@@ -37,7 +37,6 @@
     {"src": "UsageInstructions/CopyClearFormatting.htm", "name": "Copy/clear text formatting" },
     {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Add hyperlinks"},
     {"src": "UsageInstructions/InsertCrossReference.htm", "name": "Insert cross-references"},
-    {"src": "UsageInstructions/AddHyperlinks.htm", "name": "Add hyperlinks"},
     {"src": "UsageInstructions/InsertDropCap.htm", "name": "Insert a drop cap"},
     { "src": "UsageInstructions/InsertTables.htm", "name": "Insert tables", "headername": "Operations on objects" },
     {"src": "UsageInstructions/AddFormulasInTables.htm", "name": "Use formulas in tables"},

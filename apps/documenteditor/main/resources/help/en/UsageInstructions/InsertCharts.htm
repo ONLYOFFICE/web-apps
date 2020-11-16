@@ -33,17 +33,52 @@
 					</ul>
 					<p><img alt="Chart Editor window" src="../images/charteditor.png" /></p>
 				</li>
+                <li>Click the <b>Select Data</b> button situated in the <b>Chart Editor</b> window. The <b>Chart Data</b> window will open.
+                    <ol>
+                        <li>
+                            Use the <b>Chart Data</b> dialog to manage <b>Chart Data Range</b>, <b>Legend Entries (Series)</b>, <b>Horizontal (Category) Axis Label</b> and <b>Switch Row/Column</b>.
+                            <p><img alt="Chart Data window" src="../images/chartdata.png" /></p>
+                            <ul>
+                                <li>
+                                    <b>Chart Data Range</b> - select data for your chart.
+                                    <ul>
+                                        <li>
+                                            Click the <img alt="Source data range icon" src="../images/changerange.png" /> icon on the right of the <b>Chart data range</b> box to select data range.
+                                            <p><img alt="Select Data Range window" src="../images/selectdata.png" /></p>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <b>Legend Entries (Series)</b> - add, edit, or remove legend entries. Type or select series name for legend entries.
+                                    <ul>
+                                        <li>In <b>Legend Entries (Series)</b>, click <b>Add</b> button.</li>
+                                        <li>
+                                            In <b>Edit Series</b>, type a new legend entry or click the <img alt="Source data range icon" src="../images/changerange.png" /> icon on the right of the <b>Select name</b> box.
+                                            <p><img alt="Edit Series window" src="../images/editseries.png" /></p>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <b>Horizontal (Category) Axis Labels</b> - change text for category labels.
+                                    <ul>
+                                        <li><b>In Horizontal (Category) Axis Labels</b>, click <b>Edit</b>.</li>
+                                        <li>
+                                            In <b>Axis label range</b>, type the labels you want to add or click the <img alt="Source data range icon" src="../images/changerange.png" /> icon on the right of the <b>Axis label range</b> box to select data range.
+                                            <p><img alt="Axis Labels window" src="../images/axislabels.png" /></p>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><b>Switch Row/Column</b> - rearrange the worksheet data that is configured in the chart not in the way that you want it. Switch rows to columns to display data on a different axis. </li>
+                            </ul>
+                        </li>
+                        <li>Click <b>OK</b> button to apply the changes and close the window.</li>
+                    </ol>
+                </li>
 				<li>change the chart settings by clicking the <b>Edit Chart</b> button situated in the <b>Chart Editor</b> window. The <b>Chart - Advanced Settings</b> window will open. 
 					<p><img alt="Chart - Advanced Settings window" src="../images/chartsettings.png" /></p>
-                    <p>The <b>Type &amp Data</b> tab allows you to change the chart type as well as the data you wish to use to create a chart.</p>
+                    <p>The <b>Type</b> tab allows you to change the chart type as well as the data you wish to use to create a chart.</p>
                     <ul>
                         <li>Select a chart <b>Type</b> you wish to apply: Column, Line, Pie, Bar, Area, XY (Scatter), or Stock.</li>
-                        <li>
-                            Check the selected <b>Data Range</b> and modify it, if necessary. To do that, click the <img alt="Source data range icon" src="../images/changerange.png" /> icon.
-                            <p><img alt="Select Data Range window" src="../images/selectdata.png" /></p>
-                            <p>In the <b>Select Data Range</b> window, enter the necessary data range in the following format: <em>Sheet1!$A$1:$E$10</em>. You can also select the necessary cell range in the sheet using the mouse. When ready, click <b>OK</b>.</p>
-                        </li>
-                        <li>Choose the way to arrange the data. You can select the <b>Data series</b> to be used on the X axis: <b>in rows</b> or <b>in columns</b>.</li>
                     </ul>
 					<p><img alt="Chart - Advanced Settings window" src="../images/chartsettings2.png" /></p>
                     <p>The <b>Layout</b> tab allows you to change the layout of chart elements.</p>
@@ -168,6 +203,13 @@
                                 <li><b>Interval between Labels</b> - is used to specify how often the labels should be displayed. The <b>Auto</b> option is selected by default, in this case labels are displayed for every category. You can select the <b>Manual</b> option from the drop-down list and specify the necessary value in the entry field on the right. For example, enter 2 to display labels for every other category etc.</li>
                             </ul>
                         </li>
+                    </ul>
+                    <p><img alt="Chart - Advanced Settings: Cell Snapping" src="../images/chartsettings6.png" /></p>
+                    <p>The <b>Cell Snapping</b> tab contains the following parameters:</p>
+                    <ul>
+                        <li><b>Move and size with cells</b> - this option allows you to snap the chart to the cell behind it. If the cell moves (e.g. if you insert or delete some rows/columns), the chart will be moved together with the cell. If you increase or decrease the width or height of the cell, the chart will change its size as well.</li>
+                        <li><b>Move but don't size with cells</b> - this option allows to snap the chart to the cell behind it preventing the chart from being resized. If the cell moves, the chart will be moved together with the cell, but if you change the cell size, the chart dimensions remain unchanged.</li>
+                        <li><b>Don't move or size with cells</b> - this option allows to prevent the chart from being moved or resized if the cell position or size was changed.</li>
                     </ul>
                     <p><img alt="Chart - Advanced Settings" src="../images/chartsettings5.png" /></p>
                     <p>The <b>Alternative Text</b> tab allows specifying a <b>Title</b> and <b>Description</b> which will be read to people with vision or cognitive impairments to help them better understand what information the chart contains.</p>
