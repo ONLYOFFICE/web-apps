@@ -298,6 +298,8 @@ define([
         },
 
         onSelectItem: function(lisvView, itemView, record) {
+            if (!record) return;
+
             this.userTipHide();
             var rawData = {},
                 isViewSelect = _.isFunction(record.toJSON);
