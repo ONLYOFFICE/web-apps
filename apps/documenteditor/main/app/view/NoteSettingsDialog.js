@@ -224,6 +224,10 @@ define([
                 allowDecimal: false,
                 maskExp: /[0-9]/
             });
+            this.spnStart.on('change', function(field, newValue, oldValue, eOpts){
+                if (field.getNumberValue()>1 && me.cmbNumbering.getValue()!==Asc.c_oAscFootnoteRestart.Continuous)
+                    me.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.Continuous);
+            });
 
             this._arrNumbering = [
                 { displayValue: this.textContinue,   value: Asc.c_oAscFootnoteRestart.Continuous },
@@ -238,6 +242,10 @@ define([
                 data: this._arrNumbering
             });
             this.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.Continuous);
+            this.cmbNumbering.on('selected', function(combo, record){
+                if (record.value == Asc.c_oAscFootnoteRestart.EachSect || record.value == Asc.c_oAscFootnoteRestart.EachPage)
+                    me.spnStart.setValue(1, true);
+            });
 
             this.txtCustom = new Common.UI.InputField({
                 el          : $('#note-settings-txt-custom'),

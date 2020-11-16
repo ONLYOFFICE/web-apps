@@ -2953,6 +2953,7 @@
   "SSE.Views.ViewManagerDlg.tipIsLocked": "This element is being edited by another user.",
   "SSE.Views.ViewManagerDlg.txtTitle": "Sheet View Manager",
   "SSE.Views.ViewManagerDlg.warnDeleteView": "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?",
+  "SSE.Views.ViewManagerDlg.textLongName": "View name is limited to 128 characters.",
   "SSE.Views.ViewTab.capBtnFreeze": "Freeze Panes",
   "SSE.Views.ViewTab.capBtnSheetView": "Sheet View",
   "SSE.Views.ViewTab.textClose": "Close",
