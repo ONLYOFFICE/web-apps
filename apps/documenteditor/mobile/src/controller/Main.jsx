@@ -158,9 +158,12 @@ class MainController extends Component {
     }
 
     bindEvents() {
-        const storeSettings = this.props.storeDocumentSettings;
+        const storeDocumentSettings = this.props.storeDocumentSettings;
         this.api.asc_registerCallback('asc_onPageOrient', isPortrait => {
-            storeSettings.isPortrait = isPortrait === true;
+            storeDocumentSettings.resetPortrait(isPortrait);
+        });
+        this.api.asc_registerCallback('asc_onDocSize', (w, h) => {
+            storeDocumentSettings.changeDocSize(w, h);
         });
         const storeFocusObjects = this.props.storeFocusObjects;
         this.api.asc_registerCallback('asc_onFocusObject', objects => {

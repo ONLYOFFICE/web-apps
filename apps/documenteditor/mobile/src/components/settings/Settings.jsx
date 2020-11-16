@@ -4,9 +4,8 @@ import { withTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device'
 
-import DocumentSettingsController from "../settings/controller/DocumentSettings.jsx";
-import Margins from "../settings/document-settings/Margins.jsx";
-import DocumentFormats from "../settings/document-settings/DocumentFormats.jsx";
+import DocumentSettingsController from "../settings/controller/DocumentSettings";
+import { DocumentFormats, DocumentMargins } from "../settings/document-settings/DocumentSettings";
 
 const routes = [
     {
@@ -19,7 +18,7 @@ const routes = [
     },
     {
         path: '/margins/',
-        component: Margins,
+        component: DocumentMargins,
     },
     {
         path: '/document-formats/',
@@ -30,9 +29,9 @@ const routes = [
 
 const SettingsList = withTranslation()(props => {
     const {t} = props;
-    const _t = t('ViewSettings', {returnObjects: true});
-    const navbar = <Navbar title={t('ViewSettings.textSettings')}>
-                    {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{t('ViewSettings.textDone')}</Link></NavRight>}
+    const _t = t('Settings', {returnObjects: true});
+    const navbar = <Navbar title={_t.textSettings}>
+                    {!props.inPopover  && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
                     </Navbar>;
 
     const onoptionclick = page => {
@@ -62,16 +61,16 @@ const SettingsList = withTranslation()(props => {
                     <ListItem title={_t.textDownload} link="#">
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
-                    <ListItem title={t('ViewSettings.textPrint')}>
+                    <ListItem title={_t.textPrint}>
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
-                    <ListItem title={t('ViewSettings.textDocumentInfo')} link="#">
+                    <ListItem title={_t.textDocumentInfo} link="#">
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
-                    <ListItem title={t('ViewSettings.textHelp')} link="#">
+                    <ListItem title={_t.textHelp} link="#">
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
-                    <ListItem title={t('ViewSettings.textAbout')} link="#">
+                    <ListItem title={_t.textAbout} link="#">
                         <Icon slot="media" icon="icon-about"></Icon>
                     </ListItem>
                 </List>

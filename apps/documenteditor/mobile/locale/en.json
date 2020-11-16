@@ -1,5 +1,5 @@
 {
-  "ViewSettings": {
+  "Settings": {
     "textSettings": "Settings",
     "textDone": "Done",
     "textFindAndReplace": "Find and Replace",
@@ -15,7 +15,12 @@
     "textLandscape": "Landscape",
     "textFormat": "Format",
     "textMargins": "Margins",
-    "textBack": "Back"
+    "textBack": "Back",
+    "textCustomSize": "Custom Size",
+    "textTop": "Top",
+    "textBottom": "Bottom",
+    "textLeft": "Left",
+    "textRight": "Right"
   },
   "Collaboration": {
     "textEditUser": "Users who are editing the file:"

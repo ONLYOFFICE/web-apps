@@ -1,21 +1,82 @@
 
 import React, {Component} from 'react';
-import DocumentSettings from '../document-settings/DocumentSettings'
+import {DocumentSettings} from '../document-settings/DocumentSettings';
 
 
 class DocumentSettingsController extends Component {
-    constructor(props) {
-        super(props);
+    constructor (props) {
+        super (props);
+        this.getMargins = this.getMargins.bind(this);
+        this.applyMargins = this.applyMargins.bind(this);
     }
 
-    onPageOrientation(value){
+    onPageOrientation (value){
         const api = Common.EditorApi.get();
-        api.change_PageOrient(value=='portrait');
+        if (api) {
+            api.change_PageOrient(value == 'portrait');
+        }
     }
 
-    render() {
+    onFormatChange (value) {
+        const api = Common.EditorApi.get();
+        if (api) {
+            api.change_DocSize(value[0], value[1]);
+        }
+    }
+
+    getMargins () {
+        const api = Common.EditorApi.get();
+        if (api) {
+            this.localSectionProps = api.asc_GetSectionProps();
+            if (this.localSectionProps) {
+                this.maxMarginsH = this.localSectionProps.get_H() - 26;
+                this.maxMarginsW = this.localSectionProps.get_W() - 127;
+
+                const top = this.localSectionProps.get_TopMargin();
+                const bottom = this.localSectionProps.get_BottomMargin();
+                const left = this.localSectionProps.get_LeftMargin();
+                const right = this.localSectionProps.get_RightMargin();
+
+                return {
+                    top,
+                    bottom,
+                    left,
+                    right,
+                    maxMarginsW: this.maxMarginsW,
+                    maxMarginsH: this.maxMarginsH
+                }
+            }
+        }
+    }
+
+    applyMargins (align, value) {
+        const api = Common.EditorApi.get();
+        if (api) {
+            switch (align) {
+                case 'left':
+                    this.localSectionProps.put_LeftMargin(value);
+                    break;
+                case 'top':
+                    this.localSectionProps.put_TopMargin(value);
+                    break;
+                case 'right':
+                    this.localSectionProps.put_RightMargin(value);
+                    break;
+                case 'bottom':
+                    this.localSectionProps.put_BottomMargin(value);
+                    break;
+            }
+            api.asc_SetSectionProps(this.localSectionProps);
+        }
+    }
+
+    render () {
         return (
-            <DocumentSettings onPageOrientation={this.onPageOrientation} />
+            <DocumentSettings onPageOrientation={this.onPageOrientation}
+                              onFormatChange={this.onFormatChange}
+                              getMargins={this.getMargins}
+                              applyMargins={this.applyMargins}
+            />
         )
     }
 }
