@@ -1,72 +1,77 @@
 ﻿<!DOCTYPE html>
 <html>
-	<head>
-		<title>Apply formatting styles</title>
-		<meta charset="utf-8" />
-        <meta name="description" content="Apply formatting styles: normal, heading, quote, list, etc." />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
-        <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
-	</head>
-	<body>
-		<div class="mainpart">
+<head>
+    <title>Applicare stili di formattazione</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Applicare stili di formattazione: normal, heading, quote, list, etc." />
+    <link type="text/css" rel="stylesheet" href="../editor.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
         <div class="search-field">
             <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
-			<h1>Apply formatting styles</h1>
-            <p>Each formatting style is a set of predefined formatting options: (font size, color, line spacing, alignment etc.). The styles allow you to quickly format different parts of the document (headings, subheadings, lists, normal text, quotes) instead of applying several formatting options individually each time. This also ensures a consistent appearance throughout the entire document.</p>
-			<p class="note">Style application depends on whether a style is a paragraph style (normal, no spacing, headings, list paragraph etc.), or the text style (based on the font type, size, color), as well as on whether a text passage is selected, or the mouse cursor is positioned within a word. In some cases you might need to select the necessary style from the style library twice so that it can be applied correctly: when you click the style at the style panel for the first time, the paragraph style properties are applied. When you click it for the second time, the text properties are applied.</p>
-            <h3>Use default styles</h3>
-            <p>To apply one of the available text formatting styles,</p>
-			<ol>
-				<li>place the cursor within the paragraph you need, or select several paragraphs you want to apply one of the formatting styles to,</li>
-				<li>select the needed style from the style gallery on the right at the <b>Home</b> tab of the top toolbar.</li>
-			</ol>
-			<p>The following formatting styles are available: normal, no spacing, heading 1-9, title, subtitle, quote, intense quote, list paragraph, footer, header, footnote text.</p>
-			<p><img alt="Formatting styles" src="../images/formattingpresets.png" /></p>
-            <h3>Edit existing styles and create new ones</h3>
-            <p><b>To change an existing style:</b></p>
-            <ol>
-                <li>Apply the necessary style to a paragraph.</li>
-                <li>Select the paragraph text and change all the formatting parameters you need.</li>
-                <li>Save the changes made:
+        <h1>Applicare stili di formattazione</h1>
+        <p>Ogni stile di formattazione è un insieme di opzioni di formattazione predefinite: (dimensione del carattere, colore, interlinea, allineamento, ecc.). Gli stili consentono di formattare rapidamente diverse parti del documento (intestazioni, sottotitoli, elenchi, testo normale, citazioni) invece di applicare diverse opzioni di formattazione singolarmente ogni volta. Ciò garantisce anche un aspetto coerente in tutto il documento.</p>
+        <p class="note">L'applicazione dello stile dipende dal fatto che uno stile sia uno stile di paragrafo (normale, senza spaziatura, intestazioni, elenco paragrafo ecc.), o dallo stile del testo (in base al tipo di carattere, alla dimensione, al colore), nonché dal fatto che sia selezionato un passaggio di testo o che il cursore del mouse sia posizionato all'interno di una parola. In alcuni casi potrebbe essere necessario selezionare due volte lo stile necessario dalla libreria di stili in modo che possa essere applicato correttamente: quando si fa clic per la prima volta sullo stile nel pannello degli stili, vengono applicate le proprietà dello stile di paragrafo. Quando si fa clic per la seconda volta, vengono applicate le proprietà del testo.</p>
+        <h3>Utilizzare gli stili predefiniti</h3>
+        <p>Per applicare uno degli stili di formattazione del testo disponibili,</p>
+        <ol>
+            <li>posizionare il cursore all'interno del paragrafo che interessa o selezionare diversi paragrafi a cui si desidera applicare uno degli stili di formattazione,</li>
+            <li>selezionare lo stile necessario dalla raccolta stili a destra nella scheda <b>Home</b> della barra degli strumenti superiore.</li>
+        </ol>
+        <p>Sono disponibili i seguenti stili di formattazione: normale, senza spaziatura, titolo 1-9, titolo, sottotitolo, citazione, citazione profonda, elenco paragrafo, piè di pagina, intestazione, testo della nota a piè di pagina.</p>
+        <p><img alt="Stili di formattazione" src="../images/formattingpresets.png" /></p>
+        <h3>Modificare gli stili esistenti e crearne di nuovi</h3>
+        <p><b>Per modificare uno stile esistente:</b></p>
+        <ol>
+            <li>Applicare lo stile necessario a un paragrafo.</li>
+            <li>Selezionare il testo del paragrafo e modificare tutti i parametri di formattazione di cui si ha bisogno.</li>
+            <li>
+                Salvare le modifiche apportate:
                 <ul>
-                    <li>right-click the edited text, select the <b>Formatting as Style</b> option and then choose the <b>Update 'StyleName' Style</b> option ('StyleName' corresponds to the style you've applied at the step 1),</li>
-                    <li>or select the edited text passage with the mouse, drop-down the style gallery, right-click the style you want to change and select the <b>Update from selection</b> option.</li>
+                    <li>selezionare l'opzione <b>Formatta come stile</b> e quindi scegliere l'opzione <b>Aggiorna stile 'NomeStile'</b> ('NomeStile' corrisponde allo stile applicato al passaggio 1),</li>
+                    <li>oppure selezionare il passaggio di testo modificato con il mouse, fare scorrere la galleria di stili, fare clic con il pulsante destro del mouse sullo stile che si desidera modificare e selezionare l'opzione <b>Aggiorna da selezione</b>.</li>
                 </ul>
-                </li>
-            </ol>
-            <p>Once the style is modified, all the paragraphs within the document formatted using this style will change their appearance correspondingly.</p>
-            <p><b>To create a completely new style:</b></p>
-            <ol>
-                <li>Format a text passage as you need.</li>
-                <li>Select an appropriate way to save the style:
-                    <ul>
-                        <li>right-click the edited text, select the <b>Formatting as Style</b> option and then choose the <b>Create new Style</b> option,</li>
-                        <li>or select the edited text passage with the mouse, drop-down the style gallery and click the <b>New style from selection</b> option.</li>
-                    </ul>
-                </li>
-                <li>Set the new style parameters in the <b>Create New Style</b> window that opens:
-                <p><img alt="Create New Style window" src="../images/createnewstylewindow.png" /></p>
+            </li>
+        </ol>
+        <p>Una volta modificato lo stile, tutti i paragrafi all'interno del documento formattati utilizzando questo stile cambieranno di conseguenza.</p>
+        <p><b>Per creare uno stile completamente nuovo:</b></p>
+        <ol>
+            <li>Formattare un passaggio di testo di cui si ha bisogno.</li>
+            <li>
+                Selezionare un modo appropriato per salvare lo stile:
                 <ul>
-                    <li>Specify the new style name in the text entry field.</li>
-                    <li>Select the desired style for the subsequent paragraph from the <b>Next paragraph style</b> list. It's also possible to choose the <b>Same as created new style</b> option.</li>
-                    <li>Click the <b>OK</b> button.</li>
+                    <li>Fare clic con il pulsante destro del mouse sul testo modificato, selezionare l'opzione <b>Formatta come stile</b>, quindi scegliere l'opzione <b>Crea nuovo stile</b>,</li>
+                    <li>oppure seleziona il passaggio di testo modificato con il mouse, fai scorrere la galleria di stili e fai clic sull'opzione <b>Nuovo stile da selezione</b>.</li>
                 </ul>
-                </li>
-            </ol>
-            <p>The created style will be added to the style gallery.</p>
-            <p><b>Manage your custom styles:</b></p>
-            <ul>
-                <li>To restore the default settings of a certain style you've changed, right-click the style you want to restore and select the <b>Restore to default</b> option.</li>
-                <li>To restore the default settings of all the styles you've changed, right-click any default style in the style gallery and select the <b>Restore all to default styles</b> option.
-                    <p><img alt="Edited style menu" src="../images/editedstylemenu.png" /></p>
-                </li>
-                <li>To delete one of the new styles you've created, right-click the style you want to delete and select the <b>Delete style</b> option.</li>
-                <li>To delete all the new styles you've created, right-click any new style you've created and select the <b>Delete all custom styles</b> option.
-                    <p><img alt="Custom style menu" src="../images/customstylemenu.png" /></p>
-                </li>
-            </ul>
-		</div>
-	</body>
+            </li>
+            <li>
+                Impostare i nuovi parametri dello stile nella finestra <b>Crea nuovo stile</b> che si apre:
+                <p><img alt="Crea nuovo stile" src="../images/createnewstylewindow.png" /></p>
+                <ul>
+                    <li>Specificare il nome del nuovo stile nel campo di immissione testo.</li>
+                    <li>Selezionare lo stile desiderato per il paragrafo successivo dall'elenco <b>Stile paragrafo successivo</b>. È anche possibile scegliere l'opzione <b>Come il nuovo stile creato</b>.</li>
+                    <li>Fare clic sul pulsante <b>OK</b>.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>Lo stile creato verrà aggiunto alla galleria degli stili.</p>
+        <p><b>Gestire gli stili personalizzati:</b></p>
+        <ul>
+            <li>Per ripristinare le impostazioni predefinite di un determinato stile modificato, fare clic con il pulsante destro del mouse sullo stile da ripristinare e selezionare l'opzione <b>Ripristina predefinito</b>.</li>
+            <li>
+                Per ripristinare le impostazioni predefinite di tutti gli stili modificati, fare clic con il pulsante destro del mouse su uno stile predefinito nella raccolta stili e selezionare l'opzione <b>Ripristina tutti gli stili predefiniti</b>.
+                <p><img alt="Edited style menu" src="../images/editedstylemenu.png" /></p>
+            </li>
+            <li>Per eliminare uno dei nuovi stili creati, fare clic con il pulsante destro del mouse sullo stile da eliminare e selezionare l'opzione <b>Elimina stile</b>.</li>
+            <li>
+                Per eliminare tutti i nuovi stili creati, fare clic con il pulsante destro del mouse su qualsiasi nuovo stile creato e selezionare l'opzione <b>Elimina tutti gli stili personalizzati</b>.
+                <p><img alt="Custom style menu" src="../images/customstylemenu.png" /></p>
+            </li>
+        </ul>
+    </div>
+</body>
 </html>

@@ -18,19 +18,19 @@
   },
   {
     "src": "ProgramInterface/LayoutTab.htm",
-    "name": "Pestaña Configuración de Formato"
+    "name": "Pestaña Diseño"
   },
   {
     "src": "ProgramInterface/ReferencesTab.htm",
-    "name": "Pestaña de Referencias"
+    "name": "Pestaña de referencias"
   },
   {
     "src": "ProgramInterface/ReviewTab.htm",
-    "name": "Pestaña de Colaboración"
+    "name": "Pestaña de colaboración"
   },
   {
     "src": "ProgramInterface/PluginsTab.htm",
-    "name": "Pestaña de Plugins"
+    "name": "Pestaña de Extensiones"
   },
   {
     "src": "UsageInstructions/OpenCreateNew.htm",
@@ -69,6 +69,10 @@
   {
     "src": "UsageInstructions/InsertFootnotes.htm",
     "name": "Insertar pies de página"
+  },
+  {
+    "src": "UsageInstructions/InsertBookmarks.htm",
+    "name": "Añada marcadores"
   },
   {
     "src": "UsageInstructions/AlignText.htm",
@@ -122,7 +126,7 @@
   },
   {
     "src": "UsageInstructions/AddHyperlinks.htm",
-    "name": "Añadir hiperenlace"
+    "name": "Añada hiperenlaces"
   },
   {
     "src": "UsageInstructions/InsertDropCap.htm",
@@ -132,6 +136,10 @@
     "src": "UsageInstructions/InsertTables.htm",
     "name": "Inserte tablas",
     "headername": "Operaciones en objetos"
+  },
+  {
+    "src": "UsageInstructions/AddFormulasInTables.htm",
+    "name": "Usar fórmulas en tablas"
   },
   {
     "src": "UsageInstructions/InsertImages.htm",
