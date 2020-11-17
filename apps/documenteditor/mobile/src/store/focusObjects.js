@@ -9,7 +9,7 @@ export class storeFocusObjects {
     }
 
     @computed get settings() {
-        let _settings = [];
+        const _settings = [];
         for (let object of this._focusObjects) {
             let type = object.get_ObjectType();
             if (Asc.c_oAscTypeSelectElement.Paragraph === type) {
@@ -36,29 +36,43 @@ export class storeFocusObjects {
     }
     @computed get headerType() {
         for (let object of this._focusObjects) {
-            let type = object.get_ObjectType();
+            const type = object.get_ObjectType();
             if (Asc.c_oAscTypeSelectElement.Header === type) {
                 return object.get_ObjectValue().get_Type();
             }
         }
         return this._headerType;
     }
+    @computed get headerObject() {
+        const headers = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Header) {
+                headers.push(object);
+            }
+        }
+        if (headers.length > 0) {
+            const object = headers[headers.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
     @computed get paragraphObject() {
-        let paragraphs = [];
+        const paragraphs = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Paragraph) {
                 paragraphs.push(object);
             }
         }
         if (paragraphs.length > 0) {
-            let object = paragraphs[paragraphs.length - 1]; // get top
+            const object = paragraphs[paragraphs.length - 1]; // get top
             return object.get_ObjectValue();
         } else {
             return undefined;
         }
     }
     @computed get shapeObject() {
-        let shapes = [];
+        const shapes = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
                 if (object.get_ObjectValue() && object.get_ObjectValue().get_ShapeProperties()) {
@@ -67,14 +81,14 @@ export class storeFocusObjects {
             }
         }
         if (shapes.length > 0) {
-            let object = shapes[shapes.length - 1]; // get top
+            const object = shapes[shapes.length - 1]; // get top
             return object.get_ObjectValue();
         } else {
             return undefined;
         }
     }
     @computed get imageObject() {
-        let images = [];
+        const images = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Image) {
                 const imageObject = object.get_ObjectValue();
@@ -84,21 +98,21 @@ export class storeFocusObjects {
             }
         }
         if (images.length > 0) {
-            let object = images[images.length - 1]; // get top
+            const object = images[images.length - 1]; // get top
             return object.get_ObjectValue();
         } else {
             return undefined;
         }
     }
     @computed get tableObject() {
-        let tables = [];
+        const tables = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
                 tables.push(object);
             }
         }
         if (tables.length > 0) {
-            let object = tables[tables.length - 1]; // get top table
+            const object = tables[tables.length - 1]; // get top table
             return object.get_ObjectValue();
         } else {
             return undefined;
@@ -120,7 +134,7 @@ export class storeFocusObjects {
             }
         }
         if (charts.length > 0) {
-            let object = charts[charts.length - 1]; // get top table
+            const object = charts[charts.length - 1]; // get top table
             return object.get_ObjectValue();
         } else {
             return undefined;
@@ -134,7 +148,7 @@ export class storeFocusObjects {
             }
         }
         if (links.length > 0) {
-            let object = links[links.length - 1]; // get top
+            const object = links[links.length - 1]; // get top
             return  object.get_ObjectValue();
         } else {
             return undefined;

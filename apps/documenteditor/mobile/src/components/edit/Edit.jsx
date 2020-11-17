@@ -12,6 +12,7 @@ import EditImageController from "./controller/EditImage";
 import EditTableController from "./controller/EditTable";
 import EditChartController from "./controller/EditChart";
 import EditHyperlinkController from "./controller/EditHyperlink";
+import EditHeaderController from "./controller/EditHeader";
 
 import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers} from "./EditText";
 import {PageAdvancedSettings} from "./EditParagraph";
@@ -186,13 +187,13 @@ const EditTabs = props => {
                 component: <EditTableController />
             })
         }
-        /*if (settings.indexOf('header') > -1) {
+        if (settings.indexOf('header') > -1) {
             editors.push({
-                caption: headerType==2 ? _t.textFooter : _t.textHeader,
+                caption: headerType === 2 ? _t.textFooter : _t.textHeader,
                 id: 'edit-header',
-                component: <EditHeader />
+                component: <EditHeaderController />
             })
-        }*/
+        }
         if (settings.indexOf('shape') > -1) {
             editors.push({
                 caption: _t.textShape,

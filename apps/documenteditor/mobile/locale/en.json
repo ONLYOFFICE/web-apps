@@ -113,6 +113,12 @@
     "textRemoveLink": "Remove Link",
     "textLink": "Link",
     "textDisplay": "Display",
-    "textScreenTip": "Screen Tip"
+    "textScreenTip": "Screen Tip",
+    "textPageNumbering": "Page Numbering",
+    "textDifferentFirstPage": "Different first page",
+    "textDifferentOddAndEvenPages": "Different odd and even pages",
+    "textLinkToPrevious": "Link to Previous",
+    "textContinueFromPreviousSection": "Continue from previous section",
+    "textStartAt": "Start at"
   }
 }
