@@ -2,7 +2,7 @@
     padding: 0 2px 0;
     height: 25px;
     background-color: @gray-light;
-    .box-inner-shadow(0 1px 0 @gray-dark);
+    .box-inner-shadow(0 1px 0 @border-toolbar);
     z-index: 500;
 
     #status-tabs-scroll {
@@ -96,7 +96,7 @@
                     height: 12px;
                     display: inline-block;
                     vertical-align: middle;
-                    border: 1px solid @gray-dark;
+                    border: 1px solid @border-toolbar;
                 }
 
                 .name {
@@ -114,8 +114,8 @@
     #status-addtabs-box {
         float: left;
         padding: 3px 8px 0 8px;
-        border-left: 1px solid @gray-dark;
-        border-right: 1px solid @gray-dark;
+        border-left: 1px solid @border-toolbar;
+        border-right: 1px solid @border-toolbar;
         height: 25px;
     }
 
@@ -180,13 +180,13 @@
                     margin-right: -1px;
                     background-color: @gray-light;
                     outline: none;
-                    border-left: 1px solid @gray-dark;
-                    border-right: 1px solid @gray-dark;
-                    border-top: 1px solid @gray-dark;
+                    border-left: 1px solid @border-toolbar;
+                    border-right: 1px solid @border-toolbar;
+                    border-top: 1px solid @border-toolbar;
 
                     &:hover {
-                        border-top-color: @gray-dark;
-                        border-bottom-color: @gray-dark;
+                        border-top-color: @border-toolbar;
+                        border-bottom-color: @border-toolbar;
                         color: @black !important;
                     }
                 }
@@ -278,7 +278,7 @@
                     
                     &.right {
                         > span {
-                            border-left: 1px solid @gray-dark;
+                            border-left: 1px solid @border-toolbar;
                             border-right: 2px solid @gray-deep;
                             padding-right: 9px;
                             padding-left: 10px;
