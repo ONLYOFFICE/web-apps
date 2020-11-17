@@ -303,7 +303,7 @@
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        color: lighten(@gray-lighter, 10%);
+        color: @text-normal;
         background-color: @primary;
     }
 
@@ -432,7 +432,7 @@
 
     &.open {
         > .btn-toolbar {
-                //color: lighten(@gray-lighter, 10%);
+                //color: @text-normal;
 
                 // Show no shadow for `.btn-link` since it has no other button styles.
                 &.btn-link {
