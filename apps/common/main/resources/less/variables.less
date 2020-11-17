@@ -13,10 +13,10 @@
 // Grays
 // -------------------------
 
-@gray-deep:             #444444; //rgb(68, 68, 68)
+//@gray-deep:             #444444; //rgb(68, 68, 68)
 @gray-darker:           #848484; //rgb(132, 132, 132)
 //@gray-dark:             #cbcbcb; //rgb(203, 203, 203)
-@gray:                  #cfcfcf; //rgb(207, 207, 207)
+//@gray:                  #cfcfcf; //rgb(207, 207, 207)
 @gray-light:            #f1f1f1; //rgb(241, 241, 241)
 @gray-lighter:          #ededed; //rgb(237, 237, 237)
 @gray-soft:             #adadad; //rgb(173, 173, 173)
@@ -41,7 +41,7 @@
 // -------------------------
 
 @body-bg:               #fff;
-@text-color:            #cbcbcb;
+@text-color:            #cbcbcb; // @gray-dark
 
 // Links
 // -------------------------
@@ -176,7 +176,7 @@
 @input-bg-disabled:              @gray-lighter;
 
 @input-color:                    #000;
-@input-border:                   @gray;
+@input-border:                   #cfcfcf; // @gray;
 @input-border-radius:            @border-radius-base;
 @input-border-radius-large:      @border-radius-large;
 @input-border-radius-small:      @border-radius-small;
@@ -191,7 +191,7 @@
 //** Small `.form-control` border radius
 @input-border-radius-small:      @border-radius-small;
 
-@input-color-placeholder:        @gray;
+@input-color-placeholder:        #cfcfcf; // @gray;
 
 @input-height-base:              (floor(@font-size-base * @line-height-base) + (@padding-base-vertical * 2) + 5);
 @input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
@@ -199,7 +199,7 @@
 
 @form-group-margin-bottom:       15px;
 
-@legend-color:                   #cbcbcb;
+@legend-color:                   #cbcbcb; // @gray-dark
 @legend-border-color:            #e5e5e5;
 
 @input-group-addon-bg:           @input-bg;
@@ -216,16 +216,16 @@
 @dropdown-fallback-border:       #ccc;
 @dropdown-divider-bg:            #e5e5e5;
 
-@dropdown-link-color:            @gray-deep;
-@dropdown-link-hover-color:      darken(@gray-deep, 5%);
+@dropdown-link-color:            #444; // @gray-deep;
+@dropdown-link-hover-color:      darken(#444, 5%); // darken(@gray-deep, 5%);
 @dropdown-link-hover-bg:         @secondary;
 
 @dropdown-link-active-color:     @component-active-color;
 @dropdown-link-active-bg:        @component-active-bg;
 
-@dropdown-link-disabled-color:   @gray;
+@dropdown-link-disabled-color:   #cfcfcf; // @gray;
 
-@dropdown-header-color:          @gray;
+@dropdown-header-color:          #cfcfcf; // @gray;
 
 
 // COMPONENT VARIABLES
@@ -373,7 +373,7 @@
 @nav-tabs-link-hover-border-color:          @gray-lighter;
 
 @nav-tabs-active-link-hover-bg:             @body-bg;
-@nav-tabs-active-link-hover-color:          @gray;
+@nav-tabs-active-link-hover-color:          #cfcfcf; // @gray;
 @nav-tabs-active-link-hover-border-color:   #ddd;
 
 @nav-tabs-justified-link-border-color:            #ddd;

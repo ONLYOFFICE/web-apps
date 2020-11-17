@@ -49,7 +49,7 @@
             width: 246px;
             height: @contents-menu-item-height;
 
-            .box-shadow(0 0 0 1px @gray);
+            .box-shadow(0 0 0 1px @border-regular-control);
 
             &:hover,
             &.selected {
@@ -125,7 +125,7 @@
                 opacity: 0.5;
 
                 &:hover {
-                    .box-shadow(0 0 0 1px @gray);
+                    .box-shadow(0 0 0 1px @border-regular-control);
                 }
             }
         }
@@ -181,7 +181,7 @@
 }
 
 .item-equation {
-    border: 1px solid @gray;
+    border: 1px solid @border-regular-control;
     .background-ximage-v2('toolbar/math.png', 1500px, @commonimage: true);
 }
 
@@ -189,8 +189,8 @@
     cursor: default;
     position: relative;
     padding: 14px 11px;
-    border-left: 1px solid @gray;
-    border-top: 1px solid @gray;
+    border-left: 1px solid @border-regular-control;
+    border-top: 1px solid @border-regular-control;
 }
 
 .save-style-link {
@@ -239,5 +239,5 @@
     position: absolute;
     z-index: @zindex-dropdown - 20;
     background-color: @gray-light;
-    border: 1px solid @gray;
+    border: 1px solid @border-regular-control;
 }
