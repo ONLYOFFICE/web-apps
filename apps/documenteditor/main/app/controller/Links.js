@@ -82,8 +82,7 @@ define([
         onLaunch: function () {
             this._state = {
                 prcontrolsdisable:undefined,
-                in_object: false,
-                in_header: false
+                in_object: false
             };
             Common.Gateway.on('setactionlink', function (url) {
                 console.log('url with actions: ' + url);
@@ -155,7 +154,6 @@ define([
             }
             this._state.prcontrolsdisable = paragraph_locked || header_locked;
             this._state.in_object = in_image || in_table || in_equation;
-            this._state.in_header = in_header;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false,
@@ -463,7 +461,6 @@ define([
             me.dlgCrossRefDialog = new DE.Views.CrossReferenceDialog({
                 api: me.api,
                 crossRefProps: me.crossRefProps,
-                inHeader: me._state.in_header,
                 handler: function (result, settings) {
                     if (result != 'ok')
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
