@@ -101,6 +101,7 @@ define([
             this.api = options.api;
             this.options.tpl = _.template(this.template)(this.options);
             this._locked = false;
+            this.inHeader = options.inHeader || false;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -200,6 +201,27 @@ define([
 
         afterRender: function() {
             this._setDefaults();
+
+            var me = this;
+            var onApiFocusObject = function(selectedObjects) {
+                var i = -1,
+                    in_header = false;
+                while (++i < selectedObjects.length) {
+                    if (selectedObjects[i].get_ObjectType() === Asc.c_oAscTypeSelectElement.Header) {
+                        in_header = true;
+                        break;
+                    }
+                }
+                if (me.inHeader !== in_header) {
+                    me.inHeader = in_header;
+                    var rec = me.cmbReference.getSelectedRecord();
+                    me.refreshReferenceTypes(me.cmbType.getSelectedRecord(), rec && (!me.inHeader || rec.value !== Asc.c_oAscDocumentRefenceToType.AboveBelow) ? rec.value : undefined);
+                }
+            };
+            this.api.asc_registerCallback('asc_onFocusObject', onApiFocusObject);
+            this.on('close', function(obj){
+                me.api.asc_unregisterCallback('asc_onFocusObject', onApiFocusObject);
+            });
         },
 
         _handleInput: function(state, fromButton) {
@@ -285,8 +307,7 @@ define([
                     { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textCaption },
                     { value: Asc.c_oAscDocumentRefenceToType.OnlyLabelAndNumber, displayValue: this.textLabelNum },
                     { value: Asc.c_oAscDocumentRefenceToType.OnlyCaptionText, displayValue: this.textOnlyCaption },
-                    { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
-                    { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
+                    { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum }
                 ];
             } else {
                 type = record.value;
@@ -297,8 +318,7 @@ define([
                             { value: Asc.c_oAscDocumentRefenceToType.ParaNum, displayValue: this.textParaNum },
                             { value: Asc.c_oAscDocumentRefenceToType.ParaNumNoContext, displayValue: this.textParaNumNo },
                             { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textParaNumFull },
-                            { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textText },
-                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
+                            { value: Asc.c_oAscDocumentRefenceToType.Text, displayValue: this.textText }
                         ];
                         str = this.textWhichPara;
                         break;
@@ -308,8 +328,7 @@ define([
                             { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
                             { value: Asc.c_oAscDocumentRefenceToType.ParaNum, displayValue: this.textHeadingNum },
                             { value: Asc.c_oAscDocumentRefenceToType.ParaNumNoContext, displayValue: this.textHeadingNumNo },
-                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textHeadingNumFull },
-                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textHeadingNumFull }
                         ];
                         str = this.textWhichHeading;
                         break;
@@ -319,8 +338,7 @@ define([
                             { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
                             { value: Asc.c_oAscDocumentRefenceToType.ParaNum, displayValue: this.textParaNum },
                             { value: Asc.c_oAscDocumentRefenceToType.ParaNumNoContext, displayValue: this.textParaNumNo },
-                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textParaNumFull },
-                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
+                            { value: Asc.c_oAscDocumentRefenceToType.ParaNumFullContex, displayValue: this.textParaNumFull }
                         ];
                         str = this.textWhichBookmark;
                         break;
@@ -328,7 +346,6 @@ define([
                         arr = [
                             { value: Asc.c_oAscDocumentRefenceToType.NoteNumber, displayValue: this.textNoteNum },
                             { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
-                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow },
                             { value: Asc.c_oAscDocumentRefenceToType.NoteNumberFormatted, displayValue: this.textNoteNumForm }
                         ];
                         str = this.textWhichNote;
@@ -337,15 +354,18 @@ define([
                         arr = [
                             { value: Asc.c_oAscDocumentRefenceToType.NoteNumber, displayValue: this.textEndNoteNum },
                             { value: Asc.c_oAscDocumentRefenceToType.PageNum, displayValue: this.textPageNum },
-                            { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow },
                             { value: Asc.c_oAscDocumentRefenceToType.NoteNumberFormatted, displayValue: this.textEndNoteNumForm }
                         ];
                         str = this.textWhichEndnote;
                         break;
                 }
             }
+            if (!this.inHeader)
+                arr.push({ value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow });
             this.cmbReference.setData(arr);
-            this.cmbReference.setValue(currentRef ? currentRef : arr[0].value);
+
+            var rec = this.cmbReference.store.findWhere({value: currentRef});
+            this.cmbReference.setValue(rec ? currentRef : arr[0].value);
             this.onReferenceSelected(this.cmbReference, this.cmbReference.getSelectedRecord());
             this.lblWhich.text(str);
             this.refreshReferences(type);
@@ -383,7 +403,7 @@ define([
                         arr.push({value: name});
                     }
                 }
-            } else {
+            } else if (props) {
                 for (var i=0; i<props.length; i++) {
                     arr.push({value: props[i].asc_getText(), para: props[i]});
                 }
@@ -399,6 +419,8 @@ define([
         },
 
         onReferenceSelected: function(combo, record) {
+            if (!record) return;
+            
             var refType = record.value,
                 typeRec = this.cmbType.getSelectedRecord(),
                 type = (typeRec.type==1 || typeRec.value>4) ? 5 : typeRec.value;
