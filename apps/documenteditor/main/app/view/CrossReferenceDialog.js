@@ -218,9 +218,15 @@ define([
                     me.refreshReferenceTypes(me.cmbType.getSelectedRecord(), rec && (!me.inHeader || rec.value !== Asc.c_oAscDocumentRefenceToType.AboveBelow) ? rec.value : undefined);
                 }
             };
+            var onApiEndCalculate = function() {
+                var rec = me.cmbType.getSelectedRecord();
+                rec && me.refreshReferences(rec.value);
+            };
             this.api.asc_registerCallback('asc_onFocusObject', onApiFocusObject);
+            this.api.asc_registerCallback('asc_onEndCalculate', onApiEndCalculate);
             this.on('close', function(obj){
                 me.api.asc_unregisterCallback('asc_onFocusObject', onApiFocusObject);
+                me.api.asc_unregisterCallback('asc_onEndCalculate', onApiEndCalculate);
             });
         },
 
