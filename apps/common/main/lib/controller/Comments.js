@@ -291,7 +291,7 @@ define([
 
             return false;
         },
-        onShowComment: function (id, selected) {
+        onShowComment: function (id, selected, fromLeftPanelSelection) {
             var comment = this.findComment(id);
             if (comment) {
                 if (null !== comment.get('quote')) {
@@ -319,9 +319,11 @@ define([
                             this.isSelectedComment = selected;
                         }
 
-                        this.api.asc_selectComment(id);
-                        this._dontScrollToComment = true;
-                        this.api.asc_showComment(id,false);
+                        if (!fromLeftPanelSelection || !((0 === _.difference(this.uids, [id]).length) && (0 === _.difference([id], this.uids).length))) { 
+                            this.api.asc_selectComment(id);
+                            this._dontScrollToComment = true;
+                            this.api.asc_showComment(id,false);
+                        }
                     }
                 } else {
 
