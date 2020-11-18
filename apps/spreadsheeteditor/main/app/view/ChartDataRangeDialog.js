@@ -127,7 +127,7 @@ define([
             me.inputRange1 = new Common.UI.InputFieldBtn({
                 el: $('#id-dlg-chart-range-range1'),
                 style: '100%',
-                textSelectData: 'Select data',
+                btnHint: this.textSelectData,
                 // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
@@ -142,7 +142,7 @@ define([
             me.inputRange2 = new Common.UI.InputFieldBtn({
                 el: $('#id-dlg-chart-range-range2'),
                 style: '100%',
-                textSelectData: 'Select data',
+                btnHint: this.textSelectData,
                 // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
@@ -157,7 +157,7 @@ define([
             me.inputRange3 = new Common.UI.InputFieldBtn({
                 el: $('#id-dlg-chart-range-range3'),
                 style: '100%',
-                textSelectData: 'Select data',
+                btnHint: this.textSelectData,
                 // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', function(input, newValue, oldValue, e) {
