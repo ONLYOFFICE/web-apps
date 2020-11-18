@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { EditText } from '../EditText'
+import { EditText } from '../../view/edit/EditText'
 
 class EditTextController extends Component {
     constructor(props) {

@@ -2,10 +2,10 @@ import React, {Component, useEffect} from 'react';
 import {View,Page,Navbar,NavRight,Link,Popup,Popover,Icon,ListItem,List} from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
-import {Device} from '../../../../../common/mobile/utils/device'
+import {Device} from '../../../../../common/mobile/utils/device';
 
-import DocumentSettingsController from "../settings/controller/DocumentSettings";
-import { DocumentFormats, DocumentMargins } from "../settings/document-settings/DocumentSettings";
+import DocumentSettingsController from "../../controller/settings/DocumentSettings";
+import { DocumentFormats, DocumentMargins } from "./DocumentSettings";
 
 const routes = [
     {

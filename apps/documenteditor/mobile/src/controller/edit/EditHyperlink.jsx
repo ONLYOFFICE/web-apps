@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
-import {Device} from '../../../../../../common/mobile/utils/device';
+import {Device} from '../../../../../common/mobile/utils/device';
 import {observer, inject} from "mobx-react";
 import { withTranslation } from 'react-i18next';
 
-import EditHyperlink from '../EditHyperlink';
+import EditHyperlink from '../../view/edit/EditHyperlink';
 
 class EditHyperlinkController extends Component {
     constructor (props) {

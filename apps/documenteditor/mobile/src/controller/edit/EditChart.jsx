@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
-import {Device} from '../../../../../../common/mobile/utils/device';
+import {Device} from '../../../../../common/mobile/utils/device';
 import {observer, inject} from "mobx-react";
 
-import { EditShape } from '../EditShape'
+import { EditChart } from '../../view/edit/EditChart'
 
-class EditShapeController extends Component {
+class EditChartController extends Component {
     constructor (props) {
         super(props);
         this.onWrapType = this.onWrapType.bind(this);
     }
 
-    onRemoveShape () {
+    onRemoveChart () {
         const api = Common.EditorApi.get();
         if (api) {
             api.asc_Remove();
@@ -26,14 +26,14 @@ class EditShapeController extends Component {
     onWrapType (type) {
         const api = Common.EditorApi.get();
         if (api) {
-            const sdkType = this.props.storeShapeSettings.transformToSdkWrapType(type);
+            const sdkType = this.props.storeChartSettings.transformToSdkWrapType(type);
             const properties = new Asc.asc_CImgProperty();
             properties.put_WrappingStyle(sdkType);
             api.ImgApply(properties);
         }
     }
 
-    onShapeAlign (type) {
+    onAlign (type) {
         const api = Common.EditorApi.get();
         if (api) {
             const properties = new Asc.asc_CImgProperty();
@@ -97,26 +97,18 @@ class EditShapeController extends Component {
         }
     }
 
-    onReplace (type) {
-        const api = Common.EditorApi.get();
-        if (api) {
-            api.ChangeShapeType(type);
-        }
-    }
-
     render () {
         return (
-            <EditShape onRemoveShape={this.onRemoveShape}
+            <EditChart onRemoveChart={this.onRemoveChart}
                        onWrapType={this.onWrapType}
-                       onShapeAlign={this.onShapeAlign}
+                       onAlign={this.onAlign}
                        onMoveText={this.onMoveText}
                        onOverlap={this.onOverlap}
                        onWrapDistance={this.onWrapDistance}
                        onReorder={this.onReorder}
-                       onReplace={this.onReplace}
             />
         )
     }
 }
 
-export default inject("storeShapeSettings")(observer(EditShapeController));
+export default inject("storeChartSettings")(observer(EditChartController));

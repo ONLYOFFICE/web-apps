@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { EditParagraph } from '../EditParagraph'
+import { EditParagraph } from '../../view/edit/EditParagraph'
 
 class EditParagraphController extends Component {
     constructor (props) {

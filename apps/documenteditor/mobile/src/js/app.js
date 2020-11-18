@@ -20,7 +20,7 @@ import '../css/icons.css';
 import '../css/app.less';
 
 // Import App Component
-import App from '../components/app.jsx';
+import App from '../view/app';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 

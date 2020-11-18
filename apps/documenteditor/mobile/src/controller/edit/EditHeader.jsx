@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import EditHeader from '../EditHeader';
+import EditHeader from '../../view/edit/EditHeader';
 
 class EditHeaderController extends Component {
     constructor (props) {

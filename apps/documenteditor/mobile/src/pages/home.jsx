@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-react';
 
-import EditOptions from '../components/edit/Edit.jsx';
-import Settings from '../components/settings/Settings.jsx';
+import EditOptions from '../view/edit/Edit';
+import Settings from '../view/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/Collaboration.jsx'
 
 export default class Home extends Component {

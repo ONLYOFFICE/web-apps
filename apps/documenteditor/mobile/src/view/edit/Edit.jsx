@@ -5,14 +5,14 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
-import EditTextController from "./controller/EditText";
-import EditParagraphController from "./controller/EditParagraph";
-import EditShapeController from "./controller/EditShape";
-import EditImageController from "./controller/EditImage";
-import EditTableController from "./controller/EditTable";
-import EditChartController from "./controller/EditChart";
-import EditHyperlinkController from "./controller/EditHyperlink";
-import EditHeaderController from "./controller/EditHeader";
+import EditTextController from "../../controller/edit/EditText";
+import EditParagraphController from "../../controller/edit/EditParagraph";
+import EditShapeController from "../../controller/edit/EditShape";
+import EditImageController from "../../controller/edit/EditImage";
+import EditTableController from "../../controller/edit/EditTable";
+import EditChartController from "../../controller/edit/EditChart";
+import EditHyperlinkController from "../../controller/edit/EditHyperlink";
+import EditHeaderController from "../../controller/edit/EditHeader";
 
 import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers} from "./EditText";
 import {PageAdvancedSettings} from "./EditParagraph";

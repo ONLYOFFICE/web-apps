@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {DocumentSettings} from '../document-settings/DocumentSettings';
+import {DocumentSettings} from '../../view/settings/DocumentSettings';
 
 
 class DocumentSettingsController extends Component {
