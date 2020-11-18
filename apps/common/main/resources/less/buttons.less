@@ -94,7 +94,7 @@
             &::after {
                 content: ' ';
                 position: absolute;
-                border: 1px solid #000;
+                border: 1px solid #000;     // need variable in colors table
                 border-left: 0 none;
                 border-right: 0 none;
                 width: 6px;
@@ -109,7 +109,7 @@
                 width: 10px;
                 height: 7px;
                 bottom: 2px;
-                background-color: #ffd112;
+                background-color: #ffd112;      // need variable in colors table
                 border-radius: 2px;
                 right: 0;
             }
@@ -157,7 +157,7 @@
     &.active:not(.disabled) {
         .caret-up, .caret-down {
             &::after {
-                border-color: #FFFFFF;
+                border-color: @background-normal;
             }
         }
     }
@@ -286,7 +286,7 @@
     .btn.small;
 
     &.bg-white {
-        background-color: #fff;
+        background-color: @background-normal;
     }
 
     &:before,
@@ -383,7 +383,7 @@
     &:active:not(.disabled),
     &.active:not(.disabled) {
         background-color: @highlight-button-pressed;
-        color: #fff;
+        //color: #fff;  btn-category has no text
     }
 
     .icon {
@@ -396,7 +396,7 @@
 
     &[disabled],
     &.disabled {
-        color: #000;
+        //color: #000;  btn-category has no text
         opacity: @btn-disabled-opacity;
     }
 }
@@ -564,7 +564,7 @@
     .over,
     &:active,
     &.active {
-        background: #fff  !important;
+        background: @background-normal  !important;
         .box-shadow(none)  !important;
     }
 
@@ -598,7 +598,7 @@
     background-color: transparent;
 
     &.bg-white {
-        background-color: #fff;
+        background-color: @background-normal;
     }
 
     .icon {
@@ -839,7 +839,7 @@
     }
 
     &.primary {
-        color: #fff;
+        color: @text-inverse;
         background-color: @background-primary-dialog-button;
 
         &:hover:not(.disabled),
