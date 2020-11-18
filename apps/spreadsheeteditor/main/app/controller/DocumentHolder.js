@@ -1085,7 +1085,7 @@ define([
                         if (linkstr) {
                             linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' + me.textCtrlClick + '</b>';
                         } else {
-                            linkstr = props.asc_getHyperlinkUrl() + '<br><b>' + me.textCtrlClick + '</b>';
+                            linkstr = Common.Utils.String.htmlEncode(props.asc_getHyperlinkUrl()) + '<br><b>' + me.textCtrlClick + '</b>';
                         }
                     } else {
                         linkstr = Common.Utils.String.htmlEncode(props.asc_getTooltip() || (props.asc_getLocation()));
