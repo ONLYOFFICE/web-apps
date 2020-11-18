@@ -123,12 +123,7 @@ define([
                                     var size = picker.value;
 
                                     if (me.api) {
-                                        me.api.put_Table(parseInt(size[0]), parseInt(size[1]));
-
-                                        var properties = new Asc.CTableProp();
-                                        properties.put_TableStyle(type);
-
-                                        me.api.tblApply(properties);
+                                        me.api.put_Table(parseInt(size[0]), parseInt(size[1]), type.toString());
                                     }
                                 }
                             }
