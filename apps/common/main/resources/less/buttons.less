@@ -304,7 +304,7 @@
     &:active:not(.disabled),
     &.active:not(.disabled) {
         color: @text-normal;
-        background-color: @primary;
+        background-color: @highlight-button-pressed;
     }
 
     &:not(.icon-top)
@@ -382,7 +382,7 @@
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary;
+        background-color: @highlight-button-pressed;
         color: #fff;
     }
 
@@ -490,10 +490,6 @@
         }
     }
 
-@color-dark: @primary;
-//@color-gray: #079e2f;
-//@color-dark: #c52c0e;
-
     &.split {
 
         &.over:not(.disabled),
@@ -515,7 +511,7 @@
 
                 &:active,
                 &:active:hover {
-                    background-color: @color-dark;
+                    background-color: @highlight-button-pressed;
                 }
             }
         }
@@ -523,7 +519,7 @@
         &.open {
             > button:not(.active) {
                 &:last-of-type {
-                    background-color: @color-dark;
+                    background-color: @highlight-button-pressed;
                 }
             }
 
@@ -533,7 +529,7 @@
         }
 
         button.active:not(.disabled) {
-            background-color: @color-dark;
+            background-color: @highlight-button-pressed;
         }
 
         .btn + .btn {
@@ -626,7 +622,7 @@
 
     &:active,
     &.active {
-        background-color: @primary;
+        background-color: @highlight-button-pressed;
     }
 }
 
@@ -650,8 +646,8 @@
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary !important;
-        border-color: @primary;
+        background-color: @highlight-button-pressed !important;
+        border-color: @highlight-button-pressed;
         color: white;
     }
 
@@ -685,7 +681,7 @@
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary !important;
+        background-color: @highlight-button-pressed !important;
         color: white;
     }
 
@@ -717,8 +713,8 @@
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary !important;
-        border-color: @primary;
+        background-color: @highlight-button-pressed !important;
+        border-color: @highlight-button-pressed;
         color: white;
     }
 
@@ -755,7 +751,7 @@
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary !important;
+        background-color: @highlight-button-pressed !important;
     }
 
     &[disabled],
@@ -844,11 +840,11 @@
 
     &.primary {
         color: #fff;
-        background-color: @primary;
+        background-color: @background-primary-dialog-button;
 
         &:hover:not(.disabled),
         &.hover:not(.disabled) {
-            background-color: @primary-hover;
+            background-color: @highlight-primary-dialog-button-hover;
         }
     }
 

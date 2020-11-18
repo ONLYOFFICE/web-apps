@@ -53,7 +53,7 @@
 
             &:hover,
             &.selected {
-                .box-shadow(0 0 0 2px @primary);
+                .box-shadow(0 0 0 2px @highlight-button-pressed);
             }
         }
 
@@ -61,7 +61,7 @@
             background-color: transparent;
 
             div {
-                .box-shadow(0 0 0 2px @primary);
+                .box-shadow(0 0 0 2px @highlight-button-pressed);
             }
         }
     }
@@ -104,7 +104,7 @@
             display: none !important;
         }
         &, &:hover, &:focus {
-            background-color: @primary;
+            background-color: @highlight-button-pressed;
             color: @dropdown-link-active-color;
             span.color {
                 border-color: rgba(255,255,255,0.7);
