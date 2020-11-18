@@ -186,6 +186,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 el: $window.find('#data-validation-input-title'),
                 allowBlank  : true,
                 validateOnBlur: false,
+                maxLength: 32,
                 style       : 'width: 100%;'
             }).on('changed:after', function() {
                 me.isInputTitleChanged = true;
@@ -194,6 +195,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.textareaInput = new Common.UI.TextareaField({
                 el          : $window.find('#data-validation-input-msg'),
                 style       : 'width: 100%; height: 70px;',
+                maxLength   : 255,
                 value       : ''
             });
             this.textareaInput.on('changed:after', function() {
@@ -228,6 +230,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 el: $window.find('#data-validation-error-title'),
                 allowBlank  : true,
                 validateOnBlur: false,
+                maxLength: 32,
                 style       : 'width: 100%;'
             }).on('changed:after', function() {
                 me.isErrorTitleChanged = true;
@@ -236,6 +239,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.textareaError = new Common.UI.TextareaField({
                 el          : $window.find('#data-validation-error-msg'),
                 style       : 'width: 100%; height: 70px;',
+                maxLength   : 255,
                 value       : ''
             });
             this.textareaError.on('changed:after', function() {
@@ -326,10 +330,15 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         onRangeChange: function(type, input, newValue, oldValue, e) {
             if (newValue == oldValue) return;
             if (!this._noApply) {
-                if (type==1 || type==3)
-                    this.props.asc_setFormula1(newValue);
-                else if (type==2)
-                    this.props.asc_setFormula2(newValue);
+                if (type==1 || type==3) {
+                    if (!this.props.asc_getFormula1())
+                        this.props.asc_setFormula1(new AscCommonExcel.CDataFormula());
+                    this.props.asc_getFormula1().asc_setValue(newValue);
+                } else if (type==2) {
+                    if (!this.props.asc_getFormula2())
+                        this.props.asc_setFormula2(new AscCommonExcel.CDataFormula());
+                    this.props.asc_getFormula2().asc_setValue(newValue);
+                }
             }
         },
 
@@ -337,18 +346,18 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.ShowHideElem();
             if (!this._noApply)
                 this.props.asc_setType(record.value);
-            this.inputRangeMin.setValue(this.props.asc_getFormula1() || '');
-            this.inputRangeSource.setValue(this.props.asc_getFormula1() || '');
-            this.inputRangeMax.setValue(this.props.asc_getFormula2() || '');
+            this.inputRangeMin.setValue(this.props.asc_getFormula1() ? this.props.asc_getFormula1().asc_getValue() || '' : '');
+            this.inputRangeSource.setValue(this.props.asc_getFormula1() ? this.props.asc_getFormula1().asc_getValue() || '' : '');
+            this.inputRangeMax.setValue(this.props.asc_getFormula2() ? this.props.asc_getFormula2().asc_getValue() || '' : '');
         },
 
         onDataSelect: function(combo, record) {
             this.ShowHideElem();
             if (!this._noApply)
                 this.props.asc_setOperator(record.value);
-            this.inputRangeMin.setValue(this.props.asc_getFormula1() || '');
-            this.inputRangeSource.setValue(this.props.asc_getFormula1() || '');
-            this.inputRangeMax.setValue(this.props.asc_getFormula2() || '');
+            this.inputRangeMin.setValue(this.props.asc_getFormula1() ? this.props.asc_getFormula1().asc_getValue() || '' : '');
+            this.inputRangeSource.setValue(this.props.asc_getFormula1() ? this.props.asc_getFormula1().asc_getValue() || '' : '');
+            this.inputRangeMax.setValue(this.props.asc_getFormula2() ? this.props.asc_getFormula2().asc_getValue() || '' : '');
         },
 
         onStyleSelect: function(combo, record) {
@@ -400,9 +409,9 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 this.cmbAllow.setValue(value!==null ? value : Asc.EDataValidationType.None, true);
                 value = props.asc_getOperator();
                 this.cmbData.setValue(value!==null ? value : Asc.EDataValidationOperator.Between, true);
-                this.inputRangeMin.setValue(props.asc_getFormula1() || '');
-                this.inputRangeSource.setValue(props.asc_getFormula1() || '');
-                this.inputRangeMax.setValue(props.asc_getFormula2() || '');
+                this.inputRangeMin.setValue(props.asc_getFormula1() ? props.asc_getFormula1().asc_getValue() || '' : '');
+                this.inputRangeSource.setValue(props.asc_getFormula1() ? props.asc_getFormula1().asc_getValue() || '' : '');
+                this.inputRangeMax.setValue(props.asc_getFormula2() ? props.asc_getFormula2().asc_getValue() || '' : '');
 
                 // input
                 this.chShowInput.setValue(!!props.asc_getShowInputMessage());
@@ -437,6 +446,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             var me = this;
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'ok') {
+                if (!this.isRangeValid()) return;
                 this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
             }
 
@@ -502,6 +512,65 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.lblRangeMax.text(str2);
         },
 
+        isRangeValid: function() {
+            var isvalid = Asc.c_oAscError.ID.No;
+            var type = this.cmbAllow.getValue();
+            if (type!==Asc.EDataValidationType.None) {
+                var focusedInput,
+                    lblField,
+                    error,
+                    minVisible = this.inputRangeMin.isVisible();
+                isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.DataValidation, this.props.asc_getFormula1() ? this.props.asc_getFormula1().asc_getValue() : null, true, undefined, type);
+                if (isvalid !== Asc.c_oAscError.ID.No) {
+                    focusedInput = minVisible ? this.inputRangeMin : this.inputRangeSource;
+                    lblField = minVisible ? this.lblRangeMin : this.lblRangeSource;
+                }
+                if (isvalid === Asc.c_oAscError.ID.No) {
+                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.DataValidation, this.props.asc_getFormula2() ? this.props.asc_getFormula2().asc_getValue() : null, true, undefined, type);
+                    if (isvalid !== Asc.c_oAscError.ID.No) {
+                        focusedInput = this.inputRangeMax;
+                        lblField = this.lblRangeMax;
+                    }
+                }
+                if (isvalid === Asc.c_oAscError.ID.No) {
+                    isvalid = this.props.asc_checkValid();
+                    if (isvalid===null)
+                        isvalid = Asc.c_oAscError.ID.DataValidateMustEnterValue;
+                    else
+                        isvalid = isvalid ? Asc.c_oAscError.ID.No : Asc.c_oAscError.ID.DataValidateMinGreaterMax;
+                    (isvalid !== Asc.c_oAscError.ID.No) && (focusedInput = minVisible ? this.inputRangeMin : this.inputRangeSource);
+                }
+
+                switch (isvalid) {
+                    case Asc.c_oAscError.ID.DataValidateNotNumeric:
+                        error = Common.Utils.String.format(this.errorNotNumeric, lblField.text());
+                        break;
+                    case Asc.c_oAscError.ID.DataValidateNegativeTextLength:
+                        error = Common.Utils.String.format(this.errorNegativeTextLength, this.cmbAllow.getDisplayValue(this.cmbAllow.getSelectedRecord()));
+                        break;
+                    case Asc.c_oAscError.ID.DataValidateMustEnterValue:
+                        error = minVisible ? Common.Utils.String.format(this.errorMustEnterBothValues, this.lblRangeMin.text(), this.lblRangeMax.text()) :
+                                             Common.Utils.String.format(this.errorMustEnterValue, this.lblRangeSource.text());
+                        break;
+                    case Asc.c_oAscError.ID.DataValidateMinGreaterMax:
+                        error = Common.Utils.String.format(this.errorMinGreaterMax, this.lblRangeMin.text(), this.lblRangeMax.text());
+                        break;
+                    case Asc.c_oAscError.ID.DataValidateInvalid:
+                        error = Common.Utils.String.format((type==Asc.EDataValidationType.Time) ? this.errorInvalidTime : this.errorInvalidDate, lblField.text());
+                        break;
+                }
+                error && Common.UI.warning({
+                    msg: error,
+                    maxwidth: 600,
+                    callback: function(btn){
+                        focusedInput.focus();
+                    }
+                });
+            }
+
+            return (isvalid === Asc.c_oAscError.ID.No);
+        },
+
         strSettings: 'Settings',
         strInput: 'Input Message',
         strError: 'Error Alert',
@@ -552,7 +621,14 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         textStop: 'Stop',
         textAlert: 'Alert',
         textMessage: 'Message',
-        textSelectData: 'Select data'
+        textSelectData: 'Select data',
+        errorMustEnterBothValues: 'You must enter a value in both field \"{0}\" and field \"{1}\".',
+        errorMustEnterValue: 'You must enter a value in field \"{0}\".',
+        errorInvalidDate: 'The date you entered for the field \"{0}\" is invalid.',
+        errorInvalidTime: 'The time you entered for the field \"{0}\" is invalid.',
+        errorNotNumeric: 'The field \"{0}\" must be a numeric value, numeric expression, or refer to a cell containing a numeric value.',
+        errorNegativeTextLength: 'Negative values cannot be used in conditions \"{0}\".',
+        errorMinGreaterMax: 'The \"{1}\" field must be greater than or equal to the \"{0}\" field.'
 
     }, SSE.Views.DataValidationDialog || {}))
 });
