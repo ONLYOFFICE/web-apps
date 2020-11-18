@@ -203,8 +203,7 @@ define([
 
             var me = this;
             var onApiEndCalculate = function() {
-                var rec = me.cmbType.getSelectedRecord();
-                rec && me.refreshReferences(rec.value);
+                me.refreshReferences(me.cmbType.getSelectedRecord());
             };
             this.api.asc_registerCallback('asc_onEndCalculate', onApiEndCalculate);
             this.on('close', function(obj){
@@ -288,7 +287,7 @@ define([
 
         refreshReferenceTypes: function(record, currentRef) {
             var arr = [],
-                str = this.textWhich, type = 5;
+                str = this.textWhich;
             if (record.type==1 || record.value > 4) {
                 // custom labels from caption dialog and Equation, Figure, Table
                 arr = [
@@ -299,7 +298,6 @@ define([
                     { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
                 ];
             } else {
-                type = record.value;
                 switch (record.value) {
                     case 0: // paragraph
                         arr = [
@@ -360,11 +358,14 @@ define([
             this.cmbReference.setValue(rec ? currentRef : arr[0].value);
             this.onReferenceSelected(this.cmbReference, this.cmbReference.getSelectedRecord());
             this.lblWhich.text(str);
-            this.refreshReferences(type);
+            this.refreshReferences(record);
         },
 
-        refreshReferences: function(type) {
+        refreshReferences: function(record) {
+            if (!record) return;
+
             var store = this.refList.store,
+                type = (record.type==1 || record.value > 4) ? 5 : record.value,
                 arr = [],
                 props;
             switch (type) {
