@@ -138,7 +138,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.inputRangeMin = new Common.UI.InputFieldBtn({
                 el: $window.find('#data-validation-txt-min'),
                 style: '100%',
-                textSelectData: 'Select data',
+                btnHint: this.textSelectData,
                 // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', _.bind(this.onRangeChange, this, 1)).on('button:click', _.bind(this.onSelectData, this, 1));
@@ -147,7 +147,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.inputRangeMax = new Common.UI.InputFieldBtn({
                 el: $window.find('#data-validation-txt-max'),
                 style: '100%',
-                textSelectData: 'Select data',
+                btnHint: this.textSelectData,
                 // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', _.bind(this.onRangeChange, this, 2)).on('button:click', _.bind(this.onSelectData, this, 2));
@@ -163,7 +163,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.inputRangeSource = new Common.UI.InputFieldBtn({
                 el: $window.find('#data-validation-txt-source'),
                 style: '100%',
-                textSelectData: 'Select data',
+                btnHint: this.textSelectData,
                 // validateOnChange: true,
                 validateOnBlur: false
             }).on('changed:after', _.bind(this.onRangeChange, this, 3)).on('button:click', _.bind(this.onSelectData, this, 3));
@@ -551,7 +551,8 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         txtEndTime: 'End time',
         textStop: 'Stop',
         textAlert: 'Alert',
-        textMessage: 'Message'
+        textMessage: 'Message',
+        textSelectData: 'Select data'
 
     }, SSE.Views.DataValidationDialog || {}))
 });
