@@ -48,16 +48,16 @@ export default class Home extends Component {
     return (
         <Page name="home">
           {/* Top Navbar */}
-          <Navbar>
+          <Navbar id='editor-navbar'>
             <div slot="before-inner" className="main-logo"><Icon icon="icon-logo"></Icon></div>
             <NavLeft>
-              <Link>Undo</Link>
-              <Link>Redo</Link>
+              <Link icon='icon-undo'></Link>
+              <Link icon='icon-redo'></Link>
             </NavLeft>
             <NavRight>
-              <Link href={false} onClick={e => this.handleClickToOpenOptions('coauth')}>Users</Link>
-              <Link href={false} onClick={e => this.handleClickToOpenOptions('edit')} id='btn-edit'>Edit</Link>
-              <Link href={false} onClick={e => this.handleClickToOpenOptions('settings')} id='btn-settings'>Settings</Link>
+              <Link id='btn-edit' icon='icon-edit-settings' href={false} onClick={e => this.handleClickToOpenOptions('edit')}></Link>
+              <Link href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
+              <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
             </NavRight>
           </Navbar>
           {/* Page content */}
