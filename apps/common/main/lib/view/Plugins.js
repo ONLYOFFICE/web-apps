@@ -210,6 +210,7 @@ define([
                 this.iframePlugin.align        = "top";
                 this.iframePlugin.frameBorder  = 0;
                 this.iframePlugin.scrolling    = "no";
+                this.iframePlugin.allow = "camera; microphone; display-capture";
                 this.iframePlugin.onload       = _.bind(this._onLoad,this);
                 this.currentPluginFrame.append(this.iframePlugin);
 
@@ -393,6 +394,7 @@ define([
             iframe.align        = "top";
             iframe.frameBorder  = 0;
             iframe.scrolling    = "no";
+            iframe.allow = "camera; microphone; display-capture";
             iframe.onload       = _.bind(this._onLoad,this);
 
             var me = this;
