@@ -269,10 +269,7 @@ define([
                     if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
                         $('#settings-document').addClass('disabled');
                     }
-                    var _userCount = DE.getController('Main').returnUserCount();
-                    if (_userCount > 0) {
-                        $('#settings-collaboration').show();
-                    }
+                    DE.getController('Toolbar').getDisplayCollaboration() && $('#settings-collaboration').show();
                 }
             },
 
@@ -606,9 +603,9 @@ define([
                             );
                         });
                     } else {
-                        _.defer(function () {
+                        _.delay(function () {
                             me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                        });
+                        }, 300);
                     }
 
                     me.hideModal();
@@ -627,9 +624,9 @@ define([
             onPrint: function(e) {
                 var me = this;
 
-                _.defer(function () {
+                _.delay(function () {
                     me.api.asc_Print();
-                });
+                }, 300);
                 me.hideModal();
             },
 

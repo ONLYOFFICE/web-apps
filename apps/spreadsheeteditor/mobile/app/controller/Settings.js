@@ -261,10 +261,7 @@ define([
                 } else if ('#settings-macros-view' == pageId) {
                     me.initPageMacrosSettings();
                 } else {
-                    var _userCount = SSE.getController('Main').returnUserCount();
-                    if (_userCount > 0) {
-                        $('#settings-collaboration').show();
-                    }
+                    SSE.getController('Toolbar').getDisplayCollaboration() && $('#settings-collaboration').show();
                 }
             },
 

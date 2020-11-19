@@ -373,6 +373,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         },
 
         onSelectRangeItem: function(lisvView, itemView, record) {
+            if (!record) return;
+
             this.userTipHide();
             var rawData = {},
                 isViewSelect = _.isFunction(record.toJSON);

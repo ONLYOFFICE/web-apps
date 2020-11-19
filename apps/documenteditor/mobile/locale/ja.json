@@ -286,6 +286,8 @@
   "DE.Controllers.Main.waitText": "少々お待ちください...",
   "DE.Controllers.Main.warnLicenseExceeded": "％1エディターへの同時接続の制限に達しました。 このドキュメントは表示専用で開かれます。<br>詳細については、管理者にお問い合わせください。",
   "DE.Controllers.Main.warnLicenseExp": "ライセンスの期限が切れました。<br>ライセンスを更新して、ページをリロードしてください。",
+  "DE.Controllers.Main.warnLicenseLimitedNoAccess": "ライセンスの有効期限が切れています。<br>ドキュメント編集機能にアクセスできません。<br>管理者にご連絡ください。",
+  "DE.Controllers.Main.warnLicenseLimitedRenewed": "ライセンスを更新する必要があります。<br>ドキュメント編集機能へのアクセスが制限されています。<br>フルアクセスを取得するには、管理者にご連絡ください",
   "DE.Controllers.Main.warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細については、管理者にお問い合わせください。",
   "DE.Controllers.Main.warnNoLicense": "％1エディターへの同時接続の制限に達しました。 このドキュメントは閲覧のみを目的として開かれます。<br>個人的なアップグレード条件については、％1セールスチームにお問い合わせください。",
   "DE.Controllers.Main.warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームにお問い合わせください。",

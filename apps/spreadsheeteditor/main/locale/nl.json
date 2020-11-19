@@ -874,6 +874,7 @@
   "SSE.Controllers.Statusbar.errorRemoveSheet": "Werkblad kan niet worden verwijderd.",
   "SSE.Controllers.Statusbar.strSheet": "Blad",
   "SSE.Controllers.Statusbar.textSheetViewTip": "U bevindt zich in bladweergave modus. Filters en sortering zijn alleen zichtbaar voor u en degenen die zich nog in deze weergave bevinden.",
+  "SSE.Controllers.Statusbar.textSheetViewTipFilters": "U bevindt zich in bladweergave modus. Filters zijn alleen zichtbaar voor u en degenen die zich nog in deze weergave bevinden.",
   "SSE.Controllers.Statusbar.warnDeleteSheet": "Het geselecteerde werkblad bevat mogelijk gegevens. Wilt u doorgaan?",
   "SSE.Controllers.Statusbar.zoomText": "Zoomen {0}%",
   "SSE.Controllers.Toolbar.confirmAddFontName": "Het lettertype dat u probeert op te slaan, is niet beschikbaar op het huidige apparaat.<br>De tekststijl wordt weergegeven met een van de systeemlettertypen. Het opgeslagen lettertype wordt gebruikt wanneer het beschikbaar is.<br>Wilt u doorgaan?",

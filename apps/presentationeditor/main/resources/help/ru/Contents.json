@@ -25,6 +25,7 @@
     { "src": "UsageInstructions/ManipulateObjects.htm", "name": "Работа с объектами на слайде" },
     {"src": "UsageInstructions/AlignArrangeObjects.htm", "name": "Выравнивание и упорядочивание объектов на слайде"},
     { "src": "UsageInstructions/InsertEquation.htm", "name": "Вставка формул", "headername": "Математические формулы" },
+    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Автозамена математическими символами" },
     {"src": "HelpfulHints/CollaborativeEditing.htm", "name": "Совместное редактирование презентаций", "headername": "Совместное редактирование презентаций" },
 	{"src": "UsageInstructions/ViewPresentationInfo.htm", "name": "Просмотр сведений о презентации", "headername": "Инструменты и настройки"},
     { "src": "UsageInstructions/SavePrintDownload.htm", "name": "Сохранение / печать / скачивание презентации" },

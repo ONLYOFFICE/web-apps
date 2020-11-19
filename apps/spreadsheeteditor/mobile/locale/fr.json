@@ -322,6 +322,8 @@
   "SSE.Controllers.Main.waitText": "Veuillez patienter...",
   "SSE.Controllers.Main.warnLicenseExceeded": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert à la lecture seulement.<br>Contactez votre administrateur pour en savoir davantage.",
   "SSE.Controllers.Main.warnLicenseExp": "Votre licence a expiré.<br>Veuillez mettre à jour votre licence et actualisez la page.",
+  "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "La licence est expirée.<br>Vous n'avez plus d'accès aux outils d'édition.<br>Veuillez contacter votre administrateur.",
+  "SSE.Controllers.Main.warnLicenseLimitedRenewed": "Il est indispensable de renouveler la licence.<br>Vous avez un accès limité aux outils d'édition des documents.<br>Veuillez contacter votre administrateur pour obtenir un accès complet",
   "SSE.Controllers.Main.warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez votre administrateur pour en savoir davantage.",
   "SSE.Controllers.Main.warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert à la lecture seulement.<br>Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",

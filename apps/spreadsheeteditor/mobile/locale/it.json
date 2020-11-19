@@ -317,6 +317,8 @@
   "SSE.Controllers.Main.waitText": "Attendere prego...",
   "SSE.Controllers.Main.warnLicenseExceeded": "Hai raggiunto il limite per le connessioni simultanee agli editor %1. Questo documento verrà aperto in sola lettura.<br>Contatta l’amministratore per saperne di più.",
   "SSE.Controllers.Main.warnLicenseExp": "La tua licenza è scaduta.<br>Si prega di aggiornare la licenza e ricaricare la pagina.",
+  "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "Licenza scaduta. Non puoi modificare il documento. Per favore, contatta l'amministratore",
+  "SSE.Controllers.Main.warnLicenseLimitedRenewed": "La licenza dev'essere rinnovata. Hai un accesso limitato alle funzioni di modifica del documento. Per favore, contatta l'amministratore per il pieno accesso",
   "SSE.Controllers.Main.warnLicenseUsersExceeded": "Hai raggiunto il limite per gli utenti con accesso agli editor %1. Contatta l’amministratore per saperne di più.",
   "SSE.Controllers.Main.warnNoLicense": "Hai raggiunto il limite per le connessioni simultanee agli editor %1. Questo documento verrà aperto in sola lettura.<br>Contatta il team di vendita di %1 per i termini di aggiornamento personali.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "Hai raggiunto il limite per gli utenti con accesso agli editor %1. Contatta il team di vendita di %1 per i termini di aggiornamento personali.",

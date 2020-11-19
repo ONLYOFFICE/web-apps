@@ -55,6 +55,7 @@ define([
         initialize: function() {
             this.editMode = true;
             this._state = {no_slides: undefined};
+            this._initSettings = true;
 
             this.addListeners({
                 'RightMenu': {
@@ -105,9 +106,12 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects, open) {
+        onFocusObject: function(SelectedObjects) {
             if (!this.editMode)
                 return;
+
+            var open = this._initSettings ? !Common.localStorage.getBool("pe-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
+            this._initSettings = false;
 
             var needhide = true;
             for (var i=0; i<this._settings.length; i++) {
@@ -215,7 +219,7 @@ define([
 
         SetDisabled: function(disabled, allowSignature) {
             this.setMode({isEdit: !disabled});
-            if (this.rightmenu) {
+            if (this.rightmenu && this.rightmenu.paragraphSettings) {
                 this.rightmenu.slideSettings.SetSlideDisabled(disabled, disabled, disabled, disabled);
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);
@@ -285,7 +289,7 @@ define([
                 // this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
-                    this.onFocusObject(selectedElements, !Common.localStorage.getBool("pe-hide-right-settings", this.rightmenu.defaultHideRightMenu));
+                    this.onFocusObject(selectedElements);
                 }
             }
         },

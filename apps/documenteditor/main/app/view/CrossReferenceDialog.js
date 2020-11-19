@@ -200,6 +200,15 @@ define([
 
         afterRender: function() {
             this._setDefaults();
+
+            var me = this;
+            var onApiEndCalculate = function() {
+                me.refreshReferences(me.cmbType.getSelectedRecord());
+            };
+            this.api.asc_registerCallback('asc_onEndCalculate', onApiEndCalculate);
+            this.on('close', function(obj){
+                me.api.asc_unregisterCallback('asc_onEndCalculate', onApiEndCalculate);
+            });
         },
 
         _handleInput: function(state, fromButton) {
@@ -278,7 +287,7 @@ define([
 
         refreshReferenceTypes: function(record, currentRef) {
             var arr = [],
-                str = this.textWhich, type = 5;
+                str = this.textWhich;
             if (record.type==1 || record.value > 4) {
                 // custom labels from caption dialog and Equation, Figure, Table
                 arr = [
@@ -289,7 +298,6 @@ define([
                     { value: Asc.c_oAscDocumentRefenceToType.AboveBelow, displayValue: this.textAboveBelow }
                 ];
             } else {
-                type = record.value;
                 switch (record.value) {
                     case 0: // paragraph
                         arr = [
@@ -345,14 +353,19 @@ define([
                 }
             }
             this.cmbReference.setData(arr);
-            this.cmbReference.setValue(currentRef ? currentRef : arr[0].value);
+
+            var rec = this.cmbReference.store.findWhere({value: currentRef});
+            this.cmbReference.setValue(rec ? currentRef : arr[0].value);
             this.onReferenceSelected(this.cmbReference, this.cmbReference.getSelectedRecord());
             this.lblWhich.text(str);
-            this.refreshReferences(type);
+            this.refreshReferences(record);
         },
 
-        refreshReferences: function(type) {
+        refreshReferences: function(record) {
+            if (!record) return;
+
             var store = this.refList.store,
+                type = (record.type==1 || record.value > 4) ? 5 : record.value,
                 arr = [],
                 props;
             switch (type) {
@@ -383,7 +396,7 @@ define([
                         arr.push({value: name});
                     }
                 }
-            } else {
+            } else if (props) {
                 for (var i=0; i<props.length; i++) {
                     arr.push({value: props[i].asc_getText(), para: props[i]});
                 }
@@ -399,6 +412,8 @@ define([
         },
 
         onReferenceSelected: function(combo, record) {
+            if (!record) return;
+            
             var refType = record.value,
                 typeRec = this.cmbType.getSelectedRecord(),
                 type = (typeRec.type==1 || typeRec.value>4) ? 5 : typeRec.value;

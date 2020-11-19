@@ -443,7 +443,7 @@ define([
                     event.preventDefault();
                 }
             } else if (key === 'Delete') {
-                if (event.target.selectionStart < me.positionCaption - 1) {
+                if (event.target.selectionStart < me.positionCaption) {
                     event.preventDefault();
                 }
             } else if (key !== 'End') {

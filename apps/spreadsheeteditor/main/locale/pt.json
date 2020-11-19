@@ -874,6 +874,7 @@
   "SSE.Controllers.Statusbar.errorRemoveSheet": "Não é possível excluir uma planilha.",
   "SSE.Controllers.Statusbar.strSheet": "Folha",
   "SSE.Controllers.Statusbar.textSheetViewTip": "Você está no modo Visualização da folha. Filtros e classificação são visíveis apenas para você e para aqueles que ainda estão nesta exibição.",
+  "SSE.Controllers.Statusbar.textSheetViewTipFilters": "Você está no modo Visualização da folha. Filtros são visíveis apenas para você e para aqueles que ainda estão nesta exibição.",
   "SSE.Controllers.Statusbar.warnDeleteSheet": "A planilha deve conter dados. Você tem certeza de que deseja continuar?",
   "SSE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "SSE.Controllers.Toolbar.confirmAddFontName": "A fonte que você vai salvar não está disponível no dispositivo atual. <br> O estilo do texto será exibido usando uma das fontes do dispositivo, a fonte salva será usada quando estiver disponível. <br> Deseja continuar ?",

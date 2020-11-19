@@ -56,6 +56,7 @@ define([
             sheet: false
         };
         var _users = [];
+        var _displayCollaboration = false;
 
         return {
             models: [],
@@ -229,10 +230,8 @@ define([
                         if ((item.asc_getState()!==false) && !item.asc_getView())
                             length++;
                     });
-                    if (length < 1 && this.mode && !this.mode.canViewComments)
-                        $('#toolbar-collaboration').hide();
-                    else
-                        $('#toolbar-collaboration').show();
+                    _displayCollaboration = (length >= 1 || !this.mode || this.mode.canViewComments);
+                    _displayCollaboration ? $('#toolbar-collaboration').show() : $('#toolbar-collaboration').hide();
                 }
             },
 
@@ -254,6 +253,10 @@ define([
                 }
                 !changed && change && (_users[change.asc_getId()] = change);
                 this.displayCollaboration();
+            },
+
+            getDisplayCollaboration: function() {
+                return _displayCollaboration;
             },
 
             dlgLeaveTitleText   : 'You leave the application',
