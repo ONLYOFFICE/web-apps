@@ -277,7 +277,7 @@ define([
                     error: this.textRenameError,
                     value: rec.get('name'),
                     validation: function(value) {
-                        return value.length<=128 ? true : me.textLongName;
+                        return value.length<128 ? true : me.textLongName;
                     },
                     handler: function(result, value) {
                         if (result == 'ok') {
@@ -362,7 +362,7 @@ define([
         textRenameLabel: 'Rename view',
         textRenameError: 'View name must not be empty.',
         warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?",
-        textLongName: 'View name is limited to 128 characters.'
+        textLongName: 'Enter a name that is less than 128 characters.'
 
     }, SSE.Views.ViewManagerDlg || {}));
 });
