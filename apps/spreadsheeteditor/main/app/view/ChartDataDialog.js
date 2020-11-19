@@ -379,17 +379,11 @@ define([
         },
 
         onAddSeries: function() {
-            var rec = (this.seriesList.store.length>0) ? this.seriesList.store.at(this.seriesList.store.length-1) : null,
-                isScatter = false,
-                me = this;
-                rec && (isScatter = rec.get('series').asc_IsScatter());
+            var me = this;
             me.chartSettings.startEditData();
-            var series;
-            if (isScatter) {
-                series = me.chartSettings.addScatterSeries();
-            } else {
-                series = me.chartSettings.addSeries();
-            }
+            var series = me.chartSettings.addSeries(),
+                isScatter = series.asc_IsScatter();
+
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
                     me.updateRange();
