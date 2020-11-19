@@ -107,7 +107,14 @@ module.exports = {
             }
           }),
           'css-loader',
-          'less-loader',
+            {
+              loader: "less-loader",
+              options: {
+                lessOptions: {
+                  javascriptEnabled: true
+                }
+              }
+            },
             {
                 loader: 'postcss-loader',
                 options: {
