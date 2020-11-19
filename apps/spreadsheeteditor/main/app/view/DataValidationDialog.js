@@ -534,10 +534,6 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 }
                 if (isvalid === Asc.c_oAscError.ID.No) {
                     isvalid = this.props.asc_checkValid();
-                    if (isvalid===null)
-                        isvalid = Asc.c_oAscError.ID.DataValidateMustEnterValue;
-                    else
-                        isvalid = isvalid ? Asc.c_oAscError.ID.No : Asc.c_oAscError.ID.DataValidateMinGreaterMax;
                     (isvalid !== Asc.c_oAscError.ID.No) && (focusedInput = minVisible ? this.inputRangeMin : this.inputRangeSource);
                 }
 
