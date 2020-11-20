@@ -1970,6 +1970,7 @@
   "DE.Views.NoteSettingsDialog.textApplyTo": "Änderungen anwenden",
   "DE.Views.NoteSettingsDialog.textContinue": "Kontinuierlich",
   "DE.Views.NoteSettingsDialog.textCustom": "Benutzerdefiniert",
+  "DE.Views.NoteSettingsDialog.textDocEnd": "Ende des Dokuments",
   "DE.Views.NoteSettingsDialog.textDocument": "Das ganze Dokument",
   "DE.Views.NoteSettingsDialog.textEachPage": "Jede Seite neu beginnen",
   "DE.Views.NoteSettingsDialog.textEachSection": "Jeden Abschnitt neu beginnen",
