@@ -104,7 +104,6 @@
         "name": "Formeln einfügen",
         "headername": "Mathematische Formeln"
     },
-    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Math. AutoKorrektur verwenden" },
   {
     "src": "HelpfulHints/CollaborativeEditing.htm",
     "name": "Gemeinsame Bearbeitung von Präsentationen",
@@ -135,6 +134,7 @@
     "src": "HelpfulHints/SpellChecking.htm",
     "name": "Rechtschreibprüfung"
   },
+  {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoKorrekturfunktionen" },
   {
     "src": "HelpfulHints/About.htm",
     "name": "Über den Präsentationseditor",

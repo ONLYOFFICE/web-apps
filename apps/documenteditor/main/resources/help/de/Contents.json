@@ -71,6 +71,8 @@
     "src": "UsageInstructions/InsertFootnotes.htm",
     "name": "Fußnoten einfügen"
   },
+  { "src": "UsageInstructions/InsertEndnotes.htm", "name": "Endnoten einfügen" },
+  { "src": "UsageInstructions/ConvertFootnotesEndnotes.htm", "name": "Endnoten und Fußnoten einfügen" },
     {
         "src": "UsageInstructions/InsertBookmarks.htm",
         "name": "Lesezeichen hinzufügen"
@@ -131,6 +133,7 @@
     "src": "UsageInstructions/AddHyperlinks.htm",
     "name": "Hyperlink einfügen"
   },
+  {"src": "UsageInstructions/InsertCrossReference.htm", "name": "Querverweise einfügen"},
   {
     "src": "UsageInstructions/InsertDropCap.htm",
     "name": "Initialbuchstaben einfügen"
@@ -188,7 +191,6 @@
         "name": "Formeln einfügen",
         "headername": "Mathematische Formeln"
     },
-    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Math. AutoKorrektur verwenden" },
   {
     "src": "HelpfulHints/CollaborativeEditing.htm",
     "name": "Gemeinsame Bearbeitung von Dokumenten",
@@ -225,6 +227,7 @@
     "src": "HelpfulHints/SpellChecking.htm",
     "name": "Rechtschreibprüfung"
   },
+  {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoKorrekturfunktionen" },
   {
     "src": "HelpfulHints/About.htm",
     "name": "Über den Dokumenteneditor",
