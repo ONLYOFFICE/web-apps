@@ -1,8 +1,48 @@
 
 @white: #ffffff;
+@black: #000000;
 
 .device-ios {
+    --f7-navbar-link-color: @themeColor;
+    --f7-navbar-text-color: @black;
+    --f7-navbar-title-line-height: 44px;
+    --f7-navbar-link-line-height: 44px;
+    --f7-navbar-title-font-size: 17px;
+
+    --f7-list-bg-color: @white;
+    --f7-navbar-bg-color: #f7f7f8;
+
+    // Main Toolbar
+    #editor-navbar.navbar .right a + a,
+    #editor-navbar.navbar .left a + a {
+        margin-left: 0;
+    }
+
+    .navbar {
+        background-color: var(--f7-navbar-bg-color);
+        .title {
+            font-weight: 600;
+        }
+    }
+
     .popover__titled {
+        .list {
+            ul {
+                background-color: var(--f7-list-bg-color);
+                li:first-child, li:last-child {
+                    border-radius: 0;
+                    a {
+                        border-radius: 0;
+                    }
+                }
+            }
+            &:first-child, &:last-child {
+                ul {
+                    border-radius: 0;
+                }
+            }
+        }
+
         .popover-inner {
             //border-radius: var(--f7-popover-border-radius);
 
