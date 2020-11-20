@@ -120,7 +120,7 @@ Common.Utils = _.extend(new(function() {
         me = this,
         checkSize = function() {
             me.zoom = 1;
-            if (isChrome && !isOpera && !isMobile && document && document.firstElementChild && document.body) {
+            if (false && isChrome && !isOpera && !isMobile && document && document.firstElementChild && document.body) {
                 // делаем простую проверку
                 // считаем: 0 < window.devicePixelRatio < 2 => _devicePixelRatio = 1; zoom = window.devicePixelRatio / _devicePixelRatio;
                 // считаем: window.devicePixelRatio >= 2 => _devicePixelRatio = 2; zoom = window.devicePixelRatio / _devicePixelRatio;
@@ -137,7 +137,8 @@ Common.Utils = _.extend(new(function() {
                     }
                     // chrome 54.x: zoom = "reset" - clear retina zoom (windows)
                     //document.firstElementChild.style.zoom = "reset";
-                    document.firstElementChild.style.zoom = 1.0 / me.zoom;                }
+                    document.firstElementChild.style.zoom = 1.0 / me.zoom;
+                }
                 else
                     document.firstElementChild.style.zoom = "normal";
             }
