@@ -89,12 +89,12 @@
                 cursor: default;
                 font-size: 12px;
                 text-align: center;
-                color: #fff;
+                color: @text-toolbar-header;
             }
 
             &.active {
                 > a {
-                    color: #444;
+                    color: @text-normal;
                 }
             }
         }
@@ -387,7 +387,7 @@
             }
 
             svg.icon {
-                fill: @text-normal;
+                fill: @icon-toolbar-header;
             }
 
             .caption {
@@ -403,11 +403,11 @@
                     background-color: @highlight-button-pressed;
 
                     svg.icon {
-                        fill: #fff;
+                        fill: @icon-toolbar-header;
                     }
 
                     .caption {
-                        color: #fff;
+                        color: @text-inverse;
                     }
                 }
             }
@@ -453,22 +453,22 @@
 .btn-toolbar {
     &:active {
         svg.icon {
-            fill: #fff;
+            fill: @icon-toolbar-header;
         }
     }
 
     svg.icon {
         background-image: none;
 
-        fill: @text-normal;
+        fill: @icon-normal;
     }
 
     &.borders--small {
         border-radius: 2px;
-        background-color: #fff;
+        background-color: @background-normal;
 
         &:not(:active) {
-            box-shadow: inset 0 0 0 1px #cbcbcb;
+            box-shadow: inset 0 0 0 1px @border-regular-control;
         }
 
         &, .icon {
@@ -494,7 +494,7 @@
     svg.icon {
         display: inline-block;
         vertical-align: middle;
-        fill: #444444;
+        fill: @icon-normal;
     }
 
     width: 20px;
@@ -524,7 +524,7 @@
     svg.icon {
         display: inline-block;
         vertical-align: middle;
-        fill: #444444;
+        fill: @icon-normal;
     }
 }
 

@@ -16,7 +16,7 @@
 
     a {
         padding: 0;
-        border: 1px solid #fff;
+        border: 1px solid @background-normal;
         float: left;
         text-decoration: none;
         -moz-outline: 0 none;
@@ -24,25 +24,25 @@
         cursor: pointer;
 
         em span {
-            border: 1px solid rgba(0, 0, 0, 0.2);
+            border: 1px solid @border-color-shading;
         }
 
         &:hover, &.selected {
-            border-color: #000;
+            border-color: @icon-normal;
             em span {
-                border-color: #fff;
+                border-color: @background-normal;
             }
         }
     }
 
     .dynamic-empty-color em span {
-        border:solid 1px #C0C0C0;
-        background:#ffffff
+        border:solid 1px @border-color-shading;
+        background: @background-normal;
     }
 
     .color-transparent {
         em span {
-            border:solid 1px #C0C0C0;
+            border:solid 1px @border-color-shading;
         }
     }
 }
