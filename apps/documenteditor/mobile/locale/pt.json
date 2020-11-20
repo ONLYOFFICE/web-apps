@@ -292,6 +292,8 @@
   "DE.Controllers.Main.waitText": "Aguarde...",
   "DE.Controllers.Main.warnLicenseExceeded": "Você atingiu o limite de conexões simultâneas para editores %1. Este documento será aberto apenas para visualização.<br>Entre em contato com seu administrador para saber mais.",
   "DE.Controllers.Main.warnLicenseExp": "Sua licença expirou.<br>Atualize sua licença e atualize a página.",
+  "DE.Controllers.Main.warnLicenseLimitedNoAccess": "A licença expirou.<br>Você não tem acesso à funcionalidade de edição de documentos.<br>Por favor, contate seu administrador.",
+  "DE.Controllers.Main.warnLicenseLimitedRenewed": "A licença precisa ser renovada. <br> Você tem acesso limitado à funcionalidade de edição de documentos. <br> Entre em contato com o administrador para obter acesso total.",
   "DE.Controllers.Main.warnLicenseUsersExceeded": "Você atingiu o limite de usuários para editores %1. Entre em contato com seu administrador para saber mais.",
   "DE.Controllers.Main.warnNoLicense": "Você atingiu o limite de conexões simultâneas para editores %1. Este documento será aberto apenas para visualização.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",
   "DE.Controllers.Main.warnNoLicenseUsers": "Você atingiu o limite de usuários para editores %1.<br>Entre em contato com a equipe de vendas da %1 para obter os termos de atualização pessoais.",

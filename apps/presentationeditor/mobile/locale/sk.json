@@ -260,6 +260,8 @@
   "PE.Controllers.Main.waitText": "Prosím čakajte...",
   "PE.Controllers.Main.warnLicenseExceeded": "Počet súbežných spojení s dokumentovým serverom bol prekročený a dokument bude znovu otvorený iba na prezeranie.<br>Pre ďalšie informácie kontaktujte prosím vášho správcu.",
   "PE.Controllers.Main.warnLicenseExp": "Vaša licencia vypršala.<br>Prosím, aktualizujte si svoju licenciu a obnovte stránku.",
+  "PE.Controllers.Main.warnLicenseLimitedNoAccess": "Licencia vypršala.<br>K funkcii úprav dokumentu už nemáte prístup.<br>Kontaktujte svojho administrátora, prosím.",
+  "PE.Controllers.Main.warnLicenseLimitedRenewed": "Je potrebné obnoviť licenciu.<br>K funkciám úprav dokumentov máte obmedzený prístup.<br>Pre získanie úplného prístupu kontaktujte prosím svojho administrátora.",
   "PE.Controllers.Main.warnLicenseUsersExceeded": "Počet súbežných užívateľov bol prekročený a dokument bude znovu otvorený len na čítanie.<br>Pre ďalšie informácie kontaktujte prosím vášho správcu.",
   "PE.Controllers.Main.warnNoLicense": "Táto verzia aplikácie %1 editors má určité obmedzenia pre súbežné pripojenia k dokumentovému serveru. <br> Ak potrebujete viac, zvážte aktualizáciu aktuálnej licencie alebo zakúpenie komerčnej.",
   "PE.Controllers.Main.warnNoLicenseUsers": "Táto verzia %1 editors má určité obmedzenia pre spolupracujúcich používateľov. <br> Ak potrebujete viac, zvážte aktualizáciu vašej aktuálnej licencie alebo kúpu komerčnej.",
