@@ -430,7 +430,7 @@ define([
                     }, 0);
                 }
             }  else if (key === 'Backspace') {
-                if ((event.target.selectionStart === event.target.selectionEnd && event.target.selectionStart < me.positionCaption + 1) || event.target.selectionStart < me.positionCaption - 1) {
+                if ((event.target.selectionStart === event.target.selectionEnd && event.target.selectionStart < me.positionCaption + 1) || event.target.selectionStart < me.positionCaption) {
                     event.preventDefault();
                 }
             } else if (key === 'Delete') {
