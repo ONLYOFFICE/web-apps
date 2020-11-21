@@ -317,7 +317,9 @@ define([
                     })).show();
                     break;
                 case 'settings':
-                    var isEndNote = me.api.asc_IsCursorInEndnote();
+                    var isEndNote = me.api.asc_IsCursorInEndnote(),
+                        isFootNote = me.api.asc_IsCursorInFootnote();
+                    isEndNote = (isEndNote || isFootNote) ? isEndNote : Common.Utils.InternalSettings.get("de-settings-note-last") || false;
                     (new DE.Views.NoteSettingsDialog({
                         api: me.api,
                         handler: function (result, settings) {
@@ -328,6 +330,9 @@ define([
                                     setTimeout(function() {
                                         settings.isEndNote ? me.api.asc_AddEndnote(settings.custom) : me.api.asc_AddFootnote(settings.custom);
                                     }, 1);
+                                if (result == 'insert' || result == 'apply') {
+                                    Common.Utils.InternalSettings.set("de-settings-note-last", settings.isEndNote);
+                                }
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         },

@@ -341,7 +341,7 @@ define([
             initVertAxisPage: function () {
                 var me = this,
                     $vertAxisPage = $('.page[data-page=edit-chart-vertical-axis]'),
-                    chartProperty = me.api.asc_getChartObject(),
+                    chartProperty = me.api.asc_getChartObject(true),
                     verAxisProps = chartProperty.getVertAxisProps(),
                     axisProps = (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartProperty.getHorAxisProps();
 
@@ -440,7 +440,7 @@ define([
             initHorAxisPage: function () {
                 var me = this,
                     $horAxisPage = $('.page[data-page=edit-chart-horizontal-axis]'),
-                    chartProperty = me.api.asc_getChartObject(),
+                    chartProperty = me.api.asc_getChartObject(true),
                     horAxisProps = chartProperty.getHorAxisProps(),
                     axisProps = (horAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartProperty.getVertAxisProps() : horAxisProps;
 
@@ -940,14 +940,14 @@ define([
             // Helpers
 
             _getVerticalAxisProp: function () {
-                var chartObject = this.api.asc_getChartObject(),
+                var chartObject = this.api.asc_getChartObject(true),
                     verAxisProps = chartObject.getVertAxisProps();
 
                 return (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartObject.getHorAxisProps();
             },
 
             _setVerticalAxisProp: function (axisProps) {
-                var chartObject = this.api.asc_getChartObject(),
+                var chartObject = this.api.asc_getChartObject(true),
                     verAxisProps = chartObject.getVertAxisProps();
 
                 if (!_.isUndefined(chartObject)) {
@@ -957,14 +957,14 @@ define([
             },
 
             _getHorizontalAxisProp: function () {
-                var chartObject = this.api.asc_getChartObject(),
+                var chartObject = this.api.asc_getChartObject(true),
                     verHorProps = chartObject.getHorAxisProps();
 
                 return (verHorProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartObject.getVertAxisProps() : verHorProps;
             },
 
             _setHorizontalAxisProp: function (axisProps) {
-                var chartObject = this.api.asc_getChartObject(),
+                var chartObject = this.api.asc_getChartObject(true),
                     verAxisProps = chartObject.getHorAxisProps();
 
                 if (!_.isUndefined(chartObject)) {
@@ -975,7 +975,7 @@ define([
 
             _setLayoutProperty: function (propertyMethod, e) {
                 var value = $(e.currentTarget).val(),
-                    chartObject = this.api.asc_getChartObject();
+                    chartObject = this.api.asc_getChartObject(true);
 
                 if (!_.isUndefined(chartObject) && value && value.length > 0) {
                     var intValue = parseInt(value);
