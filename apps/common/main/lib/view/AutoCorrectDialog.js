@@ -134,8 +134,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
-                        '<div style="min-width:110px;padding-right: 5px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
-                        '<div style="flex-grow:1;font-family: Cambria Math;font-size:13px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
+                        '<div style="width:110px;padding-right: 5px;overflow: hidden;text-overflow: ellipsis;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
+                        '<div style="width:230px;overflow: hidden;text-overflow: ellipsis;flex-grow:1;font-family: Cambria Math;font-size:13px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
                     '</div>'
                 ].join('')),
                 scrollAlwaysVisible: true
@@ -146,6 +146,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 el               : $window.find('#auto-correct-replace'),
                 allowBlank       : true,
                 validateOnChange : true,
+                maxLength        : 31,
                 validation       : function () { return true; }
             }).on ('changing', function (input, value) {
                 var _selectedItem;
@@ -186,6 +187,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 el               : $window.find('#auto-correct-by'),
                 allowBlank       : true,
                 validateOnChange : true,
+                maxLength        : 255,
                 validation       : function () { return true; }
             }).on ('changing', function (input, value) {
                 me.updateControls();
@@ -216,7 +218,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 simpleAddMode: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                    '<div id="<%= id %>" class="list-item" style="<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= value %></div>'
+                    '<div id="<%= id %>" class="list-item" style="width: 340px;text-overflow: ellipsis;overflow: hidden;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= value %></div>'
                 ].join('')),
                 scrollAlwaysVisible: true
             });
@@ -226,6 +228,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 el               : $window.find('#auto-correct-rec-find'),
                 allowBlank       : true,
                 validateOnChange : true,
+                maxLength        : 255,
                 validation       : function () { return true; }
             }).on ('changing', function (input, value) {
                 var _selectedItem;
