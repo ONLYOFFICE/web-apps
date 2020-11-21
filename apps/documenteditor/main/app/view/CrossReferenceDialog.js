@@ -203,7 +203,7 @@ define([
 
             var me = this;
             var onApiEndCalculate = function() {
-                me.refreshReferences(me.cmbType.getSelectedRecord());
+                me.refreshReferences(me.cmbType.getSelectedRecord(), true);
             };
             this.api.asc_registerCallback('asc_onEndCalculate', onApiEndCalculate);
             this.on('close', function(obj){
@@ -361,13 +361,16 @@ define([
             this.refreshReferences(record);
         },
 
-        refreshReferences: function(record) {
+        refreshReferences: function(record, reselect) {
             if (!record) return;
 
             var store = this.refList.store,
                 type = (record.type==1 || record.value > 4) ? 5 : record.value,
                 arr = [],
-                props;
+                props,
+                oldlength = store.length,
+                oldidx = _.indexOf(store.models, this.refList.getSelectedRec());
+
             switch (type) {
                 case 0: // paragraph
                     props = this.api.asc_GetAllNumberedParagraphs();
@@ -404,7 +407,7 @@ define([
 
             store.reset(arr);
             if (store.length>0) {
-                var rec = store.at(0);
+                var rec = (reselect && store.length == oldlength && oldidx>=0 && oldidx<store.length) ? store.at(oldidx) : store.at(0);
                 this.refList.selectRecord(rec);
                 this.refList.scrollToRecord(rec);
             }
