@@ -204,7 +204,7 @@ const EditText = props => {
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
     const isUnderline = storeTextSettings.isUnderline;
-    const isStrikethrough = storeTextSettings.Strikethrough;
+    const isStrikethrough = storeTextSettings.isStrikethrough;
     const paragraphAlign = storeTextSettings.paragraphAlign;
     return (
         <Fragment>
