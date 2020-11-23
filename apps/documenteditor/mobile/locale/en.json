@@ -27,7 +27,8 @@
     "textStatistic": "Statistic",
     "textLastModifiedBy": "Last Modified By",
     "textLastModified": "Last Modified",
-    "textApplication": "Application"
+    "textApplication": "Application",
+    "textLoading": "Loading..."
   },
   "Collaboration": {
     "textEditUser": "Users who are editing the file:"

@@ -254,7 +254,7 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback("asc_onGetDocInfoStop", () => {
-          console.log("End");
+          console.log("Stop");
           storeDocumentInfo.switchIsLoaded(true);
         });
 
@@ -262,7 +262,11 @@ class MainController extends Component {
           storeDocumentInfo.changeCount(obj);
         });
 
-        // me.api.asc_registerCallback('asc_onGetDocInfoEnd',      _.bind(me.onApiGetDocInfoEnd, me));
+        this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
+          console.log('End');
+          storeDocumentInfo.switchIsLoaded(true);
+        });
+
         // me.api.asc_registerCallback('asc_onDocumentName',       _.bind(me.onApiDocumentName, me));
 
     }
