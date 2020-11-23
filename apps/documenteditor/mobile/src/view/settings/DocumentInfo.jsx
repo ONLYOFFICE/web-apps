@@ -55,11 +55,11 @@ const PageDocumentInfo = (props) => {
           <Fragment>
             <BlockTitle>{_t.textLastModified}</BlockTitle>
             <List>
-              <ListItem title="11/19/2020 1:13 PM"></ListItem>
+              <ListItem title={dataModified}></ListItem>
             </List>
             <BlockTitle>{_t.textLastModifiedBy}</BlockTitle>
             <List>
-              <ListItem title="John Smith"></ListItem>
+              <ListItem title={dataModifiedBy}></ListItem>
             </List>
           </Fragment>
         ) : null}
@@ -67,7 +67,7 @@ const PageDocumentInfo = (props) => {
           <Fragment>
             <BlockTitle>{_t.textApplication}</BlockTitle>
             <List>
-              <ListItem title="ONLYOFFICE/6.0.2.5"></ListItem>
+              <ListItem title={dataApp}></ListItem>
             </List>
           </Fragment>
         ) : null}
