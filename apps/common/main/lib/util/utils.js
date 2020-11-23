@@ -117,7 +117,8 @@ var utils = new(function() {
             Signature  : 9,
             Pivot      : 10,
             Cell       : 11,
-            Slicer     : 12
+            Slicer     : 12,
+            Form       : 13
         },
         importTextType = {
             DRM: 0,
@@ -727,6 +728,7 @@ Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
     _user.fullname = !_user.name ? defname : _user.name;
+    _user.group && (_user.fullname = (_user.group).toString() + Common.Utils.UserInfoParser.getSeparator() + _user.fullname);
     return _user;
 };
 
@@ -776,8 +778,10 @@ Common.Utils.loadConfig = function(url, callback) {
                 return response.json();
             else return 'error';
         }).then(function(json){
-            callback(json);
-        });
+        callback(json);
+    }).catch(function(e) {
+        callback('error');
+    });
 };
 
 Common.Utils.asyncCall = function (callback, scope, args) {
@@ -972,6 +976,38 @@ Common.Utils.ModalWindow = new(function() {
 
         isVisible: function() {
             return count>0;
+        }
+    }
+})();
+
+Common.Utils.UserInfoParser = new(function() {
+    var parse = false;
+    var separator = String.fromCharCode(160);
+    return {
+        setParser: function(value) {
+            parse = !!value;
+        },
+
+        getSeparator: function() {
+            return separator;
+        },
+
+        getParsedName: function(username) {
+            if (parse && username) {
+                return username.substring(username.indexOf(separator)+1);
+            } else
+                return username;
+        },
+
+        getParsedGroups: function(username) {
+            if (parse && username) {
+                var idx = username.indexOf(separator),
+                    groups = (idx>-1) ? username.substring(0, idx).split(',') : [];
+                for (var i=0; i<groups.length; i++)
+                    groups[i] = groups[i].trim();
+                return groups;
+            } else
+                return undefined;
         }
     }
 })();
