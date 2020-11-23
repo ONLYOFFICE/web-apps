@@ -53,7 +53,8 @@ class DocumentInfoController extends Component {
     if (docProps) {
       let valueModifiedBy = docProps.asc_getLastModifiedBy();
       if (valueModifiedBy) {
-        return Common.Utils.UserInfoParser.getParsedName(valueModifiedBy);
+        // return Common.Utils.UserInfoParser.getParsedName(valueModifiedBy);
+        return valueModifiedBy;
       }
     }
   }
