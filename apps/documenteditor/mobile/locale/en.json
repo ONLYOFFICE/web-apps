@@ -20,7 +20,14 @@
     "textTop": "Top",
     "textBottom": "Bottom",
     "textLeft": "Left",
-    "textRight": "Right"
+    "textRight": "Right",
+    "textDocumentTitle": "Document Title",
+    "textOwner": "Owner",
+    "textUploaded": "Uploaded",
+    "textStatistic": "Statistic",
+    "textLastModifiedBy": "Last Modified By",
+    "textLastModified": "Last Modified",
+    "textApplication": "Application"
   },
   "Collaboration": {
     "textEditUser": "Users who are editing the file:"

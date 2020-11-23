@@ -5,6 +5,7 @@ import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 
 import DocumentSettingsController from "../../controller/settings/DocumentSettings";
+import DocumentInfoController from "../../controller/settings/DocumentInfo";
 import { DocumentFormats, DocumentMargins } from "./DocumentSettings";
 
 const routes = [
@@ -24,6 +25,10 @@ const routes = [
         path: '/document-formats/',
         component: DocumentFormats,
     },
+    {
+        path: "/document-info/",
+        component: DocumentInfoController,
+    }
 ];
 
 
@@ -64,7 +69,7 @@ const SettingsList = withTranslation()(props => {
                     <ListItem title={_t.textPrint}>
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textDocumentInfo} link="#">
+                    <ListItem title={_t.textDocumentInfo} link="#" onClick={onoptionclick.bind(this, "/document-info/")}>
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
                     <ListItem title={_t.textHelp} link="#">
