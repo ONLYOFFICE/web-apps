@@ -130,6 +130,7 @@ define([
             this.handler    = options.handler;
             this.props      = options.props;
             this.isEndNote  = options.isEndNote || false;
+            this.hasSections  = options.hasSections || false;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
@@ -260,17 +261,16 @@ define([
                 me.btnApply.setDisabled(value.length>0);
             });
 
+            var arr = this.hasSections ? [{ displayValue: this.textSection,   value: 0 }] : [];
+            arr.push({ displayValue: this.textDocument,   value: 1 });
             this.cmbApply = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-apply'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 150px;',
                 editable: false,
-                data: [
-                    { displayValue: this.textDocument,   value: 1 },
-                    { displayValue: this.textSection,   value: 0 }
-                ]
+                data: arr
             });
-            this.cmbApply.setValue(1);
+            this.cmbApply.setValue(arr[0].value);
 
             this.btnApply = new Common.UI.Button({
                 el: $('#note-settings-btn-apply')
