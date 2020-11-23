@@ -36,13 +36,13 @@ class DocumentInfoController extends Component {
       console.log(docProps);
       if (valueModified) {
         return (
-          valueModified.toLocaleString(_lang, {
+          valueModified.toLocaleString('en', {
             year: "numeric",
             month: "2-digit",
             day: "2-digit",
           }) +
           " " +
-          valueModified.toLocaleTimeString(_lang, { timeStyle: "short" })
+          valueModified.toLocaleTimeString('en', { timeStyle: "short" })
         );
       }
     }
@@ -53,8 +53,7 @@ class DocumentInfoController extends Component {
     if (docProps) {
       let valueModifiedBy = docProps.asc_getLastModifiedBy();
       if (valueModifiedBy) {
-        // return Common.Utils.UserInfoParser.getParsedName(valueModifiedBy);
-        return valueModifiedBy;
+        return Common.Utils.UserInfoParser.getParsedName(valueModifiedBy);
       }
     }
   }

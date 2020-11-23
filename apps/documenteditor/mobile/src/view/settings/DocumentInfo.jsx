@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle } from "framework7-react";
 import { useTranslation } from "react-i18next";
@@ -52,7 +52,7 @@ const PageDocumentInfo = (props) => {
           <ListItem title="Spaces" after={symbolsWSCount}></ListItem>
         </List>
         {dataModified && dataModifiedBy ? (
-          <Block>
+          <Fragment>
             <BlockTitle>{_t.textLastModified}</BlockTitle>
             <List>
               <ListItem title="11/19/2020 1:13 PM"></ListItem>
@@ -61,15 +61,15 @@ const PageDocumentInfo = (props) => {
             <List>
               <ListItem title="John Smith"></ListItem>
             </List>
-          </Block>
+          </Fragment>
         ) : null}
         {dataApp ? (
-          <Block>
+          <Fragment>
             <BlockTitle>{_t.textApplication}</BlockTitle>
             <List>
               <ListItem title="ONLYOFFICE/6.0.2.5"></ListItem>
             </List>
-          </Block>
+          </Fragment>
         ) : null}
       </Page>
     );
