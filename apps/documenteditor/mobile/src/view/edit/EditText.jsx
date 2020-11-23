@@ -32,8 +32,8 @@ const PageFonts = props => {
                     <div slot='after-start'>{displaySize}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {props.changeFontSize(size, true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {props.changeFontSize(size, false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {props.changeFontSize(size, true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {props.changeFontSize(size, false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>
@@ -88,8 +88,8 @@ const PageAdditionalFormatting = props => {
                     <div slot='after-start'>{letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {props.changeLetterSpacing(letterSpacing, true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {props.changeLetterSpacing(letterSpacing, false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {props.changeLetterSpacing(letterSpacing, true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {props.changeLetterSpacing(letterSpacing, false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>
@@ -213,7 +213,7 @@ const EditText = props => {
                     changeFontSize: props.changeFontSize,
                     changeFontFamily: props.changeFontFamily
                 }}/>
-                <ListItem>
+                <ListItem className='buttons'>
                     <Row>
                         <a className={'button' + (isBold ? ' active' : '')} onClick={() => { props.toggleBold(!isBold)}}><b>B</b></a>
                         <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
@@ -238,18 +238,30 @@ const EditText = props => {
                 </ListItem>
             </List>
             <List>
-                <ListItem>
+                <ListItem className='buttons'>
                     <Row>
-                        <a className={'button' + (paragraphAlign === 'left' ? ' active' : '')} onClick={() => {props.onParagraphAlign('left')}}>left</a>
-                        <a className={'button' + (paragraphAlign === 'center' ? ' active' : '')} onClick={() => {props.onParagraphAlign('center')}}>center</a>
-                        <a className={'button' + (paragraphAlign === 'right' ? ' active' : '')} onClick={() => {props.onParagraphAlign('right')}}>right</a>
-                        <a className={'button' + (paragraphAlign === 'just' ? ' active' : '')} onClick={() => {props.onParagraphAlign('just')}}>just</a>
+                        <a className={'button' + (paragraphAlign === 'left' ? ' active' : '')} onClick={() => {props.onParagraphAlign('left')}}>
+                            <Icon slot="media" icon="icon-text-align-left"></Icon>
+                        </a>
+                        <a className={'button' + (paragraphAlign === 'center' ? ' active' : '')} onClick={() => {props.onParagraphAlign('center')}}>
+                            <Icon slot="media" icon="icon-text-align-center"></Icon>
+                        </a>
+                        <a className={'button' + (paragraphAlign === 'right' ? ' active' : '')} onClick={() => {props.onParagraphAlign('right')}}>
+                            <Icon slot="media" icon="icon-text-align-right"></Icon>
+                        </a>
+                        <a className={'button' + (paragraphAlign === 'just' ? ' active' : '')} onClick={() => {props.onParagraphAlign('just')}}>
+                            <Icon slot="media" icon="icon-text-align-just"></Icon>
+                        </a>
                     </Row>
                 </ListItem>
-                <ListItem>
+                <ListItem className='buttons'>
                     <Row>
-                        <a className='button' onClick={() => {props.onParagraphMove(true)}}>moveleft</a>
-                        <a className='button' onClick={() => {props.onParagraphMove(false)}}>moveright</a>
+                        <a className='button item-link' onClick={() => {props.onParagraphMove(true)}}>
+                            <Icon slot="media" icon="icon-de-indent"></Icon>
+                        </a>
+                        <a className='button item-link' onClick={() => {props.onParagraphMove(false)}}>
+                            <Icon slot="media" icon="icon-in-indent"></Icon>
+                        </a>
                     </Row>
                 </ListItem>
                 <ListItem title={t("Edit.textBullets")} link='/edit-text-bullets/' routeProps={{

@@ -67,8 +67,8 @@ const PageDocumentMargins = props => {
                     <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateTop).toFixed(2)) + ' ' + metricText}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {onChangeMargins('top', true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {onChangeMargins('top', false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {onChangeMargins('top', true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {onChangeMargins('top', false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>
@@ -76,8 +76,8 @@ const PageDocumentMargins = props => {
                     <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateBottom).toFixed(2))+ ' ' + metricText}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {onChangeMargins('bottom', true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {onChangeMargins('bottom', false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {onChangeMargins('bottom', true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {onChangeMargins('bottom', false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>
@@ -85,8 +85,8 @@ const PageDocumentMargins = props => {
                     <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateLeft).toFixed(2))+ ' ' + metricText}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {onChangeMargins('left', true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {onChangeMargins('left', false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {onChangeMargins('left', true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {onChangeMargins('left', false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>
@@ -94,8 +94,8 @@ const PageDocumentMargins = props => {
                     <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateRight).toFixed(2))+ ' ' + metricText}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {onChangeMargins('right', true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {onChangeMargins('right', false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {onChangeMargins('right', true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {onChangeMargins('right', false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>

@@ -38,8 +38,8 @@ const EditHeader = props => {
                     <div slot='after-start'>{_startAt}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {props.onStartAt(_startAt, true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {props.onStartAt(_startAt, false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {props.onStartAt(_startAt, true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {props.onStartAt(_startAt, false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>

@@ -3,6 +3,8 @@
 @black: #000000;
 
 .device-ios {
+    @blockTitleColor: #6d6d72;
+
     --f7-navbar-link-color: @themeColor;
     --f7-navbar-text-color: @black;
     --f7-navbar-title-line-height: 44px;
@@ -11,6 +13,12 @@
 
     --f7-list-bg-color: @white;
     --f7-navbar-bg-color: #f7f7f8;
+
+    --f7-radio-active-color: @themeColor;
+    --f7-toggle-active-color: @themeColor;
+    --f7-range-bar-active-bg-color: @themeColor;
+
+    --f7-list-button-text-color: @themeColor;
 
     // Main Toolbar
     #editor-navbar.navbar .right a + a,
@@ -22,6 +30,9 @@
         background-color: var(--f7-navbar-bg-color);
         .title {
             font-weight: 600;
+        }
+        .navbar-inner {
+            z-index: auto;
         }
     }
 
@@ -144,6 +155,143 @@
             &:last-child {
                 border-radius: 0 var(--f7-button-border-radius) var(--f7-button-border-radius) 0;
             }
+        }
+    }
+
+    .list {
+        li.no-indicator {
+            .item-link {
+                .item-inner:before {
+                    content: none;
+                }
+            }
+        }
+        .item-inner {
+            padding-top: 7px;
+            .item-after {
+                color: @black;
+                .after-start {
+                    margin: 0 5px;
+                }
+                .segmented {
+                    min-width: 90px;
+                    margin-left: 10px;
+                }
+            }
+        }
+        .buttons {
+            .item-inner {
+                padding-top: 0;
+                padding-bottom: 0;
+                align-items: stretch;
+                > .row {
+                    width: 100%;
+                    align-items: stretch;
+                    .button {
+                        flex: 1;
+                        border: none;
+                        height: inherit;
+                        border-radius: 0;
+                        font-size: 17px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+            }
+        }
+    }
+
+    .tab-buttons {
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        align-self: center;
+        .tab-link {
+            display: block;
+            width: 100%;
+            line-height: 26px;
+            position: relative;
+            overflow: hidden;
+            -webkit-box-flex: 1;
+            border: 1px solid @themeColor;
+            text-decoration: none;
+            text-align: center;
+            margin: 0;
+            padding: 0 1px;
+            height: 29px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+            outline: 0;
+            font-weight: 600;
+            &:first-child {
+                border-radius: 5px 0 0 5px;
+                border-left-width: 1px;
+                border-left-style: solid;
+            }
+            &:last-child {
+                border-radius: 0 5px 5px 0;
+            }
+            &.tab-link-active {
+                background: @themeColor;
+                color: @white;
+            }
+        }
+    }
+
+    .button {
+        border: 1px solid @themeColor;
+        color: @themeColor;
+        text-decoration: none;
+        text-align: center;
+        display: block;
+        border-radius: 5px;
+        line-height: 27px;
+        box-sizing: border-box;
+        background: 0 0;
+        padding: 0 10px;
+        margin: 0;
+        height: 29px;
+        white-space: nowrap;
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        font-family: inherit;
+        cursor: pointer;
+        outline: 0;
+        &.active {
+            background: @themeColor;
+            color: @white;
+            i.icon {
+                background-color: @white;
+            }
+        }
+    }
+
+    .red .list-button {
+        color: red;
+    }
+
+    .block-title {
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        text-transform: uppercase;
+        line-height: 1;
+        color: @blockTitleColor;
+        margin: 35px 15px 10px;
+    }
+
+    .shapes {
+        .page-content {
+            background: @white;
         }
     }
 }

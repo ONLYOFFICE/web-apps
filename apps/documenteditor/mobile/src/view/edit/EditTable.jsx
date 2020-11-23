@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle} from 'framework7-react';
+import {Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
 const PageTableOptions = props => {
@@ -67,8 +67,12 @@ const PageWrap = props => {
         <Page>
             <Navbar title={_t.textWrap} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_NONE)}}></ListItem>
-                <ListItem title={_t.textFlow} radio checked={wrapType === 'flow'} onClick={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_PARALLEL)}}></ListItem>
+                <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_NONE)}}>
+                    <Icon slot="media" icon="icon-wrap-table-inline"></Icon>
+                </ListItem>
+                <ListItem title={_t.textFlow} radio checked={wrapType === 'flow'} onClick={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_PARALLEL)}}>
+                    <Icon slot="media" icon="icon-wrap-table-flow"></Icon>
+                </ListItem>
             </List>
             <List>
                 <ListItem title={_t.textMoveWithText} className={'inline' === wrapType ? 'disabled' : ''}>
@@ -80,20 +84,26 @@ const PageWrap = props => {
                 <Fragment>
                     <BlockTitle>{_t.textAlign}</BlockTitle>
                     <List>
-                        <ListItem>
+                        <ListItem className='buttons'>
                             <Row>
                                 <a className={'button' + (align === c_tableAlign.TABLE_ALIGN_LEFT ? ' active' : '')}
                                    onClick={() => {
                                        props.onWrapAlign(c_tableAlign.TABLE_ALIGN_LEFT)
-                                   }}>left</a>
+                                   }}>
+                                    <Icon slot="media" icon="icon-block-align-left"></Icon>
+                                </a>
                                 <a className={'button' + (align === c_tableAlign.TABLE_ALIGN_CENTER ? ' active' : '')}
                                    onClick={() => {
                                        props.onWrapAlign(c_tableAlign.TABLE_ALIGN_CENTER)
-                                   }}>center</a>
+                                   }}>
+                                    <Icon slot="media" icon="icon-block-align-center"></Icon>
+                                </a>
                                 <a className={'button' + (align === c_tableAlign.TABLE_ALIGN_RIGHT ? ' active' : '')}
                                    onClick={() => {
                                        props.onWrapAlign(c_tableAlign.TABLE_ALIGN_RIGHT)
-                                   }}>right</a>
+                                   }}>
+                                    <Icon slot="media" icon="icon-block-align-right"></Icon>
+                                </a>
                             </Row>
                         </ListItem>
                     </List>
@@ -137,21 +147,33 @@ const EditTable = props => {
     return (
         <Fragment>
             <List>
-                <ListItem>
+                <ListItem className='buttons'>
                     <Row>
-                        <a className={'button'} onClick={() => {props.onAddColumnLeft()}}>col-left</a>
-                        <a className={'button'} onClick={() => {props.onAddColumnRight()}}>col-right</a>
-                        <a className={'button'} onClick={() => {props.onAddRowAbove()}}>row-above</a>
-                        <a className={'button'} onClick={() => {props.onAddRowBelow()}}>row-below</a>
+                        <a className={'item-link button'} onClick={() => {props.onAddColumnLeft()}}>
+                            <Icon slot="media" icon="icon-table-add-column-left"></Icon>
+                        </a>
+                        <a className={'item-link button'} onClick={() => {props.onAddColumnRight()}}>
+                            <Icon slot="media" icon="icon-table-add-column-right"></Icon>
+                        </a>
+                        <a className={'item-link button'} onClick={() => {props.onAddRowAbove()}}>
+                            <Icon slot="media" icon="icon-table-add-row-above"></Icon>
+                        </a>
+                        <a className={'item-link button'} onClick={() => {props.onAddRowBelow()}}>
+                            <Icon slot="media" icon="icon-table-add-row-below"></Icon>
+                        </a>
                     </Row>
                 </ListItem>
-                <ListItem>
+                <ListItem className='buttons'>
                     <Row>
-                        <a className={'button'} onClick={() => {props.onRemoveColumn()}}>remove-column</a>
-                        <a className={'button'} onClick={() => {props.onRemoveRow()}}>remove-row</a>
+                        <a className={'item-link button'} onClick={() => {props.onRemoveColumn()}}>
+                            <Icon slot="media" icon="icon-table-remove-column"></Icon>
+                        </a>
+                        <a className={'item-link button'} onClick={() => {props.onRemoveRow()}}>
+                            <Icon slot="media" icon="icon icon-table-remove-row"></Icon>
+                        </a>
                     </Row>
                 </ListItem>
-                <ListButton title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}}></ListButton>
+                <ListButton title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='red'></ListButton>
             </List>
             <List>
                 <ListItem title={_t.textTableOptions} link='/edit-table-options/' routeProps={{

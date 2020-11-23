@@ -20,33 +20,53 @@ const PageWrap = props => {
         <Page>
             <Navbar title={_t.textWrap} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType('inline')}}></ListItem>
-                <ListItem title={_t.textSquare} radio checked={wrapType === 'square'} onClick={() => {props.onWrapType('square')}}></ListItem>
-                <ListItem title={_t.textTight} radio checked={wrapType === 'tight'} onClick={() => {props.onWrapType('tight')}}></ListItem>
-                <ListItem title={_t.textThrough} radio checked={wrapType === 'through'} onClick={() => {props.onWrapType('through')}}></ListItem>
-                <ListItem title={_t.textTopAndBottom} radio checked={wrapType === 'top-bottom'} onClick={() => {props.onWrapType('top-bottom')}}></ListItem>
-                <ListItem title={_t.textInFront} radio checked={wrapType === 'infront'} onClick={() => {props.onWrapType('infront')}}></ListItem>
-                <ListItem title={_t.textBehind} radio checked={wrapType === 'behind'} onClick={() => {props.onWrapType('behind')}}></ListItem>
+                <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType('inline')}}>
+                    <Icon slot="media" icon="icon-wrap-inline"></Icon>
+                </ListItem>
+                <ListItem title={_t.textSquare} radio checked={wrapType === 'square'} onClick={() => {props.onWrapType('square')}}>
+                    <Icon slot="media" icon="icon-wrap-square"></Icon>
+                </ListItem>
+                <ListItem title={_t.textTight} radio checked={wrapType === 'tight'} onClick={() => {props.onWrapType('tight')}}>
+                    <Icon slot="media" icon="icon-wrap-tight"></Icon>
+                </ListItem>
+                <ListItem title={_t.textThrough} radio checked={wrapType === 'through'} onClick={() => {props.onWrapType('through')}}>
+                    <Icon slot="media" icon="icon-wrap-through"></Icon>
+                </ListItem>
+                <ListItem title={_t.textTopAndBottom} radio checked={wrapType === 'top-bottom'} onClick={() => {props.onWrapType('top-bottom')}}>
+                    <Icon slot="media" icon="icon-wrap-top-bottom"></Icon>
+                </ListItem>
+                <ListItem title={_t.textInFront} radio checked={wrapType === 'infront'} onClick={() => {props.onWrapType('infront')}}>
+                    <Icon slot="media" icon="icon-wrap-infront"></Icon>
+                </ListItem>
+                <ListItem title={_t.textBehind} radio checked={wrapType === 'behind'} onClick={() => {props.onWrapType('behind')}}>
+                    <Icon slot="media" icon="icon-wrap-behind"></Icon>
+                </ListItem>
             </List>
             {
                 wrapType !== 'inline' &&
                 <Fragment>
                     <BlockTitle>{_t.textAlign}</BlockTitle>
                     <List>
-                        <ListItem>
+                        <ListItem className='buttons'>
                             <Row>
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Left ? ' active' : '')}
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Left)
-                                   }}>left</a>
+                                   }}>
+                                    <Icon slot="media" icon="icon-text-align-left"></Icon>
+                                </a>
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Center ? ' active' : '')}
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Center)
-                                   }}>center</a>
+                                   }}>
+                                    <Icon slot="media" icon="icon-text-align-center"></Icon>
+                                </a>
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Right ? ' active' : '')}
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Right)
-                                   }}>right</a>
+                                   }}>
+                                    <Icon slot="media" icon="icon-text-align-right"></Icon>
+                                </a>
                             </Row>
                         </ListItem>
                     </List>
@@ -125,10 +145,14 @@ const PageReplace = props => {
         <Page>
             <Navbar title={_t.textReplace} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}></ListItem>
+                <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}>
+                    <Icon slot="media" icon="icon-link"></Icon>
+                </ListItem>
                 <ListItem title={_t.textPictureFromURL} link='/edit-image-link/' routeProps={{
                     onReplaceByUrl: props.onReplaceByUrl
-                }}></ListItem>
+                }}>
+                    <Icon slot="media" icon="icon-image-library"></Icon>
+                </ListItem>
             </List>
         </Page>
     )
@@ -141,10 +165,18 @@ const PageReorder = props => {
         <Page>
             <Navbar title={_t.textReorder} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}}></ListItem>
-                <ListItem title={_t.textSendToBackground} link='#' onClick={() => {props.onReorder('all-down')}}></ListItem>
-                <ListItem title={_t.textMoveForward} link='#' onClick={() => {props.onReorder('move-up')}}></ListItem>
-                <ListItem title={_t.textMoveBackward} link='#' onClick={() => {props.onReorder('move-down')}}></ListItem>
+                <ListItem title={_t.textBringToForeground} link='#' onClick={() => {props.onReorder('all-up')}} className='no-indicator'>
+                    <Icon slot="media" icon="icon-move-foreground"></Icon>
+                </ListItem>
+                <ListItem title={_t.textSendToBackground} link='#' onClick={() => {props.onReorder('all-down')}} className='no-indicator'>
+                    <Icon slot="media" icon="icon-move-background"></Icon>
+                </ListItem>
+                <ListItem title={_t.textMoveForward} link='#' onClick={() => {props.onReorder('move-up')}} className='no-indicator'>
+                    <Icon slot="media" icon="icon-move-forward"></Icon>
+                </ListItem>
+                <ListItem title={_t.textMoveBackward} link='#' onClick={() => {props.onReorder('move-down')}} className='no-indicator'>
+                    <Icon slot="media" icon="icon-move-backward"></Icon>
+                </ListItem>
             </List>
         </Page>
     )
@@ -173,7 +205,7 @@ const EditImage = props => {
             </List>
             <List>
                 <ListButton title={_t.textActualSize} onClick={() => {props.onDefaulSize()}}/>
-                <ListButton title={_t.textRemoveImage} onClick={() => {props.onRemoveImage()}}/>
+                <ListButton title={_t.textRemoveImage} onClick={() => {props.onRemoveImage()}} className='red'/>
             </List>
         </Fragment>
     )

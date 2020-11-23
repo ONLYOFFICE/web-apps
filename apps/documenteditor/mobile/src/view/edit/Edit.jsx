@@ -123,12 +123,12 @@ const EditLayoutNavbar = ({ editors, inPopover }) => {
         <Navbar>
         {
             editors.length > 1 ?
-                <NavLeft tabbar>
+                <div className='tab-buttons'>
                     {editors.map((item, index) => <Link key={"de-link-" + item.id}  tabLink={"#" + item.id} tabLinkActive={index === 0}>{item.caption}</Link>)}
-                </NavLeft> :
+                </div> :
                 <NavTitle>{ editors[0].caption }</NavTitle>
         }
-        { !inPopover && <NavRight><Link sheetClose>{_t.textClose}</Link></NavRight> }
+        { !inPopover && <NavRight><Link icon='icon-expand-down' sheetClose></Link></NavRight> }
         </Navbar>
     )
 };

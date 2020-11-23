@@ -42,7 +42,7 @@ const EditHyperlink = props => {
                 <ListButton className={stateLink.length < 1 ? 'disabled' : ''} title={_t.textEditLink} onClick={() => {
                     props.onEditLink(stateLink, stateDisplay, stateTip)
                 }}></ListButton>
-                <ListButton title={_t.textRemoveLink} onClick={() => {props.onRemoveLink()}}></ListButton>
+                <ListButton title={_t.textRemoveLink} onClick={() => {props.onRemoveLink()}} className='red'/>
             </List>
         </Fragment>
     )

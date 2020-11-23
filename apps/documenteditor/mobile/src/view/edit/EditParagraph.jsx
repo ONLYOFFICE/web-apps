@@ -35,8 +35,8 @@ const PageAdvancedSettings = props => {
                     <div slot='after-start'>{displayBefore}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {props.onDistanceBefore(spaceBefore, true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {props.onDistanceBefore(spaceBefore, false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {props.onDistanceBefore(spaceBefore, true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {props.onDistanceBefore(spaceBefore, false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>
@@ -44,8 +44,8 @@ const PageAdvancedSettings = props => {
                     <div slot='after-start'>{displayAfter}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {props.onDistanceAfter(spaceAfter, true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {props.onDistanceAfter(spaceAfter, false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {props.onDistanceAfter(spaceAfter, true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {props.onDistanceAfter(spaceAfter, false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>
@@ -53,8 +53,8 @@ const PageAdvancedSettings = props => {
                     <div slot='after-start'>{firstLine + ' ' + metricText}</div>
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='decrement' onClick={() => {props.onSpinFirstLine(paragraphObj, true)}}> - </Button>
-                            <Button outline className='increment' onClick={() => {props.onSpinFirstLine(paragraphObj, false)}}> + </Button>
+                            <Button outline className='item-link decrement' onClick={() => {props.onSpinFirstLine(paragraphObj, true)}}> - </Button>
+                            <Button outline className='item-link increment' onClick={() => {props.onSpinFirstLine(paragraphObj, false)}}> + </Button>
                         </Segmented>
                     </div>
                 </ListItem>
