@@ -216,7 +216,7 @@ define([
                 _.delay(function () {
                     var $commentInfo = $('#comment-info');
                     var template = [
-                        '<% if (android) { %><div class="header-comment"><div class="initials-comment" style="background-color: <%= comment.usercolor %>;"><%= comment.userInitials %></div><div><% } %>',
+                        '<% if (android) { %><div class="header-comment"><div class="initials-comment" style="background-color: <% if (comment.usercolor!==null) { %><%=comment.usercolor%><% } else { %> #cfcfcf <% } %>;"><%= comment.userInitials %></div><div><% } %>',
                         '<div class="user-name"><%= scope.getUserName(comment.username) %></div>',
                         '<div class="comment-date"><%= comment.date %></div>',
                         '<% if (android) { %></div></div><% } %>',
