@@ -337,6 +337,7 @@ define([
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         },
                         isEndNote: isEndNote,
+                        hasSections: me.api.asc_GetSectionsCount()>1,
                         props: isEndNote ? me.api.asc_GetEndnoteProps() : me.api.asc_GetFootnoteProps()
                     })).show();
                     break;
