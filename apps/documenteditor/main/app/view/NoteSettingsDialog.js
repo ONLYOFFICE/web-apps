@@ -49,7 +49,7 @@ define([
     DE.Views.NoteSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 380,
+            height: 395,
             buttons: null
         },
 
@@ -110,8 +110,8 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<label class="header" style="margin-top: 4px;">', me.textApplyTo,'</label>',
-                                            '<div id="note-settings-combo-apply" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
+                                            '<label class="header">', me.textApplyTo,'</label>',
+                                            '<div id="note-settings-combo-apply" class="input-group-nr" style="width:150px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
