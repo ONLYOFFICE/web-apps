@@ -8,6 +8,7 @@ import {storeShapeSettings} from "./shapeSettings";
 import {storeImageSettings} from "./imageSettings";
 import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
+import {storeDocumentInfo} from "./documentInfo";
 
 export const stores = {
     storeFocusObjects: new storeFocusObjects(),
@@ -18,6 +19,7 @@ export const stores = {
     storeShapeSettings: new storeShapeSettings(),
     storeChartSettings: new storeChartSettings(),
     storeImageSettings: new storeImageSettings(),
-    storeTableSettings: new storeTableSettings()
+    storeTableSettings: new storeTableSettings(),
+    storeDocumentInfo: new storeDocumentInfo()
 };
 

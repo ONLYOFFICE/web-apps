@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {inject} from "mobx-react";
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings")
+@inject("storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings", "storeDocumentInfo")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -86,6 +86,12 @@ class MainController extends Component {
                 // this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
+
+                // Document Info
+
+                const storeDocumentInfo = this.props.storeDocumentInfo;
+
+                storeDocumentInfo.setDataDoc(data.doc);
 
                 // Common.SharedSettings.set('document', data.doc);
 
@@ -237,6 +243,31 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onInitTableTemplates', (templates) => {
             storeTableSettings.initTableTemplates(templates);
         });
+
+        // Document Info
+
+        const storeDocumentInfo = this.props.storeDocumentInfo;
+
+        this.api.asc_registerCallback("asc_onGetDocInfoStart", () => {
+          console.log("Start");
+          storeDocumentInfo.switchIsLoaded(false);
+        });
+
+        this.api.asc_registerCallback("asc_onGetDocInfoStop", () => {
+          console.log("Stop");
+          storeDocumentInfo.switchIsLoaded(true);
+        });
+
+        this.api.asc_registerCallback("asc_onDocInfo", (obj) => {
+          storeDocumentInfo.changeCount(obj);
+        });
+
+        this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
+          console.log('End');
+          storeDocumentInfo.switchIsLoaded(true);
+        });
+
+        // me.api.asc_registerCallback('asc_onDocumentName',       _.bind(me.onApiDocumentName, me));
 
     }
 
