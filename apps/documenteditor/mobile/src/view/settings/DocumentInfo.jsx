@@ -4,26 +4,26 @@ import { Page, Navbar, List, ListItem, BlockTitle } from "framework7-react";
 import { useTranslation } from "react-i18next";
 
 const PageDocumentInfo = (props) => {
-  const { t } = useTranslation();
-  const _t = t("Settings", { returnObjects: true });
-  const storeInfo = props.storeDocumentInfo;
-  const dataApp = props.getAppProps();
-  const dataModified = props.getModified();
-  const dataModifiedBy = props.getModifiedBy();
-  const creators = props.getCreators();
-  console.log(creators);
-  const {
-    pageCount,
-    paragraphCount,
-    symbolsCount,
-    symbolsWSCount,
-    wordsCount,
-  } = storeInfo.infoObj;
-  const dataDoc = JSON.parse(JSON.stringify(storeInfo.dataDoc));
-  const isLoaded = storeInfo.isLoaded;
-  console.log(pageCount, paragraphCount, symbolsCount, symbolsWSCount, wordsCount);
+    const { t } = useTranslation();
+    const _t = t("Settings", { returnObjects: true });
+    const storeInfo = props.storeDocumentInfo;
+    const dataApp = props.getAppProps();
+    const dataModified = props.getModified;
+    const dataModifiedBy = props.getModifiedBy;
+    const creators = props.getCreators;
+    // console.log(creators);
+    const {
+        pageCount,
+        paragraphCount,
+        symbolsCount,
+        symbolsWSCount,
+        wordsCount,
+    } = storeInfo.infoObj;
+    const dataDoc = JSON.parse(JSON.stringify(storeInfo.dataDoc));
+    const isLoaded = storeInfo.isLoaded;
+    // console.log(pageCount, paragraphCount, symbolsCount, symbolsWSCount, wordsCount);
   
-  return (
+    return (
         <Page>
             <Navbar title={_t.textDocumentInfo} backLink={_t.textBack} />
             <BlockTitle>{_t.textDocumentTitle}</BlockTitle>
@@ -40,11 +40,11 @@ const PageDocumentInfo = (props) => {
             </List>
             <BlockTitle>{_t.textStatistic}</BlockTitle>
             <List> 
-                <ListItem title="Pages" after={isLoaded ? pageCount : _t.textLoading}></ListItem>
-                <ListItem title="Paragraphs" after={isLoaded ? paragraphCount : _t.textLoading}></ListItem>
-                <ListItem title="Words" after={isLoaded ? wordsCount : _t.textLoading}></ListItem>
-                <ListItem title="Symbols" after={isLoaded ? symbolsCount : _t.textLoading}></ListItem>
-                <ListItem title="Spaces" after={isLoaded ? symbolsWSCount : _t.textLoading}></ListItem>
+                <ListItem title="Pages" after={isLoaded ? String(pageCount) : _t.textLoading}></ListItem>
+                <ListItem title="Paragraphs" after={isLoaded ? String(paragraphCount) : _t.textLoading}></ListItem>
+                <ListItem title="Words" after={isLoaded ? String(wordsCount) : _t.textLoading}></ListItem>
+                <ListItem title="Symbols" after={isLoaded ? String(symbolsCount) : _t.textLoading}></ListItem>
+                <ListItem title="Spaces" after={isLoaded ? String(symbolsWSCount) : _t.textLoading}></ListItem>
             </List>
             {dataModified && dataModifiedBy ? (
                 <Fragment>
