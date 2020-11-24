@@ -845,7 +845,7 @@ define([
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
                     (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
-                    || (licType===Asc.c_oLicenseResult.SuccessLimit || licType===Asc.c_oLicenseResult.ExpiredLimited) && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
+                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady)
@@ -934,6 +934,8 @@ define([
                     });
                     return;
                 }
+                if (Asc.c_oLicenseResult.ExpiredLimited === licType)
+                    this._state.licenseType = licType;
 
                 if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
 
