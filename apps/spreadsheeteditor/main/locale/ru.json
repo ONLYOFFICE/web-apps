@@ -580,6 +580,7 @@
   "SSE.Controllers.Main.requestEditFailedMessageText": "В настоящее время документ редактируется. Пожалуйста, попробуйте позже.",
   "SSE.Controllers.Main.requestEditFailedTitleText": "Доступ запрещен",
   "SSE.Controllers.Main.saveErrorText": "При сохранении файла произошла ошибка.",
+  "SSE.Controllers.Main.saveErrorTextDesktop": "Файл не может быть сохранен или создан.<br>Возможные причины: <br>1. Файл доступен только для чтения. <br>2. Файл редактируется другими пользователями. <br>3. Диск заполнен или поврежден.",
   "SSE.Controllers.Main.savePreparingText": "Подготовка к сохранению",
   "SSE.Controllers.Main.savePreparingTitle": "Подготовка к сохранению. Пожалуйста, подождите...",
   "SSE.Controllers.Main.saveTextText": "Сохранение электронной таблицы...",
