@@ -10,6 +10,8 @@ const PageDocumentInfo = (props) => {
   const dataApp = props.getAppProps();
   const dataModified = props.getModified();
   const dataModifiedBy = props.getModifiedBy();
+  const creators = props.getCreators();
+  console.log(creators);
   const {
     pageCount,
     paragraphCount,
@@ -61,6 +63,18 @@ const PageDocumentInfo = (props) => {
                     <BlockTitle>{_t.textApplication}</BlockTitle>
                     <List>
                         <ListItem title={dataApp}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
+            {creators ? (
+                <Fragment>
+                    <BlockTitle>{_t.textAuthor}</BlockTitle>
+                    <List>
+                        {
+                            creators.split(/\s*[,;]\s*/).map(item => {
+                                return <ListItem title={item}></ListItem>
+                            })
+                        }
                     </List>
                 </Fragment>
             ) : null}

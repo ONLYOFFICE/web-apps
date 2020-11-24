@@ -10,6 +10,7 @@ class DocumentInfoController extends Component {
     const api = Common.EditorApi.get();
     if (api) {
       let docProps = api.asc_getCoreProps();
+      // console.log(docProps);
       return docProps;
     }
   }
@@ -18,7 +19,7 @@ class DocumentInfoController extends Component {
     const api = Common.EditorApi.get();
     if (api) {
       const appProps = api.asc_getAppProps();
-      console.log(appProps);
+      // console.log(appProps);
       if (appProps) {
         let appName =
           (appProps.asc_getApplication() || "") +
@@ -33,7 +34,7 @@ class DocumentInfoController extends Component {
     const docProps = this.getDocProps();
     if (docProps) {
       let valueModified = docProps.asc_getModified();
-      console.log(docProps);
+
       if (valueModified) {
         return (
           valueModified.toLocaleString('en', {
@@ -52,9 +53,18 @@ class DocumentInfoController extends Component {
     const docProps = this.getDocProps();
     if (docProps) {
       let valueModifiedBy = docProps.asc_getLastModifiedBy();
+
       if (valueModifiedBy) {
         return Common.Utils.UserInfoParser.getParsedName(valueModifiedBy);
       }
+    }
+  }
+
+  getCreators() {
+    const docProps = this.getDocProps();
+    if(docProps) {
+      let valueCreators = docProps.asc_getCreator();
+      return valueCreators;
     }
   }
 
@@ -72,6 +82,7 @@ class DocumentInfoController extends Component {
         getModified={this.getModified}
         getModifiedBy={this.getModifiedBy}
         getDocProps={this.getDocProps}
+        getCreators={this.getCreators}
       />
     );
   }

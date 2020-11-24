@@ -28,7 +28,8 @@
     "textLastModifiedBy": "Last Modified By",
     "textLastModified": "Last Modified",
     "textApplication": "Application",
-    "textLoading": "Loading..."
+    "textLoading": "Loading...",
+    "textAuthor": "Author"
   },
   "Collaboration": {
     "textEditUser": "Users who are editing the file:"
