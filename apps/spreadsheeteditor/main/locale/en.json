@@ -580,6 +580,7 @@
   "SSE.Controllers.Main.requestEditFailedMessageText": "Someone is editing this document right now. Please try again later.",
   "SSE.Controllers.Main.requestEditFailedTitleText": "Access denied",
   "SSE.Controllers.Main.saveErrorText": "An error has occurred while saving the file.",
+  "SSE.Controllers.Main.saveErrorTextDesktop": "This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.",
   "SSE.Controllers.Main.savePreparingText": "Preparing to save",
   "SSE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "SSE.Controllers.Main.saveTextText": "Saving spreadsheet...",

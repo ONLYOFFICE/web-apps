@@ -357,6 +357,7 @@
   "PE.Controllers.Main.requestEditFailedMessageText": "В настоящее время презентация редактируется. Пожалуйста, повторите попытку позже.",
   "PE.Controllers.Main.requestEditFailedTitleText": "Доступ запрещён",
   "PE.Controllers.Main.saveErrorText": "При сохранении файла произошла ошибка.",
+  "PE.Controllers.Main.saveErrorTextDesktop": "Файл не может быть сохранен или создан.<br>Возможные причины: <br>1. Файл доступен только для чтения. <br>2. Файл редактируется другими пользователями. <br>3. Диск заполнен или поврежден.",
   "PE.Controllers.Main.savePreparingText": "Подготовка к сохранению",
   "PE.Controllers.Main.savePreparingTitle": "Подготовка к сохранению. Пожалуйста, подождите...",
   "PE.Controllers.Main.saveTextText": "Сохранение презентации...",
