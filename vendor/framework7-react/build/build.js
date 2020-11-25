@@ -2,16 +2,15 @@ const webpack = require('webpack');
 const ora = require('ora');
 const rm = require('rimraf');
 const chalk = require('chalk');
-const config = require('./webpack.config.js');
+const config = process.env.BUILD_EDITOR == 'slide' ? require('./webpack.config.pe.js') : require('./webpack.config.js');
 
 const env = process.env.NODE_ENV || 'development';
 const target = process.env.TARGET || 'web';
-const isCordova = target === 'cordova'
 
 const spinner = ora(env === 'production' ? 'building for production...' : 'building development version...');
 spinner.start();
 
-rm(isCordova ? './cordova/www' : './www/', (removeErr) => {
+rm('./www/', (removeErr) => {
   if (removeErr) throw removeErr;
 
   webpack(config, (err, stats) => {
