@@ -29,7 +29,24 @@
     "textLastModified": "Last Modified",
     "textApplication": "Application",
     "textLoading": "Loading...",
-    "textAuthor": "Author"
+    "textAuthor": "Author",
+    "textUnitOfMeasurement": "Unit Of Measurement",
+    "textCentimeter": "Centimeter",
+    "textPoint": "Point",
+    "textInch": "Inch",
+    "textSpellcheck": "Spell Checking",
+    "textNoCharacters": "Nonprinting Characters",
+    "textHiddenTableBorders": "Hidden Table Borders",
+    "textCommentsDisplay": "Comments Display",
+    "textComments": "Comments",
+    "textResolvedComments": "Resolved Comments",
+    "textMacrosSettings": "Macros Settings",
+    "textDisableAll": "Disable All",
+    "textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
+    "textShowNotification": "Show Notification",
+    "textDisableAllMacrosWithNotification": "Disable all macros with notification",
+    "textEnableAll": "Enable All",
+    "textEnableAllMacrosWithoutNotification": "Enable all macros without notification"
   },
   "Collaboration": {
     "textEditUser": "Users who are editing the file:"
