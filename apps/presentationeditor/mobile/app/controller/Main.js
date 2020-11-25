@@ -617,7 +617,8 @@ define([
                 if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = [{text: 'OK'}];
-                    if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0) {
+                    if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
+                        (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
                         license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
                     } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
@@ -703,6 +704,7 @@ define([
 
                 if ( me.onServerVersion(params.asc_getBuildVersion()) ) return;
 
+                me.appOptions.permissionsLicense = licType;
                 me.permissions.review         = (me.permissions.review === undefined) ? (me.permissions.edit !== false) : me.permissions.review;
                 me.appOptions.canAnalytics    = params.asc_getIsAnalyticsEnable();
                 me.appOptions.canLicense      = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
