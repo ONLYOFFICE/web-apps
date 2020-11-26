@@ -97,6 +97,7 @@ define([
                 }
             });
             Common.NotificationCenter.on('data:remduplicates', _.bind(this.onRemoveDuplicates, this));
+            Common.NotificationCenter.on('data:sortcustom', _.bind(this.onCustomSort, this));
         },
 
         SetDisabled: function(state) {

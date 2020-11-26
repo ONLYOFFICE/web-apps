@@ -407,6 +407,10 @@ define([
         },
 
         onSortCells: function(menu, item) {
+            if (item.value=='advanced') {
+                Common.NotificationCenter.trigger('data:sortcustom', this);
+                return;
+            }
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
                 if (res) {
@@ -1875,6 +1879,7 @@ define([
                 documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit);
                 documentHolder.pmiSortCells.menu.items[2].setVisible(!internaleditor);
                 documentHolder.pmiSortCells.menu.items[3].setVisible(!internaleditor);
+                documentHolder.pmiSortCells.menu.items[4].setVisible(!internaleditor);
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
