@@ -143,13 +143,17 @@ define([
 
             setMode: function (mode) {
                 this.getView('Settings').setMode(mode);
-                if (mode.canBranding)
-                    _licInfo = mode.customization;
-                _canReview = mode.canReview;
-                _isReviewOnly = mode.isReviewOnly;
-                _fileKey = mode.fileKey;
-                _isEdit = mode.isEdit;
-                _lang = mode.lang;
+                if (mode.isDisconnected) {
+                    _canReview = _isReviewOnly = _isEdit = false;
+                } else {
+                    if (mode.canBranding)
+                        _licInfo = mode.customization;
+                    _canReview = mode.canReview;
+                    _isReviewOnly = mode.isReviewOnly;
+                    _fileKey = mode.fileKey;
+                    _isEdit = mode.isEdit;
+                    _lang = mode.lang;
+                }
             },
 
             initEvents: function () {
