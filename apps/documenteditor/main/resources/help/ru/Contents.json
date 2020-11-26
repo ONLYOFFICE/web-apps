@@ -32,6 +32,7 @@
     {"src":"UsageInstructions/DecorationStyles.htm", "name": "Применение стилей оформления шрифта"},
     {"src":"UsageInstructions/CopyClearFormatting.htm", "name": "Копирование/очистка форматирования текста" },
     {"src":"UsageInstructions/AddHyperlinks.htm", "name": "Добавление гиперссылок"},
+    {"src": "UsageInstructions/InsertCrossReference.htm", "name": "Вставка перекрестной ссылки"},
     {"src":"UsageInstructions/InsertDropCap.htm", "name": "Вставка буквицы"},
     { "src": "UsageInstructions/InsertTables.htm", "name": "Вставка таблиц", "headername": "Действия над объектами" },
     {"src": "UsageInstructions/AddFormulasInTables.htm", "name": "Использование формул в таблицах"},

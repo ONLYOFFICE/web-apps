@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>CELL Function</title>
+		<title>Функция ЯЧЕЙКА</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
@@ -11,77 +11,77 @@
 	<body>
 		<div class="mainpart">
             <div class="search-field">
-                <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+                <input id="search" class="searchBar" placeholder="Поиск" type="text" onkeypress="doSearch(event)">
             </div>
-			<h1>CELL Function</h1>
-			<p>The <b>CELL</b> function is one of the information functions. It is used to return information about the formatting, location, or contents of a cell.</p>
-			<p>The <b>CELL</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>CELL(info_type, [reference])</em></b></p> 
-            <p>where:</p>
-            <p style="text-indent: 50px;"><b><em>info_type</em></b> is a text value that specifies which information about the cell you want to get. This is the required argument. The available values are listed in the table below.</p>
-            <p style="text-indent: 50px;"><b><em>[reference]</em></b> is a cell that you want to get information about. If it is omitted, the information is returned for the last changed cell. If the <em>reference</em> argument is specified as a range of cells, the function returns the information for the upper left cell of the range.</p>
+			<h1>Функция ЯЧЕЙКА</h1>
+            <p>Функция <b>ЯЧЕЙКА</b> - это одна из информационных функций. Он используется для возврата информации о форматировании, местоположении или содержимом ячейки.</p>
+            <p>Синтаксис функции <b>ЯЧЕЙКА</b>:</p> 
+			<p style="text-indent: 150px;"><b><em>ЯЧЕЙКА(тип_сведений, [ссылка])</em></b></p> 
+            <p>где</p>
+            <p style="text-indent: 50px;"><b><em>тип_сведений</em></b> - это текстовое значение, указывающее, какую информацию о ячейке вы хотите получить. Это обязательный аргумент. В приведенном ниже списке указаны возможные значения аргумента.</p>
+            <p style="text-indent: 50px;"><b><em>[ссылка]</em></b> - это ячейка, о которой вы хотите получить информацию. Если аргумент, возвращается информация о последней измененной ячейке. Если аргумент <em>ссылка</em> указан как диапазон ячеек, функция возвращает информацию для верхней левой ячейки диапазона.</p>
             <table style="width: 40%">
                 <tr>
-                    <td><b>Text value</b></td>
-                    <td><b>Type of the information</b></td>
+                    <td><b>Возвращаемое значение</b></td>
+                    <td><b>Тип_сведений</b></td>
                 </tr>
                 <tr>
-                    <td>"address"</td>
-                    <td>Returns the reference to the cell.</td>
+                    <td>"адрес"</td>
+                    <td>Возвращает ссылку на ячейку.</td>
                 </tr>
                 <tr>
-                    <td>"col"</td>
-                    <td>Returns the column number where the cell is located.</td>
+                    <td>"столбец"</td>
+                    <td>Возвращает номер столбца, в котором расположена ячейка.</td>
                 </tr>
                 <tr>
-                    <td>"color"</td>
-                    <td>Returns 1 if the cell is formatted in color for negative values; otherwise returns 0.</td>
+                    <td>"цвет"</td>
+                    <td>Возвращает 1, если форматированием ячейки предусмотрено изменение цвета для отрицательных значений; во всех остальных случаях — 0.</td>
                 </tr>
                 <tr>
-                    <td>"contents"</td>
-                    <td>Returns the value that the cell contains.</td>
+                    <td>"содержимое"</td>
+                    <td>Возвращает значение, которое содержит ячейка.</td>
                 </tr>
                 <tr>
-                    <td>"filename"</td>
-                    <td>Returns the filename of the file that contains the cell.</td>
+                    <td>"имяфайла"</td>
+                    <td>Возвращает имя файла, содержащего ячейку.</td>
                 </tr>
                 <tr>
-                    <td>"format"</td>
-                    <td>Returns a text value corresponding to the number format of the cell. The text values are listed in the table below.</td>
+                    <td>"формат"</td>
+                    <td>Возвращает текстовое значение, соответствующее числовому формату ячейки. Текстовые значения перечислены в таблице ниже.</td>
                 </tr>
                 <tr>
-                    <td>"parentheses"</td>
-                    <td>Returns 1 if the cell is formatted with parentheses for positive or all values; otherwise returns 0.</td>
+                    <td>"скобки"</td>
+                    <td>Возвращает 1, если если ячейка отформатирована круглыми скобками для положительных или всех значений; ; во всех остальных случаях — 0.</td>
                 </tr>
                 <tr>
-                    <td>"prefix"</td>
-                    <td>Returns the single quotation mark (') if the text in the cell is left aligned, the double quotation mark (") if the text is right aligned, the caret (^) if the text is centered, <!--the backslash (\) if the text is fill-aligned,-->and an empty text ("") if the cell contains anything else.</td>
+                    <td>"префикс"</td>
+                    <td>Возвращает одиночные кавычки ('), если текст в ячейке выровнен по левому краю, двойные кавычки ("), если текст выровнен по правому краю, знак крышки (^), если текст выровнен по центру, и пустой текст ("") - для любого другого содержимого ячейки.</td>
                 </tr>
                 <tr>
-                    <td>"protect"</td>
-                    <td>Returns 0 if the cell is not locked; returns 1 if the cell is locked.</td>
+                    <td>"защита"</td>
+                    <td>Возвращает 0, если ячейка не заблокирована; возвращает 1, если ячейка заблокирована.</td>
                 </tr>
                 <tr>
-                    <td>"row"</td>
-                    <td>Returns the row number where the cell is located.</td>
+                    <td>"строка"</td>
+                    <td>Возвращает номер строки, в которой находится ячейка.</td>
                 </tr>
                 <tr>
-                    <td>"type"</td>
-                    <td>Returns "b" for an empty cell, "l" for a text value, and "v" for any other value in the cell.</td>
+                    <td>"тип"</td>
+                    <td>Возвращает "b", если ячейка пуста, "l", если ячейка содержит текстовое занчение. "v" - любое другое содержимое.</td>
                 </tr>
                 <tr>
-                    <td>"width"</td>
-                    <td>Returns the width of the cell, rounded off to an integer.</td>
+                    <td>"ширина"</td>
+                    <td>Возвращает ширину ячейки, округленную до целого числа.</td>
                 </tr>
             </table>
-            <p>Below you can see the text values which the function returns for the <em>"format"</em> argument</p>
+            <p>Ниже указаны текстовые значения, которые функция возвращает для аргумента <em>"формат"</em></p>
             <table style="width: 40%">
                 <tr>
-                    <td><b>Number format</b></td>
-                    <td><b>Returned text value</b></td>
+                    <td><b>Числовой формат</b></td>
+                    <td><b>Возвращаемое текстовое значение</b></td>
                 </tr>
                 <tr>
-                    <td>General</td>
+                    <td>Общий</td>
                     <td>G</td>
                 </tr>
                 <tr>
@@ -105,7 +105,7 @@
                     <td>C0</td>
                 </tr>
                 <tr>
-                    <td>$#,##0_);[Red]($#,##0)</td>
+                    <td>$#,##0_);[Красный]($#,##0)</td>
                     <td>C0-</td>
                 </tr>
                 <tr>
@@ -113,7 +113,7 @@
                     <td>C2</td>
                 </tr>
                 <tr>
-                    <td>$#,##0.00_);[Red]($#,##0.00)</td>
+                    <td>$#,##0.00_);[Красный]($#,##0.00)</td>
                     <td>C2-</td>
                 </tr>
                 <tr>
@@ -129,60 +129,61 @@
                     <td>S2</td>
                 </tr>
                 <tr>
-                    <td># ?/? or # ??/??</td>
+                    <td># ?/? или # ??/??</td>
                     <td>G</td>
                 </tr>
                 <tr>
-                    <td>m/d/yy or m/d/yy h:mm or mm/dd/yy</td>
+                    <td>м/д/гг или м/д/гг ч:мм или мм/дд/гг</td>
                     <td>D4</td>
                 </tr>
                 <tr>
-                    <td>d-mmm-yy or dd-mmm-yy</td>
+                    <td>д-ммм-гг или дд-ммм-гг</td>
                     <td>D1</td>
                 </tr>
                 <tr>
-                    <td>d-mmm or dd-mmm</td>
+                    <td>д-ммм или дд-ммм</td>
                     <td>D2</td>
                 </tr>
                 <tr>
-                    <td>mmm-yy</td>
+                    <td>ммм-гг</td>
                     <td>D3</td>
                 </tr>
                 <tr>
-                    <td>mm/dd</td>
+                    <td>мм/дд</td>
                     <td>D5</td>
                 </tr>
                 <tr>
-                    <td>h:mm AM/PM</td>
+                    <td>ч:мм AM/PM</td>
                     <td>D7</td>
                 </tr>
                 <tr>
-                    <td>h:mm:ss AM/PM</td>
+                    <td>ч:мм:сс AM/PM</td>
                     <td>D6</td>
                 </tr>
                 <tr>
-                    <td>h:mm</td>
+                    <td>ч:мм</td>
                     <td>D9</td>
                 </tr>
                 <tr>
-                    <td>h:mm:ss</td>
+                    <td>ч:мм:сс</td>
                     <td>D8</td>
                 </tr>
             </table>
-            <p>To apply the <b>CELL</b> function,</p>
+            <p>Чтобы применить функцию <b>ЯЧЕЙКА</b>,</p>
 			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert function</b> <img alt="Insert function icon" src="../images/insertfunction.png" /> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <img alt="Function icon" src="../images/function.png" /> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Information</b> function group from the list,</li>
-			<li>click the <b>CELL</b> function,</li>
-			<li>enter the required argument,</li>
-			<li>press the <b>Enter</b> button.</li>
+			<li>выберите ячейку, в которой вы хотите отобразить результат,</li>
+            <li>
+                щелкните по значку <b>Вставить функцию</b> <img alt="Значок Вставить функцию" src="../images/insertfunction.png" />, расположенному на верхней панели инструментов,
+                <br />или щелкните правой кнопкой мыши по выделенной ячейке и выберите в меню команду <b>Вставить функцию</b>,
+                <br />или щелкните по значку <img alt="Значок Функция" src="../images/function.png" /> перед строкой формул,
+            </li>
+            <li>выберите из списка группу функций <b>Информационные</b>,</li>
+            <li>щелкните по функции <b>ЯЧЕЙКА</b>,</li>
+            <li>введите требуемые аргументы,</li>
+            <li>нажмите клавишу <b>Enter</b>.</li>
 			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="CELL Function" src="../images/cell.png" /></p>
+            <p>Результат будет отображен в выделенной ячейке.</p>
+			<p style="text-indent: 150px;"><img alt="Функция ЯЧЕЙКА" src="../images/cell.png" /></p>
 		</div>
 	</body>
 </html>

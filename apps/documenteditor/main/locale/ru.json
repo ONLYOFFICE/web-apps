@@ -487,6 +487,7 @@
   "DE.Controllers.Main.requestEditFailedMessageText": "В настоящее время документ редактируется. Пожалуйста, попробуйте позже.",
   "DE.Controllers.Main.requestEditFailedTitleText": "Доступ запрещён",
   "DE.Controllers.Main.saveErrorText": "При сохранении файла произошла ошибка.",
+  "DE.Controllers.Main.saveErrorTextDesktop": "Файл не может быть сохранен или создан.<br>Возможные причины: <br>1. Файл доступен только для чтения. <br>2. Файл редактируется другими пользователями. <br>3. Диск заполнен или поврежден.",
   "DE.Controllers.Main.savePreparingText": "Подготовка к сохранению",
   "DE.Controllers.Main.savePreparingTitle": "Подготовка к сохранению. Пожалуйста, подождите...",
   "DE.Controllers.Main.saveTextText": "Сохранение документа...",

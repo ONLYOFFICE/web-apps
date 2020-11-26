@@ -528,11 +528,15 @@ define([
         },
 
         onSwitch: function() {
-            this.chartSettings.switchRowCol();
-            this.updateSeriesList(this.chartSettings.getSeries(), 0);
-            this.updateCategoryList(this.chartSettings.getCatValues());
-            this.updateRange();
-            this.updateButtons();
+            var res = this.chartSettings.switchRowCol();
+            if (res === Asc.c_oAscError.ID.MaxDataSeriesError)
+                Common.UI.warning({msg: this.errorMaxRows, maxwidth: 600});
+            else {
+                this.updateSeriesList(this.chartSettings.getSeries(), 0);
+                this.updateCategoryList(this.chartSettings.getCatValues());
+                this.updateRange();
+                this.updateButtons();
+            }
         },
 
         textTitle: 'Chart Data',

@@ -1699,6 +1699,7 @@ define([
                     if (this.api && item.checked) {
                         var props = new Asc.CSectionLnNumType();
                         props.put_Restart(item.value==1 ? Asc.c_oAscLineNumberRestartType.Continuous : (item.value==2 ? Asc.c_oAscLineNumberRestartType.NewPage : Asc.c_oAscLineNumberRestartType.NewSection));
+                        !!this.api.asc_GetLineNumbersProps() && props.put_CountBy(undefined); 
                         this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, props);
                     }
                     break;

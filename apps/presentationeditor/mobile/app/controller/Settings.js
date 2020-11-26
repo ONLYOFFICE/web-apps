@@ -358,9 +358,9 @@ define([
             _onPrint: function(e) {
                 var me = this;
 
-                _.defer(function () {
+                _.delay(function () {
                     me.api.asc_Print();
-                });
+                }, 300);
                 me.hideModal();
             },
 
@@ -393,9 +393,9 @@ define([
                     format = $(e.currentTarget).data('format');
 
                 if (format) {
-                    _.defer(function () {
+                    _.delay(function () {
                         me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                    });
+                    }, 300);
                 }
 
                 me.hideModal();

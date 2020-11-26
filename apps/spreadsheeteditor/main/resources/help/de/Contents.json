@@ -31,6 +31,7 @@
     "src": "ProgramInterface/PluginsTab.htm",
     "name": "Registerkarte Plug-ins"
   },
+  {"src":  "ProgramInterface/ViewTab.htm", "name": "Registerkarte Tabellenansicht"},
   {
     "src": "UsageInstructions/OpenCreateNew.htm",
     "name": "Eine neue Kalkulationstabelle erstellen oder eine vorhandene öffnen",
@@ -135,12 +136,12 @@
         "name": "Formeln einfügen",
         "headername": "Mathematische Formeln"
     },
-    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Math. AutoKorrektur verwenden" },
   {
     "src": "HelpfulHints/CollaborativeEditing.htm",
     "name": "Gemeinsame Bearbeitung von Kalkulationstabellen",
     "headername": "Co-Bearbeitung von Tabellenblättern"
   },
+   {"src": "UsageInstructions/SheetView.htm", "name": "Tabellenansichten verwalten"},
     {
         "src": "UsageInstructions/ViewDocInfo.htm",
         "name": "Tabelleneigenschaften anzeigen",
@@ -164,6 +165,7 @@
         "name": "Such- und Ersatzfunktionen"
     },
     {"src": "HelpfulHints/SpellChecking.htm", "name": "Rechtschreibprüfung"},
+	{"src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoKorrekturfunktionen" },
   {
     "src": "HelpfulHints/About.htm",
     "name": "Über den Kalkulationstabelleneditor",

@@ -1845,7 +1845,7 @@
   "DE.Views.LeftMenu.txtTrial": "Trial-Modus",
   "DE.Views.LeftMenu.txtTrialDev": "Testversion für Entwickler-Modus",
   "DE.Views.LineNumbersDialog.textAddLineNumbering": "Zeilennummer hinzufügen",
-  "DE.Views.LineNumbersDialog.textApplyTo": "Anwendung von Änderungen auf",
+  "DE.Views.LineNumbersDialog.textApplyTo": "Änderungen anwenden",
   "DE.Views.LineNumbersDialog.textContinuous": "Ununterbrochen",
   "DE.Views.LineNumbersDialog.textCountBy": "Zählintervall",
   "DE.Views.LineNumbersDialog.textDocument": "Zum ganzen Dokument",

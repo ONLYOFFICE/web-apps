@@ -306,7 +306,7 @@ define([
                     matchword = Common.SharedSettings.get('search-highlight') || false;
 
                 if (search && search.length) {
-                    if (!this.api.asc_replaceText(search, replace, false, matchcase, matchword)) {
+                    if (!this.api.asc_replaceText(search, replace || '', false, matchcase, matchword)) {
                         var me = this;
                         uiApp.alert(
                             '',
@@ -324,7 +324,7 @@ define([
                     matchword = Common.SharedSettings.get('search-highlight') || false;
 
                 if (search && search.length) {
-                    this.api.asc_replaceText(search, replace, true, matchcase, matchword);
+                    this.api.asc_replaceText(search, replace || '', true, matchcase, matchword);
                 }
             },
 
