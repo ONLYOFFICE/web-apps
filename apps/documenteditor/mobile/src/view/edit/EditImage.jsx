@@ -3,8 +3,10 @@ import {observer, inject} from "mobx-react";
 import {List, ListItem, ListInput, ListButton, Icon, Row, Col, Button, Page, Navbar, Segmented, BlockTitle, Toggle, Range} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
+import {Device} from '../../../../../common/mobile/utils/device';
 
 const PageWrap = props => {
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const storeImageSettings = props.storeImageSettings;
@@ -21,25 +23,25 @@ const PageWrap = props => {
             <Navbar title={_t.textWrap} backLink={_t.textBack} />
             <List>
                 <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType('inline')}}>
-                    <Icon slot="media" icon="icon-wrap-inline"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-inline"></Icon>}
                 </ListItem>
                 <ListItem title={_t.textSquare} radio checked={wrapType === 'square'} onClick={() => {props.onWrapType('square')}}>
-                    <Icon slot="media" icon="icon-wrap-square"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-square"></Icon>}
                 </ListItem>
                 <ListItem title={_t.textTight} radio checked={wrapType === 'tight'} onClick={() => {props.onWrapType('tight')}}>
-                    <Icon slot="media" icon="icon-wrap-tight"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-tight"></Icon>}
                 </ListItem>
                 <ListItem title={_t.textThrough} radio checked={wrapType === 'through'} onClick={() => {props.onWrapType('through')}}>
-                    <Icon slot="media" icon="icon-wrap-through"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-through"></Icon>}
                 </ListItem>
                 <ListItem title={_t.textTopAndBottom} radio checked={wrapType === 'top-bottom'} onClick={() => {props.onWrapType('top-bottom')}}>
-                    <Icon slot="media" icon="icon-wrap-top-bottom"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-top-bottom"></Icon>}
                 </ListItem>
                 <ListItem title={_t.textInFront} radio checked={wrapType === 'infront'} onClick={() => {props.onWrapType('infront')}}>
-                    <Icon slot="media" icon="icon-wrap-infront"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-infront"></Icon>}
                 </ListItem>
                 <ListItem title={_t.textBehind} radio checked={wrapType === 'behind'} onClick={() => {props.onWrapType('behind')}}>
-                    <Icon slot="media" icon="icon-wrap-behind"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-behind"></Icon>}
                 </ListItem>
             </List>
             {
@@ -132,7 +134,7 @@ const PageLinkSettings = props => {
                 </ListInput>
             </List>
             <List>
-                <ListButton className={stateValue.length < 1 ? 'disabled' : ''} title={_t.textReplaceImage} onClick={() => {onReplace()}}></ListButton>
+                <ListButton className={'button-fill button-raised' + (stateValue.length < 1 ? ' disabled' : '')} title={_t.textReplaceImage} onClick={() => {onReplace()}}></ListButton>
             </List>
         </Page>
     )
@@ -204,8 +206,8 @@ const EditImage = props => {
                 }}></ListItem>
             </List>
             <List>
-                <ListButton title={_t.textActualSize} onClick={() => {props.onDefaulSize()}}/>
-                <ListButton title={_t.textRemoveImage} onClick={() => {props.onRemoveImage()}} className='red'/>
+                <ListButton className='button-fill button-raised' title={_t.textActualSize} onClick={() => {props.onDefaulSize()}}/>
+                <ListButton className='button-red button-fill button-raised' title={_t.textRemoveImage} onClick={() => {props.onRemoveImage()}}/>
             </List>
         </Fragment>
     )

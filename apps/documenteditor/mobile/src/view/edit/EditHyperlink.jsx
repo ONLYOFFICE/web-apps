@@ -15,7 +15,7 @@ const EditHyperlink = props => {
     const [stateTip, setTip] = useState(tip);
     return (
         <Fragment>
-            <List inlineLabels>
+            <List inlineLabels className='inputs-list'>
                 <ListInput
                     label={_t.textLink}
                     type="text"
@@ -39,10 +39,10 @@ const EditHyperlink = props => {
                 ></ListInput>
             </List>
             <List>
-                <ListButton className={stateLink.length < 1 ? 'disabled' : ''} title={_t.textEditLink} onClick={() => {
+                <ListButton className={'button-fill button-raised' + (stateLink.length < 1 ? ' disabled' : '')} title={_t.textEditLink} onClick={() => {
                     props.onEditLink(stateLink, stateDisplay, stateTip)
                 }}></ListButton>
-                <ListButton title={_t.textRemoveLink} onClick={() => {props.onRemoveLink()}} className='red'/>
+                <ListButton title={_t.textRemoveLink} onClick={() => {props.onRemoveLink()}} className='button-red button-fill button-raised'/>
             </List>
         </Fragment>
     )

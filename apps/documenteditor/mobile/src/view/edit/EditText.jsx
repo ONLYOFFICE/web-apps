@@ -1,9 +1,11 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Icon, Row, Col, Button, Page, Navbar, Segmented, BlockTitle} from 'framework7-react';
+import {List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import {Device} from '../../../../../common/mobile/utils/device';
 
 const PageFonts = props => {
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const storeTextSettings = props.storeTextSettings;
     const size = storeTextSettings.fontSize;
@@ -29,11 +31,16 @@ const PageFonts = props => {
             <Navbar title={t('Edit.textFonts')} backLink={t('Edit.textBack')} />
             <List>
                 <ListItem title={t('Edit.textSize')}>
-                    <div slot='after-start'>{displaySize}</div>
+                    {!isAndroid && <div slot='after-start'>{displaySize}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {props.changeFontSize(size, true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {props.changeFontSize(size, false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {props.changeFontSize(size, true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{displaySize}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.changeFontSize(size, false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>
@@ -61,6 +68,7 @@ const PageFonts = props => {
 };
 
 const PageAdditionalFormatting = props => {
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const storeTextSettings = props.storeTextSettings;
     const storeFocusObjects = props.storeFocusObjects;
@@ -85,11 +93,16 @@ const PageAdditionalFormatting = props => {
             </List>
             <List>
                 <ListItem title={t('Edit.textLetterSpacing')}>
-                    <div slot='after-start'>{letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>
+                    {!isAndroid && <div slot='after-start'>{letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName()}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {props.changeLetterSpacing(letterSpacing, true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {props.changeLetterSpacing(letterSpacing, false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName()}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.changeLetterSpacing(letterSpacing, false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>
@@ -196,6 +209,7 @@ const PageLineSpacing = props => {
 };
 
 const EditText = props => {
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const storeTextSettings = props.storeTextSettings;
     const fontName = storeTextSettings.fontName || t('Edit.textFonts');
@@ -222,11 +236,11 @@ const EditText = props => {
                     </Row>
                 </ListItem>
                 <ListItem title={t("Edit.textFontColor")} link="#">
-                    <Icon slot="media" icon="icon-text-color"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-text-color"></Icon>}
                     <span className="color-preview"></span>
                 </ListItem>
                 <ListItem title={t("Edit.textHighlightColor")} link="#">
-                    <Icon slot="media" icon="icon-text-selection"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-text-selection"></Icon>}
                 </ListItem>
                 <ListItem title={t("Edit.textAdditionalFormatting")} link="/edit-text-add-formatting/" routeProps={{
                     onAdditionalStrikethrough: props.onAdditionalStrikethrough,
@@ -234,7 +248,7 @@ const EditText = props => {
                     onAdditionalScript: props.onAdditionalScript,
                     changeLetterSpacing: props.changeLetterSpacing
                 }}>
-                    <Icon slot="media" icon="icon-text-additional"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-text-additional"></Icon>}
                 </ListItem>
             </List>
             <List>
@@ -267,17 +281,17 @@ const EditText = props => {
                 <ListItem title={t("Edit.textBullets")} link='/edit-text-bullets/' routeProps={{
                     onBullet: props.onBullet
                 }}>
-                    <Icon slot="media" icon="icon-bullets"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-bullets"></Icon>}
                 </ListItem>
                 <ListItem title={t("Edit.textNumbers")} link='/edit-text-numbers/' routeProps={{
                     onNumber: props.onNumber
                 }}>
-                    <Icon slot="media" icon="icon-numbers"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-numbers"></Icon>}
                 </ListItem>
                 <ListItem title={t("Edit.textLineSpacing")} link='/edit-text-line-spacing/' routeProps={{
                     onLineSpacing: props.onLineSpacing
                 }}>
-                    <Icon slot="media" icon="icon-linespacing"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-linespacing"></Icon>}
                 </ListItem>
             </List>
             </Fragment>

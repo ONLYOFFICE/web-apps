@@ -2,6 +2,7 @@ import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import {Device} from '../../../../../common/mobile/utils/device';
 
 const PageTableOptions = props => {
     const { t } = useTranslation();
@@ -53,6 +54,7 @@ const PageWrap = props => {
         TABLE_ALIGN_CENTER: 1,
         TABLE_ALIGN_RIGHT: 2
     };
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
@@ -68,10 +70,10 @@ const PageWrap = props => {
             <Navbar title={_t.textWrap} backLink={_t.textBack} />
             <List>
                 <ListItem title={_t.textInline} radio checked={wrapType === 'inline'} onClick={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_NONE)}}>
-                    <Icon slot="media" icon="icon-wrap-table-inline"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-table-inline"></Icon>}
                 </ListItem>
                 <ListItem title={_t.textFlow} radio checked={wrapType === 'flow'} onClick={() => {props.onWrapType(c_tableWrap.TABLE_WRAP_PARALLEL)}}>
-                    <Icon slot="media" icon="icon-wrap-table-flow"></Icon>
+                    {!isAndroid && <Icon slot="media" icon="icon-wrap-table-flow"></Icon>}
                 </ListItem>
             </List>
             <List>
@@ -173,7 +175,7 @@ const EditTable = props => {
                         </a>
                     </Row>
                 </ListItem>
-                <ListButton title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='red'></ListButton>
+                <ListButton title={_t.textRemoveTable} onClick={() => {props.onRemoveTable()}} className='button-red button-fill button-raised'></ListButton>
             </List>
             <List>
                 <ListItem title={_t.textTableOptions} link='/edit-table-options/' routeProps={{

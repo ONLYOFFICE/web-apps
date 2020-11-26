@@ -1,9 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import { observer, inject } from "mobx-react";
-import { List, ListItem, Segmented, Button, Toggle, BlockTitle } from 'framework7-react';
+import { List, ListItem, Segmented, Button, Toggle, BlockTitle, Icon } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import {Device} from "../../../../../common/mobile/utils/device";
 
 const EditHeader = props => {
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     const headerObject = props.storeFocusObjects.headerObject;
@@ -35,11 +37,16 @@ const EditHeader = props => {
                     <Toggle checked={startPageNumber<0} onToggleChange={() => {props.onNumberingContinue(!(startPageNumber<0), _startAt)}}/>
                 </ListItem>
                 <ListItem title={_t.textStartAt} className={startPageNumber<0 ? 'disabled' : ''}>
-                    <div slot='after-start'>{_startAt}</div>
+                    {!isAndroid && <div slot='after-start'>{_startAt}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {props.onStartAt(_startAt, true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {props.onStartAt(_startAt, false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {props.onStartAt(_startAt, true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{_startAt}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.onStartAt(_startAt, false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>

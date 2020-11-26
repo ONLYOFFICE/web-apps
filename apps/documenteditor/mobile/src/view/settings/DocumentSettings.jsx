@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {Page, Navbar, List, ListItem, BlockTitle, Segmented, Button} from 'framework7-react';
+import {Page, Navbar, List, ListItem, BlockTitle, Segmented, Button, Icon} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import {Device} from '../../../../../common/mobile/utils/device';
 
 const PageDocumentFormats = props => {
     const { t } = useTranslation();
@@ -28,6 +29,7 @@ const PageDocumentFormats = props => {
 };
 
 const PageDocumentMargins = props => {
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
@@ -64,38 +66,58 @@ const PageDocumentMargins = props => {
             <Navbar title={_t.textMargins} backLink={_t.textBack} />
             <List>
                 <ListItem title={_t.textTop}>
-                    <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateTop).toFixed(2)) + ' ' + metricText}</div>
+                    {!isAndroid && <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateTop).toFixed(2)) + ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {onChangeMargins('top', true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {onChangeMargins('top', false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {onChangeMargins('top', true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateTop).toFixed(2)) + ' ' + metricText}</label>}
+                            <Button outline className='increment item-link' onClick={() => {onChangeMargins('top', false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>
                 <ListItem title={_t.textBottom}>
-                    <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateBottom).toFixed(2))+ ' ' + metricText}</div>
+                    {!isAndroid && <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateBottom).toFixed(2))+ ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {onChangeMargins('bottom', true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {onChangeMargins('bottom', false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {onChangeMargins('bottom', true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateBottom).toFixed(2))+ ' ' + metricText}</label>}
+                            <Button outline className='increment item-link' onClick={() => {onChangeMargins('bottom', false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>
                 <ListItem title={_t.textLeft}>
-                    <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateLeft).toFixed(2))+ ' ' + metricText}</div>
+                    {!isAndroid && <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateLeft).toFixed(2))+ ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {onChangeMargins('left', true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {onChangeMargins('left', false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {onChangeMargins('left', true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateLeft).toFixed(2))+ ' ' + metricText}</label>}
+                            <Button outline className='increment item-link' onClick={() => {onChangeMargins('left', false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>
                 <ListItem title={_t.textRight}>
-                    <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateRight).toFixed(2))+ ' ' + metricText}</div>
+                    {!isAndroid && <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateRight).toFixed(2))+ ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {onChangeMargins('right', true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {onChangeMargins('right', false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {onChangeMargins('right', true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateRight).toFixed(2))+ ' ' + metricText}</label>}
+                            <Button outline className='increment item-link' onClick={() => {onChangeMargins('right', false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>

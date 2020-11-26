@@ -117,14 +117,16 @@ const EmptyEditLayout = () => {
 };
 
 const EditLayoutNavbar = ({ editors, inPopover }) => {
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
     return (
         <Navbar>
         {
             editors.length > 1 ?
-                <div className='tab-buttons'>
+                <div className='tab-buttons tabbar'>
                     {editors.map((item, index) => <Link key={"de-link-" + item.id}  tabLink={"#" + item.id} tabLinkActive={index === 0}>{item.caption}</Link>)}
+                    {isAndroid && <span className='tab-link-highlight' style={{width: 100 / editors.lenght + '%'}}></span>}
                 </div> :
                 <NavTitle>{ editors[0].caption }</NavTitle>
         }

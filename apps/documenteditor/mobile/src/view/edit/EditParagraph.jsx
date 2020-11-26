@@ -1,9 +1,11 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Icon, Row, Col, Button, Page, Navbar, Segmented, BlockTitle, Toggle} from 'framework7-react';
+import {List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, Toggle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import {Device} from '../../../../../common/mobile/utils/device';
 
 const PageAdvancedSettings = props => {
+    const isAndroid = Device.android;
     const { t } = useTranslation();
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const storeFocusObjects = props.storeFocusObjects;
@@ -32,29 +34,44 @@ const PageAdvancedSettings = props => {
             <BlockTitle>{t('Edit.textDistanceFromText')}</BlockTitle>
             <List>
                 <ListItem title={t('Edit.textBefore')}>
-                    <div slot='after-start'>{displayBefore}</div>
+                    {!isAndroid && <div slot='after-start'>{displayBefore}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {props.onDistanceBefore(spaceBefore, true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {props.onDistanceBefore(spaceBefore, false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {props.onDistanceBefore(spaceBefore, true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{displayBefore}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.onDistanceBefore(spaceBefore, false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>
                 <ListItem title={t('Edit.textAfter')}>
-                    <div slot='after-start'>{displayAfter}</div>
+                    {!isAndroid && <div slot='after-start'>{displayAfter}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {props.onDistanceAfter(spaceAfter, true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {props.onDistanceAfter(spaceAfter, false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {props.onDistanceAfter(spaceAfter, true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{displayAfter}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.onDistanceAfter(spaceAfter, false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>
                 <ListItem title={t('Edit.textFirstLine')}>
-                    <div slot='after-start'>{firstLine + ' ' + metricText}</div>
+                    {!isAndroid && <div slot='after-start'>{firstLine + ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
-                            <Button outline className='item-link decrement' onClick={() => {props.onSpinFirstLine(paragraphObj, true)}}> - </Button>
-                            <Button outline className='item-link increment' onClick={() => {props.onSpinFirstLine(paragraphObj, false)}}> + </Button>
+                            <Button outline className='decrement item-link' onClick={() => {props.onSpinFirstLine(paragraphObj, true)}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{firstLine + ' ' + metricText}</label>}
+                            <Button outline className='increment item-link' onClick={() => {props.onSpinFirstLine(paragraphObj, false)}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
                         </Segmented>
                     </div>
                 </ListItem>
