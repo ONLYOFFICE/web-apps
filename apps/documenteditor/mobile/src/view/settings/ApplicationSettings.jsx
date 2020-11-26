@@ -10,51 +10,76 @@ const PageApplicationSettings = (props) => {
     const isActiveUnitCentimeter = store.isActiveUnitCentimeter;
     const isActiveUnitPoint = store.isActiveUnitPoint;
     const isActiveUnitInch = store.isActiveUnitInch;
-    // const changeUnitMeasurement = store.changeUnitMeasurement;
+    const isSpellChecking = store.isSpellChecking;
+    const isNonprintingCharacters = store.isNonprintingCharacters;
+    const isHiddenTableBorders = store.isHiddenTableBorders;
+    const isComments = store.isComments;
+    const isResolvedComments = store.isResolvedComments;
 
-    // const unitMeasurementChange = e => {
-    //     const api = Common.EditorApi.get();
-    //     let value = e.target.value;
-    //     value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
-    //     Common.Utils.Metric.setCurrentMetric(value);
-    //     // Common.localStorage.setItem("de-mobile-settings-unit", value);
-    //     api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
-    // }
+    const changeMeasure = (e) => {
+        store.changeUnitMeasurement(e.target.value);
+        props.setUnitMeasurement(e.target.value);
+    }
 
     return (
         <Page>
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
             <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
             <List>
-                <ListItem radio radioIcon="end" title={_t.textCentimeter} value="0" name="unit-of-measurement" checked={isActiveUnitCentimeter} onChange={e => store.changeUnitMeasurement(e.target.value)}></ListItem>
-                <ListItem radio radioIcon="end" title={_t.textPoint} value="1" name="unit-of-measurement" checked={isActiveUnitPoint} onChange={e => store.changeUnitMeasurement(e.target.value)}></ListItem>
-                <ListItem radio radioIcon="end" title={_t.textInch} value="2" name="unit-of-measurement" checked={isActiveUnitInch} onChange={e => store.changeUnitMeasurement(e.target.value)}></ListItem>
+                <ListItem radio radioIcon="end" title={_t.textCentimeter} value="0" name="unit-of-measurement" checked={isActiveUnitCentimeter} onChange={changeMeasure}></ListItem>
+                <ListItem radio radioIcon="end" title={_t.textPoint} value="1" name="unit-of-measurement" checked={isActiveUnitPoint} onChange={changeMeasure}></ListItem>
+                <ListItem radio radioIcon="end" title={_t.textInch} value="2" name="unit-of-measurement" checked={isActiveUnitInch} onChange={changeMeasure}></ListItem>
             </List>
             <List>
                 <ListItem>
                     <span>{_t.textSpellcheck}</span>
-                    <Toggle defaultChecked />
+                    <Toggle checked={isSpellChecking} 
+                        onChange={() => {
+                            store.changeSpellCheck(!isSpellChecking);
+                            props.switchSpellCheck(!isSpellChecking);
+                        }} 
+                    />
                 </ListItem>
             </List>
             <List>
                 <ListItem>
                     <span>{_t.textNoCharacters}</span>
-                    <Toggle />
+                    <Toggle checked={isNonprintingCharacters} 
+                        onChange={() => { 
+                            store.changeNoCharacters(!isNonprintingCharacters);
+                            props.switchNoCharacters(!isNonprintingCharacters);
+                        }} 
+                    />
                 </ListItem>
                 <ListItem>
                     <span>{_t.textHiddenTableBorders}</span>
-                    <Toggle />
+                    <Toggle checked={isHiddenTableBorders} 
+                        onChange={() => { 
+                            store.changeShowTableEmptyLine(!isHiddenTableBorders);
+                            props.switchShowTableEmptyLine(!isHiddenTableBorders);
+                        }}
+                    />
                 </ListItem>
             </List>
             <BlockTitle>{_t.textCommentsDisplay}</BlockTitle>
             <List>
                 <ListItem>
                     <span>{_t.textComments}</span>
-                    <Toggle />
+                    <Toggle checked={isComments} 
+                        onChange={() => {
+                            store.changeDisplayComments(!isComments);
+                            props.switchDisplayComments(!isComments);
+                        }} 
+                    />
                 </ListItem>
                 <ListItem>
                     <span>{_t.textResolvedComments}</span>
-                    <Toggle />
+                    <Toggle checked={isResolvedComments} disabled={!isComments ? true : false}
+                        onChange={() => {
+                            store.changeDisplayResolved(!isResolvedComments);
+                            props.switchDisplayResolved(!isResolvedComments);
+                        }}
+                    />
                 </ListItem>
             </List>
             <List mediaList>
