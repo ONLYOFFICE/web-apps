@@ -163,7 +163,7 @@ define([
         },
 
         _setDefaults: function (props) {
-            this.refreshList(this.views, 0);
+            this.refreshList(this.views);
             this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', this.wrapEvents.onRefreshNamedSheetViewList);
         },
 
@@ -172,6 +172,7 @@ define([
         },
 
         refreshList: function(views, selectedItem) {
+            var active = 0;
             if (views) {
                 this.views = views;
                 var arr = [];
@@ -185,6 +186,7 @@ define([
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? this.getUserName(id) : this.guestText
                     });
+                    view.asc_getIsActive() && (active = i);
                 }
                 this.viewList.store.reset(arr);
             }
@@ -195,7 +197,7 @@ define([
             this.btnDelete.setDisabled(!val);
             this.btnOk.setDisabled(!val);
             if (val>0) {
-                if (selectedItem===undefined || selectedItem===null) selectedItem = 0;
+                if (selectedItem===undefined || selectedItem===null) selectedItem = active;
                 if (_.isNumber(selectedItem)) {
                     if (selectedItem>val-1) selectedItem = val-1;
                     this.viewList.selectByIndex(selectedItem);
