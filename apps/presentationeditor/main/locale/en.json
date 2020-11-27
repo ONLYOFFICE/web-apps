@@ -1908,5 +1908,7 @@
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.tipIncFont": "Increment font size",
+  "PE.Views.Toolbar.tipDecFont": "Decrement font size"
 }
