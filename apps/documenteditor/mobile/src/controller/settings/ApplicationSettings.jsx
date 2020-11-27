@@ -18,8 +18,6 @@ class ApplicationSettingsController extends Component {
         const api = Common.EditorApi.get();
         // let state = value === '1' ? true : false;
         // Common.localStorage.setItem("de-mobile-spellcheck", value ? 1 : 0);
-        // Common.Utils.InternalSettings.set("de-mobile-spellcheck", value);
-        Common.Utils.InternalSettings.set("de-mobile-spellcheck", value);
         api.asc_setSpellCheck(value);
     }
 
@@ -57,6 +55,11 @@ class ApplicationSettingsController extends Component {
         // Common.localStorage.setBool("de-settings-resolvedcomment", value);
     }
 
+    setMacrosSettings(value) {
+        Common.Utils.InternalSettings.set("de-mobile-macros-mode", +value);
+        // Common.localStorage.setItem("de-mobile-macros-mode", +value);
+    }
+
     render() {
         return (
             <ApplicationSettings 
@@ -65,7 +68,8 @@ class ApplicationSettingsController extends Component {
                 switchNoCharacters={this.switchNoCharacters}
                 switchShowTableEmptyLine={this.switchShowTableEmptyLine}
                 switchDisplayComments={this.switchDisplayComments}
-                switchDisplayResolved={this.switchDisplayResolved}                 
+                switchDisplayResolved={this.switchDisplayResolved}  
+                setMacrosSettings={this.setMacrosSettings}               
             />
         )
     }

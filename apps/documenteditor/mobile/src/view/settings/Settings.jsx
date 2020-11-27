@@ -32,7 +32,7 @@ const routes = [
         component: DocumentInfoController,
     },
     {
-        path: '/application-settings',
+        path: '/application-settings/',
         component: ApplicationSettingsController
     },
     {

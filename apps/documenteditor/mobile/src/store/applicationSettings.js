@@ -13,10 +13,13 @@ export class storeApplicationSettings {
     @observable isComments = true;
     @observable isResolvedComments = true;
 
-    @action changeUnitMeasurement(value) {
-        value = (value !== null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
-        console.log(value);
+    @observable isDisabledAllMacros = false;
+    @observable isShowNotification = true;
+    @observable isEnabledAllMacros = false;
 
+    @action changeUnitMeasurement(value) {
+        value = (value !== null) ? +value : Common.Utils.Metric.getDefaultMetric();
+    
         if(value === Common.Utils.Metric.c_MetricUnits.inch) {
             this.isActiveUnitCentimeter = false;
             this.isActiveUnitPoint = false;
@@ -36,27 +39,40 @@ export class storeApplicationSettings {
 
     @action changeSpellCheck(value) {
         this.isSpellChecking = value;
-        console.log(this.isSpellChecking);
     }
 
     @action changeNoCharacters(value) {
         this.isNonprintingCharacters = value;
-        console.log(this.isNonprintingCharacters);
     }
 
     @action changeShowTableEmptyLine(value) {
         this.isHiddenTableBorders = value;
-        console.log(this.isHiddenTableBorders);
     }
 
     @action changeDisplayComments(value) {
         this.isComments = value;
         if (!value) this.changeDisplayResolved(value);
-        console.log(this.isComments);
     }
 
     @action changeDisplayResolved(value) {
         this.isResolvedComments = value;
-        console.log(this.isResolvedComments);
+    }
+
+    @action changeMacrosSettings(value) {
+        if(+value === 2) {
+            this.isDisabledAllMacros = true;
+            this.isShowNotification = false;
+            this.isEnabledAllMacros = false;  
+        }
+        else if(+value === 1) {
+            this.isDisabledAllMacros = false;
+            this.isShowNotification = false;
+            this.isEnabledAllMacros = true;  
+        }
+        else {
+            this.isDisabledAllMacros = false;
+            this.isShowNotification = true;
+            this.isEnabledAllMacros = false; 
+        }
     }
 }
