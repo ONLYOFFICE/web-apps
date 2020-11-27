@@ -292,6 +292,8 @@
   "DE.Controllers.Main.waitText": "Een moment...",
   "DE.Controllers.Main.warnLicenseExceeded": "U heeft de limiet bereikt voor gelijktijdige verbindingen met% 1 editors. Dit document wordt alleen geopend om te bekijken. <br> Neem contact op met uw beheerder voor meer informatie.",
   "DE.Controllers.Main.warnLicenseExp": "Uw licentie is vervallen.<br>Werk uw licentie bij en vernieuw de pagina.",
+  "DE.Controllers.Main.warnLicenseLimitedNoAccess": "Licentie verlopen. <br> U heeft geen toegang tot documentbewerkingsfunctionaliteit. <br> Neem contact op met uw beheerder.",
+  "DE.Controllers.Main.warnLicenseLimitedRenewed": "Licentie moet worden verlengd. <br> U heeft beperkte toegang tot documentbewerkingsfunctionaliteit. <br> Neem contact op met uw beheerder voor volledige toegang",
   "DE.Controllers.Main.warnLicenseUsersExceeded": "U heeft de gebruikerslimiet voor% 1 editors bereikt. Neem contact op met uw beheerder voor meer informatie.",
   "DE.Controllers.Main.warnNoLicense": "U heeft de limiet bereikt voor gelijktijdige verbindingen met% 1 editors. Dit document wordt alleen geopend om te bekijken. <br> Neem contact op met het% 1 verkoopteam voor persoonlijke upgradevoorwaarden.",
   "DE.Controllers.Main.warnNoLicenseUsers": "U heeft de gebruikerslimiet voor% 1 editors bereikt. Neem contact op met het verkoopteam van% 1 voor persoonlijke upgradevoorwaarden.",

@@ -66,7 +66,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "Zrušit",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Akce kopírovat, vyjmout a vložit",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Znovu už nezobrazovat",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Operace může zničit data ve vybraných buňkách.<br>Chcete pokračovat?",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Pouze data z levé horní buňky zůstanou ve sloučené buňce.<br>Opravdu chcete pokračovat?",
   "SSE.Controllers.EditCell.textAuto": "Automaticky",
   "SSE.Controllers.EditCell.textFonts": "Fonty",
   "SSE.Controllers.EditCell.textPt": "pt",

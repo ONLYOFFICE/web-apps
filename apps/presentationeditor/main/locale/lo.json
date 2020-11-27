@@ -70,7 +70,7 @@
   "Common.Views.AutoCorrectDialog.textQuotes": "\"ຄຳ ເວົ້າກົງ\" ກັບ \"ຄຳ ເວົ້າທີ່ສະຫຼາດ\"",
   "Common.Views.AutoCorrectDialog.textRecognized": "\nຫນ້າທີ່ຮັບຮູ້",
   "Common.Views.AutoCorrectDialog.textRecognizedDesc": "ສຳນວນດັ່ງຕໍ່ໄປນີ້ແມ່ນການສະແດງອອກທາງເລກ. ແລະ ຈະບໍ່ຖືກປັບ ໄໝ ໂດຍອັດຕະໂນມັດ.",
-  "Common.Views.AutoCorrectDialog.textReplace": "ປ່ຽນແທນ:",
+  "Common.Views.AutoCorrectDialog.textReplace": "ປ່ຽນແທນ",
   "Common.Views.AutoCorrectDialog.textReplaceText": "ປ່ຽນແທນໃນຂະນະທີ່ທ່ານພິມ",
   "Common.Views.AutoCorrectDialog.textReplaceType": "ປ່ຽນຫົວຂໍ້ ໃນຂະນະທີ່ທ່ານພິມ",
   "Common.Views.AutoCorrectDialog.textReset": "\nປັບ ໃໝ່",

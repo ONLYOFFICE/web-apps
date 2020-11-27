@@ -43,7 +43,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "Отказ",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Действия за копиране, изтегляне и поставяне",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Не показвай отново",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Операцията може да унищожи данните в избраните клетки. <br> Продължи?",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Само данните от горната лява клетка ще останат в обединената клетка. <br> Наистина ли искате да продължите?",
   "SSE.Controllers.EditCell.textAuto": "Автоматичен",
   "SSE.Controllers.EditCell.textFonts": "Шрифт",
   "SSE.Controllers.EditCell.textPt": "pt",

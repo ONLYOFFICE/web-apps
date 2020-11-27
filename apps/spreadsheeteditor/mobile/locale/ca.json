@@ -66,7 +66,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "Cancel·la",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Accions de Copiar, Tallar i Pegar ",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "No mostrar de nou",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "L’operació pot destruir dades a les cel·les seleccionades.<br>Continua?",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Només quedaran les dades de la cel·la superior esquerra de la cel·la fusionada.<br>Estàs segur que vols continuar?",
   "SSE.Controllers.EditCell.textAuto": "Auto",
   "SSE.Controllers.EditCell.textFonts": "Fonts",
   "SSE.Controllers.EditCell.textPt": "pt",

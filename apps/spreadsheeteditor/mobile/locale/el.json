@@ -69,7 +69,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "Ακύρωση",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Ενέργειες αντιγραφής, αποκοπής και επικόλλησης",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Να μην εμφανίζεται ξανά",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Αυτή η λειτουργία θα διαγράψει τα δεδομένα από τα επιλεγμένα κελιά.<br>Συνέχεια;",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Μόνο τα δεδομένα από το επάνω αριστερό κελί θα παραμείνουν στο συγχωνευμένο κελί.<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
   "SSE.Controllers.EditCell.textAuto": "Αυτόματα",
   "SSE.Controllers.EditCell.textFonts": "Γραμματοσειρές",
   "SSE.Controllers.EditCell.textPt": "pt",

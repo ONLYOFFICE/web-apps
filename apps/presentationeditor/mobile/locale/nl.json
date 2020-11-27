@@ -260,6 +260,8 @@
   "PE.Controllers.Main.waitText": "Een moment...",
   "PE.Controllers.Main.warnLicenseExceeded": "Het aantal gelijktijdige verbindingen met de document server heeft het maximum overschreven. Het document zal geopend worden in een alleen-lezen modus.<br>Neem contact op met de beheerder voor meer informatie.",
   "PE.Controllers.Main.warnLicenseExp": "Uw licentie is vervallen.<br>Werk uw licentie bij en vernieuw de pagina.",
+  "PE.Controllers.Main.warnLicenseLimitedNoAccess": "Licentie verlopen. <br> U heeft geen toegang tot documentbewerkingsfunctionaliteit. <br> Neem contact op met uw beheerder.",
+  "PE.Controllers.Main.warnLicenseLimitedRenewed": "Licentie moet worden verlengd. <br> U heeft beperkte toegang tot documentbewerkingsfunctionaliteit. <br> Neem contact op met uw beheerder voor volledige toegang",
   "PE.Controllers.Main.warnLicenseUsersExceeded": "Het aantal gelijktijdige gebruikers met de document server heeft het maximum overschreven. Het document zal geopend worden in een alleen-lezen modus.<br>Neem contact op met de beheerder voor meer informatie.",
   "PE.Controllers.Main.warnNoLicense": "U gebruikt een Open source-versie van %1. In die versie geldt voor het aantal gelijktijdige verbindingen met de documentserver een limiet van 20 verbindingen.<br>Als u er meer nodig hebt, kunt u overwegen een commerciële licentie aan te schaffen.",
   "PE.Controllers.Main.warnNoLicenseUsers": "Deze versie van %1 bevat limieten voor het aantal gelijktijdige gebruikers.<br>Indien meer nodig is, upgrade dan de huidige licentie of schaf een commerciële licentie aan.",

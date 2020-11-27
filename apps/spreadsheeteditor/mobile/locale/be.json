@@ -69,7 +69,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "Скасаваць",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Скапіяваць, выразаць, уставіць",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Больш не паказваць",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Аперацыя можа знішчыць даныя ў абраных ячэйках.<br>Працягнуць? ",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "У аб’яднанай ячэйцы застануцца толькі даныя з левай верхняй ячэйкі.<br>Сапраўды хочаце працягнуць?",
   "SSE.Controllers.EditCell.textAuto": "Аўта",
   "SSE.Controllers.EditCell.textFonts": "Шрыфты",
   "SSE.Controllers.EditCell.textPt": "пт",
