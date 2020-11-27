@@ -1321,8 +1321,8 @@ define([
                 }
             } else {
                 value = Common.Utils.String.parseFloat(record.value);
-                value = value > 100
-                    ? 100
+                value = value > 300
+                    ? 300
                     : value < 1
                         ? 1
                         : Math.floor((value+0.4)*2)/2;
