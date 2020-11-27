@@ -69,7 +69,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "Cancelar",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Copiar, Cortar e Colar",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Não exibir novamente",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Operação pode destruir dados nas células selecionadas.<br>Continuar?",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerá na célula mesclada.<br>Você tem certeza de que deseja continuar? ",
   "SSE.Controllers.EditCell.textAuto": "Automático",
   "SSE.Controllers.EditCell.textFonts": "Fontes",
   "SSE.Controllers.EditCell.textPt": "Pt",

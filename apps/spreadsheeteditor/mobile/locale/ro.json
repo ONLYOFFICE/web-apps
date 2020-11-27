@@ -69,7 +69,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "Revocare",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Comenzile de copiere, decupare și lipire",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Nu se mai afișează ",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "În rezultatul operațiunei asupra celulelor selectate datele pot fi distruse<br>Doriți să continuați?",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?",
   "SSE.Controllers.EditCell.textAuto": "Automat",
   "SSE.Controllers.EditCell.textFonts": "Fonturi",
   "SSE.Controllers.EditCell.textPt": "pt",

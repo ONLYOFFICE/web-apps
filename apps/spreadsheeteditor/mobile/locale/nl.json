@@ -69,7 +69,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "Annuleren",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Niet meer weergeven",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Bewerking kan gegevens in geselecteerde cellen vernietigen.<br>Doorgaan? ",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?",
   "SSE.Controllers.EditCell.textAuto": "Automatisch",
   "SSE.Controllers.EditCell.textFonts": "Lettertypen",
   "SSE.Controllers.EditCell.textPt": "pt",

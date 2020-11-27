@@ -32,7 +32,7 @@
   "SSE.Controllers.DocumentHolder.menuUnwrap": "Розгорнути",
   "SSE.Controllers.DocumentHolder.menuWrap": "Обернути",
   "SSE.Controllers.DocumentHolder.sheetCancel": "Скасувати",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Операція може знищити дані у вибраних клітинах. <br> Продовжити?",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Дані лише з верхньої лівої клітинки залишаться в об'єднаній клітині. <br> Ви впевнені, що хочете продовжити?",
   "SSE.Controllers.EditCell.textAuto": "Авто",
   "SSE.Controllers.EditCell.textFonts": "Шрифти",
   "SSE.Controllers.EditCell.textPt": "Пт",

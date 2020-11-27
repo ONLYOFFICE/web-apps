@@ -69,7 +69,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "ຍົກເລີກ",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "ປະຕິບັດການ ສໍາເນົາ, ຕັດ ແລະ ຕໍ່ ",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "ບໍ່ຕ້ອງສະແດງຄືນອີກ",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "\nການດຳເນີນການສາມາດທໍາລາຍຂໍ້ມູນໄດ້",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "ສະເພາະຂໍ້ມູນຈາກເຊວດ້ານຊ້າຍເທິງທີ່ຈະຢູ່ໃນເຊວຮ່ວມ. <br>ທ່ານຕ້ອງການດຳເນີນການຕໍ່ບໍ່?",
   "SSE.Controllers.EditCell.textAuto": "ອັດຕະໂນມັດ",
   "SSE.Controllers.EditCell.textFonts": "ຕົວອັກສອນ",
   "SSE.Controllers.EditCell.textPt": "pt",

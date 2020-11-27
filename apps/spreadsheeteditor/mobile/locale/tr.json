@@ -32,7 +32,7 @@
   "SSE.Controllers.DocumentHolder.menuUnwrap": "Kaydırmayı kaldır",
   "SSE.Controllers.DocumentHolder.menuWrap": "Metni Kaydır",
   "SSE.Controllers.DocumentHolder.sheetCancel": "İptal",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "İşlem seçili hücrelerdeki veriyi yok edebilir.<br>Devam etmek istiyor musunuz?",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "Sadece üst sol hücredeki veri birleştirilmiş hücrede kalacaktır. <br>Devam etmek istediğinizden emin misiniz?",
   "SSE.Controllers.EditCell.textAuto": "Otomatik",
   "SSE.Controllers.EditCell.textFonts": "Yazı Tipleri",
   "SSE.Controllers.EditCell.textPt": "pt",

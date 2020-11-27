@@ -69,7 +69,7 @@
   "SSE.Controllers.DocumentHolder.sheetCancel": "キャンセル",
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "コピー,切り取り,貼り付けの操作",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "次回から表示しない",
-  "SSE.Controllers.DocumentHolder.warnMergeLostData": "操作により、選択したセルのデータが破壊される可能性があります。<br>続行しますか？",
+  "SSE.Controllers.DocumentHolder.warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？",
   "SSE.Controllers.EditCell.textAuto": "自動",
   "SSE.Controllers.EditCell.textFonts": "フォント",
   "SSE.Controllers.EditCell.textPt": "pt",
