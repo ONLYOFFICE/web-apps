@@ -1221,7 +1221,7 @@
   "SSE.Controllers.Toolbar.warnLongOperation": "De bewerking die u gaat uitvoeren, kan nogal veel tijd in beslag nemen.<br>Wilt u doorgaan?",
   "SSE.Controllers.Toolbar.warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?",
   "SSE.Controllers.Viewport.textFreezePanes": "Deelvensters blokkeren",
-  "SSE.Controllers.Viewport.textFreezePanesShadow:": "Schaduw van geblokkeerde deelvensters weergeven",
+  "SSE.Controllers.Viewport.textFreezePanesShadow": "Schaduw van geblokkeerde deelvensters weergeven",
   "SSE.Controllers.Viewport.textHideFBar": "Formulebalk verbergen",
   "SSE.Controllers.Viewport.textHideGridlines": "Rasterlijnen verbergen",
   "SSE.Controllers.Viewport.textHideHeadings": "Koppen verbergen",
