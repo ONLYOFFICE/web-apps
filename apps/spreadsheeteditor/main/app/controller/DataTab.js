@@ -44,6 +44,7 @@ define([
     'spreadsheeteditor/main/app/view/DataTab',
     'spreadsheeteditor/main/app/view/SortDialog',
     'spreadsheeteditor/main/app/view/RemoveDuplicatesDialog',
+    'spreadsheeteditor/main/app/view/DataValidationDialog',
     'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
@@ -90,7 +91,8 @@ define([
                     'data:hide': this.onHideClick,
                     'data:groupsettings': this.onGroupSettings,
                     'data:sortcustom': this.onCustomSort,
-                    'data:remduplicates': this.onRemoveDuplicates
+                    'data:remduplicates': this.onRemoveDuplicates,
+                    'data:datavalidation': this.onDataValidation
                 },
                 'Statusbar': {
                     'sheet:changed': this.onApiSheetChanged
@@ -280,7 +282,6 @@ define([
                         width: 500,
                         title: this.txtRemDuplicates,
                         msg: this.txtExpandRemDuplicates,
-
                         buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
                             {caption: this.txtRemSelected, primary: true, value: 'remove'},
                             'cancel'],
@@ -314,6 +315,48 @@ define([
             }
         },
 
+        onDataValidation: function() {
+            var me = this;
+            if (this.api) {
+                var res = this.api.asc_getDataValidationProps();
+                if (typeof res !== 'object') {
+                    var config = {
+                        maxwidth: 500,
+                        title: this.txtDataValidation,
+                        msg: res===Asc.c_oAscError.ID.MoreOneTypeDataValidate ? this.txtExtendDataValidation : this.txtRemoveDataValidation,
+                        buttons: res===Asc.c_oAscError.ID.MoreOneTypeDataValidate ? ['yes', 'no', 'cancel'] : ['ok', 'cancel'],
+                        primary: res===Asc.c_oAscError.ID.MoreOneTypeDataValidate ? ['yes', 'no'] : 'ok',
+                        callback: function(btn){
+                            if (btn == 'yes' || btn == 'no' || btn == 'ok') {
+                                setTimeout(function(){
+                                    var props = me.api.asc_getDataValidationProps((btn=='ok') ? null : (btn == 'yes'));
+                                    me.showDataValidation(props);
+                                },1);
+                            }
+                        }
+                    };
+                    Common.UI.alert(config);
+                } else
+                    me.showDataValidation(res);
+            }
+        },
+
+        showDataValidation: function(props) {
+            var me = this;
+            if (props) {
+                (new SSE.Views.DataValidationDialog({
+                    title: this.txtDataValidation,
+                    props: props,
+                    api: me.api,
+                    handler: function (result, settings) {
+                        if (me && me.api && result == 'ok') {
+                            me.api.asc_setDataValidation(settings);
+                        }
+                    }
+                })).show();
+            }
+        },
+
         onWorksheetLocked: function(index,locked) {
             if (index == this.api.asc_getActiveWorksheetIndex()) {
                 Common.Utils.lockControls(SSE.enumLock.sheetLock, locked, {array: this.view.btnsSortDown.concat(this.view.btnsSortUp, this.view.btnCustomSort, this.view.btnGroup, this.view.btnUngroup)});
@@ -333,7 +376,10 @@ define([
         txtExpand: 'Expand',
         txtRemSelected: 'Remove in selected',
         textRows: 'Rows',
-        textColumns: 'Columns'
+        textColumns: 'Columns',
+        txtDataValidation: 'Data Validation',
+        txtExtendDataValidation: 'The selection contains some cells without Data Validation settings.<br>Do you want to extend Data Validation to these cells?',
+        txtRemoveDataValidation: 'The selection contains more than one type of validation.<br>Erase current settings and continue?'
 
     }, SSE.Controllers.DataTab || {}));
 });
