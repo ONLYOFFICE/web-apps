@@ -6,6 +6,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import DocumentSettingsController from "../../controller/settings/DocumentSettings";
 import DocumentInfoController from "../../controller/settings/DocumentInfo";
+import DownloadController from "../../controller/settings/Download";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { DocumentFormats, DocumentMargins } from "./DocumentSettings";
 import { MacrosSettings } from "./ApplicationSettings";
@@ -38,6 +39,10 @@ const routes = [
     {
         path: '/macros-settings/',
         component: MacrosSettings
+    },
+    {
+        path: '/download/',
+        component: DownloadController
     }
 ];
 
@@ -73,7 +78,7 @@ const SettingsList = withTranslation()(props => {
                     <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, "/application-settings/")}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textDownload} link="#">
+                    <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
                     <ListItem title={_t.textPrint}>

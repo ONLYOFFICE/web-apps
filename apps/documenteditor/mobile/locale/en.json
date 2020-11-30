@@ -46,7 +46,8 @@
     "textShowNotification": "Show Notification",
     "textDisableAllMacrosWithNotification": "Disable all macros with notification",
     "textEnableAll": "Enable All",
-    "textEnableAllMacrosWithoutNotification": "Enable all macros without notification"
+    "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
+    "textDownloadAs": "Download As"
   },
   "Collaboration": {
     "textEditUser": "Users who are editing the file:"
