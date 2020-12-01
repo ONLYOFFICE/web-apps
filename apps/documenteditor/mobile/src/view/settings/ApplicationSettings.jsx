@@ -7,9 +7,7 @@ const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const store = props.storeApplicationSettings;
-    const isActiveUnitCentimeter = store.isActiveUnitCentimeter;
-    const isActiveUnitPoint = store.isActiveUnitPoint;
-    const isActiveUnitInch = store.isActiveUnitInch;
+    const unitMeasurement = store.unitMeasurement;
     const isSpellChecking = store.isSpellChecking;
     const isNonprintingCharacters = store.isNonprintingCharacters;
     const isHiddenTableBorders = store.isHiddenTableBorders;
@@ -26,11 +24,11 @@ const PageApplicationSettings = props => {
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
             <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
             <List>
-                <ListItem radio radioIcon="end" title={_t.textCentimeter} value="0" name="unit-of-measurement" checked={isActiveUnitCentimeter} 
+                <ListItem radio radioIcon="end" title={_t.textCentimeter} value="0" name="unit-of-measurement" checked={unitMeasurement === 0} 
                     onChange={e => changeMeasureSettings(e.target.value)}></ListItem>
-                <ListItem radio radioIcon="end" title={_t.textPoint} value="1" name="unit-of-measurement" checked={isActiveUnitPoint} 
+                <ListItem radio radioIcon="end" title={_t.textPoint} value="1" name="unit-of-measurement" checked={unitMeasurement === 1} 
                     onChange={e => changeMeasureSettings(e.target.value)}></ListItem>
-                <ListItem radio radioIcon="end" title={_t.textInch} value="2" name="unit-of-measurement" checked={isActiveUnitInch} 
+                <ListItem radio radioIcon="end" title={_t.textInch} value="2" name="unit-of-measurement" checked={unitMeasurement === 2} 
                     onChange={e => changeMeasureSettings(e.target.value)}></ListItem>
             </List>
             <List>
@@ -98,13 +96,11 @@ const PageMacrosSettings = props => {
     const { t } = useTranslation();
     const _t = t("Settings", { returnObjects: true });
     const store = props.storeApplicationSettings;
-    const isDisabledAllMacros = store.isDisabledAllMacros;
-    const isShowNotification = store.isShowNotification;
-    const isEnabledAllMacros = store.isEnabledAllMacros;
+    const macrosMode = store.macrosMode;
 
     const changeMacros = value => {
         store.changeMacrosSettings(value);
-        props.setMacrosSettings(value);
+        // props.setMacrosSettings(value);
     };
 
     return (
@@ -112,11 +108,11 @@ const PageMacrosSettings = props => {
             <Navbar title={_t.textMacrosSettings} backLink={_t.textBack} />
             <List mediaList>
                 <ListItem radio name="macros-settings" value="2" title={_t.textDisableAll} text={_t.textDisableAllMacrosWithoutNotification} 
-                    checked={isDisabledAllMacros} onChange={e => changeMacros(e.target.value)}></ListItem>
+                    checked={macrosMode === 2} onChange={e => changeMacros(e.target.value)}></ListItem>
                 <ListItem radio name="macros-settings" value="0" title={_t.textShowNotification} text={_t.textDisableAllMacrosWithNotification}
-                    checked={isShowNotification} onChange={e => changeMacros(e.target.value)}></ListItem>
+                    checked={macrosMode === 0} onChange={e => changeMacros(e.target.value)}></ListItem>
                 <ListItem radio name="macros-settings" value="1" title={_t.textEnableAll} text={_t.textEnableAllMacrosWithoutNotification}
-                    checked={isEnabledAllMacros} onChange={e => changeMacros(e.target.value)}></ListItem>
+                    checked={macrosMode === 1} onChange={e => changeMacros(e.target.value)}></ListItem>
             </List>
         </Page>
     );

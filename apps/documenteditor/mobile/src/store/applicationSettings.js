@@ -1,9 +1,8 @@
 import {action, observable} from 'mobx';
 
 export class storeApplicationSettings {
-    @observable isActiveUnitCentimeter = false;
-    @observable isActiveUnitPoint = true;
-    @observable isActiveUnitInch = false;
+   
+    @observable unitMeasurement = 1;
 
     @observable isSpellChecking = true;
 
@@ -13,28 +12,10 @@ export class storeApplicationSettings {
     @observable isComments = true;
     @observable isResolvedComments = true;
 
-    @observable isDisabledAllMacros = false;
-    @observable isShowNotification = true;
-    @observable isEnabledAllMacros = false;
+    @observable macrosMode = 0;
 
     @action changeUnitMeasurement(value) {
-        value = (value !== null) ? +value : Common.Utils.Metric.getDefaultMetric();
-    
-        if(value === Common.Utils.Metric.c_MetricUnits.inch) {
-            this.isActiveUnitCentimeter = false;
-            this.isActiveUnitPoint = false;
-            this.isActiveUnitInch = true;
-        }
-        else if(value === Common.Utils.Metric.c_MetricUnits.pt) {
-            this.isActiveUnitCentimeter = false;
-            this.isActiveUnitPoint = true;
-            this.isActiveUnitInch = false;
-        }
-        else {
-            this.isActiveUnitCentimeter = true;
-            this.isActiveUnitPoint = false;
-            this.isActiveUnitInch = false;
-        }
+        this.unitMeasurement = +value;
     }
 
     @action changeSpellCheck(value) {
@@ -59,20 +40,6 @@ export class storeApplicationSettings {
     }
 
     @action changeMacrosSettings(value) {
-        if(+value === 2) {
-            this.isDisabledAllMacros = true;
-            this.isShowNotification = false;
-            this.isEnabledAllMacros = false;  
-        }
-        else if(+value === 1) {
-            this.isDisabledAllMacros = false;
-            this.isShowNotification = false;
-            this.isEnabledAllMacros = true;  
-        }
-        else {
-            this.isDisabledAllMacros = false;
-            this.isShowNotification = true;
-            this.isEnabledAllMacros = false; 
-        }
+        this.macrosMode = +value;
     }
 }

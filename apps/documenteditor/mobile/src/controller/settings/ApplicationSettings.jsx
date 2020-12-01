@@ -56,7 +56,7 @@ class ApplicationSettingsController extends Component {
     }
 
     setMacrosSettings(value) {
-        Common.Utils.InternalSettings.set("de-mobile-macros-mode", +value);
+        // Common.Utils.InternalSettings.set("de-mobile-macros-mode", +value);
         // Common.localStorage.setItem("de-mobile-macros-mode", +value);
     }
 
