@@ -851,7 +851,7 @@ define([
                         }
                     } else {
                         $('.comment-resolve, .comment-menu, .add-reply, .reply-menu').removeClass('disabled');
-                        if (this.showComments.length > 1) {
+                        if (this.showComments && this.showComments.length > 1) {
                             $('.prev-comment, .next-comment').removeClass('disabled');
                         }
                     }
@@ -863,7 +863,7 @@ define([
                 $('.comment-menu').single('click', _.buffered(this.initMenuComments, 100, this));
                 $('.reply-menu').single('click', _.buffered(this.initReplyMenu, 100, this));
                 $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this, false));
-                if (this.showComments.length === 1) {
+                if (this.showComments && this.showComments.length === 1) {
                     $('.prev-comment, .next-comment').addClass('disabled');
                 }
             },
@@ -921,7 +921,7 @@ define([
                 $('.reply-menu').single('click', _.buffered(me.initReplyMenu, 100, me));
                 $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me, false));
 
-                if (me.showComments.length === 1) {
+                if (me.showComments && me.showComments.length === 1) {
                     $('.prev-comment, .next-comment').addClass('disabled');
                 }
 
@@ -998,7 +998,7 @@ define([
             },
 
             onViewPrevComment: function() {
-                if (this.showComments.length > 0) {
+                if (this.showComments && this.showComments.length > 0) {
                     if (this.indexCurrentComment - 1 < 0) {
                         this.indexCurrentComment = this.showComments.length - 1;
                     } else {
@@ -1015,7 +1015,7 @@ define([
             },
 
             onViewNextComment: function() {
-                if (this.showComments.length > 0) {
+                if (this.showComments && this.showComments.length > 0) {
                     if (this.indexCurrentComment + 1 === this.showComments.length) {
                         this.indexCurrentComment = 0;
                     } else {
