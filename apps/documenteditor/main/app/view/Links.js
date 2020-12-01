@@ -82,6 +82,9 @@ define([
                 button.on('click', function (b, e) {
                     me.fireEvent('links:notes', ['ins_footnote']);
                 });
+                button.menu.items[7].menu.on('item:click', function (menu, item, e) {//convert
+                    me.fireEvent('links:notes', [item.value]);
+                });
             });
 
             this.btnsPrevNote.forEach(function(button) {
@@ -93,6 +96,18 @@ define([
             this.btnsNextNote.forEach(function(button) {
                 button.on('click', function (b, e) {
                     me.fireEvent('links:notes', ['next']);
+                });
+            });
+
+            this.btnsPrevEndNote.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('links:notes', ['prev-end']);
+                });
+            });
+
+            this.btnsNextEndNote.forEach(function(button) {
+                button.on('click', function (b, e) {
+                    me.fireEvent('links:notes', ['next-end']);
                 });
             });
 
@@ -109,6 +124,10 @@ define([
             this.btnCaption.on('click', function (b, e) {
                 me.fireEvent('links:caption');
             });
+
+            this.btnCrossRef.on('click', function (b, e) {
+                me.fireEvent('links:crossref');
+            });
         }
 
         return {
@@ -121,6 +140,8 @@ define([
 
                 this.btnsPrevNote = [];
                 this.btnsNextNote = [];
+                this.btnsPrevEndNote = [];
+                this.btnsNextEndNote = [];
                 this.paragraphControls = [];
 
                 var me = this,
@@ -160,6 +181,15 @@ define([
                 });
                 this.paragraphControls.push(this.btnCaption);
 
+                this.btnCrossRef = new Common.UI.Button({
+                    parentEl: $host.find('#slot-btn-crossref'),
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-cross-reference',
+                    caption: this.capBtnCrossRef,
+                    disabled: true
+                });
+                this.paragraphControls.push(this.btnCrossRef);
+
                 this._state = {disabled: false};
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -178,7 +208,7 @@ define([
                         btn.updateHint( me.tipContents );
 
                         var _menu = new Common.UI.Menu({
-                            cls: 'toc-menu',
+                            cls: 'toc-menu shifted-left',
                             items: [
                                 {template: contentsTemplate, offsety: 0, value: 0},
                                 {template: contentsTemplate, offsety: 72, value: 1},
@@ -191,7 +221,7 @@ define([
                     });
 
                     me.contentsMenu = new Common.UI.Menu({
-                        cls: 'toc-menu',
+                        cls: 'toc-menu shifted-left',
                         items: [
                             {template: contentsTemplate, offsety: 0, value: 0},
                             {template: contentsTemplate, offsety: 72, value: 1},
@@ -221,6 +251,7 @@ define([
                         var _menu = new Common.UI.Menu({
                             items: [
                                 {caption: me.mniInsFootnote, value: 'ins_footnote'},
+                                {caption: me.mniInsEndnote, value: 'ins_endnote'},
                                 {caption: '--'},
                                 new Common.UI.MenuItem({
                                     template: _.template([
@@ -235,8 +266,32 @@ define([
                                     ].join('')),
                                     stopPropagation: true
                                 }),
+                                new Common.UI.MenuItem({
+                                    template: _.template([
+                                        '<div class="menu-zoom" style="height: 25px;" ',
+                                        '<% if(!_.isUndefined(options.stopPropagation)) { %>',
+                                        'data-stopPropagation="true"',
+                                        '<% } %>', '>',
+                                        '<label class="title">' + me.textGotoEndnote + '</label>',
+                                        '<button id="id-menu-goto-endnote-next-' + index + '" type="button" style="float:right; margin: 2px 5px 0 0;" class="btn small btn-toolbar"><i class="icon menu__icon btn-nextitem">&nbsp;</i></button>',
+                                        '<button id="id-menu-goto-endnote-prev-' + index + '" type="button" style="float:right; margin-top: 2px;" class="btn small btn-toolbar"><i class="icon menu__icon btn-previtem">&nbsp;</i></button>',
+                                        '</div>'
+                                    ].join('')),
+                                    stopPropagation: true
+                                }),
                                 {caption: '--'},
                                 {caption: me.mniDelFootnote, value: 'delele'},
+                                {
+                                    caption: me.mniConvertNote, value: 'convert',
+                                    menu: new Common.UI.Menu({
+                                        menuAlign   : 'tl-tr',
+                                        items: [
+                                            {caption: me.textConvertToEndnotes, value: 'to-endnotes'},
+                                            {caption: me.textConvertToFootnotes, value: 'to-footnotes'},
+                                            {caption: me.textSwapNotes, value: 'swap'}
+                                        ]
+                                    })
+                                },
                                 {caption: me.mniNoteSettings, value: 'settings'}
                             ]
                         });
@@ -250,6 +305,14 @@ define([
                             el: $('#id-menu-goto-footnote-next-'+index),
                             cls: 'btn-toolbar'
                         }));
+                        me.btnsPrevEndNote.push(new Common.UI.Button({
+                            el: $('#id-menu-goto-endnote-prev-'+index),
+                            cls: 'btn-toolbar'
+                        }));
+                        me.btnsNextEndNote.push(new Common.UI.Button({
+                            el: $('#id-menu-goto-endnote-next-'+index),
+                            cls: 'btn-toolbar'
+                        }));
                     });
 
                     me.btnsHyperlink.forEach( function(btn) {
@@ -258,6 +321,7 @@ define([
 
                     me.btnBookmarks.updateHint(me.tipBookmarks);
                     me.btnCaption.updateHint(me.tipCaption);
+                    me.btnCrossRef.updateHint(me.tipCrossRef);
 
                     setEvents.call(me);
                 });
@@ -291,7 +355,7 @@ define([
             textUpdatePages: 'Refresh page numbers only',
             tipNotes: 'Footnotes',
             mniInsFootnote: 'Insert Footnote',
-            mniDelFootnote: 'Delete All Footnotes',
+            mniDelFootnote: 'Delete All Notes',
             mniNoteSettings: 'Notes Settings',
             textGotoFootnote: 'Go to Footnotes',
             capBtnInsFootnote: 'Footnotes',
@@ -301,7 +365,15 @@ define([
             capBtnBookmarks: 'Bookmark',
             tipBookmarks: 'Create a bookmark',
             capBtnCaption: 'Caption',
-            tipCaption: 'Insert caption'
+            tipCaption: 'Insert caption',
+            mniConvertNote: 'Convert All Notes',
+            textGotoEndnote: 'Go to Endnotes',
+            mniInsEndnote: 'Insert Endnote',
+            textConvertToEndnotes: 'Convert All Footnotes to Endnotes',
+            textConvertToFootnotes: 'Convert All Endnotes to Footnotes',
+            textSwapNotes: 'Swap Footnotes and Endnotes',
+            capBtnCrossRef: 'Cross-reference',
+            tipCrossRef: 'Insert cross-reference'
         }
     }()), DE.Views.Links || {}));
 });

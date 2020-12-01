@@ -22,6 +22,11 @@
             border-left: solid 1px @gray-darker;
             border-radius: 0 3px;
             box-sizing: content-box;
+            .thumb-top-inner {
+                border-top: solid 1px #fff;
+                border-left: solid 1px #fff;
+                height: 100%;
+            }
         }
 
         .thumb-bottom {
@@ -29,16 +34,34 @@
             top: 6px;
             left: 1px;
             width: 10px;
-            height: 8px;
+            height: 9px;
             background-color: #ffffff;
             border: solid 1px @gray-darker;
             border-top: none;
             border-radius: 2px;
             box-sizing: content-box;
+            .thumb-bottom-inner {
+                border: solid 1px #fff;
+                border-top: none;
+                height: 100%;
+            }
         }
 
-        &.active .thumb-bottom {
-            border-bottom-width: 2px;
+        &.active {
+            .thumb-top {
+                border-top: solid 1px #000;
+                border-left: solid 1px #000;
+            }
+            .thumb-bottom {
+                border: solid 1px #000;
+                border-top: none;
+            }
+        }
+
+        &:hover {
+            .thumb-bottom {
+                box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.32);
+            }
         }
 
         &.remove {
@@ -58,6 +81,8 @@
 
         background-position: 0 0;
         outline: 1px solid rgba(162, 162, 162, 1);
+        border: 1px solid #FFFFFF;
+        cursor: copy;
     }
 }
 

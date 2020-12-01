@@ -167,7 +167,8 @@ define([
                         fmax        : panel.resize.fmax,
                         behaviour   : panel.behaviour,
                         index       : this.splitters.length,
-                        offset      : panel.resize.offset || 0
+                        offset      : panel.resize.offset || 0,
+                        multiply    : panel.resize.multiply
                     };
 
                     if (!stretch) {
@@ -264,6 +265,7 @@ define([
             this.resize.fmin      = panel.fmin;
             this.resize.fmax      = panel.fmax;
             this.resize.behaviour = panel.behaviour;
+            this.resize.multiply  = panel.multiply;
 
             this.resize.$el.addClass('move');
 
@@ -274,9 +276,11 @@ define([
             } else
             if (e.data.type == 'horizontal') {
                 this.resize.width   = parseInt(this.resize.$el.css('width'));
-                this.resize.max     = (panel.maxpos > 0 ? panel.maxpos : this.resize.$el.parent().height() + panel.maxpos) - this.resize.width;
+                this.resize.max     = (panel.maxpos > 0 ? panel.maxpos : this.resize.$el.parent().width() + panel.maxpos) - this.resize.width;
                 this.resize.initx   = e.pageX*Common.Utils.zoom() - parseInt(e.currentTarget.style.left);
             }
+            if (this.resize.multiply && this.resize.multiply.koeff)
+                this.resize.max = Math.floor(this.resize.max/this.resize.multiply.koeff) * this.resize.multiply.koeff + (this.resize.multiply.offset || 0);
             Common.NotificationCenter.trigger('layout:resizestart');
         },
 
@@ -290,7 +294,13 @@ define([
                 prop        = 'left';
                 value       = e.pageX*zoom - this.resize.initx;
             }
-
+            if (this.resize.multiply && this.resize.multiply.koeff) {
+                var m = this.resize.multiply.koeff,
+                    val = value/m,
+                    vfloor = Math.floor(val) * m + (this.resize.multiply.offset || 0),
+                    vceil = Math.ceil(val) * m + (this.resize.multiply.offset || 0);
+                value = (value>vfloor+m/2) ? vceil : vfloor;
+            }
             if (this.resize.fmin && this.resize.fmax) {
                 if (!(value < this.resize.fmin()) && !(value > this.resize.fmax())) {
                     this.resize.$el[0].style[prop] = value + 'px';
@@ -332,7 +342,13 @@ define([
                 prop = 'width';
                 value = e.pageX*zoom - this.resize.initx;
             }
-
+            if (this.resize.multiply && this.resize.multiply.koeff) {
+                var m = this.resize.multiply.koeff,
+                    val = value/m,
+                    vfloor = Math.floor(val) * m + (this.resize.multiply.offset || 0),
+                    vceil = Math.ceil(val) * m + (this.resize.multiply.offset || 0);
+                value = (value>vfloor+m/2) ? vceil : vfloor;
+            }
             if (this.resize.fmin && this.resize.fmax) {
                 value < this.resize.fmin() && (value = this.resize.fmin());
                 value > this.resize.fmax() && (value = this.resize.fmax());

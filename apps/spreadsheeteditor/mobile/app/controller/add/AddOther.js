@@ -70,6 +70,7 @@ define([
                 var me = this;
                 me.api = api;
                 me.api.asc_registerCallback('asc_onError', _.bind(me.onError, me));
+                me.api.asc_registerCallback('asc_onSelectionChanged',   _.bind(me.onApiSelectionChanged, me));
 
                 // me.api.asc_registerCallback('asc_onInitEditorFonts',    _.bind(onApiLoadFonts, me));
 
@@ -80,8 +81,8 @@ define([
                 this.view.canViewComments = mode.canViewComments;
             },
 
-            setHideAddComment: function(hide) {
-                this.view.isComments = hide; //prohibit adding multiple comments in one cell
+            onApiSelectionChanged: function(info) {
+                this.view.isComments = info.asc_getComments().length>0; //prohibit adding multiple comments in one cell
             },
 
             onLaunch: function () {
@@ -174,10 +175,10 @@ define([
                         if ((/((^https?)|(^ftp)):\/\/.+/i.test(url))) {
                             SSE.getController('AddContainer').hideModal();
                         } else {
-                            uiApp.alert(me.txtNotUrl);
+                            uiApp.alert(me.txtNotUrl, me.notcriticalErrorTitle);
                         }
                     } else {
-                        uiApp.alert(me.textEmptyImgUrl);
+                        uiApp.alert(me.textEmptyImgUrl, me.notcriticalErrorTitle);
                     }
                 } else {
                     SSE.getController('AddContainer').hideModal();
@@ -202,7 +203,8 @@ define([
             textDeleteDraft: 'Do you really want to delete draft?',
             textCancel: 'Cancel',
             //textContinue: 'Continue',
-            textDelete: 'Delete'
+            textDelete: 'Delete',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), SSE.Controllers.AddOther || {}))
 });

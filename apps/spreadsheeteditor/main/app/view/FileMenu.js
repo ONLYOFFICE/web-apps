@@ -322,6 +322,12 @@ define([
                 this.panels['help'] = ((new SSE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
+
+            if ( this.mode.disableEditing != undefined ) {
+                this.panels['opts'].disableEditing(this.mode.disableEditing);
+                this.miProtect.setDisabled(this.mode.disableEditing);
+                delete this.mode.disableEditing;
+            }
         },
 
         setMode: function(mode, delay) {
@@ -407,6 +413,15 @@ define([
                 if (type == 'protect') {
                     return this.miProtect;
                 }
+            }
+        },
+
+        disableEditing: function(disabled) {
+            if ( !this.panels ) {
+                this.mode.disableEditing = disabled;
+            } else {
+                this.panels['opts'].disableEditing(disabled);
+                this.miProtect.setDisabled(disabled);
             }
         },
 

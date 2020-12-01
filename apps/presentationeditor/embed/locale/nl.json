@@ -19,12 +19,13 @@
   "PE.ApplicationController.scriptLoadError": "De verbinding is te langzaam, sommige componenten konden niet geladen worden. Laad de pagina opnieuw.",
   "PE.ApplicationController.textLoadingDocument": "Presentatie wordt geladen",
   "PE.ApplicationController.textOf": "van",
-  "PE.ApplicationController.txtClose": "Sluiten",
+  "PE.ApplicationController.txtClose": "Afsluiten",
   "PE.ApplicationController.unknownErrorText": "Onbekende fout.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "Uw browser wordt niet ondersteund.",
   "PE.ApplicationController.waitText": "Een moment geduld",
   "PE.ApplicationView.txtDownload": "Downloaden",
   "PE.ApplicationView.txtEmbed": "Invoegen",
   "PE.ApplicationView.txtFullScreen": "Volledig scherm",
+  "PE.ApplicationView.txtPrint": "Afdrukken",
   "PE.ApplicationView.txtShare": "Delen"
 }

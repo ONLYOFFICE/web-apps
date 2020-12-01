@@ -294,7 +294,7 @@ define([
                 var matchcase = Common.SharedSettings.get('search-case-sensitive') || false;
 
                 if (search && search.length) {
-                    if (!this.api.asc_replaceText(search, replace, false, matchcase)) {
+                    if (!this.api.asc_replaceText(search, replace || '', false, matchcase)) {
                         var me = this;
                         uiApp.alert(
                             '',
@@ -311,7 +311,7 @@ define([
                 var matchcase = Common.SharedSettings.get('search-case-sensitive') || false;
 
                 if (search && search.length) {
-                    this.api.asc_replaceText(search, replace, true, matchcase);
+                    this.api.asc_replaceText(search, replace || '', true, matchcase);
                 }
             },
 

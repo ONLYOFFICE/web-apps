@@ -60,7 +60,8 @@ define([
     'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/CompareSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
-    'documenteditor/main/app/view/DateTimeDialog'
+    'documenteditor/main/app/view/DateTimeDialog',
+    'documenteditor/main/app/view/LineNumbersDialog'
 ], function () {
     'use strict';
 
@@ -101,7 +102,9 @@ define([
                 pgmargins: undefined,
                 fontsize: undefined,
                 in_equation: false,
-                in_chart: false
+                in_chart: false,
+                linenum_apply: Asc.c_oAscSectionApplyType.All,
+                suppress_num: undefined
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -310,7 +313,7 @@ define([
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
             toolbar.btnDropCap.menu.on('item:click',                    _.bind(this.onDropCapSelect, this));
             toolbar.btnContentControls.menu.on('item:click',            _.bind(this.onControlsSelect, this));
-            toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this));
+            toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this, false));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
@@ -334,6 +337,8 @@ define([
             toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
+            toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
+            toolbar.btnLineNumbers.menu.on('show:after',                _.bind(this.onLineNumbersShow, this));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
             Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
@@ -385,6 +390,7 @@ define([
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
                 this.api.asc_registerCallback('asc_onColumnsProps', _.bind(this.onColumnsProps, this));
                 this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
+                this.api.asc_registerCallback('asc_onLineNumbersProps', _.bind(this.onLineNumbersProps, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onShowParaMarks', _.bind(this.onShowParaMarks, this));
                 this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
@@ -394,6 +400,7 @@ define([
                 this.api.asc_registerCallback('asc_onTableEraseModeChanged', _.bind(this.onTableErase, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this));
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
+                Common.NotificationCenter.on('dropcap:settings', _.bind(this.onDropCapAdvancedClick, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -884,6 +891,10 @@ define([
                 this.btnsComment.setDisabled(need_disable);
 
             toolbar.btnWatermark.setDisabled(header_locked);
+
+            if (frame_pr) {
+                this._state.suppress_num = !!frame_pr.get_SuppressLineNumbers();
+            }
 
             this._state.in_equation = in_equation;
         },
@@ -1673,6 +1684,68 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onLineNumbersSelect: function(menu, item) {
+            if (_.isUndefined(item.value))
+                return;
+
+            switch (item.value) {
+                case 0:
+                    this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, null);
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    this._state.linenum = undefined;
+                    if (this.api && item.checked) {
+                        var props = new Asc.CSectionLnNumType();
+                        props.put_Restart(item.value==1 ? Asc.c_oAscLineNumberRestartType.Continuous : (item.value==2 ? Asc.c_oAscLineNumberRestartType.NewPage : Asc.c_oAscLineNumberRestartType.NewSection));
+                        !!this.api.asc_GetLineNumbersProps() && props.put_CountBy(undefined); 
+                        this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, props);
+                    }
+                    break;
+                case 4:
+                    this.api && this.api.asc_SetParagraphSuppressLineNumbers(item.checked);
+                    break;
+                case 5:
+                    var win,
+                        me = this;
+                    win = new DE.Views.LineNumbersDialog({
+                        applyTo: me._state.linenum_apply,
+                        handler: function(dlg, result) {
+                            if (result == 'ok') {
+                                var settings = dlg.getSettings();
+                                me.api.asc_SetLineNumbersProps(settings.type, settings.props);
+                                me._state.linenum_apply = settings.type;
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        }
+                    });
+                    win.show();
+                    win.setSettings(me.api.asc_GetLineNumbersProps());
+                    break;
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onLineNumbersProps: function(props) {
+            var index = 0;
+            if (props) {
+                switch (props.get_Restart()) {
+                    case Asc.c_oAscLineNumberRestartType.Continuous:   index = 1; break;
+                    case Asc.c_oAscLineNumberRestartType.NewPage:   index = 2; break;
+                    case Asc.c_oAscLineNumberRestartType.NewSection: index = 3; break;
+                }
+            }
+            if (this._state.linenum === index)
+                return;
+            this.toolbar.btnLineNumbers.menu.items[index].setChecked(true);
+            this._state.linenum = index;
+        },
+
+        onLineNumbersShow: function(menu) {
+            menu.items[4].setChecked(this._state.suppress_num);
+        },
+
         onColorSchemaClick: function(menu, item) {
             if (this.api) {
                 this.api.asc_ChangeColorSchemeByIdx(item.value);
@@ -1742,11 +1815,11 @@ define([
             this._state.dropcap = v;
         },
 
-        onDropCapAdvancedClick: function() {
+        onDropCapAdvancedClick: function(isFrame) {
             var win, props, text,
                 me = this;
 
-            if (_.isUndefined(me.fontstore)) {
+            if (!isFrame && _.isUndefined(me.fontstore)) {
                 me.fontstore = new Common.Collections.Fonts();
                 var fonts = me.toolbar.cmbFontName.store.toJSON();
                 var arr = [];
@@ -1776,16 +1849,18 @@ define([
                     (new DE.Views.DropcapSettingsAdvanced({
                         tableStylerRows: 2,
                         tableStylerColumns: 1,
-                        fontStore: me.fontstore,
+                        fontStore: !isFrame ? me.fontstore : null,
                         paragraphProps: props,
                         borderProps: me.borderAdvancedProps,
                         api: me.api,
-                        isFrame: false,
+                        isFrame: !!isFrame,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 me.borderAdvancedProps = value.borderProps;
-                                if (value.paragraphProps && value.paragraphProps.get_DropCap() === Asc.c_oAscDropCap.None) {
-                                    me.api.removeDropcap(true);
+                                if (value.paragraphProps &&
+                                    ( !isFrame && value.paragraphProps.get_DropCap() === Asc.c_oAscDropCap.None ||
+                                      isFrame && value.paragraphProps.get_Wrap() === c_oAscFrameWrap.None)) {
+                                    me.api.removeDropcap(!isFrame);
                                 } else
                                     me.api.put_FramePr(value.paragraphProps);
                             }

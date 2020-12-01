@@ -114,7 +114,7 @@ define([
                     isEmail = (urltype == 2);
 
                 if (urltype < 1) {
-                    uiApp.alert(me.txtNotUrl);
+                    uiApp.alert(me.txtNotUrl, me.notcriticalErrorTitle);
                     return;
                 }
 
@@ -172,7 +172,8 @@ define([
             },
 
             textEmptyImgUrl: 'You need to specify image URL.',
-            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"'
+            txtNotUrl: 'This field should be a URL in the format \"http://www.example.com\"',
+            notcriticalErrorTitle: 'Warning'
         };
     })(), DE.Controllers.EditHyperlink || {}))
 });

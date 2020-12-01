@@ -12,7 +12,7 @@
   "PE.ApplicationController.errorAccessDeny": "利用権限がない操作をしようとしました。<br>Documentサーバー管理者に連絡してください。",
   "PE.ApplicationController.errorDefaultMessage": "エラー コード: %1",
   "PE.ApplicationController.errorFilePassProtect": "ドキュメントがパスワードで保護されているため開くことができません",
-  "PE.ApplicationController.errorFileSizeExceed": "ファイルサイズがサーバーで設定された制限を超過しています。<br>Documentサーバー管理者に詳細を問い合わせてください。",
+  "PE.ApplicationController.errorFileSizeExceed": "ファイルサイズがサーバーで設定された制限を超過しています。<br>Documentサーバー管理者に詳細をお問い合わせください。",
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "インターネット接続が復旧し、ファイルのバージョンが更新されています。<br>作業を継続する前に、ファイルをダウンロードするか内容をコピーして、変更が消えてしまわないようにしてからページを再読み込みしてください。",
   "PE.ApplicationController.errorUserDrop": "今、ファイルにアクセスすることはできません。",
   "PE.ApplicationController.notcriticalErrorTitle": "警告",
@@ -26,5 +26,6 @@
   "PE.ApplicationView.txtDownload": "ダウンロード",
   "PE.ApplicationView.txtEmbed": "埋め込み",
   "PE.ApplicationView.txtFullScreen": "全画面表示",
+  "PE.ApplicationView.txtPrint": "印刷する",
   "PE.ApplicationView.txtShare": "シェア"
 }

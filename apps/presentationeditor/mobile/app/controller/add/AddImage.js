@@ -112,16 +112,17 @@ define([
                         if ((/((^https?)|(^ftp)):\/\/.+/i.test(value))) {
                             PE.getController('AddContainer').hideModal();
                         } else {
-                            uiApp.alert(me.txtNotUrl);
+                            uiApp.alert(me.txtNotUrl, me.notcriticalErrorTitle);
                         }
                     } else {
-                        uiApp.alert(me.textEmptyImgUrl);
+                        uiApp.alert(me.textEmptyImgUrl, me.notcriticalErrorTitle);
                     }
                 }
             },
 
             textEmptyImgUrl : 'You need to specify image URL.',
-            txtNotUrl       : 'This field should be a URL in the format \"http://www.example.com\"'
+            txtNotUrl       : 'This field should be a URL in the format \"http://www.example.com\"',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), PE.Controllers.AddImage || {}))
 });

@@ -6,6 +6,16 @@ color: #444;
 background: #fff;
 }
 
+.cross-reference th{
+text-align: center;
+vertical-align: middle;
+}
+
+.cross-reference td{
+text-align: center;
+vertical-align: middle;
+}
+
 img
 {
 border: none;

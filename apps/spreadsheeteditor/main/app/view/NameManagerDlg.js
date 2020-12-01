@@ -361,12 +361,14 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             if (usersStore){
                 var rec = usersStore.findUser(id);
                 if (rec)
-                    return rec.get('username');
+                    return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
             }
             return this.guestText;
         },
 
         onSelectRangeItem: function(lisvView, itemView, record) {
+            if (!record) return;
+
             this.userTipHide();
             var rawData = {},
                 isViewSelect = _.isFunction(record.toJSON);

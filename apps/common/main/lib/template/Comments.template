@@ -11,7 +11,7 @@
         <div class="user-quote"><%=scope.getFixedQuote(quote)%></div>
         <% } %>
         <% if (!editText || scope.viewmode) { %>
-            <div class="user-message" data-can-copy="true"><%=scope.pickLink(comment)%></div>
+            <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(comment)%></div>
         <% } else { %>
             <div class="inner-edit-ct">
                 <textarea class="msg-reply user-select textarea-control" maxlength="maxCommLength"><%=comment%></textarea>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="user-date"><%=item.get("date")%></div>
                     <% if (!item.get("editText")) { %>
-                        <div class="user-message" data-can-copy="true"><%=scope.pickLink(item.get("reply"))%></div>
+                        <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(item.get("reply"))%></div>
                         <% if (!scope.viewmode) { %>
                             <div class="btns-reply-ct">
                             <% if (item.get("editable")) { %>

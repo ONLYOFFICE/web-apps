@@ -120,6 +120,7 @@
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
+                    <span class="btn-slot text x-huge slot-add-pivot"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instable"></span>
                 </div>
                 <div class="separator long"></div>
@@ -224,6 +225,48 @@
                         <!--<span class="btn-slot" id="slot-btn-hide-details" style="width:auto;"></span>-->
                     <!--</div>-->
                 <!--</div>-->
+            </section>
+            <section class="panel" data-tab="view">
+                <div class="group sheet-views">
+                    <span class="btn-slot text x-huge" id="slot-btn-sheet-view"></span>
+                </div>
+                <div class="group sheet-views" style="padding-left: 5px;">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-createview"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-closeview"></span>
+                    </div>
+                </div>
+                <div class="separator long sheet-views"></div>
+                <div class="group">
+                    <div class="elset" style="display: flex;">
+                        <span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>
+                    </div>
+                    <div class="elset" style="text-align: center;">
+                        <span class="btn-slot text" id="slot-lbl-zoom" style="font-size: 11px;text-align: center;margin-top: 4px;"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-freeze"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-formula"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-heading"></span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="elset">
+                        <span class="btn-slot text" id="slot-chk-gridlines"></span>
+                    </div>
+                    <div class="elset">
+                    </div>
+                </div>
             </section>
         </section>
     </section>

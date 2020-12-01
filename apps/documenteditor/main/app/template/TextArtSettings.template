@@ -30,21 +30,50 @@
                 <div id="textart-back-color-btn" style=""></div>
             </div>
             <div id="textart-panel-gradient-fill" class="settings-hidden padding-small" style="width: 100%;">
-                <div style="height:80px;">
-                    <div style="display: inline-block;">
-                        <label class="input-label" style=""><%= scope.textStyle %></label>
-                        <div id="textart-combo-grad-type" style="width: 90px;"></div>
-                    </div>
-                    <div style="display: inline-block;float: right;">
-                        <label class="input-label" style=""><%= scope.textDirection %></label>
-                        <div id="textart-button-direction" style=""></div>
-                    </div>
-                </div>
-                <label class="header" style="display:block;margin-bottom: 5px;"><%= scope.textGradient %></label>
+                <table cols="3" style="margin-bottom: 10px;">
+                    <tr valign="top">
+                        <td colspan="2">
+                            <div>
+                                <label class="input-label" style=""><%= scope.textStyle %></label>
+                                <div id="textart-combo-grad-type" style="width: 100%;"></div>
+                            </div>
+                        </td>
+                        <td rowspan="2" style="width: 100%;">
+                            <div style="float: right;">
+                                <label class="input-label"><%= scope.textDirection %></label>
+                                <div id="textart-button-direction"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr valign="bottom">
+                        <td>
+                            <label class="input-label" style="margin-right: 5px;margin-bottom: 3px;"><%= scope.textAngle %></label>
+                        </td>
+                        <td>
+                            <div id="textart-spin-gradient-angle" style="display: inline-block; width: 60px;"></div>
+                        </td>
+                    </tr>
+                </table>
+                <label class="input-label" style="display:block;margin-bottom: 5px;"><%= scope.textGradient %></label>
                 <div style="display: inline-block; margin-top: 3px;">
                     <div id="textart-slider-gradient" style="display: inline-block; vertical-align: middle;"></div>
                 </div>
-                <div id="textart-gradient-color-btn" style="display: inline-block;float: right;"></div>
+                <div style="height: 40px;margin-top:6px;display:flex;justify-content:space-between;">
+                    <div style="display: flex;">
+                    <div style="">
+                        <label class="input-label" style=""><%= scope.strColor %></label>
+                        <div id="textart-gradient-color-btn"></div>
+                    </div>
+                    <div style="margin-left: 10px;">
+                        <label class="input-label" style=""><%= scope.textPosition %></label>
+                        <div id="textart-gradient-position"></div>
+                    </div>
+                    </div>
+                    <div style="display:flex;padding-top:15px;">
+                        <div id="textart-gradient-add-step"></div>
+                        <div id="textart-gradient-remove-step"></div>
+                    </div>
+                </div>
             </div>
         </td>
     </tr>

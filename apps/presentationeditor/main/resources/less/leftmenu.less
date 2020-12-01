@@ -189,10 +189,23 @@
             }
         }
 
+        .flex-settings {
+            &.bordered {
+                border-bottom: 1px solid @gray;
+            }
+            overflow: hidden;
+            position: relative;
+        }
+
+        #panel-settings,
+        #panel-info {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
         #panel-settings {
-            padding: 0 30px;
             table {
-                margin: 30px 0;
                 width: 100%;
 
                 tr {
@@ -375,9 +388,12 @@
             }
         }
 
-        #panel-info,
         #panel-rights {
             padding: 0 30px;
+        }
+
+        #panel-info,
+        #panel-rights {
             table {
                 tr {
                     td {
@@ -406,7 +422,6 @@
 
                 &.main {
                     width: 100%;
-                    margin: 30px 0;
                 }
             }
 
@@ -470,13 +485,13 @@
     }
 }
 
-#developer-hint {
+#developer-hint, #limit-hint {
     position: absolute;
     left: 0;
     padding: 12px 0;
     background-color: #ffb400;
     color: #6e4e00 !important;
-    white-space: nowrap;
+    white-space: pre;
     line-height: @app-header-height;
     writing-mode: tb-rl;
     -moz-transform: rotate(180deg);

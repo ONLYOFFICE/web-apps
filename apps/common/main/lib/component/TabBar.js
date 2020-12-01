@@ -394,7 +394,7 @@ define([
 
         _onMouseWheel: function(e) {
             var hidden  = this.checkInvisible(true),
-                forward = ((e.detail && -e.detail) || e.wheelDelta) > 0;
+                forward = ((e.detail && -e.detail) || e.wheelDelta) < 0;
 
             if (forward) {
                 if (hidden.last) {

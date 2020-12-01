@@ -166,10 +166,7 @@ define([
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
                 $('#settings-collaboration').single('click',                _.bind(me.onCollaboration, me));
 
-                var _userCount = PE.getController('Main').returnUserCount();
-                if (_userCount > 0) {
-                    $('#settings-collaboration').show();
-                }
+                PE.getController('Toolbar').getDisplayCollaboration() && $('#settings-collaboration').show();
 
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-setup-view]', '.page[data-page=settings-setup-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
@@ -226,7 +223,7 @@ define([
 
                 var appProps = (this.api) ? this.api.asc_getAppProps() : null;
                 if (appProps) {
-                    var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                    var appName = (appProps.asc_getApplication() || '') + (appProps.asc_getAppVersion() ? ' ' : '') + (appProps.asc_getAppVersion() || '');
                     appName ? $('#settings-pe-application').html(appName) : $('.display-application').remove();
                 }
 
@@ -239,11 +236,11 @@ define([
                     value = props.asc_getDescription();
                     value ? $('#settings-pe-comment').html(value) : $('.display-comment').remove();
                     value = props.asc_getModified();
-                    value ? $('#settings-pe-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
+                    value ? $('#settings-pe-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
                     value = props.asc_getLastModifiedBy();
-                    value ? $('#settings-pe-mod-by').html(value) : $('.display-mode-by').remove();
+                    value ? $('#settings-pe-mod-by').html(Common.Utils.UserInfoParser.getParsedName(value)) : $('.display-mode-by').remove();
                     value = props.asc_getCreated();
-                    value ? $('#settings-pe-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
+                    value ? $('#settings-pe-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
                     value = props.asc_getCreator();
                     var templateCreator = "";
                     value && value.split(/\s*[,;]\s*/).forEach(function(item) {
@@ -361,9 +358,9 @@ define([
             _onPrint: function(e) {
                 var me = this;
 
-                _.defer(function () {
+                _.delay(function () {
                     me.api.asc_Print();
-                });
+                }, 300);
                 me.hideModal();
             },
 
@@ -396,9 +393,9 @@ define([
                     format = $(e.currentTarget).data('format');
 
                 if (format) {
-                    _.defer(function () {
+                    _.delay(function () {
                         me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                    });
+                    }, 300);
                 }
 
                 me.hideModal();

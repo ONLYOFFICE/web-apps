@@ -12,7 +12,7 @@
   "DE.ApplicationController.errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter l'administrateur de Document Server.",
   "DE.ApplicationController.errorDefaultMessage": "Code d'erreur: %1",
   "DE.ApplicationController.errorFilePassProtect": "Le fichier est protégé par le mot de passe et ne peut pas être ouvert.",
-  "DE.ApplicationController.errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur de Document Server pour obtenir plus d'information.  ",
+  "DE.ApplicationController.errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur de Document Server pour obtenir plus d'informations.  ",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "La connexion internet a été rétablie, la version du fichier est modifiée.<br>Avant de continuer, téléchargez le fichier ou copiez le contenu pour vous assurer que tous les changements ont été enregistrés, et rechargez la page.",
   "DE.ApplicationController.errorUserDrop": "Impossible d'accéder au fichier.",
   "DE.ApplicationController.notcriticalErrorTitle": "Avertissement",
@@ -26,5 +26,6 @@
   "DE.ApplicationView.txtDownload": "Télécharger",
   "DE.ApplicationView.txtEmbed": "Incorporer",
   "DE.ApplicationView.txtFullScreen": "Plein écran",
+  "DE.ApplicationView.txtPrint": "Imprimer",
   "DE.ApplicationView.txtShare": "Partager"
 }

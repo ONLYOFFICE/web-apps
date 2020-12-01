@@ -274,6 +274,7 @@ define([
                 if (toolbar.cmbNumberFormat.cmpEl)
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
                 toolbar.btnEditChart.on('click',                            _.bind(this.onEditChart, this));
+                toolbar.btnEditChartData.on('click',                        _.bind(this.onEditChartData, this));
             } else
             if ( me.appConfig.isEditMailMerge ) {
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -950,6 +951,7 @@ define([
                             {
                                 chartSettings: props,
                                 imageSettings: imageSettings,
+                                isDiagramMode: me.toolbar.mode.isEditDiagram,
                                 isChart: true,
                                 api: me.api,
                                 handler: function(result, value) {
@@ -964,6 +966,35 @@ define([
                                 }
                             })).show();
                     }
+                }
+            }
+        },
+
+        onEditChartData: function(btn) {
+            if (!this.editMode) return;
+
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditRanges = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartDataDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditRanges = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditRanges && props.cancelEdit();
+                        me._isEditRanges = false;
+                    });
+                    win.show();
                 }
             }
         },
@@ -1740,25 +1771,36 @@ define([
                 return;
             }
 
-            var rec = listStyles.menuPicker.getSelectedRec();
-            listStyles.menuPicker.store.reset([]); // remove all
-
             var mainController = this.getApplication().getController('Main');
-            _.each(styles, function(style){
-                listStyles.menuPicker.store.add({
-                    imageUrl: style.asc_getImage(),
-                    name    : style.asc_getName(),
-                    tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
-                    uid     : Common.UI.getId()
+            var count = listStyles.menuPicker.store.length;
+            var rec = listStyles.menuPicker.getSelectedRec();
+            if (count>0 && count==styles.length) {
+                var data = listStyles.menuPicker.dataViewItems;
+                data && _.each(styles, function(style, index){
+                    var img = style.asc_getImage();
+                    data[index].model.set('imageUrl', img, {silent: true});
+                    data[index].model.set({
+                        name    : style.asc_getName(),
+                        tip     : mainController.translationTable[style.get_Name()] || style.get_Name()
+                    });
+                    $(data[index].el).find('img').attr('src', img);
                 });
-            });
-
+            } else {
+                var arr = [];
+                _.each(styles, function(style){
+                    arr.push({
+                        imageUrl: style.asc_getImage(),
+                        name    : style.asc_getName(),
+                        tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
+                        uid     : Common.UI.getId()
+                    });
+                });
+                listStyles.menuPicker.store.reset(arr);
+            }
             if (listStyles.menuPicker.store.length > 0 && listStyles.rendered) {
                 rec = rec ? listStyles.menuPicker.store.findWhere({name: rec.get('name')}) : null;
-                listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true);
-                rec ? listStyles.selectRecord(rec) : listStyles.selectByIndex(0);
+                listStyles.fillComboView(rec ? rec : listStyles.menuPicker.store.at(0), true, true);
             }
-
             window.styles_loaded = true;
         },
 
@@ -1806,7 +1848,7 @@ define([
             var toolbar = this.toolbar;
             if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
                 is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat]});
+                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat, toolbar.btnEditChartData]});
             } else
             if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
                 toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {
@@ -2544,6 +2586,10 @@ define([
                 coauth_disable = false;
 
             if ( _disableEditOptions(selectionType, coauth_disable) ) return;
+
+            var need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
+                                selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
+            this.toolbar.lockToolbar( SSE.enumLock.selRange, need_disable, {array:[this.toolbar.btnEditChartData]} );
 
             if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
                 return;
@@ -3303,6 +3349,7 @@ define([
                     if ( config.canFeaturePivot ) {
                         tab = {action: 'pivot', caption: me.textPivot};
                         var pivottab = me.getApplication().getController('PivotTable');
+                        pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
                         if ($panel) {
                             me.toolbar.addTab(tab, $panel, 5);
@@ -3331,6 +3378,10 @@ define([
                                 me.toolbar.addTab(tab, $panel, 7);
                         }
                     }
+
+                    var viewtab = me.getApplication().getController('ViewTab');
+                    viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                    Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
                 }
             }
         },

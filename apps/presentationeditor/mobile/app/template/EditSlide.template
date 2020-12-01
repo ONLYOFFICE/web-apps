@@ -44,16 +44,16 @@
         <ul>
             <li>
                 <% if (android) { %>
-                <a id="slide-duplicate" class="button button-raised button-fill" style="margin: 20px 16px;"><%= scope.textDuplicateSlide %></a>
+                <a id="slide-duplicate" class="button button-raised button-fill no-ripple" style="margin: 20px 16px;"><%= scope.textDuplicateSlide %></a>
                 <% } else { %>
-                <a id="slide-duplicate" class="item-link list-button" style="text-align: center;"><%= scope.textDuplicateSlide %></a>
+                <a id="slide-duplicate" class="item-link list-button no-ripple" style="text-align: center;"><%= scope.textDuplicateSlide %></a>
                 <% } %>
             </li>
             <li>
                 <% if (android) { %>
-                <a id="slide-remove" class="button button-raised button-fill" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemoveSlide %></a>
+                <a id="slide-remove" class="button button-raised button-fill no-ripple" style="margin: 20px 16px; background-color: #f44336;"><%= scope.textRemoveSlide %></a>
                 <% } else { %>
-                <a id="slide-remove" class="item-link list-button" style="text-align: center; color: #f00"><%= scope.textRemoveSlide %></a>
+                <a id="slide-remove" class="item-link list-button no-ripple" style="text-align: center; color: #f00"><%= scope.textRemoveSlide %></a>
                 <% } %>
             </li>
         </ul>

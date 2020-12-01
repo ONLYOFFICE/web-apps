@@ -111,7 +111,9 @@ define([
                 } else
                 if (this.placement == 'top')
                     this.cmpEl.css({bottom : innerHeight - showxy.top + 'px', right: Common.Utils.innerWidth() - showxy.left - this.target.width()/2 + 'px'});
-                else {// left or right
+                else if (this.placement == 'target') {
+                    this.cmpEl.css({top : (showxy.top+5) + 'px', left: (showxy.left+5) + 'px'});
+                } else {// left or right
                     var top = showxy.top + this.target.height()/2,
                         height = this.cmpEl.height();
                     if (top+height>innerHeight)

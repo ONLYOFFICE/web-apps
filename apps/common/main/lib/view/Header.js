@@ -53,7 +53,6 @@ define([
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers;
-        var $saveStatus;
         var _readonlyRights = false;
 
         var templateUserItem =
@@ -77,7 +76,6 @@ define([
                                 // '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
                                 '<label id="rib-doc-name" />' +
                             '</section>' +
-                            '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
                             '<section style="display: inherit;">' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
@@ -99,7 +97,6 @@ define([
                                     '</section>'+
                                 '</div>' +
                                 '<div class="hedset">' +
-                                    '<div class="btn-slot" id="slot-btn-undock"></div>' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
                                 '</div>' +
@@ -131,7 +128,9 @@ define([
                     $userList.html(templateUserList({
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
-                        fnEncode: Common.Utils.String.htmlEncode
+                        fnEncode: function(username) {
+                            return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
+                        }
                     }));
 
                     $userList.scroller = new Common.UI.Scroller({
@@ -274,17 +273,6 @@ define([
                 $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
             }
 
-            if ( $saveStatus ) {
-                $saveStatus.attr('data-width', me.textSaveExpander);
-                if (appConfig.canUseHistory) {
-                    // $saveStatus.on('click', function(e) {
-                    //     me.fireEvent('history:show', ['header']);
-                    // });
-                } else {
-                    $saveStatus.addClass('locked');
-                }
-            }
-
             if ( me.btnPrint ) {
                 me.btnPrint.updateHint(me.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
                 me.btnPrint.on('click', function (e) {
@@ -333,24 +321,6 @@ define([
                 me.btnOptions.updateHint(me.tipViewSettings);
         }
 
-        function onAppConfig(config) {
-            var me = this;
-            if ( config.canUndock ) {
-                me.btnUndock = new Common.UI.Button({
-                    cls: 'btn-header no-caret',
-                    iconCls: 'svgicon svg-btn-undock',
-                    hint: me.tipUndock,
-                    split: true
-                });
-
-                me.btnUndock.on('click', function (e) {
-                    Common.NotificationCenter.trigger('action:undocking', 'undock');
-                });
-
-                me.btnUndock.render($('#toolbar .box-tabs #slot-btn-undock'));
-            }
-        }
-
         function onDocNameKeyDown(e) {
             var me = this;
 
@@ -382,13 +352,6 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
-            }
-        }
-
-        function onAppUndocked(c) {
-            var me = this;
-            if ( me.btnUndock ) {
-                c.status == 'undocked' ? me.btnUndock.hide() : me.btnUndock.show();
             }
         }
 
@@ -441,9 +404,7 @@ define([
 
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
-                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
-                    'app:config' : function (c) {Common.Utils.asyncCall(onAppConfig, me, c);},
-                    'undock:status': onAppUndocked.bind(this)
+                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
             },
@@ -480,8 +441,7 @@ define([
                 if ( role == 'right' ) {
                     var $html = $(_.template(templateRightBox)({
                         tipUsers: this.labelCoUsersDescr,
-                        txtAccessRights: this.txtAccessRights,
-                        textSaveEnd: this.textSaveEnd
+                        txtAccessRights: this.txtAccessRights
                     }));
 
                     if ( !me.labelDocName ) {
@@ -496,10 +456,6 @@ define([
                     if ( !_.isUndefined(this.options.canRename) ) {
                         this.setCanRename(this.options.canRename);
                     }
-
-                    // $saveStatus = $html.find('#rib-save-status');
-                    $html.find('#rib-save-status').hide();
-                    // if ( config.isOffline ) $saveStatus = false;
 
                     if ( this.options.canBack === true ) {
                         me.btnGoBack.render($html.find('#slot-btn-back'));
@@ -659,21 +615,6 @@ define([
                 }
             },
 
-            setSaveStatus: function (status) {
-                if ( $saveStatus ) {
-                    if ( $saveStatus.is(':hidden') ) $saveStatus.show();
-
-                    var _text;
-                    switch ( status ) {
-                    case 'begin': _text = this.textSaveBegin; break;
-                    case 'changed': _text = this.textSaveChanged; break;
-                    default: _text = this.textSaveEnd;
-                    }
-
-                    $saveStatus.text( _text );
-                }
-            },
-
             setUserName: function(name) {
                 if ( !!this.labelUserName ) {
                     if ( !!name ) {
@@ -723,18 +664,16 @@ define([
 
             fakeMenuItem: function() {
                 return {
-                    conf: {checked: false},
+                    conf: {checked: false, disabled: false},
                     setChecked: function (val) { this.conf.checked = val; },
-                    isChecked: function () { return this.conf.checked; }
+                    isChecked: function () { return this.conf.checked; },
+                    setDisabled: function (val) { this.conf.disabled = val; },
+                    isDisabled: function () { return this.conf.disabled; }
                 };
             },
 
             textBack: 'Go to Documents',
             txtRename: 'Rename',
-            textSaveBegin: 'Saving...',
-            textSaveEnd: 'All changes saved',
-            textSaveChanged: 'Modified',
-            textSaveExpander: 'All changes saved',
             txtAccessRights: 'Change access rights',
             tipAccessRights: 'Manage document access rights',
             labelCoUsersDescr: 'Document is currently being edited by several users.',
@@ -745,7 +684,6 @@ define([
             tipSave: 'Save',
             tipUndo: 'Undo',
             tipRedo: 'Redo',
-            tipUndock: 'Undock',
             textCompactView: 'Hide Toolbar',
             textHideStatusBar: 'Hide Status Bar',
             textHideLines: 'Hide Rulers',

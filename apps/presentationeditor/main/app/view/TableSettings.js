@@ -658,9 +658,11 @@ define([
 
             var count = self.mnuTableTemplatePicker.store.length;
             if (count>0 && count==Templates.length) {
-                var data = self.mnuTableTemplatePicker.store.models;
-                _.each(Templates, function(template, index){
-                    data[index].set('imageUrl', template.asc_getImage());
+                var data = self.mnuTableTemplatePicker.dataViewItems;
+                data && _.each(Templates, function(template, index){
+                    var img = template.asc_getImage();
+                    data[index].model.set('imageUrl', img, {silent: true});
+                    $(data[index].el).find('img').attr('src', img);
                 });
             } else {
                 var arr = [];

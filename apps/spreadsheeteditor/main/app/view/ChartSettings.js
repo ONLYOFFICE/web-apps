@@ -46,7 +46,8 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/ComboDataView',
-    'spreadsheeteditor/main/app/view/ChartSettingsDlg'
+    'spreadsheeteditor/main/app/view/ChartSettingsDlg',
+    'spreadsheeteditor/main/app/view/ChartDataDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -851,7 +852,7 @@ define([
             }
         },
 
-        onSelectData: function() {
+        onSelectData_simple: function() {
             var me = this;
             if (me.api) {
                 var props = me.api.asc_getChartObject(),
@@ -895,7 +896,34 @@ define([
                 });
             }
         },
-        
+
+        onSelectData:   function() {
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditRanges = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartDataDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditRanges = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditRanges && props.cancelEdit();
+                        me._isEditRanges = false;
+                    });
+                    win.show();
+                }
+            }
+        },
+
         onSelectType: function(btn, picker, itemView, record) {
             if (this._noApply) return;
 

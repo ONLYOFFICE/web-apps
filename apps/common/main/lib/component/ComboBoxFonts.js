@@ -56,7 +56,8 @@ define([
             thumbContext    = thumbCanvas.getContext('2d'),
             thumbPath       = '../../../../sdkjs/common/Images/fonts_thumbnail.png',
             thumbPath2x     = '../../../../sdkjs/common/Images/fonts_thumbnail@2x.png',
-            listItemHeight  = 26;
+            listItemHeight  = 26,
+            spriteCols     = 1;
 
         if (typeof window['AscDesktopEditor'] === 'object') {
             thumbPath       = window['AscDesktopEditor'].getFontsSprite();
@@ -275,10 +276,10 @@ define([
 
                 if (isRetina) {
                     thumbContext.clearRect(0, 0, iconWidth * 2, iconHeight * 2);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * opts.imgidx);
+                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * Math.floor(opts.imgidx/spriteCols));
                 } else {
                     thumbContext.clearRect(0, 0, iconWidth, iconHeight);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * opts.imgidx);
+                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * Math.floor(opts.imgidx/spriteCols));
                 }
 
                 return thumbCanvas.toDataURL();
@@ -308,6 +309,7 @@ define([
                 var me = this;
 
                 this.loadSprite(function() {
+                    spriteCols = Math.floor(me.spriteThumbs.width / (isRetina ? iconWidth  * 2 : iconWidth)) || 1;
                     me.store.set(store.toJSON());
 
                     me.rendered = false;
@@ -522,7 +524,7 @@ define([
                             fontImage.style.width = iconWidth + 'px';
                             fontImage.style.height = iconHeight + 'px';
 
-                            index = me.store.at(j).get('imgidx');
+                            index = Math.floor(me.store.at(j).get('imgidx')/spriteCols);
 
                             if (isRetina) {
                                 context.clearRect(0, 0, iconWidth * 2, iconHeight * 2);

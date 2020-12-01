@@ -712,6 +712,7 @@ Common.Utils.fillUserInfo = function(info, lang, defname) {
     var _user = info || {};
     !_user.id && (_user.id = ('uid-' + Date.now()));
     _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
+    _user.group && (_user.fullname = (_user.group).toString() + Common.Utils.UserInfoParser.getSeparator() + _user.fullname);
     return _user;
 };
 
@@ -959,6 +960,38 @@ Common.Utils.ModalWindow = new(function() {
 
         isVisible: function() {
             return count>0;
+        }
+    }
+})();
+
+Common.Utils.UserInfoParser = new(function() {
+    var parse = false;
+    var separator = String.fromCharCode(160);
+    return {
+        setParser: function(value) {
+            parse = !!value;
+        },
+
+        getSeparator: function() {
+            return separator;
+        },
+
+        getParsedName: function(username) {
+            if (parse && username) {
+                return username.substring(username.indexOf(separator)+1);
+            } else
+                return username;
+        },
+
+        getParsedGroups: function(username) {
+            if (parse && username) {
+                var idx = username.indexOf(separator),
+                    groups = (idx>-1) ? username.substring(0, idx).split(',') : [];
+                for (var i=0; i<groups.length; i++)
+                    groups[i] = groups[i].trim();
+                return groups;
+            } else
+                return undefined;
         }
     }
 })();

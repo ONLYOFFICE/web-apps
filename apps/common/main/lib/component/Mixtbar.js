@@ -96,11 +96,13 @@ define([
                         '<a class="scroll left"></a>' +
                         '<ul>' +
                             '<% for(var i in items) { %>' +
+                                '<% if (typeof items[i] == "object") { %>' +
                                 '<li class="ribtab' +
                                         '<% if (items[i].haspanel===false) print(" x-lone") %>' +
                                         '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>">' +
                                     '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>"><%= items[i].caption %></a>' +
                                 '</li>' +
+                                '<% } %>' +
                             '<% } %>' +
                         '</ul>' +
                         '<a class="scroll right"></a>' +

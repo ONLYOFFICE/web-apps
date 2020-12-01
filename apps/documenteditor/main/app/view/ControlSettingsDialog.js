@@ -132,7 +132,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 additionalItems: [{
                         id: 'control-settings-system-color',
                         caption: this.textSystemColor,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #dcdcdc;"></span><%= caption %></a>')
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #dcdcdc;"></span><%= caption %></a>')
                     },
                     {caption: '--'}],
                 additionalAlign: this.menuAddAlign,
@@ -523,6 +523,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
                     val = formTextPr.get_Width();
                     this.spnWidth.setValue(val ? val : '', true);
+                }
+
+                if ((type == Asc.c_oAscContentControlSpecificType.CheckBox || type == Asc.c_oAscContentControlSpecificType.Picture) && !formPr )  {// standart checkbox or picture
+                    this.txtPlaceholder.cmpEl && this.txtPlaceholder.cmpEl.closest('tr').hide();
                 }
             }
         },

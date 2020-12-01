@@ -97,7 +97,8 @@ define([
         selSlicer: 'sel-slicer',
         cantSort: 'cant-sort',
         pivotLock: 'pivot-lock',
-        tableHasSlicer: 'table-has-slicer'
+        tableHasSlicer: 'table-has-slicer',
+        sheetView: 'sheet-view'
     };
 
     SSE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend({
@@ -276,6 +277,14 @@ define([
                     lock        : [_set.lostConnect],
                     style       : 'width: 120px;'
                 });
+
+                me.btnEditChartData = new Common.UI.Button({
+                    id          : 'id-toolbar-rtn-edit-chart-data',
+                    cls         : 'btn-toolbar btn-text-value',
+                    caption     : me.tipEditChartData,
+                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
+                    style       : 'width: 120px;'
+                });
             } else
             if ( config.isEditMailMerge ) {
                 me.$layout = $(_.template(simple)(config));
@@ -325,7 +334,9 @@ define([
                         { caption: me.textTabInsert, action: 'ins', extcls: 'canedit'},
                         {caption: me.textTabLayout, action: 'layout', extcls: 'canedit'},
                         {caption: me.textTabFormula, action: 'formula', extcls: 'canedit'},
-                        {caption: me.textTabData, action: 'data', extcls: 'canedit'}
+                        {caption: me.textTabData, action: 'data', extcls: 'canedit'},
+                        undefined, undefined, undefined,
+                        {caption: me.textTabView, action: 'view', extcls: 'canedit'}
                     ]}
                 );
 
@@ -1048,6 +1059,7 @@ define([
                     iconCls     : 'toolbar__icon toolbar__icon btn-colorschemas',
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({
+                        cls: 'shifted-left',
                         items: [],
                         restoreHeight: true
                     })
@@ -1555,6 +1567,11 @@ define([
             }
             if ( me.isTabActive('home'))
                 me.fireEvent('home:open');
+
+            if ( me.isTabActive('pivot')) {
+                var pivottab = SSE.getController('PivotTable');
+                pivottab && pivottab.getView('PivotTable').fireEvent('pivot:open');
+            }
         },
 
         rendererComponents: function(html) {
@@ -1621,6 +1638,7 @@ define([
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
+            _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
             _injectComponent('#slot-btn-pageorient',    this.btnPageOrient);
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
@@ -1965,7 +1983,7 @@ define([
             if (mode.isDisconnected) {
                 this.lockToolbar( SSE.enumLock.lostConnect, true );
                 this.lockToolbar( SSE.enumLock.lostConnect, true,
-                    {array:[this.btnEditChart,this.btnUndo,this.btnRedo]} );
+                    {array:[this.btnEditChart, this.btnEditChartData, this.btnUndo,this.btnRedo]} );
                 if (!mode.enableDownload)
                     this.lockToolbar(SSE.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
@@ -1989,6 +2007,7 @@ define([
 
             if (this.mnuColorSchema == null) {
                 this.mnuColorSchema = new Common.UI.Menu({
+                    cls: 'shifted-left',
                     restoreHeight: true
                 });
             }
@@ -2426,6 +2445,8 @@ define([
         tipPrintTitles: 'Print titles',
         capBtnInsSlicer: 'Slicer',
         tipInsertSlicer: 'Insert slicer',
-        textVertical: 'Vertical Text'
+        textVertical: 'Vertical Text',
+        textTabView: 'View',
+        tipEditChartData: 'Select Data'
     }, SSE.Views.Toolbar || {}));
 });

@@ -489,11 +489,12 @@ define([
 
                 if (this.api) {
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
-                    var hidentems = [], items = [], tab, locked;
+                    var hidentems = [], items = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
 
                     while (++i < wc) {
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
+                        name = me.api.asc_getActiveNamedSheetView ? me.api.asc_getActiveNamedSheetView(i) || '' : '';
                         tab = {
                             sheetindex    : i,
                             index         : items.length,
@@ -501,7 +502,10 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked
+                            isLockTheDrag : locked,
+                            iconCls       : 'btn-sheet-view',
+                            iconTitle     : name,
+                            iconVisible   : name!==''
                         };
 
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
@@ -765,7 +769,7 @@ define([
             showCustomizeStatusBar: function (e) {
                 var el = $(e.target);
                 if ($('#status-zoom-box').find(el).length > 0
-                    || $(e.target).parent().hasClass('list-item')
+                    || $(e.target).closest('.statusbar .list-item').length>0
                     || $('#status-tabs-scroll').find(el).length > 0
                     || $('#status-addtabs-box').find(el).length > 0) return;
                 this.customizeStatusBarMenu.hide();

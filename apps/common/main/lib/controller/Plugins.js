@@ -225,6 +225,7 @@ define([
                     variation.set_Size(itemVar.get('size'));
                     variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
                     variation.set_Events(itemVar.get('events'));
+                    variation.set_Help(itemVar.get('help'));
 
                     variationsArr.push(variation);
                 });
@@ -380,6 +381,7 @@ define([
                         });
                     }
 
+                    var help = variation.get_Help();
                     me.pluginDlg = new Common.Views.PluginDlg({
                         cls: isCustomWindow ? 'plain' : '',
                         header: !isCustomWindow,
@@ -389,7 +391,8 @@ define([
                         url: url,
                         frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
-                        toolcallback: _.bind(this.onToolClose, this)
+                        toolcallback: _.bind(this.onToolClose, this),
+                        help: !!help
                     });
                     me.pluginDlg.on({
                         'render:after': function(obj){
@@ -404,6 +407,9 @@ define([
                         },
                         'resize': function(args){
                             me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        },
+                        'help': function(){
+                            help && window.open(help, '_blank');
                         }
                     });
 
@@ -535,7 +541,8 @@ define([
                                 url: itemVar.url,
                                 icons: itemVar.icons,
                                 buttons: itemVar.buttons,
-                                visible: visible
+                                visible: visible,
+                                help: itemVar.help
                             });
 
                             variationsArr.push(model);

@@ -283,7 +283,16 @@ define([
                 } else if (!btn.hasClass('msg-reply') &&
                     !btn.hasClass('btn-resolve-check') &&
                     !btn.hasClass('btn-resolve')) {
-                    me.fireEvent('comment:show', [commentId, false]);
+                    var isTextSelected = false;
+                    if (btn.hasClass('user-message')) {
+                        if (window.getSelection) {
+                            var selection = window.getSelection();
+                            isTextSelected = (selection.toString()!=='')
+                        } else if (document.selection) {
+                            isTextSelected = document.selection;
+                        }
+                    }
+                    me.fireEvent('comment:show', [commentId, false, isTextSelected]);
                 }
             }
         },
@@ -655,7 +664,7 @@ define([
             return Common.Utils.String.ellipsis(Common.Utils.String.htmlEncode(quote), 120, true);
         },
         getUserName: function (username) {
-            return Common.Utils.String.htmlEncode(username);
+            return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
         },
 
         pickLink: function (message) {
