@@ -23,5 +23,19 @@
         "Slide title": "Slide title"
       }
     }
+  },
+  "View": {
+    "Settings": {
+      "textDone": "Done",
+      "textSettings": "Settings",
+      "textFindAndReplace": "Find and replace",
+      "textPresentationSettings": "Presentation Settings",
+      "textApplicationSettings": "Application Settings",
+      "textDownload": "Download",
+      "textPrint": "Print",
+      "textPresentationInfo": "Presentation Info",
+      "textHelp": "Help",
+      "textAbout": "About"
+    }
   }
 }

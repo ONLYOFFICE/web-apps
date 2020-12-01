@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-react';
 
 // import EditOptions from '../view/edit/Edit';
-// import Settings from '../view/settings/Settings';
+import Settings from '../view/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/Collaboration.jsx'
 
 export default class MainPage extends Component {
@@ -44,12 +44,11 @@ export default class MainPage extends Component {
     };
 
   render() {
-    console.log(this.$f7router)
     return (
         <Page name="home">
             {/* Top Navbar */}
             <Navbar id='editor-navbar'>
-                <div slot="before-inner" className="main-logo"><Icon icon="icon-logo"></Icon></div>
+                {/*<div slot="before-inner" className="main-logo"><Icon icon="icon-logo"></Icon></div>*/}
                 <NavLeft>
                     <Link icon='icon-undo'></Link>
                     <Link icon='icon-redo'></Link>
@@ -66,10 +65,10 @@ export default class MainPage extends Component {
                 {/*!this.state.editOptionsVisible ? null :*/}
                     {/*<EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />*/}
             {/*}*/}
-            {/*{*/}
-                {/*!this.state.settingsVisible ? null :*/}
-                    {/*<Settings onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />*/}
-            {/*}*/}
+            {
+                !this.state.settingsVisible ? null :
+                    <Settings onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
+            }
             {
                 !this.state.collaborationVisible ? null :
                     <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
