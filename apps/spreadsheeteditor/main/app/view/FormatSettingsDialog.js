@@ -509,8 +509,9 @@ define([
                     data.push({value: this.CustomFormat, displayValue: this.CustomFormat});
                 }
                 this.cmbCode.setData(data);
-                this.cmbCode.setValue(this.Format);
-                this.inputCustomFormat.setValue(me.api.asc_convertNumFormat2NumFormatLocal(this.Format));
+                var value = me.api.asc_convertNumFormat2NumFormatLocal(this.Format);
+                this.cmbCode.setValue(value);
+                this.inputCustomFormat.setValue(value);
             }
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
