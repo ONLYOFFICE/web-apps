@@ -139,6 +139,7 @@ define([
                         '<tr class="format-code">',
                             '<td colspan="1" class="padding-large">',
                                 '<label class="header">', me.textFormat,'</label>',
+                                '<div id="format-settings-txt-code" class="input-group-nr" style="height:22px;width:264px;margin-bottom: 8px;"></div>',
                                 '<div id="format-settings-combo-code" class="input-group-nr" style="width:264px;"></div>',
                             '</td>',
                         '</tr>',
@@ -238,6 +239,17 @@ define([
                 takeFocusOnClose: true
             });
             this.cmbCode.on('selected', _.bind(this.onCodeSelect, this));
+
+            this.inputCustomFormat = new Common.UI.InputField({
+                el               : $('#format-settings-txt-code'),
+                allowBlank       : true,
+                validateOnChange : true,
+                validation       : function () { return true; }
+            }).on ('changing', function (input, value) {
+                (me.cmbCode.getValue() !== me.txtCustom) && me.cmbCode.setValue(me.txtCustom);
+                me.Format = me.api.asc_convertNumFormatLocal2NumFormat(value);
+                me.lblExample.text(me.api.asc_getLocaleExample(me.Format));
+            });
 
             this._decimalPanel      = this.$window.find('.format-decimal');
             this._negativePanel     = this.$window.find('.format-negative');
@@ -409,6 +421,7 @@ define([
         onCodeSelect: function(combo, record){
             this.Format = record.value;
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.inputCustomFormat.setValue(record.displayValue);
         },
 
         onFormatSelect: function(combo, record, e, initFormatInfo) {
@@ -488,7 +501,7 @@ define([
                     data = [],
                     isCustom = (this.CustomFormat) ? true : false;
                 formatsarr.forEach(function(item) {
-                    data.push({value: item, displayValue: item});
+                    data.push({value: item, displayValue: me.api.asc_convertNumFormat2NumFormatLocal(item)});
                     if (me.CustomFormat == item)
                         isCustom = false;
                 });
@@ -496,7 +509,9 @@ define([
                     data.push({value: this.CustomFormat, displayValue: this.CustomFormat});
                 }
                 this.cmbCode.setData(data);
-                this.cmbCode.setValue(this.Format);
+                var value = me.api.asc_convertNumFormat2NumFormatLocal(this.Format);
+                this.cmbCode.setValue(value);
+                this.inputCustomFormat.setValue(value);
             }
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
