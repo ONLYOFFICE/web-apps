@@ -4,6 +4,7 @@ import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
+        this.switchDisplayComments = this.switchDisplayComments.bind(this);
     }
 
     setUnitMeasurement(value) {

@@ -28,7 +28,12 @@ class DownloadController extends Component {
                     (format === Asc.c_oAscFileType.TXT) ? t("Settings.textDownloadTxt") : t("Settings.textDownloadRtf"),
                     t("Settings.notcriticalErrorTitle"),
                     function () {
-                        api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                        if (format == Asc.c_oAscFileType.TXT) {
+                            // ToDo: choose txt options
+                        }
+                        else {
+                            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
+                        }
                     }
                 );
             } 
