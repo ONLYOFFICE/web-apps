@@ -24,12 +24,12 @@ const PageApplicationSettings = props => {
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
             <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
             <List>
-                <ListItem radio radioIcon="end" title={_t.textCentimeter} value="0" name="unit-of-measurement" checked={unitMeasurement === 0} 
-                    onChange={e => changeMeasureSettings(e.target.value)}></ListItem>
-                <ListItem radio radioIcon="end" title={_t.textPoint} value="1" name="unit-of-measurement" checked={unitMeasurement === 1} 
-                    onChange={e => changeMeasureSettings(e.target.value)}></ListItem>
-                <ListItem radio radioIcon="end" title={_t.textInch} value="2" name="unit-of-measurement" checked={unitMeasurement === 2} 
-                    onChange={e => changeMeasureSettings(e.target.value)}></ListItem>
+                <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0} 
+                    onChange={() => changeMeasureSettings(0)}></ListItem>
+                <ListItem radio radioIcon="end" title={_t.textPoint} name="unit-of-measurement" checked={unitMeasurement === 1} 
+                    onChange={() => changeMeasureSettings(1)}></ListItem>
+                <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2} 
+                    onChange={() => changeMeasureSettings(2)}></ListItem>
             </List>
             <List>
                 <ListItem>
@@ -107,12 +107,12 @@ const PageMacrosSettings = props => {
         <Page>
             <Navbar title={_t.textMacrosSettings} backLink={_t.textBack} />
             <List mediaList>
-                <ListItem radio name="macros-settings" value="2" title={_t.textDisableAll} text={_t.textDisableAllMacrosWithoutNotification} 
-                    checked={macrosMode === 2} onChange={e => changeMacros(e.target.value)}></ListItem>
-                <ListItem radio name="macros-settings" value="0" title={_t.textShowNotification} text={_t.textDisableAllMacrosWithNotification}
-                    checked={macrosMode === 0} onChange={e => changeMacros(e.target.value)}></ListItem>
-                <ListItem radio name="macros-settings" value="1" title={_t.textEnableAll} text={_t.textEnableAllMacrosWithoutNotification}
-                    checked={macrosMode === 1} onChange={e => changeMacros(e.target.value)}></ListItem>
+                <ListItem radio name="macros-settings" title={_t.textDisableAll} text={_t.textDisableAllMacrosWithoutNotification} 
+                    checked={macrosMode === 2} onChange={() => changeMacros(2)}></ListItem>
+                <ListItem radio name="macros-settings" title={_t.textShowNotification} text={_t.textDisableAllMacrosWithNotification}
+                    checked={macrosMode === 0} onChange={() => changeMacros(0)}></ListItem>
+                <ListItem radio name="macros-settings" title={_t.textEnableAll} text={_t.textEnableAllMacrosWithoutNotification}
+                    checked={macrosMode === 1} onChange={() => changeMacros(1)}></ListItem>
             </List>
         </Page>
     );
