@@ -75,7 +75,7 @@ const PageApplicationSettings = props => {
                 </ListItem>
                 <ListItem>
                     <span>{_t.textResolvedComments}</span>
-                    <Toggle checked={isResolvedComments} disabled={!isComments ? true : false}
+                    <Toggle checked={isResolvedComments} disabled={!isComments}
                         onChange={() => {
                             store.changeDisplayResolved(!isResolvedComments);
                             props.switchDisplayResolved(!isResolvedComments);
