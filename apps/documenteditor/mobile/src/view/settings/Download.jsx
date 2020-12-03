@@ -12,31 +12,31 @@ const Download = props => {
             <Navbar title={_t.textDownload} backLink={_t.textBack} />
             <BlockTitle>{_t.textDownloadAs}</BlockTitle>
             <List>
-                <ListItem title="DOCX" onClick={() => props.onSaveFormat(65)}>
+                <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
                     <Icon slot="media" icon="icon-format-docx"></Icon>
                 </ListItem>
-                <ListItem title="PDF" onClick={() => props.onSaveFormat(513)}>
+                <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
                     <Icon slot="media" icon="icon-format-pdf"></Icon>
                 </ListItem>
-                <ListItem title="PDF/A" onClick={() => props.onSaveFormat(2305)}>
+                <ListItem title="PDF/A" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDFA)}>
                     <Icon slot="media" icon="icon-format-pdfa"></Icon>
                 </ListItem>
-                <ListItem title="TXT" onClick={() => props.onSaveFormat(69)}>
+                <ListItem title="TXT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.TXT)}>
                     <Icon slot="media" icon="icon-format-txt"></Icon>
                 </ListItem>
-                <ListItem title="RTF" onClick={() => props.onSaveFormat(68)}>
+                <ListItem title="RTF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.RTF)}>
                     <Icon slot="media" icon="icon-format-rtf"></Icon>
                 </ListItem>
-                <ListItem title="ODT" onClick={() => props.onSaveFormat(67)}>
+                <ListItem title="ODT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.ODT)}>
                     <Icon slot="media" icon="icon-format-odt"></Icon>
                 </ListItem>
-                <ListItem title="HTML" onClick={() => props.onSaveFormat(2051)}>
+                <ListItem title="HTML" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.HTML)}>
                     <Icon slot="media" icon="icon-format-html"></Icon>
                 </ListItem>
-                <ListItem title="DOTX" onClick={() => props.onSaveFormat(76)}>
+                <ListItem title="DOTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOTX)}>
                     <Icon slot="media" icon="icon-format-dotx"></Icon>
                 </ListItem>
-                <ListItem title="OTT" onClick={() => props.onSaveFormat(79)}>
+                <ListItem title="OTT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OTT)}>
                     <Icon slot="media" icon="icon-format-ott"></Icon>
                 </ListItem>
             </List>
