@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {inject} from "mobx-react";
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings", "storeDocumentInfo")
+@inject("storeAppOptions", "storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings", "storeDocumentInfo")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -36,11 +36,13 @@ class MainController extends Component {
             };
 
             const loadConfig = data => {
-                let me = this;
                 console.log('load config');
 
-                me.editorConfig = Object.assign({}, this.editorConfig, data.config);
-                me.appOptions.user = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, "Local.User"/*me.textAnonymous*/);
+                this.editorConfig = Object.assign({}, this.editorConfig, data.config);
+
+                this.props.storeAppOptions.setConfigOptions(this.editorConfig);
+
+                this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
             };
 
             const loadDocument = data => {
@@ -52,10 +54,11 @@ class MainController extends Component {
                 if (data.doc) {
                     this.permissions = Object.assign(this.permissions, data.doc.permissions);
 
-                    let _permissions = Object.assign({}, data.doc.permissions),
-                        _user = new Asc.asc_CUserInfo();
-                    _user.put_Id(this.appOptions.user.id);
-                    _user.put_FullName(this.appOptions.user.fullname);
+                    const _permissions = Object.assign({}, data.doc.permissions);
+                    const _userOptions = this.props.storeAppOptions.user;
+                    const _user = new Asc.asc_CUserInfo();
+                    _user.put_Id(_userOptions.id);
+                    _user.put_FullName(_userOptions.fullname);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
@@ -105,20 +108,23 @@ class MainController extends Component {
             };
 
             const onEditorPermissions = params => {
-                let me = this;
                 const licType = params.asc_getLicenseType();
 
-                me.appOptions.canLicense      = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
-                // me.appOptions.canEdit         = (me.permissions.edit !== false || me.permissions.review === true) && // can edit or review
-                //     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
-                //     (!me.appOptions.isReviewOnly || me.appOptions.canLicense) && // if isReviewOnly==true -> canLicense must be true
-                //     me.isSupportEditFeature();
-                // me.appOptions.isEdit          = me.appOptions.canLicense && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
+                // check licType
 
-                // me.api.asc_setViewMode(!me.appOptions.isEdit);
-                me.api.asc_setViewMode(false);
-                me.api.asc_LoadDocument();
-                me.api.Resize();
+                this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
+
+                this.props.storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions);
+
+                //Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
+
+                //me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
+                //me.appOptions.isRestrictedEdit && this.appOptions.canComments && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
+                //me.appOptions.isRestrictedEdit && me.appOptions.canFillForms && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+
+                this.api.asc_setViewMode(false);
+                this.api.asc_LoadDocument();
+                this.api.Resize();
             };
 
             const _process_array = (array, fn) => {

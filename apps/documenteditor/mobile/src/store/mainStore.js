@@ -10,8 +10,10 @@ import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
 import {storeDocumentInfo} from "./documentInfo";
 import {storeApplicationSettings} from './applicationSettings';
+import {storeAppOptions} from "./appOptions";
 
 export const stores = {
+    storeAppOptions: new storeAppOptions(),
     storeFocusObjects: new storeFocusObjects(),
     storeDocumentSettings: new storeDocumentSettings(),
     users: new storeUsers(),
