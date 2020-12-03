@@ -2,6 +2,7 @@ import React, {Component, useEffect} from 'react';
 import {View,Page,Navbar,NavRight,Link,Popup,Popover,Icon,ListItem,List} from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
+import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
 import DocumentSettingsController from "../../controller/settings/DocumentSettings";
@@ -47,7 +48,7 @@ const routes = [
 ];
 
 
-const SettingsList = withTranslation()(props => {
+const SettingsList = inject("storeAppOptions")( observer( withTranslation()( props => {
     const {t} = props;
     const _t = t('Settings', {returnObjects: true});
     const navbar = <Navbar title={_t.textSettings}>
@@ -62,42 +63,91 @@ const SettingsList = withTranslation()(props => {
     useEffect(() => {
     });
 
+    // set mode
+    const appOptions = props.storeAppOptions;
+    let _isEdit = false,
+        _canDownload = false,
+        _canDownloadOrigin = false,
+        _canReader = false,
+        _canAbout = true,
+        _canHelp = true,
+        _canPrint = false;
+    if (appOptions.isDisconnected) {
+        _isEdit = false;
+        if (!appOptions.enableDownload)
+            _canPrint = _canDownload = _canDownloadOrigin = false;
+    } else {
+        _isEdit = appOptions.isEdit;
+        _canReader = !appOptions.isEdit && !appOptions.isRestrictedEdit && appOptions.canReader;
+        _canDownload = appOptions.canDownload;
+        _canDownloadOrigin = appOptions.canDownloadOrigin;
+        _canPrint = appOptions.canPrint;
+        if (appOptions.customization && appOptions.canBrandingExt) {
+            _canAbout = (appOptions.customization.about!==false);
+        }
+        if (appOptions.customization) {
+            _canHelp = (appOptions.customization.help!==false);
+        }
+    }
+
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page>
                 {navbar}
                 <List>
                     {!props.inPopover &&
-                        <ListItem title={_t.textFindAndReplace}>
+                        <ListItem title={!_isEdit ? _t.textFind : _t.textFindAndReplace}>
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }
-                    <ListItem link="#" title={_t.textDocumentSettings} onClick={onoptionclick.bind(this, '/document-settings/')}>
-                        <Icon slot="media" icon="icon-doc-setup"></Icon>
-                    </ListItem>
+                    {_canReader &&
+                        <ListItem title={_t.textReaderMode}> {/*ToDo*/}
+                            <Icon slot="media" icon="icon-reader"></Icon>
+                            <Toggle checked={false} onToggleChange={() => {}}/>
+                        </ListItem>
+                    }
+                    {/*ToDo: settings-orthography*/}
+                    {_isEdit &&
+                        <ListItem link="#" title={_t.textDocumentSettings} onClick={onoptionclick.bind(this, '/document-settings/')}>
+                            <Icon slot="media" icon="icon-doc-setup"></Icon>
+                        </ListItem>
+                    }
                     <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, "/application-settings/")}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
+                    {_canDownload &&
+                        <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>
+                            <Icon slot="media" icon="icon-download"></Icon>
+                        </ListItem>
+                    }
+                    {_canDownloadOrigin &&
+                    <ListItem title={_t.textDownload} link="#" onClick={() => {}}> {/*ToDo*/}
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textPrint}>
-                        <Icon slot="media" icon="icon-print"></Icon>
-                    </ListItem>
+                    }
+                    {_canPrint &&
+                        <ListItem title={_t.textPrint}>
+                            <Icon slot="media" icon="icon-print"></Icon>
+                        </ListItem>
+                    }
                     <ListItem title={_t.textDocumentInfo} link="#" onClick={onoptionclick.bind(this, "/document-info/")}>
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textHelp} link="#">
-                        <Icon slot="media" icon="icon-help"></Icon>
-                    </ListItem>
-                    <ListItem title={_t.textAbout} link="#">
-                        <Icon slot="media" icon="icon-about"></Icon>
-                    </ListItem>
+                    {_canHelp &&
+                        <ListItem title={_t.textHelp} link="#">
+                            <Icon slot="media" icon="icon-help"></Icon>
+                        </ListItem>
+                    }
+                    {_canAbout &&
+                        <ListItem title={_t.textAbout} link="#">
+                            <Icon slot="media" icon="icon-about"></Icon>
+                        </ListItem>
+                    }
                 </List>
             </Page>
         </View>
     )
-});
+})));
 
 class SettingsView extends Component {
     constructor(props) {

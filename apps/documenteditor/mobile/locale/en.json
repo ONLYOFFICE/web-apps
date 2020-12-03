@@ -2,7 +2,9 @@
   "Settings": {
     "textSettings": "Settings",
     "textDone": "Done",
+    "textFind": "Find",
     "textFindAndReplace": "Find and Replace",
+    "textReaderMode": "Reader Mode",
     "textDocumentSettings": "Document Settings",
     "textApplicationSettings": "Application Settings",
     "textDownload": "Download",
