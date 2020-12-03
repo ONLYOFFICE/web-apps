@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
 import { useTranslation } from "react-i18next";
@@ -19,49 +19,58 @@ const PageApplicationSettings = props => {
         props.setUnitMeasurement(value);
     };
 
+    // set mode
+    const appOptions = props.storeAppOptions;
+    const _isEdit = appOptions.isEdit;
+    const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
+
     return (
         <Page>
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
-            <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
-            <List>
-                <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0} 
-                    onChange={() => changeMeasureSettings(0)}></ListItem>
-                <ListItem radio radioIcon="end" title={_t.textPoint} name="unit-of-measurement" checked={unitMeasurement === 1} 
-                    onChange={() => changeMeasureSettings(1)}></ListItem>
-                <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2} 
-                    onChange={() => changeMeasureSettings(2)}></ListItem>
-            </List>
-            <List>
-                <ListItem>
-                    <span>{_t.textSpellcheck}</span>
-                    <Toggle checked={isSpellChecking} 
-                        onChange={() => {
-                            store.changeSpellCheck(!isSpellChecking);
-                            props.switchSpellCheck(!isSpellChecking);
-                        }} 
-                    />
-                </ListItem>
-            </List>
-            <List>
-                <ListItem>
-                    <span>{_t.textNoCharacters}</span>
-                    <Toggle checked={isNonprintingCharacters} 
-                        onChange={() => { 
-                            store.changeNoCharacters(!isNonprintingCharacters);
-                            props.switchNoCharacters(!isNonprintingCharacters);
-                        }} 
-                    />
-                </ListItem>
-                <ListItem>
-                    <span>{_t.textHiddenTableBorders}</span>
-                    <Toggle checked={isHiddenTableBorders} 
-                        onChange={() => { 
-                            store.changeShowTableEmptyLine(!isHiddenTableBorders);
-                            props.switchShowTableEmptyLine(!isHiddenTableBorders);
-                        }}
-                    />
-                </ListItem>
-            </List>
+            {_isEdit &&
+                <Fragment>
+                    <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
+                    <List>
+                        <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0}
+                                  onChange={() => changeMeasureSettings(0)}></ListItem>
+                        <ListItem radio radioIcon="end" title={_t.textPoint} name="unit-of-measurement" checked={unitMeasurement === 1}
+                                  onChange={() => changeMeasureSettings(1)}></ListItem>
+                        <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
+                                  onChange={() => changeMeasureSettings(2)}></ListItem>
+                    </List>
+                    <List>
+                        <ListItem>
+                            <span>{_t.textSpellcheck}</span>
+                            <Toggle checked={isSpellChecking}
+                                    onChange={() => {
+                                        store.changeSpellCheck(!isSpellChecking);
+                                        props.switchSpellCheck(!isSpellChecking);
+                                    }}
+                            />
+                        </ListItem>
+                    </List>
+                    <List>
+                        <ListItem>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
+                            <span>{_t.textNoCharacters}</span>
+                            <Toggle checked={isNonprintingCharacters}
+                                    onChange={() => {
+                                        store.changeNoCharacters(!isNonprintingCharacters);
+                                        props.switchNoCharacters(!isNonprintingCharacters);
+                                    }}
+                            />
+                        </ListItem>
+                        <ListItem>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
+                            <span>{_t.textHiddenTableBorders}</span>
+                            <Toggle checked={isHiddenTableBorders}
+                                    onChange={() => {
+                                        store.changeShowTableEmptyLine(!isHiddenTableBorders);
+                                        props.switchShowTableEmptyLine(!isHiddenTableBorders);
+                                    }}
+                            />
+                        </ListItem>
+                    </List>
+                </Fragment>
+            }
             <BlockTitle>{_t.textCommentsDisplay}</BlockTitle>
             <List>
                 <ListItem>
@@ -83,11 +92,13 @@ const PageApplicationSettings = props => {
                     />
                 </ListItem>
             </List>
-            <List mediaList>
-                <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
-                    setMacrosSettings: props.setMacrosSettings
-                }}></ListItem>
-            </List>
+            {_isShowMacros &&
+                <List mediaList>
+                    <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
+                        setMacrosSettings: props.setMacrosSettings
+                    }}></ListItem>
+                </List>
+            }
         </Page>
     );
 };
@@ -118,7 +129,7 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 
 export {ApplicationSettings, MacrosSettings};
