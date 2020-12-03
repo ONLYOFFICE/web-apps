@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
 import DocumentInfo from "../../view/settings/DocumentInfo";
 
 class DocumentInfoController extends Component {
@@ -30,16 +31,17 @@ class DocumentInfoController extends Component {
 
     getModified() {
         let valueModified = this.docProps.asc_getModified();
+        const _lang = this.props.storeAppOptions.lang;
 
         if (valueModified) {
             return (
-                valueModified.toLocaleString('en', {
+                valueModified.toLocaleString(_lang, {
                     year: "numeric",
                     month: "2-digit",
                     day: "2-digit",
                 }) +
                 " " +
-                valueModified.toLocaleTimeString('en', { timeStyle: "short" })
+                valueModified.toLocaleTimeString(_lang, { timeStyle: "short" })
             );
         }
     }
@@ -74,4 +76,4 @@ class DocumentInfoController extends Component {
 }
 
 
-export default DocumentInfoController;
+export default inject("storeAppOptions")(observer(DocumentInfoController));
