@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { f7 } from 'framework7-react';
+import { Dom7, Device } from 'framework7'
 
-class Device {
+class WrapDevice {
     constructor(){
         const ua = navigator.userAgent,
             isMobile = /Mobile(\/|\s|;)/.test(ua);
@@ -14,6 +15,16 @@ class Device {
 
         this.isTablet = !this.isPhone && (/iPad/.test(ua) || /Android/.test(ua) || /(RIM Tablet OS)/.test(ua) ||
             (/MSIE 10/.test(ua) && /; Touch/.test(ua)));
+    }
+
+    initDom() {
+        const $$ = Dom7;
+        if ( this.sailfish ) {
+            $$('html').addClass('sailfish');
+        }
+
+        $$('html').addClass(this.phone ? 'phone' : 'tablet');
+        // $$(window).on('resize', _.bind(this.onWindowResize, this));
     }
 
     get phone() {
@@ -37,5 +48,5 @@ class Device {
     }
 }
 
-const device = new Device();
+const device = new WrapDevice();
 export {device as Device};

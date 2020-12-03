@@ -8,6 +8,7 @@ import '../../../../common/Gateway.js';
 import '../../../../common/main/lib/util/utils.js';
 import Notifications from '../../../../common/mobile/utils/notifications.js'
 import MainController from '../controller/Main';
+import {Device} from '../../../../common/mobile/utils/device'
 
 export default class extends React.Component {
   constructor() {
@@ -82,6 +83,7 @@ export default class extends React.Component {
     componentDidMount() {
         this.$f7ready((f7) => {
         // Call F7 APIs here
+            Device.initDom();
         });
 
         this.refs.mainController.initSdk();
