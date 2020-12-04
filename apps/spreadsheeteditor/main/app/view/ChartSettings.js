@@ -941,13 +941,13 @@ define([
                 props = me.api.asc_getChartObject();
                 if (props) {
                     me._isEditType = true;
-                    // props.startEdit();
+                    props.startEdit();
                     var win = new SSE.Views.ChartTypeDialog({
                         chartSettings: props,
                         api: me.api,
                         handler: function(result, value) {
                             if (result == 'ok') {
-                                // props.endEdit();
+                                props.endEdit();
                                 if (me.api) {
                                     me.api.asc_editChartDrawingObject(value.chartSettings);
                                 }
@@ -956,7 +956,7 @@ define([
                             Common.NotificationCenter.trigger('edit:complete', me);
                         }
                     }).on('close', function() {
-                        // me._isEditType && props.cancelEdit();
+                        me._isEditType && props.cancelEdit();
                         me._isEditType = false;
                     });
                     win.show();

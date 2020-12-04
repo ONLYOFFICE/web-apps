@@ -46,10 +46,31 @@ define([
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function () { 'use strict';
 
+    var _CustomItem = Common.UI.DataViewItem.extend({
+        initialize : function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this, options);
+
+            var me = this;
+
+            me.template = me.options.template || me.template;
+
+            me.listenTo(me.model, 'change:sort', function() {
+                me.render();
+                me.trigger('change', me, me.model);
+            });
+            me.listenTo(me.model, 'change:selected', function() {
+                var el = me.$el || $(me.el);
+                el.toggleClass('selected', me.model.get('selected') && me.model.get('allowSelected'));
+                me.onSelectChange(me.model, me.model.get('selected') && me.model.get('allowSelected'));
+            });
+            me.listenTo(me.model, 'remove',             me.remove);
+        }
+    });
+
     SSE.Views.ChartTypeDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 312,
-            height: 490
+            contentWidth: 370,
+            height: 400
         },
 
         initialize : function(options) {
@@ -76,8 +97,8 @@ define([
                                 '</tr>',
                                 '<tr class="combined-chart">',
                                     '<td>',
-                                        '<label id="chart-type-dlg-label-column" class="header" style="width: 100px;">', me.textSeries, '</label>',
-                                        '<label id="chart-type-dlg-label-sort" class="header" style="width: 130px;">', me.textType, '</label>',
+                                        '<label id="chart-type-dlg-label-column" class="header" style="width: 115px;">', me.textSeries, '</label>',
+                                        '<label id="chart-type-dlg-label-sort" class="header" style="width: 100px;">', me.textType, '</label>',
                                         '<label class="header" style="">', me.textSecondary, '</label>',
                                     '</td>',
                                 '</tr>',
@@ -108,6 +129,18 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
+            var arr = Common.define.chartData.getChartGroupData();
+            this._arrSeriesGroups = [];
+            arr.forEach(function(item) {
+                (item.id !== 'menu-chart-group-combo') && me._arrSeriesGroups.push(item);
+            });
+            arr = Common.define.chartData.getChartData();
+            this._arrSeriesType = [];
+            arr.forEach(function(item) {
+                !item.is3d && item.type!==Asc.c_oAscChartTypeSettings.comboBarLine && item.type!==Asc.c_oAscChartTypeSettings.comboBarLineSecondary &&
+                item.type!==Asc.c_oAscChartTypeSettings.comboAreaBar && item.type!==Asc.c_oAscChartTypeSettings.comboCustom && me._arrSeriesType.push(item);
+            });
+
             this.btnChartType = new Common.UI.Button({
                 cls         : 'btn-large-dataview',
                 iconCls     : 'svgicon chart-bar-normal',
@@ -125,7 +158,7 @@ define([
                     parentMenu: btn.menu,
                     restoreHeight: 421,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
-                    store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
+                    store: new Common.UI.DataViewStore(arr),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                 });
             });
@@ -147,6 +180,30 @@ define([
                 ].join(''))
             });
             this.stylesList.on('item:select', _.bind(this.onSelectStyles, this));
+
+            this.seriesList = new Common.UI.ListView({
+                el: $('#chart-type-dlg-series-list', this.$window),
+                store: new Common.UI.DataViewStore(),
+                emptyText: '',
+                enableKeyEvents: false,
+                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                itemTemplate: _.template([
+                    '<div class="list-item" style="width: 100%;" id="chart-type-dlg-item-<%= seriesIndex %>">',
+                        '<div style="width:8px;height:12px;display: inline-block;vertical-align: middle;" id="chart-type-dlg-series-preview-<%= seriesIndex %>"></div>',
+                        '<div style="width:95px;padding-left: 5px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis;white-space: nowrap;"><%= value %></div>',
+                        '<div style="width: 100px;padding-left: 5px;display: inline-block;vertical-align: middle;color: initial;"><div id="chart-type-dlg-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
+                        '<div style="padding-left: 64px;display: inline-block;vertical-align: middle;"><div id="chart-type-dlg-chk-series-<%= seriesIndex %>" style=""></div></div>',
+                    '</div>'
+                ].join(''))
+            });
+            this.seriesList.createNewItem = function(record) {
+                return new _CustomItem({
+                    template: this.itemTemplate,
+                    model: record
+                });
+            };
+            // this.seriesList.on('item:select', _.bind(this.onSelectLevel, this))
+            //     .on('item:keydown', _.bind(this.onKeyDown, this));
 
             this.NotCombinedSettings = $('.simple-chart', this.$window);
             this.CombinedSettings = $('.combined-chart', this.$window);
@@ -178,9 +235,12 @@ define([
                     this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                 } else
                     this.btnChartType.setIconCls('svgicon');
+                this.seriesList.on('item:add', _.bind(this.addControls, this));
+                this.seriesList.on('item:change', _.bind(this.addControls, this));
                 this.ShowHideSettings(this.currentChartType);
-                if (this.currentChartType==Asc.c_oAscChartTypeSettings.combo) {
-
+                if (this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLine || this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                    this.currentChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this.currentChartType==Asc.c_oAscChartTypeSettings.comboCustom) {
+                    this.updateSeriesList(this.chartSettings.getSeries());
                 } else
                     this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
             }
@@ -224,8 +284,9 @@ define([
             this.currentChartType = rawData.type;
             this.chartSettings.changeType(this.currentChartType);
             this.ShowHideSettings(this.currentChartType);
-            if (this.currentChartType==Asc.c_oAscChartTypeSettings.combo) {
-
+            if (this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLine || this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                this.currentChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this.currentChartType==Asc.c_oAscChartTypeSettings.comboCustom) {
+                this.updateSeriesList(this.chartSettings.getSeries());
             } else
                 this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
         },
@@ -268,8 +329,6 @@ define([
         },
 
         updateSeriesList: function(series, index) {
-            this.btnEditCategory.setDisabled(series && series.length>0 ? series[0].asc_IsScatter() : false);
-
             var arr = [];
             var store = this.seriesList.store;
             for (var i = 0, len = series.length; i < len; i++)
@@ -278,19 +337,98 @@ define([
                     rec = new Common.UI.DataViewModel();
                 rec.set({
                     value: item.asc_getSeriesName(),
-                    index: item.asc_getIdx(),
-                    order: item.asc_getOrder(),
+                    type: item.asc_getChartType(),
+                    isSecondary: item.asc_getIsSecondaryAxis(),
+                    canChangeSecondary: item.asc_canChangeAxisType(),
+                    seriesIndex: i,
                     series: item
                 });
                 arr.push(rec);
             }
             store.reset(arr);
-            (len>0) && this.seriesList.selectByIndex(Math.min(index || 0, store.length-1));
+        },
+
+        addControls: function(listView, itemView, item) {
+            if (!item) return;
+
+            var me = this,
+                i = item.get('seriesIndex'),
+                cmpEl = this.seriesList.cmpEl.find('#chart-type-dlg-item-' + i),
+                series = item.get('series');
+            series.asc_drawPreviewRect('chart-type-dlg-series-preview-' + i);
+            var combo = this.initSeriesType(cmpEl.find('#chart-type-dlg-cmb-series-' + i), i, item);
+            var check = new Common.UI.CheckBox({
+                el: cmpEl.find('#chart-type-dlg-chk-series-' + i),
+                value: !item.get('isSecondary'),
+                disabled: !item.get('canChangeSecondary')
+            });
+            check.on('change', function(field, newValue, oldValue, eOpts) {
+                var res = series.asc_TryChangeAxisType(field.getValue()=='checked');
+                if (res !== Asc.c_oAscError.ID.No) {
+                    field.setValue(field.getValue()!='checked', true);
+                }
+            });
+            cmpEl.on('mousedown', '.combobox', function(){
+                me.seriesList.selectRecord(item);
+            });
+        },
+
+        initSeriesType: function(el, index, item) {
+            var me = this,
+                series = item.get('series'),
+                store = new Common.UI.DataViewStore(me._arrSeriesType),
+                currentTypeRec = store.findWhere({type: item.get('type')}),
+                tip = currentTypeRec ? currentTypeRec.get('tip') : '';
+            var combo = new Common.UI.ComboBox({
+                el: el,
+                template: _.template([
+                    '<span class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle no-highlighted" tabindex="0" data-toggle="dropdown">',
+                        '<input type="text" class="form-control" spellcheck="false">',
+                        '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                    '</span>'
+                ].join(''))
+            });
+            var combomenu = new Common.UI.Menu({
+                cls: 'menu-absolute',
+                style: 'width: 318px; padding-top: 12px;',
+                additionalAlign: this.menuAddAlign,
+                items: [
+                    { template: _.template('<div id="chart-type-dlg-series-menu-' + index + '" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                ]
+            });
+            combomenu.render(el);
+            combo.setValue(tip);
+            var onShowBefore = function(menu) {
+                var picker = new Common.UI.DataView({
+                    el: $('#chart-type-dlg-series-menu-' + index),
+                    parentMenu: menu,
+                    restoreHeight: 421,
+                    groups: new Common.UI.DataViewGroupStore(me._arrSeriesGroups),
+                    store: store,
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
+                });
+                picker.selectRecord(currentTypeRec, true);
+                picker.on('item:click', function(picker, view, record){
+                    var oldtype = item.get('type');
+                    var res = series.asc_TryChangeChartType(record.get('type'));
+                    if (res == Asc.c_oAscError.ID.No) {
+                        combo.setValue(record.get('tip'));
+                    } else {
+                        var oldrecord = picker.store.findWhere({type: oldtype});
+                        picker.selectRecord(oldrecord, true);
+                    }
+                });
+                menu.off('show:before', onShowBefore);
+            };
+            combomenu.on('show:before', onShowBefore);
+            return combo;
         },
 
         ShowHideSettings: function(type) {
-            this.NotCombinedSettings.toggleClass('hidden', type==Asc.c_oAscChartTypeSettings.combo);
-            this.CombinedSettings.toggleClass('hidden', type!==Asc.c_oAscChartTypeSettings.combo);
+            var isCombo = type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                          type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom;
+            this.NotCombinedSettings.toggleClass('hidden', isCombo);
+            this.CombinedSettings.toggleClass('hidden', !isCombo);
         },
 
         textTitle: 'Chart Type',
