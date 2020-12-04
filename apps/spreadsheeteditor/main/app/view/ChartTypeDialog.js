@@ -70,7 +70,7 @@ define([
     SSE.Views.ChartTypeDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 400
+            height: 385
         },
 
         initialize : function(options) {
@@ -84,7 +84,7 @@ define([
                         '<div class="settings-panel active">',
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
-                                    '<td class="padding-small">',
+                                    '<td class="padding-large">',
                                         '<label class="header">', me.textType, '</label>',
                                         '<div id="chart-type-dlg-button-type" style=""></div>',
                                     '</td>',
@@ -99,12 +99,12 @@ define([
                                     '<td>',
                                         '<label id="chart-type-dlg-label-column" class="header" style="width: 115px;">', me.textSeries, '</label>',
                                         '<label id="chart-type-dlg-label-sort" class="header" style="width: 100px;">', me.textType, '</label>',
-                                        '<label class="header" style="">', me.textSecondary, '</label>',
+                                        '<label class="header" style="width: 134px;text-align: center;">', me.textSecondary, '</label>',
                                     '</td>',
                                 '</tr>',
                                 '<tr class="combined-chart">',
                                     '<td class="padding-small">',
-                                        '<div id="chart-type-dlg-series-list" class="" style="width:100%; height: 150px;"></div>',
+                                        '<div id="chart-type-dlg-series-list" class="" style="width:100%; height: 180px;"></div>',
                                     '</td>',
                                 '</tr>',
                             '</table>',
@@ -186,13 +186,14 @@ define([
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 enableKeyEvents: false,
+                scrollAlwaysVisible: true,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;" id="chart-type-dlg-item-<%= seriesIndex %>">',
                         '<div style="width:8px;height:12px;display: inline-block;vertical-align: middle;" id="chart-type-dlg-series-preview-<%= seriesIndex %>"></div>',
                         '<div style="width:95px;padding-left: 5px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis;white-space: nowrap;"><%= value %></div>',
-                        '<div style="width: 100px;padding-left: 5px;display: inline-block;vertical-align: middle;color: initial;"><div id="chart-type-dlg-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
-                        '<div style="padding-left: 64px;display: inline-block;vertical-align: middle;"><div id="chart-type-dlg-chk-series-<%= seriesIndex %>" style=""></div></div>',
+                        '<div style="width: 110px;padding-left: 5px;display: inline-block;vertical-align: middle;color: initial;"><div id="chart-type-dlg-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
+                        '<div style="padding-left: 55px;display: inline-block;vertical-align: middle;"><div id="chart-type-dlg-chk-series-<%= seriesIndex %>" style=""></div></div>',
                     '</div>'
                 ].join(''))
             });
@@ -202,9 +203,6 @@ define([
                     model: record
                 });
             };
-            // this.seriesList.on('item:select', _.bind(this.onSelectLevel, this))
-            //     .on('item:keydown', _.bind(this.onKeyDown, this));
-
             this.NotCombinedSettings = $('.simple-chart', this.$window);
             this.CombinedSettings = $('.combined-chart', this.$window);
 
@@ -291,9 +289,6 @@ define([
                 this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
         },
 
-        onSelectStyle: function(combo, record) {
-        },
-
         updateChartStyles: function(styles) {
             var me = this;
             if (styles && styles.length>0){
@@ -346,6 +341,7 @@ define([
                 arr.push(rec);
             }
             store.reset(arr);
+            (arr.length>0) && (index!==undefined) && (index < arr.length) && this.seriesList.selectByIndex(index);
         },
 
         addControls: function(listView, itemView, item) {
@@ -356,35 +352,37 @@ define([
                 cmpEl = this.seriesList.cmpEl.find('#chart-type-dlg-item-' + i),
                 series = item.get('series');
             series.asc_drawPreviewRect('chart-type-dlg-series-preview-' + i);
-            var combo = this.initSeriesType(cmpEl.find('#chart-type-dlg-cmb-series-' + i), i, item);
+            var combo = this.initSeriesType('#chart-type-dlg-cmb-series-' + i, i, item);
             var check = new Common.UI.CheckBox({
                 el: cmpEl.find('#chart-type-dlg-chk-series-' + i),
-                value: !item.get('isSecondary'),
+                value: item.get('isSecondary'),
                 disabled: !item.get('canChangeSecondary')
             });
             check.on('change', function(field, newValue, oldValue, eOpts) {
                 var res = series.asc_TryChangeAxisType(field.getValue()=='checked');
                 if (res !== Asc.c_oAscError.ID.No) {
                     field.setValue(field.getValue()!='checked', true);
-                }
+                } else
+                    me.updateSeriesList(me.chartSettings.getSeries(), i);
             });
             cmpEl.on('mousedown', '.combobox', function(){
                 me.seriesList.selectRecord(item);
             });
         },
 
-        initSeriesType: function(el, index, item) {
+        initSeriesType: function(id, index, item) {
             var me = this,
                 series = item.get('series'),
                 store = new Common.UI.DataViewStore(me._arrSeriesType),
                 currentTypeRec = store.findWhere({type: item.get('type')}),
-                tip = currentTypeRec ? currentTypeRec.get('tip') : '';
+                tip = currentTypeRec ? currentTypeRec.get('tip') : '',
+                el = $(id);
             var combo = new Common.UI.ComboBox({
                 el: el,
                 template: _.template([
                     '<span class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle no-highlighted" tabindex="0" data-toggle="dropdown">',
                         '<input type="text" class="form-control" spellcheck="false">',
-                        '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                        '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-target="' + id + '"><span class="caret img-commonctrl"></span></button>',
                     '</span>'
                 ].join(''))
             });
@@ -413,10 +411,12 @@ define([
                     var res = series.asc_TryChangeChartType(record.get('type'));
                     if (res == Asc.c_oAscError.ID.No) {
                         combo.setValue(record.get('tip'));
+                        me.updateSeriesList(me.chartSettings.getSeries(), index);
                     } else {
                         var oldrecord = picker.store.findWhere({type: oldtype});
                         picker.selectRecord(oldrecord, true);
-                    }
+                        if (res==Asc.c_oAscError.ID.SecondaryAxis)
+                            Common.UI.warning({msg: me.errorSecondaryAxis, maxwidth: 500});                    }
                 });
                 menu.off('show:before', onShowBefore);
             };
@@ -435,7 +435,8 @@ define([
         textType:   'Type',
         textStyle: 'Style',
         textSeries: 'Series',
-        textSecondary: 'Secondary Axis'
+        textSecondary: 'Secondary Axis',
+        errorSecondaryAxis: 'The selected chart type requires the secondary axis that an existing chart is using. Select another chart type.'
 
     }, SSE.Views.ChartTypeDialog || {}))
 });
