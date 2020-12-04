@@ -8,7 +8,7 @@ import DocumentSettingsController from "../../controller/settings/DocumentSettin
 import DocumentInfoController from "../../controller/settings/DocumentInfo";
 import DownloadController from "../../controller/settings/Download";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
-import { DocumentFormats, DocumentMargins } from "./DocumentSettings";
+import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
 import { MacrosSettings } from "./ApplicationSettings";
 
 const routes = [
@@ -43,6 +43,10 @@ const routes = [
     {
         path: '/download/',
         component: DownloadController
+    },
+    {
+        path: '/color-schemes/',
+        component: DocumentColorSchemes
     }
 ];
 

@@ -59,4 +59,18 @@ export class storeDocumentSettings {
         return ind;
     }
 
+    // Color Schemes
+
+    @observable curScheme = Common.EditorApi.get().asc_GetCurrentColorSchemeIndex();
+    @observable allSchemes;
+
+
+    @action changeColorScheme(value) {
+        this.curScheme = +value;
+    }
+
+    @action addSchemes(arr) {
+        this.allSchemes = arr;
+    }
+
 }

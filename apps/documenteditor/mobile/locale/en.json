@@ -50,7 +50,8 @@
     "textDownloadAs": "Download As",
     "notcriticalErrorTitle": "Warning",
     "textDownloadTxt": "If you continue saving in this format all features except the text will be lost. Are you sure you want to continue?",
-    "textDownloadRtf": "If you continue saving in this format some of the formatting might be lost. Are you sure you want to continue?"
+    "textDownloadRtf": "If you continue saving in this format some of the formatting might be lost. Are you sure you want to continue?",
+    "textColorSchemes": "Color Schemes"
   },
   "Collaboration": {
     "textEditUser": "Users who are editing the file:"

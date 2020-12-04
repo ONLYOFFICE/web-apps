@@ -126,6 +126,52 @@ const PageDocumentMargins = props => {
     )
 };
 
+const PageDocumentColorSchemes = props => {
+    const { t } = useTranslation();
+    const _t = t('Settings', {returnObjects: true});
+    const storeSettings = props.storeDocumentSettings;
+    const curScheme = storeSettings.curScheme;
+    const allSchemes = storeSettings.allSchemes;
+
+    const changeScheme = (newScheme, curScheme) => {
+        storeSettings.changeColorScheme(newScheme);
+        props.onColorSchemeChange(newScheme, curScheme);
+    }
+
+    return (
+        <Page>
+            <Navbar title={_t.textColorSchemes} backLink={_t.textBack} />
+            <List>
+                {
+                    allSchemes ? allSchemes.map((scheme, index) => {
+                        return (
+                            <ListItem radio={true} className="color-schemes-menu" key={index} title={scheme.get_name()} value={index} checked={curScheme === index} 
+                            onChange={(e) => changeScheme(e.target.value, curScheme)}>
+                                <div slot="before-title">
+                                    <span className="color-schema-block">
+                                        {
+                                            scheme.get_colors().map((elem, index) => {
+                                                if(index >=2 && index < 7) {
+                                                    let clr = {background: "#" + Common.Utils.ThemeColor.getHexColor(elem.get_r(), elem.get_g(), elem.get_b())};
+                                                    return (
+                                                        <span className="color" key={index} style={clr}></span>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                       
+                                    </span>
+                                </div>
+                            </ListItem>
+                        )
+                    }) : null         
+                }
+            </List>
+        </Page>
+
+    )
+}
+
 const PageDocumentSettings = props => {
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
@@ -170,6 +216,11 @@ const PageDocumentSettings = props => {
                     applyMargins: props.applyMargins
                 }}></ListItem>
             </List>
+            <List>
+                <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
+                    onColorSchemeChange: props.onColorSchemeChange
+                }}></ListItem>
+            </List>
         </Page>
      )
 };
@@ -177,9 +228,11 @@ const PageDocumentSettings = props => {
 const DocumentFormats = inject("storeDocumentSettings")(observer(PageDocumentFormats));
 const DocumentMargins = inject("storeDocumentSettings")(observer(PageDocumentMargins));
 const DocumentSettings = inject("storeDocumentSettings")(observer(PageDocumentSettings));
+const DocumentColorSchemes = inject("storeDocumentSettings")(observer(PageDocumentColorSchemes));
 
 export {
     DocumentSettings,
     DocumentFormats,
-    DocumentMargins
+    DocumentMargins,
+    DocumentColorSchemes
 }
