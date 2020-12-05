@@ -1847,12 +1847,14 @@
   "PE.Views.Toolbar.tipCopy": "Copy",
   "PE.Views.Toolbar.tipCopyStyle": "Copy style",
   "PE.Views.Toolbar.tipDateTime": "Insert current date and time",
+  "PE.Views.Toolbar.tipDecFont": "Decrement font size",
   "PE.Views.Toolbar.tipDecPrLeft": "Decrease indent",
   "PE.Views.Toolbar.tipEditHeader": "Edit footer",
   "PE.Views.Toolbar.tipFontColor": "Font color",
   "PE.Views.Toolbar.tipFontName": "Font",
   "PE.Views.Toolbar.tipFontSize": "Font size",
   "PE.Views.Toolbar.tipHAligh": "Horizontal align",
+  "PE.Views.Toolbar.tipIncFont": "Increment font size",
   "PE.Views.Toolbar.tipIncPrLeft": "Increase indent",
   "PE.Views.Toolbar.tipInsertAudio": "Insert audio",
   "PE.Views.Toolbar.tipInsertChart": "Insert chart",
@@ -1908,7 +1910,5 @@
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup",
-  "PE.Views.Toolbar.tipIncFont": "Increment font size",
-  "PE.Views.Toolbar.tipDecFont": "Decrement font size"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup"
 }
