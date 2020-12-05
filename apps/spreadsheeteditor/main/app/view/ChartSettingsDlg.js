@@ -62,7 +62,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {panelId: 'id-chart-settings-dlg-style',        panelCaption: this.textType},
                     {panelId: 'id-chart-settings-dlg-layout',       panelCaption: this.textLayout},
                     {panelId: 'id-chart-settings-dlg-vert',         panelCaption: this.textVertAxis},
+                    {panelId: 'id-chart-settings-dlg-vert-sec', panelCaption: this.textVertAxisSec},
                     {panelId: 'id-chart-settings-dlg-hor',          panelCaption: this.textHorAxis},
+                    {panelId: 'id-chart-settings-dlg-hor-sec', panelCaption: this.textHorAxisSec},
                     {panelId: 'id-spark-settings-dlg-style',        panelCaption: this.textTypeData},
                     {panelId: 'id-spark-settings-dlg-axis',         panelCaption: this.textAxisOptions},
                     {panelId: 'id-chart-settings-dlg-snap',         panelCaption: this.textSnap},
@@ -97,9 +99,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.sparklineStyles = this.options.sparklineStyles;
             this.isChart       = this.options.isChart;
             this.isDiagramMode = !!this.options.isDiagramMode;
-            this.vertAxisProps = null;
-            this.horAxisProps = null;
-            this.currentAxisProps = null;
+            this.vertAxisProps = [];
+            this.horAxisProps = [];
+            this.currentAxisProps = [];
             this.dataRangeValid = '';
             this.sparkDataRangeValid = '';
             this.dataLocationRangeValid = '';
@@ -117,17 +119,17 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             if (this.isDiagramMode) {
                 this.btnChartType = new Common.UI.Button({
-                    cls         : 'btn-large-dataview',
-                    iconCls     : 'svgicon chart-bar-normal',
-                    menu        : new Common.UI.Menu({
+                    cls: 'btn-large-dataview',
+                    iconCls: 'svgicon chart-bar-normal',
+                    menu: new Common.UI.Menu({
                         style: 'width: 364px; padding-top: 12px;',
                         additionalAlign: this.menuAddAlign,
                         items: [
-                            { template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                            {template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>')}
                         ]
                     })
                 });
-                this.btnChartType.on('render:after', function(btn) {
+                this.btnChartType.on('render:after', function (btn) {
                     me.mnuChartTypePicker = new Common.UI.DataView({
                         el: $('#id-chart-dlg-menu-type'),
                         parentMenu: btn.menu,
@@ -141,163 +143,47 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
             }
 
-            // this.cmbDataDirect = new Common.UI.ComboBox({
-            //     el          : $('#chart-dlg-combo-range'),
-            //     menuStyle   : 'min-width: 120px;',
-            //     editable    : false,
-            //     cls         : 'input-group-nr',
-            //     data        : [
-            //         { value: 0, displayValue: this.textDataRows },
-            //         { value: 1, displayValue: this.textDataColumns }
-            //     ]
-            // });
-            //
-            // this.txtDataRange = new Common.UI.InputFieldBtn({
-            //     el          : $('#chart-dlg-txt-range'),
-            //     name        : 'range',
-            //     style       : 'width: 100%;',
-            //     btnHint     : this.textSelectData,
-            //     allowBlank  : true,
-            //     validateOnChange: true
-            // });
-            // this.txtDataRange.on('button:click', _.bind(this.onSelectData, this));
-
             this.cmbChartTitle = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-chart-title'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscChartTitleShowSettings.none, displayValue: this.textNone },
-                    { value: Asc.c_oAscChartTitleShowSettings.overlay, displayValue: this.textOverlay },
-                    { value: Asc.c_oAscChartTitleShowSettings.noOverlay, displayValue: this.textNoOverlay }
+                el: $('#chart-dlg-combo-chart-title'),
+                menuStyle: 'min-width: 140px;',
+                editable: false,
+                cls: 'input-group-nr',
+                data: [
+                    {value: Asc.c_oAscChartTitleShowSettings.none, displayValue: this.textNone},
+                    {value: Asc.c_oAscChartTitleShowSettings.overlay, displayValue: this.textOverlay},
+                    {value: Asc.c_oAscChartTitleShowSettings.noOverlay, displayValue: this.textNoOverlay}
                 ],
                 takeFocusOnClose: true
             });
 
             this.cmbLegendPos = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-legend-pos'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscChartLegendShowSettings.none, displayValue: this.textNone },
-                    { value: Asc.c_oAscChartLegendShowSettings.bottom, displayValue: this.textLegendBottom },
-                    { value: Asc.c_oAscChartLegendShowSettings.top, displayValue: this.textLegendTop },
-                    { value: Asc.c_oAscChartLegendShowSettings.right, displayValue: this.textLegendRight },
-                    { value: Asc.c_oAscChartLegendShowSettings.left, displayValue: this.textLegendLeft },
-                    { value: Asc.c_oAscChartLegendShowSettings.leftOverlay, displayValue: this.textLeftOverlay },
-                    { value: Asc.c_oAscChartLegendShowSettings.rightOverlay, displayValue: this.textRightOverlay }
+                el: $('#chart-dlg-combo-legend-pos'),
+                menuStyle: 'min-width: 140px;',
+                editable: false,
+                cls: 'input-group-nr',
+                data: [
+                    {value: Asc.c_oAscChartLegendShowSettings.none, displayValue: this.textNone},
+                    {value: Asc.c_oAscChartLegendShowSettings.bottom, displayValue: this.textLegendBottom},
+                    {value: Asc.c_oAscChartLegendShowSettings.top, displayValue: this.textLegendTop},
+                    {value: Asc.c_oAscChartLegendShowSettings.right, displayValue: this.textLegendRight},
+                    {value: Asc.c_oAscChartLegendShowSettings.left, displayValue: this.textLegendLeft},
+                    {value: Asc.c_oAscChartLegendShowSettings.leftOverlay, displayValue: this.textLeftOverlay},
+                    {value: Asc.c_oAscChartLegendShowSettings.rightOverlay, displayValue: this.textRightOverlay}
                 ],
                 takeFocusOnClose: true
             });
 
-            this.cmbHorTitle = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-hor-title'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscChartHorAxisLabelShowSettings.none, displayValue: this.textNone },
-                    { value: Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay, displayValue: this.textNoOverlay }
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.chartSettings)
-                    this.chartSettings.putHorAxisLabel(record.value);
-            }, this));
-
-            this.cmbVertTitle = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-vert-title'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscChartVertAxisLabelShowSettings.none, displayValue: this.textNone },
-                    { value: Asc.c_oAscChartVertAxisLabelShowSettings.rotated, displayValue: this.textRotated },
-                    { value: Asc.c_oAscChartVertAxisLabelShowSettings.horizontal, displayValue: this.textHorizontal }
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.chartSettings) 
-                    this.chartSettings.putVertAxisLabel(record.value);
-            }, this));
-
-            this.cmbHorShow = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-hor-show'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: true, displayValue: this.textShow },
-                    { value: false, displayValue: this.textHide }
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.chartSettings)
-                    this.chartSettings.putShowHorAxis(record.value);
-            }, this));
-
-            this.cmbVertShow = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-vert-show'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: true, displayValue: this.textShow },
-                    { value: false, displayValue: this.textHide }
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.chartSettings)
-                    this.chartSettings.putShowVerAxis(record.value);
-            }, this));
-
-            this.cmbHorGrid = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-hor-grid'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscGridLinesSettings.none, displayValue: this.textNone },
-                    { value: Asc.c_oAscGridLinesSettings.major, displayValue: this.textMajor },
-                    { value: Asc.c_oAscGridLinesSettings.minor, displayValue: this.textMinor },
-                    { value: Asc.c_oAscGridLinesSettings.majorMinor, displayValue: this.textMajorMinor }
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.chartSettings) 
-                    this.chartSettings.putHorGridLines(record.value);
-            }, this));
-
-            this.cmbVertGrid = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-vert-grid'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscGridLinesSettings.none, displayValue: this.textNone },
-                    { value: Asc.c_oAscGridLinesSettings.major, displayValue: this.textMajor },
-                    { value: Asc.c_oAscGridLinesSettings.minor, displayValue: this.textMinor },
-                    { value: Asc.c_oAscGridLinesSettings.majorMinor, displayValue: this.textMajorMinor }
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.chartSettings) 
-                    this.chartSettings.putVertGridLines(record.value);
-            }, this));
-
             this.cmbDataLabels = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-data-labels'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscChartDataLabelsPos.none, displayValue: this.textNone },
-                    { value: Asc.c_oAscChartDataLabelsPos.ctr, displayValue: this.textCenter },
-                    { value: Asc.c_oAscChartDataLabelsPos.inBase, displayValue: this.textInnerBottom },
-                    { value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: this.textInnerTop },
-                    { value: Asc.c_oAscChartDataLabelsPos.outEnd, displayValue: this.textOuterTop }
+                el: $('#chart-dlg-combo-data-labels'),
+                menuStyle: 'min-width: 140px;',
+                editable: false,
+                cls: 'input-group-nr',
+                data: [
+                    {value: Asc.c_oAscChartDataLabelsPos.none, displayValue: this.textNone},
+                    {value: Asc.c_oAscChartDataLabelsPos.ctr, displayValue: this.textCenter},
+                    {value: Asc.c_oAscChartDataLabelsPos.inBase, displayValue: this.textInnerBottom},
+                    {value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: this.textInnerTop},
+                    {value: Asc.c_oAscChartDataLabelsPos.outEnd, displayValue: this.textOuterTop}
                 ],
                 takeFocusOnClose: true
             });
@@ -305,11 +191,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.cmbDataLabels.on('selected', _.bind(me.onSelectDataLabels, this));
 
             this.txtSeparator = new Common.UI.InputField({
-                el          : $('#chart-dlg-txt-separator'),
-                name        : 'range',
-                style       : 'width: 100%;',
-                allowBlank  : true,
-                blankError  : this.txtEmpty
+                el: $('#chart-dlg-txt-separator'),
+                name: 'range',
+                style: 'width: 100%;',
+                allowBlank: true,
+                blankError: this.txtEmpty
             });
 
             this.chSeriesName = new Common.UI.CheckBox({
@@ -328,432 +214,549 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             });
 
             this.cmbLines = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-lines'),
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                cls         : 'input-group-nr',
-                data        : [
-                    { value: 0, displayValue: this.textNone },
-                    { value: 1, displayValue: this.textStraight },
-                    { value: 2, displayValue: this.textSmooth }
+                el: $('#chart-dlg-combo-lines'),
+                menuStyle: 'min-width: 140px;',
+                editable: false,
+                cls: 'input-group-nr',
+                data: [
+                    {value: 0, displayValue: this.textNone},
+                    {value: 1, displayValue: this.textStraight},
+                    {value: 2, displayValue: this.textSmooth}
                 ],
                 takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
+            }).on('selected', _.bind(function (combo, record) {
                 if (this.chartSettings) {
-                    this.chartSettings.putLine(record.value!==0);
-                    if (record.value>0)
-                        this.chartSettings.putSmooth(record.value==2);
+                    this.chartSettings.putLine(record.value !== 0);
+                    if (record.value > 0)
+                        this.chartSettings.putSmooth(record.value == 2);
                 }
             }, this));
 
             this.chMarkers = new Common.UI.CheckBox({
                 el: $('#chart-dlg-check-markers'),
                 labelText: this.textMarkers
-            }).on('change', _.bind(function(checkbox, state) {
-                if (this.chartSettings) 
-                    this.chartSettings.putShowMarker(state=='checked');
+            }).on('change', _.bind(function (checkbox, state) {
+                if (this.chartSettings)
+                    this.chartSettings.putShowMarker(state == 'checked');
             }, this));
 
             this.lblLines = $('#chart-dlg-label-lines');
 
             // Vertical Axis
+            this.cmbMinType = [];
+            this.spnMinValue = [];
+            this.cmbMaxType = [];
+            this.spnMaxValue = [];
+            this.cmbVCrossType = [];
+            this.spnVAxisCrosses = [];
+            this.cmbUnits = [];
+            this.chVReverse = [];
+            this.cmbVMajorType = [];
+            this.cmbVMinorType = [];
+            this.cmbVLabelPos = [];
+            this.cmbVertTitle = [];
+            this.cmbVertGrid = [];
+            this.chVertHide = [];
 
-            this.cmbMinType = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-mintype'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textAuto, value: Asc.c_oAscValAxisRule.auto},
-                    {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putMinValRule(record.value);
-                    if (record.value==Asc.c_oAscValAxisRule.auto) {
-                        this.spnMinValue.setValue(this._originalAxisVValues.minAuto, true);
+            var addControlsV = function(i) {
+                me.chVertHide[i] = new Common.UI.CheckBox({
+                    el: $('#chart-dlg-chk-vert-hide-' + i),
+                    labelText: me.textHideAxis
+                }).on('change', _.bind(function (checkbox, state) {
+                    if (me.currentAxisProps[i])
+                        me.currentAxisProps[i].putShow(state !== 'checked');
+                }, me));
+
+                me.cmbVertTitle[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-vert-title-' + i),
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    cls: 'input-group-nr',
+                    data: [
+                        {value: Asc.c_oAscChartVertAxisLabelShowSettings.none, displayValue: me.textNone},
+                        {value: Asc.c_oAscChartVertAxisLabelShowSettings.rotated, displayValue: me.textRotated},
+                        {value: Asc.c_oAscChartVertAxisLabelShowSettings.horizontal, displayValue: me.textHorizontal}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i])
+                        me.currentAxisProps[i].putLabel(record.value);
+                }, me));
+
+                me.cmbVertGrid[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-vert-grid-' + i),
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    cls: 'input-group-nr',
+                    data: [
+                        {value: Asc.c_oAscGridLinesSettings.none, displayValue: me.textNone},
+                        {value: Asc.c_oAscGridLinesSettings.major, displayValue: me.textMajor},
+                        {value: Asc.c_oAscGridLinesSettings.minor, displayValue: me.textMinor},
+                        {value: Asc.c_oAscGridLinesSettings.majorMinor, displayValue: me.textMajorMinor}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i])
+                        me.currentAxisProps[i].putGridlines(record.value);
+                }, me));
+
+                me.cmbMinType[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-mintype-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textAuto, value: Asc.c_oAscValAxisRule.auto},
+                        {displayValue: me.textFixed, value: Asc.c_oAscValAxisRule.fixed}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMinValRule(record.value);
+                        if (record.value == Asc.c_oAscValAxisRule.auto) {
+                            me.spnMinValue[i].setValue(me._originalAxisVValues[i].minAuto, true);
+                        }
                     }
-                }
-            }, this));
+                }, me));
 
-            this.spnMinValue = new Common.UI.MetricSpinner({
-                el          : $('#chart-dlg-input-min-value'),
-                maxValue    : 1000000,
-                minValue    : -1000000,
-                step        : 0.1,
-                defaultUnit : "",
-                defaultValue : 0,
-                value       : ''
-            }).on('change', _.bind(function(field, newValue, oldValue) {
-                this.cmbMinType.suspendEvents();
-                this.cmbMinType.setValue(Asc.c_oAscValAxisRule.fixed);
-                this.cmbMinType.resumeEvents();
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putMinValRule(Asc.c_oAscValAxisRule.fixed);
-                    this.currentAxisProps.putMinVal(field.getNumberValue());
-                }
-            }, this));
-
-            this.cmbMaxType = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-maxtype'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textAuto, value: Asc.c_oAscValAxisRule.auto},
-                    {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putMaxValRule(record.value);
-                    if (record.value==Asc.c_oAscValAxisRule.auto) {
-                        this.spnMaxValue.setValue(this._originalAxisVValues.maxAuto, true);
+                me.spnMinValue[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-min-value-' + i),
+                    maxValue: 1000000,
+                    minValue: -1000000,
+                    step: 0.1,
+                    defaultUnit: "",
+                    defaultValue: 0,
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    me.cmbMinType[i].suspendEvents();
+                    me.cmbMinType[i].setValue(Asc.c_oAscValAxisRule.fixed);
+                    me.cmbMinType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMinValRule(Asc.c_oAscValAxisRule.fixed);
+                        me.currentAxisProps[i].putMinVal(field.getNumberValue());
                     }
-                }
-            }, this));
+                }, me));
 
-            this.spnMaxValue = new Common.UI.MetricSpinner({
-                el          : $('#chart-dlg-input-max-value'),
-                maxValue    : 1000000,
-                minValue    : -1000000,
-                step        : 0.1,
-                defaultUnit : "",
-                defaultValue : 0,
-                value       : ''
-            }).on('change', _.bind(function(field, newValue, oldValue) {
-                this.cmbMaxType.suspendEvents();
-                this.cmbMaxType.setValue(Asc.c_oAscValAxisRule.fixed);
-                this.cmbMaxType.resumeEvents();
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putMaxValRule(Asc.c_oAscValAxisRule.fixed);
-                    this.currentAxisProps.putMaxVal(field.getNumberValue());
-                }
-            }, this));
-
-            this.cmbVCrossType = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-v-crosstype'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textAuto, value: Asc.c_oAscCrossesRule.auto},
-                    {displayValue: this.textValue, value: Asc.c_oAscCrossesRule.value},
-                    {displayValue: this.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
-                    {displayValue: this.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putCrossesRule(record.value);
-                    var value;
-                    switch (record.value) {
-                        case Asc.c_oAscCrossesRule.minValue:
-                            this.spnVAxisCrosses.setValue(this.spnMinValue.getNumberValue(), true);
-                        break;
-                        case Asc.c_oAscCrossesRule.maxValue:
-                            this.spnVAxisCrosses.setValue(this.spnMaxValue.getNumberValue(), true);
-                        break;
-                        case Asc.c_oAscCrossesRule.auto:
-                            this.spnVAxisCrosses.setValue(this._originalAxisVValues.crossesAuto, true);
-                        break;
+                me.cmbMaxType[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-maxtype-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textAuto, value: Asc.c_oAscValAxisRule.auto},
+                        {displayValue: me.textFixed, value: Asc.c_oAscValAxisRule.fixed}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMaxValRule(record.value);
+                        if (record.value == Asc.c_oAscValAxisRule.auto) {
+                            me.spnMaxValue[i].setValue(me._originalAxisVValues[i].maxAuto, true);
+                        }
                     }
-                }
-            }, this));
+                }, me));
 
-            this.spnVAxisCrosses = new Common.UI.MetricSpinner({
-                el          : $('#chart-dlg-input-v-axis-crosses'),
-                maxValue    : 1000000,
-                minValue    : -1000000,
-                step        : 0.1,
-                defaultUnit : "",
-                defaultValue : 0,
-                value       : ''
-            }).on('change', _.bind(function(field, newValue, oldValue) {
-                this.cmbVCrossType.suspendEvents();
-                this.cmbVCrossType.setValue(Asc.c_oAscCrossesRule.value);
-                this.cmbVCrossType.resumeEvents();
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putCrossesRule(Asc.c_oAscCrossesRule.value);
-                    this.currentAxisProps.putCrosses(field.getNumberValue());
-                }
-            }, this));
+                me.spnMaxValue[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-max-value-' + i),
+                    maxValue: 1000000,
+                    minValue: -1000000,
+                    step: 0.1,
+                    defaultUnit: "",
+                    defaultValue: 0,
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    me.cmbMaxType[i].suspendEvents();
+                    me.cmbMaxType[i].setValue(Asc.c_oAscValAxisRule.fixed);
+                    me.cmbMaxType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMaxValRule(Asc.c_oAscValAxisRule.fixed);
+                        me.currentAxisProps[i].putMaxVal(field.getNumberValue());
+                    }
+                }, me));
 
-            this.cmbUnits = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-units'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textNone, value: Asc.c_oAscValAxUnits.none},
-                    {displayValue: this.textHundreds, value: Asc.c_oAscValAxUnits.HUNDREDS},
-                    {displayValue: this.textThousands, value: Asc.c_oAscValAxUnits.THOUSANDS},
-                    {displayValue: this.textTenThousands, value: Asc.c_oAscValAxUnits.TEN_THOUSANDS},
-                    {displayValue: this.textHundredThousands, value: Asc.c_oAscValAxUnits.HUNDRED_THOUSANDS},
-                    {displayValue: this.textMillions, value: Asc.c_oAscValAxUnits.MILLIONS},
-                    {displayValue: this.textTenMillions, value: Asc.c_oAscValAxUnits.TEN_MILLIONS},
-                    {displayValue: this.textHundredMil, value: Asc.c_oAscValAxUnits.HUNDRED_MILLIONS},
-                    {displayValue: this.textBillions, value: Asc.c_oAscValAxUnits.BILLIONS},
-                    {displayValue: this.textTrillions, value: Asc.c_oAscValAxUnits.TRILLIONS}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putDispUnitsRule(record.value);
-                }
-            }, this));
+                me.cmbVCrossType[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-v-crosstype-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textAuto, value: Asc.c_oAscCrossesRule.auto},
+                        {displayValue: me.textValue, value: Asc.c_oAscCrossesRule.value},
+                        {displayValue: me.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
+                        {displayValue: me.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putCrossesRule(record.value);
+                        var value;
+                        switch (record.value) {
+                            case Asc.c_oAscCrossesRule.minValue:
+                                me.spnVAxisCrosses[i].setValue(me.spnMinValue.getNumberValue(), true);
+                                break;
+                            case Asc.c_oAscCrossesRule.maxValue:
+                                me.spnVAxisCrosses[i].setValue(me.spnMaxValue.getNumberValue(), true);
+                                break;
+                            case Asc.c_oAscCrossesRule.auto:
+                                me.spnVAxisCrosses[i].setValue(me._originalAxisVValues[i].crossesAuto, true);
+                                break;
+                        }
+                    }
+                }, me));
 
-            this.chVReverse = new Common.UI.CheckBox({
-                el: $('#chart-dlg-check-v-reverse'),
-                labelText: this.textReverse
-            }).on('change', _.bind(function(checkbox, state) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putInvertValOrder(state == 'checked');
-                }
-            }, this));
-            
-            this.cmbVMajorType = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-v-major-type'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
-                    {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
-                    {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
-                    {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putMajorTickMark(record.value);
-                }
-            }, this));
+                me.spnVAxisCrosses[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-v-axis-crosses-' + i),
+                    maxValue: 1000000,
+                    minValue: -1000000,
+                    step: 0.1,
+                    defaultUnit: "",
+                    defaultValue: 0,
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    me.cmbVCrossType[i].suspendEvents();
+                    me.cmbVCrossType[i].setValue(Asc.c_oAscCrossesRule.value);
+                    me.cmbVCrossType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putCrossesRule(Asc.c_oAscCrossesRule.value);
+                        me.currentAxisProps[i].putCrosses(field.getNumberValue());
+                    }
+                }, me));
 
-            this.cmbVMinorType = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-v-minor-type'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
-                    {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
-                    {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
-                    {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putMinorTickMark(record.value);
-                }
-            }, this));
+                me.cmbUnits[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-units-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textNone, value: Asc.c_oAscValAxUnits.none},
+                        {displayValue: me.textHundreds, value: Asc.c_oAscValAxUnits.HUNDREDS},
+                        {displayValue: me.textThousands, value: Asc.c_oAscValAxUnits.THOUSANDS},
+                        {displayValue: me.textTenThousands, value: Asc.c_oAscValAxUnits.TEN_THOUSANDS},
+                        {displayValue: me.textHundredThousands, value: Asc.c_oAscValAxUnits.HUNDRED_THOUSANDS},
+                        {displayValue: me.textMillions, value: Asc.c_oAscValAxUnits.MILLIONS},
+                        {displayValue: me.textTenMillions, value: Asc.c_oAscValAxUnits.TEN_MILLIONS},
+                        {displayValue: me.textHundredMil, value: Asc.c_oAscValAxUnits.HUNDRED_MILLIONS},
+                        {displayValue: me.textBillions, value: Asc.c_oAscValAxUnits.BILLIONS},
+                        {displayValue: me.textTrillions, value: Asc.c_oAscValAxUnits.TRILLIONS}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putDispUnitsRule(record.value);
+                    }
+                }, me));
 
-            this.cmbVLabelPos = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-v-label-pos'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
-                    {displayValue: this.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
-                    {displayValue: this.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
-                    {displayValue: this.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putTickLabelsPos(record.value);
-                }
-            }, this));
+                me.chVReverse[i] = new Common.UI.CheckBox({
+                    el: $('#chart-dlg-check-v-reverse-' + i),
+                    labelText: me.textReverse
+                }).on('change', _.bind(function (checkbox, state) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putInvertValOrder(state == 'checked');
+                    }
+                }, me));
+
+                me.cmbVMajorType[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-v-major-type-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                        {displayValue: me.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                        {displayValue: me.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                        {displayValue: me.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMajorTickMark(record.value);
+                    }
+                }, me));
+
+                me.cmbVMinorType[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-v-minor-type-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                        {displayValue: me.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                        {displayValue: me.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                        {displayValue: me.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMinorTickMark(record.value);
+                    }
+                }, me));
+
+                me.cmbVLabelPos[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-v-label-pos-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
+                        {displayValue: me.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
+                        {displayValue: me.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
+                        {displayValue: me.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putTickLabelsPos(record.value);
+                    }
+                }, me));
+            };
+            addControlsV(0);
+            addControlsV(1);
 
             // Horizontal Axis
+            this.cmbHCrossType = [];
+            this.cmbAxisPos = [];
+            this.spnHAxisCrosses = [];
+            this.chHReverse = [];
+            this.cmbHMajorType = [];
+            this.cmbHMinorType = [];
+            this.spnMarksInterval = [];
+            this.cmbHLabelPos = [];
+            this.spnLabelDist = [];
+            this.cmbLabelInterval = [];
+            this.spnLabelInterval = [];
+            this.cmbHorTitle = [];
+            this.cmbHorGrid = [];
+            this.chHorHide = [];
 
-            this.cmbHCrossType = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-h-crosstype'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 100px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textAuto, value: Asc.c_oAscCrossesRule.auto},
-                    {displayValue: this.textValue, value: Asc.c_oAscCrossesRule.value},
-                    {displayValue: this.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
-                    {displayValue: this.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putCrossesRule(record.value);
-                    if (record.value==Asc.c_oAscCrossesRule.auto) {
-                        this.spnHAxisCrosses.setValue(this._originalAxisHValues.crossesAuto, true);
-                    } else if (record.value==Asc.c_oAscCrossesRule.minValue) {
-                        this.spnHAxisCrosses.setValue(this._originalAxisHValues.minAuto, true);
-                    } else if (record.value==Asc.c_oAscCrossesRule.maxValue) {
-                        this.spnHAxisCrosses.setValue(this._originalAxisHValues.maxAuto, true);
+            var addControlsH = function(i) {
+                me.chHorHide[i] = new Common.UI.CheckBox({
+                    el: $('#chart-dlg-chk-hor-hide-' + i),
+                    labelText: me.textHideAxis
+                }).on('change', _.bind(function (checkbox, state) {
+                    if (me.currentAxisProps[i])
+                        me.currentAxisProps[i].putShow(state !== 'checked');
+                }, me));
+
+                me.cmbHorTitle[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-hor-title-' + i),
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    cls: 'input-group-nr',
+                    data: [
+                        {value: Asc.c_oAscChartHorAxisLabelShowSettings.none, displayValue: me.textNone},
+                        {value: Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay, displayValue: me.textNoOverlay}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i])
+                        me.currentAxisProps[i].putLabel(record.value);
+                }, me));
+
+                me.cmbHorGrid[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-hor-grid-' + i),
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    cls: 'input-group-nr',
+                    data: [
+                        {value: Asc.c_oAscGridLinesSettings.none, displayValue: me.textNone},
+                        {value: Asc.c_oAscGridLinesSettings.major, displayValue: me.textMajor},
+                        {value: Asc.c_oAscGridLinesSettings.minor, displayValue: me.textMinor},
+                        {value: Asc.c_oAscGridLinesSettings.majorMinor, displayValue: me.textMajorMinor}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i])
+                        me.currentAxisProps[i].putGridlines(record.value);
+                }, me));
+
+                me.cmbHCrossType[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-h-crosstype-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textAuto, value: Asc.c_oAscCrossesRule.auto},
+                        {displayValue: me.textValue, value: Asc.c_oAscCrossesRule.value},
+                        {displayValue: me.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
+                        {displayValue: me.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putCrossesRule(record.value);
+                        if (record.value == Asc.c_oAscCrossesRule.auto) {
+                            me.spnHAxisCrosses[i].setValue(me._originalAxisHValues[i].crossesAuto, true);
+                        } else if (record.value == Asc.c_oAscCrossesRule.minValue) {
+                            me.spnHAxisCrosses[i].setValue(me._originalAxisHValues[i].minAuto, true);
+                        } else if (record.value == Asc.c_oAscCrossesRule.maxValue) {
+                            me.spnHAxisCrosses[i].setValue(me._originalAxisHValues[i].maxAuto, true);
+                        }
                     }
-                }
-            }, this));
+                }, me));
 
-            this.spnHAxisCrosses = new Common.UI.MetricSpinner({
-                el          : $('#chart-dlg-input-h-axis-crosses'),
-                maxValue    : 1000000,
-                minValue    : -1000000,
-                step        : 0.1,
-                defaultUnit : "",
-                defaultValue : 0,
-                value       : ''
-            }).on('change', _.bind(function(field, newValue, oldValue) {
-                this.cmbHCrossType.suspendEvents();
-                this.cmbHCrossType.setValue(Asc.c_oAscCrossesRule.value);
-                this.cmbHCrossType.resumeEvents();
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putCrossesRule(Asc.c_oAscCrossesRule.value);
-                    this.currentAxisProps.putCrosses(field.getNumberValue());
-                }
-            }, this));
+                me.spnHAxisCrosses[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-h-axis-crosses-' + i),
+                    maxValue: 1000000,
+                    minValue: -1000000,
+                    step: 0.1,
+                    defaultUnit: "",
+                    defaultValue: 0,
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    me.cmbHCrossType[i].suspendEvents();
+                    me.cmbHCrossType[i].setValue(Asc.c_oAscCrossesRule.value);
+                    me.cmbHCrossType[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putCrossesRule(Asc.c_oAscCrossesRule.value);
+                        me.currentAxisProps[i].putCrosses(field.getNumberValue());
+                    }
+                }, me));
 
-            this.cmbAxisPos = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-axis-pos'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textOnTickMarks, value: Asc.c_oAscLabelsPosition.byDivisions},
-                    {displayValue: this.textBetweenTickMarks, value: Asc.c_oAscLabelsPosition.betweenDivisions}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putLabelsPosition(record.value);
-                }
-            }, this));
+                me.cmbAxisPos[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-axis-pos-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textOnTickMarks, value: Asc.c_oAscLabelsPosition.byDivisions},
+                        {displayValue: me.textBetweenTickMarks, value: Asc.c_oAscLabelsPosition.betweenDivisions}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putLabelsPosition(record.value);
+                    }
+                }, me));
 
-            this.chHReverse = new Common.UI.CheckBox({
-                el: $('#chart-dlg-check-h-reverse'),
-                labelText: this.textReverse
-            }).on('change', _.bind(function(checkbox, state) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putInvertCatOrder(state == 'checked');
-                }
-            }, this));
+                me.chHReverse[i] = new Common.UI.CheckBox({
+                    el: $('#chart-dlg-check-h-reverse-' + i),
+                    labelText: me.textReverse
+                }).on('change', _.bind(function (checkbox, state) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putInvertCatOrder(state == 'checked');
+                    }
+                }, me));
 
-            this.cmbHMajorType = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-h-major-type'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
-                    {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
-                    {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
-                    {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putMajorTickMark(record.value);
-                }
-            }, this));
+                me.cmbHMajorType[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-h-major-type-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                        {displayValue: me.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                        {displayValue: me.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                        {displayValue: me.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMajorTickMark(record.value);
+                    }
+                }, me));
 
-            this.cmbHMinorType = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-h-minor-type'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
-                    {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
-                    {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
-                    {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putMinorTickMark(record.value);
-                }
-            }, this));
+                me.cmbHMinorType[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-h-minor-type-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textNone, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+                        {displayValue: me.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+                        {displayValue: me.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+                        {displayValue: me.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putMinorTickMark(record.value);
+                    }
+                }, me));
 
-            this.spnMarksInterval = new Common.UI.MetricSpinner({
-                el          : $('#chart-dlg-input-marks-interval'),
-                width       : 140,
-                maxValue    : 1000000,
-                minValue    : 1,
-                step        : 1,
-                defaultUnit : "",
-                value       : ''
-            }).on('change', _.bind(function(field, newValue, oldValue) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putIntervalBetweenTick(field.getNumberValue());
-                }
-            }, this));
+                me.spnMarksInterval[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-marks-interval-' + i),
+                    width: 140,
+                    maxValue: 1000000,
+                    minValue: 1,
+                    step: 1,
+                    defaultUnit: "",
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putIntervalBetweenTick(field.getNumberValue());
+                    }
+                }, me));
 
-            this.cmbHLabelPos = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-h-label-pos'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
-                    {displayValue: this.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
-                    {displayValue: this.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
-                    {displayValue: this.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putTickLabelsPos(record.value);
-                }
-            }, this));
+                me.cmbHLabelPos[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-h-label-pos-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
+                        {displayValue: me.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
+                        {displayValue: me.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
+                        {displayValue: me.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putTickLabelsPos(record.value);
+                    }
+                }, me));
 
-            this.spnLabelDist = new Common.UI.MetricSpinner({
-                el          : $('#chart-dlg-input-label-dist'),
-                width       : 140,
-                maxValue    : 1000,
-                minValue    : 0,
-                step        : 1,
-                defaultUnit : "",
-                value       : ''
-            }).on('change', _.bind(function(field, newValue, oldValue) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putLabelsAxisDistance(field.getNumberValue());
-                }
-            }, this));
+                me.spnLabelDist[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-label-dist-' + i),
+                    width: 140,
+                    maxValue: 1000,
+                    minValue: 0,
+                    step: 1,
+                    defaultUnit: "",
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putLabelsAxisDistance(field.getNumberValue());
+                    }
+                }, me));
 
-            this.spnLabelInterval = new Common.UI.MetricSpinner({
-                el          : $('#chart-dlg-input-label-int'),
-                width       : 140,
-                maxValue    : 1000000,
-                minValue    : 1,
-                step        : 1,
-                defaultUnit : "",
-                value       : ''
-            }).on('change', _.bind(function(field, newValue, oldValue) {
-                this.cmbLabelInterval.suspendEvents();
-                this.cmbLabelInterval.setValue(Asc.c_oAscBetweenLabelsRule.manual);
-                this.cmbLabelInterval.resumeEvents();
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putIntervalBetweenLabelsRule(Asc.c_oAscBetweenLabelsRule.manual);
-                    this.currentAxisProps.putIntervalBetweenLabels(field.getNumberValue());
-                }
-            }, this));
+                me.spnLabelInterval[i] = new Common.UI.MetricSpinner({
+                    el: $('#chart-dlg-input-label-int-' + i),
+                    width: 140,
+                    maxValue: 1000000,
+                    minValue: 1,
+                    step: 1,
+                    defaultUnit: "",
+                    value: ''
+                }).on('change', _.bind(function (field, newValue, oldValue) {
+                    me.cmbLabelInterval[i].suspendEvents();
+                    me.cmbLabelInterval[i].setValue(Asc.c_oAscBetweenLabelsRule.manual);
+                    me.cmbLabelInterval[i].resumeEvents();
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putIntervalBetweenLabelsRule(Asc.c_oAscBetweenLabelsRule.manual);
+                        me.currentAxisProps[i].putIntervalBetweenLabels(field.getNumberValue());
+                    }
+                }, me));
 
-            this.cmbLabelInterval = new Common.UI.ComboBox({
-                el          : $('#chart-dlg-combo-label-int'),
-                cls         : 'input-group-nr',
-                menuStyle   : 'min-width: 140px;',
-                editable    : false,
-                data        : [
-                    {displayValue: this.textAuto, value: Asc.c_oAscBetweenLabelsRule.auto},
-                    {displayValue: this.textManual, value: Asc.c_oAscBetweenLabelsRule.manual}
-                ],
-                takeFocusOnClose: true
-            }).on('selected', _.bind(function(combo, record) {
-                if (this.currentAxisProps) {
-                    this.currentAxisProps.putIntervalBetweenLabelsRule(record.value);
-                    if (record.value==Asc.c_oAscBetweenLabelsRule.auto)
-                        this.spnLabelInterval.setValue(1, true);
-                }
-            }, this));
+                me.cmbLabelInterval[i] = new Common.UI.ComboBox({
+                    el: $('#chart-dlg-combo-label-int-' + i),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 140px;',
+                    editable: false,
+                    data: [
+                        {displayValue: me.textAuto, value: Asc.c_oAscBetweenLabelsRule.auto},
+                        {displayValue: me.textManual, value: Asc.c_oAscBetweenLabelsRule.manual}
+                    ],
+                    takeFocusOnClose: true
+                }).on('selected', _.bind(function (combo, record) {
+                    if (me.currentAxisProps[i]) {
+                        me.currentAxisProps[i].putIntervalBetweenLabelsRule(record.value);
+                        if (record.value == Asc.c_oAscBetweenLabelsRule.auto)
+                            me.spnLabelInterval[i].setValue(1, true);
+                    }
+                }, me));
+            };
+            addControlsH(0);
+            addControlsH(1);
 
             // Sparklines
             this.btnSparkType = new Common.UI.Button({
@@ -1002,12 +1005,19 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
         getFocusedComponents: function() {
             return [
-                this.cmbChartTitle, this.cmbLegendPos, this.cmbDataLabels, this.txtSeparator, this.cmbHorShow, this.cmbVertShow,
-                this.cmbHorTitle, this.cmbVertTitle, this.cmbHorGrid, this.cmbVertGrid, // 1 tab
-                this.cmbMinType , this.spnMinValue, this.cmbMaxType, this.spnMaxValue, this.cmbVCrossType, this.spnVAxisCrosses,
-                this.cmbUnits , this.cmbVMajorType, this.cmbVMinorType, this.cmbVLabelPos, // 2 tab
-                this.cmbHCrossType , this.spnHAxisCrosses, this.cmbAxisPos, this.cmbHMajorType, this.cmbHMinorType, this.spnMarksInterval,
-                this.cmbHLabelPos , this.spnLabelDist, this.cmbLabelInterval, this.spnLabelInterval, // 3 tab
+                this.cmbChartTitle, this.cmbLegendPos, this.cmbDataLabels, this.txtSeparator, // 1 tab
+                this.cmbVertTitle[0], this.cmbVertGrid[0],
+                this.cmbMinType[0], this.spnMinValue[0], this.cmbMaxType[0], this.spnMaxValue[0], this.cmbVCrossType[0], this.spnVAxisCrosses[0],
+                this.cmbUnits[0] , this.cmbVMajorType[0], this.cmbVMinorType[0], this.cmbVLabelPos[0], // 2 tab
+                this.cmbVertTitle[1], this.cmbVertGrid[1],
+                this.cmbMinType[1] , this.spnMinValue[1], this.cmbMaxType[1], this.spnMaxValue[1], this.cmbVCrossType[1], this.spnVAxisCrosses[1],
+                this.cmbUnits[1] , this.cmbVMajorType[1], this.cmbVMinorType[1], this.cmbVLabelPos[1], // 3 tab
+                this.cmbHorTitle[0], this.cmbHorGrid[0],
+                this.cmbHCrossType[0] , this.spnHAxisCrosses[0], this.cmbAxisPos[0], this.cmbHMajorType[0], this.cmbHMinorType[0], this.spnMarksInterval[0],
+                this.cmbHLabelPos[0] , this.spnLabelDist[0], this.cmbLabelInterval[0], this.spnLabelInterval[0], // 4 tab
+                this.cmbHorTitle[1], this.cmbHorGrid[1],
+                this.cmbHCrossType[1] , this.spnHAxisCrosses[1], this.cmbAxisPos[1], this.cmbHMajorType[1], this.cmbHMinorType[1], this.spnMarksInterval[1],
+                this.cmbHLabelPos[1] , this.spnLabelDist[1], this.cmbLabelInterval[1], this.spnLabelInterval[1], // 5 tab
                 this.inputAltTitle, this.textareaAltDescription  // 7 tab
             ];
         },
@@ -1022,14 +1032,16 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         me.cmbChartTitle.focus();
                         break;
                     case 2:
-                        me.onVCategoryClick(btn);
-                        me.cmbMinType.focus();
-                        break;
                     case 3:
-                        me.onHCategoryClick(btn);
-                        me.cmbHCrossType.focus();
+                        me.onVCategoryClick(index-2);
+                        me.cmbMinType[index-2].focus();
                         break;
-                    case 7:
+                    case 4:
+                    case 5:
+                        me.onHCategoryClick(index-4);
+                        me.cmbHCrossType[index-4].focus();
+                        break;
+                    case 9:
                         me.inputAltTitle.focus();
                         break;
                 }
@@ -1043,22 +1055,24 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
             this.btnsCategory[0].setVisible(this.isDiagramMode); // hide type for charts
             if (this.isChart) {
-                this.btnsCategory[4].setVisible(false);
-                this.btnsCategory[5].setVisible(false);
+                this.btnsCategory[6].setVisible(false);
+                this.btnsCategory[7].setVisible(false);
             } else {
                 this.btnsCategory[1].setVisible(false);
                 this.btnsCategory[2].setVisible(false);
                 this.btnsCategory[3].setVisible(false);
-                this.btnsCategory[6].setVisible(false);
-                this.btnsCategory[7].setVisible(false);
+                this.btnsCategory[4].setVisible(false);
+                this.btnsCategory[5].setVisible(false);
+                this.btnsCategory[8].setVisible(false);
+                this.btnsCategory[9].setVisible(false);
             }
 
             if (this.storageName) {
                 var value = Common.localStorage.getItem(this.storageName);
                 this.setActiveCategory((value!==null) ? parseInt(value) : 0);
                 value = this.getActiveCategory();
-                if (value==2) this.onVCategoryClick();
-                else if (value==3) this.onHCategoryClick();
+                if (value==2 || value==3) this.onVCategoryClick(value-2);
+                else if (value==4 || value==5) this.onHCategoryClick(value-4);
             }
         },
 
@@ -1082,8 +1096,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
             this.chartSettings.changeType(rawData.type);
             this.updateAxisProps(rawData.type, true);
-            this.vertAxisProps = this.chartSettings.getVertAxisProps();
-            this.horAxisProps = this.chartSettings.getHorAxisProps();
+            this.vertAxisProps = this.chartSettings.getVertAxesProps();
+            this.horAxisProps = this.chartSettings.getHorAxesProps();
             this.updateDataLabels(rawData.type, this.cmbDataLabels.getValue());
             this.currentChartType = rawData.type;
         },
@@ -1103,29 +1117,23 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             value = (type == Asc.c_oAscChartTypeSettings.pie || type == Asc.c_oAscChartTypeSettings.doughnut || type == Asc.c_oAscChartTypeSettings.pie3d);
             this.btnsCategory[2].setDisabled(value);
             this.btnsCategory[3].setDisabled(value);
-            this.cmbHorShow.setDisabled(value);
-            this.cmbVertShow.setDisabled(value);
-            this.cmbHorTitle.setDisabled(value);
-            this.cmbVertTitle.setDisabled(value);
-            this.cmbHorGrid.setDisabled(value);
-            this.cmbVertGrid.setDisabled(value);
-
-            this.cmbHorShow.setValue(this.chartSettings.getShowHorAxis());
-            this.cmbVertShow.setValue(this.chartSettings.getShowVerAxis());
-            this.cmbHorTitle.setValue(this.chartSettings.getHorAxisLabel());
-            this.cmbVertTitle.setValue(this.chartSettings.getVertAxisLabel());
-            this.cmbHorGrid.setValue(this.chartSettings.getHorGridLines());
-            this.cmbVertGrid.setValue(this.chartSettings.getVertGridLines());
+            this.btnsCategory[4].setDisabled(value);
+            this.btnsCategory[5].setDisabled(value);
+            this.btnsCategory[2].setVisible(this.vertAxisProps.length>0);
+            this.btnsCategory[3].setVisible(this.vertAxisProps.length>1);
+            this.btnsCategory[4].setVisible(this.horAxisProps.length>0);
+            this.btnsCategory[5].setVisible(this.horAxisProps.length>1);
 
             value = (type == Asc.c_oAscChartTypeSettings.barNormal3d || type == Asc.c_oAscChartTypeSettings.barStacked3d || type == Asc.c_oAscChartTypeSettings.barStackedPer3d ||
                      type == Asc.c_oAscChartTypeSettings.hBarNormal3d || type == Asc.c_oAscChartTypeSettings.hBarStacked3d || type == Asc.c_oAscChartTypeSettings.hBarStackedPer3d ||
                      type == Asc.c_oAscChartTypeSettings.barNormal3dPerspective);
-            this.cmbAxisPos.setDisabled(value);
+            this.cmbAxisPos[0].setDisabled(value);
+            this.cmbAxisPos[1].setDisabled(value);
 
             value = (type == Asc.c_oAscChartTypeSettings.hBarNormal || type == Asc.c_oAscChartTypeSettings.hBarStacked || type == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
                      type == Asc.c_oAscChartTypeSettings.hBarNormal3d || type == Asc.c_oAscChartTypeSettings.hBarStacked3d || type == Asc.c_oAscChartTypeSettings.hBarStackedPer3d);
             this.btnsCategory[2].options.contentTarget = (value) ? 'id-chart-settings-dlg-hor' : 'id-chart-settings-dlg-vert';
-            this.btnsCategory[3].options.contentTarget = (value || type == Asc.c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
+            this.btnsCategory[4].options.contentTarget = (value || type == Asc.c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
         },
 
         updateDataLabels: function(chartType, labelPos) {
@@ -1166,100 +1174,112 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.onSelectDataLabels(this.cmbDataLabels, {value:labelPos});
         },
 
-        onVCategoryClick: function() {
-            (this.vertAxisProps.getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.vertAxisProps) : this.fillHProps(this.vertAxisProps);
+        onVCategoryClick: function(index) {
+            (this.vertAxisProps[index].getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.vertAxisProps[index], index) : this.fillHProps(this.vertAxisProps[index], index);
         },
 
-        onHCategoryClick: function() {
-            (this.horAxisProps.getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.horAxisProps) : this.fillHProps(this.horAxisProps);
+        onHCategoryClick: function(index) {
+            (this.horAxisProps[index].getAxisType()==Asc.c_oAscAxisType.val) ? this.fillVProps(this.horAxisProps[index], index) : this.fillHProps(this.horAxisProps[index], index);
         },
 
-        fillVProps: function(props) {
+        fillVProps: function(props, index) {
             if (props.getAxisType() !== Asc.c_oAscAxisType.val) return;
-            if (this._originalAxisVValues==undefined) {
-                this._originalAxisVValues = {
+            if (this._originalAxisVValues==undefined)
+                this._originalAxisVValues = [];
+            if (this._originalAxisVValues[index]==undefined) {
+                this._originalAxisVValues[index] = {
                     minAuto: (props.getMinVal()==null) ? 0 : props.getMinVal(),
                     maxAuto: (props.getMaxVal()==null) ? 10 : props.getMaxVal(),
                     crossesAuto: (props.getCrosses()==null) ? 0 : props.getCrosses()
                 };
             }
 
-            this.cmbMinType.setValue(props.getMinValRule());
-            var value = (props.getMinValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues.minAuto : props.getMinVal();
-            this.spnMinValue.setValue((value==null) ? '' : value, true);
+            this.chVertHide[index].setValue(!props.getShow());
+            this.cmbVertGrid[index].setValue(props.getGridlines());
+            this.cmbVertTitle[index].setValue(props.getLabel());
 
-            this.cmbMaxType.setValue(props.getMaxValRule());
-            value = (props.getMaxValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues.maxAuto : props.getMaxVal();
-            this.spnMaxValue.setValue((value==null) ? '' : value, true);
+            this.cmbMinType[index].setValue(props.getMinValRule());
+            var value = (props.getMinValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues[index].minAuto : props.getMinVal();
+            this.spnMinValue[index].setValue((value==null) ? '' : value, true);
+
+            this.cmbMaxType[index].setValue(props.getMaxValRule());
+            value = (props.getMaxValRule()==Asc.c_oAscValAxisRule.auto) ? this._originalAxisVValues[index].maxAuto : props.getMaxVal();
+            this.spnMaxValue[index].setValue((value==null) ? '' : value, true);
 
             value = props.getCrossesRule();
-            this.cmbVCrossType.setValue(value);
+            this.cmbVCrossType[index].setValue(value);
             switch (value) {
                 case Asc.c_oAscCrossesRule.minValue:
-                    value = this.spnMinValue.getNumberValue();
+                    value = this.spnMinValue[index].getNumberValue();
                 break;
                 case Asc.c_oAscCrossesRule.maxValue:
-                    value = this.spnMaxValue.getNumberValue();
+                    value = this.spnMaxValue[index].getNumberValue();
                 break;
                 case Asc.c_oAscCrossesRule.auto:
-                    value = this._originalAxisVValues.crossesAuto;
+                    value = this._originalAxisVValues[index].crossesAuto;
                 break;
                 default:
                     value = props.getCrosses();
                 break;
             }
-            this.spnVAxisCrosses.setValue((value==null) ? '' : value, true);
+            this.spnVAxisCrosses[index].setValue((value==null) ? '' : value, true);
 
-            this.cmbUnits.setValue(props.getDispUnitsRule());
-            this.chVReverse.setValue(props.getInvertValOrder(), true);
-            this.cmbVMajorType.setValue(props.getMajorTickMark());
-            this.cmbVMinorType.setValue(props.getMinorTickMark());
-            this.cmbVLabelPos.setValue(props.getTickLabelsPos());
+            this.cmbUnits[index].setValue(props.getDispUnitsRule());
+            this.chVReverse[index].setValue(props.getInvertValOrder(), true);
+            this.cmbVMajorType[index].setValue(props.getMajorTickMark());
+            this.cmbVMinorType[index].setValue(props.getMinorTickMark());
+            this.cmbVLabelPos[index].setValue(props.getTickLabelsPos());
 
-            this.currentAxisProps = props;
+            this.currentAxisProps[index] = props;
         },
 
-        fillHProps: function(props) {
+        fillHProps: function(props, index) {
             if (props.getAxisType() !== Asc.c_oAscAxisType.cat) return;
-            if (this._originalAxisHValues==undefined) {
-                this._originalAxisHValues = {
+            if (this._originalAxisHValues==undefined)
+                this._originalAxisHValues = [];
+            if (this._originalAxisHValues[index]==undefined) {
+                this._originalAxisHValues[index] = {
                     minAuto: (props.getCrossMinVal()==null) ? 0 : props.getCrossMinVal(),
                     maxAuto: (props.getCrossMaxVal()==null) ? 10 : props.getCrossMaxVal(),
                     crossesAuto: (props.getCrosses()==null) ? 0 : props.getCrosses()
                 };
             }
 
+            this.chHorHide[index].setValue(!props.getShow());
+            this.cmbHorGrid[index].setValue(props.getGridlines());
+            this.cmbHorTitle[index].setValue(props.getLabel());
+
             var value = props.getCrossesRule();
-            this.cmbHCrossType.setValue(value);
+            this.cmbHCrossType[index].setValue(value);
             switch (value) {
                 case Asc.c_oAscCrossesRule.minValue:
-                    value = this._originalAxisHValues.minAuto;
+                    value = this._originalAxisHValues[index].minAuto;
                 break;
                 case Asc.c_oAscCrossesRule.maxValue:
-                    value = this._originalAxisHValues.maxAuto;
+                    value = this._originalAxisHValues[index].maxAuto;
                 break;
                 case Asc.c_oAscCrossesRule.auto:
-                    value = this._originalAxisHValues.crossesAuto;
+                    value = this._originalAxisHValues[index].crossesAuto;
                 break;
                 default:
                     value = props.getCrosses();
                 break;
             }
-            this.spnHAxisCrosses.setValue((value==null) ? '' : value, true);
+            this.spnHAxisCrosses[index].setValue((value==null) ? '' : value, true);
 
-            this.cmbAxisPos.setValue(props.getLabelsPosition());
-            this.chHReverse.setValue(props.getInvertCatOrder(), true);
-            this.cmbHMajorType.setValue(props.getMajorTickMark());
-            this.cmbHMinorType.setValue(props.getMinorTickMark());
-            this.spnMarksInterval.setValue(props.getIntervalBetweenTick(), true);
-            this.cmbHLabelPos.setValue(props.getTickLabelsPos());
-            this.spnLabelDist.setValue(props.getLabelsAxisDistance(), true);
+            this.cmbAxisPos[index].setValue(props.getLabelsPosition());
+            this.chHReverse[index].setValue(props.getInvertCatOrder(), true);
+            this.cmbHMajorType[index].setValue(props.getMajorTickMark());
+            this.cmbHMinorType[index].setValue(props.getMinorTickMark());
+            this.spnMarksInterval[index].setValue(props.getIntervalBetweenTick(), true);
+            this.cmbHLabelPos[index].setValue(props.getTickLabelsPos());
+            this.spnLabelDist[index].setValue(props.getLabelsAxisDistance(), true);
 
             value = props.getIntervalBetweenLabelsRule();
-            this.cmbLabelInterval.setValue(value);
-            this.spnLabelInterval.setValue((value===Asc.c_oAscBetweenLabelsRule.manual) ? props.getIntervalBetweenLabels(): 1, true);
+            this.cmbLabelInterval[index].setValue(value);
+            this.spnLabelInterval[index].setValue((value===Asc.c_oAscBetweenLabelsRule.manual) ? props.getIntervalBetweenLabels(): 1, true);
 
-            this.currentAxisProps = props;
+            this.currentAxisProps[index] = props;
         },
 
         updateSparkStyles: function(styles) {
@@ -1357,25 +1377,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                     this._noApply = false;
 
-                    // var value = props.getRange();
-                    // this.txtDataRange.setValue((value) ? value : '');
-                    // this.dataRangeValid = value;
-                    //
-                    // this.txtDataRange.validation = function(value) {
-                    //     if (_.isEmpty(value)) {
-                    //         if (!me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(true);
-                    //         return true;
-                    //     }
-                    //
-                    //     if (me.cmbDataDirect.isDisabled()) me.cmbDataDirect.setDisabled(false);
-                    //
-                    //     var isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, false);
-                    //     return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.textInvalidRange : true;
-                    // };
-                    //
-                    // this.cmbDataDirect.setDisabled(value===null);
-                    // this.cmbDataDirect.setValue(props.getInColumns() ? 1 : 0);
-
                     this.cmbChartTitle.setValue(props.getTitle());
                     this.cmbLegendPos.setValue(props.getLegendPos());
 
@@ -1389,10 +1390,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.txtSeparator.setValue((value) ? value : '');
 
                     // Vertical Axis
-                    this.vertAxisProps = props.getVertAxisProps();
+                    this.vertAxisProps = props.getVertAxesProps();
 
                     // Horizontal Axis
-                    this.horAxisProps = props.getHorAxisProps();
+                    this.horAxisProps = props.getHorAxesProps();
 
                     this.updateAxisProps(this._state.ChartType);
                     this.currentChartType = this._state.ChartType;
@@ -1496,15 +1497,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.chartSettings.putTitle(this.cmbChartTitle.getValue());
                 this.chartSettings.putLegendPos(this.cmbLegendPos.getValue());
 
-                this.chartSettings.putShowHorAxis(this.cmbHorShow.getValue());
-                this.chartSettings.putShowVerAxis(this.cmbVertShow.getValue());
-
-                this.chartSettings.putHorAxisLabel(this.cmbHorTitle.getValue());
-                this.chartSettings.putVertAxisLabel(this.cmbVertTitle.getValue());
-
-                this.chartSettings.putHorGridLines(this.cmbHorGrid.getValue());
-                this.chartSettings.putVertGridLines(this.cmbVertGrid.getValue());
-
                 this.chartSettings.putDataLabelsPos(this.cmbDataLabels.getValue());
 
                 this.chartSettings.putShowSerName(this.chSeriesName.getValue()=='checked');
@@ -1524,8 +1516,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         this.chartSettings.putSmooth(value==2);
                 }
 
-                this.chartSettings.putVertAxisProps(this.vertAxisProps);
-                this.chartSettings.putHorAxisProps(this.horAxisProps);
+                // this.chartSettings.putVertAxisProps(this.vertAxisProps);
+                // this.chartSettings.putHorAxisProps(this.horAxisProps);
 
                 if ((this.isAltTitleChanged || this.isAltDescChanged) && !this._changedImageProps)
                     this._changedImageProps = new Asc.asc_CImgProperty();
@@ -1819,7 +1811,11 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textSnap: 'Cell Snapping',
         textAbsolute: 'Don\'t move or size with cells',
         textOneCell: 'Move but don\'t size with cells',
-        textTwoCell: 'Move and size with cells'
+        textTwoCell: 'Move and size with cells',
+        textVertAxisSec: 'Secondary Vertical Axis',
+        textHorAxisSec: 'Secondary Horizontal Axis',
+        textAxisTitle: 'Title',
+        textHideAxis: 'Hide axis'
 
     }, SSE.Views.ChartSettingsDlg || {}));
 });
