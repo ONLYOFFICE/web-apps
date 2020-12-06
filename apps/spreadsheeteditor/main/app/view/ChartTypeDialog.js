@@ -172,7 +172,7 @@ define([
                 enableKeyEvents: this.options.enableKeyEvents,
                 itemTemplate : _.template([
                     '<div class="style" id="<%= id %>">',
-                        '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '"/>',
+                        '<img src="<%= imageUrl %>" width="50" height="50"/>',
                         '<% if (typeof title !== "undefined") {%>',
                             '<span class="title"><%= title %></span>',
                         '<% } %>',
