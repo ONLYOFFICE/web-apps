@@ -555,12 +555,6 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                value = Common.localStorage.getItem("de-show-hiddenchars");
-                me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
-
-                value = Common.localStorage.getItem("de-show-tableline");
-                me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
-
                 value = Common.localStorage.getBool("de-mobile-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
                 Common.Utils.InternalSettings.set("de-mobile-spellcheck", value);
                 me.api.asc_setSpellCheck(value);
@@ -575,10 +569,10 @@ define([
                 me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
 
                 value = Common.localStorage.getItem("de-mobile-no-characters");
-                me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
+                me.api.put_ShowParaMarks(value==='true');
 
                 value = Common.localStorage.getItem("de-mobile-hidden-borders");
-                me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
+                me.api.put_ShowTableEmptyLine(value===null || value==='true');
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
