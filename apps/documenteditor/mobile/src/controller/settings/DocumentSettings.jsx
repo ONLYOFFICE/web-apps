@@ -72,6 +72,11 @@ class DocumentSettingsController extends Component {
 
     // Color Schemes
 
+    initPageColorSchemes() {
+        const api = Common.EditorApi.get();
+        return api.asc_GetCurrentColorSchemeIndex();
+    }
+
     onColorSchemeChange(newScheme, curScheme) {
         const api = Common.EditorApi.get();
         if(newScheme !== curScheme) {
@@ -87,6 +92,7 @@ class DocumentSettingsController extends Component {
                               getMargins={this.getMargins}
                               applyMargins={this.applyMargins}
                               onColorSchemeChange={this.onColorSchemeChange}
+                              initPageColorSchemes={this.initPageColorSchemes}
             />
         )
     }

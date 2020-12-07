@@ -128,13 +128,15 @@ const PageDocumentMargins = props => {
 
 const PageDocumentColorSchemes = props => {
     const { t } = useTranslation();
+    const curScheme = props.initPageColorSchemes();
+    const [stateScheme, setScheme] = useState(curScheme);
     const _t = t('Settings', {returnObjects: true});
     const storeSettings = props.storeDocumentSettings;
-    const curScheme = storeSettings.curScheme;
+    // const curScheme = storeSettings.curScheme;
     const allSchemes = storeSettings.allSchemes;
 
     const changeScheme = (newScheme, curScheme) => {
-        storeSettings.changeColorScheme(newScheme);
+        // storeSettings.changeColorScheme(newScheme);
         props.onColorSchemeChange(newScheme, curScheme);
     }
 
@@ -145,8 +147,11 @@ const PageDocumentColorSchemes = props => {
                 {
                     allSchemes ? allSchemes.map((scheme, index) => {
                         return (
-                            <ListItem radio={true} className="color-schemes-menu" key={index} title={scheme.get_name()} value={index} checked={curScheme === index} 
-                            onChange={(e) => changeScheme(e.target.value, curScheme)}>
+                            <ListItem radio={true} className="color-schemes-menu" key={index} title={scheme.get_name()} checked={stateScheme === index} 
+                                onChange={() => {
+                                    setScheme(index);
+                                    changeScheme(index, curScheme);
+                            }}>
                                 <div slot="before-title">
                                     <span className="color-schema-block">
                                         {
@@ -218,7 +223,8 @@ const PageDocumentSettings = props => {
             </List>
             <List>
                 <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
-                    onColorSchemeChange: props.onColorSchemeChange
+                    onColorSchemeChange: props.onColorSchemeChange,
+                    initPageColorSchemes: props.initPageColorSchemes
                 }}></ListItem>
             </List>
         </Page>
