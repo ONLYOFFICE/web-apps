@@ -132,13 +132,7 @@ const PageDocumentColorSchemes = props => {
     const [stateScheme, setScheme] = useState(curScheme);
     const _t = t('Settings', {returnObjects: true});
     const storeSettings = props.storeDocumentSettings;
-    // const curScheme = storeSettings.curScheme;
     const allSchemes = storeSettings.allSchemes;
-
-    const changeScheme = (newScheme, curScheme) => {
-        // storeSettings.changeColorScheme(newScheme);
-        props.onColorSchemeChange(newScheme, curScheme);
-    }
 
     return (
         <Page>
@@ -149,8 +143,10 @@ const PageDocumentColorSchemes = props => {
                         return (
                             <ListItem radio={true} className="color-schemes-menu" key={index} title={scheme.get_name()} checked={stateScheme === index} 
                                 onChange={() => {
-                                    setScheme(index);
-                                    changeScheme(index, curScheme);
+                                    if(index !== curScheme) {
+                                        setScheme(index);
+                                        props.onColorSchemeChange(index);
+                                    };
                             }}>
                                 <div slot="before-title">
                                     <span className="color-schema-block">
@@ -169,13 +165,13 @@ const PageDocumentColorSchemes = props => {
                                 </div>
                             </ListItem>
                         )
-                    }) : null         
+                    }) : null        
                 }
             </List>
         </Page>
 
     )
-}
+};
 
 const PageDocumentSettings = props => {
     const { t } = useTranslation();
@@ -241,4 +237,4 @@ export {
     DocumentFormats,
     DocumentMargins,
     DocumentColorSchemes
-}
+};

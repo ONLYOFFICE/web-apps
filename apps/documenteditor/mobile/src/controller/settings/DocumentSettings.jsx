@@ -77,12 +77,9 @@ class DocumentSettingsController extends Component {
         return api.asc_GetCurrentColorSchemeIndex();
     }
 
-    onColorSchemeChange(newScheme, curScheme) {
+    onColorSchemeChange(newScheme) {
         const api = Common.EditorApi.get();
-        if(newScheme !== curScheme) {
-            api.asc_ChangeColorSchemeByIdx(+newScheme);
-        }
-        
+        api.asc_ChangeColorSchemeByIdx(+newScheme);
     }
 
     render () {

@@ -61,12 +61,7 @@ export class storeDocumentSettings {
 
     // Color Schemes
 
-   
-    @observable curScheme;
-
-    // @action changeColorScheme(value) {
-    //     this.curScheme = +value;
-    // }
+    @observable allSchemes;
 
     @action addSchemes(arr) {
         this.allSchemes = arr;
