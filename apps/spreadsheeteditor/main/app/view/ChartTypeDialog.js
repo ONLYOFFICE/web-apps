@@ -132,12 +132,13 @@ define([
             var arr = Common.define.chartData.getChartGroupData();
             this._arrSeriesGroups = [];
             arr.forEach(function(item) {
-                (item.id !== 'menu-chart-group-combo') && me._arrSeriesGroups.push(item);
+                (item.id !== 'menu-chart-group-combo') && (item.id !== 'menu-chart-group-stock') && me._arrSeriesGroups.push(item);
             });
             arr = Common.define.chartData.getChartData();
             this._arrSeriesType = [];
             arr.forEach(function(item) {
-                !item.is3d && item.type!==Asc.c_oAscChartTypeSettings.comboBarLine && item.type!==Asc.c_oAscChartTypeSettings.comboBarLineSecondary &&
+                !item.is3d && item.type!==Asc.c_oAscChartTypeSettings.stock &&
+                item.type!==Asc.c_oAscChartTypeSettings.comboBarLine && item.type!==Asc.c_oAscChartTypeSettings.comboBarLineSecondary &&
                 item.type!==Asc.c_oAscChartTypeSettings.comboAreaBar && item.type!==Asc.c_oAscChartTypeSettings.comboCustom && me._arrSeriesType.push(item);
             });
 
