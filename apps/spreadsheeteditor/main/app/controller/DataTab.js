@@ -323,9 +323,9 @@ define([
                     var config = {
                         maxwidth: 500,
                         title: this.txtDataValidation,
-                        msg: res===Asc.c_oAscError.ID.MoreOneTypeDataValidate ? this.txtExtendDataValidation : this.txtRemoveDataValidation,
-                        buttons: res===Asc.c_oAscError.ID.MoreOneTypeDataValidate ? ['yes', 'no', 'cancel'] : ['ok', 'cancel'],
-                        primary: res===Asc.c_oAscError.ID.MoreOneTypeDataValidate ? ['yes', 'no'] : 'ok',
+                        msg: res===Asc.c_oAscError.ID.MoreOneTypeDataValidate ? this.txtRemoveDataValidation : this.txtExtendDataValidation,
+                        buttons: res===Asc.c_oAscError.ID.MoreOneTypeDataValidate ? ['ok', 'cancel'] : ['yes', 'no', 'cancel'],
+                        primary: res===Asc.c_oAscError.ID.MoreOneTypeDataValidate ? 'ok' : ['yes', 'no'],
                         callback: function(btn){
                             if (btn == 'yes' || btn == 'no' || btn == 'ok') {
                                 setTimeout(function(){
