@@ -139,19 +139,24 @@
                     <div id="chart-dlg-combo-v-minor-type-0" class="input-group-nr" style="margin-left: 15px;"></div>
                 </td>
             </tr>
-        </table>
-    </div>
-    <div class="inner-content">
-        <table cols="1" style="width: 100%;">
             <tr>
-                <td class="padding-small">
+                <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textLabelOptions %></label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <label class="input-label"><%= scope.textLabelPos %></label>
-                    <div id="chart-dlg-combo-v-label-pos-0" class="input-group-nr" style="width:140px;"></div>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="chart-dlg-combo-v-label-pos-0" class="input-group-nr"></div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-v-format-0" style="min-width: 100px;margin-left: 15px;"><%= scope.textFormat %></button>
                 </td>
             </tr>
         </table>
@@ -244,19 +249,24 @@
                     <div id="chart-dlg-combo-v-minor-type-1" class="input-group-nr" style="margin-left: 15px;"></div>
                 </td>
             </tr>
-        </table>
-    </div>
-    <div class="inner-content">
-        <table cols="1" style="width: 100%;">
             <tr>
-                <td class="padding-small">
+                <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textLabelOptions %></label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <label class="input-label"><%= scope.textLabelPos %></label>
-                    <div id="chart-dlg-combo-v-label-pos-1" class="input-group-nr" style="width:140px;"></div>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="chart-dlg-combo-v-label-pos-1" class="input-group-nr" ></div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-v-format-1" style="min-width: 100px;margin-left: 15px;"><%= scope.textFormat %></button>
                 </td>
             </tr>
         </table>
@@ -362,11 +372,10 @@
                 </td>
             </tr>
             <tr>
-                <td width="140">
-                    <div id="chart-dlg-combo-label-int-0" class="input-group-nr"></div>
-                </td>
-                <td style="vertical-align: bottom;">
-                    <div id="chart-dlg-input-label-int-0" style="margin-left: 15px;"></div>
+                <td width="100%" colspan="2">
+                    <div id="chart-dlg-combo-label-int-0" class="input-group-nr" style="display: inline-block;width: 100px;vertical-align: middle;"></div>
+                    <div id="chart-dlg-input-label-int-0" style="display: inline-block;margin-left: 3px;width: 60px;vertical-align: middle;"></div>
+                    <button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-h-format-0" style="min-width:100px; margin-left: 5px;vertical-align: middle;float: right;"><%= scope.textFormat %></button>
                 </td>
             </tr>
         </table>
@@ -472,11 +481,10 @@
                 </td>
             </tr>
             <tr>
-                <td width="140">
-                    <div id="chart-dlg-combo-label-int-1" class="input-group-nr"></div>
-                </td>
-                <td style="vertical-align: bottom;">
-                    <div id="chart-dlg-input-label-int-1" style="margin-left: 15px;"></div>
+                <td width="100%" colspan="2">
+                    <div id="chart-dlg-combo-label-int-1" class="input-group-nr" style="display: inline-block;width: 100px;vertical-align: middle;"></div>
+                    <div id="chart-dlg-input-label-int-1" style="display: inline-block;margin-left: 3px;width: 60px;vertical-align: middle;"></div>
+                    <button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-h-format-1" style="min-width:100px; margin-left: 5px;vertical-align: middle;float: right;"><%= scope.textFormat %></button>
                 </td>
             </tr>
         </table>

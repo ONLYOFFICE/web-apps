@@ -43,7 +43,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/InputField',
     'spreadsheeteditor/main/app/view/CellRangeDialog',
-    'spreadsheeteditor/main/app/view/ChartDataRangeDialog'
+    'spreadsheeteditor/main/app/view/ChartDataRangeDialog',
+    'spreadsheeteditor/main/app/view/FormatSettingsDialog'
 ], function (contentTemplate) {
     'use strict';
 
@@ -257,6 +258,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.cmbVertTitle = [];
             this.cmbVertGrid = [];
             this.chVertHide = [];
+            this.btnVFormat = [];
 
             var addControlsV = function(i) {
                 me.chVertHide[i] = new Common.UI.CheckBox({
@@ -494,7 +496,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.cmbVLabelPos[i] = new Common.UI.ComboBox({
                     el: $('#chart-dlg-combo-v-label-pos-' + i),
                     cls: 'input-group-nr',
-                    menuStyle: 'min-width: 140px;',
+                    menuStyle: 'min-width: 100%;',
                     editable: false,
                     data: [
                         {displayValue: me.textNone, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
@@ -508,6 +510,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         me.currentAxisProps[i].putTickLabelsPos(record.value);
                     }
                 }, me));
+
+                me.btnVFormat[i] = new Common.UI.Button({
+                    el: $('#chart-dlg-btn-v-format-' + i)
+                }).on('click', _.bind(me.openFormat, me, me.currentAxisProps[i]));
             };
             addControlsV(0);
             addControlsV(1);
@@ -527,6 +533,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             this.cmbHorTitle = [];
             this.cmbHorGrid = [];
             this.chHorHide = [];
+            this.btnHFormat = [];
 
             var addControlsH = function(i) {
                 me.chHorHide[i] = new Common.UI.CheckBox({
@@ -721,7 +728,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                 me.spnLabelInterval[i] = new Common.UI.MetricSpinner({
                     el: $('#chart-dlg-input-label-int-' + i),
-                    width: 140,
+                    width: 60,
                     maxValue: 1000000,
                     minValue: 1,
                     step: 1,
@@ -740,7 +747,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 me.cmbLabelInterval[i] = new Common.UI.ComboBox({
                     el: $('#chart-dlg-combo-label-int-' + i),
                     cls: 'input-group-nr',
-                    menuStyle: 'min-width: 140px;',
+                    menuStyle: 'min-width: 100px;',
                     editable: false,
                     data: [
                         {displayValue: me.textAuto, value: Asc.c_oAscBetweenLabelsRule.auto},
@@ -754,6 +761,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                             me.spnLabelInterval[i].setValue(1, true);
                     }
                 }, me));
+
+                me.btnHFormat[i] = new Common.UI.Button({
+                    el: $('#chart-dlg-btn-h-format-' + i)
+                }).on('click', _.bind(me.openFormat, me, me.currentAxisProps[i]));
             };
             addControlsH(0);
             addControlsH(1);
@@ -1642,7 +1653,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
         },
 
-
         onSelectLocationData: function() {
             var me = this;
             if (me.api) {
@@ -1669,6 +1679,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     type    : Asc.c_oAscSelectionDialogType.FormatTable
                 });
             }
+        },
+
+        openFormat: function(props) {
         },
 
          show: function() {
@@ -1815,7 +1828,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textVertAxisSec: 'Secondary Vertical Axis',
         textHorAxisSec: 'Secondary Horizontal Axis',
         textAxisTitle: 'Title',
-        textHideAxis: 'Hide axis'
+        textHideAxis: 'Hide axis',
+        textFormat: 'Label format'
 
     }, SSE.Views.ChartSettingsDlg || {}));
 });
