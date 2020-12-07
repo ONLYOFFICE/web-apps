@@ -196,7 +196,7 @@ define([
             },
 
             onClickSort: function(type) {
-                this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending,  '', dataFilter.asc_getCellId(), dataFilter.asc_getDisplayName(),true);
+                this.api.asc_sortColFilter(type == 'down' ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending,  dataFilter.asc_getCellId(), dataFilter.asc_getDisplayName(), undefined, true);
             },
 
             onClickClearFilter: function () {
