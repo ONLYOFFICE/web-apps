@@ -84,10 +84,17 @@ define([
             me.CurrencySymbolsData = null;
             me.langId = 0x0409;
 
+            this.api        = options.api;
+            this.handler    = options.handler;
+            this.props      = options.props;
+            this.linked     = options.linked || false;
+
+            var height = this.linked ? 360 : 340;
             _.extend(this.options, {
                 title: this.textTitle,
+                height: height,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box" style="height:' + (height - 85) + 'px;">',
                     '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
                     '<div class="settings-panel active">',
                     '<table cols="1" style="width: 100%;">',
@@ -99,8 +106,8 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td class="padding-large" style="white-space: nowrap;">',
-                                '<label style="vertical-align: middle; margin-right: 4px;">' + me.txtSample + '</label>',
-                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
+                                '<label class="format-sample" style="vertical-align: middle; margin-right: 4px;">' + me.txtSample + '</label>',
+                                '<label class="format-sample" id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-no-code">',
@@ -143,6 +150,11 @@ define([
                                 '<div id="format-settings-list-code" style="width:264px; height: 116px;"></div>',
                             '</td>',
                         '</tr>',
+                        '<tr>',
+                            '<td colspan="1">',
+                                '<div id="format-settings-chk-linked"></div>',
+                            '</td>',
+                        '</tr>',
                     '</table>',
                     '</div></div>',
                     '</div>',
@@ -151,13 +163,9 @@ define([
                 ].join('')
             }, options);
 
-            this.api        = options.api;
-            this.handler    = options.handler;
-            this.props      = options.props;
-            this._state = {hasDecimal: false, hasNegative: false, hasSeparator: false, hasType: false, hasSymbols: false, hasCode: false};
-
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
+            this._state = {hasDecimal: false, hasNegative: false, hasSeparator: false, hasType: false, hasSymbols: false, hasCode: false};
             this.FormatType = Asc.c_oAscNumFormatType.General;
             this.Format = "General";
             this.CustomFormat = null;
@@ -247,7 +255,17 @@ define([
                 me.codesList.deselectAll();
                 me.Format = me.api.asc_convertNumFormatLocal2NumFormat(value);
                 me.lblExample.text(me.api.asc_getLocaleExample(me.Format));
+                me.chLinked.setValue(false, true);
             });
+
+            this.chLinked = new Common.UI.CheckBox({
+                el: $('#format-settings-chk-linked'),
+                labelText: this.textLinked
+            }).on ('change', function (field, newValue, oldValue, eOpts) {
+                if (field.getValue()=='checked')
+                    me._setDefaults(me.props);
+            });
+            this.chLinked.setVisible(this.linked);
 
             this._decimalPanel      = this.$window.find('.format-decimal');
             this._negativePanel     = this.$window.find('.format-negative');
@@ -256,6 +274,7 @@ define([
             this._symbolsPanel      = this.$window.find('.format-symbols');
             this._codePanel         = this.$window.find('.format-code');
             this._nocodePanel       = this.$window.find('.format-no-code');
+            this.$window.find('.format-sample').toggleClass('hidden', this.linked);
 
             this.lblExample         = this.$window.find('#format-settings-label-example');
 
@@ -320,10 +339,11 @@ define([
                 // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 38822))
                 // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample(props.format))
             }
+            props && this.chLinked.setValue(!!props.linked, true);
         },
 
         getSettings: function () {
-            return {format: this.Format};
+            return {format: this.Format, linked: this.chLinked.getValue()==='checked'};
         },
 
         onDlgBtnClick: function(event) {
@@ -344,6 +364,7 @@ define([
         onNegativeSelect: function(combo, record) {
             this.Format = record.value;
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
         onSymbolsSelect: function(combo, record) {
@@ -365,6 +386,7 @@ define([
             this.Format = format[0];
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
         onDecimalChange: function(field, newValue, oldValue, eOpts){
@@ -390,6 +412,7 @@ define([
             }
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
         onSeparatorChange: function(field, newValue, oldValue, eOpts){
@@ -410,11 +433,13 @@ define([
             this.Format = format[0];
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
         onTypeSelect: function(combo, record){
             this.Format = record.value;
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
         onCodeSelect: function(listView, itemView, record){
@@ -423,6 +448,7 @@ define([
             this.Format = record.get('format');
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.inputCustomFormat.setValue(record.get('value'));
+            this.chLinked.setValue(false, true);
         },
 
         onFormatSelect: function(combo, record, e, initFormatInfo) {
@@ -536,6 +562,8 @@ define([
             this._codePanel.toggleClass('hidden', !hasCode);
             this._nocodePanel.toggleClass('hidden', hasCode);
             this._state = { hasDecimal: hasDecimal, hasNegative: hasNegative, hasSeparator: hasSeparator, hasType: hasType, hasSymbols: hasSymbols, hasCode: hasCode};
+
+            !initFormatInfo && this.chLinked.setValue(false, true);
         },
 
         textTitle: 'Number Format',
@@ -565,7 +593,8 @@ define([
         txtAs10:  'As tenths (5/10)',
         txtAs100: 'As hundredths (50/100)',
         txtSample: 'Sample:',
-        txtNone: 'None'
+        txtNone: 'None',
+        textLinked: 'Linked to source'
 
     }, SSE.Views.FormatSettingsDialog || {}))
 });

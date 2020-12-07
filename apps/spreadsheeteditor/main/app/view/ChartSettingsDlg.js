@@ -513,7 +513,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                 me.btnVFormat[i] = new Common.UI.Button({
                     el: $('#chart-dlg-btn-v-format-' + i)
-                }).on('click', _.bind(me.openFormat, me, me.currentAxisProps[i]));
+                }).on('click', _.bind(me.openFormat, me, i));
             };
             addControlsV(0);
             addControlsV(1);
@@ -764,7 +764,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
                 me.btnHFormat[i] = new Common.UI.Button({
                     el: $('#chart-dlg-btn-h-format-' + i)
-                }).on('click', _.bind(me.openFormat, me, me.currentAxisProps[i]));
+                }).on('click', _.bind(me.openFormat, me, i));
             };
             addControlsH(0);
             addControlsH(1);
@@ -1681,7 +1681,33 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             }
         },
 
-        openFormat: function(props) {
+        openFormat: function(index) {
+            var me = this,
+                props = me.currentAxisProps[index],
+                fmt = props.getNumFmt(),
+                value = me.api.asc_getLocale(),
+                lang = Common.Utils.InternalSettings.get("sse-config-lang");
+            (!value) && (value = (lang ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(lang)) : 0x0409));
+
+            var win = (new SSE.Views.FormatSettingsDialog({
+                api: me.api,
+                handler: function(result, settings) {
+                    if (result=='ok' && settings) {
+                        fmt.putSourceLinked(settings.linked);
+                        fmt.putFormatCode(settings.format);
+                        me.chartSettings.endEditData();
+                        me._isEditFormat = false;
+                    }
+                },
+                linked: true,
+                props   : {format: fmt.getFormatCode(), formatInfo: fmt.getFormatCellsInfo(), langId: value, linked: fmt.getSourceLinked()}
+            })).on('close', function() {
+                me._isEditFormat && me.chartSettings.cancelEditData();
+                me._isEditFormat = false;
+            });
+            me._isEditFormat = true;
+            me.chartSettings.startEditData();
+            win.show();
         },
 
          show: function() {

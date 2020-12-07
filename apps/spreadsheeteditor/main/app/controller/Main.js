@@ -385,6 +385,7 @@ define([
                         reg = (this.editorConfig.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.editorConfig.lang)) : 0x0409;
                     this.api.asc_setLocale(reg, decimal, group);
                 }
+                Common.Utils.InternalSettings.set("sse-config-lang", this.editorConfig.lang);
 
                 var value = Common.localStorage.getBool("sse-settings-r1c1");
                 Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
