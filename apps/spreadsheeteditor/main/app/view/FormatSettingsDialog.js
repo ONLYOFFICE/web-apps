@@ -262,8 +262,13 @@ define([
                 el: $('#format-settings-chk-linked'),
                 labelText: this.textLinked
             }).on ('change', function (field, newValue, oldValue, eOpts) {
-                if (field.getValue()=='checked')
+                me.props.linked = (field.getValue()=='checked');
+                if (me.props.linked) {
+                    me.props.chartFormat.putSourceLinked(true);
+                    me.props.format = me.props.chartFormat.getFormatCode();
+                    me.props.formatInfo = me.props.chartFormat.getFormatCellsInfo();
                     me._setDefaults(me.props);
+                }
             });
             this.chLinked.setVisible(this.linked);
 
@@ -339,7 +344,9 @@ define([
                 // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 38822))
                 // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample(props.format))
             }
-            props && this.chLinked.setValue(!!props.linked, true);
+            if (props && props.chartFormat) {
+                this.chLinked.setValue(!!props.chartFormat.getSourceLinked(), true);
+            }
         },
 
         getSettings: function () {

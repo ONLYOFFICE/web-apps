@@ -1700,7 +1700,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     }
                 },
                 linked: true,
-                props   : {format: fmt.getFormatCode(), formatInfo: fmt.getFormatCellsInfo(), langId: value, linked: fmt.getSourceLinked()}
+                props   : {format: fmt.getFormatCode(), formatInfo: fmt.getFormatCellsInfo(), langId: value, chartFormat: fmt}
             })).on('close', function() {
                 me._isEditFormat && me.chartSettings.cancelEditData();
                 me._isEditFormat = false;
