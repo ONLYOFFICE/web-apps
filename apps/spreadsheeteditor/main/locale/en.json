@@ -1538,6 +1538,7 @@
   "SSE.Views.DataTab.tipUngroup": "Ungroup range of cells",
   "SSE.Views.DataValidationDialog.errorInvalidDate": "The date you entered for the field \"{0}\" is invalid.",
   "SSE.Views.DataValidationDialog.errorInvalidTime": "The time you entered for the field \"{0}\" is invalid.",
+  "SSE.Views.DataValidationDialog.errorInvalid": "The value you entered for the field \"{0}\" is invalid.",
   "SSE.Views.DataValidationDialog.errorMinGreaterMax": "The \"{1}\" field must be greater than or equal to the \"{0}\" field.",
   "SSE.Views.DataValidationDialog.errorMustEnterBothValues": "You must enter a value in both field \"{0}\" and field \"{1}\".",
   "SSE.Views.DataValidationDialog.errorMustEnterValue": "You must enter a value in field \"{0}\".",
