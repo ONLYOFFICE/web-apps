@@ -9,6 +9,10 @@ class DocumentInfoController extends Component {
         this.getModified = this.getModified();
         this.getModifiedBy = this.getModifiedBy();
         this.getCreators = this.getCreators();
+        this.title = this.getTitle();
+        this.subject = this.getSubject();
+        this.description = this.getDescription();
+        this.getCreated = this.getCreated();
     }
 
     getDocProps() {
@@ -58,6 +62,26 @@ class DocumentInfoController extends Component {
         return this.docProps.asc_getCreator();
     }
 
+    getTitle() {
+        return this.docProps.asc_getTitle();
+    }
+
+    getSubject() {
+        return this.docProps.asc_getSubject();
+    }
+
+    getDescription() {
+        return this.docProps.asc_getDescription();
+    }
+
+    getCreated() {
+        let value = this.docProps.asc_getCreated();
+
+        if(value) {
+            return value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'});
+        }
+    }
+
     componentDidMount() {
         const api = Common.EditorApi.get();
         api.startGetDocInfo();
@@ -69,7 +93,11 @@ class DocumentInfoController extends Component {
                 getAppProps={this.getAppProps}
                 getModified={this.getModified}
                 getModifiedBy={this.getModifiedBy}
-                getCreators={this.getCreators} 
+                getCreators={this.getCreators}
+                getCreated={this.getCreated}
+                title={this.title}
+                subject={this.subject}
+                description={this.description}
             />
         );
     }

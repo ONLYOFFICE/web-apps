@@ -94,7 +94,8 @@ class MainController extends Component {
 
                 const storeDocumentInfo = this.props.storeDocumentInfo;
 
-                storeDocumentInfo.setDataDoc(data.doc);
+                storeDocumentInfo.setDataDoc(this.document);
+                // console.log(this.document);
 
                 // Common.SharedSettings.set('document', data.doc);
 
@@ -255,25 +256,27 @@ class MainController extends Component {
         const storeDocumentInfo = this.props.storeDocumentInfo;
 
         this.api.asc_registerCallback("asc_onGetDocInfoStart", () => {
-          console.log("Start");
-          storeDocumentInfo.switchIsLoaded(false);
+            // console.log("Start");
+            storeDocumentInfo.switchIsLoaded(false);
         });
 
         this.api.asc_registerCallback("asc_onGetDocInfoStop", () => {
-          console.log("Stop");
-          storeDocumentInfo.switchIsLoaded(true);
+            // console.log("Stop");
+            storeDocumentInfo.switchIsLoaded(true);
         });
 
         this.api.asc_registerCallback("asc_onDocInfo", (obj) => {
-          storeDocumentInfo.changeCount(obj);
+            storeDocumentInfo.changeCount(obj);
         });
 
         this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
-          console.log('End');
-          storeDocumentInfo.switchIsLoaded(true);
+            // console.log('End');
+            storeDocumentInfo.switchIsLoaded(true);
         });
 
-        // me.api.asc_registerCallback('asc_onDocumentName',       _.bind(me.onApiDocumentName, me));
+        this.api.asc_registerCallback('asc_onDocumentName', (name) => {
+            // console.log(name);
+        });
 
     }
 

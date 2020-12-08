@@ -20,24 +20,45 @@ const PageDocumentInfo = (props) => {
         wordsCount,
     } = storeInfo.infoObj;
     const dataDoc = JSON.parse(JSON.stringify(storeInfo.dataDoc));
+    // console.log(dataDoc);
     const isLoaded = storeInfo.isLoaded;
     // console.log(pageCount, paragraphCount, symbolsCount, symbolsWSCount, wordsCount);
   
     return (
         <Page>
             <Navbar title={_t.textDocumentInfo} backLink={_t.textBack} />
-            <BlockTitle>{_t.textDocumentTitle}</BlockTitle>
-            <List>
-                <ListItem title={dataDoc.title}></ListItem>
-            </List>
-            <BlockTitle>{_t.textOwner}</BlockTitle>
-            <List>
-                <ListItem title={dataDoc.info.author}></ListItem>
-            </List>
-            <BlockTitle>{_t.textUploaded}</BlockTitle>
-            <List>
-                <ListItem title={dataDoc.info.created}></ListItem>
-            </List>
+            {dataDoc.title ? (
+                <Fragment>
+                    <BlockTitle>{_t.textDocumentTitle}</BlockTitle>
+                    <List>
+                        <ListItem title={dataDoc.title}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
+            {dataDoc.info.author || dataDoc.info.owner ? (
+                <Fragment>
+                    <BlockTitle>{_t.textOwner}</BlockTitle>
+                    <List>
+                        <ListItem title={dataDoc.info.author || dataDoc.info.owner}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
+            {dataDoc.info.folder ? (
+                <Fragment>  
+                    <BlockTitle>{_t.textLocation}</BlockTitle>
+                    <List>
+                        <ListItem title={dataDoc.info.folder}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
+            {dataDoc.info.uploaded || dataDoc.info.created ? (  
+                <Fragment>
+                    <BlockTitle>{_t.textUploaded}</BlockTitle>
+                    <List>
+                        <ListItem title={dataDoc.info.uploaded || dataDoc.info.created}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
             <BlockTitle>{_t.textStatistic}</BlockTitle>
             <List> 
                 <ListItem title="Pages" after={isLoaded ? String(pageCount) : _t.textLoading}></ListItem>
@@ -46,15 +67,51 @@ const PageDocumentInfo = (props) => {
                 <ListItem title="Symbols" after={isLoaded ? String(symbolsCount) : _t.textLoading}></ListItem>
                 <ListItem title="Spaces" after={isLoaded ? String(symbolsWSCount) : _t.textLoading}></ListItem>
             </List>
-            {dataModified && dataModifiedBy ? (
+            {props.title ? (
+                <Fragment>
+                    <BlockTitle>{_t.textTitle}</BlockTitle>
+                    <List>
+                        <ListItem title={props.title}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
+            {props.subject ? (
+                <Fragment>
+                    <BlockTitle>{_t.textSubject}</BlockTitle>
+                    <List>
+                        <ListItem title={props.subject}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
+            {props.description ? (
+                <Fragment>
+                    <BlockTitle>{_t.textComment}</BlockTitle>
+                    <List>
+                        <ListItem title={props.description}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
+            {dataModified ? (
                 <Fragment>
                     <BlockTitle>{_t.textLastModified}</BlockTitle>
                     <List>
                         <ListItem title={dataModified}></ListItem>
                     </List>
+                </Fragment>
+            ) : null}
+            {dataModifiedBy ? (
+                <Fragment>
                     <BlockTitle>{_t.textLastModifiedBy}</BlockTitle>
                     <List>
                         <ListItem title={dataModifiedBy}></ListItem>
+                    </List>
+                </Fragment>
+            ) : null}
+            {props.getCreated ? (
+                <Fragment>
+                    <BlockTitle>{_t.textCreated}</BlockTitle>
+                    <List>
+                        <ListItem title={props.getCreated}></ListItem>
                     </List>
                 </Fragment>
             ) : null}
