@@ -285,6 +285,14 @@ define([
                     lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
                     style       : 'width: 120px;'
                 });
+
+                me.btnEditChartType = new Common.UI.Button({
+                    id          : 'id-toolbar-rtn-edit-chart-type',
+                    cls         : 'btn-toolbar btn-text-value',
+                    caption     : me.tipEditChartType,
+                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
+                    style       : 'width: 120px;'
+                });
             } else
             if ( config.isEditMailMerge ) {
                 me.$layout = $(_.template(simple)(config));
@@ -1639,6 +1647,7 @@ define([
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
             _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
+            _injectComponent('#slot-btn-chart-type',     this.btnEditChartType);
             _injectComponent('#slot-btn-pageorient',    this.btnPageOrient);
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
@@ -1983,7 +1992,7 @@ define([
             if (mode.isDisconnected) {
                 this.lockToolbar( SSE.enumLock.lostConnect, true );
                 this.lockToolbar( SSE.enumLock.lostConnect, true,
-                    {array:[this.btnEditChart, this.btnEditChartData, this.btnUndo,this.btnRedo]} );
+                    {array:[this.btnEditChart, this.btnEditChartData, this.btnEditChartType, this.btnUndo,this.btnRedo]} );
                 if (!mode.enableDownload)
                     this.lockToolbar(SSE.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
@@ -2447,6 +2456,7 @@ define([
         tipInsertSlicer: 'Insert slicer',
         textVertical: 'Vertical Text',
         textTabView: 'View',
-        tipEditChartData: 'Select Data'
+        tipEditChartData: 'Select Data',
+        tipEditChartType: 'Change Chart Type'
     }, SSE.Views.Toolbar || {}));
 });
