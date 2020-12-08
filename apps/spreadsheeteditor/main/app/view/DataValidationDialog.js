@@ -525,7 +525,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                     focusedInput = minVisible ? this.inputRangeMin : this.inputRangeSource;
                     lblField = minVisible ? this.lblRangeMin : this.lblRangeSource;
                 }
-                if (isvalid === Asc.c_oAscError.ID.No) {
+                if (this.inputRangeMax.isVisible() && isvalid === Asc.c_oAscError.ID.No) {
                     isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.DataValidation, this.props.asc_getFormula2() ? this.props.asc_getFormula2().asc_getValue() : null, true, undefined, type);
                     if (isvalid !== Asc.c_oAscError.ID.No) {
                         focusedInput = this.inputRangeMax;
@@ -552,7 +552,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                         error = Common.Utils.String.format(this.errorMinGreaterMax, this.lblRangeMin.text(), this.lblRangeMax.text());
                         break;
                     case Asc.c_oAscError.ID.DataValidateInvalid:
-                        error = Common.Utils.String.format((type==Asc.c_oAscEDataValidationType.Time) ? this.errorInvalidTime : this.errorInvalidDate, lblField.text());
+                        error = Common.Utils.String.format((type==Asc.c_oAscEDataValidationType.Time) ? this.errorInvalidTime : ((type==Asc.c_oAscEDataValidationType.Date) ? this.errorInvalidDate : this.errorInvalid), lblField.text());
                         break;
                 }
                 error && Common.UI.warning({
@@ -622,6 +622,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         errorMustEnterValue: 'You must enter a value in field \"{0}\".',
         errorInvalidDate: 'The date you entered for the field \"{0}\" is invalid.',
         errorInvalidTime: 'The time you entered for the field \"{0}\" is invalid.',
+        errorInvalid: 'The value you entered for the field \"{0}\" is invalid.',
         errorNotNumeric: 'The field \"{0}\" must be a numeric value, numeric expression, or refer to a cell containing a numeric value.',
         errorNegativeTextLength: 'Negative values cannot be used in conditions \"{0}\".',
         errorMinGreaterMax: 'The \"{1}\" field must be greater than or equal to the \"{0}\" field.'
