@@ -1228,7 +1228,7 @@
   "SSE.Controllers.Toolbar.warnLongOperation": "La operación que está a punto de realizar podría tomar mucho tiempo para completar.<br>¿Está seguro que desea continuar?",
   "SSE.Controllers.Toolbar.warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?",
   "SSE.Controllers.Viewport.textFreezePanes": "Inmovilizar paneles",
-  "SSE.Controllers.Viewport.textFreezePanesShadow:": "Mostrar la sombra de paneles inmovilizados",
+  "SSE.Controllers.Viewport.textFreezePanesShadow": "Mostrar la sombra de paneles inmovilizados",
   "SSE.Controllers.Viewport.textHideFBar": "Ocultar barra de fórmulas",
   "SSE.Controllers.Viewport.textHideGridlines": "Ocultar cuadrícula",
   "SSE.Controllers.Viewport.textHideHeadings": "Ocultar títulos",

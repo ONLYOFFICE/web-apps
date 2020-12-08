@@ -1228,7 +1228,7 @@
   "SSE.Controllers.Toolbar.warnLongOperation": "実行しようとしている操作は、完了するまでにかなり時間がかかる可能性があります。<br>続行しますか？",
   "SSE.Controllers.Toolbar.warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？",
   "SSE.Controllers.Viewport.textFreezePanes": "ウィンドウ枠の固定",
-  "SSE.Controllers.Viewport.textFreezePanesShadow:": "固定されたウィンドウ枠の影を表示する",
+  "SSE.Controllers.Viewport.textFreezePanesShadow": "固定されたウィンドウ枠の影を表示する",
   "SSE.Controllers.Viewport.textHideFBar": "数式バーを表示しない",
   "SSE.Controllers.Viewport.textHideGridlines": "枠線を非表示にする",
   "SSE.Controllers.Viewport.textHideHeadings": "見出しを表示しない",

@@ -237,7 +237,12 @@ define([
                     break;
                 case 'viewcomment':
                     me.view.hideMenu();
-                    SSE.getController('Common.Controllers.Collaboration').showCommentModal();
+                    var cellinfo = this.api.asc_getCellInfo(),
+                        comments = cellinfo.asc_getComments();
+                    if (comments.length) {
+                        SSE.getController('Common.Controllers.Collaboration').apiShowComments(comments[0].asc_getId());
+                        SSE.getController('Common.Controllers.Collaboration').showCommentModal();
+                    }
                     break;
                 case 'addcomment':
                     me.view.hideMenu();
@@ -248,7 +253,7 @@ define([
                 if ('showActionSheet' == event && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
-                            action.text = action.caption
+                            action.text = action.caption;
                             action.onClick = function () {
                                 me.onContextMenuClick(null, action.event)
                             }
