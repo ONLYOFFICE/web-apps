@@ -279,9 +279,8 @@ define([
                 rawData = record;
             }
             var isCombo = rawData.type==Asc.c_oAscChartTypeSettings.comboBarLine || rawData.type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
-                          rawData.type==Asc.c_oAscChartTypeSettings.comboAreaBar || rawData.type==Asc.c_oAscChartTypeSettings.comboCustom,
-                series = isCombo ? this.chartSettings.getSeries() : [];
-            if (isCombo && series.length<2) {
+                          rawData.type==Asc.c_oAscChartTypeSettings.comboAreaBar || rawData.type==Asc.c_oAscChartTypeSettings.comboCustom;
+            if (isCombo && this.chartSettings.getSeries().length<2) {
                 Common.UI.warning({msg: this.errorComboSeries, maxwidth: 600});
                 return;
             }
@@ -291,7 +290,7 @@ define([
             this.chartSettings.changeType(this.currentChartType);
             this.ShowHideSettings(this.currentChartType);
             if (isCombo)
-                this.updateSeriesList(series);
+                this.updateSeriesList(this.chartSettings.getSeries());
             else
                 this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
         },
