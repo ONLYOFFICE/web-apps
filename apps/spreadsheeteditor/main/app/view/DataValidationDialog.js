@@ -90,20 +90,20 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 cls: 'input-group-nr',
                 editable: false,
                 data:  [
-                    {value: Asc.EDataValidationType.None, displayValue: this.txtAny},
-                    {value: Asc.EDataValidationType.Whole, displayValue: this.txtWhole},
-                    {value: Asc.EDataValidationType.Decimal, displayValue: this.txtDecimal},
-                    {value: Asc.EDataValidationType.List, displayValue: this.txtList},
-                    {value: Asc.EDataValidationType.Date, displayValue: this.txtDate},
-                    {value: Asc.EDataValidationType.Time, displayValue: this.txtTime},
-                    {value: Asc.EDataValidationType.TextLength, displayValue: this.txtTextLength},
-                    {value: Asc.EDataValidationType.Custom, displayValue: this.txtOther}
+                    {value: Asc.c_oAscEDataValidationType.None, displayValue: this.txtAny},
+                    {value: Asc.c_oAscEDataValidationType.Whole, displayValue: this.txtWhole},
+                    {value: Asc.c_oAscEDataValidationType.Decimal, displayValue: this.txtDecimal},
+                    {value: Asc.c_oAscEDataValidationType.List, displayValue: this.txtList},
+                    {value: Asc.c_oAscEDataValidationType.Date, displayValue: this.txtDate},
+                    {value: Asc.c_oAscEDataValidationType.Time, displayValue: this.txtTime},
+                    {value: Asc.c_oAscEDataValidationType.TextLength, displayValue: this.txtTextLength},
+                    {value: Asc.c_oAscEDataValidationType.Custom, displayValue: this.txtOther}
                 ],
                 style: 'width: 100%;',
                 menuStyle   : 'min-width: 100%;',
                 takeFocusOnClose: true
             });
-            this.cmbAllow.setValue(Asc.EDataValidationType.None);
+            this.cmbAllow.setValue(Asc.c_oAscEDataValidationType.None);
             this.cmbAllow.on('selected', _.bind(this.onAllowSelect, this));
 
             this.cmbData = new Common.UI.ComboBox({
@@ -406,7 +406,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 value = props.asc_getShowDropDown();
                 this.chShowDropDown.setValue(!!value, true);
                 value = props.asc_getType();
-                this.cmbAllow.setValue(value!==null ? value : Asc.EDataValidationType.None, true);
+                this.cmbAllow.setValue(value!==null ? value : Asc.c_oAscEDataValidationType.None, true);
                 value = props.asc_getOperator();
                 this.cmbData.setValue(value!==null ? value : Asc.EDataValidationOperator.Between, true);
                 this.inputRangeMin.setValue(props.asc_getFormula1() ? props.asc_getFormula1().asc_getValue() || '' : '');
@@ -462,37 +462,37 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             var allow = this.cmbAllow.getValue(),
                 data = this.cmbData.getValue();
             var between = (data==Asc.EDataValidationOperator.Between || data==Asc.EDataValidationOperator.NotBetween);
-            var source = (allow==Asc.EDataValidationType.Custom || allow==Asc.EDataValidationType.List);
-            this.minMaxTr.toggleClass('hidden', allow==Asc.EDataValidationType.None || source || !between);
-            this.sourceTr.toggleClass('hidden', allow==Asc.EDataValidationType.None || !source && between );
-            this.dropdownTr.toggleClass('hidden', allow!=Asc.EDataValidationType.List);
+            var source = (allow==Asc.c_oAscEDataValidationType.Custom || allow==Asc.c_oAscEDataValidationType.List);
+            this.minMaxTr.toggleClass('hidden', allow==Asc.c_oAscEDataValidationType.None || source || !between);
+            this.sourceTr.toggleClass('hidden', allow==Asc.c_oAscEDataValidationType.None || !source && between );
+            this.dropdownTr.toggleClass('hidden', allow!=Asc.c_oAscEDataValidationType.List);
 
-            this.chIgnore.setDisabled(allow===Asc.EDataValidationType.None);
-            this.cmbData.setDisabled(allow===Asc.EDataValidationType.None || allow===Asc.EDataValidationType.Custom || allow===Asc.EDataValidationType.List);
+            this.chIgnore.setDisabled(allow===Asc.c_oAscEDataValidationType.None);
+            this.cmbData.setDisabled(allow===Asc.c_oAscEDataValidationType.None || allow===Asc.c_oAscEDataValidationType.Custom || allow===Asc.c_oAscEDataValidationType.List);
 
             var str = this.textSource;
-            if (allow==Asc.EDataValidationType.Custom)
+            if (allow==Asc.c_oAscEDataValidationType.Custom)
                 str = this.textFormula;
             else if (data==Asc.EDataValidationOperator.Equal || data==Asc.EDataValidationOperator.NotEqual) { // equals, not equals
-                if (allow==Asc.EDataValidationType.Date)
+                if (allow==Asc.c_oAscEDataValidationType.Date)
                     str = this.txtDate;
-                else if (allow==Asc.EDataValidationType.TextLength)
+                else if (allow==Asc.c_oAscEDataValidationType.TextLength)
                     str = this.txtLength;
-                else if (allow==Asc.EDataValidationType.Time)
+                else if (allow==Asc.c_oAscEDataValidationType.Time)
                     str = this.txtElTime;
                 else
                     str = this.textCompare;
             } else if (data==Asc.EDataValidationOperator.GreaterThan || data==Asc.EDataValidationOperator.GreaterThanOrEqual) { // greater, greater or equals
-                if (allow==Asc.EDataValidationType.Date)
+                if (allow==Asc.c_oAscEDataValidationType.Date)
                     str = this.txtStartDate;
-                else if (allow==Asc.EDataValidationType.Time)
+                else if (allow==Asc.c_oAscEDataValidationType.Time)
                     str = this.txtStartTime;
                 else
                     str = this.textMin;
             } else if (data==Asc.EDataValidationOperator.LessThan || data==Asc.EDataValidationOperator.LessThanOrEqual) { // less, less or equals
-                if (allow==Asc.EDataValidationType.Date)
+                if (allow==Asc.c_oAscEDataValidationType.Date)
                     str = this.txtEndDate;
-                else if (allow==Asc.EDataValidationType.Time)
+                else if (allow==Asc.c_oAscEDataValidationType.Time)
                     str = this.txtEndTime;
                 else
                     str = this.textMax;
@@ -501,10 +501,10 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
 
             var str1 = this.textMin,
                 str2 = this.textMax;
-            if (allow==Asc.EDataValidationType.Date) {
+            if (allow==Asc.c_oAscEDataValidationType.Date) {
                 str1 = this.txtStartDate;
                 str2 = this.txtEndDate;
-            } else if (allow==Asc.EDataValidationType.Time) {
+            } else if (allow==Asc.c_oAscEDataValidationType.Time) {
                 str1 = this.txtStartTime;
                 str2 = this.txtEndTime;
             }
@@ -515,7 +515,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         isRangeValid: function() {
             var isvalid = Asc.c_oAscError.ID.No;
             var type = this.cmbAllow.getValue();
-            if (type!==Asc.EDataValidationType.None) {
+            if (type!==Asc.c_oAscEDataValidationType.None) {
                 var focusedInput,
                     lblField,
                     error,
@@ -552,7 +552,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                         error = Common.Utils.String.format(this.errorMinGreaterMax, this.lblRangeMin.text(), this.lblRangeMax.text());
                         break;
                     case Asc.c_oAscError.ID.DataValidateInvalid:
-                        error = Common.Utils.String.format((type==Asc.EDataValidationType.Time) ? this.errorInvalidTime : this.errorInvalidDate, lblField.text());
+                        error = Common.Utils.String.format((type==Asc.c_oAscEDataValidationType.Time) ? this.errorInvalidTime : this.errorInvalidDate, lblField.text());
                         break;
                 }
                 error && Common.UI.warning({
