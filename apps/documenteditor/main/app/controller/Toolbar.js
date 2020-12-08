@@ -2050,11 +2050,12 @@ define([
             }
 
             if (chart) {
-                var props = new Asc.asc_CImgProperty();
-                chart.changeType(type);
-                props.put_ChartProperties(chart);
-                this.api.ImgApply(props);
-
+                var isCombo = (type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                               type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
+                if (isCombo && chart.getSeries().length<2) {
+                    Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
+                } else
+                    chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
                 if (!this.diagramEditor)

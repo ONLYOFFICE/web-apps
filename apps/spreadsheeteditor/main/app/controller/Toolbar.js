@@ -1028,8 +1028,20 @@ define([
                         if (isvalid == Asc.c_oAscError.ID.No) {
                             (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
                         } else {
+                            var msg = me.txtInvalidRange;
+                            switch (isvalid) {
+                                case isvalid == Asc.c_oAscError.ID.StockChartError:
+                                    msg = me.errorStockChart;
+                                    break;
+                                case isvalid == Asc.c_oAscError.ID.MaxDataSeriesError:
+                                    msg = me.errorMaxRows;
+                                    break;
+                                case isvalid == Asc.c_oAscError.ID.ComboSeriesError:
+                                    msg = me.errorComboSeries;
+                                    break;
+                            }
                             Common.UI.warning({
-                                msg: (isvalid == Asc.c_oAscError.ID.StockChartError) ? me.errorStockChart : ((isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) ? me.errorMaxRows : me.txtInvalidRange),
+                                msg: msg,
                                 callback: function() {
                                     _.defer(function(btn) {
                                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -4012,7 +4024,8 @@ define([
         txtTable_TableStyleLight: 'Table Style Light',
         textInsert: 'Insert',
         txtInsertCells: 'Insert Cells',
-        txtDeleteCells: 'Delete Cells'
+        txtDeleteCells: 'Delete Cells',
+        errorComboSeries: 'To create a combination chart, select at least two series of data.'
 
     }, SSE.Controllers.Toolbar || {}));
 });

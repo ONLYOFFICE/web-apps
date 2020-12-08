@@ -108,8 +108,9 @@ define([
             this.disableControls(this._locked);
 
             if (props){
-                this._originalProps = new Asc.CAscChartProp(props);
+                this._originalProps = props;
                 this._noApply = true;
+                this.chartProps = props.get_ChartProperties();
 
                 var value = props.get_SeveralCharts() || this._locked;
                 if (this._state.SeveralCharts!==value) {
@@ -320,13 +321,18 @@ define([
                 rawData = record;
             }
 
-            this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
-            this._state.ChartType = -1;
-
             if (this.api && !this._noApply) {
-                var props = new Asc.CAscChartProp();
-                props.changeType(rawData.type);
-                this.api.ChartApply(props);
+                var isCombo = (rawData.type==Asc.c_oAscChartTypeSettings.comboBarLine || rawData.type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                               rawData.type==Asc.c_oAscChartTypeSettings.comboAreaBar || rawData.type==Asc.c_oAscChartTypeSettings.comboCustom);
+
+                if (isCombo && this.chartProps.getSeries().length<2) {
+                    Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
+                    this.mnuChartTypePicker.selectRecord(this.mnuChartTypePicker.store.findWhere({type: this._originalProps.getType()}), true);
+                } else {
+                    this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
+                    this._state.ChartType = -1;
+                    this._originalProps.changeType(rawData.type);
+                }
             }
             this.fireEvent('editcomplete', this);
         },

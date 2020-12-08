@@ -278,15 +278,21 @@ define([
             } else {
                 rawData = record;
             }
+            var isCombo = rawData.type==Asc.c_oAscChartTypeSettings.comboBarLine || rawData.type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                          rawData.type==Asc.c_oAscChartTypeSettings.comboAreaBar || rawData.type==Asc.c_oAscChartTypeSettings.comboCustom,
+                series = isCombo ? this.chartSettings.getSeries() : [];
+            if (isCombo && series.length<2) {
+                Common.UI.warning({msg: this.errorComboSeries, maxwidth: 600});
+                return;
+            }
 
             this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
             this.currentChartType = rawData.type;
             this.chartSettings.changeType(this.currentChartType);
             this.ShowHideSettings(this.currentChartType);
-            if (this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLine || this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
-                this.currentChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this.currentChartType==Asc.c_oAscChartTypeSettings.comboCustom) {
-                this.updateSeriesList(this.chartSettings.getSeries());
-            } else
+            if (isCombo)
+                this.updateSeriesList(series);
+            else
                 this.updateChartStyles(this.api.asc_getChartPreviews(this.currentChartType));
         },
 
@@ -437,7 +443,8 @@ define([
         textStyle: 'Style',
         textSeries: 'Series',
         textSecondary: 'Secondary Axis',
-        errorSecondaryAxis: 'The selected chart type requires the secondary axis that an existing chart is using. Select another chart type.'
+        errorSecondaryAxis: 'The selected chart type requires the secondary axis that an existing chart is using. Select another chart type.',
+        errorComboSeries: 'To create a combination chart, select at least two series of data.'
 
     }, SSE.Views.ChartTypeDialog || {}))
 });

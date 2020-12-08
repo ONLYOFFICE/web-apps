@@ -386,14 +386,17 @@ define([
                 rawData = record;
             }
 
-            this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
-            this._state.ChartType = -1;
-
             if (this.api && !this._noApply && this.chartProps) {
-                var props = new Asc.asc_CImgProperty();
-                this.chartProps.changeType(rawData.type);
-                props.put_ChartProperties(this.chartProps);
-                this.api.ImgApply(props);
+                var isCombo = (rawData.type==Asc.c_oAscChartTypeSettings.comboBarLine || rawData.type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                               rawData.type==Asc.c_oAscChartTypeSettings.comboAreaBar || rawData.type==Asc.c_oAscChartTypeSettings.comboCustom);
+                if (isCombo && this.chartProps.getSeries().length<2) {
+                    Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
+                    this.mnuChartTypePicker.selectRecord(this.mnuChartTypePicker.store.findWhere({type: this.chartProps.getType()}), true);
+                } else {
+                    this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
+                    this._state.ChartType = -1;
+                    this.chartProps.changeType(rawData.type);
+                }
             }
             this.fireEvent('editcomplete', this);
         },
