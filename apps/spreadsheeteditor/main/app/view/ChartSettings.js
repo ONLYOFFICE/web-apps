@@ -591,32 +591,6 @@ define([
         createDelayedControls: function() {
             var me = this;
 
-            // charts
-            // this.btnChartType = new Common.UI.Button({
-            //     cls         : 'btn-large-dataview',
-            //     iconCls     : 'svgicon chart-bar-normal',
-            //     menu        : new Common.UI.Menu({
-            //         style: 'width: 364px; padding-top: 12px;',
-            //         items: [
-            //             { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
-            //         ]
-            //     })
-            // });
-            //
-            // this.btnChartType.on('render:after', function(btn) {
-            //     me.mnuChartTypePicker = new Common.UI.DataView({
-            //         el: $('#id-chart-menu-type'),
-            //         parentMenu: btn.menu,
-            //         restoreHeight: 421,
-            //         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
-            //         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-            //         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
-            //     });
-            // });
-            // this.btnChartType.render($('#chart-button-type'));
-            // this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
-            // this.lockedControls.push(this.btnChartType);
-
             this.spnWidth = new Common.UI.MetricSpinner({
                 el: $('#chart-spin-width'),
                 step: .1,
@@ -963,36 +937,7 @@ define([
                 }
             }
         },
-
-        // onSelectType: function(btn, picker, itemView, record) {
-        //     if (this._noApply) return;
-        //
-        //     var rawData = {},
-        //         isPickerSelect = _.isFunction(record.toJSON);
-        //
-        //     if (isPickerSelect){
-        //         if (record.get('selected')) {
-        //             rawData = record.toJSON();
-        //         } else {
-        //             // record deselected
-        //             return;
-        //         }
-        //     } else {
-        //         rawData = record;
-        //     }
-        //
-        //     // this.btnChartType.setIconCls('svgicon ' + 'chart-' + rawData.iconCls);
-        //     this._state.ChartType = -1;
-        //
-        //     if (this.api && !this._noApply && this.chartProps) {
-        //         var props = new Asc.asc_CImgProperty();
-        //         this.chartProps.changeType(rawData.type);
-        //         props.asc_putChartProperties(this.chartProps);
-        //         this.api.asc_setGraphicObjectProps(props);
-        //     }
-        //     Common.NotificationCenter.trigger('edit:complete', this);
-        // },
-
+        
         onSelectStyle: function(combo, record) {
             if (this._noApply) return;
 
