@@ -761,7 +761,8 @@ define([
         },
 
         ShowCombinedProps: function(type) {
-            this.NotCombinedSettings.toggleClass('settings-hidden', type==Asc.c_oAscChartTypeSettings.combo);
+            this.NotCombinedSettings.toggleClass('settings-hidden', type===null || type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                                                                    type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
         },
 
         onWidthChange: function(field, newValue, oldValue, eOpts){
