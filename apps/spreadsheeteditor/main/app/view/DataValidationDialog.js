@@ -373,7 +373,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
 
         onDropDownChange: function(field, newValue, oldValue, eOpts) {
             if (!this._noApply) {
-                this.props.asc_setShowDropDown(field.getValue()=='checked');
+                this.props.asc_setShowDropDown(field.getValue()!=='checked');
             }
         },
 
@@ -404,7 +404,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 var value = props.asc_getAllowBlank();
                 this.chIgnore.setValue(!value, true);
                 value = props.asc_getShowDropDown();
-                this.chShowDropDown.setValue(!!value, true);
+                this.chShowDropDown.setValue(!value, true);
                 value = props.asc_getType();
                 this.cmbAllow.setValue(value!==null ? value : Asc.c_oAscEDataValidationType.None, true);
                 value = props.asc_getOperator();
