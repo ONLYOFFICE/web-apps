@@ -3,12 +3,22 @@ import {View,Page,Navbar,NavRight,Link,Popup,Popover,Icon,ListItem,List} from 'f
 import { withTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
+import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
+import { MacrosSettings } from "./ApplicationSettings";
 
 const routes = [
     {
         path: '/',
         component: 'TSettingsView'
     },
+    {
+        path: '/application-settings/',
+        component: ApplicationSettingsController
+    },
+    {
+        path: '/macros-settings/',
+        component: MacrosSettings
+    }
     /*{
         path: '/presentation-settings/',
         component: PresentationSettingsController,
@@ -45,7 +55,7 @@ const SettingsList = withTranslation()(props => {
                     <ListItem link="#" title={_t.textPresentationSettings} onClick={onoptionclick.bind(this, '/presentation-settings/')}>
                         <Icon slot="media" icon="icon-setup"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textApplicationSettings} link="#">
+                    <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, '/application-settings/')}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
                     <ListItem title={_t.textDownload} link="#">
