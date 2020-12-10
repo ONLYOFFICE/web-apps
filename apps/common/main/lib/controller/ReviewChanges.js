@@ -118,16 +118,6 @@ define([
 
             if (data) {
                 this.currentUserId      =   data.config.user.id;
-                if (this.appConfig && this.appConfig.canUseReviewPermissions) {
-                    var permissions = this.appConfig.customization.reviewPermissions,
-                        arr = [],
-                        groups  =  Common.Utils.UserInfoParser.getParsedGroups(data.config.user.fullname);
-                    groups && groups.forEach(function(group) {
-                        var item = permissions[group.trim()];
-                        item && (arr = arr.concat(item));
-                    });
-                    this.currentUserGroups = arr;
-                }
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
             }
             return this;
@@ -482,7 +472,7 @@ define([
 
         checkUserGroups: function(username) {
             var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-            return this.currentUserGroups && groups && (_.intersection(this.currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
+            return Common.Utils.UserInfoParser.getCurrentGroups() && groups && (_.intersection(Common.Utils.UserInfoParser.getCurrentGroups(), (groups.length>0) ? groups : [""]).length>0);
         },
 
         getUserName: function(id){

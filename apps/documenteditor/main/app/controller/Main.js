@@ -49,6 +49,7 @@ define([
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
     'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'documenteditor/main/app/collection/ShapeGroups',
     'documenteditor/main/app/collection/EquationGroups'
@@ -338,8 +339,9 @@ define([
             loadConfig: function(data) {
                 this.editorConfig = $.extend(this.editorConfig, data.config);
 
+                var value = Common.localStorage.getItem("guest-username");
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.textGuest + ')' ) : this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -1117,6 +1119,8 @@ define([
 
                 $('#editor-container').css('overflow', '');
                 $('.doc-placeholder').remove();
+
+                !Common.localStorage.getItem("guest-username") && this.showRenameUserDialog();
             },
 
             onLicenseChanged: function(params) {
@@ -1281,6 +1285,8 @@ define([
 
                 this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
                 Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
+                Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
                 appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
@@ -2356,6 +2362,34 @@ define([
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
             },
 
+            showRenameUserDialog: function() {
+                var me = this;
+                var value = Common.localStorage.getItem("guest-username");
+                (new Common.Views.UserNameDialog({
+                    label: this.textRenameLabel,
+                    error: this.textRenameError,
+                    value: value || '',
+                    validation: function(value) {
+                        return value.length<128 ? true : me.textLongName;
+                    },
+                    handler: function(result, {input: input, checkbox: checkbox}) {
+                        if (result == 'ok') {
+                            var name = input + ' (' + me.textGuest + ')';
+                            var _user = new Asc.asc_CUserInfo();
+                            _user.put_FullName(name);
+
+                            var docInfo = new Asc.asc_CDocInfo();
+                            docInfo.put_UserInfo(_user);
+                            me.api.asc_setDocInfo(docInfo);
+
+                            Common.Utils.UserInfoParser.setCurrentName(name);
+                            appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
+                            checkbox ? Common.localStorage.setItem("guest-username", input) : Common.localStorage.removeItem("guest-username");
+                        }
+                    }
+                })).show();
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -2712,7 +2746,11 @@ define([
             textRemember: 'Remember my choice',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.'
+            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
+            textRenameLabel: 'Enter a name to be used for collaboration',
+            textRenameError: 'User name must not be empty.',
+            textLongName: 'Enter a name that is less than 128 characters.',
+            textGuest: 'Guest'
         }
     })(), DE.Controllers.Main || {}))
 });
