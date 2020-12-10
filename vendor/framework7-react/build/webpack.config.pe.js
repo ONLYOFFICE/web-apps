@@ -16,14 +16,16 @@ function resolvePath(dir) {
 
 const env = process.env.NODE_ENV || 'development';
 const target = process.env.TARGET || 'web';
+const editor = process.env.TARGET_EDITOR == 'cell' ? 'spreadsheeteditor' :
+                    process.env.TARGET_EDITOR == 'slide' ? 'presentationeditor' : 'documenteditor';
 
 module.exports = {
   mode: env,
   entry: {
-    app: '../../apps/presentationeditor/mobile/src/app.js',
+    app: `../../apps/${editor}/mobile/src/app.js`,
   },
   output: {
-    path: resolvePath('../../apps/presentationeditor/mobile'), // path above depends on it
+    path: resolvePath(`../../apps/${editor}/mobile`), // path above depends on it
     filename: 'dist/js/[name].js', // in such form will be injected in index.html
     chunkFilename: 'dist/js/[name].js',
     publicPath: '',
@@ -33,7 +35,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
-      '@': resolvePath('../../apps/presentationeditor/mobile/src'),
+      '@': resolvePath(`../../apps/${editor}/mobile/src`),
     },
     modules: [path.resolve(__dirname, '..', 'node_modules'), 'node_modules'],
   },
@@ -63,7 +65,7 @@ module.exports = {
             }
         },
         include: [
-          resolvePath('../../apps/presentationeditor/mobile/src'),
+          resolvePath(`../../apps/${editor}/mobile/src`),
           resolvePath('../../apps/common/mobile/lib'),
           resolvePath('node_modules/framework7'),
 
@@ -106,15 +108,7 @@ module.exports = {
               publicPath: '../'
             }
           }),
-          'css-loader',
-            {
-              loader: "less-loader",
-              options: {
-                lessOptions: {
-                  javascriptEnabled: true
-                }
-              }
-            },
+            'css-loader',
             {
                 loader: 'postcss-loader',
                 options: {
@@ -122,6 +116,14 @@ module.exports = {
                         path: path.resolve(__dirname, '..'),
                     }
                 },
+            },
+            {
+              loader: "less-loader",
+              options: {
+                lessOptions: {
+                  javascriptEnabled: true
+                }
+              }
             },
         ],
       },
@@ -131,7 +133,7 @@ module.exports = {
         options: {
           limit: 10000,
           name: 'images/[name].[ext]',
-          outputPath: '../../../apps/presentationeditor/mobile/dist',
+          outputPath: `../../../apps/${editor}/mobile/dist`,
 
         },
       },
@@ -141,7 +143,7 @@ module.exports = {
         options: {
           limit: 10000,
           name: 'fonts/[name].[ext]',
-          outputPath: '../../../apps/presentationeditor/mobile/dist/assets',
+          outputPath: `../../../apps/${editor}/mobile/dist/assets`,
 
         },
       },
@@ -168,8 +170,8 @@ module.exports = {
     ]),
     // new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      filename: '../../../apps/presentationeditor/mobile/index.html',
-      template: '../../apps/presentationeditor/mobile/src/index_dev.html',
+      filename: `../../../apps/${editor}/mobile/index.html`,
+      template: `../../apps/${editor}/mobile/src/index_dev.html`,
       inject: true,
       minify: env === 'production' ? {
         collapseWhitespace: true,
