@@ -321,7 +321,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 win.setSettings({
                     api     : me.api,
                     range   : input.getValue(),
-                    type    : Asc.c_oAscSelectionDialogType.Chart,
+                    type    : Asc.c_oAscSelectionDialogType.DataValidation,
                     validation: function() {return true;}
                 });
             }
