@@ -296,3 +296,18 @@
         }
     }
 }
+
+.adaptive-border-width(@width, @borderside: all) {
+    @lb-border-width: if((@borderside = all), border-width, e('border-@{borderside}-width'));
+
+    @{lb-border-width}: @width;
+
+    @media only screen {
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+            (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+        {
+            @{lb-border-width}: (@width / 1.5);
+        }
+    }
+}

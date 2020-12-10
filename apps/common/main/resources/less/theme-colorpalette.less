@@ -16,7 +16,8 @@
 
     a {
         padding: 0;
-        border: 1px solid #fff;
+        //border: 1px solid #fff;
+        .adaptive-solid-border(1px, #fff);
         float: left;
         text-decoration: none;
         -moz-outline: 0 none;
@@ -24,7 +25,8 @@
         cursor: pointer;
 
         em span {
-            border: 1px solid rgba(0, 0, 0, 0.2);
+            //border: 1px solid rgba(0, 0, 0, 0.2);
+            .adaptive-solid-border(1px, rgba(0, 0, 0, 0.2));
         }
 
         &:hover, &.selected {
@@ -36,13 +38,15 @@
     }
 
     .dynamic-empty-color em span {
-        border:solid 1px #C0C0C0;
+        //border:solid 1px #C0C0C0;
+        .adaptive-solid-border(1px, #C0C0C0);
         background:#ffffff
     }
 
     .color-transparent {
         em span {
-            border:solid 1px #C0C0C0;
+            //border:solid 1px #C0C0C0;
+            .adaptive-solid-border(1px, #C0C0C0);
         }
     }
 }
