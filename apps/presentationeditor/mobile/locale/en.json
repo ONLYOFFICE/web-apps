@@ -48,7 +48,11 @@
       "textShowNotification": "Show Notification",
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
       "textEnableAll": "Enable All",
-      "textEnableAllMacrosWithoutNotification": "Enable all macros without notification"
+      "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
+      "textSlideSize": "Slide Size",
+      "mniSlideStandard": "Standard (4:3)",
+      "mniSlideWide": "Widescreen (16:9)",
+      "textColorSchemes": "Color Schemes"
     }
   }
 }

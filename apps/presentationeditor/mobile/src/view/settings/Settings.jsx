@@ -5,6 +5,8 @@ import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { MacrosSettings } from "./ApplicationSettings";
+import PresentationSettingsController from "../../controller/settings/PresentationSettings";
+import { PresentationColorSchemes } from "./PresentationSettings";
 
 const routes = [
     {
@@ -18,6 +20,14 @@ const routes = [
     {
         path: '/macros-settings/',
         component: MacrosSettings
+    },
+    {
+        path: '/presentation-settings/',
+        component: PresentationSettingsController
+    },
+    {
+        path: '/color-schemes/',
+        component: PresentationColorSchemes
     }
     /*{
         path: '/presentation-settings/',
