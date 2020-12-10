@@ -1,0 +1,24 @@
+
+// Colors
+@themeColorLight: #a2bdde;
+@navBarIconColor: #fff;
+
+
+.device-android {
+    --f7-navbar-bg-color: @themeColor;
+    --f7-navbar-link-color: @navBarIconColor;
+    --f7-navbar-text-color: @navBarIconColor;
+
+    // Main Toolbar
+    #editor-navbar.navbar .right {
+        padding-right: 4px;
+    }
+    #editor-navbar.navbar .right a.link,
+    #editor-navbar.navbar .left a.link {
+        padding: 0 13px;
+        justify-content: space-between;
+        box-sizing: border-box;
+        align-items: center;
+        width: auto;
+    }
+}
