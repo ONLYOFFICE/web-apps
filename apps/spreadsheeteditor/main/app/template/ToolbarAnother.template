@@ -29,9 +29,9 @@
             <div class="separator short"></div>
             <div class="group">
                 <div class="elset">
-                    <span class="btn-slot border" id="slot-btn-chart" style="width: auto;"></span>
-                    <span class="btn-slot border" id="slot-btn-chart-data" style="width: auto;margin-left: 12px;"></span>
-                    <span class="btn-slot border" id="slot-btn-chart-type" style="width: auto;margin-left: 12px;"></span>
+                    <span class="btn-slot text" id="slot-btn-chart-data"></span>
+                    <span class="btn-slot text" id="slot-btn-chart-type" style="margin-left: 12px;"></span>
+                    <span class="btn-slot" id="slot-btn-chart" style="margin-left: 12px;width: auto;"></span>
                 </div>
             </div>
             <div class="group" style="width: 100%;"></div>

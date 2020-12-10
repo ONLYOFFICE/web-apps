@@ -272,26 +272,26 @@ define([
 
                 me.btnEditChart = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-edit-chart',
-                    cls         : 'btn-toolbar btn-text-value',
+                    cls         : 'btn-toolbar btn-text-default auto',
                     caption     : me.tipEditChart,
                     lock        : [_set.lostConnect],
-                    style       : 'width: 120px;'
+                    style       : 'min-width: 90px;'
                 });
 
                 me.btnEditChartData = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-edit-chart-data',
-                    cls         : 'btn-toolbar btn-text-value',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-select-range',
                     caption     : me.tipEditChartData,
-                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
-                    style       : 'width: 120px;'
+                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect]
                 });
 
                 me.btnEditChartType = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-edit-chart-type',
-                    cls         : 'btn-toolbar btn-text-value',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-menu-chart',
                     caption     : me.tipEditChartType,
-                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
-                    style       : 'width: 120px;'
+                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect]
                 });
             } else
             if ( config.isEditMailMerge ) {
