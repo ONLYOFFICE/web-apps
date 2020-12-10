@@ -200,11 +200,12 @@ define([
             allowScrollbar: true,
             scrollAlwaysVisible: false,
             showLast: true,
-            useBSKeydown: false
+            useBSKeydown: false,
+            cls: ''
         },
 
         template: _.template([
-            '<div class="dataview inner" style="<%= style %>">',
+            '<div class="dataview inner <%= cls %>" style="<%= style %>">',
                 '<% _.each(groups, function(group) { %>',
                     '<% if (group.headername !== undefined) { %>',
                         '<div class="header-name"><%= group.headername %></div>',
@@ -238,6 +239,7 @@ define([
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.showLast       = me.options.showLast;
             me.style          = me.options.style        || '';
+            me.cls            = me.options.cls          || '';
             me.emptyText      = me.options.emptyText    || '';
             me.listenStoreEvents= (me.options.listenStoreEvents!==undefined) ? me.options.listenStoreEvents : true;
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
@@ -267,7 +269,8 @@ define([
                 this.setElement(parentEl, false);
                 this.cmpEl = $(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
-                    style: me.style
+                    style: me.style,
+                    cls: me.cls
                 }));
 
                 parentEl.html(this.cmpEl);
@@ -275,7 +278,8 @@ define([
                 this.cmpEl = me.$el || $(this.el);
                 this.cmpEl.html(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
-                    style: me.style
+                    style: me.style,
+                    cls: me.cls
                 }));
             }
 
@@ -454,7 +458,8 @@ define([
 
             $(this.el).html(this.template({
                 groups: this.groups ? this.groups.toJSON() : null,
-                style: this.style
+                style: this.style,
+                cls: this.cls
             }));
 
             if (!_.isUndefined(this.scroller)) {

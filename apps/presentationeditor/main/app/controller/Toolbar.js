@@ -1687,17 +1687,19 @@ define([
             if (selectedElements && _.isArray(selectedElements)) {
                 for (var i = 0; i< selectedElements.length; i++) {
                     if (Asc.c_oAscTypeSelectElement.Chart == selectedElements[i].get_ObjectType()) {
-                        chart = true;
+                        chart = selectedElements[i].get_ObjectValue();
                         break;
                     }
                 }
             }
 
             if (chart) {
-                var props = new Asc.CAscChartProp();
-                props.changeType(type);
-                this.api.ChartApply(props);
-
+                var isCombo = (type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
+                if (isCombo && chart.get_ChartProperties() && chart.get_ChartProperties().getSeries().length<2) {
+                    Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
+                } else
+                    chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
                 if (!this.diagramEditor)

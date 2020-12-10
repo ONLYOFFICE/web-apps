@@ -275,6 +275,7 @@ define([
                     toolbar.cmbNumberFormat.cmpEl.on('click', '#id-toolbar-mnu-item-more-formats a', _.bind(this.onNumberFormatSelect, this));
                 toolbar.btnEditChart.on('click',                            _.bind(this.onEditChart, this));
                 toolbar.btnEditChartData.on('click',                        _.bind(this.onEditChartData, this));
+                toolbar.btnEditChartType.on('click',                        _.bind(this.onEditChartType, this));
             } else
             if ( me.appConfig.isEditMailMerge ) {
                 toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -951,7 +952,7 @@ define([
                             {
                                 chartSettings: props,
                                 imageSettings: imageSettings,
-                                isDiagramMode: me.toolbar.mode.isEditDiagram,
+                                // isDiagramMode: me.toolbar.mode.isEditDiagram,
                                 isChart: true,
                                 api: me.api,
                                 handler: function(result, value) {
@@ -999,6 +1000,35 @@ define([
             }
         },
 
+        onEditChartType: function(btn) {
+            if (!this.editMode) return;
+
+            var me = this;
+            var props;
+            if (me.api){
+                props = me.api.asc_getChartObject();
+                if (props) {
+                    me._isEditType = true;
+                    props.startEdit();
+                    var win = new SSE.Views.ChartTypeDialog({
+                        chartSettings: props,
+                        api: me.api,
+                        handler: function(result, value) {
+                            if (result == 'ok') {
+                                props.endEdit();
+                                me._isEditType = false;
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me);
+                        }
+                    }).on('close', function() {
+                        me._isEditType && props.cancelEdit();
+                        me._isEditType = false;
+                    });
+                    win.show();
+                }
+            }
+        },
+
         onSelectChart: function(group, type) {
             if (!this.editMode) return;
             var me = this,
@@ -1028,8 +1058,20 @@ define([
                         if (isvalid == Asc.c_oAscError.ID.No) {
                             (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
                         } else {
+                            var msg = me.txtInvalidRange;
+                            switch (isvalid) {
+                                case isvalid == Asc.c_oAscError.ID.StockChartError:
+                                    msg = me.errorStockChart;
+                                    break;
+                                case isvalid == Asc.c_oAscError.ID.MaxDataSeriesError:
+                                    msg = me.errorMaxRows;
+                                    break;
+                                case isvalid == Asc.c_oAscError.ID.ComboSeriesError:
+                                    msg = me.errorComboSeries;
+                                    break;
+                            }
                             Common.UI.warning({
-                                msg: (isvalid == Asc.c_oAscError.ID.StockChartError) ? me.errorStockChart : ((isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) ? me.errorMaxRows : me.txtInvalidRange),
+                                msg: msg,
                                 callback: function() {
                                     _.defer(function(btn) {
                                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1848,7 +1890,7 @@ define([
             var toolbar = this.toolbar;
             if (toolbar.mode.isEditDiagram || toolbar.mode.isEditMailMerge) {
                 is_cell_edited = (state == Asc.c_oAscCellEditorState.editStart);
-                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat, toolbar.btnEditChartData]});
+                toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {array: [toolbar.btnDecDecimal,toolbar.btnIncDecimal,toolbar.cmbNumberFormat, toolbar.btnEditChartData, toolbar.btnEditChartType]});
             } else
             if (state == Asc.c_oAscCellEditorState.editStart || state == Asc.c_oAscCellEditorState.editEnd) {
                 toolbar.lockToolbar(SSE.enumLock.editCell, state == Asc.c_oAscCellEditorState.editStart, {
@@ -2589,7 +2631,7 @@ define([
 
             var need_disable = (selectionType === Asc.c_oAscSelectionType.RangeCells || selectionType === Asc.c_oAscSelectionType.RangeCol ||
                                 selectionType === Asc.c_oAscSelectionType.RangeRow || selectionType === Asc.c_oAscSelectionType.RangeMax);
-            this.toolbar.lockToolbar( SSE.enumLock.selRange, need_disable, {array:[this.toolbar.btnEditChartData]} );
+            this.toolbar.lockToolbar( SSE.enumLock.selRange, need_disable, {array:[this.toolbar.btnEditChartData, this.toolbar.btnEditChartType]} );
 
             if (selectionType == Asc.c_oAscSelectionType.RangeChart || selectionType == Asc.c_oAscSelectionType.RangeChartText)
                 return;
@@ -4012,7 +4054,8 @@ define([
         txtTable_TableStyleLight: 'Table Style Light',
         textInsert: 'Insert',
         txtInsertCells: 'Insert Cells',
-        txtDeleteCells: 'Delete Cells'
+        txtDeleteCells: 'Delete Cells',
+        errorComboSeries: 'To create a combination chart, select at least two series of data.'
 
     }, SSE.Controllers.Toolbar || {}));
 });

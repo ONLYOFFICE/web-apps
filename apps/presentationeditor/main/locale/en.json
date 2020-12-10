@@ -365,6 +365,7 @@
   "PE.Controllers.Main.requestEditFailedTitleText": "Access denied",
   "PE.Controllers.Main.saveErrorText": "An error has occurred while saving the file.",
   "PE.Controllers.Main.saveErrorTextDesktop": "This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.",
+  "PE.Controllers.Main.errorComboSeries": "To create a combination chart, select at least two series of data.",
   "PE.Controllers.Main.savePreparingText": "Preparing to save",
   "PE.Controllers.Main.savePreparingTitle": "Preparing to save. Please wait...",
   "PE.Controllers.Main.saveTextText": "Saving presentation...",
