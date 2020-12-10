@@ -109,8 +109,40 @@
 <symbol id="chart-stock-normal" viewBox="0 0 40 40">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M8 7H7V20.5V34H34V33H8V7ZM23 12H22V16H20V20H22V24H23V20H25V16H23V12ZM13 27H11V20H13V16H14V20H16V27H14V31H13V27ZM31 11H29V18H31V22H32V18H34V11H32V7H31V11Z" fill="#444444"/>
 </symbol>
-<symbol id="chart-combo-normal" viewBox="0 0 40 40">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M33 6H27V34H33V6ZM20 14H26V34H20V14ZM19 20H13V34H19V20ZM12 26H6V34H12V26Z" fill="#444444"/>
+<symbol id="chart-combo-bar-line" viewBox="0 0 40 40">
+<path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M20 10H26V34H20V10ZM19 14H13V34H19V14ZM12 26H6V34H12V26ZM33 21H27V34H33V21Z" fill="#444444"/>
+<path d="M5 26.5L15.5 16L23.5 24L32.5 15L33.5 16L23.5 26L15.5 18L6 27.5L5 26.5Z" fill="#444444"/>
+<path d="M5 5H6V34H35V35H5V20.5V5Z" fill="#444444"/>
+</symbol>
+<symbol id="chart-combo-bar-line-sec" viewBox="0 0 40 40">
+<path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M20 10H26V34H20V10ZM19 14H13V34H19V14ZM12 26H6V34H12V26ZM33 21H27V34H33V21Z" fill="#444444"/>
+<path d="M5 26.5L15.5 16L23.5 24L32.5 15L33.5 16L23.5 26L15.5 18L6 27.5L5 26.5Z" fill="#444444"/>
+<path d="M5 5H6V34H35V35H5V20.5V5Z" fill="#444444"/>
+<rect x="34" y="32" width="1" height="1" fill="#444444"/>
+<rect x="34" y="30" width="1" height="1" fill="#444444"/>
+<rect x="34" y="28" width="1" height="1" fill="#444444"/>
+<rect x="34" y="26" width="1" height="1" fill="#444444"/>
+<rect x="34" y="24" width="1" height="1" fill="#444444"/>
+<rect x="34" y="22" width="1" height="1" fill="#444444"/>
+<rect x="34" y="20" width="1" height="1" fill="#444444"/>
+<rect x="34" y="18" width="1" height="1" fill="#444444"/>
+<rect x="34" y="16" width="1" height="1" fill="#444444"/>
+<rect x="34" y="14" width="1" height="1" fill="#444444"/>
+<rect x="34" y="12" width="1" height="1" fill="#444444"/>
+<rect x="34" y="10" width="1" height="1" fill="#444444"/>
+<rect x="34" y="8" width="1" height="1" fill="#444444"/>
+<rect x="34" y="6" width="1" height="1" fill="#444444"/>
+</symbol>
+<symbol id="chart-combo-area-bar" viewBox="0 0 40 40">
+<path d="M5 5H6V34H35V35H5V20.5V5Z" fill="#444444"/>
+<path opacity="0.4" d="M6 20.5L15.5 11L23.5 19L33 9.5V34H6V20.5Z" fill="#444444"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19 19H13V34H19V19ZM12 27H6V34H12V27ZM20 23H26V34H20V23ZM33 26H27V34H33V26Z" fill="#444444"/>
+</symbol>
+<symbol id="chart-combo-custom" viewBox="0 0 40 40">
+<path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M26 10H20V34H24V33.5L26 31.5V10ZM33 24.5V21H27V30.5L33 24.5ZM13 14H19V34H13V14ZM6 26H12V34H6V26Z" fill="#444444"/>
+<path d="M5 26.5L15.5 16L23.5 24L32.5 15L33.5 16L23.5 26L15.5 18L6 27.5L5 26.5Z" fill="#444444"/>
+<path d="M5 5H6V34H24V35H5V20.5V5Z" fill="#444444"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M34 25L37 28L39 26V25L37 23H36L34 25ZM25 37V34L33 26L36 29L28 37H25Z" fill="#444444"/>
 </symbol>
 <symbol id="chart-spark-line" viewBox="0 0 40 40">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86358 21.8725L15.7636 27.7725L20.7636 16.7725L25.682 21.691L31.6394 5.65181L33.5143 6.34819L26.4717 25.309L21.3901 20.2275L16.3901 31.2275L10.2901 25.1275L5.44232 33.5008L3.71148 32.4987L9.86358 21.8725Z" fill="#444444"/>

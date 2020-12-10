@@ -498,10 +498,10 @@ define(function(){ 'use strict';
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack', tip: this.textAreaStackedPer},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal', tip: this.textScatter},
                     { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal', tip: this.textStock},
-                    { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboBarLine,       iconCls: 'combo-normal', tip: this.textComboBarLine},
-                    { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboBarLineSecondary, iconCls: 'combo-normal', tip: this.textComboBarLineSecondary},
-                    { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboAreaBar,       iconCls: 'combo-normal', tip: this.textComboAreaBar},
-                    { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboCustom,        iconCls: 'combo-normal', tip: this.textComboCustom}
+                    { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboBarLine,       iconCls: 'combo-bar-line', tip: this.textComboBarLine},
+                    { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboBarLineSecondary, iconCls: 'combo-bar-line-sec', tip: this.textComboBarLineSecondary},
+                    { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboAreaBar,       iconCls: 'combo-area-bar', tip: this.textComboAreaBar},
+                    { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboCustom,        iconCls: 'combo-custom', tip: this.textComboCustom}
                     // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      iconCls: 'surface-normal'},
                     // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   iconCls: 'surface-wireframe'},
                     // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      iconCls: 'contour-normal'},
