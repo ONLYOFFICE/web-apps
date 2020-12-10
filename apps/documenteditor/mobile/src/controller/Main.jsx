@@ -255,12 +255,12 @@ class MainController extends Component {
         const storeDocumentInfo = this.props.storeDocumentInfo;
 
         this.api.asc_registerCallback("asc_onGetDocInfoStart", () => {
-          console.log("Start");
+        //   console.log("Start");
           storeDocumentInfo.switchIsLoaded(false);
         });
 
         this.api.asc_registerCallback("asc_onGetDocInfoStop", () => {
-          console.log("Stop");
+        //   console.log("Stop");
           storeDocumentInfo.switchIsLoaded(true);
         });
 
@@ -269,9 +269,18 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
-          console.log('End');
+        //   console.log('End');
           storeDocumentInfo.switchIsLoaded(true);
         });
+
+        // Color Schemes
+
+        this.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {
+            // console.log(arr);
+            storeDocumentSettings.addSchemes(arr);
+        });
+
+
 
         // me.api.asc_registerCallback('asc_onDocumentName',       _.bind(me.onApiDocumentName, me));
 

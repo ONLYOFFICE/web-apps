@@ -70,12 +70,26 @@ class DocumentSettingsController extends Component {
         }
     }
 
+    // Color Schemes
+
+    initPageColorSchemes() {
+        const api = Common.EditorApi.get();
+        return api.asc_GetCurrentColorSchemeIndex();
+    }
+
+    onColorSchemeChange(newScheme) {
+        const api = Common.EditorApi.get();
+        api.asc_ChangeColorSchemeByIdx(+newScheme);
+    }
+
     render () {
         return (
             <DocumentSettings onPageOrientation={this.onPageOrientation}
                               onFormatChange={this.onFormatChange}
                               getMargins={this.getMargins}
                               applyMargins={this.applyMargins}
+                              onColorSchemeChange={this.onColorSchemeChange}
+                              initPageColorSchemes={this.initPageColorSchemes}
             />
         )
     }

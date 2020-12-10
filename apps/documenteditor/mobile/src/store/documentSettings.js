@@ -59,4 +59,12 @@ export class storeDocumentSettings {
         return ind;
     }
 
+    // Color Schemes
+
+    @observable allSchemes;
+
+    @action addSchemes(arr) {
+        this.allSchemes = arr;
+    }
+
 }
