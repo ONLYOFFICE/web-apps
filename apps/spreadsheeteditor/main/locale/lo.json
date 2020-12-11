@@ -1229,7 +1229,6 @@
   "SSE.Controllers.Toolbar.warnLongOperation": "ການດຳເນີນງານທີ່ທ່ານກຳລັງຈະເຮັດອາດຈະໃຊ້ເວລາຫຼາຍຈຶ່ງຈະສິ້ນສຸດ. <br> ທ່ານໝັ້ນໃຈບໍ່ວ່າຈະດຳເນີນການຕໍ່?",
   "SSE.Controllers.Toolbar.warnMergeLostData": "ສະເພາະຂໍ້ມູນຈາກເຊວດ້ານຊ້າຍເທິງທີ່ຈະຢູ່ໃນເຊວຮ່ວມ. <br>ທ່ານຕ້ອງການດຳເນີນການຕໍ່ບໍ່?",
   "SSE.Controllers.Viewport.textFreezePanes": "ຕິກໃສ່ບໍລິເວນທີ່ຕ້ອງການໃຫ້ເຫັນແຈ້ງ",
-  "SSE.Controllers.Viewport.textFreezePanesShadow:": "ສະແດງ Frozen Panes Shadow",
   "SSE.Controllers.Viewport.textHideFBar": "ເຊື່ອງແຖບສູດ",
   "SSE.Controllers.Viewport.textHideGridlines": "ເຊື່ອງຕາຕະລາງໄວ້",
   "SSE.Controllers.Viewport.textHideHeadings": "ເຊື່ອງຫົວຂໍ້ໄວ້",
