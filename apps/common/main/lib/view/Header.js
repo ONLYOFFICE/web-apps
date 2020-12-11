@@ -118,7 +118,7 @@ define([
                                 '<div class="lr-separator" id="id-box-doc-name">' +
                                     '<label id="title-doc-name" />' +
                                 '</div>' +
-                                '<label id="title-user-name" style="pointer-events: none;"></label>' +
+                                '<label id="title-user-name"></label>' +
                             '</section>';
 
         function onResetUsers(collection, opts) {
@@ -271,6 +271,13 @@ define([
 
                 $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
                 $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
+            }
+
+            if (me.labelUserName && appConfig.user.guest) {
+                me.labelUserName.addClass('clickable');
+                me.labelUserName.on('click', function (e) {
+                    Common.NotificationCenter.trigger('user:rename');
+                });
             }
 
             if ( me.btnPrint ) {

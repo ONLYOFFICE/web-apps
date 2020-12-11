@@ -76,8 +76,7 @@ define([
             var me = this;
             me.inputLabel = new Common.UI.InputField({
                 el          : $('#id-dlg-username-caption'),
-                allowBlank  : false,
-                blankError  : me.options.error ? me.options.error : me.textLabelError,
+                allowBlank  : true,
                 style       : 'width: 100%;',
                 maxLength   : 128,
                 validateOnBlur: false,
@@ -87,9 +86,10 @@ define([
             });
             me.inputLabel.setValue(this.options.value || '' );
 
-            me.chAlwaysUse = new Common.UI.CheckBox({
+            me.chDontShow = new Common.UI.CheckBox({
                 el: $('#id-dlg-username-chk-use'),
-                labelText: this.textUse
+                labelText: this.textDontShow,
+                value: this.options.check
             });
 
             var $window = this.getChild();
@@ -123,7 +123,7 @@ define([
                     }
                 }
 
-                this.options.handler.call(this, state, {input: this.inputLabel.getValue(), checkbox: this.chAlwaysUse.getValue()=='checked'});
+                this.options.handler.call(this, state, {input: this.inputLabel.getValue(), checkbox: this.chDontShow.getValue()=='checked'});
             }
 
             this.close();
@@ -131,6 +131,6 @@ define([
 
         textLabel: 'Label:',
         textLabelError: 'Label must not be empty.',
-        textUse: 'Always use this name'
+        textDontShow: 'Don\'t ask me again'
     }, Common.Views.UserNameDialog || {}));
 });

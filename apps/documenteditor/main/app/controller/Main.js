@@ -340,6 +340,7 @@ define([
                 this.editorConfig = $.extend(this.editorConfig, data.config);
 
                 var value = Common.localStorage.getItem("guest-username");
+                Common.Utils.InternalSettings.set("guest-username", value);
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.textGuest + ')' ) : this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
@@ -374,6 +375,8 @@ define([
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
                 this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
+
+                this.appOptions.user.guest && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
@@ -1120,7 +1123,7 @@ define([
                 $('#editor-container').css('overflow', '');
                 $('.doc-placeholder').remove();
 
-                !Common.localStorage.getItem("guest-username") && this.showRenameUserDialog();
+                this.appOptions.user.guest && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
             },
 
             onLicenseChanged: function(params) {
@@ -2363,18 +2366,21 @@ define([
             },
 
             showRenameUserDialog: function() {
+                if (this._renameDialog) return;
+
                 var me = this;
-                var value = Common.localStorage.getItem("guest-username");
-                (new Common.Views.UserNameDialog({
+                var value = Common.Utils.InternalSettings.get("guest-username");
+                this._renameDialog = new Common.Views.UserNameDialog({
                     label: this.textRenameLabel,
                     error: this.textRenameError,
                     value: value || '',
+                    check: (value!==null),
                     validation: function(value) {
                         return value.length<128 ? true : me.textLongName;
                     },
                     handler: function(result, {input: input, checkbox: checkbox}) {
                         if (result == 'ok') {
-                            var name = input + ' (' + me.textGuest + ')';
+                            var name = input ? input + ' (' + me.textGuest + ')' : me.textAnonymous;
                             var _user = new Asc.asc_CUserInfo();
                             _user.put_FullName(name);
 
@@ -2385,9 +2391,14 @@ define([
                             Common.Utils.UserInfoParser.setCurrentName(name);
                             appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
                             checkbox ? Common.localStorage.setItem("guest-username", input) : Common.localStorage.removeItem("guest-username");
+                            Common.Utils.InternalSettings.set("guest-username", input);
                         }
                     }
-                })).show();
+                });
+                this._renameDialog.on('close', function() {
+                    me._renameDialog = undefined;
+                });
+                this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

@@ -401,6 +401,11 @@
         height: 100%;
         padding: 0 12px;
         line-height: @height-title;
+        pointer-events: none;
+        &.clickable {
+            cursor: pointer;
+            pointer-events: auto;
+        }
    }
 
     .lr-separator {
