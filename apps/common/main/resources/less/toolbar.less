@@ -192,7 +192,8 @@
     }
 
     background-color: @gray-light;
-    .box-inner-shadow(0 -1px 0 @gray-dark);
+    //.box-inner-shadow(0 -1px 0 @gray-dark);
+    .adaptive-box-shadow(~'inset 0 %1 0 @{gray-dark}', -1px);
 
     .group {
         position: relative;

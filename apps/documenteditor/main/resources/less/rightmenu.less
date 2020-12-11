@@ -2,7 +2,8 @@
 .tool-menu.right {
     .tool-menu-btns {
         position: absolute;
-        border-left: 1px solid @gray-dark;
+        //border-left: 1px solid @gray-dark;
+        .adaptive-solid-border(1px, @gray-dark, left);
         background-color: @gray-light;
         right: 0;
         overflow: hidden;
@@ -16,7 +17,8 @@
     padding: 0 10px 0 15px;
     position: relative;
     overflow: hidden;
-    border-left: 1px solid @gray-dark;
+    //border-left: 1px solid @gray-dark;
+    .adaptive-solid-border(1px, @gray-dark, left);
     line-height: 15px;
 }
 

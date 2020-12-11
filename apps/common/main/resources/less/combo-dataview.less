@@ -10,7 +10,8 @@
         width: @combo-dataview-width;
         height: 100%;
         .border-radius(@border-radius-small);
-        border: 1px solid @input-border;
+        //border: 1px solid @input-border;
+        .adaptive-solid-border(1px, @input-border);
         background-color: @input-bg;
 
         .dataview {
@@ -24,7 +25,8 @@
 
         button {
             border-radius:0 @border-radius-small @border-radius-small 0;
-            border: 1px solid @input-border;
+            //border: 1px solid @input-border;
+            .adaptive-solid-border(1px, @input-border);
             background-color: @input-bg;
 
             &.dropdown-toggle {
@@ -84,17 +86,20 @@
 
     .item {
         padding: 3px;
-        border: 1px solid @gray;
+        //border: 1px solid @gray;
+        .adaptive-solid-border(1px, @gray);
         .box-shadow(none);
         margin: 0 -1px -1px 0;
 
 
         &:hover {
-            .box-inner-shadow(0 0 0 2px @gray);
+            //.box-inner-shadow(0 0 0 2px @gray);
+            .adaptive-box-shadow(~"inset 0 0 0 %1 @{gray}", 2px);
         }
 
         &.selected {
-            .box-inner-shadow(0 0 0 2px @gray-darker);
+            //.box-inner-shadow(0 0 0 2px @gray-darker);
+            .adaptive-box-shadow(~"inset 0 0 0 %1 @{gray-darker}", 2px);
         }
     }
 
@@ -125,7 +130,8 @@
         width: auto;
         position: relative;
         border: none;
-        .box-shadow(0 0 0 1px @body-bg);
+        //.box-shadow(0 0 0 1px @body-bg);
+        .adaptive-box-shadow(~"0 0 0 %1 @{body-bg}", 1px);
 
         > div {
             background-repeat: no-repeat;
@@ -188,7 +194,8 @@
     &.disabled {
         .item {
             &:hover:not(.selected) {
-                .box-shadow(0 0 0 1px @gray);
+                //.box-shadow(0 0 0 1px @gray);
+                .adaptive-box-shadow(~"0 0 0 %1 @{gray}", 1px);
             }
         }
     }
@@ -238,7 +245,8 @@
 
     .item {
         &:hover {
-            .box-shadow(0 0 0 1px @gray);
+            //.box-shadow(0 0 0 1px @gray);
+            .adaptive-box-shadow(~"0 0 0 %1 @{gray}", 1px);
         }
     }
 
@@ -265,13 +273,15 @@
 
     .item {
         margin-left: 4px;
-        .box-shadow(0 0 0 1px @gray);
+        //.box-shadow(0 0 0 1px @gray);
+        .adaptive-box-shadow(~"0 0 0 %1 @{gray}", 1px);
     }
 
     &.disabled {
         .item {
             &:hover:not(.selected) {
-                .box-shadow(0 0 0 1px @gray);
+                //.box-shadow(0 0 0 1px @gray);
+                .adaptive-box-shadow(~"0 0 0 %1 @{gray}", 1px);
             }
         }
     }
