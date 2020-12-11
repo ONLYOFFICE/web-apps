@@ -1220,7 +1220,7 @@
   "SSE.Controllers.Toolbar.warnLongOperation": "L’operació que esteu a punt de realitzar pot trigar molt temps a completar-se.<br>Esteu segur que voleu continuar?",
   "SSE.Controllers.Toolbar.warnMergeLostData": "Només quedaran les dades de la cel·la superior esquerra de la cel·la fusionada.<br>Estàs segur que vols continuar?",
   "SSE.Controllers.Viewport.textFreezePanes": "Congela Panells",
-  "SSE.Controllers.Viewport.textFreezePanesShadow:": "Mostra l’Ombra dels Panells Congelats",
+  "SSE.Controllers.Viewport.textFreezePanesShadow": "Mostra l’Ombra dels Panells Congelats",
   "SSE.Controllers.Viewport.textHideFBar": "Amagar barra de formules",
   "SSE.Controllers.Viewport.textHideGridlines": "Amagar Quadrícules",
   "SSE.Controllers.Viewport.textHideHeadings": "Amagar Encapçalaments",

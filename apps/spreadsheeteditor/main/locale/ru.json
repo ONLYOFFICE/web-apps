@@ -2537,7 +2537,7 @@
   "SSE.Views.Spellcheck.txtSpelling": "Орфография",
   "SSE.Views.Statusbar.CopyDialog.itemCopyToEnd": "(Скопировать в конец)",
   "SSE.Views.Statusbar.CopyDialog.itemMoveToEnd": "(Переместить в конец)",
-  "SSE.Views.Statusbar.CopyDialog.textCopyBefore": "Скопировать перед листом",
+  "SSE.Views.Statusbar.CopyDialog.textCopyBefore": "Вставить перед листом",
   "SSE.Views.Statusbar.CopyDialog.textMoveBefore": "Переместить перед листом",
   "SSE.Views.Statusbar.filteredRecordsText": "Отфильтрованно записей: {0} из {1}",
   "SSE.Views.Statusbar.filteredText": "Режим фильтрации",

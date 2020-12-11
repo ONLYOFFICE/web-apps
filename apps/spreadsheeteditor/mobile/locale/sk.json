@@ -322,6 +322,8 @@
   "SSE.Controllers.Main.waitText": "Prosím čakajte...",
   "SSE.Controllers.Main.warnLicenseExceeded": "Počet súbežných spojení s dokumentovým serverom bol prekročený a dokument bude znovu otvorený iba na prezeranie.<br>Pre ďalšie informácie kontaktujte prosím vášho správcu.",
   "SSE.Controllers.Main.warnLicenseExp": "Vaša licencia vypršala.<br>Prosím, aktualizujte si svoju licenciu a obnovte stránku.",
+  "SSE.Controllers.Main.warnLicenseLimitedNoAccess": "Licencia vypršala.<br>K funkcii úprav dokumentu už nemáte prístup.<br>Kontaktujte svojho administrátora, prosím.",
+  "SSE.Controllers.Main.warnLicenseLimitedRenewed": "Je potrebné obnoviť licenciu.<br>K funkciám úprav dokumentov máte obmedzený prístup.<br>Pre získanie úplného prístupu kontaktujte prosím svojho administrátora.",
   "SSE.Controllers.Main.warnLicenseUsersExceeded": "Limit %1 súbežných užívateľov bol prekročený.<br>Pre ďalšie informácie kontaktujte prosím vášho správcu.",
   "SSE.Controllers.Main.warnNoLicense": "Táto verzia aplikácie %1 editors má určité obmedzenia pre súbežné pripojenia k dokumentovému serveru.<br>Ak potrebujete viac, zvážte aktualizáciu aktuálnej licencie alebo zakúpenie komerčnej.",
   "SSE.Controllers.Main.warnNoLicenseUsers": "Táto verzia %1 editors má určité obmedzenia pre spolupracujúcich používateľov. <br> Ak potrebujete viac, zvážte aktualizáciu vašej aktuálnej licencie alebo kúpu komerčnej.",
