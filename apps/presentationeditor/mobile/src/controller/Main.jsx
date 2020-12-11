@@ -161,7 +161,7 @@ class MainController extends Component {
 
     bindEvents() {
         const me = this;
-        
+       
         // me.api.asc_registerCallback('asc_onError',                      _.bind(me.onError, me));
         me.api.asc_registerCallback('asc_onDocumentContentReady',       me._onDocumentContentReady.bind(me));
         me.api.asc_registerCallback('asc_onOpenDocumentProgress',       me._onOpenDocumentProgress.bind(me));
@@ -169,8 +169,11 @@ class MainController extends Component {
         const storePresentationSettings = this.props.storePresentationSettings;
 
         me.api.asc_registerCallback('asc_onPresentationSize', (width, height) => {
-            // const api = Common.EditorApi.get();
             storePresentationSettings.changeSlideSize(width, height);
+        });
+
+        me.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {
+            storePresentationSettings.addSchemes(arr);
         });
 
         // api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
