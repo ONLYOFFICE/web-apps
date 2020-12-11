@@ -1558,7 +1558,7 @@ define([
                         config.msg = this.errorChangeFilteredRange;
                         break;
 
-                    case Asc.c_oAscError.ID.Asc.Password:
+                    case Asc.c_oAscError.ID.Password:
                         config.msg = this.errorSetPassword;
                         break;
 
