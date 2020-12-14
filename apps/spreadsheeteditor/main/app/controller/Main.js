@@ -193,6 +193,7 @@ define([
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
                 Common.NotificationCenter.on('download:advanced',            _.bind(this.onAdvancedOptions, this));
                 Common.NotificationCenter.on('showmessage',                  _.bind(this.onExternalMessage, this));
+                Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
 
                 this.stackLongActions = new Common.IrregularStack({
                     strongCompare   : this._compareActionStrong,
@@ -445,6 +446,8 @@ define([
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
+                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined);
+                    this.appOptions.canFavorite && this.headerView && this.headerView.setFavorite(data.doc.info.favorite);
 
                     Common.Utils.InternalSettings.set("sse-doc-info-key", data.doc.key);
                 }
@@ -539,6 +542,18 @@ define([
                         }
                     }
                 }
+            },
+
+            markFavorite: function(favorite) {
+                if ( !Common.Controllers.Desktop.process('markfavorite') ) {
+                    Common.Gateway.metaChange({
+                        favorite: favorite
+                    });
+                }
+            },
+
+            onSetFavorite: function(favorite) {
+                this.appOptions.canFavorite && this.headerView && this.headerView.setFavorite(!!favorite);
             },
 
             onEditComplete: function(cmp, opts) {
@@ -887,6 +902,7 @@ define([
                 Common.Gateway.on('processrightschange', _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
                 Common.Gateway.on('downloadas',   _.bind(me.onDownloadAs, me));
+                Common.Gateway.on('setfavorite',  _.bind(me.onSetFavorite, me));
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));

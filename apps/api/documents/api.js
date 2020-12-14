@@ -36,7 +36,8 @@
                             isLink: false
                         },
                         ...
-                    ]
+                    ],
+                    favorite: '<file is favorite>' // true/false/undefined (undefined - don't show fav. button)
                 },
                 permissions: {
                     edit: <can edit>, // default = true
@@ -638,6 +639,13 @@
             });
         };
 
+        var _setFavorite = function(data) {
+            _sendCommand({
+                command: 'setFavorite',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -683,7 +691,8 @@
             setSharingSettings  : _setSharingSettings,
             insertImage         : _insertImage,
             setMailMergeRecipients: _setMailMergeRecipients,
-            setRevisedFile      : _setRevisedFile
+            setRevisedFile      : _setRevisedFile,
+            setFavorite         : _setFavorite
         }
     };
 
