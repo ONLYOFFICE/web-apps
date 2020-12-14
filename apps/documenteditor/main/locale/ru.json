@@ -10,7 +10,7 @@
   "Common.Controllers.ExternalMergeEditor.warningText": "Объект недоступен, так как редактируется другим пользователем.",
   "Common.Controllers.ExternalMergeEditor.warningTitle": "Внимание",
   "Common.Controllers.History.notcriticalErrorTitle": "Внимание",
-  "Common.Controllers.ReviewChanges.textAcceptBeforeCompare": "Для сравнения документов все ослеживаемые изменения в них будут считаться принятыми. Вы хотите продолжить?",
+  "Common.Controllers.ReviewChanges.textAcceptBeforeCompare": "Для сравнения документов все отслеживаемые изменения в них будут считаться принятыми. Вы хотите продолжить?",
   "Common.Controllers.ReviewChanges.textAtLeast": "Минимум",
   "Common.Controllers.ReviewChanges.textAuto": "Авто",
   "Common.Controllers.ReviewChanges.textBaseline": "Базовая линия",
