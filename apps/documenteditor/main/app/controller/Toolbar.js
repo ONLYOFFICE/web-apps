@@ -1897,7 +1897,7 @@ define([
                             })).show();
 
                         } else {
-                            this.api.asc_RemoveContentControlWrapper(id);
+                            this.api.asc_RemoveContentControl(id);
                             Common.component.Analytics.trackEvent('ToolBar', 'Remove Content Control');
                         }
                     }

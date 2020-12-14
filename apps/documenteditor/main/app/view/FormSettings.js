@@ -294,7 +294,7 @@ define([
                 style       : 'text-align: left;'
             });
             this.btnRemForm.on('click', _.bind(function(btn){
-                this.api.asc_RemoveContentControlWrapper(this._state.id);
+                this.api.asc_RemoveContentControl(this._state.id);
             }, this));
             this.lockedControls.push(this.btnRemForm);
 
