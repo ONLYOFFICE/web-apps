@@ -5,6 +5,7 @@ import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { MacrosSettings } from "./ApplicationSettings";
+import PresentationInfoController from "../../controller/settings/PresentationInfo";
 
 const routes = [
     {
@@ -18,6 +19,10 @@ const routes = [
     {
         path: '/macros-settings/',
         component: MacrosSettings
+    },
+    {
+        path: '/presentation-info/',
+        component: PresentationInfoController
     }
     /*{
         path: '/presentation-settings/',

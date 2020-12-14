@@ -48,7 +48,20 @@
       "textShowNotification": "Show Notification",
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
       "textEnableAll": "Enable All",
-      "textEnableAllMacrosWithoutNotification": "Enable all macros without notification"
+      "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
+      "textLocation": "Location",
+      "textTitle": "Title",
+      "textSubject": "Subject",
+      "textComment": "Comment",
+      "textCreated": "Created",
+      "textLastModifiedBy": "Last Modified By",
+      "textLastModified": "Last Modified",
+      "textApplication": "Application",
+      "textLoading": "Loading...",
+      "textAuthor": "Author",
+      "textPresentationTitle": "Presentation Title",
+      "textOwner": "Owner",
+      "textUploaded": "Uploaded"
     }
   }
 }
