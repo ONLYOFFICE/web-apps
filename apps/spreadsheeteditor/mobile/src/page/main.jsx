@@ -5,6 +5,7 @@ import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-re
 import Settings from '../view/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/Collaboration.jsx'
 import CellEditor from '../controller/CellEditor';
+import Statusbar from '../controller/StatusBar'
 
 export default class MainPage extends Component {
     constructor(props) {
@@ -62,6 +63,7 @@ export default class MainPage extends Component {
                 !this.state.collaborationVisible ? null :
                     <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
             }
+              <Statusbar />
           </Page>
       )
   }

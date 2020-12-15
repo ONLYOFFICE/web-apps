@@ -10,7 +10,15 @@
 @import './app-ios.less';
 @import './icons-ios.less';
 @import './icons-material.less';
-@import "./icons-common.less";
+@import './icons-common.less';
+
+.page[data-name='home'] {
+    .page-content {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+};
 
 :root {
     --f7-popover-width: 360px;
