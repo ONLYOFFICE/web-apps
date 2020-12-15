@@ -5,6 +5,7 @@ import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { MacrosSettings } from "./ApplicationSettings";
+import DownloadController from "../../controller/settings/Download";
 
 const routes = [
     {
@@ -18,6 +19,10 @@ const routes = [
     {
         path: '/macros-settings/',
         component: MacrosSettings
+    }, 
+    {
+        path: '/download/',
+        component: DownloadController
     }
     /*{
         path: '/presentation-settings/',
@@ -58,7 +63,7 @@ const SettingsList = withTranslation()(props => {
                     <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, '/application-settings/')}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textDownload} link="#">
+                    <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, '/download/')}>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
                     <ListItem title={_t.textPrint}>
