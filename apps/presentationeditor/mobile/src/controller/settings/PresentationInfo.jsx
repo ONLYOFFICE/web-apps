@@ -24,11 +24,7 @@ class PresentationInfoController extends Component {
         const appProps = api.asc_getAppProps();
 
         if (appProps) {
-            let appName =
-                (appProps.asc_getApplication() || "") +
-                (appProps.asc_getAppVersion() ? " " : "") +
-                (appProps.asc_getAppVersion() || "");
-            return appName;
+            return `${!appProps.asc_getApplication() ? '' : appProps.asc_getApplication() + ' ' + appProps.asc_getAppVersion()}`;
         }
     }
 
