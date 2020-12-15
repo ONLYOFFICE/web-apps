@@ -4,7 +4,7 @@ import { inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -84,6 +84,12 @@ class MainController extends Component {
                 // this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
+
+                // Presentation Info
+
+                const storePresentationInfo = this.props.storePresentationInfo;
+
+                storePresentationInfo.setDataDoc(this.document);
 
                 // Common.SharedSettings.set('document', data.doc);
 

@@ -6,6 +6,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { MacrosSettings } from "./ApplicationSettings";
 import DownloadController from "../../controller/settings/Download";
+import PresentationInfoController from "../../controller/settings/PresentationInfo";
 
 const routes = [
     {
@@ -23,6 +24,10 @@ const routes = [
     {
         path: '/download/',
         component: DownloadController
+    },
+    {
+        path: '/presentation-info/',
+        component: PresentationInfoController
     }
     /*{
         path: '/presentation-settings/',
