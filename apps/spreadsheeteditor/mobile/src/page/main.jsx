@@ -48,7 +48,20 @@ export default class MainPage extends Component {
   render() {
       return (
           <Page name="home">
-              {/*<CellEditor />*/}
+              {/* Top Navbar */}
+              <Navbar id='editor-navbar'>
+                  {/*<div slot="before-inner" className="main-logo"><Icon icon="icon-logo"></Icon></div>*/}
+                  <NavLeft>
+                      <Link icon='icon-undo'></Link>
+                      <Link icon='icon-redo'></Link>
+                  </NavLeft>
+                  <NavRight>
+                      <Link id='btn-edit' icon='icon-edit-settings' href={false} onClick={e => this.handleClickToOpenOptions('edit')}></Link>
+                      <Link href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
+                      <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
+                  </NavRight>
+              </Navbar>
+              <CellEditor />
               {/* Page content */}
               <View id="editor_sdk" />
             {/*{*/}
