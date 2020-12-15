@@ -363,6 +363,8 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         onStyleSelect: function(combo, record) {
             this.errorIcon.removeClass("error warn info");
             this.errorIcon.addClass(record.clsText);
+            if (!this._noApply)
+                this.props.asc_setErrorStyle(record.value);
         },
 
         onIgnoreChange: function(field, newValue, oldValue, eOpts) {
@@ -424,7 +426,11 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 this.textareaError.setValue(props.asc_getError() || '');
                 value = props.asc_getErrorStyle();
                 this.cmbStyle.setValue(value!==null ? value : Asc.EDataValidationErrorStyle.Stop);
-
+                var rec = this.cmbStyle.getSelectedRecord();
+                if (rec) {
+                    this.errorIcon.removeClass("error warn info");
+                    this.errorIcon.addClass(rec.clsText);
+                }
             }
             this.ShowHideElem();
             this._noApply = false;
