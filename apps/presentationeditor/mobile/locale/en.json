@@ -49,6 +49,12 @@
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
       "textEnableAll": "Enable All",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification"
+    },
+    "Add": {
+      "textSlide": "Slide",
+      "textShape": "Shape",
+      "textImage": "Image",
+      "textOther": "Other"
     }
   }
 }
