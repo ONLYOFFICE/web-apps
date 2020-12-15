@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-react';
 
-// import EditOptions from '../view/edit/Edit';
+import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../view/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/Collaboration.jsx'
@@ -64,10 +64,10 @@ export default class MainPage extends Component {
             </Navbar>
             {/* Page content */}
             <View id="editor_sdk" />
-            {/*{*/}
-                {/*!this.state.editOptionsVisible ? null :*/}
-                    {/*<EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />*/}
-            {/*}*/}
+            {
+                !this.state.editOptionsVisible ? null :
+                    <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
+            }
             {
                 !this.state.addOptionsVisible ? null :
                     <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} />

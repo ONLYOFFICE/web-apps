@@ -4,6 +4,7 @@ import { inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
+@inject("storeFocusObjects")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -170,6 +171,11 @@ class MainController extends Component {
         // me.api.asc_registerCallback('asc_onPrintUrl',                   _.bind(me.onPrintUrl, me));
         // me.api.asc_registerCallback('asc_onThumbnailsShow',             _.bind(me.onThumbnailsShow, me));
         // me.api.asc_registerCallback('asc_onMeta',                       _.bind(me.onMeta, me));
+
+        const storeFocusObjects = this.props.storeFocusObjects;
+        this.api.asc_registerCallback('asc_onFocusObject', objects => {
+            storeFocusObjects.resetFocusObjects(objects);
+        });
     }
 
     _onDocumentContentReady() {

@@ -55,6 +55,15 @@
       "textShape": "Shape",
       "textImage": "Image",
       "textOther": "Other"
+    },
+    "Edit": {
+      "textText": "Text",
+      "textSlide": "Slide",
+      "textTable": "Table",
+      "textShape": "Shape",
+      "textImage": "Image",
+      "textChart": "Chart",
+      "textHyperlink": "Hyperlink"
     }
   }
 }
