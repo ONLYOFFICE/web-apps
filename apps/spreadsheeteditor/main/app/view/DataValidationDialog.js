@@ -332,11 +332,11 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             if (!this._noApply) {
                 if (type==1 || type==3) {
                     if (!this.props.asc_getFormula1())
-                        this.props.asc_setFormula1(new AscCommonExcel.CDataFormula());
+                        this.props.asc_setFormula1(new Asc.CDataFormula());
                     this.props.asc_getFormula1().asc_setValue(newValue);
                 } else if (type==2) {
                     if (!this.props.asc_getFormula2())
-                        this.props.asc_setFormula2(new AscCommonExcel.CDataFormula());
+                        this.props.asc_setFormula2(new Asc.CDataFormula());
                     this.props.asc_getFormula2().asc_setValue(newValue);
                 }
             }
