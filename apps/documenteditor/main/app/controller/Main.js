@@ -202,6 +202,7 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
                     Common.NotificationCenter.on('download:advanced',               _.bind(this.onAdvancedOptions, this));
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
@@ -440,6 +441,8 @@ define([
                     if (type && typeof type[1] === 'string') {
                         this.permissions.edit = this.permissions.review = false;
                     }
+
+                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
@@ -451,6 +454,7 @@ define([
                 if (data.doc) {
                     appHeader.setDocumentCaption(data.doc.title);
                 }
+                this.appOptions.canFavorite && appHeader.setFavorite(data.doc.info.favorite);
             },
 
             onProcessSaveResult: function(data) {
@@ -698,6 +702,18 @@ define([
                         }
                     }
                 }
+            },
+
+            markFavorite: function(favorite) {
+                if ( !Common.Controllers.Desktop.process('markfavorite') ) {
+                    Common.Gateway.metaChange({
+                        favorite: favorite
+                    });
+                }
+            },
+
+            onSetFavorite: function(favorite) {
+                this.appOptions.canFavorite && appHeader.setFavorite(!!favorite);
             },
 
             onEditComplete: function(cmp) {
@@ -1111,6 +1127,7 @@ define([
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
                 Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
+                Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 

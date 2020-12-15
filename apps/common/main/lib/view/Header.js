@@ -98,6 +98,7 @@ define([
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-favorite"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
                                 '</div>' +
                             '</section>' +
@@ -230,6 +231,13 @@ define([
             var me = this;
             me.btnGoBack.on('click', function (e) {
                 Common.NotificationCenter.trigger('goback');
+            });
+
+            me.btnFavorite.on('click', function (e) {
+                me.options.favorite = !me.options.favorite;
+                me.btnFavorite.changeIcon(me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
+                Common.NotificationCenter.trigger('markfavorite', me.options.favorite);
             });
 
             if ( me.logo )
@@ -402,6 +410,12 @@ define([
 
                 me.mnuZoom = {options: {value: 100}};
 
+                me.btnFavorite = new Common.UI.Button({
+                    id: 'btn-favorite',
+                    cls: 'btn-header',
+                    iconCls: 'toolbar__icon icon--inverse btn-favorite'
+                });
+
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
@@ -461,6 +475,14 @@ define([
                         me.btnGoBack.render($html.find('#slot-btn-back'));
                     } else {
                         $html.find('#slot-btn-back').hide();
+                    }
+
+                    if ( this.options.favorite !== undefined ) {
+                        me.btnFavorite.render($html.find('#slot-btn-favorite'));
+                        me.btnFavorite.changeIcon(!!me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                        me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
+                    } else {
+                        $html.find('#slot-btn-favorite').hide();
                     }
 
                     if ( !config.isEdit ) {
@@ -582,6 +604,19 @@ define([
                 return this.options.canBack;
             },
 
+            setFavorite: function (value) {
+                this.options.favorite = value;
+                this.btnFavorite[value!==undefined ? 'show' : 'hide']();
+                this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                this.btnFavorite.updateHint(!value ? this.textAddFavorite : this.textRemoveFavorite);
+
+                return this;
+            },
+
+            getFavorite: function () {
+                return this.options.favorite;
+            },
+
             setCanRename: function (rename) {
                 rename = false;
 
@@ -691,7 +726,9 @@ define([
             textHideLines: 'Hide Rulers',
             textZoom: 'Zoom',
             textAdvSettings: 'Advanced Settings',
-            tipViewSettings: 'View Settings'
+            tipViewSettings: 'View Settings',
+            textRemoveFavorite: 'Remove from Favorites',
+            textAddFavorite: 'Mark as favorite'
         }
     }(), Common.Views.Header || {}))
 });

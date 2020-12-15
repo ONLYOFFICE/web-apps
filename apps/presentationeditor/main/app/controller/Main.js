@@ -185,6 +185,7 @@ define([
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
+                    Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
 
                     this.isShowOpenDialog = false;
 
@@ -391,6 +392,8 @@ define([
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
+
+                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
@@ -402,6 +405,7 @@ define([
                 if (data.doc) {
                     appHeader.setDocumentCaption(data.doc.title);
                 }
+                this.appOptions.canFavorite && appHeader.setFavorite(data.doc.info.favorite);
             },
 
             onProcessSaveResult: function(data) {
@@ -486,6 +490,18 @@ define([
                     }
                 }
              },
+
+            markFavorite: function(favorite) {
+                if ( !Common.Controllers.Desktop.process('markfavorite') ) {
+                    Common.Gateway.metaChange({
+                        favorite: favorite
+                    });
+                }
+            },
+
+            onSetFavorite: function(favorite) {
+                this.appOptions.canFavorite && appHeader.setFavorite(!!favorite);
+            },
 
             onEditComplete: function(cmp) {
                 var application = this.getApplication(),
@@ -835,6 +851,7 @@ define([
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
+                Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 

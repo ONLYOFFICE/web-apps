@@ -122,6 +122,10 @@ if (Common === undefined) {
 
             'setRevisedFile': function(data) {
                 $me.trigger('setrevisedfile', data);
+            },
+
+            'setFavorite': function(data) {
+                $me.trigger('setfavorite', data);
             }
         };
 
