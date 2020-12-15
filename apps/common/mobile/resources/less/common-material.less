@@ -85,6 +85,7 @@
         width: 100%;
         justify-content: space-between;
         .tab-link {
+            justify-content: center;
             height: 100%;
             box-sizing: border-box;
             padding-left: 0;
@@ -94,8 +95,14 @@
             text-transform: uppercase;
             align-items: center;
             color: @tabLinkColor;
+            i.icon {
+                opacity: 0.5;
+            }
             &.tab-link-active {
                 color: @white;
+                i.icon {
+                    opacity: 1;
+                }
             }
         }
         .tab-link-highlight {

@@ -158,5 +158,11 @@
     "textLinkToPrevious": "Link to Previous",
     "textContinueFromPreviousSection": "Continue from previous section",
     "textStartAt": "Start at"
+  },
+  "Add": {
+    "textTable": "Table",
+    "textShape": "Shape",
+    "textImage": "Image",
+    "textOther": "Other"
   }
 }
