@@ -477,7 +477,7 @@ define([
                         $html.find('#slot-btn-back').hide();
                     }
 
-                    if ( this.options.favorite !== undefined ) {
+                    if ( this.options.favorite !== undefined && this.options.favorite!==null) {
                         me.btnFavorite.render($html.find('#slot-btn-favorite'));
                         me.btnFavorite.changeIcon(!!me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
                         me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
@@ -606,7 +606,7 @@ define([
 
             setFavorite: function (value) {
                 this.options.favorite = value;
-                this.btnFavorite[value!==undefined ? 'show' : 'hide']();
+                this.btnFavorite[value!==undefined && value!==null ? 'show' : 'hide']();
                 this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
                 this.btnFavorite.updateHint(!value ? this.textAddFavorite : this.textRemoveFavorite);
 

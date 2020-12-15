@@ -446,7 +446,7 @@ define([
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
-                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined);
+                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined && data.doc.info.favorite!==null);
                     this.appOptions.canFavorite && this.headerView && this.headerView.setFavorite(data.doc.info.favorite);
 
                     Common.Utils.InternalSettings.set("sse-doc-info-key", data.doc.key);

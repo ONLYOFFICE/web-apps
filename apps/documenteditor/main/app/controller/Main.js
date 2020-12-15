@@ -442,7 +442,7 @@ define([
                         this.permissions.edit = this.permissions.review = false;
                     }
 
-                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined);
+                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined && data.doc.info.favorite!==null);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));

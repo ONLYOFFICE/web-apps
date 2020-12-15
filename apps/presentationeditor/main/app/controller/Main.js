@@ -393,7 +393,7 @@ define([
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 
-                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined);
+                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined && data.doc.info.favorite!==null);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
