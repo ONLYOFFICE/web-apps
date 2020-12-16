@@ -2,7 +2,6 @@
 @height-tabs: 32px;
 @height-controls: 67px;
 
-//@tabs-bg-color: #fff;
 
 .toolbar {
     position: relative;
@@ -38,7 +37,7 @@
         align-items: stretch;
 
         .extra {
-            background-color: @tabs-bg-color;
+            background-color: @header-background-color;
         }
 
     //&::after {
@@ -54,7 +53,7 @@
 
     .tabs {
         //flex-grow: 1;
-        background-color: @tabs-bg-color;
+        background-color: @header-background-color;
         position: relative;
         overflow: hidden;
         display: flex;
@@ -125,7 +124,7 @@
             }
 
             &.left{
-                box-shadow: 5px 0 20px 5px @tabs-bg-color;
+                box-shadow: 5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(135deg);
@@ -133,7 +132,7 @@
                 }
             }
             &.right{
-                box-shadow: -5px 0 20px 5px @tabs-bg-color;
+                box-shadow: -5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(-45deg);
@@ -419,7 +418,7 @@
 
         &.editor-native-color {
             .tabs li:after {
-                border-color: @tabs-bg-color;
+                border-color: @header-background-color;
             }
         }
     }

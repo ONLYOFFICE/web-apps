@@ -20,7 +20,7 @@
             &:after {
                 top: 8px;
                 left: 5px;
-                .box-shadow(0 0 8px -1px rgba(0, 0, 0, 0.2));
+                .box-shadow(0 0 8px -1px @border-color-shading);
             }
         }
     }
@@ -45,7 +45,7 @@
 .asc-footnotetip {
     padding: 15px 8px 10px 15px;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: @background-normal;
     overflow: visible;
 
     .box-shadow(0 4px 15px -2px rgba(0, 0, 0, 0.5));
@@ -57,7 +57,7 @@
     position: absolute;
     top: 5px;
     left: 8px;
-    background-color: #fff;
+    background-color: @background-normal;
     width: 15px;
     height: 15px;
 
@@ -67,7 +67,7 @@
     -o-transform: rotate(45deg);
     transform: rotate(45deg);
 
-    .box-shadow(0 4px 8px -1px rgba(0, 0, 0, 0.2));
+    .box-shadow(0 4px 8px -1px @border-color-shading);
 }
 
 .asc-footnotetip .show-link {

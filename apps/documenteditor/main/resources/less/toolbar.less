@@ -1,6 +1,4 @@
 
-@tabs-bg-color: #446995;
-
 .toolbar {
     &.masked {
         button.disabled .icon:not(.no-mask) {
@@ -175,8 +173,8 @@
 #control-settings-system-color > a.selected,
 #control-settings-system-color > a:hover {
     span {
-        outline: 1px solid #000;
-        border: 1px solid #fff;
+        outline: 1px solid @icon-normal;
+        border: 1px solid @background-normal;
     }
 }
 
@@ -194,7 +192,7 @@
 }
 
 .save-style-link {
-    border-bottom: 1px dotted #aaa;
+    border-bottom: 1px dotted @text-secondary;
     cursor: pointer;
     margin-left: 22px;
 }
