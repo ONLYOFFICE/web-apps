@@ -8,26 +8,18 @@ const PagePresentationSettings = props => {
     const _t = t("View.Settings", { returnObjects: true });
     const store = props.storePresentationSettings;
     const slideSizeArr = store.getSlideSizes;
-    const slideSize = store.slideSize;
-    const slideSizeValue = store.slideSizeValue;
-    console.log(slideSize);
-  
+    const slideSizeIndex = store.slideSizeIndex;
+
     return (
         <Page>
             <Navbar title={_t.textPresentationSettings} backLink={_t.textBack} />
 
             <BlockTitle>{_t.textSlideSize}</BlockTitle>
             <List>
-                <ListItem radio name="slide-size" value="0" checked={slideSizeValue === 0} 
-                    onChange={(e) => {
-                        props.onSlideSize(slideSizeArr[e.target.value]);
-                        store.changeSlideFormat(e.target.value);
-                    }} title={_t.mniSlideStandard}></ListItem>
-                <ListItem radio name="slide-size" value="1" checked={slideSizeValue === 1} 
-                    onChange={(e) => {
-                        props.onSlideSize(slideSizeArr[e.target.value]);
-                        store.changeSlideFormat(e.target.value);
-                    }} title={_t.mniSlideWide}></ListItem>
+                <ListItem radio name="slide-size" checked={slideSizeIndex === 0} 
+                    onChange={() => props.onSlideSize(slideSizeArr[0])} title={_t.mniSlideStandard}></ListItem>
+                <ListItem radio name="slide-size" checked={slideSizeIndex === 1}
+                    onChange={() => props.onSlideSize(slideSizeArr[1])} title={_t.mniSlideWide}></ListItem>
             </List>
         
             <List mediaList>

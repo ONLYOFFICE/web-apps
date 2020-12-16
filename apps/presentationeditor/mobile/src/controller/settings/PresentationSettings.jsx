@@ -8,7 +8,6 @@ class PresentationSettingsController extends Component {
 
     onSlideSize(slideSizeArr) {
         const api = Common.EditorApi.get();
-        // api.changeSlideSize(slideSizeArr[value][0], slideSizeArr[value][1]);
         api.changeSlideSize(slideSizeArr[0], slideSizeArr[1]);
     }
 
@@ -21,7 +20,7 @@ class PresentationSettingsController extends Component {
 
     onColorSchemeChange(newScheme) {
         const api = Common.EditorApi.get();
-        api.asc_ChangeColorSchemeByIdx(+newScheme);
+        api.asc_ChangeColorSchemeByIdx(newScheme);
     }
 
 

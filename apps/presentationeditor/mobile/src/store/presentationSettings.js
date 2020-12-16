@@ -1,20 +1,15 @@
 import {action, observable} from 'mobx';
 
 export class storePresentationSettings {
-    @observable slideSize = [];
-    @observable slideSizeValue;
+    
+    @observable slideSizeIndex;
 
     get getSlideSizes() {
         return [[254, 190.5], [254, 143]];
     }
 
-    @action changeSlideSize(width, height) {
-        this.slideSize[0] = width;
-        this.slideSize[1] = height;
-    }
-
-    @action changeSlideFormat(value) {
-        this.slideSizeValue = +value;
+    @action changeSizeIndex(value) {
+        this.slideSizeIndex = +value;
     }
 
     // Color Schemes

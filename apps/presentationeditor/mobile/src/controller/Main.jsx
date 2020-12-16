@@ -169,7 +169,12 @@ class MainController extends Component {
         const storePresentationSettings = this.props.storePresentationSettings;
 
         me.api.asc_registerCallback('asc_onPresentationSize', (width, height) => {
-            storePresentationSettings.changeSlideSize(width, height);
+            const slideSizeArr = storePresentationSettings.getSlideSizes;
+            slideSizeArr.forEach((array, index) => {
+                if(Math.abs(array[0] - width) < 0.001 && Math.abs((array[1] - height)) < 0.001) {
+                    storePresentationSettings.changeSizeIndex(index);
+                }
+            })
         });
 
         me.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {
