@@ -7,7 +7,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import DocumentSettingsController from "../../controller/settings/DocumentSettings";
 import DocumentInfoController from "../../controller/settings/DocumentInfo";
-import DownloadController from "../../controller/settings/Download";
+import { DownloadController } from "../../controller/settings/Download";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
 import { MacrosSettings } from "./ApplicationSettings";

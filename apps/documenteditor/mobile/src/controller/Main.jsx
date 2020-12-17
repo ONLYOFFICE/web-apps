@@ -1,7 +1,9 @@
 
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import {inject} from "mobx-react";
-import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
+import { withTranslation } from 'react-i18next';
+import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx';
+import { onAdvancedOptions } from './settings/Download.jsx';
 
 @inject("storeAppOptions", "storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings", "storeDocumentInfo")
 class MainController extends Component {
@@ -280,11 +282,22 @@ class MainController extends Component {
             storeDocumentSettings.addSchemes(arr);
         });
 
+        // Downloaded Advanced Options
+        this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
+            const {t} = this.props;
+            const _t = t("Settings", { returnObjects: true });
+            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this.props.storeAppOptions.canRequestClose);
+        });
     }
 
     render() {
         return <CollaborationController />
     }
+
+    componentDidMount() {
+        this.initSdk();
+    }
 }
 
-export default MainController;
+const translated = withTranslation()(MainController);
+export {translated as MainController};

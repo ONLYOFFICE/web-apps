@@ -19,6 +19,8 @@
 
     --f7-list-button-text-color: @themeColor;
 
+    --f7-dialog-button-text-color: @themeColor;
+
     // Main Toolbar
     #editor-navbar.navbar .right a + a,
     #editor-navbar.navbar .left a + a {
@@ -292,5 +294,9 @@
         .page-content {
             background: @white;
         }
+    }
+
+    .dialog {
+        background-color: rgba(var(--f7-dialog-bg-color-rgb), 1);
     }
 }

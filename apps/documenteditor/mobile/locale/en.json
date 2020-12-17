@@ -1,5 +1,6 @@
 {
   "Settings": {
+    "textCancel": "Cancel",
     "textSettings": "Settings",
     "textDone": "Done",
     "textFind": "Find",
@@ -58,7 +59,13 @@
     "textTitle": "Title",
     "textSubject": "Subject",
     "textComment": "Comment",
-    "textCreated": "Created"
+    "textCreated": "Created",
+    "advTxtOptions": "Choose TXT Options",
+    "textEncoding": "Encoding",
+    "advDRMPassword": "Password",
+    "closeButtonText": "Close File",
+    "advDRMOptions": "Protected File",
+    "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset"
   },
   "Collaboration": {
     "textEditUser": "Users who are editing the file:"
