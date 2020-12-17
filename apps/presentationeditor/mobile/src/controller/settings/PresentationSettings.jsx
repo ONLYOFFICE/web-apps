@@ -1,9 +1,19 @@
 import React, {Component} from 'React';
+import { observer, inject } from "mobx-react";
 import {PresentationSettings} from '../../view/settings/PresentationSettings';
 
 class PresentationSettingsController extends Component {
     constructor(props) {
         super(props);
+        this.initSlideSize = this.initSlideSize.bind(this);
+    }
+
+    initSlideSize() {
+        if (!this.init) {
+            const api = Common.EditorApi.get();
+            this.props.storePresentationSettings.changeSizeIndex(api.get_PresentationWidth(), api.get_PresentationHeight());
+            this.init = true;
+        }
     }
 
     onSlideSize(slideSizeArr) {
@@ -26,7 +36,8 @@ class PresentationSettingsController extends Component {
 
     render() {
         return (
-            <PresentationSettings 
+            <PresentationSettings
+                initSlideSize={this.initSlideSize}
                 onSlideSize={this.onSlideSize}
                 onColorSchemeChange={this.onColorSchemeChange}
                 initPageColorSchemes={this.initPageColorSchemes}
@@ -35,4 +46,4 @@ class PresentationSettingsController extends Component {
     }
 }
 
-export default PresentationSettingsController;
+export default inject("storePresentationSettings")(observer(PresentationSettingsController));
