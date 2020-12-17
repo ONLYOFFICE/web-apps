@@ -59,12 +59,6 @@
 @icon-contrast-popover: #fff;
 @icon-notification-badge: #000;
 
-// Toolbar header
-// -------------------------
-@toolbar-header-document: #446995;
-@toolbar-header-spreadsheet: #40865c;
-@toolbar-header-presentation: #aa5252;
-
 // Canvas
 // -------------------------
 @canvas-background: #e2e2e2;
@@ -84,6 +78,10 @@
 @canvas-scroll-controls-hover: #cfcfcf;
 
 :root {
+    --toolbar-header-document: #446995;
+    --toolbar-header-spreadsheet: #40865c;
+    --toolbar-header-presentation: #aa5252;
+
     --background-normal: @background-normal;
     --background-toolbar: @background-toolbar;
     --background-toolbar-additional: @background-toolbar-additional;
@@ -124,4 +122,20 @@
     --icon-toolbar-header: @icon-toolbar-header;
     --icon-contrast-popover: @icon-contrast-popover;
     --icon-notification-badge: @icon-notification-badge;
+
+    --canvas-background: #e2e2e2;
+    --canvas-content-background: #fff;
+    --canvas-ruler-background: #fff;
+    --canvas-ruler-margins-background: #cfcfcf;
+    --canvas-ruler-marks-border: #585b5e;
+    --canvas-high-contrast: #000;
+    --canvas-cell-border: fade(black, 10%);
+    --canvas-cell-title-border: fade(black, 10%);
+    --canvas-cell-title-hover: #dfdfdf;
+    --canvas-cell-title-selected: #cfcfcf;
+    --canvas-dark-cell-title: #444;
+    --canvas-dark-cell-title-hover: #666 ;
+    --canvas-dark-cell-title-selected: #111;
+    --canvas-scroll-controls: #f1f1f1;
+    --canvas-scroll-controls-hover: #cfcfcf;
 }
