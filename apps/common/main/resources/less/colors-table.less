@@ -8,120 +8,52 @@
 @brand-danger:          #d9534f;
 @brand-info:            #5bc0de;
 
-// Background
-// -------------------------
-@background-normal: #fff;
-@background-toolbar: #f1f1f1;
-@background-toolbar-additional: #f1f1f1;
-@background-primary-dialog-button: #7d858c;
-@background-tab-underline: #444;
-@background-scrim: fade(black, 20%);
-@background-loader: fade(black, 65%);
-@background-notification-popover: #fcfed7;
-@background-notification-badge: #ffd112;
-
-// Highlight
-// -------------------------
-@highlight-button-hover: #d8dadc;
-@highlight-button-pressed: #7d858c;
-@highlight-button-pressed-hover: #7d858c;
-@highlight-primary-dialog-button-hover: #666d73;
-@highlight-header-button-hover: fade(white, 20%);
-@highlight-toolbar-tab-underline: #444;
-@highlight-text-select: #3494fb;
-
-// Border
-// -------------------------
-@border-toolbar: #cbcbcb;
-@border-divider: #cbcbcb;
-@border-regular-control: #cfcfcf;
-@border-toolbar-button-hover: #d8dadc;
-@border-preview-select: #848484;
-@border-control-focus: #848484;
-@border-color-shading: fade(black, 20%);
-@border-error: #d9534f;
-
-// Text
-// -------------------------
-@text-normal: #444;
-@text-secondary: #a5a5a5;
-@text-tertiary: #a5a5a5;
-@text-inverse: #fff;
-@text-toolbar-header: #fff;
-@text-contrast-background: #fff;
-@text-link: #445799;
-
-// Icon
-// -------------------------
-@icon-normal: #444;
-@icon-inverse: #fff;
-@icon-toolbar-header: #fff;
-@icon-contrast-popover: #fff;
-@icon-notification-badge: #000;
-
-// Canvas
-// -------------------------
-@canvas-background: #e2e2e2;
-@canvas-content-background: #fff;
-@canvas-ruler-background: #fff;
-@canvas-ruler-margins-background: #cfcfcf;
-@canvas-ruler-marks-border: #585b5e;
-@canvas-high-contrast: #000;
-@canvas-cell-border: fade(black, 10%);
-@canvas-cell-title-border: fade(black, 10%);
-@canvas-cell-title-hover: #dfdfdf;
-@canvas-cell-title-selected: #cfcfcf;
-@canvas-dark-cell-title: #444;
-@canvas-dark-cell-title-hover: #666 ;
-@canvas-dark-cell-title-selected: #111;
-@canvas-scroll-controls: #f1f1f1;
-@canvas-scroll-controls-hover: #cfcfcf;
 
 :root {
     --toolbar-header-document: #446995;
     --toolbar-header-spreadsheet: #40865c;
     --toolbar-header-presentation: #aa5252;
 
-    --background-normal: @background-normal;
-    --background-toolbar: @background-toolbar;
-    --background-toolbar-additional: @background-toolbar-additional;
-    --background-primary-dialog-button: @background-primary-dialog-button;
-    --background-tab-underline: @background-tab-underline;
-    --background-scrim: @background-scrim;
-    --background-loader: @background-loader;
-    --background-notification-popover: @background-notification-popover;
-    --background-notification-badge: @background-notification-badge;
+    --background-normal: #fff;
+    --background-toolbar: #f1f1f1;
+    --background-toolbar-additional: #f1f1f1;
+    --background-primary-dialog-button: #7d858c;
+    --background-tab-underline: #444;
+    --background-notification-popover: #fcfed7;
+    --background-notification-badge: #ffd112;
+    --background-scrim: fade(#000, 20%);
+    --background-loader: fade(#000, 65%);
 
-    --highlight-button-hover: @highlight-button-hover;
-    --highlight-button-pressed: @highlight-button-pressed;
-    --highlight-button-pressed-hover: @highlight-button-pressed-hover;
-    --highlight-primary-dialog-button-hover: @highlight-primary-dialog-button-hover;
-    --highlight-header-button-hover: @highlight-header-button-hover;
-    --highlight-toolbar-tab-underline: @highlight-toolbar-tab-underline;
-    --highlight-text-select: @highlight-text-select;
+    --highlight-button-hover: #d8dadc;
+    --highlight-button-pressed: #7d858c;
+    --highlight-button-pressed-hover: #7d858c;
+    --highlight-primary-dialog-button-hover: #666d73;
+    --highlight-header-button-hover: fade(#fff, 20%);
+    --highlight-toolbar-tab-underline: #444;
+    --highlight-text-select: #3494fb;
 
-    --border-toolbar: @border-toolbar;
-    --border-divider: @border-divider;
-    --border-regular-control: @border-regular-control;
-    --border-toolbar-button-hover: @border-toolbar-button-hover;
-    --border-preview-select: @border-preview-select;
-    --border-control-focus: @border-control-focus;
-    --border-color-shading: @border-color-shading;
-    --border-error: @border-error;
+    --border-toolbar: #cbcbcb;
+    --border-divider: #cbcbcb;
+    --border-regular-control: #cfcfcf;
+    --border-toolbar-button-hover: #d8dadc;
+    --border-preview-select: #848484;
+    --border-control-focus: #848484;
+    --border-color-shading: fade(#000, 20%);
+    --border-error: #d9534f;
 
-    --text-normal: @text-normal;
-    --text-secondary: @text-secondary;
-    --text-tertiary: @text-tertiary;
-    --text-inverse: @text-inverse;
-    --text-toolbar-header: @text-toolbar-header;
-    --text-contrast-background: @text-contrast-background;
-    --text-link: @text-link;
+    --text-normal: #444;
+    --text-secondary: #a5a5a5;
+    --text-tertiary: #a5a5a5;
+    --text-link: #445799;
+    --text-inverse: #fff;
+    --text-toolbar-header: #fff;
+    --text-contrast-background: #fff;
 
-    --icon-normal: @icon-normal;
-    --icon-inverse: @icon-inverse;
-    --icon-toolbar-header: @icon-toolbar-header;
-    --icon-contrast-popover: @icon-contrast-popover;
-    --icon-notification-badge: @icon-notification-badge;
+    --icon-normal: #444;
+    --icon-inverse: #fff;
+    --icon-toolbar-header: #fff;
+    --icon-contrast-popover: #000;
+    --icon-notification-badge: #fff;
 
     --canvas-background: #e2e2e2;
     --canvas-content-background: #fff;
@@ -139,3 +71,54 @@
     --canvas-scroll-controls: #f1f1f1;
     --canvas-scroll-controls-hover: #cfcfcf;
 }
+
+// Background
+// -------------------------
+@background-normal: var(--background-normal);
+@background-toolbar: var(--background-toolbar);
+@background-toolbar-additional: var(--background-toolbar-additional);
+@background-primary-dialog-button: var(--background-primary-dialog-button);
+@background-tab-underline: var(--background-tab-underline);
+@background-notification-popover: var(--background-notification-popover);
+@background-notification-badge: var(--background-notification-badge);
+@background-scrim: var(--background-scrim);
+@background-loader: var(--background-loader);
+
+// Highlight
+// -------------------------
+@highlight-button-hover: var(--highlight-button-hover);
+@highlight-button-pressed: var(--highlight-button-pressed);
+@highlight-button-pressed-hover: var(--highlight-button-pressed-hover);
+@highlight-primary-dialog-button-hover: var(--highlight-primary-dialog-button-hover);
+@highlight-header-button-hover: var(--highlight-header-button-hover);
+@highlight-toolbar-tab-underline: var(--highlight-toolbar-tab-underline);
+@highlight-text-select: var(--highlight-text-select);
+
+// Border
+// -------------------------
+@border-toolbar: var(--border-toolbar);
+@border-divider: var(--border-divider);
+@border-regular-control: var(--border-regular-control);
+@border-toolbar-button-hover: var(--border-toolbar-button-hover);
+@border-preview-select: var(--border-preview-select);
+@border-control-focus: var(--border-control-focus);
+@border-color-shading: var(--border-color-shading);
+@border-error: var(--border-error);
+
+// Text
+// -------------------------
+@text-normal: var(--text-normal);
+@text-secondary: var(--text-secondary);
+@text-tertiary: var(--text-tertiary);
+@text-inverse: var(--text-link);
+@text-toolbar-header: var(--text-inverse);
+@text-contrast-background: var(--text-toolbar-header);
+@text-link: var(--text-contrast-background);
+
+// Icon
+// -------------------------
+@icon-normal: var(--icon-norma);
+@icon-inverse: var(--icon-inverse);
+@icon-toolbar-header: var(--icon-toolbar-header);
+@icon-contrast-popover: var(--icon-contrast-popover);
+@icon-notification-badge: var(--icon-notification-badge);
