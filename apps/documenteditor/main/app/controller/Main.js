@@ -1120,6 +1120,7 @@ define([
                     e.stopImmediatePropagation();
 
                     $(':root').toggleClass('theme-dark');
+                    // getComputedStyle(document.documentElement).getPropertyValue('--background-normal');
                 })
             },
 
