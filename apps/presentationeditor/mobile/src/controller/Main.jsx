@@ -4,7 +4,7 @@ import { inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -167,9 +167,22 @@ class MainController extends Component {
 
     bindEvents() {
         const me = this;
+       
         // me.api.asc_registerCallback('asc_onError',                      _.bind(me.onError, me));
         me.api.asc_registerCallback('asc_onDocumentContentReady',       me._onDocumentContentReady.bind(me));
         me.api.asc_registerCallback('asc_onOpenDocumentProgress',       me._onOpenDocumentProgress.bind(me));
+
+        const storePresentationSettings = this.props.storePresentationSettings;
+
+        me.api.asc_registerCallback('asc_onPresentationSize', (width, height) => {
+            storePresentationSettings.changeSizeIndex(width, height);
+        });
+
+        me.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {
+            storePresentationSettings.addSchemes(arr);
+        });
+
+        // api.asc_registerCallback('asc_onSendThemeColorSchemes', _.bind(this.onSendThemeColorSchemes, this));
         // me.api.asc_registerCallback('asc_onDocumentUpdateVersion',      _.bind(me.onUpdateVersion, me));
         // me.api.asc_registerCallback('asc_onServerVersion',              _.bind(me.onServerVersion, me));
         // me.api.asc_registerCallback('asc_onAdvancedOptions',            _.bind(me.onAdvancedOptions, me));

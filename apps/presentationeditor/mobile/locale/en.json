@@ -62,7 +62,11 @@
       "textAuthor": "Author",
       "textPresentationTitle": "Presentation Title",
       "textOwner": "Owner",
-      "textUploaded": "Uploaded"
+      "textUploaded": "Uploaded",
+      "textSlideSize": "Slide Size",
+      "mniSlideStandard": "Standard (4:3)",
+      "mniSlideWide": "Widescreen (16:9)",
+      "textColorSchemes": "Color Schemes"
     },
     "Add": {
       "textSlide": "Slide",

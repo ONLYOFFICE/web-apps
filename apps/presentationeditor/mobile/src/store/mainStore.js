@@ -5,6 +5,7 @@ import {storeFocusObjects} from "./focusObjects";
 import {storeUsers} from '../../../../common/mobile/lib/store/users';
 import {storeApplicationSettings} from './applicationSettings';
 import {storePresentationInfo} from './presentationInfo';
+import {storePresentationSettings} from './presentationSettings';
 // import {storeTextSettings} from "./textSettings";
 // import {storeParagraphSettings} from "./paragraphSettings";
 // import {storeShapeSettings} from "./shapeSettings";
@@ -18,7 +19,8 @@ export const stores = {
     // storeDocumentSettings: new storeDocumentSettings(),
     users: new storeUsers(),
     storeApplicationSettings: new storeApplicationSettings(),
-    storePresentationInfo: new storePresentationInfo()
+    storePresentationInfo: new storePresentationInfo(),
+    storePresentationSettings: new storePresentationSettings()
     // storeTextSettings: new storeTextSettings(),
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),

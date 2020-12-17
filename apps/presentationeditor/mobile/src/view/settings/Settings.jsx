@@ -7,6 +7,8 @@ import ApplicationSettingsController from "../../controller/settings/Application
 import { MacrosSettings } from "./ApplicationSettings";
 import DownloadController from "../../controller/settings/Download";
 import PresentationInfoController from "../../controller/settings/PresentationInfo";
+import PresentationSettingsController from "../../controller/settings/PresentationSettings";
+import { PresentationColorSchemes } from "./PresentationSettings";
 
 const routes = [
     {
@@ -28,6 +30,14 @@ const routes = [
     {
         path: '/presentation-info/',
         component: PresentationInfoController
+    },
+    {
+        path: '/presentation-settings/',
+        component: PresentationSettingsController
+    },
+    {
+        path: '/color-schemes/',
+        component: PresentationColorSchemes
     }
     /*{
         path: '/presentation-settings/',
@@ -52,6 +62,21 @@ const SettingsList = withTranslation()(props => {
             props.onOptionClick(page)
     };
 
+    const closeModal = () => {
+        if (Device.phone) {
+            f7.sheet.close('.settings-popup', true);
+        } else {
+            f7.popover.close('#settings-popover');
+        }
+    }
+
+    const onPrint = () => {
+        closeModal();
+        const api = Common.EditorApi.get();
+        api.asc_Print();
+    }
+
+
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page>
@@ -71,7 +96,7 @@ const SettingsList = withTranslation()(props => {
                     <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, '/download/')}>
                         <Icon slot="media" icon="icon-download"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textPrint}>
+                    <ListItem title={_t.textPrint} onClick={onPrint}>
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
                     <ListItem title={_t.textPresentationInfo} link="#" onClick={onoptionclick.bind(this, "/presentation-info/")}>
