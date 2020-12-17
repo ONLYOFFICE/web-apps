@@ -234,10 +234,11 @@ define([
             });
 
             me.btnFavorite.on('click', function (e) {
-                me.options.favorite = !me.options.favorite;
-                me.btnFavorite.changeIcon(me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
-                me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
-                Common.NotificationCenter.trigger('markfavorite', me.options.favorite);
+                // wait for setFavorite method
+                // me.options.favorite = !me.options.favorite;
+                // me.btnFavorite.changeIcon(me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                // me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
+                Common.NotificationCenter.trigger('markfavorite', !me.options.favorite);
             });
 
             if ( me.logo )
