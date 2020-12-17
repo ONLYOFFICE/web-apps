@@ -52,7 +52,7 @@
     .btn:hover,
     .btn:focus {
         border-left: 0;
-        border-color: @input-border;
+        border-color: @border-control-focus;
         background-color: transparent;
         margin-left: -1px;
         position: absolute;
@@ -62,8 +62,8 @@
 
     .btn-default:not(.disabled),
     &.open .dropdown-toggle.btn-default {
-        background-color: @input-bg;
-        border-color: @input-border;
+        background-color: @background-normal;
+        border-color: @border-regular-control;
     }
 
     &.input-group-nr.open:not(.no-highlighted) {

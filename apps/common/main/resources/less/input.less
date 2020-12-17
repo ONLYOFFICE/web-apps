@@ -4,8 +4,11 @@
     color: var(--text-normal);
     .user-select(text);
 
+    border: 1px solid @border-regular-control;
+    background-color: @background-normal;
+
     &:focus {
-        border-color: @input-border;
+        border-color: @border-control-focus;
         outline: 0;
         .box-shadow(none);
     }
@@ -13,12 +16,12 @@
 
 .form-control[readonly] {
     cursor: pointer;
-    background-color: @input-bg;
+    background-color: @background-normal;
 }
 
 .form-control[disabled] {
     cursor: default;
-    background-color: @input-bg;
+    background-color: @background-normal;
    .user-select(none);
 }
 

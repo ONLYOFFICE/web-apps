@@ -542,14 +542,14 @@
     width: 45px;
     height: 22px;
     padding: 1px 11px 1px 1px;
-    border:1px solid @input-border;
+    border:1px solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     span:nth-child(1) {
         float: left;
         width: 100%;
         height: 100%;
-        border: 1px solid rgba(0, 0, 0, 0.2);
+        border: 1px solid @border-control-focus;
         background-color: transparent;
     }
 
@@ -629,8 +629,8 @@
 .btn-text-default {
     width: 75px;
     height: 22px;
-    background: @input-bg;
-    border: 1px solid @input-border;
+    background: @background-normal;
+    border: 1px solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     &.auto {
@@ -660,8 +660,8 @@
 .btn-text-menu-default {
     width: 100%;
     height: 22px;
-    background: @input-bg;
-    border: 1px solid @input-border;
+    background: @background-normal;
+    border: 1px solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     button {
@@ -694,8 +694,8 @@
 .btn-text-split-default {
     width: 75px;
     height: 22px;
-    background: @input-bg;
-    border: 1px solid @input-border;
+    background: @background-normal;
+    border: 1px solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     &.dropdown-toggle {
@@ -727,8 +727,8 @@
 .btn-icon-default {
     width: 45px;
     height: 22px;
-    background: @input-bg;
-    border: 1px solid @input-border;
+    background: @background-normal;
+    border: 1px solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     .icon {
@@ -767,8 +767,8 @@
     padding: 2px;
     margin:0;
     box-shadow: none;
-    background-color: @input-bg;
-    border: 1px solid @input-border;
+    background-color: @background-normal;
+    border: 1px solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     &.template-table {
@@ -793,7 +793,7 @@
         margin-right: 3px;
         background-color: transparent;
         background-repeat: no-repeat;
-        border: 1px solid @input-border;
+        border: 1px solid @border-regular-control;
         position: relative;
     }
 
@@ -807,7 +807,7 @@
     .over,
     &:active,
     &.active {
-        background-color: @input-bg !important;
+        background-color: @background-normal !important;
     }
 
     &:active:not(.disabled),

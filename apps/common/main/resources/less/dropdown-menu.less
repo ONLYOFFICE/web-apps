@@ -3,6 +3,9 @@
 }
 
 .dropdown-menu {
+    background-color: @background-normal;
+    border-color: @border-regular-control;
+
     &.scrollable-menu {
         height: auto;
         max-height: 400px;
@@ -30,6 +33,7 @@
         & > a {
             padding: 5px 20px;
             cursor: pointer;
+            color: @text-normal;
 
             &:focus, &.focus {
                 outline: 0;
