@@ -15,7 +15,7 @@
     &.top-right .tooltip-arrow {
         bottom: 1px;
         border-width: 5px 5px 0;
-        border-top-color: @background-normal;
+        border-top-color: var(--background-normal);
     }
 
     &.top-left .tooltip-arrow,
@@ -32,16 +32,16 @@
     &.bottom-right .tooltip-arrow {
         top: 1px;
         border-width: 0 5px 5px;
-        border-bottom-color: @background-normal;
+        border-bottom-color: var(--background-normal);
     }
 }
 
 .tooltip-inner {
     font-size: 11px;
-    background-color: @background-normal;
-    color: @text-normal;
+    background-color: var(--background-normal);
+    color: var(--text-normal);
     padding: 5px 12px;
-    border: 1px solid @border-regular-control;
+    border: 1px solid var(--border-regular-control);
     .box-shadow(0 6px 12px rgba(0, 0, 0, 0.175));
     background-clip: padding-box;
 

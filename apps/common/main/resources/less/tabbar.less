@@ -8,9 +8,9 @@
 
         &.active {
             > span, > span:hover, > span:focus {
-                background-color: @background-normal;
-                color: @text-normal;
-                border-color: @background-normal;
+                background-color: var(--background-normal);
+                color: var(--text-normal);
+                border-color: var(--background-normal);
                 cursor: pointer;
             }
         }
@@ -21,8 +21,8 @@
 
         > span {
             display: inline;
-            background-color: @background-toolbar;
-            color: @text-secondary;
+            background-color: var(--background-toolbar);
+            color: var(--text-secondary);
 
             padding-top: 0;
             padding-bottom: 0;
@@ -36,8 +36,8 @@
             }
 
             &:hover, &:focus {
-                background-color: @background-toolbar;
-                border-color: @background-toolbar;
+                background-color: var(--background-toolbar);
+                border-color: var(--background-toolbar);
                 cursor: pointer;
             }
         }

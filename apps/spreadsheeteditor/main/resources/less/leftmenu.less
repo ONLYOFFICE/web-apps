@@ -6,7 +6,7 @@
         overflow: hidden;
 
         .tool-menu-btns {
-            border-right: 1px solid @border-toolbar;
+            border-right: 1px solid var(--border-toolbar);
         }
     }
 }
@@ -17,8 +17,8 @@
         border-right: 0 none;
 
         &.move {
-            border-left: 1px solid @border-toolbar;
-            border-right: 1px solid @border-toolbar;
+            border-left: 1px solid var(--border-toolbar);
+            border-right: 1px solid var(--border-toolbar);
             opacity: 0.4;
         }
     }
@@ -39,7 +39,7 @@
 .left-panel {
     padding-left: 40px;
     height: 100%;
-    border-right: 1px solid @border-toolbar;
+    border-right: 1px solid var(--border-toolbar);
 
     #left-panel-chat {
         height: 100%;
@@ -57,7 +57,7 @@
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
-    background-color: @background-toolbar;
+    background-color: var(--background-toolbar);
     overflow: hidden;
 }
 
@@ -91,8 +91,8 @@
     .panel-menu {
         width: 260px;
         float: left;
-        border-right: 1px solid @border-toolbar;
-        background-color: @background-toolbar;
+        border-right: 1px solid var(--border-toolbar);
+        background-color: var(--background-toolbar);
 
         li {
             list-style: none;
@@ -103,12 +103,12 @@
                 margin-bottom: 3px;
 
                 &:hover:not(.disabled) {
-                    background-color: @highlight-button-hover;
+                    background-color: var(--highlight-button-hover);
                 }
 
                 &.active:not(.disabled) {
                     outline: 0;
-                    background-color: @highlight-button-pressed;
+                    background-color: var(--highlight-button-pressed);
 
                     > a {
                         color: #fff;
@@ -117,7 +117,7 @@
 
                 &.disabled > a {
                     cursor: default;
-                    color: @border-regular-control;
+                    color: var(--border-regular-control);
                 }
             }
 
@@ -181,7 +181,7 @@
 
         .flex-settings {
             &.bordered {
-                border-bottom: 1px solid @border-regular-control;
+                border-bottom: 1px solid var(--border-regular-control);
             }
             overflow: hidden;
             position: relative;
@@ -209,7 +209,7 @@
 
             #id-settings-menu {
                 .dataview {
-                    border-right: 1px solid @border-toolbar;
+                    border-right: 1px solid var(--border-toolbar);
 
                     & > div:not([class^=ps-scrollbar]) {
                         display: block;
@@ -232,11 +232,11 @@
 
                         &:hover,
                         &.over {
-                            background-color: @background-toolbar;
+                            background-color: var(--background-toolbar);
                         }
 
                         &.selected {
-                            background-color: @highlight-button-pressed;
+                            background-color: var(--highlight-button-pressed);
                             color: @dropdown-link-active-color;
 
                             .settings-icon {
@@ -377,7 +377,7 @@
 
                 &:hover,
                 &.over {
-                    background-color: @background-toolbar;
+                    background-color: var(--background-toolbar);
                 }
 
                 .recent-icon {
@@ -418,7 +418,7 @@
             }
 
             .dataview {
-                border-right: 1px solid @border-toolbar;
+                border-right: 1px solid var(--border-toolbar);
 
                 & > div:not([class^=ps-scrollbar]) {
                     display: block;
@@ -432,11 +432,11 @@
                     &:not(.header-name) {
                         &:hover,
                         &.over {
-                            background-color: @background-toolbar;
+                            background-color: var(--background-toolbar);
                         }
 
                         &.selected {
-                            background-color: @highlight-button-pressed;
+                            background-color: var(--highlight-button-pressed);
                             color: @dropdown-link-active-color;
                         }
                     }

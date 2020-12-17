@@ -12,19 +12,19 @@
             left: 2px;
             width: 9px;
             height: 9px;
-            background-color: @background-normal;
+            background-color: var(--background-normal);
             -moz-transform: rotate(45deg);
             -ms-transform: rotate(45deg);
             -webkit-transform: rotate(45deg);
             -o-transform: rotate(45deg);
             transform: rotate(45deg);
-            border-top: solid 1px @border-regular-control;
-            border-left: solid 1px @border-regular-control;
+            border-top: solid 1px var(--border-regular-control);
+            border-left: solid 1px var(--border-regular-control);
             border-radius: 0 3px;
             box-sizing: content-box;
             .thumb-top-inner {
-                border-top: solid 1px @background-normal;
-                border-left: solid 1px @background-normal;
+                border-top: solid 1px var(--background-normal);
+                border-left: solid 1px var(--background-normal);
                 height: 100%;
             }
         }
@@ -35,13 +35,13 @@
             left: 1px;
             width: 10px;
             height: 9px;
-            background-color: @background-normal;
-            border: solid 1px @border-regular-control;
+            background-color: var(--background-normal);
+            border: solid 1px var(--border-regular-control);
             border-top: none;
             border-radius: 2px;
             box-sizing: content-box;
             .thumb-bottom-inner {
-                border: solid 1px @border-regular-control;
+                border: solid 1px var(--border-regular-control);
                 border-top: none;
                 height: 100%;
             }
@@ -49,11 +49,11 @@
 
         &.active {
             .thumb-top {
-                border-top: solid 1px @border-control-focus;
-                border-left: solid 1px @border-control-focus;
+                border-top: solid 1px var(--border-control-focus);
+                border-left: solid 1px var(--border-control-focus);
             }
             .thumb-bottom {
-                border: solid 1px @border-control-focus;
+                border: solid 1px var(--border-control-focus);
                 border-top: none;
             }
         }
@@ -80,8 +80,8 @@
 //        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
 
         background-position: 0 0;
-        outline: 1px solid @border-control-focus;
-        border: 1px solid @border-regular-control;
+        outline: 1px solid var(--border-control-focus);
+        border: 1px solid var(--border-regular-control);
         cursor: copy;
     }
 }

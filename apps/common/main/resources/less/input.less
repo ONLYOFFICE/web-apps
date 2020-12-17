@@ -1,7 +1,7 @@
 .form-control {
     .border-radius(@border-radius-small);
     .box-shadow(none);
-    color: @text-normal;
+    color: var(--text-normal);
     .user-select(text);
 
     &:focus {
@@ -49,7 +49,7 @@
 
     &.form-control:focus,
     .form-control:focus {
-        border-color: @border-preview-select;
+        border-color: var(--border-preview-select);
     }
 
     &.error {
@@ -87,12 +87,12 @@ input[type="password"] {
 }
 
 input[type="text"]::selection, textarea::selection {
-    background: @highlight-text-select;
-    color: @text-inverse;
+    background: var(--highlight-text-select);
+    color: var(--text-inverse);
 }
 
 textarea.form-control:focus {
-    border-color: @border-preview-select;
+    border-color: var(--border-preview-select);
 }
 
 .input-field-btn {

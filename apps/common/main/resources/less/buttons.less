@@ -4,7 +4,7 @@
 
 .btn {
     border-radius: 1px;
-    color: @text-normal;
+    color: var(--text-normal);
 
     .btnsize(@value) {
         min-width: @value;
@@ -94,7 +94,7 @@
             &::after {
                 content: ' ';
                 position: absolute;
-                border: 1px solid @icon-notification-badge;
+                border: 1px solid var(--icon-notification-badge);
                 border-left: 0 none;
                 border-right: 0 none;
                 width: 6px;
@@ -109,7 +109,7 @@
                 width: 10px;
                 height: 7px;
                 bottom: 2px;
-                background-color: @background-notification-badge;
+                background-color: var(--background-notification-badge);
                 border-radius: 2px;
                 right: 0;
             }
@@ -125,7 +125,7 @@
                 width: 8px;
                 height: 8px;
                 background-color: transparent;
-                border: solid 1px @text-normal;
+                border: solid 1px var(--text-normal);
                 border-bottom: none;
                 border-right: none;
             }
@@ -157,7 +157,7 @@
     &.active:not(.disabled) {
         .caret-up, .caret-down {
             &::after {
-                border-color: @background-normal;
+                border-color: var(--background-normal);
             }
         }
     }
@@ -286,7 +286,7 @@
     .btn.small;
 
     &.bg-white {
-        background-color: @background-normal;
+        background-color: var(--background-normal);
     }
 
     &:before,
@@ -297,14 +297,14 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @highlight-button-hover;
+        background-color: var(--highlight-button-hover);
     }
 
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        color: @text-normal;
-        background-color: @highlight-button-pressed;
+        color: var(--text-normal);
+        background-color: var(--highlight-button-pressed);
     }
 
     &:not(.icon-top)
@@ -377,12 +377,12 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @highlight-button-hover;
+        background-color: var(--highlight-button-hover);
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @highlight-button-pressed;
+        background-color: var(--highlight-button-pressed);
         //color: #fff;  btn-category has no text
     }
 
@@ -432,7 +432,7 @@
 
     &.open {
         > .btn-toolbar {
-                //color: @text-normal;
+                //color: var(--text-normal);
 
                 // Show no shadow for `.btn-link` since it has no other button styles.
                 &.btn-link {
@@ -447,7 +447,7 @@
 
     &.over {
         > button {
-            //background-color: @highlight-button-hover;
+            //background-color: var(--highlight-button-hover);
         }
     }
 
@@ -494,7 +494,7 @@
 
         &.over:not(.disabled),
         &.open {
-            box-shadow: inset 0 0 0 1px @highlight-button-hover;
+            box-shadow: inset 0 0 0 1px var(--highlight-button-hover);
 
             button:not(.active):not(.btn-text-split-default) {
                 background-color: transparent;
@@ -505,13 +505,13 @@
             button {
                 &:not(.active) {
                     &:hover {
-                        background-color: @highlight-button-hover;
+                        background-color: var(--highlight-button-hover);
                     }
                 }
 
                 &:active,
                 &:active:hover {
-                    background-color: @highlight-button-pressed;
+                    background-color: var(--highlight-button-pressed);
                 }
             }
         }
@@ -519,7 +519,7 @@
         &.open {
             > button:not(.active) {
                 &:last-of-type {
-                    background-color: @highlight-button-pressed;
+                    background-color: var(--highlight-button-pressed);
                 }
             }
 
@@ -529,7 +529,7 @@
         }
 
         button.active:not(.disabled) {
-            background-color: @highlight-button-pressed;
+            background-color: var(--highlight-button-pressed);
         }
 
         .btn + .btn {
@@ -564,7 +564,7 @@
     .over,
     &:active,
     &.active {
-        background: @background-normal  !important;
+        background: var(--background-normal)  !important;
         .box-shadow(none)  !important;
     }
 
@@ -598,7 +598,7 @@
     background-color: transparent;
 
     &.bg-white {
-        background-color: @background-normal;
+        background-color: var(--background-normal);
     }
 
     .icon {
@@ -612,17 +612,17 @@
         background-repeat: no-repeat;
     }
 
-    box-shadow: inset 0 0 0 1px @border-regular-control;
+    box-shadow: inset 0 0 0 1px var(--border-regular-control);
     .border-radius(@border-radius-small);
 
     &:hover,
     &.over {
-        background-color: @highlight-button-hover;
+        background-color: var(--highlight-button-hover);
     }
 
     &:active,
     &.active {
-        background-color: @highlight-button-pressed;
+        background-color: var(--highlight-button-pressed);
     }
 }
 
@@ -641,13 +641,13 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @highlight-button-hover !important;
+        background-color: var(--highlight-button-hover) !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @highlight-button-pressed !important;
-        border-color: @highlight-button-pressed;
+        background-color: var(--highlight-button-pressed) !important;
+        border-color: var(--highlight-button-pressed);
         color: white;
     }
 
@@ -676,12 +676,12 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @highlight-button-hover !important;
+        background-color: var(--highlight-button-hover) !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @highlight-button-pressed !important;
+        background-color: var(--highlight-button-pressed) !important;
         color: white;
     }
 
@@ -708,13 +708,13 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @highlight-button-hover !important;
+        background-color: var(--highlight-button-hover) !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @highlight-button-pressed !important;
-        border-color: @highlight-button-pressed;
+        background-color: var(--highlight-button-pressed) !important;
+        border-color: var(--highlight-button-pressed);
         color: white;
     }
 
@@ -746,12 +746,12 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @highlight-button-hover !important;
+        background-color: var(--highlight-button-hover) !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @highlight-button-pressed !important;
+        background-color: var(--highlight-button-pressed) !important;
     }
 
     &[disabled],
@@ -829,22 +829,22 @@
 .dlg-btn {
     font-weight: bold;
     width: 86px;
-    color: @text-normal;
-    background-color: @background-normal;
-    border: 1px solid @border-regular-control;
+    color: var(--text-normal);
+    background-color: var(--background-normal);
+    border: 1px solid var(--border-regular-control);
 
     &:hover:not(.disabled),
     &.hover:not(.disabled) {
-        background-color: @highlight-button-hover;
+        background-color: var(--highlight-button-hover);
     }
 
     &.primary {
-        color: @text-inverse;
-        background-color: @background-primary-dialog-button;
+        color: var(--text-inverse);
+        background-color: var(--background-primary-dialog-button);
 
         &:hover:not(.disabled),
         &.hover:not(.disabled) {
-            background-color: @highlight-primary-dialog-button-hover;
+            background-color: var(--highlight-primary-dialog-button-hover);
         }
     }
 

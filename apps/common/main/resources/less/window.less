@@ -27,7 +27,7 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     border-radius: 5px;
     background-color: @body-bg;
-    border: solid 1px @border-toolbar;
+    border: solid 1px var(--border-toolbar);
 
     left: 0;
     top: 0;
@@ -46,15 +46,15 @@
         top: 0;
         text-overflow: ellipsis;
 
-        color: @border-preview-select;
+        color: var(--border-preview-select);
         text-align: center;
         font-size: 12px;
         font-weight: 700;
         vertical-align: bottom;
         line-height: 26px;
 
-        background: @background-toolbar;
-        border-bottom: solid 1px @border-toolbar;
+        background: var(--background-toolbar);
+        border-bottom: solid 1px var(--border-toolbar);
 
         cursor: move;
 
@@ -92,7 +92,7 @@
                 line-height: 14px;
                 font-size: 14px;
                 font-weight: bold;
-                color: @text-normal;
+                color: var(--text-normal);
                 opacity: 0.7;
 
                 &:hover {
@@ -179,10 +179,10 @@
 
                         a {
                             text-decoration: underline;
-                            color: @text-normal;
+                            color: var(--text-normal);
 
                             &:focus, &:hover {
-                                color: @text-normal;
+                                color: var(--text-normal);
                             }
                         }
                     }
@@ -240,8 +240,8 @@
         width: 5px;
         height: 5px;
         z-index: 1;
-        background: @background-toolbar;
-        border: 1px none @border-toolbar;
+        background: var(--background-toolbar);
+        border: 1px none var(--border-toolbar);
 
         &.left {
             left: 0;

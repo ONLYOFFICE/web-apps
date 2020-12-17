@@ -2,12 +2,12 @@
     display: table;
     padding: 2px;
     height: 25px;
-    background-color: @background-toolbar;
-    .box-inner-shadow(0 1px 0 @border-toolbar);
+    background-color: var(--background-toolbar);
+    .box-inner-shadow(0 1px 0 var(--border-toolbar));
 
     .status-label {
         font-weight: bold;
-        color: @text-normal;
+        color: var(--text-normal);
         white-space: nowrap;
         position: relative;
         top: 1px;
@@ -75,7 +75,7 @@
     .cnt-lang {
         display: inline-block;
         cursor: pointer;
-        color: @text-normal;
+        color: var(--text-normal);
         margin-left: 6px;
 
         .caret.up {
@@ -181,7 +181,7 @@
                 height: 12px;
                 display: inline-block;
                 vertical-align: middle;
-                border: 1px solid @border-toolbar;
+                border: 1px solid var(--border-toolbar);
             }
 
             .name {

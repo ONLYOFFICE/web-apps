@@ -2,7 +2,7 @@ body {
     width: 100%;
     height: 100%;
     .user-select(none);
-    color: @text-normal;
+    color: var(--text-normal);
 
     &.safari {
         position: absolute;
@@ -33,7 +33,7 @@ label {
     top:0;
     right: 0;
     bottom: 0;
-    background-color: @background-toolbar;
+    background-color: var(--background-toolbar);
     overflow: hidden;
 }
 
@@ -52,8 +52,8 @@ label {
     }
 
     #editor_sdk {
-        border-top: 1px solid @border-toolbar;
-        border-left: 1px solid @border-toolbar;
+        border-top: 1px solid var(--border-toolbar);
+        border-left: 1px solid var(--border-toolbar);
     }
 
     .layout-resizer {

@@ -11,13 +11,13 @@
         }
 
         .ps-scrollbar-x {
-            background-color: @background-toolbar;
+            background-color: var(--background-toolbar);
 
             &.always-visible-x {
                 bottom: 0px;
                 height: 9px;
 
-                background-color: @background-toolbar;
+                background-color: var(--background-toolbar);
                 background-image: data-uri('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAuSURBVChTY6AfOH/+/H9SaSYQg1RAlqZhCT5+/AgOSlJoOgY50DqSNZJhEwMDACkvNZLpune5AAAAAElFTkSuQmCC');
                 background-repeat: no-repeat;
 
@@ -31,7 +31,7 @@
 
                 background-position: center 0;
                 .border-radius(2px);
-                border: 1px solid @border-regular-control;
+                border: 1px solid var(--border-regular-control);
                 -o-transition: background-color .5s 0 linear;
                 -webkit-transition: background-color .5s 0 linear;
                 -moz-transition: background-color .5s 0 linear;
@@ -43,7 +43,7 @@
         .hover {
             .ps-scrollbar-x {
                 &.always-visible-x {
-                    background-color: @border-regular-control;
+                    background-color: var(--border-regular-control);
                     background-position: center -7px;
                 }
             }
@@ -52,8 +52,8 @@
         &.in-scrolling {
             .ps-scrollbar-x {
                 &.always-visible-x {
-                    background-color: @border-regular-control;
-                    border-color: @border-regular-control;
+                    background-color: var(--border-regular-control);
+                    border-color: var(--border-regular-control);
                     background-position: center -7px;
                 }
             }
@@ -72,20 +72,20 @@
         }
 
         .ps-scrollbar-y {
-            background-color: @background-toolbar;
+            background-color: var(--background-toolbar);
 
             &.always-visible-y {
                 right: 0px;
                 width: 9px;
 
-                background-color: @background-toolbar;
+                background-color: var(--background-toolbar);
                 .background-ximage('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAANCAQAAAAz1Zf0AAAAIUlEQVR42mNgAILz/0GQAQo+/gdBBqLAqE5ydH5k+sgEANHgUH2JtDRHAAAAAElFTkSuQmCC',
                         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAaAgMAAADZOtQaAAAACVBMVEUAAADPz8/x8fFVrc9qAAAAAXRSTlMAQObYZgAAABZJREFUeNpjYAgNYOBaxcDEgAsMLXkA/sUJfm1m4l8AAAAASUVORK5CYII=', 14px);
 
                 background-repeat: no-repeat;
                 background-position: 0 center;
                 .border-radius(2px);
-                border: 1px solid @border-regular-control;
+                border: 1px solid var(--border-regular-control);
                 -o-transition: background-color .5s 0 linear;
                 -webkit-transition: background-color .5s 0 linear;
                 -moz-transition: background-color .5s 0 linear;
@@ -97,7 +97,7 @@
         .hover {
             .ps-scrollbar-y {
                 &.always-visible-y {
-                    background-color: @border-regular-control;
+                    background-color: var(--border-regular-control);
                     background-position: -7px center;
                 }
             }
@@ -106,8 +106,8 @@
         &.in-scrolling {
             .ps-scrollbar-y {
                 &.always-visible-y {
-                    background-color: @border-regular-control;
-                    border-color: @border-regular-control;
+                    background-color: var(--border-regular-control);
+                    border-color: var(--border-regular-control);
                     background-position: -7px center;
                 }
             }

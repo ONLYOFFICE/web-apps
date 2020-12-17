@@ -1,6 +1,6 @@
 #history-box {
     position: relative;
-    border-right: 1px solid @border-toolbar;
+    border-right: 1px solid var(--border-toolbar);
 }
 
 #history-header {
@@ -10,7 +10,7 @@
     top: 0;
     right: 0;
     overflow: hidden;
-    border-bottom: 1px solid @border-toolbar;
+    border-bottom: 1px solid var(--border-toolbar);
 
     #history-btn-back {
         height: 27px;
@@ -21,7 +21,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: @highlight-button-hover;
+            background-color: var(--highlight-button-hover);
         }
     }
 }
@@ -33,7 +33,7 @@
     bottom: 0;
     right: 0;
     overflow: hidden;
-    border-top: 1px solid @border-toolbar;
+    border-top: 1px solid var(--border-toolbar);
 
     #history-btn-expand {
         height: 27px;
@@ -44,7 +44,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: @highlight-button-hover;
+            background-color: var(--highlight-button-hover);
         }
     }
 }
@@ -64,15 +64,15 @@
 
         &:hover:not(.selected),
         &.over {
-            background-color: @highlight-button-hover;
+            background-color: var(--highlight-button-hover);
         }
 
         &.selected {
-            background-color: @highlight-button-pressed;
+            background-color: var(--highlight-button-pressed);
 
             .user-name,
             .user-date {
-                color: @text-inverse;
+                color: var(--text-inverse);
             }
 
             .revision-expand {
@@ -83,7 +83,7 @@
 
     .history-item-wrap {
         padding: 10px 2px 15px 20px;
-        color: @text-normal;
+        color: var(--text-normal);
         text-overflow: ellipsis;
 
         .user-date {
@@ -99,12 +99,12 @@
             display: inline-block;
             max-width: 60px;
             height: 18px;
-            color: @highlight-button-pressed;
+            color: var(--highlight-button-pressed);
             font-size: 10px;
             white-space: nowrap;
             overflow: hidden;
-            color: @text-tertiary;
-            background-color: @background-normal;
+            color: var(--text-tertiary);
+            background-color: var(--background-normal);
             text-align: center;
             padding: 1px 5px;
             border-radius: 2px;
@@ -124,7 +124,7 @@
         .color {
             width: 12px;
             height: 12px;
-            border: 1px solid @border-toolbar;
+            border: 1px solid var(--border-toolbar);
             margin: 0 5px 3px 0;
             vertical-align: middle;
         }
@@ -144,8 +144,8 @@
         }
 
         .revision-restore {
-            color: @text-normal;
-            border-bottom: 1px dotted @text-normal;
+            color: var(--text-normal);
+            border-bottom: 1px dotted var(--text-normal);
             height: 16px;
             margin-top: 5px;
             white-space: pre-wrap;

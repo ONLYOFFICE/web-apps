@@ -64,7 +64,7 @@
             display: none !important;
         }
         &, &:hover, &:focus {
-            background-color: @highlight-button-pressed;
+            background-color: var(--highlight-button-pressed);
             color: @dropdown-link-active-color;
             span.color {
                 border-color: rgba(255,255,255,0.7);
@@ -136,7 +136,7 @@
 }
 
 .item-equation {
-    border: 1px solid @border-regular-control;
+    border: 1px solid var(--border-regular-control);
     .background-ximage-v2('toolbar/math.png', 1500px);
 }
 
@@ -144,8 +144,8 @@
 #autocorrect-paste-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
-    background-color: @background-toolbar;
-    border: 1px solid @border-regular-control;
+    background-color: var(--background-toolbar);
+    border: 1px solid var(--border-regular-control);
 }
 
 #slot-field-fontname {
