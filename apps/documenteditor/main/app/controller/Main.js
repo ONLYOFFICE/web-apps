@@ -1115,6 +1115,12 @@ define([
 
                 $('#editor-container').css('overflow', '');
                 $('.doc-placeholder').remove();
+
+                $('#header-logo').children(0).click(e => {
+                    e.stopImmediatePropagation();
+
+                    $(':root').toggleClass('theme-dark');
+                })
             },
 
             onLicenseChanged: function(params) {
