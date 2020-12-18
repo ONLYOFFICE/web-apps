@@ -85,6 +85,15 @@
 */
 :root {
     --bgX: 0px;
+
+    @button-big-icon-width: 28px;
+    @button-big-icon-offset: -@button-big-icon-width;
+    --button-big-icon-width: @button-big-icon-width;
+
+    &.theme-dark {
+        --bgX: -20px;
+        --button-big-theme-icon-offset: @button-big-icon-offset;
+    }
 }
 
 .button-normal-icon(@icon-class, @index, @icon-size) {

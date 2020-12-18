@@ -18,9 +18,6 @@
 {{/spritesheet}}
 {{#sprites}}
 {{#parselang name}}.x-huge .{{name}}{{/parselang}} {
-    background-position: {{px.offset_x}} {{px.offset_y}};
-
-    --bgX: {{px.offset_x}};
-    background-position: var(--bgX) {{px.offset_y}};
+    background-position: var(--button-big-theme-icon-offset,0) {{px.offset_y}};
 }
 {{/sprites}}
