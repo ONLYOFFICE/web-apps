@@ -2020,9 +2020,9 @@ define([
                     validation: function(value) {
                         return value.length<128 ? true : me.textLongName;
                     },
-                    handler: function(result, {input: input, checkbox: checkbox}) {
+                    handler: function(result, settings) {
                         if (result == 'ok') {
-                            var name = input ? input + ' (' + me.textGuest + ')' : me.textAnonymous;
+                            var name = settings.input ? settings.input + ' (' + me.textGuest + ')' : me.textAnonymous;
                             var _user = new Asc.asc_CUserInfo();
                             _user.put_FullName(name);
 
@@ -2032,8 +2032,8 @@ define([
 
                             Common.Utils.UserInfoParser.setCurrentName(name);
                             appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
-                            checkbox ? Common.localStorage.setItem("guest-username", input) : Common.localStorage.removeItem("guest-username");
-                            Common.Utils.InternalSettings.set("guest-username", input);
+                            settings.checkbox ? Common.localStorage.setItem("guest-username", settings.input) : Common.localStorage.removeItem("guest-username");
+                            Common.Utils.InternalSettings.set("guest-username", settings.input);
                         }
                     }
                 });
