@@ -393,7 +393,7 @@ define([
                     $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
                 }
 
-                var value = Common.localStorage.getItem("de-macros-mode");
+                value = Common.localStorage.getItem("de-macros-mode");
                 if (value === null) {
                     value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
                     value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
@@ -2386,7 +2386,7 @@ define([
 
                             var docInfo = new Asc.asc_CDocInfo();
                             docInfo.put_UserInfo(_user);
-                            me.api.asc_setDocInfo(docInfo);
+                            me.api.asc_changeDocInfo(docInfo);
 
                             Common.Utils.UserInfoParser.setCurrentName(name);
                             appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));

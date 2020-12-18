@@ -49,6 +49,7 @@ define([
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
     'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LanguageInfo',
     'common/main/lib/util/LocalStorage',
     'spreadsheeteditor/main/app/collection/ShapeGroups',
@@ -326,8 +327,10 @@ define([
 
                 this.appOptions                 = {};
 
+                var value = Common.localStorage.getItem("guest-username");
+                Common.Utils.InternalSettings.set("guest-username", value);
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.textGuest + ')' ) : this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -362,6 +365,8 @@ define([
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = !!this.api.asc_isSupportFeature("sheet-views");
 
+                this.appOptions.user.guest && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
+
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
 
@@ -386,7 +391,7 @@ define([
                     this.api.asc_setLocale(reg, decimal, group);
                 }
 
-                var value = Common.localStorage.getBool("sse-settings-r1c1");
+                value = Common.localStorage.getBool("sse-settings-r1c1");
                 Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
                 this.api.asc_setR1C1Mode(value);
 
@@ -906,6 +911,7 @@ define([
                 } else checkWarns();
 
                 Common.Gateway.documentReady();
+                this.appOptions.user.guest && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
             },
 
             onLicenseChanged: function(params) {
@@ -1039,6 +1045,8 @@ define([
                     this.appOptions.canRename && this.headerView.setCanRename(true);
                     this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
                     Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
+                    Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+                    this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
                     this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
                 } else
                     this.appOptions.canModifyFilter = true;
@@ -2315,6 +2323,42 @@ define([
                 me.api.asc_setIncludeNewRowColTable(value);
             },
 
+            showRenameUserDialog: function() {
+                if (this._renameDialog) return;
+
+                var me = this;
+                var value = Common.Utils.InternalSettings.get("guest-username");
+                this._renameDialog = new Common.Views.UserNameDialog({
+                    label: this.textRenameLabel,
+                    error: this.textRenameError,
+                    value: value || '',
+                    check: (value!==null),
+                    validation: function(value) {
+                        return value.length<128 ? true : me.textLongName;
+                    },
+                    handler: function(result, {input: input, checkbox: checkbox}) {
+                        if (result == 'ok') {
+                            var name = input ? input + ' (' + me.textGuest + ')' : me.textAnonymous;
+                            var _user = new Asc.asc_CUserInfo();
+                            _user.put_FullName(name);
+
+                            var docInfo = new Asc.asc_CDocInfo();
+                            docInfo.put_UserInfo(_user);
+                            me.api.asc_changeDocInfo(docInfo);
+
+                            Common.Utils.UserInfoParser.setCurrentName(name);
+                            appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
+                            checkbox ? Common.localStorage.setItem("guest-username", input) : Common.localStorage.removeItem("guest-username");
+                            Common.Utils.InternalSettings.set("guest-username", input);
+                        }
+                    }
+                });
+                this._renameDialog.on('close', function() {
+                    me._renameDialog = undefined;
+                });
+                this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -2694,7 +2738,11 @@ define([
             errorChangeFilteredRange: 'This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.'
+            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
+            textRenameLabel: 'Enter a name to be used for collaboration',
+            textRenameError: 'User name must not be empty.',
+            textLongName: 'Enter a name that is less than 128 characters.',
+            textGuest: 'Guest'
         }
     })(), SSE.Controllers.Main || {}))
 });
