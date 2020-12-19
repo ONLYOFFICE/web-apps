@@ -43,6 +43,7 @@ class MainController extends Component {
                 this.props.storeAppOptions.setConfigOptions(this.editorConfig);
 
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
+                // console.log(this.editorConfig);
             };
 
             const loadDocument = data => {

@@ -66,7 +66,12 @@
       "textSlideSize": "Slide Size",
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Widescreen (16:9)",
-      "textColorSchemes": "Color Schemes"
+      "textColorSchemes": "Color Schemes",
+      "textVersion": "Version",
+      "textAddress": "address:",
+      "textEmail": "email:",
+      "textTel": "tel:",
+      "textPoweredBy": "Powered By"
     },
     "Add": {
       "textSlide": "Slide",

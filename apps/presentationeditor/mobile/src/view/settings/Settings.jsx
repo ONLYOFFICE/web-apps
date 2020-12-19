@@ -9,6 +9,7 @@ import DownloadController from "../../controller/settings/Download";
 import PresentationInfoController from "../../controller/settings/PresentationInfo";
 import PresentationSettingsController from "../../controller/settings/PresentationSettings";
 import { PresentationColorSchemes } from "./PresentationSettings";
+import PresentationAboutController from '../../controller/settings/PresentationAbout';
 
 const routes = [
     {
@@ -38,6 +39,10 @@ const routes = [
     {
         path: '/color-schemes/',
         component: PresentationColorSchemes
+    },
+    {
+        path: '/about/',
+        component: PresentationAboutController
     }
     /*{
         path: '/presentation-settings/',
@@ -105,7 +110,7 @@ const SettingsList = withTranslation()(props => {
                     <ListItem title={_t.textHelp} link="#">
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textAbout} link="#">
+                    <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
                         <Icon slot="media" icon="icon-about"></Icon>
                     </ListItem>
                 </List>
