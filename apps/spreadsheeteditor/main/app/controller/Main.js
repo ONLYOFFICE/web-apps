@@ -904,6 +904,13 @@ define([
                 } else checkWarns();
 
                 Common.Gateway.documentReady();
+
+                $('#header-logo').children(0).click(e => {
+                    e.stopImmediatePropagation();
+
+                    $(':root').toggleClass('theme-dark');
+                    // getComputedStyle(document.documentElement).getPropertyValue('--background-normal');
+                })
             },
 
             onLicenseChanged: function(params) {
