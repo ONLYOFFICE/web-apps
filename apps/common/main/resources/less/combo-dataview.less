@@ -10,8 +10,8 @@
         width: @combo-dataview-width;
         height: 100%;
         .border-radius(@border-radius-small);
-        border: 1px solid @input-border;
-        background-color: @input-bg;
+        border: 1px solid @border-regular-control;
+        background-color: @background-normal;
 
         .dataview {
             padding: 1px;
@@ -24,8 +24,8 @@
 
         button {
             border-radius:0 @border-radius-small @border-radius-small 0;
-            border: 1px solid @input-border;
-            background-color: @input-bg;
+            border: 1px solid @border-regular-control;
+            background-color: @background-normal;
 
             &.dropdown-toggle {
                 .inner-box-caret {
@@ -125,7 +125,7 @@
         width: auto;
         position: relative;
         border: none;
-        .box-shadow(0 0 0 1px @body-bg);
+        .box-shadow(0 0 0 1px @background-normal);
 
         > div {
             background-repeat: no-repeat;
@@ -142,15 +142,24 @@
                 padding: 0;
 
                 .caret {
-                    width: 27px;
-                    height: 27px;
-                    background-position: @arrow-big-offset-x @arrow-big-offset-y;
-                    transition: transform .2s;
+                    //width: 27px;
+                    //height: 27px;
+                    //background-position: @arrow-big-offset-x @arrow-big-offset-y;
+                    width: 8px;
+                    height: 8px;
+                    background-color: transparent;
+                    border: solid 1px @border-regular-control;
+                    border-bottom: none;
+                    border-right: none;
+                    background-image: none;
+
+                    transition: transform 0.2s ease;
+                    transform: rotate(-135deg) translate(2px,2px);
                 }
 
                 &.active {
                     .caret {
-                        transform: rotate(180deg);
+                        transform: rotate(45deg);
                     }
                 }
             }
