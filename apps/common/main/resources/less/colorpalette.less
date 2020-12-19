@@ -7,7 +7,7 @@
 
         &:hover,
         &.selected {
-            .box-shadow(0 0 0 1px var(--highlight-button-pressed));
+            .box-shadow(0 0 0 1px @highlight-button-pressed);
         }
     }
 }
@@ -26,7 +26,7 @@
     padding: 10px;
     .palette-color-item {
         padding: 0;
-        border: 1px solid var(--background-normal);
+        border: 1px solid @background-normal;
         display: inline-block;
         text-decoration: none;
         -moz-outline: 0 none;
@@ -43,21 +43,21 @@
                 width: 12px;
                 cursor: pointer;
                 display: block;
-                border: 1px solid var(--border-color-shading);
+                border: 1px solid @border-color-shading;
             }
         }
 
         &:hover, &.selected {
-            border-color: var(--icon-normal);
+            border-color: @icon-normal;
             em span {
-                border-color: var(--background-normal);
+                border-color: @background-normal;
             }
         }
     }
 
     .color-transparent {
         em span {
-            border:solid 1px var(--border-color-shading);
+            border:solid 1px @border-color-shading;
         }
     }
 }

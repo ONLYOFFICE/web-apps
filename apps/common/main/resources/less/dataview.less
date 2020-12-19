@@ -9,7 +9,7 @@
             text-align: center;
             height: 100%;
             width: 100%;
-            color: var(--text-tertiary);
+            color: @text-tertiary;
             td {
                 padding: 5px;
             }
@@ -22,11 +22,11 @@
         margin: 4px;
         cursor: pointer;
 
-        .box-shadow(0 0 0 1px var(--border-regular-control));
+        .box-shadow(0 0 0 1px @border-regular-control);
 
         &:hover,
         &.selected {
-            .box-shadow(0 0 0 2px var(--highlight-button-pressed));
+            .box-shadow(0 0 0 2px @highlight-button-pressed);
         }
     }
 
@@ -58,11 +58,11 @@
                     opacity: 0.5;
                 }
 
-                .box-shadow(0 0 0 1px var(--border-regular-control));
+                .box-shadow(0 0 0 1px @border-regular-control);
 
                 &:hover:not(.disabled),
                 &.selected:not(.disabled) {
-                    .box-shadow(0 0 0 2px var(--highlight-button-pressed));
+                    .box-shadow(0 0 0 2px @highlight-button-pressed);
                 }
             }
         }

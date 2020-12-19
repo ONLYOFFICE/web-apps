@@ -7,9 +7,9 @@
   .cell{
     width: 31px;
     height: 33px;
-    border-right: 1px solid var(--border-regular-control);
-    border-bottom: 1px solid var(--border-regular-control);
-    background: var(--background-normal);
+    border-right: 1px solid @border-regular-control;
+    border-bottom: 1px solid @border-regular-control;
+    background: @background-normal;
     align-content: center;
     vertical-align: middle;
     text-align: center;
@@ -24,7 +24,7 @@
   }
 
   .cell-selected{
-    background-color: var(--border-preview-select);
+    background-color: @border-preview-select;
     color: white;
   }
 }
@@ -33,7 +33,7 @@
   width: 100%;
   height: 32px;
   overflow: hidden;
-  border: var(--border-regular-control) solid 1px;
+  border: @border-regular-control solid 1px;
 }
 
 #symbol-table-scrollable-div {
@@ -42,7 +42,7 @@
     height: 132px;
     position:relative;
     overflow:hidden;
-    border: var(--border-regular-control) solid 1px;
+    border: @border-regular-control solid 1px;
   }
 
   #id-preview-data {

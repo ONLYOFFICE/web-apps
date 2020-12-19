@@ -12,7 +12,7 @@
       text-align: center;
       height: 100%;
       width: 100%;
-      color: var(--text-tertiary);
+      color: @text-tertiary;
       td {
         padding: 5px;
       }
@@ -20,7 +20,7 @@
   }
 
   &:focus {
-    border-color: var(--border-preview-select);
+    border-color: @border-preview-select;
   }
 
   > .item {
@@ -31,11 +31,11 @@
 
     &:hover,
     &.over {
-      background-color: var(--highlight-button-hover);
+      background-color: @highlight-button-hover;
     }
 
     &.selected {
-      background-color: var(--highlight-button-pressed);
+      background-color: @highlight-button-pressed;
     }
 
     &.selected .empty {
@@ -58,7 +58,7 @@
     text-overflow: ellipsis;
 
     &.empty {
-      color: var(--text-tertiary);
+      color: @text-tertiary;
       font-style: italic;
     }
   }

@@ -12,8 +12,8 @@
         + label {
             width: 14px;
             height: 14px;
-            background: var(--background-normal);
-            border: 1px solid var(--border-regular-control);
+            background: @background-normal;
+            border: 1px solid @border-regular-control;
             border-radius: 2px;
             position: absolute;
             left: 0;
@@ -25,7 +25,7 @@
                 &::before {
                     content: '';
                     position: absolute;
-                    border: solid var(--text-normal);
+                    border: solid @text-normal;
                     border-width: 0 2px 2px 0;
                     transform: rotate(45deg);
                     width: 5px;
@@ -40,8 +40,8 @@
                 &::before {
                     content: '';
                     position: absolute;
-                    border: 1px solid var(--text-normal);
-                    background: var(--icon-normal);
+                    border: 1px solid @text-normal;
+                    background: @icon-normal;
                     width: 8px;
                     height: 8px;
                     left: 2px;

@@ -23,7 +23,7 @@
     border: none;
     background-image: none;
     background-color: rgba(0,0,0,.9);
-    color: var(--background-toolbar);
+    color: @background-toolbar;
     .border-radius(@border-radius-large);
 
     left: 50%;
@@ -52,7 +52,7 @@
     .left-panel & {
         line-height: @loadmask-small-image-height;
         background-color: transparent;
-        color: var(--text-normal);
+        color: @text-normal;
         padding: 8px;
         top: 78px;
         transform: translate(-50%, 0);

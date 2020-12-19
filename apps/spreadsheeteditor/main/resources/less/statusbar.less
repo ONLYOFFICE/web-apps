@@ -1,8 +1,8 @@
 .statusbar {
     padding: 0 2px 0;
     height: 25px;
-    background-color: var(--background-toolbar);
-    .box-inner-shadow(0 1px 0 var(--border-toolbar));
+    background-color: @background-toolbar;
+    .box-inner-shadow(0 1px 0 @border-toolbar);
     z-index: 500;
 
     #status-tabs-scroll {
@@ -26,7 +26,7 @@
             text-align: center;
 
             &.disabled {
-                color: var(--border-preview-select);
+                color: @border-preview-select;
                 cursor: default;
             }
         }
@@ -96,7 +96,7 @@
                     height: 12px;
                     display: inline-block;
                     vertical-align: middle;
-                    border: 1px solid var(--border-toolbar);
+                    border: 1px solid @border-toolbar;
                 }
 
                 .name {
@@ -114,8 +114,8 @@
     #status-addtabs-box {
         float: left;
         padding: 3px 8px 0 8px;
-        border-left: 1px solid var(--border-toolbar);
-        border-right: 1px solid var(--border-toolbar);
+        border-left: 1px solid @border-toolbar;
+        border-right: 1px solid @border-toolbar;
         height: 25px;
     }
 
@@ -158,7 +158,7 @@
             display: flex;
 
             > li {
-                background-color: var(--background-toolbar);
+                background-color: @background-toolbar;
 
                 &:first-of-type {
                     span {
@@ -178,16 +178,16 @@
                     padding: 0 10px 0;
                     line-height: 24px;
                     margin-right: -1px;
-                    background-color: var(--background-toolbar);
+                    background-color: @background-toolbar;
                     outline: none;
-                    border-left: 1px solid var(--border-toolbar);
-                    border-right: 1px solid var(--border-toolbar);
-                    border-top: 1px solid var(--border-toolbar);
+                    border-left: 1px solid @border-toolbar;
+                    border-right: 1px solid @border-toolbar;
+                    border-top: 1px solid @border-toolbar;
 
                     &:hover {
-                        border-top-color: var(--border-toolbar);
-                        border-bottom-color: var(--border-toolbar);
-                        color: @black !important;
+                        border-top-color: @border-toolbar;
+                        border-bottom-color: @border-toolbar;
+                        color: @text-normal !important;
                     }
                 }
 
@@ -259,7 +259,7 @@
 
                 &:not(.active) {
                     > span {
-                        color: var(--border-preview-select);
+                        color: @border-preview-select;
                     }
                 }
 
@@ -272,14 +272,14 @@
                     }
 
                     > span {
-                        border-left: 2px solid var(--text-normal);
+                        border-left: 2px solid @text-normal;
                         padding-left: 9px;
                     }
                     
                     &.right {
                         > span {
-                            border-left: 1px solid var(--border-toolbar);
-                            border-right: 2px solid var(--text-normal);
+                            border-left: 1px solid @border-toolbar;
+                            border-right: 2px solid @text-normal;
                             padding-right: 9px;
                             padding-left: 10px;
                         }
@@ -318,7 +318,7 @@
 
     .status-label {
         font-weight: bold;
-        color: var(--text-normal);
+        color: @text-normal;
         white-space: nowrap;
     }
 
@@ -398,7 +398,7 @@
     width: 36px;
     height: 100%;
     opacity: 0;
-    background-color: var(--background-toolbar);
+    background-color: @background-toolbar;
     z-index: @zindex-modal - 1;
 }
 

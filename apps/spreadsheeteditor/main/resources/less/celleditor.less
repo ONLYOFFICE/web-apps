@@ -1,14 +1,14 @@
 #cell-editing-box {
-    border-bottom: solid 1px var(--border-toolbar);
-    border-left: solid 1px var(--border-toolbar);
+    border-bottom: solid 1px @border-toolbar;
+    border-left: solid 1px @border-toolbar;
     min-height: 20px;
     background-color: #fff;
 
     .ce-group-name {
         float: left;
         height: 20px;
-        border-bottom: 1px solid var(--border-toolbar);
-        background-color: var(--background-toolbar);
+        border-bottom: 1px solid @border-toolbar;
+        background-color: @background-toolbar;
 
         #ce-cell-name {
             width: 100px;
@@ -17,12 +17,12 @@
             vertical-align: top;
             display: inline-block;
             border: 0 none;
-            border-right: 1px solid var(--border-toolbar);
+            border-right: 1px solid @border-toolbar;
             transition: none;
             -webkit-transition: none;
 
             &[disabled] {
-                color: var(--border-preview-select);
+                color: @border-preview-select;
                 opacity: 0.5;
             }
         }
@@ -31,7 +31,7 @@
             display: inline-block;
             position: absolute;
             left: 80px;
-            background-color: var(--background-toolbar);
+            background-color: @background-toolbar;
 
             button {
                 background-color: #fff;
@@ -75,7 +75,7 @@
         padding-left: 1px;
         margin: 0 16px 0 120px;
         height: 100%;
-        border-left: 1px solid var(--border-toolbar);
+        border-left: 1px solid @border-toolbar;
 
         #ce-cell-content {
             height: 100%;
@@ -87,7 +87,7 @@
             padding-bottom: 0;
 
             &[disabled] {
-                color: var(--border-preview-select);
+                color: @border-preview-select;
                 opacity: 0.5;
             }
         }
@@ -102,8 +102,8 @@
         border-bottom: 0 none;
 
         &.move {
-            border-top: 1px solid var(--border-toolbar);
-            border-bottom: 1px solid var(--border-toolbar);
+            border-top: 1px solid @border-toolbar;
+            border-bottom: 1px solid @border-toolbar;
             opacity: 0.4;
         }
     }

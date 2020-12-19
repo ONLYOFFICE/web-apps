@@ -2,8 +2,8 @@
 .tool-menu.right {
     .tool-menu-btns {
         position: absolute;
-        border-left: 1px solid var(--border-toolbar);
-        background-color: var(--background-toolbar);
+        border-left: 1px solid @border-toolbar;
+        background-color: @background-toolbar;
         right: 0;
         overflow: hidden;
     }
@@ -16,7 +16,7 @@
     padding: 0 10px 0 15px;
     position: relative;
     overflow: hidden;
-    border-left: 1px solid var(--border-toolbar);
+    border-left: 1px solid @border-toolbar;
     line-height: 15px;
 }
 
@@ -70,7 +70,7 @@
         width: 100%;
         resize: none;
         margin-bottom: 5px;
-        border: 1px solid var(--border-toolbar);
+        border: 1px solid @border-toolbar;
         height: 100%;
 
         &.disabled {
@@ -258,7 +258,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 
         &:hover,
         &.over {
-            background-color: var(--highlight-button-hover);
+            background-color: @highlight-button-hover;
 
             .caret {
                 display: inline-block;
