@@ -320,7 +320,7 @@
   "SSE.Controllers.DocumentHolder.textChangeColumnWidth": "Largura da coluna {0} símbolos ({1} pixels)",
   "SSE.Controllers.DocumentHolder.textChangeRowHeight": "Altura da linha {0} pontos ({1} pixels)",
   "SSE.Controllers.DocumentHolder.textCtrlClick": "Pressione CTRL e clique no link",
-  "SSE.Controllers.DocumentHolder.textInsertLeft": "Insert Left",
+  "SSE.Controllers.DocumentHolder.textInsertLeft": "Inserir à esquerda",
   "SSE.Controllers.DocumentHolder.textInsertTop": "Inserir acima",
   "SSE.Controllers.DocumentHolder.textPasteSpecial": "Colar especial",
   "SSE.Controllers.DocumentHolder.textStopExpand": "Pare de expandir tabelas automaticamente",
