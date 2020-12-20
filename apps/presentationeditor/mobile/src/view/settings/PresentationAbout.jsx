@@ -66,7 +66,7 @@ const PagePresentationAbout = props => {
                 {licInfo && typeof licInfo == 'object' && typeof(licInfo.customer)=='object' ? null : (
                     <p>
                         <label>{_t.textTel}</label>
-                        <a id="settings-about-tel" className="external" target="_blank" href="tel:+37163399867>">+371 633-99867</a>
+                        <a id="settings-about-tel" className="external" target="_blank" href="tel:+37163399867">+371 633-99867</a>
                     </p>
                 )}
                 {urlCustomer && urlCustomer.length ? (
