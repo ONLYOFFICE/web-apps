@@ -306,6 +306,7 @@ define([
 
                 var value = Common.localStorage.getItem("guest-username");
                 Common.Utils.InternalSettings.set("guest-username", value);
+                Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 this.editorConfig.user          =
                 this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.textGuest + ')' ) : this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
@@ -1098,6 +1099,7 @@ define([
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
+                    me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -1818,6 +1820,24 @@ define([
                 this._state.usersCount = length;
             },
 
+            onUserConnection: function(change){
+                if (change && this.appOptions.user.guest && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                    var name = change.asc_getUserName();
+                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        Common.Utils.UserInfoParser.setCurrentName(name);
+                        appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
+
+                        var idx1 = name.lastIndexOf('('),
+                            idx2 = name.lastIndexOf(')'),
+                            str = (idx1>0) && (idx1<idx2) ? name.substring(0, idx1-1) : '';
+                        if (Common.localStorage.getItem("guest-username")!==null) {
+                            Common.localStorage.setItem("guest-username", str);
+                        }
+                        Common.Utils.InternalSettings.set("guest-username", str);
+                    }
+                }
+            },
+
             applySettings: function() {
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var oldval = this._state.fastCoauth;
@@ -2011,12 +2031,11 @@ define([
                 if (this._renameDialog) return;
 
                 var me = this;
-                var value = Common.Utils.InternalSettings.get("guest-username");
                 this._renameDialog = new Common.Views.UserNameDialog({
                     label: this.textRenameLabel,
                     error: this.textRenameError,
-                    value: value || '',
-                    check: (value!==null),
+                    value: Common.Utils.InternalSettings.get("guest-username") || '',
+                    check: Common.Utils.InternalSettings.get("save-guest-username") || false,
                     validation: function(value) {
                         return value.length<128 ? true : me.textLongName;
                     },
@@ -2030,10 +2049,9 @@ define([
                             docInfo.put_UserInfo(_user);
                             me.api.asc_changeDocInfo(docInfo);
 
-                            Common.Utils.UserInfoParser.setCurrentName(name);
-                            appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
                             settings.checkbox ? Common.localStorage.setItem("guest-username", settings.input) : Common.localStorage.removeItem("guest-username");
                             Common.Utils.InternalSettings.set("guest-username", settings.input);
+                            Common.Utils.InternalSettings.set("save-guest-username", settings.checkbox);
                         }
                     }
                 });
