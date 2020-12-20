@@ -169,7 +169,7 @@
   "Common.Views.PasswordDialog.txtRepeat": "Confirmer le mot de passe",
   "Common.Views.PasswordDialog.txtTitle": "Définir un mot de passe",
   "Common.Views.PluginDlg.textLoading": "Chargement",
-  "Common.Views.Plugins.groupCaption": "Plugins",
+  "Common.Views.Plugins.groupCaption": "Modules complémentaires",
   "Common.Views.Plugins.strPlugins": "Plug-ins",
   "Common.Views.Plugins.textLoading": "Chargement",
   "Common.Views.Plugins.textStart": "Lancer",
