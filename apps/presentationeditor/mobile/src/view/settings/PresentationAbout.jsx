@@ -28,8 +28,8 @@ const PagePresentationAbout = props => {
                     <div className="logo"></div>
                 )}
                 {logoCustomer && logoCustomer.length ? (
-                    <div id="settings-about-logo" style={{marginTop: "20px"}}>
-                        <img src={logoCustomer} style={{maxWidth: "216px", maxHeight: "35px"}} />
+                    <div id="settings-about-logo" className="settings-about-logo">
+                        <img src={logoCustomer} />
                     </div>
                 ) : null}
             </div>
