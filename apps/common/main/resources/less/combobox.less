@@ -48,11 +48,9 @@
         float: none;
     }
 
-    .btn,
-    .btn:hover,
-    .btn:focus {
+    .btn {
         border-left: 0;
-        border-color: @border-control-focus;
+        border-color: @border-regular-control;
         background-color: transparent;
         margin-left: -1px;
         position: absolute;
@@ -63,6 +61,11 @@
     .btn-default:not(.disabled),
     &.open .dropdown-toggle.btn-default {
         background-color: @background-normal;
+        border-color: @border-regular-control;
+    }
+
+    .btn-default.disabled:hover {
+        background-color: transparent;
         border-color: @border-regular-control;
     }
 
