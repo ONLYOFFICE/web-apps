@@ -1382,7 +1382,7 @@ define([
                     this._state.SlideColor = this.SlideColor.Color;
                 }
 
-                var timing = props.get_timing();
+                var timing = props.get_LockTiming();
                 if (timing) {
                     var value = timing.get_TransitionType();
                     var found = false;

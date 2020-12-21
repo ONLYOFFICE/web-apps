@@ -133,7 +133,7 @@ define([
                 if (settingsType==Common.Utils.documentSettingsType.Slide) {
                     this._settings[settingsType].locked = value.get_LockDelete();
                     this._settings[settingsType].lockedBackground = value.get_LockBackground();
-                    this._settings[settingsType].lockedEffects = value.get_LockTranzition();
+                    this._settings[settingsType].lockedEffects = value.get_LockTransition();
                     this._settings[settingsType].lockedTiming = value.get_LockTiming();
                     this._settings[settingsType].lockedHeader = !!value.get_LockHeader && value.get_LockHeader();
                 } else {
