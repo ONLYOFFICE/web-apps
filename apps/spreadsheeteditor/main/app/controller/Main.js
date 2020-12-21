@@ -1048,7 +1048,7 @@ define([
                     Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
                     Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
                     this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
-                    this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
+                    this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
                 } else
                     this.appOptions.canModifyFilter = true;
 

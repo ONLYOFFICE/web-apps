@@ -1291,7 +1291,7 @@ define([
                 Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
                 Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
                 this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
-                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
+                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
