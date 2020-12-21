@@ -392,8 +392,6 @@ define([
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
-
-                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined && data.doc.info.favorite!==null);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
@@ -405,7 +403,6 @@ define([
                 if (data.doc) {
                     appHeader.setDocumentCaption(data.doc.title);
                 }
-                this.appOptions.canFavorite && appHeader.setFavorite(data.doc.info.favorite);
             },
 
             onProcessSaveResult: function(data) {
@@ -998,6 +995,9 @@ define([
                 this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
                     appHeader.setBranding(this.editorConfig.customization);
+
+                this.appOptions.canFavorite = this.document.info && (this.document.info.favorite!==undefined && this.document.info.favorite!==null) && !this.appOptions.isOffline;
+                this.appOptions.canFavorite && appHeader.setFavorite(this.document.info.favorite);
 
                 this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
                 Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);

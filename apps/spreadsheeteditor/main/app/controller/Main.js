@@ -446,9 +446,6 @@ define([
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 
                     this.headerView && this.headerView.setDocumentCaption(data.doc.title);
-                    this.appOptions.canFavorite = data.doc.info && (data.doc.info.favorite!==undefined && data.doc.info.favorite!==null);
-                    this.appOptions.canFavorite && this.headerView && this.headerView.setFavorite(data.doc.info.favorite);
-
                     Common.Utils.InternalSettings.set("sse-doc-info-key", data.doc.key);
                 }
 
@@ -1052,6 +1049,9 @@ define([
                     this.appOptions.canBranding  = params.asc_getCustomization();
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
+
+                    this.appOptions.canFavorite = this.appOptions.spreadsheet.info && (this.appOptions.spreadsheet.info.favorite!==undefined && this.appOptions.spreadsheet.info.favorite!==null);
+                    this.appOptions.canFavorite && this.headerView && this.headerView.setFavorite(this.appOptions.spreadsheet.info.favorite);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
                     this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
