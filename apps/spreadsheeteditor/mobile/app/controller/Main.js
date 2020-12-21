@@ -204,8 +204,11 @@ define([
 
                 me.editorConfig = $.extend(me.editorConfig, data.config);
 
+                var value = Common.localStorage.getItem("guest-username");
+                Common.Utils.InternalSettings.set("guest-username", value);
+                Common.Utils.InternalSettings.set("save-guest-username", !!value);
                 me.editorConfig.user          =
-                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
+                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, value ? (value + ' (' + me.textGuest + ')' ) : me.textAnonymous);
                 me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
                 me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
                 me.appOptions.canOpenRecent   = me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
@@ -227,7 +230,7 @@ define([
                 me.appOptions.canPlugins      = false;
                 me.plugins                    = me.editorConfig.plugins;
 
-                var value = Common.localStorage.getItem("sse-settings-regional");
+                value = Common.localStorage.getItem("sse-settings-regional");
                 if (value!==null)
                     this.api.asc_setLocale(parseInt(value));
                 else {
@@ -756,6 +759,8 @@ define([
 
                     me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object');
                     Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
+                    Common.Utils.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
+                    me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.editorConfig.customization.reviewPermissions);
                 }
 
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
@@ -803,6 +808,7 @@ define([
                 }
                 me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                 me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
+                me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
             },
 
             applyModeEditorElements: function() {
@@ -1455,6 +1461,15 @@ define([
                 this._state.usersCount = length;
             },
 
+            onUserConnection: function(change){
+                if (change && this.appOptions.user.guest && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                    var name = change.asc_getUserName();
+                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        Common.Utils.UserInfoParser.setCurrentName(name);
+                    }
+                }
+            },
+
             applySettings: function() {
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var value = Common.localStorage.getItem("sse-settings-coauthmode"),
@@ -1754,7 +1769,8 @@ define([
             errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
             errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
-            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.'
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+            textGuest: 'Guest'
         }
     })(), SSE.Controllers.Main || {}))
 });

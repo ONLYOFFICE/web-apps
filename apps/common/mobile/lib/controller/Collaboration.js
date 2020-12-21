@@ -119,7 +119,7 @@ define([
                 if (mode && mode.canUseReviewPermissions) {
                     var permissions = mode.customization.reviewPermissions,
                         arr = [],
-                        groups  =  Common.Utils.UserInfoParser.getParsedGroups(mode.user.fullname);
+                        groups  =  Common.Utils.UserInfoParser.getParsedGroups(Common.Utils.UserInfoParser.getCurrentName());
                     groups && groups.forEach(function(group) {
                         var item = permissions[group.trim()];
                         item && (arr = arr.concat(item));
@@ -264,14 +264,11 @@ define([
             },
 
             getUsersInfo: function() {
+                var me = this;
                 var usersArray = [];
                 _.each(editUsers, function(item){
                     var name = Common.Utils.UserInfoParser.getParsedName(item.asc_getUserName());
-                    var fio = name.split(' ');
-                    var initials = fio[0].substring(0, 1).toUpperCase();
-                    if (fio.length > 1) {
-                        initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
-                    }
+                    var initials = me.getInitials(name);
                     if((item.asc_getState()!==false) && !item.asc_getView()) {
                         var userAttr = {
                             color: item.asc_getColor(),
@@ -791,8 +788,11 @@ define([
             getInitials: function(name) {
                 var fio = Common.Utils.UserInfoParser.getParsedName(name).split(' ');
                 var initials = fio[0].substring(0, 1).toUpperCase();
-                if (fio.length > 1) {
-                    initials += fio[fio.length - 1].substring(0, 1).toUpperCase();
+                for (var i=fio.length-1; i>0; i--) {
+                    if (fio[i][0]!=='(' && fio[i][0]!==')') {
+                        initials += fio[i].substring(0, 1).toUpperCase();
+                        break;
+                    }
                 }
                 return initials;
             },
