@@ -43,9 +43,9 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <div class="elset" style="width:207px;">
-                        <span class="btn-slot" style="float: left; width: 115px;" id="slot-field-fontname"></span>
-                        <span class="btn-slot" style="float: left; width: 45px; margin-left: 2px;" id="slot-field-fontsize"></span>
+                    <div class="elset" style="width:175px;">
+                        <span class="btn-slot" style="float: left; width: 89px;" id="slot-field-fontname"></span>
+                        <span class="btn-slot" style="float: left; width: 40px; margin-left: 2px;" id="slot-field-fontsize"></span>
                         <span class="btn-slot" id="slot-btn-incfont"></span>
                         <span class="btn-slot" id="slot-btn-decfont"></span>
                     </div>
@@ -65,7 +65,7 @@
                         <span class="btn-slot split" id="slot-btn-markers"></span>
                         <span class="btn-slot split" id="slot-btn-numbering"></span>
                         <span class="btn-slot split" id="slot-btn-decoffset"></span>
-                        <span class="btn-slot split" id="slot-btn-incoffset"></span>
+                        <span class="btn-slot" id="slot-btn-incoffset"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-halign"></span>
@@ -73,7 +73,7 @@
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
                     </div>
                 </div>
-                <div class="separator long close"></div>
+                <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge slot-instext"></span>
                     <span class="btn-slot text x-huge slot-insertimg"></span>
