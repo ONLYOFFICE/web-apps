@@ -23,24 +23,6 @@
         padding-right: 7px + 2 * @padding-base-horizontal;
     }
 
-    &.input-group-nr > .btn {
-        &.dropdown-toggle {
-            .caret {
-                width: 7px;
-                height: 7px;
-                border: 0;
-                background-position: @arrow-small-offset-x @arrow-small-offset-y;
-            }
-
-            &:active,
-            &.active {
-                .caret {
-                    background-position: @arrow-small-offset-x @arrow-small-offset-y;
-                }
-            }
-        }
-    }
-
     .form-control {
         border-right: 0;
         position: static;
@@ -73,6 +55,10 @@
         & > .form-control,
         & > .btn {
             border-color: @border-preview-select;
+
+            .caret {
+                transform: rotate(45deg);
+            }
         }
     }
 

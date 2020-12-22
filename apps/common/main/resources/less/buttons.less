@@ -55,18 +55,22 @@
     }
 
     .caret {
-        width: 7px;
-        height: 7px;
-        border: 0;
-        background-position: @arrow-small-offset-x @arrow-small-offset-y;
-        position: relative;
+        width: 4px;
+        height: 4px;
+        border: solid 1px @icon-normal;
+        border-bottom: none;
+        border-right: none;
+        background-image: none;
+
+        transition: transform 0.2s ease;
+        transform: rotate(-135deg) translate(1px,1px);
     }
 
     //&:active,
     &:active:not(.disabled),
     &.active:not(.disabled){
         .caret {
-            background-position: @arrow-small-offset-x - 7px @arrow-small-offset-y;
+            transform: rotate(45deg);
         }
     }
 

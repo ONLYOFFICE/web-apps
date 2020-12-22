@@ -42,8 +42,12 @@
 
         i {
             display: inline-block;
-            width: @trigger-width;
-            height: @spin-height/2;
+            width: 4px;
+            height: 4px;
+
+            border: solid 1px @icon-normal;
+            border-bottom: none;
+            border-right: none;
         }
 
         button {
@@ -55,19 +59,13 @@
 
     .spinner-up {
         i {
-            background-position: @spinner-offset-x @spinner-offset-y;
+            transform: rotate(45deg) translate(1px,-2px);
         }
-
-        &.over   i { background-position: @spinner-offset-x - @trigger-width @spinner-offset-y; }
-        &.active i { background-position: @spinner-offset-x @spinner-offset-y; }
     }
 
     .spinner-down {
         i {
-            background-position: @spinner-offset-x @spinner-offset-y - @spin-height / 2;
+            transform: rotate(-135deg) translate(1px,4px);
         }
-
-        &.over   i { background-position: @spinner-offset-x - @trigger-width @spinner-offset-y - @spin-height / 2; }
-        &.active i { background-position: @spinner-offset-x @spinner-offset-y - @spin-height / 2; }
     }
 }
