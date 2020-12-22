@@ -3357,8 +3357,10 @@ define([
             if ( !config.isEditDiagram && !config.isEditMailMerge ) {
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-                if ($panel)
+                if ($panel) {
                     me.toolbar.addTab(tab, $panel, 6);
+                    me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+                }
             }
 
             if ( config.isEdit ) {

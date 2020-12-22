@@ -2206,8 +2206,10 @@ define([
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-            if ( $panel )
+            if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 3);
+                me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+            }
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);

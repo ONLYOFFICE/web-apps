@@ -204,7 +204,7 @@ define([
                 if (!config.isEdit && !config.isEditDiagram && !config.isEditMailMerge) {
                     me.header.mnuitemCompactToolbar.hide();
                     Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                        if (action=='plugins' && visible) {
+                        if ((action=='plugins' || action=='review') && visible) {
                             me.header.mnuitemCompactToolbar.show();
                         }
                     }, this));
