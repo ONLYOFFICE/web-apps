@@ -162,7 +162,7 @@ define([
                                 hint: model.get('name')
                             });
 
-                        var $slot = $('<span class="slot"></span>').appendTo(_group);
+                        var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
 
                         model.set('button', btn);

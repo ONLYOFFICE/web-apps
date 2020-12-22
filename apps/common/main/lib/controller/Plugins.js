@@ -246,7 +246,7 @@ define([
                 if (!btn) return;
 
                 var _group = $('> .group', me.$toolbarPanelPlugins);
-                var $slot = $('<span class="slot"></span>').appendTo(_group);
+                var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                 btn.render($slot);
             }
         },
@@ -271,7 +271,7 @@ define([
 
                     var btn = me.panelPlugins.createPluginButton(model);
                     if (btn) {
-                        var $slot = $('<span class="slot"></span>').appendTo(_group);
+                        var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
                         rank_plugins++;
                     }
