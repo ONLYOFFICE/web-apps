@@ -50,17 +50,17 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-top"></span>
-                        <span class="btn-slot split" id="slot-btn-middle"></span>
-                        <span class="btn-slot split" id="slot-btn-bottom"></span>
-                        <span class="btn-slot split" id="slot-btn-wrap"></span>
+                        <span class="btn-slot split-small" id="slot-btn-top"></span>
+                        <span class="btn-slot split-small" id="slot-btn-middle"></span>
+                        <span class="btn-slot split-small" id="slot-btn-bottom"></span>
+                        <span class="btn-slot split-small" id="slot-btn-wrap"></span>
                         <span class="btn-slot split" id="slot-btn-text-orient"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-align-left"></span>
-                        <span class="btn-slot split" id="slot-btn-align-center"></span>
-                        <span class="btn-slot split" id="slot-btn-align-right"></span>
-                        <span class="btn-slot split" id="slot-btn-align-just"></span>
+                        <span class="btn-slot split-small" id="slot-btn-align-left"></span>
+                        <span class="btn-slot split-small" id="slot-btn-align-center"></span>
+                        <span class="btn-slot split-small" id="slot-btn-align-right"></span>
+                        <span class="btn-slot split-small" id="slot-btn-align-just"></span>
                         <span class="btn-slot split" id="slot-btn-merge"></span>
                     </div>
                 </div>
