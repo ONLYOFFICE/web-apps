@@ -11,8 +11,7 @@ class EditSlideController extends Component {
     }
     render () {
         return (
-            <EditSlide
-            />
+            <EditSlide />
         )
     }
 }

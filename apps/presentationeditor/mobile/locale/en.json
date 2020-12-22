@@ -81,7 +81,12 @@
       "textShape": "Shape",
       "textImage": "Image",
       "textChart": "Chart",
-      "textHyperlink": "Hyperlink"
+      "textHyperlink": "Hyperlink",
+      "textTheme": "Theme",
+      "textStyle": "Style",
+      "textLayout": "Layout",
+      "textTransition": "Transition",
+      "textBack": "Back"
     }
   }
 }

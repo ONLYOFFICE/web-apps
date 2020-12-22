@@ -4,7 +4,7 @@ import { inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeLayout")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -194,6 +194,17 @@ class MainController extends Component {
         const storeFocusObjects = this.props.storeFocusObjects;
         this.api.asc_registerCallback('asc_onFocusObject', objects => {
             storeFocusObjects.resetFocusObjects(objects);
+        });
+
+        this.api.asc_registerCallback('asc_onUpdateThemeIndex',  themeId => {
+            console.log(themeId);
+        });
+
+        const storeLayout = this.props.storeLayout;
+
+        this.api.asc_registerCallback('asc_onUpdateLayout', (layouts) => {
+            console.log(layouts);
+            storeLayout.addArrayLayouts(layouts);
         });
     }
 

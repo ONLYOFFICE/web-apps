@@ -7,6 +7,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
+import LayoutController from "../../controller/edit/Layout";
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -14,7 +15,10 @@ import EditTextController from "../../controller/edit/EditText";
 //import EditLinkController from "../../controller/edit/EditLink";
 
 const routes = [
-
+    {
+        path: '/layout/',
+        component: LayoutController
+    }
 ];
 
 const EmptyEditLayout = () => {
@@ -73,6 +77,7 @@ const EditTabs = props => {
     const _t = t('View.Edit', {returnObjects: true});
 
     const settings = props.storeFocusObjects.settings;
+    
     let editors = [];
     if (settings.length < 1) {
         editors.push({
