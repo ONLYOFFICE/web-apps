@@ -630,7 +630,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         textEndTime: 'End Time',
         textFormula: 'Formula',
         textIgnore: 'Ignore blank',
-        textApply: 'Apply these changes to all othes calls the same settings',
+        textApply: 'Apply these changes to all other cells with the same settings',
         textShowDropDown: 'Show drop-down list in cell',
         textCellSelected: 'When cell is selected, show this input message',
         textTitle: 'Title',

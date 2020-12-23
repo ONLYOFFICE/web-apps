@@ -1552,7 +1552,7 @@
   "SSE.Views.DataValidationDialog.strSettings": "Settings",
   "SSE.Views.DataValidationDialog.textAlert": "Alert",
   "SSE.Views.DataValidationDialog.textAllow": "Allow",
-  "SSE.Views.DataValidationDialog.textApply": "Apply these changes to all othes calls the same settings",
+  "SSE.Views.DataValidationDialog.textApply": "Apply these changes to all other cells with the same settings",
   "SSE.Views.DataValidationDialog.textCellSelected": "When cell is selected, show this input message",
   "SSE.Views.DataValidationDialog.textCompare": "Compare to",
   "SSE.Views.DataValidationDialog.textData": "Data",
