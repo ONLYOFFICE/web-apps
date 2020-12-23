@@ -63,7 +63,7 @@
         .loadmask > .sktoolbar {
             background: #f1f1f1;
             height: 46px;
-            padding: 10px 12px;
+            padding: 10px 6px;
             box-sizing: content-box;
         }
 
@@ -85,7 +85,7 @@
 
         .loadmask > .sktoolbar li.space {
             background: none;
-            width: 12px;
+            width: 0;
         }
 
         .loadmask > .sktoolbar li.fat {
@@ -93,7 +93,7 @@
             right: 0;
             top: 0;
             bottom: 0;
-            left: 905px;
+            left: 763px;
             width: inherit;
             height: 44px;
         }
@@ -256,11 +256,11 @@
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel"><div>
             <div class="loading-logo"><img src="../../../apps/spreadsheeteditor/main/resources/img/header/header-logo@2x.png"></div>
-            <div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
+            <div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar">
-            <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/><li class="fat"/></ul>
-            <ul><li/><li class="space"/><li style="width: 240px;"/><li class="space"/><li style="width: 160px;"/><li class="space"/><li style="width: 390px;"/></ul>
+            <ul><li/><li class="space"/><li style="width: 219px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li style="width: 340px;"/><li class="fat"/></ul>
+            <ul><li/><li class="space"/><li style="width: 219px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li style="width: 340px;"/></ul>
         </div>
         <div class="skformula">
             <ul><li/><li/></ul>
