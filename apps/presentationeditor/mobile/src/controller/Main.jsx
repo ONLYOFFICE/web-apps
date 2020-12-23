@@ -192,18 +192,28 @@ class MainController extends Component {
         // me.api.asc_registerCallback('asc_onMeta',                       _.bind(me.onMeta, me));
 
         const storeFocusObjects = this.props.storeFocusObjects;
-        this.api.asc_registerCallback('asc_onFocusObject', objects => {
-            storeFocusObjects.resetFocusObjects(objects);
-        });
-
-        this.api.asc_registerCallback('asc_onUpdateThemeIndex',  themeId => {
-            console.log(themeId);
-        });
-
         const storeLayout = this.props.storeLayout;
 
+        this.api.asc_registerCallback('asc_onFocusObject', objects => {
+
+            console.log(objects);
+            storeFocusObjects.resetFocusObjects(objects);
+
+            const settings = storeFocusObjects.settings;
+            console.log(settings);
+
+            if(settings[0] === "slide") {
+                const slideObject = objects[0].get_ObjectValue();
+                storeLayout.changeSlideLayoutIndex(slideObject.get_LayoutIndex());
+            }
+        });
+
+        // this.api.asc_registerCallback('asc_onUpdateThemeIndex',  themeId => {
+        //     console.log(themeId);
+        // });
+
         this.api.asc_registerCallback('asc_onUpdateLayout', (layouts) => {
-            console.log(layouts);
+            // console.log(layouts);
             storeLayout.addArrayLayouts(layouts);
         });
     }

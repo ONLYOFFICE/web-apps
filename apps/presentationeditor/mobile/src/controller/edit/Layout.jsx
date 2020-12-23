@@ -6,9 +6,20 @@ class LayoutController extends Component {
         super(props);
     }
 
+    onLayoutClick(index) {
+        const api = Common.EditorApi.get();
+        let props = new Asc.CAscSlideProps();
+        console.log(api);
+
+        props.LayoutIndex = index;
+        api.SetSlideProps(props);
+
+        console.log(props);
+    }
+
     render() {
         return (
-            <Layout />
+            <Layout onLayoutClick={this.onLayoutClick} />
         );
     }
 }
