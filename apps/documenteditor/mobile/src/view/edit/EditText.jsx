@@ -4,6 +4,8 @@ import {List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle} 
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
+import ThemeColorPalette from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+
 const PageFonts = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -208,6 +210,37 @@ const PageLineSpacing = props => {
     )
 };
 
+const PageFontColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const [stateColor, setColor] = useState();
+    const changeCurColor = (color) => {
+        setColor(color);
+    };
+    const onAddCustomColor = () => {
+        console.log('add custom color');
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textFontColors} backLink={_t.textBack} />
+            <List>
+                <ListItem className={'font-color-auto' + (stateColor === 'auto' ? ' active' : '')} title={_t.textAutomatic} onClick={() => {
+                    props.onTextColorAuto();
+                    setColor('auto');
+                }}>
+                    <div slot="media">
+                        <div className={'color-auto'}></div>
+                    </div>
+                </ListItem>
+            </List>
+            <ThemeColorPalette changeCurColor={changeCurColor} curColor={stateColor}/>
+            <List>
+                <ListItem title={_t.textAddCustomColor} onClick={() => {onAddCustomColor()}}></ListItem>
+            </List>
+        </Page>
+    )
+};
+
 const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -235,7 +268,9 @@ const EditText = props => {
                         <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
                     </Row>
                 </ListItem>
-                <ListItem title={t("Edit.textFontColor")} link="#">
+                <ListItem title={t("Edit.textFontColor")} link="/edit-text-font-color/" routeProps={{
+                    onTextColorAuto: props.onTextColorAuto
+                }}>
                     {!isAndroid && <Icon slot="media" icon="icon-text-color"></Icon>}
                     <span className="color-preview"></span>
                 </ListItem>
@@ -305,9 +340,12 @@ const PageBulletsContainer = inject("storeTextSettings")(observer(PageBullets));
 const PageNumbersContainer = inject("storeTextSettings")(observer(PageNumbers));
 const PageLineSpacingContainer = inject("storeTextSettings")(observer(PageLineSpacing));
 
-export {EditTextContainer as EditText,
-        PageFontsContainer as PageFonts,
-        PageAddFormattingContainer as PageAdditionalFormatting,
-        PageBulletsContainer as PageBullets,
-        PageNumbersContainer as PageNumbers,
-        PageLineSpacingContainer as PageLineSpacing};
+export {
+    EditTextContainer as EditText,
+    PageFontsContainer as PageFonts,
+    PageAddFormattingContainer as PageAdditionalFormatting,
+    PageBulletsContainer as PageBullets,
+    PageNumbersContainer as PageNumbers,
+    PageLineSpacingContainer as PageLineSpacing,
+    PageFontColor
+};

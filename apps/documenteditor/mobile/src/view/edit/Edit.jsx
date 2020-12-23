@@ -14,7 +14,7 @@ import EditChartController from "../../controller/edit/EditChart";
 import EditHyperlinkController from "../../controller/edit/EditHyperlink";
 import EditHeaderController from "../../controller/edit/EditHeader";
 
-import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers} from "./EditText";
+import {PageAdditionalFormatting, PageBullets, PageFonts, PageLineSpacing, PageNumbers, PageFontColor} from "./EditText";
 import {PageAdvancedSettings} from "./EditParagraph";
 import {PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
@@ -42,6 +42,10 @@ const routes = [
     {
         path: '/edit-text-line-spacing/',
         component: PageLineSpacing,
+    },
+    {
+        path: '/edit-text-font-color/',
+        component: PageFontColor,
     },
     //Edit paragraph
     {
