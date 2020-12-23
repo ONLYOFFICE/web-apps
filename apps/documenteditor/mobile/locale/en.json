@@ -1,4 +1,11 @@
 {
+  "Common": {
+    "ThemeColorPalette": {
+      "textThemeColors": "Theme Colors",
+      "textStandartColors": "Standart Colors",
+      "textCustomColors": "Custom Colors"
+    }
+  },
   "Settings": {
     "textCancel": "Cancel",
     "textSettings": "Settings",
@@ -164,7 +171,10 @@
     "textDifferentOddAndEvenPages": "Different odd and even pages",
     "textLinkToPrevious": "Link to Previous",
     "textContinueFromPreviousSection": "Continue from previous section",
-    "textStartAt": "Start at"
+    "textStartAt": "Start at",
+    "textFontColors": "Font Colors",
+    "textAutomatic": "Automatic",
+    "textAddCustomColor": "Add Custom Color"
   },
   "Add": {
     "textTable": "Table",
