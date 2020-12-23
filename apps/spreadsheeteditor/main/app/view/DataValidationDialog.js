@@ -170,9 +170,10 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
 
             this.chApply = new Common.UI.CheckBox({
                 el: $window.find('#data-validation-ch-apply'),
-                labelText: this.textApply
+                labelText: this.textApply,
+                disabled: true
             });
-            // this.chApply.on('change', _.bind(this.onApplyChange, this));
+            this.chApply.on('change', _.bind(this.onApplyChange, this));
 
             // input message
             this.chShowInput = new Common.UI.CheckBox({
@@ -400,6 +401,12 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             }
         },
 
+        onApplyChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api && !this._noApply) {
+                this.api.asc_setDataValidation(this.getSettings(), field.getValue()=='checked');
+            }
+        },
+
         _setDefaults: function (props) {
             this._noApply = true;
             if (props) {
@@ -409,6 +416,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 this.chShowDropDown.setValue(!value, true);
                 value = props.asc_getType();
                 this.cmbAllow.setValue(value!==null ? value : Asc.c_oAscEDataValidationType.None, true);
+                this.chApply.setDisabled(value===Asc.c_oAscEDataValidationType.None);
                 value = props.asc_getOperator();
                 this.cmbData.setValue(value!==null ? value : Asc.EDataValidationOperator.Between, true);
                 this.inputRangeMin.setValue(props.asc_getFormula1() ? props.asc_getFormula1().asc_getValue() || '' : '');
