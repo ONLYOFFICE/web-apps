@@ -1160,6 +1160,12 @@ define([
                     reviewController    = application.getController('Common.Controllers.ReviewChanges');
                 reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.appOptions.spreadsheet});
 
+                var value = Common.localStorage.getItem('sse-settings-unit');
+                value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
+                (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
+                Common.Utils.Metric.setCurrentMetric(value);
+                Common.Utils.InternalSettings.set("sse-settings-unit", value);
+
                 if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit) { // set api events for toolbar in the Restricted Editing mode
                     var toolbarController   = application.getController('Toolbar');
                     toolbarController   && toolbarController.setApi(me.api);
@@ -1189,12 +1195,6 @@ define([
                     rightmenuController.getView('RightMenu').setMode(me.appOptions).setApi(me.api);
 
                     this.toolbarView = toolbarController.getView('Toolbar');
-
-                    var value = Common.localStorage.getItem('sse-settings-unit');
-                    value = (value!==null) ? parseInt(value) : (me.appOptions.customization && me.appOptions.customization.unit ? Common.Utils.Metric.c_MetricUnits[me.appOptions.customization.unit.toLocaleLowerCase()] : Common.Utils.Metric.getDefaultMetric());
-                    (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
-                    Common.Utils.Metric.setCurrentMetric(value);
-                    Common.Utils.InternalSettings.set("sse-settings-unit", value);
 
                     if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                         var options = {};
@@ -2118,9 +2118,11 @@ define([
                 value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
                 Common.Utils.Metric.setCurrentMetric(value);
                 Common.Utils.InternalSettings.set("sse-settings-unit", value);
-                this.getApplication().getController('RightMenu').updateMetricUnit();
+                if (this.appOptions.isEdit) {
+                    this.getApplication().getController('RightMenu').updateMetricUnit();
+                    this.getApplication().getController('Toolbar').getView('Toolbar').updateMetricUnit();
+                }
                 this.getApplication().getController('Print').getView('MainSettingsPrint').updateMetricUnit();
-                this.getApplication().getController('Toolbar').getView('Toolbar').updateMetricUnit();
             },
 
             _compareActionStrong: function(obj1, obj2){
