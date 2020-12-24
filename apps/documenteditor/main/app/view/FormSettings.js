@@ -212,8 +212,8 @@ define([
                 value       : ''
             });
             this.lockedControls.push(this.txtNewValue);
-            this.txtNewValue.on('changed:after', this.onAddItem.bind(this));
             this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtNewValue._input.on('keydown', _.bind(this.onNewValueKeydown, this));
 
             this.list = new Common.UI.ListView({
                 el: $markup.findById('#form-list-list'),
@@ -454,6 +454,12 @@ define([
                 });
                 (this.type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.put_ComboBoxPr(specProps) : props.put_DropDownListPr(specProps);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
+            }
+        },
+
+        onNewValueKeydown: function(event) {
+            if (this.api && !this._noApply && event.keyCode == Common.UI.Keys.RETURN) {
+                this.onAddItem();
             }
         },
 
