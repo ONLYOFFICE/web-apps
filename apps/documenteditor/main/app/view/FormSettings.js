@@ -653,14 +653,20 @@ define([
                         this.labelFormName.text(this.textImage);
                     } else
                         data = this.api.asc_GetTextFormKeys();
-                    var arr = [];
-                    data.forEach(function(item) {
-                        arr.push({ displayValue: item,  value: item });
-                    });
-                    this.cmbKey.setData(arr);
+                    if (!this._state.arrKey || _.difference(this._state.arrKey, data).length>0) {
+                        var arr = [];
+                        data.forEach(function(item) {
+                            arr.push({ displayValue: item,  value: item });
+                        });
+                        this.cmbKey.setData(arr);
+                        this._state.arrKey=data;
+                    }
 
                     val = formPr.get_Key();
-                    this.cmbKey.setValue(val ? val : '');
+                    if (this._state.Key!==val) {
+                        this.cmbKey.setValue(val ? val : '');
+                        this._state.Key=val;
+                    }
 
                     if (val) {
                         val = this.api.asc_GetFormsCountByKey(val);
@@ -678,12 +684,20 @@ define([
                         val = specProps.get_GroupKey();
                         var ischeckbox = (typeof val !== 'string');
                         if (!ischeckbox) {
-                            var arr = [];
-                            this.api.asc_GetRadioButtonGroupKeys().forEach(function(item) {
-                                arr.push({ displayValue: item,  value: item });
-                            });
-                            this.cmbGroupKey.setData(arr);
-                            this.cmbGroupKey.setValue(val ? val : '');
+                            data = this.api.asc_GetRadioButtonGroupKeys();
+                            if (!this._state.arrGroupKey || _.difference(this._state.arrGroupKey, data).length>0) {
+                                var arr = [];
+                                data.forEach(function(item) {
+                                    arr.push({ displayValue: item,  value: item });
+                                });
+                                this.cmbGroupKey.setData(arr);
+                                this._state.arrGroupKey=data;
+                            }
+
+                            if (this._state.groupKey!==val) {
+                                this.cmbGroupKey.setValue(val ? val : '');
+                                this._state.groupKey=val;
+                            }
                         }
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
@@ -719,7 +733,10 @@ define([
                     val = formTextPr.get_MaxCharacters();
                     this.chMaxChars.setValue(val && val>=0);
                     this.spnMaxChars.setDisabled(!val || val<0);
-                    this.spnMaxChars.setValue(val && val>=0 ? val : 10);
+                    if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
+                        this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
+                        this._state.MaxChars=val;
+                    }
 
                     var brd = formTextPr.get_CombBorder();
                     if (brd) {
