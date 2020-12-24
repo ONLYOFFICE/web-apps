@@ -2861,9 +2861,6 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
-
-            updateColors(this.toolbar.mnuControlsColorPicker, 1);
-            this.onChangeSdtGlobalSettings();
         },
 
         _onInitEditorStyles: function(styles) {

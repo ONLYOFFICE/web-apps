@@ -207,12 +207,17 @@ define([
                                     checkable: true
                                 }),
                                 {caption: '--'},
-                                {template: _.template('<div id="id-toolbar-menu-form-color" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-form-color" style="width: 169px; height: 94px; margin: 10px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-form-color" style="padding-left:12px;">' + me.textNewColor + '</a>')}
                             ]
                         }));
                         me.mnuFormsColorPicker = new Common.UI.ThemeColorPalette({
-                            el: $('#id-toolbar-menu-form-color')
+                            el: $('#id-toolbar-menu-form-color'),
+                            colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                                '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                                '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                                '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', '99CCFF', 'CC99FF', 'FFFFFF'
+                            ]
                         });
                         var colorVal = $('<div class="btn-color-value-line"></div>');
                         $('button:first-child', me.btnHighlight.cmpEl).append(colorVal);
