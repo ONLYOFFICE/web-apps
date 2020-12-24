@@ -86,7 +86,13 @@
       "textStyle": "Style",
       "textLayout": "Layout",
       "textTransition": "Transition",
-      "textBack": "Back"
+      "textBack": "Back",
+      "textEffect": "Effect",
+      "textType": "Type",
+      "textDuration": "Duration",
+      "textStartOnClick": "Start On Click",
+      "textDelay": "Delay",
+      "textApplyAll": "Apply to All Slides"
     }
   }
 }

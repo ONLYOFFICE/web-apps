@@ -12,10 +12,7 @@ const PageLayout = props => {
    
     console.log(slideLayoutIndex);
     console.log(arrayLayouts);
-    console.log(store);
-
-    
-
+   
     return (
         <Page className="slide-layout">
             <Navbar title={_t.textLayout} backLink={_t.textBack}>

@@ -8,6 +8,8 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
 import LayoutController from "../../controller/edit/Layout";
+import TransitionController from '../../controller/edit/Transition';
+import ThemeController from '../../controller/edit/Theme';
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -18,6 +20,14 @@ const routes = [
     {
         path: '/layout/',
         component: LayoutController
+    },
+    {
+        path: '/theme/',
+        component: ThemeController
+    },
+    {
+        path: '/transition/',
+        component: TransitionController
     }
 ];
 

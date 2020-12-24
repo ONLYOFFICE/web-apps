@@ -4,7 +4,7 @@ import { inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeLayout")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeLayout", "storeTheme")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -195,7 +195,6 @@ class MainController extends Component {
         const storeLayout = this.props.storeLayout;
 
         this.api.asc_registerCallback('asc_onFocusObject', objects => {
-
             console.log(objects);
             storeFocusObjects.resetFocusObjects(objects);
 
@@ -208,14 +207,23 @@ class MainController extends Component {
             }
         });
 
-        // this.api.asc_registerCallback('asc_onUpdateThemeIndex',  themeId => {
-        //     console.log(themeId);
-        // });
+        const storeTheme = this.props.storeTheme;
 
-        this.api.asc_registerCallback('asc_onUpdateLayout', (layouts) => {
+        this.api.asc_registerCallback('asc_onInitEditorStyles', themes => {
+            // console.log(themes);
+            storeTheme.addArrayThemes(themes);
+        });
+
+        this.api.asc_registerCallback('asc_onUpdateThemeIndex',  themeId => {
+            // console.log(themeId);
+            storeTheme.changeSlideThemeIndex(themeId);
+        });
+
+        this.api.asc_registerCallback('asc_onUpdateLayout', layouts => {
             // console.log(layouts);
             storeLayout.addArrayLayouts(layouts);
         });
+
     }
 
     _onDocumentContentReady() {
