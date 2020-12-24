@@ -341,22 +341,24 @@ define([
         },
 
         onPlaceholderChanged: function(input, newValue, oldValue, e) {
-            if (this.api && !this._noApply) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 props.put_PlaceholderText(newValue || '    ');
                 this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
         onHelpChanged: function(input, newValue, oldValue, e) {
-            if (this.api && !this._noApply) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 formPr.put_HelpText(newValue);
                 props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
