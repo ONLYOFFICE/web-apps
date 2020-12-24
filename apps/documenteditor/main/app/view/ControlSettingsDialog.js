@@ -137,7 +137,13 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     },
                     {caption: '--'}],
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: '000000',
+                colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                    '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                    '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                    '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', '99CCFF', 'CC99FF', 'FFFFFF'
+                ],
+                paletteHeight: 94
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
             this.colors = this.btnColor.getPicker();
@@ -381,10 +387,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.isSystemColor = false;
         },
 
-        updateThemeColors: function() {
-            this.colors.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-        },
-
         onSystemColor: function(e) {
             var color = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
             this.btnColor.setColor(color);
@@ -395,7 +397,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         },
 
         afterRender: function() {
-            this.updateThemeColors();
             this.updateMetricUnit();
             this._setDefaults(this.props);
             if (this.storageName) {

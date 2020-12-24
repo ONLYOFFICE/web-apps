@@ -61,7 +61,7 @@ define([
                 var me = this;
                 options.menu = me.getMenu(options);
                 me.on('render:after', function(btn) {
-                    me.getPicker(options.color);
+                    me.getPicker(options.color, options.colors);
                 });
             }
 
@@ -88,12 +88,13 @@ define([
             span.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
         },
 
-        getPicker: function(color) {
+        getPicker: function(color, colors) {
             if (!this.colorPicker) {
                 this.colorPicker = new Common.UI.ThemeColorPalette({
                     el: this.cmpEl.find('#' + this.menu.id + '-color-menu'),
                     transparent: this.options.transparent,
-                    value: color
+                    value: color,
+                    colors: colors
                 });
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
@@ -104,13 +105,14 @@ define([
         getMenu: function(options) {
             if (typeof this.menu !== 'object') {
                 options = options || this.options;
+                var height = options.paletteHeight || 216;
                 var id = Common.UI.getId(),
                     menu = new Common.UI.Menu({
                     id: id,
                     cls: 'shifted-left',
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItems ? options.additionalItems : []).concat([
-                        { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + 'px; margin: 10px;"></div>') },
                         { template: _.template('<a id="' + id + '-color-new" style="">' + this.textNewColor + '</a>') }
                     ])
                 });
@@ -122,7 +124,7 @@ define([
         setMenu: function (m) {
             m = m || this.getMenu();
             Common.UI.Button.prototype.setMenu.call(this, m);
-            this.getPicker(this.options.color);
+            this.getPicker(this.options.color, this.options.colors);
         },
 
         addNewColor: function() {

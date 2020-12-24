@@ -1661,6 +1661,7 @@
   "DE.Views.FormSettings.textConnected": "Fields connected",
   "DE.Views.FormSettings.textDelete": "Delete",
   "DE.Views.FormSettings.textDisconnect": "Disconnect",
+  "DE.Views.FormSettings.textNoBorder": "No border",
   "DE.Views.FormSettings.textDropDown": "Dropdown",
   "DE.Views.FormSettings.textField": "Text Field",
   "DE.Views.FormSettings.textFromFile": "From File",

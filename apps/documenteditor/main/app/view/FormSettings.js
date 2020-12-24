@@ -533,7 +533,7 @@ define([
 
         onColorPickerSelect: function(btn, color) {
             this.BorderColor = color;
-            this._state.BorderColor = this.BorderColor;
+            this._state.BorderColor = undefined;
 
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
@@ -548,6 +548,20 @@ define([
                     brd.put_Color(Common.Utils.ThemeColor.getRgbColor(color));
                     formTextPr.put_CombBorder(brd);
                 }
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onNoBorderClick: function(item) {
+            this.BorderColor = 'transparent';
+            this._state.BorderColor = undefined;
+
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_CombBorder();
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
@@ -721,7 +735,8 @@ define([
 
                         this.btnColor.setColor(this.BorderColor);
                         this.mnuColorPicker.clearSelection();
-                        this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
+                        this.mnuNoBorder.setChecked(this.BorderColor == 'transparent', true);
+                        (this.BorderColor != 'transparent') && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
                         this._state.BorderColor = this.BorderColor;
                     }
                 }
@@ -754,18 +769,27 @@ define([
             if (!this.btnColor) {
                 this.btnColor = new Common.UI.ColorButton({
                     parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
-                    transparent: true,
-                    menu        : true
+                    additionalItems: [
+                        this.mnuNoBorder = new Common.UI.MenuItem({
+                            style: 'padding-left:20px;',
+                            caption: this.textNoBorder,
+                            toggleGroup: 'form-settings-no-border',
+                            checkable: true
+                        }), {caption: '--'}],
+                    menu        : true,
+                    colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                        '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                        '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                        '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', '99CCFF', 'CC99FF', 'FFFFFF'
+                    ],
+                    paletteHeight: 94
                 });
                 this.lockedControls.push(this.btnColor);
+                this.mnuNoBorder.on('click', _.bind(this.onNoBorderClick, this));
                 this.btnColor.on('color:select', this.onColorPickerSelect.bind(this));
                 this.btnColor.setMenu();
                 this.mnuColorPicker = this.btnColor.getPicker();
             }
-
-            this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.mnuColorPicker.clearSelection();
-            this.BorderColor && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
         },
         
         onHideMenus: function(menu, e, isFromInputControl){
@@ -863,7 +887,8 @@ define([
         textFromStorage: 'From Storage',
         textColor: 'Border color',
         textConnected: 'Fields connected',
-        textDisconnect: 'Disconnect'
+        textDisconnect: 'Disconnect',
+        textNoBorder: 'No border'
 
     }, DE.Views.FormSettings || {}));
 });
