@@ -411,6 +411,7 @@ define([
                 }
                 !suppressEvent && this.initReviewingSettingsView();
                 DE.getController('Toolbar').setDisplayMode(displayMode);
+                DE.getController('DocumentHolder').setDisplayMode(displayMode);
             },
 
 
