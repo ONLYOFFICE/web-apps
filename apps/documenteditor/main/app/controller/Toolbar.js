@@ -1015,13 +1015,13 @@ define([
 
         onChangeSdtGlobalSettings: function() {
             var show = this.api.asc_GetGlobalContentControlShowHighlight();
-            this.toolbar.mnuNoControlsColor.setChecked(!show, true);
-            this.toolbar.mnuControlsColorPicker.clearSelection();
+            this.toolbar.mnuNoControlsColor && this.toolbar.mnuNoControlsColor.setChecked(!show, true);
+            this.toolbar.mnuControlsColorPicker && this.toolbar.mnuControlsColorPicker.clearSelection();
             if (show){
                 var clr = this.api.asc_GetGlobalContentControlHighlightColor();
                 if (clr) {
                     clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
-                    this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
+                    this.toolbar.mnuControlsColorPicker && this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
                 }
             }
         },
@@ -3101,6 +3101,7 @@ define([
                     me.toolbar.addTab(tab, $panel, 4);
                     me.toolbar.setVisible('forms', true);
                     Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                    me.onChangeSdtGlobalSettings();
                 }
             }
         },
