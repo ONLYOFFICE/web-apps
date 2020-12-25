@@ -86,13 +86,8 @@
 :root {
     --bgX: 0px;
 
-    @button-big-icon-width: 28px;
-    @button-big-icon-offset: -@button-big-icon-width;
-    --button-big-icon-width: @button-big-icon-width;
-
     &.theme-dark {
         --bgX: -20px;
-        --button-big-theme-icon-offset: @button-big-icon-offset;
     }
 }
 
@@ -119,19 +114,17 @@
     }
 }
 
-.mx-button-otherstates-icon2(@icon-size) {
+.mx-button-otherstates-icon2(@offset) {
     &.active, &:active{
         &:not(:disabled):not(.disabled) {
             .icon {
-                @btn-active-icon-offset: -1 * @icon-size;
-                background-position-x: @btn-active-icon-offset;
-                --bgX: @btn-active-icon-offset;
+                background-position-x: @offset;
             }
         }
     }
 
-    &.active   svg.icon,
-    &:active   svg.icon {fill:#fff;}
+    //&.active   svg.icon,
+    //&:active   svg.icon {fill:#fff;}
 }
 
 .button-otherstates-icon2(@icon-class, @icon-size) {

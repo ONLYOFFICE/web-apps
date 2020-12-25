@@ -221,8 +221,8 @@
             only screen and (-webkit-min-device-pixel-ratio: 1.5),
             only screen and (min-resolution: 1.5dppx),
             only screen and (min-resolution: 144dpi) {
-                width:calc(~"40px/1.5");
-                height:calc(~"40px/1.5");
+                //width:calc(~"40px/1.5");
+                //height:calc(~"40px/1.5");
             }
         }
 
@@ -273,11 +273,11 @@
 .icon-top {
     &.x-huge  {
         .btn&, .btn-group& .btn-toolbar {
-            .mx-button-otherstates-icon2(@x-huge-btn-icon-size);
+            .mx-button-otherstates-icon2(@button-big-active-icon-offset-x);
         }
 
         .btn.small {
-            .mx-button-otherstates-icon2(20px);
+            .mx-button-otherstates-icon2(@button-small-active-icon-offset-x);
         }
     }
 }
