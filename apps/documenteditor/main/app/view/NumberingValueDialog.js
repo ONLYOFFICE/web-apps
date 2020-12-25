@@ -248,6 +248,7 @@ define([
                 }
 
                 result += val;
+                prev = Math.abs(val);
             }
 
             return result;

@@ -110,7 +110,16 @@ define([
                         'Y Axis': this.txtYAxis,
                         'Your text here': this.txtArt,
                         'Header': this.txtHeader,
-                        'Footer': this.txtFooter
+                        'Footer': this.txtFooter,
+                        "above": this.txtAbove,
+                        "below": this.txtBelow,
+                        "on page ": this.txtOnPage + " ",
+                        " -Section ": " " + this.txtSection + " ",
+                        "First Page ": this.txtFirstPage + " ",
+                        "Even Page ": this.txtEvenPage + " ",
+                        "Odd Page ": this.txtOddPage + " ",
+                        "Same as Previous": this.txtSameAsPrev,
+                        "Current Document": this.txtCurrentDocument
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -1598,7 +1607,16 @@ define([
             errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
-            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.'
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+            txtAbove: "above",
+            txtBelow: "below",
+            txtOnPage: "on page",
+            txtSection: "-Section",
+            txtFirstPage: "First Page",
+            txtEvenPage: "Even Page",
+            txtOddPage: "Odd Page",
+            txtSameAsPrev: "Same as Previous",
+            txtCurrentDocument: "Current Document"
         }
     })(), DE.Controllers.Main || {}))
 });

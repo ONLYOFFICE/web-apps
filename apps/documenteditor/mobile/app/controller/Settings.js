@@ -346,8 +346,8 @@ define([
                 me.localSectionProps = me.api.asc_GetSectionProps();
 
                 if (me.localSectionProps) {
-                    me.maxMarginsH = me.localSectionProps.get_H() - 26;
-                    me.maxMarginsW = me.localSectionProps.get_W() - 127;
+                    me.maxMarginsH = me.localSectionProps.get_H() - 2.6;
+                    me.maxMarginsW = me.localSectionProps.get_W() - 12.7;
 
                     var top = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_TopMargin()).toFixed(2)),
                         bottom = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_BottomMargin()).toFixed(2)),
