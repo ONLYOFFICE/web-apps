@@ -212,8 +212,8 @@ define([
                 value       : ''
             });
             this.lockedControls.push(this.txtNewValue);
-            this.txtNewValue.on('changed:after', this.onAddItem.bind(this));
             this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtNewValue._input.on('keydown', _.bind(this.onNewValueKeydown, this));
 
             this.list = new Common.UI.ListView({
                 el: $markup.findById('#form-list-list'),
@@ -341,22 +341,24 @@ define([
         },
 
         onPlaceholderChanged: function(input, newValue, oldValue, e) {
-            if (this.api && !this._noApply) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 props.put_PlaceholderText(newValue || '    ');
                 this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
         onHelpChanged: function(input, newValue, oldValue, e) {
-            if (this.api && !this._noApply) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 formPr.put_HelpText(newValue);
                 props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
@@ -452,6 +454,12 @@ define([
                 });
                 (this.type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.put_ComboBoxPr(specProps) : props.put_DropDownListPr(specProps);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
+            }
+        },
+
+        onNewValueKeydown: function(event) {
+            if (this.api && !this._noApply && event.keyCode == Common.UI.Keys.RETURN) {
+                this.onAddItem();
             }
         },
 
@@ -645,14 +653,20 @@ define([
                         this.labelFormName.text(this.textImage);
                     } else
                         data = this.api.asc_GetTextFormKeys();
-                    var arr = [];
-                    data.forEach(function(item) {
-                        arr.push({ displayValue: item,  value: item });
-                    });
-                    this.cmbKey.setData(arr);
+                    if (!this._state.arrKey || _.difference(this._state.arrKey, data).length>0) {
+                        var arr = [];
+                        data.forEach(function(item) {
+                            arr.push({ displayValue: item,  value: item });
+                        });
+                        this.cmbKey.setData(arr);
+                        this._state.arrKey=data;
+                    }
 
                     val = formPr.get_Key();
-                    this.cmbKey.setValue(val ? val : '');
+                    if (this._state.Key!==val) {
+                        this.cmbKey.setValue(val ? val : '');
+                        this._state.Key=val;
+                    }
 
                     if (val) {
                         val = this.api.asc_GetFormsCountByKey(val);
@@ -670,12 +684,20 @@ define([
                         val = specProps.get_GroupKey();
                         var ischeckbox = (typeof val !== 'string');
                         if (!ischeckbox) {
-                            var arr = [];
-                            this.api.asc_GetRadioButtonGroupKeys().forEach(function(item) {
-                                arr.push({ displayValue: item,  value: item });
-                            });
-                            this.cmbGroupKey.setData(arr);
-                            this.cmbGroupKey.setValue(val ? val : '');
+                            data = this.api.asc_GetRadioButtonGroupKeys();
+                            if (!this._state.arrGroupKey || _.difference(this._state.arrGroupKey, data).length>0) {
+                                var arr = [];
+                                data.forEach(function(item) {
+                                    arr.push({ displayValue: item,  value: item });
+                                });
+                                this.cmbGroupKey.setData(arr);
+                                this._state.arrGroupKey=data;
+                            }
+
+                            if (this._state.groupKey!==val) {
+                                this.cmbGroupKey.setValue(val ? val : '');
+                                this._state.groupKey=val;
+                            }
                         }
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
@@ -711,7 +733,10 @@ define([
                     val = formTextPr.get_MaxCharacters();
                     this.chMaxChars.setValue(val && val>=0);
                     this.spnMaxChars.setDisabled(!val || val<0);
-                    this.spnMaxChars.setValue(val && val>=0 ? val : 10);
+                    if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
+                        this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
+                        this._state.MaxChars=val;
+                    }
 
                     var brd = formTextPr.get_CombBorder();
                     if (brd) {
