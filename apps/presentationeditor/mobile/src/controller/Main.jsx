@@ -4,7 +4,7 @@ import { inject } from "mobx-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeLayout", "storeTheme")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeLayout", "storeTheme", "storeTransition")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -193,6 +193,7 @@ class MainController extends Component {
 
         const storeFocusObjects = this.props.storeFocusObjects;
         const storeLayout = this.props.storeLayout;
+        const storeTransition = this.props.storeTransition;
 
         this.api.asc_registerCallback('asc_onFocusObject', objects => {
             console.log(objects);
@@ -204,6 +205,9 @@ class MainController extends Component {
             if(settings[0] === "slide") {
                 const slideObject = objects[0].get_ObjectValue();
                 storeLayout.changeSlideLayoutIndex(slideObject.get_LayoutIndex());
+                // const timing = slideObject.get_transition();
+                // console.log(timing);
+                storeTransition.addTransitionObj(slideObject.get_transition());
             }
         });
 

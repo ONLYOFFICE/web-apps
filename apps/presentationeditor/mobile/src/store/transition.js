@@ -2,15 +2,14 @@ import {action, observable} from 'mobx';
 
 export class storeTransition {
    
-    // @observable arrayLayouts;
-    // @observable slideLayoutIndex = -1;
-  
-    // @action addArrayLayouts(array) {
-    //     this.arrayLayouts = array;
-    // }
+    @observable isDelay = false;
+    @observable transitionObj = {};
 
-    // @action changeSlideLayoutIndex(index) {
-    //     this.slideLayoutIndex = index;
-    // }
+    @action toggleDelay() {
+        this.isDelay = !this.isDelay;
+    }
 
+    @action addTransitionObj(obj) {
+        this.transitionObj = obj;
+    }
 }
