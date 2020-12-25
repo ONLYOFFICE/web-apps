@@ -210,7 +210,7 @@ define([
             this.numDuration = new Common.UI.MetricSpinner({
                 el: $('#slide-spin-duration'),
                 step: 1,
-                width: 65,
+                width: 70,
                 value: '',
                 defaultUnit : this.textSec,
                 maxValue: 300,
