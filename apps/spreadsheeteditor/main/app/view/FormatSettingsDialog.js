@@ -247,6 +247,10 @@ define([
                 me.codesList.deselectAll();
                 me.Format = me.api.asc_convertNumFormatLocal2NumFormat(value);
                 me.lblExample.text(me.api.asc_getLocaleExample(me.Format));
+                if (!me._state.warning) {
+                    input.showWarning([me.txtCustomWarning]);
+                    me._state.warning = true;
+                }
             });
 
             this._decimalPanel      = this.$window.find('.format-decimal');
@@ -423,6 +427,8 @@ define([
             this.Format = record.get('format');
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.inputCustomFormat.setValue(record.get('value'));
+            this.inputCustomFormat.showWarning();
+            this._state.warning = false;
         },
 
         onFormatSelect: function(combo, record, e, initFormatInfo) {
@@ -565,7 +571,8 @@ define([
         txtAs10:  'As tenths (5/10)',
         txtAs100: 'As hundredths (50/100)',
         txtSample: 'Sample:',
-        txtNone: 'None'
+        txtNone: 'None',
+        txtCustomWarning: 'Custom format not validated'
 
     }, SSE.Views.FormatSettingsDialog || {}))
 });
