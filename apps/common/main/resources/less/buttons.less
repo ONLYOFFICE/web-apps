@@ -43,6 +43,7 @@
     &:focus {
         outline: 0;
         outline-offset: 0;
+        color: @text-normal;
     }
 
     &:hover {
@@ -557,7 +558,7 @@
         float: left;
         width: 100%;
         height: 100%;
-        border: 1px solid @border-control-focus;
+        border: 1px solid @border-color-shading;
         background-color: transparent;
     }
 
@@ -849,6 +850,7 @@
     &.primary {
         color: @text-inverse;
         background-color: @background-primary-dialog-button;
+        border: 0 none;
 
         &:hover:not(.disabled),
         &.hover:not(.disabled) {
