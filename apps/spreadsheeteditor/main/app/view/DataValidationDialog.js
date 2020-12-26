@@ -486,7 +486,9 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.cmbData.setDisabled(allow===Asc.c_oAscEDataValidationType.None || allow===Asc.c_oAscEDataValidationType.Custom || allow===Asc.c_oAscEDataValidationType.List);
 
             var str = this.textSource;
-            if (allow==Asc.c_oAscEDataValidationType.Custom)
+            if (allow==Asc.c_oAscEDataValidationType.List)
+                str = this.textSource;
+            else if (allow==Asc.c_oAscEDataValidationType.Custom)
                 str = this.textFormula;
             else if (data==Asc.EDataValidationOperator.Equal || data==Asc.EDataValidationOperator.NotEqual) { // equals, not equals
                 if (allow==Asc.c_oAscEDataValidationType.Date)
