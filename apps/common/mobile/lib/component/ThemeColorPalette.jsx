@@ -8,13 +8,13 @@ const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
         <div className='palette'>
             {themeColors.map((row, rowIndex) => {
                 return(
-                    <div className='row'>
+                    <div key={`tc-row-${rowIndex}`} className='row'>
                         {row.map((effect, index) => {
                             return(
-                                <a key={'tc-' + rowIndex + '-' + index}
+                                <a key={`tc-${rowIndex}-${index}`}
                                    className={curColor && curColor.color === effect.color && curColor.effectId === effect.effectId ? 'active' : ''}
                                    data-effectvalue={effect.effectValue}
-                                   style={{ background: '#' + effect.color}}
+                                   style={{ background: `#${effect.color}`}}
                                    onClick={() => {onColorClick(effect.color, effect.effectId)}}
                                 ></a>
                             )
@@ -31,16 +31,16 @@ const StandartColors = ({ options, standartColors, onColorClick, curColor }) => 
         <div className='palette'>
             {standartColors.map((color, index) => {
                 return(
-                index === 0 && options.transparent ?
-                    <a key={'sc-' + index}
-                       className={'transparent' + ('transparent' === curColor ? ' active' : '')}
-                       onClick={() => {onColorClick('transparent')}}
-                    ></a> :
-                    <a key={'sc-' + index}
-                       className={curColor && curColor === color ? ' active' : ''}
-                       style={{ background: '#' + color}}
-                       onClick={() => {onColorClick(color)}}
-                    ></a>
+                    index === 0 && options.transparent ?
+                        <a key={`sc-${index}`}
+                           className={`transparent ${'transparent' === curColor ? 'active' : ''}`}
+                           onClick={() => {onColorClick('transparent')}}
+                        ></a> :
+                        <a key={`sc-${index}`}
+                           className={curColor && curColor === color ? ' active' : ''}
+                           style={{ background: `#${color}` }}
+                           onClick={() => {onColorClick(color)}}
+                        ></a>
                 )
             })}
         </div>
@@ -52,9 +52,9 @@ const DynamicColors = ({ options, onColorClick, curColor }) => {
     const emptyItems = [];
     if (dynamicColors.length < options.dynamiccolors) {
         for (let i = dynamicColors.length; i < options.dynamiccolors; i++) {
-            emptyItems.push(<a key={'dc-empty' + i}
-                               style={{background: '#ffffff'}}
-                               onClick={() => {onColorClick('empty')}}
+            emptyItems.push(<a className='empty-color'
+                                key={`dc-empty${i}`}
+                                onClick={() => {onColorClick('empty')}}
             ></a>)
         }
     }
@@ -62,7 +62,7 @@ const DynamicColors = ({ options, onColorClick, curColor }) => {
         <div className='palette'>
             {dynamicColors && dynamicColors.length > 0 && dynamicColors.map((color, index) => {
                 return(
-                    <a key={'dc-' + index}
+                    <a key={`dc-${index}`}
                        className={curColor && curColor === color ? 'active' : ''}
                        style={{background: '#' + color}}
                        onClick={() => {onColorClick(color)}}
