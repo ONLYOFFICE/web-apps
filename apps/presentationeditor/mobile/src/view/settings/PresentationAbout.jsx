@@ -25,7 +25,7 @@ const PagePresentationAbout = props => {
             <Navbar title={_t.textAbout} backLink={_t.textBack} />
             <div className="content-block">
                 {licInfo && typeof licInfo == 'object' && typeof(customer)=='object' ? null : (
-                    <div className="logo"></div>
+                    <i className="logo"></i>
                 )}
                 {logoCustomer && logoCustomer.length ? (
                     <div id="settings-about-logo" className="settings-about-logo">
