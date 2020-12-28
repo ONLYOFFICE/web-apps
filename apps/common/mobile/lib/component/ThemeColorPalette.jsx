@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { ListItem, List } from 'framework7-react';
-import { f7 } from 'framework7-react';
+import React, { useState, useEffect } from 'react';
+import { f7, ListItem, List, Icon } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
 const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
@@ -8,12 +7,11 @@ const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
         <div className='palette'>
             {themeColors.map((row, rowIndex) => {
                 return(
-                    <div className='row'>
+                    <div className='row' key={'row-'+rowIndex}>
                         {row.map((effect, index) => {
                             return(
                                 <a key={'tc-' + rowIndex + '-' + index}
-                                   className={curColor && curColor.color === effect.color && curColor.effectId === effect.effectId ? 'active' : ''}
-                                   data-effectvalue={effect.effectValue}
+                                   className={curColor && curColor.color === effect.color && curColor.effectValue === effect.effectValue ? 'active' : ''}
                                    style={{ background: '#' + effect.color}}
                                    onClick={() => {onColorClick(effect.color, effect.effectId)}}
                                 ></a>
@@ -47,11 +45,11 @@ const StandartColors = ({ options, standartColors, onColorClick, curColor }) => 
     )
 };
 
-const DynamicColors = ({ options, onColorClick, curColor }) => {
-    const dynamicColors = [];//dynamiColors;
+const CustomColors = ({ options, customColors, onColorClick, curColor }) => {
+    const colors = customColors.length > 0 ? customColors : [];//dynamiColors;
     const emptyItems = [];
-    if (dynamicColors.length < options.dynamiccolors) {
-        for (let i = dynamicColors.length; i < options.dynamiccolors; i++) {
+    if (colors.length < options.customcolors) {
+        for (let i = colors.length; i < options.customcolors; i++) {
             emptyItems.push(<a key={'dc-empty' + i}
                                style={{background: '#ffffff'}}
                                onClick={() => {onColorClick('empty')}}
@@ -60,7 +58,7 @@ const DynamicColors = ({ options, onColorClick, curColor }) => {
     }
     return (
         <div className='palette'>
-            {dynamicColors && dynamicColors.length > 0 && dynamicColors.map((color, index) => {
+            {colors && colors.length > 0 && colors.map((color, index) => {
                 return(
                     <a key={'dc-' + index}
                        className={curColor && curColor === color ? 'active' : ''}
@@ -78,17 +76,17 @@ const ThemeColorPalette = props => {
     const {t} = useTranslation();
     const _t = t('Common.ThemeColorPalette', {returnObjects: true});
     const options = {
-        dynamiccolors: props.dynamiccolors || 10,
+        customcolors: props.customcolors || 10,
         standardcolors: props.standardcolors || 10,
         themecolors: props.themecolors || 10,
         effects: props.effects || 5,
-        allowReselect: props.allowReselect !== false,
+        //allowReselect: props.allowReselect !== false,
         transparent: props.transparent || false,
         value: props.value || '000000',
         cls: props.cls || ''
     };
     const curColor = props.curColor;
-    const changeCurColor = props.changeCurColor;
+    console.log(curColor);
     const themeColors = [];
     const effectColors = Common.Utils.ThemeColor.getEffectColors();
     let row = -1;
@@ -101,39 +99,76 @@ const ThemeColorPalette = props => {
     });
     const standartColors = Common.Utils.ThemeColor.getStandartColors();
     // custom color
-    //const dynamicColors = Common.localStorage.getItem('asc.'+Common.localStorage.getId()+'.colors.custom');
-    //dynamicColors = this.dynamicColors ? this.dynamicColors.toLowerCase().split(',') : [];
-
-    const onColorClick = ( color, effectId ) => {
-        if (color !== 'empty') {
-            if (effectId !==undefined ) {
-                changeCurColor({color: color, effectId: effectId});
-            } else {
-                changeCurColor(color);
-            }
-        } else {
-            // open custom color menu
-        }
-    };
+    let customColors = props.customColors;
+    if (customColors.length < 1) {
+        customColors = localStorage.getItem('mobile-custom-colors');
+        customColors = customColors ? customColors.toLowerCase().split(',') : [];
+    }
 
     return (
         <div className={'color-palettes' + (props.cls ? (' ' + props.cls) : '')}>
             <List>
                 <ListItem className='theme-colors'>
                     <div>{ _t.textThemeColors }</div>
-                    <ThemeColors themeColors={themeColors} onColorClick={onColorClick} curColor={curColor}/>
+                    <ThemeColors themeColors={themeColors} onColorClick={props.changeColor} curColor={curColor}/>
                 </ListItem>
                 <ListItem className='standart-colors'>
                     <div>{ _t.textStandartColors }</div>
-                    <StandartColors options={options} standartColors={standartColors} onColorClick={onColorClick} curColor={curColor}/>
+                    <StandartColors options={options} standartColors={standartColors} onColorClick={props.changeColor} curColor={curColor}/>
                 </ListItem>
                 <ListItem className='dynamic-colors'>
                     <div>{ _t.textCustomColors }</div>
-                    <DynamicColors options={options} onColorClick={onColorClick} curColor={curColor}/>
+                    <CustomColors options={options} customColors={customColors} onColorClick={props.changeColor} curColor={curColor}/>
                 </ListItem>
             </List>
         </div>
     )
 };
 
-export default ThemeColorPalette;
+const CustomColorPicker = props => {
+    let currentColor = props.currentColor;
+    if (currentColor === 'auto') {
+        currentColor = '000000';
+    }
+    const countDynamicColors = props.countdynamiccolors || 10;
+    const [stateColor, setColor] = useState('#' + currentColor);
+    useEffect(() => {
+        if (document.getElementsByClassName('color-picker-wheel').length < 1) {
+            const colorPicker = f7.colorPicker.create({
+                containerEl: document.getElementsByClassName('color-picker-container')[0],
+                value: {
+                    hex: '#' + currentColor
+                },
+                on: {
+                    change: function (value) {
+                        setColor(value.getValue().hex);
+                    }
+                }
+            });
+        }
+    });
+    const addNewColor = (color) => {
+        let colors = localStorage.getItem('mobile-custom-colors');
+        colors = colors ? colors.split(',') : [];
+        const newColor = color.slice(1);
+        if (colors.push(newColor) > countDynamicColors) colors.shift(); // 10 - dynamiccolors
+        localStorage.setItem('mobile-custom-colors', colors.join().toLowerCase());
+        props.onAddNewColor && props.onAddNewColor(colors, newColor);
+    };
+    return(
+        <div id='color-picker'>
+            <div className='color-picker-container'></div>
+            <div className='right-block'>
+                <div className='color-hsb-preview'>
+                    <div className='new-color-hsb-preview' style={{backgroundColor: stateColor}}></div>
+                    <div className='current-color-hsb-preview' style={{backgroundColor: '#' + currentColor}}></div>
+                </div>
+                <a href='#' id='add-new-color' className='button button-round' onClick={()=>{addNewColor(stateColor)}}>
+                    <Icon icon={'icon-plus'} slot="media" />
+                </a>
+            </div>
+        </div>
+    )
+};
+
+export { ThemeColorPalette, CustomColorPicker };
