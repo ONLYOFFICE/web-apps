@@ -207,7 +207,7 @@ class MainController extends Component {
                 storeLayout.changeSlideLayoutIndex(slideObject.get_LayoutIndex());
                 // const timing = slideObject.get_transition();
                 // console.log(timing);
-                storeTransition.addTransitionObj(slideObject.get_transition());
+                storeTransition.addTransition(slideObject.get_transition());
             }
         });
 

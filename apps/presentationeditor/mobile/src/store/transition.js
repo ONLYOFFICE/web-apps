@@ -2,14 +2,19 @@ import {action, observable} from 'mobx';
 
 export class storeTransition {
    
+    @observable transition = {};
     @observable isDelay = false;
-    @observable transitionObj = {};
+    @observable isStartOnClick = true;
 
     @action toggleDelay() {
         this.isDelay = !this.isDelay;
     }
 
-    @action addTransitionObj(obj) {
-        this.transitionObj = obj;
+    @action toggleStartOnClick() {
+        this.isStartOnClick = !this.isStartOnClick;
+    }
+
+    @action addTransition(obj) {
+        this.transition = obj;
     }
 }
