@@ -2,6 +2,7 @@
 // import {storeDocumentSettings} from './documentSettings';
 // import {storeFocusObjects} from "./focusObjects";
 import {storeUsers} from '../../../../common/mobile/lib/store/users';
+import {storeWorksheets} from './sheets';
 // import {storeTextSettings} from "./textSettings";
 // import {storeParagraphSettings} from "./paragraphSettings";
 // import {storeShapeSettings} from "./shapeSettings";
@@ -13,6 +14,7 @@ export const stores = {
     // storeFocusObjects: new storeFocusObjects(),
     // storeDocumentSettings: new storeDocumentSettings(),
     users: new storeUsers(),
+    sheets: new storeWorksheets()
     // storeTextSettings: new storeTextSettings(),
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
