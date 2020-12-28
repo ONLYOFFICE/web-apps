@@ -572,7 +572,7 @@ define([
         txtAs100: 'As hundredths (50/100)',
         txtSample: 'Sample:',
         txtNone: 'None',
-        txtCustomWarning: 'Custom format not validated'
+        txtCustomWarning: 'Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.'
 
     }, SSE.Views.FormatSettingsDialog || {}))
 });
