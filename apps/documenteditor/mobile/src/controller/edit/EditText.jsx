@@ -40,6 +40,11 @@ class EditTextController extends Component {
         api.put_TextColor(color);
     }
 
+    onTextColor(color) {
+        const api = Common.EditorApi.get();
+        api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
+    }
+
     toggleBold(value) {
         const api = Common.EditorApi.get();
         if (api) {
@@ -182,6 +187,7 @@ class EditTextController extends Component {
             <EditText changeFontSize={this.changeFontSize}
                       changeFontFamily={this.changeFontFamily}
                       onTextColorAuto={this.onTextColorAuto}
+                      onTextColor={this.onTextColor}
                       toggleBold={this.toggleBold}
                       toggleItalic={this.toggleItalic}
                       toggleUnderline={this.toggleUnderline}
