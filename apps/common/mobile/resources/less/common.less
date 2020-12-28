@@ -3,7 +3,7 @@
 @black: #000000;
 @gray: #c4c4c4;
 @green: #4cd964;
-
+@background-normal: @white;
 
 .popup, .popover, .sheet-modal {
     .list:first-child {
@@ -53,7 +53,7 @@
     }
     &.active {
         .color-auto {
-            box-shadow: 0 0 0 1px @white, 0 0 0 4px @themeColor;
+            box-shadow: 0 0 0 1px @background-normal, 0 0 0 4px @themeColor;
             border-radius: 1px;
         }
     }
@@ -74,7 +74,7 @@
                 position: absolute;
                 width: 100%;
                 height: 100%;
-                box-shadow: 0 0 0 1px @white, 0 0 0 4px @themeColor;
+                box-shadow: 0 0 0 1px @background-normal, 0 0 0 4px @themeColor;
                 z-index: 1;
                 border-radius: 1px;
             }
@@ -89,6 +89,12 @@
     .standart-colors, .dynamic-colors {
         .palette {
             display: flex;
+        }
+    }
+
+    .dynamic-colors {
+        .empty-color {
+            background-color: @background-normal;
         }
     }
 }
