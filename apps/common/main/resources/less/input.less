@@ -61,6 +61,18 @@
             display: block;
         }
     }
+
+    &.warning {
+        input:not([disabled]) + .input-error {
+            display: block;
+        }
+
+        .input-error {
+            &:before {
+                background-position: @input-warning-offset-x @input-warning-offset-y;
+            }
+        }
+    }
 }
 
 input:required:focus:invalid,
