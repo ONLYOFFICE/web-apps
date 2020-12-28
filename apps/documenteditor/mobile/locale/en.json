@@ -174,7 +174,8 @@
     "textStartAt": "Start at",
     "textFontColors": "Font Colors",
     "textAutomatic": "Automatic",
-    "textAddCustomColor": "Add Custom Color"
+    "textAddCustomColor": "Add Custom Color",
+    "textCustomColor": "Custom Color"
   },
   "Add": {
     "textTable": "Table",
