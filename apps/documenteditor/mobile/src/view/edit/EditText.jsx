@@ -218,6 +218,7 @@ const PageCustomFontColor = props => {
     if (typeof textColor === 'object') {
         textColor = textColor.color;
     }
+    const autoColor = textColor === 'auto' ? window.getComputedStyle(document.getElementById('font-color-auto')).backgroundColor : null;
     const onAddNewColor = (colors, color) => {
         props.storeTextSettings.changeCustomTextColors(colors);
         props.onTextColor(color);
@@ -226,7 +227,7 @@ const PageCustomFontColor = props => {
     return(
         <Page>
             <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
-            <CustomColorPicker currentColor={textColor} onAddNewColor={onAddNewColor}/>
+            <CustomColorPicker autoColor={autoColor} currentColor={textColor} onAddNewColor={onAddNewColor}/>
         </Page>
     )
 };
@@ -253,11 +254,11 @@ const PageFontColor = props => {
         <Page>
             <Navbar title={_t.textFontColors} backLink={_t.textBack} />
             <List>
-                <ListItem className={'font-color-auto' + (textColor === 'auto' ? ' active' : '')} title={_t.textAutomatic} onClick={() => {
+                <ListItem className={'item-color-auto' + (textColor === 'auto' ? ' active' : '')} title={_t.textAutomatic} onClick={() => {
                     props.onTextColorAuto();
                 }}>
                     <div slot="media">
-                        <div className={'color-auto'}></div>
+                        <div id='font-color-auto' className={'color-auto'}></div>
                     </div>
                 </ListItem>
             </List>
@@ -277,12 +278,18 @@ const EditText = props => {
     const storeTextSettings = props.storeTextSettings;
     const fontName = storeTextSettings.fontName || t('Edit.textFonts');
     const fontSize = storeTextSettings.fontSize;
+    const fontColor = storeTextSettings.textColor;
     const displaySize = typeof fontSize === 'undefined' ? t('Edit.textAuto') : fontSize + ' ' + t('Edit.textPt');
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
     const isUnderline = storeTextSettings.isUnderline;
     const isStrikethrough = storeTextSettings.isStrikethrough;
     const paragraphAlign = storeTextSettings.paragraphAlign;
+
+    const fontColorPreview = fontColor !== 'auto' ?
+        <span className="color-preview" style={{ background: `#${fontColor}`}}></span> :
+        <span className="color-preview auto"></span>;
+
     return (
         <Fragment>
             <List>
@@ -302,8 +309,10 @@ const EditText = props => {
                     onTextColorAuto: props.onTextColorAuto,
                     onTextColor: props.onTextColor
                 }}>
-                    {!isAndroid && <Icon slot="media" icon="icon-text-color"></Icon>}
-                    <span className="color-preview"></span>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-color">{fontColorPreview}</Icon> :
+                        fontColorPreview
+                    }
                 </ListItem>
                 <ListItem title={t("Edit.textHighlightColor")} link="#">
                     {!isAndroid && <Icon slot="media" icon="icon-text-selection"></Icon>}

@@ -62,7 +62,7 @@ const CustomColors = ({ options, customColors, onColorClick, curColor }) => {
                 return(
                     <a key={`dc-${index}`}
                        className={curColor && curColor === color ? 'active' : ''}
-                       style={{background: '#' + color}}
+                       style={{background: `#${color}`}}
                        onClick={() => {onColorClick(color)}}
                     ></a>
                 )
@@ -86,7 +86,6 @@ const ThemeColorPalette = props => {
         cls: props.cls || ''
     };
     const curColor = props.curColor;
-    console.log(curColor);
     const themeColors = [];
     const effectColors = Common.Utils.ThemeColor.getEffectColors();
     let row = -1;
@@ -126,18 +125,28 @@ const ThemeColorPalette = props => {
 };
 
 const CustomColorPicker = props => {
+    //Function to convert rgb color to hex format
+    const hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
+    const hex = x => {
+        return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+    };
+    const rgb2hex = rgb => {
+        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    };
+
     let currentColor = props.currentColor;
-    if (currentColor === 'auto') {
-        currentColor = '000000';
+    if (props.autoColor) {
+        currentColor = rgb2hex(props.autoColor);
     }
     const countDynamicColors = props.countdynamiccolors || 10;
-    const [stateColor, setColor] = useState('#' + currentColor);
+    const [stateColor, setColor] = useState(`#${currentColor}`);
     useEffect(() => {
         if (document.getElementsByClassName('color-picker-wheel').length < 1) {
             const colorPicker = f7.colorPicker.create({
                 containerEl: document.getElementsByClassName('color-picker-container')[0],
                 value: {
-                    hex: '#' + currentColor
+                    hex: `#${currentColor}`
                 },
                 on: {
                     change: function (value) {
@@ -161,7 +170,7 @@ const CustomColorPicker = props => {
             <div className='right-block'>
                 <div className='color-hsb-preview'>
                     <div className='new-color-hsb-preview' style={{backgroundColor: stateColor}}></div>
-                    <div className='current-color-hsb-preview' style={{backgroundColor: '#' + currentColor}}></div>
+                    <div className='current-color-hsb-preview' style={{backgroundColor: `#${currentColor}`}}></div>
                 </div>
                 <a href='#' id='add-new-color' className='button button-round' onClick={()=>{addNewColor(stateColor)}}>
                     <Icon icon={'icon-plus'} slot="media" />
