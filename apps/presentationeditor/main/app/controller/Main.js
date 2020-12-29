@@ -304,11 +304,19 @@ define([
             loadConfig: function(data) {
                 this.editorConfig = $.extend(this.editorConfig, data.config);
 
-                var value = Common.localStorage.getItem("guest-username");
-                Common.Utils.InternalSettings.set("guest-username", value);
-                Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                this.appOptions.customization   = this.editorConfig.customization;
+                this.appOptions.canRenameAnonymous = !((typeof (this.appOptions.customization) == 'object') && (typeof (this.appOptions.customization.anonymous) == 'object') && (this.appOptions.customization.anonymous.request===false));
+                this.appOptions.guestName = (typeof (this.appOptions.customization) == 'object') && (typeof (this.appOptions.customization.anonymous) == 'object') &&
+                                            (typeof (this.appOptions.customization.anonymous.label) == 'string') && this.appOptions.customization.anonymous.label.trim()!=='' ?
+                                            Common.Utils.String.htmlEncode(this.appOptions.customization.anonymous.label) : this.textGuest;
+                var value;
+                if (this.appOptions.canRenameAnonymous) {
+                    value = Common.localStorage.getItem("guest-username");
+                    Common.Utils.InternalSettings.set("guest-username", value);
+                    Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                }
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.textGuest + ')' ) : this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -323,7 +331,6 @@ define([
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
-                this.appOptions.customization   = this.editorConfig.customization;
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
                                                   && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
                 this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
@@ -336,7 +343,7 @@ define([
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
-                this.appOptions.user.guest && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
+                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
@@ -847,7 +854,7 @@ define([
                 Common.Gateway.documentReady();
 
                 $('.doc-placeholder').remove();
-                this.appOptions.user.guest && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
+                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
             },
 
             onLicenseChanged: function(params) {
@@ -1821,7 +1828,7 @@ define([
             },
 
             onUserConnection: function(change){
-                if (change && this.appOptions.user.guest && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
                     var name = change.asc_getUserName();
                     if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
                         Common.Utils.UserInfoParser.setCurrentName(name);

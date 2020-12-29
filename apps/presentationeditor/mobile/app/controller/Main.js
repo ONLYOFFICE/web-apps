@@ -201,11 +201,19 @@ define([
 
                 me.editorConfig = $.extend(me.editorConfig, data.config);
 
-                var value = Common.localStorage.getItem("guest-username");
-                Common.Utils.InternalSettings.set("guest-username", value);
-                Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                me.appOptions.customization = me.editorConfig.customization;
+                me.appOptions.canRenameAnonymous = !((typeof (me.appOptions.customization) == 'object') && (typeof (me.appOptions.customization.anonymous) == 'object') && (me.appOptions.customization.anonymous.request===false));
+                me.appOptions.guestName = (typeof (me.appOptions.customization) == 'object') && (typeof (me.appOptions.customization.anonymous) == 'object') &&
+                (typeof (me.appOptions.customization.anonymous.label) == 'string') && me.appOptions.customization.anonymous.label.trim()!=='' ?
+                    Common.Utils.String.htmlEncode(me.appOptions.customization.anonymous.label) : me.textGuest;
+                var value;
+                if (me.appOptions.canRenameAnonymous) {
+                    value = Common.localStorage.getItem("guest-username");
+                    Common.Utils.InternalSettings.set("guest-username", value);
+                    Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                }
                 me.editorConfig.user          =
-                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, value ? (value + ' (' + me.textGuest + ')' ) : me.textAnonymous);
+                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, value ? (value + ' (' + me.appOptions.guestName + ')' ) : me.textAnonymous);
                 me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
                 me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
                 me.appOptions.canOpenRecent   = me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
@@ -219,7 +227,6 @@ define([
                 me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
                 me.appOptions.canAnalytics    = false;
                 me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
-                me.appOptions.customization   = me.editorConfig.customization;
                 me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object') && (typeof (me.editorConfig.customization.goback) == 'object')
                     && (!_.isEmpty(me.editorConfig.customization.goback.url) || me.editorConfig.customization.goback.requestClose && me.appOptions.canRequestClose);
                 me.appOptions.canBack         = me.appOptions.canBackToFolder === true;
@@ -1255,7 +1262,7 @@ define([
             },
 
             onUserConnection: function(change){
-                if (change && this.appOptions.user.guest && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
                     var name = change.asc_getUserName();
                     if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
                         Common.Utils.UserInfoParser.setCurrentName(name);

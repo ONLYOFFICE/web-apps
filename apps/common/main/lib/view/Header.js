@@ -280,7 +280,7 @@ define([
             }
 
 
-            if (appConfig.user.guest) {
+            if (appConfig.user.guest && appConfig.canRenameAnonymous) {
                 if (me.labelUserName) {
                     me.labelUserName.addClass('clickable');
                     me.labelUserName.on('click', function (e) {
@@ -496,7 +496,7 @@ define([
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
                     if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
-                        if (config.user.guest)
+                        if (config.user.guest && config.canRenameAnonymous)
                             me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'));
                         else {
                             me.elUserName = $html.find('.btn-current-user');
