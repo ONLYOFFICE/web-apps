@@ -845,6 +845,10 @@ define([
 
                     $(':root').toggleClass('theme-dark');
                     // getComputedStyle(document.documentElement).getPropertyValue('--background-normal');
+
+                    if (AscCommon.GlobalSkin.Name == 'flat')
+                        me.api.asc_setSkin('flatDark');
+                    else me.api.asc_setSkin("flat");
                 })
             },
 
