@@ -8,48 +8,49 @@ class TransitionController extends Component {
 
     onApplyAll() {
         const api = Common.EditorApi.get();
-        console.log(api);
-        // api.SlideTimingApplyToAll();
+        api.SlideTransitionApplyToAll();
     };
 
-    changeDuration(_effectDuration) {
+    changeDuration(duration) {
         const api = Common.EditorApi.get();
         let props = new Asc.CAscSlideProps(),
-            timing = new Asc.CAscSlideTiming();
+            timing = new Asc.CAscSlideTransition();
+            _effectDuration = duration * 1000;
 
         timing.put_TransitionDuration(_effectDuration);
-        props.put_timing(timing);
+        props.put_transition(timing);
         api.SetSlideProps(props);
     };
 
     onStartClick(value) {
         const api = Common.EditorApi.get();
         let props = new Asc.CAscSlideProps(),
-            timing = new Asc.CAscSlideTiming();
+            timing = new Asc.CAscSlideTransition();
 
         timing.put_SlideAdvanceOnMouseClick(value);
-        props.put_timing(timing);
+        props.put_transition(timing);
         api.SetSlideProps(props);
     };
 
     onDelayCheck(value, _effectDelay) {
         const api = Common.EditorApi.get();
         let props = new Asc.CAscSlideProps(),
-            timing = new Asc.CAscSlideTiming();
+            timing = new Asc.CAscSlideTransition();
 
         timing.put_SlideAdvanceAfter(value);
         timing.put_SlideAdvanceDuration(_effectDelay);
-        props.put_timing(timing);
+        props.put_transition(timing);
         api.SetSlideProps(props);
     }
 
-    onDelay(_effectDelay) {
+    onDelay(value) {
         const api = Common.EditorApi.get();
         let props = new Asc.CAscSlideProps(),
-            timing = new Asc.CAscSlideTiming();
+            timing = new Asc.CAscSlideTransition(),
+            _effectDelay = value * 1000;
 
         timing.put_SlideAdvanceDuration(_effectDelay);
-        props.put_timing(timing);
+        props.put_transition(timing);
         api.SetSlideProps(props);
     };
 

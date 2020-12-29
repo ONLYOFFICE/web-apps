@@ -12,8 +12,8 @@ const PageTransition = props => {
 
     let _arrCurrentEffectTypes;
     let _effectDelay = transition.get_SlideAdvanceDuration();
-    const [stateRange, changeRange] = useState((_effectDelay !== null && _effectDelay !== undefined) ? parseInt(_effectDelay / 1000.) : 0);
 
+    const [stateRange, changeRange] = useState((_effectDelay !== null && _effectDelay !== undefined) ? parseInt(_effectDelay / 1000.) : 0);
     const isDelay = store.isDelay;
     const isStartOnClick = store.isStartOnClick;
 
@@ -126,17 +126,15 @@ const PageTransition = props => {
                     <div slot="after" className="splitter">
                         <label>{(_effectDuration !== null && _effectDuration !== undefined) ?  (parseInt(_effectDuration / 1000.) + ' ' + _t.textSec) : ''}</label>
                         <p className="buttons-row">
-                            <span className="button decrement" onClick={() => {
+                            <span className="button" onClick={() => {
                                 let duration = parseInt(_effectDuration / 1000);
                                 duration = Math.max(0, --duration);
-                                _effectDuration = duration * 1000;
-                                props.changeDuration(_effectDuration);
+                                props.changeDuration(duration);
                             }}>-</span>  
-                            <span className="button increment" onClick={() => {
+                            <span className="button" onClick={() => {
                                 let duration = parseInt(_effectDuration / 1000);
                                 duration = Math.min(300, ++duration);
-                                _effectDuration = duration * 1000;
-                                props.changeDuration(_effectDuration);
+                                props.changeDuration(duration);
                             }}>+</span>
                         </p>
                     </div>
@@ -147,23 +145,23 @@ const PageTransition = props => {
                     <span>{_t.textStartOnClick}</span>
                     <Toggle checked={isStartOnClick} onChange={() => {
                         store.toggleStartOnClick();
-                        // props.onStartClick(isStartOnClick);
+                        props.onStartClick(isStartOnClick);
                     }} />
                 </ListItem>
                 <ListItem>
                     <span>{_t.textDelay}</span>
                     <Toggle checked={isDelay} onChange={() => {
                         store.toggleDelay();
-                        // props.onDelayCheck(isDelay, _effectDelay);
+                        props.onDelayCheck(isDelay, _effectDelay);
                     }} />
                 </ListItem>
                 <ListItem>
                     <ListItemCell className="flex-shrink-3">
-                        <Range min={0} max={300} step={1} value={stateRange} onRangeChange={() => {
-                            // changeRange()
-                            // _effectDelay = stateRange * 1000;
-                            // props.onDelay(_effectDelay);
-                        }} disabled={!isDelay}></Range>
+                        <input type="range" className="range-slider-delay" min="0" max="300" value={stateRange} step="1"
+                            onChange={(e) => {
+                                changeRange(e.target.value);
+                                props.onDelay(stateRange);
+                            }} disabled={!isDelay} />
                     </ListItemCell>
                     <ListItemCell className="width-auto flex-shrink-0">
                         <span>{stateRange} {_t.textSec}</span>
@@ -171,7 +169,7 @@ const PageTransition = props => {
                 </ListItem>
             </List>
             <List>
-                <ListItem className="slide-apply-all" onClick={props.onApplyAll}>{_t.textApplyAll}</ListItem>
+                <ListItem className="slide-apply-all" href="#" onClick={props.onApplyAll}>{_t.textApplyAll}</ListItem>
             </List>
         </Page>
     );
