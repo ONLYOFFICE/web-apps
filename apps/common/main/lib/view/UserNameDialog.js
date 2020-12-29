@@ -57,11 +57,9 @@ define([
 
             this.template = [
                 '<div class="box">',
-                '<div class="input-row">',
-                '<label>' + (this.options.label ? this.options.label : this.textLabel) + '</label>',
-                '</div>',
+                '<div style="margin-bottom: 2px;">' + (this.options.label ? this.options.label : this.textLabel) + '</div>',
                 '<div id="id-dlg-username-caption" class="input-row"></div>',
-                '<div id="id-dlg-username-chk-use" class="input-row" style="margin-top: 15px;"></div>',
+                '<div id="id-dlg-username-chk-use" class="" style="margin-top: 10px;"></div>',
                 '</div>'
             ].join('');
 

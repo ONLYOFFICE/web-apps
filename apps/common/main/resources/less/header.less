@@ -206,6 +206,38 @@
     }
 }
 
+.btn-current-user {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 40px;
+    padding: 0 10px;
+
+    .icon {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        background-repeat: no-repeat;
+        padding: 0;
+
+        &.icon--inverse {
+            background-position-x: -20px;
+        }
+    }
+
+    svg.icon {
+        vertical-align: middle;
+
+        @media
+        only screen and (-webkit-min-device-pixel-ratio: 1.5),
+        only screen and (min-resolution: 1.5dppx),
+        only screen and (min-resolution: 144dpi) {
+            width:calc(~"28px/1.5");
+            height:calc(~"28px/1.5");
+        }
+    }
+}
+
 .cousers-menu {
     position: fixed;
     top: @height-tabs - 8px;

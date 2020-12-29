@@ -100,6 +100,12 @@ define([
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
                                 '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-user-name"></div>' +
+                                    '<div class="btn-current-user hidden">' +
+                                        '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
+                                    '</div>' +
+                                '</div>' +
                             '</section>' +
                         '</section>';
 
@@ -273,11 +279,18 @@ define([
                 $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
             }
 
-            if (me.labelUserName && appConfig.user.guest) {
-                me.labelUserName.addClass('clickable');
-                me.labelUserName.on('click', function (e) {
-                    Common.NotificationCenter.trigger('user:rename');
-                });
+
+            if (appConfig.user.guest) {
+                if (me.labelUserName) {
+                    me.labelUserName.addClass('clickable');
+                    me.labelUserName.on('click', function (e) {
+                        Common.NotificationCenter.trigger('user:rename');
+                    });
+                } else if (me.btnUserName) {
+                    me.btnUserName.on('click', function (e) {
+                        Common.NotificationCenter.trigger('user:rename');
+                    });
+                }
             }
 
             if ( me.btnPrint ) {
@@ -482,6 +495,16 @@ define([
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
+                    if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
+                        if (config.user.guest)
+                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'));
+                        else {
+                            me.elUserName = $html.find('.btn-current-user');
+                            me.elUserName.removeClass('hidden');
+                        }
+                        me.setUserName(me.options.userName);
+                    }
+
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $html.find('.btn-users');
@@ -629,6 +652,15 @@ define([
                     } else this.labelUserName.hide();
                 } else {
                     this.options.userName = name;
+                    if ( this.btnUserName ) {
+                        this.btnUserName.updateHint(name);
+                    } else if (this.elUserName) {
+                        this.elUserName.tooltip({
+                            title: name,
+                            placement: 'cursor',
+                            html: true
+                        });
+                    }
                 }
 
                 return this;
