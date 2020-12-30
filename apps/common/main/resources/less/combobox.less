@@ -78,7 +78,7 @@
             background-color: @highlight-button-pressed;
 
             a {
-                color: @dropdown-link-active-color;
+                color: @text-normal-pressed;
 
                 &:hover,
                 &.hover,
@@ -93,14 +93,26 @@
     // Font combobox
     // ------------------------
     li {
+        @img-borders-filter: var(--image-border-types-filter);
+        @img-borders-filter-selected: var(--image-border-types-filter-selected);
+
+        img {
+            -webkit-filter: @img-borders-filter;
+            filter: @img-borders-filter;
+        }
+        canvas {
+            -webkit-filter: @img-borders-filter;
+            filter: @img-borders-filter;
+        }
+
         &.selected {
             img {
-                -webkit-filter: invert(100%) brightness(4);
-                filter: invert(100%) brightness(4);
+                -webkit-filter: @img-borders-filter-selected;
+                filter: @img-borders-filter-selected;
             }
             canvas {
-                -webkit-filter: invert(100%) brightness(4);
-                filter: invert(100%) brightness(4);
+                -webkit-filter: @img-borders-filter-selected;
+                filter: @img-borders-filter-selected;
             }
         }
 
