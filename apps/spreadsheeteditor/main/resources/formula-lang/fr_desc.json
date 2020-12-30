@@ -1048,7 +1048,7 @@
 		"d": "Fonction statistique utilisée pour retourner la probabilité associée au test t de Student; Utilisez TEST.STUDENT pour déterminer si deux échantillons sont susceptibles de provenir de deux populations identiques ayant la même moyenne."
 	},
 	"TREND": {
-		"a": "(known_y, [known_x], [new_x], [constante])",
+		"a": "(y_connus, [x_connus], [x_nouveaux], [constante])",
 		"d": "Fonction statistique utilisée pour renvoyer des valeurs par rapport à une tendance linéaire. Elle s’adapte à une ligne droite (à l’aide de la méthode des moindres carrés) aux known_y et known_x de la matrice."
 	},	
 	"TRIMMEAN": {

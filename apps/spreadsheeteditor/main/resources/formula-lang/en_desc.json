@@ -1048,7 +1048,7 @@
 		"d": "Statistical function used to return the probability associated with a Student's t-Test; use T.TEST to determine whether two samples are likely to have come from the same two underlying populations that have the same mean"
 	},
 	"TREND": {
-		"a": "( delimiter , ignore_empty , text1 [ , text2 ] , … )",
+		"a": "( known_y's, [known_x's], [new_x's], [const] )",
 		"d": "Statistical function used to return values along a linear trend; it fits a straight line (using the method of least squares) to the array's known_y's and known_x's"
 	},
 	"TRIMMEAN": {
