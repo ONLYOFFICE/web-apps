@@ -91,10 +91,10 @@
     }
 }
 
-.button-normal-icon(@icon-class, @index, @icon-size) {
+.button-normal-icon(@icon-class, @index, @icon-size, @normal-h-offset: 0px) {
     .@{icon-class} {
         background-position: -0*@icon-size  -@index*@icon-size;
-        background-position: var(--bgX)     -@index*@icon-size;
+        background-position: @normal-h-offset -@index*@icon-size;
     }
 //    .@{icon-class} {background-position-y: -@index*@icon-size;}
 }
