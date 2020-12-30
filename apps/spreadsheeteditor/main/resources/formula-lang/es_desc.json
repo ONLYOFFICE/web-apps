@@ -1048,7 +1048,7 @@
 		"d": "Función estadística utilizada para obtener la probabilidad asociada con el t-Test de Student; utilice PRUEBA.T para determinar si es probable que dos muestras provengan de las mismas dos poblaciones subyacentes que tienen la misma media."
 	},
 	"TREND": {
-		"a": "(matriz, porcentaje)",
+		"a": "(conocido_y, [conocido_x], [nueva_matriz_x], [constante])",
 		"d": "Función estadística devuelve valores en una tendencia lineal. Se ajusta a una línea recta (usando el método de los mínimos cuadrados) al known_y de la matriz y known_x."
 	},	
 	"TRIMMEAN": {

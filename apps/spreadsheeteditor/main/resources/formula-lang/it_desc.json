@@ -488,7 +488,7 @@
 		"d": "Rimuove gli spazi da una stringa di testo eccetto gli spazi singoli tra le parole"
 	},
 	"TREND": {
-		"a": "(known_y ' s, [known_x ' s], [new_x ' s], [cost])",
+		"a": "(y_nota; [x_nota]; [nuova_x]; [cost])",
 		"d": "Restituisce i valori lungo una tendenza lineare. Si adatta a una linea retta (usando il metodo di minimi quadrati) per gli known_y e le known_x della matrice"
 	},	
 	"TRIMMEAN": {
