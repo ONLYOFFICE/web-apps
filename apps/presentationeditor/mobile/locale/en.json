@@ -266,6 +266,7 @@
   "PE.Controllers.Main.warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
   "PE.Controllers.Main.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "PE.Controllers.Main.warnProcessRightsChange": "You have been denied the right to edit the file.",
+  "PE.Controllers.Main.textGuest": "Guest",
   "PE.Controllers.Search.textNoTextFound": "Text not Found",
   "PE.Controllers.Search.textReplaceAll": "Replace All",
   "PE.Controllers.Settings.notcriticalErrorTitle": "Warning",
