@@ -3311,7 +3311,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'shifted-right',
                             menuAlign: 'tl-tr',
-                            style   : 'width: 100px',
                             items   : [
                                 new Common.UI.MenuItem({
                                     caption: me.insertColumnLeftText

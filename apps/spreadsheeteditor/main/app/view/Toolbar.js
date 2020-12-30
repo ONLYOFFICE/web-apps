@@ -275,7 +275,7 @@ define([
                     cls         : 'btn-toolbar btn-text-value',
                     caption     : me.tipEditChart,
                     lock        : [_set.lostConnect],
-                    style       : 'width: 120px;'
+                    style       : 'min-width: 120px;'
                 });
 
                 me.btnEditChartData = new Common.UI.Button({
@@ -283,7 +283,7 @@ define([
                     cls         : 'btn-toolbar btn-text-value',
                     caption     : me.tipEditChartData,
                     lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
-                    style       : 'width: 120px;'
+                    style       : 'min-width: 120px;'
                 });
             } else
             if ( config.isEditMailMerge ) {
