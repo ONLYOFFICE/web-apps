@@ -714,6 +714,7 @@ Common.Utils.fillUserInfo = function(info, lang, defname) {
     !_user.id && (_user.id = ('uid-' + Date.now()));
     _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
     _user.group && (_user.fullname = (_user.group).toString() + Common.Utils.UserInfoParser.getSeparator() + _user.fullname);
+    _user.guest = _.isEmpty(_user.name);
     return _user;
 };
 
@@ -967,8 +968,11 @@ Common.Utils.ModalWindow = new(function() {
 })();
 
 Common.Utils.UserInfoParser = new(function() {
-    var parse = false;
-    var separator = String.fromCharCode(160);
+    var parse = false,
+        separator = String.fromCharCode(160),
+        username = '',
+        usergroups,
+        permissions;
     return {
         setParser: function(value) {
             parse = !!value;
@@ -994,6 +998,32 @@ Common.Utils.UserInfoParser = new(function() {
                 return groups;
             } else
                 return undefined;
+        },
+
+        setCurrentName: function(name) {
+            username = name;
+            this.setReviewPermissions(permissions);
+        },
+
+        getCurrentName: function() {
+            return username;
+        },
+
+        setReviewPermissions: function(reviewPermissions) {
+            if (reviewPermissions) {
+                var arr = [],
+                    groups  =  this.getParsedGroups(username);
+                groups && groups.forEach(function(group) {
+                    var item = reviewPermissions[group.trim()];
+                    item && (arr = arr.concat(item));
+                });
+                usergroups = arr;
+                permissions = reviewPermissions;
+            }
+        },
+
+        getCurrentGroups: function() {
+            return usergroups;
         }
     }
 })();

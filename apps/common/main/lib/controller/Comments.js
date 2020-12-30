@@ -169,7 +169,6 @@ define([
 
             if (data) {
                 this.currentUserId      =   data.config.user.id;
-                this.currentUserName    =   data.config.user.fullname;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
                 this.hintmode           =   data['hintmode'] || false;
                 this.viewmode        =   data['viewmode'] || false;
@@ -217,7 +216,7 @@ define([
                     comment.asc_putTime(this.utcDateToString(new Date()));
                     comment.asc_putOnlyOfficeTime(this.ooDateToString(new Date()));
                     comment.asc_putUserId(this.currentUserId);
-                    comment.asc_putUserName(this.currentUserName);
+                    comment.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
                     comment.asc_putSolved(false);
 
                     if (!_.isUndefined(comment.asc_putDocumentFlag)) {
@@ -355,7 +354,7 @@ define([
                     ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
                     ascComment.asc_putOnlyOfficeTime(t.ooDateToString(new Date(comment.get('time'))));
                     ascComment.asc_putUserId(t.currentUserId);
-                    ascComment.asc_putUserName(t.currentUserName);
+                    ascComment.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
                     ascComment.asc_putSolved(comment.get('resolved'));
                     ascComment.asc_putGuid(comment.get('guid'));
                     ascComment.asc_putUserData(comment.get('userdata'));
@@ -432,7 +431,7 @@ define([
                                 if (reply.get('id') === replyId && !_.isUndefined(replyVal)) {
                                     addReply.asc_putText(replyVal);
                                     addReply.asc_putUserId(me.currentUserId);
-                                    addReply.asc_putUserName(me.currentUserName);
+                                    addReply.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
                                 } else {
                                     addReply.asc_putText(reply.get('reply'));
                                     addReply.asc_putUserId(reply.get('userid'));
@@ -512,7 +511,7 @@ define([
                         addReply.asc_putTime(me.utcDateToString(new Date()));
                         addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date()));
                         addReply.asc_putUserId(me.currentUserId);
-                        addReply.asc_putUserName(me.currentUserName);
+                        addReply.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
 
                         ascComment.asc_addReply(addReply);
 
@@ -1308,7 +1307,7 @@ define([
                         time: date.getTime(),
                         date: this.dateToLocaleTimeString(date),
                         userid: this.currentUserId,
-                        username: this.currentUserName,
+                        username: Common.Utils.UserInfoParser.getCurrentName(),
                         usercolor: (user) ? user.get('color') : null,
                         editTextInPopover: true,
                         showReplyInPopover: false,
@@ -1372,7 +1371,7 @@ define([
                     comment.asc_putTime(this.utcDateToString(new Date()));
                     comment.asc_putOnlyOfficeTime(this.ooDateToString(new Date()));
                     comment.asc_putUserId(this.currentUserId);
-                    comment.asc_putUserName(this.currentUserName);
+                    comment.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
                     comment.asc_putSolved(false);
 
                     if (!_.isUndefined(comment.asc_putDocumentFlag))

@@ -49,6 +49,7 @@ define([
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
     'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'documenteditor/main/app/collection/ShapeGroups',
     'documenteditor/main/app/collection/EquationGroups'
@@ -341,8 +342,19 @@ define([
             loadConfig: function(data) {
                 this.editorConfig = $.extend(this.editorConfig, data.config);
 
+                this.appOptions.customization   = this.editorConfig.customization;
+                this.appOptions.canRenameAnonymous = !((typeof (this.appOptions.customization) == 'object') && (typeof (this.appOptions.customization.anonymous) == 'object') && (this.appOptions.customization.anonymous.request===false));
+                this.appOptions.guestName = (typeof (this.appOptions.customization) == 'object') && (typeof (this.appOptions.customization.anonymous) == 'object') &&
+                                (typeof (this.appOptions.customization.anonymous.label) == 'string') && this.appOptions.customization.anonymous.label.trim()!=='' ?
+                                Common.Utils.String.htmlEncode(this.appOptions.customization.anonymous.label) : this.textGuest;
+                var value;
+                if (this.appOptions.canRenameAnonymous) {
+                    value = Common.localStorage.getItem("guest-username");
+                    Common.Utils.InternalSettings.set("guest-username", value);
+                    Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                }
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -358,7 +370,6 @@ define([
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
-                this.appOptions.customization   = this.editorConfig.customization;
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
                                                   && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
                 this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
@@ -376,6 +387,8 @@ define([
                 this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
+                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
+
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
 
@@ -391,7 +404,7 @@ define([
                     $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
                 }
 
-                var value = Common.localStorage.getItem("de-macros-mode");
+                value = Common.localStorage.getItem("de-macros-mode");
                 if (value === null) {
                     value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
                     value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
@@ -1133,6 +1146,8 @@ define([
 
                 $('#editor-container').css('overflow', '');
                 $('.doc-placeholder').remove();
+
+                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
             },
 
             onLicenseChanged: function(params) {
@@ -1300,7 +1315,9 @@ define([
 
                 this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
                 Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
-                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
+                Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
+                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
@@ -1344,6 +1361,7 @@ define([
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
                 this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onAuthParticipantsChanged, this));
+                this.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(this.onUserConnection, this));
                 this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
             },
 
@@ -2185,6 +2203,24 @@ define([
                 this._state.usersCount = length;
             },
 
+            onUserConnection: function(change){
+                if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                    var name = change.asc_getUserName();
+                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        Common.Utils.UserInfoParser.setCurrentName(name);
+                        appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
+
+                        var idx1 = name.lastIndexOf('('),
+                            idx2 = name.lastIndexOf(')'),
+                            str = (idx1>0) && (idx1<idx2) ? name.substring(0, idx1-1) : '';
+                        if (Common.localStorage.getItem("guest-username")!==null) {
+                            Common.localStorage.setItem("guest-username", str);
+                        }
+                        Common.Utils.InternalSettings.set("guest-username", str);
+                    }
+                }
+            },
+
             applySettings: function() {
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var oldval = this._state.fastCoauth;
@@ -2381,6 +2417,40 @@ define([
                 value = Common.localStorage.getBool("de-settings-autoformat-hyphens", true);
                 Common.Utils.InternalSettings.set("de-settings-autoformat-hyphens", value);
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
+            },
+
+            showRenameUserDialog: function() {
+                if (this._renameDialog) return;
+
+                var me = this;
+                this._renameDialog = new Common.Views.UserNameDialog({
+                    label: this.textRenameLabel,
+                    error: this.textRenameError,
+                    value: Common.Utils.InternalSettings.get("guest-username") || '',
+                    check: Common.Utils.InternalSettings.get("save-guest-username") || false,
+                    validation: function(value) {
+                        return value.length<128 ? true : me.textLongName;
+                    },
+                    handler: function(result, settings) {
+                        if (result == 'ok') {
+                            var name = settings.input ? settings.input + ' (' + me.appOptions.guestName + ')' : me.textAnonymous;
+                            var _user = new Asc.asc_CUserInfo();
+                            _user.put_FullName(name);
+
+                            var docInfo = new Asc.asc_CDocInfo();
+                            docInfo.put_UserInfo(_user);
+                            me.api.asc_changeDocInfo(docInfo);
+
+                            settings.checkbox ? Common.localStorage.setItem("guest-username", settings.input) : Common.localStorage.removeItem("guest-username");
+                            Common.Utils.InternalSettings.set("guest-username", settings.input);
+                            Common.Utils.InternalSettings.set("save-guest-username", settings.checkbox);
+                        }
+                    }
+                });
+                this._renameDialog.on('close', function() {
+                    me._renameDialog = undefined;
+                });
+                this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2741,7 +2811,11 @@ define([
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
             saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
             errorComboSeries: 'To create a combination chart, select at least two series of data.',
-            errorSetPassword: 'Password could not be set.'
+            errorSetPassword: 'Password could not be set.',
+            textRenameLabel: 'Enter a name to be used for collaboration',
+            textRenameError: 'User name must not be empty.',
+            textLongName: 'Enter a name that is less than 128 characters.',
+            textGuest: 'Guest'
         }
     })(), DE.Controllers.Main || {}))
 });

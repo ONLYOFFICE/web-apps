@@ -201,8 +201,19 @@ define([
 
                 me.editorConfig = $.extend(me.editorConfig, data.config);
 
+                me.appOptions.customization = me.editorConfig.customization;
+                me.appOptions.canRenameAnonymous = !((typeof (me.appOptions.customization) == 'object') && (typeof (me.appOptions.customization.anonymous) == 'object') && (me.appOptions.customization.anonymous.request===false));
+                me.appOptions.guestName = (typeof (me.appOptions.customization) == 'object') && (typeof (me.appOptions.customization.anonymous) == 'object') &&
+                (typeof (me.appOptions.customization.anonymous.label) == 'string') && me.appOptions.customization.anonymous.label.trim()!=='' ?
+                    Common.Utils.String.htmlEncode(me.appOptions.customization.anonymous.label) : me.textGuest;
+                var value;
+                if (me.appOptions.canRenameAnonymous) {
+                    value = Common.localStorage.getItem("guest-username");
+                    Common.Utils.InternalSettings.set("guest-username", value);
+                    Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                }
                 me.editorConfig.user          =
-                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
+                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, value ? (value + ' (' + me.appOptions.guestName + ')' ) : me.textAnonymous);
                 me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
                 me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
                 me.appOptions.canOpenRecent   = me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
@@ -216,7 +227,6 @@ define([
                 me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
                 me.appOptions.canAnalytics    = false;
                 me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
-                me.appOptions.customization   = me.editorConfig.customization;
                 me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object') && (typeof (me.editorConfig.customization.goback) == 'object')
                     && (!_.isEmpty(me.editorConfig.customization.goback.url) || me.editorConfig.customization.goback.requestClose && me.appOptions.canRequestClose);
                 me.appOptions.canBack         = me.appOptions.canBackToFolder === true;
@@ -229,7 +239,7 @@ define([
                 if (!me.editorConfig.customization || !(me.editorConfig.customization.loaderName || me.editorConfig.customization.loaderLogo))
                     $('#editor_sdk').append('<div class="doc-placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div>');
 
-                var value = Common.localStorage.getItem("pe-mobile-macros-mode");
+                value = Common.localStorage.getItem("pe-mobile-macros-mode");
                 if (value === null) {
                     value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
                     value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
@@ -744,6 +754,8 @@ define([
 
                 me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object');
                 Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
+                Common.Utils.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
+                me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.editorConfig.customization.reviewPermissions);
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
@@ -781,6 +793,7 @@ define([
                     me.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(me.onDownloadUrl, me));
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
+                    me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
                 }
             },
 
@@ -1248,6 +1261,15 @@ define([
                 this._state.usersCount = length;
             },
 
+            onUserConnection: function(change){
+                if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                    var name = change.asc_getUserName();
+                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        Common.Utils.UserInfoParser.setCurrentName(name);
+                    }
+                }
+            },
+
             onDocumentName: function(name) {
 //                this.getApplication().getController('Viewport').getView('Common.Views.Header').setDocumentCaption(name);
                 this.updateWindowTitle(true);
@@ -1536,7 +1558,8 @@ define([
             errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
-            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.'
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+            textGuest: 'Guest'
         }
     })(), PE.Controllers.Main || {}))
 });

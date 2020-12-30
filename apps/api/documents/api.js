@@ -125,6 +125,10 @@
                         "Group2": ["Group1", "Group2"] // users from Group2 can accept/reject review changes made by users from Group1 and Group2
                         "Group3": [""] // users from Group3 can accept/reject review changes made by users without a group
                     },
+                    anonymous: { // set name for anonymous user
+                        request: bool (default: true), // enable set name
+                        label: string (default: "Guest") // postfix for user name
+                    }
                     chat: true,
                     comments: true,
                     zoom: 100,

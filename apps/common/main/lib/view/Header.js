@@ -101,6 +101,12 @@ define([
                                     '<div class="btn-slot" id="slot-btn-favorite"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
                                 '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-user-name"></div>' +
+                                    '<div class="btn-current-user hidden">' +
+                                        '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
+                                    '</div>' +
+                                '</div>' +
                             '</section>' +
                         '</section>';
 
@@ -119,7 +125,7 @@ define([
                                 '<div class="lr-separator" id="id-box-doc-name">' +
                                     '<label id="title-doc-name" />' +
                                 '</div>' +
-                                '<label id="title-user-name" style="pointer-events: none;"></label>' +
+                                '<label id="title-user-name"></label>' +
                             '</section>';
 
         function onResetUsers(collection, opts) {
@@ -280,6 +286,20 @@ define([
 
                 $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
                 $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
+            }
+
+
+            if (appConfig.user.guest && appConfig.canRenameAnonymous) {
+                if (me.labelUserName) {
+                    me.labelUserName.addClass('clickable');
+                    me.labelUserName.on('click', function (e) {
+                        Common.NotificationCenter.trigger('user:rename');
+                    });
+                } else if (me.btnUserName) {
+                    me.btnUserName.on('click', function (e) {
+                        Common.NotificationCenter.trigger('user:rename');
+                    });
+                }
             }
 
             if ( me.btnPrint ) {
@@ -498,6 +518,16 @@ define([
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
+                    if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
+                        if (config.user.guest && config.canRenameAnonymous)
+                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'));
+                        else {
+                            me.elUserName = $html.find('.btn-current-user');
+                            me.elUserName.removeClass('hidden');
+                        }
+                        me.setUserName(me.options.userName);
+                    }
+
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $html.find('.btn-users');
@@ -658,6 +688,15 @@ define([
                     } else this.labelUserName.hide();
                 } else {
                     this.options.userName = name;
+                    if ( this.btnUserName ) {
+                        this.btnUserName.updateHint(name);
+                    } else if (this.elUserName) {
+                        this.elUserName.tooltip({
+                            title: name,
+                            placement: 'cursor',
+                            html: true
+                        });
+                    }
                 }
 
                 return this;
