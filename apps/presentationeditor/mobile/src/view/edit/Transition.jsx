@@ -6,17 +6,6 @@ import { useTranslation } from "react-i18next";
 const PageTransition = props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
-    const store = props.storeTransition;
-    const transition = store.transition;
-    const _effect = transition.get_TransitionType();
-
-    let _arrCurrentEffectTypes;
-    let _effectDelay = transition.get_SlideAdvanceDuration();
-
-    const [stateRange, changeRange] = useState((_effectDelay !== null && _effectDelay !== undefined) ? parseInt(_effectDelay / 1000.) : 0);
-    const isDelay = store.isDelay;
-    const isStartOnClick = store.isStartOnClick;
-
     const _arrEffect = [
         {displayValue: _t.textNone,    value: Asc.c_oAscSlideTransitionTypes.None},
         {displayValue: _t.textFade,    value: Asc.c_oAscSlideTransitionTypes.Fade},
@@ -28,7 +17,6 @@ const PageTransition = props => {
         {displayValue: _t.textClock,   value: Asc.c_oAscSlideTransitionTypes.Clock},
         {displayValue: _t.textZoom,    value: Asc.c_oAscSlideTransitionTypes.Zoom}
     ];
-
     const _arrEffectType = [
         {displayValue: _t.textSmoothly,           value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
         {displayValue: _t.textBlack,              value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
@@ -51,6 +39,8 @@ const PageTransition = props => {
         {displayValue: _t.textZoomOut,            value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
         {displayValue: _t.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
     ];
+
+    let _arrCurrentEffectTypes = [];
 
     const fillEffectTypes = type => {
         _arrCurrentEffectTypes = [];
@@ -82,14 +72,14 @@ const PageTransition = props => {
         }
         return (_arrCurrentEffectTypes.length > 0) ? _arrCurrentEffectTypes[0].value : -1;
     };
-
+    
     const getEffectName = effect => {
         for (var i=0; i < _arrEffect.length; i++) {
             if (_arrEffect[i].value == effect) return _arrEffect[i].displayValue;
         }
         return '';
     };
-
+    
     const getEffectTypeName = type => {
         for (var i=0; i < _arrCurrentEffectTypes.length; i++) {
             if (_arrCurrentEffectTypes[i].value == type) return _arrCurrentEffectTypes[i].displayValue;
@@ -97,16 +87,22 @@ const PageTransition = props => {
         return '';
     };
 
-    const nameEffect = getEffectName(_effect);
-    const arrTypesEffect = fillEffectTypes(_effect);
-    const _effectType = transition.get_TransitionOption();
-    const nameEffectType = getEffectTypeName(_effectType);
-    const _effectDuration = transition.get_TransitionDuration();
+    const storeFocusObjects = props.storeFocusObjects;
+    const storeTransition = props.storeTransition;
+    const transitionObj = storeFocusObjects.slideObject.get_transition();
+    storeTransition.changeEffect(transitionObj.get_TransitionType());
+    const _effect = storeTransition.effect;
 
-    // console.log(_effectType);
-    // console.log(_effectDuration);
-    // console.log(transition.get_SlideAdvanceOnMouseClick());
-    // console.log(transition.get_SlideAdvanceAfter());
+    let _effectDelay = transitionObj.get_SlideAdvanceDuration();
+
+    const [stateRange, changeRange] = useState((_effectDelay !== null && _effectDelay !== undefined) ? parseInt(_effectDelay / 1000.) : 0);
+    const isDelay = transitionObj.get_SlideAdvanceAfter();
+    const isStartOnClick = transitionObj.get_SlideAdvanceOnMouseClick();
+    const nameEffect = getEffectName(_effect);
+    const arrEffectType = fillEffectTypes(_effect);
+    const _effectType = transitionObj.get_TransitionOption();
+    const nameEffectType = getEffectTypeName(_effectType);
+    const _effectDuration = transitionObj.get_TransitionDuration();
 
     return (
         <Page className="slide-transition">
@@ -116,7 +112,10 @@ const PageTransition = props => {
                 </NavRight>
             </Navbar>
             <List>
-                <ListItem link="/effect/" title={_t.textEffect} after={nameEffect}></ListItem>
+                <ListItem link="/effect/" title={_t.textEffect} after={nameEffect} routeProps={{
+                    _arrEffect,
+                    onEffectClick: props.onEffectClick
+                }}></ListItem>
                 <ListItem link="/type/" title={_t.textType}
                     after={_effect != Asc.c_oAscSlideTransitionTypes.None ? nameEffectType : ''} 
                     disabled={_effect == Asc.c_oAscSlideTransitionTypes.None}>
@@ -143,17 +142,11 @@ const PageTransition = props => {
             <List>
                 <ListItem>
                     <span>{_t.textStartOnClick}</span>
-                    <Toggle checked={isStartOnClick} onChange={() => {
-                        store.toggleStartOnClick();
-                        props.onStartClick(isStartOnClick);
-                    }} />
+                    <Toggle checked={isStartOnClick} onToggleChange={() => {props.onStartClick(!isStartOnClick)}} />
                 </ListItem>
                 <ListItem>
                     <span>{_t.textDelay}</span>
-                    <Toggle checked={isDelay} onChange={() => {
-                        store.toggleDelay();
-                        props.onDelayCheck(isDelay, _effectDelay);
-                    }} />
+                    <Toggle checked={isDelay} onToggleChange={() => {props.onDelayCheck(!isDelay, _effectDelay)}} />
                 </ListItem>
                 <ListItem>
                     <ListItemCell className="flex-shrink-3">
@@ -175,6 +168,58 @@ const PageTransition = props => {
     );
 };
 
-const Transition = inject("storeTransition")(observer(PageTransition));
 
-export default Transition;
+const PageEffect = props => {
+    const { t } = useTranslation();
+    const _t = t("View.Edit", { returnObjects: true });
+    const storeTransition = props.storeTransition;
+    const _effect = storeTransition.effect;
+    const _arrEffect = props._arrEffect;
+    
+    return (
+        <Page>
+            <Navbar title={_t.textEffect} backLink={_t.textBack} />
+            {_arrEffect.length ? (
+                <List mediaList>
+                    {_arrEffect.map((elem, index) => {
+                        return (
+                            <ListItem key={index} radio name="editslide-effect" title={elem.displayValue} value={elem.value} 
+                                checked={elem.value === _effect} onChange={() => {
+                                    storeTransition.changeEffect(elem.value);
+                                    props.onEffectClick(elem.value);
+                                }}></ListItem>
+                        )
+                    })}
+                </List>
+            ) : null}
+        </Page>
+    );
+};
+
+const PageType= props => {
+    const { t } = useTranslation();
+    const _t = t("View.Edit", { returnObjects: true });
+    console.log(props);
+    const storeTransition = props.storeTransition;
+
+    return (
+        <Page>
+            <Navbar title={_t.textType} backLink={_t.textBack}>
+                <NavRight>
+                    <Link icon='icon-expand-down' sheetClose></Link>
+                </NavRight>
+            </Navbar>
+            <List mediaList>
+                <ListItem radio name="editslide-effect-type"></ListItem>
+                <ListItem radio name="editslide-effect-type"></ListItem>
+                <ListItem radio name="editslide-effect-type"></ListItem>
+            </List>
+        </Page>
+    );
+};
+
+const Effect = inject("storeTransition", "storeFocusObjects")(observer(PageEffect));
+const Type = inject("storeTransition", "storeFocusObjects")(observer(PageType));
+const Transition = inject("storeTransition", "storeFocusObjects")(observer(PageTransition));
+
+export {Transition, Effect, Type};

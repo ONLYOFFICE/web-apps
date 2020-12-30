@@ -193,19 +193,18 @@ class MainController extends Component {
 
         const storeFocusObjects = this.props.storeFocusObjects;
         const storeLayout = this.props.storeLayout;
-        const storeTransition = this.props.storeTransition;
-
+        
         this.api.asc_registerCallback('asc_onFocusObject', objects => {
             // console.log(objects);
             storeFocusObjects.resetFocusObjects(objects);
 
-            const settings = storeFocusObjects.settings;
+            // const settings = storeFocusObjects.settings;
 
-            if(settings[0] === "slide") {
-                const slideObject = objects[0].get_ObjectValue();
-                storeLayout.changeSlideLayoutIndex(slideObject.get_LayoutIndex());
-                storeTransition.addTransition(slideObject.get_transition());
-            }
+            // if(settings[0] === "slide") {
+            //     const slideObject = objects[0].get_ObjectValue();
+            //     storeLayout.changeSlideLayoutIndex(slideObject.get_LayoutIndex());
+            //     storeTransition.initTransition(slideObject.get_transition());
+            // }
         });
 
         const storeTheme = this.props.storeTheme;

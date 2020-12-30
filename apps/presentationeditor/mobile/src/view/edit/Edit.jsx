@@ -10,8 +10,8 @@ import EditTextController from "../../controller/edit/EditText";
 import LayoutController from "../../controller/edit/Layout";
 import TransitionController from '../../controller/edit/Transition';
 import ThemeController from '../../controller/edit/Theme';
-import EffectController from '../../controller/edit/Effect';
-import TypeController from '../../controller/edit/Type';
+import { Effect } from './Transition';
+import { Type } from './Transition';
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -33,11 +33,11 @@ const routes = [
     },
     {
         path: '/effect/',
-        component: EffectController
+        component: Effect
     },
     {
         path: '/type/',
-        component: TypeController
+        component: Type
     }
 ];
 

@@ -52,4 +52,19 @@ export class storeFocusObjects {
         }
         return resultArr;
     }
+
+    @computed get slideObject() {
+        const slides = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Slide) {
+                slides.push(object);
+            }
+        }
+        if (slides.length > 0) {
+            const object = slides[slides.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
 }
