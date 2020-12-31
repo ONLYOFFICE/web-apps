@@ -1,3 +1,6 @@
+@img-borders-filter: var(--image-border-types-filter);
+@img-borders-filter-selected: var(--image-border-types-filter-selected);
+
 .combobox {
     display: block;
 
@@ -28,6 +31,11 @@
         position: static;
         z-index: auto;
         float: none;
+
+        .image {
+            -webkit-filter: @img-borders-filter;
+            filter: @img-borders-filter;
+        }
     }
 
     .btn {
@@ -93,9 +101,6 @@
     // Font combobox
     // ------------------------
     li {
-        @img-borders-filter: var(--image-border-types-filter);
-        @img-borders-filter-selected: var(--image-border-types-filter-selected);
-
         img {
             -webkit-filter: @img-borders-filter;
             filter: @img-borders-filter;

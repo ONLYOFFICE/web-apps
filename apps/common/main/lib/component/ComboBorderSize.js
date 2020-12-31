@@ -77,7 +77,10 @@ define([
     Common.UI.ComboBorderSize = Common.UI.ComboBox.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="padding-top:2px; <%= style %>"></div>',
+                '<div class="form-control" style="<%= style %>">',
+                    '<i class="image"></i>',
+                    '<span class="text"></span>',
+                '</div>',
                 '<div style="display: table-cell;"></div>',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                 '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
@@ -138,14 +141,15 @@ define([
 
         updateFormControl: function(record) {
             var formcontrol = $(this.el).find('.form-control');
+            var image = formcontrol.find('> .image');
+            var text = formcontrol.find('> .text');
 
             if (record.get('value')>0) {
-                formcontrol[0].innerHTML = '';
-                formcontrol.removeClass('text').addClass('image');
-                formcontrol.css('background-position', '10px -' + record.get('offsety') + 'px');
+                image.css('background-position', '10px -' + record.get('offsety') + 'px').show();
+                text.hide();
             } else {
-                formcontrol[0].innerHTML = this.txtNoBorders;
-                formcontrol.removeClass('image').addClass('text');
+                image.hide();
+                text.text(this.txtNoBorders).show();
             }
         },
 
@@ -162,9 +166,7 @@ define([
                 this.updateFormControl(this._selectedItem);
                 $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
             } else {
-                var formcontrol = $(this.el).find('.form-control');
-                formcontrol[0].innerHTML = '';
-                formcontrol.removeClass('image').addClass('text');
+                $(this.el).find('.form-control > .text').text("").show();
             }
         },
 
@@ -224,7 +226,9 @@ define([
     Common.UI.ComboBorderType = Common.UI.ComboBorderSize.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-border-size input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="<%= style %>"></div>',
+                '<div class="form-control" style="<%= style %>">',
+                    '<i class="image"></i>',
+                '</div>',
                 '<div style="display: table-cell;"></div>',
                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
                 '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
@@ -262,10 +266,8 @@ define([
         },
 
         updateFormControl: function(record) {
-            var formcontrol = $(this.el).find('.form-control');
-            formcontrol[0].innerHTML = '';
-            formcontrol.removeClass('text').addClass('image');
-            formcontrol.css('background-position', '10px -' + record.get('offsety') + 'px');
+            $(this.el).find('.form-control > .image')
+                .css('background-position', '10px -' + record.get('offsety') + 'px');
         }
     }, Common.UI.ComboBorderType || {}));
 
