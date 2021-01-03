@@ -40,16 +40,25 @@
             }
 
             &.focus {
-                text-decoration: none;
-                color: @dropdown-link-hover-color;
-                background-color: @dropdown-link-hover-bg;
+                //text-decoration: none;
+                //color: @dropdown-link-hover-color;
+                //background-color: @dropdown-link-hover-bg;
+            }
+
+            &:hover {
+                color: @text-normal-pressed;
+                background-color: @highlight-button-hover;
             }
         }
 
         &.over > a {
             text-decoration: none;
-            color: @dropdown-link-hover-color;
-            background-color: @dropdown-link-hover-bg;
+            color: @text-normal-pressed;
+            background-color: @highlight-button-hover;
+
+            &:after {
+                border-left-color: @icon-normal-pressed;
+            }
         }
 
         .checked:not(.no-checkmark) {
