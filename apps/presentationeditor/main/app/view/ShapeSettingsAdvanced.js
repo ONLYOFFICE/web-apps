@@ -357,7 +357,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                     '<div class="form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
                 ].join(''))
             });
@@ -384,7 +384,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                     '<div class="form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
                 ].join(''))
             });
@@ -417,7 +417,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                     '<div class="form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
                 ].join(''))
             });
@@ -444,7 +444,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                     '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
                     '<div class="form-control image" style="width: 100px;"></div>',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
                     '</div>'
                 ].join(''))
             });

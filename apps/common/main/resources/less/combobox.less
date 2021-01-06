@@ -55,9 +55,11 @@
         padding-right: 4px;
     }
 
-    .btn-default.disabled:hover {
-        background-color: transparent;
-        border-color: @border-regular-control;
+    .btn-default.disabled {
+        &:hover, &:focus {
+            background-color: transparent;
+            border-color: @border-regular-control;
+        }
     }
 
     &.input-group-nr.open:not(.no-highlighted) {
