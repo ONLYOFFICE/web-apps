@@ -265,7 +265,25 @@
     }
 
     .btn-resolve {
-        background-position: -2px -253px;
+        position: relative;
+
+        &:after {
+            content: '';
+            position: absolute;
+            border: solid @text-normal;
+            border-width: 0 2px 2px 0;
+            transform: rotate(40deg);
+            width: 7px;
+            height: 12px;
+            left: 6px;
+            top: -2px;
+        }
+
+        &.comment-resolved {
+            &:after {
+                border-color: @comment-resolved-icon-color;
+            }
+        }
     }
 
     .btn-resolve-check {
