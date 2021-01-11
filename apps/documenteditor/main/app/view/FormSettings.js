@@ -185,6 +185,7 @@ define([
                 minValue: 0.1
             });
             this.lockedControls.push(this.spnWidth);
+            this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
@@ -407,7 +408,7 @@ define([
                     formTextPr.put_MaxCharacters(this.spnMaxChars.getNumberValue() || 10);
                     if (this.spnWidth.getValue()) {
                         var value = this.spnWidth.getNumberValue();
-                        formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4));
+                        formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.1));
                     } else
                         formTextPr.put_Width(0);
                 }
@@ -423,7 +424,7 @@ define([
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
                 if (this.spnWidth.getValue()) {
                     var value = this.spnWidth.getNumberValue();
-                    formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4));
+                    formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.1));
                 } else
                     formTextPr.put_Width(0);
 
@@ -783,8 +784,11 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
+                var val = this._state.Width;
+                this.spnWidth && this.spnWidth.setMinValue(Common.Utils.Metric.fnRecalcFromMM(1));
+                this.spnWidth && this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
             }
         },
 
