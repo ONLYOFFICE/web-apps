@@ -45,6 +45,15 @@ class EditTextController extends Component {
         api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
     }
 
+    onBackgroundColor(color) {
+        const api = Common.EditorApi.get();
+        if (color == 'transparent') {
+            api.put_ParagraphShade(false);
+        } else {
+            api.put_ParagraphShade(true, Common.Utils.ThemeColor.getRgbColor(color));
+        }
+    }
+
     toggleBold(value) {
         const api = Common.EditorApi.get();
         if (api) {
@@ -188,6 +197,7 @@ class EditTextController extends Component {
                       changeFontFamily={this.changeFontFamily}
                       onTextColorAuto={this.onTextColorAuto}
                       onTextColor={this.onTextColor}
+                      onBackgroundColor={this.onBackgroundColor}
                       toggleBold={this.toggleBold}
                       toggleItalic={this.toggleItalic}
                       toggleUnderline={this.toggleUnderline}

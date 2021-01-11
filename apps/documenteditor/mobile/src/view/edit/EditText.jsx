@@ -220,7 +220,7 @@ const PageCustomFontColor = props => {
     }
     const autoColor = textColor === 'auto' ? window.getComputedStyle(document.getElementById('font-color-auto')).backgroundColor : null;
     const onAddNewColor = (colors, color) => {
-        props.storeTextSettings.changeCustomTextColors(colors);
+        props.storePalette.changeCustomColors(colors);
         props.onTextColor(color);
         props.f7router.back();
     };
@@ -235,9 +235,8 @@ const PageCustomFontColor = props => {
 const PageFontColor = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
-    const store = props.storeTextSettings;
-    const textColor = store.textColor;
-    const customColors = store.customTextColors;
+    const textColor = props.storeTextSettings.textColor;
+    const customColors = props.storePalette.customColors;
     const changeColor = (color, effectId) => {
         if (color !== 'empty') {
             if (effectId !==undefined ) {
@@ -272,6 +271,56 @@ const PageFontColor = props => {
     )
 };
 
+const PageCustomBackColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    let backgroundColor = props.storeTextSettings.backgroundColor;
+    if (typeof backgroundColor === 'object') {
+        backgroundColor = backgroundColor.color;
+    }
+    const onAddNewColor = (colors, color) => {
+        props.storePalette.changeCustomColors(colors);
+        props.onBackgroundColor(color);
+        props.f7router.back();
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <CustomColorPicker currentColor={backgroundColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
+const PageBackgroundColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const backgroundColor = props.storeTextSettings.backgroundColor;
+    const customColors = props.storePalette.customColors;
+    const changeColor = (color, effectId) => {
+        if (color !== 'empty') {
+            if (effectId !==undefined ) {
+                props.onBackgroundColor({color: color, effectId: effectId});
+            } else {
+                props.onBackgroundColor(color);
+            }
+        } else {
+            // open custom color menu
+            props.f7router.navigate('/edit-text-custom-back-color/');
+        }
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textHighlightColor} backLink={_t.textBack} />
+            <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
+            <List>
+                <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-back-color/'} routeProps={{
+                    onBackgroundColor: props.onBackgroundColor
+                }}></ListItem>
+            </List>
+        </Page>
+    )
+};
+
 const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -279,6 +328,7 @@ const EditText = props => {
     const fontName = storeTextSettings.fontName || t('Edit.textFonts');
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
+    const backgroundColor = storeTextSettings.backgroundColor;
     const displaySize = typeof fontSize === 'undefined' ? t('Edit.textAuto') : fontSize + ' ' + t('Edit.textPt');
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
@@ -287,7 +337,7 @@ const EditText = props => {
     const paragraphAlign = storeTextSettings.paragraphAlign;
 
     const fontColorPreview = fontColor !== 'auto' ?
-        <span className="color-preview" style={{ background: `#${fontColor}`}}></span> :
+        <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
         <span className="color-preview auto"></span>;
 
     return (
@@ -314,8 +364,13 @@ const EditText = props => {
                         fontColorPreview
                     }
                 </ListItem>
-                <ListItem title={t("Edit.textHighlightColor")} link="#">
-                    {!isAndroid && <Icon slot="media" icon="icon-text-selection"></Icon>}
+                <ListItem title={t("Edit.textHighlightColor")} link="/edit-text-background-color/" routeProps={{
+                    onBackgroundColor: props.onBackgroundColor
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-selection"><span className="color-preview" style={{ background: `#${backgroundColor}`}}></span></Icon> :
+                        <span className="color-preview" style={{ background: `#${(typeof backgroundColor === "object" ? backgroundColor.color : backgroundColor)}`}}></span>
+                    }
                 </ListItem>
                 <ListItem title={t("Edit.textAdditionalFormatting")} link="/edit-text-add-formatting/" routeProps={{
                     onAdditionalStrikethrough: props.onAdditionalStrikethrough,
@@ -379,8 +434,11 @@ const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(o
 const PageTextBullets = inject("storeTextSettings")(observer(PageBullets));
 const PageTextNumbers = inject("storeTextSettings")(observer(PageNumbers));
 const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing));
-const PageTextFontColor = inject("storeTextSettings")(observer(PageFontColor));
-const PageTextCustomFontColor = inject("storeTextSettings")(observer(PageCustomFontColor));
+const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
+const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
+const PageTextBackgroundColor = inject("storeTextSettings", "storePalette")(observer(PageBackgroundColor));
+const PageTextCustomBackColor = inject("storeTextSettings", "storePalette")(observer(PageCustomBackColor));
+
 
 export {
     EditTextContainer as EditText,
@@ -390,5 +448,7 @@ export {
     PageTextNumbers,
     PageTextLineSpacing,
     PageTextFontColor,
-    PageTextCustomFontColor
+    PageTextCustomFontColor,
+    PageTextBackgroundColor,
+    PageTextCustomBackColor
 };

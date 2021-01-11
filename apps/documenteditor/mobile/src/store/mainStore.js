@@ -11,6 +11,7 @@ import {storeChartSettings} from "./chartSettings";
 import {storeDocumentInfo} from "./documentInfo";
 import {storeApplicationSettings} from './applicationSettings';
 import {storeAppOptions} from "./appOptions";
+import {storePalette} from "./palette";
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -24,6 +25,7 @@ export const stores = {
     storeImageSettings: new storeImageSettings(),
     storeTableSettings: new storeTableSettings(),
     storeDocumentInfo: new storeDocumentInfo(),
-    storeApplicationSettings: new storeApplicationSettings()
+    storeApplicationSettings: new storeApplicationSettings(),
+    storePalette: new storePalette()
 };
 
