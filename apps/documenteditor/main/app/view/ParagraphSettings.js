@@ -394,7 +394,13 @@ define([
             if (this._state.LineRuleIdx !== null) {
                 this.numLineHeight.setDefaultUnit(this._arrLineRule[this._state.LineRuleIdx].defaultUnit);
                 this.numLineHeight.setStep(this._arrLineRule[this._state.LineRuleIdx].step);
+                this.numLineHeight && this.numLineHeight.setValue((this._state.LineHeight !== null) ?  Common.Utils.Metric.fnRecalcFromMM(this._state.LineHeight) : '', true);
             }
+
+            var val = this._state.LineSpacingBefore;
+            this.numSpacingBefore && this.numSpacingBefore.setValue((val !== null) ? ((val<0) ? val : Common.Utils.Metric.fnRecalcFromMM(val) ) : '', true);
+            val = this._state.LineSpacingAfter;
+            this.numSpacingAfter && this.numSpacingAfter.setValue((val !== null) ? ((val<0) ? val : Common.Utils.Metric.fnRecalcFromMM(val) ) : '', true);
         },
 
         createDelayedElements: function() {
