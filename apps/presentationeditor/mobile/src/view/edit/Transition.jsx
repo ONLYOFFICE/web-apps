@@ -72,7 +72,7 @@ const PageTransition = props => {
         }
         return (_arrCurrentEffectTypes.length > 0) ? _arrCurrentEffectTypes[0].value : -1;
     };
-    
+
     const getEffectName = effect => {
         for (var i=0; i < _arrEffect.length; i++) {
             if (_arrEffect[i].value == effect) return _arrEffect[i].displayValue;
@@ -90,16 +90,25 @@ const PageTransition = props => {
     const storeFocusObjects = props.storeFocusObjects;
     const storeTransition = props.storeTransition;
     const transitionObj = storeFocusObjects.slideObject.get_transition();
-    storeTransition.changeEffect(transitionObj.get_TransitionType());
-    const _effect = storeTransition.effect;
 
+    if(!storeTransition.effect) {
+        storeTransition.changeEffect(transitionObj.get_TransitionType());
+    }
+
+    const _effect = storeTransition.effect;
+    const valueEffectTypes = fillEffectTypes(_effect);
+
+    if(!storeTransition.type) {
+        storeTransition.changeType(valueEffectTypes);
+    }
+    
     let _effectDelay = transitionObj.get_SlideAdvanceDuration();
 
     const [stateRange, changeRange] = useState((_effectDelay !== null && _effectDelay !== undefined) ? parseInt(_effectDelay / 1000.) : 0);
     const isDelay = transitionObj.get_SlideAdvanceAfter();
     const isStartOnClick = transitionObj.get_SlideAdvanceOnMouseClick();
     const nameEffect = getEffectName(_effect);
-    const arrEffectType = fillEffectTypes(_effect);
+
     const _effectType = transitionObj.get_TransitionOption();
     const nameEffectType = getEffectTypeName(_effectType);
     const _effectDuration = transitionObj.get_TransitionDuration();
@@ -114,12 +123,15 @@ const PageTransition = props => {
             <List>
                 <ListItem link="/effect/" title={_t.textEffect} after={nameEffect} routeProps={{
                     _arrEffect,
-                    onEffectClick: props.onEffectClick
+                    onEffectClick: props.onEffectClick,
+                    fillEffectTypes
                 }}></ListItem>
-                <ListItem link="/type/" title={_t.textType}
+                <ListItem link="/type/" title={_t.textType} 
                     after={_effect != Asc.c_oAscSlideTransitionTypes.None ? nameEffectType : ''} 
-                    disabled={_effect == Asc.c_oAscSlideTransitionTypes.None}>
-                    <div slot="after"></div>
+                    disabled={_effect == Asc.c_oAscSlideTransitionTypes.None} routeProps={{
+                        _arrCurrentEffectTypes, 
+                        onEffectTypeClick: props.onEffectTypeClick
+                    }}>
                 </ListItem>
                 <ListItem title={_t.textDuration} disabled={_effect == Asc.c_oAscSlideTransitionTypes.None}>
                     <div slot="after" className="splitter">
@@ -161,8 +173,8 @@ const PageTransition = props => {
                     </ListItemCell>
                 </ListItem>
             </List>
-            <List>
-                <ListItem className="slide-apply-all" href="#" onClick={props.onApplyAll}>{_t.textApplyAll}</ListItem>
+            <List className="apply-all">
+                <ListItem className="apply-all__elem" href="#" onClick={props.onApplyAll}>{_t.textApplyAll}</ListItem>
             </List>
         </Page>
     );
@@ -175,7 +187,7 @@ const PageEffect = props => {
     const storeTransition = props.storeTransition;
     const _effect = storeTransition.effect;
     const _arrEffect = props._arrEffect;
-    
+
     return (
         <Page>
             <Navbar title={_t.textEffect} backLink={_t.textBack} />
@@ -186,7 +198,9 @@ const PageEffect = props => {
                             <ListItem key={index} radio name="editslide-effect" title={elem.displayValue} value={elem.value} 
                                 checked={elem.value === _effect} onChange={() => {
                                     storeTransition.changeEffect(elem.value);
-                                    props.onEffectClick(elem.value);
+                                    let valueEffectTypes = props.fillEffectTypes(elem.value);
+                                    storeTransition.changeType(valueEffectTypes);
+                                    props.onEffectClick(elem.value, valueEffectTypes);
                                 }}></ListItem>
                         )
                     })}
@@ -199,8 +213,10 @@ const PageEffect = props => {
 const PageType= props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
-    console.log(props);
+    const _arrCurrentEffectTypes = props._arrCurrentEffectTypes;
     const storeTransition = props.storeTransition;
+    const _effect = storeTransition.effect;
+    const type = storeTransition.type;
 
     return (
         <Page>
@@ -209,11 +225,20 @@ const PageType= props => {
                     <Link icon='icon-expand-down' sheetClose></Link>
                 </NavRight>
             </Navbar>
-            <List mediaList>
-                <ListItem radio name="editslide-effect-type"></ListItem>
-                <ListItem radio name="editslide-effect-type"></ListItem>
-                <ListItem radio name="editslide-effect-type"></ListItem>
-            </List>
+            {_arrCurrentEffectTypes.length ? (
+                <List mediaList>
+                    {_arrCurrentEffectTypes.map((elem, index) => {
+                        return (
+                            <ListItem key={index} radio name="editslide-effect-type" title={elem.displayValue} value={elem.value}
+                                checked={elem.value === type} onChange={() => {
+                                    storeTransition.changeType(elem.value);
+                                    props.onEffectTypeClick(elem.value, _effect);
+                                }}>
+                            </ListItem>
+                        )
+                    })}
+                </List>
+            ) : null}
         </Page>
     );
 };

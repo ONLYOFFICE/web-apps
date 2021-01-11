@@ -57,19 +57,30 @@ class TransitionController extends Component {
         api.SetSlideProps(props);
     };
 
-    onEffectClick(value) {
+    onEffectClick(value, effectType) {
         const api = Common.EditorApi.get();
 
-        // let props = new Asc.CAscSlideProps(),
-        //     timing = new Asc.CAscSlideTransition(),
-        //     _effectType = this.fillEffectTypes(value);
+        let props = new Asc.CAscSlideProps(),
+            timing = new Asc.CAscSlideTransition();
+        //  _effectType = this.fillEffectTypes(value);
 
-        // timing.put_TransitionType(value);
-        // timing.put_TransitionOption(_effectType);
-        // props.put_transition(timing);
-        // api.SetSlideProps(props);
-        
+        timing.put_TransitionType(value);
+        timing.put_TransitionOption(effectType);
+        props.put_transition(timing);
+        api.SetSlideProps(props);
     };
+
+    onEffectTypeClick(value, effect) {
+        const api = Common.EditorApi.get();
+
+        let props = new Asc.CAscSlideProps(),
+            timing = new Asc.CAscSlideTransition();
+
+        timing.put_TransitionType(effect);
+        timing.put_TransitionOption(value);
+        props.put_transition(timing);
+        api.SetSlideProps(props);
+    }
 
     render() {
         return (
@@ -80,6 +91,7 @@ class TransitionController extends Component {
                 onDelayCheck={this.onDelayCheck}
                 onDelay={this.onDelay}
                 onEffectClick={this.onEffectClick}
+                onEffectTypeClick={this.onEffectTypeClick}
             />
         );
     }

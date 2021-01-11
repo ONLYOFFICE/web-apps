@@ -12,8 +12,8 @@ const PageTheme = props => {
     const defaultThemes = arrayThemes[0];
     const docThemes = arrayThemes[1];
    
-    console.log(slideThemeIndex);
-    console.log(arrayThemes);
+    // console.log(slideThemeIndex);
+    // console.log(arrayThemes);
   
     return (
         <Page className="slide-theme">
@@ -23,7 +23,7 @@ const PageTheme = props => {
                 </NavRight>
             </Navbar>
             {arrayThemes.length ? (
-                <List>
+                <List className="slide-theme__list">
                     {defaultThemes.map((elem, index) => {
                         return (
                             <ListItem key={elem.Index} className={elem.Index === slideThemeIndex ? "item-theme active" : "item-theme"} 

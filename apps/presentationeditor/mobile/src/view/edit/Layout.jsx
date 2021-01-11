@@ -12,8 +12,8 @@ const PageLayout = props => {
     const arrayLayouts = JSON.parse(JSON.stringify(storeLayout.arrayLayouts));
     const slideLayoutIndex = storeLayout.slideLayoutIndex;
    
-    console.log(slideLayoutIndex);
-    console.log(arrayLayouts);
+    // console.log(slideLayoutIndex);
+    // console.log(arrayLayouts);
    
     return (
         <Page className="slide-layout">
@@ -23,7 +23,7 @@ const PageLayout = props => {
                 </NavRight>
             </Navbar>
             {arrayLayouts.length ? (
-                <List>
+                <List className="slide-layout__list">
                     {arrayLayouts.map((elem, index) => {
                         return (
                             <ListItem key={index} className={slideLayoutIndex === index ? "active" : ""} 
