@@ -13,7 +13,7 @@ const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
                                 <a key={`tc-${rowIndex}-${index}`}
                                    className={curColor && curColor.color === effect.color && curColor.effectValue === effect.effectValue ? 'active' : ''}
                                    style={{ background: `#${effect.color}`}}
-                                   onClick={() => {onColorClick(effect.color, effect.effectId)}}
+                                   onClick={() => {onColorClick(effect.color, effect.effectId, effect.effectValue)}}
                                 ></a>
                             )
                         })}
