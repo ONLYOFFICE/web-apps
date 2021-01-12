@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
+import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage';
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
@@ -8,10 +9,11 @@ class ApplicationSettingsController extends Component {
     }
 
     setUnitMeasurement(value) {
-        const api = Common.EditorApi.get();
         value = (value !== null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
         Common.Utils.Metric.setCurrentMetric(value);
-        // Common.localStorage.setItem("de-mobile-settings-unit", value);
+        LocalStorage.setItem("de-mobile-settings-unit", value);
+
+        const api = Common.EditorApi.get();
         api.asc_SetDocumentUnits((value == Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value == Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
     }
 
@@ -23,14 +25,15 @@ class ApplicationSettingsController extends Component {
     }
 
     switchNoCharacters(value) {
+        Common.localStorage.setItem("de-mobile-no-characters", value);
+
         const api = Common.EditorApi.get();
-        // Common.localStorage.setItem("de-mobile-no-characters", value);
         api.put_ShowParaMarks(value);
     }
 
     switchShowTableEmptyLine(value) {
+        Common.localStorage.setItem("de-mobile-hidden-borders", value);
         const api = Common.EditorApi.get();
-        // Common.localStorage.setItem("de-mobile-hidden-borders", state);
         api.put_ShowTableEmptyLine(value);
     }
 
