@@ -41,9 +41,19 @@ define([
 
     Common.UI.ColorButton = Common.UI.Button.extend(_.extend({
         options : {
-            hint: false,
-            enableToggle: false,
-            visible: true
+            id              : null,
+            hint            : false,
+            enableToggle    : false,
+            allowDepress    : false,
+            toggleGroup     : null,
+            cls             : '',
+            iconCls         : '',
+            caption         : '',
+            menu            : null,
+            disabled        : false,
+            pressed         : false,
+            split           : false,
+            visible         : true
         },
 
         template: _.template([
