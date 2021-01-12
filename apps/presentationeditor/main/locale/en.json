@@ -1947,5 +1947,11 @@
   "PE.Views.Toolbar.txtScheme8": "Flow",
   "PE.Views.Toolbar.txtScheme9": "Foundry",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
-  "PE.Views.Toolbar.txtUngroup": "Ungroup"
+  "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.textColumnsCustom": "Custom Columns",
+  "PE.Views.Toolbar.textColumnsOne": "One Column",
+  "PE.Views.Toolbar.textColumnsThree": "Three Columns",
+  "PE.Views.Toolbar.textColumnsTwo": "Two Columns",
+  "PE.Views.Toolbar.tipColumns": "Insert columns"
+
 }

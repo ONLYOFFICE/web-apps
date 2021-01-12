@@ -81,7 +81,8 @@ define([
         cantPrint:      'cant-print',
         noTextSelected:  'no-text',
         inEquation: 'in-equation',
-        commentLock: 'can-comment'
+        commentLock: 'can-comment',
+        noColumns: 'no-columns'
     };
 
     PE.Views.Toolbar =  Common.UI.Mixtbar.extend(_.extend((function(){
@@ -531,6 +532,45 @@ define([
                     });
                     me.paragraphControls.push(me.btnLineSpace);
 
+                    me.btnColumns = new Common.UI.Button({
+                        id: 'id-toolbar-btn-columns',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon columns-two',
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noColumns],
+                        menu: new Common.UI.Menu({
+                            cls: 'ppm-toolbar shifted-right',
+                            items: [
+                                {
+                                    caption: this.textColumnsOne,
+                                    iconCls: 'menu__icon columns-one',
+                                    checkable: true,
+                                    checkmark: false,
+                                    toggleGroup: 'menuColumns',
+                                    value: 0
+                                },
+                                {
+                                    caption: this.textColumnsTwo,
+                                    iconCls: 'menu__icon columns-two',
+                                    checkable: true,
+                                    checkmark: false,
+                                    toggleGroup: 'menuColumns',
+                                    value: 1
+                                },
+                                {
+                                    caption: this.textColumnsThree,
+                                    iconCls: 'menu__icon columns-three',
+                                    checkable: true,
+                                    checkmark: false,
+                                    toggleGroup: 'menuColumns',
+                                    value: 2
+                                },
+                                {caption: '--'},
+                                {caption: this.textColumnsCustom, value: 'advanced'}
+                            ]
+                        })
+                    });
+                    me.paragraphControls.push(me.btnColumns);
+
                     me.btnInsertTable = new Common.UI.Button({
                         id: 'tlbtn-inserttable',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -869,7 +909,7 @@ define([
                         this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
                         this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript,
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
-                        this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign,
+                        this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
                         this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertChart,
                         this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings
                     ];
@@ -988,6 +1028,7 @@ define([
                 _injectComponent('#slot-btn-halign', this.btnHorizontalAlign);
                 _injectComponent('#slot-btn-valign', this.btnVerticalAlign);
                 _injectComponent('#slot-btn-linespace', this.btnLineSpace);
+                _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
                 _injectComponent('#slot-btn-insertequation', this.btnInsertEquation);
@@ -1108,6 +1149,7 @@ define([
                 this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
+                this.btnColumns.updateHint(this.tipColumns);
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
@@ -1704,7 +1746,12 @@ define([
             tipInsertAudio: 'Insert audio',
             tipInsertVideo: 'Insert video',
             tipIncFont: 'Increment font size',
-            tipDecFont: 'Decrement font size'
+            tipDecFont: 'Decrement font size',
+            tipColumns: 'Insert columns',
+            textColumnsOne: 'One Column',
+            textColumnsTwo: 'Two Columns',
+            textColumnsThree: 'Three Columns',
+            textColumnsCustom: 'Custom Columns'
         }
     }()), PE.Views.Toolbar || {}));
 });
