@@ -122,7 +122,16 @@
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
       "textZoomRotate": "Zoom and Rotate",
-      "textSec": "s"
+      "textSec": "s",
+      "textAddCustomColor": "Add Custom Color",
+      "textFill": "Fill"
+    }
+  },
+  "Common": {
+    "ThemeColorPalette": {
+      "textThemeColors": "Theme Colors",
+      "textStandardColors": "Standard Colors",
+      "textCustomColors": "Custom Colors"
     }
   }
 }

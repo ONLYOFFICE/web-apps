@@ -224,6 +224,10 @@ class MainController extends Component {
             storeLayout.addArrayLayouts(layouts);
         });
 
+        this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
+            Common.Utils.ThemeColor.setColors(colors, standart_colors);
+        });
+
     }
 
     _onDocumentContentReady() {

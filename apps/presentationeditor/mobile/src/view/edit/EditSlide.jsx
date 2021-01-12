@@ -15,7 +15,7 @@ const EditSlide = props => {
                 <ListItem title={_t.textTheme} link="/theme/"></ListItem>
                 <ListItem title={_t.textLayout} link="/layout/"></ListItem>
                 <ListItem title={_t.textTransition} link="/transition/"></ListItem>
-                <ListItem title={_t.textStyle} link="#"></ListItem>
+                <ListItem title={_t.textStyle} link="/style/"></ListItem>
             </List>
         </Fragment>
     )
