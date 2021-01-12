@@ -1,13 +1,88 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, ListButton} from 'framework7-react';
+import {List, ListItem, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, ListButton, Link, Tabs, Tab} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
+import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
+
+const PageCustomFillColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    let fillColor = props.storeShapeSettings.fillColor;
+    if (typeof fillColor === 'object') {
+        fillColor = fillColor.color;
+    }
+    const onAddNewColor = (colors, color) => {
+        props.storePalette.changeCustomColors(colors);
+        props.onFillColor(color);
+        props.storeShapeSettings.setFillColor(color);
+        props.f7router.back();
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
+const FillTab = inject("storeFocusObjects", "storeShapeSettings", "storePalette")(observer(props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const storeShapeSettings = props.storeShapeSettings;
+    const shapeObject = props.storeFocusObjects.shapeObject;
+    const curFillColor = storeShapeSettings.fillColor ? storeShapeSettings.fillColor : storeShapeSettings.getFillColor(shapeObject);
+    const customColors = props.storePalette.customColors;
+    const changeColor = (color, effectId, effectValue) => {
+        if (color !== 'empty') {
+            if (effectId !==undefined ) {
+                const newColor = {color: color, effectId: effectId, effectValue: effectValue};
+                props.onFillColor(newColor);
+                storeShapeSettings.setFillColor(newColor);
+            } else {
+                props.onFillColor(color);
+                storeShapeSettings.setFillColor(color);
+            }
+        } else {
+            // open custom color menu
+            props.f7router.navigate('/edit-shape-custom-fill-color/');
+        }
+    };
+    return(
+        <Fragment>
+            <ThemeColorPalette changeColor={changeColor} curColor={curFillColor} customColors={customColors} transparent={true}/>
+            <List>
+                <ListItem title={_t.textAddCustomColor} link={'/edit-shape-custom-fill-color/'} routeProps={{
+                    onFillColor: props.onFillColor
+                }}></ListItem>
+            </List>
+        </Fragment>
+    )
+}));
 
 const PageStyle = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
     return (
         <Page>
-
+            <Navbar backLink={_t.textBack}>
+                <div className='tab-buttons tabbar'>
+                    <Link key={"de-link-shape-fill"}  tabLink={"#edit-shape-fill"} tabLinkActive={true}>{_t.textFill}</Link>
+                    <Link key={"de-link-shape-border"}  tabLink={"#edit-shape-border"}>{_t.textBorder}</Link>
+                    <Link key={"de-link-shape-effects"}  tabLink={"#edit-shape-effects"}>{_t.textEffects}</Link>
+                </div>
+            </Navbar>
+            <Tabs animated>
+                <Tab key={"de-tab-shape-fill"} id={"edit-shape-fill"} className="page-content" tabActive={true}>
+                    <FillTab onFillColor={props.onFillColor}/>
+                </Tab>
+                <Tab key={"de-tab-shape-border"} id={"edit-shape-border"} className="page-content">
+                    border
+                </Tab>
+                <Tab key={"de-tab-shape-effects"} id={"edit-shape-effects"} className="page-content">
+                    effects
+                </Tab>
+            </Tabs>
         </Page>
     )
 };
@@ -170,7 +245,9 @@ const EditShape = props => {
     return (
         <Fragment>
             <List>
-                <ListItem title={_t.textStyle}></ListItem>
+                <ListItem title={_t.textStyle} link='/edit-shape-style/' routeProps={{
+                    onFillColor: props.onFillColor
+                }}></ListItem>
                 <ListItem title={_t.textWrap} link='/edit-shape-wrap/' routeProps={{
                     onWrapType: props.onWrapType,
                     onShapeAlign: props.onShapeAlign,
@@ -193,13 +270,15 @@ const EditShape = props => {
 };
 
 const EditShapeContainer = inject("storeFocusObjects")(observer(EditShape));
-const PageStyleContainer = inject("storeFocusObjects")(observer(PageStyle));
+const PageShapeStyle = inject("storeFocusObjects")(observer(PageStyle));
+const PageShapeCustomFillColor = inject("storeFocusObjects", "storeShapeSettings", "storePalette")(observer(PageCustomFillColor));
 const PageWrapContainer = inject("storeShapeSettings", "storeFocusObjects")(observer(PageWrap));
 const PageReplaceContainer = inject("storeShapeSettings","storeFocusObjects")(observer(PageReplace));
 const PageReorderContainer = inject("storeFocusObjects")(observer(PageReorder));
 
 export {EditShapeContainer as EditShape,
-        PageStyleContainer as PageStyle,
+        PageShapeStyle,
+        PageShapeCustomFillColor,
         PageWrapContainer as PageWrap,
         PageReplaceContainer as PageReplace,
         PageReorderContainer as PageReorder}

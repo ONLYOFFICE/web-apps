@@ -9,6 +9,8 @@ class EditShapeController extends Component {
     constructor (props) {
         super(props);
         this.onWrapType = this.onWrapType.bind(this);
+
+        this.props.storeShapeSettings.setFillColor(undefined);
     }
 
     onRemoveShape () {
@@ -104,6 +106,24 @@ class EditShapeController extends Component {
         }
     }
 
+    onFillColor (color) {
+        const api = Common.EditorApi.get();
+        const image = new Asc.asc_CImgProperty();
+        const shape = new Asc.asc_CShapeProperty();
+        const fill = new Asc.asc_CShapeFill();
+        if (color == 'transparent') {
+            fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
+            fill.put_fill(null);
+        } else {
+            fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
+            fill.put_fill(new Asc.asc_CFillSolid());
+            fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(color));
+        }
+        shape.put_fill(fill);
+        image.put_ShapeProperties(shape);
+        api.ImgApply(image);
+    }
+
     render () {
         return (
             <EditShape onRemoveShape={this.onRemoveShape}
@@ -114,9 +134,10 @@ class EditShapeController extends Component {
                        onWrapDistance={this.onWrapDistance}
                        onReorder={this.onReorder}
                        onReplace={this.onReplace}
+                       onFillColor={this.onFillColor}
             />
         )
     }
 }
 
-export default inject("storeShapeSettings")(observer(EditShapeController));
+export default inject("storeShapeSettings", "storeFocusObjects")(observer(EditShapeController));

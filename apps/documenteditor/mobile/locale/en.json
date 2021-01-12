@@ -176,7 +176,10 @@
     "textAutomatic": "Automatic",
     "textAddCustomColor": "Add Custom Color",
     "textCustomColor": "Custom Color",
-    "textBackground": "Background"
+    "textBackground": "Background",
+    "textFill": "Fill",
+    "textBorder": "Border",
+    "textEffects": "Effects"
   },
   "Add": {
     "textTable": "Table",
