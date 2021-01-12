@@ -1671,6 +1671,7 @@
   "DE.Views.FormSettings.textKey": "Clé",
   "DE.Views.FormSettings.textLock": "Verrou ",
   "DE.Views.FormSettings.textMaxChars": "Limite de caractères",
+  "DE.Views.FormSettings.textNoBorder": "Sans bordures",
   "DE.Views.FormSettings.textPlaceholder": "Espace réservé",
   "DE.Views.FormSettings.textRadiobox": "Bouton radio",
   "DE.Views.FormSettings.textSelectImage": "Sélectionner une image",
