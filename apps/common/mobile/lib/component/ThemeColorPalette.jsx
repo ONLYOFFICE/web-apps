@@ -139,7 +139,7 @@ const CustomColorPicker = props => {
     if (props.autoColor) {
         currentColor = rgb2hex(props.autoColor);
     }
-    if (currentColor === 'transparent') {
+    if (currentColor === 'transparent' || !currentColor) {
         currentColor = 'ffffff';
     }
     const countDynamicColors = props.countdynamiccolors || 10;
