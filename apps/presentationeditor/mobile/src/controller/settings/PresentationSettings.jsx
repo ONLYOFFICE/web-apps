@@ -1,4 +1,4 @@
-import React, {Component} from 'React';
+import React, {Component} from 'react';
 import { observer, inject } from "mobx-react";
 import {PresentationSettings} from '../../view/settings/PresentationSettings';
 
