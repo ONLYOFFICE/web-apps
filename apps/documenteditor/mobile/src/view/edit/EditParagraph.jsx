@@ -3,6 +3,7 @@ import {observer, inject} from "mobx-react";
 import {List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, Toggle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
+import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 
 const PageAdvancedSettings = props => {
     const isAndroid = Device.android;
@@ -99,21 +100,86 @@ const PageAdvancedSettings = props => {
     )
 };
 
+const PageCustomBackColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    let backgroundColor = props.storeParagraphSettings.backColor;
+    if (typeof backgroundColor === 'object') {
+        backgroundColor = backgroundColor.color;
+    }
+    const onAddNewColor = (colors, color) => {
+        props.storePalette.changeCustomColors(colors);
+        props.onBackgroundColor(color);
+        props.storeParagraphSettings.setBackColor(color);
+        props.f7router.back();
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <CustomColorPicker currentColor={backgroundColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
+const PageBackgroundColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const backgroundColor = props.storeParagraphSettings.backColor;
+    const customColors = props.storePalette.customColors;
+    const changeColor = (color, effectId, effectValue) => {
+        if (color !== 'empty') {
+            if (effectId !==undefined ) {
+                const newColor = {color: color, effectId: effectId, effectValue: effectValue};
+                props.onBackgroundColor(newColor);
+                props.storeParagraphSettings.setBackColor(newColor);
+            } else {
+                props.onBackgroundColor(color);
+                props.storeParagraphSettings.setBackColor(color);
+            }
+        } else {
+            // open custom color menu
+            props.f7router.navigate('/edit-paragraph-custom-color/');
+        }
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textBackground} backLink={_t.textBack} />
+            <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
+            <List>
+                <ListItem title={_t.textAddCustomColor} link={'/edit-paragraph-custom-color/'} routeProps={{
+                    onBackgroundColor: props.onBackgroundColor
+                }}></ListItem>
+            </List>
+        </Page>
+    )
+};
+
 const EditParagraph = props => {
     const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
     const storeParagraphSettings = props.storeParagraphSettings;
     const paragraphStyles = storeParagraphSettings.paragraphStyles;
     const curStyleName = storeParagraphSettings.styleName;
     const thumbSize = storeParagraphSettings.styleThumbSize;
+
+    const paragraph = props.storeFocusObjects.paragraphObject;
+    const curBackColor = storeParagraphSettings.backColor ? storeParagraphSettings.backColor : storeParagraphSettings.getBackgroundColor(paragraph);
+    const background = curBackColor !== 'transparent' ? `#${(typeof curBackColor === "object" ? curBackColor.color : curBackColor)}` : curBackColor;
+
     return (
         <Fragment>
             <List>
-                <ListItem title={t('Edit.textBackground')} link=''>
-                    <span className="color-preview" slot="after"></span>
+                <ListItem title={_t.textBackground} link='/edit-paragraph-back-color/' routeProps={{
+                    onBackgroundColor: props.onBackgroundColor
+                }}>
+                    <span className="color-preview"
+                          slot="after"
+                          style={{ background: background}}
+                    ></span>
                 </ListItem>
             </List>
             <List>
-                <ListItem title={t('Edit.textAdvancedSettings')} link='/edit-paragraph-adv/' routeProps={{
+                <ListItem title={_t.textAdvancedSettings} link='/edit-paragraph-adv/' routeProps={{
                     onDistanceBefore: props.onDistanceBefore,
                     onDistanceAfter: props.onDistanceAfter,
                     onSpinFirstLine: props.onSpinFirstLine,
@@ -124,7 +190,7 @@ const EditParagraph = props => {
                     onKeepNext: props.onKeepNext
                 }}></ListItem>
             </List>
-            <BlockTitle>{t('Edit.textParagraphStyles')}</BlockTitle>
+            <BlockTitle>{_t.textParagraphStyles}</BlockTitle>
             <List>
                 {paragraphStyles.map((style, index) => (
                     <ListItem
@@ -144,7 +210,11 @@ const EditParagraph = props => {
 };
 
 const EditParagraphContainer = inject("storeParagraphSettings", "storeFocusObjects")(observer(EditParagraph));
-const AdvSettingsContainer = inject("storeParagraphSettings", "storeFocusObjects")(observer(PageAdvancedSettings));
+const ParagraphAdvSettings = inject("storeParagraphSettings", "storeFocusObjects")(observer(PageAdvancedSettings));
+const PageParagraphBackColor = inject("storeParagraphSettings", "storePalette")(observer(PageBackgroundColor));
+const PageParagraphCustomColor = inject("storeParagraphSettings", "storePalette")(observer(PageCustomBackColor));
 
 export {EditParagraphContainer as EditParagraph,
-        AdvSettingsContainer as PageAdvancedSettings};
+        ParagraphAdvSettings,
+        PageParagraphBackColor,
+        PageParagraphCustomColor};

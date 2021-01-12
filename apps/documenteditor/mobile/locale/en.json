@@ -175,7 +175,8 @@
     "textFontColors": "Font Colors",
     "textAutomatic": "Automatic",
     "textAddCustomColor": "Add Custom Color",
-    "textCustomColor": "Custom Color"
+    "textCustomColor": "Custom Color",
+    "textBackground": "Background"
   },
   "Add": {
     "textTable": "Table",
