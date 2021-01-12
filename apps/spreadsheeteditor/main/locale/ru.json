@@ -1910,6 +1910,7 @@
   "SSE.Views.FormatSettingsDialog.txtAs8": "Восьмыми долями (4/8)",
   "SSE.Views.FormatSettingsDialog.txtCurrency": "Денежный",
   "SSE.Views.FormatSettingsDialog.txtCustom": "Особый",
+  "SSE.Views.FormatSettingsDialog.txtCustomWarning": "Вводите пользовательский числовой формат внимательно. Редактор электронных таблиц не проверяет пользовательские форматы на ошибки, что может повлиять на файл xlsx.",
   "SSE.Views.FormatSettingsDialog.txtDate": "Дата",
   "SSE.Views.FormatSettingsDialog.txtFraction": "Дробный",
   "SSE.Views.FormatSettingsDialog.txtGeneral": "Общий",

@@ -189,7 +189,7 @@
   "SSE.Controllers.Main.errorLockedWorksheetRename": "Το φύλλο δεν μπορεί να μετονομαστεί προς το παρόν καθώς μετονομάζεται από άλλο χρήστη",
   "SSE.Controllers.Main.errorMailMergeLoadFile": "Η φόρτωση του εγγράφου απέτυχε. Παρακαλούμε επιλέξτε ένα διαφορετικό αρχείο.",
   "SSE.Controllers.Main.errorMailMergeSaveFile": "Η συγχώνευση απέτυχε.",
-  "SSE.Controllers.Main.errorMaxPoints": "Ο μέγιστος αριθμός πόντων σε σειρά ανά γράφημα είναι 4096.",
+  "SSE.Controllers.Main.errorMaxPoints": "Ο μέγιστος αριθμός σημείων σε σειρά ανά γράφημα είναι 4096.",
   "SSE.Controllers.Main.errorMoveRange": "Αδυναμία αλλαγής μέρους ενός συγχωνευμένου κελιού",
   "SSE.Controllers.Main.errorMultiCellFormula": "Οι τύποι συστοιχιών πολλών κελιών δεν επιτρέπονται στους πίνακες.",
   "SSE.Controllers.Main.errorOpensource": "Με τη δωρεάν έκδοση Κοινότητας μπορείτε μόνο να διαβάσετε τα έγγραφα. Η πρόσβαση σε επεξεργαστές εγγράφων μέσω δικτύου κινητής απαιτεί εμπορική άδεια.",

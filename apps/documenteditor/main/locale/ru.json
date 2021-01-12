@@ -1671,6 +1671,7 @@
   "DE.Views.FormSettings.textKey": "Ключ",
   "DE.Views.FormSettings.textLock": "Заблокировать",
   "DE.Views.FormSettings.textMaxChars": "Максимальное число знаков",
+  "DE.Views.FormSettings.textNoBorder": "Без границ",
   "DE.Views.FormSettings.textPlaceholder": "Заполнитель",
   "DE.Views.FormSettings.textRadiobox": "Переключатель",
   "DE.Views.FormSettings.textSelectImage": "Выбрать изображение",
