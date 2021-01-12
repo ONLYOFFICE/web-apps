@@ -14,6 +14,7 @@ export class storeTextSettings {
     @observable typeNumbers = undefined;
     @observable paragraphAlign = undefined;
     @observable textColor = undefined;
+    @observable customTextColors = [];
     @observable lineSpacing = undefined;
     @observable backgroundColor = undefined;
 
@@ -97,7 +98,7 @@ export class storeTextSettings {
         let value;
         if (color) {
             if (color.get_auto()) {
-                value = '000000';
+                value = 'auto';
             } else {
                 if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                     value = {
@@ -110,6 +111,10 @@ export class storeTextSettings {
             }
         }
         this.textColor = value;
+    }
+
+    @action changeCustomTextColors (colors) {
+        this.customTextColors = colors;
     }
 
     @action resetLineSpacing (vc) {

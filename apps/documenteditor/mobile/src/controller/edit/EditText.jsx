@@ -33,6 +33,27 @@ class EditTextController extends Component {
         }
     }
 
+    onTextColorAuto() {
+        const api = Common.EditorApi.get();
+        const color = new Asc.asc_CColor();
+        color.put_auto(true);
+        api.put_TextColor(color);
+    }
+
+    onTextColor(color) {
+        const api = Common.EditorApi.get();
+        api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
+    }
+
+    onBackgroundColor(color) {
+        const api = Common.EditorApi.get();
+        if (color == 'transparent') {
+            api.put_ParagraphShade(false);
+        } else {
+            api.put_ParagraphShade(true, Common.Utils.ThemeColor.getRgbColor(color));
+        }
+    }
+
     toggleBold(value) {
         const api = Common.EditorApi.get();
         if (api) {
@@ -174,6 +195,9 @@ class EditTextController extends Component {
         return (
             <EditText changeFontSize={this.changeFontSize}
                       changeFontFamily={this.changeFontFamily}
+                      onTextColorAuto={this.onTextColorAuto}
+                      onTextColor={this.onTextColor}
+                      onBackgroundColor={this.onBackgroundColor}
                       toggleBold={this.toggleBold}
                       toggleItalic={this.toggleItalic}
                       toggleUnderline={this.toggleUnderline}

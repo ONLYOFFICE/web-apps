@@ -1,8 +1,10 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState } from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle} from 'framework7-react';
+import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
+
+import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -208,18 +210,136 @@ const PageLineSpacing = props => {
     )
 };
 
+const PageCustomFontColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const store = props.storeTextSettings;
+    let textColor = store.textColor;
+    if (typeof textColor === 'object') {
+        textColor = textColor.color;
+    }
+    const autoColor = textColor === 'auto' ? window.getComputedStyle(document.getElementById('font-color-auto')).backgroundColor : null;
+    const onAddNewColor = (colors, color) => {
+        props.storePalette.changeCustomColors(colors);
+        props.onTextColor(color);
+        props.f7router.back();
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <CustomColorPicker autoColor={autoColor} currentColor={textColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
+const PageFontColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const textColor = props.storeTextSettings.textColor;
+    const customColors = props.storePalette.customColors;
+    const changeColor = (color, effectId) => {
+        if (color !== 'empty') {
+            if (effectId !==undefined ) {
+                props.onTextColor({color: color, effectId: effectId});
+            } else {
+                props.onTextColor(color);
+            }
+        } else {
+            // open custom color menu
+            props.f7router.navigate('/edit-text-custom-font-color/');
+        }
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textFontColors} backLink={_t.textBack} />
+            <List>
+                <ListItem className={'item-color-auto' + (textColor === 'auto' ? ' active' : '')} title={_t.textAutomatic} onClick={() => {
+                    props.onTextColorAuto();
+                }}>
+                    <div slot="media">
+                        <div id='font-color-auto' className={'color-auto'}></div>
+                    </div>
+                </ListItem>
+            </List>
+            <ThemeColorPalette changeColor={changeColor} curColor={textColor} customColors={customColors}/>
+            <List>
+                <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-font-color/'} routeProps={{
+                    onTextColor: props.onTextColor
+                }}></ListItem>
+            </List>
+        </Page>
+    )
+};
+
+const PageCustomBackColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    let backgroundColor = props.storeTextSettings.backgroundColor;
+    if (typeof backgroundColor === 'object') {
+        backgroundColor = backgroundColor.color;
+    }
+    const onAddNewColor = (colors, color) => {
+        props.storePalette.changeCustomColors(colors);
+        props.onBackgroundColor(color);
+        props.f7router.back();
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <CustomColorPicker currentColor={backgroundColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
+const PageBackgroundColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const backgroundColor = props.storeTextSettings.backgroundColor;
+    const customColors = props.storePalette.customColors;
+    const changeColor = (color, effectId) => {
+        if (color !== 'empty') {
+            if (effectId !==undefined ) {
+                props.onBackgroundColor({color: color, effectId: effectId});
+            } else {
+                props.onBackgroundColor(color);
+            }
+        } else {
+            // open custom color menu
+            props.f7router.navigate('/edit-text-custom-back-color/');
+        }
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textHighlightColor} backLink={_t.textBack} />
+            <ThemeColorPalette changeColor={changeColor} curColor={backgroundColor} customColors={customColors} transparent={true}/>
+            <List>
+                <ListItem title={_t.textAddCustomColor} link={'/edit-text-custom-back-color/'} routeProps={{
+                    onBackgroundColor: props.onBackgroundColor
+                }}></ListItem>
+            </List>
+        </Page>
+    )
+};
+
 const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const storeTextSettings = props.storeTextSettings;
     const fontName = storeTextSettings.fontName || t('Edit.textFonts');
     const fontSize = storeTextSettings.fontSize;
+    const fontColor = storeTextSettings.textColor;
+    const backgroundColor = storeTextSettings.backgroundColor;
     const displaySize = typeof fontSize === 'undefined' ? t('Edit.textAuto') : fontSize + ' ' + t('Edit.textPt');
     const isBold = storeTextSettings.isBold;
     const isItalic = storeTextSettings.isItalic;
     const isUnderline = storeTextSettings.isUnderline;
     const isStrikethrough = storeTextSettings.isStrikethrough;
     const paragraphAlign = storeTextSettings.paragraphAlign;
+
+    const fontColorPreview = fontColor !== 'auto' ?
+        <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
+        <span className="color-preview auto"></span>;
+
     return (
         <Fragment>
             <List>
@@ -235,12 +355,22 @@ const EditText = props => {
                         <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
                     </Row>
                 </ListItem>
-                <ListItem title={t("Edit.textFontColor")} link="#">
-                    {!isAndroid && <Icon slot="media" icon="icon-text-color"></Icon>}
-                    <span className="color-preview"></span>
+                <ListItem title={t("Edit.textFontColor")} link="/edit-text-font-color/" routeProps={{
+                    onTextColorAuto: props.onTextColorAuto,
+                    onTextColor: props.onTextColor
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-color">{fontColorPreview}</Icon> :
+                        fontColorPreview
+                    }
                 </ListItem>
-                <ListItem title={t("Edit.textHighlightColor")} link="#">
-                    {!isAndroid && <Icon slot="media" icon="icon-text-selection"></Icon>}
+                <ListItem title={t("Edit.textHighlightColor")} link="/edit-text-background-color/" routeProps={{
+                    onBackgroundColor: props.onBackgroundColor
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-selection"><span className="color-preview" style={{ background: `#${backgroundColor}`}}></span></Icon> :
+                        <span className="color-preview" style={{ background: `#${(typeof backgroundColor === "object" ? backgroundColor.color : backgroundColor)}`}}></span>
+                    }
                 </ListItem>
                 <ListItem title={t("Edit.textAdditionalFormatting")} link="/edit-text-add-formatting/" routeProps={{
                     onAdditionalStrikethrough: props.onAdditionalStrikethrough,
@@ -299,15 +429,26 @@ const EditText = props => {
 };
 
 const EditTextContainer = inject("storeTextSettings", "storeFocusObjects")(observer(EditText));
-const PageFontsContainer = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
-const PageAddFormattingContainer = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
-const PageBulletsContainer = inject("storeTextSettings")(observer(PageBullets));
-const PageNumbersContainer = inject("storeTextSettings")(observer(PageNumbers));
-const PageLineSpacingContainer = inject("storeTextSettings")(observer(PageLineSpacing));
+const PageTextFonts = inject("storeTextSettings", "storeFocusObjects")(observer(PageFonts));
+const PageTextAddFormatting = inject("storeTextSettings", "storeFocusObjects")(observer(PageAdditionalFormatting));
+const PageTextBullets = inject("storeTextSettings")(observer(PageBullets));
+const PageTextNumbers = inject("storeTextSettings")(observer(PageNumbers));
+const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing));
+const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
+const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
+const PageTextBackgroundColor = inject("storeTextSettings", "storePalette")(observer(PageBackgroundColor));
+const PageTextCustomBackColor = inject("storeTextSettings", "storePalette")(observer(PageCustomBackColor));
 
-export {EditTextContainer as EditText,
-        PageFontsContainer as PageFonts,
-        PageAddFormattingContainer as PageAdditionalFormatting,
-        PageBulletsContainer as PageBullets,
-        PageNumbersContainer as PageNumbers,
-        PageLineSpacingContainer as PageLineSpacing};
+
+export {
+    EditTextContainer as EditText,
+    PageTextFonts,
+    PageTextAddFormatting,
+    PageTextBullets,
+    PageTextNumbers,
+    PageTextLineSpacing,
+    PageTextFontColor,
+    PageTextCustomFontColor,
+    PageTextBackgroundColor,
+    PageTextCustomBackColor
+};

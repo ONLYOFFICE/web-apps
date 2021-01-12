@@ -172,6 +172,10 @@ class MainController extends Component {
     }
 
     bindEvents() {
+        this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
+            Common.Utils.ThemeColor.setColors(colors, standart_colors);
+        });
+
         const storeDocumentSettings = this.props.storeDocumentSettings;
         this.api.asc_registerCallback('asc_onPageOrient', isPortrait => {
             storeDocumentSettings.resetPortrait(isPortrait);

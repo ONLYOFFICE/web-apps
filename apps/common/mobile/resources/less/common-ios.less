@@ -160,6 +160,19 @@
     }
 
     .list {
+        .item-content {
+            .color-preview {
+                width: 22px;
+                height: 8px;
+                display: inline-block;
+                margin-top: 21px;
+                box-sizing: border-box;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset;
+                &.auto {
+                    background-color: @autoColor;
+                }
+            }
+        }
         li.no-indicator {
             .item-link {
                 .item-inner:before {
@@ -298,5 +311,16 @@
 
     .dialog {
         background-color: rgba(var(--f7-dialog-bg-color-rgb), 1);
+    }
+
+    #color-picker {
+        .right-block {
+            .button-round {
+                .icon {
+                    height: 30px;
+                    width: 30px;
+                }
+            }
+        }
     }
 }

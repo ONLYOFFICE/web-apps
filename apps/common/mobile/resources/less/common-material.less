@@ -178,6 +178,18 @@
                 }
             }
         }
+        .item-content {
+            .color-preview {
+                width: 30px;
+                height: 30px;
+                border-radius: 16px;
+                margin-top: -3px;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset;
+                &.auto {
+                    background-color: @autoColor;
+                }
+            }
+        }
     }
     // Bullets and numbers
     .bullets,
@@ -227,6 +239,14 @@
                 a {
                     border-radius: 0;
                 }
+            }
+        }
+    }
+    // Color palette
+    #color-picker {
+        .right-block {
+            .button-round {
+                background-color: @themeColor;
             }
         }
     }
