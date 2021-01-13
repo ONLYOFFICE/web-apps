@@ -1887,16 +1887,7 @@ define([
         },
 
         onInsertCaption: function() {
-            var me = this;
-            (new DE.Views.CaptionDialog({
-                isObject: true,
-                handler: function (result, settings) {
-                    if (result == 'ok') {
-                        me.api.asc_AddObjectCaption(settings);
-                    }
-                    me.fireEvent('editcomplete', me);
-                }
-            })).show();
+            this.fireEvent('links:caption');
         },
 
         onContinueNumbering: function(item, e) {

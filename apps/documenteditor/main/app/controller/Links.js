@@ -78,14 +78,15 @@ define([
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
-                    'links:update': this.onTableContentsUpdate
+                    'links:update': this.onTableContentsUpdate,
+                    'links:caption': this.onCaptionClick
                 }
             });
         },
         onLaunch: function () {
             this._state = {
                 prcontrolsdisable:undefined,
-                in_object: false
+                in_object: undefined
             };
             Common.Gateway.on('setactionlink', function (url) {
                 console.log('url with actions: ' + url);
@@ -137,7 +138,8 @@ define([
                 in_equation = false,
                 in_image = false,
                 in_table = false,
-                frame_pr = null;
+                frame_pr = null,
+                object_type;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -151,14 +153,17 @@ define([
                     in_header = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
                     in_image = true;
+                    object_type = type;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
+                    object_type = type;
                 } else if (type === Asc.c_oAscTypeSelectElement.Table) {
                     in_table = true;
+                    object_type = type;
                 }
             }
             this._state.prcontrolsdisable = paragraph_locked || header_locked;
-            this._state.in_object = in_image || in_table || in_equation;
+            this._state.in_object = object_type;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
                 control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false,
@@ -411,7 +416,7 @@ define([
         onCaptionClick: function(btn) {
             var me = this;
             (new DE.Views.CaptionDialog({
-                isObject: this._state.in_object,
+                objectType: this._state.in_object,
                 handler: function (result, settings) {
                     if (result == 'ok') {
                         me.api.asc_AddObjectCaption(settings);
