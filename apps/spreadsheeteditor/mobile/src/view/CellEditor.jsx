@@ -19,13 +19,16 @@ const CellEditorView = props => {
 
     return <View id="idx-celleditor" style={viewStyle} className={expanded?'expanded':'collapsed'}>
                 <div id="box-cell-name" className="ce-group">
-                    F(x)
+                    <span id="idx-cell-name">{props.cellName}</span>
+                    <a href="#" id="idx-btn-function" className="link icon-only">
+                        <i className="icon icon-function" />
+                    </a>
                 </div>
-                <div className="ce-group" style={contentStyle}>
-                    <textarea id="ce-cell-content" spellCheck="false"></textarea>
+                <div className="ce-group group--content" style={contentStyle}>
+                    <textarea id="idx-cell-content" spellCheck="false" />
                 </div>
                 <div className="ce-group">
-                    <Link icon="caret" onClick={expandClick}></Link>
+                    <Link icon="caret" onClick={expandClick} />
                 </div>
             </View>;
 };

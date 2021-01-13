@@ -3,8 +3,15 @@
 @cellEditorExpandedHeight: 70px;
 @contentBackColor: #fff;
 @gray-light: #f1f1f1;
+@gray-darker: #848484; //rgb(132, 132, 132)
+@statusBarBorderColor: #cbcbcb;
 
 #idx-celleditor {
+    box-sizing: border-box;
+    * {
+        box-sizing: border-box;
+    }
+
     display: flex;
 
     height: @cellEditorHeight;
@@ -34,10 +41,31 @@
     }
 
     #box-cell-name {
+        display: inline-flex;
         background-color: var(--f7-navbar-bg-color);
     }
 
-    #ce-cell-content {
+    #idx-cell-name {
+        display: inline-block;
+        width: 90px;
+        padding: 0 4px;
+        border: 0 none;
+        line-height: 30px;
+        //font-size: 17px;
+        text-align: center;
+
+        &[disabled] {
+            color: @gray-darker;
+            opacity: 0.5;
+        }
+    }
+
+    #idx-btn-function {
+        line-height: @cellEditorHeight;
+        padding: 0 10px;
+    }
+
+    #idx-cell-content {
         padding: 3px 3px;
         line-height: 1.428571429;
         color: #000;
@@ -75,5 +103,10 @@
                 transform: rotate(45deg) translate(3px, 3px);
             }
         }
+    }
+
+    .group--content {
+        position: relative;
+        .hairline(left, @statusBarBorderColor);
     }
 }
