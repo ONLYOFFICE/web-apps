@@ -1667,6 +1667,7 @@
   "PE.Views.SlideSettings.txtLeather": "Leather",
   "PE.Views.SlideSettings.txtPapyrus": "Papyrus",
   "PE.Views.SlideSettings.txtWood": "Wood",
+  "PE.Views.SlideSettings.strTransparency": "Opacity",
   "PE.Views.SlideshowSettings.textLoop": "Loop continuously until 'Esc' is pressed",
   "PE.Views.SlideshowSettings.textTitle": "Show Settings",
   "PE.Views.SlideSizeSettings.strLandscape": "Landscape",

@@ -86,6 +86,7 @@ define([
             this._stateDisabled = {};
 
             this._state = {
+                Transparency: null,
                 FillType:undefined,
                 SlideColor: 'ffffff',
                 BlipFillType: Asc.c_oAscFillBlipType.STRETCH,
@@ -143,10 +144,40 @@ define([
             });
             this.FillItems.push(this.btnBackColor);
 
+            this.numTransparency = new Common.UI.MetricSpinner({
+                el: $('#slide-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0,
+                disabled: true
+            });
+            this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.FillItems.push(this.numTransparency);
+
+            this.sldrTransparency = new Common.UI.SingleSlider({
+                el: $('#slide-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrTransparency.setDisabled(true);
+            this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
+            this.sldrTransparency.on('changecomplete', _.bind(this.onTransparencyChangeComplete, this));
+            this.FillItems.push(this.sldrTransparency);
+
+            this.lblTransparencyStart = $(this.el).find('#slide-lbl-transparency-start');
+            this.lblTransparencyEnd = $(this.el).find('#slide-lbl-transparency-end');
+
             this.FillColorContainer = $('#slide-panel-color-fill');
             this.FillImageContainer = $('#slide-panel-image-fill');
             this.FillPatternContainer = $('#slide-panel-pattern-fill');
             this.FillGradientContainer = $('#slide-panel-gradient-fill');
+            this.TransparencyContainer = $('#slide-panel-transparent-fill');
 
             this._arrEffectName = [
                 {displayValue: this.textNone,    value: Asc.c_oAscSlideTransitionTypes.None},
@@ -481,6 +512,50 @@ define([
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
+        },
+
+        onNumTransparencyChange: function(field, newValue, oldValue, eOpts){
+            this.sldrTransparency.setValue(field.getNumberValue(), true);
+            if (this.api)  {
+                var num = field.getNumberValue();
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_transparent(num * 2.55);
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
+            }
+        },
+
+        onTransparencyChange: function(field, newValue, oldValue){
+            this._sliderChanged = newValue;
+            this.numTransparency.setValue(newValue, true);
+
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updateslider = setInterval(_.bind(this._transparencyApplyFunc, this), 100);
+            }
+        },
+
+        onTransparencyChangeComplete: function(field, newValue, oldValue){
+            clearInterval(this.updateslider);
+            this._sliderChanged = newValue;
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyApplyFunc();
+            }
+            this._sendUndoPoint = true;
+        },
+
+        _transparencyApplyFunc: function() {
+            if (this._sliderChanged!==undefined) {
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_transparent(this._sliderChanged * 2.55);
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
+                this._sliderChanged = undefined;
+            }
         },
 
         onGradTypeSelect: function(combo, record){
@@ -1191,6 +1266,7 @@ define([
             this.FillImageContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_BLIP);
             this.FillPatternContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_PATT);
             this.FillGradientContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_GRAD);
+            this.TransparencyContainer.toggleClass('settings-hidden', (value === Asc.c_oAscFill.FILL_TYPE_NOFILL || value === null));
         },
 
         ChangeSettings: function(props) {
@@ -1208,6 +1284,17 @@ define([
                 var fill = props.get_background();
                 var fill_type = fill.get_type();
                 var color = null;
+
+                var transparency = fill.get_transparent();
+                if ( Math.abs(this._state.Transparency-transparency)>0.001 || Math.abs(this.numTransparency.getNumberValue()-transparency)>0.001 ||
+                    (this._state.Transparency===null || transparency===null)&&(this._state.Transparency!==transparency || this.numTransparency.getNumberValue()!==transparency)) {
+
+                    if (transparency !== undefined) {
+                        this.sldrTransparency.setValue((transparency===null) ? 100 : transparency/255*100, true);
+                        this.numTransparency.setValue(this.sldrTransparency.getValue(), true);
+                    }
+                    this._state.Transparency=transparency;
+                }
 
                 if (fill===null || fill_type===null || fill_type==Asc.c_oAscFill.FILL_TYPE_NOFILL) { // заливки нет или не совпадает у неск. фигур
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
@@ -1544,6 +1631,8 @@ define([
                 for (var i=0; i<this.FillItems.length; i++) {
                     this.FillItems[i].setDisabled(background);
                 }
+                this.lblTransparencyStart.toggleClass('disabled', background);
+                this.lblTransparencyEnd.toggleClass('disabled', background);
                 this.numGradientAngle.setDisabled(background || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
                 this._stateDisabled.background = background;
             }
@@ -1717,6 +1806,7 @@ define([
         textPosition: 'Position',
         tipAddGradientPoint: 'Add gradient point',
         tipRemoveGradientPoint: 'Remove gradient point',
-        textAngle: 'Angle'
+        textAngle: 'Angle',
+        strTransparency: 'Opacity'
     }, PE.Views.SlideSettings || {}));
 });
