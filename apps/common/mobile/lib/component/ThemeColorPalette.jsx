@@ -13,7 +13,7 @@ const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
                                 <a key={`tc-${rowIndex}-${index}`}
                                    className={curColor && curColor.color === effect.color && curColor.effectValue === effect.effectValue ? 'active' : ''}
                                    style={{ background: `#${effect.color}`}}
-                                   onClick={() => {onColorClick(effect.color, effect.effectId)}}
+                                   onClick={() => {onColorClick(effect.color, effect.effectId, effect.effectValue)}}
                                 ></a>
                             )
                         })}
@@ -138,6 +138,9 @@ const CustomColorPicker = props => {
     let currentColor = props.currentColor;
     if (props.autoColor) {
         currentColor = rgb2hex(props.autoColor);
+    }
+    if (currentColor === 'transparent' || !currentColor) {
+        currentColor = 'ffffff';
     }
     const countDynamicColors = props.countdynamiccolors || 10;
     const [stateColor, setColor] = useState(`#${currentColor}`);

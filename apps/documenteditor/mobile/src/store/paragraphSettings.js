@@ -25,4 +25,28 @@ export class storeParagraphSettings {
     @action changeParaStyleName (name) {
         this.styleName = name;
     }
+
+    @observable backColor = undefined;
+    setBackColor (color) {
+        this.backColor = color;
+    }
+    getBackgroundColor (paragraphObject) {
+        const shade = paragraphObject.get_Shade();
+        let backColor = 'transparent';
+        if (!!shade && shade.get_Value() === Asc.c_oAscShdClear) {
+            const color = shade.get_Color();
+            if (color) {
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    backColor = {
+                        color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
+                        effectValue: color.get_value()
+                    };
+                } else {
+                    backColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                }
+            }
+        }
+        this.backColor = backColor;
+        return backColor;
+    }
 }

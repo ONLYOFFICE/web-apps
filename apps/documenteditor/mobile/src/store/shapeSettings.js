@@ -189,4 +189,29 @@ export class storeShapeSettings {
     getWrapDistance (shapeObject) {
         return shapeObject.get_Paddings().get_Top();
     }
+
+    // Fill Color
+    @observable fillColor = undefined;
+    setFillColor (color) {
+        this.fillColor = color;
+    }
+    getFillColor (shapeObject) {
+        let fill = shapeObject.get_ShapeProperties().get_fill();
+        const fillType = fill.get_type();
+        let color = 'transparent';
+        if (fillType == Asc.c_oAscFill.FILL_TYPE_SOLID) {
+            fill = fill.get_fill();
+            const sdkColor = fill.get_color();
+            if (sdkColor) {
+                if (sdkColor.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    color = {color: Common.Utils.ThemeColor.getHexColor(sdkColor.get_r(), sdkColor.get_g(), sdkColor.get_b()), effectValue: sdkColor.get_value()};
+                } else {
+                    color = Common.Utils.ThemeColor.getHexColor(sdkColor.get_r(), sdkColor.get_g(), sdkColor.get_b());
+                }
+            }
+        }
+        this.fillColor = color;
+        return color;
+    }
+
 }
