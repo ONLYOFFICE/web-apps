@@ -11,6 +11,7 @@ import LayoutController from "../../controller/edit/Layout";
 import TransitionController from '../../controller/edit/Transition';
 import ThemeController from '../../controller/edit/Theme';
 import StyleController from '../../controller/edit/Style';
+import { CustomColor } from './Style';
 import { Effect } from './Transition';
 import { Type } from './Transition';
 //import EditShapeController from "../../controller/edit/EditShape";
@@ -43,6 +44,10 @@ const routes = [
     {
         path: '/style/',
         component: StyleController
+    },
+    {
+        path: '/edit-custom-color/',
+        component: CustomColor
     }
 ];
 
