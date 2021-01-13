@@ -1544,7 +1544,7 @@ define([
 
                     me.btnImgWrapping.updateHint(me.tipImgWrapping);
                     me.btnImgWrapping.setMenu(new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
+                        cls: 'ppm-toolbar shifted-right',
                         items: [{
                                 caption     : _holder_view.txtInline,
                                 iconCls     : 'menu__icon wrap-inline',
@@ -1594,6 +1594,11 @@ define([
                                 wrapType    : Asc.c_oAscWrapStyle2.Behind,
                                 checkmark   : false,
                                 checkable   : true
+                            },
+                            { caption: '--' },
+                            {
+                                caption     : _holder_view.textEditWrapBoundary,
+                                wrapType    : 'edit'
                             }
                         ]
                     }));
