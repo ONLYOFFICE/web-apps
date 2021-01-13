@@ -374,7 +374,8 @@ define([
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = !!this.api.asc_isSupportFeature("sheet-views");
 
-                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
+                if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge)
+                    Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
@@ -933,7 +934,8 @@ define([
                 } else checkWarns();
 
                 Common.Gateway.documentReady();
-                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
+                if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && (Common.Utils.InternalSettings.get("guest-username")===null))
+                    this.showRenameUserDialog();
             },
 
             onLicenseChanged: function(params) {
