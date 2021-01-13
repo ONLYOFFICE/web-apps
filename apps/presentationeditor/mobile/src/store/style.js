@@ -22,12 +22,13 @@ export class storeStyle {
                 }
             }
         }
-        
+
         this.fillColor = color;
+        return this.fillColor;
     }
 
-    @action changeCustomColors (colors) {
-        this.customColors = colors;
+    @action changeFillColor (color) {
+        this.fillColor = color;
     }
 
 }

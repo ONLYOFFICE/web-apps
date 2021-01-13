@@ -7,23 +7,22 @@ import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobi
 const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
-
     const storeFocusObjects = props.storeFocusObjects;
     const slideObject = storeFocusObjects.slideObject;
     const storePalette = props.storePalette;
     const storeStyle = props.storeStyle;
-
-    storeStyle.getFillColor(slideObject);
-
     const customColors = storePalette.customColors;
-    const fillColor = storeStyle.fillColor;
+    storeStyle.fillColor ? storeStyle.fillColor : storeStyle.getFillColor(slideObject);
+    const fillColor = JSON.parse(JSON.stringify(storeStyle.fillColor));
+    console.log(fillColor);
 
-
-    const changeColor = (color, effectId) => {
+    const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
             if (effectId !==undefined ) {
-                props.onFillColor({color: color, effectId: effectId});
+                storeStyle.changeFillColor({color: color, effectId: effectId, effectValue: effectValue});
+                props.onFillColor({color: color, effectId: effectId, effectValue: effectValue});
             } else {
+                storeStyle.changeFillColor(color);
                 props.onFillColor(color);
             }
         } else {
