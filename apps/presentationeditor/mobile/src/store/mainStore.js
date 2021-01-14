@@ -9,7 +9,7 @@ import {storePresentationSettings} from './presentationSettings';
 import { storeLayout } from './layout';
 import { storeTransition } from './transition';
 import { storeTheme } from './theme';
-import { storeStyle } from './style';
+import { storeSlideStyle } from './styleSlide';
 import { storePalette } from './palette';
 // import {storeTextSettings} from "./textSettings";
 // import {storeParagraphSettings} from "./paragraphSettings";
@@ -29,7 +29,7 @@ export const stores = {
     storeLayout: new storeLayout(),
     storeTransition: new storeTransition(),
     storeTheme: new storeTheme(),
-    storeStyle: new storeStyle(),
+    storeSlideStyle: new storeSlideStyle(),
     storePalette: new storePalette()
     // storeTextSettings: new storeTextSettings(),
     // storeParagraphSettings: new storeParagraphSettings(),

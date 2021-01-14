@@ -1,6 +1,6 @@
 import {action, observable} from 'mobx';
 
-export class storeStyle {
+export class storeSlideStyle {
     @observable fillColor = undefined;
 
     @action getFillColor (slideObject) {
