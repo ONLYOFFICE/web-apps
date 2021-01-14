@@ -9,6 +9,7 @@ import DownloadController from "../../controller/settings/Download";
 import PresentationInfoController from "../../controller/settings/PresentationInfo";
 import PresentationSettingsController from "../../controller/settings/PresentationSettings";
 import { PresentationColorSchemes } from "./PresentationSettings";
+import PresentationAboutController from '../../controller/settings/PresentationAbout';
 
 const routes = [
     {
@@ -38,6 +39,10 @@ const routes = [
     {
         path: '/color-schemes/',
         component: PresentationColorSchemes
+    },
+    {
+        path: '/about/',
+        component: PresentationAboutController
     }
     /*{
         path: '/presentation-settings/',
@@ -68,14 +73,32 @@ const SettingsList = withTranslation()(props => {
         } else {
             f7.popover.close('#settings-popover');
         }
-    }
+    };
 
     const onPrint = () => {
         closeModal();
         const api = Common.EditorApi.get();
         api.asc_Print();
-    }
+    };
 
+    const showHelp = () => {
+        // let url = '{{HELP_URL}}';
+        let url = 'https://helpcenter.onlyoffice.com';
+
+        if (url.charAt(url.length-1) !== '/') {
+            url += '/';
+        }
+
+        if (Device.sailfish || Device.android) {
+            url+='mobile-applications/documents/mobile-web-editors/android/index.aspx';
+        } 
+        else {
+            url+='mobile-applications/documents/mobile-web-editors/ios/index.aspx';
+        }
+
+        closeModal();
+        window.open(url, "_blank");
+    };
 
     return (
         <View style={props.style} stackPages={true} routes={routes}>
@@ -102,10 +125,10 @@ const SettingsList = withTranslation()(props => {
                     <ListItem title={_t.textPresentationInfo} link="#" onClick={onoptionclick.bind(this, "/presentation-info/")}>
                         <Icon slot="media" icon="icon-info"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textHelp} link="#">
+                    <ListItem title={_t.textHelp} link="#" onClick={showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textAbout} link="#">
+                    <ListItem title={_t.textAbout} link="#" onClick={onoptionclick.bind(this, "/about/")}>
                         <Icon slot="media" icon="icon-about"></Icon>
                     </ListItem>
                 </List>
