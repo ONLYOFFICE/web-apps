@@ -7,8 +7,13 @@
 @autoColor: @black;
 
 .popup, .popover, .sheet-modal {
-    .list:first-child {
-        margin-top: 0;
+    .list {
+        &:first-child {
+            margin-top: 0;
+        }
+        .inner-range-title {
+            padding: 15px 0 0 15px;
+        }
     }
 }
 
