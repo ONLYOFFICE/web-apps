@@ -16,7 +16,7 @@ import EditHeaderController from "../../controller/edit/EditHeader";
 
 import {PageTextFonts, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextBackgroundColor, PageTextCustomBackColor} from "./EditText";
 import {ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor} from "./EditParagraph";
-import {PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace} from "./EditShape";
+import {PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
 import {PageTableOptions, PageTableWrap, PageTableStyle} from "./EditTable";
 import {PageChartWrap, PageChartReorder} from "./EditChart";
@@ -76,6 +76,10 @@ const routes = [
     {
         path: '/edit-shape-style/',
         component: PageShapeStyle,
+    },
+    {
+        path: '/edit-shape-style-no-fill/',
+        component: PageShapeStyleNoFill,
     },
     {
         path: '/edit-shape-custom-fill-color/',

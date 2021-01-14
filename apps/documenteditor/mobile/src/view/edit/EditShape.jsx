@@ -197,6 +197,55 @@ const PageStyle = props => {
     )
 };
 
+const PageStyleNoFill = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const storeShapeSettings = props.storeShapeSettings;
+    const shapeObject = props.storeFocusObjects.shapeObject;
+    const stroke = shapeObject.get_ShapeProperties().get_stroke();
+
+    // Init border size
+    const borderSizeTransform = storeShapeSettings.borderSizeTransform();
+    const borderSize = stroke.get_width() * 72.0 / 25.4;
+    const borderType = stroke.get_type();
+    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
+    const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
+    const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
+
+    // Init border color
+    const borderColor = !storeShapeSettings.borderColorView ? storeShapeSettings.initBorderColorView(shapeObject) : storeShapeSettings.borderColorView;
+    const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
+
+    return (
+        <Page>
+            <Navbar backLink={_t.textBack} title={_t.textBorder}></Navbar>
+            <List>
+                <ListItem>
+                    <div slot="root-start" className='inner-range-title'>{_t.textSize}</div>
+                    <div slot='inner' style={{width: '100%'}}>
+                        <Range min="0" max="7" step="1" value={stateBorderSize}
+                               onRangeChange={(value) => {setBorderSize(value); setTextBorderSize(borderSizeTransform.sizeByIndex(value));}}
+                               onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
+                        ></Range>
+                    </div>
+                    <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                        {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
+                    </div>
+                </ListItem>
+                <ListItem title={_t.textColor} link='/edit-shape-border-color/' routeProps={{
+                    onBorderColor: props.onBorderColor
+                }}>
+                    <span className="color-preview"
+                          slot="after"
+                          style={{ background: displayBorderColor}}
+                    ></span>
+                </ListItem>
+            </List>
+        </Page>
+    )
+};
+
 const PageWrap = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -352,15 +401,22 @@ const PageReorder = props => {
 const EditShape = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+    const canFill = props.storeFocusObjects.shapeObject.get_ShapeProperties().get_CanFill();
     return (
         <Fragment>
             <List>
-                <ListItem title={_t.textStyle} link='/edit-shape-style/' routeProps={{
-                    onFillColor: props.onFillColor,
-                    onBorderSize: props.onBorderSize,
-                    onBorderColor: props.onBorderColor,
-                    onOpacity: props.onOpacity
-                }}></ListItem>
+                {canFill ?
+                    <ListItem title={_t.textStyle} link='/edit-shape-style/' routeProps={{
+                        onFillColor: props.onFillColor,
+                        onBorderSize: props.onBorderSize,
+                        onBorderColor: props.onBorderColor,
+                        onOpacity: props.onOpacity
+                    }}></ListItem> :
+                    <ListItem title={_t.textStyle} link='/edit-shape-style-no-fill/' routeProps={{
+                        onBorderSize: props.onBorderSize,
+                        onBorderColor: props.onBorderColor
+                    }}></ListItem>
+                }
                 <ListItem title={_t.textWrap} link='/edit-shape-wrap/' routeProps={{
                     onWrapType: props.onWrapType,
                     onShapeAlign: props.onShapeAlign,
@@ -384,6 +440,7 @@ const EditShape = props => {
 
 const EditShapeContainer = inject("storeFocusObjects")(observer(EditShape));
 const PageShapeStyle = inject("storeFocusObjects", "storeShapeSettings")(observer(PageStyle));
+const PageShapeStyleNoFill = inject("storeFocusObjects", "storeShapeSettings")(observer(PageStyleNoFill));
 const PageShapeCustomFillColor = inject("storeFocusObjects", "storeShapeSettings", "storePalette")(observer(PageCustomFillColor));
 const PageShapeBorderColor = inject("storeShapeSettings", "storePalette")(observer(PageBorderColor));
 const PageShapeCustomBorderColor = inject("storeShapeSettings", "storePalette")(observer(PageCustomBorderColor));
@@ -393,6 +450,7 @@ const PageReorderContainer = inject("storeFocusObjects")(observer(PageReorder));
 
 export {EditShapeContainer as EditShape,
         PageShapeStyle,
+        PageShapeStyleNoFill,
         PageShapeCustomFillColor,
         PageShapeBorderColor,
         PageShapeCustomBorderColor,
