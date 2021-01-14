@@ -203,9 +203,9 @@ define([
                 cls         : 'btn-large-dataview',
                 iconCls     : 'svgicon chart-bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 364px; padding-top: 12px;',
+                    style: 'width: 364px;',
                     items: [
-                        { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        { template: _.template('<div id="id-chart-menu-type" class="menu-insertchart"></div>') }
                     ]
                 })
             });
@@ -213,7 +213,7 @@ define([
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#id-chart-menu-type'),
                     parentMenu: btn.menu,
-                    restoreHeight: 421,
+                    restoreHeight: 465,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')

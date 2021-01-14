@@ -123,10 +123,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     cls: 'btn-large-dataview',
                     iconCls: 'svgicon chart-bar-normal',
                     menu: new Common.UI.Menu({
-                        style: 'width: 364px; padding-top: 12px;',
+                        style: 'width: 364px;',
                         additionalAlign: this.menuAddAlign,
                         items: [
-                            {template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>')}
+                            {template: _.template('<div id="id-chart-dlg-menu-type" class="menu-insertchart"></div>')}
                         ]
                     })
                 });
@@ -134,7 +134,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     me.mnuChartTypePicker = new Common.UI.DataView({
                         el: $('#id-chart-dlg-menu-type'),
                         parentMenu: btn.menu,
-                        restoreHeight: 421,
+                        restoreHeight: 465,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
@@ -774,10 +774,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 cls         : 'btn-large-dataview',
                 iconCls     : 'svgicon chart-spark-column',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 167px; padding-top: 12px;',
+                    style: 'width: 167px;',
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 0 10px;"></div>') }
+                        { template: _.template('<div id="id-spark-dlg-menu-type" class="menu-insertchart"></div>') }
                     ]
                 })
             });
@@ -1115,7 +1115,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
 
         updateAxisProps: function(type, isDefault) {
             var value = (type == Asc.c_oAscChartTypeSettings.lineNormal || type == Asc.c_oAscChartTypeSettings.lineStacked ||
-                          type == Asc.c_oAscChartTypeSettings.lineStackedPer || type == Asc.c_oAscChartTypeSettings.scatter);
+                         type == Asc.c_oAscChartTypeSettings.lineStackedPer || type == Asc.c_oAscChartTypeSettings.lineNormalMarker ||
+                         type == Asc.c_oAscChartTypeSettings.lineStackedMarker || type == Asc.c_oAscChartTypeSettings.lineStackedPerMarker ||
+                         type == Asc.c_oAscChartTypeSettings.scatter || type == Asc.c_oAscChartTypeSettings.scatterSmoothMarker || type == Asc.c_oAscChartTypeSettings.scatterSmooth ||
+                         type == Asc.c_oAscChartTypeSettings.scatterLineMarker || type == Asc.c_oAscChartTypeSettings.scatterLine);
             this.chMarkers.setVisible(value);
             this.cmbLines.setVisible(value);
             this.lblLines.toggleClass('hidden', !value);
@@ -1144,7 +1147,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             value = (type == Asc.c_oAscChartTypeSettings.hBarNormal || type == Asc.c_oAscChartTypeSettings.hBarStacked || type == Asc.c_oAscChartTypeSettings.hBarStackedPer ||
                      type == Asc.c_oAscChartTypeSettings.hBarNormal3d || type == Asc.c_oAscChartTypeSettings.hBarStacked3d || type == Asc.c_oAscChartTypeSettings.hBarStackedPer3d);
             this.btnsCategory[2].options.contentTarget = (value) ? 'id-chart-settings-dlg-hor' : 'id-chart-settings-dlg-vert';
-            this.btnsCategory[4].options.contentTarget = (value || type == Asc.c_oAscChartTypeSettings.scatter) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
+            this.btnsCategory[4].options.contentTarget = (value || type == Asc.c_oAscChartTypeSettings.scatter  || type == Asc.c_oAscChartTypeSettings.scatterSmoothMarker || type == Asc.c_oAscChartTypeSettings.scatterSmooth ||
+                                                        type == Asc.c_oAscChartTypeSettings.scatterLineMarker || type == Asc.c_oAscChartTypeSettings.scatterLine) ? 'id-chart-settings-dlg-vert' : 'id-chart-settings-dlg-hor';
         },
 
         updateDataLabels: function(chartType, labelPos) {
@@ -1161,7 +1165,9 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     data.push({ value: Asc.c_oAscChartDataLabelsPos.inBase, displayValue: this.textInnerBottom },
                               { value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: this.textInnerTop });
                 else if (chartType == Asc.c_oAscChartTypeSettings.lineNormal || chartType == Asc.c_oAscChartTypeSettings.lineStacked || chartType == Asc.c_oAscChartTypeSettings.lineStackedPer ||
-                         chartType == Asc.c_oAscChartTypeSettings.stock || chartType == Asc.c_oAscChartTypeSettings.scatter)
+                         chartType == Asc.c_oAscChartTypeSettings.lineNormalMarker || chartType == Asc.c_oAscChartTypeSettings.lineStackedMarker || chartType == Asc.c_oAscChartTypeSettings.lineStackedPerMarker ||
+                         chartType == Asc.c_oAscChartTypeSettings.stock || chartType == Asc.c_oAscChartTypeSettings.scatter  || chartType == Asc.c_oAscChartTypeSettings.scatterSmoothMarker ||
+                         chartType == Asc.c_oAscChartTypeSettings.scatterSmooth || chartType == Asc.c_oAscChartTypeSettings.scatterLineMarker || chartType == Asc.c_oAscChartTypeSettings.scatterLine)
                     data.push({ value: Asc.c_oAscChartDataLabelsPos.l, displayValue: this.textLeft },
                               { value: Asc.c_oAscChartDataLabelsPos.r, displayValue: this.textRight },
                               { value: Asc.c_oAscChartDataLabelsPos.t, displayValue: this.textTop },
@@ -1519,7 +1525,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 this.chartSettings.putShowMarker(this.chMarkers.getValue()=='checked');
 
                 value = (type == Asc.c_oAscChartTypeSettings.lineNormal || type == Asc.c_oAscChartTypeSettings.lineStacked ||
-                          type == Asc.c_oAscChartTypeSettings.lineStackedPer || type == Asc.c_oAscChartTypeSettings.scatter);
+                        type == Asc.c_oAscChartTypeSettings.lineStackedPer || type == Asc.c_oAscChartTypeSettings.lineNormalMarker ||
+                        type == Asc.c_oAscChartTypeSettings.lineStackedMarker || type == Asc.c_oAscChartTypeSettings.lineStackedPerMarker ||
+                        type == Asc.c_oAscChartTypeSettings.scatter  || type == Asc.c_oAscChartTypeSettings.scatterSmoothMarker || type == Asc.c_oAscChartTypeSettings.scatterSmooth ||
+                        type == Asc.c_oAscChartTypeSettings.scatterLineMarker || type == Asc.c_oAscChartTypeSettings.scatterLine);
                 if (value) {
                     value = this.cmbLines.getValue();
                     this.chartSettings.putLine(value!==0);
