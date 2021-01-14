@@ -149,10 +149,10 @@ const PageStyle = props => {
                 </div>
             </Navbar>
             <Tabs animated>
-                <Tab key={"de-tab-shape-fill"} id={"edit-shape-fill"} className="page-content" tabActive={true}>
+                <Tab key={"de-tab-shape-fill"} id={"edit-shape-fill"} className="page-content no-padding-top" tabActive={true}>
                     <PaletteFill onFillColor={props.onFillColor}/>
                 </Tab>
-                <Tab key={"de-tab-shape-border"} id={"edit-shape-border"} className="page-content">
+                <Tab key={"de-tab-shape-border"} id={"edit-shape-border"} className="page-content no-padding-top">
                     <List>
                         <ListItem>
                             <div slot="root-start" className='inner-range-title'>{_t.textSize}</div>
@@ -176,7 +176,7 @@ const PageStyle = props => {
                         </ListItem>
                     </List>
                 </Tab>
-                <Tab key={"de-tab-shape-effects"} id={"edit-shape-effects"} className="page-content">
+                <Tab key={"de-tab-shape-effects"} id={"edit-shape-effects"} className="page-content no-padding-top">
                     <List>
                         <ListItem>
                             <div slot="root-start" className='inner-range-title'>{_t.textOpacity}</div>
