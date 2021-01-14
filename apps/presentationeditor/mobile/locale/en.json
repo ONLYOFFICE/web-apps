@@ -130,7 +130,7 @@
   "Common": {
     "ThemeColorPalette": {
       "textThemeColors": "Theme Colors",
-      "textStandardColors": "Standard Colors",
+      "textStandartColors": "Standard Colors",
       "textCustomColors": "Custom Colors"
     }
   }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Style } from "../../view/edit/Style";
+import { StyleFillColor } from "../../view/edit/StyleSlideSettings";
 
-class StyleController extends Component {
+class StyleSlideController extends Component {
     constructor(props) {
         super(props);
     }
@@ -28,9 +28,9 @@ class StyleController extends Component {
 
     render() {
         return (
-            <Style onFillColor={this.onFillColor} />
+            <StyleFillColor onFillColor={this.onFillColor} />
         );
     }
 }
 
-export default StyleController;
+export default StyleSlideController;

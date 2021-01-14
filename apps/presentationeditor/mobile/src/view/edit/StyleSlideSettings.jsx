@@ -2,9 +2,9 @@ import React from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, NavRight, Link } from "framework7-react";
 import { useTranslation } from "react-i18next";
-import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
+import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.js';
 
-const PageStyle = props => {
+const PageFillColor = props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
     const storeFocusObjects = props.storeFocusObjects;
@@ -12,18 +12,17 @@ const PageStyle = props => {
     const storePalette = props.storePalette;
     const storeStyle = props.storeStyle;
     const customColors = storePalette.customColors;
-    storeStyle.fillColor ? storeStyle.fillColor : storeStyle.getFillColor(slideObject);
-    const fillColor = JSON.parse(JSON.stringify(storeStyle.fillColor));
-    console.log(fillColor);
+    const fillColor =  storeStyle.fillColor ? storeStyle.fillColor : storeStyle.getFillColor(slideObject);
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
-            if (effectId !==undefined ) {
-                storeStyle.changeFillColor({color: color, effectId: effectId, effectValue: effectValue});
-                props.onFillColor({color: color, effectId: effectId, effectValue: effectValue});
+            if (effectId !== undefined ) {
+                const newColor = {color: color, effectId: effectId, effectValue: effectValue};
+                props.onFillColor(newColor);
+                storeStyle.changeFillColor(newColor);
             } else {
-                storeStyle.changeFillColor(color);
                 props.onFillColor(color);
+                storeStyle.changeFillColor(color);
             }
         } else {
             // open custom color menu
@@ -32,7 +31,7 @@ const PageStyle = props => {
     };
   
     return (
-        <Page className="slide-style">
+        <Page>
             <Navbar title={_t.textFill} backLink={_t.textBack}>
                 <NavRight>
                     <Link icon='icon-expand-down' sheetClose></Link>
@@ -48,7 +47,7 @@ const PageStyle = props => {
     );
 };
 
-const PageStyleCustomColor = props => {
+const PageCustomFillColor = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
 
@@ -61,20 +60,19 @@ const PageStyleCustomColor = props => {
     const onAddNewColor = (colors, color) => {
         props.storePalette.changeCustomColors(colors);
         props.onFillColor(color);
-        // props.f7router.back();
+        props.storeStyle.changeFillColor(color);
+        props.f7router.back();
     };
 
-    return(
+    return (
         <Page>
             <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
-            <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor} routeProps={{
-                onFillColor: props.onFillColor
-            }}/>
+            <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor} />
         </Page>
     )
 };
 
-const Style = inject("storeStyle", "storePalette", "storeFocusObjects")(observer(PageStyle));
-const CustomColor = inject("storeStyle", "storePalette", "storeFocusObjects")(observer(PageStyleCustomColor));
+const StyleFillColor = inject("storeStyle", "storePalette", "storeFocusObjects")(observer(PageFillColor));
+const CustomFillColor = inject("storeStyle", "storePalette", "storeFocusObjects")(observer(PageCustomFillColor));
 
-export {Style, CustomColor};
+export {StyleFillColor, CustomFillColor};

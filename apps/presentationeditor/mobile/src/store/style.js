@@ -6,13 +6,13 @@ export class storeStyle {
     @action getFillColor (slideObject) {
     
         let color = 'transparent';
-
         let fill = slideObject.get_background(),
             fillType = fill.get_type();
+        let sdkColor;
 
         if (fillType == Asc.c_oAscFill.FILL_TYPE_SOLID) {
             fill = fill.get_fill();
-            const sdkColor = fill.get_color();
+            sdkColor = fill.get_color();
 
             if (sdkColor) {
                 if (sdkColor.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -24,7 +24,7 @@ export class storeStyle {
         }
 
         this.fillColor = color;
-        return this.fillColor;
+        return color;
     }
 
     @action changeFillColor (color) {
