@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
 import {inject} from "mobx-react";
+import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx';
 import { onAdvancedOptions } from './settings/Download.jsx';
@@ -87,6 +88,7 @@ class MainController extends Component {
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
+                this.api.asc_registerCallback('asc_onDocumentContentReady', onDocumentContentReady);
                 // this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 // this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
@@ -127,6 +129,11 @@ class MainController extends Component {
                 this.api.asc_setViewMode(false);
                 this.api.asc_LoadDocument();
                 this.api.Resize();
+            };
+
+            const onDocumentContentReady = () => {
+                Common.Gateway.documentReady();
+                f7.emit('resize');
             };
 
             const _process_array = (array, fn) => {

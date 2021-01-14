@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
 import { inject } from "mobx-react";
+import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
@@ -227,6 +228,7 @@ class MainController extends Component {
         me.api.asc_showWorksheet(me.api.asc_getActiveWorksheetIndex());
 
         Common.Gateway.documentReady();
+        f7.emit('resize');
     }
 
     _onOpenDocumentProgress(progress) {
