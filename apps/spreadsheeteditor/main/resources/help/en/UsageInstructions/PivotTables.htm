@@ -112,7 +112,7 @@
             <ul>
                 <li>The <b>Source name</b> option allows you to view the field name corresponding to the column header from the source data set.</li>
                 <li>The <b>Custom name</b> option allows you to change the name of the selected field displayed in the pivot table.</li>
-                <li>The <b>Summarize value field by</b> list allows you to choose the function used to calculate the summation value for all values from this field. By default, <em>Sum</em> is used for numeric values, <em>Count</em> is used for text values. The available functions are <em>Sum</em>, <em>Count</em>, <em>Average</em>, <em>Max</em>, <em>Min</em>, <em>Product</em>.</li>
+                <li>The <b>Summarize value field by</b> list allows you to choose the function used to calculate the summation value for all values from this field. By default, <em>Sum</em> is used for numeric values, <em>Count</em> is used for text values. The available functions are <em>Sum</em>, <em>Count</em>, <em>Average</em>, <em>Max</em>, <em>Min</em>, <em>Product</em>, <em>Count Numbers</em>, <em>StdDev</em>, <em>StdDevp</em>, <em>Var</em>, <em>Varp</em>.</li>
             </ul>
 
             <h3>Change the appearance of pivot tables</h3>
@@ -180,7 +180,7 @@
                 Depending on the options checked for rows and columns, the templates set will be displayed differently. For example, if you've checked the <b>Row Headers</b> and <b>Banded Columns</b> options, the displayed templates list will include only templates with the row headers highlighted and banded columns enabled.
             </p>
 
-            <h3>Filter and sort pivot tables</h3>
+            <h3>Filter, sort and add slicers in pivot tables</h3>
             <p>You can filter pivot tables by labels or values and use the additional sort parameters.</p>
             <h4>Filtering</h4>
             <p>Click the drop-down arrow <img alt="Drop-Down Arrow" src="../images/dropdownarrow.png" /> in the <b>Row Labels</b> or <b>Column Labels</b> of the pivot table. The <b>Filter</b> option list will open:</p>
@@ -216,7 +216,7 @@
                     <p><img alt="Value Filter window" src="../images/pivot_filter.png" /></p>
                     <p>If you choose the <em>Top 10</em> option from the <b>Value filter</b> option list, a new window will open:</p>
                     <p><img alt="Top 10 AutoFilter window" src="../images/pivot_topten.png" /></p>
-                    <p>The first drop-down list allows choosing if you wish to display the highest (<b>Top</b>) or the lowest (<b>Bottom</b>) values. The second field allows specifying how many entries from the list or which percent of the overall entries number you want to display (you can enter a number from 1 to 500). The third drop-down list allows setting the units of measure: <b>Item</b> or <b>Percent</b>. The fourth drop-down list displays the selected field name. Once the necessary parameters are set, click <b>OK</b> to apply the filter.</p>
+                    <p>The first drop-down list allows choosing if you wish to display the highest (<b>Top</b>) or the lowest (<b>Bottom</b>) values. The second field allows specifying how many entries from the list or which percent of the overall entries number you want to display (you can enter a number from 1 to 500). The third drop-down list allows setting the units of measure: <b>Item</b>, <b>Percent</b>, or <b>Sum</b>. The fourth drop-down list displays the selected field name. Once the necessary parameters are set, click <b>OK</b> to apply the filter.</p>
                 </li>
             </ul>
             <p>The <b>Filter</b> <img alt="Filter button" src="../images/filterbutton.png" /> button will appear in the <b>Row Labels</b> or <b>Column Labels</b> of the pivot table. It means that the filter is applied. <!--The number of filtered records will be displayed at the status bar (e.g. <em>25 of 80 records filtered</em>).--></p>
@@ -225,6 +225,9 @@
             <p>You can sort your pivot table data using the <b>sort</b> options. Click the drop-down arrow <img alt="Drop-Down Arrow" src="../images/dropdownarrow.png" /> in the <b>Row Labels</b> or <b>Column Labels</b> of the pivot table and then select <b>Sort Lowest to Highest</b> or <b>Sort Highest to Lowest</b> option from the submenu.</p>
             <p>The <b>More Sort Options</b> option allows you to open the <b>Sort</b> window where you can select the necessary sorting order - <em>Ascending</em> or <em>Descending</em> - and then select a certain field you want to sort.</p>
             <p><img alt="Pivot table sort options" src="../images/pivot_sort.png" /></p>
+
+            <h4>Adding slicers</h4>
+            <p>You can add slicers to filter data easier by displaying only what is needed. To learn more about slicers, please read the <a href="Slicers.htm" onclick="onhyperlinkclick(this)">guide on creating slicers</a>.</p>
             
             <h3>Adjust pivot table advanced settings</h3>
             <p id="pivot_advanced">To change the <b>advanced settings</b> of the pivot table, use the <b>Show advanced settings</b> link on the right sidebar. The 'Pivot Table - Advanced Settings' window will open:</p>

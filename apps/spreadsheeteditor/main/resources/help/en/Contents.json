@@ -30,6 +30,7 @@
     { "src": "UsageInstructions/GroupData.htm", "name": "Group data" },
     { "src": "UsageInstructions/RemoveDuplicates.htm", "name": "Remove duplicates" },
     {"src": "UsageInstructions/ConditionalFormatting.htm", "name": "Conditional Formatting" },
+	{"src": "UsageInstructions/DataValidation.htm", "name": "Data validation" },
     {"src": "UsageInstructions/InsertFunction.htm", "name": "Insert function", "headername": "Work with functions"},
 	{"src": "UsageInstructions/UseNamedRanges.htm", "name": "Use named ranges"},
 	{"src": "UsageInstructions/InsertImages.htm", "name": "Insert images", "headername": "Operations on objects"},	
