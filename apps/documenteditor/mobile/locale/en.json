@@ -179,7 +179,9 @@
     "textBackground": "Background",
     "textFill": "Fill",
     "textBorder": "Border",
-    "textEffects": "Effects"
+    "textEffects": "Effects",
+    "textColor": "Color",
+    "textOpacity": "Opacity"
   },
   "Add": {
     "textTable": "Table",

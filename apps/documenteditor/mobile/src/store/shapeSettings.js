@@ -214,4 +214,52 @@ export class storeShapeSettings {
         return color;
     }
 
+    // Border size and color
+    @observable borderColorView;
+    setBorderColor (color) {
+        this.borderColorView = color;
+    }
+    initBorderColorView (shapeObject) {
+        const stroke = shapeObject.get_ShapeProperties().get_stroke();
+        let color = 'transparent';
+        if (stroke && stroke.get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) {
+            const sdkColor = stroke.get_color();
+            if (sdkColor) {
+                if (sdkColor.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    color = {color: Common.Utils.ThemeColor.getHexColor(sdkColor.get_r(), sdkColor.get_g(), sdkColor.get_b()), effectValue: sdkColor.get_value()};
+                }
+                else {
+                    color = Common.Utils.ThemeColor.getHexColor(sdkColor.get_r(), sdkColor.get_g(), sdkColor.get_b());
+                }
+            }
+        }
+        this.borderColorView = color;
+        return color;
+    }
+    borderSizeTransform () {
+        const _sizes = [0, 0.5, 1, 1.5, 2.25, 3, 4.5, 6];
+
+        return {
+            sizeByIndex: function (index) {
+                if (index < 1) return _sizes[0];
+                if (index > _sizes.length - 1) return _sizes[_sizes.length - 1];
+                return _sizes[index];
+            },
+
+            indexSizeByValue: function (value) {
+                let index = 0;
+                _sizes.forEach((size, idx) => {
+                    if (Math.abs(size - value) < 0.25) {
+                        index = idx;
+                    }
+                });
+                return index;
+            },
+
+            sizeByValue: function (value) {
+                return _sizes[this.indexSizeByValue(value)];
+            }
+        }
+    }
+
 }
