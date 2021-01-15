@@ -368,6 +368,11 @@ define([
                         else
                             this._input.blur();
                     }
+                    if (!this.isMenuOpen()) {
+                        if ((this.getRawValue() === this.lastValue))
+                            return true;
+                        this.setRawValue(this._input.val());
+                    }
                     return false;
                 }
                 else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
