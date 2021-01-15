@@ -1,8 +1,15 @@
-import {action, observable} from 'mobx';
+import {action, observable, computed} from 'mobx';
 
-export class storeSlideStyle {
+export class storeSlideSettings {
+    
+    @observable arrayLayouts;
+    @observable slideLayoutIndex = -1;
     @observable fillColor = undefined;
-
+    @observable arrayThemes;
+    @observable slideThemeIndex;
+    @observable effect;
+    @observable type;
+    
     @action getFillColor (slideObject) {
     
         let color = 'transparent';
@@ -31,4 +38,27 @@ export class storeSlideStyle {
         this.fillColor = color;
     }
 
+    @action addArrayLayouts(array) {
+        this.arrayLayouts = array;
+    }
+
+    @action changeSlideLayoutIndex(index) {
+        this.slideLayoutIndex = index;
+    }
+
+    @action addArrayThemes(array) {
+        this.arrayThemes = array;
+    }
+
+    @action changeSlideThemeIndex(index) {
+        this.slideThemeIndex = index;
+    }
+
+    @action changeEffect(value) {
+        this.effect = value;
+    }
+
+    @action changeType(value) {
+        this.type = value;
+    }
 }

@@ -5,7 +5,7 @@ import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeLayout", "storeTheme", "storeTransition")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeSlideSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -193,36 +193,26 @@ class MainController extends Component {
         // me.api.asc_registerCallback('asc_onMeta',                       _.bind(me.onMeta, me));
 
         const storeFocusObjects = this.props.storeFocusObjects;
-        const storeLayout = this.props.storeLayout;
+        const storeSlideSettings = this.props.storeSlideSettings;
         
         this.api.asc_registerCallback('asc_onFocusObject', objects => {
             // console.log(objects);
             storeFocusObjects.resetFocusObjects(objects);
-
-            // const settings = storeFocusObjects.settings;
-
-            // if(settings[0] === "slide") {
-            //     const slideObject = objects[0].get_ObjectValue();
-            //     storeLayout.changeSlideLayoutIndex(slideObject.get_LayoutIndex());
-            //     storeTransition.initTransition(slideObject.get_transition());
-            // }
         });
-
-        const storeTheme = this.props.storeTheme;
 
         this.api.asc_registerCallback('asc_onInitEditorStyles', themes => {
             // console.log(themes);
-            storeTheme.addArrayThemes(themes);
+            storeSlideSettings.addArrayThemes(themes);
         });
 
         this.api.asc_registerCallback('asc_onUpdateThemeIndex',  themeId => {
             // console.log(themeId);
-            storeTheme.changeSlideThemeIndex(themeId);
+            storeSlideSettings.changeSlideThemeIndex(themeId);
         });
 
         this.api.asc_registerCallback('asc_onUpdateLayout', layouts => {
             // console.log(layouts);
-            storeLayout.addArrayLayouts(layouts);
+            storeSlideSettings.addArrayLayouts(layouts);
         });
 
         this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {

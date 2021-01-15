@@ -124,7 +124,10 @@
       "textZoomRotate": "Zoom and Rotate",
       "textSec": "s",
       "textAddCustomColor": "Add Custom Color",
-      "textFill": "Fill"
+      "textFill": "Fill",
+      "textCustomColor": "Custom Color",
+      "textDuplicateSlide": "Duplicate Slide",
+      "textDeleteSlide": "Delete Slide"
     }
   },
   "Common": {

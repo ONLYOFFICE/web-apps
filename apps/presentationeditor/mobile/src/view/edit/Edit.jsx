@@ -7,13 +7,8 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
-import LayoutController from "../../controller/edit/Layout";
-import TransitionController from '../../controller/edit/Transition';
-import ThemeController from '../../controller/edit/Theme';
-import StyleSlideController from '../../controller/edit/StyleSlideSettings';
-import { CustomFillColor } from './StyleSlideSettings';
-import { Effect } from './Transition';
-import { Type } from './Transition';
+import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
+
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -23,15 +18,15 @@ import { Type } from './Transition';
 const routes = [
     {
         path: '/layout/',
-        component: LayoutController
+        component: Layout
     },
     {
         path: '/theme/',
-        component: ThemeController
+        component: Theme
     },
     {
         path: '/transition/',
-        component: TransitionController
+        component: Transition
     },
     {
         path: '/effect/',
@@ -43,7 +38,7 @@ const routes = [
     },
     {
         path: '/style/',
-        component: StyleSlideController
+        component: StyleFillColor
     },
     {
         path: '/edit-custom-color/',
