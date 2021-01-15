@@ -131,6 +131,8 @@ define([
                      if ($(e.target).closest('input').length) { // enter in input field
                         if (this.lastValue !== this._input.val())
                             this._input.trigger('change');
+                         else
+                            return true;
                     } else { // enter in dropdown list
                         $(e.target).click();
                         if (this.rendered) {
@@ -139,7 +141,7 @@ define([
                             else
                                 this._input.blur();
                         }
-                     }
+                    }
                     return false;
                 } else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
                     this._input.val(this.lastValue);
