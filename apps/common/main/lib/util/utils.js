@@ -119,6 +119,14 @@ Common.Utils = _.extend(new(function() {
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
         checkSize = function() {
+            var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9), " +
+                                "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx)";
+            if ( window.matchMedia(str_mq_150).matches ) {
+                $(document.body).addClass('pixel-ratio__1_5');
+            } else {
+                $(document.body).removeClass('pixel-ratio__1_5');
+            }
+
             me.zoom = 1;
             if (false && isChrome && !isOpera && !isMobile && document && document.firstElementChild && document.body) {
                 // делаем простую проверку

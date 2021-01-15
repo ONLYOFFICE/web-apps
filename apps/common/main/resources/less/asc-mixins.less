@@ -85,6 +85,12 @@
 */
 :root {
     --bgX: 0px;
+
+    --pixel-ratio-factor: 1;
+
+    .pixel-ratio__1_5 {
+        --pixel-ratio-factor: 1.5;
+    }
 }
 
 .button-normal-icon(@icon-class, @index, @icon-size) {
@@ -329,4 +335,8 @@
             box-shadow: @shadowargs;
         }
     }
+}
+
+.get-scaled-value(@v) {
+    @scaledvalue: calc(@v / var(--pixel-ratio-factor));
 }

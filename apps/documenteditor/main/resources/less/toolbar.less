@@ -49,11 +49,13 @@
             width: 246px;
             height: @contents-menu-item-height;
 
-            .box-shadow(0 0 0 1px @gray);
+            .get-scaled-value(1px);
+            .box-shadow(0 0 0 @scaledvalue @gray);
 
             &:hover,
             &.selected {
-                .box-shadow(0 0 0 2px @primary);
+                .get-scaled-value(2px);
+                .box-shadow(0 0 0 @scaledvalue @primary);
             }
         }
 
@@ -61,7 +63,8 @@
             background-color: transparent;
 
             div {
-                .box-shadow(0 0 0 2px @primary);
+                .get-scaled-value(2px);
+                .box-shadow(0 0 0 @scaledvalue @primary);
             }
         }
     }
@@ -91,7 +94,9 @@
             width: 12px;
             height: 12px;
             margin-right: 2px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
+
+            .get-scaled-value(1px);
+            border: @scaledvalue solid rgba(0, 0, 0, 0.2);
             vertical-align: middle;
         }
 
@@ -125,7 +130,8 @@
                 opacity: 0.5;
 
                 &:hover {
-                    .box-shadow(0 0 0 1px @gray);
+                    .get-scaled-value(1px);
+                    .box-shadow(0 0 0 @scaledvalue @gray);
                 }
             }
         }
@@ -175,22 +181,20 @@
 #control-settings-system-color > a.selected,
 #control-settings-system-color > a:hover {
     span {
-        outline: 1px solid #000;
-        border: 1px solid #fff;
+        .get-scaled-value(1px);
+        outline: @scaledvalue solid #000;
+        border: @scaledvalue solid #fff;
     }
-}
-
-.item-equation {
-    border: 1px solid @gray;
-    .background-ximage-v2('toolbar/math.png', 1500px, @commonimage: true);
 }
 
 .save-style-container {
     cursor: default;
     position: relative;
     padding: 14px 11px;
-    border-left: 1px solid @gray;
-    border-top: 1px solid @gray;
+
+    .get-scaled-value(1px);
+    border-left: @scaledvalue solid @gray;
+    border-top: @scaledvalue solid @gray;
 }
 
 .save-style-link {
@@ -239,5 +243,7 @@
     position: absolute;
     z-index: @zindex-dropdown - 20;
     background-color: @gray-light;
-    border: 1px solid @gray;
+
+    .get-scaled-value(1px);
+    border: @scaledvalue solid @gray;
 }

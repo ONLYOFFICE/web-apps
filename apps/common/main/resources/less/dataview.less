@@ -22,11 +22,13 @@
         margin: 4px;
         cursor: pointer;
 
-        .box-shadow(0 0 0 1px @gray);
+        .get-scaled-value(1px);
+        .box-shadow(0 0 0 @scaledvalue @gray);
 
         &:hover,
         &.selected {
-            .box-shadow(0 0 0 2px @primary);
+            .get-scaled-value(2px);
+            .box-shadow(0 0 0 @scaledvalue @primary);
         }
     }
 
@@ -58,11 +60,13 @@
                     opacity: 0.5;
                 }
 
-                .box-shadow(0 0 0 1px @gray);
+                .get-scaled-value(1px);
+                .box-shadow(0 0 0 @scaledvalue @gray);
 
                 &:hover:not(.disabled),
                 &.selected:not(.disabled) {
-                    .box-shadow(0 0 0 2px @primary);
+                    .get-scaled-value(2px);
+                    .box-shadow(0 0 0 @scaledvalue @primary);
                 }
             }
         }
