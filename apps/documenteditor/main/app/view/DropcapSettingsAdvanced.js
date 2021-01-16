@@ -551,8 +551,11 @@ define([
                     if (combo.getSelectedRecord()) {
                         me._changedProps.put_XAlign(record.value);
                     } else {
-                        me._changedProps.put_XAlign(undefined);
-                        me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_XAlign(undefined);
+                            me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(number));
+                        }
                     }
                 }
             }, me))
@@ -600,8 +603,11 @@ define([
                     if (combo.getSelectedRecord()) {
                         me._changedProps.put_YAlign(record.value);
                     } else {
-                        me._changedProps.put_YAlign(undefined);
-                        me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_YAlign(undefined);
+                            me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                        }
                     }
                 }
             }, me))
