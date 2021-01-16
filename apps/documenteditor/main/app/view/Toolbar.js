@@ -620,7 +620,7 @@ define([
                                 },
                                 {
                                     caption: this.textPictureControl,
-                                    // iconCls: 'mnu-control-rich',
+                                    iconCls: 'menu__icon btn-menu-image',
                                     value: 'picture'
                                 },
                                 {
