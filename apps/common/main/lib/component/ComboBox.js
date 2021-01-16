@@ -360,15 +360,15 @@ define([
                     return false;
                 }
                 else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
+                    var isopen = this.isMenuOpen();
                     $(e.target).click();
-                    var me = this;
                     if (this.rendered) {
                         if (Common.Utils.isIE)
                             this._input.trigger('change', { onkeydown: true });
                         else
                             this._input.blur();
                     }
-                    return false;
+                    return !isopen;
                 }
                 else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
                     this._input.val(this.lastValue);

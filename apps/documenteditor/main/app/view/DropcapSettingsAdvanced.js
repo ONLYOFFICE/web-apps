@@ -548,8 +548,15 @@ define([
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
-                    me._changedProps.put_XAlign(undefined);
-                    me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                    if (combo.getSelectedRecord()) {
+                        me._changedProps.put_XAlign(record.value);
+                    } else {
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_XAlign(undefined);
+                            me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(number));
+                        }
+                    }
                 }
             }, me))
             .on('selected', _.bind(function(combo, record) {
@@ -593,8 +600,15 @@ define([
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
-                    me._changedProps.put_YAlign(undefined);
-                    me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                    if (combo.getSelectedRecord()) {
+                        me._changedProps.put_YAlign(record.value);
+                    } else {
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_YAlign(undefined);
+                            me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                        }
+                    }
                 }
             }, me))
             .on('selected', _.bind(function(combo, record) {
