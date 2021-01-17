@@ -150,6 +150,64 @@ class EditTableController extends Component {
             api.tblApply(properties);
         }
     }
+    onStyleClick (type) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+        properties.put_TableStyle(type.toString());
+        api.tblApply(properties);
+    }
+
+    onCheckTemplateChange (tableLook, type, isChecked) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+        switch (type) {
+            case 0:
+                tableLook.put_FirstRow(isChecked);
+                break;
+            case 1:
+                tableLook.put_LastRow(isChecked);
+                break;
+            case 2:
+                tableLook.put_BandHor(isChecked);
+                break;
+            case 3:
+                tableLook.put_FirstCol(isChecked);
+                break;
+            case 4:
+                tableLook.put_LastCol(isChecked);
+                break;
+            case 5:
+                tableLook.put_BandVer(isChecked);
+                break;
+        }
+        properties.put_TableLook(tableLook);
+        api.tblApply(properties);
+    }
+
+    onFillColor (color) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+        const background = new Asc.CBackground();
+        properties.put_CellsBackground(background);
+        if ('transparent' == color) {
+            background.put_Value(1);
+        } else {
+            background.put_Value(0);
+            background.put_Color(Common.Utils.ThemeColor.getRgbColor(color));
+        }
+        properties.put_CellSelect(true);
+        api.tblApply(properties);
+    }
+
+    onBorderTypeClick (cellBorders) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.CTableProp();
+        const _cellBorders = !cellBorders ? new Asc.CBorders() : cellBorders;
+        properties.put_CellBorders(_cellBorders);
+        properties.put_CellSelect(true);
+        api.tblApply(properties);
+    }
+
     render () {
         return (
             <EditTable onRemoveTable={this.onRemoveTable}
@@ -166,6 +224,10 @@ class EditTableController extends Component {
                        onWrapAlign={this.onWrapAlign}
                        onWrapMoveText={this.onWrapMoveText}
                        onWrapDistance={this.onWrapDistance}
+                       onStyleClick={this.onStyleClick}
+                       onCheckTemplateChange={this.onCheckTemplateChange}
+                       onFillColor={this.onFillColor}
+                       onBorderTypeClick={this.onBorderTypeClick}
             />
         )
     }

@@ -18,7 +18,7 @@ import {PageTextFonts, PageTextAddFormatting, PageTextBullets, PageTextNumbers, 
 import {ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor} from "./EditParagraph";
 import {PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
-import {PageTableOptions, PageTableWrap, PageTableStyle} from "./EditTable";
+import {PageTableOptions, PageTableWrap, PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor} from "./EditTable";
 import {PageChartWrap, PageChartReorder} from "./EditChart";
 
 const routes = [
@@ -134,6 +134,22 @@ const routes = [
     {
         path: '/edit-table-style/',
         component: PageTableStyle,
+    },
+    {
+        path: '/edit-table-style-options/',
+        component: PageTableStyleOptions,
+    },
+    {
+        path: '/edit-table-custom-fill-color/',
+        component: PageTableCustomFillColor,
+    },
+    {
+        path: '/edit-table-border-color/',
+        component: PageTableBorderColor,
+    },
+    {
+        path: '/edit-table-custom-border-color/',
+        component: PageTableCustomBorderColor,
     },
     //Edit chart
     {

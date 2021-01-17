@@ -181,7 +181,14 @@
     "textBorder": "Border",
     "textEffects": "Effects",
     "textColor": "Color",
-    "textOpacity": "Opacity"
+    "textOpacity": "Opacity",
+    "textStyleOptions": "Style Options",
+    "textHeaderRow": "Header Row",
+    "textTotalRow": "Total Row",
+    "textBandedRow": "Banded Row",
+    "textFirstColumn": "First Column",
+    "textLastColumn": "Last Column",
+    "textBandedColumn": "Banded Column"
   },
   "Add": {
     "textTable": "Table",

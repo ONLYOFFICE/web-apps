@@ -1,8 +1,9 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon} from 'framework7-react';
+import {Page, Navbar, List, ListItem, ListButton, Row, BlockTitle, Range, Toggle, Icon, Link, Tabs, Tab} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
+import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
 
 const PageTableOptions = props => {
     const { t } = useTranslation();
@@ -134,11 +135,305 @@ const PageWrap = props => {
     )
 };
 
+// Style
+
+const StyleTemplates = inject("storeFocusObjects")(observer(({templates, onStyleClick, storeFocusObjects}) => {
+    const styleId = storeFocusObjects.tableObject.get_TableStyle();
+    const [stateId, setId] = useState(styleId);
+
+    const widthContainer = document.querySelector(".page-content").clientWidth;
+    const columns = parseInt((widthContainer - 47) / 70); // magic
+    const styles = [];
+    let row = -1;
+    templates.forEach((style, index) => {
+        if (0 == index % columns) {
+            styles.push([]);
+            row++
+        }
+        styles[row].push(style);
+    });
+
+    return (
+        <div className="dataview table-styles">
+            {styles.map((row, rowIndex) => {
+                return (
+                    <div className="row" key={`row-${rowIndex}`}>
+                        {row.map((style, index)=>{
+                            return(
+                                <div key={`${rowIndex}-${index}`}
+                                     className={style.templateId === stateId ? 'active' : ''}
+                                     onClick={() => {onStyleClick(style.templateId); setId(style.templateId)}}>
+                                    <img src={style.imageUrl} />
+                                </div>
+                            )
+                        })}
+                    </div>
+                )
+            })}
+        </div>
+    )
+}));
+
+const PageStyleOptions = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const tableLook = props.storeFocusObjects.tableObject.get_TableLook();
+    const isFirstRow = tableLook.get_FirstRow();
+    const isLastRow = tableLook.get_LastRow();
+    const isBandHor = tableLook.get_BandHor();
+    const isFirstCol = tableLook.get_FirstCol();
+    const isLastCol = tableLook.get_LastCol();
+    const isBandVer = tableLook.get_BandVer();
+    return (
+        <Page>
+            <Navbar title={_t.textOptions} backLink={_t.textBack}/>
+            <List>
+                <ListItem title={_t.textHeaderRow}>
+                    <Toggle checked={isFirstRow} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 0, !isFirstRow)}}/>
+                </ListItem>
+                <ListItem title={_t.textTotalRow}>
+                    <Toggle checked={isLastRow} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 1, !isLastRow)}}/>
+                </ListItem>
+                <ListItem title={_t.textBandedRow}>
+                    <Toggle checked={isBandHor} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 2, !isBandHor)}}/>
+                </ListItem>
+            </List>
+            <List>
+                <ListItem title={_t.textFirstColumn}>
+                    <Toggle checked={isFirstCol} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 3, !isFirstCol)}}/>
+                </ListItem>
+                <ListItem title={_t.textLastColumn}>
+                    <Toggle checked={isLastCol} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 4, !isLastCol)}}/>
+                </ListItem>
+                <ListItem title={_t.textBandedColumn}>
+                    <Toggle checked={isBandVer} onToggleChange={() => {props.onCheckTemplateChange(tableLook, 5, !isBandVer)}}/>
+                </ListItem>
+            </List>
+        </Page>
+    )
+};
+
+const PageCustomFillColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const tableObject = props.storeFocusObjects.tableObject;
+    let fillColor = props.storeTableSettings.getFillColor(tableObject);
+    if (typeof fillColor === 'object') {
+        fillColor = fillColor.color;
+    }
+    const onAddNewColor = (colors, color) => {
+        props.storePalette.changeCustomColors(colors);
+        props.onFillColor(color);
+        props.f7router.back();
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
+const TabFillColor = inject("storeFocusObjects", "storeTableSettings", "storePalette")(observer(props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const tableObject = props.storeFocusObjects.tableObject;
+    const fillColor = props.storeTableSettings.getFillColor(tableObject);
+    const customColors = props.storePalette.customColors;
+    const changeColor = (color, effectId, effectValue) => {
+        if (color !== 'empty') {
+            if (effectId !==undefined ) {
+                const newColor = {color: color, effectId: effectId, effectValue: effectValue};
+                props.onFillColor(newColor);
+            } else {
+                props.onFillColor(color);
+            }
+        } else {
+            // open custom color menu
+            props.f7router.navigate('/edit-table-custom-fill-color/');
+        }
+    };
+    return(
+       <Fragment>
+           <ThemeColorPalette changeColor={changeColor} curColor={fillColor} customColors={customColors} transparent={true}/>
+           <List>
+               <ListItem title={_t.textAddCustomColor} link={'/edit-table-custom-fill-color/'} routeProps={{
+                   onFillColor: props.onFillColor
+               }}></ListItem>
+           </List>
+       </Fragment>
+    )
+}));
+
+const PageCustomBorderColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    let borderColor = props.storeTableSettings.cellBorderColor;
+    if (typeof borderColor === 'object') {
+        borderColor = borderColor.color;
+    }
+    const onAddNewColor = (colors, color) => {
+        props.storePalette.changeCustomColors(colors);
+        props.storeTableSettings.updateCellBorderColor(color);
+        props.f7router.back();
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <CustomColorPicker currentColor={borderColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
+const PageBorderColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const storeTableSettings = props.storeTableSettings;
+    const borderColor = storeTableSettings.cellBorderColor;
+    const customColors = props.storePalette.customColors;
+    const changeColor = (color, effectId, effectValue) => {
+        if (color !== 'empty') {
+            if (effectId !==undefined ) {
+                const newColor = {color: color, effectId: effectId, effectValue: effectValue};
+                storeTableSettings.updateCellBorderColor(newColor);
+            } else {
+                storeTableSettings.updateCellBorderColor(color);
+            }
+        } else {
+            // open custom color menu
+            props.f7router.navigate('/edit-table-custom-border-color/');
+        }
+    };
+    return(
+        <Page>
+            <Navbar title={_t.textColor} backLink={_t.textBack} />
+            <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors}/>
+            <List>
+                <ListItem title={_t.textAddCustomColor} link={'/edit-table-custom-border-color/'}></ListItem>
+            </List>
+        </Page>
+    )
+};
+
+const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+
+    const storeTableSettings = props.storeTableSettings;
+    const borderSizeTransform = storeTableSettings.borderSizeTransform();
+    const borderSize = storeTableSettings.cellBorderWidth;
+    const displayBorderSize = borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = borderSizeTransform.sizeByValue(borderSize);
+    const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
+    const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
+
+    const onBorderType = (type) => {
+        storeTableSettings.updateBordersStyle(type);
+        props.onBorderTypeClick(storeTableSettings.cellBorders);
+    };
+
+    const borderColor = storeTableSettings.cellBorderColor;
+    const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
+
+    return (
+        <List>
+            <ListItem>
+                <div slot="root-start" className='inner-range-title'>{_t.textSize}</div>
+                <div slot='inner' style={{width: '100%'}}>
+                    <Range min="0" max="7" step="1" value={stateBorderSize}
+                           onRangeChange={(value) => {
+                               setBorderSize(value);
+                               setTextBorderSize(borderSizeTransform.sizeByIndex(value));
+                           }}
+                           onRangeChanged={(value) => {storeTableSettings.updateCellBorderWidth(borderSizeTransform.sizeByIndex(value));}}
+                    ></Range>
+                </div>
+                <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                    {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
+                </div>
+            </ListItem>
+            <ListItem title={_t.textColor} link='/edit-table-border-color/'>
+                <span className="color-preview"
+                      slot="after"
+                      style={{ background: displayBorderColor}}
+                ></span>
+            </ListItem>
+            <ListItem className='buttons table-presets'>
+                <Row>
+                    <a className={'item-link button'} onClick={() => {onBorderType("lrtbcm")}}>
+                        <Icon slot="media" icon="icon-table-borders-all"></Icon>
+                    </a>
+                    <a className={'item-link button'} onClick={() => {onBorderType("")}}>
+                        <Icon slot="media" icon="icon-table-borders-none"></Icon>
+                    </a>
+                    <a className={'item-link button'} onClick={() => {onBorderType("cm")}}>
+                        <Icon slot="media" icon="icon-table-borders-inner"></Icon>
+                    </a>
+                    <a className={'item-link button'} onClick={() => {onBorderType("lrtb")}}>
+                        <Icon slot="media" icon="icon-table-borders-outer"></Icon>
+                    </a>
+                    <a className={'item-link button'} onClick={() => {onBorderType("l")}}>
+                        <Icon slot="media" icon="icon icon-table-borders-left"></Icon>
+                    </a>
+                </Row>
+            </ListItem>
+            <ListItem className='buttons table-presets'>
+                <Row>
+                    <a className={'item-link button'} onClick={() => {onBorderType("c")}}>
+                        <Icon slot="media" icon="icon-table-borders-center"></Icon>
+                    </a>
+                    <a className={'item-link button'} onClick={() => {onBorderType("r")}}>
+                        <Icon slot="media" icon="icon-table-borders-right"></Icon>
+                    </a>
+                    <a className={'item-link button'} onClick={() => {onBorderType("t")}}>
+                        <Icon slot="media" icon="icon-table-borders-top"></Icon>
+                    </a>
+                    <a className={'item-link button'} onClick={() => {onBorderType("m")}}>
+                        <Icon slot="media" icon="icon-table-borders-middle"></Icon>
+                    </a>
+                    <a className={'item-link button'} onClick={() => {onBorderType("b")}}>
+                        <Icon slot="media" icon="icon-table-borders-bottom"></Icon>
+                    </a>
+                </Row>
+            </ListItem>
+        </List>
+    )
+}));
+
 const PageStyle = props => {
     const { t } = useTranslation();
     const _t = t('Edit', {returnObjects: true});
+    const storeTableSettings = props.storeTableSettings;
+    const templates = storeTableSettings.styles;
     return (
         <Page>
+            <Navbar backLink={_t.textBack}>
+                <div className="tab-buttons tabbar">
+                    <Link key={"de-link-table-style"}  tabLink={"#edit-table-style"} tabLinkActive={true}>{_t.textStyle}</Link>
+                    <Link key={"de-link-table-fill"}  tabLink={"#edit-table-fill"}>{_t.textFill}</Link>
+                    <Link key={"de-link-table-border"}  tabLink={"#edit-table-border"}>{_t.textBorder}</Link>
+                </div>
+            </Navbar>
+            <Tabs animated>
+                <Tab key={"de-tab-table-style"} id={"edit-table-style"} className="page-content no-padding-top" tabActive={true}>
+                    <List>
+                        <ListItem>
+                            <StyleTemplates templates={templates} onStyleClick={props.onStyleClick}/>
+                        </ListItem>
+                    </List>
+                    <List>
+                        <ListItem title={_t.textStyleOptions} link={'/edit-table-style-options/'} routeProps={{
+                            onCheckTemplateChange: props.onCheckTemplateChange
+                        }}/>
+                    </List>
+                </Tab>
+                <Tab key={"de-tab-table-fill"} id={"edit-table-fill"} className="page-content no-padding-top">
+                    <TabFillColor onFillColor={props.onFillColor}/>
+                </Tab>
+                <Tab key={"de-tab-table-border"} id={"edit-table-border"} className="page-content no-padding-top">
+                    <TabBorder onBorderTypeClick={props.onBorderTypeClick}/>
+                </Tab>
+            </Tabs>
         </Page>
     )
 };
@@ -183,7 +478,12 @@ const EditTable = props => {
                     onOptionResize: props.onOptionResize,
                     onOptionRepeat: props.onOptionRepeat
                 }}></ListItem>
-                <ListItem title={_t.textStyle} link='/edit-table-style/'></ListItem>
+                <ListItem title={_t.textStyle} link='/edit-table-style/' routeProps={{
+                    onStyleClick: props.onStyleClick,
+                    onCheckTemplateChange: props.onCheckTemplateChange,
+                    onFillColor: props.onFillColor,
+                    onBorderTypeClick: props.onBorderTypeClick
+                }}></ListItem>
                 <ListItem title={_t.textWrap} link='/edit-table-wrap/' routeProps={{
                     onWrapType: props.onWrapType,
                     onWrapAlign: props.onWrapAlign,
@@ -197,10 +497,19 @@ const EditTable = props => {
 
 const EditTableContainer = inject("storeFocusObjects")(observer(EditTable));
 const PageTableOptionsContainer = inject("storeFocusObjects","storeTableSettings")(observer(PageTableOptions));
-const PageWrapContainer = inject("storeFocusObjects","storeTableSettings")(observer(PageWrap));
-const PageStyleContainer = inject("storeFocusObjects","storeTableSettings")(observer(PageStyle));
+const PageTableWrap = inject("storeFocusObjects","storeTableSettings")(observer(PageWrap));
+const PageTableStyle = inject("storeFocusObjects","storeTableSettings")(observer(PageStyle));
+const PageTableStyleOptions = inject("storeFocusObjects","storeTableSettings")(observer(PageStyleOptions));
+const PageTableCustomFillColor = inject("storeFocusObjects","storeTableSettings", "storePalette")(observer(PageCustomFillColor));
+const PageTableBorderColor = inject("storeFocusObjects","storeTableSettings", "storePalette")(observer(PageBorderColor));
+const PageTableCustomBorderColor = inject("storeFocusObjects","storeTableSettings", "storePalette")(observer(PageCustomBorderColor));
+
 
 export {EditTableContainer as EditTable,
         PageTableOptionsContainer as PageTableOptions,
-        PageWrapContainer as PageTableWrap,
-        PageStyleContainer as PageTableStyle}
+        PageTableWrap,
+        PageTableStyle,
+        PageTableStyleOptions,
+        PageTableCustomFillColor,
+        PageTableBorderColor,
+        PageTableCustomBorderColor}
