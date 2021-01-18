@@ -1,10 +1,11 @@
 
 import React, { Component } from 'react'
 import { inject } from "mobx-react";
+import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeSlideSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -193,9 +194,32 @@ class MainController extends Component {
         // me.api.asc_registerCallback('asc_onMeta',                       _.bind(me.onMeta, me));
 
         const storeFocusObjects = this.props.storeFocusObjects;
+        const storeSlideSettings = this.props.storeSlideSettings;
+        
         this.api.asc_registerCallback('asc_onFocusObject', objects => {
+            // console.log(objects);
             storeFocusObjects.resetFocusObjects(objects);
         });
+
+        this.api.asc_registerCallback('asc_onInitEditorStyles', themes => {
+            // console.log(themes);
+            storeSlideSettings.addArrayThemes(themes);
+        });
+
+        this.api.asc_registerCallback('asc_onUpdateThemeIndex',  themeId => {
+            // console.log(themeId);
+            storeSlideSettings.changeSlideThemeIndex(themeId);
+        });
+
+        this.api.asc_registerCallback('asc_onUpdateLayout', layouts => {
+            // console.log(layouts);
+            storeSlideSettings.addArrayLayouts(layouts);
+        });
+
+        this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
+            Common.Utils.ThemeColor.setColors(colors, standart_colors);
+        });
+
     }
 
     _onDocumentContentReady() {
@@ -207,6 +231,7 @@ class MainController extends Component {
         // me.api.asc_GetDefaultTableStyles && _.defer(function () {me.api.asc_GetDefaultTableStyles()});
 
         Common.Gateway.documentReady();
+        f7.emit('resize');
     }
 
     _onOpenDocumentProgress(progress) {

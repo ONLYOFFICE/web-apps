@@ -7,6 +7,8 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
+import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
+
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -14,7 +16,34 @@ import EditTextController from "../../controller/edit/EditText";
 //import EditLinkController from "../../controller/edit/EditLink";
 
 const routes = [
-
+    {
+        path: '/layout/',
+        component: Layout
+    },
+    {
+        path: '/theme/',
+        component: Theme
+    },
+    {
+        path: '/transition/',
+        component: Transition
+    },
+    {
+        path: '/effect/',
+        component: Effect
+    },
+    {
+        path: '/type/',
+        component: Type
+    },
+    {
+        path: '/style/',
+        component: StyleFillColor
+    },
+    {
+        path: '/edit-custom-color/',
+        component: CustomFillColor
+    }
 ];
 
 const EmptyEditLayout = () => {
@@ -73,6 +102,7 @@ const EditTabs = props => {
     const _t = t('View.Edit', {returnObjects: true});
 
     const settings = props.storeFocusObjects.settings;
+    
     let editors = [];
     if (settings.length < 1) {
         editors.push({

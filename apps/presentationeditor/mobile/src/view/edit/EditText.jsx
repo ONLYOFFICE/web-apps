@@ -7,7 +7,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 const EditText = props => {
     return (
         <Fragment>
-
+           
         </Fragment>
     )
 };
