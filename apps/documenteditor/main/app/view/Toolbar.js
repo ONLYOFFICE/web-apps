@@ -290,6 +290,22 @@ define([
                     this.paragraphControls.push(this.btnParagraphColor);
                     this.textOnlyControls.push(this.btnParagraphColor);
 
+                    this.btnChangeCase = new Common.UI.Button({
+                        id: 'id-toolbar-btn-case',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-case',
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
+                                {caption: this.mniLowerCase, value: Asc.c_oAscChangeTextCaseType.LowerCase},
+                                {caption: this.mniUpperCase, value: Asc.c_oAscChangeTextCaseType.UpperCase},
+                                {caption: this.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
+                                {caption: this.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnChangeCase);
+
                     this.btnAlignLeft = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-left',
                         cls: 'btn-toolbar',
@@ -1095,6 +1111,7 @@ define([
                     this.mnuInsertImage = this.btnInsertImage.menu;
                     this.mnuPageSize = this.btnPageSize.menu;
                     this.mnuColorSchema = this.btnColorSchemas.menu;
+                    this.mnuChangeCase = this.btnChangeCase.menu;
 
                     this.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
@@ -1347,6 +1364,7 @@ define([
                 _injectComponent('#slot-btn-subscript', this.btnSubscript);
                 _injectComponent('#slot-btn-highlight', this.btnHighlightColor);
                 _injectComponent('#slot-btn-fontcolor', this.btnFontColor);
+                _injectComponent('#slot-btn-changecase', this.btnChangeCase);
                 _injectComponent('#slot-btn-align-left', this.btnAlignLeft);
                 _injectComponent('#slot-btn-align-center', this.btnAlignCenter);
                 _injectComponent('#slot-btn-align-right', this.btnAlignRight);
@@ -1638,6 +1656,7 @@ define([
                 this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnFontColor.updateHint(this.tipFontColor);
                 this.btnParagraphColor.updateHint(this.tipPrColor);
+                this.btnChangeCase.updateHint(this.tipChangeCase);
                 this.btnAlignLeft.updateHint(this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'));
                 this.btnAlignCenter.updateHint(this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'));
                 this.btnAlignRight.updateHint(this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'));
@@ -2392,7 +2411,13 @@ define([
             textRestartEachSection: 'Restart Each Section',
             textSuppressForCurrentParagraph: 'Suppress for Current Paragraph',
             textCustomLineNumbers: 'Line Numbering Options',
-            tipLineNumbers: 'Show line numbers'
+            tipLineNumbers: 'Show line numbers',
+            tipChangeCase: 'Change case',
+            mniSentenceCase: 'Sentence case.',
+            mniLowerCase: 'lowercase',
+            mniUpperCase: 'UPPERCASE',
+            mniCapitalizeWords: 'Capitalize Each Word',
+            mniToggleCase: 'tOGGLE cASE'
         }
     })(), DE.Views.Toolbar || {}));
 });
