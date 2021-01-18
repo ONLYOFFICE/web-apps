@@ -188,7 +188,8 @@
     "textBandedRow": "Banded Row",
     "textFirstColumn": "First Column",
     "textLastColumn": "Last Column",
-    "textBandedColumn": "Banded Column"
+    "textBandedColumn": "Banded Column",
+    "textType": "Type"
   },
   "Add": {
     "textTable": "Table",

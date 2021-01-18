@@ -9,6 +9,13 @@ class EditChartController extends Component {
     constructor (props) {
         super(props);
         this.onWrapType = this.onWrapType.bind(this);
+        this.onType = this.onType.bind(this);
+        this.onStyle = this.onStyle.bind(this);
+        this.onBorderColor = this.onBorderColor.bind(this);
+        this.onBorderSize = this.onBorderSize.bind(this);
+
+        const api = Common.EditorApi.get();
+        props.storeChartSettings.updateChartStyles(api.asc_getChartPreviews(props.storeFocusObjects.chartObject.get_ChartProperties().getType()));
     }
 
     onRemoveChart () {
@@ -97,6 +104,90 @@ class EditChartController extends Component {
         }
     }
 
+    onStyle (style) {
+        const api = Common.EditorApi.get();
+        const image = new Asc.asc_CImgProperty();
+        const chart = this.props.storeFocusObjects.chartObject.get_ChartProperties();
+        chart.putStyle(style);
+        image.put_ChartProperties(chart);
+        api.ImgApply(image);
+    }
+
+    onType (type) {
+        const api = Common.EditorApi.get();
+        const image = new Asc.asc_CImgProperty();
+        const chart = this.props.storeFocusObjects.chartObject.get_ChartProperties();
+        chart.changeType(type);
+        image.put_ChartProperties(chart);
+        api.ImgApply(image);
+        // Force update styles
+        this.props.storeChartSettings.updateChartStyles(api.asc_getChartPreviews(chart.getType()));
+    }
+
+    onFillColor (color) {
+        const api = Common.EditorApi.get();
+        const image = new Asc.asc_CImgProperty();
+        const shape = new Asc.asc_CShapeProperty();
+        const fill = new Asc.asc_CShapeFill();
+        if (color == 'transparent') {
+            fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
+            fill.put_fill(null);
+        } else {
+            fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
+            fill.put_fill(new Asc.asc_CFillSolid());
+            fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(color));
+        }
+        shape.put_fill(fill);
+        image.put_ShapeProperties(shape);
+        api.ImgApply(image);
+    }
+
+    onBorderColor (color) {
+        const api = Common.EditorApi.get();
+        const currentShape = this.props.storeFocusObjects.shapeObject.get_ShapeProperties();
+        const image = new Asc.asc_CImgProperty();
+        const shape = new Asc.asc_CShapeProperty();
+        const stroke = new Asc.asc_CStroke();
+        if (currentShape.get_stroke().get_width() < 0.01) {
+            stroke.put_type(Asc.c_oAscStrokeType.STROKE_NONE);
+        } else {
+            stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
+            stroke.put_color(Common.Utils.ThemeColor.getRgbColor(color));
+            stroke.put_width(currentShape.get_stroke().get_width());
+            stroke.asc_putPrstDash(currentShape.get_stroke().asc_getPrstDash());
+        }
+        shape.put_stroke(stroke);
+        image.put_ShapeProperties(shape);
+        api.ImgApply(image);
+    }
+
+    onBorderSize (value) {
+        const api = Common.EditorApi.get();
+
+        const image = new Asc.asc_CImgProperty();
+        const shape = new Asc.asc_CShapeProperty();
+        const stroke = new Asc.asc_CStroke();
+
+        const _borderColor = this.props.storeChartSettings.borderColor;
+
+        if (value < 0.01) {
+            stroke.put_type(Asc.c_oAscStrokeType.STROKE_NONE);
+        } else {
+            stroke.put_type(Asc.c_oAscStrokeType.STROKE_COLOR);
+            if (_borderColor == 'transparent')
+                stroke.put_color(Common.Utils.ThemeColor.getRgbColor({color: '000000', effectId: 29}));
+            else
+                stroke.put_color(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.colorValue2EffectId(_borderColor)));
+            stroke.put_width(value * 25.4 / 72.0);
+        }
+
+        shape.put_stroke(stroke);
+        image.put_ShapeProperties(shape);
+
+        api.ImgApply(image);
+        this.props.storeChartSettings.initBorderColor(this.props.storeFocusObjects.shapeObject.get_ShapeProperties().get_stroke()); // when select STROKE_NONE or change from STROKE_NONE to STROKE_COLOR
+    }
+
     render () {
         return (
             <EditChart onRemoveChart={this.onRemoveChart}
@@ -106,9 +197,14 @@ class EditChartController extends Component {
                        onOverlap={this.onOverlap}
                        onWrapDistance={this.onWrapDistance}
                        onReorder={this.onReorder}
+                       onStyle={this.onStyle}
+                       onType={this.onType}
+                       onFillColor={this.onFillColor}
+                       onBorderColor={this.onBorderColor}
+                       onBorderSize={this.onBorderSize}
             />
         )
     }
 }
 
-export default inject("storeChartSettings")(observer(EditChartController));
+export default inject("storeChartSettings", "storeFocusObjects")(observer(EditChartController));
