@@ -394,7 +394,13 @@ define([
             if (this._state.LineRuleIdx !== null) {
                 this.numLineHeight.setDefaultUnit(this._arrLineRule[this._state.LineRuleIdx].defaultUnit);
                 this.numLineHeight.setStep(this._arrLineRule[this._state.LineRuleIdx].step);
-                this.numLineHeight && this.numLineHeight.setValue((this._state.LineHeight !== null) ?  Common.Utils.Metric.fnRecalcFromMM(this._state.LineHeight) : '', true);
+                var val = '';
+                if ( this._state.LineRuleIdx == c_paragraphLinerule.LINERULE_AUTO ) {
+                    val = this._state.LineHeight;
+                } else if (this._state.LineHeight !== null ) {
+                    val = Common.Utils.Metric.fnRecalcFromMM(this._state.LineHeight);
+                }
+                this.numLineHeight && this.numLineHeight.setValue((val !== null) ?  val : '', true);
             }
 
             var val = this._state.LineSpacingBefore;
