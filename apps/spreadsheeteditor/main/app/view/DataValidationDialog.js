@@ -370,7 +370,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
 
         onIgnoreChange: function(field, newValue, oldValue, eOpts) {
             if (!this._noApply) {
-                this.props.asc_setAllowBlank(field.getValue()!=='checked');
+                this.props.asc_setAllowBlank(field.getValue()=='checked');
             }
         },
 
@@ -411,7 +411,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this._noApply = true;
             if (props) {
                 var value = props.asc_getAllowBlank();
-                this.chIgnore.setValue(!value, true);
+                this.chIgnore.setValue(value, true);
                 value = props.asc_getShowDropDown();
                 this.chShowDropDown.setValue(!value, true);
                 value = props.asc_getType();
