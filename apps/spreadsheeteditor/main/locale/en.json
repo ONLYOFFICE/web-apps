@@ -642,7 +642,7 @@
   "SSE.Controllers.Main.textPaidFeature": "Paid feature",
   "SSE.Controllers.Main.textPleaseWait": "The operation might take more time than expected. Please wait...",
   "SSE.Controllers.Main.textRecalcFormulas": "Calculating formulas...",
-  "SSE.Controllers.Main.textRemember": "Remember my choice",
+  "SSE.Controllers.Main.textRemember": "Remember my choice for all files",
   "SSE.Controllers.Main.textRenameError": "User name must not be empty.",
   "SSE.Controllers.Main.textRenameLabel": "Enter a name to be used for collaboration",
   "SSE.Controllers.Main.textShape": "Shape",
