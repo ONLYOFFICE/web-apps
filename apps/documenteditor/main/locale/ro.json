@@ -437,7 +437,7 @@
   "DE.Controllers.Main.errorBadImageUrl": "URL-ul imaginii incorectă",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Conexiunea la server a fost pierdută. Deocamdată, imposibil de editat documentul.",
   "DE.Controllers.Main.errorCompare": "Opțiunea Comparare documente nu este disponibilă în timpul coeditării. ",
-  "DE.Controllers.Main.errorConnectToServer": "Documentul nu poate fi salvat. Verificați-vă setările de conexiune sau contactați administratorul dvs de rețea.<br>După ce faceți clic pe butonul OK vi se va solicita să descărcați documentul<br><br>Aflați mai multe informații despre conectarea la Sever Documente  <a href=\"%1\" target=\"_blank\">here</a>",
+  "DE.Controllers.Main.errorConnectToServer": "Documentul nu poate fi salvat. Verificați-vă setările de conexiune sau contactați administratorul dvs de rețea.<br>După ce faceți clic pe butonul OK vi se va solicita să descărcați documentul.",
   "DE.Controllers.Main.errorDatabaseConnection": "Eroare externă.<br>Eroare de conectare la baza de date. Dacă eroarea persistă, contactați Serviciul de Asistență Clienți.",
   "DE.Controllers.Main.errorDataEncrypted": "Modificările primite sunt criptate, decriptarea este imposibilă.",
   "DE.Controllers.Main.errorDataRange": "Zonă de date incorectă.",

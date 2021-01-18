@@ -382,7 +382,7 @@
   "DE.Controllers.Main.errorBadImageUrl": "Bildens URL är felaktig",
   "DE.Controllers.Main.errorCoAuthoringDisconnect": "Serveranslutning förlorade. Dokumentet kan inte redigeras just nu.",
   "DE.Controllers.Main.errorCompare": "Funktionen jämför dokument är inte tillgänglig vid samredigering.",
-  "DE.Controllers.Main.errorConnectToServer": "Dokumentet kunde inte sparas. Kontrollera anslutningsinställningarna eller kontakta administratören<br>När du klickar på \"OK\"-knappen, kommer du att bli ombedd att ladda ner dokumentet",
+  "DE.Controllers.Main.errorConnectToServer": "Dokumentet kunde inte sparas. Kontrollera anslutningsinställningarna eller kontakta administratören<br>När du klickar på \"OK\"-knappen, kommer du att bli ombedd att ladda ner dokumentet.",
   "DE.Controllers.Main.errorDatabaseConnection": "Externt fel. <br>Databasen gick inte att koppla. Kontakta support om felet består.",
   "DE.Controllers.Main.errorDataEncrypted": "Krypterade ändringar har tagits emot, de kan inte avkodas.",
   "DE.Controllers.Main.errorDataRange": "Felaktig dataomfång",
