@@ -8,6 +8,7 @@ import {storePresentationInfo} from './presentationInfo';
 import {storePresentationSettings} from './presentationSettings';
 import { storePalette } from './palette';
 import { storeSlideSettings } from './slideSettings';
+import { storeTextSettings } from './textSettings';
 // import {storeTextSettings} from "./textSettings";
 // import {storeParagraphSettings} from "./paragraphSettings";
 // import {storeShapeSettings} from "./shapeSettings";
@@ -24,7 +25,8 @@ export const stores = {
     storePresentationInfo: new storePresentationInfo(),
     storePresentationSettings: new storePresentationSettings(),
     storeSlideSettings: new storeSlideSettings(),
-    storePalette: new storePalette()
+    storePalette: new storePalette(),
+    storeTextSettings: new storeTextSettings()
     // storeTextSettings: new storeTextSettings(),
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
