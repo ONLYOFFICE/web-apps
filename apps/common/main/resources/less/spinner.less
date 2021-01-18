@@ -10,7 +10,7 @@
         padding-right: @trigger-width + 2px;
 
         &:focus {
-            border-color: @border-preview-select;
+            // border-color: @border-preview-select;
         }
     }
 
@@ -18,7 +18,7 @@
         display: block;
         position: relative;
         width: @trigger-width;
-        height: @spin-height/2;
+        height: @spin-height/2 - 1;
         padding: 0;
         margin: 0;
         border: none;
@@ -39,6 +39,8 @@
         position: absolute;
         top: 0;
         right: 1px;
+        border-top: 1px solid transparent;
+        border-bottom: 1px solid transparent;
 
         i {
             display: inline-block;
@@ -54,18 +56,22 @@
             &.disabled {
                 opacity: .35;
             }
+
+            &:hover {
+                background-color: @highlight-button-hover;
+            }
         }
     }
 
     .spinner-up {
         i {
-            transform: rotate(45deg) translate(1px,-2px);
+            transform: rotate(45deg) translate(-1px,-1px);
         }
     }
 
     .spinner-down {
         i {
-            transform: rotate(-135deg) translate(1px,4px);
+            transform: rotate(-135deg) translate(2px,2px);
         }
     }
 }
