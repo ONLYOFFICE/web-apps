@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range} from 'framework7-react';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
 // import {Device} from '../../../../../common/mobile/utils/device';
@@ -284,16 +284,17 @@ const PageTransition = props => {
                     <Toggle checked={isDelay} onToggleChange={() => {props.onDelayCheck(!isDelay, _effectDelay)}} />
                 </ListItem>
                 <ListItem>
-                    <ListItemCell className="flex-shrink-3">
-                        <input type="range" className="range-slider-delay" min="0" max="300" value={stateRange} step="1"
-                            onChange={(e) => {
-                                changeRange(e.target.value);
-                                props.onDelay(stateRange);
-                            }} disabled={!isDelay} />
-                    </ListItemCell>
-                    <ListItemCell className="width-auto flex-shrink-0">
-                        <span>{stateRange} {_t.textSec}</span>
-                    </ListItemCell>
+                    <div slot='inner' style={{width: '100%'}}>
+                        <Range min={0} max={300} step={1}
+                               value={stateRange}
+                               disabled={!isDelay}
+                               onRangeChange={(value) => {changeRange(value)}}
+                               onRangeChanged={(value) => {props.onDelay(value)}}
+                        ></Range>
+                    </div>
+                    <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                        {stateRange + ' ' + _t.textSec}
+                    </div>
                 </ListItem>
             </List>
             <List>
