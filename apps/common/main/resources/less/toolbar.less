@@ -1,6 +1,7 @@
 @height-title: 28px;
 @height-tabs: 32px;
 @height-controls: 67px;
+@img-equition-filter: var(--image-border-types-filter);
 
 
 .toolbar {
@@ -498,6 +499,19 @@
 
     width: 20px;
     height: 20px;
+}
+
+.item-equation {
+    border: 1px solid @border-regular-control;
+
+    .equation-icon {
+        .background-ximage-v2('toolbar/math.png', 1500px, @commonimage: true);
+
+        .theme-dark & {
+            -webkit-filter: @img-equition-filter;
+            filter: @img-equition-filter;
+        }
+    }
 }
 
 // charts
