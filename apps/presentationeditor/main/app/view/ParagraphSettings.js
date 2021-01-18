@@ -246,7 +246,13 @@ define([
                     if (!rec) rec = this.cmbLineRule.store.at(0);
                     this.numLineHeight.setDefaultUnit(rec.get('defaultUnit'));
                     this.numLineHeight.setStep(rec.get('step'));
-                    this.numLineHeight && this.numLineHeight.setValue((this._state.LineHeight !== null) ?  Common.Utils.Metric.fnRecalcFromMM(this._state.LineHeight) : '', true);
+                    var val = '';
+                    if ( this._state.LineRule == c_paragraphLinerule.LINERULE_AUTO ) {
+                        val = this._state.LineHeight;
+                    } else if (this._state.LineHeight !== null ) {
+                        val = Common.Utils.Metric.fnRecalcFromMM(this._state.LineHeight);
+                    }
+                    this.numLineHeight && this.numLineHeight.setValue((val !== null) ?  val : '', true);
                 }
             }
         },
