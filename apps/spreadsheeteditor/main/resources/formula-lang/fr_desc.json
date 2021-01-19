@@ -1543,6 +1543,10 @@
 		"a": "()",
 		"d": "Fonction mathématique et trigonométrique qui renvoie un nombre aléatoire supérieur ou égal à 0 et inférieur à 1. Elle ne prend aucun argument."
 	},
+	"RANDARRAY": {
+		"a": "([Rangées], [Colonnes], [min], [max], [nombre_entier])",
+		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer un tableau de nombres aléatoires"
+	},
 	"RANDBETWEEN": {
 		"a": "(limite_inf [, limite_sup])",
 		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer un nombre aléatoire supérieur ou égal à limite_inf et inférieur ou égal à limite_sup."

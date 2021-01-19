@@ -1511,6 +1511,10 @@
 		"a": "()",
 		"d": "Restituisce un numero casuale uniformemente distribuito, ossia cambia se viene ricalcolato, e maggiore o uguale a 0 e minore di 1"
 	},
+	"RANDARRAY": {
+		"a": "([Righe], [Colonne], [min], [max], [numero_intero])",
+		"d": "Restituisce una matrice di numeri casuali"
+	},
 	"RANDBETWEEN": {
 		"a": "(minore , maggiore)",
 		"d": "Restituisce un numero casuale compreso tra i numeri specificati"

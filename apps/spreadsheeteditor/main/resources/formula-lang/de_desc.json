@@ -1543,6 +1543,10 @@
 		"a": "()",
 		"d": "Mathematische und trigonometrische Funktion - gibt eine gleichmäßig verteilte reelle Zufallszahl zurück, die größer oder gleich 0 und kleiner als 1 ist Für die Syntax der Funktion sind keine Argumente erforderlich"
 	},
+	"RANDARRAY": {
+		"a": "([Zeilen];[Spalten];[min];[max];[ganze_Zahl])",
+		"d": "Mathematische und trigonometrische Funktion - gibt eine Array von Zufallszahlen zurück"
+	},
 	"RANDBETWEEN": {
 		"a": "(Untere_Zahl;Obere_Zahl)",
 		"d": "Mathematische und trigonometrische Funktion - gibt eine Zufallszahl zurück, die größer oder gleich Untere_Zahl und kleiner oder gleich Obere_Zahl ist"

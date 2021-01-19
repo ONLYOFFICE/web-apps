@@ -1543,6 +1543,10 @@
 		"a": "()",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver un número aleatorio mayor o igual que 0 y menor que 1. No requiere ningún argumento."
 	},
+	"RANDARRAY": {
+		"a": "([rows], [columns], [min], [max], [whole_number])",
+		"d": "Función de matemáticas y trigonometría utilizada para devolver una matriz de números aleatorios"
+	},
 	"RANDBETWEEN": {
 		"a": "(límite-inferior, límite-superior)",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver un número aleatorio mayor o igual que el del límite inferior y menor o igual que el del límite superior"

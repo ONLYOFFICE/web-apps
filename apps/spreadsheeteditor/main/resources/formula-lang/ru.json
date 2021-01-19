@@ -385,6 +385,7 @@
 	"QUOTIENT": "ЧАСТНОЕ",
 	"RADIANS": "РАДИАНЫ",
 	"RAND": "СЛЧИС",
+	"RANDARRAY": "СЛУЧМАССИВ",
 	"RANDBETWEEN": "СЛУЧМЕЖДУ",
 	"ROMAN": "РИМСКОЕ",
 	"ROUND": "ОКРУГЛ",
