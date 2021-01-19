@@ -267,20 +267,26 @@ const PageWrap = props => {
                 <Fragment>
                     <BlockTitle>{_t.textAlign}</BlockTitle>
                     <List>
-                        <ListItem>
+                        <ListItem  className='buttons'>
                             <Row>
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Left ? ' active' : '')}
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Left)
-                                   }}>left</a>
+                                   }}>
+                                    <Icon slot="media" icon="icon-block-align-left"></Icon>
+                                </a>
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Center ? ' active' : '')}
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Center)
-                                   }}>center</a>
+                                   }}>
+                                    <Icon slot="media" icon="icon-block-align-center"></Icon>
+                                </a>
                                 <a className={'button' + (align === Asc.c_oAscAlignH.Right ? ' active' : '')}
                                    onClick={() => {
                                        props.onAlign(Asc.c_oAscAlignH.Right)
-                                   }}>right</a>
+                                   }}>
+                                    <Icon slot="media" icon="icon-block-align-right"></Icon>
+                                </a>
                             </Row>
                         </ListItem>
                     </List>
