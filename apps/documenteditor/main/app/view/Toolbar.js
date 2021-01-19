@@ -293,7 +293,7 @@ define([
                     this.btnChangeCase = new Common.UI.Button({
                         id: 'id-toolbar-btn-case',
                         cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-case',
+                        iconCls: 'toolbar__icon btn-change-case',
                         menu: new Common.UI.Menu({
                             items: [
                                 {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
