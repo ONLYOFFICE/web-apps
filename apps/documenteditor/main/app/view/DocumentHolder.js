@@ -4333,6 +4333,10 @@ define([
                             return;
                     }
                     this.api.asc_addImage(obj);
+                    var me = this;
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:
