@@ -90,20 +90,20 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 cls: 'input-group-nr',
                 editable: false,
                 data:  [
-                    {value: Asc.EDataValidationType.None, displayValue: this.txtAny},
-                    {value: Asc.EDataValidationType.Whole, displayValue: this.txtWhole},
-                    {value: Asc.EDataValidationType.Decimal, displayValue: this.txtDecimal},
-                    {value: Asc.EDataValidationType.List, displayValue: this.txtList},
-                    {value: Asc.EDataValidationType.Date, displayValue: this.txtDate},
-                    {value: Asc.EDataValidationType.Time, displayValue: this.txtTime},
-                    {value: Asc.EDataValidationType.TextLength, displayValue: this.txtTextLength},
-                    {value: Asc.EDataValidationType.Custom, displayValue: this.txtOther}
+                    {value: Asc.c_oAscEDataValidationType.None, displayValue: this.txtAny},
+                    {value: Asc.c_oAscEDataValidationType.Whole, displayValue: this.txtWhole},
+                    {value: Asc.c_oAscEDataValidationType.Decimal, displayValue: this.txtDecimal},
+                    {value: Asc.c_oAscEDataValidationType.List, displayValue: this.txtList},
+                    {value: Asc.c_oAscEDataValidationType.Date, displayValue: this.txtDate},
+                    {value: Asc.c_oAscEDataValidationType.Time, displayValue: this.txtTime},
+                    {value: Asc.c_oAscEDataValidationType.TextLength, displayValue: this.txtTextLength},
+                    {value: Asc.c_oAscEDataValidationType.Custom, displayValue: this.txtOther}
                 ],
                 style: 'width: 100%;',
                 menuStyle   : 'min-width: 100%;',
                 takeFocusOnClose: true
             });
-            this.cmbAllow.setValue(Asc.EDataValidationType.None);
+            this.cmbAllow.setValue(Asc.c_oAscEDataValidationType.None);
             this.cmbAllow.on('selected', _.bind(this.onAllowSelect, this));
 
             this.cmbData = new Common.UI.ComboBox({
@@ -170,9 +170,10 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
 
             this.chApply = new Common.UI.CheckBox({
                 el: $window.find('#data-validation-ch-apply'),
-                labelText: this.textApply
+                labelText: this.textApply,
+                disabled: true
             });
-            // this.chApply.on('change', _.bind(this.onApplyChange, this));
+            this.chApply.on('change', _.bind(this.onApplyChange, this));
 
             // input message
             this.chShowInput = new Common.UI.CheckBox({
@@ -321,7 +322,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 win.setSettings({
                     api     : me.api,
                     range   : input.getValue(),
-                    type    : Asc.c_oAscSelectionDialogType.Chart,
+                    type    : Asc.c_oAscSelectionDialogType.DataValidation,
                     validation: function() {return true;}
                 });
             }
@@ -332,11 +333,11 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             if (!this._noApply) {
                 if (type==1 || type==3) {
                     if (!this.props.asc_getFormula1())
-                        this.props.asc_setFormula1(new AscCommonExcel.CDataFormula());
+                        this.props.asc_setFormula1(new Asc.CDataFormula());
                     this.props.asc_getFormula1().asc_setValue(newValue);
                 } else if (type==2) {
                     if (!this.props.asc_getFormula2())
-                        this.props.asc_setFormula2(new AscCommonExcel.CDataFormula());
+                        this.props.asc_setFormula2(new Asc.CDataFormula());
                     this.props.asc_getFormula2().asc_setValue(newValue);
                 }
             }
@@ -363,17 +364,19 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         onStyleSelect: function(combo, record) {
             this.errorIcon.removeClass("error warn info");
             this.errorIcon.addClass(record.clsText);
+            if (!this._noApply)
+                this.props.asc_setErrorStyle(record.value);
         },
 
         onIgnoreChange: function(field, newValue, oldValue, eOpts) {
             if (!this._noApply) {
-                this.props.asc_setAllowBlank(field.getValue()!=='checked');
+                this.props.asc_setAllowBlank(field.getValue()=='checked');
             }
         },
 
         onDropDownChange: function(field, newValue, oldValue, eOpts) {
             if (!this._noApply) {
-                this.props.asc_setShowDropDown(field.getValue()=='checked');
+                this.props.asc_setShowDropDown(field.getValue()!=='checked');
             }
         },
 
@@ -398,15 +401,22 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             }
         },
 
+        onApplyChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api && !this._noApply) {
+                this.api.asc_setDataValidation(this.getSettings(), field.getValue()=='checked');
+            }
+        },
+
         _setDefaults: function (props) {
             this._noApply = true;
             if (props) {
                 var value = props.asc_getAllowBlank();
-                this.chIgnore.setValue(!value, true);
+                this.chIgnore.setValue(value, true);
                 value = props.asc_getShowDropDown();
-                this.chShowDropDown.setValue(!!value, true);
+                this.chShowDropDown.setValue(!value, true);
                 value = props.asc_getType();
-                this.cmbAllow.setValue(value!==null ? value : Asc.EDataValidationType.None, true);
+                this.cmbAllow.setValue(value!==null ? value : Asc.c_oAscEDataValidationType.None, true);
+                this.chApply.setDisabled(value===Asc.c_oAscEDataValidationType.None);
                 value = props.asc_getOperator();
                 this.cmbData.setValue(value!==null ? value : Asc.EDataValidationOperator.Between, true);
                 this.inputRangeMin.setValue(props.asc_getFormula1() ? props.asc_getFormula1().asc_getValue() || '' : '');
@@ -424,7 +434,11 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 this.textareaError.setValue(props.asc_getError() || '');
                 value = props.asc_getErrorStyle();
                 this.cmbStyle.setValue(value!==null ? value : Asc.EDataValidationErrorStyle.Stop);
-
+                var rec = this.cmbStyle.getSelectedRecord();
+                if (rec) {
+                    this.errorIcon.removeClass("error warn info");
+                    this.errorIcon.addClass(rec.clsText);
+                }
             }
             this.ShowHideElem();
             this._noApply = false;
@@ -446,11 +460,12 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             var me = this;
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'ok') {
-                if (!this.isRangeValid()) return;
-                this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
-            }
-
-            this.close();
+                this.isRangeValid(function() {
+                    me.handler && me.handler.call(me, state,  (state == 'ok') ? me.getSettings() : undefined);
+                    me.close();
+                });
+            } else
+                this.close();
         },
 
         onPrimary: function() {
@@ -462,37 +477,39 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             var allow = this.cmbAllow.getValue(),
                 data = this.cmbData.getValue();
             var between = (data==Asc.EDataValidationOperator.Between || data==Asc.EDataValidationOperator.NotBetween);
-            var source = (allow==Asc.EDataValidationType.Custom || allow==Asc.EDataValidationType.List);
-            this.minMaxTr.toggleClass('hidden', allow==Asc.EDataValidationType.None || source || !between);
-            this.sourceTr.toggleClass('hidden', allow==Asc.EDataValidationType.None || !source && between );
-            this.dropdownTr.toggleClass('hidden', allow!=Asc.EDataValidationType.List);
+            var source = (allow==Asc.c_oAscEDataValidationType.Custom || allow==Asc.c_oAscEDataValidationType.List);
+            this.minMaxTr.toggleClass('hidden', allow==Asc.c_oAscEDataValidationType.None || source || !between);
+            this.sourceTr.toggleClass('hidden', allow==Asc.c_oAscEDataValidationType.None || !source && between );
+            this.dropdownTr.toggleClass('hidden', allow!=Asc.c_oAscEDataValidationType.List);
 
-            this.chIgnore.setDisabled(allow===Asc.EDataValidationType.None);
-            this.cmbData.setDisabled(allow===Asc.EDataValidationType.None || allow===Asc.EDataValidationType.Custom || allow===Asc.EDataValidationType.List);
+            this.chIgnore.setDisabled(allow===Asc.c_oAscEDataValidationType.None);
+            this.cmbData.setDisabled(allow===Asc.c_oAscEDataValidationType.None || allow===Asc.c_oAscEDataValidationType.Custom || allow===Asc.c_oAscEDataValidationType.List);
 
             var str = this.textSource;
-            if (allow==Asc.EDataValidationType.Custom)
+            if (allow==Asc.c_oAscEDataValidationType.List)
+                str = this.textSource;
+            else if (allow==Asc.c_oAscEDataValidationType.Custom)
                 str = this.textFormula;
             else if (data==Asc.EDataValidationOperator.Equal || data==Asc.EDataValidationOperator.NotEqual) { // equals, not equals
-                if (allow==Asc.EDataValidationType.Date)
+                if (allow==Asc.c_oAscEDataValidationType.Date)
                     str = this.txtDate;
-                else if (allow==Asc.EDataValidationType.TextLength)
+                else if (allow==Asc.c_oAscEDataValidationType.TextLength)
                     str = this.txtLength;
-                else if (allow==Asc.EDataValidationType.Time)
+                else if (allow==Asc.c_oAscEDataValidationType.Time)
                     str = this.txtElTime;
                 else
                     str = this.textCompare;
             } else if (data==Asc.EDataValidationOperator.GreaterThan || data==Asc.EDataValidationOperator.GreaterThanOrEqual) { // greater, greater or equals
-                if (allow==Asc.EDataValidationType.Date)
+                if (allow==Asc.c_oAscEDataValidationType.Date)
                     str = this.txtStartDate;
-                else if (allow==Asc.EDataValidationType.Time)
+                else if (allow==Asc.c_oAscEDataValidationType.Time)
                     str = this.txtStartTime;
                 else
                     str = this.textMin;
             } else if (data==Asc.EDataValidationOperator.LessThan || data==Asc.EDataValidationOperator.LessThanOrEqual) { // less, less or equals
-                if (allow==Asc.EDataValidationType.Date)
+                if (allow==Asc.c_oAscEDataValidationType.Date)
                     str = this.txtEndDate;
-                else if (allow==Asc.EDataValidationType.Time)
+                else if (allow==Asc.c_oAscEDataValidationType.Time)
                     str = this.txtEndTime;
                 else
                     str = this.textMax;
@@ -501,10 +518,10 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
 
             var str1 = this.textMin,
                 str2 = this.textMax;
-            if (allow==Asc.EDataValidationType.Date) {
+            if (allow==Asc.c_oAscEDataValidationType.Date) {
                 str1 = this.txtStartDate;
                 str2 = this.txtEndDate;
-            } else if (allow==Asc.EDataValidationType.Time) {
+            } else if (allow==Asc.c_oAscEDataValidationType.Time) {
                 str1 = this.txtStartTime;
                 str2 = this.txtEndTime;
             }
@@ -512,59 +529,100 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             this.lblRangeMax.text(str2);
         },
 
-        isRangeValid: function() {
+        isRangeValid: function(callback) {
+            var me = this;
             var isvalid = Asc.c_oAscError.ID.No;
             var type = this.cmbAllow.getValue();
-            if (type!==Asc.EDataValidationType.None) {
+            if (type!==Asc.c_oAscEDataValidationType.None) {
                 var focusedInput,
                     lblField,
                     error,
                     minVisible = this.inputRangeMin.isVisible();
+                var callback2 = function(isvalid) {
+                    if (isvalid === Asc.c_oAscError.ID.No) {
+                        isvalid = me.props.asc_checkValid();
+                        (isvalid !== Asc.c_oAscError.ID.No) && (focusedInput = minVisible ? me.inputRangeMin : me.inputRangeSource);
+                    }
+                    switch (isvalid) {
+                        case Asc.c_oAscError.ID.DataValidateNotNumeric:
+                            error = Common.Utils.String.format(me.errorNotNumeric, lblField.text());
+                            break;
+                        case Asc.c_oAscError.ID.DataValidateNegativeTextLength:
+                            error = Common.Utils.String.format(me.errorNegativeTextLength, me.cmbAllow.getDisplayValue(me.cmbAllow.getSelectedRecord()));
+                            break;
+                        case Asc.c_oAscError.ID.DataValidateMustEnterValue:
+                            error = minVisible ? Common.Utils.String.format(me.errorMustEnterBothValues, me.lblRangeMin.text(), me.lblRangeMax.text()) :
+                                Common.Utils.String.format(me.errorMustEnterValue, me.lblRangeSource.text());
+                            break;
+                        case Asc.c_oAscError.ID.DataValidateMinGreaterMax:
+                            error = Common.Utils.String.format(me.errorMinGreaterMax, me.lblRangeMin.text(), me.lblRangeMax.text());
+                            break;
+                        case Asc.c_oAscError.ID.DataValidateInvalid:
+                            error = Common.Utils.String.format((type==Asc.c_oAscEDataValidationType.Time) ? me.errorInvalidTime : ((type==Asc.c_oAscEDataValidationType.Date) ? me.errorInvalidDate : me.errorInvalid), lblField.text());
+                            break;
+                        case Asc.c_oAscError.ID.NamedRangeNotFound:
+                            error = me.errorNamedRange;
+                            break;
+                        case Asc.c_oAscError.ID.DataValidateInvalidList:
+                            error = me.errorInvalidList;
+                            break;
+                    }
+                    error && Common.UI.warning({
+                        msg: error,
+                        maxwidth: 600,
+                        callback: function(btn){
+                            focusedInput.focus();
+                        }
+                    });
+                    (isvalid === Asc.c_oAscError.ID.No) && callback.call(me);
+                };
+                var callback1 = function(isvalid) {
+                    if (me.inputRangeMax.isVisible() && isvalid === Asc.c_oAscError.ID.No) {
+                        isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.DataValidation, me.props.asc_getFormula2() ? me.props.asc_getFormula2().asc_getValue() : null, true, undefined, type);
+                        if (isvalid !== Asc.c_oAscError.ID.No) {
+                            focusedInput = me.inputRangeMax;
+                            lblField = me.lblRangeMax;
+                        }
+                        if (isvalid===Asc.c_oAscError.ID.FormulaEvaluateError) {
+                            Common.UI.warning({
+                                msg: me.errorFormula,
+                                maxwidth: 600,
+                                buttons: ['yes', 'no'],
+                                primary: 'yes',
+                                callback: function(btn){
+                                    if (btn=='yes') {
+                                        callback2(Asc.c_oAscError.ID.No);
+                                    } else
+                                        focusedInput.focus();
+                                }
+                            });
+                        } else
+                            callback2(isvalid);
+                    } else
+                        callback2(isvalid);
+                };
                 isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.DataValidation, this.props.asc_getFormula1() ? this.props.asc_getFormula1().asc_getValue() : null, true, undefined, type);
                 if (isvalid !== Asc.c_oAscError.ID.No) {
-                    focusedInput = minVisible ? this.inputRangeMin : this.inputRangeSource;
-                    lblField = minVisible ? this.lblRangeMin : this.lblRangeSource;
+                    focusedInput = minVisible ? me.inputRangeMin : me.inputRangeSource;
+                    lblField = minVisible ? me.lblRangeMin : me.lblRangeSource;
                 }
-                if (isvalid === Asc.c_oAscError.ID.No) {
-                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.DataValidation, this.props.asc_getFormula2() ? this.props.asc_getFormula2().asc_getValue() : null, true, undefined, type);
-                    if (isvalid !== Asc.c_oAscError.ID.No) {
-                        focusedInput = this.inputRangeMax;
-                        lblField = this.lblRangeMax;
-                    }
-                }
-                if (isvalid === Asc.c_oAscError.ID.No) {
-                    isvalid = this.props.asc_checkValid();
-                    (isvalid !== Asc.c_oAscError.ID.No) && (focusedInput = minVisible ? this.inputRangeMin : this.inputRangeSource);
-                }
-
-                switch (isvalid) {
-                    case Asc.c_oAscError.ID.DataValidateNotNumeric:
-                        error = Common.Utils.String.format(this.errorNotNumeric, lblField.text());
-                        break;
-                    case Asc.c_oAscError.ID.DataValidateNegativeTextLength:
-                        error = Common.Utils.String.format(this.errorNegativeTextLength, this.cmbAllow.getDisplayValue(this.cmbAllow.getSelectedRecord()));
-                        break;
-                    case Asc.c_oAscError.ID.DataValidateMustEnterValue:
-                        error = minVisible ? Common.Utils.String.format(this.errorMustEnterBothValues, this.lblRangeMin.text(), this.lblRangeMax.text()) :
-                                             Common.Utils.String.format(this.errorMustEnterValue, this.lblRangeSource.text());
-                        break;
-                    case Asc.c_oAscError.ID.DataValidateMinGreaterMax:
-                        error = Common.Utils.String.format(this.errorMinGreaterMax, this.lblRangeMin.text(), this.lblRangeMax.text());
-                        break;
-                    case Asc.c_oAscError.ID.DataValidateInvalid:
-                        error = Common.Utils.String.format((type==Asc.EDataValidationType.Time) ? this.errorInvalidTime : this.errorInvalidDate, lblField.text());
-                        break;
-                }
-                error && Common.UI.warning({
-                    msg: error,
-                    maxwidth: 600,
-                    callback: function(btn){
-                        focusedInput.focus();
-                    }
-                });
-            }
-
-            return (isvalid === Asc.c_oAscError.ID.No);
+                if (isvalid===Asc.c_oAscError.ID.FormulaEvaluateError) {
+                    Common.UI.warning({
+                        msg: this.errorFormula,
+                        maxwidth: 600,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        callback: function(btn){
+                            if (btn=='yes') {
+                                callback1(Asc.c_oAscError.ID.No);
+                            } else
+                                focusedInput.focus();
+                        }
+                    });
+                } else
+                    callback1(isvalid);
+            } else
+                callback.call(me);
         },
 
         strSettings: 'Settings',
@@ -582,7 +640,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         textEndTime: 'End Time',
         textFormula: 'Formula',
         textIgnore: 'Ignore blank',
-        textApply: 'Apply these changes to all othes calls the same settings',
+        textApply: 'Apply these changes to all other cells with the same settings',
         textShowDropDown: 'Show drop-down list in cell',
         textCellSelected: 'When cell is selected, show this input message',
         textTitle: 'Title',
@@ -622,9 +680,13 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         errorMustEnterValue: 'You must enter a value in field \"{0}\".',
         errorInvalidDate: 'The date you entered for the field \"{0}\" is invalid.',
         errorInvalidTime: 'The time you entered for the field \"{0}\" is invalid.',
+        errorInvalid: 'The value you entered for the field \"{0}\" is invalid.',
         errorNotNumeric: 'The field \"{0}\" must be a numeric value, numeric expression, or refer to a cell containing a numeric value.',
         errorNegativeTextLength: 'Negative values cannot be used in conditions \"{0}\".',
-        errorMinGreaterMax: 'The \"{1}\" field must be greater than or equal to the \"{0}\" field.'
+        errorMinGreaterMax: 'The \"{1}\" field must be greater than or equal to the \"{0}\" field.',
+        errorFormula: 'The value currently evaluates to an error. Do you want to continue?',
+        errorNamedRange: 'A named range you specified cannot be found.',
+        errorInvalidList: 'The list source must be a delimited list, or a reference to single row or column.'
 
     }, SSE.Views.DataValidationDialog || {}))
 });

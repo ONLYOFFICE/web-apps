@@ -141,7 +141,7 @@ define([
                             else
                                 this._input.blur();
                         }
-                     }
+                    }
                     return false;
                 } else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
                     this._input.val(this.lastValue);

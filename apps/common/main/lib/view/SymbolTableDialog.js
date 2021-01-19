@@ -800,13 +800,16 @@ define([
         },
 
         getPasteSymbol: function(cellId) {
-            var bUpdateRecents = cellId[0] === 'c';
+            var bUpdateRecents = false;
             var sFont;
-            if(bUpdateRecents){
-                sFont = aFontSelects[nCurrentFont].displayValue;
-            } else {
-                var nFontId = parseInt(cellId.split('_')[2]);
-                sFont = aFontSelects[nFontId].displayValue;
+            if (cellId && cellId.length>0) {
+                bUpdateRecents = (cellId[0] === 'c');
+                if(bUpdateRecents){
+                    sFont = aFontSelects[nCurrentFont].displayValue;
+                } else {
+                    var nFontId = parseInt(cellId.split('_')[2]);
+                    sFont = aFontSelects[nFontId].displayValue;
+                }
             }
             return {font: sFont, symbol: this.encodeSurrogateChar(nCurrentSymbol), code: nCurrentSymbol, updateRecents: bUpdateRecents};
         },
@@ -831,7 +834,7 @@ define([
             }
 
             var special = this.btnSpecial.isActive();
-            var settings = special ? this.getSpecialSymbol() : this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'));
+            var settings = (state=='ok') ? (special ? this.getSpecialSymbol() : this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'))) : {};
             if (this.options.handler) {
                 this.options.handler.call(this, this, state, settings);
             }

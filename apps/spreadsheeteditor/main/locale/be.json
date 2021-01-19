@@ -1220,7 +1220,7 @@
   "SSE.Controllers.Toolbar.warnLongOperation": "Для завяршэння аперацыі, якую вы хочаце выканаць, можа спатрэбіцца шмат часу.<br>Сапраўды хочаце працягнуць?",
   "SSE.Controllers.Toolbar.warnMergeLostData": "У аб’яднанай ячэйцы застануцца толькі даныя з левай верхняй ячэйкі.<br>Сапраўды хочаце працягнуць?",
   "SSE.Controllers.Viewport.textFreezePanes": "Замацаваць вобласці",
-  "SSE.Controllers.Viewport.textFreezePanesShadow:": "Паказваць цень для замацаваных панэляў",
+  "SSE.Controllers.Viewport.textFreezePanesShadow": "Паказваць цень для замацаваных панэляў",
   "SSE.Controllers.Viewport.textHideFBar": "Схаваць панэль формул",
   "SSE.Controllers.Viewport.textHideGridlines": "Схаваць лініі сеткі",
   "SSE.Controllers.Viewport.textHideHeadings": "Схаваць загалоўкі",

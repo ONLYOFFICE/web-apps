@@ -1708,6 +1708,7 @@
   "DE.Views.FormSettings.textKey": "Key",
   "DE.Views.FormSettings.textLock": "Lock",
   "DE.Views.FormSettings.textMaxChars": "Characters limit",
+  "DE.Views.FormSettings.textNoBorder": "No border",
   "DE.Views.FormSettings.textPlaceholder": "Placeholder",
   "DE.Views.FormSettings.textRadiobox": "Radio Button",
   "DE.Views.FormSettings.textSelectImage": "Select Image",

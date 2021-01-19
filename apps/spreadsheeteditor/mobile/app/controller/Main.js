@@ -1419,7 +1419,10 @@ define([
                     var buttons = [{
                         text: 'OK',
                         bold: true,
+                        close: false,
                         onClick: function () {
+                            if (!me._state.openDlg) return;
+                            $(me._state.openDlg).hasClass('modal-in') && uiApp.closeModal(me._state.openDlg);
                             var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                             me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
@@ -1440,7 +1443,7 @@ define([
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.txtProtected,
+                        text: (typeof advOptions=='string' ? advOptions : me.txtProtected),
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: buttons
                     });

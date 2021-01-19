@@ -54,7 +54,7 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="chart-button-edit-data" style="width:115px;"><%= scope.textEditData %></button>
+            <button type="button" class="btn btn-text-default auto" id="chart-button-edit-data" style="min-width:115px;"><%= scope.textEditData %></button>
         </td>
     </tr>
     <tr>

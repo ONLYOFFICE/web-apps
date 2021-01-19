@@ -1671,6 +1671,7 @@
   "DE.Views.FormSettings.textKey": "Chave",
   "DE.Views.FormSettings.textLock": "Bloquear",
   "DE.Views.FormSettings.textMaxChars": "Limite de caracteres",
+  "DE.Views.FormSettings.textNoBorder": "Sem limite",
   "DE.Views.FormSettings.textPlaceholder": "Marcador de posição",
   "DE.Views.FormSettings.textRadiobox": "Botao de radio",
   "DE.Views.FormSettings.textSelectImage": "Selecionar Imagem",

@@ -1671,6 +1671,7 @@
   "DE.Views.FormSettings.textKey": "Schlüssel",
   "DE.Views.FormSettings.textLock": "Sperren",
   "DE.Views.FormSettings.textMaxChars": "Zeichengrenze",
+  "DE.Views.FormSettings.textNoBorder": "Kein Rahmen",
   "DE.Views.FormSettings.textPlaceholder": "Platzhalter",
   "DE.Views.FormSettings.textRadiobox": "Radiobutton",
   "DE.Views.FormSettings.textSelectImage": "Bild auswählen",

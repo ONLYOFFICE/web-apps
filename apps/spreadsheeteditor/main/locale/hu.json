@@ -1228,7 +1228,7 @@
   "SSE.Controllers.Toolbar.warnLongOperation": "A végrehajtani kívánt művelet meglehetősen sok időt vehet igénybe.<br>Biztosan folytatni kívánja?",
   "SSE.Controllers.Toolbar.warnMergeLostData": "Csak a bal felső cellából származó adatok maradnak az egyesített cellában.<br>Biztosan folytatni szeretné?",
   "SSE.Controllers.Viewport.textFreezePanes": "Panelek rögzítése",
-  "SSE.Controllers.Viewport.textFreezePanesShadow:": "Mutassa a rögzített panelek árnyékát",
+  "SSE.Controllers.Viewport.textFreezePanesShadow": "Mutassa a rögzített panelek árnyékát",
   "SSE.Controllers.Viewport.textHideFBar": "Képlet sáv elrejtése",
   "SSE.Controllers.Viewport.textHideGridlines": "Rácsvonalak elrejtése",
   "SSE.Controllers.Viewport.textHideHeadings": "Fejlécek elrejtése",

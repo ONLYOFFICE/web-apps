@@ -69,7 +69,6 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onChangeSpecialFormsGlobalSettings', _.bind(this.onChangeSpecialFormsGlobalSettings, this));
-                this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
 
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
@@ -90,7 +89,6 @@ define([
                     'forms:clear': this.onClearClick,
                     'forms:no-color': this.onNoControlsColor,
                     'forms:select-color': this.onSelectControlsColor,
-                    'forms:open-color': this.onColorsShow,
                     'forms:mode': this.onModeClick
                 }
             });
@@ -145,36 +143,6 @@ define([
             }
         },
 
-        onSendThemeColors: function() {
-            this._needUpdateColors = true;
-        },
-
-        updateThemeColors: function() {
-            var updateColors = function(picker, defaultColorIndex) {
-                if (picker) {
-                    var clr;
-
-                    var effectcolors = Common.Utils.ThemeColor.getEffectColors();
-                    for (var i = 0; i < effectcolors.length; i++) {
-                        if (typeof(picker.currentColor) == 'object' &&
-                            clr === undefined &&
-                            picker.currentColor.effectId == effectcolors[i].effectId)
-                            clr = effectcolors[i];
-                    }
-
-                    picker.updateColors(effectcolors, Common.Utils.ThemeColor.getStandartColors());
-                    if (picker.currentColor === undefined) {
-                        picker.currentColor = effectcolors[defaultColorIndex];
-                    } else if ( clr!==undefined ) {
-                        picker.currentColor = clr;
-                    }
-                }
-            };
-
-            this.view && this.view.mnuFormsColorPicker && updateColors(this.view.mnuFormsColorPicker, 1);
-            this.onChangeSpecialFormsGlobalSettings();
-        },
-
         onChangeSpecialFormsGlobalSettings: function() {
             if (this.view && this.view.mnuFormsColorPicker) {
                 var clr = this.api.asc_GetSpecialFormsHighlightColor(),
@@ -188,11 +156,6 @@ define([
                 this.view.btnHighlight.currentColor = clr;
                 $('.btn-color-value-line', this.view.btnHighlight.cmpEl).css('background-color', clr ? '#' + clr : 'transparent');
             }
-        },
-
-        onColorsShow: function(menu) {
-            this._needUpdateColors && this.updateThemeColors();
-            this._needUpdateColors = false;
         },
 
         onControlsSelect: function(type) {

@@ -168,6 +168,8 @@ define([
 
                 this.settings.argvalues[this.settings.argindex] = val;
                 this.api.asc_insertArgumentsInFormula(this.settings.argvalues);
+            } else if (this.settings.type == Asc.c_oAscSelectionDialogType.DataValidation) {
+                this.inputRange.setValue('=' + name);
             } else
                 this.inputRange.setValue(name);
             if (this.inputRange.cmpEl.hasClass('error'))

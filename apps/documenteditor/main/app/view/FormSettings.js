@@ -185,6 +185,7 @@ define([
                 minValue: 0.1
             });
             this.lockedControls.push(this.spnWidth);
+            this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', this.onWidthChange.bind(this));
             this.spnWidth.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
 
@@ -212,8 +213,8 @@ define([
                 value       : ''
             });
             this.lockedControls.push(this.txtNewValue);
-            this.txtNewValue.on('changed:after', this.onAddItem.bind(this));
             this.txtNewValue.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtNewValue._input.on('keydown', _.bind(this.onNewValueKeydown, this));
 
             this.list = new Common.UI.ListView({
                 el: $markup.findById('#form-list-list'),
@@ -294,7 +295,7 @@ define([
                 style       : 'text-align: left;'
             });
             this.btnRemForm.on('click', _.bind(function(btn){
-                this.api.asc_RemoveContentControlWrapper(this._state.id);
+                this.api.asc_RemoveContentControl(this._state.id);
             }, this));
             this.lockedControls.push(this.btnRemForm);
 
@@ -341,22 +342,24 @@ define([
         },
 
         onPlaceholderChanged: function(input, newValue, oldValue, e) {
-            if (this.api && !this._noApply) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 props.put_PlaceholderText(newValue || '    ');
                 this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
         onHelpChanged: function(input, newValue, oldValue, e) {
-            if (this.api && !this._noApply) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 formPr.put_HelpText(newValue);
                 props.put_FormPr(formPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
-                this.fireEvent('editcomplete', this);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
@@ -405,7 +408,7 @@ define([
                     formTextPr.put_MaxCharacters(this.spnMaxChars.getNumberValue() || 10);
                     if (this.spnWidth.getValue()) {
                         var value = this.spnWidth.getNumberValue();
-                        formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4));
+                        formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.1));
                     } else
                         formTextPr.put_Width(0);
                 }
@@ -421,7 +424,7 @@ define([
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
                 if (this.spnWidth.getValue()) {
                     var value = this.spnWidth.getNumberValue();
-                    formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4));
+                    formTextPr.put_Width(value<=0 ? 0 : parseInt(Common.Utils.Metric.fnRecalcToMM(value) * 72 * 20 / 25.4 + 0.1));
                 } else
                     formTextPr.put_Width(0);
 
@@ -452,6 +455,12 @@ define([
                 });
                 (this.type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.put_ComboBoxPr(specProps) : props.put_DropDownListPr(specProps);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
+            }
+        },
+
+        onNewValueKeydown: function(event) {
+            if (this.api && !this._noApply && event.keyCode == Common.UI.Keys.RETURN) {
+                this.onAddItem();
             }
         },
 
@@ -533,7 +542,7 @@ define([
 
         onColorPickerSelect: function(btn, color) {
             this.BorderColor = color;
-            this._state.BorderColor = this.BorderColor;
+            this._state.BorderColor = undefined;
 
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
@@ -548,6 +557,20 @@ define([
                     brd.put_Color(Common.Utils.ThemeColor.getRgbColor(color));
                     formTextPr.put_CombBorder(brd);
                 }
+                props.put_TextFormPr(formTextPr);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onNoBorderClick: function(item) {
+            this.BorderColor = 'transparent';
+            this._state.BorderColor = undefined;
+
+            if (this.api && !this._noApply) {
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
+                formTextPr.put_CombBorder();
                 props.put_TextFormPr(formTextPr);
                 this.api.asc_SetContentControlProperties(props, this.internalId);
                 this.fireEvent('editcomplete', this);
@@ -631,14 +654,20 @@ define([
                         this.labelFormName.text(this.textImage);
                     } else
                         data = this.api.asc_GetTextFormKeys();
-                    var arr = [];
-                    data.forEach(function(item) {
-                        arr.push({ displayValue: item,  value: item });
-                    });
-                    this.cmbKey.setData(arr);
+                    if (!this._state.arrKey || _.difference(this._state.arrKey, data).length>0) {
+                        var arr = [];
+                        data.forEach(function(item) {
+                            arr.push({ displayValue: item,  value: item });
+                        });
+                        this.cmbKey.setData(arr);
+                        this._state.arrKey=data;
+                    }
 
                     val = formPr.get_Key();
-                    this.cmbKey.setValue(val ? val : '');
+                    if (this._state.Key!==val) {
+                        this.cmbKey.setValue(val ? val : '');
+                        this._state.Key=val;
+                    }
 
                     if (val) {
                         val = this.api.asc_GetFormsCountByKey(val);
@@ -656,12 +685,20 @@ define([
                         val = specProps.get_GroupKey();
                         var ischeckbox = (typeof val !== 'string');
                         if (!ischeckbox) {
-                            var arr = [];
-                            this.api.asc_GetRadioButtonGroupKeys().forEach(function(item) {
-                                arr.push({ displayValue: item,  value: item });
-                            });
-                            this.cmbGroupKey.setData(arr);
-                            this.cmbGroupKey.setValue(val ? val : '');
+                            data = this.api.asc_GetRadioButtonGroupKeys();
+                            if (!this._state.arrGroupKey || _.difference(this._state.arrGroupKey, data).length>0) {
+                                var arr = [];
+                                data.forEach(function(item) {
+                                    arr.push({ displayValue: item,  value: item });
+                                });
+                                this.cmbGroupKey.setData(arr);
+                                this._state.arrGroupKey=data;
+                            }
+
+                            if (this._state.groupKey!==val) {
+                                this.cmbGroupKey.setValue(val ? val : '');
+                                this._state.groupKey=val;
+                            }
                         }
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
@@ -697,7 +734,10 @@ define([
                     val = formTextPr.get_MaxCharacters();
                     this.chMaxChars.setValue(val && val>=0);
                     this.spnMaxChars.setDisabled(!val || val<0);
-                    this.spnMaxChars.setValue(val && val>=0 ? val : 10);
+                    if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
+                        this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
+                        this._state.MaxChars=val;
+                    }
 
                     var brd = formTextPr.get_CombBorder();
                     if (brd) {
@@ -721,7 +761,8 @@ define([
 
                         this.btnColor.setColor(this.BorderColor);
                         this.mnuColorPicker.clearSelection();
-                        this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
+                        this.mnuNoBorder.setChecked(this.BorderColor == 'transparent', true);
+                        (this.BorderColor != 'transparent') && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
                         this._state.BorderColor = this.BorderColor;
                     }
                 }
@@ -743,8 +784,11 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
+                var val = this._state.Width;
+                this.spnWidth && this.spnWidth.setMinValue(Common.Utils.Metric.fnRecalcFromMM(1));
+                this.spnWidth && this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
             }
         },
 
@@ -754,18 +798,27 @@ define([
             if (!this.btnColor) {
                 this.btnColor = new Common.UI.ColorButton({
                     parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
-                    transparent: true,
-                    menu        : true
+                    additionalItems: [
+                        this.mnuNoBorder = new Common.UI.MenuItem({
+                            style: 'padding-left:20px;',
+                            caption: this.textNoBorder,
+                            toggleGroup: 'form-settings-no-border',
+                            checkable: true
+                        }), {caption: '--'}],
+                    menu        : true,
+                    colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                        '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                        '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                        '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', '99CCFF', 'CC99FF', 'FFFFFF'
+                    ],
+                    paletteHeight: 94
                 });
                 this.lockedControls.push(this.btnColor);
+                this.mnuNoBorder.on('click', _.bind(this.onNoBorderClick, this));
                 this.btnColor.on('color:select', this.onColorPickerSelect.bind(this));
                 this.btnColor.setMenu();
                 this.mnuColorPicker = this.btnColor.getPicker();
             }
-
-            this.mnuColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.mnuColorPicker.clearSelection();
-            this.BorderColor && this.mnuColorPicker.selectByRGB(typeof(this.BorderColor) == 'object' ? this.BorderColor.color : this.BorderColor,true);
         },
         
         onHideMenus: function(menu, e, isFromInputControl){
@@ -863,7 +916,8 @@ define([
         textFromStorage: 'From Storage',
         textColor: 'Border color',
         textConnected: 'Fields connected',
-        textDisconnect: 'Disconnect'
+        textDisconnect: 'Disconnect',
+        textNoBorder: 'No border'
 
     }, DE.Views.FormSettings || {}));
 });

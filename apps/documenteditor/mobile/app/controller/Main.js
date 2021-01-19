@@ -110,7 +110,16 @@ define([
                         'Y Axis': this.txtYAxis,
                         'Your text here': this.txtArt,
                         'Header': this.txtHeader,
-                        'Footer': this.txtFooter
+                        'Footer': this.txtFooter,
+                        "above": this.txtAbove,
+                        "below": this.txtBelow,
+                        "on page ": this.txtOnPage + " ",
+                        " -Section ": " " + this.txtSection + " ",
+                        "First Page ": this.txtFirstPage + " ",
+                        "Even Page ": this.txtEvenPage + " ",
+                        "Odd Page ": this.txtOddPage + " ",
+                        "Same as Previous": this.txtSameAsPrev,
+                        "Current Document": this.txtCurrentDocument
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -1319,7 +1328,10 @@ define([
                     var buttons = [{
                         text: 'OK',
                         bold: true,
+                        close: false,
                         onClick: function () {
+                            if (!me._state.openDlg) return;
+                            $(me._state.openDlg).hasClass('modal-in') && uiApp.closeModal(me._state.openDlg);
                             var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                             me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
@@ -1340,7 +1352,7 @@ define([
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.txtProtected,
+                        text: (typeof advOptions=='string' ? advOptions : me.txtProtected),
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: buttons
                     });
@@ -1618,7 +1630,16 @@ define([
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-            textGuest: 'Guest'
+            textGuest: 'Guest',
+            txtAbove: "above",
+            txtBelow: "below",
+            txtOnPage: "on page",
+            txtSection: "-Section",
+            txtFirstPage: "First Page",
+            txtEvenPage: "Even Page",
+            txtOddPage: "Odd Page",
+            txtSameAsPrev: "Same as Previous",
+            txtCurrentDocument: "Current Document"
         }
     })(), DE.Controllers.Main || {}))
 });

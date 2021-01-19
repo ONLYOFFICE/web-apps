@@ -185,6 +185,7 @@
   "PE.Controllers.Main.textYes": "Да",
   "PE.Controllers.Main.titleLicenseExp": "Истек срок действия лицензии",
   "PE.Controllers.Main.titleServerVersion": "Редактор обновлен",
+  "PE.Controllers.Main.txtAddFirstSlide": "Нажмите, чтобы добавить первый слайд",
   "PE.Controllers.Main.txtArt": "Введите ваш текст",
   "PE.Controllers.Main.txtBasicShapes": "Основные фигуры",
   "PE.Controllers.Main.txtButtons": "Кнопки",

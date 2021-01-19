@@ -1651,6 +1651,7 @@
   "DE.Views.FormSettings.textKey": "Κλειδί",
   "DE.Views.FormSettings.textLock": "Κλείδωμα",
   "DE.Views.FormSettings.textMaxChars": "Όριο χαρακτήρων",
+  "DE.Views.FormSettings.textNoBorder": "Χωρίς περίγραμμα",
   "DE.Views.FormSettings.textPlaceholder": "Δέσμευση Θέσης",
   "DE.Views.FormSettings.textRadiobox": "Κουμπί Επιλογής",
   "DE.Views.FormSettings.textSelectImage": "Επιλογή Εικόνας",

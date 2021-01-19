@@ -118,7 +118,8 @@ define([
                         'Slide number': this.txtSlideNumber,
                         'Slide subtitle': this.txtSlideSubtitle,
                         'Table': this.txtSldLtTTbl,
-                        'Slide title': this.txtSlideTitle
+                        'Slide title': this.txtSlideTitle,
+                        'Click to add first slide': this.txtAddFirstSlide
                     }
                 });
 
@@ -1212,7 +1213,10 @@ define([
                     var buttons = [{
                         text: 'OK',
                         bold: true,
+                        close: false,
                         onClick: function () {
+                            if (!me._state.openDlg) return;
+                            $(me._state.openDlg).hasClass('modal-in') && uiApp.closeModal(me._state.openDlg);
                             var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                             me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
@@ -1233,7 +1237,7 @@ define([
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.txtProtected,
+                        text: (typeof advOptions=='string' ? advOptions : me.txtProtected),
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: buttons
                     });
@@ -1559,7 +1563,8 @@ define([
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-            textGuest: 'Guest'
+            textGuest: 'Guest',
+            txtAddFirstSlide: 'Click to add first slide'
         }
     })(), PE.Controllers.Main || {}))
 });
