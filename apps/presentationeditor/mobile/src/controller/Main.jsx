@@ -257,9 +257,11 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onListType', (data) => {
-            let type    = data.get_ListType();
+            let type = data.get_ListType();
             let subtype = data.get_ListSubType();
+
             storeTextSettings.resetListType(type);
+
             switch (type) {
                 case 0:
                     storeTextSettings.resetBullets(subtype);
@@ -267,6 +269,9 @@ class MainController extends Component {
                 case 1:
                     storeTextSettings.resetNumbers(subtype);
                     break;
+                default: 
+                    storeTextSettings.resetBullets(-1);
+                    storeTextSettings.resetNumbers(-1);
             }
         });
 

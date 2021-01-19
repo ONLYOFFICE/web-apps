@@ -2,7 +2,7 @@ import {action, observable} from 'mobx';
 
 export class storeApplicationSettings {
    
-    @observable unitMeasurement = 0;
+    @observable unitMeasurement = 1;
     @observable isSpellChecking = true;
     @observable macrosMode = 0;
     

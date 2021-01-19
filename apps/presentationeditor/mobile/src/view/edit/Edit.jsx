@@ -8,7 +8,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
-
+import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing } from './EditText';
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -43,6 +43,34 @@ const routes = [
     {
         path: '/edit-custom-color/',
         component: CustomFillColor
+    },
+    {
+        path: '/edit-text-fonts/',
+        component: PageTextFonts
+    },
+    {
+        path: '/edit-text-font-color/',
+        component: PageTextFontColor
+    },
+    {
+        path: '/edit-text-custom-font-color/',
+        component: PageTextCustomFontColor
+    },
+    {
+        path: '/edit-text-add-formatting/',
+        component: PageTextAddFormatting
+    },
+    {
+        path: '/edit-text-bullets/',
+        component: PageTextBullets
+    },
+    {
+        path: '/edit-text-numbers/',
+        component: PageTextNumbers
+    },
+    {
+        path: '/edit-text-line-spacing/',
+        component: PageTextLineSpacing
     }
 ];
 

@@ -153,7 +153,8 @@
       "textLetterSpacing": "Letter Spacing",
       "textDistanceFromText": "Distance From Text",
       "textBefore": "Before",
-      "textAfter": "After"
+      "textAfter": "After",
+      "textFontColors": "Font Colors"
     }
   },
   "Common": {
