@@ -1,4 +1,32 @@
 {
+  "Main" : {
+    "SDK": {
+      "Series": "Series",
+      "Diagram Title": "Chart Title",
+      "X Axis": "X Axis XAS",
+      "Y Axis": "Y Axis",
+      "Your text here": "Your text here",
+      "Footer": "Footer",
+      "Header": "Header",
+      "Normal": "Normal",
+      "No Spacing": "No Spacing",
+      "Heading 1": "Heading 1",
+      "Heading 2": "Heading 2",
+      "Heading 3": "Heading 3",
+      "Heading 4": "Heading 4",
+      "Heading 5": "Heading 5",
+      "Heading 6": "Heading 6",
+      "Heading 7": "Heading 7",
+      "Heading 8": "Heading 8",
+      "Heading 9": "Heading 9",
+      "Title": "Title",
+      "Subtitle": "Subtitle",
+      "Quote": "Quote",
+      "Intense Quote": "Intense Quote",
+      "List Paragraph": "List Paragraph",
+      "footnote text": "Footnote Text"
+    }
+  },
   "Common": {
     "ThemeColorPalette": {
       "textThemeColors": "Theme Colors",

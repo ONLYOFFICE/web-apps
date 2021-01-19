@@ -150,10 +150,12 @@ class MainController extends Component {
 
             _process_array(dep_scripts, promise_get_script)
                 .then ( result => {
+                    window["flat_desine"] = true;
+                    const {t} = this.props;
                     this.api = new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
-                        // 'translate': translate
+                        'translate': t('Main.SDK', {returnObjects:true})
                     });
 
                     this.appOptions   = {};
@@ -249,6 +251,7 @@ class MainController extends Component {
         });
 
         //paragraph settings
+        this.api.asc_setParagraphStylesSizes(330, 38);
         const storeParagraphSettings = this.props.storeParagraphSettings;
         this.api.asc_registerCallback('asc_onInitEditorStyles', (styles) => {
             storeParagraphSettings.initEditorStyles(styles);
