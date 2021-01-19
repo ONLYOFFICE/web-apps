@@ -1541,7 +1541,11 @@
 	},
 	"RAND": {
 		"a": "()",
-		"d": "Math and trigonometry functionused to return a random number greater than or equal to 0 and less than 1. It does not require any argument"
+		"d": "Math and trigonometry function used to return a random number greater than or equal to 0 and less than 1. It does not require any argument"
+	},
+	"RANDARRAY": {
+		"a": "( [ rows ] , [ columns ] , [ min ] , [ max ] , [ whole_number ] )",
+		"d": "Math and trigonometry function used to return an array of random numbers"
 	},
 	"RANDBETWEEN": {
 		"a": "( lower-bound , upper-bound )",
