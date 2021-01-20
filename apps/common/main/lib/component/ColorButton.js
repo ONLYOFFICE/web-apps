@@ -77,6 +77,7 @@ define([
 
         onColorSelect: function(picker, color) {
             this.setColor(color);
+            this.setAutoColor(false);
             this.trigger('color:select', this, color);
         },
 
@@ -98,6 +99,10 @@ define([
                 });
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
                 this.cmpEl.find('#' + this.menu.id + '-color-new').on('click', _.bind(this.addNewColor, this));
+                if (this.options.auto) {
+                    this.cmpEl.find('#' + this.menu.id + '-color-auto').on('click', _.bind(this.onAutoColorSelect, this));
+                    this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
+                }
             }
             return this.colorPicker;
         },
@@ -105,13 +110,24 @@ define([
         getMenu: function(options) {
             if (typeof this.menu !== 'object') {
                 options = options || this.options;
-                var height = options.paletteHeight || 216;
-                var id = Common.UI.getId(),
-                    menu = new Common.UI.Menu({
+                var height = options.paletteHeight || 216,
+                    id = Common.UI.getId(),
+                    auto = [];
+                if (options.auto) {
+                    this.autocolor = (typeof options.auto == 'object') ? options.auto.color || '000000' : '000000';
+                    auto.push({
+                        id: id + '-color-auto',
+                        caption: (typeof options.auto == 'object') ? options.auto.caption || this.textAutoColor : this.textAutoColor,
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon color-auto" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #' + this.autocolor + ';"></span><%= caption %></a>')
+                    });
+                    auto.push({caption: '--'});
+                }
+
+                var menu = new Common.UI.Menu({
                     id: id,
                     cls: 'shifted-left',
                     additionalAlign: options.additionalAlign,
-                    items: (options.additionalItems ? options.additionalItems : []).concat([
+                    items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
                         { template: _.template('<div id="' + id + '-color-menu" style="width: 169px; height:' + height + 'px; margin: 10px;"></div>') },
                         { template: _.template('<a id="' + id + '-color-new" style="">' + this.textNewColor + '</a>') }
                     ])
@@ -131,7 +147,23 @@ define([
             this.colorPicker && this.colorPicker.addNewColor((typeof(this.color) == 'object') ? this.color.color : this.color);
         },
 
-        textNewColor: 'Add New Custom Color'
+        onAutoColorSelect: function() {
+            this.setColor(this.autocolor);
+            this.setAutoColor(true);
+            this.colorPicker && this.colorPicker.clearSelection();
+            this.trigger('auto:select', this, this.autocolor);
+        },
+
+        setAutoColor: function(selected) {
+            if (!this.colorAuto) return;
+            if (selected && !this.colorAuto.hasClass('selected'))
+                this.colorAuto.addClass('selected');
+            else if (!selected && this.colorAuto.hasClass('selected'))
+                this.colorAuto.removeClass('selected');
+        },
+
+        textNewColor: 'Add New Custom Color',
+        textAutoColor: 'Automatic'
 
     }, Common.UI.ColorButton || {}));
 });

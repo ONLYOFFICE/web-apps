@@ -130,12 +130,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $('#control-settings-color-btn'),
-                additionalItems: [{
-                        id: 'control-settings-system-color',
-                        caption: this.textSystemColor,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #dcdcdc;"></span><%= caption %></a>')
-                    },
-                    {caption: '--'}],
+                auto: {
+                    caption: this.textSystemColor,
+                    color: 'dcdcdc'
+                },
                 additionalAlign: this.menuAddAlign,
                 color: '000000',
                 colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
@@ -146,8 +144,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 paletteHeight: 94
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
+            this.btnColor.on('auto:select', _.bind(this.onSystemColor, this));
             this.colors = this.btnColor.getPicker();
-            $('#control-settings-system-color').on('click', _.bind(this.onSystemColor, this));
 
             this.btnApplyAll = new Common.UI.Button({
                 el: $('#control-settings-btn-all')
@@ -382,17 +380,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         },
 
         onColorsSelect: function(btn, color) {
-            var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
-            clr_item.hasClass('selected') && clr_item.removeClass('selected');
             this.isSystemColor = false;
         },
 
-        onSystemColor: function(e) {
-            var color = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
-            this.btnColor.setColor(color);
-            this.colors.clearSelection();
-            var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
-            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+        onSystemColor: function(btn, color) {
             this.isSystemColor = true;
         },
 
@@ -428,10 +419,10 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 if (val) {
                     val = Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b());
                     this.colors.selectByRGB(val,true);
+                    this.btnColor.setAutoColor(false);
                 } else {
                     this.colors.clearSelection();
-                    var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
-                    !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                    this.btnColor.setAutoColor(true);
                     val = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
                 }
                 this.btnColor.setColor(val);
