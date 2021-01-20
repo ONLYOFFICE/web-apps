@@ -82,6 +82,8 @@ define([
         },
 
         setColor: function(color) {
+            if (color == 'auto' && this.options.auto)
+                color = this.autocolor;
             var span = $(this.cmpEl).find('button span:nth-child(1)');
             this.color = color;
 
@@ -102,6 +104,7 @@ define([
                 if (this.options.auto) {
                     this.cmpEl.find('#' + this.menu.id + '-color-auto').on('click', _.bind(this.onAutoColorSelect, this));
                     this.colorAuto = this.cmpEl.find('#' + this.menu.id + '-color-auto > a');
+                    (color == 'auto') && this.setAutoColor(true);
                 }
             }
             return this.colorPicker;
@@ -148,7 +151,7 @@ define([
         },
 
         onAutoColorSelect: function() {
-            this.setColor(this.autocolor);
+            this.setColor('auto');
             this.setAutoColor(true);
             this.colorPicker && this.colorPicker.clearSelection();
             this.trigger('auto:select', this, this.autocolor);
@@ -160,6 +163,10 @@ define([
                 this.colorAuto.addClass('selected');
             else if (!selected && this.colorAuto.hasClass('selected'))
                 this.colorAuto.removeClass('selected');
+        },
+
+        isAutoColor: function() {
+            return this.colorAuto && this.colorAuto.hasClass('selected');
         },
 
         textNewColor: 'Add New Custom Color',
