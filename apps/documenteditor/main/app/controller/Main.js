@@ -2142,7 +2142,7 @@ define([
                         title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,
                         type: Common.Utils.importTextType.DRM,
-                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
+                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
                         warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
