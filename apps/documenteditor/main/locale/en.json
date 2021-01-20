@@ -147,6 +147,7 @@
   "Common.UI.Calendar.textShortWednesday": "We",
   "Common.UI.Calendar.textYears": "Years",
   "Common.UI.ColorButton.textNewColor": "Add New Custom Color",
+  "Common.UI.ColorButton.textAutoColor": "Automatic",
   "Common.UI.ComboBorderSize.txtNoBorders": "No borders",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "No borders",
   "Common.UI.ComboDataView.emptyComboText": "No styles",
