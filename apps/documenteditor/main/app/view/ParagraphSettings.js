@@ -187,7 +187,8 @@ define([
                 defaultValue : 0,
                 value: '0 cm',
                 maxValue: 55.87,
-                minValue: -55.87
+                minValue: -55.87,
+                disabled: this._locked
             });
             this.spinners.push(this.numIndentsLeft);
             this.lockedControls.push(this.numIndentsLeft);
@@ -200,7 +201,8 @@ define([
                 defaultValue : 0,
                 value: '0 cm',
                 maxValue: 55.87,
-                minValue: -55.87
+                minValue: -55.87,
+                disabled: this._locked
             });
             this.spinners.push(this.numIndentsRight);
             this.lockedControls.push(this.numIndentsRight);
@@ -211,7 +213,8 @@ define([
                 editable: false,
                 data: this._arrSpecial,
                 style: 'width: 85px;',
-                menuStyle   : 'min-width: 85px;'
+                menuStyle   : 'min-width: 85px;',
+                disabled: this._locked
             });
             this.cmbSpecial.setValue('');
             this.lockedControls.push(this.cmbSpecial);
@@ -224,7 +227,8 @@ define([
                 defaultValue : 0,
                 value: '0 cm',
                 maxValue: 55.87,
-                minValue: 0
+                minValue: 0,
+                disabled: this._locked
             });
             this.spinners.push(this.numSpecialBy);
             this.lockedControls.push(this.numSpecialBy);
