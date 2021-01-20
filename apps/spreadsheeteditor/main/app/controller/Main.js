@@ -2217,6 +2217,7 @@ define([
                 if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
                     var name = change.asc_getUserName();
                     if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        this._renameDialog && this._renameDialog.close();
                         Common.Utils.UserInfoParser.setCurrentName(name);
                         this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
 
