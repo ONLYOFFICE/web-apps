@@ -5,7 +5,7 @@ import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
-import AddTableController from "../../controller/add/AddTable";
+import {AddTableController} from "../../controller/add/AddTable";
 import AddShapeController from "../../controller/add/AddShape";
 //import AddImageController from "../../controller/add/AddImage";
 //import AddOtherController from "../../controller/add/AddOther";

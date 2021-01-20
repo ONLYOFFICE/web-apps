@@ -5,11 +5,22 @@ import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
 const AddTable = props => {
+    const storeTableSettings = props.storeTableSettings;
+    const styles = storeTableSettings.styles;
     return (
-        <Fragment>
-
-        </Fragment>
+        <div className={'table-styles dataview'}>
+            <ul className="row">
+                {styles.map((style, index) => {
+                    return (
+                        <li key={index}
+                            onClick={() => {props.onStyleClick(style.templateId)}}>
+                            <img src={style.imageUrl}/>
+                        </li>
+                    )
+                })}
+            </ul>
+        </div>
     )
 };
 
-export {AddTable};
+export default  inject("storeTableSettings")(observer(AddTable));

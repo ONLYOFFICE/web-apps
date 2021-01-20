@@ -223,6 +223,10 @@
     "textTable": "Table",
     "textShape": "Shape",
     "textImage": "Image",
-    "textOther": "Other"
+    "textOther": "Other",
+    "textTableSize": "Table Size",
+    "textColumns": "Columns",
+    "textRows": "Rows",
+    "textCancel": "Cancel"
   }
 }
