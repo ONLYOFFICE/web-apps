@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 
 // Import Framework7
 import Framework7 from 'framework7/framework7-lite.esm.bundle.js';
+import { Dom7 } from 'framework7';
+window.$$ = Dom7;
 
 // Import Framework7-React Plugin
 import Framework7React from 'framework7-react';
