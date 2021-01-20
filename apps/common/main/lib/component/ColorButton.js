@@ -71,6 +71,9 @@ define([
         render: function(parentEl) {
             Common.UI.Button.prototype.render.call(this, parentEl);
 
+            if (this.options.auto)
+                this.autocolor = (typeof this.options.auto == 'object') ? this.options.auto.color || '000000' : '000000';
+
             if (this.options.color!==undefined)
                 this.setColor(this.options.color);
         },
