@@ -178,7 +178,7 @@
                     padding: 0 10px 0;
                     line-height: 24px;
                     margin-right: -1px;
-                    background-color: @background-toolbar;
+                    background-color: @background-toolbar-additional;
                     outline: none;
                     border-left: 1px solid @border-toolbar;
                     border-right: 1px solid @border-toolbar;
@@ -207,9 +207,9 @@
                 &.selected {
                     > span {
                         border-bottom-color: @highlight-header-button-hover;
-                        background-color: @highlight-header-button-hover;
+                        background-color: @background-normal;
                         box-shadow: 0px 4px 0 #49795d inset;
-                        color: @text-normal-pressed;
+                        color: @text-normal;
                     }
                 }
 
@@ -260,7 +260,7 @@
 
                 &:not(.active) {
                     > span {
-                        color: @border-preview-select;
+                        color: @text-secondary;
                     }
                 }
 
