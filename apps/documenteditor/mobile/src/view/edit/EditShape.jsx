@@ -353,7 +353,7 @@ const PageReplace = props => {
     let shapes = storeShapeSettings.getStyleGroups();
     shapes.splice(0, 1); // Remove line shapes
     return (
-        <Page className="shapes">
+        <Page className="shapes dataview">
             <Navbar title={_t.textReplace} backLink={_t.textBack} />
             {shapes.map((row, indexRow) => {
                 return (
