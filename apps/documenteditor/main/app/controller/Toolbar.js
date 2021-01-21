@@ -2380,7 +2380,7 @@ define([
             this.api.put_TextColor(color);
 
             this.toolbar.btnFontColor.currentColor = {color: color, isAuto: true};
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#000');
+            this.toolbar.btnFontColor.setColor('000');
 
             this.toolbar.mnuFontColorPicker.clearSelection();
             this.toolbar.mnuFontColorPicker.currentColor = {color: color, isAuto: true};
@@ -2397,10 +2397,8 @@ define([
         onSelectFontColor: function(picker, color) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
-            var clr = (typeof(color) == 'object') ? (color.isAuto ? '#000' : color.color) : color;
-
             this.toolbar.btnFontColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + clr);
+            this.toolbar.btnFontColor.setColor((typeof(color) == 'object') ? (color.isAuto ? '000' : color.color) : color);
 
             this.toolbar.mnuFontColorPicker.currentColor = color;
             if (this.api)
@@ -2412,10 +2410,8 @@ define([
         onParagraphColorPickerSelect: function(picker, color) {
             this._state.clrback = this._state.clrshd_asccolor = undefined;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
-
             this.toolbar.btnParagraphColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnParagraphColor.cmpEl).css('background-color', color!='transparent'?'#'+clr:clr);
+            this.toolbar.btnParagraphColor.setColor(color);
 
             this.toolbar.mnuParagraphColorPicker.currentColor = color;
             if (this.api) {
@@ -2451,7 +2447,7 @@ define([
             this._setMarkerColor('transparent', 'menu');
             item.setChecked(true, true);
             this.toolbar.btnHighlightColor.currentColor = 'transparent';
-            $('.btn-color-value-line', this.toolbar.btnHighlightColor.cmpEl).css('background-color', 'transparent');
+            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
         },
 
         onParagraphColor: function(shd) {
@@ -2853,7 +2849,7 @@ define([
             updateColors(this.toolbar.mnuFontColorPicker, 1);
             if (this.toolbar.btnFontColor.currentColor===undefined || !this.toolbar.btnFontColor.currentColor.isAuto) {
                 this.toolbar.btnFontColor.currentColor = this.toolbar.mnuFontColorPicker.currentColor.color || this.toolbar.mnuFontColorPicker.currentColor;
-                $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + this.toolbar.btnFontColor.currentColor);
+                this.toolbar.btnFontColor.setColor(this.toolbar.btnFontColor.currentColor);
             }
             if (this._state.clrtext_asccolor!==undefined) {
                 this._state.clrtext = undefined;
@@ -2863,7 +2859,7 @@ define([
 
             updateColors(this.toolbar.mnuParagraphColorPicker, 0);
             this.toolbar.btnParagraphColor.currentColor = this.toolbar.mnuParagraphColorPicker.currentColor.color || this.toolbar.mnuParagraphColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnParagraphColor.cmpEl).css('background-color', '#' + this.toolbar.btnParagraphColor.currentColor);
+            this.toolbar.btnParagraphColor.setColor(this.toolbar.btnParagraphColor.currentColor);
             if (this._state.clrshd_asccolor!==undefined) {
                 this._state.clrback = undefined;
                 this.onParagraphColor(this._state.clrshd_asccolor);
@@ -2921,8 +2917,7 @@ define([
                 me.toolbar.mnuHighlightTransparent.setChecked(false);
 
                 me.toolbar.btnHighlightColor.currentColor = strcolor;
-                $('.btn-color-value-line', me.toolbar.btnHighlightColor.cmpEl).css('background-color', '#' + strcolor);
-
+                me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
                 me.toolbar.btnHighlightColor.toggle(true, true);
             }
 

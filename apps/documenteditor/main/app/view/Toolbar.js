@@ -232,7 +232,7 @@ define([
                     });
                     this.paragraphControls.push(this.btnSubscript);
 
-                    this.btnHighlightColor = new Common.UI.Button({
+                    this.btnHighlightColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-highlight',
@@ -254,7 +254,7 @@ define([
                     this.paragraphControls.push(this.btnHighlightColor);
                     this.textOnlyControls.push(this.btnHighlightColor);
 
-                    this.btnFontColor = new Common.UI.Button({
+                    this.btnFontColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-fontcolor',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-fontcolor',
@@ -275,7 +275,7 @@ define([
                     });
                     this.paragraphControls.push(this.btnFontColor);
 
-                    this.btnParagraphColor = new Common.UI.Button({
+                    this.btnParagraphColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-paracolor',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paracolor',
@@ -1948,10 +1948,8 @@ define([
                 //
                 var colorVal;
                 if (this.btnHighlightColor.cmpEl) {
-                    colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnHighlightColor.cmpEl).append(colorVal);
                     this.btnHighlightColor.currentColor = 'FFFF00';
-                    colorVal.css('background-color', '#' + this.btnHighlightColor.currentColor);
+                    this.btnHighlightColor.setColor(this.btnHighlightColor.currentColor);
                     this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
                         el: $('#id-toolbar-menu-highlight'),
                         colors: [
@@ -1963,18 +1961,14 @@ define([
                 }
 
                 if (this.btnFontColor.cmpEl) {
-                    colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
-                    colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
+                    this.btnFontColor.setColor(this.btnFontColor.currentColor || 'transparent');
                     this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-fontcolor')
                     });
                 }
 
                 if (this.btnParagraphColor.cmpEl) {
-                    colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnParagraphColor.cmpEl).append(colorVal);
-                    colorVal.css('background-color', this.btnParagraphColor.currentColor || 'transparent');
+                    this.btnParagraphColor.setColor(this.btnParagraphColor.currentColor || 'transparent');
                     this.mnuParagraphColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-paracolor'),
                         transparent: true

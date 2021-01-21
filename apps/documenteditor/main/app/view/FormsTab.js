@@ -175,7 +175,7 @@ define([
                 });
                 this.paragraphControls.push(this.btnClearFields);
 
-                this.btnHighlight = new Common.UI.Button({
+                this.btnHighlight = new Common.UI.ButtonColored({
                     parentEl    : $host.find('#slot-form-highlight'),
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-highlight',
@@ -221,9 +221,7 @@ define([
                             ],
                             value: me.btnHighlight.currentColor
                         });
-                        var colorVal = $('<div class="btn-color-value-line"></div>');
-                        $('button:first-child', me.btnHighlight.cmpEl).append(colorVal);
-                        colorVal.css('background-color', me.btnHighlight.currentColor ? '#' + me.btnHighlight.currentColor : 'transparent');
+                        me.btnHighlight.setColor(me.btnHighlight.currentColor || 'transparent');
                     } else {
                         me.btnHighlight.cmpEl.parents('.group').hide().prev('.separator').hide();
                     }

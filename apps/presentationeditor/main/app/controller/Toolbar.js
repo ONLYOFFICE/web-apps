@@ -1846,10 +1846,8 @@ define([
         onSelectFontColor: function(picker, color) {
             this._state.clrtext = this._state.clrtext_asccolor  = undefined;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
-
             this.toolbar.btnFontColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + clr);
+            this.toolbar.btnFontColor.setColor((typeof(color) == 'object') ? color.color : color);
 
             this.toolbar.mnuFontColorPicker.currentColor = color;
             if (this.api)
@@ -2147,7 +2145,7 @@ define([
             updateColors(this.toolbar.mnuFontColorPicker, 1);
             if (this.toolbar.btnFontColor.currentColor===undefined) {
                 this.toolbar.btnFontColor.currentColor = this.toolbar.mnuFontColorPicker.currentColor.color || this.toolbar.mnuFontColorPicker.currentColor;
-                $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + this.toolbar.btnFontColor.currentColor);
+                this.toolbar.btnFontColor.setColor(this.toolbar.btnFontColor.currentColor);
             }
             if (this._state.clrtext_asccolor!==undefined) {
                 this._state.clrtext = undefined;

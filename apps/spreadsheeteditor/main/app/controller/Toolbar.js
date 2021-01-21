@@ -602,10 +602,8 @@ define([
         onTextColorSelect: function(picker, color, fromBtn) {
             this._state.clrtext_asccolor = this._state.clrtext = undefined;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
-
             this.toolbar.btnTextColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnTextColor.cmpEl).css('background-color', '#' + clr);
+            this.toolbar.btnTextColor.setColor(this.toolbar.btnTextColor.currentColor);
 
             this.toolbar.mnuTextColorPicker.currentColor = color;
             if (this.api) {
@@ -624,8 +622,8 @@ define([
             var clr = (typeof(color) == 'object') ? color.color : color;
 
             this.toolbar.btnBackColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnBackColor.cmpEl).css('background-color', clr == 'transparent' ? 'transparent' : '#' + clr);
-
+            this.toolbar.btnBackColor.setColor(this.toolbar.btnBackColor.currentColor);
+            
             this.toolbar.mnuBackColorPicker.currentColor = color;
             if (this.api) {
                 this.toolbar.btnBackColor.ischanged = (fromBtn!==true);
@@ -2754,14 +2752,14 @@ define([
                 this.toolbar.btnTextColor.currentColor=Common.Utils.ThemeColor.getStandartColors()[1];
             } else
                 this.toolbar.btnTextColor.currentColor = this.toolbar.mnuTextColorPicker.currentColor.color || this.toolbar.mnuTextColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnTextColor.cmpEl).css('background-color', '#' + this.toolbar.btnTextColor.currentColor);
+            this.toolbar.btnTextColor.setColor(this.toolbar.btnTextColor.currentColor);
 
             updateColors(this.toolbar.mnuBackColorPicker, Common.Utils.ThemeColor.getStandartColors()[3]);
             if (this.toolbar.btnBackColor.currentColor === undefined) {
                 this.toolbar.btnBackColor.currentColor=Common.Utils.ThemeColor.getStandartColors()[3];
             } else
                 this.toolbar.btnBackColor.currentColor = this.toolbar.mnuBackColorPicker.currentColor.color || this.toolbar.mnuBackColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnBackColor.cmpEl).css('background-color', this.toolbar.btnBackColor.currentColor == 'transparent' ? 'transparent' : '#' + this.toolbar.btnBackColor.currentColor);
+            this.toolbar.btnBackColor.setColor(this.toolbar.btnBackColor.currentColor);
 
             if (this._state.clrtext_asccolor!==undefined || this._state.clrshd_asccolor!==undefined) {
                 this._state.clrtext = undefined;

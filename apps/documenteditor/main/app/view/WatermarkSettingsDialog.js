@@ -316,10 +316,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             var initNewColor = function(btn, picker_el) {
                 if (btn && btn.cmpEl) {
-                    btn.currentColor = '#c0c0c0';
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', btn.cmpEl).append(colorVal);
-                    colorVal.css('background-color', btn.currentColor);
+                    btn.currentColor = 'c0c0c0';
+                    btn.setColor( btn.currentColor);
                     var picker = new Common.UI.ThemeColorPalette({
                         el: $(picker_el)
                     });
@@ -330,13 +328,14 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 picker.on('select', _.bind(me.onColorSelect, me));
                 return picker;
             };
-            this.btnTextColor = new Common.UI.Button({
+            this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#watermark-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 menu        : new Common.UI.Menu({
                     cls: 'shifted-left',
+                    additionalAlign: this.menuAddAlign,
                     items: [
                     {
                         id: 'watermark-auto-color',
@@ -406,9 +405,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             clr_item.hasClass('selected') && clr_item.removeClass('selected');
             this.isAutoColor = false;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
             this.btnTextColor.currentColor = color;
-            $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + clr);
+            this.btnTextColor.setColor( this.btnTextColor.currentColor);
         },
 
         updateThemeColors: function() {
@@ -424,9 +422,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             !clr_item.hasClass('selected') && clr_item.addClass('selected');
             this.isAutoColor = true;
 
-            var color = "000";
-            this.btnTextColor.currentColor = color;
-            $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + color);
+            this.btnTextColor.currentColor = "000";
+            this.btnTextColor.setColor( this.btnTextColor.currentColor);
             this.mnuTextColorPicker.clearSelection();
         },
 
@@ -613,7 +610,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                             }
                         }
                         this.btnTextColor.currentColor = clr;
-                        $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + ((typeof(clr) == 'object') ? clr.color : clr));
+                        this.btnTextColor.setColor( this.btnTextColor.currentColor);
                     }
                     val = props.get_Text();
                     val && this.cmbText.setValue(val);

@@ -481,7 +481,7 @@ define([
                 });
 
                 me.mnuTextColorPicker = dummyCmp();
-                me.btnTextColor = new Common.UI.Button({
+                me.btnTextColor = new Common.UI.ButtonColored({
                     id          : 'id-toolbar-btn-fontcolor',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-fontcolor',
@@ -496,7 +496,7 @@ define([
                 });
 
                 me.mnuBackColorPicker = dummyCmp();
-                me.btnBackColor = new Common.UI.Button({
+                me.btnBackColor = new Common.UI.ButtonColored({
                     id          : 'id-toolbar-btn-fillparag',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paracolor',
@@ -1868,11 +1868,6 @@ define([
                         })
                     ]
                 }));
-
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnBorders.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnBorders.currentColor || 'transparent');
-
                 this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-bordercolor')
                 });
@@ -1936,18 +1931,13 @@ define([
             // DataView and pickers
             //
             if (this.btnTextColor && this.btnTextColor.cmpEl) {
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnTextColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnTextColor.currentColor || 'transparent');
+                this.btnTextColor.setColor(this.btnTextColor.currentColor || 'transparent');
                 this.mnuTextColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-fontcolor')
                 });
             }
             if (this.btnBackColor && this.btnBackColor.cmpEl) {
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnBackColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnBackColor.currentColor || 'transparent');
-
+                this.btnBackColor.setColor(this.btnBackColor.currentColor || 'transparent');
                 this.mnuBackColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-paracolor'),
                     transparent: true
