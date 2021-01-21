@@ -82,4 +82,19 @@ export class storeFocusObjects {
             return undefined;
         }
     }
+
+    @computed get shapeObject() {
+        const shapes = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Shape) {
+                shapes.push(object);
+            }
+        }
+        if (shapes.length > 0) {
+            const object = shapes[shapes.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
 }

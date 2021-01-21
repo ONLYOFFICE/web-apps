@@ -7,8 +7,10 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
+import EditShapeController from "../../controller/edit/EditShape";
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing } from './EditText';
+import { PageShapeStyle, PageReplaceContainer, PageReorderContainer, PageAlignContainer } from './EditShape';
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -71,7 +73,24 @@ const routes = [
     {
         path: '/edit-text-line-spacing/',
         component: PageTextLineSpacing
+    },
+    {
+        path: '/style-shape/',
+        component: PageShapeStyle
+    },
+    {
+        path: '/replace-shape/',
+        component: PageReplaceContainer
+    },
+    {
+        path: '/reorder-shape',
+        component: PageReorderContainer
+    },
+    {
+        path: '/align-shape/',
+        component: PageAlignContainer
     }
+
 ];
 
 const EmptyEditLayout = () => {
@@ -152,18 +171,18 @@ const EditTabs = props => {
                 component: <EditTextController />
             })
         }
+        if (settings.indexOf('shape') > -1) {
+            editors.push({
+                 caption: _t.textShape,
+                 id: 'edit-shape',
+                 component: <EditShapeController />
+             })
+        }
         /*if (settings.indexOf('table') > -1) {
             editors.push({
                 caption: _t.textTable,
                 id: 'edit-table',
                 component: <EditTableController />
-            })
-        }
-        if (settings.indexOf('shape') > -1) {
-            editors.push({
-                caption: _t.textShape,
-                id: 'edit-shape',
-                component: <EditShapeController />
             })
         }
         if (settings.indexOf('image') > -1) {
