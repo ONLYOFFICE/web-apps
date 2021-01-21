@@ -111,7 +111,7 @@ define([
             if (this.api) {
                 var new_borders = [],
                     bordersWidth = this.BorderType,
-                    bordersColor = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                    bordersColor = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color); // change when autocolor will be supported in sdk
 
                 if (btn.options.borderId == 'inner') {
                     new_borders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
@@ -410,7 +410,8 @@ define([
                 parentEl: $('#cell-border-color-btn'),
                 disabled: this._locked,
                 menu        : true,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.lockedControls.push(this.btnBorderColor);
 
@@ -856,7 +857,7 @@ define([
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-             this.btnBorderColor.setColor(this.borderColor.getColor());
+            !this.btnBorderColor.isAutoColor() && this.btnBorderColor.setColor(this.borderColor.getColor());
              this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());

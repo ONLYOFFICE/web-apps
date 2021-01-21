@@ -630,7 +630,13 @@ define([
                 var size = parseFloat(this.BorderSize);
                 border.put_Value(1);
                 border.put_Size(size * 25.4 / 72.0);
-                var color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                var color;
+                if (this.btnBorderColor.isAutoColor()) {
+                    color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                } else {
+                    color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 border.put_Color(color);
             }
             else {
@@ -644,7 +650,8 @@ define([
                 // create color buttons
                  this.btnBorderColor = new Common.UI.ColorButton({
                      parentEl: $('#table-border-color-btn'),
-                     color: '000000'
+                     color: 'auto',
+                     auto: true
                  });
                  this.lockedControls.push(this.btnBorderColor);
                  this.borderColor = this.btnBorderColor.getPicker();
@@ -659,7 +666,7 @@ define([
              }
              this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
              this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-             this.btnBorderColor.setColor(this.borderColor.getColor());
+             !this.btnBorderColor.isAutoColor() && this.btnBorderColor.setColor(this.borderColor.getColor());
         },
 
         _onInitTemplates: function(Templates){

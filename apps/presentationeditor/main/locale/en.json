@@ -42,6 +42,7 @@
   "Common.define.chartData.textSurface": "Surface",
   "Common.Translation.warnFileLocked": "The file is being edited in another app. You can continue editing and save it as a copy.",
   "Common.UI.ColorButton.textNewColor": "Add New Custom Color",
+  "Common.UI.ColorButton.textAutoColor": "Automatic",
   "Common.UI.ComboBorderSize.txtNoBorders": "No borders",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "No borders",
   "Common.UI.ComboDataView.emptyComboText": "No styles",

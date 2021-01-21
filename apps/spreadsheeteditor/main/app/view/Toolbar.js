@@ -1852,7 +1852,15 @@ define([
                             template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
+                                cls: 'shifted-left',
                                 items       : [
+                                    {
+                                        id: 'id-toolbar-menu-auto-bordercolor',
+                                        caption: this.textAutoColor,
+                                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>'),
+                                        stopPropagation: true
+                                    },
+                                    {caption: '--'},
                                     { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 169px; height: 216px; margin: 10px;"></div>'), stopPropagation: true },
                                     { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
                                 ]
@@ -2458,6 +2466,7 @@ define([
         textVertical: 'Vertical Text',
         textTabView: 'View',
         tipEditChartData: 'Select Data',
-        tipEditChartType: 'Change Chart Type'
+        tipEditChartType: 'Change Chart Type',
+        textAutoColor: 'Automatic'
     }, SSE.Views.Toolbar || {}));
 });
