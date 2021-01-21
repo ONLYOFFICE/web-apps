@@ -8,16 +8,21 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import {AddTableController} from "../../controller/add/AddTable";
 import AddShapeController from "../../controller/add/AddShape";
 import {AddImageController} from "../../controller/add/AddImage";
-import {PageTextFonts} from "../edit/EditText";
-//import AddOtherController from "../../controller/add/AddOther";
+import {AddOtherController} from "../../controller/add/AddOther";
 
 import {PageImageLinkSettings} from "../add/AddImage";
+import {PageAddLink} from "../add/AddOther";
 
 const routes = [
     // Image
     {
         path: '/add-image-from-url/',
         component: PageImageLinkSettings,
+    },
+    // Other
+    {
+        path: '/add-link/',
+        component: PageAddLink,
     },
 ];
 
@@ -71,12 +76,12 @@ const AddTabs = props => {
         icon: 'icon-add-image',
         component: <AddImageController />
     });
-    /*tabs.push({
+    tabs.push({
         caption: _t.textOther,
         id: 'add-other',
         icon: 'icon-add-other',
         component: <AddOtherController />
-    });*/
+    });
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>

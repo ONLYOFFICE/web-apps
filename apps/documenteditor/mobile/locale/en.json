@@ -237,6 +237,15 @@
     "notcriticalErrorTitle": "Warning",
     "textAddress": "Address",
     "textImageURL": "Image URL",
-    "textInsertImage": "Insert Image"
+    "textInsertImage": "Insert Image",
+    "textComment": "Comment",
+    "textLink": "Link",
+    "textPageNumber": "Page Number",
+    "textBreak": "Break",
+    "textFootnote": "Footnote",
+    "textAddLink": "Add Link",
+    "textDisplay": "Display",
+    "textScreenTip": "Screen Tip",
+    "textInsert": "Insert"
   }
 }
