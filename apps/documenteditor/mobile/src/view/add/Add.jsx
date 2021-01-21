@@ -7,11 +7,18 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import {AddTableController} from "../../controller/add/AddTable";
 import AddShapeController from "../../controller/add/AddShape";
-//import AddImageController from "../../controller/add/AddImage";
+import {AddImageController} from "../../controller/add/AddImage";
+import {PageTextFonts} from "../edit/EditText";
 //import AddOtherController from "../../controller/add/AddOther";
 
-const routes = [
+import {PageImageLinkSettings} from "../add/AddImage";
 
+const routes = [
+    // Image
+    {
+        path: '/add-image-from-url/',
+        component: PageImageLinkSettings,
+    },
 ];
 
 const AddLayoutNavbar = ({ tabs, inPopover }) => {
@@ -58,13 +65,13 @@ const AddTabs = props => {
         icon: 'icon-add-shape',
         component: <AddShapeController />
     });
-    /*tabs.push({
+    tabs.push({
         caption: _t.textImage,
         id: 'add-image',
         icon: 'icon-add-image',
         component: <AddImageController />
     });
-    tabs.push({
+    /*tabs.push({
         caption: _t.textOther,
         id: 'add-other',
         icon: 'icon-add-other',
