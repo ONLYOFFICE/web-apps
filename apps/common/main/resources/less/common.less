@@ -1,6 +1,6 @@
 label {
     &.link {
-        border-bottom: 1px dotted #aaa;
+        border-bottom: @scaled-one-px-value dotted #aaa;
         cursor: pointer;
 
         &.disabled {
@@ -107,5 +107,87 @@ label {
         font-weight: bold;
         color: @gray-deep;
         white-space: nowrap;
+    }
+}
+
+#file-menu-panel {
+    > div {
+        height: 100%;
+    }
+
+    .panel-menu {
+        width: 260px;
+        float: left;
+        border-right: @scaled-one-px-value solid @gray-dark;
+        background-color: @gray-light;
+    }
+
+    .flex-settings {
+        &.bordered {
+            border-bottom: @scaled-one-px-value solid @gray;
+        }
+        overflow: hidden;
+        position: relative;
+    }
+
+}
+
+.settings-panel {
+    display: none;
+    overflow: visible;
+    margin-top: 7px;
+
+    & > table {
+        width: 100%;
+    }
+
+    &.active {
+        display: block;
+    }
+
+    .padding-small {
+        padding-bottom: 8px;
+    }
+
+    .padding-large {
+        padding-bottom: 16px;
+    }
+
+    .finish-cell {
+        height: 15px;
+    }
+
+    label {
+        .font-size-normal();
+        font-weight: normal;
+
+        &.input-label{
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+
+        &.header {
+            font-weight: bold;
+        }
+    }
+
+    .separator { width: 100%;}
+
+    .settings-hidden {
+        display: none;
+    }
+
+    textarea {
+        .user-select(text);
+        width: 100%;
+        resize: none;
+        margin-bottom: 5px;
+        border: @scaled-one-px-value solid @gray-dark;
+        height: 100%;
+
+        &.disabled {
+            opacity: 0.65;
+            cursor: default !important;
+        }
     }
 }

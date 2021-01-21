@@ -18,13 +18,13 @@
             -webkit-transform: rotate(45deg);
             -o-transform: rotate(45deg);
             transform: rotate(45deg);
-            border-top: solid 1px @gray-darker;
-            border-left: solid 1px @gray-darker;
+            border-top: solid @scaled-one-px-value @gray-darker;
+            border-left: solid @scaled-one-px-value @gray-darker;
             border-radius: 0 3px;
             box-sizing: content-box;
             .thumb-top-inner {
-                border-top: solid 1px #fff;
-                border-left: solid 1px #fff;
+                border-top: solid @scaled-one-px-value #fff;
+                border-left: solid @scaled-one-px-value #fff;
                 height: 100%;
             }
         }
@@ -36,12 +36,12 @@
             width: 10px;
             height: 9px;
             background-color: #ffffff;
-            border: solid 1px @gray-darker;
+            border: solid @scaled-one-px-value @gray-darker;
             border-top: none;
             border-radius: 2px;
             box-sizing: content-box;
             .thumb-bottom-inner {
-                border: solid 1px #fff;
+                border: solid @scaled-one-px-value #fff;
                 border-top: none;
                 height: 100%;
             }
@@ -49,11 +49,11 @@
 
         &.active {
             .thumb-top {
-                border-top: solid 1px #000;
-                border-left: solid 1px #000;
+                border-top: solid @scaled-one-px-value #000;
+                border-left: solid @scaled-one-px-value #000;
             }
             .thumb-bottom {
-                border: solid 1px #000;
+                border: solid @scaled-one-px-value #000;
                 border-top: none;
             }
         }
@@ -80,8 +80,8 @@
 //        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
 
         background-position: 0 0;
-        outline: 1px solid rgba(162, 162, 162, 1);
-        border: 1px solid #FFFFFF;
+        outline: @scaled-one-px-value solid rgba(162, 162, 162, 1);
+        border: @scaled-one-px-value solid #FFFFFF;
         cursor: copy;
     }
 }

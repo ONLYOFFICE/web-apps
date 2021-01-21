@@ -1,63 +1,7 @@
 
 .settings-panel {
-    display: none;
-    overflow: visible;
-    margin-top: 7px;
-
-    & > table {
-        width: 100%;
-    }
-
-    &.active {
-        display: block;
-    }
-
-    .padding-small {
-        padding-bottom: 8px;
-    }
-
-    .padding-large {
-        padding-bottom: 16px;
-    }
-
-    .finish-cell {
-        height: 15px;
-    }
-
-    label {
-        .font-size-normal();
-        font-weight: normal;
-
-        &.input-label{
-            margin-bottom: 0;
-            vertical-align: middle;
-        }
-
-        &.header {
-            font-weight: bold;
-        }
-    }
-
-    .separator { width: 100%;}
-
-    .settings-hidden {
-        display: none;
-    }
-
-    textarea {
-        .user-select(text);
-        width: 100%;
-        resize: none;
-        margin-bottom: 5px;
-        border: 1px solid @gray-dark;
-        height: 100%;
-
-        &.disabled {
-            opacity: 0.65;
-            cursor: default !important;
-        }
-    }
 }
+
 .right-panel .settings-panel {
     label.input-label{
         vertical-align: baseline;

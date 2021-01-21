@@ -22,8 +22,7 @@
         margin: 4px;
         cursor: pointer;
 
-        .get-scaled-value(1px);
-        .box-shadow(0 0 0 @scaledvalue @gray);
+        .box-shadow(0 0 0 @scaled-one-px-value @gray);
 
         &:hover,
         &.selected {
@@ -60,8 +59,7 @@
                     opacity: 0.5;
                 }
 
-                .get-scaled-value(1px);
-                .box-shadow(0 0 0 @scaledvalue @gray);
+                .box-shadow(0 0 0 @scaled-one-px-value @gray);
 
                 &:hover:not(.disabled),
                 &.selected:not(.disabled) {

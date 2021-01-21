@@ -1,16 +1,6 @@
 
 #file-menu-panel {
-  > div {
-    height: 100%;
-  }
-
   .panel-menu {
-    width: 260px;
-    float: left;
-    //border-right: 1px solid @gray-dark;
-      .adaptive-solid-border(1px, @gray-dark, right);
-    background-color: @gray-light;
-
     li {
       list-style: none;
       position: relative;
@@ -118,16 +108,6 @@
 
   svg&:hover {
     opacity:0.85;
-  }
-}
-
-.flex-settings {
-  #file-menu-panel & {
-    &.bordered {
-      border-bottom: 1px solid @gray;
-    }
-    overflow: hidden;
-    position: relative;
   }
 }
 

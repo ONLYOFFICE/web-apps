@@ -13,8 +13,7 @@
             width: 14px;
             height: 14px;
             background: #fff;
-            //border: 1px solid @gray;
-            .adaptive-solid-border(1px, @gray);
+            border: @scaled-one-px-value solid @gray;
             border-radius: 2px;
             position: absolute;
             left: 0;
@@ -43,8 +42,7 @@
                 &::before {
                     content: '';
                     position: absolute;
-                    //border: 1px solid @gray-deep;
-                    .adaptive-solid-border(1px, @gray-deep);
+                    border: @scaled-one-px-value solid @gray-deep;
                     background: @gray-soft;
                     width: 8px;
                     height: 8px;

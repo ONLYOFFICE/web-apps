@@ -47,16 +47,7 @@
 }
 
 #file-menu-panel {
-    > div {
-        height: 100%;
-    }
-
     .panel-menu {
-        width: 260px;
-        float: left;
-        border-right: 1px solid @gray-dark;
-        background-color: @gray-light;
-
         li {
             list-style: none;
             position: relative;
@@ -142,14 +133,6 @@
             }
         }
 
-        .flex-settings {
-            &.bordered {
-                border-bottom: 1px solid @gray;
-            }
-            overflow: hidden;
-            position: relative;
-        }
-
         #panel-settings-general,
         #panel-settings-print {
             & > div {
@@ -172,7 +155,7 @@
 
             #id-settings-menu {
                 .dataview {
-                    border-right: 1px solid @gray-dark;
+                    border-right: @scaled-one-px-value solid @gray-dark;
 
                     & > div:not([class^=ps-scrollbar]) {
                         display: block;

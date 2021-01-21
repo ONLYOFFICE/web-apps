@@ -363,6 +363,10 @@
         width: 14px;
         height: 3px;
         background-color: red;
+
+        .pixel-ratio__1_5 & {
+            height: 4px;
+        }
     }
 }
 
@@ -547,17 +551,15 @@
 .btn-color {
     width: 45px;
     height: 22px;
-    padding: 1px 11px 1px 1px;
-    //border:1px solid @input-border;
-    .adaptive-solid-border(1px, @input-border);
+    padding: @scaled-one-px-value 11px @scaled-one-px-value @scaled-one-px-value;
+    border:@scaled-one-px-value solid @input-border;
     .border-radius(@border-radius-small);
 
     span:nth-child(1) {
         float: left;
         width: 100%;
         height: 100%;
-        //border: 1px solid rgba(0, 0, 0, 0.2);
-        .adaptive-solid-border(1px, rgba(0, 0, 0, 0.2));
+        border: @scaled-one-px-value solid rgba(0, 0, 0, 0.2);
         background-color: transparent;
     }
 
@@ -640,8 +642,7 @@
     width: 75px;
     height: 22px;
     background: @input-bg;
-    //border: 1px solid @input-border;
-    .adaptive-solid-border(1px, @input-border);
+    border: @scaled-one-px-value solid @input-border;
     .border-radius(@border-radius-small);
 
     &.auto {
@@ -672,7 +673,7 @@
     width: 100%;
     height: 22px;
     background: @input-bg;
-    border: 1px solid @input-border;
+    border: @scaled-one-px-value solid @input-border;
     .border-radius(@border-radius-small);
 
     button {
@@ -706,7 +707,7 @@
     width: 75px;
     height: 22px;
     background: @input-bg;
-    border: 1px solid @input-border;
+    border: @scaled-one-px-value solid @input-border;
     .border-radius(@border-radius-small);
 
     &.dropdown-toggle {
@@ -739,7 +740,7 @@
     width: 45px;
     height: 22px;
     background: @input-bg;
-    border: 1px solid @input-border;
+    border: @scaled-one-px-value solid @input-border;
     .border-radius(@border-radius-small);
 
     .icon {
@@ -779,7 +780,7 @@
     margin:0;
     box-shadow: none;
     background-color: @input-bg;
-    border: 1px solid @input-border;
+    border: @scaled-one-px-value solid @input-border;
     .border-radius(@border-radius-small);
 
     &.template-table {
@@ -804,7 +805,7 @@
         margin-right: 3px;
         background-color: transparent;
         background-repeat: no-repeat;
-        border: 1px solid @input-border;
+        border: @scaled-one-px-value solid @input-border;
         position: relative;
     }
 
