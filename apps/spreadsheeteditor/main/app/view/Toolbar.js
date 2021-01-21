@@ -488,7 +488,14 @@ define([
                     split       : true,
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
+                        cls: 'shifted-left',
                         items: [
+                            {
+                                id: 'id-toolbar-menu-auto-fontcolor',
+                                caption: this.textAutoColor,
+                                template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
+                            },
+                            {caption: '--'},
                             { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                             { template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]

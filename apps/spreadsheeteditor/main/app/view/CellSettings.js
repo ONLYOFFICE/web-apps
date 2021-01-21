@@ -111,8 +111,13 @@ define([
             if (this.api) {
                 var new_borders = [],
                     bordersWidth = this.BorderType,
-                    bordersColor = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color); // change when autocolor will be supported in sdk
-
+                    bordersColor;
+                if (this.btnBorderColor.isAutoColor()) {
+                    bordersColor = new Asc.asc_CColor();
+                    bordersColor.put_auto(true);
+                } else {
+                    bordersColor = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 if (btn.options.borderId == 'inner') {
                     new_borders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
                     new_borders[Asc.c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
