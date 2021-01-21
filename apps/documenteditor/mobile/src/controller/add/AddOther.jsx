@@ -9,6 +9,7 @@ class AddOtherController extends Component {
     constructor (props) {
         super(props);
         this.onInsertLink = this.onInsertLink.bind(this);
+        this.onInsertPageNumber = this.onInsertPageNumber.bind(this);
     }
 
     closeModal () {
@@ -55,10 +56,48 @@ class AddOtherController extends Component {
         this.closeModal();
     }
 
+    onInsertPageNumber (type) {
+        const api = Common.EditorApi.get();
+
+        let value = -1;
+
+        if (2 == type.length) {
+            const c_pageNumPosition = {
+                PAGE_NUM_POSITION_TOP: 0x01,
+                PAGE_NUM_POSITION_BOTTOM: 0x02,
+                PAGE_NUM_POSITION_RIGHT: 0,
+                PAGE_NUM_POSITION_LEFT: 1,
+                PAGE_NUM_POSITION_CENTER: 2
+            };
+            value = {};
+
+            if (type[0] == 'l') {
+                value.subtype = c_pageNumPosition.PAGE_NUM_POSITION_LEFT;
+            } else if (type[0] == 'c') {
+                value.subtype = c_pageNumPosition.PAGE_NUM_POSITION_CENTER;
+            } else if (type[0] == 'r') {
+                value.subtype = c_pageNumPosition.PAGE_NUM_POSITION_RIGHT;
+            }
+
+            if (type[1] == 't') {
+                value.type = c_pageNumPosition.PAGE_NUM_POSITION_TOP;
+            } else if (type[1] == 'b') {
+                value.type = c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM;
+            }
+
+            api.put_PageNum(value.type, value.subtype);
+        } else {
+            api.put_PageNum(value);
+        }
+
+        this.closeModal();
+    }
+
     render () {
         return (
             <AddOther onInsertLink={this.onInsertLink}
                       getDisplayLinkText={this.getDisplayLinkText}
+                      onInsertPageNumber={this.onInsertPageNumber}
             />
         )
     }

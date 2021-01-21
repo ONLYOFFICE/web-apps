@@ -48,6 +48,25 @@ const PageLink = props => {
     )
 };
 
+const PageNumber = props => {
+    const { t } = useTranslation();
+    const _t = t('Add', {returnObjects: true});
+    return (
+        <Page>
+            <Navbar title={_t.textPosition} backLink={_t.textBack}/>
+            <List>
+                <ListItem title={_t.textLeftTop} link='#' className='no-indicator' onClick={()=>{props.onInsertPageNumber('lt')}}></ListItem>
+                <ListItem title={_t.textCenterTop} link='#' className='no-indicator' onClick={()=>{props.onInsertPageNumber('ct')}}></ListItem>
+                <ListItem title={_t.textRightTop} link='#' className='no-indicator' onClick={()=>{props.onInsertPageNumber('rt')}}></ListItem>
+                <ListItem title={_t.textLeftBottom} link='#' className='no-indicator' onClick={()=>{props.onInsertPageNumber('lb')}}></ListItem>
+                <ListItem title={_t.textCenterBottom} link='#' className='no-indicator' onClick={()=>{props.onInsertPageNumber('cb')}}></ListItem>
+                <ListItem title={_t.textRightBottom} link='#' className='no-indicator' onClick={()=>{props.onInsertPageNumber('rb')}}></ListItem>
+                <ListItem title={_t.textCurrentPosition} link='#' className='no-indicator' onClick={()=>{props.onInsertPageNumber('current')}}></ListItem>
+            </List>
+        </Page>
+    )
+};
+
 const AddOther = props => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
@@ -62,7 +81,9 @@ const AddOther = props => {
             }}>
                 <Icon slot="media" icon="icon-link"></Icon>
             </ListItem>
-            <ListItem title={_t.textPageNumber}>
+            <ListItem title={_t.textPageNumber} link={'/add-page-number/'} routeProps={{
+                onInsertPageNumber: props.onInsertPageNumber
+            }}>
                 <Icon slot="media" icon="icon-pagenumber"></Icon>
             </ListItem>
             <ListItem title={_t.textBreak}>
@@ -75,4 +96,6 @@ const AddOther = props => {
     )
 };
 
-export {AddOther, PageLink as PageAddLink};
+export {AddOther,
+        PageLink as PageAddLink,
+        PageNumber as PageAddNumber};

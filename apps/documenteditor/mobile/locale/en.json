@@ -246,6 +246,14 @@
     "textAddLink": "Add Link",
     "textDisplay": "Display",
     "textScreenTip": "Screen Tip",
-    "textInsert": "Insert"
+    "textInsert": "Insert",
+    "textPosition": "Position",
+    "textLeftTop": "Left Top",
+    "textCenterTop": "Center Top",
+    "textRightTop": "Right Top",
+    "textLeftBottom": "Left Bottom",
+    "textCenterBottom": "Center Bottom",
+    "textRightBottom": "Right Bottom",
+    "textCurrentPosition": "Current Position"
   }
 }
