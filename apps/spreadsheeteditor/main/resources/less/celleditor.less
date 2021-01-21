@@ -1,13 +1,13 @@
 #cell-editing-box {
-    border-bottom: solid 1px @gray-dark;
-    border-left: solid 1px @gray-dark;
+    border-bottom: solid @scaled-one-px-value @gray-dark;
+    border-left: solid @scaled-one-px-value @gray-dark;
     min-height: 20px;
     background-color: #fff;
 
     .ce-group-name {
         float: left;
         height: 20px;
-        border-bottom: 1px solid @gray-dark;
+        border-bottom: @scaled-one-px-value solid @gray-dark;
         background-color: @gray-light;
 
         #ce-cell-name {
@@ -17,7 +17,7 @@
             vertical-align: top;
             display: inline-block;
             border: 0 none;
-            border-right: 1px solid @gray-dark;
+            border-right: @scaled-one-px-value solid @gray-dark;
             transition: none;
             -webkit-transition: none;
 
@@ -75,7 +75,7 @@
         padding-left: 1px;
         margin: 0 16px 0 120px;
         height: 100%;
-        border-left: 1px solid @gray-dark;
+        border-left: @scaled-one-px-value solid @gray-dark;
 
         #ce-cell-content {
             height: 100%;

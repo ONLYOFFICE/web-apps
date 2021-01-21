@@ -89,7 +89,11 @@
     --pixel-ratio-factor: 1;
 
     .pixel-ratio__1_5 {
-        --pixel-ratio-factor: 1.5;
+        @ratio: 1.5;
+        @one-px: 1px / @ratio;
+
+        --pixel-ratio-factor: @ratio;
+        --scaled-one-pixel: @one-px;
     }
 }
 

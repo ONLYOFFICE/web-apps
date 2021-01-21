@@ -1,8 +1,5 @@
 .statusbar {
     padding: 0 2px 0;
-    height: 25px;
-    background-color: @gray-light;
-    .box-inner-shadow(0 1px 0 @gray-dark);
     z-index: 500;
 
     #status-tabs-scroll {
@@ -96,7 +93,7 @@
                     height: 12px;
                     display: inline-block;
                     vertical-align: middle;
-                    border: 1px solid @gray-dark;
+                    border: @scaled-one-px-value solid @gray-dark;
                 }
 
                 .name {
@@ -114,8 +111,8 @@
     #status-addtabs-box {
         float: left;
         padding: 3px 8px 0 8px;
-        border-left: 1px solid @gray-dark;
-        border-right: 1px solid @gray-dark;
+        border-left: @scaled-one-px-value solid @gray-dark;
+        border-right: @scaled-one-px-value solid @gray-dark;
         height: 25px;
     }
 
@@ -180,9 +177,9 @@
                     margin-right: -1px;
                     background-color: @gray-light;
                     outline: none;
-                    border-left: 1px solid @gray-dark;
-                    border-right: 1px solid @gray-dark;
-                    border-top: 1px solid @gray-dark;
+                    border-left: @scaled-one-px-value solid @gray-dark;
+                    border-right: @scaled-one-px-value solid @gray-dark;
+                    border-top: @scaled-one-px-value solid @gray-dark;
 
                     &:hover {
                         border-top-color: @gray-dark;
@@ -314,12 +311,6 @@
             .border-radius(4px);
           margin-top: -25px;
         }
-    }
-
-    .status-label {
-        font-weight: bold;
-        color: @gray-deep;
-        white-space: nowrap;
     }
 
     .btn-tpl(@top-position) {

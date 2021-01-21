@@ -37,3 +37,75 @@ label {
 .user-select {
     .user-select(text);
 }
+
+.tool-menu {
+    height: 100%;
+    display: block;
+
+    &.left {
+        overflow: hidden;
+
+        .tool-menu-btns {
+            border-right: @scaled-one-px-value solid @gray-dark;
+        }
+    }
+
+    &.right {
+        .tool-menu-btns {
+            //position: absolute;
+            border-left: @scaled-one-px-value solid @gray-dark;
+            background-color: @gray-light;
+            right: 0;
+            overflow: hidden;
+        }
+    }
+}
+
+.tool-menu-btns {
+    width: 40px;
+    height: 100%;
+    display: inline-block;
+    position: absolute;
+    padding-top: 15px;
+
+    button {
+        margin-bottom: 8px;
+    }
+}
+
+.left-panel {
+    padding-left: 40px;
+    height: 100%;
+    border-right: @scaled-one-px-value solid @gray-dark;
+
+    #left-panel-chat {
+        height: 100%;
+    }
+
+    #left-panel-comments {
+        height: 100%;
+    }
+}
+
+.right-panel {
+    width: 220px;
+    height: 100%;
+    display: none;
+    padding: 0 10px 0 15px;
+    position: relative;
+    overflow: hidden;
+    border-left: @scaled-one-px-value solid @gray-dark;
+    line-height: 15px;
+}
+
+.statusbar {
+    height: 25px;
+    background-color: @gray-light;
+    .box-inner-shadow(0 @scaled-one-px-value 0 @gray-dark);
+
+    .status-label {
+        font-weight: bold;
+        color: @gray-deep;
+        white-space: nowrap;
+    }
+}
