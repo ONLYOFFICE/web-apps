@@ -755,6 +755,10 @@
 		"a": "(liste_des_arguments)",
 		"d": "Fonction statistique utilisée pour calculer la moyenne géométrique d'une série de données."
 	},
+	"GROWTH": {
+		"a": "(y_connus, [x_connus], [x_nouveaux], [constante])",
+		"d": "Fonction statistique utilisée pour сalculer la croissance exponentielle prévue à partir des données existantes. La fonction renvoie les valeurs y pour une série de nouvelles valeurs x que vous spécifiez, en utilisant des valeurs x et y existantes."
+	},	
 	"HARMEAN": {
 		"a": "(liste_des_arguments)",
 		"d": "Fonction statistique utilisée pour calculer la moyenne harmonique d'une série de données."
@@ -780,9 +784,13 @@
 		"d": "Fonction statistique utilisée pour analyser une plage de cellules et renvoyer la k-ième plus grande valeur."
 	},
 	"LINEST": {
-		"a": "( known_y's, [known_x's], [const], [stats] )",
-		"d": "Fonction statistique utilisée pour calcule les statistiques d’une droite par la méthode des moindres carrés afin de calculer une droite s’ajustant au plus près de vos données, puis renvoie une matrice qui décrit cette droite; dans la mesure où cette fonction renvoie une matrice de valeurs, elle doit être tapée sous la forme d’une formule matricielle"
+		"a": "(y_connus, [x_connus], [constante], [statistiques])",
+		"d": "Fonction statistique utilisée pour calculer les statistiques d’une droite par la méthode des moindres carrés afin de calculer une droite s’ajustant au plus près de vos données, puis renvoie une matrice qui décrit cette droite; dans la mesure où cette fonction renvoie une matrice de valeurs, elle doit être tapée sous la forme d’une formule matricielle"
 	},
+	"LOGEST": {
+		"a": "(y_connus, [x_connus], [constante], [statistiques])",
+		"d": "Fonction statistique utilisée pour calculer les statistiques d’une droite par la méthode des moindres carrés afin de calculer une droite s’ajustant au plus près de vos données, puis renvoie une matrice qui décrit cette droite. Vous pouvez également combiner la fonction avec d’autres fonctions pour calculer les statistiques d’autres types de modèles linéaires dans les paramètres inconnus, y compris polynomial, logarithmique, exponentiel et série de puissances."
+	},	
 	"LOGINV": {
 		"a": "(x, moyenne, écart_type)",
 		"d": "Fonction statistique utilisée pour renvoyer l'inverse de la fonction de distribution de x suivant une loi lognormale cumulée en utilisant les paramètres spécifiés"
@@ -1039,6 +1047,10 @@
 		"a": "(matrice1, matrice2, uni/bilatéral, type)",
 		"d": "Fonction statistique utilisée pour retourner la probabilité associée au test t de Student; Utilisez TEST.STUDENT pour déterminer si deux échantillons sont susceptibles de provenir de deux populations identiques ayant la même moyenne."
 	},
+	"TREND": {
+		"a": "(y_connus, [x_connus], [x_nouveaux], [constante])",
+		"d": "Fonction statistique utilisée pour renvoyer des valeurs par rapport à une tendance linéaire. Elle s’adapte à une ligne droite (à l’aide de la méthode des moindres carrés) aux known_y et known_x de la matrice."
+	},	
 	"TRIMMEAN": {
 		"a": "(matrice, pourcentage)",
 		"d": "Fonction statistique utilisée pour renvoyer la moyenne intérieure d'un ensemble de données; MOYENNE.REDUITE calcule la moyenne prise en excluant un pourcentage de points de données des queues supérieure et inférieure d'un ensemble de données"
@@ -1499,6 +1511,10 @@
 		"a": "(liste_des_arguments)",
 		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer le rapport de la factorielle de la somme de nombres au produit de factorielles"
 	},
+	"MUNIT": {
+		"a": "(dimension)",
+		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer la matrice unitaire pour la dimension spécifiée."
+	},
 	"ODD": {
 		"a": "(x)",
 		"d": "Fonction mathématique et trigonométrique utilisée pour arrondir le nombre à l’excès au nombre entier impair le plus proche"
@@ -1526,6 +1542,10 @@
 	"RAND": {
 		"a": "()",
 		"d": "Fonction mathématique et trigonométrique qui renvoie un nombre aléatoire supérieur ou égal à 0 et inférieur à 1. Elle ne prend aucun argument."
+	},
+	"RANDARRAY": {
+		"a": "([Rangées], [Colonnes], [min], [max], [nombre_entier])",
+		"d": "Fonction mathématique et trigonométrique utilisée pour renvoyer un tableau de nombres aléatoires"
 	},
 	"RANDBETWEEN": {
 		"a": "(limite_inf [, limite_sup])",
@@ -1686,6 +1706,10 @@
 	"TRANSPOSE": {
 		"a": "(matrice)",
 		"d": "Fonction de recherche et référence utilisée pour renvoyer le premier élément d'un tableau"
+	},
+	"UNIQUE": {
+		"a": "(matrice, [by_col], [exactly_once])",
+		"d": "Fonction de recherche et référence utilisée pour renvoyer une liste de valeurs uniques au sein d’une liste ou d’une plage"
 	},
 	"VLOOKUP": {
 		"a": "(valeur_cherchée, table_matrice, no_index_col[, [valeur_proche]])",

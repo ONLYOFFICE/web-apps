@@ -755,6 +755,10 @@
 		"a": "( argument-list )",
 		"d": "Statistical function used to calculate the geometric mean of the argument list"
 	},
+	"GROWTH": {
+		"a": "( known_y's, [known_x's], [new_x's], [const] )",
+		"d": "Statistical function used to calculate predicted exponential growth by using existing data; returns the y-values for a series of new x-values that you specify by using existing x-values and y-values"
+	},
 	"HARMEAN": {
 		"a": "( argument-list )",
 		"d": "Statistical function used to calculate the harmonic mean of the argument list"
@@ -782,6 +786,10 @@
 	"LINEST": {
 		"a": "( known_y's, [known_x's], [const], [stats] )",
 		"d": "Statistical function used to calculate the statistics for a line by using the least squares method to calculate a straight line that best fits your data, and then returns an array that describes the line; because this function returns an array of values, it must be entered as an array formula"
+	},
+	"LOGEST": {
+		"a": "( known_y's, [known_x's], [const], [stats] )",
+		"d": "Statistical function used calculate an exponential curve that fits your data and returns an array of values that describes the curve in regression analysis; because this function returns an array of values, it must be entered as an array formula"
 	},
 	"LOGINV": {
 		"a": "( x , mean , standard-deviation )",
@@ -1038,6 +1046,10 @@
 	"T.TEST": {
 		"a": "( array1 , array2 , tails , type )",
 		"d": "Statistical function used to return the probability associated with a Student's t-Test; use T.TEST to determine whether two samples are likely to have come from the same two underlying populations that have the same mean"
+	},
+	"TREND": {
+		"a": "( known_y's, [known_x's], [new_x's], [const] )",
+		"d": "Statistical function used to return values along a linear trend; it fits a straight line (using the method of least squares) to the array's known_y's and known_x's"
 	},
 	"TRIMMEAN": {
 		"a": "( array , percent )",
@@ -1499,6 +1511,10 @@
 		"a": "( argument-list )",
 		"d": "Math and trigonometry function used to return the ratio of the factorial of a sum of numbers to the product of factorials"
 	},
+	"MUNIT": {
+		"a": "( dimension )",
+		"d": "Math and trigonometry function used to return the unit matrix for the specified dimension"
+	},
 	"ODD": {
 		"a": "( x )",
 		"d": "Math and trigonometry function used to round the number up to the nearest odd integer"
@@ -1525,7 +1541,11 @@
 	},
 	"RAND": {
 		"a": "()",
-		"d": "Math and trigonometry functionused to return a random number greater than or equal to 0 and less than 1. It does not require any argument"
+		"d": "Math and trigonometry function used to return a random number greater than or equal to 0 and less than 1. It does not require any argument"
+	},
+	"RANDARRAY": {
+		"a": "( [ rows ] , [ columns ] , [ min ] , [ max ] , [ whole_number ] )",
+		"d": "Math and trigonometry function used to return an array of random numbers"
 	},
 	"RANDBETWEEN": {
 		"a": "( lower-bound , upper-bound )",
@@ -1686,6 +1706,10 @@
 	"TRANSPOSE": {
 		"a": "( array )",
 		"d": "Lookup and reference function used to return the first element of an array"
+	},
+	"UNIQUE": {
+		"a": "( array, [by_col], [exactly_once] )",
+		"d": "Lookup and reference function used to return a list of unique values in a list or range"
 	},
 	"VLOOKUP": {
 		"a": "( lookup-value  ,  table-array  ,  col-index-num  [  ,  [  range-lookup-flag  ] ] )",
