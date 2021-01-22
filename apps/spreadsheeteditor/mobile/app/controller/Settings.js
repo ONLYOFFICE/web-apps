@@ -76,15 +76,6 @@ define([
                 { caption: 'A6',                    subtitle: Common.Utils.String.format('10,5{0} x 14,8{0}', txtCm),    value: [105, 148] }
             ],
             _metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric()),
-            _dataLang = [
-                { value: 'en', displayValue: 'English', exampleValue: ' SUM; MIN; MAX; COUNT' },
-                { value: 'de', displayValue: 'Deutsch', exampleValue: ' SUMME; MIN; MAX; ANZAHL' },
-                { value: 'es', displayValue: 'Spanish', exampleValue: ' SUMA; MIN; MAX; CALCULAR' },
-                { value: 'fr', displayValue: 'French', exampleValue: ' SOMME; MIN; MAX; NB' },
-                { value: 'it', displayValue: 'Italian', exampleValue: ' SOMMA; MIN; MAX; CONTA.NUMERI' },
-                { value: 'ru', displayValue: 'Russian', exampleValue: ' СУММ; МИН; МАКС; СЧЁТ' },
-                { value: 'pl', displayValue: 'Polish', exampleValue: ' SUMA; MIN; MAX; ILE.LICZB' }
-            ],
             _indexLang = 0,
             _regDataCode = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
             { value: 0x040B }, { value: 0x040C }, { value: 0x0410 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
@@ -135,7 +126,15 @@ define([
                     _regdata.push({code: item.value, displayName: langinfo[1], langName: langinfo[0]});
                 });
 
-
+                this._dataLang = [
+                    { value: 'en', displayValue: this.txtEn, exampleValue: ' SUM; MIN; MAX; COUNT' },
+                    { value: 'de', displayValue: this.txtDe, exampleValue: ' SUMME; MIN; MAX; ANZAHL' },
+                    { value: 'es', displayValue: this.txtEs, exampleValue: ' SUMA; MIN; MAX; CALCULAR' },
+                    { value: 'fr', displayValue: this.txtFr, exampleValue: ' SOMME; MIN; MAX; NB' },
+                    { value: 'it', displayValue: this.txtIt, exampleValue: ' SOMMA; MIN; MAX; CONTA.NUMERI' },
+                    { value: 'ru', displayValue: this.txtRu, exampleValue: ' СУММ; МИН; МАКС; СЧЁТ' },
+                    { value: 'pl', displayValue: this.txtPl, exampleValue: ' SUMA; MIN; MAX; ILE.LICZB' }
+                ];
             },
 
             setApi: function (api) {
@@ -336,8 +335,8 @@ define([
 
             initFormulaLang: function() {
                 var value = Common.localStorage.getItem('sse-settings-func-lang');
-                var item = _.findWhere(_dataLang, {value: value});
-                this.getView('Settings').renderFormLang(item ? _dataLang.indexOf(item) : 0, _dataLang);
+                var item = _.findWhere(this._dataLang, {value: value});
+                this.getView('Settings').renderFormLang(item ? this._dataLang.indexOf(item) : 0, this._dataLang);
                 $('.page[data-page=language-formula-view] input:radio[name=language-formula]').single('change', _.bind(this.onFormulaLangChange, this));
                 Common.Utils.addScrollIfNeed('.page[data-page=language-formula-view]', '.page[data-page=language-formula-view] .page-content');
             },
@@ -576,9 +575,9 @@ define([
 
                 //init formula language
                 value = Common.localStorage.getItem('sse-settings-func-lang');
-                var item = _.findWhere(_dataLang, {value: value});
+                var item = _.findWhere(me._dataLang, {value: value});
                 if(!item) {
-                    item = _dataLang[0];
+                    item = me._dataLang[0];
                 }
                 var $pageLang = $('#language-formula');
                 $pageLang.find('.item-title').text(item.displayValue);
@@ -707,7 +706,14 @@ define([
             },
 
             notcriticalErrorTitle   : 'Warning',
-            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?'
+            warnDownloadAs          : 'If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?',
+            txtEn: 'English',
+            txtDe: 'Deutsch',
+            txtRu: 'Russian',
+            txtPl: 'Polish',
+            txtEs: 'Spanish',
+            txtFr: 'French',
+            txtIt: 'Italian'
         }
     })(), SSE.Controllers.Settings || {}))
 });
