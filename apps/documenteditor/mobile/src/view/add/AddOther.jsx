@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle} from 'framework7-react';
+import {List, ListItem, Page, Navbar, Icon, ListButton, ListInput, BlockTitle, Segmented, Button} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
+import {Device} from "../../../../../common/mobile/utils/device";
 
 const PageLink = props => {
     const { t } = useTranslation();
@@ -118,6 +119,82 @@ const PageSectionBreak = props => {
     )
 };
 
+const PageFootnote = props => {
+    const isAndroid = Device.android;
+    const { t } = useTranslation();
+    const _t = t('Add', {returnObjects: true});
+
+    const dataFormatFootnote = [
+        { text: '1, 2, 3,...', value: Asc.c_oAscNumberingFormat.Decimal },
+        { text: 'a, b, c,...', value: Asc.c_oAscNumberingFormat.LowerLetter },
+        { text: 'A, B, C,...', value: Asc.c_oAscNumberingFormat.UpperLetter },
+        { text: 'i, ii, iii,...', value: Asc.c_oAscNumberingFormat.LowerRoman },
+        { text: 'I, II, III,...', value: Asc.c_oAscNumberingFormat.UpperRoman }
+    ];
+    const dataPosFootnote = [
+        {value: Asc.c_oAscFootnotePos.PageBottom, displayValue: _t.textBottomOfPage },
+        {value: Asc.c_oAscFootnotePos.BeneathText, displayValue: _t.textBelowText }
+    ];
+
+    const [stateStartAt, setStartAt] = useState(props.initFootnoteStartAt());
+    const [stateLocation, setLocation] = useState(props.getFootnoteProps().propsPos);
+    const [stateFormat, setFormat] = useState(props.getFootnoteProps().propsFormat);
+
+    return (
+        <Page>
+            <Navbar title={_t.textInsertFootnote} backLink={_t.textBack}/>
+            <BlockTitle>{_t.textFormat}</BlockTitle>
+            <List>
+                {dataFormatFootnote.map((format, index)=>{
+                    return (
+                        <ListItem key={`format-${index}`}
+                                  title={format.text}
+                                  radio
+                                  checked={stateFormat === format.value}
+                                  onClick={() => {
+                                      setStartAt(props.getFootnoteStartAt(format.value, stateStartAt));
+                                      setFormat(format.value)
+                                  }}></ListItem>
+                    )
+                })}
+            </List>
+            <List>
+                <ListItem title={_t.textStartAt}>
+                    {!isAndroid && <div slot='after-start'>{stateStartAt}</div>}
+                    <div slot='after'>
+                        <Segmented>
+                            <Button outline className='decrement item-link' onClick={() => {setStartAt(props.onFootnoteStartAt(stateStartAt, true))}}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{stateStartAt}</label>}
+                            <Button outline className='increment item-link' onClick={() => {setStartAt(props.onFootnoteStartAt(stateStartAt, false))}}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
+                        </Segmented>
+                    </div>
+                </ListItem>
+            </List>
+            <BlockTitle>{_t.textLocation}</BlockTitle>
+            <List>
+                {dataPosFootnote.map((location, index)=>{
+                    return (
+                        <ListItem key={`location-${index}`}
+                                  title={location.displayValue}
+                                  radio
+                                  checked={stateLocation === location.value}
+                                  onClick={() => {setLocation(location.value)}}></ListItem>
+                    )
+                })}
+            </List>
+            <List>
+                <ListButton className={'button-fill button-raised'} title={_t.textInsertFootnote} onClick={() => {
+                    props.onInsertFootnote(stateFormat, stateStartAt, stateLocation);
+                }}></ListButton>
+            </List>
+        </Page>
+    )
+};
+
 const AddOther = props => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
@@ -144,7 +221,13 @@ const AddOther = props => {
             }}>
                 <Icon slot="media" icon="icon-sectionbreak"></Icon>
             </ListItem>
-            <ListItem title={_t.textFootnote}>
+            <ListItem title={_t.textFootnote} link={'/add-footnote/'} routeProps={{
+                getFootnoteProps: props.getFootnoteProps,
+                getFootnoteStartAt: props.getFootnoteStartAt,
+                onFootnoteStartAt: props.onFootnoteStartAt,
+                onInsertFootnote: props.onInsertFootnote,
+                initFootnoteStartAt: props.initFootnoteStartAt
+            }}>
                 <Icon slot="media" icon="icon-footnote"></Icon>
             </ListItem>
         </List>
@@ -155,4 +238,5 @@ export {AddOther,
         PageLink as PageAddLink,
         PageNumber as PageAddNumber,
         PageBreak as PageAddBreak,
-        PageSectionBreak as PageAddSectionBreak};
+        PageSectionBreak as PageAddSectionBreak,
+        PageFootnote as PageAddFootnote};

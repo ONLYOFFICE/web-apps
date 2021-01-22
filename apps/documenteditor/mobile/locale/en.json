@@ -261,6 +261,12 @@
     "textNextPage": "Next Page",
     "textContinuousPage": "Continuous Page",
     "textEvenPage": "Even Page",
-    "textOddPage": "Odd Page"
+    "textOddPage": "Odd Page",
+    "textInsertFootnote": "Insert Footnote",
+    "textBottomOfPage": "Bottom Of Page",
+    "textBelowText": "Below Text",
+    "textStartAt": "Start At",
+    "textLocation": "Location",
+    "textFormat": "Format"
   }
 }

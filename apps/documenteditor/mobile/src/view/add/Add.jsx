@@ -11,7 +11,7 @@ import {AddImageController} from "../../controller/add/AddImage";
 import {AddOtherController} from "../../controller/add/AddOther";
 
 import {PageImageLinkSettings} from "../add/AddImage";
-import {PageAddLink, PageAddNumber, PageAddBreak, PageAddSectionBreak} from "../add/AddOther";
+import {PageAddLink, PageAddNumber, PageAddBreak, PageAddSectionBreak, PageAddFootnote} from "../add/AddOther";
 
 const routes = [
     // Image
@@ -35,6 +35,10 @@ const routes = [
     {
         path: '/add-section-break/',
         component: PageAddSectionBreak,
+    },
+    {
+        path: '/add-footnote/',
+        component: PageAddFootnote,
     },
 ];
 
