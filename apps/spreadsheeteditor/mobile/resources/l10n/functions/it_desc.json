@@ -487,6 +487,10 @@
 		"a": "(testo)",
 		"d": "Rimuove gli spazi da una stringa di testo eccetto gli spazi singoli tra le parole"
 	},
+	"TREND": {
+		"a": "(y_nota; [x_nota]; [nuova_x]; [cost])",
+		"d": "Restituisce i valori lungo una tendenza lineare. Si adatta a una linea retta (usando il metodo di minimi quadrati) per gli known_y e le known_x della matrice"
+	},	
 	"TRIMMEAN": {
 		"a": "(matrice, percento)",
 		"d": "Restituisce la media della parte intera di un set di valori di dati"
@@ -739,6 +743,10 @@
 		"a": "(num1, num2, ...)",
 		"d": "Restituisce la media geometrica di una matrice o di un intervallo di dati numerici positivi"
 	},
+	"GROWTH": {
+		"a": "(y_nota; [x_nota]; [nuova_x]; [cost])",
+		"d": "Calcola la crescita esponenziale prevista in base ai dati esistenti. La funzione restituisce i valori y corrispondenti a una serie di valori x nuovi, specificati in base a valori x e y esistenti"
+	},	
 	"HARMEAN": {
 		"a": "(argument-list)",
 		"d": "Calcola la media armonica (il reciproco della media aritmetica dei reciproci) di un sei di dati costituiti da numeri positivi"
@@ -764,8 +772,12 @@
 		"d": "Restituisce il k-esimo valore più grande in un set di dati."
 	},
 	"LINEST": {
-		"a": "( known_y's, [known_x's], [const], [stats] )",
+		"a": "(y_nota; [x_nota]; [cost]; [stat])",
 		"d": "Questa funzione è disponibile per calcola le statistiche per una linea utilizzando il metodo dei minimi quadrati per calcolare la retta che meglio rappresenta i dati e restituisce una matrice che descrive la retta; dal momento che questa funzione restituisce una matrice di valori, deve essere immessa come formula in forma di matrice"
+	},
+	"LOGEST": {
+		"a": "(y_nota; [x_nota]; [cost]; [stat])",
+		"d": "Questa funzione è disponibile per Nell'analisi della regressione la funzione calcola una curva esponenziale adatta ai dati e restituisce una matrice di valori che descrive la curva. Dal momento che questa funzione restituisce una matrice di valori, deve essere immessa come una formula della matrice"
 	},
 	"LOGINV": {
 		"a": "(x , media , dev_standard)",
@@ -1467,6 +1479,10 @@
 		"a": "(num1, num2,...)",
 		"d": "Restituisce il multinomiale di un insieme di numeri"
 	},
+	"MUNIT": {
+		"a": "(dimensione)",
+		"d": "Restituisce la matrice unitaria per la dimensione specificata"
+	},	
 	"ODD": {
 		"a": "(x)",
 		"d": "Arrotonda un numero positivo per eccesso al numero intero più vicino e uno negativo per difetto al numero dispari più vicino"
@@ -1494,6 +1510,10 @@
 	"RAND": {
 		"a": "()",
 		"d": "Restituisce un numero casuale uniformemente distribuito, ossia cambia se viene ricalcolato, e maggiore o uguale a 0 e minore di 1"
+	},
+	"RANDARRAY": {
+		"a": "([Righe], [Colonne], [min], [max], [numero_intero])",
+		"d": "Restituisce una matrice di numeri casuali"
 	},
 	"RANDBETWEEN": {
 		"a": "(minore , maggiore)",
@@ -1651,6 +1671,10 @@
 		"a": "(matrice)",
 		"d": "Restituisce la trasposta della matrice data"
 	},
+	"UNIQUE": {
+		"a": "(Array, [by_col], [exactly_once])",
+		"d": "Restituisce un elenco di valori univoci in un elenco o un intervallo"
+	},	
 	"VLOOKUP": {
 		"a": "(val , matrice , indice_col [ , [ intervallo ] ])",
 		"d": "Ricerca il valore in verticale nell'indice"
