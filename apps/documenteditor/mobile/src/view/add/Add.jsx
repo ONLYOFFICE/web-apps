@@ -11,7 +11,7 @@ import {AddImageController} from "../../controller/add/AddImage";
 import {AddOtherController} from "../../controller/add/AddOther";
 
 import {PageImageLinkSettings} from "../add/AddImage";
-import {PageAddLink, PageAddNumber} from "../add/AddOther";
+import {PageAddLink, PageAddNumber, PageAddBreak, PageAddSectionBreak} from "../add/AddOther";
 
 const routes = [
     // Image
@@ -27,6 +27,14 @@ const routes = [
     {
         path: '/add-page-number/',
         component: PageAddNumber,
+    },
+    {
+        path: '/add-break/',
+        component: PageAddBreak,
+    },
+    {
+        path: '/add-section-break/',
+        component: PageAddSectionBreak,
     },
 ];
 

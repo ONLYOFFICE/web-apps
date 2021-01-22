@@ -254,6 +254,13 @@
     "textLeftBottom": "Left Bottom",
     "textCenterBottom": "Center Bottom",
     "textRightBottom": "Right Bottom",
-    "textCurrentPosition": "Current Position"
+    "textCurrentPosition": "Current Position",
+    "textPageBreak": "Page Break",
+    "textColumnBreak": "Column Break",
+    "textSectionBreak": "Section Break",
+    "textNextPage": "Next Page",
+    "textContinuousPage": "Continuous Page",
+    "textEvenPage": "Even Page",
+    "textOddPage": "Odd Page"
   }
 }

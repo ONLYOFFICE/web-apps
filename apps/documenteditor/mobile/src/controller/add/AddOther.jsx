@@ -10,6 +10,9 @@ class AddOtherController extends Component {
         super(props);
         this.onInsertLink = this.onInsertLink.bind(this);
         this.onInsertPageNumber = this.onInsertPageNumber.bind(this);
+        this.onPageBreak = this.onPageBreak.bind(this);
+        this.onColumnBreak = this.onColumnBreak.bind(this);
+        this.onInsertSectionBreak = this.onInsertSectionBreak.bind(this);
     }
 
     closeModal () {
@@ -93,11 +96,42 @@ class AddOtherController extends Component {
         this.closeModal();
     }
 
+    onPageBreak () {
+        const api = Common.EditorApi.get();
+        api.put_AddPageBreak();
+        this.closeModal();
+    }
+
+    onColumnBreak () {
+        const api = Common.EditorApi.get();
+        api.put_AddColumnBreak();
+        this.closeModal();
+    }
+
+    onInsertSectionBreak (type) {
+        const api = Common.EditorApi.get();
+        let value;
+        if ('next' == type) {
+            value = Asc.c_oAscSectionBreakType.NextPage;
+        } else if ('continuous' == type) {
+            value = Asc.c_oAscSectionBreakType.Continuous;
+        } else if ('even' == type) {
+            value = Asc.c_oAscSectionBreakType.EvenPage;
+        } else if ('odd' == type) {
+            value = Asc.c_oAscSectionBreakType.OddPage;
+        }
+        api.add_SectionBreak(value);
+        this.closeModal();
+    }
+
     render () {
         return (
             <AddOther onInsertLink={this.onInsertLink}
                       getDisplayLinkText={this.getDisplayLinkText}
                       onInsertPageNumber={this.onInsertPageNumber}
+                      onPageBreak={this.onPageBreak}
+                      onColumnBreak={this.onColumnBreak}
+                      onInsertSectionBreak={this.onInsertSectionBreak}
             />
         )
     }

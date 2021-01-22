@@ -67,6 +67,57 @@ const PageNumber = props => {
     )
 };
 
+const PageBreak = props => {
+    const { t } = useTranslation();
+    const _t = t('Add', {returnObjects: true});
+    return (
+        <Page>
+            <Navbar title={_t.textBreak} backLink={_t.textBack}/>
+            <List>
+                <ListItem title={_t.textPageBreak} link='#' className='no-indicator' onClick={() => {
+                    props.onPageBreak()
+                }}>
+                    <Icon slot="media" icon="icon-pagebreak"></Icon>
+                </ListItem>
+                <ListItem title={_t.textColumnBreak} link='#' className='no-indicator' onClick={() => {
+                    props.onColumnBreak();
+                }}>
+                    <Icon slot="media" icon="icon-stringbreak"></Icon>
+                </ListItem>
+                <ListItem title={_t.textSectionBreak} link={'/add-section-break/'} routeProps={{
+                    onInsertSectionBreak: props.onInsertSectionBreak
+                }}>
+                    <Icon slot="media" icon="icon-sectionbreak"></Icon>
+                </ListItem>
+            </List>
+        </Page>
+    )
+};
+
+const PageSectionBreak = props => {
+    const { t } = useTranslation();
+    const _t = t('Add', {returnObjects: true});
+    return (
+        <Page>
+            <Navbar title={_t.textSectionBreak} backLink={_t.textBack}/>
+            <List>
+                <ListItem title={_t.textNextPage} link='#' className='no-indicator' onClick={() => {
+                    props.onInsertSectionBreak('next')
+                }}></ListItem>
+                <ListItem title={_t.textContinuousPage} link='#' className='no-indicator' onClick={() => {
+                    props.onInsertSectionBreak('continuous')
+                }}></ListItem>
+                <ListItem title={_t.textEvenPage} link='#' className='no-indicator' onClick={() => {
+                    props.onInsertSectionBreak('even')
+                }}></ListItem>
+                <ListItem title={_t.textOddPage} link='#' className='no-indicator' onClick={() => {
+                    props.onInsertSectionBreak('odd')
+                }}></ListItem>
+            </List>
+        </Page>
+    )
+};
+
 const AddOther = props => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
@@ -86,7 +137,11 @@ const AddOther = props => {
             }}>
                 <Icon slot="media" icon="icon-pagenumber"></Icon>
             </ListItem>
-            <ListItem title={_t.textBreak}>
+            <ListItem title={_t.textBreak} link={'/add-break/'} routeProps={{
+                onPageBreak: props.onPageBreak,
+                onColumnBreak: props.onColumnBreak,
+                onInsertSectionBreak: props.onInsertSectionBreak
+            }}>
                 <Icon slot="media" icon="icon-sectionbreak"></Icon>
             </ListItem>
             <ListItem title={_t.textFootnote}>
@@ -98,4 +153,6 @@ const AddOther = props => {
 
 export {AddOther,
         PageLink as PageAddLink,
-        PageNumber as PageAddNumber};
+        PageNumber as PageAddNumber,
+        PageBreak as PageAddBreak,
+        PageSectionBreak as PageAddSectionBreak};
