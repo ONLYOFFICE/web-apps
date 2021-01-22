@@ -4,8 +4,9 @@ import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-re
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../view/settings/Settings';
-import SearchView from '../view/search';
 import CollaborationView from '../../../../common/mobile/lib/view/Collaboration.jsx'
+import { Device } from '../../../../common/mobile/utils/device'
+import { Search, SearchSettings } from '../controller/Search';
 
 export default class Home extends Component {
     constructor(props) {
@@ -59,16 +60,19 @@ export default class Home extends Component {
                   <NavRight>
                       <Link id='btn-edit' icon='icon-edit-settings' href={false} onClick={e => this.handleClickToOpenOptions('edit')}></Link>
                       <Link id='btn-add' icon='icon-plus' href={false} onClick={e => this.handleClickToOpenOptions('add')}></Link>
-                      <Link icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>
+                      { Device.phone ? null : <Link icon='icon-search' searchbarEnable='.searchbar' href={false}></Link> }
                       <Link href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
                       <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
                   </NavRight>
-                  <SearchView />
+                  { Device.phone ? null : <Search /> }
               </Navbar>
               {/* Page content */}
               <View id="editor_sdk">
 
               </View>
+              {
+                  Device.phone ? null : <SearchSettings />
+              }
               {
                   !this.state.editOptionsVisible ? null :
                       <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
