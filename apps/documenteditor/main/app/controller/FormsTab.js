@@ -154,7 +154,7 @@ define([
                     this.view.mnuFormsColorPicker.selectByRGB(clr, true);
                 }
                 this.view.btnHighlight.currentColor = clr;
-                $('.btn-color-value-line', this.view.btnHighlight.cmpEl).css('background-color', clr ? '#' + clr : 'transparent');
+                this.view.btnHighlight.setColor(this.view.btnHighlight.currentColor || 'transparent');
             }
         },
 

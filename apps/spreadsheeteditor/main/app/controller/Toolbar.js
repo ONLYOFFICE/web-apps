@@ -310,6 +310,7 @@ define([
                 toolbar.btnBackColor.on('click',                            _.bind(this.onBackColor, this));
                 toolbar.mnuTextColorPicker.on('select',                     _.bind(this.onTextColorSelect, this));
                 toolbar.mnuBackColorPicker.on('select',                     _.bind(this.onBackColorSelect, this));
+                $('#id-toolbar-menu-auto-fontcolor').on('click',            _.bind(this.onAutoFontColor, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
                     toolbar.btnBorders.menu.on('item:click',                    _.bind(this.onBordersMenu, this));
@@ -602,15 +603,13 @@ define([
         onTextColorSelect: function(picker, color, fromBtn) {
             this._state.clrtext_asccolor = this._state.clrtext = undefined;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
-
             this.toolbar.btnTextColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnTextColor.cmpEl).css('background-color', '#' + clr);
+            this.toolbar.btnTextColor.setColor((typeof(color) == 'object') ? (color.isAuto ? '000' : color.color) : color);
 
             this.toolbar.mnuTextColorPicker.currentColor = color;
             if (this.api) {
                 this.toolbar.btnTextColor.ischanged = (fromBtn!==true);
-                this.api.asc_setCellTextColor(Common.Utils.ThemeColor.getRgbColor(color));
+                this.api.asc_setCellTextColor(color.isAuto ? color.color : Common.Utils.ThemeColor.getRgbColor(color));
                 this.toolbar.btnTextColor.ischanged = false;
             }
 
@@ -624,8 +623,8 @@ define([
             var clr = (typeof(color) == 'object') ? color.color : color;
 
             this.toolbar.btnBackColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnBackColor.cmpEl).css('background-color', clr == 'transparent' ? 'transparent' : '#' + clr);
-
+            this.toolbar.btnBackColor.setColor(this.toolbar.btnBackColor.currentColor);
+            
             this.toolbar.mnuBackColorPicker.currentColor = color;
             if (this.api) {
                 this.toolbar.btnBackColor.ischanged = (fromBtn!==true);
@@ -648,6 +647,25 @@ define([
             this.toolbar.btnBorders.menu.hide();
             this.toolbar.btnBorders.toggle(false, true);
             this.toolbar.mnuBorderColorPicker.addNewColor();
+        },
+
+        onAutoFontColor: function(e) {
+            this._state.clrtext_asccolor = this._state.clrtext = undefined;
+
+            var color = new Asc.asc_CColor();
+            color.put_auto(true);
+
+            this.toolbar.btnTextColor.currentColor = {color: color, isAuto: true};
+            this.toolbar.btnTextColor.setColor('000');
+
+            this.toolbar.mnuTextColorPicker.clearSelection();
+            this.toolbar.mnuTextColorPicker.currentColor = {color: color, isAuto: true};
+            if (this.api) {
+                this.api.asc_setCellTextColor(color);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, {restorefocus:true});
+            Common.component.Analytics.trackEvent('ToolBar', 'Text Color');
         },
 
         onBorders: function(btn) {
@@ -728,10 +746,11 @@ define([
         },
 
         onAutoBorderColor: function(e) {
-            var color = '#000';
-            $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', color);
+            $('#id-toolbar-mnu-item-border-color > a .menu-item-icon').css('border-color', '#000');
             this.toolbar.mnuBorderColor.onUnHoverItem();
-            this.toolbar.btnBorders.options.borderscolor = Common.Utils.ThemeColor.getRgbColor(color);
+            var color = new Asc.asc_CColor();
+            color.put_auto(true);
+            this.toolbar.btnBorders.options.borderscolor = color;
             this.toolbar.mnuBorderColorPicker.clearSelection();
             this.toolbar.mnuBorderColorPicker.currentColor = {color: color, isAuto: true};
             var clr_item = this.toolbar.btnBorders.menu.$el.find('#id-toolbar-menu-auto-bordercolor > a');
@@ -2164,32 +2183,43 @@ define([
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
                 color = fontobj.asc_getFontColor();
                 if (color) {
-                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                        clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
-                    } else {
-                        clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                    }
-                }
-                var type1 = typeof(clr),
-                    type2 = typeof(this._state.clrtext);
-                if ( (type1 !== type2) || (type1=='object' &&
-                    (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
-                    (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
-
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (var i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                fontColorPicker.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
+                    if (color.get_auto()) {
+                        if (this._state.clrtext !== 'auto') {
+                            fontColorPicker.clearSelection();
+                            var clr_item = this.toolbar.btnTextColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
+                            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                            this._state.clrtext = 'auto';
                         }
-                        if (!isselected) fontColorPicker.clearSelection();
                     } else {
-                        fontColorPicker.select(clr, true);
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                            clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                        } else {
+                            clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                        }
+                        var type1 = typeof(clr),
+                            type2 = typeof(this._state.clrtext);
+                        if ( (this._state.clrtext == 'auto') || (type1 !== type2) || (type1=='object' &&
+                            (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
+                            (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
+
+                            var clr_item = this.toolbar.btnTextColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
+                            clr_item.hasClass('selected') && clr_item.removeClass('selected');
+                            if (_.isObject(clr)) {
+                                var isselected = false;
+                                for (var i = 0; i < 10; i++) {
+                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
+                                        fontColorPicker.select(clr, true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) fontColorPicker.clearSelection();
+                            } else {
+                                fontColorPicker.select(clr, true);
+                            }
+                            this._state.clrtext = clr;
+                        }
                     }
-                    this._state.clrtext = clr;
                 }
                 this._state.clrtext_asccolor = color;
             }
@@ -2311,32 +2341,43 @@ define([
             if (!toolbar.btnTextColor.ischanged && !fontColorPicker.isDummy) {
                 color = xfs.asc_getFontColor();
                 if (color) {
-                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                        clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
-                    } else {
-                        clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                    }
-                }
-                var type1 = typeof(clr),
-                    type2 = typeof(this._state.clrtext);
-                if ( (type1 !== type2) || (type1=='object' &&
-                    (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
-                    (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
-
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (var i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                fontColorPicker.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
+                    if (color.get_auto()) {
+                        if (this._state.clrtext !== 'auto') {
+                            fontColorPicker.clearSelection();
+                            var clr_item = this.toolbar.btnTextColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
+                            !clr_item.hasClass('selected') && clr_item.addClass('selected');
+                            this._state.clrtext = 'auto';
                         }
-                        if (!isselected) fontColorPicker.clearSelection();
                     } else {
-                        fontColorPicker.select(clr, true);
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                            clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                        } else {
+                            clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                        }
+                        var type1 = typeof(clr),
+                            type2 = typeof(this._state.clrtext);
+                        if ( (this._state.clrtext == 'auto') || (type1 !== type2) || (type1=='object' &&
+                            (clr.effectValue!==this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color)<0)) ||
+                            (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
+
+                            var clr_item = this.toolbar.btnTextColor.menu.$el.find('#id-toolbar-menu-auto-fontcolor > a');
+                            clr_item.hasClass('selected') && clr_item.removeClass('selected');
+                            if (_.isObject(clr)) {
+                                var isselected = false;
+                                for (var i = 0; i < 10; i++) {
+                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
+                                        fontColorPicker.select(clr, true);
+                                        isselected = true;
+                                        break;
+                                    }
+                                }
+                                if (!isselected) fontColorPicker.clearSelection();
+                            } else {
+                                fontColorPicker.select(clr, true);
+                            }
+                            this._state.clrtext = clr;
+                        }
                     }
-                    this._state.clrtext = clr;
                 }
                 this._state.clrtext_asccolor = color;
             }
@@ -2750,18 +2791,17 @@ define([
             };
 
             updateColors(this.toolbar.mnuTextColorPicker, Common.Utils.ThemeColor.getStandartColors()[1]);
-            if (this.toolbar.btnTextColor.currentColor === undefined) {
+            if (this.toolbar.btnTextColor.currentColor === undefined || !this.toolbar.btnTextColor.currentColor.isAuto) {
                 this.toolbar.btnTextColor.currentColor=Common.Utils.ThemeColor.getStandartColors()[1];
-            } else
-                this.toolbar.btnTextColor.currentColor = this.toolbar.mnuTextColorPicker.currentColor.color || this.toolbar.mnuTextColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnTextColor.cmpEl).css('background-color', '#' + this.toolbar.btnTextColor.currentColor);
+                this.toolbar.btnTextColor.setColor(this.toolbar.btnTextColor.currentColor);
+            }
 
             updateColors(this.toolbar.mnuBackColorPicker, Common.Utils.ThemeColor.getStandartColors()[3]);
             if (this.toolbar.btnBackColor.currentColor === undefined) {
                 this.toolbar.btnBackColor.currentColor=Common.Utils.ThemeColor.getStandartColors()[3];
             } else
                 this.toolbar.btnBackColor.currentColor = this.toolbar.mnuBackColorPicker.currentColor.color || this.toolbar.mnuBackColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnBackColor.cmpEl).css('background-color', this.toolbar.btnBackColor.currentColor == 'transparent' ? 'transparent' : '#' + this.toolbar.btnBackColor.currentColor);
+            this.toolbar.btnBackColor.setColor(this.toolbar.btnBackColor.currentColor);
 
             if (this._state.clrtext_asccolor!==undefined || this._state.clrshd_asccolor!==undefined) {
                 this._state.clrtext = undefined;

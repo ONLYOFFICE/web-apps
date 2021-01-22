@@ -176,4 +176,23 @@ define([
         textAutoColor: 'Automatic'
 
     }, Common.UI.ColorButton || {}));
+
+
+    Common.UI.ButtonColored = Common.UI.Button.extend(_.extend({
+        render: function(parentEl) {
+            Common.UI.Button.prototype.render.call(this, parentEl);
+
+            $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
+            this.colorEl = this.cmpEl.find('.btn-color-value-line');
+        },
+
+        setColor: function(color) {
+            if (this.colorEl) {
+                this.colorEl.css({'background-color': (color=='transparent') ? color : ((typeof(color) == 'object') ? '#'+color.color : '#'+color)});
+                this.colorEl.toggleClass('bordered', color=='transparent');
+            }
+        }
+
+    }, Common.UI.ButtonColored || {}));
+
 });

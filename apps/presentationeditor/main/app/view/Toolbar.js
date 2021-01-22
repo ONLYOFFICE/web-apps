@@ -334,7 +334,7 @@ define([
                     });
                     me.paragraphControls.push(me.btnSubscript);
 
-                    me.btnFontColor = new Common.UI.Button({
+                    me.btnFontColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-fontcolor',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-fontcolor',
@@ -1316,9 +1316,7 @@ define([
                 // DataView and pickers
                 //
                 if (this.btnFontColor.cmpEl) {
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
-                    colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
+                    this.btnFontColor.setColor(this.btnFontColor.currentColor || 'transparent');
                     this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-fontcolor')
                     });

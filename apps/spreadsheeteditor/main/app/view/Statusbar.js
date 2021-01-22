@@ -340,10 +340,6 @@ define([
                         {caption: this.ungroupSheets,  value: 'noselect'}
                     ]
                 }).on('render:after', function(btn) {
-                        var colorVal = $('<div class="btn-color-value-line"></div>');
-                        $('button:first-child', btn.cmpEl).append(colorVal);
-                        colorVal.css('background-color', btn.currentColor || 'transparent');
-
                         me.mnuTabColor = new Common.UI.ThemeColorPalette({
                             el: $('#id-tab-menu-color'),
                             transparent: true
