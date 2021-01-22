@@ -1055,6 +1055,7 @@
   "DE.Views.FileMenu.btnRightsCaption": "Prawa dostępu...",
   "DE.Views.FileMenu.btnSaveAsCaption": "Zapisz jako",
   "DE.Views.FileMenu.btnSaveCaption": "Zapisz",
+  "DE.Views.FileMenu.btnSaveCopyAsCaption": "Zapisz kopię jako…",
   "DE.Views.FileMenu.btnSettingsCaption": "Zaawansowane ustawienia...",
   "DE.Views.FileMenu.btnToEditCaption": "Edytuj dokument",
   "DE.Views.FileMenu.textDownload": "Pobierz",
