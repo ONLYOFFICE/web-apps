@@ -8,18 +8,31 @@ import {Device} from '../../../../../common/mobile/utils/device';
 const EditShape = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const canFill = props.storeFocusObjects.shapeObject.get_CanFill();
 
     return (
         <Fragment>
             <List>
-                <ListItem title={_t.textStyle} link="/style-shape/"></ListItem>
-                <ListItem title={_t.textReplace} link="/replace-shape/" routeProps={{
+                {canFill ?
+                    <ListItem title={_t.textStyle} link="/edit-style-shape/" routeProps={{
+                        onFillColor: props.onFillColor,
+                        onBorderSize: props.onBorderSize,
+                        onBorderColor: props.onBorderColor,
+                        onOpacity: props.onOpacity
+                    }}></ListItem>
+                    :
+                    <ListItem title={_t.textStyle} link="/edit-style-shape-no-fill/" routeProps={{
+                        onBorderSize: props.onBorderSize,
+                        onBorderColor: props.onBorderColor
+                    }}></ListItem>
+                }
+                <ListItem title={_t.textReplace} link="/edit-replace-shape/" routeProps={{
                     onReplace: props.onReplace
                 }}></ListItem>
-                <ListItem title={_t.textReorder} link="/reorder-shape/" routeProps={{
+                <ListItem title={_t.textReorder} link="/edit-reorder-shape/" routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem>
-                <ListItem title={_t.textAlign} link="/align-shape/" routeProps={{
+                <ListItem title={_t.textAlign} link="/edit-align-shape/" routeProps={{
                     onAlign: props.onAlign
                 }}></ListItem>
             </List>
@@ -37,6 +50,7 @@ const PaletteFill = inject("storeFocusObjects", "storeShapeSettings", "storePale
     const shapeObject = props.storeFocusObjects.shapeObject;
     const curFillColor = storeShapeSettings.fillColor ? storeShapeSettings.fillColor : storeShapeSettings.getFillColor(shapeObject);
     const customColors = props.storePalette.customColors;
+
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
             if (effectId !==undefined ) {
@@ -52,6 +66,7 @@ const PaletteFill = inject("storeFocusObjects", "storeShapeSettings", "storePale
             props.f7router.navigate('/edit-shape-custom-fill-color/');
         }
     };
+
     return (
         <Fragment>
             <ThemeColorPalette changeColor={changeColor} curColor={curFillColor} customColors={customColors} transparent={true}/>
@@ -69,10 +84,10 @@ const PageStyle = props => {
     const _t = t('View.Edit', {returnObjects: true});
     const storeShapeSettings = props.storeShapeSettings;
     const shapeObject = props.storeFocusObjects.shapeObject;
-
     const stroke = shapeObject.get_stroke();
-
+    
     // Init border size
+    
     const borderSizeTransform = storeShapeSettings.borderSizeTransform();
     const borderSize = stroke.get_width() * 72.0 / 25.4;
     const borderType = stroke.get_type();
@@ -80,16 +95,18 @@ const PageStyle = props => {
     const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
     const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
     const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
-
+    
     // Init border color
+    
     const borderColor = !storeShapeSettings.borderColorView ? storeShapeSettings.initBorderColorView(shapeObject) : storeShapeSettings.borderColorView;
     const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
-
+    
     // Init opacity
+    
     const transparent = shapeObject.get_fill().asc_getTransparent();
     const opacity = transparent !== null && transparent !== undefined ? transparent / 2.55 : 100;
     const [stateOpacity, setOpacity] = useState(Math.round(opacity));
-
+   
     return (
         <Page>
             <Navbar backLink={_t.textBack}>
@@ -144,6 +161,81 @@ const PageStyle = props => {
                     </List>
                 </Tab>
             </Tabs>
+        </Page>
+    )
+};
+
+const PageCustomFillColor = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    let fillColor = props.storeShapeSettings.fillColor;
+
+    if (typeof fillColor === 'object') {
+        fillColor = fillColor.color;
+    }
+
+    const onAddNewColor = (colors, color) => {
+        props.storePalette.changeCustomColors(colors);
+        props.onFillColor(color);
+        props.storeShapeSettings.setFillColor(color);
+        props.f7router.back();
+    };
+
+    return(
+        <Page>
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <CustomColorPicker currentColor={fillColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
+const PageStyleNoFill = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeShapeSettings = props.storeShapeSettings;
+    const shapeObject = props.storeFocusObjects.shapeObject;
+    const stroke = shapeObject.get_stroke();
+
+    // Init border size
+
+    const borderSizeTransform = storeShapeSettings.borderSizeTransform();
+    const borderSize = stroke.get_width() * 72.0 / 25.4;
+    const borderType = stroke.get_type();
+    const displayBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.indexSizeByValue(borderSize);
+    const displayTextBorderSize = (borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize);
+    const [stateBorderSize, setBorderSize] = useState(displayBorderSize);
+    const [stateTextBorderSize, setTextBorderSize] = useState(displayTextBorderSize);
+
+    // Init border color
+
+    const borderColor = !storeShapeSettings.borderColorView ? storeShapeSettings.initBorderColorView(shapeObject) : storeShapeSettings.borderColorView;
+    const displayBorderColor = borderColor !== 'transparent' ? `#${(typeof borderColor === "object" ? borderColor.color : borderColor)}` : borderColor;
+
+    return (
+        <Page>
+            <Navbar backLink={_t.textBack} title={_t.textBorder}></Navbar>
+            <List>
+                <ListItem>
+                    <div slot="root-start" className='inner-range-title'>{_t.textSize}</div>
+                    <div slot='inner' style={{width: '100%'}}>
+                        <Range min="0" max="7" step="1" value={stateBorderSize}
+                               onRangeChange={(value) => {setBorderSize(value); setTextBorderSize(borderSizeTransform.sizeByIndex(value));}}
+                               onRangeChanged={(value) => {props.onBorderSize(borderSizeTransform.sizeByIndex(value))}}
+                        ></Range>
+                    </div>
+                    <div slot='inner-end' style={{minWidth: '60px', textAlign: 'right'}}>
+                        {stateTextBorderSize + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt)}
+                    </div>
+                </ListItem>
+                <ListItem title={_t.textColor} link='/edit-shape-border-color/' routeProps={{
+                    onBorderColor: props.onBorderColor
+                }}>
+                    <span className="color-preview"
+                          slot="after"
+                          style={{ background: displayBorderColor}}
+                    ></span>
+                </ListItem>
+            </List>
         </Page>
     )
 };
@@ -241,16 +333,79 @@ const PageAlign = props => {
     )
 }
 
+const PageBorderColor = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const borderColor = props.storeShapeSettings.borderColorView;
+    const customColors = props.storePalette.customColors;
+
+    const changeColor = (color, effectId, effectValue) => {
+        if (color !== 'empty') {
+            if (effectId !==undefined ) {
+                const newColor = {color: color, effectId: effectId, effectValue: effectValue};
+                props.onBorderColor(newColor);
+                props.storeShapeSettings.setBorderColor(newColor);
+            } else {
+                props.onBorderColor(color);
+                props.storeShapeSettings.setBorderColor(color);
+            }
+        } else {
+            // open custom color menu
+            props.f7router.navigate('/edit-shape-custom-border-color/');
+        }
+    };
+    return (
+        <Page>
+            <Navbar title={_t.textColor} backLink={_t.textBack} />
+            <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors}/>
+            <List>
+                <ListItem title={_t.textAddCustomColor} link={'/edit-shape-custom-border-color/'} routeProps={{
+                    onBorderColor: props.onBorderColor
+                }}></ListItem>
+            </List>
+        </Page>
+    )
+};
+
+const PageCustomBorderColor = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    let borderColor = props.storeShapeSettings.borderColorView;
+    if (typeof borderColor === 'object') {
+        borderColor = borderColor.color;
+    }
+    const onAddNewColor = (colors, color) => {
+        props.storePalette.changeCustomColors(colors);
+        props.onBorderColor(color);
+        props.storeShapeSettings.setBorderColor(color);
+        props.f7router.back();
+    };
+    return (
+        <Page>
+            <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
+            <CustomColorPicker currentColor={borderColor} onAddNewColor={onAddNewColor}/>
+        </Page>
+    )
+};
+
 const EditShapeContainer = inject("storeShapeSettings", "storeFocusObjects")(observer(EditShape));
 const PageShapeStyle = inject("storeFocusObjects", "storeShapeSettings")(observer(PageStyle));
+const PageShapeStyleNoFill = inject("storeFocusObjects", "storeShapeSettings")(observer(PageStyleNoFill));
+const PageShapeCustomFillColor = inject("storeFocusObjects", "storeShapeSettings", "storePalette")(observer(PageCustomFillColor));
 const PageReplaceContainer = inject("storeShapeSettings","storeFocusObjects")(observer(PageReplace));
 const PageReorderContainer = inject("storeFocusObjects")(observer(PageReorder));
 const PageAlignContainer = inject("storeFocusObjects")(observer(PageAlign));
+const PageShapeBorderColor = inject("storeShapeSettings", "storePalette")(observer(PageBorderColor));
+const PageShapeCustomBorderColor = inject("storeShapeSettings", "storePalette")(observer(PageCustomBorderColor));
 
 export {
     EditShapeContainer as EditShape,
     PageShapeStyle,
+    PageShapeStyleNoFill,
     PageReplaceContainer,
     PageReorderContainer,
-    PageAlignContainer
+    PageAlignContainer,
+    PageShapeBorderColor,
+    PageShapeCustomBorderColor,
+    PageShapeCustomFillColor
 }

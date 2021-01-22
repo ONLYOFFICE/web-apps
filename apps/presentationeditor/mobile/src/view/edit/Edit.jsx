@@ -10,7 +10,7 @@ import EditTextController from "../../controller/edit/EditText";
 import EditShapeController from "../../controller/edit/EditShape";
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing } from './EditText';
-import { PageShapeStyle, PageReplaceContainer, PageReorderContainer, PageAlignContainer } from './EditShape';
+import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -75,20 +75,36 @@ const routes = [
         component: PageTextLineSpacing
     },
     {
-        path: '/style-shape/',
+        path: '/edit-style-shape/',
         component: PageShapeStyle
     },
     {
-        path: '/replace-shape/',
+        path: '/edit-style-shape-no-fill/',
+        component: PageShapeStyleNoFill
+    },
+    {
+        path: '/edit-replace-shape/',
         component: PageReplaceContainer
     },
     {
-        path: '/reorder-shape',
+        path: '/edit-reorder-shape',
         component: PageReorderContainer
     },
     {
-        path: '/align-shape/',
+        path: '/edit-align-shape/',
         component: PageAlignContainer
+    },
+    {
+        path: '/edit-shape-border-color/',
+        component: PageShapeBorderColor
+    },
+    {
+        path: '/edit-shape-custom-border-color/',
+        component: PageShapeCustomBorderColor
+    }, 
+    {
+        path: '/edit-shape-custom-fill-color/',
+        component: PageShapeCustomFillColor
     }
 
 ];
