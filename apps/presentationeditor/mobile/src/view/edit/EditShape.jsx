@@ -111,16 +111,16 @@ const PageStyle = props => {
         <Page>
             <Navbar backLink={_t.textBack}>
                 <div className='tab-buttons tabbar'>
-                    <Link key={"de-link-shape-fill"}  tabLink={"#edit-shape-fill"} tabLinkActive={true}>{_t.textFill}</Link>
-                    <Link key={"de-link-shape-border"}  tabLink={"#edit-shape-border"}>{_t.textBorder}</Link>
-                    <Link key={"de-link-shape-effects"}  tabLink={"#edit-shape-effects"}>{_t.textEffects}</Link>
+                    <Link key={"pe-link-shape-fill"}  tabLink={"#edit-shape-fill"} tabLinkActive={true}>{_t.textFill}</Link>
+                    <Link key={"pe-link-shape-border"}  tabLink={"#edit-shape-border"}>{_t.textBorder}</Link>
+                    <Link key={"pe-link-shape-effects"}  tabLink={"#edit-shape-effects"}>{_t.textEffects}</Link>
                 </div>
             </Navbar>
             <Tabs animated>
-                <Tab key={"de-tab-shape-fill"} id={"edit-shape-fill"} className="page-content no-padding-top" tabActive={true}>
+                <Tab key={"pe-tab-shape-fill"} id={"edit-shape-fill"} className="page-content no-padding-top" tabActive={true}>
                     <PaletteFill onFillColor={props.onFillColor}/>
                 </Tab>
-                <Tab key={"de-tab-shape-border"} id={"edit-shape-border"} className="page-content no-padding-top">
+                <Tab key={"pe-tab-shape-border"} id={"edit-shape-border"} className="page-content no-padding-top">
                     <List>
                         <ListItem>
                             <div slot="root-start" className='inner-range-title'>{_t.textSize}</div>
@@ -144,7 +144,7 @@ const PageStyle = props => {
                         </ListItem>
                     </List>
                 </Tab>
-                <Tab key={"de-tab-shape-effects"} id={"edit-shape-effects"} className="page-content no-padding-top">
+                <Tab key={"pe-tab-shape-effects"} id={"edit-shape-effects"} className="page-content no-padding-top">
                     <List>
                         <ListItem>
                             <div slot="root-start" className='inner-range-title'>{_t.textOpacity}</div>
@@ -248,7 +248,7 @@ const PageReplace = props => {
     shapes.splice(0, 1); // Remove line shapes
 
     return (
-        <Page className="shapes">
+        <Page className="shapes dataview">
             <Navbar title={_t.textReplace} backLink={_t.textBack} />
             {shapes.map((row, indexRow) => {
                 return (

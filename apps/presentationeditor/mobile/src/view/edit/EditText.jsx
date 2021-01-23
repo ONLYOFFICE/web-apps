@@ -366,7 +366,7 @@ const PageBullets = props => {
     const typeBullets = storeTextSettings.typeBullets;
 
     return (
-        <Page className='bullets'>
+        <Page className='bullets dataview'>
             <Navbar title={_t.textBullets} backLink={_t.textBack} />
             {bulletArrays.map((bullets, index) => (
                     <ul className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
@@ -408,7 +408,7 @@ const PageNumbers = props => {
     const typeNumbers = storeTextSettings.typeNumbers;
 
     return (
-        <Page className='numbers'>
+        <Page className='numbers dataview'>
             <Navbar title={_t.textNumbers} backLink={_t.textBack} />
             {numberArrays.map((numbers, index) => (
                 <ul className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
