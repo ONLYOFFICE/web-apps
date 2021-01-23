@@ -1,9 +1,9 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented} from 'framework7-react';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
-// import {Device} from '../../../../../common/mobile/utils/device';
+import {Device} from '../../../../../common/mobile/utils/device';
 
 const EditSlide = props => {
     const { t } = useTranslation();
@@ -31,9 +31,9 @@ const EditSlide = props => {
                     onFillColor: props.onFillColor
                 }}></ListItem>
             </List>
-            <List>
-                <ListItem href="#" className="duplicate-slide" onClick={props.onDuplicateSlide}>{_t.textDuplicateSlide}</ListItem>
-                <ListItem href="#" className="delete-slide" onClick={props.onRemoveSlide}>{_t.textDeleteSlide}</ListItem>
+            <List className="buttons-list">
+                <ListItem href="#" className="button button-raised button-fill" onClick={props.onDuplicateSlide}>{_t.textDuplicateSlide}</ListItem>
+                <ListItem href="#" className="button button-raised button-red" onClick={props.onRemoveSlide}>{_t.textDeleteSlide}</ListItem>
             </List>
         </Fragment>
     )
@@ -129,6 +129,7 @@ const PageLayout = props => {
 const PageTransition = props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
+    const isAndroid = Device.android;
     const _arrEffect = [
         {displayValue: _t.textNone,    value: Asc.c_oAscSlideTransitionTypes.None},
         {displayValue: _t.textFade,    value: Asc.c_oAscSlideTransitionTypes.Fade},
@@ -257,20 +258,27 @@ const PageTransition = props => {
                     }}>
                 </ListItem>
                 <ListItem title={_t.textDuration} disabled={_effect == Asc.c_oAscSlideTransitionTypes.None}>
-                    <div slot="after" className="splitter">
+                    {!isAndroid && <div slot='after-start'>
                         <label>{(_effectDuration !== null && _effectDuration !== undefined) ?  (parseInt(_effectDuration / 1000.) + ' ' + _t.textSec) : ''}</label>
-                        <p className="buttons-row">
-                            <span className="button" onClick={() => {
+                    </div>}
+                    <div slot="after" className="splitter">
+                        <Segmented>
+                            <Button outline className='decrement item-link' onClick={() => {
                                 let duration = parseInt(_effectDuration / 1000);
                                 duration = Math.max(0, --duration);
                                 props.changeDuration(duration);
-                            }}>-</span>  
-                            <span className="button" onClick={() => {
+                            }}>
+                                {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
+                            </Button>
+                            {isAndroid && <label>{(_effectDuration !== null && _effectDuration !== undefined) ?  (parseInt(_effectDuration / 1000.) + ' ' + _t.textSec) : ''}</label>}
+                            <Button outline className='increment item-link' onClick={() => {
                                 let duration = parseInt(_effectDuration / 1000);
                                 duration = Math.min(300, ++duration);
                                 props.changeDuration(duration);
-                            }}>+</span>
-                        </p>
+                            }}>
+                                {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
+                            </Button>
+                        </Segmented>
                     </div>
                 </ListItem>
             </List>
@@ -297,8 +305,8 @@ const PageTransition = props => {
                     </div>
                 </ListItem>
             </List>
-            <List>
-                <ListItem className="apply-all" href="#" onClick={props.onApplyAll}>{_t.textApplyAll}</ListItem>
+            <List className="buttons-list">
+                <ListItem href="#" className="button button-raised button-fill" onClick={props.onApplyAll}>{_t.textApplyAll}</ListItem>
             </List>
         </Page>
     );

@@ -7,8 +7,10 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
+import EditShapeController from "../../controller/edit/EditShape";
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
-
+import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing } from './EditText';
+import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -43,7 +45,68 @@ const routes = [
     {
         path: '/edit-custom-color/',
         component: CustomFillColor
+    },
+    {
+        path: '/edit-text-fonts/',
+        component: PageTextFonts
+    },
+    {
+        path: '/edit-text-font-color/',
+        component: PageTextFontColor
+    },
+    {
+        path: '/edit-text-custom-font-color/',
+        component: PageTextCustomFontColor
+    },
+    {
+        path: '/edit-text-add-formatting/',
+        component: PageTextAddFormatting
+    },
+    {
+        path: '/edit-text-bullets/',
+        component: PageTextBullets
+    },
+    {
+        path: '/edit-text-numbers/',
+        component: PageTextNumbers
+    },
+    {
+        path: '/edit-text-line-spacing/',
+        component: PageTextLineSpacing
+    },
+    {
+        path: '/edit-style-shape/',
+        component: PageShapeStyle
+    },
+    {
+        path: '/edit-style-shape-no-fill/',
+        component: PageShapeStyleNoFill
+    },
+    {
+        path: '/edit-replace-shape/',
+        component: PageReplaceContainer
+    },
+    {
+        path: '/edit-reorder-shape',
+        component: PageReorderContainer
+    },
+    {
+        path: '/edit-align-shape/',
+        component: PageAlignContainer
+    },
+    {
+        path: '/edit-shape-border-color/',
+        component: PageShapeBorderColor
+    },
+    {
+        path: '/edit-shape-custom-border-color/',
+        component: PageShapeCustomBorderColor
+    }, 
+    {
+        path: '/edit-shape-custom-fill-color/',
+        component: PageShapeCustomFillColor
     }
+
 ];
 
 const EmptyEditLayout = () => {
@@ -124,18 +187,18 @@ const EditTabs = props => {
                 component: <EditTextController />
             })
         }
+        if (settings.indexOf('shape') > -1) {
+            editors.push({
+                 caption: _t.textShape,
+                 id: 'edit-shape',
+                 component: <EditShapeController />
+             })
+        }
         /*if (settings.indexOf('table') > -1) {
             editors.push({
                 caption: _t.textTable,
                 id: 'edit-table',
                 component: <EditTableController />
-            })
-        }
-        if (settings.indexOf('shape') > -1) {
-            editors.push({
-                caption: _t.textShape,
-                id: 'edit-shape',
-                component: <EditShapeController />
             })
         }
         if (settings.indexOf('image') > -1) {
