@@ -5,13 +5,41 @@ import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
-import AddTableController from "../../controller/add/AddTable";
+import {AddTableController} from "../../controller/add/AddTable";
 import AddShapeController from "../../controller/add/AddShape";
-//import AddImageController from "../../controller/add/AddImage";
-//import AddOtherController from "../../controller/add/AddOther";
+import {AddImageController} from "../../controller/add/AddImage";
+import {AddOtherController} from "../../controller/add/AddOther";
+
+import {PageImageLinkSettings} from "../add/AddImage";
+import {PageAddLink, PageAddNumber, PageAddBreak, PageAddSectionBreak, PageAddFootnote} from "../add/AddOther";
 
 const routes = [
-
+    // Image
+    {
+        path: '/add-image-from-url/',
+        component: PageImageLinkSettings,
+    },
+    // Other
+    {
+        path: '/add-link/',
+        component: PageAddLink,
+    },
+    {
+        path: '/add-page-number/',
+        component: PageAddNumber,
+    },
+    {
+        path: '/add-break/',
+        component: PageAddBreak,
+    },
+    {
+        path: '/add-section-break/',
+        component: PageAddSectionBreak,
+    },
+    {
+        path: '/add-footnote/',
+        component: PageAddFootnote,
+    },
 ];
 
 const AddLayoutNavbar = ({ tabs, inPopover }) => {
@@ -58,7 +86,7 @@ const AddTabs = props => {
         icon: 'icon-add-shape',
         component: <AddShapeController />
     });
-    /*tabs.push({
+    tabs.push({
         caption: _t.textImage,
         id: 'add-image',
         icon: 'icon-add-image',
@@ -69,7 +97,7 @@ const AddTabs = props => {
         id: 'add-other',
         icon: 'icon-add-other',
         component: <AddOtherController />
-    });*/
+    });
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>

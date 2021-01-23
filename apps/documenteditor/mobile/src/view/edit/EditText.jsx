@@ -132,12 +132,18 @@ const PageBullets = props => {
     const storeTextSettings = props.storeTextSettings;
     const typeBullets = storeTextSettings.typeBullets;
     return(
-        <Page className='bullets'>
+        <Page className='bullets dataview'>
             <Navbar title={t('Edit.textBullets')} backLink={t('Edit.textBack')} />
             {bulletArrays.map((bullets, index) => (
                     <ul className="row" style={{listStyle: 'none'}} key={'bullets-' + index}>
                         {bullets.map((bullet) => (
-                            <li key={'bullet-' + bullet.type} data-type={bullet.type} className={bullet.type === typeBullets ? 'active' : ''} onClick={() => {props.onBullet(bullet.type)}}>
+                            <li key={'bullet-' + bullet.type} data-type={bullet.type} className={bullet.type === typeBullets ? 'active' : ''}
+                                onClick={() => {
+                                    if (bullet.type === -1) {
+                                        storeTextSettings.resetBullets(-1);
+                                    }
+                                    props.onBullet(bullet.type)
+                                }}>
                                 {bullet.thumb.length < 1 ?
                                     <div className="thumb" style={{position: 'relative'}}>
                                         <label>{t('Edit.textNone')}</label>
@@ -171,12 +177,18 @@ const PageNumbers = props => {
     const storeTextSettings = props.storeTextSettings;
     const typeNumbers = storeTextSettings.typeNumbers;
     return(
-        <Page className='numbers'>
+        <Page className='numbers dataview'>
             <Navbar title={t('Edit.textNumbers')} backLink={t('Edit.textBack')} />
             {numberArrays.map((numbers, index) => (
                 <ul className="row" style={{listStyle: 'none'}} key={'numbers-' + index}>
                     {numbers.map((number) => (
-                        <li key={'number-' + number.type} data-type={number.type} className={number.type === typeNumbers ? 'active' : ''} onClick={() => {props.onNumber(number.type)}}>
+                        <li key={'number-' + number.type} data-type={number.type} className={number.type === typeNumbers ? 'active' : ''}
+                            onClick={() => {
+                                if (number.type === -1) {
+                                    storeTextSettings.resetNumbers(-1);
+                                }
+                                props.onNumber(number.type)
+                            }}>
                             {number.thumb.length < 1 ?
                                 <div className="thumb" style={{position: 'relative'}}>
                                     <label>{t('Edit.textNone')}</label>

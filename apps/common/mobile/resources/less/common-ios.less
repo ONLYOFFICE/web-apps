@@ -52,6 +52,12 @@
                 ul {
                     border-radius: 0;
                 }
+
+                li:first-child, li:last-child {
+                    > label {
+                        border-radius: 0;
+                    }
+                }
             }
         }
 
@@ -357,6 +363,12 @@
     .about {
         .logo {
             margin-top: 20px;
+        }
+    }
+
+    .dataview, #add-table, #add-shape {
+        &.page-content {
+            background-color: @white;
         }
     }
 }

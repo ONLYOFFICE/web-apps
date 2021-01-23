@@ -19,7 +19,7 @@ import {ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor} 
 import {PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace} from "./EditShape";
 import {PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings} from "./EditImage";
 import {PageTableOptions, PageTableWrap, PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor} from "./EditTable";
-import {PageChartWrap, PageChartReorder} from "./EditChart";
+import {PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartWrap, PageChartReorder} from "./EditChart";
 
 const routes = [
     //Edit text
@@ -159,6 +159,22 @@ const routes = [
     {
         path: '/edit-chart-reorder/',
         component: PageChartReorder,
+    },
+    {
+        path: '/edit-chart-style/',
+        component: PageChartStyle,
+    },
+    {
+        path: '/edit-chart-custom-fill-color/',
+        component: PageChartCustomFillColor,
+    },
+    {
+        path: '/edit-chart-border-color/',
+        component: PageChartBorderColor,
+    },
+    {
+        path: '/edit-chart-custom-border-color/',
+        component: PageChartCustomBorderColor,
     }
 ];
 

@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx';
 import { onAdvancedOptions } from './settings/Download.jsx';
 
-@inject("storeAppOptions", "storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings", "storeDocumentInfo")
+@inject("storeAppOptions", "storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings", "storeDocumentInfo", "storeChartSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -150,10 +150,12 @@ class MainController extends Component {
 
             _process_array(dep_scripts, promise_get_script)
                 .then ( result => {
+                    window["flat_desine"] = true;
+                    const {t} = this.props;
                     this.api = new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
-                        // 'translate': translate
+                        'translate': t('Main.SDK', {returnObjects:true})
                     });
 
                     this.appOptions   = {};
@@ -249,6 +251,7 @@ class MainController extends Component {
         });
 
         //paragraph settings
+        this.api.asc_setParagraphStylesSizes(330, 38);
         const storeParagraphSettings = this.props.storeParagraphSettings;
         this.api.asc_registerCallback('asc_onInitEditorStyles', (styles) => {
             storeParagraphSettings.initEditorStyles(styles);
@@ -261,6 +264,14 @@ class MainController extends Component {
         const storeTableSettings = this.props.storeTableSettings;
         this.api.asc_registerCallback('asc_onInitTableTemplates', (templates) => {
             storeTableSettings.initTableTemplates(templates);
+        });
+
+        //chart settings
+        const storeChartSettings = this.props.storeChartSettings;
+        this.api.asc_registerCallback('asc_onUpdateChartStyles', () => {
+            if (storeFocusObjects.chartObject && storeFocusObjects.chartObject.get_ChartProperties()) {
+                storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.get_ChartProperties().getType()));
+            }
         });
 
         // Document Info
