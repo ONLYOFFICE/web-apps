@@ -20,7 +20,7 @@ const target = process.env.TARGET || 'web';
 module.exports = {
   mode: env,
   entry: {
-    app: '../../apps/documenteditor/mobile/src/js/app.js',
+    app: '../../apps/documenteditor/mobile/src/app.js',
   },
   output: {
     path: resolvePath('../../apps/documenteditor/mobile'), // path above depends on it

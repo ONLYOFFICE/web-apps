@@ -8,7 +8,7 @@ import CollaborationView from '../../../../common/mobile/lib/view/Collaboration.
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
 
-export default class Home extends Component {
+export default class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {

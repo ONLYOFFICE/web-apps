@@ -6,7 +6,7 @@ import { f7, f7ready } from 'framework7-react';
 import '../../../../common/Gateway.js';
 import '../../../../common/main/lib/util/utils.js';
 
-import routes from '../js/routes';
+import routes from '../router/routes';
 
 import Notifications from '../../../../common/mobile/utils/notifications.js'
 import {MainController} from '../controller/Main';
