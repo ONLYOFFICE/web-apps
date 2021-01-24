@@ -3,7 +3,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 
 // Import Framework7
-import Framework7 from 'framework7/framework7-lite.esm.bundle.js';
+import Framework7 from 'framework7/lite-bundle';
 
 // Import Framework7-React Plugin
 import Framework7React from 'framework7-react';
@@ -13,7 +13,7 @@ window.jQuery = jQuery;
 window.$ = jQuery;
 
 // Import Framework7 Styles
-import 'framework7/css/framework7.bundle.css';
+import 'framework7/framework7-bundle.css';
 
 // Import App Custom Styles
 import './less/app.less';

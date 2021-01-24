@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { f7 } from 'framework7-react';
-import { Dom7, Device } from 'framework7'
+import { Dom7 } from 'framework7'
 
 class WrapDevice {
     constructor(){

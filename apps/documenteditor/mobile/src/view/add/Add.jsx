@@ -115,7 +115,7 @@ class AddView extends Component {
         this.onoptionclick = this.onoptionclick.bind(this);
     }
     onoptionclick(page){
-        this.$f7.views.current.router.navigate(page);
+        f7.views.current.router.navigate(page);
     }
     render() {
         const show_popover = this.props.usePopover;

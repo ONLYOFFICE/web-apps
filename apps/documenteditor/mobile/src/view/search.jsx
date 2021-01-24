@@ -57,7 +57,7 @@ class SearchView extends Component {
 
         $$(document).on('page:init', (e, page) => {
             if ( page.name == 'home' ) {
-                this.$f7.searchbar.create({
+                f7.searchbar.create({
                     el: '.searchbar',
                     customSearch: true,
                     expandable: true,
@@ -80,7 +80,7 @@ class SearchView extends Component {
     onSettingsClick(e) {
         if ( Device.phone ) {
             // f7.popup.open('.settings-popup');
-        } else this.$f7.popover.open('#idx-search-settings', '#idx-btn-search-settings');
+        } else f7.popover.open('#idx-search-settings', '#idx-btn-search-settings');
     }
 
     render() {

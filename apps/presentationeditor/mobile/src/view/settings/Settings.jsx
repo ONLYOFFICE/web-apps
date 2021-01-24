@@ -145,7 +145,7 @@ class SettingsView extends Component {
     }
 
     onoptionclick(page){
-        this.$f7.views.current.router.navigate(page);
+        f7.views.current.router.navigate(page);
     }
 
     render() {
