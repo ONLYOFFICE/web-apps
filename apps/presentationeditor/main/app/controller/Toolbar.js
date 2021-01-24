@@ -885,9 +885,9 @@ define([
                         for (var i=0; i<selectedElements.length; i++) {
                             if (Asc.c_oAscTypeSelectElement.Slide == selectedElements[i].get_ObjectType()) {
                                 var elValue = selectedElements[i].get_ObjectValue(),
-                                    timing = elValue.get_timing();
-                                if (timing)
-                                    loop = timing.get_ShowLoop();
+                                    transition = elValue.get_transition();
+                                if (transition)
+                                    loop = transition.get_ShowLoop();
                             }
                         }
                     }
@@ -897,9 +897,9 @@ define([
                             loop = dlg.getSettings();
                             if (me.api) {
                                 var props = new Asc.CAscSlideProps();
-                                var timing = new Asc.CAscSlideTiming();
-                                timing.put_ShowLoop(loop);
-                                props.put_timing(timing);
+                                var transition = new Asc.CAscSlideTransition();
+                                transition.put_ShowLoop(loop);
+                                props.put_transition(transition);
                                 me.api.SetSlideProps(props);
                             }
                         }
