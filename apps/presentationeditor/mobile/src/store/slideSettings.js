@@ -41,6 +41,24 @@ export class storeSlideSettings {
     @action addArrayLayouts(array) {
         this.arrayLayouts = array;
     }
+    @computed get slideLayouts () {
+        const layouts = [];
+        const columns = 2;
+        let row = -1;
+        this.arrayLayouts.forEach((item, index)=>{
+            if (0 == index % columns) {
+                layouts.push([]);
+                row++
+            }
+            layouts[row].push({
+                type: item.getIndex(),
+                image: item.get_Image(),
+                width: item.get_Width(),
+                height: item.get_Height()
+            });
+        });
+        return layouts;
+    }
 
     @action changeSlideLayoutIndex(index) {
         this.slideLayoutIndex = index;
