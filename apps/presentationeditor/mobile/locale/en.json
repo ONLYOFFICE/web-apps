@@ -174,7 +174,20 @@
       "textAlignMiddle": "Align Middle",
       "textAlignBottom": "Align Bottom",
       "textDistributeHorizontally": "Distribute Horizontally",
-      "textDistributeVertically": "Distribute Vertically"
+      "textDistributeVertically": "Distribute Vertically",
+      "textFromLibrary": "Picture from Library",
+      "textFromURL": "Picture from URL",
+      "textLinkSettings": "Link Settings",
+      "textAddress": "Address",
+      "textImageURL": "Image URL",
+      "textReplaceImage": "Replace Image",
+      "textActualSize": "Actual Size",
+      "textRemoveImage": "Remove Image",
+      "textEmptyImgUrl": "You need to specify image URL.",
+      "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+      "notcriticalErrorTitle": "Warning",
+      "textPictureFromLibrary": "Picture from Library",
+      "textPictureFromURL": "Picture from URL"
     }
   },
   "Common": {

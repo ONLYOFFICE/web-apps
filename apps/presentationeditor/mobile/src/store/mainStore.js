@@ -33,7 +33,6 @@ export const stores = {
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
     // storeChartSettings: new storeChartSettings(),
-    // storeImageSettings: new storeImageSettings(),
     // storeTableSettings: new storeTableSettings()
 };
 
