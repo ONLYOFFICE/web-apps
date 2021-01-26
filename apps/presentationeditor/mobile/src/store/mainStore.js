@@ -14,7 +14,7 @@ import { storeShapeSettings } from './shapeSettings';
 // import {storeParagraphSettings} from "./paragraphSettings";
 // import {storeShapeSettings} from "./shapeSettings";
 // import {storeImageSettings} from "./imageSettings";
-// import {storeTableSettings} from "./tableSettings";
+import {storeTableSettings} from "./tableSettings";
 // import {storeChartSettings} from "./chartSettings";
 
 export const stores = {
@@ -28,11 +28,11 @@ export const stores = {
     storeSlideSettings: new storeSlideSettings(),
     storePalette: new storePalette(),
     storeTextSettings: new storeTextSettings(),
-    storeShapeSettings: new storeShapeSettings()
+    storeShapeSettings: new storeShapeSettings(),
     // storeTextSettings: new storeTextSettings(),
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
     // storeChartSettings: new storeChartSettings(),
-    // storeTableSettings: new storeTableSettings()
+    storeTableSettings: new storeTableSettings()
 };
 

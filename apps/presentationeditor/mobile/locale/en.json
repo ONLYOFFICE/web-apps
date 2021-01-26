@@ -87,7 +87,13 @@
       "notcriticalErrorTitle": "Warning",
       "textAddress": "Address",
       "textImageURL": "Image URL",
-      "textInsertImage": "Insert Image"
+      "textInsertImage": "Insert Image",
+      "textTable": "Table",
+      "textComment": "Comment",
+      "textTableSize": "Table Size",
+      "textColumns": "Columns",
+      "textRows": "Rows",
+      "textCancel": "Cancel"
     },
     "Edit": {
       "textText": "Text",

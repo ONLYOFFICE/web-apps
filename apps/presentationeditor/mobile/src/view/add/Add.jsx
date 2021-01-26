@@ -9,13 +9,19 @@ import AddSlideController from "../../controller/add/AddSlide";
 import AddShapeController from "../../controller/add/AddShape";
 import {AddImageController} from "../../controller/add/AddImage";
 import {PageImageLinkSettings} from "./AddImage";
-//import AddOtherController from "../../controller/add/AddOther";
+import {AddOtherController} from "../../controller/add/AddOther";
+import {PageAddTable} from "./AddOther";
 
 const routes = [
     // Image
     {
         path: '/add-image-from-url/',
         component: PageImageLinkSettings
+    },
+    // Other
+    {
+        path: '/add-table/',
+        component: PageAddTable
     }
 ];
 
@@ -69,12 +75,12 @@ const AddTabs = props => {
         icon: 'icon-add-image',
         component: <AddImageController />
     });
-    /*tabs.push({
+    tabs.push({
         caption: _t.textOther,
         id: 'add-other',
         icon: 'icon-add-other',
         component: <AddOtherController />
-    });*/
+    });
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
