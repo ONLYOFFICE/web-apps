@@ -446,8 +446,21 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 langId  : me.langId,
                 handler : function(result, settings) {
                     if (result == 'ok' && settings) {
+                        var name = me.getRuleName(settings);
                         if (isEdit) {
+                            rec.set('name', name);
+                            rec.set('tip', name);
+                            rec.set('props', settings);
                         } else {
+                            var store = me.rulesList.store,
+                                index = rec ? store.indexOf(rec)+1 : store.length;
+                            store.add({
+                                levelIndex: index,
+                                name: name,
+                                tip: name,
+                                range: '',
+                                props: settings
+                            }, {at: index});
                         }
                     }
                 }

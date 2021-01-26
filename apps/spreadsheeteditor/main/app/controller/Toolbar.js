@@ -1487,6 +1487,7 @@ define([
                     langId: value,
                     handler: function (result, settings) {
                         if (me && me.api) {
+                            me.api.asc_setCF(settings);
                         }
                     }
                 })).show();

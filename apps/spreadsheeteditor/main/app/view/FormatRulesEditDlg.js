@@ -670,7 +670,7 @@ define([
                             id          : 'format-rules-borders-border-color',
                             caption     : this.textBordersColor,
                             iconCls     : 'mnu-icon-item mnu-border-color',
-                            template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
+                            template    : _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items       : [
@@ -1181,6 +1181,120 @@ define([
             }
         },
 
+        getSettings: function() {
+            var props;
+            var rec = this.ruleStore.findWhere({index: this.cmbCategory.getValue()});
+
+            if (rec) {
+                props = new AscCommonExcel.CConditionalFormattingRule();
+                var type = rec.get('type');
+                props.asc_setType(type);
+                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
+                    type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
+                    type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
+                    var xfs = new AscCommonExcel.CellXfs();
+                    xfs.asc_setFontBold(this.btnBold.isActive());
+                    xfs.asc_setFontItalic(this.btnItalic.isActive());
+                    xfs.asc_setFontUnderline(this.btnUnderline.isActive());
+                    xfs.asc_setFontStrikeout(this.btnStrikeout.isActive());
+
+                    this.mnuTextColorPicker.currentColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
+                    this.mnuFillColorPicker.currentColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
+                    this.cmbNumberFormat.getSelectedRecord() && xfs.asc_setNumFormatInfo(this.cmbNumberFormat.getValue());
+                    props.asc_setDxf(xfs);
+                }
+
+                switch (type) {
+                    case Asc.c_oAscCFType.containsText:
+                    case Asc.c_oAscCFType.notContainsText:
+                    case Asc.c_oAscCFType.beginsWith:
+                    case Asc.c_oAscCFType.endsWith:
+                        var value = this.txtRange1.setValue();
+                        value && props.asc_setContainsText(value);
+                        break;
+                    case Asc.c_oAscCFType.timePeriod:
+                        props.asc_setTimePeriod(this.cmbRule.getValue());
+                        break;
+                    case Asc.c_oAscCFType.aboveAverage:
+                        var val = this.cmbRule.getValue();
+                        var above = !(val%2);
+                        props.asc_setAboveAverage(above);
+                        props.asc_setEqualAverage(val==2 || val==3);
+                        props.asc_setStdDev(val>3 ? (val/2 - 1) : 0);
+                        break;
+                    case Asc.c_oAscCFType.top10:
+                        props.asc_setBottom(!!this.cmbRule.getValue());
+                        props.asc_setPercent(!!this.cmbPercent.getValue());
+                        (this.numRank.getValue()!=='') && props.asc_setRank(this.numRank.getNumberValue());
+                        break;
+                    case Asc.c_oAscCFType.cellIs:
+                        props.asc_setOperator(this.cmbRule.getValue());
+                        props.asc_setValue1(this.txtRange1.getValue());
+                        props.asc_setValue2(this.txtRange2.getValue());
+                        break;
+                    case Asc.c_oAscCFType.expression:
+                        props.asc_getValue1(this.txtRange1.getValue());
+                        break;
+                    case Asc.c_oAscCFType.colorScale:
+                        var scaleProps = new AscCommonExcel.CColorScale();
+                        var scalesCount = rec.get('num');
+                        var arr = (scalesCount) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
+                        var colors = [], scales = [];
+                        for (var i=0; i<scalesCount; i++) {
+                            var scale = new AscCommonExcel.CConditionalFormatValueObject();
+                            var controls = arr[i];
+                            scale.asc_setType(controls.combo.getValue());
+                            scale.asc_setVal(controls.range.getValue());
+                            scales.push(scale);
+                            colors.push(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.getRgbColor(controls.color.currentColor)));
+                        }
+                        scaleProps.asc_setColors();
+                        scaleProps.asc_setCFVOs();
+                        props.asc_setColorScaleOrDataBarOrIconSetRule(scaleProps);
+                        break;
+                    case Asc.c_oAscCFType.dataBar:
+                        // value = props.asc_getColorScaleOrDataBarOrIconSetRule();
+                        // var bars = value.asc_getCFVOs();
+                        // var arr = this.barControls;
+                        // for (var i=0; i<bars.length; i++) {
+                        //     var bartype = bars[i].asc_getType(),
+                        //         val =  bars[i].asc_getVal(),
+                        //         controls = arr[i];
+                        //     controls.combo.setValue(bartype);
+                        //     controls.range.setDisabled(bartype == Asc.c_oAscCfvoType.Minimum || bartype == Asc.c_oAscCfvoType.Maximum || bartype == Asc.c_oAscCfvoType.AutoMin || bartype == Asc.c_oAscCfvoType.AutoMax);
+                        //     controls.range.setValue((bartype !== Asc.c_oAscCfvoType.Minimum && bartype !== Asc.c_oAscCfvoType.Maximum  && bartype !== Asc.c_oAscCfvoType.AutoMin && bartype !== Asc.c_oAscCfvoType.AutoMax &&
+                        //     val!==null && val!==undefined) ? val : '');
+                        // }
+                        // this.cmbFill.setValue(value.asc_getGradient());
+                        // setColor(value.asc_getColor(), this.btnPosFill);
+                        // setColor(value.asc_getNegativeColor() || value.asc_getColor(), this.btnNegFill);
+                        // this.chFill.setValue(value.asc_getNegativeBarColorSameAsPositive());
+                        //
+                        // var color = value.asc_getBorderColor();
+                        // this.cmbBorder.setValue(color===null);
+                        // this.btnPosBorder.setDisabled(color===null);
+                        // if (color) {
+                        //     setColor(value.asc_getBorderColor(), this.btnPosBorder);
+                        //     setColor(value.asc_getNegativeBorderColor() || value.asc_getBorderColor(), this.btnNegBorder);
+                        // }
+                        // this.chBorder.setValue(value.asc_getNegativeBarBorderColorSameAsPositive());
+                        // this.chBorder.setDisabled(color===null);
+                        // this.btnNegBorder.setDisabled(color===null || value.asc_getNegativeBarBorderColorSameAsPositive());
+                        //
+                        // this.cmbBarDirection.setValue(value.asc_getDirection());
+                        // this.chShowBar.setValue(!value.asc_getShowValue());
+                        // this.cmbAxisPos.setValue(value.asc_getAxisPosition());
+                        // value.asc_getAxisColor() && setColor(value.asc_getAxisColor(), this.btnAxisColor);
+                        // this.btnAxisColor.setDisabled(value.asc_getAxisPosition() == Asc.c_oAscDataBarAxisPosition.none);
+                        break;
+                    case Asc.c_oAscCFType.iconSet:
+                        // value = props.asc_getColorScaleOrDataBarOrIconSetRule();
+                        break;
+                }
+            }
+            return props;
+        },
+
         refreshRules: function(index, ruleType) {
             var rec = this.ruleStore.findWhere({index: index});
             if (rec) {
@@ -1303,10 +1417,6 @@ define([
             this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.mnuFillColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.mnuBorderColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-        },
-
-        getSettings: function() {
-            return {};
         },
 
         onPrimary: function() {
