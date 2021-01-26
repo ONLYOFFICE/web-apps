@@ -8,9 +8,11 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
 import EditShapeController from "../../controller/edit/EditShape";
+import EditImageController from "../../controller/edit/EditImage";
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing } from './EditText';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
+import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -18,6 +20,9 @@ import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorder
 //import EditLinkController from "../../controller/edit/EditLink";
 
 const routes = [
+
+    // Slides
+
     {
         path: '/layout/',
         component: Layout
@@ -46,6 +51,9 @@ const routes = [
         path: '/edit-custom-color/',
         component: CustomFillColor
     },
+
+    // Text
+
     {
         path: '/edit-text-fonts/',
         component: PageTextFonts
@@ -74,6 +82,9 @@ const routes = [
         path: '/edit-text-line-spacing/',
         component: PageTextLineSpacing
     },
+
+    // Shape
+
     {
         path: '/edit-style-shape/',
         component: PageShapeStyle
@@ -105,6 +116,25 @@ const routes = [
     {
         path: '/edit-shape-custom-fill-color/',
         component: PageShapeCustomFillColor
+    },
+
+    // Image
+
+    {
+        path: '/edit-replace-image/',
+        component: PageImageReplace
+    },
+    {
+        path: '/edit-reorder-image/',
+        component: PageImageReorder
+    },
+    {
+        path: '/edit-align-image', 
+        component: PageImageAlign
+    },
+    {
+        path: '/edit-image-link/',
+        component: PageLinkSettings
     }
 
 ];
@@ -194,18 +224,18 @@ const EditTabs = props => {
                  component: <EditShapeController />
              })
         }
-        /*if (settings.indexOf('table') > -1) {
-            editors.push({
-                caption: _t.textTable,
-                id: 'edit-table',
-                component: <EditTableController />
-            })
-        }
         if (settings.indexOf('image') > -1) {
             editors.push({
                 caption: _t.textImage,
                 id: 'edit-image',
                 component: <EditImageController />
+            })
+        }
+        /*if (settings.indexOf('table') > -1) {
+            editors.push({
+                caption: _t.textTable,
+                id: 'edit-table',
+                component: <EditTableController />
             })
         }
         if (settings.indexOf('chart') > -1) {

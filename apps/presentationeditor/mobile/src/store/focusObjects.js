@@ -97,4 +97,19 @@ export class storeFocusObjects {
             return undefined;
         }
     }
+
+    @computed get imageObject() {
+        const images = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Image && object.get_ObjectValue()) {
+                images.push(object);
+            }
+        }
+        if (images.length > 0) {
+            const object = images[images.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
 }
