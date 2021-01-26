@@ -1486,7 +1486,7 @@ define([
                     api: me.api,
                     langId: value,
                     handler: function (result, settings) {
-                        if (me && me.api) {
+                        if (me && me.api && result=='ok') {
                             me.api.asc_setCF(settings);
                         }
                     }
