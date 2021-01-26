@@ -1204,19 +1204,21 @@ define([
                 props = new AscCommonExcel.CConditionalFormattingRule();
                 var type = rec.get('type');
                 props.asc_setType(type);
-                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
-                    type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
+                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
+                    type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
                     props.asc_setDxf(this.xfsFormat);
                 }
 
                 switch (type) {
                     case Asc.c_oAscCFType.containsText:
-                    case Asc.c_oAscCFType.notContainsText:
-                    case Asc.c_oAscCFType.beginsWith:
-                    case Asc.c_oAscCFType.endsWith:
-                        var value = this.txtRange1.setValue();
+                        var value = this.txtRange1.getValue();
                         value && props.asc_setContainsText(value);
+                        props.asc_setType(this.cmbRule.getValue());
+                        break;
+                    case Asc.c_oAscCFType.containsBlanks:
+                    case Asc.c_oAscCFType.duplicateValues:
+                        props.asc_setType(this.cmbRule.getValue());
                         break;
                     case Asc.c_oAscCFType.timePeriod:
                         props.asc_setTimePeriod(this.cmbRule.getValue());
@@ -1239,7 +1241,7 @@ define([
                         props.asc_setValue2(this.txtRange2.getValue());
                         break;
                     case Asc.c_oAscCFType.expression:
-                        props.asc_getValue1(this.txtRange1.getValue());
+                        props.asc_setValue1(this.txtRange1.getValue());
                         break;
                     case Asc.c_oAscCFType.colorScale:
                         var scaleProps = new AscCommonExcel.CColorScale();
