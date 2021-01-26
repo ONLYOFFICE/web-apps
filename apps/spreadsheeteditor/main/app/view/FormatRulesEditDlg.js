@@ -100,6 +100,14 @@ define([
                                             '</div>',
                                         '</td>',
                                     '</tr>',
+                                    '<tr class="hasformat">',
+                                        '<td class="padding-small">',
+                                            '<label class="header">', me.textPreview,'</label>',
+                                            '<div style="border: 1px solid #cbcbcb;width: 150px; height: 40px; padding: 3px;">',
+                                                '<div id="format-rules-edit-preview-format" style="width: 100%; height: 100%; position: relative; margin: 0 auto;"></div>',
+                                            '</div>',
+                                        '</td>',
+                                    '</tr>',
                                     '<tr class="scale">',
                                         '<td class="padding-large" style="padding-top: 8px;">',
                                             '<div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">',
@@ -452,7 +460,7 @@ define([
                 enableToggle: true,
                 hint: this.textBold
             });
-            // this.btnBold.on('click', _.bind(this.onBoldClick, this));
+            this.btnBold.on('click', _.bind(this.onBoldClick, this));
 
             this.btnItalic = new Common.UI.Button({
                 parentEl: $('#format-rules-italic'),
@@ -461,7 +469,7 @@ define([
                 enableToggle: true,
                 hint: this.textItalic
             });
-            // this.btnItalic.on('click', _.bind(this.onItalicClick, this));
+            this.btnItalic.on('click', _.bind(this.onItalicClick, this));
 
             this.btnUnderline = new Common.UI.Button({
                 parentEl: $('#format-rules-underline'),
@@ -470,7 +478,7 @@ define([
                 enableToggle: true,
                 hint: this.textUnderline
             });
-            // this.btnUnderline.on('click', _.bind(this.onUnderlineClick, this));
+            this.btnUnderline.on('click', _.bind(this.onUnderlineClick, this));
 
             this.btnStrikeout = new Common.UI.Button({
                 parentEl: $('#format-rules-strikeout'),
@@ -479,7 +487,7 @@ define([
                 enableToggle: true,
                 hint: this.textStrikeout
             });
-            // this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
+            this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
 
             // this.btnSuperscript = new Common.UI.Button({
             //     parentEl: $('#format-rules-superscript'),
@@ -515,8 +523,6 @@ define([
                 btn.menu.cmpEl.on('click', picker_el+'-new', _.bind(function() {
                     picker.addNewColor((typeof(btn.color) == 'object') ? btn.color.color : btn.color);
                 }, me));
-                picker.on('select', _.bind(me.onFormatColorSelect, me, btn));
-                btn.on('click', _.bind(me.onFormatColor, me, picker));
                 return picker;
             };
 
@@ -534,8 +540,9 @@ define([
                     ]
                 })
             });
-            // this.btnTextColor.on('click', _.bind(this.onTextColor, this));
             this.mnuTextColorPicker = initNewColor(this.btnTextColor, "#format-rules-menu-fontcolor");
+            this.mnuTextColorPicker.on('select', _.bind(me.onFormatTextColorSelect, me));
+            this.btnTextColor.on('click', _.bind(me.onFormatTextColor, me));
 
             this.btnFillColor = new Common.UI.Button({
                 parentEl: $('#format-rules-fillcolor'),
@@ -551,8 +558,9 @@ define([
                     ]
                 })
             });
-            // this.btnFillColor.on('click', _.bind(this.onTextColor, this));
             this.mnuFillColorPicker = initNewColor(this.btnFillColor, "#format-rules-menu-fillcolor");
+            this.mnuFillColorPicker.on('select', _.bind(me.onFormatFillColorSelect, me));
+            this.btnFillColor.on('click', _.bind(me.onFormatFillColor, me));
 
             this.btnBorders = new Common.UI.Button({
                 parentEl    : $('#format-rules-borders'),
@@ -682,6 +690,8 @@ define([
                     ]
                 })
             });
+            this.btnBorders.menu.on('item:click', _.bind(this.onBordersMenu, this));
+            this.btnBorders.on('click', _.bind(this.onBorders, this));
             var colorVal = $('<div class="btn-color-value-line"></div>');
             $('button:first-child', this.btnBorders.cmpEl).append(colorVal);
             colorVal.css('background-color', this.btnBorders.currentColor || 'transparent');
@@ -758,7 +768,7 @@ define([
                 data        : this.numFormatData
             });
             this.cmbNumberFormat.setValue(Asc.c_oAscNumFormatType.General);
-            // this.cmbNumberFormat.on('selected', _.bind(this.onNumberFormatSelect, this));
+            this.cmbNumberFormat.on('selected', _.bind(this.onNumberFormatSelect, this));
 
             // Scale
             this.scaleControls = [];
@@ -1176,9 +1186,14 @@ define([
 
                     var val = xfs.asc_getNumFormatInfo();
                     val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
+                    this.xfsFormat = xfs;
                 }
             } else {
             }
+            if (!this.xfsFormat) {
+                this.xfsFormat = new AscCommonExcel.CellXfs();
+            }
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
         },
 
         getSettings: function() {
@@ -1192,16 +1207,7 @@ define([
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
                     type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    var xfs = new AscCommonExcel.CellXfs();
-                    xfs.asc_setFontBold(this.btnBold.isActive());
-                    xfs.asc_setFontItalic(this.btnItalic.isActive());
-                    xfs.asc_setFontUnderline(this.btnUnderline.isActive());
-                    xfs.asc_setFontStrikeout(this.btnStrikeout.isActive());
-
-                    this.mnuTextColorPicker.currentColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
-                    this.mnuFillColorPicker.currentColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
-                    this.cmbNumberFormat.getSelectedRecord() && xfs.asc_setNumFormatInfo(this.cmbNumberFormat.getValue());
-                    props.asc_setDxf(xfs);
+                    props.asc_setDxf(this.xfsFormat);
                 }
 
                 switch (type) {
@@ -1361,6 +1367,25 @@ define([
             }
         },
 
+        onBoldClick: function() {
+            this.xfsFormat.asc_setFontBold(this.btnBold.isActive());
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+        },
+
+        onItalicClick: function() {
+            this.xfsFormat.asc_setFontItalic(this.btnItalic.isActive());
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+        },
+
+        onUnderlineClick: function() {
+            this.xfsFormat.asc_setFontUnderline(this.btnUnderline.isActive());
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+        },
+        onStrikeoutClick: function() {
+            this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+        },
+
         onBordersWidth: function(menu, item, state) {
             if (state) {
                 this.btnBorders.options.borderswidth = item.value;
@@ -1373,16 +1398,91 @@ define([
             this.btnBorders.options.borderscolor = Common.Utils.ThemeColor.getRgbColor(color);
         },
 
-        onFormatColorSelect: function(btn, picker, color, fromBtn) {
-            var clr = (typeof(color) == 'object') ? color.color : color;
-            btn.currentColor = color;
-            $('.btn-color-value-line', btn.cmpEl).css('background-color', '#' + clr);
+        onBorders: function(btn) {
+            var menuItem;
 
-            picker.currentColor = color;
+            _.each(btn.menu.items, function(item) {
+                if (btn.options.borderId == item.options.borderId) {
+                    menuItem = item;
+                    return false;
+                }
+            });
+
+            if (menuItem) {
+                this.onBordersMenu(btn.menu, menuItem);
+            }
         },
 
-        onFormatColor: function(picker, btn, e) {
-            picker.trigger('select', picker, picker.currentColor, true);
+        onBordersMenu: function(menu, item) {
+            var me = this;
+            if (!_.isUndefined(item.options.borderId)) {
+                var btnBorders = me.btnBorders,
+                    new_borders = [],
+                    bordersWidth = btnBorders.options.borderswidth,
+                    bordersColor = btnBorders.options.borderscolor;
+
+                if ( btnBorders.rendered ) {
+                    btnBorders.$icon.removeClass(btnBorders.options.icls).addClass(item.options.icls);
+                    btnBorders.options.icls = item.options.icls;
+                }
+
+                btnBorders.options.borderId = item.options.borderId;
+
+                if (item.options.borderId == 'inner') {
+                    new_borders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                } else if (item.options.borderId == 'all') {
+                    new_borders[Asc.c_oAscBorderOptions.InnerV] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.InnerH] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Bottom] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                } else if (item.options.borderId == 'outer') {
+                    new_borders[Asc.c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                    new_borders[Asc.c_oAscBorderOptions.Bottom] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                } else if (item.options.borderId != 'none') {
+                    new_borders[item.options.borderId]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                }
+                this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
+                this.xfsFormat.asc_setBorder(new_borders);
+                this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+            }
+        },
+
+        onFormatTextColorSelect: function(picker, color, fromBtn) {
+            var clr = (typeof(color) == 'object') ? color.color : color;
+            this.btnTextColor.currentColor = color;
+            $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + clr);
+            picker.currentColor = color;
+
+            this.xfsFormat.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+        },
+
+        onFormatTextColor: function(btn, e) {
+            this.mnuTextColorPicker.trigger('select', this.mnuTextColorPicker, this.mnuTextColorPicker.currentColor, true);
+        },
+
+        onFormatFillColorSelect: function(picker, color, fromBtn) {
+            var clr = (typeof(color) == 'object') ? color.color : color;
+            this.mnuFillColorPicker.currentColor = color;
+            $('.btn-color-value-line', this.mnuFillColorPicker.cmpEl).css('background-color', '#' + clr);
+            picker.currentColor = color;
+
+            this.xfsFormat.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+        },
+
+        onFormatFillColor: function(picker, btn, e) {
+            this.mnuFillColorPicker.trigger('select', this.mnuFillColorPicker, this.mnuFillColorPicker.currentColor, true);
+        },
+
+        onNumberFormatSelect: function(combo, record) {
+            this.xfsFormat.asc_setNumFormatInfo(record.value);
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
         },
 
         updateThemeColors: function() {
@@ -1514,7 +1614,9 @@ define([
         textBordersStyle:   'Border Style',
         textBordersColor:   'Borders Color',
         textNewColor:       'Add New Custom Color',
-        tipNumFormat:       'Number Format'
+        tipNumFormat:       'Number Format',
+        textPreview: 'Preview',
+        exampleText: 'AaBbCcYyZz'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });

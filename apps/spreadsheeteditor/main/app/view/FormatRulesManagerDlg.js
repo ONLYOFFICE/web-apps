@@ -188,7 +188,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         },
 
         refreshRuleList: function(scope) {
-            var levels = this.api.asc_getCF(scope, (scope==Asc.c_oAscSelectionForCFType.worksheet) ? this.api.asc_getActiveWorksheetIndex() : undefined);
+            var obj = this.api.asc_getCF(scope, (scope==Asc.c_oAscSelectionForCFType.worksheet) ? this.api.asc_getActiveWorksheetIndex() : undefined);
+            var levels = obj[0];
+            this.currentRange = obj[1];
             var arr = [];
             if (levels) {
                 for (var i=0; i<levels.length; i++) {
@@ -454,11 +456,12 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         } else {
                             var store = me.rulesList.store,
                                 index = rec ? store.indexOf(rec)+1 : store.length;
+                            settings.asc_setLocation(me.currentRange);
                             store.add({
                                 levelIndex: index,
                                 name: name,
                                 tip: name,
-                                range: '',
+                                range: me.currentRange,
                                 props: settings
                             }, {at: index});
                         }
