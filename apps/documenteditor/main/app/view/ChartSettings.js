@@ -211,13 +211,13 @@ define([
         createDelayedControls: function() {
             var me = this,
                 viewData = [
-                { offsetx: 0, data: Asc.c_oAscWrapStyle2.Inline,    tip: this.txtInline, selected: true },
-                { offsetx: 50, data: Asc.c_oAscWrapStyle2.Square,   tip: this.txtSquare },
-                { offsetx: 100, data: Asc.c_oAscWrapStyle2.Tight,   tip: this.txtTight },
-                { offsetx: 150, data: Asc.c_oAscWrapStyle2.Through, tip: this.txtThrough },
-                { offsetx: 200, data: Asc.c_oAscWrapStyle2.TopAndBottom, tip: this.txtTopAndBottom },
-                { offsetx: 250, data: Asc.c_oAscWrapStyle2.InFront, tip: this.txtInFront },
-                { offsetx: 300, data: Asc.c_oAscWrapStyle2.Behind,  tip: this.txtBehind }
+                { icon: 'btn-wrap-inline',      data: Asc.c_oAscWrapStyle2.Inline,      tip: this.txtInline, selected: true },
+                { icon: 'btn-wrap-square',      data: Asc.c_oAscWrapStyle2.Square,      tip: this.txtSquare },
+                { icon: 'btn-wrap-tight',       data: Asc.c_oAscWrapStyle2.Tight,       tip: this.txtTight },
+                { icon: 'btn-wrap-through',     data: Asc.c_oAscWrapStyle2.Through,     tip: this.txtThrough },
+                { icon: 'btn-wrap-topbottom',   data: Asc.c_oAscWrapStyle2.TopAndBottom, tip: this.txtTopAndBottom },
+                { icon: 'btn-wrap-infront',     data: Asc.c_oAscWrapStyle2.InFront,     tip: this.txtInFront },
+                { icon: 'btn-wrap-behind',      data: Asc.c_oAscWrapStyle2.Behind,      tip: this.txtBehind }
             ];
 
             this.cmbWrapType = new Common.UI.ComboDataView({
@@ -229,10 +229,9 @@ define([
                 cls: 'combo-chart-style'
             });
             this.cmbWrapType.menuPicker.itemTemplate = this.cmbWrapType.fieldPicker.itemTemplate = _.template([
-                '<div class="style" id="<%= id %>">',
-                '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-wrap-item" ',
-                'width="' + this.cmbWrapType.itemWidth + '" height="' + this.cmbWrapType.itemHeight + '" ',
-                'style="background-position: -<%= offsetx %>px 0;"/>',
+                '<div class="item-icon-box" id="<%= id %>">',
+                    '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" ' +
+                        'class="combo-wrap-item options__icon options__icon-huge <%= icon %>" ',
                 '</div>'
             ].join(''));
             this.cmbWrapType.render($('#chart-combo-wrap'));

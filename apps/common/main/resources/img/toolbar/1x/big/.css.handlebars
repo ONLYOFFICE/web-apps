@@ -11,13 +11,27 @@
             }
         }
     }
+
+    &.active, &:active {
+        &:not(:disabled):not(.disabled) {
+            .toolbar__icon.toolbar__icon-big {
+                @btn-active-icon-offset: -28px;
+                background-position-x: @btn-active-icon-offset;
+            }
+        }
+    }
 }
 .x-huge .toolbar__icon {
     background-image: url(resources/{{{escaped_image}}});
 }
+.toolbar__icon.toolbar__icon-big {
+    background-image: var(--big-icon-background-image);
+}
 {{/spritesheet}}
 {{#sprites}}
-{{#parselang name}}.x-huge .{{name}}{{/parselang}} {
+{{#parselang name}}.x-huge .{{name}}{{/parselang}}, 
+    .toolbar__icon-big.{{name}}
+{
     background-position: {{px.offset_x}} {{px.offset_y}};
 
     --bgX: {{px.offset_x}};

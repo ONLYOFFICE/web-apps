@@ -113,14 +113,14 @@ define([
             });
 
             _.each([
-                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large btn-adv-paragraph-top',       '00'],
-                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large btn-adv-paragraph-inner-hor', '01'],
-                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'btn-borders-large btn-adv-paragraph-bottom',    '10'],
-                [c_tableBorder.BORDER_OUTER,              'lrtb',  'btn-borders-large btn-adv-paragraph-outer',     '11'],
-                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'btn-borders-large btn-adv-paragraph-left',      '20'],
-                [c_tableBorder.BORDER_ALL,                'lrtbm', 'btn-borders-large btn-adv-paragraph-all',       '21'],
-                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'btn-borders-large btn-adv-paragraph-right',     '30'],
-                [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large btn-adv-paragraph-none',      '31']
+                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',       '00'],
+                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',     '01'],
+                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',    '10'],
+                [c_tableBorder.BORDER_OUTER,              'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',     '11'],
+                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',      '20'],
+                [c_tableBorder.BORDER_ALL,                'lrtbm', 'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',       '21'],
+                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',     '30'],
+                [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',      '31']
             ], function(item, index) {
                 var _btn = new Common.UI.Button({
                     parentEl: $('#drop-advanced-button-borderline-' + item[3]),
@@ -270,7 +270,7 @@ define([
             this.btnNone = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-none'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap btn-drop-none',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-none',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
@@ -286,7 +286,7 @@ define([
             this.btnInText = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-intext'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap btn-drop-text',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-text',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
@@ -302,7 +302,7 @@ define([
             this.btnInMargin = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-inmargin'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap btn-drop-margin',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-margin',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,

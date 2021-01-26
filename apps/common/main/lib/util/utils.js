@@ -121,10 +121,18 @@ Common.Utils = _.extend(new(function() {
         checkSize = function() {
             var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9), " +
                                 "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx)";
+            var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
+                                "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
             if ( window.matchMedia(str_mq_150).matches ) {
                 $(document.body).addClass('pixel-ratio__1_5');
+                $(document.body).removeClass('pixel-ratio__2');
+            } else
+            if ( window.matchMedia(str_mq_200).matches ) {
+                $(document.body).addClass('pixel-ratio__2');
+                $(document.body).removeClass('pixel-ratio__1_5');
             } else {
                 $(document.body).removeClass('pixel-ratio__1_5');
+                $(document.body).removeClass('pixel-ratio__2');
             }
 
             me.zoom = 1;
