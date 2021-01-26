@@ -77,7 +77,17 @@
       "textSlide": "Slide",
       "textShape": "Shape",
       "textImage": "Image",
-      "textOther": "Other"
+      "textOther": "Other",
+      "textPictureFromLibrary": "Picture from Library",
+      "textPictureFromURL": "Picture from URL",
+      "textLinkSettings": "LinkSettings",
+      "textBack": "Back",
+      "textEmptyImgUrl": "You need to specify image URL.",
+      "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+      "notcriticalErrorTitle": "Warning",
+      "textAddress": "Address",
+      "textImageURL": "Image URL",
+      "textInsertImage": "Insert Image"
     },
     "Edit": {
       "textText": "Text",
