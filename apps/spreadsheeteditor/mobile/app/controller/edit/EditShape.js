@@ -130,7 +130,7 @@ define([
             },
 
             initSettings: function (pageId) {
-                if ($('#edit-shape').length < 1) {
+                if ($('#edit-shape').length < 1 || !_shapeObject) {
                     return;
                 }
 
