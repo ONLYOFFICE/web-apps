@@ -1481,7 +1481,7 @@ define([
         },
 
         onNumberFormatSelect: function(combo, record) {
-            this.xfsFormat.asc_setNumFormatInfo(record.value);
+            this.xfsFormat.asc_setNumFormatInfo(record.format);
             this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
         },
 
