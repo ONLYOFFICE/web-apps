@@ -13,6 +13,7 @@ import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColo
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing } from './EditText';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
+import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
 //import EditShapeController from "../../controller/edit/EditShape";
 //import EditImageController from "../../controller/edit/EditImage";
 //import EditTableController from "../../controller/edit/EditTable";
@@ -135,7 +136,20 @@ const routes = [
     {
         path: '/edit-image-link/',
         component: PageLinkSettings
+    },
+
+    // Table
+
+    {
+        path: '/edit-table-reorder/',
+        component: PageTableReorder
+    },
+    {
+        path: '/edit-table-align',
+        component: PageTableAlign
     }
+
+
 
 ];
 
@@ -231,13 +245,14 @@ const EditTabs = props => {
                 component: <EditImageController />
             })
         }
-        /*if (settings.indexOf('table') > -1) {
+        if (settings.indexOf('table') > -1) {
             editors.push({
                 caption: _t.textTable,
                 id: 'edit-table',
                 component: <EditTableController />
             })
         }
+        /*
         if (settings.indexOf('chart') > -1) {
             editors.push({
                 caption: _t.textChart,
