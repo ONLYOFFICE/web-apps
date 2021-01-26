@@ -118,4 +118,4 @@ class EditImageController extends Component {
     }
 }
 
-export default inject("storeImageSettings")(observer(EditImageController));
+export default EditImageController;
