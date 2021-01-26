@@ -74,7 +74,7 @@ class EditImageController extends Component {
 
     onDefaultSize() {
         const api = Common.EditorApi.get();
-        let imgsize = me.api.get_OriginalSizeImage(),
+        let imgsize = api.get_OriginalSizeImage(),
             properties = new Asc.asc_CImgProperty();
 
         properties.put_Width(imgsize.get_ImageWidth());

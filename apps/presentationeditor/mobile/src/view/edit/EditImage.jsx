@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented, Tab, Tabs} from 'framework7-react';
+import {f7, Page, Navbar, List, ListItem, Row, BlockTitle, Link, Toggle, Icon, View, NavRight, ListItemCell, Range, Button, Segmented, Tab, Tabs, ListInput, ListButton} from 'framework7-react';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
@@ -100,7 +100,7 @@ const PageReplace = props => {
     const _t = t('View.Edit', {returnObjects: true});
 
     return (
-        <Page className="images dataview">
+        <Page className="images">
             <Navbar title={_t.textReplace} backLink={_t.textBack} />
             <List>
                 <ListItem title={_t.textPictureFromLibrary} onClick={() => {props.onReplaceByFile()}}>
