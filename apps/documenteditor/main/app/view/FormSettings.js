@@ -79,7 +79,6 @@ define([
             this._originalTextFormProps = null;
             this._originalFormProps = null;
             this._originalProps = null;
-            this.forceUpdate = false;
 
             this.render();
         },
@@ -333,7 +332,6 @@ define([
 
         onKeyChanged: function(combo, record) {
             if (this.api && !this._noApply) {
-                this.forceUpdate = true;
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 formPr.put_Key(record.value);
@@ -345,7 +343,6 @@ define([
 
         onPlaceholderChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
-                this.forceUpdate = true;
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 props.put_PlaceholderText(newValue || '    ');
                 this.api.asc_SetContentControlProperties(props, this.internalId);
@@ -356,7 +353,6 @@ define([
 
         onHelpChanged: function(input, newValue, oldValue, e) {
             if (this.api && !this._noApply && (newValue!==oldValue)) {
-                this.forceUpdate = true;
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formPr = this._originalFormProps || new AscCommon.CSdtFormPr();
                 formPr.put_HelpText(newValue);
@@ -387,7 +383,6 @@ define([
 
         onMaxCharsChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply) {
-                this.forceUpdate = true;
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
                 var checked = (this.chMaxChars.getValue()=='checked' || this.chComb.getValue()=='checked');
@@ -425,7 +420,6 @@ define([
 
         onWidthChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply) {
-                this.forceUpdate = true;
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var formTextPr = this._originalTextFormProps || new AscCommon.CSdtTextFormPr();
                 if (this.spnWidth.getValue()) {
@@ -442,7 +436,6 @@ define([
 
         onGroupKeyChanged: function(combo, record) {
             if (this.api && !this._noApply) {
-                this.forceUpdate = true;
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
                 var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
                 specProps.put_GroupKey(record.value);
@@ -594,10 +587,9 @@ define([
                 this._noApply = true;
 
                 this.internalId = props.get_InternalId();
-                this.forceUpdate = this.forceUpdate && (this.internalId !== this._state.internalId);
 
                 var val = props.get_PlaceholderText();
-                if (this._state.placeholder !== val || this.forceUpdate) {
+                if (this._state.placeholder !== val) {
                     this.txtPlaceholder.setValue(val ? val : '');
                     this._state.placeholder = val;
                 }
@@ -662,7 +654,7 @@ define([
                         this.labelFormName.text(this.textImage);
                     } else
                         data = this.api.asc_GetTextFormKeys();
-                    if (!this._state.arrKey || this._state.arrKey.length!==data.length || _.difference(this._state.arrKey, data).length>0 || this.forceUpdate) {
+                    if (!this._state.arrKey || this._state.arrKey.length!==data.length || _.difference(this._state.arrKey, data).length>0) {
                         var arr = [];
                         data.forEach(function(item) {
                             arr.push({ displayValue: item,  value: item });
@@ -672,7 +664,7 @@ define([
                     }
 
                     val = formPr.get_Key();
-                    if (this._state.Key!==val || this.forceUpdate) {
+                    if (this._state.Key!==val) {
                         this.cmbKey.setValue(val ? val : '');
                         this._state.Key=val;
                     }
@@ -684,7 +676,7 @@ define([
                     connected && this.labelConnectedFields.text(this.textConnected + ': ' + val);
 
                     val = formPr.get_HelpText();
-                    if (this._state.help!==val || this.forceUpdate) {
+                    if (this._state.help!==val) {
                         this.textareaHelp.setValue(val ? val : '');
                         this._state.help=val;
                     }
@@ -694,7 +686,7 @@ define([
                         var ischeckbox = (typeof val !== 'string');
                         if (!ischeckbox) {
                             data = this.api.asc_GetRadioButtonGroupKeys();
-                            if (!this._state.arrGroupKey || this._state.arrGroupKey.length!==data.length || _.difference(this._state.arrGroupKey, data).length>0 || this.forceUpdate) {
+                            if (!this._state.arrGroupKey || this._state.arrGroupKey.length!==data.length || _.difference(this._state.arrGroupKey, data).length>0) {
                                 var arr = [];
                                 data.forEach(function(item) {
                                     arr.push({ displayValue: item,  value: item });
@@ -703,7 +695,7 @@ define([
                                 this._state.arrGroupKey=data;
                             }
 
-                            if (this._state.groupKey!==val || this.forceUpdate) {
+                            if (this._state.groupKey!==val) {
                                 this.cmbGroupKey.setValue(val ? val : '');
                                 this._state.groupKey=val;
                             }
@@ -728,7 +720,7 @@ define([
 
                     this.spnWidth.setDisabled(!val);
                     val = formTextPr.get_Width();
-                    if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1 || this.forceUpdate) {
+                    if ( (val===undefined || this._state.Width===undefined)&&(this._state.Width!==val) || Math.abs(this._state.Width-val)>0.1) {
                         this.spnWidth.setValue(val!==0 && val!==undefined ? Common.Utils.Metric.fnRecalcFromMM(val * 25.4 / 20 / 72.0) : -1, true);
                         this._state.Width=val;
                     }
@@ -742,7 +734,7 @@ define([
                     val = formTextPr.get_MaxCharacters();
                     this.chMaxChars.setValue(val && val>=0);
                     this.spnMaxChars.setDisabled(!val || val<0);
-                    if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1 || this.forceUpdate) {
+                    if ( (val===undefined || this._state.MaxChars===undefined)&&(this._state.MaxChars!==val) || Math.abs(this._state.MaxChars-val)>0.1) {
                         this.spnMaxChars.setValue(val && val>=0 ? val : 10, true);
                         this._state.MaxChars=val;
                     }
@@ -784,7 +776,6 @@ define([
                 this.type = type;
 
                 this._state.internalId = this.internalId;
-                this.forceUpdate = false;
             }
         },
 
