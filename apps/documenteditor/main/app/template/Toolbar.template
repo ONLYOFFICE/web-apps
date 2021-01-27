@@ -183,7 +183,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-form-image"></span>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group no-group-mask form-view">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-form-clear-fields"></span>
                     </div>
