@@ -5,5 +5,13 @@
             },
             "textAnonymous": "Anonymous"
         }
+    },
+    "View" : {
+        "Add" : {
+            "textChart": "Chart",
+            "textFormula": "Formula",
+            "textShape": "Shape",
+            "textOther": "Other"
+        }
     }
 }
