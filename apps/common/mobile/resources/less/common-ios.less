@@ -153,14 +153,24 @@
         }
     }
 
-    .popover li:last-child {
-        .segmented a {
-            &:first-child {
-                border-radius: var(--f7-button-border-radius) 0 0 var(--f7-button-border-radius);
-            }
+    .popover {
+        li:last-child {
+            .segmented a {
+                &:first-child {
+                    border-radius: var(--f7-button-border-radius) 0 0 var(--f7-button-border-radius);
+                }
 
-            &:last-child {
-                border-radius: 0 var(--f7-button-border-radius) var(--f7-button-border-radius) 0;
+                &:last-child {
+                    border-radius: 0 var(--f7-button-border-radius) var(--f7-button-border-radius) 0;
+                }
+            }
+        }
+
+        .page-content {
+            > .list {
+                &:last-child {
+                    margin-bottom: 30px;
+                }
             }
         }
     }
