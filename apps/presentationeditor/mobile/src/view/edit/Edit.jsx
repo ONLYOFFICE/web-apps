@@ -14,9 +14,7 @@ import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageTextAddF
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
-//import EditShapeController from "../../controller/edit/EditShape";
-//import EditImageController from "../../controller/edit/EditImage";
-//import EditTableController from "../../controller/edit/EditTable";
+import EditTableController from "../../controller/edit/EditTable";
 //import EditChartController from "../../controller/edit/EditChart";
 //import EditLinkController from "../../controller/edit/EditLink";
 

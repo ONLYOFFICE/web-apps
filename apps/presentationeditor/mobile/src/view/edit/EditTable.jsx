@@ -453,7 +453,7 @@ const EditTable = props => {
     )
 };
 
-const EditTableContainer = inject("storeFocusObjects")(observer(EditTable));
+const EditTableContainer = inject("storeFocusObjects", "storeTableSettings")(observer(EditTable));
 const PageTableStyle = inject("storeFocusObjects","storeTableSettings")(observer(PageStyle));
 const PageTableStyleOptions = inject("storeFocusObjects","storeTableSettings")(observer(PageStyleOptions));
 const PageTableCustomFillColor = inject("storeFocusObjects","storeTableSettings", "storePalette")(observer(PageCustomFillColor));
