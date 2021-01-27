@@ -692,9 +692,6 @@ define([
             });
             this.btnBorders.menu.on('item:click', _.bind(this.onBordersMenu, this));
             this.btnBorders.on('click', _.bind(this.onBorders, this));
-            var colorVal = $('<div class="btn-color-value-line"></div>');
-            $('button:first-child', this.btnBorders.cmpEl).append(colorVal);
-            colorVal.css('background-color', this.btnBorders.currentColor || 'transparent');
             this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
                 el: $('#format-rules-borders-menu-bordercolor')
             });
@@ -1161,8 +1158,6 @@ define([
             }
 
             if (props) {
-                // var val = props.asc_getLocation();
-                // this.txtScope.setValue((val) ? val : '');
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
                     type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
@@ -1470,8 +1465,8 @@ define([
 
         onFormatFillColorSelect: function(picker, color, fromBtn) {
             var clr = (typeof(color) == 'object') ? color.color : color;
-            this.mnuFillColorPicker.currentColor = color;
-            $('.btn-color-value-line', this.mnuFillColorPicker.cmpEl).css('background-color', '#' + clr);
+            this.btnFillColor.currentColor = color;
+            $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', '#' + clr);
             picker.currentColor = color;
 
             this.xfsFormat.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));

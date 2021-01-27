@@ -58,9 +58,22 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
             me.template = me.options.template || me.template;
 
-            me.listenTo(me.model, 'change:sort', function() {
+            me.listenTo(me.model, 'change:name', function() {
                 me.render();
                 me.trigger('change', me, me.model);
+            });
+            me.listenTo(me.model, 'change:tip', function() {
+                var el = me.$el || $(me.el),
+                    tip = el.data('bs.tooltip');
+                if (tip) {
+                    var zIndex = tip.options.zIndex;
+                    el.removeData('bs.tooltip');
+                    el.tooltip({
+                        title       : me.model.get('tip'),
+                        placement   : 'cursor',
+                        zIndex      : zIndex
+                    });
+                }
             });
             me.listenTo(me.model, 'change:selected', function() {
                 var el = me.$el || $(me.el);
@@ -107,19 +120,13 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
             this.cmbScope = new Common.UI.ComboBox({
                 el          : $('#format-manager-combo-scope'),
-                menuStyle   : 'min-width: 100%;',
+                menuStyle   : 'min-width: 100%;max-height: 211px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : [
-                    { value: Asc.c_oAscSelectionForCFType.selection, displayValue: this.textSelection },
-                    { value: Asc.c_oAscSelectionForCFType.worksheet, displayValue: this.textThisSheet },
-                    { value: Asc.c_oAscSelectionForCFType.table, displayValue: this.textThisTable },
-                    { value: Asc.c_oAscSelectionForCFType.pivot, displayValue: this.textThisPivot }
-                ]
+                data        : []
             }).on('selected', function(combo, record) {
-                me.refreshRuleList(record.value);
+                me.refreshRuleList(record);
             });
-            this.cmbScope.setValue(Asc.c_oAscSelectionForCFType.selection);
 
             this.rulesList = new Common.UI.ListView({
                 el: $('#format-manager-rules-list', this.$window),
@@ -130,7 +137,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= levelIndex %>">',
                         '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
                         '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= levelIndex %>" style=""></div></div>',
-                        '<div style="width:94px;display: inline-block;vertical-align: middle;"></div>',
+                        '<div style="width:112px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= levelIndex %>" style="height:22px;"></div></div>',
                     '</div>'
                 ].join(''))
             });
@@ -184,23 +191,50 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         _setDefaults: function (props) {
             this.rulesList.on('item:add', _.bind(this.addControls, this));
             this.rulesList.on('item:change', _.bind(this.addControls, this));
-            this.refreshRuleList(this.cmbScope.getValue());
+            this.refreshScopeList();
+            this.refreshRuleList(this.cmbScope.getSelectedRecord());
+        },
+
+        refreshScopeList: function() {
+            var wc = this.api.asc_getWorksheetsCount(), i = -1,
+                currentSheet = this.api.asc_getActiveWorksheetIndex();
+            var items = [
+                { value: Asc.c_oAscSelectionForCFType.selection, displayValue: this.textSelection },
+                { value: Asc.c_oAscSelectionForCFType.worksheet, displayValue: this.textThisSheet, sheetIndex: currentSheet },
+                { value: Asc.c_oAscSelectionForCFType.table, displayValue: this.textThisTable },
+                { value: Asc.c_oAscSelectionForCFType.pivot, displayValue: this.textThisPivot }
+            ];
+            if (wc>1) {
+                while (++i < wc) {
+                    if (!this.api.asc_isWorksheetHidden(i) && i!==currentSheet) {
+                        items.push({
+                            displayValue:this.api.asc_getWorksheetName(i),
+                            value: Asc.c_oAscSelectionForCFType.worksheet,
+                            sheetIndex: i
+                        });
+                    }
+                }
+            }
+            this.cmbScope.setData(items);
+            this.cmbScope.setValue(Asc.c_oAscSelectionForCFType.selection);
         },
 
         refreshRuleList: function(scope) {
-            var obj = this.api.asc_getCF(scope, (scope==Asc.c_oAscSelectionForCFType.worksheet) ? this.api.asc_getActiveWorksheetIndex() : undefined);
+            var obj = this.api.asc_getCF(scope.value, (scope.value==Asc.c_oAscSelectionForCFType.worksheet) ? scope.sheetIndex : undefined);
             var levels = obj[0];
             this.currentRange = obj[1];
             var arr = [];
             if (levels) {
                 for (var i=0; i<levels.length; i++) {
                     var level = levels[i],
-                        name = this.getRuleName(level);
+                        name = this.getRuleName(level),
+                        location = level.asc_getLocation();
                     arr.push({
                         levelIndex: i,
                         name: name,
                         tip: name,
-                        range: level.asc_getLocation(),
+                        range: location[1],
+                        activeSheet: location[0],
                         props: level
                     });
                 }
@@ -395,6 +429,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 style       : 'width: 100%;',
                 btnHint     : this.textSelectData,
                 allowBlank  : true,
+                disabled    : !item.get('activeSheet'),
                 validateOnChange: true
             }).on('button:click', _.bind(this.onSelectData, this, level));
 
@@ -402,10 +437,22 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             (val!==null) && input.setValue(val);
             level.txtDataRange = input;
             level.dataRangeValid = val;
+            level.previewDiv = 'format-manager-item-preview-' + i;
+            me.drawRulePreview(item);
 
             cmpEl.on('mousedown', 'input', function(){
                 me.rulesList.selectRecord(item);
             });
+        },
+
+        drawRulePreview: function(rule) {
+            var props = rule.get('props'),
+                type = props.asc_getType();
+            if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
+                type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
+                type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
+                this.api.asc_getPreviewCF(this.levels[rule.get('levelIndex')].previewDiv, props.asc_getDxf(), this.exampleText);
+            }
         },
 
         onSelectData: function(item, cmp) {
@@ -453,6 +500,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                             rec.set('name', name);
                             rec.set('tip', name);
                             rec.set('props', settings);
+                            me.drawRulePreview(rec);
                         } else {
                             var store = me.rulesList.store,
                                 index = rec ? store.indexOf(rec)+1 : store.length;
@@ -462,6 +510,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                                 name: name,
                                 tip: name,
                                 range: me.currentRange,
+                                activeSheet: true,
                                 props: settings
                             }, {at: index});
                         }
@@ -544,7 +593,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         textRules: 'Rules',
         textApply: 'Apply to',
         textFormat: 'Format',
-        textSelectData: 'Select data'
+        textSelectData: 'Select data',
+        exampleText: 'AaBbCcYyZz'
 
     }, SSE.Views.FormatRulesManagerDlg || {}));
 });
