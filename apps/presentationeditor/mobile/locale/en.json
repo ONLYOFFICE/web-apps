@@ -187,7 +187,17 @@
       "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "notcriticalErrorTitle": "Warning",
       "textPictureFromLibrary": "Picture from Library",
-      "textPictureFromURL": "Picture from URL"
+      "textPictureFromURL": "Picture from URL",
+      "textOptions": "Options",
+      "textHeaderRow": "Header Row",
+      "textTotalRow": "Total Row",
+      "textBandedRow": "Banded Row",
+      "textFirstColumn": "First Column",
+      "textLastColumn": "Last Column",
+      "textBandedColumn": "Banded Column",
+      "textStyleOptions": "Style Options",
+      "textRemoveTable": "Remove Table",
+      "textCellMargins": "Cell Margins"
     }
   },
   "Common": {

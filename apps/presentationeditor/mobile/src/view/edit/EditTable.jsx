@@ -31,8 +31,8 @@ const StyleTemplates = inject("storeFocusObjects")(observer(({templates, onStyle
                         {row.map((style, index)=>{
                             return(
                                 <div key={`${rowIndex}-${index}`}
-                                     className={style.templateId === stateId ? 'active' : ''}
-                                     onClick={() => {onStyleClick(style.templateId); setId(style.templateId)}}>
+                                    className={style.templateId === stateId ? 'active' : ''}
+                                    onClick={() => {onStyleClick(style.templateId); setId(style.templateId)}}>
                                     <img src={style.imageUrl} />
                                 </div>
                             )
@@ -89,14 +89,17 @@ const PageCustomFillColor = props => {
     const _t = t('View.Edit', {returnObjects: true});
     const tableObject = props.storeFocusObjects.tableObject;
     let fillColor = props.storeTableSettings.getFillColor(tableObject);
+
     if (typeof fillColor === 'object') {
         fillColor = fillColor.color;
     }
+
     const onAddNewColor = (colors, color) => {
         props.storePalette.changeCustomColors(colors);
         props.onFillColor(color);
         props.f7router.back();
     };
+
     return(
         <Page>
             <Navbar title={_t.textCustomColor} backLink={_t.textBack} />
@@ -114,7 +117,7 @@ const TabFillColor = inject("storeFocusObjects", "storeTableSettings", "storePal
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
-            if (effectId !==undefined ) {
+            if (effectId !== undefined ) {
                 const newColor = {color: color, effectId: effectId, effectValue: effectValue};
                 props.onFillColor(newColor);
             } else {
@@ -279,7 +282,7 @@ const TabBorder = inject("storeFocusObjects", "storeTableSettings")(observer(pro
 
 const PageStyle = props => {
     const { t } = useTranslation();
-    const _t = t('Edit', {returnObjects: true});
+    const _t = t('View.Edit', {returnObjects: true});
     const storeTableSettings = props.storeTableSettings;
     const templates = storeTableSettings.styles;
 
@@ -287,9 +290,9 @@ const PageStyle = props => {
         <Page>
             <Navbar backLink={_t.textBack}>
                 <div className="tab-buttons tabbar">
-                    <Link key={"de-link-table-style"}  tabLink={"#edit-table-style"} tabLinkActive={true}>{_t.textStyle}</Link>
-                    <Link key={"de-link-table-fill"}  tabLink={"#edit-table-fill"}>{_t.textFill}</Link>
-                    <Link key={"de-link-table-border"}  tabLink={"#edit-table-border"}>{_t.textBorder}</Link>
+                    <Link key={"pe-link-table-style"}  tabLink={"#edit-table-style"} tabLinkActive={true}>{_t.textStyle}</Link>
+                    <Link key={"pe-link-table-fill"}  tabLink={"#edit-table-fill"}>{_t.textFill}</Link>
+                    <Link key={"pe-link-table-border"}  tabLink={"#edit-table-border"}>{_t.textBorder}</Link>
                 </div>
             </Navbar>
             <Tabs animated>

@@ -143,12 +143,29 @@ const routes = [
         component: PageTableReorder
     },
     {
-        path: '/edit-table-align',
+        path: '/edit-table-align/',
         component: PageTableAlign
+    },
+    {
+        path: '/edit-table-style/',
+        component: PageTableStyle
+    },
+    {
+        path: '/edit-table-style-options/',
+        component: PageTableStyleOptions
+    },
+    {
+        path: '/edit-table-border-color/',
+        component: PageTableBorderColor
+    },
+    {
+        path: '/edit-table-custom-border-color/',
+        component: PageTableCustomBorderColor
+    },
+    {
+        path: '/edit-table-custom-fill-color/',
+        component: PageTableCustomFillColor
     }
-
-
-
 ];
 
 const EmptyEditLayout = () => {
