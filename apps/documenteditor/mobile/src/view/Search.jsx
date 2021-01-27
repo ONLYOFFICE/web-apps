@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Searchbar, Popover, Popup, View, Page, List, ListItem, Navbar, NavRight, Link } from 'framework7-react';
+import { Toggle } from 'framework7-react';
 import { f7ready, f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 
@@ -38,8 +39,16 @@ class SearchSettingsView extends Component {
                 <Page>
                     {navbar}
                     <List>
-                        <ListItem radio title="Find" name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')}></ListItem>
-                        <ListItem radio title="Find and replace" name="find-replace-checkbox" checked={this.state.useReplace} onClick={e => this.onFindReplaceClick('replace')}></ListItem>
+                        <ListItem radio title="Find" name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
+                        <ListItem radio title="Find and replace" name="find-replace-checkbox" checked={this.state.useReplace} onClick={e => this.onFindReplaceClick('replace')} />
+                    </List>
+                    <List>
+                        <ListItem title="Case sensitive">
+                            <Toggle slot="after" />
+                        </ListItem>
+                        <ListItem title="Highlight results">
+                            <Toggle slot="after" />
+                        </ListItem>
                     </List>
                 </Page>
             </View>;
