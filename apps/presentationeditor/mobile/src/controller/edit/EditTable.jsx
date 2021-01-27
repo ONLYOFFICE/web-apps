@@ -206,7 +206,7 @@ class EditTableController extends Component {
                        onAddRowBelow={this.onAddRowBelow}
                        onRemoveColumn={this.onRemoveColumn}
                        onRemoveRow={this.onRemoveRow}
-                       onCellMargins={this.onCellMargins}
+                       onOptionMargin={this.onOptionMargin}
                        onStyleClick={this.onStyleClick}
                        onCheckTemplateChange={this.onCheckTemplateChange}
                        onFillColor={this.onFillColor}
