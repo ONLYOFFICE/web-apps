@@ -1903,23 +1903,23 @@ define([
                 this.btnCondFormat.setMenu( new Common.UI.Menu({
                     items: [
                         {
-                            caption     : this.textGreater,
+                            caption     : Common.define.conditionalData.textGreater,
                             type        : Asc.c_oAscCFType.cellIs,
                             value       : Asc.c_oAscCFOperator.greaterThan
                         },
                         {
-                            caption     : this.textLess,
+                            caption     : Common.define.conditionalData.textLess,
                             type        : Asc.c_oAscCFType.cellIs,
                             value       : Asc.c_oAscCFOperator.lessThan
                         },
                         {
-                            caption     : this.textEqual,
+                            caption     : Common.define.conditionalData.textEqual,
                             type        : Asc.c_oAscCFType.cellIs,
                             value       : Asc.c_oAscCFOperator.equal
                         },
                         {caption: '--'},
                         {
-                            caption     : this.textBetween,
+                            caption     : Common.define.conditionalData.textBetween,
                             type        : Asc.c_oAscCFType.cellIs,
                             value       : Asc.c_oAscCFOperator.between
                         },
@@ -1930,43 +1930,43 @@ define([
                         },
                         {caption: '--'},
                         {
-                            caption     : this.textText,
+                            caption     : Common.define.conditionalData.textText,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items: [
-                                    { caption: 'Contains',   type: Asc.c_oAscCFType.containsText },
-                                    { caption: 'Does not contain',   type: Asc.c_oAscCFType.notContainsText },
-                                    { caption: 'Begins with',   type: Asc.c_oAscCFType.beginsWith },
-                                    { caption: 'Ends with',   type: Asc.c_oAscCFType.endsWith }
+                                    { caption: Common.define.conditionalData.textContains,   type: Asc.c_oAscCFType.containsText },
+                                    { caption: Common.define.conditionalData.textNotContains,   type: Asc.c_oAscCFType.notContainsText },
+                                    { caption: Common.define.conditionalData.textBegins,   type: Asc.c_oAscCFType.beginsWith },
+                                    { caption: Common.define.conditionalData.textEnds,   type: Asc.c_oAscCFType.endsWith }
                                 ]
                             })
                         },
                         {caption: '--'},
                         {
-                            caption     : this.textDate,
+                            caption     : Common.define.conditionalData.textDate,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items: [
-                                    { caption: 'Yesterday',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.yesterday },
-                                    { caption: 'Today',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.today},
-                                    { caption: 'Tomorrow',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.tomorrow},
-                                    { caption: 'In the last 7 days',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.last7Days},
-                                    { caption: 'Last week',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.lastWeek},
-                                    { caption: 'This week',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.thisWeek},
-                                    { caption: 'Next week',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.nextWeek},
-                                    { caption: 'Last month',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.lastMonth},
-                                    { caption: 'This month',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.thisMonth},
-                                    { caption: 'Next month',  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.nextMonth}
+                                    { caption: Common.define.conditionalData.textYesterday,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.yesterday },
+                                    { caption: Common.define.conditionalData.textToday,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.today},
+                                    { caption: Common.define.conditionalData.textTomorrow,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.tomorrow},
+                                    { caption: Common.define.conditionalData.textLast7days,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.last7Days},
+                                    { caption: Common.define.conditionalData.textLastWeek,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.lastWeek},
+                                    { caption: Common.define.conditionalData.textThisWeek,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.thisWeek},
+                                    { caption: Common.define.conditionalData.textNextWeek,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.nextWeek},
+                                    { caption: Common.define.conditionalData.textLastMonth,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.lastMonth},
+                                    { caption: Common.define.conditionalData.textThisMonth,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.thisMonth},
+                                    { caption: Common.define.conditionalData.textNextMonth,  type: Asc.c_oAscCFType.timePeriod,  value: Asc.c_oAscTimePeriod.nextMonth}
                                 ]
                             })
                         },
                         {caption: '--'},
                         {
-                            caption     : this.textBlank,
+                            caption     : Common.define.conditionalData.textBlank,
                             type        : Asc.c_oAscCFType.containsBlanks
                         },
                         {
-                            caption     : this.textDuplicate,
+                            caption     : Common.define.conditionalData.textDuplicate,
                             type        : Asc.c_oAscCFType.duplicateValues
                         },
                         {caption: '--'},
@@ -1987,7 +1987,7 @@ define([
                             })
                         },
                         {
-                            caption     : this.textIconSets,
+                            caption     : Common.define.conditionalData.textIconSets,
                             type        : Asc.c_oAscCFType.iconSet,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
@@ -1996,7 +1996,7 @@ define([
                         },
                         {caption: '--'},
                         {
-                            caption     : 'Formula',
+                            caption     : Common.define.conditionalData.textFormula,
                             type        : Asc.c_oAscCFType.expression
                         },
                         {caption: '--'},
@@ -2558,18 +2558,9 @@ define([
         tipPrintTitles: 'Print titles',
         capBtnColorSchemas: 'Color Scheme',
         tipCondFormat: 'Conditional formatting',
-        textGreater: 'Greater Than',
-        textLess: 'Less Than',
-        textEqual: 'Equal To',
-        textBetween: 'Between',
         textTop10: 'Top 10',
-        textText: 'Text',
-        textDate: 'Date',
-        textBlank: 'Blank',
-        textDuplicate: 'Duplicate',
         textDataBars: 'Data Bars',
         textColorScales: 'Color Scales',
-        textIconSets: 'Icon Sets',
         textNewRule: 'New Rule',
         textClearRule: 'Clear Rules',
         textSelection: 'From current selection',

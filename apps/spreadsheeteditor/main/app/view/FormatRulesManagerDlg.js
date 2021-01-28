@@ -271,7 +271,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var name = '';
             switch (rule.asc_getType()) {
                 case Asc.c_oAscCFType.aboveAverage:
-                    name = 'Above average';
+                    name = this.textAbove;
                     var above = rule.asc_getAboveAverage(),
                         eq = rule.asc_getEqualAverage(),
                         stddev = rule.asc_getStdDev();
@@ -283,42 +283,42 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     }
                     switch (subtype) {
                         case 0:
-                            name = 'Above average';
+                            name = this.textAbove;
                             break;
                         case 1:
-                            name = 'Below average';
+                            name = this.textBelow;
                             break;
                         case 2:
-                            name = 'Equal to or above average';
+                            name = this.textEqAbove;
                             break;
                         case 3:
-                            name = 'Equal to or below average';
+                            name = this.textEqBelow;
                             break;
                         case 4:
-                            name = '1 std dev above average';
+                            name = this.text1Above;
                             break;
                         case 5:
-                            name = '1 std dev below average';
+                            name = this.text1Below;
                             break;
                         case 6:
-                            name = '2 std dev above average';
+                            name = this.text2Above;
                             break;
                         case 7:
-                            name = '2 std dev below average';
+                            name = this.text2Below;
                             break;
                         case 8:
-                            name = '3 std dev above average';
+                            name = this.text3Above;
                             break;
                         case 9:
-                            name = '3 std dev below average';
+                            name = this.text3Below;
                             break;
                     }
                     break;
                 case Asc.c_oAscCFType.beginsWith:
-                    name = 'Cell value begins with ' + (rule.asc_getContainsText() || '');
+                    name = this.textBeginsWith + ' ' + (rule.asc_getContainsText() || '');
                     break;
                 case Asc.c_oAscCFType.cellIs:
-                    name = 'Cell value';
+                    name = this.textCellValue;
                     var subtype = rule.asc_getOperator(),
                         op;
                     switch (subtype) {
@@ -347,90 +347,90 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                             name = name + ' ' + op + ' ' + (rule.asc_getValue1() || '');
                             break;
                         case Asc.c_oAscCFOperator.between:
-                            name = name + ' ' + Common.Utils.String.format('is between {0} and {1}', (rule.asc_getValue1() || ''), (rule.asc_getValue2() || ''));
+                            name = name + ' ' + Common.Utils.String.format(this.textBetween, (rule.asc_getValue1() || ''), (rule.asc_getValue2() || ''));
                             break;
                         case Asc.c_oAscCFOperator.notBetween:
-                            name = name + ' ' + Common.Utils.String.format('is not between {0} and {1}', (rule.asc_getValue1() || ''), (rule.asc_getValue2() || ''));
+                            name = name + ' ' + Common.Utils.String.format(this.textNotBetween, (rule.asc_getValue1() || ''), (rule.asc_getValue2() || ''));
                             break;
                     }
                     break;
                 case Asc.c_oAscCFType.colorScale:
-                    name = 'Graded color scale';
+                    name = this.textColorScale;
                     break;
                 case Asc.c_oAscCFType.containsBlanks:
-                    name = 'Cell contains a blank value';
+                    name = this.textContainsBlank;
                     break;
                 case Asc.c_oAscCFType.containsErrors:
-                    name = 'Cell contains an error';
+                    name = this.textContainsError;
                     break;
                 case Asc.c_oAscCFType.containsText:
-                    name = 'Cell value contains ' + (rule.asc_getContainsText() || '');
+                    name = this.textContains + ' ' + (rule.asc_getContainsText() || '');
                     break;
                 case Asc.c_oAscCFType.dataBar:
-                    name = 'Column';
+                    name = Common.define.conditionalData.textDataBar;
                     break;
                 case Asc.c_oAscCFType.duplicateValues:
-                    name = 'Duplicate values';
+                    name = this.textDuplicate;
                     break;
                 case Asc.c_oAscCFType.expression:
-                    name = 'Formula: ' + (rule.asc_getValue1() || '');
+                    name = Common.define.conditionalData.textFormula + ': ' + (rule.asc_getValue1() || '');
                     break;
                 case Asc.c_oAscCFType.iconSet:
-                    name = 'Icon set';
+                    name = this.textIconSet;
                     break;
                 case Asc.c_oAscCFType.notContainsBlanks:
-                    name = 'Cell does not contain a blank value';
+                    name = this.textNotContainsBlank;
                     break;
                 case Asc.c_oAscCFType.notContainsErrors:
-                    name = 'Cell does not contain an error';
+                    name = this.textNotContainsError;
                     break;
                 case Asc.c_oAscCFType.notContainsText:
-                    name = 'Cell value does not contain ' + (rule.asc_getContainsText() || '');
+                    name = this.textNotContains + ' ' + (rule.asc_getContainsText() || '');
                     break;
                 case Asc.c_oAscCFType.timePeriod:
                     var subtype = rule.asc_getTimePeriod();
                     switch (subtype) {
                         case Asc.c_oAscTimePeriod.yesterday:
-                            name = 'Yesterday';
+                            name = Common.define.conditionalData.textYesterday;
                             break;
                         case Asc.c_oAscTimePeriod.today:
-                            name = 'Today';
+                            name = Common.define.conditionalData.textToday;
                             break;
                         case Asc.c_oAscTimePeriod.tomorrow:
-                            name = 'Tomorrow';
+                            name = Common.define.conditionalData.textTomorrow;
                             break;
                         case Asc.c_oAscTimePeriod.last7Days:
-                            name = 'In the last 7 days';
+                            name = Common.define.conditionalData.textLast7days;
                             break;
                         case Asc.c_oAscTimePeriod.lastWeek:
-                            name = 'Last week';
+                            name = Common.define.conditionalData.textLastWeek;
                             break;
                         case Asc.c_oAscTimePeriod.thisWeek:
-                            name = 'This week';
+                            name = Common.define.conditionalData.textThisWeek;
                             break;
                         case Asc.c_oAscTimePeriod.nextWeek:
-                            name = 'Next week';
+                            name = Common.define.conditionalData.textNextWeek;
                             break;
                         case Asc.c_oAscTimePeriod.lastMonth:
-                            name = 'Last month';
+                            name = Common.define.conditionalData.textLastMonth;
                             break;
                         case Asc.c_oAscTimePeriod.thisMonth:
-                            name = 'This month';
+                            name = Common.define.conditionalData.textThisMonth;
                             break;
                         case Asc.c_oAscTimePeriod.nextMonth:
-                            name = 'Next month';
+                            name = Common.define.conditionalData.textNextMonth;
                             break;
                     }
                     break;
                 case Asc.c_oAscCFType.top10:
-                    name = rule.asc_getBottom() ? 'Bottom' : 'Top';
+                    name = rule.asc_getBottom() ? Common.define.conditionalData.textBottom : Common.define.conditionalData.textTop;
                     name = name + ' ' + (rule.asc_getRank()) + (rule.asc_getPercent() ? '%' : '');
                     break;
                 case Asc.c_oAscCFType.uniqueValues:
-                    name = 'Unique values';
+                    name = this.textUnique;
                     break;
                 case Asc.c_oAscCFType.endsWith:
-                    name = 'Cell value ends with ' + (rule.asc_getContainsText() || '');
+                    name = this.textEnds + ' ' + (rule.asc_getContainsText() || '');
                     break;
             }
             return name;
@@ -473,7 +473,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
                 type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                 type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                this.api.asc_getPreviewCF(this.rules[rule.get('ruleIndex')].previewDiv, props.asc_getDxf(), this.exampleText);
+                this.api.asc_getPreviewCF(this.rules[rule.get('ruleIndex')].previewDiv, props.asc_getDxf(), Common.define.conditionalData.exampleText);
             }
         },
 
@@ -656,7 +656,31 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         textApply: 'Apply to',
         textFormat: 'Format',
         textSelectData: 'Select data',
-        exampleText: 'AaBbCcYyZz'
+        textAbove: 'Above average',
+        textBelow: 'Below average',
+        textEqAbove: 'Equal to or above average',
+        textEqBelow: 'Equal to or below average',
+        text1Above: '1 std dev above average',
+        text1Below: '1 std dev below average',
+        text2Above: '2 std dev above average',
+        text2Below: '2 std dev below average',
+        text3Above: '3 std dev above average',
+        text3Below: '3 std dev below average',
+        textBeginsWith: 'Cell value begins with',
+        textCellValue: 'Cell value',
+        textBetween: 'is between {0} and {1}',
+        textNotBetween: 'is not between {0} and {1}',
+        textColorScale: 'Graded color scale',
+        textContainsBlank: 'Cell contains a blank value',
+        textContainsError: 'Cell contains an error',
+        textContains: 'Cell value contains',
+        textNotContains: 'Cell value does not contain',
+        textNotContainsError: 'Cell does not contain an error',
+        textNotContainsBlank: 'Cell does not contain a blank value',
+        textEnds: 'Cell value ends with',
+        textIconSet: 'Icon set',
+        textDuplicate: 'Duplicate values',
+        textUnique: 'Unique values'
 
     }, SSE.Views.FormatRulesManagerDlg || {}));
 });

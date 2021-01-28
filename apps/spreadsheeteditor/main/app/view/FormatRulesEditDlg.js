@@ -223,104 +223,104 @@ define([
                     name: this.textValue,
                     type: Asc.c_oAscCFType.cellIs,
                     rules: [
-                        { name: this.textGreater, subtype: Asc.c_oAscCFOperator.greaterThan},
-                        { name: this.textGreaterEq, subtype: Asc.c_oAscCFOperator.greaterThanOrEqual},
-                        { name: this.textLess, subtype: Asc.c_oAscCFOperator.lessThan},
-                        { name: this.textLessEq, subtype: Asc.c_oAscCFOperator.lessThanOrEqual},
-                        { name: this.textEqual, subtype: Asc.c_oAscCFOperator.equal},
-                        { name: this.textNotEqual, subtype: Asc.c_oAscCFOperator.notEqual},
-                        { name: this.textBetween, subtype: Asc.c_oAscCFOperator.between},
-                        { name: this.textNotBetween, subtype: Asc.c_oAscCFOperator.notBetween}
+                        { name: Common.define.conditionalData.textGreater, subtype: Asc.c_oAscCFOperator.greaterThan},
+                        { name: Common.define.conditionalData.textGreaterEq, subtype: Asc.c_oAscCFOperator.greaterThanOrEqual},
+                        { name: Common.define.conditionalData.textLess, subtype: Asc.c_oAscCFOperator.lessThan},
+                        { name: Common.define.conditionalData.textLessEq, subtype: Asc.c_oAscCFOperator.lessThanOrEqual},
+                        { name: Common.define.conditionalData.textEqual, subtype: Asc.c_oAscCFOperator.equal},
+                        { name: Common.define.conditionalData.textNotEqual, subtype: Asc.c_oAscCFOperator.notEqual},
+                        { name: Common.define.conditionalData.textBetween, subtype: Asc.c_oAscCFOperator.between},
+                        { name: Common.define.conditionalData.textNotBetween, subtype: Asc.c_oAscCFOperator.notBetween}
                     ]
                 },
                 {
                     name: this.textRanked,
                     type: Asc.c_oAscCFType.top10,
                     rules: [
-                        { name: this.textTop, subtype: 0},
-                        { name: this.textBottom, subtype: 1}
+                        { name: Common.define.conditionalData.textTop, subtype: 0},
+                        { name: Common.define.conditionalData.textBottom, subtype: 1}
                     ]
                 },
                 {
-                    name: 'Average',
+                    name: Common.define.conditionalData.textAverage,
                     type: Asc.c_oAscCFType.aboveAverage,
                     rules: [
-                        { name: 'Above', subtype: 0},
-                        { name: 'Below', subtype: 1},
-                        { name: 'Equal to or above', subtype: 2},
-                        { name: 'Equal to or below', subtype: 3},
-                        { name: '1 std dev above', subtype: 4},
-                        { name: '1 std dev below', subtype: 5},
-                        { name: '2 std dev above', subtype: 6},
-                        { name: '2 std dev below', subtype: 7},
-                        { name: '3 std dev above', subtype: 8},
-                        { name: '3 std dev below', subtype: 9}
+                        { name: Common.define.conditionalData.textAbove, subtype: 0},
+                        { name: Common.define.conditionalData.textBelow, subtype: 1},
+                        { name: Common.define.conditionalData.textEqAbove, subtype: 2},
+                        { name: Common.define.conditionalData.textEqBelow, subtype: 3},
+                        { name: Common.define.conditionalData.text1Above, subtype: 4},
+                        { name: Common.define.conditionalData.text1Below, subtype: 5},
+                        { name: Common.define.conditionalData.text2Above, subtype: 6},
+                        { name: Common.define.conditionalData.text2Below, subtype: 7},
+                        { name: Common.define.conditionalData.text3Above, subtype: 8},
+                        { name: Common.define.conditionalData.text3Below, subtype: 9}
                     ]
                 },
                 {
-                    name: 'Text',
+                    name: Common.define.conditionalData.textText,
                     type: Asc.c_oAscCFType.containsText,
                     rules: [
-                        { name: 'Contains',   type: Asc.c_oAscCFType.containsText },
-                        { name: 'Does not contain',   type: Asc.c_oAscCFType.notContainsText },
-                        { name: 'Begins with',   type: Asc.c_oAscCFType.beginsWith },
-                        { name: 'Ends with',   type: Asc.c_oAscCFType.endsWith }
+                        { name: Common.define.conditionalData.textContains,   type: Asc.c_oAscCFType.containsText },
+                        { name: Common.define.conditionalData.textNotContains,   type: Asc.c_oAscCFType.notContainsText },
+                        { name: Common.define.conditionalData.textBegins,   type: Asc.c_oAscCFType.beginsWith },
+                        { name: Common.define.conditionalData.textEnds,   type: Asc.c_oAscCFType.endsWith }
                     ]
                 },
                 {
-                    name: 'Date',
+                    name: Common.define.conditionalData.textDate,
                     type: Asc.c_oAscCFType.timePeriod,
                     rules: [
-                        { name: 'Yesterday', subtype: Asc.c_oAscTimePeriod.yesterday},
-                        { name: 'Today', subtype: Asc.c_oAscTimePeriod.today},
-                        { name: 'Tomorrow', subtype: Asc.c_oAscTimePeriod.tomorrow},
-                        { name: 'In the last 7 days', subtype: Asc.c_oAscTimePeriod.last7Days},
-                        { name: 'Last week', subtype: Asc.c_oAscTimePeriod.lastWeek},
-                        { name: 'This week', subtype: Asc.c_oAscTimePeriod.thisWeek},
-                        { name: 'Next week', subtype: Asc.c_oAscTimePeriod.nextWeek},
-                        { name: 'Last month', subtype: Asc.c_oAscTimePeriod.lastMonth},
-                        { name: 'This month', subtype: Asc.c_oAscTimePeriod.thisMonth},
-                        { name: 'Next month', subtype: Asc.c_oAscTimePeriod.nextMonth}
+                        { name: Common.define.conditionalData.textYesterday, subtype: Asc.c_oAscTimePeriod.yesterday},
+                        { name: Common.define.conditionalData.textToday, subtype: Asc.c_oAscTimePeriod.today},
+                        { name: Common.define.conditionalData.textTomorrow, subtype: Asc.c_oAscTimePeriod.tomorrow},
+                        { name: Common.define.conditionalData.textLast7days, subtype: Asc.c_oAscTimePeriod.last7Days},
+                        { name: Common.define.conditionalData.textLastWeek, subtype: Asc.c_oAscTimePeriod.lastWeek},
+                        { name: Common.define.conditionalData.textThisWeek, subtype: Asc.c_oAscTimePeriod.thisWeek},
+                        { name: Common.define.conditionalData.textNextWeek, subtype: Asc.c_oAscTimePeriod.nextWeek},
+                        { name: Common.define.conditionalData.textLastMonth, subtype: Asc.c_oAscTimePeriod.lastMonth},
+                        { name: Common.define.conditionalData.textThisMonth, subtype: Asc.c_oAscTimePeriod.thisMonth},
+                        { name: Common.define.conditionalData.textNextMonth, subtype: Asc.c_oAscTimePeriod.nextMonth}
                     ]
                 },
                 {
-                    name: 'Blank/Error',
+                    name: Common.define.conditionalData.textBlank + '/' + Common.define.conditionalData.textError,
                     type: Asc.c_oAscCFType.containsBlanks,
                     rules: [
-                        { name: 'Contains blanks',   type: Asc.c_oAscCFType.containsBlanks },
-                        { name: 'Does not contain blanks',   type: Asc.c_oAscCFType.notContainsBlanks },
-                        { name: 'Contains errors',   type: Asc.c_oAscCFType.containsErrors },
-                        { name: 'Does not contain errors',   type: Asc.c_oAscCFType.notContainsErrors }
+                        { name: Common.define.conditionalData.textBlanks,   type: Asc.c_oAscCFType.containsBlanks },
+                        { name: Common.define.conditionalData.textNotBlanks,   type: Asc.c_oAscCFType.notContainsBlanks },
+                        { name: Common.define.conditionalData.textErrors,   type: Asc.c_oAscCFType.containsErrors },
+                        { name: Common.define.conditionalData.textNotErrors,   type: Asc.c_oAscCFType.notContainsErrors }
                     ]
                 },
                 {
-                    name: 'Duplicate/Unique',
+                    name: Common.define.conditionalData.textDuplicate + '/' + Common.define.conditionalData.textUnique,
                     type: Asc.c_oAscCFType.duplicateValues,
                     rules: [
-                        { name: 'Duplicate',   type: Asc.c_oAscCFType.duplicateValues },
-                        { name: 'Unique',   type: Asc.c_oAscCFType.uniqueValues }
+                        { name: Common.define.conditionalData.textDuplicate,   type: Asc.c_oAscCFType.duplicateValues },
+                        { name: Common.define.conditionalData.textUnique,   type: Asc.c_oAscCFType.uniqueValues }
                     ]
                 },
                 {
-                    name: '2 Color scale',
+                    name: this.text2Scales,
                     type: Asc.c_oAscCFType.colorScale,
                     num: 2
                 },
                 {
-                    name: '3 Color scale',
+                    name: this.text3Scales,
                     type: Asc.c_oAscCFType.colorScale,
                     num: 3
                 },
                 {
-                    name: 'Data bar',
+                    name: Common.define.conditionalData.textDataBar,
                     type: Asc.c_oAscCFType.dataBar
                 },
                 {
-                    name: 'Icon sets',
+                    name: Common.define.conditionalData.textIconSets,
                     type: Asc.c_oAscCFType.iconSet
                 },
                 {
-                    name: 'Formula',
+                    name: Common.define.conditionalData.textFormula,
                     type: Asc.c_oAscCFType.expression
                 }
             ];
@@ -773,10 +773,10 @@ define([
             this.lblMidScale = this.$window.find('#format-rules-edit-lbl-scale-2');
 
             var data = [
-                {value: Asc.c_oAscCfvoType.Number, displayValue: 'Number'},
-                {value: Asc.c_oAscCfvoType.Percent, displayValue: 'Percentage'},
-                {value: Asc.c_oAscCfvoType.Formula, displayValue: 'Formula'},
-                {value: Asc.c_oAscCfvoType.Percentile, displayValue: 'Percentile'}
+                {value: Asc.c_oAscCfvoType.Number, displayValue: this.txtNumber},
+                {value: Asc.c_oAscCfvoType.Percent, displayValue: this.textPercent},
+                {value: Asc.c_oAscCfvoType.Formula, displayValue: this.textFormula},
+                {value: Asc.c_oAscCfvoType.Percentile, displayValue: this.textPercentile}
             ];
             for (var i=0; i<3; i++) {
                 var arr = data;
@@ -826,10 +826,10 @@ define([
                 var arr = data;
                 if (i==0) {
                     arr = [{value: Asc.c_oAscCfvoType.Minimum, displayValue: this.textMinimum}].concat(arr);
-                    arr.push({value: Asc.c_oAscCfvoType.AutoMin, displayValue: 'Automatic'});
+                    arr.push({value: Asc.c_oAscCfvoType.AutoMin, displayValue: this.textAutomatic});
                 } else {
                     arr = [{value: Asc.c_oAscCfvoType.Maximum, displayValue: this.textMaximum}].concat(arr);
-                    arr.push({value: Asc.c_oAscCfvoType.AutoMax, displayValue: 'Automatic'});
+                    arr.push({value: Asc.c_oAscCfvoType.AutoMax, displayValue: this.textAutomatic});
                 }
                 var combo = new Common.UI.ComboBox({
                     el          : $('#format-rules-edit-combo-bar-' + (i+1)),
@@ -867,8 +867,8 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    {value: false, displayValue: 'Solid'},
-                    {value: true, displayValue: 'Gradient'}
+                    {value: false, displayValue: this.textSolid},
+                    {value: true, displayValue: this.textGradient}
                 ]
             }).on('selected', function(combo, record) {
             });
@@ -904,8 +904,8 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    {value: false, displayValue: 'Solid'},
-                    {value: true, displayValue: 'None'}
+                    {value: false, displayValue: this.textSolid},
+                    {value: true, displayValue: this.textNone}
                 ]
             }).on('selected', function(combo, record) {
                 me.btnPosBorder.setDisabled(record.value);
@@ -944,9 +944,9 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    {value: Asc.c_oAscDataBarDirection.context, displayValue: 'Context'},
-                    {value: Asc.c_oAscDataBarDirection.leftToRight, displayValue: 'Left to right'},
-                    {value: Asc.c_oAscDataBarDirection.rightToLeft, displayValue: 'Right to left'}
+                    {value: Asc.c_oAscDataBarDirection.context, displayValue: this.textContext},
+                    {value: Asc.c_oAscDataBarDirection.leftToRight, displayValue: this.textLeft2Right},
+                    {value: Asc.c_oAscDataBarDirection.rightToLeft, displayValue: this.textRight2Left}
                 ]
             }).on('selected', function(combo, record) {
             });
@@ -965,9 +965,9 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    {value: Asc.c_oAscDataBarAxisPosition.automatic, displayValue: 'Automatic'},
-                    {value: Asc.c_oAscDataBarAxisPosition.middle, displayValue: 'Cell midpoint'},
-                    {value: Asc.c_oAscDataBarAxisPosition.none, displayValue: 'None'}
+                    {value: Asc.c_oAscDataBarAxisPosition.automatic, displayValue: this.textAutomatic},
+                    {value: Asc.c_oAscDataBarAxisPosition.middle, displayValue: this.textCellMidpoint},
+                    {value: Asc.c_oAscDataBarAxisPosition.none, displayValue: this.textNone}
                 ]
             }).on('selected', function(combo, record) {
                 me.btnAxisColor.setDisabled(record.value == Asc.c_oAscDataBarAxisPosition.none);
@@ -1188,7 +1188,7 @@ define([
                 var val = xfs.asc_getNumFormatInfo();
                 val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
             }
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
         },
 
         getSettings: function() {
@@ -1366,21 +1366,21 @@ define([
 
         onBoldClick: function() {
             this.xfsFormat.asc_setFontBold(this.btnBold.isActive());
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
         },
 
         onItalicClick: function() {
             this.xfsFormat.asc_setFontItalic(this.btnItalic.isActive());
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
         },
 
         onUnderlineClick: function() {
             this.xfsFormat.asc_setFontUnderline(this.btnUnderline.isActive());
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
         },
         onStrikeoutClick: function() {
             this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
         },
 
         onBordersWidth: function(menu, item, state) {
@@ -1445,7 +1445,7 @@ define([
                 }
                 this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
                 this.xfsFormat.asc_setBorder(new_borders);
-                this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+                this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
             }
         },
 
@@ -1456,7 +1456,7 @@ define([
             picker.currentColor = color;
 
             this.xfsFormat.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
         },
 
         onFormatTextColor: function(btn, e) {
@@ -1470,7 +1470,7 @@ define([
             picker.currentColor = color;
 
             this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
         },
 
         onFormatFillColor: function(picker, btn, e) {
@@ -1479,7 +1479,7 @@ define([
 
         onNumberFormatSelect: function(combo, record) {
             this.xfsFormat.asc_setNumFormatInfo(record.format);
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
         },
 
         updateThemeColors: function() {
@@ -1552,24 +1552,7 @@ define([
         notcriticalErrorTitle: 'Warning',
         textFormat: 'Format',
         textValue: 'Value is',
-        textGreater: 'Greater than',
-        textGreaterEq: 'Greater than or equal to',
-        textLess: 'Less than',
-        textLessEq: 'Less than or equal to',
-        textEqual: 'Equal to',
-        textNotEqual: 'Not equal to',
-        textBetween: 'Between',
-        textNotBetween: 'Not between',
         textRanked: 'Ranked',
-        textTop: 'Top',
-        textBottom: 'Bottom',
-        textText: 'Text',
-        textDate: 'Date',
-        textBlank: 'Blank',
-        textDuplicate: 'Duplicate',
-        textDataBars: 'Data Bars',
-        textColorScales: 'Color Scales',
-        textIconSets: 'Icon Sets',
         textCustom: 'Custom',
         textBold:    'Bold',
         textItalic:  'Italic',
@@ -1613,7 +1596,19 @@ define([
         textNewColor:       'Add New Custom Color',
         tipNumFormat:       'Number Format',
         textPreview: 'Preview',
-        exampleText: 'AaBbCcYyZz'
+        text2Scales: '2 Color scale',
+        text3Scales: '3 Color scale',
+        textPercent: 'Percent',
+        textFormula: 'Formula',
+        textPercentile: 'Percentile',
+        textAutomatic: 'Automatic',
+        textContext: 'Context',
+        textLeft2Right: 'Left to right',
+        textRight2Left: 'Right to left',
+        textNone: 'None',
+        textSolid: 'Solid',
+        textCellMidpoint: 'Cell midpoint',
+        textGradient: 'Gradient'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });
