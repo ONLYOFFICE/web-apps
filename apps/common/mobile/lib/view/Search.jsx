@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { Searchbar, Popover, Popup, View, Page, List, ListItem, Navbar, NavRight, Link } from 'framework7-react';
 import { Toggle } from 'framework7-react';
-import { f7ready, f7 } from 'framework7-react';
+import { f7 } from 'framework7-react';
+import { Dom7 } from 'framework7';
 import { Device } from '../../../../common/mobile/utils/device';
+import { observable } from "mobx";
+import { observer } from "mobx-react";
+
+const searchOptions = observable({
+    usereplace: false
+});
 
 const popoverStyle = {
     height: '300px'
@@ -20,9 +27,13 @@ class SearchSettingsView extends Component {
     }
 
     onFindReplaceClick(action) {
+        searchOptions.usereplace = action == 'replace';
         this.setState({
-            useReplace: action == 'replace'
+            useReplace: searchOptions.usereplace
         });
+
+
+        if (this.onReplaceChecked) {}
     }
 
     render() {
@@ -60,20 +71,20 @@ class SearchSettingsView extends Component {
     }
 }
 
+@observer
 class SearchView extends Component {
     constructor(props) {
         super(props);
 
         $$(document).on('page:init', (e, page) => {
             if ( page.name == 'home' ) {
-                f7.searchbar.create({
+                this.searchbar = f7.searchbar.create({
                     el: '.searchbar',
                     customSearch: true,
                     expandable: true,
                     backdrop: false,
                     on: {
                         search: (bar, curval, prevval) => {
-                            console.log('on search results ' + curval);
                         }
                     }
                 });
@@ -81,9 +92,12 @@ class SearchView extends Component {
         });
 
         this.onSettingsClick = this.onSettingsClick.bind(this);
+        this.onSearchClick = this.onSearchClick.bind(this);
     }
 
     componentDidMount(){
+        const $$ = Dom7;
+        this.$repalce = $$('#idx-replace-val');
     }
 
     onSettingsClick(e) {
@@ -92,7 +106,32 @@ class SearchView extends Component {
         } else f7.popover.open('#idx-search-settings', '#idx-btn-search-settings');
     }
 
+    searchParams() {
+        let params = {
+            text: this.searchbar.query,
+            direction: action
+        };
+    }
+
+    onSearchClick(action) {
+        if ( this.searchbar && this.searchbar.query) {
+            if ( this.props.onSearchQuery ) {
+                let params = {
+                    text: this.searchbar.query,
+                    direction: action
+                };
+
+                if ( searchOptions.usereplace )
+                    params.replace = this.$replace.val();
+
+                this.props.onSearchQuery(params);
+            }
+        }
+    }
+
     render() {
+        const usereplace = searchOptions.usereplace;
+        const hidden = {display: "none"};
         return (
             <form className="searchbar">
                 <div className="searchbar-bg"></div>
@@ -107,11 +146,16 @@ class SearchView extends Component {
                         <i className="searchbar-icon" />
                         <span className="input-clear-button" />
                     </div>
+                    <div className="searchbar-input-wrap" style={!usereplace ? hidden: null}>
+                        <input placeholder="Replace" type="search" id="idx-replace-val" />
+                        <i className="searchbar-icon" />
+                        <span className="input-clear-button" />
+                    </div>
                     <div className="buttons-row">
-                        <a className="link icon-only prev disabled">
+                        <a className="link icon-only prev disabled1" onClick={e => this.onSearchClick('back')}>
                             <i className="icon icon-prev" />
                         </a>
-                        <a className="link icon-only next disabled">
+                        <a className="link icon-only next disabled1" onClick={e => this.onSearchClick('next')}>
                             <i className="icon icon-next" />
                         </a>
                     </div>
