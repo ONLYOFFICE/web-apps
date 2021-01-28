@@ -2116,10 +2116,7 @@ define([
                 val;
 
             /* read font name */
-            var fontparam = fontobj.asc_getFontName();
-            if (fontparam != toolbar.cmbFontName.getValue()) {
-                Common.NotificationCenter.trigger('fonts:change', fontobj);
-            }
+            Common.NotificationCenter.trigger('fonts:change', fontobj);
 
             /* read font params */
             if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
@@ -2242,10 +2239,7 @@ define([
                 val, need_disable = false;
 
             /* read font name */
-            var fontparam = xfs.asc_getFontName();
-            if (fontparam != toolbar.cmbFontName.getValue()) {
-                Common.NotificationCenter.trigger('fonts:change', xfs);
-            }
+            Common.NotificationCenter.trigger('fonts:change', xfs);
 
             /* read font size */
             var str_size = xfs.asc_getFontSize();
@@ -2435,7 +2429,7 @@ define([
                     formatTableInfo = info.asc_getFormatTableInfo();
                 if (!toolbar.mode.isEditMailMerge) {
                     /* read cell horizontal align */
-                    fontparam = xfs.asc_getHorAlign();
+                    var fontparam = xfs.asc_getHorAlign();
                     if (this._state.pralign !== fontparam) {
                         this._state.pralign = fontparam;
 

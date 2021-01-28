@@ -755,6 +755,10 @@
 		"a": "(Zahl1;[Zahl2];...)",
 		"d": "Statistische Funktion - gibt den geometrischen Mittelwert der zugehörigen Argumente zurück"
 	},
+	"GROWTH": {
+		"a": "(Y_Werte;[X_Werte];[Neue_x_Werte];[Konstante])",
+		"d": "Statistische Funktion - liefert Werte, die sich aus einem exponentiellen Trend ergeben. Die Funktion liefert die y-Werte für eine Reihe neuer x-Werte, die Sie mithilfe vorhandener x- und y-Werte festlegen"
+	},	
 	"HARMEAN": {
 		"a": "(Zahl1;[Zahl2];...)",
 		"d": "Statistische Funktion - gibt den harmonischen Mittelwert der zugehörigen Argumente zurück"
@@ -780,9 +784,13 @@
 		"d": "Statistische Funktion - gibt den k-größten Wert eines Datensatzes in einem bestimmten Zellbereich zurück"
 	},
 	"LINEST": {
-		"a": "( known_y's, [known_x's], [const], [stats] )",
-		"d": "Statistische Funktion - berechnet die Statistik für eine Linie nach der Methode der kleinsten Quadrate, um eine gerade Linie zu berechnen, die am besten an die Daten angepasst ist, und gibt dann eine Matrix zurück, die die Linie beschreibt; da diese Funktion eine Matrix von Werten zurückgibt, muss die Formel als Matrixformel eingegeben werden"
+		"a": "(Y_Werte;[X_Werte];[Konstante];[Stats])",
+		"d": "Statistische Funktion - berechnet die Statistik für eine Linie nach der Methode der kleinsten Quadrate, um eine gerade Linie zu berechnen, die am besten an die Daten angepasst ist, und gibt dann eine Matrix zurück, die die Linie beschreibt. Da diese Funktion eine Matrix von Werten zurückgibt, muss die Formel als Matrixformel eingegeben werden"
 	},
+	"LOGEST": {
+		"a": "(Y_Werte;[X_Werte];[Konstante];[Stats])",
+		"d": "Statistische Funktion - in der Regressionsanalyse berechnet die Funktion eine exponentielle Kurve, die Ihren Daten entspricht, und gibt ein Array von Werten zurück, die die Kurve beschreiben. Da diese Funktion eine Matrix von Werten zurückgibt, muss die Formel als Matrixformel eingegeben werden"
+	},	
 	"LOGINV": {
 		"a": "(x;Mittelwert;Standabwn)",
 		"d": "Statistische Funktion - gibt Quantile der Lognormalverteilung von Wahrsch zurück, wobei ln(x) mit den Parametern Mittelwert und Standabwn normal verteilt ist"
@@ -1039,6 +1047,10 @@
 		"a": "(Matrix1;Matrix2;Seiten;Typ)",
 		"d": "Statistische Funktion - gibt die Teststatistik eines Student'schen t-Tests zurück. Mithilfe von T.TEST können Sie testen, ob zwei Stichproben aus zwei Grundgesamtheiten mit demselben Mittelwert stammen"
 	},
+	"TREND": {
+		"a": "(Y_Werte;[X_Werte];[Neu_X];[Konstante])",
+		"d": "Statistische Funktion - gibt Werte entlang eines linearen Trends zurück. Es passt zu einer geraden Linie (unter Verwendung der Methode der kleinsten Quadrate) zum known_y und known_x des Arrays"
+	},	
 	"TRIMMEAN": {
 		"a": "(Matrix;Prozent)",
 		"d": "Statistische Funktion - gibt den Mittelwert einer Datengruppe zurück, ohne die Randwerte zu berücksichtigen. GESTUTZTMITTEL berechnet den Mittelwert einer Teilmenge der Datenpunkte, die darauf basiert, dass entsprechend des jeweils angegebenen Prozentsatzes die kleinsten und größten Werte der ursprünglichen Datenpunkte ausgeschlossen werden"
@@ -1499,6 +1511,10 @@
 		"a": "(Zahl1;[Zahl2];...)",
 		"d": "Mathematische und trigonometrische Funktion - gibt das Verhältnis der Fakultät von der Summe der Zahlen zum Produkt der Fakultäten zurück"
 	},
+	"MUNIT": {
+		"a": "(Größe)",
+		"d": "Mathematische und trigonometrische Funktion - gibt die Einheitsmatrix für die angegebene Dimension zurück"
+	},	
 	"ODD": {
 		"a": "(Zahl)",
 		"d": "Mathematische und trigonometrische Funktion - rundet eine Zahl auf die nächste gerade unganze Zahl auf"
@@ -1526,6 +1542,10 @@
 	"RAND": {
 		"a": "()",
 		"d": "Mathematische und trigonometrische Funktion - gibt eine gleichmäßig verteilte reelle Zufallszahl zurück, die größer oder gleich 0 und kleiner als 1 ist Für die Syntax der Funktion sind keine Argumente erforderlich"
+	},
+	"RANDARRAY": {
+		"a": "([Zeilen];[Spalten];[min];[max];[ganze_Zahl])",
+		"d": "Mathematische und trigonometrische Funktion - gibt eine Array von Zufallszahlen zurück"
 	},
 	"RANDBETWEEN": {
 		"a": "(Untere_Zahl;Obere_Zahl)",
@@ -1687,6 +1707,10 @@
 		"a": "(Matrix)",
 		"d": "Nachschlage- und Verweisfunktion - gibt das erste Element einer Matrix zurück"
 	},
+	"UNIQUE": {
+		"a": "(Array,[Nach_Spalte],[Genau_Einmal])",
+		"d": "Nachschlage- und Verweisfunktion - gibt eine Liste von eindeutigen Werten in einer Liste oder einem Bereich zurück"
+	},	
 	"VLOOKUP": {
 		"a": "(Suchkriterium; Matrix; Spaltenindex; [Bereich_Verweis])",
 		"d": "Nachschlage- und Verweisfunktion - führt eine vertikale Suche nach einem Wert in der linken Spalte einer Tabelle oder eines Arrays aus und gibt den Wert in derselben Zeile basierend auf einer angegebenen Spaltenindexnummer zurück"

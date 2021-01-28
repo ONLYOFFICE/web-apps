@@ -78,7 +78,7 @@ Common.UI.FocusManager = new(function() {
                 var field = fields[i];
                 if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
                     var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el || field.cmp)).find(field.selector).addBack().filter(field.selector) : field.el;
-                    el.focus();
+                    el && setTimeout(function(){ el.focus(); }, 10);
                     break;
                 }
             }
@@ -93,7 +93,7 @@ Common.UI.FocusManager = new(function() {
                 var field = fields[i];
                 if ((field.cmp.isVisible ? field.cmp.isVisible() : field.cmp.is(':visible')) && !(field.cmp.isDisabled && field.cmp.isDisabled())) {
                     var el = (field.selector) ? (field.cmp.$el || $(field.cmp.el || field.cmp)).find(field.selector).addBack().filter(field.selector) : field.el;
-                    el.focus();
+                    el && setTimeout(function(){ el.focus(); }, 10);
                     break;
                 }
             }

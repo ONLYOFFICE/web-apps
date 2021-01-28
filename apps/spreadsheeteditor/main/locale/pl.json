@@ -14,7 +14,7 @@
   "Common.define.chartData.textStock": "Zbiory",
   "Common.define.chartData.textSurface": "Powierzchnia",
   "Common.define.chartData.textWinLossSpark": "Wygrana/przegrana",
-  "Common.UI.ColorButton.textNewColor": "Nowy niestandardowy kolor",
+  "Common.UI.ColorButton.textNewColor": "Dodaj nowy niestandardowy kolor",
   "Common.UI.ComboBorderSize.txtNoBorders": "Bez krawędzi",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Bez krawędzi",
   "Common.UI.ComboDataView.emptyComboText": "Brak styli",

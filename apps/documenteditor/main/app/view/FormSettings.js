@@ -654,7 +654,7 @@ define([
                         this.labelFormName.text(this.textImage);
                     } else
                         data = this.api.asc_GetTextFormKeys();
-                    if (!this._state.arrKey || _.difference(this._state.arrKey, data).length>0) {
+                    if (!this._state.arrKey || this._state.arrKey.length!==data.length || _.difference(this._state.arrKey, data).length>0) {
                         var arr = [];
                         data.forEach(function(item) {
                             arr.push({ displayValue: item,  value: item });
@@ -686,7 +686,7 @@ define([
                         var ischeckbox = (typeof val !== 'string');
                         if (!ischeckbox) {
                             data = this.api.asc_GetRadioButtonGroupKeys();
-                            if (!this._state.arrGroupKey || _.difference(this._state.arrGroupKey, data).length>0) {
+                            if (!this._state.arrGroupKey || this._state.arrGroupKey.length!==data.length || _.difference(this._state.arrGroupKey, data).length>0) {
                                 var arr = [];
                                 data.forEach(function(item) {
                                     arr.push({ displayValue: item,  value: item });
