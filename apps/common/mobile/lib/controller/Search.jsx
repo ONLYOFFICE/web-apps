@@ -3,11 +3,11 @@ import SearchView, {SearchSettingsView} from '../view/Search'
 
 
 const SearchController = props => {
-    const _onSearchQuery = params => {
+    const onSearchQuery = params => {
         console.log('on search: ' + params);
     };
 
-    return <SearchView onSearchQuery={_onSearchQuery} />
+    return <SearchView onSearchQuery={onSearchQuery} />
 };
 
-export {SearchController as Search, SearchSettingsView as SearchSettings};
+export {SearchController, SearchView, SearchSettingsView};

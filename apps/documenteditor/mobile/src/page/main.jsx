@@ -6,7 +6,7 @@ import AddOptions from '../view/add/Add';
 import Settings from '../view/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/Collaboration.jsx'
 import { Device } from '../../../../common/mobile/utils/device'
-import { Search, SearchSettings } from '../../../../common/mobile/lib/controller/Search';
+import { Search, SearchSettings } from '../controller/Search';
 
 export default class MainPage extends Component {
     constructor(props) {

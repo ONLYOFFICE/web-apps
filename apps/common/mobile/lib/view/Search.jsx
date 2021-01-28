@@ -36,6 +36,9 @@ class SearchSettingsView extends Component {
         if (this.onReplaceChecked) {}
     }
 
+    extraSearchOptions() {
+    }
+
     render() {
         const show_popover = true;
         const navbar =
@@ -45,6 +48,7 @@ class SearchSettingsView extends Component {
                         <Link popupClose=".search-settings-popup">Done</Link>
                     </NavRight>}
             </Navbar>;
+        const extra = this.extraSearchOptions();
         const content =
             <View style={popoverStyle}>
                 <Page>
@@ -53,14 +57,7 @@ class SearchSettingsView extends Component {
                         <ListItem radio title="Find" name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
                         <ListItem radio title="Find and replace" name="find-replace-checkbox" checked={this.state.useReplace} onClick={e => this.onFindReplaceClick('replace')} />
                     </List>
-                    <List>
-                        <ListItem title="Case sensitive">
-                            <Toggle slot="after" />
-                        </ListItem>
-                        <ListItem title="Highlight results">
-                            <Toggle slot="after" />
-                        </ListItem>
-                    </List>
+                    { extra }
                 </Page>
             </View>;
         return (
@@ -108,21 +105,20 @@ class SearchView extends Component {
 
     searchParams() {
         let params = {
-            text: this.searchbar.query,
-            direction: action
+            find: this.searchbar.query
         };
+
+        if ( searchOptions.usereplace )
+            params.replace = this.$replace.val();
+
+        return params;
     }
 
     onSearchClick(action) {
         if ( this.searchbar && this.searchbar.query) {
             if ( this.props.onSearchQuery ) {
-                let params = {
-                    text: this.searchbar.query,
-                    direction: action
-                };
-
-                if ( searchOptions.usereplace )
-                    params.replace = this.$replace.val();
+                let params = this.searchParams();
+                params.to = action;
 
                 this.props.onSearchQuery(params);
             }
@@ -166,4 +162,4 @@ class SearchView extends Component {
     }
 }
 
-export {SearchView as default, SearchSettingsView};
+export {SearchView as default, SearchView, SearchSettingsView};
