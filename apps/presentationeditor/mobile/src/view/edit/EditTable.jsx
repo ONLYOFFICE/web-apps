@@ -296,7 +296,7 @@ const PageStyle = props => {
                 </div>
             </Navbar>
             <Tabs animated>
-                <Tab key={"de-tab-table-style"} id={"edit-table-style"} className="page-content no-padding-top" tabActive={true}>
+                <Tab key={"pe-tab-table-style"} id={"edit-table-style"} className="page-content no-padding-top" tabActive={true}>
                     <List>
                         <ListItem>
                             <StyleTemplates templates={templates} onStyleClick={props.onStyleClick}/>
@@ -308,10 +308,10 @@ const PageStyle = props => {
                         }}/>
                     </List>
                 </Tab>
-                <Tab key={"de-tab-table-fill"} id={"edit-table-fill"} className="page-content no-padding-top">
+                <Tab key={"pe-tab-table-fill"} id={"edit-table-fill"} className="page-content no-padding-top">
                     <TabFillColor onFillColor={props.onFillColor}/>
                 </Tab>
-                <Tab key={"de-tab-table-border"} id={"edit-table-border"} className="page-content no-padding-top">
+                <Tab key={"pe-tab-table-border"} id={"edit-table-border"} className="page-content no-padding-top">
                     <TabBorder onBorderTypeClick={props.onBorderTypeClick}/>
                 </Tab>
             </Tabs>

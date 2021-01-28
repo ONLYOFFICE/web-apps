@@ -136,4 +136,30 @@ export class storeFocusObjects {
         }
         return false;
     }
+
+    @computed get chartObject() {
+        const charts = [];
+        const shapes = []
+        
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectValue() == Asc.c_oAscTypeSelectElement.Chart) {
+                charts.push(object);
+            }
+            else if(object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Shape && object.get_ObjectValue() && object.get_ObjectValue().get_FromChart()) {
+                shapes.push(object)
+            }
+        }
+
+        const getTopObject = array => {
+            if (array.length > 0) {
+                var object = array[array.length - 1]; // get top
+                return object.get_ObjectValue();
+            } else {
+                return undefined;
+            }
+        };
+
+        getTopObject(charts);
+        getTopObject(shapes);
+    }
 }

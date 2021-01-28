@@ -197,7 +197,8 @@
       "textBandedColumn": "Banded Column",
       "textStyleOptions": "Style Options",
       "textRemoveTable": "Remove Table",
-      "textCellMargins": "Cell Margins"
+      "textCellMargins": "Cell Margins",
+      "textRemoveChart": "Remove Chart"
     }
   },
   "Common": {

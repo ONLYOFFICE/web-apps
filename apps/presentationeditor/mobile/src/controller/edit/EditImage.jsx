@@ -29,7 +29,6 @@ class EditImageController extends Component {
             case 'move-down':
                 api.shapes_bringBackward();
                 break;
-            
         }
     }
 

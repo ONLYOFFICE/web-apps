@@ -5,7 +5,7 @@ import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeSlideSettings", "storeTextSettings", "storeTableSettings")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeSlideSettings", "storeTextSettings", "storeTableSettings", "storeChartSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -305,6 +305,16 @@ class MainController extends Component {
         
         this.api.asc_registerCallback('asc_onInitTableTemplates', (templates) => {
             storeTableSettings.initTableTemplates(templates);
+        });
+
+        // Chart settings
+
+        const storeChartSettings = this.props.storeChartSettings;
+
+        this.api.asc_registerCallback('asc_onUpdateChartStyles', () => {
+            if (storeFocusObjects.chartObject) {
+                storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.getType()));
+            }
         });
     }
 
