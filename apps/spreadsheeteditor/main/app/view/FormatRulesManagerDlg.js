@@ -473,7 +473,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
                 type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                 type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                this.api.asc_getPreviewCF(this.rules[rule.get('ruleIndex')].previewDiv, props.asc_getDxf(), Common.define.conditionalData.exampleText);
+                var dxf = props.asc_getDxf();
+                this.api.asc_getPreviewCF(this.rules[rule.get('ruleIndex')].previewDiv, dxf, dxf ? Common.define.conditionalData.exampleText : Common.define.conditionalData.noFormatText);
             }
         },
 

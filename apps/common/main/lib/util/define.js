@@ -547,7 +547,8 @@ define(function(){ 'use strict';
             textDataBar: 'Data bar',
             textIconSets: 'Icon sets',
             textFormula: 'Formula',
-            exampleText: 'AaBbCcYyZz'
+            exampleText: 'AaBbCcYyZz',
+            noFormatText: 'No format set'
         }
     })(), Common.define.conditionalData || {});
 });

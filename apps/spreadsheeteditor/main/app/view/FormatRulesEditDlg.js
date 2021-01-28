@@ -1158,7 +1158,6 @@ define([
                 this.refreshRules(rec.get('index'), ruleType);
             }
 
-            this.xfsFormat = new AscCommonExcel.CellXfs();
             if (props) {
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
                     type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
@@ -1166,8 +1165,8 @@ define([
                     this.xfsFormat = props.asc_getDxf();
                 }
             }
-            if (this.xfsFormat) {
-                var xfs = this.xfsFormat;
+            var xfs = this.xfsFormat ? this.xfsFormat : (new AscCommonExcel.CellXfs());
+            if (xfs) {
                 this.btnBold.toggle(xfs.asc_getFontBold() === true, true);
                 this.btnItalic.toggle(xfs.asc_getFontItalic() === true, true);
                 this.btnUnderline.toggle(xfs.asc_getFontUnderline() === true, true);
@@ -1188,7 +1187,7 @@ define([
                 var val = xfs.asc_getNumFormatInfo();
                 val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
             }
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
+            this.previewFormat();
         },
 
         getSettings: function() {
@@ -1202,7 +1201,7 @@ define([
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    props.asc_setDxf(this.xfsFormat);
+                    this.xfsFormat && props.asc_setDxf(this.xfsFormat);
                 }
 
                 switch (type) {
@@ -1365,22 +1364,26 @@ define([
         },
 
         onBoldClick: function() {
+            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontBold(this.btnBold.isActive());
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
+            this.previewFormat();
         },
 
         onItalicClick: function() {
+            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontItalic(this.btnItalic.isActive());
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
+            this.previewFormat();
         },
 
         onUnderlineClick: function() {
+            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontUnderline(this.btnUnderline.isActive());
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
+            this.previewFormat();
         },
         onStrikeoutClick: function() {
+            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
+            this.previewFormat();
         },
 
         onBordersWidth: function(menu, item, state) {
@@ -1443,9 +1446,9 @@ define([
                 } else if (item.options.borderId != 'none') {
                     new_borders[item.options.borderId]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
                 }
-                this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
+                !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
                 this.xfsFormat.asc_setBorder(new_borders);
-                this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
+                this.previewFormat();
             }
         },
 
@@ -1455,8 +1458,9 @@ define([
             $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + clr);
             picker.currentColor = color;
 
+            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
+            this.previewFormat();
         },
 
         onFormatTextColor: function(btn, e) {
@@ -1469,8 +1473,9 @@ define([
             $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', clr=='transparent' ? 'transparent' : '#' + clr);
             picker.currentColor = color;
 
+            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
+            this.previewFormat();
         },
 
         onFormatFillColor: function(picker, btn, e) {
@@ -1478,8 +1483,13 @@ define([
         },
 
         onNumberFormatSelect: function(combo, record) {
+            !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setNumFormatInfo(record.format);
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, Common.define.conditionalData.exampleText);
+            this.previewFormat();
+        },
+
+        previewFormat: function() {
+            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.xfsFormat ? Common.define.conditionalData.exampleText : Common.define.conditionalData.noFormatText);
         },
 
         updateThemeColors: function() {
