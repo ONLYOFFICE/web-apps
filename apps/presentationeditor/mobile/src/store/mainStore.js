@@ -16,6 +16,7 @@ import { storeShapeSettings } from './shapeSettings';
 // import {storeImageSettings} from "./imageSettings";
 import {storeTableSettings} from "./tableSettings";
 // import {storeChartSettings} from "./chartSettings";
+import {storeLinkSettings} from "./linkSettings";
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -33,6 +34,7 @@ export const stores = {
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
     // storeChartSettings: new storeChartSettings(),
-    storeTableSettings: new storeTableSettings()
+    storeTableSettings: new storeTableSettings(),
+    storeLinkSettings: new storeLinkSettings()
 };
 

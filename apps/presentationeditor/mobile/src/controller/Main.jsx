@@ -5,7 +5,7 @@ import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeSlideSettings", "storeTextSettings", "storeTableSettings")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeSlideSettings", "storeTextSettings", "storeTableSettings", "storeLinkSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -303,6 +303,12 @@ class MainController extends Component {
         const storeTableSettings = this.props.storeTableSettings;
         this.api.asc_registerCallback('asc_onInitTableTemplates', (templates) => {
             storeTableSettings.initTableTemplates(templates);
+        });
+
+        //link settings
+        const storeLinkSettings = this.props.storeLinkSettings;
+        this.api.asc_registerCallback('asc_onCanAddHyperlink', (value) => {
+            storeLinkSettings.canAddHyperlink(value);
         });
     }
 

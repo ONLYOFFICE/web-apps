@@ -29,10 +29,10 @@ const PageTable = props => {
     )
 };
 
-
 const AddOther = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
+    const showInsertLink = props.storeLinkSettings.canAddLink && !props.storeFocusObjects.paragraphLocked;
     return (
         <List>
             <ListItem title={_t.textTable} link={'/add-table/'} routeProps={{
@@ -44,11 +44,17 @@ const AddOther = props => {
             <ListItem title={_t.textComment}>
                 <Icon slot="media" icon="icon-insert-comment"></Icon>
             </ListItem>
+            {showInsertLink &&
+                <ListItem title={_t.textLink} link={'/add-link/'}>
+                    <Icon slot="media" icon="icon-link"></Icon>
+                </ListItem>
+            }
         </List>
     )
 };
 
 const PageAddTable = inject("storeTableSettings")(observer(PageTable));
+const AddOtherContainer = inject("storeFocusObjects", "storeLinkSettings")(observer(AddOther));
 
-export {AddOther,
+export {AddOtherContainer as AddOther,
         PageAddTable};

@@ -11,6 +11,8 @@ import {AddImageController} from "../../controller/add/AddImage";
 import {PageImageLinkSettings} from "./AddImage";
 import {AddOtherController} from "../../controller/add/AddOther";
 import {PageAddTable} from "./AddOther";
+import {AddLinkController} from "../../controller/add/AddLink";
+import {PageTypeLink, PageLinkTo} from "./AddLink";
 
 const routes = [
     // Image
@@ -22,6 +24,18 @@ const routes = [
     {
         path: '/add-table/',
         component: PageAddTable
+    },
+    {
+        path: '/add-link/',
+        component: AddLinkController
+    },
+    {
+        path: '/add-link-type/',
+        component: PageTypeLink
+    },
+    {
+        path: '/add-link-to/',
+        component: PageLinkTo
     }
 ];
 

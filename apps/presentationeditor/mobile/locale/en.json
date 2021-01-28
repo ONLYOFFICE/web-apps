@@ -93,7 +93,21 @@
       "textTableSize": "Table Size",
       "textColumns": "Columns",
       "textRows": "Rows",
-      "textCancel": "Cancel"
+      "textCancel": "Cancel",
+      "textLink": "Link",
+      "textLinkType": "Link Type",
+      "textExternalLink": "External Link",
+      "textSlideInThisPresentation": "Slide in this Presentation",
+      "textLinkTo": "Link to",
+      "textNextSlide": "Next Slide",
+      "textPreviousSlide": "Previous Slide",
+      "textFirstSlide": "First Slide",
+      "textLastSlide": "Last Slide",
+      "textSlideNumber": "Slide Number",
+      "textDisplay": "Display",
+      "textDefault": "Selected text",
+      "textScreenTip": "Screen Tip",
+      "textInsert": "Insert"
     },
     "Edit": {
       "textText": "Text",
