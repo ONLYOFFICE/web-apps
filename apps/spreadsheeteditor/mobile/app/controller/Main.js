@@ -1425,7 +1425,7 @@ define([
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.txtProtected,
+                        text: (typeof advOptions=='string' ? advOptions : me.txtProtected),
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: buttons
                     });

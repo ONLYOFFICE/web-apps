@@ -1223,7 +1223,7 @@
   "SSE.Controllers.Toolbar.warnLongOperation": "L'opération que vous êtes sur le point d'effectuer peut prendre beaucoup de temps.<br>Êtes-vous sûr de vouloir continuer ?",
   "SSE.Controllers.Toolbar.warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?",
   "SSE.Controllers.Viewport.textFreezePanes": "Verrouiller les volets",
-  "SSE.Controllers.Viewport.textFreezePanesShadow:": "Afficher les ombres des volets verrouillés",
+  "SSE.Controllers.Viewport.textFreezePanesShadow": "Afficher les ombres des volets verrouillés",
   "SSE.Controllers.Viewport.textHideFBar": "Masquer la barre de formule",
   "SSE.Controllers.Viewport.textHideGridlines": "Masquer le quadrillage",
   "SSE.Controllers.Viewport.textHideHeadings": "Masquer les en-têtes",

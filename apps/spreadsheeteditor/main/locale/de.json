@@ -1223,7 +1223,7 @@
   "SSE.Controllers.Toolbar.warnLongOperation": "Die Operation, die Sie durchführen möchten, kann viel Zeit in Anspruch nehmen. <br> Soll sie fortgesetzt werden?",
   "SSE.Controllers.Toolbar.warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?",
   "SSE.Controllers.Viewport.textFreezePanes": "Fenster fixieren",
-  "SSE.Controllers.Viewport.textFreezePanesShadow:": "Schatten für fixierte Bereiche anzeigen",
+  "SSE.Controllers.Viewport.textFreezePanesShadow": "Schatten für fixierte Bereiche anzeigen",
   "SSE.Controllers.Viewport.textHideFBar": "Formelleiste verbergen",
   "SSE.Controllers.Viewport.textHideGridlines": "Gitternetzlinien verbergen",
   "SSE.Controllers.Viewport.textHideHeadings": "Überschriften verbergen",
