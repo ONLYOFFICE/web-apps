@@ -109,8 +109,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.props      = options.props;
             this.langId      = options.langId;
             this.rules     = [];
-
-            this.rulesStore = new Common.UI.DataViewStore();
+            this.rulesStores = {};
+            this.rulesDeleted = [];
+            this.listSettings = {length: 0, min: 0, max: 0};
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -191,22 +192,22 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         _setDefaults: function (props) {
             this.rulesList.on('item:add', _.bind(this.addControls, this));
             this.rulesList.on('item:change', _.bind(this.addControls, this));
+            this.currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.refreshScopeList();
             this.refreshRuleList(this.cmbScope.getSelectedRecord());
         },
 
         refreshScopeList: function() {
-            var wc = this.api.asc_getWorksheetsCount(), i = -1,
-                currentSheet = this.api.asc_getActiveWorksheetIndex();
+            var wc = this.api.asc_getWorksheetsCount(), i = -1;
             var items = [
-                { value: Asc.c_oAscSelectionForCFType.selection, displayValue: this.textSelection },
-                { value: Asc.c_oAscSelectionForCFType.worksheet, displayValue: this.textThisSheet, sheetIndex: currentSheet },
-                { value: Asc.c_oAscSelectionForCFType.table, displayValue: this.textThisTable },
-                { value: Asc.c_oAscSelectionForCFType.pivot, displayValue: this.textThisPivot }
+                { value: Asc.c_oAscSelectionForCFType.selection, displayValue: this.textSelection, sheetIndex: -1 },
+                { value: Asc.c_oAscSelectionForCFType.worksheet, displayValue: this.textThisSheet, sheetIndex: -1 },
+                { value: Asc.c_oAscSelectionForCFType.table, displayValue: this.textThisTable, sheetIndex: -1 },
+                { value: Asc.c_oAscSelectionForCFType.pivot, displayValue: this.textThisPivot, sheetIndex: -1 }
             ];
             if (wc>1) {
                 while (++i < wc) {
-                    if (!this.api.asc_isWorksheetHidden(i) && i!==currentSheet) {
+                    if (!this.api.asc_isWorksheetHidden(i) && i!==this.currentSheet) {
                         items.push({
                             displayValue:this.api.asc_getWorksheetName(i),
                             value: Asc.c_oAscSelectionForCFType.worksheet,
@@ -221,30 +222,48 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         refreshRuleList: function(scope) {
             this.rules = [];
-            
-            var obj = this.api.asc_getCF(scope.value, (scope.value==Asc.c_oAscSelectionForCFType.worksheet) ? scope.sheetIndex : undefined);
-            var rules = obj[0];
-            this.currentRange = obj[1];
-            var arr = [];
-            if (rules) {
-                for (var i=0; i<rules.length; i++) {
-                    var rule = rules[i],
-                        name = this.getRuleName(rule),
-                        location = rule.asc_getLocation();
-                    arr.push({
-                        ruleIndex: i,
-                        ruleId: rule.asc_getId(),
-                        name: name,
-                        tip: name,
-                        range: location[1],
-                        activeSheet: location[0],
-                        props: rule
-                    });
-                }
-            }
-            this.rulesList.store.reset(arr);
-            (this.rulesList.store.length>0) && this.rulesList.selectByIndex(0);
 
+            var sheetIndex = (scope.sheetIndex>-1) ? scope.sheetIndex : this.currentSheet;
+            var ruleStore = this.rulesStores[sheetIndex];
+            if (!ruleStore) {
+                ruleStore = new Common.UI.DataViewStore();
+                this.rulesStores[sheetIndex] = ruleStore;
+
+                var obj = this.api.asc_getCF(Asc.c_oAscSelectionForCFType.worksheet, sheetIndex);
+                var rules = obj[0];
+                this.currentRange = obj[1];
+                var arr = [];
+                if (rules) {
+                    for (var i=0; i<rules.length; i++) {
+                        var rule = rules[i],
+                            name = this.getRuleName(rule),
+                            location = rule.asc_getLocation();
+                        arr.push({
+                            ruleIndex: i, // connect store and list with controls. is not changed
+                            ruleId: rule.asc_getId(),
+                            name: name,
+                            tip: name,
+                            range: location[1],
+                            activeSheet: location[0],
+                            priority: rule.asc_getPriority(), // priority of the rule, is changed when move or when new rule is added
+                            ruleChanged: false, // true if was edited in FormatRulesEditDlg or was created, need to send this rule to sdk if true
+                            props: rule
+                        });
+                    }
+                }
+                ruleStore.reset(arr);
+            }
+            if (sheetIndex == this.currentSheet) {
+                ruleStore.each(function(item){
+                    var hidden = scope.value!==Asc.c_oAscSelectionForCFType.worksheet && !item.get('props').asc_checkScope(scope.value);
+                    item.set('cls', hidden ? 'hidden' : undefined);
+                });
+            }
+            this.rulesList.setStore(ruleStore);
+            this.rulesList.onResetItems();
+            this.rulesList.deselectAll();
+            this.updateRulesCount();
+            (this.listSettings.length>0) && this.rulesList.selectByIndex(this.listSettings.min);
             this.updateButtons();
         },
 
@@ -503,6 +522,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         if (isEdit) {
                             rec.set('name', name);
                             rec.set('tip', name);
+                            rec.set('ruleChanged', true);
                             rec.set('props', settings);
                             previewRec = rec;
                         } else {
@@ -515,8 +535,13 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                                 tip: name,
                                 range: me.currentRange,
                                 activeSheet: true,
+                                ruleChanged: true,
                                 props: settings
                             }, {at: index});
+                            me.updateRulesCount();
+                            me.rulesList.selectRecord(previewRec);
+                            me.updateButtons();
+                            // need to update priorities
                         }
                     }
                 }
@@ -533,11 +558,14 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var store = this.rulesList.store,
                 rec = this.rulesList.getSelectedRec();
             if (rec) {
+                var id = rec.get('ruleId');
+                (id!==undefined) && this.rulesDeleted.push(id);
                 var index = rec.get('ruleIndex');
                 this.rules[index] = undefined;
                 index = store.indexOf(rec);
                 store.remove(rec);
-                (store.length>0) && this.rulesList.selectByIndex(index<store.length ? index : store.length-1);
+                this.updateRulesCount();
+                (this.listSettings.length>0) && this.rulesList.selectByIndex(index<=this.listSettings.max ? index : this.listSettings.max);
                 this.rulesList.scrollToRecord(this.rulesList.getSelectedRec());
             }
             this.updateButtons();
@@ -550,6 +578,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             if (rec) {
                 var index = store.indexOf(rec);
                 store.add(store.remove(rec), {at: up ? Math.max(0, index-1) : Math.min(length-1, index+1)});
+                // need to update priorities
                 this.rulesList.selectRecord(rec);
                 this.rulesList.scrollToRecord(rec);
             }
@@ -562,8 +591,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         updateButtons: function() {
             this.btnNew.setDisabled(this.rulesList.store.length>63);
-            this.btnDelete.setDisabled(this.rulesList.store.length<1);
-            this.btnEdit.setDisabled(this.rulesList.store.length<1);
+            this.btnDelete.setDisabled(this.listSettings.length<1);
+            this.btnEdit.setDisabled(this.listSettings.length<1);
             this.updateMoveButtons();
             this.rulesList.scroller && this.rulesList.scroller.update();
         },
@@ -571,12 +600,40 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         updateMoveButtons: function() {
             var rec = this.rulesList.getSelectedRec(),
                 index = rec ? this.rulesList.store.indexOf(rec) : -1;
-            this.btnUp.setDisabled(index<1);
-            this.btnDown.setDisabled(index<0 || index==this.rulesList.store.length-1);
+            this.btnUp.setDisabled(index<=this.listSettings.min);
+            this.btnDown.setDisabled(index<0 || index==this.listSettings.max);
+        },
+
+        updateRulesCount: function() {
+            var store = this.rulesList.store;
+            if (this.cmbScope.getValue() == Asc.c_oAscSelectionForCFType.worksheet) {
+                this.listSettings = {length: store.length, min: 0, max: store.length-1};
+            } else {
+                this.listSettings = {length: 0, min: -1, max: 0};
+                for (var i=0; i<store.length; i++) {
+                    if (store.at(i).get('cls')!=='hidden') {
+                        this.listSettings.length++;
+                        this.listSettings.max = i;
+                        (this.listSettings.min<0) && (this.listSettings.min=i);
+                    }
+                }
+            }
         },
 
         getSettings: function() {
-            return this.sort;
+            var sheets = [];
+            for (var sheet in this.rulesStores) {
+                if (this.rulesStores.hasOwnProperty(sheet)) {
+                    var store = this.rulesStores[sheet];
+                    var arr = [];
+                    store && store.each(function(item) {
+                        if (item.get('ruleChanged'))
+                            arr.push(item.get('props'));
+                    });
+                    (arr.length>0) && (sheets[sheet] = arr);
+                }
+            }
+            return {rules: sheets, deleted: this.rulesDeleted};
         },
 
         onKeyDown: function (lisvView, record, e) {
