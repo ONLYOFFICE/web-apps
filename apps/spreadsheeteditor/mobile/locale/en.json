@@ -12,6 +12,11 @@
             "textFormula": "Formula",
             "textShape": "Shape",
             "textOther": "Other"
+        },
+        "Edit" : {
+            "textSelectObjectToEdit": "Select object to edit",
+            "textSettings": "Settings",
+            "textCell": "Cell"
         }
     }
 }

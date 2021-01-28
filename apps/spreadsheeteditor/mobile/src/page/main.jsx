@@ -7,6 +7,7 @@ import CollaborationView from '../../../../common/mobile/lib/view/Collaboration.
 import CellEditor from '../controller/CellEditor';
 import Statusbar from '../controller/StatusBar'
 import AddOptions from "../view/add/Add";
+import EditOptions from "../view/edit/Edit";
 
 export default class MainPage extends Component {
     constructor(props) {
@@ -67,10 +68,10 @@ export default class MainPage extends Component {
               <CellEditor />
               {/* Page content */}
               <View id="editor_sdk" />
-            {/*{*/}
-                {/*!this.state.editOptionsVisible ? null :*/}
-                    {/*<EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />*/}
-            {/*}*/}
+            {
+                !this.state.editOptionsVisible ? null :
+                    <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
+            }
             {
                 !this.state.addOptionsVisible ? null :
                     <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} />
