@@ -108,7 +108,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.handler    = options.handler;
             this.props      = options.props;
             this.langId      = options.langId;
-            this.levels     = [];
+            this.rules     = [];
 
             this.rulesStore = new Common.UI.DataViewStore();
 
@@ -134,10 +134,10 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 emptyText: '',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                    '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= levelIndex %>">',
+                    '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= ruleIndex %>">',
                         '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
-                        '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= levelIndex %>" style=""></div></div>',
-                        '<div style="width:112px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= levelIndex %>" style="height:22px;"></div></div>',
+                        '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
+                        '<div style="width:112px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;"></div></div>',
                     '</div>'
                 ].join(''))
             });
@@ -220,22 +220,25 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         },
 
         refreshRuleList: function(scope) {
+            this.rules = [];
+            
             var obj = this.api.asc_getCF(scope.value, (scope.value==Asc.c_oAscSelectionForCFType.worksheet) ? scope.sheetIndex : undefined);
-            var levels = obj[0];
+            var rules = obj[0];
             this.currentRange = obj[1];
             var arr = [];
-            if (levels) {
-                for (var i=0; i<levels.length; i++) {
-                    var level = levels[i],
-                        name = this.getRuleName(level),
-                        location = level.asc_getLocation();
+            if (rules) {
+                for (var i=0; i<rules.length; i++) {
+                    var rule = rules[i],
+                        name = this.getRuleName(rule),
+                        location = rule.asc_getLocation();
                     arr.push({
-                        levelIndex: i,
+                        ruleIndex: i,
+                        ruleId: rule.asc_getId(),
                         name: name,
                         tip: name,
                         range: location[1],
                         activeSheet: location[0],
-                        props: level
+                        props: rule
                     });
                 }
             }
@@ -418,11 +421,11 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             if (!item) return;
 
             var me = this,
-                i = item.get('levelIndex'),
+                i = item.get('ruleIndex'),
                 cmpEl = this.rulesList.cmpEl.find('#format-manager-item-' + i);
-            if (!this.levels[i])
-                this.levels[i] = {};
-            var level = this.levels[i];
+            if (!this.rules[i])
+                this.rules[i] = {};
+            var rule = this.rules[i];
             var input = new Common.UI.InputFieldBtn({
                 el          : cmpEl.find('#format-manager-txt-rule-' + i),
                 name        : 'range',
@@ -431,13 +434,13 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 allowBlank  : true,
                 disabled    : !item.get('activeSheet'),
                 validateOnChange: true
-            }).on('button:click', _.bind(this.onSelectData, this, level));
+            }).on('button:click', _.bind(this.onSelectData, this, rule));
 
             var val = item.get('range');
             (val!==null) && input.setValue(val);
-            level.txtDataRange = input;
-            level.dataRangeValid = val;
-            level.previewDiv = 'format-manager-item-preview-' + i;
+            rule.txtDataRange = input;
+            rule.dataRangeValid = val;
+            rule.previewDiv = 'format-manager-item-preview-' + i;
             me.drawRulePreview(item);
 
             cmpEl.on('mousedown', 'input', function(){
@@ -451,7 +454,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
                 type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                 type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                this.api.asc_getPreviewCF(this.levels[rule.get('levelIndex')].previewDiv, props.asc_getDxf(), this.exampleText);
+                this.api.asc_getPreviewCF(this.rules[rule.get('ruleIndex')].previewDiv, props.asc_getDxf(), this.exampleText);
             }
         },
 
@@ -486,7 +489,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         onEditRule: function (isEdit) {
             var me = this,
                 xy = me.$window.offset(),
-                rec = this.rulesList.getSelectedRec();
+                rec = this.rulesList.getSelectedRec(),
+                previewRec;
 
             var win = new SSE.Views.FormatRulesEditDlg({
                 api: me.api,
@@ -500,13 +504,13 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                             rec.set('name', name);
                             rec.set('tip', name);
                             rec.set('props', settings);
-                            me.drawRulePreview(rec);
+                            previewRec = rec;
                         } else {
                             var store = me.rulesList.store,
                                 index = rec ? store.indexOf(rec)+1 : store.length;
                             settings.asc_setLocation(me.currentRange);
-                            store.add({
-                                levelIndex: index,
+                            previewRec = store.add({
+                                ruleIndex: index,
                                 name: name,
                                 tip: name,
                                 range: me.currentRange,
@@ -518,6 +522,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 }
             }).on('close', function() {
                 me.show();
+                previewRec && me.drawRulePreview(previewRec);
             });
 
             me.hide();
@@ -528,8 +533,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var store = this.rulesList.store,
                 rec = this.rulesList.getSelectedRec();
             if (rec) {
-                var index = rec.get('levelIndex');
-                this.levels[index] = undefined;
+                var index = rec.get('ruleIndex');
+                this.rules[index] = undefined;
                 index = store.indexOf(rec);
                 store.remove(rec);
                 (store.length>0) && this.rulesList.selectByIndex(index<store.length ? index : store.length-1);

@@ -509,14 +509,15 @@ define([
             // });
             // this.btnSubscript.on('click', _.bind(this.onSubscriptClick, this));
 
-            var initNewColor = function(btn, picker_el) {
+            var initNewColor = function(btn, picker_el, transparent) {
                 if (btn && btn.cmpEl) {
                     btn.currentColor = '#000000';
                     var colorVal = $('<div class="btn-color-value-line"></div>');
                     $('button:first-child', btn.cmpEl).append(colorVal);
                     colorVal.css('background-color', btn.currentColor);
                     var picker = new Common.UI.ThemeColorPalette({
-                        el: $(picker_el)
+                        el: $(picker_el),
+                        transparent: transparent
                     });
                     picker.currentColor = btn.currentColor;
                 }
@@ -558,7 +559,7 @@ define([
                     ]
                 })
             });
-            this.mnuFillColorPicker = initNewColor(this.btnFillColor, "#format-rules-menu-fillcolor");
+            this.mnuFillColorPicker = initNewColor(this.btnFillColor, "#format-rules-menu-fillcolor", true);
             this.mnuFillColorPicker.on('select', _.bind(me.onFormatFillColorSelect, me));
             this.btnFillColor.on('click', _.bind(me.onFormatFillColor, me));
 
@@ -1157,36 +1158,35 @@ define([
                 this.refreshRules(rec.get('index'), ruleType);
             }
 
+            this.xfsFormat = new AscCommonExcel.CellXfs();
             if (props) {
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
                     type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    var xfs = props.asc_getDxf();
-                    this.btnBold.toggle(xfs.asc_getFontBold() === true, true);
-                    this.btnItalic.toggle(xfs.asc_getFontItalic() === true, true);
-                    this.btnUnderline.toggle(xfs.asc_getFontUnderline() === true, true);
-                    this.btnStrikeout.toggle(xfs.asc_getFontStrikeout() === true, true);
-
-                    var color = setColor(xfs.asc_getFontColor(), null, this.mnuTextColorPicker);
-                    this.btnTextColor.currentColor = color;
-                    this.mnuTextColorPicker.currentColor = color;
-                    color = (typeof(color) == 'object') ? color.color : color;
-                    $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + color);
-
-                    color = setColor(xfs.asc_getFillColor(), null, this.mnuFillColorPicker);
-                    this.btnFillColor.currentColor = color;
-                    this.mnuFillColorPicker.currentColor = color;
-                    color = (typeof(color) == 'object') ? color.color : color;
-                    $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', '#' + color);
-
-                    var val = xfs.asc_getNumFormatInfo();
-                    val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
-                    this.xfsFormat = xfs;
+                    this.xfsFormat = props.asc_getDxf();
                 }
-            } else {
             }
-            if (!this.xfsFormat) {
-                this.xfsFormat = new AscCommonExcel.CellXfs();
+            if (this.xfsFormat) {
+                var xfs = this.xfsFormat;
+                this.btnBold.toggle(xfs.asc_getFontBold() === true, true);
+                this.btnItalic.toggle(xfs.asc_getFontItalic() === true, true);
+                this.btnUnderline.toggle(xfs.asc_getFontUnderline() === true, true);
+                this.btnStrikeout.toggle(xfs.asc_getFontStrikeout() === true, true);
+
+                var color = setColor(xfs.asc_getFontColor(), null, this.mnuTextColorPicker);
+                this.btnTextColor.currentColor = color;
+                this.mnuTextColorPicker.currentColor = color;
+                color = (typeof(color) == 'object') ? color.color : color;
+                $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + color);
+
+                color = setColor(xfs.asc_getFillColor(), null, this.mnuFillColorPicker);
+                this.btnFillColor.currentColor = color;
+                this.mnuFillColorPicker.currentColor = color;
+                color = (typeof(color) == 'object') ? color.color : color;
+                $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', color=='transparent' ? 'transparent' : '#' + color);
+
+                var val = xfs.asc_getNumFormatInfo();
+                val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
             }
             this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
         },
@@ -1466,10 +1466,10 @@ define([
         onFormatFillColorSelect: function(picker, color, fromBtn) {
             var clr = (typeof(color) == 'object') ? color.color : color;
             this.btnFillColor.currentColor = color;
-            $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', '#' + clr);
+            $('.btn-color-value-line', this.btnFillColor.cmpEl).css('background-color', clr=='transparent' ? 'transparent' : '#' + clr);
             picker.currentColor = color;
 
-            this.xfsFormat.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
+            this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
             this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.exampleText);
         },
 
