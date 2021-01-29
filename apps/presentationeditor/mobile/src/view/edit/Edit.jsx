@@ -9,14 +9,15 @@ import EditSlideController from "../../controller/edit/EditSlide";
 import EditTextController from "../../controller/edit/EditText";
 import EditShapeController from "../../controller/edit/EditShape";
 import EditImageController from "../../controller/edit/EditImage";
+import EditTableController from "../../controller/edit/EditTable";
+import EditChartController from "../../controller/edit/EditChart";
+
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing } from './EditText';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
-//import EditShapeController from "../../controller/edit/EditShape";
-//import EditImageController from "../../controller/edit/EditImage";
-//import EditTableController from "../../controller/edit/EditTable";
-//import EditChartController from "../../controller/edit/EditChart";
+import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
+import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartAlign } from './EditChart'
 //import EditLinkController from "../../controller/edit/EditLink";
 
 const routes = [
@@ -135,8 +136,65 @@ const routes = [
     {
         path: '/edit-image-link/',
         component: PageLinkSettings
-    }
+    },
 
+    // Table
+
+    {
+        path: '/edit-table-reorder/',
+        component: PageTableReorder
+    },
+    {
+        path: '/edit-table-align/',
+        component: PageTableAlign
+    },
+    {
+        path: '/edit-table-style/',
+        component: PageTableStyle
+    },
+    {
+        path: '/edit-table-style-options/',
+        component: PageTableStyleOptions
+    },
+    {
+        path: '/edit-table-border-color/',
+        component: PageTableBorderColor
+    },
+    {
+        path: '/edit-table-custom-border-color/',
+        component: PageTableCustomBorderColor
+    },
+    {
+        path: '/edit-table-custom-fill-color/',
+        component: PageTableCustomFillColor
+    }, 
+
+    // Chart
+
+    {
+        path: '/edit-chart-style/',
+        component: PageChartStyle
+    },
+    {
+        path: '/edit-chart-reorder/',
+        component: PageChartReorder
+    },
+    {
+        path: '/edit-chart-align/',
+        component: PageChartAlign
+    },
+    {
+        path: '/edit-chart-border-color/',
+        component: PageChartBorderColor
+    },
+    {
+        path: '/edit-chart-custom-border-color/',
+        component: PageChartCustomBorderColor
+    },
+    {
+        path: '/edit-chart-custom-fill-color/',
+        component: PageChartCustomFillColor
+    }
 ];
 
 const EmptyEditLayout = () => {
@@ -231,7 +289,7 @@ const EditTabs = props => {
                 component: <EditImageController />
             })
         }
-        /*if (settings.indexOf('table') > -1) {
+        if (settings.indexOf('table') > -1) {
             editors.push({
                 caption: _t.textTable,
                 id: 'edit-table',
@@ -245,6 +303,7 @@ const EditTabs = props => {
                 component: <EditChartController />
             })
         }
+        /*
         if (settings.indexOf('hyperlink') > -1) {
             editors.push({
                 caption: _t.textHyperlink,

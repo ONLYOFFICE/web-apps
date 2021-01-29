@@ -47,7 +47,7 @@ export class storeFocusObjects {
             resultArr.splice(resultArr.indexOf('hyperlink'), 1);
         }
         // Exclude shapes if chart exist
-        if (resultArr.indexOf('chart') > -1) {
+        if (resultArr.indexOf('chart') > -1 && resultArr.indexOf('shape') > -1) {
             resultArr.splice(resultArr.indexOf('shape'), 1);
         }
         return resultArr;
@@ -117,6 +117,47 @@ export class storeFocusObjects {
         }
         if (images.length > 0) {
             const object = images[images.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
+
+    @computed get tableObject() {
+        const tables = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
+                tables.push(object);
+            }
+        }
+        if (tables.length > 0) {
+            const object = tables[tables.length - 1]; // get top table
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
+
+    @computed get isTableInStack() {
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Table) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @computed get chartObject() {
+        const charts = [];
+        
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Chart) {
+                charts.push(object);
+            }
+        }
+
+        if (charts.length > 0) {
+            const object = charts[charts.length - 1]; // get top
             return object.get_ObjectValue();
         } else {
             return undefined;
