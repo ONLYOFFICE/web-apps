@@ -279,6 +279,7 @@ define([
             toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onMenuVerticalAlignSelect, this));
             toolbar.btnDecLeftOffset.on('click',                        _.bind(this.onDecOffset, this));
             toolbar.btnIncLeftOffset.on('click',                        _.bind(this.onIncOffset, this));
+            toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
             toolbar.btnMarkers.on('click',                              _.bind(this.onMarkers, this));
             toolbar.btnNumbers.on('click',                              _.bind(this.onNumbers, this));
             toolbar.mnuMarkerSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 0));
@@ -1106,6 +1107,12 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Indent');
         },
 
+        onChangeCase: function(menu, item, e) {
+            if (this.api)
+                this.api.asc_ChangeTextCase(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+        
         onMenuHorizontalAlignSelect: function(menu, item) {
             this._state.pralign = undefined;
             var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
