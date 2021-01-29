@@ -3095,12 +3095,14 @@ define([
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
 
                 if (config.canFeatureContentControl) {
-                    tab = {caption: me.textTabForms, action: 'forms'};
-                    var forms = me.getApplication().getController('FormsTab');
-                    forms.setApi(me.api).setConfig({toolbar: me});
-                    me.toolbar.addTab(tab, $panel, 4);
-                    me.toolbar.setVisible('forms', true);
-                    Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                    if (config.canFeatureForms) {
+                        tab = {caption: me.textTabForms, action: 'forms'};
+                        var forms = me.getApplication().getController('FormsTab');
+                        forms.setApi(me.api).setConfig({toolbar: me});
+                        me.toolbar.addTab(tab, $panel, 4);
+                        me.toolbar.setVisible('forms', true);
+                        Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                    }
                     me.onChangeSdtGlobalSettings();
                 }
             }
