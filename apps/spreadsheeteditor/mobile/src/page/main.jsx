@@ -15,17 +15,21 @@ export default class MainPage extends Component {
         this.state = {
             editOptionsVisible: false,
             addOptionsVisible: false,
+            addShowOptions: null,
             settingsVisible: false,
             collaborationVisible: false,
         };
     }
 
-    handleClickToOpenOptions = opts => {
+    handleClickToOpenOptions = (opts, showOpts) => {
         this.setState(state => {
             if ( opts == 'edit' )
                 return {editOptionsVisible: true};
             else if ( opts == 'add' )
-                return {addOptionsVisible: true};
+                return {
+                    addOptionsVisible: true,
+                    addShowOptions: showOpts
+                };
             else if ( opts == 'settings' )
                 return {settingsVisible: true};
             else if ( opts == 'coauth' )
@@ -65,7 +69,7 @@ export default class MainPage extends Component {
                       <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
                   </NavRight>
               </Navbar>
-              <CellEditor />
+              <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
               {/* Page content */}
               <View id="editor_sdk" />
             {
@@ -74,7 +78,7 @@ export default class MainPage extends Component {
             }
             {
                 !this.state.addOptionsVisible ? null :
-                    <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} />
+                    <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
             }
             {
                 !this.state.settingsVisible ? null :

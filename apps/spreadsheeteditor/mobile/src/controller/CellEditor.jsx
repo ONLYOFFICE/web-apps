@@ -15,7 +15,8 @@ const CellEditor = props => {
         setCellName(typeof(info)=='string' ? info : info.asc_getName());
     };
 
-    return <CellEditorView cellName={cellName} />
+    return <CellEditorView cellName={cellName}
+                           onClickToOpenAddOptions={props.onClickToOpenAddOptions}/>
 };
 
 export default CellEditor;

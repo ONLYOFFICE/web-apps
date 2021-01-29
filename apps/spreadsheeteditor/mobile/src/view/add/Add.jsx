@@ -44,19 +44,24 @@ const AddLayoutContent = ({ tabs }) => {
 const AddTabs = props => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
+    const showPanels = props.showPanels;
     const tabs = [];
-    tabs.push({
-        caption: _t.textChart,
-        id: 'add-chart',
-        icon: 'icon-add-chart',
-        component: <AddChartController />
-    });
-    tabs.push({
-        caption: _t.textFormula,
-        id: 'add-formula',
-        icon: 'icon-add-formula',
-        component: <AddFormulaController />
-    });
+    if (!showPanels) {
+        tabs.push({
+            caption: _t.textChart,
+            id: 'add-chart',
+            icon: 'icon-add-chart',
+            component: <AddChartController/>
+        });
+    }
+    if (!showPanels || showPanels === 'formula') {
+        tabs.push({
+            caption: _t.textFormula,
+            id: 'add-formula',
+            icon: 'icon-add-formula',
+            component: <AddFormulaController/>
+        });
+    }
     /*tabs.push({
         caption: _t.textShape,
         id: 'add-shape',
@@ -93,10 +98,10 @@ class AddView extends Component {
         return (
             show_popover ?
                 <Popover id="add-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
-                    <AddTabs inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} />
+                    <AddTabs inPopover={true} onOptionClick={this.onoptionclick} style={{height: '410px'}} showPanels={this.props.showPanels}/>
                 </Popover> :
                 <Popup className="add-popup" onPopupClosed={() => this.props.onclosed()}>
-                    <AddTabs onOptionClick={this.onoptionclick} />
+                    <AddTabs onOptionClick={this.onoptionclick} showPanels={this.props.showPanels}/>
                 </Popup>
         )
     }
@@ -104,9 +109,12 @@ class AddView extends Component {
 
 const Add = props => {
     useEffect(() => {
-        if ( Device.phone )
+        if ( Device.phone ) {
             f7.popup.open('.add-popup');
-        else f7.popover.open('#add-popover', '#btn-add');
+        } else {
+            const targetElem = !props.showOptions ? '#btn-add' : props.showOptions.button;
+            f7.popover.open('#add-popover', targetElem);
+        }
 
         return () => {
             // component will unmount
@@ -116,7 +124,10 @@ const Add = props => {
         if ( props.onclosed )
             props.onclosed();
     };
-    return <AddView usePopover={!Device.phone} onclosed={onviewclosed} />
+    return <AddView usePopover={!Device.phone}
+                    onclosed={onviewclosed}
+                    showPanels={props.showOptions ? props.showOptions.panels : undefined}
+    />
 };
 
 export default Add;
