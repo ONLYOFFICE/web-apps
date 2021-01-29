@@ -12,7 +12,7 @@ import { storeTextSettings } from './textSettings';
 import { storeShapeSettings } from './shapeSettings';
 import { storeTableSettings } from "./tableSettings";
 import { storeChartSettings } from "./chartSettings";
-// import {storeTextSettings} from "./textSettings";
+import { storeLinkSettings } from "./linkSettings";
 // import {storeParagraphSettings} from "./paragraphSettings";
 // import {storeShapeSettings} from "./shapeSettings";
 // import {storeImageSettings} from "./imageSettings";
@@ -30,7 +30,8 @@ export const stores = {
     storeTextSettings: new storeTextSettings(),
     storeShapeSettings: new storeShapeSettings(),
     storeTableSettings: new storeTableSettings(),
-    storeChartSettings: new storeChartSettings()
+    storeChartSettings: new storeChartSettings(),
+    storeLinkSettings: new storeLinkSettings()
     // storeTextSettings: new storeTextSettings(),
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
