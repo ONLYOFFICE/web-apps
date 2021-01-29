@@ -15,6 +15,9 @@ const popoverStyle = {
     height: '300px'
 };
 
+const SEARCH_BACKWARD = 'back';
+const SEARCH_FORWARD = 'next';
+
 class SearchSettingsView extends Component {
     constructor(props) {
         super(props);
@@ -82,9 +85,30 @@ class SearchView extends Component {
                     backdrop: false,
                     on: {
                         search: (bar, curval, prevval) => {
-                        }
+                        },
+                        enable: this.onSearchbarShow.bind(this, true),
+                        disable: this.onSearchbarShow.bind(this, false)
                     }
                 });
+
+                // function iOSVersion() {
+                //     var ua = navigator.userAgent;
+                //     var m;
+                //     return (m = /(iPad|iPhone|iphone).*?(OS |os |OS\_)(\d+((_|\.)\d)?((_|\.)\d)?)/.exec(ua)) ? parseFloat(m[3]) : 0;
+                // }
+
+                const $$ = Dom7;
+                const $editor = $$('#editor_sdk');
+                if (false /*iOSVersion() < 13*/) {
+                    // $editor.single('mousedown touchstart', _.bind(me.onEditorTouchStart, me));
+                    // $editor.single('mouseup touchend',     _.bind(me.onEditorTouchEnd, me));
+                } else {
+                    // $editor.single('pointerdown', this.onEditorTouchStart, me));
+                    // $editor.single('pointerup',     _.bind(me.onEditorTouchEnd, me));
+                }
+
+                $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
+                $editor.on('pointerup',   this.onEditorTouchEnd.bind(this));
             }
         });
 
@@ -118,11 +142,49 @@ class SearchView extends Component {
         if ( this.searchbar && this.searchbar.query) {
             if ( this.props.onSearchQuery ) {
                 let params = this.searchParams();
-                params.to = action;
+                params.forward = action != SEARCH_BACKWARD;
 
                 this.props.onSearchQuery(params);
             }
         }
+    }
+
+    onSearchbarShow(isshowed, bar) {
+        if ( !isshowed ) {
+            this.$repalce.val('');
+        }
+    }
+
+    onEditorTouchStart(e) {
+        this.startPoint = this.pointerPosition(e);
+    }
+
+    onEditorTouchEnd(e) {
+        const endPoint = this.pointerPosition(e);
+
+        if ( this.searchbar.enabled ) {
+            const distance = (this.startPoint.x === undefined || this.startPoint.y === undefined) ? 0 :
+                Math.sqrt((endPoint.x -= this.startPoint.x) * endPoint.x + (endPoint.y -= this.startPoint.y) * endPoint.y);
+
+            if ( distance < 1 ) {
+                this.searchbar.disable();
+            }
+        }
+    }
+
+    pointerPosition(e) {
+        let out = {x:0, y:0};
+        if ( e.type == 'touchstart' || e.type == 'touchend' ) {
+            const touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            out.x = touch.pageX;
+            out.y = touch.pageY;
+        } else
+        if ( e.type == 'mousedown' || e.type == 'mouseup' ) {
+            out.x = e.pageX;
+            out.y = e.pageY;
+        }
+
+        return out;
     }
 
     render() {
@@ -148,14 +210,13 @@ class SearchView extends Component {
                         <span className="input-clear-button" />
                     </div>
                     <div className="buttons-row">
-                        <a className="link icon-only prev disabled1" onClick={e => this.onSearchClick('back')}>
+                        <a className="link icon-only prev" onClick={e => this.onSearchClick(SEARCH_BACKWARD)}>
                             <i className="icon icon-prev" />
                         </a>
-                        <a className="link icon-only next disabled1" onClick={e => this.onSearchClick('next')}>
+                        <a className="link icon-only next" onClick={e => this.onSearchClick(SEARCH_FORWARD)}>
                             <i className="icon icon-next" />
                         </a>
                     </div>
-                    <span className="searchbar-disable-button">Cancel</span>
                 </div>
             </form>
         )
