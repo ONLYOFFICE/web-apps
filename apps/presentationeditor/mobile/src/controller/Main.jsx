@@ -5,7 +5,7 @@ import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeSlideSettings", "storeTextSettings", "storeTableSettings", "storeChartSettings")
+@inject("storeFocusObjects", "storeAppOptions", "storePresentationInfo", "storePresentationSettings", "storeSlideSettings", "storeTextSettings", "storeTableSettings", "storeChartSettings", "storeLinkSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -315,6 +315,14 @@ class MainController extends Component {
             if (storeFocusObjects.chartObject) {
                 storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.getType()));
             }
+        });
+
+        // Link settings
+
+        const storeLinkSettings = this.props.storeLinkSettings;
+        
+        this.api.asc_registerCallback('asc_onCanAddHyperlink', (value) => {
+            storeLinkSettings.canAddHyperlink(value);
         });
     }
 
