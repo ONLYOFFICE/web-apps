@@ -517,6 +517,12 @@ define([
                 var application = this.getApplication(),
                     toolbarView = application.getController('Toolbar').getView('Toolbar');
 
+                if (this.appOptions.isEdit && toolbarView && toolbarView.btnHighlightColor.pressed &&
+                    ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
+                    this.api.SetMarkerFormat(false);
+                    toolbarView.btnHighlightColor.toggle(false, false);
+                }
+                
                 application.getController('DocumentHolder').getView('DocumentHolder').focus();
                 if (this.api && this.appOptions.isEdit && this.api.asc_isDocumentCanSave) {
                     var cansave = this.api.asc_isDocumentCanSave(),

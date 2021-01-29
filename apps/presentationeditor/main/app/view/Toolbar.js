@@ -334,6 +334,28 @@ define([
                     });
                     me.paragraphControls.push(me.btnSubscript);
 
+                    me.btnHighlightColor = new Common.UI.ButtonColored({
+                        id: 'id-toolbar-btn-highlight',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-highlight',
+                        enableToggle: true,
+                        allowDepress: true,
+                        split: true,
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 100px;',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 120px; height: 120px; margin: 10px;"></div>')},
+                                {caption: '--'},
+                                me.mnuHighlightTransparent = new Common.UI.MenuItem({
+                                    caption: me.strMenuNoFill,
+                                    checkable: true
+                                })
+                            ]
+                        })
+                    });
+                    me.paragraphControls.push(me.btnHighlightColor);
+
                     me.btnFontColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-fontcolor',
                         cls: 'btn-toolbar',
@@ -925,7 +947,7 @@ define([
 
                     this.lockControls = [this.btnChangeSlide, this.btnSave,
                         this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
-                        this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript, this.btnChangeCase,
+                        this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript, this.btnChangeCase, this.btnHighlightColor,
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
                         this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertChart,
@@ -1037,6 +1059,7 @@ define([
                 _injectComponent('#slot-btn-incfont', this.btnIncFontSize);
                 _injectComponent('#slot-btn-decfont', this.btnDecFontSize);
                 _injectComponent('#slot-btn-fontcolor', this.btnFontColor);
+                _injectComponent('#slot-btn-highlight', this.btnHighlightColor);
                 _injectComponent('#slot-btn-changecase', this.btnChangeCase);
                 _injectComponent('#slot-btn-clearstyle', this.btnClearStyle);
                 _injectComponent('#slot-btn-copystyle', this.btnCopyStyle);
@@ -1159,6 +1182,7 @@ define([
                 this.btnSuperscript.updateHint(this.textSuperscript);
                 this.btnSubscript.updateHint(this.textSubscript);
                 this.btnFontColor.updateHint(this.tipFontColor);
+                this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnChangeCase.updateHint(this.tipChangeCase);
                 this.btnClearStyle.updateHint(this.tipClearStyle);
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
@@ -1340,6 +1364,18 @@ define([
                     this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-fontcolor')
                     });
+                }
+                if (this.btnHighlightColor.cmpEl) {
+                    this.btnHighlightColor.currentColor = 'FFFF00';
+                    this.btnHighlightColor.setColor(this.btnHighlightColor.currentColor);
+                    this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
+                        el: $('#id-toolbar-menu-highlight'),
+                        colors: [
+                            'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
+                            '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
+                        ]
+                    });
+                    this.mnuHighlightColorPicker.select('FFFF00');
                 }
             },
 
@@ -1775,7 +1811,9 @@ define([
             mniLowerCase: 'lowercase',
             mniUpperCase: 'UPPERCASE',
             mniCapitalizeWords: 'Capitalize Each Word',
-            mniToggleCase: 'tOGGLE cASE'
+            mniToggleCase: 'tOGGLE cASE',
+            strMenuNoFill: 'No Fill',
+            tipHighlightColor: 'Highlight color'
         }
     }()), PE.Views.Toolbar || {}));
 });

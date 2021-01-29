@@ -57,6 +57,7 @@
                         <span class="btn-slot" id="slot-btn-strikeout"></span>
                         <span class="btn-slot" id="slot-btn-superscript"></span>
                         <span class="btn-slot" id="slot-btn-subscript"></span>
+                        <span class="btn-slot split" id="slot-btn-highlight"></span>
                         <span class="btn-slot split" id="slot-btn-fontcolor"></span>
                     </div>
                 </div>

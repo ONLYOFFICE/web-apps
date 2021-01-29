@@ -105,7 +105,8 @@ define([
                 fontsize: undefined,
                 in_equation: undefined,
                 in_chart: false,
-                no_columns: false
+                no_columns: false,
+                clrhighlight: undefined
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -301,6 +302,9 @@ define([
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.mnuFontColorPicker.on('select',                     _.bind(this.onSelectFontColor, this));
             $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
+            toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
+            toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
+            toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
@@ -353,6 +357,8 @@ define([
                 this.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(this.onApiVerticalTextAlign, this));
                 this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
+                this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+                this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiHighlightColor, this));
 
                 this.api.asc_registerCallback('asc_onUpdateThemeIndex',     _.bind(this.onApiUpdateThemeIndex, this));
                 this.api.asc_registerCallback('asc_onEndAddShape',          _.bind(this.onApiEndAddShape, this));
@@ -1112,7 +1118,7 @@ define([
                 this.api.asc_ChangeTextCase(item.value);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
-        
+
         onMenuHorizontalAlignSelect: function(menu, item) {
             this._state.pralign = undefined;
             var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
@@ -1901,6 +1907,86 @@ define([
                 this._state.clrtext = clr;
             }
             this._state.clrtext_asccolor = color;
+        },
+
+        onApiStartHighlight: function(pressed) {
+            this.toolbar.btnHighlightColor.toggle(pressed, true);
+        },
+
+        onApiHighlightColor: function(c) {
+            if (c) {
+                if (c == -1) {
+                    if (this._state.clrhighlight != -1) {
+                        this.toolbar.mnuHighlightTransparent.setChecked(true, true);
+
+                        if (this.toolbar.mnuHighlightColorPicker.cmpEl) {
+                            this._state.clrhighlight = -1;
+                            this.toolbar.mnuHighlightColorPicker.select(null, true);
+                        }
+                    }
+                } else if (c !== null) {
+                    if (this._state.clrhighlight != c.get_hex().toUpperCase()) {
+                        this.toolbar.mnuHighlightTransparent.setChecked(false);
+                        this._state.clrhighlight = c.get_hex().toUpperCase();
+
+                        if ( _.contains(this.toolbar.mnuHighlightColorPicker.colors, this._state.clrhighlight) )
+                            this.toolbar.mnuHighlightColorPicker.select(this._state.clrhighlight, true);
+                    }
+                }  else {
+                    if ( this._state.clrhighlight !== c) {
+                        this.toolbar.mnuHighlightTransparent.setChecked(false, true);
+                        this.toolbar.mnuHighlightColorPicker.select(null, true);
+                        this._state.clrhighlight = c;
+                    }
+                }
+            }
+        },
+
+        _setMarkerColor: function(strcolor, h) {
+            var me = this;
+
+            if (h === 'menu') {
+                me.toolbar.mnuHighlightTransparent.setChecked(false);
+
+                me.toolbar.btnHighlightColor.currentColor = strcolor;
+                me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
+                me.toolbar.btnHighlightColor.toggle(true, true);
+            }
+
+            strcolor = strcolor || 'transparent';
+
+            if (strcolor == 'transparent') {
+                me.api.SetMarkerFormat(true, false);
+            } else {
+                var r = strcolor[0] + strcolor[1],
+                    g = strcolor[2] + strcolor[3],
+                    b = strcolor[4] + strcolor[5];
+                me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlightColor);
+            Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
+        },
+
+        onBtnHighlightColor: function(btn) {
+            if (btn.pressed) {
+                this._setMarkerColor(btn.currentColor);
+                Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
+            }
+            else {
+                this.api.SetMarkerFormat(false);
+            }
+        },
+
+        onSelectHighlightColor: function(picker, color) {
+            this._setMarkerColor(color, 'menu');
+        },
+
+        onHighlightTransparentClick: function(item, e) {
+            this._setMarkerColor('transparent', 'menu');
+            item.setChecked(true, true);
+            this.toolbar.btnHighlightColor.currentColor = 'transparent';
+            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
         },
 
         onResetAutoshapes: function () {
