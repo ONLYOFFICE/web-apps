@@ -83,6 +83,16 @@ export class storeFocusObjects {
         }
     }
 
+    @computed get paragraphLocked() {
+        let _paragraphLocked = false;
+        for (let object of this._focusObjects) {
+            if (Asc.c_oAscTypeSelectElement.Paragraph == object.get_ObjectType()) {
+                _paragraphLocked = object.get_ObjectValue().get_Locked();
+            }
+        }
+        return _paragraphLocked;
+    }
+
     @computed get shapeObject() {
         const shapes = [];
         for (let object of this._focusObjects) {

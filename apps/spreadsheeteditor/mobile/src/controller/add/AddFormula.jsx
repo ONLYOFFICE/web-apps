@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
-import {observer, inject} from "mobx-react";
 
-import AddSlide from '../../view/add/AddSlide';
+import AddFormula from '../../view/add/AddFormula';
 
-class AddSlideController extends Component {
+class AddFormulaController extends Component {
     constructor (props) {
         super(props);
-        this.onSlideLayout = this.onSlideLayout.bind(this);
     }
 
     closeModal () {
@@ -19,18 +17,12 @@ class AddSlideController extends Component {
         }
     }
 
-    onSlideLayout (type) {
-        const api = Common.EditorApi.get();
-        api.AddSlide(type);
-        this.closeModal();
-    }
-
     render () {
         return (
-            <AddSlide onSlideLayout={this.onSlideLayout}
+            <AddFormula
             />
         )
     }
 }
 
-export default AddSlideController;
+export default AddFormulaController;

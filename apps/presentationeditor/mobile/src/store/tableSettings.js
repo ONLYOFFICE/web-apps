@@ -141,5 +141,4 @@ export class storeTableSettings {
             border.put_Value(0);
         }
     }
-
 }

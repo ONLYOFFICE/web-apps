@@ -39,8 +39,7 @@ const PageApplicationSettings = props => {
                                   onChange={() => changeMeasureSettings(2)}></ListItem>
                     </List>
                     <List>
-                        <ListItem>
-                            <span>{_t.textSpellcheck}</span>
+                        <ListItem title={_t.textSpellcheck}>
                             <Toggle checked={isSpellChecking}
                                     onChange={() => {
                                         store.changeSpellCheck(!isSpellChecking);
@@ -50,8 +49,7 @@ const PageApplicationSettings = props => {
                         </ListItem>
                     </List>
                     <List>
-                        <ListItem>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
-                            <span>{_t.textNoCharacters}</span>
+                        <ListItem title={_t.textNoCharacters}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isNonprintingCharacters}
                                     onChange={() => {
                                         store.changeNoCharacters(!isNonprintingCharacters);
@@ -59,8 +57,7 @@ const PageApplicationSettings = props => {
                                     }}
                             />
                         </ListItem>
-                        <ListItem>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
-                            <span>{_t.textHiddenTableBorders}</span>
+                        <ListItem title={_t.textHiddenTableBorders}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
                             <Toggle checked={isHiddenTableBorders}
                                     onChange={() => {
                                         store.changeShowTableEmptyLine(!isHiddenTableBorders);
@@ -73,17 +70,15 @@ const PageApplicationSettings = props => {
             }
             <BlockTitle>{_t.textCommentsDisplay}</BlockTitle>
             <List>
-                <ListItem>
-                    <span>{_t.textComments}</span>
-                    <Toggle checked={isComments} 
+                <ListItem title={_t.textComments}>
+                    <Toggle checked={isComments}
                         onChange={() => {
                             store.changeDisplayComments(!isComments);
                             props.switchDisplayComments(!isComments);
                         }}
                     />
                 </ListItem>
-                <ListItem>
-                    <span>{_t.textResolvedComments}</span>
+                <ListItem title={_t.textResolvedComments}>
                     <Toggle checked={isResolvedComments} disabled={!isComments}
                         onChange={() => {
                             store.changeDisplayResolved(!isResolvedComments);

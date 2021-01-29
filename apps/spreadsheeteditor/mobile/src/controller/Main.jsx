@@ -5,6 +5,7 @@ import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
+@inject("storeFocusObjects")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -202,6 +203,14 @@ class MainController extends Component {
         // me.api.asc_registerCallback('asc_onPrintUrl',                   _.bind(me.onPrintUrl, me));
         // me.api.asc_registerCallback('asc_onDocumentName',               _.bind(me.onDocumentName, me));
         me.api.asc_registerCallback('asc_onEndAction',                  me._onLongActionEnd.bind(me));
+
+        const storeFocusObjects = this.props.storeFocusObjects;
+        this.api.asc_registerCallback('asc_onFocusObject', objects => {
+            storeFocusObjects.resetFocusObjects(objects);
+        });
+        this.api.asc_registerCallback('asc_onSelectionChanged', cellInfo => {
+            storeFocusObjects.resetCellInfo(cellInfo);
+        });
     }
 
     _onLongActionEnd(type, id) {

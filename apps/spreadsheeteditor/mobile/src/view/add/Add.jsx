@@ -5,38 +5,12 @@ import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
-import AddSlideController from "../../controller/add/AddSlide";
-import AddShapeController from "../../controller/add/AddShape";
-import {AddImageController} from "../../controller/add/AddImage";
-import {PageImageLinkSettings} from "./AddImage";
-import {AddOtherController} from "../../controller/add/AddOther";
-import {PageAddTable} from "./AddOther";
-import {AddLinkController} from "../../controller/add/AddLink";
-import {PageTypeLink, PageLinkTo} from "./AddLink";
+import AddChartController from "../../controller/add/AddChart";
+import AddFormulaController from "../../controller/add/AddFormula";
+//import AddShapeController from "../../controller/add/AddShape";
+//import {AddOtherController} from "../../controller/add/AddOther";
 
 const routes = [
-    // Image
-    {
-        path: '/add-image-from-url/',
-        component: PageImageLinkSettings
-    },
-    // Other
-    {
-        path: '/add-table/',
-        component: PageAddTable
-    },
-    {
-        path: '/add-link/',
-        component: AddLinkController
-    },
-    {
-        path: '/add-link-type/',
-        component: PageTypeLink
-    },
-    {
-        path: '/add-link-to/',
-        component: PageLinkTo
-    }
 ];
 
 const AddLayoutNavbar = ({ tabs, inPopover }) => {
@@ -45,7 +19,7 @@ const AddLayoutNavbar = ({ tabs, inPopover }) => {
         <Navbar>
             <div className='tab-buttons tabbar'>
                 {tabs.map((item, index) =>
-                    <Link key={"pe-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
+                    <Link key={"sse-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
                         <Icon slot="media" icon={item.icon}></Icon>
                     </Link>)}
                 {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
@@ -59,7 +33,7 @@ const AddLayoutContent = ({ tabs }) => {
     return (
         <Tabs animated>
             {tabs.map((item, index) =>
-                <Tab key={"pe-tab-" + item.id} id={item.id} className="page-content" tabActive={index === 0}>
+                <Tab key={"sse-tab-" + item.id} id={item.id} className="page-content" tabActive={index === 0}>
                     {item.component}
                 </Tab>
             )}
@@ -72,29 +46,29 @@ const AddTabs = props => {
     const _t = t('Add', {returnObjects: true});
     const tabs = [];
     tabs.push({
-        caption: _t.textSlide,
-        id: 'add-slide',
-        icon: 'icon-add-slide',
-        component: <AddSlideController />
+        caption: _t.textChart,
+        id: 'add-chart',
+        icon: 'icon-add-chart',
+        component: <AddChartController />
     });
     tabs.push({
+        caption: _t.textFormula,
+        id: 'add-formula',
+        icon: 'icon-add-formula',
+        component: <AddFormulaController />
+    });
+    /*tabs.push({
         caption: _t.textShape,
         id: 'add-shape',
         icon: 'icon-add-shape',
         component: <AddShapeController />
     });
     tabs.push({
-        caption: _t.textImage,
-        id: 'add-image',
-        icon: 'icon-add-image',
-        component: <AddImageController />
-    });
-    tabs.push({
         caption: _t.textOther,
         id: 'add-other',
         icon: 'icon-add-other',
         component: <AddOtherController />
-    });
+    });*/
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>

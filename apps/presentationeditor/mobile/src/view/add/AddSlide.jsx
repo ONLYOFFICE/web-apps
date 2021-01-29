@@ -5,11 +5,24 @@ import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
 const AddSlide = props => {
+    const layouts = props.storeSlideSettings.slideLayouts;
     return (
-        <Fragment>
-
-        </Fragment>
+        <div className={'dataview slide-layout'}>
+            {layouts.map((row, rowIndex) => {
+                return (
+                    <ul key={`row-${rowIndex}`} className={'row'}>
+                        {row.map((layout, index) => {
+                            return (
+                                <li key={`item-${rowIndex}-${index}`} onClick={() => {props.onSlideLayout(layout.type)}}>
+                                    <img src={layout.image} width={layout.width} height={layout.height}/>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                )
+            })}
+        </div>
     )
 };
 
-export {AddSlide};
+export default  inject("storeSlideSettings")(observer(AddSlide));
