@@ -47,7 +47,7 @@ export class storeFocusObjects {
             resultArr.splice(resultArr.indexOf('hyperlink'), 1);
         }
         // Exclude shapes if chart exist
-        if (resultArr.indexOf('chart') > -1) {
+        if (resultArr.indexOf('chart') > -1 && resultArr.indexOf('shape') > -1) {
             resultArr.splice(resultArr.indexOf('shape'), 1);
         }
         return resultArr;
@@ -149,27 +149,18 @@ export class storeFocusObjects {
 
     @computed get chartObject() {
         const charts = [];
-        const shapes = []
         
         for (let object of this._focusObjects) {
-            if (object.get_ObjectValue() == Asc.c_oAscTypeSelectElement.Chart) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Chart) {
                 charts.push(object);
-            }
-            else if(object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Shape && object.get_ObjectValue() && object.get_ObjectValue().get_FromChart()) {
-                shapes.push(object)
             }
         }
 
-        const getTopObject = array => {
-            if (array.length > 0) {
-                var object = array[array.length - 1]; // get top
-                return object.get_ObjectValue();
-            } else {
-                return undefined;
-            }
-        };
-
-        getTopObject(charts);
-        getTopObject(shapes);
+        if (charts.length > 0) {
+            const object = charts[charts.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
     }
 }
