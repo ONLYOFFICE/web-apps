@@ -8,17 +8,17 @@ import {storeWorksheets} from './sheets';
 // import {storeShapeSettings} from "./shapeSettings";
 // import {storeImageSettings} from "./imageSettings";
 // import {storeTableSettings} from "./tableSettings";
-// import {storeChartSettings} from "./chartSettings";
+import {storeChartSettings} from "./chartSettings";
 
 export const stores = {
     storeFocusObjects: new storeFocusObjects(),
     // storeDocumentSettings: new storeDocumentSettings(),
     users: new storeUsers(),
-    sheets: new storeWorksheets()
+    sheets: new storeWorksheets(),
     // storeTextSettings: new storeTextSettings(),
     // storeParagraphSettings: new storeParagraphSettings(),
     // storeShapeSettings: new storeShapeSettings(),
-    // storeChartSettings: new storeChartSettings(),
+    storeChartSettings: new storeChartSettings(),
     // storeImageSettings: new storeImageSettings(),
     // storeTableSettings: new storeTableSettings()
 };
