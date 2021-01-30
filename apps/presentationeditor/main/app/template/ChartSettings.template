@@ -34,7 +34,7 @@
             <div id="chart-button-type" style=""></div>
         </td>
     </tr>
-    <tr>
+    <tr class="not-combined">
         <td class="padding-small">
             <div id="chart-combo-style" style=""></div>
         </td>
