@@ -1,12 +1,12 @@
 import React, {Component, useEffect} from 'react';
-import {View,Page,Navbar,NavRight,Link,Popup,Popover,Icon,Tabs,Tab} from 'framework7-react';
+import {View,Page,Navbar,NavTitle,NavRight,Link,Popup,Popover,Icon,Tabs,Tab} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
 import AddChartController from "../../controller/add/AddChart";
-import AddFormulaController from "../../controller/add/AddFormula";
+import AddFunctionController from "../../controller/add/AddFunction";
 //import AddShapeController from "../../controller/add/AddShape";
 //import {AddOtherController} from "../../controller/add/AddOther";
 
@@ -17,13 +17,16 @@ const AddLayoutNavbar = ({ tabs, inPopover }) => {
     const isAndroid = Device.android;
     return (
         <Navbar>
-            <div className='tab-buttons tabbar'>
-                {tabs.map((item, index) =>
-                    <Link key={"sse-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
-                        <Icon slot="media" icon={item.icon}></Icon>
-                    </Link>)}
-                {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
-            </div>
+            {tabs.length > 1 ?
+                <div className='tab-buttons tabbar'>
+                    {tabs.map((item, index) =>
+                        <Link key={"sse-link-" + item.id} tabLink={"#" + item.id} tabLinkActive={index === 0}>
+                            <Icon slot="media" icon={item.icon}></Icon>
+                        </Link>)}
+                    {isAndroid && <span className='tab-link-highlight' style={{width: 100 / tabs.lenght + '%'}}></span>}
+                </div> :
+                <NavTitle>{ tabs[0].caption }</NavTitle>
+            }
             { !inPopover && <NavRight><Link icon='icon-expand-down' popupClose=".add-popup"></Link></NavRight> }
         </Navbar>
     )
@@ -43,7 +46,7 @@ const AddLayoutContent = ({ tabs }) => {
 
 const AddTabs = props => {
     const { t } = useTranslation();
-    const _t = t('Add', {returnObjects: true});
+    const _t = t('View.Add', {returnObjects: true});
     const showPanels = props.showPanels;
     const tabs = [];
     if (!showPanels) {
@@ -54,12 +57,12 @@ const AddTabs = props => {
             component: <AddChartController/>
         });
     }
-    if (!showPanels || showPanels === 'formula') {
+    if (!showPanels || showPanels === 'function') {
         tabs.push({
-            caption: _t.textFormula,
-            id: 'add-formula',
+            caption: _t.textFunction,
+            id: 'add-function',
             icon: 'icon-add-formula',
-            component: <AddFormulaController/>
+            component: <AddFunctionController/>
         });
     }
     /*tabs.push({
@@ -112,7 +115,7 @@ const Add = props => {
         if ( Device.phone ) {
             f7.popup.open('.add-popup');
         } else {
-            const targetElem = !props.showOptions ? '#btn-add' : props.showOptions.button;
+            const targetElem = !props.showOptions || !props.showOptions.button ? '#btn-add' : props.showOptions.button;
             f7.popover.open('#add-popover', targetElem);
         }
 
@@ -124,9 +127,35 @@ const Add = props => {
         if ( props.onclosed )
             props.onclosed();
     };
+
+    const api = Common.EditorApi.get();
+    const cellinfo = api.asc_getCellInfo();
+    const seltype = cellinfo.asc_getSelectionType();
+    const iscelllocked = cellinfo.asc_getLocked();
+    let options;
+
+    if ( !iscelllocked ) {
+        options = props.showOptions;
+        if ( !options ) {
+            switch (seltype) {
+                case Asc.c_oAscSelectionType.RangeCells:
+                case Asc.c_oAscSelectionType.RangeRow:
+                case Asc.c_oAscSelectionType.RangeCol:
+                case Asc.c_oAscSelectionType.RangeMax: break;
+                case Asc.c_oAscSelectionType.RangeImage:
+                case Asc.c_oAscSelectionType.RangeShape:
+                case Asc.c_oAscSelectionType.RangeChart:
+                case Asc.c_oAscSelectionType.RangeChartText:
+                case Asc.c_oAscSelectionType.RangeShapeText:
+                    options = {panels: ['image','shape']};
+                    break;
+            }
+        }
+    }
+
     return <AddView usePopover={!Device.phone}
                     onclosed={onviewclosed}
-                    showPanels={props.showOptions ? props.showOptions.panels : undefined}
+                    showPanels={options ? options.panels : undefined}
     />
 };
 

@@ -9,7 +9,7 @@
     "View" : {
         "Add" : {
             "textChart": "Chart",
-            "textFormula": "Formula",
+            "textFunction": "Function",
             "textShape": "Shape",
             "textOther": "Other"
         },

@@ -1,7 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
 
-const AddFormula = props => {
+const AddFunction = props => {
     return (
         <Fragment>
 
@@ -9,4 +9,4 @@ const AddFormula = props => {
     )
 };
 
-export default AddFormula;
+export default AddFunction;

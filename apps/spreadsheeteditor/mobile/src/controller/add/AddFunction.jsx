@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 
-import AddFormula from '../../view/add/AddFormula';
+import AddFunction from '../../view/add/AddFunction';
 
-class AddFormulaController extends Component {
+class AddFunctionController extends Component {
     constructor (props) {
         super(props);
     }
@@ -19,10 +19,10 @@ class AddFormulaController extends Component {
 
     render () {
         return (
-            <AddFormula
+            <AddFunction
             />
         )
     }
 }
 
-export default AddFormulaController;
+export default AddFunctionController;
