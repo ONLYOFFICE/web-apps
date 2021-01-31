@@ -102,9 +102,14 @@ textarea.form-control:focus {
 
     .select-button {
         position: absolute;
-        top: 1px;
-        right: 1px;
+        right: @scaled-one-px-value;
+
+        > .btn-toolbar {
+            height: 22px;
+            padding-top: 1px;
+        }
     }
+
     .input-error {
         &:before {
             right: 22px;
