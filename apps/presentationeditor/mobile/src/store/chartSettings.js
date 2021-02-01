@@ -4,13 +4,18 @@ export class storeChartSettings {
     
     // Style
     
-    @observable chartStyles;
+    @observable chartStyles = null;
+
+    @action clearChartStyles () {
+        this.chartStyles = null;
+    }
 
     @action updateChartStyles (styles) {
         this.chartStyles = styles;
     }
 
     @computed get styles () {
+        if (!this.chartStyles) return null;
         const widthContainer = document.querySelector(".page-content").clientWidth;
         const columns = parseInt(widthContainer / 70); // magic
         let row = -1;

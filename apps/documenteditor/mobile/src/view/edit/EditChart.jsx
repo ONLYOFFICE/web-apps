@@ -175,7 +175,7 @@ const PageStyle = props => {
                 </Tab>
                 <Tab key={"de-tab-chart-style"} id={"edit-chart-style"} className="page-content no-padding-top dataview">
                     <div className={'chart-styles'}>
-                        {styles.map((row, rowIndex) => {
+                        {styles ? styles.map((row, rowIndex) => {
                             return (
                                 <ul className="row" key={`row-${rowIndex}`}>
                                     {row.map((style, index)=>{
@@ -188,7 +188,9 @@ const PageStyle = props => {
                                     })}
                                 </ul>
                             )
-                        })}
+                        }) :
+                            <div className={'text-content'}>{_t.textNoStyles}</div>
+                        }
                     </div>
                 </Tab>
                 <Tab key={"de-tab-chart-fill"} id={"edit-chart-fill"} className="page-content no-padding-top">

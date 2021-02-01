@@ -217,7 +217,8 @@
     "textFirstColumn": "First Column",
     "textLastColumn": "Last Column",
     "textBandedColumn": "Banded Column",
-    "textType": "Type"
+    "textType": "Type",
+    "textNoStyles": "No styles for this type of charts."
   },
   "Add": {
     "textTable": "Table",

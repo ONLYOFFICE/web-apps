@@ -228,7 +228,8 @@
       "textStyleOptions": "Style Options",
       "textRemoveTable": "Remove Table",
       "textCellMargins": "Cell Margins",
-      "textRemoveChart": "Remove Chart"
+      "textRemoveChart": "Remove Chart",
+      "textNoStyles": "No styles for this type of charts."
     }
   },
   "Common": {

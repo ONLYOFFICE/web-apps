@@ -12,8 +12,16 @@ class EditChartController extends Component {
         this.onBorderColor = this.onBorderColor.bind(this);
         this.onBorderSize = this.onBorderSize.bind(this);
 
-        const api = Common.EditorApi.get();
-        props.storeChartSettings.updateChartStyles(api.asc_getChartPreviews(props.storeFocusObjects.chartObject.getType()));
+        const type = props.storeFocusObjects.chartObject.getType();
+        if (type==Asc.c_oAscChartTypeSettings.comboBarLine ||
+            type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+            type==Asc.c_oAscChartTypeSettings.comboAreaBar ||
+            type==Asc.c_oAscChartTypeSettings.comboCustom) {
+            props.storeChartSettings.clearChartStyles();
+        } else {
+            const api = Common.EditorApi.get();
+            props.storeChartSettings.updateChartStyles(api.asc_getChartPreviews(type));
+        }
     }
 
     onRemoveChart () {
