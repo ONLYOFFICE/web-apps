@@ -69,7 +69,7 @@ define([
                                         '<div id="tableofcontents-chb-pages"></div>',
                                         '</td>',
                                         '<td rowspan="5" class="padding-small" style="vertical-align: top;">',
-                                        '<div style="border: 1px solid #cbcbcb;width: 240px; height: 182px; float: right;position:relative;overflow:hidden;">',
+                                        '<div class="canvas-box" style="width: 240px; height: 182px; float: right;position:relative;overflow:hidden;">',
                                             '<div id="tableofcontents-img" style="width: 230px; height: 100%;"></div>',
                                         '</div>',
                                         '</td>',
