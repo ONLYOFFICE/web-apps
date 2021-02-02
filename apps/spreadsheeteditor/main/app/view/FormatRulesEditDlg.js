@@ -1580,7 +1580,7 @@ define([
 
             if (this.scaleProps ) {
                 var colors = this.scaleProps.asc_getColors();
-                colors[picker.options.type] = Common.Utils.ThemeColor.getRgbColor(picker.currentColor);
+                colors[Math.min(picker.options.type, colors.length-1)] = Common.Utils.ThemeColor.getRgbColor(picker.currentColor);
                 this.scaleProps.asc_setColors(colors);
                 this.previewFormat();
             }
