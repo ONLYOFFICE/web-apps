@@ -376,7 +376,7 @@ define([
                         template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                         itemTemplate: _.template([
                             '<div id="<%= id %>" class="list-item">',
-                            '<div class="<% if (checked) { %>checked<% } %>"><%= name %></div>',
+                            '<div class="<% if (checked) { %>checked<% } %>"><%= displayValue %></div>',
                             '<div>',
                             '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;" maxLength="1">',
                             '</div>',
@@ -519,6 +519,7 @@ define([
                 if (style.get_QFormat() || level>=0) {
                     styles.push({
                         name: name,
+                        displayValue: style.get_TranslatedName(),
                         allowSelected: false,
                         checked: false,
                         value: '',
@@ -553,6 +554,7 @@ define([
                     } else {
                         styles.push({
                             name: style,
+                            displayValue: style,
                             allowSelected: false,
                             checked: true,
                             value: level,
@@ -609,8 +611,8 @@ define([
                 }
             }
             styles.sort(function(a, b){
-                var aname = a.name.toLocaleLowerCase(),
-                    bname = b.name.toLocaleLowerCase();
+                var aname = a.displayValue.toLocaleLowerCase(),
+                    bname = b.displayValue.toLocaleLowerCase();
                 if (aname < bname) return -1;
                 if (aname > bname) return 1;
                 return 0;
@@ -657,18 +659,25 @@ define([
 
             arr = [];
             _.each(this.api.asc_getAllUsedParagraphStyles(), function (style, index) {
-                var name = style.get_Name();
                 arr.push({
-                    displayValue: name,
+                    displayValue: style.get_TranslatedName(),
+                    styleName: style.get_Name(),
                     value: index
                 });
+            });
+            arr.sort(function(a, b){
+                var aname = a.displayValue.toLocaleLowerCase(),
+                    bname = b.displayValue.toLocaleLowerCase();
+                if (aname < bname) return -1;
+                if (aname > bname) return 1;
+                return 0;
             });
             this.cmbTOFStyles.setData(arr);
             value = undefined;
             if (props) {
                 var count = props.get_StylesCount();
                 if (count>0) {
-                    var rec = this.cmbTOFStyles.store.findWhere({displayValue: props.get_StyleName(0)});
+                    var rec = this.cmbTOFStyles.store.findWhere({styleName: props.get_StyleName(0)});
                     rec && (value = rec.get('value'));
                 }
             }
@@ -759,7 +768,7 @@ define([
                 } else {
                     props.put_Caption(null);
                     var rec = this.cmbTOFStyles.getSelectedRecord();
-                    rec && props.add_Style(rec.displayValue);
+                    rec && props.add_Style(rec.styleName);
                 }
             } else {
                 if (this._needUpdateOutlineLevels) {
@@ -837,7 +846,7 @@ define([
                 var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                 properties.put_Caption(null);
                 properties.clear_Styles();
-                properties.add_Style(record.displayValue);
+                properties.add_Style(record.styleName);
                 this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties);
                 this.scrollerY.update();
             }
