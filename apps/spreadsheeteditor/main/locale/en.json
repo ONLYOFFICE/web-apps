@@ -166,6 +166,7 @@
   "Common.Views.PasswordDialog.txtPassword": "Password",
   "Common.Views.PasswordDialog.txtRepeat": "Repeat password",
   "Common.Views.PasswordDialog.txtTitle": "Set Password",
+  "Common.Views.PasswordDialog.txtWarning": "Warning: If you lose or forget the password, it cannot be recovered. Please keep it in a safe place.",
   "Common.Views.PluginDlg.textLoading": "Loading",
   "Common.Views.Plugins.groupCaption": "Plugins",
   "Common.Views.Plugins.strPlugins": "Plugins",
