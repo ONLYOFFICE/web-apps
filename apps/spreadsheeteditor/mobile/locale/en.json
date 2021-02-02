@@ -16,7 +16,33 @@
         "Edit" : {
             "textSelectObjectToEdit": "Select object to edit",
             "textSettings": "Settings",
-            "textCell": "Cell"
+            "textCell": "Cell",
+            "textReplace": "Replace",
+            "textReorder": "Reorder",
+            "textAlign": "Align",
+            "textRemoveShape": "Remove Shape",
+            "textStyle": "Style",
+            "textShape": "Shape",
+            "textBack": "Back",
+            "textFill": "Fill",
+            "textBorder": "Border",
+            "textEffects": "Effects",
+            "textAddCustomColor": "Add Custom Color",
+            "textCustomColor": "Custom Color",
+            "textOpacity": "Opacity",
+            "textSize": "Size",
+            "textColor": "Color",
+            "textBringToForeground": "Bring to Foreground",
+            "textSendToBackground": "Send to Background",
+            "textMoveForward": "Move Forward",
+            "textMoveBackward": "Move Backward"
+        }
+    },
+    "Common": {
+        "ThemeColorPalette": {
+          "textThemeColors": "Theme Colors",
+          "textStandartColors": "Standard Colors",
+          "textCustomColors": "Custom Colors"
         }
     }
 }

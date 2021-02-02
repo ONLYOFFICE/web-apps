@@ -81,6 +81,7 @@ export class storeFocusObjects {
                             isChart = true;
                         } else {
                             isShape = true;
+
                         }
                     } else if (elValue.asc_getChartProperties()) {
                         isChart = true;
@@ -133,6 +134,22 @@ export class storeFocusObjects {
         return _selections;
     }
 
-
-
+    @computed get shapeObject() {
+        const shapes = [];
+        console.log(this._focusObjects);
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
+                if (object.get_ObjectValue() && object.get_ObjectValue().get_ShapeProperties()) {
+                    console.log(object);
+                    shapes.push(object);    
+                }
+            }
+        }
+        if (shapes.length > 0) {
+            const object = shapes[shapes.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
 }

@@ -6,8 +6,42 @@ import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 
 import EditCellController from "../../controller/edit/EditCell";
+import EditShapeController from "../../controller/edit/EditShape";
+
+import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 
 const routes = [
+
+    // Shape
+
+    {
+        path: '/edit-style-shape/',
+        component: PageShapeStyle
+    },
+    {
+        path: '/edit-style-shape-no-fill/',
+        component: PageShapeStyleNoFill
+    },
+    {
+        path: '/edit-replace-shape/',
+        component: PageReplaceContainer
+    },
+    {
+        path: '/edit-reorder-shape',
+        component: PageReorderContainer
+    },
+    {
+        path: '/edit-shape-border-color/',
+        component: PageShapeBorderColor
+    },
+    {
+        path: '/edit-shape-custom-border-color/',
+        component: PageShapeCustomBorderColor
+    }, 
+    {
+        path: '/edit-shape-custom-fill-color/',
+        component: PageShapeCustomFillColor
+    }
 ];
 
 const EmptyEditLayout = () => {
@@ -68,7 +102,7 @@ const EditTabs = props => {
     const _t = t('View.Edit', {returnObjects: true});
 
     const store = props.storeFocusObjects;
-    const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.settings : store.selections);
+    const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.objects : store.selections);
     let editors = [];
     if (settings.length < 1) {
         editors.push({
@@ -81,6 +115,13 @@ const EditTabs = props => {
                 caption: _t.textCell,
                 id: 'edit-text',
                 component: <EditCellController />
+            })
+        }
+        if (settings.indexOf('shape') > -1) {
+            editors.push({
+                caption: _t.textShape,
+                id: 'edit-shape',
+                component: <EditShapeController />
             })
         }
     }
