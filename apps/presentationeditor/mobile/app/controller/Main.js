@@ -544,6 +544,8 @@ define([
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     // Force ON fast co-authoring mode
                     me._state.fastCoauth = true;
+                } else if (!me.appOptions.isEdit && me.appOptions.isRestrictedEdit) {
+                    me._state.fastCoauth = true;
                 } else {
                     me._state.fastCoauth = false;
                 }

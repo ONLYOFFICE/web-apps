@@ -550,6 +550,8 @@ define([
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     // Force ON fast co-authoring mode
                     me._state.fastCoauth = true;
+                } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
+                    this._state.fastCoauth = true;
                 } else
                     this._state.fastCoauth = false;
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
