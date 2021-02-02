@@ -2162,6 +2162,7 @@
   "SSE.Views.NameManagerDlg.textWorkbook": "Workbook",
   "SSE.Views.NameManagerDlg.tipIsLocked": "This element is being edited by another user.",
   "SSE.Views.NameManagerDlg.txtTitle": "Name Manager",
+  "SSE.Views.NameManagerDlg.warnDelete": "Are you sure you want to delete the name {0}?",
   "SSE.Views.PageMarginsDialog.textBottom": "Bottom",
   "SSE.Views.PageMarginsDialog.textLeft": "Left",
   "SSE.Views.PageMarginsDialog.textRight": "Right",

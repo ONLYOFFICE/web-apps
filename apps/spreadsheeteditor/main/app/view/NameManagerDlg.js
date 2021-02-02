@@ -290,6 +290,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         },
 
         onEditRange: function (isEdit) {
+            if (this._isWarningVisible) return;
+            
             if (this.locked) {
                 Common.NotificationCenter.trigger('namedrange:locked');
                 return;
@@ -328,8 +330,20 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         onDeleteRange: function () {
             var rec = this.rangeList.getSelectedRec();
             if (rec) {
-                this.currentNamedRange = _.indexOf(this.rangeList.store.models, rec);
-                this.api.asc_delDefinedNames(new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('type'), undefined, undefined, undefined, true));
+                var me = this;
+                me._isWarningVisible = true;
+                Common.UI.warning({
+                    msg: Common.Utils.String.format(me.warnDelete, rec.get('name')),
+                    buttons: ['ok', 'cancel'],
+                    callback: function(btn) {
+                        if (btn == 'ok') {
+                            me.currentNamedRange = _.indexOf(me.rangeList.store.models, rec);
+                            me.api.asc_delDefinedNames(new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('type'), undefined, undefined, undefined, true));
+                        }
+                        setTimeout(function(){ me.getDefaultFocusableComponent().focus(); }, 100);
+                        me._isWarningVisible = false;
+                    }
+                });
             }
         },
 
@@ -436,7 +450,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         textFilterWorkbook: 'Names Scoped to Workbook',
         textWorkbook: 'Workbook',
         guestText: 'Guest',
-        tipIsLocked: 'This element is being edited by another user.'
+        tipIsLocked: 'This element is being edited by another user.',
+        warnDelete: 'Are you sure you want to delete the name {0}?'
 
     }, SSE.Views.NameManagerDlg || {}));
 });
