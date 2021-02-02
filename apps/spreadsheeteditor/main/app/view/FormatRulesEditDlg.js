@@ -1004,6 +1004,7 @@ define([
         },
 
         _setDefaults: function (props) {
+            this._originalProps = props;
             var type = props ? props.asc_getType() : this.type,
                 ruleType,
                 subtype = this.subtype;
@@ -1201,7 +1202,7 @@ define([
             var rec = this.ruleStore.findWhere({index: this.cmbCategory.getValue()});
 
             if (rec) {
-                props = new AscCommonExcel.CConditionalFormattingRule();
+                props = this._originalProps || new AscCommonExcel.CConditionalFormattingRule();
                 var type = rec.get('type');
                 props.asc_setType(type);
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
@@ -1576,11 +1577,11 @@ define([
         },
 
         onScaleColorsSelect: function(picker, color) {
-            picker.currentColor = color;
+            picker.colorPicker.currentColor = color;
 
             if (this.scaleProps ) {
                 var colors = this.scaleProps.asc_getColors();
-                colors[Math.min(picker.options.type, colors.length-1)] = Common.Utils.ThemeColor.getRgbColor(picker.currentColor);
+                colors[Math.min(picker.options.type, colors.length-1)] = Common.Utils.ThemeColor.getRgbColor(picker.colorPicker.currentColor);
                 this.scaleProps.asc_setColors(colors);
                 this.previewFormat();
             }
