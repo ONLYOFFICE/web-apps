@@ -151,6 +151,7 @@
   "Common.Views.OpenDialog.txtDelimiter": "\nຂອບເຂດ ຈຳ ກັດ",
   "Common.Views.OpenDialog.txtEncoding": "ການເຂົ້າລະຫັດ",
   "Common.Views.OpenDialog.txtIncorrectPwd": "ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ",
+  "Common.Views.OpenDialog.txtOpenFile": "ລະຫັດ",
   "Common.Views.OpenDialog.txtOther": "ອື່ນໆ",
   "Common.Views.OpenDialog.txtPassword": "ລະຫັດຜ່ານ",
   "Common.Views.OpenDialog.txtPreview": "ເບິ່ງຕົວຢ່າງ",

@@ -256,6 +256,7 @@
   "Common.Views.OpenDialog.closeButtonText": "ປິດຟາຍ",
   "Common.Views.OpenDialog.txtEncoding": "ການເຂົ້າລະຫັດ",
   "Common.Views.OpenDialog.txtIncorrectPwd": "ລະຫັດບໍ່ຖືກຕ້ອງ",
+  "Common.Views.OpenDialog.txtOpenFile": "ລະຫັດ",
   "Common.Views.OpenDialog.txtPassword": "ລະຫັດ",
   "Common.Views.OpenDialog.txtPreview": "\nເບິ່ງຕົວຢ່າງ",
   "Common.Views.OpenDialog.txtProtected": "\nເມື່ອທ່ານໃສ່ລະຫັດຜ່ານເປີດເອກະສານ, ລະຫັດຜ່ານໃນປະຈຸບັນຈະຖືກຕັ້ງຄ່າ ໃໝ່.",

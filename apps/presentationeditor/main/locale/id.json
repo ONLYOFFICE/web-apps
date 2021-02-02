@@ -78,6 +78,8 @@
   "Common.Views.InsertTableDialog.txtMinText": "The minimum value for this field is {0}.",
   "Common.Views.InsertTableDialog.txtRows": "Number of Rows",
   "Common.Views.InsertTableDialog.txtTitle": "Table Size",
+  "Common.Views.OpenDialog.txtOpenFile": "Masukkan kata sandi untuk buka file",
+  "Common.Views.PasswordDialog.txtWarning": "Perhatian: Tidak bisa dipulihkan jika Anda kehilangan atau lupa kata sandi. Simpan di tempat yang aman.",
   "PE.Controllers.LeftMenu.newDocumentTitle": "Unnamed presentation",
   "PE.Controllers.LeftMenu.requestEditRightsText": "Requesting editing rights...",
   "PE.Controllers.LeftMenu.textNoTextFound": "The data you have been searching for could not be found. Please adjust your search options.",
