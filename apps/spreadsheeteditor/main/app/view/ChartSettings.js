@@ -929,9 +929,6 @@ define([
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 props.endEdit();
-                                if (me.api) {
-                                    me.api.asc_editChartDrawingObject(value.chartSettings);
-                                }
                                 me._isEditType = false;
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
