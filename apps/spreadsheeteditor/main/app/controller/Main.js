@@ -176,6 +176,9 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
+                value = Common.localStorage.getItem("uitheme", "theme-light");
+                this.api.asc_setSkin(value == "theme-dark" ? 'flatDark' : "flat");
+
                 this.api.asc_registerCallback('asc_onOpenDocumentProgress',  _.bind(this.onOpenDocument, this));
                 this.api.asc_registerCallback('asc_onEndAction',             _.bind(this.onLongActionEnd, this));
                 this.api.asc_registerCallback('asc_onError',                 _.bind(this.onError, this));
@@ -908,7 +911,16 @@ define([
                 $('#header-logo').children(0).click(e => {
                     e.stopImmediatePropagation();
 
-                    $(':root').toggleClass('theme-dark');
+                    document.documentElement.className = document.documentElement.className.replace(/theme-\w+\s?/, '');
+                    if ( "theme-dark" != Common.localStorage.getItem("uitheme", "theme-light") ) {
+                        me.api.asc_setSkin('flatDark');
+                        $(':root').addClass('theme-dark');
+                        Common.localStorage.setItem("uitheme", "theme-dark");
+                    } else {
+                        me.api.asc_setSkin("flat");
+                        Common.localStorage.setItem("uitheme", "theme-light");
+                    }
+
                     // getComputedStyle(document.documentElement).getPropertyValue('--background-normal');
                 })
             },
@@ -2041,6 +2053,11 @@ define([
                         break;
                     case 'processmouse':
                         this.onProcessMouse(data.data);
+                        break;
+                    case 'theme:change':
+                        document.documentElement.className =
+                            document.documentElement.className.replace(/theme-\w+\s?/, data.data);
+                        this.api.asc_setSkin(data.data == "theme-dark" ? 'flatDark' : "flat");
                         break;
                     }
                 }

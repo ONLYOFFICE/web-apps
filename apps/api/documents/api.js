@@ -862,6 +862,9 @@
         if (config.parentOrigin)
             params += "&parentOrigin=" + config.parentOrigin;
 
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme )
+            params += "&uitheme=" + config.editorConfig.customization.uiTheme;
+
         return params;
     }
 

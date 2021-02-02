@@ -56,6 +56,7 @@ define([
 
 
         var createExternalEditor = function() {
+            !!customization && (customization.uiTheme = Common.localStorage.getItem("uitheme", "theme-light"));
             externalEditor = new DocsAPI.DocEditor('id-diagram-editor-placeholder', {
                 width       : '100%',
                 height      : '100%',
@@ -240,6 +241,15 @@ define([
                 if (data.type == 'mouseup' && this.isExternalEditorVisible) {
                     externalEditor && externalEditor.serviceCommand('processmouse', data);
                 }
+            },
+
+            showExternalEditor: function () {
+                if ( externalEditor ) {
+                    var value = Common.localStorage.getItem("uitheme", "theme-light");
+                    externalEditor.serviceCommand('theme:change', value);
+                }
+
+                this.diagramEditorView.show();
             },
 
             warningTitle: 'Warning',

@@ -232,6 +232,11 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
+        var ui_theme_name = params.uitheme || localStorage.getItem("uitheme");
+        if ( !!ui_theme_name ) {
+            document.documentElement.classList.add(ui_theme_name);
+        }
+
         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
     </script>
