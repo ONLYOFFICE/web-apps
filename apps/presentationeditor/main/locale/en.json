@@ -160,6 +160,7 @@
   "Common.Views.OpenDialog.txtEncoding": "Encoding ",
   "Common.Views.OpenDialog.txtIncorrectPwd": "Password is incorrect.",
   "Common.Views.OpenDialog.txtPassword": "Password",
+  "Common.Views.OpenDialog.txtOpenFile": "Enter a password to open the file",
   "Common.Views.OpenDialog.txtProtected": "Once you enter the password and open the file, the current password to the file will be reset.",
   "Common.Views.OpenDialog.txtTitle": "Choose %1 options",
   "Common.Views.OpenDialog.txtTitleProtected": "Protected File",

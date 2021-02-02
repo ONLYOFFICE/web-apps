@@ -153,6 +153,7 @@
   "Common.Views.OpenDialog.txtIncorrectPwd": "Password is incorrect.",
   "Common.Views.OpenDialog.txtOther": "Other",
   "Common.Views.OpenDialog.txtPassword": "Password",
+  "Common.Views.OpenDialog.txtOpenFile": "Enter a password to open the file",
   "Common.Views.OpenDialog.txtPreview": "Preview",
   "Common.Views.OpenDialog.txtProtected": "Once you enter the password and open the file, the current password to the file will be reset.",
   "Common.Views.OpenDialog.txtSemicolon": "Semicolon",
