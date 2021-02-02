@@ -544,12 +544,15 @@ define([
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     // Force ON fast co-authoring mode
                     me._state.fastCoauth = true;
+                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 } else if (!me.appOptions.isEdit && me.appOptions.isRestrictedEdit) {
                     me._state.fastCoauth = true;
+                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
+                    me.api.asc_setAutoSaveGap(1);
                 } else {
                     me._state.fastCoauth = false;
+                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 }
-                me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 /** coauthoring end **/
 
                 if (me.appOptions.isEdit) {

@@ -549,12 +549,16 @@ define([
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     // Force ON fast co-authoring mode
-                    me._state.fastCoauth = true;
+                    this._state.fastCoauth = true;
+                    this.api.asc_SetFastCollaborative(this._state.fastCoauth);
                 } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
                     this._state.fastCoauth = true;
-                } else
+                    this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                    this.api.asc_setAutoSaveGap(1);
+                } else {
                     this._state.fastCoauth = false;
-                this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                    this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                }
                 /** coauthoring end **/
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
