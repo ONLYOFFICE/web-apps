@@ -130,6 +130,14 @@ define([
                                             '</div>',
                                         '</td>',
                                     '</tr>',
+                                    '<tr class="scale">',
+                                        '<td colspan="3" class="padding-small">',
+                                            '<label class="header">', me.textPreview,'</label>',
+                                            '<div style="border: 1px solid #cbcbcb;width: 100%; height: 40px; padding: 3px;">',
+                                                '<div id="format-rules-edit-preview-scale" style="width: 100%; height: 100%; position: relative; margin: 0 auto;"></div>',
+                                            '</div>',
+                                        '</td>',
+                                    '</tr>',
                                     '<tr class="databar">',
                                         '<td class="padding-large" style="padding-top: 8px;">',
                                             '<div style="width:150px; display: inline-block; margin-right: 10px;vertical-align: top;">',
@@ -1121,6 +1129,11 @@ define([
                         value = props.asc_getColorScaleOrDataBarOrIconSetRule();
                         break;
                 }
+                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
+                    type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
+                    type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
+                    this.xfsFormat = props.asc_getDxf();
+                }
             }
 
             var rec = this.ruleStore.where({type: type});
@@ -1158,13 +1171,6 @@ define([
                 this.refreshRules(rec.get('index'), ruleType);
             }
 
-            if (props) {
-                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
-                    type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
-                    type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                    this.xfsFormat = props.asc_getDxf();
-                }
-            }
             var xfs = this.xfsFormat ? this.xfsFormat : (new AscCommonExcel.CellXfs());
             if (xfs) {
                 this.btnBold.toggle(xfs.asc_getFontBold() === true, true);
@@ -1240,7 +1246,7 @@ define([
                     case Asc.c_oAscCFType.colorScale:
                         var scaleProps = new AscCommonExcel.CColorScale();
                         var scalesCount = rec.get('num');
-                        var arr = (scalesCount) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
+                        var arr = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
                         var colors = [], scales = [];
                         for (var i=0; i<scalesCount; i++) {
                             var scale = new AscCommonExcel.CConditionalFormatValueObject();
@@ -1248,10 +1254,10 @@ define([
                             scale.asc_setType(controls.combo.getValue());
                             scale.asc_setVal(controls.range.getValue());
                             scales.push(scale);
-                            colors.push(Common.Utils.ThemeColor.getRgbColor(Common.Utils.ThemeColor.getRgbColor(controls.color.currentColor)));
+                            colors.push(Common.Utils.ThemeColor.getRgbColor(controls.colorPicker.currentColor));
                         }
-                        scaleProps.asc_setColors();
-                        scaleProps.asc_setCFVOs();
+                        scaleProps.asc_setColors(colors);
+                        scaleProps.asc_setCFVOs(scales);
                         props.asc_setColorScaleOrDataBarOrIconSetRule(scaleProps);
                         break;
                     case Asc.c_oAscCFType.dataBar:
@@ -1309,6 +1315,34 @@ define([
                 (cmbData.length>0) && this.cmbRule.setValue((ruleType!==undefined) ? ruleType : cmbData[0].value);
             }
             this.setControls(index, this.cmbRule.getValue());
+
+            if (rec) {
+                var type = rec.get('type');
+                this._changedProps = new AscCommonExcel.CConditionalFormattingRule();
+                this._changedProps.asc_setType(type);
+                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
+                    type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
+                    type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
+                    this.xfsFormat && this._changedProps.asc_setDxf(this.xfsFormat);
+                } else if (type == Asc.c_oAscCFType.colorScale) {
+                    var scalesCount = rec.get('num');
+                    var arr = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
+                    var colors = [], scales = [];
+                    for (var i=0; i<arr.length; i++) {
+                        var scale = new AscCommonExcel.CConditionalFormatValueObject();
+                        var controls = arr[i];
+                        scale.asc_setType(controls.combo.getValue());
+                        scale.asc_setVal(controls.range.getValue());
+                        scales.push(scale);
+                        colors.push(Common.Utils.ThemeColor.getRgbColor(controls.colorPicker.currentColor));
+                    }
+                    this.scaleProps = new AscCommonExcel.CColorScale();
+                    this.scaleProps.asc_setColors(colors);
+                    this.scaleProps.asc_setCFVOs(scales);
+                    this._changedProps.asc_setColorScaleOrDataBarOrIconSetRule(this.scaleProps);
+                }
+                this.previewFormat();
+            }
         },
 
         setControls: function(category, rule) {
@@ -1489,7 +1523,19 @@ define([
         },
 
         previewFormat: function() {
-            this.api.asc_getPreviewCF('format-rules-edit-preview-format', this.xfsFormat, this.xfsFormat ? Common.define.conditionalData.exampleText : Common.define.conditionalData.noFormatText);
+            if (this._changedProps) {
+                var type = this._changedProps.asc_getType();
+                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
+                    type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
+                    type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
+                    this.xfsFormat && !this._changedProps.asc_getDxf() && this._changedProps.asc_setDxf(this.xfsFormat);
+                    this._changedProps.asc_getPreview('format-rules-edit-preview-format', this.xfsFormat ? Common.define.conditionalData.exampleText : Common.define.conditionalData.noFormatText);
+                } else if (type == Asc.c_oAscCFType.colorScale) {
+                    this._changedProps.asc_getPreview('format-rules-edit-preview-scale', '');
+                } else if (type == Asc.c_oAscCFType.dataBar) {
+                    this._changedProps.asc_getPreview('format-rules-edit-preview-databar', '');
+                }
+            }
         },
 
         updateThemeColors: function() {
@@ -1499,8 +1545,11 @@ define([
                 var colorPicker = btn.getPicker();
                 colorPicker.options.type = i;
                 colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                colorPicker.currentColor = (i==0) ? 'FFC000' : (i==1 ? 'FFFF00' : '92D050');
+                colorPicker.select(colorPicker.currentColor, true);
+                btn.setColor(colorPicker.currentColor);
                 this.scaleControls[i].colorPicker = colorPicker;
-                // btn.on('color:select', _.bind(this.onColorsSelect, this));
+                btn.on('color:select', _.bind(this.onScaleColorsSelect, this));
             }
 
             var me = this;
@@ -1524,6 +1573,17 @@ define([
             this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.mnuFillColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.mnuBorderColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+        },
+
+        onScaleColorsSelect: function(picker, color) {
+            picker.currentColor = color;
+
+            if (this.scaleProps ) {
+                var colors = this.scaleProps.asc_getColors();
+                colors[picker.options.type] = Common.Utils.ThemeColor.getRgbColor(picker.currentColor);
+                this.scaleProps.asc_setColors(colors);
+                this.previewFormat();
+            }
         },
 
         onPrimary: function() {

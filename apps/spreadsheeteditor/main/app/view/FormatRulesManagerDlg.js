@@ -469,13 +469,14 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
 
         drawRulePreview: function(rule) {
             var props = rule.get('props'),
-                type = props.asc_getType();
+                type = props.asc_getType(),
+                text = '';
             if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
                 type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                 type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
-                var dxf = props.asc_getDxf();
-                this.api.asc_getPreviewCF(this.rules[rule.get('ruleIndex')].previewDiv, dxf, dxf ? Common.define.conditionalData.exampleText : Common.define.conditionalData.noFormatText);
+                text = props.asc_getDxf() ? Common.define.conditionalData.exampleText : Common.define.conditionalData.noFormatText;
             }
+            props.asc_getPreview(this.rules[rule.get('ruleIndex')].previewDiv, text);
         },
 
         onSelectData: function(item, cmp) {
@@ -527,28 +528,30 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                             rec.set('props', settings);
                             previewRec = rec;
                         } else {
-                            var store = me.rulesList.store,
-                                index = rec ? store.indexOf(rec)+1 : store.length;
                             settings.asc_setLocation(me.currentRange);
-                            previewRec = store.add({
-                                ruleIndex: index,
+                            var ruleStore = me.rulesStores[me.currentSheet];
+                            previewRec = ruleStore.add({
+                                ruleIndex: me.rules.length,
                                 name: name,
                                 tip: name,
                                 range: me.currentRange,
                                 activeSheet: true,
                                 ruleChanged: true,
+                                priority: 1,
                                 props: settings
-                            }, {at: index});
-                            me.updateRulesCount();
-                            me.rulesList.selectRecord(previewRec);
-                            me.updateButtons();
-                            // need to update priorities
+                            }, {at: 0});
+                            me.updateRulesPriority(ruleStore);
                         }
                     }
                 }
             }).on('close', function() {
                 me.show();
-                previewRec && me.drawRulePreview(previewRec);
+                if (isEdit) {
+                    previewRec && me.drawRulePreview(previewRec);
+                } else if (previewRec) {
+                    me.cmbScope.setValue(Asc.c_oAscSelectionForCFType.selection);
+                    me.refreshRuleList(me.cmbScope.getSelectedRecord());
+                }
             });
 
             me.hide();
@@ -578,8 +581,11 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 rec = this.rulesList.getSelectedRec();
             if (rec) {
                 var index = store.indexOf(rec);
+                var newrec = store.at(up ? this.getPrevRuleIndex(index) : this.getNextRuleIndex(index)),
+                    prioritynew = newrec.get('priority');
+                newrec.set('priority', rec.get('priority'));
+                rec.set('priority', prioritynew);
                 store.add(store.remove(rec), {at: up ? Math.max(0, index-1) : Math.min(length-1, index+1)});
-                // need to update priorities
                 this.rulesList.selectRecord(rec);
                 this.rulesList.scrollToRecord(rec);
             }
@@ -605,6 +611,34 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.btnDown.setDisabled(index<0 || index==this.listSettings.max);
         },
 
+        getPrevRuleIndex: function(index) {
+            var store = this.rulesList.store;
+            if (this.cmbScope.getValue() == Asc.c_oAscSelectionForCFType.worksheet) {
+                return Math.max(0, index-1);
+            } else {
+                for (var i=index-1; i>=this.listSettings.min; i--) {
+                    if (store.at(i).get('cls')!=='hidden') {
+                        return i;
+                    }
+                }
+                return this.listSettings.min;
+            }
+        },
+
+        getNextRuleIndex: function(index) {
+            var store = this.rulesList.store;
+            if (this.cmbScope.getValue() == Asc.c_oAscSelectionForCFType.worksheet) {
+                return Math.min(store.length-1, index+1);
+            } else {
+                for (var i=index+1; i<=this.listSettings.max; i++) {
+                    if (store.at(i).get('cls')!=='hidden') {
+                        return i;
+                    }
+                }
+                return this.listSettings.max;
+            }
+        },
+
         updateRulesCount: function() {
             var store = this.rulesList.store;
             if (this.cmbScope.getValue() == Asc.c_oAscSelectionForCFType.worksheet) {
@@ -618,6 +652,14 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         (this.listSettings.min<0) && (this.listSettings.min=i);
                     }
                 }
+            }
+        },
+
+
+        updateRulesPriority: function(store) {
+            for (var i=1; i<store.length; i++) {
+                var item = store.at(i);
+                item.set('priority', item.get('priority')+1);
             }
         },
 
