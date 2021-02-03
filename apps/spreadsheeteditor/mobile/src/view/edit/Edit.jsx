@@ -7,8 +7,10 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import EditCellController from "../../controller/edit/EditCell";
 import EditShapeController from "../../controller/edit/EditShape";
+import EditImageController from "../../controller/edit/EditImage";
 
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
+import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
 
 const routes = [
 
@@ -41,7 +43,23 @@ const routes = [
     {
         path: '/edit-shape-custom-fill-color/',
         component: PageShapeCustomFillColor
+    },
+
+    // Image
+
+    {
+        path: '/edit-replace-image/',
+        component: PageImageReplace
+    },
+    {
+        path: '/edit-reorder-image/',
+        component: PageImageReorder
+    },
+    {
+        path: '/edit-image-link/',
+        component: PageLinkSettings
     }
+
 ];
 
 const EmptyEditLayout = () => {
@@ -122,6 +140,13 @@ const EditTabs = props => {
                 caption: _t.textShape,
                 id: 'edit-shape',
                 component: <EditShapeController />
+            })
+        }
+        if (settings.indexOf('image') > -1) {
+            editors.push({
+                caption: _t.textImage,
+                id: 'edit-image',
+                component: <EditImageController />
             })
         }
     }
