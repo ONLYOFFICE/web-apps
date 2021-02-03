@@ -106,7 +106,7 @@ const PageLink = props => {
     } 
 
     const textType = typeLink === 1 ? _t.textExternalLink : _t.textSlideInThisPresentation;
-    const [link, setLink] = useState(typeLink !== 0 ? [url.replace(new RegExp(" ", 'g'), "%20")] : '');
+    const [link, setLink] = useState(typeLink !== 0 ? url : '');
 
     const changeTo = (slideLink, number) => {
         switch (slideLink) {
@@ -132,7 +132,7 @@ const PageLink = props => {
                 <ListItem link={'/edit-link-type/'} title={_t.textLinkType} after={textType} routeProps={{
                     curType: typeLink
                 }} />
-                {typeLink === 1 ?
+                {typeLink !== 0 ?
                     <ListInput label={_t.textLink}
                                type="text"
                                placeholder={_t.textLink}
