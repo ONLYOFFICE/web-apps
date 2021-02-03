@@ -63,7 +63,7 @@ const PageLinkTo = props => {
                 <ListItem title={_t.textPreviousSlide} radio checked={slideLink === 1} onClick={() => {changeTypeTo(1)}}></ListItem>
                 <ListItem title={_t.textFirstSlide} radio checked={slideLink === 2} onClick={() => {changeTypeTo(2)}}></ListItem>
                 <ListItem title={_t.textLastSlide} radio checked={slideLink === 3} onClick={() => {changeTypeTo(3)}}></ListItem>
-                <ListItem title={_t.textSlideNumber} radio checked={slideLink === 4}>
+                <ListItem title={_t.textSlideNumber}>
                     {!isAndroid && <div slot='after-start'>{stateNumberTo + 1}</div>}
                     <div slot='after'>
                         <Segmented>
@@ -160,7 +160,7 @@ const PageLink = props => {
             </List>
             <List>
                 <ListButton title={_t.textEditLink}
-                            className={`button-fill button-raised${typeLink === 1 && url.length < 1 && ' disabled'}`}
+                            className={`button-fill button-raised${typeLink === 1 && link.length < 1 && ' disabled'}`}
                             onClick={() => {
                                 props.onEditLink(typeLink, (typeLink === 1 ?
                                     {url: link, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled } :
