@@ -293,6 +293,12 @@ define([
             toolbar.mnuMarkerSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 0));
             toolbar.mnuNumberSettings.on('click',                       _.bind(this.onMarkerSettingsClick, this, 1));
             toolbar.mnuMultilevelSettings.on('click',                   _.bind(this.onMarkerSettingsClick, this, 2));
+            toolbar.mnuMarkerChangeLevel && toolbar.mnuMarkerChangeLevel.menu &&
+            toolbar.mnuMarkerChangeLevel.menu.on('show:after',          _.bind(this.onChangeLevelShowAfter, this, 0));
+            toolbar.mnuMarkerChangeLevel.menu.on('item:click',          _.bind(this.onChangeLevelClick, this, 0));
+            toolbar.mnuNumberChangeLevel && toolbar.mnuNumberChangeLevel.menu &&
+            toolbar.mnuNumberChangeLevel.menu.on('show:after',          _.bind(this.onChangeLevelShowAfter, this, 1));
+            toolbar.mnuNumberChangeLevel.menu.on('item:click',          _.bind(this.onChangeLevelClick, this, 1));
             toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.btnParagraphColor.on('click',                       _.bind(this.onBtnParagraphColor, this));
@@ -516,6 +522,7 @@ define([
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
                         this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
+                        this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(this._state.bullets.subtype<0);
                         this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
@@ -550,6 +557,7 @@ define([
                             this.toolbar.mnuNumbersPicker.deselectAll(true);
                         this.toolbar.mnuMultilevelPicker.deselectAll(true);
                         this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
+                        this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(idx==0);
                         this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(idx==0);
                         break;
                     case 2:
@@ -1394,6 +1402,24 @@ define([
                     }
                 })).show();
             }
+        },
+
+        onChangeLevelShowAfter: function(type, menu) {
+            var me      = this;
+            var listId = me.api.asc_GetCurrentNumberingId(),
+                level = me.api.asc_GetCurrentNumberingLvl(),
+                props = (listId !== null) ? me.api.asc_GetNumberingPr(listId) : null;
+            if (props) {
+                this.api.SetDrawImagePreviewBulletChangeListLevel(menu.options.previewIds, props);
+            }
+        },
+
+        onChangeLevelClick: function(type, menu, item) {
+            if (this.api) {
+                // this.api.changeListLevel(item.options.value);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onLineSpaceToggle: function(menu, item, state, e) {
@@ -2355,6 +2381,8 @@ define([
             this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
             this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
             this.toolbar.mnuMultilevelSettings && this.toolbar.mnuMultilevelSettings.setDisabled(true);
+            this.toolbar.mnuMarkerChangeLevel && this.toolbar.mnuMarkerChangeLevel.setDisabled(true);
+            this.toolbar.mnuNumberChangeLevel && this.toolbar.mnuNumberChangeLevel.setDisabled(true);
         },
 
         _getApiTextSize: function () {

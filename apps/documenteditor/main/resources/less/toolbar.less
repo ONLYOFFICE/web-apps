@@ -242,3 +242,16 @@
     background-color: @gray-light;
     border: 1px solid @gray;
 }
+
+.dropdown-menu.list-settings-level {
+    .menu-list-preview {
+        .box-shadow(0 0 0 1px @gray);
+    }
+
+    a:hover {
+        background-color: transparent;
+        .menu-list-preview {
+            .box-shadow(0 0 0 2px @primary);
+        }
+    }
+}
