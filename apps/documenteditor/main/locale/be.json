@@ -784,7 +784,7 @@
   "DE.Controllers.Toolbar.textAccent": "Дыякрытычныя знакі",
   "DE.Controllers.Toolbar.textBracket": "Дужкі",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Неабходна вызначыць URL-адрас выявы.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Уведзена хібнае значэнне.<br>Калі ласка, ўвядзіце лік ад 0 да 100.",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Уведзена хібнае значэнне.<br>Калі ласка, ўвядзіце лік ад 0 да 300.",
   "DE.Controllers.Toolbar.textFraction": "Дробы",
   "DE.Controllers.Toolbar.textFunction": "Функцыі",
   "DE.Controllers.Toolbar.textInsert": "Уставіць",

@@ -757,7 +757,7 @@
   "DE.Controllers.Toolbar.textAccent": "Akcenty",
   "DE.Controllers.Toolbar.textBracket": "Závorky",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Je třeba zadat URL adresu obrázku.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota není správná.<br>Zadejte hodnotu z rozmezí 1 až 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota není správná.<br>Zadejte hodnotu z rozmezí 1 až 300",
   "DE.Controllers.Toolbar.textFraction": "Zlomky",
   "DE.Controllers.Toolbar.textFunction": "Funkce",
   "DE.Controllers.Toolbar.textInsert": "Vložit",

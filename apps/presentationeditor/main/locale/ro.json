@@ -667,7 +667,7 @@
   "PE.Controllers.Toolbar.textAccent": "Accente",
   "PE.Controllers.Toolbar.textBracket": "Paranteze",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Valoarea introdusă nu este corectă.<br>Introduceți valoarea numerică de la 1 până la 100.",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Valoarea introdusă nu este corectă.<br>Introduceți valoarea numerică de la 1 până la 300.",
   "PE.Controllers.Toolbar.textFraction": "Fracții",
   "PE.Controllers.Toolbar.textFunction": "Funcții",
   "PE.Controllers.Toolbar.textInsert": "Inserare",

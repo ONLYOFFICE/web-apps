@@ -790,7 +790,7 @@
   "DE.Controllers.Toolbar.textAccent": "Accents",
   "DE.Controllers.Toolbar.textBracket": "Zárójelben",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Meg kell adni a kép URL linkjét.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "A megadott érték helytelen.<br>Kérjük, adjon meg egy számértéket 1 és 100 között",
+  "DE.Controllers.Toolbar.textFontSizeErr": "A megadott érték helytelen.<br>Kérjük, adjon meg egy számértéket 1 és 300 között",
   "DE.Controllers.Toolbar.textFraction": "Törtek",
   "DE.Controllers.Toolbar.textFunction": "Függévenyek",
   "DE.Controllers.Toolbar.textInsert": "Beszúrás",

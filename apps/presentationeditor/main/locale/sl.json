@@ -272,7 +272,7 @@
   "PE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "PE.Controllers.Toolbar.textBracket": "Oklepaji",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Določiti morate URL slike.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Vnesena vrednost je nepravilna.<br>Prosim vnesite numerično vrednost med 1 in 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Vnesena vrednost je nepravilna.<br>Prosim vnesite numerično vrednost med 1 in 300",
   "PE.Controllers.Toolbar.textInsert": "Vstavi",
   "PE.Controllers.Toolbar.textIntegral": "Integrali",
   "PE.Controllers.Toolbar.textWarning": "Opozorilo",

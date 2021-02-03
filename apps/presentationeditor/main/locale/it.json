@@ -650,7 +650,7 @@
   "PE.Controllers.Toolbar.textAccent": "Accenti",
   "PE.Controllers.Toolbar.textBracket": "Parentesi",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Specifica URL immagine.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Il valore inserito non è corretto.<br>Inserisci un valore numerico compreso tra 1 e 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Il valore inserito non è corretto.<br>Inserisci un valore numerico compreso tra 1 e 300",
   "PE.Controllers.Toolbar.textFraction": "Frazioni",
   "PE.Controllers.Toolbar.textFunction": "Funzioni",
   "PE.Controllers.Toolbar.textInsert": "Inserisci",

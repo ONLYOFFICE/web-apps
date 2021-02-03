@@ -689,7 +689,7 @@
   "DE.Controllers.Toolbar.textAccent": "Акценти",
   "DE.Controllers.Toolbar.textBracket": "Скоби",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Трябва да посочите URL адреса на изображението.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Въведената стойност е неправилна. <br> Въведете числова стойност между 1 и 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Въведената стойност е неправилна. <br> Въведете числова стойност между 1 и 300",
   "DE.Controllers.Toolbar.textFraction": "Фракции",
   "DE.Controllers.Toolbar.textFunction": "Функция",
   "DE.Controllers.Toolbar.textIntegral": "Интеграли",

@@ -447,7 +447,7 @@
   "DE.Controllers.Toolbar.textAccent": "Narečja",
   "DE.Controllers.Toolbar.textBracket": "Oklepaji",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Določiti morate URL slike.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Vnesena vrednost je nepravilna.<br>Prosim vnesite numerično vrednost med 1 in 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Vnesena vrednost je nepravilna.<br>Prosim vnesite numerično vrednost med 1 in 300",
   "DE.Controllers.Toolbar.textFraction": "Frakcije",
   "DE.Controllers.Toolbar.textFunction": "Funkcije",
   "DE.Controllers.Toolbar.textInsert": "Vstavi",

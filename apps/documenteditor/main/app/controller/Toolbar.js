@@ -3180,7 +3180,7 @@ define([
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
         textWarning                                : 'Warning',
-        textFontSizeErr                            : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 100',
+        textFontSizeErr                            : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 300',
         textSymbols                                : 'Symbols',
         textFraction                               : 'Fraction',
         textScript                                 : 'Script',

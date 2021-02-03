@@ -582,7 +582,7 @@
   "PE.Controllers.Toolbar.textAccent": "Акценти",
   "PE.Controllers.Toolbar.textBracket": "Скоби",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Трябва да посочите URL адреса на изображението.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Въведената стойност е неправилна. <br> Въведете числова стойност между 1 и 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Въведената стойност е неправилна. <br> Въведете числова стойност между 1 и 300",
   "PE.Controllers.Toolbar.textFraction": "Фракции",
   "PE.Controllers.Toolbar.textFunction": "Функция",
   "PE.Controllers.Toolbar.textIntegral": "Интеграли",

@@ -666,7 +666,7 @@
   "PE.Controllers.Toolbar.textAccent": "ダイアクリティカル・マーク",
   "PE.Controllers.Toolbar.textBracket": "括弧",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "画像のURLを指定しなければなりません。",
-  "PE.Controllers.Toolbar.textFontSizeErr": "入力された値が正しくありません。<br>1〜100の数値を入力してください。",
+  "PE.Controllers.Toolbar.textFontSizeErr": "入力された値が正しくありません。<br>1〜300の数値を入力してください。",
   "PE.Controllers.Toolbar.textFraction": "分数",
   "PE.Controllers.Toolbar.textFunction": "関数",
   "PE.Controllers.Toolbar.textInsert": "挿入",

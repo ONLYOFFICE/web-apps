@@ -368,7 +368,7 @@
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "대괄호",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "이미지 URL을 지정해야합니다.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "입력 한 값이 잘못되었습니다. <br> 1에서 100 사이의 숫자 값을 입력하십시오.",
+  "PE.Controllers.Toolbar.textFontSizeErr": "입력 한 값이 잘못되었습니다. <br> 1에서 300 사이의 숫자 값을 입력하십시오.",
   "PE.Controllers.Toolbar.textFraction": "Fractions",
   "PE.Controllers.Toolbar.textFunction": "Functions",
   "PE.Controllers.Toolbar.textIntegral": "Integrals",

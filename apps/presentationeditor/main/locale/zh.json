@@ -660,7 +660,7 @@
   "PE.Controllers.Toolbar.textAccent": "口音",
   "PE.Controllers.Toolbar.textBracket": "括号",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "您需要指定图像URL。",
-  "PE.Controllers.Toolbar.textFontSizeErr": "输入的值不正确。<br>请输入1到100之间的数值",
+  "PE.Controllers.Toolbar.textFontSizeErr": "输入的值不正确。<br>请输入1到300之间的数值",
   "PE.Controllers.Toolbar.textFraction": "分数",
   "PE.Controllers.Toolbar.textFunction": "功能",
   "PE.Controllers.Toolbar.textInsert": "插入",

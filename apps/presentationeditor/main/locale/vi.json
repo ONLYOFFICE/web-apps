@@ -280,7 +280,7 @@
   "PE.Controllers.Toolbar.textAccent": "Dấu phụ",
   "PE.Controllers.Toolbar.textBracket": "Dấu ngoặc",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Bạn cần chỉ định URL hình ảnh.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Giá trị đã nhập không chính xác.<br>Nhập một giá trị số thuộc từ 1 đến 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Giá trị đã nhập không chính xác.<br>Nhập một giá trị số thuộc từ 1 đến 300",
   "PE.Controllers.Toolbar.textFraction": "Phân số",
   "PE.Controllers.Toolbar.textFunction": "Hàm số",
   "PE.Controllers.Toolbar.textIntegral": "Tích phân",

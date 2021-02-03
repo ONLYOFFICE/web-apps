@@ -316,7 +316,7 @@
   "PE.Controllers.Toolbar.textAccent": "Акценти",
   "PE.Controllers.Toolbar.textBracket": "дужки",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Потрібно вказати URL-адресу зображення.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Введене значення невірно. <br> Будь ласка, введіть числове значення від 1 до 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Введене значення невірно. <br> Будь ласка, введіть числове значення від 1 до 300",
   "PE.Controllers.Toolbar.textFraction": "Дроби",
   "PE.Controllers.Toolbar.textFunction": "Функції",
   "PE.Controllers.Toolbar.textIntegral": "Інтеграли",

@@ -667,7 +667,7 @@
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Brackets",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "You need to specify image URL.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "PE.Controllers.Toolbar.textFraction": "Fractions",
   "PE.Controllers.Toolbar.textFunction": "Functions",
   "PE.Controllers.Toolbar.textInsert": "Insert",

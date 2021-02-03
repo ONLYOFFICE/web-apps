@@ -793,7 +793,7 @@
   "DE.Controllers.Toolbar.textAccent": "Accente",
   "DE.Controllers.Toolbar.textBracket": "Paranteze",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Valoarea introdusă nu este corectă.<br>Introduceți valoarea numerică de la 1 până la 100.",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Valoarea introdusă nu este corectă.<br>Introduceți valoarea numerică de la 1 până la 300.",
   "DE.Controllers.Toolbar.textFraction": "Fracții",
   "DE.Controllers.Toolbar.textFunction": "Funcții",
   "DE.Controllers.Toolbar.textInsert": "Inserare",
