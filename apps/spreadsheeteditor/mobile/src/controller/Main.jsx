@@ -159,7 +159,7 @@ class MainController extends Component {
                     const {t} = this.props;
                     this.api = new Asc.spreadsheet_api({
                         'id-view': 'editor_sdk',
-                        'id-input' : 'ce-cell-content',
+                        'id-input': 'idx-cell-content',
                         'mobile': true
                         // 'translate': translate
                     });
