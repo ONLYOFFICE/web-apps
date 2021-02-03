@@ -7,10 +7,20 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import AddChartController from "../../controller/add/AddChart";
 import {AddFunctionController} from "../../controller/add/AddFunction";
+import {PageFunctionGroup, PageFunctionInfo} from "./AddFunction";
 //import AddShapeController from "../../controller/add/AddShape";
 //import {AddOtherController} from "../../controller/add/AddOther";
 
 const routes = [
+    // Functions
+    {
+        path: '/add-function-group/',
+        component: PageFunctionGroup
+    },
+    {
+        path: '/add-function-info/',
+        component: PageFunctionInfo
+    }
 ];
 
 const AddLayoutNavbar = ({ tabs, inPopover }) => {
@@ -62,7 +72,7 @@ const AddTabs = props => {
             caption: _t.textFunction,
             id: 'add-function',
             icon: 'icon-add-formula',
-            component: <AddFunctionController/>
+            component: <AddFunctionController onOptionClick={props.onOptionClick}/>
         });
     }
     /*tabs.push({
@@ -93,8 +103,8 @@ class AddView extends Component {
 
         this.onoptionclick = this.onoptionclick.bind(this);
     }
-    onoptionclick(page){
-        f7.views.current.router.navigate(page);
+    onoptionclick(page, props){
+        f7.views.current.router.navigate(page, props);
     }
     render() {
         const show_popover = this.props.usePopover;

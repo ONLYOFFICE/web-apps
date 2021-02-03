@@ -5,7 +5,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 
 import {LocalStorage} from '../../../../../common/mobile/utils/LocalStorage';
 
-import AddFunction from '../../view/add/AddFunction';
+import {AddFunction} from '../../view/add/AddFunction';
 
 class _FunctionGroups extends Component {
     constructor (props) {
@@ -79,6 +79,7 @@ class AddFunctionController extends Component {
     render () {
         return (
             <AddFunction onInsertFunction={this.onInsertFunction}
+                         onOptionClick={this.props.onOptionClick}
             />
         )
     }
