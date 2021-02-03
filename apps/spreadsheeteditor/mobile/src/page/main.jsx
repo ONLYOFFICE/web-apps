@@ -9,6 +9,8 @@ import Statusbar from '../controller/StatusBar'
 import AddOptions from "../view/add/Add";
 import EditOptions from "../view/edit/Edit";
 
+import {FunctionGroups} from "../controller/add/AddFunction";
+
 export default class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -89,6 +91,8 @@ export default class MainPage extends Component {
                     <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
             }
               <Statusbar />
+
+              <FunctionGroups /> {/* hidden component*/}
           </Page>
       )
   }

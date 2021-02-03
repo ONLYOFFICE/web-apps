@@ -6,7 +6,7 @@ import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
 import AddChartController from "../../controller/add/AddChart";
-import AddFunctionController from "../../controller/add/AddFunction";
+import {AddFunctionController} from "../../controller/add/AddFunction";
 //import AddShapeController from "../../controller/add/AddShape";
 //import {AddOtherController} from "../../controller/add/AddOther";
 

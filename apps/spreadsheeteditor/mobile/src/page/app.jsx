@@ -1,3 +1,5 @@
+import '../../../../common/Gateway.js';
+
 import React from 'react';
 
 import {App,Views,View,Navbar,NavLeft,NavRight,Link} from 'framework7-react';
@@ -5,7 +7,6 @@ import { f7ready } from 'framework7-react';
 
 import routes from '../router/routes.js';
 
-import '../../../../common/Gateway.js';
 import '../../../../common/main/lib/util/utils.js';
 import Notifications from '../../../../common/mobile/utils/notifications.js'
 import {MainController} from '../controller/Main';

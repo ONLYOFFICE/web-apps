@@ -11,7 +11,18 @@
             "textChart": "Chart",
             "textFunction": "Function",
             "textShape": "Shape",
-            "textOther": "Other"
+            "textOther": "Other",
+            "textGroups": "CATEGORIES",
+            "textBack": "Back",
+            "sCatLogical": "Logical",
+            "sCatDateAndTime": "Date and time",
+            "sCatEngineering": "Engineering",
+            "sCatFinancial": "Financial",
+            "sCatInformation": "Information",
+            "sCatLookupAndReference": "Lookup and Reference",
+            "sCatMathematic": "Math and trigonometry",
+            "sCatStatistical": "Statistical",
+            "sCatTextAndData": "Text and data"
         },
         "Edit" : {
             "textSelectObjectToEdit": "Select object to edit",
