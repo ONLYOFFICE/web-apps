@@ -666,7 +666,7 @@
   "PE.Controllers.Toolbar.textAccent": "ສຳນຽງ",
   "PE.Controllers.Toolbar.textBracket": "ວົງປີກາ",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "ທ່ານຕ້ອງບອກທີຢູ່ຮູບ URL",
-  "PE.Controllers.Toolbar.textFontSizeErr": "\nຄ່າທີ່ປ້ອນເຂົ້າບໍ່ຖືກຕ້ອງ. <br> ກະລຸນາໃສ່ຄ່າຕົວເລກລະຫວ່າງ 1 ເຖິງ 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "\nຄ່າທີ່ປ້ອນເຂົ້າບໍ່ຖືກຕ້ອງ. <br> ກະລຸນາໃສ່ຄ່າຕົວເລກລະຫວ່າງ 1 ເຖິງ 300",
   "PE.Controllers.Toolbar.textFraction": "ສ່ວນໜຶ່ງ",
   "PE.Controllers.Toolbar.textFunction": "ໜ້າທີ່",
   "PE.Controllers.Toolbar.textInsert": "ເພີ່ມ",

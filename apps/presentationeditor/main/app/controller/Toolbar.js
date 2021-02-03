@@ -2284,7 +2284,7 @@ define([
 
         textEmptyImgUrl : 'You need to specify image URL.',
         textWarning     : 'Warning',
-        textFontSizeErr : 'The entered value must be more than 0',
+        textFontSizeErr : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 300',
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         textSymbols                                : 'Symbols',
         textFraction                               : 'Fraction',

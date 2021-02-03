@@ -667,7 +667,7 @@
   "PE.Controllers.Toolbar.textAccent": "Destaques",
   "PE.Controllers.Toolbar.textBracket": "Parênteses",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Você precisa especificar uma URL de imagem.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "O valor inserido está incorreto.<br>Insira um valor numérico entre 1 e 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "O valor inserido está incorreto.<br>Insira um valor numérico entre 1 e 300",
   "PE.Controllers.Toolbar.textFraction": "Frações",
   "PE.Controllers.Toolbar.textFunction": "Funções",
   "PE.Controllers.Toolbar.textInsert": "Inserir",

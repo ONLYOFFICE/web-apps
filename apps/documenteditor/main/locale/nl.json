@@ -793,7 +793,7 @@
   "DE.Controllers.Toolbar.textAccent": "Accenten",
   "DE.Controllers.Toolbar.textBracket": "Haakjes",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "U moet een URL opgeven voor de afbeelding.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "De ingevoerde waarde is onjuist.<br>Voer een waarde tussen 1 en 100 in",
+  "DE.Controllers.Toolbar.textFontSizeErr": "De ingevoerde waarde is onjuist.<br>Voer een waarde tussen 1 en 300 in",
   "DE.Controllers.Toolbar.textFraction": "Breuken",
   "DE.Controllers.Toolbar.textFunction": "Functies",
   "DE.Controllers.Toolbar.textInsert": "Invoegen",

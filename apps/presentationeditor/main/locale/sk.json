@@ -439,7 +439,7 @@
   "PE.Controllers.Toolbar.textAccent": "Akcenty",
   "PE.Controllers.Toolbar.textBracket": "Zátvorky",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Musíte upresniť URL obrázka.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota je nesprávna.<br>Prosím, zadajte číselnú hodnotu medzi 1 a 100.",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota je nesprávna.<br>Prosím, zadajte číselnú hodnotu medzi 1 a 300.",
   "PE.Controllers.Toolbar.textFraction": "Zlomky",
   "PE.Controllers.Toolbar.textFunction": "Funkcie",
   "PE.Controllers.Toolbar.textInsert": "Vložiť",

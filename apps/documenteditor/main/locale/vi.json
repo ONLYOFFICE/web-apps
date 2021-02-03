@@ -362,7 +362,7 @@
   "DE.Controllers.Toolbar.textAccent": "Dấu phụ",
   "DE.Controllers.Toolbar.textBracket": "Dấu ngoặc",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Bạn cần chỉ định URL hình ảnh.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Giá trị đã nhập không chính xác.<br>Nhập một giá trị số thuộc từ 1 đến 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Giá trị đã nhập không chính xác.<br>Nhập một giá trị số thuộc từ 1 đến 300",
   "DE.Controllers.Toolbar.textFraction": "Phân số",
   "DE.Controllers.Toolbar.textFunction": "Hàm số",
   "DE.Controllers.Toolbar.textIntegral": "Tích phân",

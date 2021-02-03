@@ -609,7 +609,7 @@
   "PE.Controllers.Toolbar.textAccent": "Akcenty",
   "PE.Controllers.Toolbar.textBracket": "Závorky",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Je třeba zadat URL adresu obrázku.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota není správná.<br>Zadejte hodnotu z rozmezí 1 až 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota není správná.<br>Zadejte hodnotu z rozmezí 1 až 300",
   "PE.Controllers.Toolbar.textFraction": "Zlomky",
   "PE.Controllers.Toolbar.textFunction": "Funkce",
   "PE.Controllers.Toolbar.textInsert": "Vložit",

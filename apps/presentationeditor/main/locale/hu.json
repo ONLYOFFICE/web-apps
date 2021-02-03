@@ -666,7 +666,7 @@
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Zárójelben",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Meg kell adni a kép URL linkjét.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "A megadott érték helytelen.<br>Kérjük, adjon meg egy számértéket 1 és 100 között",
+  "PE.Controllers.Toolbar.textFontSizeErr": "A megadott érték helytelen.<br>Kérjük, adjon meg egy számértéket 1 és 300 között",
   "PE.Controllers.Toolbar.textFraction": "Törtek",
   "PE.Controllers.Toolbar.textFunction": "Függévenyek",
   "PE.Controllers.Toolbar.textInsert": "Beszúrás",

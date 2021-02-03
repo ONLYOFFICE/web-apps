@@ -786,7 +786,7 @@
   "DE.Controllers.Toolbar.textAccent": "口音",
   "DE.Controllers.Toolbar.textBracket": "括号",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "您需要指定图像URL。",
-  "DE.Controllers.Toolbar.textFontSizeErr": "输入的值不正确。<br>请输入1到100之间的数值",
+  "DE.Controllers.Toolbar.textFontSizeErr": "输入的值不正确。<br>请输入1到300之间的数值",
   "DE.Controllers.Toolbar.textFraction": "分数",
   "DE.Controllers.Toolbar.textFunction": "功能",
   "DE.Controllers.Toolbar.textInsert": "插入",

@@ -436,7 +436,7 @@
   "DE.Controllers.Toolbar.textAccent": "Accents",
   "DE.Controllers.Toolbar.textBracket": "대괄호",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "이미지 URL을 지정해야합니다.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "입력 한 값이 잘못되었습니다. <br> 1 ~ 100 사이의 숫자 값을 입력하십시오.",
+  "DE.Controllers.Toolbar.textFontSizeErr": "입력 한 값이 잘못되었습니다. <br> 1 ~ 300 사이의 숫자 값을 입력하십시오.",
   "DE.Controllers.Toolbar.textFraction": "Fractions",
   "DE.Controllers.Toolbar.textFunction": "Functions",
   "DE.Controllers.Toolbar.textIntegral": "Integrals",

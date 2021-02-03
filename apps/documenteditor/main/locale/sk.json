@@ -697,7 +697,7 @@
   "DE.Controllers.Toolbar.textAccent": "Akcenty",
   "DE.Controllers.Toolbar.textBracket": "Zátvorky",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Musíte upresniť URL obrázka.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota je nesprávna.<br>Prosím, zadajte číselnú hodnotu medzi 1 a 100.",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Zadaná hodnota je nesprávna.<br>Prosím, zadajte číselnú hodnotu medzi 1 a 300.",
   "DE.Controllers.Toolbar.textFraction": "Zlomky",
   "DE.Controllers.Toolbar.textFunction": "Funkcie",
   "DE.Controllers.Toolbar.textInsert": "Vložiť",

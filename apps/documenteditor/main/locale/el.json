@@ -793,7 +793,7 @@
   "DE.Controllers.Toolbar.textAccent": "Τόνοι/Πνεύματα",
   "DE.Controllers.Toolbar.textBracket": "Αγκύλες",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Πρέπει να καθορίσετε τη διεύθυνση URL της εικόνας.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Η τιμή που βάλατε δεν είναι αποδεκτή.<br>Παρακαλούμε βάλτε μια αριθμητική τιμή μεταξύ 1 και 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Η τιμή που βάλατε δεν είναι αποδεκτή.<br>Παρακαλούμε βάλτε μια αριθμητική τιμή μεταξύ 1 και 300",
   "DE.Controllers.Toolbar.textFraction": "Κλάσματα",
   "DE.Controllers.Toolbar.textFunction": "Λειτουργίες",
   "DE.Controllers.Toolbar.textInsert": "Εισαγωγή",

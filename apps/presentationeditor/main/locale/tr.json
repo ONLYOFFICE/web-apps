@@ -306,7 +306,7 @@
   "PE.Controllers.Toolbar.textAccent": "Aksanlar",
   "PE.Controllers.Toolbar.textBracket": "Köşeli Ayraç",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Resim URL'si belirtmelisiniz.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Girilen değer yanlış. <br> Lütfen 1 ile 100 arasında sayısal değer giriniz.",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Girilen değer yanlış. <br> Lütfen 1 ile 300 arasında sayısal değer giriniz.",
   "PE.Controllers.Toolbar.textFraction": "Kesirler",
   "PE.Controllers.Toolbar.textFunction": "Kesirler",
   "PE.Controllers.Toolbar.textIntegral": "İntegraller",

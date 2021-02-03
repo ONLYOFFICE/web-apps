@@ -201,7 +201,7 @@
   "PE.Controllers.Statusbar.zoomText": "Zoom {0}%",
   "PE.Controllers.Toolbar.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the system fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "You need to specify image URL.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "PE.Controllers.Toolbar.textWarning": "Warning",
   "PE.Views.ChartSettings.textChartType": "Change Chart Type",
   "PE.Views.ChartSettings.textEditData": "Edit Data",

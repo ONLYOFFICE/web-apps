@@ -439,7 +439,7 @@
   "DE.Controllers.Toolbar.textAccent": "Aksentit",
   "DE.Controllers.Toolbar.textBracket": "Hakasulkeet",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Sinun tulee määritellä kuvan verkko-osoite",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Syötetty arvo ei ole oikein. Ole hyvä ja syötä numeerinen arvo välillä 1 ja 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Syötetty arvo ei ole oikein. Ole hyvä ja syötä numeerinen arvo välillä 1 ja 300",
   "DE.Controllers.Toolbar.textFraction": "Murtoluvut",
   "DE.Controllers.Toolbar.textFunction": "Funktiot",
   "DE.Controllers.Toolbar.textIntegral": "Integraalit",

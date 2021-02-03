@@ -544,7 +544,7 @@
   "PE.Controllers.Toolbar.textAccent": "Accenter",
   "PE.Controllers.Toolbar.textBracket": "Parenteser",
   "PE.Controllers.Toolbar.textEmptyImgUrl": "Du behöver ange en URL för bilden.",
-  "PE.Controllers.Toolbar.textFontSizeErr": "Det angivna värdet är inkorrekt.<br> Vänligen ange ett numeriskt värde mellan 0 och 100",
+  "PE.Controllers.Toolbar.textFontSizeErr": "Det angivna värdet är inkorrekt.<br> Vänligen ange ett numeriskt värde mellan 0 och 300",
   "PE.Controllers.Toolbar.textFraction": "Fraktioner",
   "PE.Controllers.Toolbar.textFunction": "Funktioner",
   "PE.Controllers.Toolbar.textInsert": "Infoga",

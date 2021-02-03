@@ -792,7 +792,7 @@
   "DE.Controllers.Toolbar.textAccent": "ສຳນຽງ",
   "DE.Controllers.Toolbar.textBracket": "ວົງເລັບ",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "ທ່ານຕ້ອງບອກທີຢູ່ຮູບ URL",
-  "DE.Controllers.Toolbar.textFontSizeErr": "\nຄ່າທີ່ປ້ອນເຂົ້າບໍ່ຖືກຕ້ອງ. <br> ກະລຸນາໃສ່ຄ່າຕົວເລກລະຫວ່າງ 1 ເຖິງ 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "\nຄ່າທີ່ປ້ອນເຂົ້າບໍ່ຖືກຕ້ອງ. <br> ກະລຸນາໃສ່ຄ່າຕົວເລກລະຫວ່າງ 1 ເຖິງ 300",
   "DE.Controllers.Toolbar.textFraction": "ສ່ວນໜຶ່ງ",
   "DE.Controllers.Toolbar.textFunction": "ໜ້າທີ່",
   "DE.Controllers.Toolbar.textInsert": "ເພີ່ມ",
