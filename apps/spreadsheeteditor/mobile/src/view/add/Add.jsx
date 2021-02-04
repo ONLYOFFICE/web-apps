@@ -8,7 +8,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import AddChartController from "../../controller/add/AddChart";
 import {AddFunctionController} from "../../controller/add/AddFunction";
 import {PageFunctionGroup, PageFunctionInfo} from "./AddFunction";
-//import AddShapeController from "../../controller/add/AddShape";
+import AddShapeController from "../../controller/add/AddShape";
 //import {AddOtherController} from "../../controller/add/AddOther";
 
 const routes = [
@@ -75,13 +75,15 @@ const AddTabs = props => {
             component: <AddFunctionController onOptionClick={props.onOptionClick}/>
         });
     }
+    if (!showPanels || showPanels.indexOf('shape') > 0) {
+        tabs.push({
+            caption: _t.textShape,
+            id: 'add-shape',
+            icon: 'icon-add-shape',
+            component: <AddShapeController/>
+        });
+    }
     /*tabs.push({
-        caption: _t.textShape,
-        id: 'add-shape',
-        icon: 'icon-add-shape',
-        component: <AddShapeController />
-    });
-    tabs.push({
         caption: _t.textOther,
         id: 'add-other',
         icon: 'icon-add-other',
