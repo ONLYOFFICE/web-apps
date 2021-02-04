@@ -79,8 +79,10 @@ define([
 
         setConfig: function(config) {
             this.toolbar = config.toolbar;
+            this.appConfig = config.config;
             this.view = this.createView('FormsTab', {
-                toolbar: this.toolbar.toolbar
+                toolbar: this.toolbar.toolbar,
+                config: config.config
             });
             this.addListeners({
                 'FormsTab': {
@@ -89,13 +91,19 @@ define([
                     'forms:clear': this.onClearClick,
                     'forms:no-color': this.onNoControlsColor,
                     'forms:select-color': this.onSelectControlsColor,
-                    'forms:mode': this.onModeClick
+                    'forms:mode': this.onModeClick,
+                    'forms:goto': this.onGoTo,
+                    'forms:submit': this.onSubmitClick
                 }
             });
         },
 
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
+        },
+
+        createToolbarPanel: function() {
+            return this.view.getPanel();
         },
 
         getView: function(name) {
@@ -108,7 +116,7 @@ define([
         },
 
         onApiFocusObject: function(selectedObjects) {
-            if (!this.toolbar.editMode) return;
+            if (!this.toolbar.editMode || this.appConfig.isRestrictedEdit) return;
 
             var pr, i = -1, type,
                 paragraph_locked = false,
@@ -215,6 +223,16 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onGoTo: function(type) {
+            // (type=='prev') ? this.api.asc_GoToPrevForm() : this.api.asc_GoToNextForm();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onSubmitClick: function() {
+            // this.api.asc_SubmitForm();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
         disableEditing: function(disable) {
             if (this._state.DisabledEditing != disable) {
                 this._state.DisabledEditing = disable;
@@ -242,7 +260,7 @@ define([
             (new Promise(function (accept, reject) {
                 accept();
             })).then(function(){
-                if (config.canEditContentControl) {
+                if (config.canEditContentControl && me.view.btnHighlight) {
                     var clr = me.api.asc_GetSpecialFormsHighlightColor();
                     clr && (clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b()));
                     me.view.btnHighlight.currentColor = clr;

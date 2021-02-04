@@ -1291,6 +1291,7 @@ define([
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
                 this.appOptions.canEditContentControl = (this.permissions.modifyContentControl!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
+                this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
                 this.appOptions.canFillForms   = this.appOptions.canLicense && ((this.permissions.fillForms===undefined) ? this.appOptions.isEdit : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && (this.appOptions.canComments || this.appOptions.canFillForms);
                 if (this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.appOptions.canFillForms) // must be one restricted mode, priority for filling forms

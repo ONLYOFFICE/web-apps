@@ -3098,15 +3098,19 @@ define([
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
-
-                if (config.canFeatureContentControl) {
-                    tab = {caption: me.textTabForms, action: 'forms'};
-                    var forms = me.getApplication().getController('FormsTab');
-                    forms.setApi(me.api).setConfig({toolbar: me});
+            }
+            if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
+                tab = {caption: me.textTabForms, action: 'forms'};
+                var forms = me.getApplication().getController('FormsTab');
+                forms.setApi(me.api).setConfig({toolbar: me, config: config});
+                $panel = forms.createToolbarPanel();
+                if ($panel) {
                     me.toolbar.addTab(tab, $panel, 4);
                     me.toolbar.setVisible('forms', true);
-                    Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
-                    me.onChangeSdtGlobalSettings();
+                    if (config.isEdit && config.canFeatureContentControl) {
+                        Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        me.onChangeSdtGlobalSettings();
+                    }
                 }
             }
         },
