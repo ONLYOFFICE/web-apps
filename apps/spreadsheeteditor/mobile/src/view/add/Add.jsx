@@ -9,7 +9,9 @@ import AddChartController from "../../controller/add/AddChart";
 import {AddFunctionController} from "../../controller/add/AddFunction";
 import {PageFunctionGroup, PageFunctionInfo} from "./AddFunction";
 import AddShapeController from "../../controller/add/AddShape";
-//import {AddOtherController} from "../../controller/add/AddOther";
+import {AddOtherController} from "../../controller/add/AddOther";
+import {AddImageController} from "../../controller/add/AddImage";
+import {PageImageLinkSettings} from "./AddImage";
 
 const routes = [
     // Functions
@@ -20,6 +22,15 @@ const routes = [
     {
         path: '/add-function-info/',
         component: PageFunctionInfo
+    },
+    // Image
+    {
+        path: '/add-image/',
+        component: AddImageController
+    },
+    {
+        path: '/add-image-from-url/',
+        component: PageImageLinkSettings
     }
 ];
 
@@ -83,12 +94,22 @@ const AddTabs = props => {
             component: <AddShapeController/>
         });
     }
-    /*tabs.push({
-        caption: _t.textOther,
-        id: 'add-other',
-        icon: 'icon-add-other',
-        component: <AddOtherController />
-    });*/
+    if (showPanels && showPanels.indexOf('image') !== -1) {
+        tabs.push({
+            caption: _t.textImage,
+            id: 'add-image',
+            icon: 'icon-add-image',
+            component: <AddImageController inTabs={true}/>
+        });
+    }
+    if (!showPanels) {
+        tabs.push({
+            caption: _t.textOther,
+            id: 'add-other',
+            icon: 'icon-add-other',
+            component: <AddOtherController/>
+        });
+    }
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>

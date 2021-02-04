@@ -22,7 +22,17 @@
             "sCatLookupAndReference": "Lookup and Reference",
             "sCatMathematic": "Math and trigonometry",
             "sCatStatistical": "Statistical",
-            "sCatTextAndData": "Text and data"
+            "sCatTextAndData": "Text and data",
+            "textImage": "Image",
+            "textInsertImage": "Insert Image",
+            "textLinkSettings": "Link Settings",
+            "textAddress": "Address",
+            "textImageURL": "Image URL",
+            "textPictureFromLibrary": "Picture from library",
+            "textPictureFromURL": "Picture from URL",
+            "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+            "textEmptyImgUrl": "You need to specify image URL.",
+            "notcriticalErrorTitle": "Warning"
         },
         "Edit" : {
             "textSelectObjectToEdit": "Select object to edit",
