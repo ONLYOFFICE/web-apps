@@ -12,7 +12,6 @@ const EditShape = props => {
     // const selections = storeFocusObjects.selections;
     // console.log(selections);
     const shapeObject = storeFocusObjects.shapeObject;
-    console.log(shapeObject);
     const canFill = shapeObject.get_ShapeProperties().asc_getCanFill();
 
     return (

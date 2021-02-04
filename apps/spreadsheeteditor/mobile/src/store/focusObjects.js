@@ -136,11 +136,9 @@ export class storeFocusObjects {
 
     @computed get shapeObject() {
         const shapes = [];
-        console.log(this._focusObjects);
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
                 if (object.get_ObjectValue() && object.get_ObjectValue().get_ShapeProperties()) {
-                    console.log(object);
                     shapes.push(object);    
                 }
             }
@@ -155,10 +153,8 @@ export class storeFocusObjects {
 
     @computed get imageObject() {
         const images = [];
-        console.log(this._focusObjects);
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
-                console.log(object);
                 images.push(object);     
             }
         }
