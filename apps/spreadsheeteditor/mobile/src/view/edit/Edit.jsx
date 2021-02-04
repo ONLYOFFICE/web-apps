@@ -11,6 +11,7 @@ import EditImageController from "../../controller/edit/EditImage";
 
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
+import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell } from './EditCell';
 
 const routes = [
 
@@ -58,6 +59,25 @@ const routes = [
     {
         path: '/edit-image-link/',
         component: PageLinkSettings
+    },
+
+    // Cell
+
+    {
+        path: '/edit-cell-text-color/',
+        component: TextColorCell
+    },
+    {
+        path: '/edit-cell-fill-color/',
+        component: FillColorCell
+    },
+    {
+        path: '/edit-cell-text-custom-color/',
+        component: CustomTextColorCell
+    },
+    {
+        path: '/edit-cell-fill-custom-color/',
+        component: CustomFillColorCell
     }
 
 ];
@@ -122,6 +142,7 @@ const EditTabs = props => {
     const store = props.storeFocusObjects;
     const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.objects : store.selections);
     let editors = [];
+
     if (settings.length < 1) {
         editors.push({
             caption: _t.textSettings,

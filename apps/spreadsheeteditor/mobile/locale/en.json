@@ -49,7 +49,17 @@
             "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
             "notcriticalErrorTitle": "Warning",
             "textPictureFromLibrary": "Picture from Library",
-            "textPictureFromURL": "Picture from URL"
+            "textPictureFromURL": "Picture from URL",
+            "textTextColor": "Text Color",
+            "textFillColor": "Fill Color",
+            "textTextFormat": "Text Format",
+            "textTextOrientation": "Text Orientation",
+            "textBorderStyle": "Border Style",
+            "textFonts": "Fonts",
+            "textAuto": "Auto",
+            "textPt": "pt",
+            "textFormat": "Format",
+            "textCellStyles": "Cell Styles"
         }
     },
     "Common": {

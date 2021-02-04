@@ -5,7 +5,7 @@ import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects")
+@inject("storeFocusObjects", "storeCellSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -205,12 +205,34 @@ class MainController extends Component {
         me.api.asc_registerCallback('asc_onEndAction',                  me._onLongActionEnd.bind(me));
 
         const storeFocusObjects = this.props.storeFocusObjects;
+        const storeCellSettings = this.props.storeCellSettings;
+        const styleSize = storeCellSettings.styleSize;
        
         this.api.asc_registerCallback('asc_onSelectionChanged', cellInfo => {
-            // console.log(cellInfo);
+            console.log(cellInfo);
             storeFocusObjects.resetCellInfo(cellInfo);
+            storeCellSettings.initCellSettings(cellInfo);
             let selectedObjects = Common.EditorApi.get().asc_getGraphicObjectProps();
-            storeFocusObjects.resetFocusObjects(selectedObjects);
+
+            if(selectedObjects.length) {
+                storeFocusObjects.resetFocusObjects(selectedObjects);
+            }
+
+        });
+
+        this.api.asc_setThumbnailStylesSizes(styleSize.width, styleSize.height);
+
+        this.api.asc_registerCallback('asc_onInitEditorFonts', (fonts, select) => {
+            storeCellSettings.initEditorFonts(fonts, select);
+        });
+
+        this.api.asc_registerCallback('asc_onEditorSelectionChanged', fontObj => {
+            console.log(fontObj)
+            storeCellSettings.initFontInfo(fontObj);
+        });
+
+        this.api.asc_registerCallback('asc_onInitEditorStyles', styles => {
+            storeCellSettings.initCellStyles(styles);
         });
 
         this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {

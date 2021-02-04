@@ -7,6 +7,7 @@ import {storePalette} from "./palette";
 // import {storeTextSettings} from "./textSettings";
 // import {storeParagraphSettings} from "./paragraphSettings";
 import {storeShapeSettings} from "./shapeSettings";
+import {storeCellSettings} from "./cellSettings";
 // import {storeImageSettings} from "./imageSettings";
 // import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
@@ -20,7 +21,8 @@ export const stores = {
     // storeParagraphSettings: new storeParagraphSettings(),
     storeShapeSettings: new storeShapeSettings(),
     storeChartSettings: new storeChartSettings(),
-    storePalette: new storePalette()
+    storePalette: new storePalette(),
+    storeCellSettings: new storeCellSettings()
     // storeImageSettings: new storeImageSettings(),
     // storeTableSettings: new storeTableSettings()
 };
