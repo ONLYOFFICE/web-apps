@@ -27,7 +27,47 @@
         "Edit" : {
             "textSelectObjectToEdit": "Select object to edit",
             "textSettings": "Settings",
-            "textCell": "Cell"
+            "textCell": "Cell",
+            "textReplace": "Replace",
+            "textReorder": "Reorder",
+            "textAlign": "Align",
+            "textRemoveShape": "Remove Shape",
+            "textStyle": "Style",
+            "textShape": "Shape",
+            "textBack": "Back",
+            "textFill": "Fill",
+            "textBorder": "Border",
+            "textEffects": "Effects",
+            "textAddCustomColor": "Add Custom Color",
+            "textCustomColor": "Custom Color",
+            "textOpacity": "Opacity",
+            "textSize": "Size",
+            "textColor": "Color",
+            "textBringToForeground": "Bring to Foreground",
+            "textSendToBackground": "Send to Background",
+            "textMoveForward": "Move Forward",
+            "textMoveBackward": "Move Backward",
+            "textImage": "Image", 
+            "textFromLibrary": "Picture from Library",
+            "textFromURL": "Picture from URL",
+            "textLinkSettings": "Link Settings",
+            "textAddress": "Address",
+            "textImageURL": "Image URL",
+            "textReplaceImage": "Replace Image",
+            "textActualSize": "Actual Size",
+            "textRemoveImage": "Remove Image",
+            "textEmptyImgUrl": "You need to specify image URL.",
+            "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+            "notcriticalErrorTitle": "Warning",
+            "textPictureFromLibrary": "Picture from Library",
+            "textPictureFromURL": "Picture from URL"
+        }
+    },
+    "Common": {
+        "ThemeColorPalette": {
+          "textThemeColors": "Theme Colors",
+          "textStandartColors": "Standard Colors",
+          "textCustomColors": "Custom Colors"
         }
     }
 }

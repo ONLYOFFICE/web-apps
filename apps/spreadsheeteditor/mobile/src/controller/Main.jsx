@@ -205,11 +205,16 @@ class MainController extends Component {
         me.api.asc_registerCallback('asc_onEndAction',                  me._onLongActionEnd.bind(me));
 
         const storeFocusObjects = this.props.storeFocusObjects;
-        this.api.asc_registerCallback('asc_onFocusObject', objects => {
-            storeFocusObjects.resetFocusObjects(objects);
-        });
+       
         this.api.asc_registerCallback('asc_onSelectionChanged', cellInfo => {
+            // console.log(cellInfo);
             storeFocusObjects.resetCellInfo(cellInfo);
+            let selectedObjects = Common.EditorApi.get().asc_getGraphicObjectProps();
+            storeFocusObjects.resetFocusObjects(selectedObjects);
+        });
+
+        this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
+            Common.Utils.ThemeColor.setColors(colors, standart_colors);
         });
     }
 
