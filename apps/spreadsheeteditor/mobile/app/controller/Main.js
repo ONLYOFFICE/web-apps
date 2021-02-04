@@ -757,7 +757,13 @@ define([
                     me.appOptions.canComments     = me.appOptions.canLicense && (me.permissions.comment===undefined ? me.appOptions.isEdit : me.permissions.comment) && (me.editorConfig.mode !== 'view');
                     me.appOptions.canComments     = me.appOptions.canComments && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
                     me.appOptions.canViewComments = me.appOptions.canComments || !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
-                    me.appOptions.canEditComments = me.appOptions.isOffline || !(typeof (me.editorConfig.customization) == 'object' && me.editorConfig.customization.commentAuthorOnly);
+                    me.appOptions.canEditComments= me.appOptions.isOffline || !me.permissions.editCommentAuthorOnly;
+                    me.appOptions.canDeleteComments= me.appOptions.isOffline || !me.permissions.deleteCommentAuthorOnly;
+                    if ((typeof (this.editorConfig.customization) == 'object') && me.editorConfig.customization.commentAuthorOnly===true) {
+                        console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
+                        if (me.permissions.editCommentAuthorOnly===undefined && me.permissions.deleteCommentAuthorOnly===undefined)
+                            me.appOptions.canEditComments = me.appOptions.canDeleteComments = me.appOptions.isOffline;
+                    }
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                     me.appOptions.trialMode      = params.asc_getLicenseMode();
 

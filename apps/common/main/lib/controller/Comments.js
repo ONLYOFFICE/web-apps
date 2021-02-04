@@ -237,7 +237,7 @@ define([
         },
         onRemoveComments: function (type) {
             if (this.api) {
-                this.api.asc_RemoveAllComments(type=='my' || !this.mode.canEditComments, type=='current');// 1 param = true if remove only my comments, 2 param - remove current comments
+                this.api.asc_RemoveAllComments(type=='my' || !this.mode.canDeleteComments, type=='current');// 1 param = true if remove only my comments, 2 param - remove current comments
             }
         },
         onResolveComment: function (uid) {
@@ -776,6 +776,8 @@ define([
                 comment.set('userdata', data.asc_getUserData());
                 comment.set('time',     date.getTime());
                 comment.set('date',     t.dateToLocaleTimeString(date));
+                comment.set('editable', t.mode.canEditComments || (data.asc_getUserId() == t.currentUserId));
+                comment.set('removable', t.mode.canDeleteComments || (data.asc_getUserId() == t.currentUserId));
 
                 replies = _.clone(comment.get('replys'));
 
@@ -801,7 +803,8 @@ define([
                         editTextInPopover   : false,
                         showReplyInPopover  : false,
                         scope               : t.view,
-                        editable            : t.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId)
+                        editable            : t.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId),
+                        removable           : t.mode.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId)
                     }));
                 }
 
@@ -1241,6 +1244,7 @@ define([
                 hideAddReply        : !_.isUndefined(this.hidereply) ? this.hidereply : (this.showPopover ? true : false),
                 scope               : this.view,
                 editable            : this.mode.canEditComments || (data.asc_getUserId() == this.currentUserId),
+                removable            : this.mode.canDeleteComments || (data.asc_getUserId() == this.currentUserId),
                 hint                : !this.mode.canComments,
                 groupName           : (groupname && groupname.length>1) ? groupname[1] : null
             });
@@ -1277,7 +1281,8 @@ define([
                         editTextInPopover   : false,
                         showReplyInPopover  : false,
                         scope               : this.view,
-                        editable            : this.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId)
+                        editable            : this.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId),
+                        removable           : this.mode.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId)
                     }));
                 }
             }
@@ -1438,7 +1443,7 @@ define([
                     for (i = 0; i < comments.length; ++i) {
                         comment = this.findComment(comments[i].asc_getId());
                         if (comment) {
-                            comment.set('editTextInPopover', t.mode.canEditComments);// dont't edit comment when customization->commentAuthorOnly is true
+                            comment.set('editTextInPopover', t.mode.canEditComments);// dont't edit comment when customization->commentAuthorOnly is true or when permissions.editCommentAuthorOnly is true
                             comment.set('hint', false);
                             this.popoverComments.push(comment);
                         }

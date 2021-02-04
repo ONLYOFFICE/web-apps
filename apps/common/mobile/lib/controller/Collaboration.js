@@ -1144,7 +1144,7 @@ define([
                         var me = this;
                         _.delay(function () {
                             var _menuItems = [];
-                            _menuItems.push({
+                            comment.editable && _menuItems.push({
                                 caption: me.textEdit,
                                 event: 'edit'
                             });
@@ -1165,7 +1165,7 @@ define([
                                     event: 'addreply'
                                 });
                             }
-                            _menuItems.push({
+                            comment.removable && _menuItems.push({
                                 caption: me.textDeleteComment,
                                 event: 'delete',
                                 color: 'red'
@@ -1203,13 +1203,15 @@ define([
                     if (_.isNumber(idComment)) {
                         idComment = idComment.toString();
                     }
-                    _.delay(function () {
+                    var comment = this.findComment(idComment);
+                    var reply = comment && comment.replys ? comment.replys[ind] : null;
+                    reply && _.delay(function () {
                         var _menuItems = [];
-                        _menuItems.push({
+                        reply.editable && _menuItems.push({
                             caption: me.textEdit,
                             event: 'editreply'
                         });
-                        _menuItems.push({
+                        reply.removable && _menuItems.push({
                             caption: me.textDeleteReply,
                             event: 'deletereply',
                             color: 'red'
@@ -1555,7 +1557,8 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : date.getTime(),
                             userInitials        : this.getInitials(username),
-                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)
+                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
+                            removable           : this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
                         });
                     }
                 }
@@ -1584,7 +1587,8 @@ define([
                     replys              : [],
                     groupName           : (groupname && groupname.length>1) ? groupname[1] : null,
                     userInitials        : this.getInitials(username),
-                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId)
+                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId),
+                    removable           : this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)
                 };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
@@ -1620,6 +1624,8 @@ define([
                     comment.quote = data.asc_getQuoteText();
                     comment.time = date.getTime();
                     comment.date = me.dateToLocaleTimeString(date);
+                    comment.editable = me.appConfig.canEditComments || (data.asc_getUserId() == _userId);
+                    comment.removable = me.appConfig.canDeleteComments || (data.asc_getUserId() == _userId);
 
                     replies = _.clone(comment.replys);
 
@@ -1644,7 +1650,8 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : dateReply.getTime(),
                             userInitials        : me.getInitials(username),
-                            editable            : me.appConfig.canEditComments || (data.asc_getUserId() == _userId)
+                            editable            : me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
+                            removable           : me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
                         });
                     }
                     comment.replys = replies;
