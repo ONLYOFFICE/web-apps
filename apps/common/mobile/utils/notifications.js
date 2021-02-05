@@ -5,8 +5,15 @@ export default class Notifications {
     }
 
     on(event, callback) {
-        !this._events[event] && (this._events[event] = []);
-        this._events[event].push(callback);
+        const addevent = (e, c) => {
+            !this._events[e] && (this._events[e] = []);
+            this._events[e].push(c);
+        };
+
+        if ( typeof(event) == 'object' )
+            for (const i in event)
+                addevent(i, event[i])
+        else addevent(event, callback);
     }
 
     off(event, callback) {
