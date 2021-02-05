@@ -453,7 +453,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 allowBlank  : true,
                 disabled    : !item.get('activeSheet'),
                 validateOnChange: true
-            }).on('button:click', _.bind(this.onSelectData, this, rule));
+            }).on('button:click', _.bind(this.onSelectData, this, rule, item));
 
             var val = item.get('range');
             (val!==null) && input.setValue(val);
@@ -479,14 +479,16 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             props.asc_getPreview(this.rules[rule.get('ruleIndex')].previewDiv, text);
         },
 
-        onSelectData: function(item, cmp) {
+        onSelectData: function(rule, item) {
             var me = this;
             if (me.api) {
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
-                        item.dataRangeValid = dlg.getSettings();
-                        item.txtDataRange.setValue(item.dataRangeValid);
-                        item.txtDataRange.checkValidate();
+                        rule.dataRangeValid = dlg.getSettings();
+                        rule.txtDataRange.setValue(rule.dataRangeValid);
+                        rule.txtDataRange.checkValidate();
+                        item.set('ruleChanged', true);
+                        item.get('props').asc_setLocation(rule.dataRangeValid);
                     }
                 };
 
@@ -501,7 +503,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 win.show(xy.left + 160, xy.top + 125);
                 win.setSettings({
                     api     : me.api,
-                    range   : (!_.isEmpty(item.txtDataRange.getValue()) && (item.txtDataRange.checkValidate()==true)) ? item.txtDataRange.getValue() : item.dataRangeValid,
+                    range   : (!_.isEmpty(rule.txtDataRange.getValue()) && (rule.txtDataRange.checkValidate()==true)) ? rule.txtDataRange.getValue() : rule.dataRangeValid,
                     type    : Asc.c_oAscSelectionDialogType.Chart
                 });
             }
@@ -670,8 +672,13 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     var store = this.rulesStores[sheet];
                     var arr = [];
                     store && store.each(function(item) {
+                        var props = item.get('props');
+                        if (item.get('priority')!==props.asc_getPriority()) {
+                            props.asc_setPriority(item.get('priority'));
+                            item.set('ruleChanged', true);
+                        }
                         if (item.get('ruleChanged'))
-                            arr.push(item.get('props'));
+                            arr.push(props);
                     });
                     (arr.length>0) && (sheets[sheet] = arr);
                 }

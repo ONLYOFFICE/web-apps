@@ -1034,6 +1034,8 @@ define([
                 } else {
                     picker.select(color, true);
                 }
+                picker && (picker.currentColor = color);
+                control && (control.currentColor = color);
                 return color;
             };
 
