@@ -224,7 +224,8 @@ define([
         },
 
         onGoTo: function(type) {
-            // (type=='prev') ? this.api.asc_GoToPrevForm() : this.api.asc_GoToNextForm();
+            if (this.api)
+                this.api.asc_MoveToFillingForm(type=='next');
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
