@@ -1865,6 +1865,7 @@
   "DE.Views.LineNumbersDialog.textSection": "Current section",
   "DE.Views.LineNumbersDialog.textStartAt": "Start at",
   "DE.Views.LineNumbersDialog.textTitle": "Line Numbers",
+  "DE.Views.LineNumbersDialog.txtAutoText": "Auto",
   "DE.Views.Links.capBtnBookmarks": "Bookmark",
   "DE.Views.Links.capBtnCaption": "Caption",
   "DE.Views.Links.capBtnContentsUpdate": "Refresh",
