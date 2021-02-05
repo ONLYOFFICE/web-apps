@@ -1070,10 +1070,11 @@ define([
                     this.appOptions.canFavorite && this.headerView && this.headerView.setFavorite(this.appOptions.spreadsheet.info.favorite);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
-                    this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
+                    this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroup ||
+                                                            this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
                     Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
                     Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
-                    this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
+                    this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroup, this.editorConfig.customization.reviewPermissions);
                     this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
                 } else
                     this.appOptions.canModifyFilter = true;
