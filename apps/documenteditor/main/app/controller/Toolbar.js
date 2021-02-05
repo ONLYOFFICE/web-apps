@@ -1416,7 +1416,7 @@ define([
 
         onChangeLevelClick: function(type, menu, item) {
             if (this.api) {
-                // this.api.changeListLevel(item.options.value);
+                this.api.asc_SetNumberingLvl(item.options.level);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
