@@ -837,10 +837,11 @@ define([
                     me.appOptions.canUseHistory = me.appOptions.canReview = me.appOptions.isReviewOnly = false;
                 }
 
-                me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object');
+                me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && (!!me.permissions.reviewGroup ||
+                                                        me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object'));
                 Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
                 Common.Utils.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
-                me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
+                me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.permissions.reviewGroup, me.editorConfig.customization.reviewPermissions);
                 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
