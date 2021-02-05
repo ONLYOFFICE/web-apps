@@ -37,7 +37,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Αντικατάσταση",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Αντικατάσταση όλων",
   "Common.UI.SynchronizeTip.textDontShow": "Να μην εμφανίζεται αυτό το μήνυμα ξανά",
-  "Common.UI.SynchronizeTip.textSynchronize": "Το έγγραφο έχει αλλάξει από άλλο χρήστη.<br/>Παρακαλούμε κάντε κλικ για να αποθηκεύσετε τις αλλαγές σας και να φορτώσετε ξανά τις ενημερώσεις.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Το έγγραφο έχει αλλάξει από άλλο χρήστη.<br>Παρακαλούμε κάντε κλικ για να αποθηκεύσετε τις αλλαγές σας και να φορτώσετε ξανά τις ενημερώσεις.",
   "Common.UI.ThemeColorPalette.textStandartColors": "Τυπικά Χρώματα",
   "Common.UI.ThemeColorPalette.textThemeColors": "Χρώματα θέματος",
   "Common.UI.Window.cancelButtonText": "Ακύρωση",

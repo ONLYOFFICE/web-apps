@@ -455,7 +455,7 @@
   "DE.Controllers.Toolbar.textAccent": "Aksan",
   "DE.Controllers.Toolbar.textBracket": "Ayraç",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Resim URL'si belirtmelisiniz.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Girilen değer yanlış. <br> Lütfen 1 ile 100 arasında sayısal değer giriniz.",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Girilen değer yanlış. <br> Lütfen 1 ile 300 arasında sayısal değer giriniz.",
   "DE.Controllers.Toolbar.textFraction": "Kesirler",
   "DE.Controllers.Toolbar.textFunction": "İşlev",
   "DE.Controllers.Toolbar.textIntegral": "Integral",

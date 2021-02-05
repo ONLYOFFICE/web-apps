@@ -791,7 +791,7 @@
   "DE.Controllers.Toolbar.textAccent": "Types d'accentuation",
   "DE.Controllers.Toolbar.textBracket": "Crochets",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Specifiez URL d'image",
-  "DE.Controllers.Toolbar.textFontSizeErr": "La valeur entrée est incorrecte.<br>Entrez une valeur numérique entre 1 et 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "La valeur entrée est incorrecte.<br>Entrez une valeur numérique entre 1 et 300",
   "DE.Controllers.Toolbar.textFraction": "Fractions",
   "DE.Controllers.Toolbar.textFunction": "Fonctions",
   "DE.Controllers.Toolbar.textInsert": "Insérer",

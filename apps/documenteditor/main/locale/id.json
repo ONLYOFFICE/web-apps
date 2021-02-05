@@ -256,7 +256,7 @@
   "DE.Controllers.Toolbar.textAccent": "Aksen",
   "DE.Controllers.Toolbar.textBracket": "Tanda Kurung",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Anda harus menentukan URL gambar.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Input yang dimasukkan salah.<br>Silakan masukkan input numerik antara 1 dan 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Input yang dimasukkan salah.<br>Silakan masukkan input numerik antara 1 dan 300",
   "DE.Controllers.Toolbar.textFraction": "Pecahan",
   "DE.Controllers.Toolbar.textFunction": "Fungsi",
   "DE.Controllers.Toolbar.textIntegral": "Integral",

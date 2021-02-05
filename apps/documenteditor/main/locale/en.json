@@ -829,7 +829,7 @@
   "DE.Controllers.Toolbar.textAccent": "Accents",
   "DE.Controllers.Toolbar.textBracket": "Brackets",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "You need to specify image URL.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "DE.Controllers.Toolbar.textFraction": "Fractions",
   "DE.Controllers.Toolbar.textFunction": "Functions",
   "DE.Controllers.Toolbar.textInsert": "Insert",

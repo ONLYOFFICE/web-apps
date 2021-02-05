@@ -791,7 +791,7 @@
   "DE.Controllers.Toolbar.textAccent": "Acentos",
   "DE.Controllers.Toolbar.textBracket": "Paréntesis",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Hay que especificar URL de imagen",
-  "DE.Controllers.Toolbar.textFontSizeErr": "El valor introducido es incorrecto.<br>Por favor, introduzca un valor numérico entre 1 y 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "El valor introducido es incorrecto.<br>Por favor, introduzca un valor numérico entre 1 y 300",
   "DE.Controllers.Toolbar.textFraction": "Fracciones",
   "DE.Controllers.Toolbar.textFunction": "Funciones",
   "DE.Controllers.Toolbar.textInsert": "Insertar",
