@@ -36,7 +36,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "置き換え",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "全ての置き換え",
   "Common.UI.SynchronizeTip.textDontShow": "今後このメッセージを表示しない",
-  "Common.UI.SynchronizeTip.textSynchronize": "ドキュメントは他のユーザーによって変更されました。<br/>変更を保存するためにここでクリックし、アップデートを再ロードしてください。",
+  "Common.UI.SynchronizeTip.textSynchronize": "ドキュメントは他のユーザーによって変更されました。<br>変更を保存するためにここでクリックし、アップデートを再ロードしてください。",
   "Common.UI.ThemeColorPalette.textStandartColors": "標準の色",
   "Common.UI.ThemeColorPalette.textThemeColors": "テーマの色",
   "Common.UI.Window.cancelButtonText": "キャンセル",

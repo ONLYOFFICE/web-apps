@@ -36,7 +36,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "替换",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "全部替换",
   "Common.UI.SynchronizeTip.textDontShow": "不要再显示此消息",
-  "Common.UI.SynchronizeTip.textSynchronize": "该文档已被其他用户更改。<br/>请点击保存更改并重新加载更新。",
+  "Common.UI.SynchronizeTip.textSynchronize": "该文档已被其他用户更改。<br>请点击保存更改并重新加载更新。",
   "Common.UI.ThemeColorPalette.textStandartColors": "标准颜色",
   "Common.UI.ThemeColorPalette.textThemeColors": "主题颜色",
   "Common.UI.Window.cancelButtonText": "取消",

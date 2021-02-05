@@ -36,7 +36,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Erstat",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Erstat alle",
   "Common.UI.SynchronizeTip.textDontShow": "Vis ikke denne meddelelse igen",
-  "Common.UI.SynchronizeTip.textSynchronize": "Dokumentet er blevet ændret af en anden bruger.<br/>Venligst tryk for at gemme ændringerne og genindlæs opdateringerne.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Dokumentet er blevet ændret af en anden bruger.<br>Venligst tryk for at gemme ændringerne og genindlæs opdateringerne.",
   "Common.UI.ThemeColorPalette.textStandartColors": "Standard farve",
   "Common.UI.ThemeColorPalette.textThemeColors": "Tema farver",
   "Common.UI.Window.cancelButtonText": "Annuller",

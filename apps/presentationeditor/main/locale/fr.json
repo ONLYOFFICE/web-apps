@@ -36,7 +36,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Remplacer",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Remplacer tout",
   "Common.UI.SynchronizeTip.textDontShow": "Ne plus afficher ce message",
-  "Common.UI.SynchronizeTip.textSynchronize": "Le document a été modifié par un autre utilisateur.<br/>Cliquez pour enregistrer vos modifications et recharger les mises à jour.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Le document a été modifié par un autre utilisateur.<br>Cliquez pour enregistrer vos modifications et recharger les mises à jour.",
   "Common.UI.ThemeColorPalette.textStandartColors": "Couleurs standard",
   "Common.UI.ThemeColorPalette.textThemeColors": "Couleurs de thème",
   "Common.UI.Window.cancelButtonText": "Annuler",
