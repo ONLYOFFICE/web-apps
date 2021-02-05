@@ -11,7 +11,7 @@ import EditImageController from "../../controller/edit/EditImage";
 
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
-import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell } from './EditCell';
+import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell } from './EditCell';
 
 const routes = [
 
@@ -78,6 +78,34 @@ const routes = [
     {
         path: '/edit-cell-fill-custom-color/',
         component: CustomFillColorCell
+    },
+    {
+        path: '/edit-cell-text-fonts/',
+        component: FontsCell
+    },
+    {
+        path: '/edit-cell-text-format/',
+        component: TextFormatCell
+    },
+    {
+        path: '/edit-cell-text-orientation/',
+        component: TextOrientationCell
+    },
+    {
+        path: '/edit-cell-border-style/',
+        component: BorderStyleCell
+    },
+    {
+        path: '/edit-border-color-cell/',
+        component: BorderColorCell
+    },
+    {
+        path: '/edit-border-custom-color-cell/',
+        component: CustomBorderColorCell
+    },
+    {
+        path: '/edit-border-size-cell/',
+        component: BorderSizeCell
     }
 
 ];

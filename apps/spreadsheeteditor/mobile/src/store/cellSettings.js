@@ -5,7 +5,14 @@ export class storeCellSettings {
     @observable styleSize = {
        width: 100,
        height: 50
-    }
+    };
+
+    @observable borderInfo = {
+        color: '000000', 
+        width: Asc.c_oAscBorderStyles.Medium
+    };
+
+    @observable borderStyle = 'none';
 
     @observable cellStyles = [];
     @observable fontsArray = [];
@@ -19,6 +26,11 @@ export class storeCellSettings {
     @observable isItalic = false;
     @observable isUnderline = false;
 
+    @observable hAlignStr = 'left';
+    @observable vAlignStr = 'bottom';
+    @observable isWrapText;
+
+    @observable orientationStr = 'horizontal';
 
     @action initCellSettings(cellInfo) {
 
@@ -32,20 +44,59 @@ export class storeCellSettings {
         
         this.fillColor = clr;
         this.styleName = cellInfo.asc_getStyleName();
+
+        this.initTextOrientation(xfs);
+        this.initTextFormat(xfs);
+
     }
 
-    @action initFontSettings(fontObj) {
+    @action initTextFormat(xfs) {
+        let hAlign = xfs.asc_getHorAlign();
+        let vAlign = xfs.asc_getVertAlign();
+        let isWrapText = xfs.asc_getWrapText();
 
-        this.fontInfo.name = fontObj.asc_getFontName();
-        this.fontInfo.size = fontObj.asc_getFontSize();
+        if (vAlign == Asc.c_oAscVAlign.Top)
+            this.vAlignStr = 'top';
+        else if (vAlign == Asc.c_oAscVAlign.Center)
+            this.vAlignStr = 'center';
+        else if (vAlign == Asc.c_oAscVAlign.Bottom)
+            this.vAlignStr = 'bottom';
 
-        this.fontInfo.color = fontObj.asc_getFontColor();
+        switch (hAlign) {
+            case AscCommon.align_Left: this.hAlignStr = 'left'; break;
+            case AscCommon.align_Center: this.hAlignStr = 'center'; break;
+            case AscCommon.align_Right: this.hAlignStr = 'right'; break;
+            case AscCommon.align_Justify: this.hAlignStr = 'justify'; break;
+        }
+
+        this.isWrapText = isWrapText; 
+    }
+
+    @action initTextOrientation(xfs) {
+        let textAngle = xfs.asc_getAngle();
+
+        switch(textAngle) {
+            case 45: this.orientationStr = 'anglecount'; break;
+            case -45: this.orientationStr = 'angleclock'; break;
+            case 255: this.orientationStr = 'vertical'; break;
+            case 90: this.orientationStr = 'rotateup'; break;
+            case -90: this.orientationStr = 'rotatedown'; break;
+            case 0: this.orientationStr = 'horizontal'; break;
+        }
+    }
+
+    @action initFontSettings(xfs) {
+
+        this.fontInfo.name = xfs.asc_getFontName();
+        this.fontInfo.size = xfs.asc_getFontSize();
+
+        this.fontInfo.color = xfs.asc_getFontColor();
         let clr = this.resetColor(this.fontInfo.color);
         this.fontColor = clr;
 
-        this.isBold = fontObj.asc_getFontBold();
-        this.isItalic = fontObj.asc_getFontItalic();
-        this.isUnderline = fontObj.asc_getFontUnderline();
+        this.isBold = xfs.asc_getFontBold();
+        this.isItalic = xfs.asc_getFontItalic();
+        this.isUnderline = xfs.asc_getFontUnderline();
     }
 
     @action initEditorFonts(fonts, select) {
@@ -74,13 +125,23 @@ export class storeCellSettings {
     }
 
     @action changeFontColor(color) {
-        // this.fontInfo.color = fontObj.asc_getFontColor();
-        // let clr = this.resetColor(this.fontInfo.color);
         this.fontColor = color;
     }
 
     @action changeFillColor(color) {
         this.fillColor = color;
+    }
+
+    @action changeBorderColor(color) {
+        this.borderInfo.color = color;
+    }
+
+    @action changeBorderSize(size) {
+        this.borderInfo.width = size;
+    }
+
+    @action changeBorderStyle(type) {
+        this.borderStyle = type;
     }
 
     resetColor(color) {
