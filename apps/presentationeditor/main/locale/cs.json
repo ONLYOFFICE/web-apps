@@ -35,7 +35,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Nahradit",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Nahradit vše",
   "Common.UI.SynchronizeTip.textDontShow": "Tuto zprávu už nezobrazovat",
-  "Common.UI.SynchronizeTip.textSynchronize": "Dokument byl mezitím změněn jiným uživatelem.<br/>Kliknutím uložte změny provedené vámi a načtěte ty od ostatních.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Dokument byl mezitím změněn jiným uživatelem.<br>Kliknutím uložte změny provedené vámi a načtěte ty od ostatních.",
   "Common.UI.ThemeColorPalette.textStandartColors": "Standardní barvy",
   "Common.UI.ThemeColorPalette.textThemeColors": "Barvy motivu vzhledu",
   "Common.UI.Window.cancelButtonText": "Storno",

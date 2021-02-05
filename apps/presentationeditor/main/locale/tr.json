@@ -34,7 +34,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Değiştir",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Hepsini Değiştir",
   "Common.UI.SynchronizeTip.textDontShow": "Bu mesajı bir daha gösterme",
-  "Common.UI.SynchronizeTip.textSynchronize": "Döküman başka bir kullanıcı tarafından değiştirildi.<br/> Lütfen değişikleri kaydetmek için tıklayın ve güncellemeleri yenileyin.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Döküman başka bir kullanıcı tarafından değiştirildi.<br> Lütfen değişikleri kaydetmek için tıklayın ve güncellemeleri yenileyin.",
   "Common.UI.ThemeColorPalette.textStandartColors": "Standart Renkler",
   "Common.UI.ThemeColorPalette.textThemeColors": "Tema Renkleri",
   "Common.UI.Window.cancelButtonText": "İptal Et",

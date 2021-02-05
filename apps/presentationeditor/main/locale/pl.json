@@ -34,7 +34,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Zamienić",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Zamień wszystko",
   "Common.UI.SynchronizeTip.textDontShow": "Nie pokazuj tej wiadomości ponownie",
-  "Common.UI.SynchronizeTip.textSynchronize": "Dokument został zmieniony przez innego użytkownika.<br/>Proszę kliknij, aby zapisać swoje zmiany i ponownie załadować zmiany.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Dokument został zmieniony przez innego użytkownika.<br>Proszę kliknij, aby zapisać swoje zmiany i ponownie załadować zmiany.",
   "Common.UI.ThemeColorPalette.textStandartColors": "Kolory standardowe",
   "Common.UI.ThemeColorPalette.textThemeColors": "Kolory motywu",
   "Common.UI.Window.cancelButtonText": "Anulować",

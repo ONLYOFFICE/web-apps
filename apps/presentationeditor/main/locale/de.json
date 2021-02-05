@@ -36,7 +36,7 @@
   "Common.UI.SearchDialog.txtBtnReplace": "Ersetzen",
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Alle ersetzen",
   "Common.UI.SynchronizeTip.textDontShow": "Diese Meldung nicht mehr anzeigen",
-  "Common.UI.SynchronizeTip.textSynchronize": "Das Dokument wurde von einem anderen Benutzer geändert.<br/>Bitte speichern Sie Ihre Änderungen und aktualisieren Sie Ihre Seite.",
+  "Common.UI.SynchronizeTip.textSynchronize": "Das Dokument wurde von einem anderen Benutzer geändert.<br>Bitte speichern Sie Ihre Änderungen und aktualisieren Sie Ihre Seite.",
   "Common.UI.ThemeColorPalette.textStandartColors": "Standardfarben",
   "Common.UI.ThemeColorPalette.textThemeColors": "Designfarben",
   "Common.UI.Window.cancelButtonText": "Abbrechen",
