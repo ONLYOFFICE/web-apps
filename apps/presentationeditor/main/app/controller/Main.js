@@ -49,6 +49,7 @@ define([
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
     'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'presentationeditor/main/app/collection/ShapeGroups',
     'presentationeditor/main/app/collection/SlideLayouts',
@@ -185,6 +186,8 @@ define([
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
+                    Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
+                    Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
 
                     this.isShowOpenDialog = false;
 
@@ -304,8 +307,19 @@ define([
             loadConfig: function(data) {
                 this.editorConfig = $.extend(this.editorConfig, data.config);
 
+                this.appOptions.customization   = this.editorConfig.customization;
+                this.appOptions.canRenameAnonymous = !((typeof (this.appOptions.customization) == 'object') && (typeof (this.appOptions.customization.anonymous) == 'object') && (this.appOptions.customization.anonymous.request===false));
+                this.appOptions.guestName = (typeof (this.appOptions.customization) == 'object') && (typeof (this.appOptions.customization.anonymous) == 'object') &&
+                                            (typeof (this.appOptions.customization.anonymous.label) == 'string') && this.appOptions.customization.anonymous.label.trim()!=='' ?
+                                            Common.Utils.String.htmlEncode(this.appOptions.customization.anonymous.label) : this.textGuest;
+                var value;
+                if (this.appOptions.canRenameAnonymous) {
+                    value = Common.localStorage.getItem("guest-username");
+                    Common.Utils.InternalSettings.set("guest-username", value);
+                    Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                }
                 this.editorConfig.user          =
-                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, this.textAnonymous);
+                this.appOptions.user            = Common.Utils.fillUserInfo(data.config.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous);
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop';
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl);
                 this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
@@ -320,7 +334,6 @@ define([
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.canAnalytics    = false;
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
-                this.appOptions.customization   = this.editorConfig.customization;
                 this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
                                                   && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
                 this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
@@ -332,6 +345,8 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
+
+                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
@@ -347,7 +362,7 @@ define([
                     $('#editor-container').append('<div class="doc-placeholder"><div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div></div>');
                 }
 
-                var value = Common.localStorage.getItem("pe-macros-mode");
+                value = Common.localStorage.getItem("pe-macros-mode");
                 if (value === null) {
                     value = this.editorConfig.customization ? this.editorConfig.customization.macrosMode : 'warn';
                     value = (value == 'enable') ? 1 : (value == 'disable' ? 2 : 0);
@@ -487,10 +502,28 @@ define([
                 }
              },
 
+            markFavorite: function(favorite) {
+                if ( !Common.Controllers.Desktop.process('markfavorite') ) {
+                    Common.Gateway.metaChange({
+                        favorite: favorite
+                    });
+                }
+            },
+
+            onSetFavorite: function(favorite) {
+                this.appOptions.canFavorite && appHeader.setFavorite(!!favorite);
+            },
+
             onEditComplete: function(cmp) {
                 var application = this.getApplication(),
                     toolbarView = application.getController('Toolbar').getView('Toolbar');
 
+                if (this.appOptions.isEdit && toolbarView && toolbarView.btnHighlightColor.pressed &&
+                    ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
+                    this.api.SetMarkerFormat(false);
+                    toolbarView.btnHighlightColor.toggle(false, false);
+                }
+                
                 application.getController('DocumentHolder').getView('DocumentHolder').focus();
                 if (this.api && this.appOptions.isEdit && this.api.asc_isDocumentCanSave) {
                     var cansave = this.api.asc_isDocumentCanSave(),
@@ -818,6 +851,8 @@ define([
                 } else {
                     documentHolderController.getView('DocumentHolder').createDelayedElementsViewer();
                     Common.NotificationCenter.trigger('document:ready', 'main');
+                    if (me.editorConfig.mode !== 'view') // if want to open editor, but viewer is loaded
+                        me.applyLicense();
                 }
 
                 // TODO bug 43960
@@ -833,6 +868,7 @@ define([
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
+                Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
@@ -840,6 +876,7 @@ define([
                 Common.Gateway.documentReady();
 
                 $('.doc-placeholder').remove();
+                this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
 
                 $('#header-logo').children(0).click(e => {
                     e.stopImmediatePropagation();
@@ -851,7 +888,8 @@ define([
             onLicenseChanged: function(params) {
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
-                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS))
+                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady)
@@ -863,7 +901,11 @@ define([
                     var license = this._state.licenseType,
                         buttons = ['ok'],
                         primary = 'ok';
-                    if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                    if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
+                        (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                        (license===Asc.c_oLicenseResult.ExpiredLimited) && this.getApplication().getController('LeftMenu').leftMenu.setLimitMode();// show limited hint
+                        license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                    } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                     } else {
                         license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
@@ -871,15 +913,17 @@ define([
                         primary = 'buynow';
                     }
 
-                    this.disableEditing(true);
-                    Common.NotificationCenter.trigger('api:disconnect');
+                    if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.isEdit) {
+                        this.disableEditing(true);
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
 
                     var value = Common.localStorage.getItem("pe-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
                     if (now - value > 86400000) {
                         Common.UI.info({
-                            width: 500,
+                            maxwidth: 500,
                             title: this.textNoLicenseTitle,
                             msg  : license,
                             buttons: buttons,
@@ -935,12 +979,15 @@ define([
                     });
                     return;
                 }
+                if (Asc.c_oLicenseResult.ExpiredLimited === licType)
+                    this._state.licenseType = licType;
 
                 if ( this.onServerVersion(params.asc_getBuildVersion()) ) return;
 
                 if (params.asc_getRights() !== Asc.c_oRights.Edit)
                     this.permissions.edit = false;
 
+                this.appOptions.permissionsLicense = licType;
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.isCrypted      = this.api.asc_isCrypto();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -962,12 +1009,18 @@ define([
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
-                this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
+                this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
+                this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
+                if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
+                    console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
+                    if (this.permissions.editCommentAuthorOnly===undefined && this.permissions.deleteCommentAuthorOnly===undefined)
+                        this.appOptions.canEditComments = this.appOptions.canDeleteComments = this.appOptions.isOffline;
+                }
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
-                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isProtectionSupport();
+                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport();
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
@@ -976,9 +1029,15 @@ define([
                 if (this.appOptions.canBranding)
                     appHeader.setBranding(this.editorConfig.customization);
 
-                this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
+                this.appOptions.canFavorite = this.document.info && (this.document.info.favorite!==undefined && this.document.info.favorite!==null) && !this.appOptions.isOffline;
+                this.appOptions.canFavorite && appHeader.setFavorite(this.document.info.favorite);
+
+                this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroup ||
+                                                         this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
                 Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
-                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(this.appOptions.user.fullname));
+                Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
+                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroup, this.editorConfig.customization.reviewPermissions);
+                appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
@@ -1085,6 +1144,7 @@ define([
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
                     me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
+                    me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -1140,7 +1200,7 @@ define([
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationSaveError:
-                        config.msg = this.saveErrorText;
+                        config.msg = (this.appOptions.isDesktopApp && this.appOptions.isOffline) ? this.saveErrorTextDesktop : this.saveErrorText;
                         break;
 
                     case Asc.c_oAscError.ID.DownloadError:
@@ -1268,6 +1328,14 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case Asc.c_oAscError.ID.ComboSeriesError:
+                        config.msg = this.errorComboSeries;
+                        break;
+                    
+                    case Asc.c_oAscError.ID.Password:
+                        config.msg = this.errorSetPassword;
+                        break;
+                    
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1805,6 +1873,25 @@ define([
                 this._state.usersCount = length;
             },
 
+            onUserConnection: function(change){
+                if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                    var name = change.asc_getUserName();
+                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        this._renameDialog && this._renameDialog.close();
+                        Common.Utils.UserInfoParser.setCurrentName(name);
+                        appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
+
+                        var idx1 = name.lastIndexOf('('),
+                            idx2 = name.lastIndexOf(')'),
+                            str = (idx1>0) && (idx1<idx2) ? name.substring(0, idx1-1) : '';
+                        if (Common.localStorage.getItem("guest-username")!==null) {
+                            Common.localStorage.setItem("guest-username", str);
+                        }
+                        Common.Utils.InternalSettings.set("guest-username", str);
+                    }
+                }
+            },
+
             applySettings: function() {
                 if (this.appOptions.isEdit && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     var oldval = this._state.fastCoauth;
@@ -1882,7 +1969,8 @@ define([
                         title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,
                         type: Common.Utils.importTextType.DRM,
-                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
+                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
+                        warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;
@@ -1993,7 +2081,41 @@ define([
                 me.api.asc_SetAutoCorrectHyphensWithDash(value);
 
             },
-            
+
+            showRenameUserDialog: function() {
+                if (this._renameDialog) return;
+
+                var me = this;
+                this._renameDialog = new Common.Views.UserNameDialog({
+                    label: this.textRenameLabel,
+                    error: this.textRenameError,
+                    value: Common.Utils.InternalSettings.get("guest-username") || '',
+                    check: Common.Utils.InternalSettings.get("save-guest-username") || false,
+                    validation: function(value) {
+                        return value.length<128 ? true : me.textLongName;
+                    },
+                    handler: function(result, settings) {
+                        if (result == 'ok') {
+                            var name = settings.input ? settings.input + ' (' + me.textGuest + ')' : me.textAnonymous;
+                            var _user = new Asc.asc_CUserInfo();
+                            _user.put_FullName(name);
+
+                            var docInfo = new Asc.asc_CDocInfo();
+                            docInfo.put_UserInfo(_user);
+                            me.api.asc_changeDocInfo(docInfo);
+
+                            settings.checkbox ? Common.localStorage.setItem("guest-username", settings.input) : Common.localStorage.removeItem("guest-username");
+                            Common.Utils.InternalSettings.set("guest-username", settings.input);
+                            Common.Utils.InternalSettings.set("save-guest-username", settings.checkbox);
+                        }
+                    }
+                });
+                this._renameDialog.on('close', function() {
+                    me._renameDialog = undefined;
+                });
+                this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
+            },
+
             // Translation
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
@@ -2347,7 +2469,16 @@ define([
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
-            textRemember: 'Remember my choice'
+            textRemember: 'Remember my choice',
+            warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
+            errorComboSeries: 'To create a combination chart, select at least two series of data.',
+            errorSetPassword: 'Password could not be set.',
+            textRenameLabel: 'Enter a name to be used for collaboration',
+            textRenameError: 'User name must not be empty.',
+            textLongName: 'Enter a name that is less than 128 characters.',
+            textGuest: 'Guest'
         }
     })(), PE.Controllers.Main || {}))
 });

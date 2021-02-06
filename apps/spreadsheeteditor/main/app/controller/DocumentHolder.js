@@ -407,6 +407,10 @@ define([
         },
 
         onSortCells: function(menu, item) {
+            if (item.value=='advanced') {
+                Common.NotificationCenter.trigger('data:sortcustom', this);
+                return;
+            }
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
                 if (res) {
@@ -1085,7 +1089,7 @@ define([
                         if (linkstr) {
                             linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' + me.textCtrlClick + '</b>';
                         } else {
-                            linkstr = props.asc_getHyperlinkUrl() + '<br><b>' + me.textCtrlClick + '</b>';
+                            linkstr = Common.Utils.String.htmlEncode(props.asc_getHyperlinkUrl()) + '<br><b>' + me.textCtrlClick + '</b>';
                         }
                     } else {
                         linkstr = Common.Utils.String.htmlEncode(props.asc_getTooltip() || (props.asc_getLocation()));
@@ -1254,7 +1258,7 @@ define([
                     }
                 }
 
-                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible())) {
+                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible()) && !dataarray[index_filter-1].asc_getFilter().asc_getPivotObj()) {
                     if (!filterTip.parentEl) {
                         filterTip.parentEl = $('<div id="tip-container-filtertip" style="position: absolute; z-index: 10000;"></div>');
                         me.documentHolder.cmpEl.append(filterTip.parentEl);
@@ -1875,6 +1879,7 @@ define([
                 documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit);
                 documentHolder.pmiSortCells.menu.items[2].setVisible(!internaleditor);
                 documentHolder.pmiSortCells.menu.items[3].setVisible(!internaleditor);
+                documentHolder.pmiSortCells.menu.items[4].setVisible(!internaleditor);
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);

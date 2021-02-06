@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
-		<title>Create slicers for formatted tables</title>
+		<title>Create slicers for tables</title>
 		<meta charset="utf-8" />
-        <meta name="description" content="Create slicers for formatted tables to quickly filter the data." />
+        <meta name="description" content="Create slicers for formatted tables and pivot tables to quickly filter the data." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -13,11 +13,11 @@
         <div class="search-field">
             <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
-			<h1>Create slicers for formatted tables</h1>
+			<h1>Create slicers for tables</h1>
             <h3>Create a new slicer</h3>
-			<p>Once you create a new <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">formatted table</a>, you can create slicers to quickly filter the data. To do that,</p>
+			<p>Once you create a new <a href="FormattedTables.htm" onclick="onhyperlinkclick(this)">formatted table</a> or a <a href="PivotTables.htm" onclick="onhyperlinkclick(this)">pivot table</a>, you can create slicers to quickly filter the data. To do that,</p>
 			<ol>
-				<li>select at least one cell within the formatted table with the mouse and click the <b>Table settings</b> <img alt="Table settings icon" src="../images/table_settings_icon.png" /> icon on the right.</li>
+				<li>select at least one cell within the table with the mouse and click the <b>Table settings</b> <img alt="Table settings icon" src="../images/table_settings_icon.png" /> icon on the right.</li>
 				<li>click the <img alt="Insert slicer" src="../images/insertslicer.png" /> <b>Insert slicer</b> option on the <b>Table settings</b> tab of the right sidebar. Alternatively, you can switch to the <b>Insert</b> tab of the top toolbar and click the <img alt="Insert slicer" src="../images/slicer_icon.png" /> <b>Slicer</b> button. The <b>Insert Slicers</b> window will be opened:
                 <p><img alt="Insert Slicers" src="../images/insertslicer_window.png" /></p>
                 </li>
@@ -26,7 +26,7 @@
 			</ol>
             <p>A slicer will be added for each of the selected columns. If you add several slicers, they will overlap each other. Once the slicer is added, you can <a href="ManipulateObjects.htm" onclick="onhyperlinkclick(this)">change its size and position</a> as well as its settings.</p>
             <p><img alt="Slicer" src="../images/slicer.png" /></p>
-            <p>A slicer contains buttons that you can click to filter the formatted table. The buttons corresponding to empty cells are marked with the <em>(blank)</em> label. When you click a slicer button, other buttons will be unselected, and the corresponding column in the source table will be filtered to only display the selected item:</p>
+            <p>A slicer contains buttons that you can click to filter the table. The buttons corresponding to empty cells are marked with the <em>(blank)</em> label. When you click a slicer button, other buttons will be unselected, and the corresponding column in the source table will be filtered to only display the selected item:</p>
             <p><img alt="Slicer" src="../images/slicer_filter.png" /></p>
             <p>If you have added several slicers, the changes made in one slicer can affect the items from another slicer. When one or more filters are applied to a slicer, items with no data can appear in a different slicer (with a lighter color):</p>
             <p><img alt="Slicer - items with no data" src="../images/slicer_nodata.png" /></p>

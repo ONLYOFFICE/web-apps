@@ -9,7 +9,7 @@
   "PE.ApplicationController.criticalErrorTitle": "Erreur",
   "PE.ApplicationController.downloadErrorText": "Échec du téléchargement.",
   "PE.ApplicationController.downloadTextText": "Téléchargement de la présentation...",
-  "PE.ApplicationController.errorAccessDeny": "Vous tentez d'exéсuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter l'administrateur de Document Server.",
+  "PE.ApplicationController.errorAccessDeny": "Vous tentez d’exécuter une action pour laquelle vous ne disposez pas des droits.<br>Veuillez contacter l'administrateur de Document Server.",
   "PE.ApplicationController.errorDefaultMessage": "Code d'erreur: %1",
   "PE.ApplicationController.errorFilePassProtect": "Le fichier est protégé par un mot de passe et ne peut pas être ouvert.",
   "PE.ApplicationController.errorFileSizeExceed": "La taille du fichier dépasse les limites établies sur votre serveur.<br>Veuillez contacter votre administrateur de Document Server pour obtenir plus d'information.  ",

@@ -56,6 +56,7 @@ define([
             sheet: false
         };
         var _users = [];
+        var _displayCollaboration = false;
 
         return {
             models: [],
@@ -208,13 +209,17 @@ define([
                 $('#toolbar-search, #document-back, #toolbar-collaboration').removeClass('disabled');
             },
 
-            deactivateEditControls: function() {
-                $('#toolbar-edit, #toolbar-add, #toolbar-settings').addClass('disabled');
+            deactivateEditControls: function(enableDownload) {
+                $('#toolbar-edit, #toolbar-add').addClass('disabled');
+                if (enableDownload)
+                    SSE.getController('Settings').setMode({isDisconnected: true, enableDownload: enableDownload});
+                else
+                    $('#toolbar-settings').addClass('disabled');
             },
 
-            onCoAuthoringDisconnect: function() {
+            onCoAuthoringDisconnect: function(enableDownload) {
                 this.isDisconnected = true;
-                this.deactivateEditControls();
+                this.deactivateEditControls(enableDownload);
                 $('#toolbar-undo').toggleClass('disabled', true);
                 $('#toolbar-redo').toggleClass('disabled', true);
                 SSE.getController('AddContainer').hideModal();
@@ -229,10 +234,8 @@ define([
                         if ((item.asc_getState()!==false) && !item.asc_getView())
                             length++;
                     });
-                    if (length < 1 && this.mode && !this.mode.canViewComments)
-                        $('#toolbar-collaboration').hide();
-                    else
-                        $('#toolbar-collaboration').show();
+                    _displayCollaboration = (length >= 1 || !this.mode || this.mode.canViewComments);
+                    _displayCollaboration ? $('#toolbar-collaboration').show() : $('#toolbar-collaboration').hide();
                 }
             },
 
@@ -254,6 +257,10 @@ define([
                 }
                 !changed && change && (_users[change.asc_getId()] = change);
                 this.displayCollaboration();
+            },
+
+            getDisplayCollaboration: function() {
+                return _displayCollaboration;
             },
 
             dlgLeaveTitleText   : 'You leave the application',

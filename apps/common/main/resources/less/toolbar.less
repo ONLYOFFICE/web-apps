@@ -199,11 +199,11 @@
         display: table-cell;
         vertical-align: middle;
         white-space: nowrap;
-        padding-left: 12px;
+        padding-left: 6px;
         font-size: 0;
 
         &:last-child {
-            padding-right: 12px;
+            padding-right: 6px;
         }
     }
 
@@ -217,7 +217,7 @@
     }
 
     .separator {
-        margin-left: 12px;
+        margin-left: 6px;
 
         &.close {
             margin-left: 5px;
@@ -239,6 +239,10 @@
 
         &.split {
             width: 31px;
+        }
+
+        &.split-small {
+            width: 26px;
         }
 
         &.text {
@@ -410,6 +414,16 @@
                         color: @text-inverse;
                     }
                 }
+            }
+        }
+
+        .btn-current-user {
+            .icon--inverse {
+                background-position-x: 0;
+            }
+
+            svg.icon {
+                fill: @icon-toolbar-header;
             }
         }
 

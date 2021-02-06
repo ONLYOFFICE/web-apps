@@ -1,5 +1,5 @@
 {
-  "common.view.modals.txtCopy": "Másolás a vágólapra",
+  "common.view.modals.txtCopy": "Másolás vágólapra",
   "common.view.modals.txtEmbed": "Beágyazás",
   "common.view.modals.txtHeight": "Magasság",
   "common.view.modals.txtShare": "Hivatkozás megosztása",
@@ -26,5 +26,6 @@
   "DE.ApplicationView.txtDownload": "Letöltés",
   "DE.ApplicationView.txtEmbed": "Beágyazás",
   "DE.ApplicationView.txtFullScreen": "Teljes képernyő",
+  "DE.ApplicationView.txtPrint": "Nyomtatás",
   "DE.ApplicationView.txtShare": "Megosztás"
 }

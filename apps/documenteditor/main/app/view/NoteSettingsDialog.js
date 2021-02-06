@@ -49,7 +49,7 @@ define([
     DE.Views.NoteSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 380,
+            height: 395,
             buttons: null
         },
 
@@ -110,8 +110,8 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
-                                            '<label class="header" style="margin-top: 4px;">', me.textApplyTo,'</label>',
-                                            '<div id="note-settings-combo-apply" class="input-group-nr" style="display: inline-block; width:150px;float:right;"></div>',
+                                            '<label class="header">', me.textApplyTo,'</label>',
+                                            '<div id="note-settings-combo-apply" class="input-group-nr" style="width:150px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -130,6 +130,7 @@ define([
             this.handler    = options.handler;
             this.props      = options.props;
             this.isEndNote  = options.isEndNote || false;
+            this.hasSections  = options.hasSections || false;
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
@@ -199,11 +200,11 @@ define([
                 editable: false,
                 takeFocusOnClose: true,
                 data: [
-                    { displayValue: this.textSectEnd,   value: Asc.c_oAscFootnotePos.SectEnd },
-                    { displayValue: this.textPageBottom,   value: Asc.c_oAscFootnotePos.PageBottom }
+                    { displayValue: this.textSectEnd,   value: Asc.c_oAscEndnotePos.SectEnd },
+                    { displayValue: this.textDocEnd,   value: Asc.c_oAscEndnotePos.DocEnd }
                 ]
             });
-            this.cmbEndnote.setValue(Asc.c_oAscFootnotePos.PageBottom);
+            this.cmbEndnote.setValue(Asc.c_oAscEndnotePos.DocEnd);
 
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-format'),
@@ -233,6 +234,10 @@ define([
                 allowDecimal: false,
                 maskExp: /[0-9]/
             });
+            this.spnStart.on('change', function(field, newValue, oldValue, eOpts){
+                if (field.getNumberValue()>1 && me.cmbNumbering.getValue()!==Asc.c_oAscFootnoteRestart.Continuous)
+                    me.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.Continuous);
+            });
 
             this._arrNumbering = [
                 { displayValue: this.textContinue,   value: Asc.c_oAscFootnoteRestart.Continuous },
@@ -248,6 +253,10 @@ define([
                 data: this._arrNumbering
             });
             this.cmbNumbering.setValue(Asc.c_oAscFootnoteRestart.Continuous);
+            this.cmbNumbering.on('selected', function(combo, record){
+                if (record.value == Asc.c_oAscFootnoteRestart.EachSect || record.value == Asc.c_oAscFootnoteRestart.EachPage)
+                    me.spnStart.setValue(1, true);
+            });
 
             this.txtCustom = new Common.UI.InputField({
                 el          : $('#note-settings-txt-custom'),
@@ -262,18 +271,17 @@ define([
                 me.btnApply.setDisabled(value.length>0);
             });
 
+            var arr = this.hasSections ? [{ displayValue: this.textSection,   value: 0 }] : [];
+            arr.push({ displayValue: this.textDocument,   value: 1 });
             this.cmbApply = new Common.UI.ComboBox({
                 el: $('#note-settings-combo-apply'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 150px;',
                 editable: false,
                 takeFocusOnClose: true,
-                data: [
-                    { displayValue: this.textDocument,   value: 1 },
-                    { displayValue: this.textSection,   value: 0 }
-                ]
+                data: arr
             });
-            this.cmbApply.setValue(1);
+            this.cmbApply.setValue(arr[0].value);
 
             this.btnApply = new Common.UI.Button({
                 el: $('#note-settings-btn-apply')
@@ -466,6 +474,7 @@ define([
                 }
 
                 result += val;
+                prev = Math.abs(val);
             }
 
             return result;
@@ -510,6 +519,7 @@ define([
         textInsert: 'Insert',
         textCustom: 'Custom Mark',
         textSectEnd: 'End of section',
+        textDocEnd: 'End of document',
         textEndnote: 'Endnote'
 
     }, DE.Views.NoteSettingsDialog || {}))

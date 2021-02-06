@@ -166,10 +166,7 @@ define([
                 $('#settings-print').single('click',                        _.bind(me._onPrint, me));
                 $('#settings-collaboration').single('click',                _.bind(me.onCollaboration, me));
 
-                var _userCount = PE.getController('Main').returnUserCount();
-                if (_userCount > 0) {
-                    $('#settings-collaboration').show();
-                }
+                PE.getController('Toolbar').getDisplayCollaboration() && $('#settings-collaboration').show();
 
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-setup-view]', '.page[data-page=settings-setup-view] .page-content');
                 Common.Utils.addScrollIfNeed('.page[data-page=settings-download-view]', '.page[data-page=settings-download-view] .page-content');
@@ -218,9 +215,9 @@ define([
                     info = document.info || {};
 
                 document.title ? $('#settings-presentation-title').html(document.title) : $('.display-presentation-title').remove();
-                var value = info.owner || info.author;
+                var value = info.owner;
                 value ? $('#settings-pe-owner').html(value) : $('.display-owner').remove();
-                value = info.uploaded || info.created;
+                value = info.uploaded;
                 value ? $('#settings-pe-uploaded').html(value) : $('.display-uploaded').remove();
                 info.folder ? $('#settings-pe-location').html(info.folder) : $('.display-location').remove();
 
@@ -361,9 +358,9 @@ define([
             _onPrint: function(e) {
                 var me = this;
 
-                _.defer(function () {
+                _.delay(function () {
                     me.api.asc_Print();
-                });
+                }, 300);
                 me.hideModal();
             },
 
@@ -396,9 +393,9 @@ define([
                     format = $(e.currentTarget).data('format');
 
                 if (format) {
-                    _.defer(function () {
+                    _.delay(function () {
                         me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                    });
+                    }, 300);
                 }
 
                 me.hideModal();

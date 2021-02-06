@@ -659,7 +659,7 @@ define([
 
         changeIcon: function(opts) {
             var me = this;
-            if ( opts && (opts.curr || opts.next)) {
+            if ( opts && (opts.curr || opts.next) && me.$icon) {
                 !!opts.curr && (me.$icon.removeClass(opts.curr));
                 !!opts.next && !me.$icon.hasClass(opts.next) && (me.$icon.addClass(opts.next));
 

@@ -138,8 +138,7 @@ define([
                 this.showPage(page, true);
 
                 this.paletteTextColor = new Common.UI.ThemeColorPalette({
-                    el: $('.page[data-page=edit-text-color] .page-content'),
-                    transparent: true
+                    el: $('.page[data-page=edit-text-color] .page-content')
                 });
                 this.paletteTextColor.on('customcolor', function () {
                     me.showCustomTextColor();
@@ -202,7 +201,7 @@ define([
                     template: $template.html(),
                     onItemsAfterInsert: function (list, fragment) {
                         var fontInfo = SSE.getController('EditText').getFontInfo();
-                        $('#font-list input[name=font-name]').val([fontInfo.name]);
+                        $('#font-list input[name=font-name]').val([fontInfo.asc_getFontName() || '']);
 
                         $('#font-list li').single('click', _.buffered(function (e) {
                             me.fireEvent('font:click', [me, e]);

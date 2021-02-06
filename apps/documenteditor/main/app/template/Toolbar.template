@@ -30,11 +30,12 @@
         <section class="box-panels">
             <section class="panel" data-tab="home">
                 <div class="group">
-                    <div class="elset" style="width:260px;">
+                    <div class="elset" style="width:208px;">
                         <span class="btn-slot" id="slot-field-fontname"></span>
                         <span class="btn-slot" id="slot-field-fontsize"></span>
                         <span class="btn-slot" id="slot-btn-incfont"></span>
                         <span class="btn-slot" id="slot-btn-decfont"></span>
+                        <span class="btn-slot split" id="slot-btn-changecase"></span>
                     </div>
                     <div class="elset font-attr">
                         <span class="btn-slot" id="slot-btn-bold"></span>
@@ -45,10 +46,9 @@
                         <span class="btn-slot" id="slot-btn-subscript"></span>
                         <span class="btn-slot split" id="slot-btn-highlight"></span>
                         <span class="btn-slot split" id="slot-btn-fontcolor"></span>
-                        <span class="btn-slot split" id="slot-btn-paracolor"></span>
                     </div>
                 </div>
-                <div class="separator long" style="margin-left: 5px;"></div>
+                <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-markers"></span>
@@ -64,9 +64,10 @@
                         <span class="btn-slot split" id="slot-btn-align-right"></span>
                         <span class="btn-slot split" id="slot-btn-align-just"></span>
                         <span class="btn-slot split" id="slot-btn-hidenchars"></span>
+                        <span class="btn-slot split" id="slot-btn-paracolor"></span>
                     </div>
                 </div>
-                <div class="separator long" style="margin-left: 5px;"></div>
+                <div class="separator long"></div>
                 <div class="group">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-clearstyle"></span>
@@ -183,7 +184,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-form-image"></span>
                 </div>
                 <div class="separator long"></div>
-                <div class="group">
+                <div class="group no-group-mask form-view">
                     <div class="elset">
                         <span class="btn-slot text" id="slot-form-clear-fields"></span>
                     </div>

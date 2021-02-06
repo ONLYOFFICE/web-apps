@@ -163,9 +163,13 @@ define([
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#drop-advanced-button-bordercolor'),
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
+                this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
+            }, this));
+            this.btnBorderColor.on('auto:select', _.bind(function(btn, color) {
                 this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
             }, this));
             this.colorsBorder = this.btnBorderColor.getPicker();
@@ -548,8 +552,15 @@ define([
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
-                    me._changedProps.put_XAlign(undefined);
-                    me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                    if (combo.getSelectedRecord()) {
+                        me._changedProps.put_XAlign(record.value);
+                    } else {
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_XAlign(undefined);
+                            me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(number));
+                        }
+                    }
                 }
             }, me))
             .on('selected', _.bind(function(combo, record) {
@@ -593,8 +604,15 @@ define([
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
-                    me._changedProps.put_YAlign(undefined);
-                    me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                    if (combo.getSelectedRecord()) {
+                        me._changedProps.put_YAlign(record.value);
+                    } else {
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_YAlign(undefined);
+                            me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                        }
+                    }
                 }
             }, me))
             .on('selected', _.bind(function(combo, record) {
@@ -654,13 +672,16 @@ define([
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
-                this.tableStyler.setVirtualBorderColor((typeof(this.borderProps.borderColor) == 'object') ? this.borderProps.borderColor.color : this.borderProps.borderColor);
+                this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');
+                this.tableStyler.setVirtualBorderColor((typeof(this.btnBorderColor.color) == 'object') ? this.btnBorderColor.color.color : this.btnBorderColor.color);
+                if (this.borderProps.borderColor=='auto')
+                    this.colorsBorder.clearSelection();
+                else
+                    this.colorsBorder.select(this.borderProps.borderColor,true);
 
                 this.cmbBorderSize.setValue(this.borderProps.borderSize.ptValue);
                 this.BorderSize = {ptValue: this.borderProps.borderSize.ptValue, pxValue: this.borderProps.borderSize.pxValue};
                 this.tableStyler.setVirtualBorderSize(this.BorderSize.pxValue);
-
-                this.colorsBorder.select(this.borderProps.borderColor);
             }
 
             this.setTitle((this.isFrame) ? this.textTitleFrame : this.textTitle);
@@ -761,7 +782,7 @@ define([
                 paragraphProps  : this._changedProps,
                 borderProps     : {
                     borderSize      : this.BorderSize,
-                    borderColor     : this.btnBorderColor.color
+                    borderColor     : this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color
                 }
             };
         },
@@ -1072,7 +1093,13 @@ define([
                 var size = parseFloat(this.BorderSize.ptValue);
                 border.put_Value(1);
                 border.put_Size(size * 25.4 / 72.0);
-                var color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                var color;
+                if (this.btnBorderColor.isAutoColor()) {
+                    color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                } else {
+                    color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 border.put_Color(color);
             }
             else {

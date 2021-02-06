@@ -227,7 +227,8 @@ define([
                 $('#edit-shape-bordersize .item-after').text(((borderType == Asc.c_oAscStrokeType.STROKE_NONE) ? 0 : borderSizeTransform.sizeByValue(borderSize)) + ' ' + Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.pt));
 
                 // Init style opacity
-                $('#edit-shape-effect input').val([shapeProperties.get_fill().asc_getTransparent() ? shapeProperties.get_fill().asc_getTransparent() / 2.55 : 100]);
+                var transparent = shapeProperties.get_fill().asc_getTransparent();
+                $('#edit-shape-effect input').val([transparent!==null && transparent!==undefined ? transparent / 2.55 : 100]);
                 $('#edit-shape-effect .item-after').text($('#edit-shape-effect input').val() + ' ' + "%");
 
                 paletteFillColor && paletteFillColor.on('select',       _.bind(me.onFillColor, me));

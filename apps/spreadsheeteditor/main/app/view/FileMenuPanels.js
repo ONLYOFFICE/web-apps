@@ -703,10 +703,10 @@ define([
                     '<td class="left"><label><%= scope.strFontRender %></label></td>',
                     '<td class="right"><span id="fms-cmb-font-render"></span></td>',
                 '</tr>','<tr class="divider"></tr>',
-                '<tr class="edit">',
+                '<tr>',
                     '<td class="left"><label><%= scope.strUnit %></label></td>',
                     '<td class="right"><span id="fms-cmb-unit"></span></td>',
-                '</tr>','<tr class="divider edit"></tr>',
+                '</tr>','<tr class="divider"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.strFuncLocale %></label></td>',
                     '<td class="right">',
@@ -741,13 +741,17 @@ define([
                         '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
                 '</tr>','<tr class="divider macros"></tr>',
+                '<tr class="fms-btn-apply">',
+                    '<td class="left"></td>',
+                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                '</tr>',
             '</tbody></table>',
         '</div>',
-        '<div>',
+        '<div class="fms-flex-apply hidden">',
             '<table class="main" style="margin: 10px 0;"><tbody>',
                 '<tr>',
                     '<td class="left"></td>',
-                    '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                    '<td class="right"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>',
@@ -983,6 +987,7 @@ define([
                 el          : $markup.findById('#fms-cmb-macros'),
                 style       : 'width: 160px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
@@ -1010,12 +1015,16 @@ define([
                 ]
             });
 
-            this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-apply')
+            $markup.find('.btn.primary').each(function(index, el){
+                (new Common.UI.Button({
+                    el: $(el)
+                })).on('click', _.bind(me.applySettings, me));
             });
-            this.btnApply.on('click', _.bind(this.applySettings, this));
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+            this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
+            this.pnlTable = this.pnlSettings.find('table');
+            this.trApply = $markup.find('.fms-btn-apply');
 
             this.$el = $(node).html($markup);
 
@@ -1049,6 +1058,11 @@ define([
 
         updateScroller: function() {
             if (this.scroller) {
+                Common.UI.Menu.Manager.hideAll();
+                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height();
+                this.pnlApply.toggleClass('hidden', !scrolled);
+                this.trApply.toggleClass('hidden', scrolled);
+                this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
             }
@@ -1850,11 +1864,6 @@ define([
         },
 
         updateInfo: function(doc) {
-            if (!this.doc && doc && doc.info) {
-                doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
-                doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
-            }
-
             this.doc = doc;
             if (!this.rendered)
                 return;
@@ -1866,11 +1875,11 @@ define([
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
                 visible = this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null) || visible;
-                var value = doc.info.owner || doc.info.author;
+                var value = doc.info.owner;
                 if (value)
                     this.lblOwner.text(value);
                 visible = this._ShowHideInfoItem(this.lblOwner, !!value) || visible;
-                value = doc.info.uploaded || doc.info.created;
+                value = doc.info.uploaded;
                 if (value)
                     this.lblUploaded.text(value);
                 visible = this._ShowHideInfoItem(this.lblUploaded, !!value) || visible;

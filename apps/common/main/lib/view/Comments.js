@@ -283,7 +283,16 @@ define([
                 } else if (!btn.hasClass('msg-reply') &&
                     !btn.hasClass('btn-resolve-check') &&
                     !btn.hasClass('btn-resolve')) {
-                    me.fireEvent('comment:show', [commentId, false]);
+                    var isTextSelected = false;
+                    if (btn.hasClass('user-message')) {
+                        if (window.getSelection) {
+                            var selection = window.getSelection();
+                            isTextSelected = (selection.toString()!=='')
+                        } else if (document.selection) {
+                            isTextSelected = document.selection;
+                        }
+                    }
+                    me.fireEvent('comment:show', [commentId, false, isTextSelected]);
                 }
             }
         },

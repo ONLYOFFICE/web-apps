@@ -1880,23 +1880,14 @@ define([
                         }
                     })).show();
                 } else if (item.value == 'remove') {
-                    this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
+                    props.get_FormPr() ? this.api.asc_RemoveContentControl(props.get_InternalId()) : this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
                 }
             }
             me.fireEvent('editcomplete', me);
         },
 
         onInsertCaption: function() {
-            var me = this;
-            (new DE.Views.CaptionDialog({
-                isObject: true,
-                handler: function (result, settings) {
-                    if (result == 'ok') {
-                        me.api.asc_AddObjectCaption(settings);
-                    }
-                    me.fireEvent('editcomplete', me);
-                }
-            })).show();
+            this.fireEvent('links:caption');
         },
 
         onContinueNumbering: function(item, e) {
@@ -2515,6 +2506,21 @@ define([
                 })
             });
 
+            var menuImgRemoveControl = new Common.UI.MenuItem({
+                iconCls: 'menu__icon cc-remove',
+                caption: me.textRemoveControl,
+                value: 'remove'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuImgControlSettings = new Common.UI.MenuItem({
+                caption: me.textEditControls,
+                value: 'settings'
+            }).on('click', _.bind(me.onControlsSelect, me));
+
+            var menuImgControlSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value){
@@ -2589,9 +2595,19 @@ define([
 
                     me.menuOriginalSize.setVisible(value.imgProps.isOnlyImg || !value.imgProps.isChart && !value.imgProps.isShape);
 
-                    var control_props = me.api.asc_IsContentControl() ? me.api.asc_GetContentControlProperties() : null,
+                    var in_control = me.api.asc_IsContentControl(),
+                        control_props = in_control ? me.api.asc_GetContentControlProperties() : null,
                         lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
-                        content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+                        content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked,
+                        is_form = control_props && control_props.get_FormPr();
+
+                    menuImgRemoveControl.setVisible(in_control);
+                    menuImgControlSettings.setVisible(in_control && me.mode.canEditContentControl && !is_form);
+                    menuImgControlSeparator.setVisible(in_control);
+                    if (in_control) {
+                        menuImgRemoveControl.setDisabled(lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
+                        menuImgRemoveControl.setCaption(is_form ? me.getControlLabel(control_props) : me.textRemoveControl);
+                    }
 
                     var islocked = value.imgProps.locked || (value.headerProps!==undefined && value.headerProps.locked) || content_locked;
                     var pluginGuid = value.imgProps.value.asc_getPluginGuid();
@@ -2611,7 +2627,7 @@ define([
                     if (menuChartEdit.isVisible())
                         menuChartEdit.setDisabled(islocked || value.imgProps.value.get_SeveralCharts());
 
-                    me.pictureMenu.items[19].setVisible(menuChartEdit.isVisible());
+                    me.pictureMenu.items[22].setVisible(menuChartEdit.isVisible());
 
                     me.menuOriginalSize.setDisabled(islocked || value.imgProps.value.get_ImageUrl()===null || value.imgProps.value.get_ImageUrl()===undefined);
                     menuImageAdvanced.setDisabled(islocked);
@@ -2660,6 +2676,9 @@ define([
                     menuSignatureEditSign,
                     menuSignatureEditSetup,
                     menuEditSignSeparator,
+                    menuImgRemoveControl,
+                    menuImgControlSettings,
+                    menuImgControlSeparator,
                     menuImageArrange,
                     menuImageAlign,
                     me.menuImageWrap,
@@ -3311,7 +3330,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'shifted-right',
                             menuAlign: 'tl-tr',
-                            style   : 'width: 100px',
                             items   : [
                                 new Common.UI.MenuItem({
                                     caption: me.insertColumnLeftText
@@ -4334,6 +4352,10 @@ define([
                             return;
                     }
                     this.api.asc_addImage(obj);
+                    var me = this;
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:

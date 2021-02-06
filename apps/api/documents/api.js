@@ -24,10 +24,8 @@
                 key: 'key',
                 vkey: 'vkey',
                 info: {
-                    author: 'author name', // must be deprecated, use owner instead
                     owner: 'owner name',
                     folder: 'path to document',
-                    created: '<creation date>', // must be deprecated, use uploaded instead
                     uploaded: '<uploaded date>',
                     sharingSettings: [
                         {
@@ -36,7 +34,8 @@
                             isLink: false
                         },
                         ...
-                    ]
+                    ],
+                    favorite: '<file is favorite>' // true/false/undefined (undefined - don't show fav. button)
                 },
                 permissions: {
                     edit: <can edit>, // default = true
@@ -48,7 +47,10 @@
                     modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                     modifyContentControl: <can modify content controls in documenteditor> // default = true
                     fillForms:  <can edit forms in view mode> // default = edit || review,
-                    copy: <can copy data> // default = true
+                    copy: <can copy data> // default = true,
+                    editCommentAuthorOnly: <can edit your own comments only> // default = false
+                    deleteCommentAuthorOnly: <can delete your own comments only> // default = false,
+                    reviewGroup: ["Group1", ""] // current user can accept/reject review changes made by users from Group1 and users without a group. [] - use groups, but can't change any group's changes
                 }
             },
             editorConfig: {
@@ -124,6 +126,10 @@
                         "Group2": ["Group1", "Group2"] // users from Group2 can accept/reject review changes made by users from Group1 and Group2
                         "Group3": [""] // users from Group3 can accept/reject review changes made by users without a group
                     },
+                    anonymous: { // set name for anonymous user
+                        request: bool (default: true), // enable set name
+                        label: string (default: "Guest") // postfix for user name
+                    }
                     chat: true,
                     comments: true,
                     zoom: 100,
@@ -135,7 +141,7 @@
                     statusBar: true,
                     autosave: true,
                     forcesave: false,
-                    commentAuthorOnly: false,
+                    commentAuthorOnly: false, // must be deprecated. use permissions.editCommentAuthorOnly and permissions.deleteCommentAuthorOnly instead
                     showReviewChanges: false,
                     help: true,
                     compactHeader: false,
@@ -332,6 +338,8 @@
             if ( msg ) {
                 if ( msg.type === "onExternalPluginMessage" ) {
                     _sendCommand(msg);
+                } else if (msg.type === "onExternalPluginMessageCallback") {
+                    postMessage(window.parent, msg);
                 } else
                 if ( msg.frameEditorId == placeholderId ) {
                     var events = _config.events || {},
@@ -388,7 +396,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott|fb2))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -636,6 +644,13 @@
             });
         };
 
+        var _setFavorite = function(data) {
+            _sendCommand({
+                command: 'setFavorite',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -681,7 +696,8 @@
             setSharingSettings  : _setSharingSettings,
             insertImage         : _insertImage,
             setMailMergeRecipients: _setMailMergeRecipients,
-            setRevisedFile      : _setRevisedFile
+            setRevisedFile      : _setRevisedFile,
+            setFavorite         : _setFavorite
         }
     };
 
@@ -880,7 +896,7 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-        iframe.setAttribute("allow", "autoplay");
+        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture");
         
 		if (config.type == "mobile")
 		{

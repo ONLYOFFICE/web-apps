@@ -52,6 +52,7 @@ define([
     PE.Controllers.Toolbar = Backbone.Controller.extend(_.extend((function() {
         // private
         var _users = [];
+        var _displayCollaboration = false;
 
         return {
             models: [],
@@ -165,7 +166,7 @@ define([
                             objectValue = object.get_ObjectValue();
                         if (type == Asc.c_oAscTypeSelectElement.Slide) {
                             slide_deleted = objectValue.get_LockDelete();
-                            slide_lock = objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTranzition() || objectValue.get_LockTiming();
+                            slide_lock = objectValue.get_LockLayout() || objectValue.get_LockBackground() || objectValue.get_LockTransition() || objectValue.get_LockTiming();
                         } else if (objectValue && _.isFunction(objectValue.get_Locked)) {
                             no_object = false;
                             objectLocked = objectLocked || objectValue.get_Locked();
@@ -189,13 +190,17 @@ define([
                 $('#toolbar-preview, #toolbar-search, #document-back, #toolbar-collaboration').removeClass('disabled');
             },
 
-            deactivateEditControls: function() {
-                $('#toolbar-edit, #toolbar-add, #toolbar-settings').addClass('disabled');
+            deactivateEditControls: function(enableDownload) {
+                $('#toolbar-edit, #toolbar-add').addClass('disabled');
+                if (enableDownload)
+                    PE.getController('Settings').setMode({isDisconnected: true, enableDownload: enableDownload});
+                else
+                    $('#toolbar-settings').addClass('disabled');
             },
 
-            onCoAuthoringDisconnect: function() {
+            onCoAuthoringDisconnect: function(enableDownload) {
                 this.isDisconnected = true;
-                this.deactivateEditControls();
+                this.deactivateEditControls(enableDownload);
                 $('#toolbar-undo').toggleClass('disabled', true);
                 $('#toolbar-redo').toggleClass('disabled', true);
                 PE.getController('AddContainer').hideModal();
@@ -210,10 +215,8 @@ define([
                         if ((item.asc_getState()!==false) && !item.asc_getView())
                             length++;
                     });
-                    if (length < 1 && this.mode && !this.mode.canViewComments)
-                        $('#toolbar-collaboration').hide();
-                    else
-                        $('#toolbar-collaboration').show();
+                    _displayCollaboration = (length >= 1 || !this.mode || this.mode.canViewComments);
+                    _displayCollaboration ? $('#toolbar-collaboration').show() : $('#toolbar-collaboration').hide();
                 }
             },
 
@@ -235,6 +238,10 @@ define([
                 }
                 !changed && change && (_users[change.asc_getId()] = change);
                 this.displayCollaboration();
+            },
+
+            getDisplayCollaboration: function() {
+                return _displayCollaboration;
             },
 
             dlgLeaveTitleText   : 'You leave the application',

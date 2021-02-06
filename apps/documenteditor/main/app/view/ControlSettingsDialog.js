@@ -130,18 +130,20 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
 
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $('#control-settings-color-btn'),
-                additionalItems: [{
-                        id: 'control-settings-system-color',
-                        caption: this.textSystemColor,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #dcdcdc;"></span><%= caption %></a>')
-                    },
-                    {caption: '--'}],
+                auto: {
+                    caption: this.textSystemColor,
+                    color: Common.Utils.ThemeColor.getHexColor(220, 220, 220)
+                },
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: 'auto',
+                colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                    '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                    '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                    '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', '99CCFF', 'CC99FF', 'FFFFFF'
+                ],
+                paletteHeight: 94
             });
-            this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
             this.colors = this.btnColor.getPicker();
-            $('#control-settings-system-color').on('click', _.bind(this.onSystemColor, this));
 
             this.btnApplyAll = new Common.UI.Button({
                 el: $('#control-settings-btn-all')
@@ -375,27 +377,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             }, 100);
         },
 
-        onColorsSelect: function(btn, color) {
-            var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
-            clr_item.hasClass('selected') && clr_item.removeClass('selected');
-            this.isSystemColor = false;
-        },
-
-        updateThemeColors: function() {
-            this.colors.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-        },
-
-        onSystemColor: function(e) {
-            var color = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
-            this.btnColor.setColor(color);
-            this.colors.clearSelection();
-            var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
-            !clr_item.hasClass('selected') && clr_item.addClass('selected');
-            this.isSystemColor = true;
-        },
-
         afterRender: function() {
-            this.updateThemeColors();
             this.updateMetricUnit();
             this._setDefaults(this.props);
             if (this.storageName) {
@@ -423,16 +405,14 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 (val!==null && val!==undefined) && this.cmbShow.setValue(val);
 
                 val = props.get_Color();
-                this.isSystemColor = (val===null);
                 if (val) {
                     val = Common.Utils.ThemeColor.getHexColor(val.get_r(), val.get_g(), val.get_b());
                     this.colors.selectByRGB(val,true);
                 } else {
                     this.colors.clearSelection();
-                    var clr_item = this.btnColor.menu.$el.find('#control-settings-system-color > a');
-                    !clr_item.hasClass('selected') && clr_item.addClass('selected');
-                    val = Common.Utils.ThemeColor.getHexColor(220, 220, 220);
+                    val = 'auto';
                 }
+                this.btnColor.setAutoColor(val == 'auto');
                 this.btnColor.setColor(val);
 
                 val = props.get_Lock();
@@ -567,7 +547,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             props.put_PlaceholderText(this.txtPlaceholder.getValue() || '    ');
             props.put_Appearance(this.cmbShow.getValue());
 
-            if (this.isSystemColor) {
+            if (this.btnColor.isAutoColor()) {
                 props.put_Color(null);
             } else {
                 var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());
@@ -677,7 +657,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             if (this.api) {
                 var props   = new AscCommon.CContentControlPr();
                 props.put_Appearance(this.cmbShow.getValue());
-                if (this.isSystemColor) {
+                if (this.btnColor.isAutoColor()) {
                     props.put_Color(null);
                 } else {
                     var color = Common.Utils.ThemeColor.getRgbColor(this.colors.getColor());

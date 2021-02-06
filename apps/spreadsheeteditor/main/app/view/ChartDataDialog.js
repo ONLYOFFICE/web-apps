@@ -379,17 +379,11 @@ define([
         },
 
         onAddSeries: function() {
-            var rec = (this.seriesList.store.length>0) ? this.seriesList.store.at(this.seriesList.store.length-1) : null,
-                isScatter = false,
-                me = this;
-                rec && (isScatter = rec.get('series').asc_IsScatter());
+            var me = this;
             me.chartSettings.startEditData();
-            var series;
-            if (isScatter) {
-                series = me.chartSettings.addScatterSeries();
-            } else {
-                series = me.chartSettings.addSeries();
-            }
+            var series = me.chartSettings.addSeries(),
+                isScatter = series.asc_IsScatter();
+
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
                     me.updateRange();
@@ -534,11 +528,15 @@ define([
         },
 
         onSwitch: function() {
-            this.chartSettings.switchRowCol();
-            this.updateSeriesList(this.chartSettings.getSeries(), 0);
-            this.updateCategoryList(this.chartSettings.getCatValues());
-            this.updateRange();
-            this.updateButtons();
+            var res = this.chartSettings.switchRowCol();
+            if (res === Asc.c_oAscError.ID.MaxDataSeriesError)
+                Common.UI.warning({msg: this.errorMaxRows, maxwidth: 600});
+            else {
+                this.updateSeriesList(this.chartSettings.getSeries(), 0);
+                this.updateCategoryList(this.chartSettings.getCatValues());
+                this.updateRange();
+                this.updateButtons();
+            }
         },
 
         textTitle: 'Chart Data',

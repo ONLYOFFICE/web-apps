@@ -22,8 +22,8 @@
     line-height: @loadmask-image-height;
     border: none;
     background-image: none;
-    background-color: rgba(0,0,0,.9);
-    color: @background-toolbar;
+    background-color: @background-loader;
+    color: @text-contrast-background;
     .border-radius(@border-radius-large);
 
     left: 50%;
@@ -107,7 +107,7 @@
     }
 }
 
-@keyframes slidein {
+@keyframes rotation {
     from {
         transform: rotate(0);
     }
@@ -119,7 +119,7 @@
 
 #loadmask-spinner {
     animation-duration: .8s;
-    animation-name: slidein;
+    animation-name: rotation;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 }

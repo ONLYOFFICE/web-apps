@@ -84,10 +84,17 @@ define([
             me.CurrencySymbolsData = null;
             me.langId = 0x0409;
 
+            this.api        = options.api;
+            this.handler    = options.handler;
+            this.props      = options.props;
+            this.linked     = options.linked || false;
+
+            var height = this.linked ? 360 : 340;
             _.extend(this.options, {
                 title: this.textTitle,
+                height: height,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box" style="height:' + (height - 85) + 'px;">',
                     '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
                     '<div class="settings-panel active">',
                     '<table cols="1" style="width: 100%;">',
@@ -99,11 +106,11 @@ define([
                         '</tr>',
                         '<tr>',
                             '<td class="padding-large" style="white-space: nowrap;">',
-                                '<label style="vertical-align: middle; margin-right: 4px;">' + me.txtSample + '</label>',
-                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
+                                '<label class="format-sample" style="vertical-align: middle; margin-right: 4px;">' + me.txtSample + '</label>',
+                                '<label class="format-sample" id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
                             '</td>',
                         '</tr>',
-                        '<tr>',
+                        '<tr class="format-no-code">',
                             '<td class="padding-small">',
                             '</td>',
                         '</tr>',
@@ -139,7 +146,13 @@ define([
                         '<tr class="format-code">',
                             '<td colspan="1" class="padding-large">',
                                 '<label class="header">', me.textFormat,'</label>',
-                                '<div id="format-settings-combo-code" class="input-group-nr" style="width:264px;"></div>',
+                                '<div id="format-settings-txt-code" class="input-group-nr" style="height:22px;width:264px;margin-bottom: 8px;"></div>',
+                                '<div id="format-settings-list-code" style="width:264px; height: 116px;"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="1">',
+                                '<div id="format-settings-chk-linked"></div>',
                             '</td>',
                         '</tr>',
                     '</table>',
@@ -150,13 +163,9 @@ define([
                 ].join('')
             }, options);
 
-            this.api        = options.api;
-            this.handler    = options.handler;
-            this.props      = options.props;
-            this._state = {hasDecimal: false, hasNegative: false, hasSeparator: false, hasType: false, hasSymbols: false, hasCode: false};
-
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
+            this._state = {hasDecimal: false, hasNegative: false, hasSeparator: false, hasType: false, hasSymbols: false, hasCode: false};
             this.FormatType = Asc.c_oAscNumFormatType.General;
             this.Format = "General";
             this.CustomFormat = null;
@@ -228,16 +237,44 @@ define([
             });
             this.cmbType.on('selected', _.bind(this.onTypeSelect, this));
 
-            this.cmbCode = new Common.UI.ComboBox({
-                el: $('#format-settings-combo-code'),
-                cls: 'input-group-nr',
-                menuStyle: 'min-width: 310px;max-height:235px;',
-                editable: false,
-                data: [],
-                scrollAlwaysVisible: true,
-                takeFocusOnClose: true
+            this.codesList = new Common.UI.ListView({
+                el: $('#format-settings-list-code'),
+                store: new Common.UI.DataViewStore(),
+                tabindex: 1,
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
             });
-            this.cmbCode.on('selected', _.bind(this.onCodeSelect, this));
+            this.codesList.on('item:select', _.bind(this.onCodeSelect, this));
+            this.codesList.on('entervalue', _.bind(this.onPrimary, this));
+
+            this.inputCustomFormat = new Common.UI.InputField({
+                el               : $('#format-settings-txt-code'),
+                allowBlank       : true,
+                validateOnChange : true,
+                validation       : function () { return true; }
+            }).on ('changing', function (input, value) {
+                me.codesList.deselectAll();
+                me.Format = me.api.asc_convertNumFormatLocal2NumFormat(value);
+                me.lblExample.text(me.api.asc_getLocaleExample(me.Format));
+                me.chLinked.setValue(false, true);
+                if (!me._state.warning) {
+                    input.showWarning([me.txtCustomWarning]);
+                    me._state.warning = true;
+                }
+            });
+
+            this.chLinked = new Common.UI.CheckBox({
+                el: $('#format-settings-chk-linked'),
+                labelText: this.textLinked
+            }).on ('change', function (field, newValue, oldValue, eOpts) {
+                me.props.linked = (field.getValue()=='checked');
+                if (me.props.linked) {
+                    me.props.chartFormat.putSourceLinked(true);
+                    me.props.format = me.props.chartFormat.getFormatCode();
+                    me.props.formatInfo = me.props.chartFormat.getFormatCellsInfo();
+                    me._setDefaults(me.props);
+                }
+            });
+            this.chLinked.setVisible(this.linked);
 
             this._decimalPanel      = this.$window.find('.format-decimal');
             this._negativePanel     = this.$window.find('.format-negative');
@@ -245,6 +282,8 @@ define([
             this._typePanel         = this.$window.find('.format-type');
             this._symbolsPanel      = this.$window.find('.format-symbols');
             this._codePanel         = this.$window.find('.format-code');
+            this._nocodePanel       = this.$window.find('.format-no-code');
+            this.$window.find('.format-sample').toggleClass('hidden', this.linked);
 
             this.lblExample         = this.$window.find('#format-settings-label-example');
 
@@ -252,7 +291,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFormat, this.spnDecimal, this.cmbSymbols, this.cmbNegative, this.cmbType, this.cmbCode];
+            return [this.cmbFormat, this.spnDecimal, this.cmbSymbols, this.cmbNegative, this.cmbType, this.inputCustomFormat, {cmp: this.codesList, selector: '.listview'}];
         },
 
         getDefaultFocusableComponent: function () {
@@ -309,10 +348,13 @@ define([
                 // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 38822))
                 // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample(props.format))
             }
+            if (props && props.chartFormat) {
+                this.chLinked.setValue(!!props.chartFormat.getSourceLinked(), true);
+            }
         },
 
         getSettings: function () {
-            return {format: this.Format};
+            return {format: this.Format, linked: this.chLinked.getValue()==='checked'};
         },
 
         onDlgBtnClick: function(event) {
@@ -333,6 +375,7 @@ define([
         onNegativeSelect: function(combo, record) {
             this.Format = record.value;
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
         onSymbolsSelect: function(combo, record) {
@@ -354,6 +397,7 @@ define([
             this.Format = format[0];
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
         onDecimalChange: function(field, newValue, oldValue, eOpts){
@@ -379,6 +423,7 @@ define([
             }
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
         onSeparatorChange: function(field, newValue, oldValue, eOpts){
@@ -399,16 +444,24 @@ define([
             this.Format = format[0];
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
         onTypeSelect: function(combo, record){
             this.Format = record.value;
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.chLinked.setValue(false, true);
         },
 
-        onCodeSelect: function(combo, record){
-            this.Format = record.value;
+        onCodeSelect: function(listView, itemView, record){
+            if (!record) return;
+
+            this.Format = record.get('format');
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
+            this.inputCustomFormat.setValue(record.get('value'));
+            this.chLinked.setValue(false, true);
+            this.inputCustomFormat.showWarning();
+            this._state.warning = false;
         },
 
         onFormatSelect: function(combo, record, e, initFormatInfo) {
@@ -488,15 +541,28 @@ define([
                     data = [],
                     isCustom = (this.CustomFormat) ? true : false;
                 formatsarr.forEach(function(item) {
-                    data.push({value: item, displayValue: item});
+                    var rec = new Common.UI.DataViewModel();
+                    rec.set({
+                        value: me.api.asc_convertNumFormat2NumFormatLocal(item),
+                        format: item
+                    });
+                    data.push(rec);
                     if (me.CustomFormat == item)
                         isCustom = false;
                 });
                 if (isCustom) {
-                    data.push({value: this.CustomFormat, displayValue: this.CustomFormat});
+                    var rec = new Common.UI.DataViewModel();
+                    rec.set({
+                        value: me.api.asc_convertNumFormat2NumFormatLocal(this.CustomFormat),
+                        format: this.CustomFormat
+                    });
+                    data.push(rec);
                 }
-                this.cmbCode.setData(data);
-                this.cmbCode.setValue(this.Format);
+                this.codesList.store.reset(data, {silent: false});
+                var rec = this.codesList.store.findWhere({value: this.Format});
+                rec && this.codesList.selectRecord(rec);
+                rec && this.codesList.scrollToRecord(rec);
+                this.inputCustomFormat.setValue(me.api.asc_convertNumFormat2NumFormatLocal(this.Format));
             }
 
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
@@ -507,7 +573,10 @@ define([
             this._typePanel.toggleClass('hidden', !hasType);
             this._symbolsPanel.toggleClass('hidden', !hasSymbols);
             this._codePanel.toggleClass('hidden', !hasCode);
+            this._nocodePanel.toggleClass('hidden', hasCode);
             this._state = { hasDecimal: hasDecimal, hasNegative: hasNegative, hasSeparator: hasSeparator, hasType: hasType, hasSymbols: hasSymbols, hasCode: hasCode};
+
+            !initFormatInfo && this.chLinked.setValue(false, true);
         },
 
         textTitle: 'Number Format',
@@ -537,7 +606,9 @@ define([
         txtAs10:  'As tenths (5/10)',
         txtAs100: 'As hundredths (50/100)',
         txtSample: 'Sample:',
-        txtNone: 'None'
+        txtNone: 'None',
+        textLinked: 'Linked to source',
+        txtCustomWarning: 'Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.'
 
     }, SSE.Views.FormatSettingsDialog || {}))
 });

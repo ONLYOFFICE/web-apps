@@ -1,6 +1,6 @@
 {
-  "common.view.modals.txtCopy": "Másolás a vágólapra",
-  "common.view.modals.txtEmbed": "Beágyaz",
+  "common.view.modals.txtCopy": "Másolás vágólapra",
+  "common.view.modals.txtEmbed": "Beágyazás",
   "common.view.modals.txtHeight": "Magasság",
   "common.view.modals.txtShare": "Hivatkozás megosztása",
   "common.view.modals.txtWidth": "Szélesség",
@@ -19,12 +19,13 @@
   "PE.ApplicationController.scriptLoadError": "A kapcsolat túl lassú, néhány komponens nem töltődött be. Frissítse az oldalt.",
   "PE.ApplicationController.textLoadingDocument": "Prezentáció betöltése",
   "PE.ApplicationController.textOf": "of",
-  "PE.ApplicationController.txtClose": "Bezár",
+  "PE.ApplicationController.txtClose": "Bezárás",
   "PE.ApplicationController.unknownErrorText": "Ismeretlen hiba.",
   "PE.ApplicationController.unsupportedBrowserErrorText": "A böngészője nem támogatott.",
   "PE.ApplicationController.waitText": "Kérjük várjon...",
   "PE.ApplicationView.txtDownload": "Letöltés",
-  "PE.ApplicationView.txtEmbed": "Beágyaz",
+  "PE.ApplicationView.txtEmbed": "Beágyazás",
   "PE.ApplicationView.txtFullScreen": "Teljes képernyő",
+  "PE.ApplicationView.txtPrint": "Nyomtatás",
   "PE.ApplicationView.txtShare": "Megosztás"
 }

@@ -71,7 +71,7 @@ define([
                                 '<tr>',
                                     '<td class="padding-small">',
                                         '<label class="header">' + this.textViews + '</label>',
-                                        '<div id="view-manager-list" class="range-tableview" style="width:100%; height: 166px;"></div>',
+                                        '<div id="view-manager-list" class="range-tableview" style="width:440px; height: 166px;"></div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
@@ -89,7 +89,7 @@ define([
                     '</div>',
                     '<div class="separator horizontal"></div>',
                     '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.textGoTo + '</button>',
+                    '<button class="btn normal dlg-btn primary" result="ok" style="min-width: 86px;width: auto;">' + this.textGoTo + '</button>',
                     '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
                 ].join('')
@@ -150,6 +150,11 @@ define([
             });
             this.btnDelete.on('click', _.bind(this.onDelete, this));
 
+            this.btnOk = new Common.UI.Button({
+                el: this.$window.find('.primary'),
+                disabled: true
+            });
+            
             this.afterRender();
         },
 
@@ -158,7 +163,7 @@ define([
         },
 
         _setDefaults: function (props) {
-            this.refreshList(this.views, 0);
+            this.refreshList(this.views);
             this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', this.wrapEvents.onRefreshNamedSheetViewList);
         },
 
@@ -167,6 +172,7 @@ define([
         },
 
         refreshList: function(views, selectedItem) {
+            var active = 0;
             if (views) {
                 this.views = views;
                 var arr = [];
@@ -180,6 +186,7 @@ define([
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? this.getUserName(id) : this.guestText
                     });
+                    view.asc_getIsActive() && (active = i);
                 }
                 this.viewList.store.reset(arr);
             }
@@ -188,8 +195,9 @@ define([
             this.btnRename.setDisabled(!val);
             this.btnDuplicate.setDisabled(!val);
             this.btnDelete.setDisabled(!val);
+            this.btnOk.setDisabled(!val);
             if (val>0) {
-                if (selectedItem===undefined || selectedItem===null) selectedItem = 0;
+                if (selectedItem===undefined || selectedItem===null) selectedItem = active;
                 if (_.isNumber(selectedItem)) {
                     if (selectedItem>val-1) selectedItem = val-1;
                     this.viewList.selectByIndex(selectedItem);
@@ -270,6 +278,9 @@ define([
                     label: this.textRenameLabel,
                     error: this.textRenameError,
                     value: rec.get('name'),
+                    validation: function(value) {
+                        return value.length<128 ? true : me.textLongName;
+                    },
                     handler: function(result, value) {
                         if (result == 'ok') {
                             rec.get('view').asc_setName(value);
@@ -295,6 +306,8 @@ define([
         },
 
         onSelectItem: function(lisvView, itemView, record) {
+            if (!record) return;
+
             this.userTipHide();
             var rawData = {},
                 isViewSelect = _.isFunction(record.toJSON);
@@ -327,6 +340,16 @@ define([
             this.onPrimary();
         },
 
+        onPrimary: function() {
+            if (this.btnOk.isDisabled()) return false;
+
+            if ( this.handler && this.handler.call(this, 'ok', this.getSettings()) )
+                return;
+
+            this.close();
+            return false;
+        },
+
         txtTitle: 'Sheet View Manager',
         textViews: 'Sheet views',
         closeButtonText : 'Close',
@@ -340,7 +363,8 @@ define([
         tipIsLocked: 'This element is being edited by another user.',
         textRenameLabel: 'Rename view',
         textRenameError: 'View name must not be empty.',
-        warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?"
+        warnDeleteView: "You are trying to delete the currently enabled view '%1'.<br>Close this view and delete it?",
+        textLongName: 'Enter a name that is less than 128 characters.'
 
     }, SSE.Views.ViewManagerDlg || {}));
 });

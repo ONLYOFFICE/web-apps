@@ -106,22 +106,29 @@ define([
             },
 
             setMode: function (mode) {
-                _isEdit = mode.isEdit;
-                _canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
-                _canDownload = mode.canDownload;
-                _canDownloadOrigin = mode.canDownloadOrigin;
-                _canReader = !mode.isEdit && !mode.isRestrictedEdit && mode.canReader;
-                _canPrint = mode.canPrint;
-                _canReview = mode.canReview;
-                _isReviewOnly = mode.isReviewOnly;
+                if (mode.isDisconnected) {
+                    _canEdit = _isEdit = false;
+                    _canReview = false;
+                    _isReviewOnly = false;
+                    if (!mode.enableDownload)
+                        _canPrint = _canDownload = _canDownloadOrigin = false;
+                } else {
+                    _isEdit = mode.isEdit;
+                    _canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
+                    _canReader = !mode.isEdit && !mode.isRestrictedEdit && mode.canReader;
+                    _canReview = mode.canReview;
+                    _isReviewOnly = mode.isReviewOnly;
+                    _canDownload = mode.canDownload;
+                    _canDownloadOrigin = mode.canDownloadOrigin;
+                    _canPrint = mode.canPrint;
+                    if (mode.customization && mode.canBrandingExt) {
+                        _canAbout = (mode.customization.about!==false);
+                    }
 
-                if (mode.customization && mode.canBrandingExt) {
-                    _canAbout = (mode.customization.about!==false);
-                }
-
-                if (mode.customization) {
-                    _canHelp = (mode.customization.help!==false);
-                    _isShowMacros = (mode.customization.macros!==false);
+                    if (mode.customization) {
+                        _canHelp = (mode.customization.help!==false);
+                        _isShowMacros = (mode.customization.macros!==false);
+                    }
                 }
             },
 

@@ -53,12 +53,15 @@ define([
 
         initialize: function() {
             this.editMode = true;
+            this._initSettings = true;
 
             this.addListeners({
                 'RightMenu': {
                     'rightmenuclick': this.onRightMenuClick
                 }
             });
+
+            Common.Utils.InternalSettings.set("de-rightpanel-active-form", 1);
         },
 
         onLaunch: function() {
@@ -94,8 +97,29 @@ define([
             this.editMode = mode.isEdit;
         },
 
-        onRightMenuClick: function(menu, type, minimized) {
+        onRightMenuClick: function(menu, type, minimized, event) {
             if (!minimized && this.editMode) {
+                if (event) { // user click event
+                    if (!this._settings[Common.Utils.documentSettingsType.Form].hidden) {
+                        if (type == Common.Utils.documentSettingsType.Form) {
+                            if (!this._settings[Common.Utils.documentSettingsType.Paragraph].hidden)
+                                Common.Utils.InternalSettings.set("de-rightpanel-active-para", 0);
+                            if (!this._settings[Common.Utils.documentSettingsType.Image].hidden)
+                                Common.Utils.InternalSettings.set("de-rightpanel-active-image", 0);
+                            if (!this._settings[Common.Utils.documentSettingsType.Shape].hidden)
+                                Common.Utils.InternalSettings.set("de-rightpanel-active-shape", 0);
+                        } else if (type == Common.Utils.documentSettingsType.Paragraph) {
+                            Common.Utils.InternalSettings.set("de-rightpanel-active-para", 2);
+                        } else if (type == Common.Utils.documentSettingsType.Image) {
+                            Common.Utils.InternalSettings.set("de-rightpanel-active-image", 2);
+                            Common.Utils.InternalSettings.set("de-rightpanel-active-shape", 0);
+                        } else if (type == Common.Utils.documentSettingsType.Shape) {
+                            Common.Utils.InternalSettings.set("de-rightpanel-active-shape", 2);
+                            Common.Utils.InternalSettings.set("de-rightpanel-active-image", 0);
+                        }
+                    }
+                }
+
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
                 if (props && panel)
@@ -107,9 +131,12 @@ define([
             this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
-        onFocusObject: function(SelectedObjects, open) {
+        onFocusObject: function(SelectedObjects) {
             if (!this.editMode)
                 return;
+
+            var open = this._initSettings ? !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu) : false;
+            this._initSettings = false;
 
             var can_add_table = false, 
                 in_equation = false,
@@ -170,7 +197,7 @@ define([
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
             }
 
-            if (control_props && control_props.get_FormPr()) {
+            if (control_props && control_props.get_FormPr() && this.rightmenu.formSettings) {
                 var spectype = control_props.get_SpecificType();
                 if (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
@@ -218,6 +245,26 @@ define([
 
             if (!this.rightmenu.minimizedMode || open) {
                 var active;
+
+                if (priorityactive<0 && !this._settings[Common.Utils.documentSettingsType.Form].hidden &&
+                    (!this._settings[Common.Utils.documentSettingsType.Paragraph].hidden || !this._settings[Common.Utils.documentSettingsType.Image].hidden
+                    || !this._settings[Common.Utils.documentSettingsType.Shape].hidden)) {
+                    var imageactive = Common.Utils.InternalSettings.get("de-rightpanel-active-image") || 0,
+                        shapeactive = Common.Utils.InternalSettings.get("de-rightpanel-active-shape") || 0,
+                        paraactive = Common.Utils.InternalSettings.get("de-rightpanel-active-para") || 0,
+                        formactive = Common.Utils.InternalSettings.get("de-rightpanel-active-form") || 0;
+
+                    if (!this._settings[Common.Utils.documentSettingsType.Paragraph].hidden) {
+                        priorityactive = (formactive>paraactive) ? Common.Utils.documentSettingsType.Form : Common.Utils.documentSettingsType.Paragraph;
+                    } else if (!this._settings[Common.Utils.documentSettingsType.Paragraph].Image || !this._settings[Common.Utils.documentSettingsType.Shape].hidden) {
+                        if (formactive>shapeactive && formactive>imageactive)
+                            priorityactive = Common.Utils.documentSettingsType.Form;
+                        else if (shapeactive>formactive && shapeactive>imageactive)
+                            priorityactive = Common.Utils.documentSettingsType.Shape;
+                        else
+                            priorityactive = Common.Utils.documentSettingsType.Image;
+                    }
+                }
 
                 if (priorityactive>-1) active = priorityactive;
                 else if (lastactive>=0 && currentactive<0) active = lastactive;
@@ -274,7 +321,6 @@ define([
             this.rightmenu.tableSettings.UpdateThemeColors();
             this.rightmenu.shapeSettings.UpdateThemeColors();
             this.rightmenu.textartSettings.UpdateThemeColors();
-            this.rightmenu.formSettings && this.rightmenu.formSettings.UpdateThemeColors();
         },
 
         updateMetricUnit: function() {
@@ -302,7 +348,7 @@ define([
                 // this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
-                    this.onFocusObject(selectedElements, !Common.localStorage.getBool("de-hide-right-settings", this.rightmenu.defaultHideRightMenu));
+                    this.onFocusObject(selectedElements);
                 }
             }
         },
@@ -362,7 +408,7 @@ define([
 
         SetDisabled: function(disabled, allowMerge, allowSignature) {
             this.setMode({isEdit: !disabled});
-            if (this.rightmenu) {
+            if (this.rightmenu && this.rightmenu.paragraphSettings) {
                 this.rightmenu.paragraphSettings.disableControls(disabled);
                 this.rightmenu.shapeSettings.disableControls(disabled);
                 this.rightmenu.textartSettings.disableControls(disabled);
