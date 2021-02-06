@@ -40,7 +40,12 @@
 .button-normal-icon(btn-drop-none,        7, @x-huge-icon-size, @button-huge-normal-icon-offset-x);
 .button-normal-icon(btn-drop-text,        8, @x-huge-icon-size, @button-huge-normal-icon-offset-x);
 .button-normal-icon(btn-drop-margin,      9, @x-huge-icon-size, @button-huge-normal-icon-offset-x);
-.button-otherstates-icon(icon-advanced-wrap, @x-huge-icon-size);
+//.button-otherstates-icon(icon-advanced-wrap, @x-huge-icon-size);
+.icon-advanced-wrap {
+    .theme-dark & {
+        background-position-x: -45px;
+    }
+}
 
 .combo-arrow-style {
     .form-control {

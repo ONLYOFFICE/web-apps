@@ -60,14 +60,19 @@ textarea {
     background-position: 0 0;
 
     button.over & {
-        background-position: -28px 0;
+        //background-position: -28px 0;
     }
 
     .btn-group.open &,
         button.active:not(.disabled) &,
         button:active:not(.disabled) &
     {
-        background-position: -56px 0;
+        //background-position: -56px 0;
+    }
+
+    // TODO: not good, must be controled by variable
+    .theme-dark & {
+        background-position-x: -56px;
     }
 }
 
@@ -75,13 +80,18 @@ textarea {
     background-position: 0 -16px;
 
     button.over & {
-        background-position: -28px -16px;
+        //background-position: -28px -16px;
     }
 
     .btn-group.open &,
         button.active:not(.disabled) &,
         button:active:not(.disabled) &
     {
-        background-position: -56px -16px;
+        //background-position: -56px -16px;
+    }
+
+    // TODO: not good, must be controled by variable
+    .theme-dark & {
+        background-position-x: -56px;
     }
 }
