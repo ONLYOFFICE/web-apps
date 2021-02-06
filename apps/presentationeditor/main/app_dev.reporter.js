@@ -96,7 +96,7 @@ require([
         using      : 'reporter'
     });
 
-    var value = localStorage.getItem("uitheme");
+    var value = localStorage.getItem("ui-theme");
     api.asc_setSkin(value == "theme-dark" ? 'flatDark' : "flat");
 
     var setDocumentTitle = function(title) {
