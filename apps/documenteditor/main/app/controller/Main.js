@@ -171,6 +171,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.Themes.init(this.api);
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
@@ -188,9 +189,6 @@ define([
                         case '1': this.api.SetFontRenderingMode(1); break;
                         case '2': this.api.SetFontRenderingMode(2); break;
                     }
-
-                    value = Common.localStorage.getItem("uitheme", "theme-light");
-                    me.api.asc_setSkin(value == "theme-dark" ? 'flatDark' : "flat");
 
                     this.api.asc_registerCallback('asc_onError',                    _.bind(this.onError, this));
                     this.api.asc_registerCallback('asc_onDocumentContentReady',     _.bind(this.onDocumentContentReady, this));
@@ -1122,17 +1120,7 @@ define([
                 $('#header-logo').children(0).click(e => {
                     e.stopImmediatePropagation();
 
-                    var value = Common.localStorage.getItem("uitheme", "theme-light");
-                    var classname = document.documentElement.className.replace(/theme-\w+\s?/, '');
-                    document.documentElement.className = classname;
-                    if ( value != "theme-dark" ) {
-                        me.api.asc_setSkin('flatDark');
-                        $(':root').addClass('theme-dark');
-                        Common.localStorage.setItem("uitheme", "theme-dark");
-                    } else {
-                        me.api.asc_setSkin("flat");
-                        Common.localStorage.setItem("uitheme", "theme-light");
-                    }
+                    Common.UI.Themes.toggleTheme();
 
                     // getComputedStyle(document.documentElement).getPropertyValue('--background-normal');
                 })
