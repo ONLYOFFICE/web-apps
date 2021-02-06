@@ -59,21 +59,49 @@
     --icon-contrast-popover: #fff;
     --icon-success: #090;
 
-    --canvas-background: #e2e2e2;
+    // Canvas
+
+    --canvas-background: #f0f0f0;
     --canvas-content-background: #fff;
+    --canvas-page-border: #ccc;
+
     --canvas-ruler-background: #fff;
-    --canvas-ruler-margins-background: #cfcfcf;
-    --canvas-ruler-marks-border: #585b5e;
+    --canvas-ruler-margins-background: #d9d9d9;
+    --canvas-ruler-mark: #555;
+    --canvas-ruler-handle-border: #555;
+    --canvas-ruler-handle-border-disabled: #bbb;
+
     --canvas-high-contrast: #000;
+    --canvas-high-contrast-disabled: #999;
+
     --canvas-cell-border: fade(black, 10%);
-    --canvas-cell-title-border: fade(black, 10%);
+    --canvas-cell-title-border: #d8d8d8;
+    --canvas-cell-title-border-hover: #c9c9c9;
+    --canvas-cell-title-border-selected: #bbb;
     --canvas-cell-title-hover: #dfdfdf;
     --canvas-cell-title-selected: #cfcfcf;
+
     --canvas-dark-cell-title: #444;
     --canvas-dark-cell-title-hover: #666 ;
     --canvas-dark-cell-title-selected: #111;
-    --canvas-scroll-controls: #f1f1f1;
-    --canvas-scroll-controls-hover: #cfcfcf;
+    --canvas-dark-cell-title-border: #3d3d3d;
+    --canvas-dark-cell-title-border-hover: #5c5c5c;
+    --canvas-dark-cell-title-border-selected: #0f0f0f;
+
+    --canvas-scroll-thumb: #f7f7f7;
+    --canvas-scroll-thumb-hover: #c0c0c0;
+    --canvas-scroll-thumb-pressed: #adadad;
+    --canvas-scroll-thumb-border: #c0c0c0;
+    --canvas-scroll-thumb-border-hover: #c0c0c0;
+    --canvas-scroll-thumb-border-pressed: #0%;
+    --canvas-scroll-arrow: #adadad;
+    --canvas-scroll-arrow-hover: #f7f7f7;
+    --canvas-scroll-arrow-pressed: #f7f7f7;
+    --canvas-scroll-thumb-target: #c0c0c0;
+    --canvas-scroll-thumb-target-hover: #f7f7f7;
+    --canvas-scroll-thumb-target-pressed: #f7f7f7;
+
+    // Others
 
     //--button-small-normal-icon-offset-x: 0;
     //--button-small-active-icon-offset-x: 0;
@@ -159,3 +187,7 @@
 @component-normal-icon-filer: var(--component-normal-icon-filter);
 
 @menu-icon-item-checked-offset-x: var(--menu-icon-item-checked-offset-x, 0);
+
+// Canvas
+// ---------------------------
+@canvas-content-background: var(--canvas-content-background);
