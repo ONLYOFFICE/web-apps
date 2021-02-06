@@ -240,6 +240,11 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
+        var ui_theme_name = params.uitheme || localStorage.getItem("ui-theme");
+        if ( !!ui_theme_name ) {
+            document.documentElement.classList.add(ui_theme_name);
+        }
+
         if ( window.AscDesktopEditor ) {
             window.desktop = window.AscDesktopEditor;
             window.on_native_message = function (cmd, param) {

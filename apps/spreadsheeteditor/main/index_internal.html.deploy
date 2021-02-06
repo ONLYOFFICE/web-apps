@@ -170,6 +170,10 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
+        if ( !!params.uitheme ) {
+            document.documentElement.classList.add(params.uitheme);
+        }
+
         if ( window.AscDesktopEditor ) {
             window.desktop = window.AscDesktopEditor;
             window.on_native_message = function (cmd, param) {
