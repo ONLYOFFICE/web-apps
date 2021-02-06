@@ -70,6 +70,8 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onChangeSpecialFormsGlobalSettings', _.bind(this.onChangeSpecialFormsGlobalSettings, this));
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+                this.api.asc_registerCallback('asc_onStartAction',            _.bind(this.onLongActionBegin, this));
+                this.api.asc_registerCallback('asc_onEndAction',              _.bind(this.onLongActionEnd, this));
 
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
@@ -253,6 +255,29 @@ define([
                     comments.setPreviewMode(disable);
                 if (this.view)
                     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
+            }
+        },
+
+        onLongActionBegin: function(type, id) {
+            if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
+                this.view.btnSubmit.setDisabled(true);
+            }
+        },
+
+        onLongActionEnd: function(type, id) {
+            if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
+                this.view.btnSubmit.setDisabled(false);
+                if (!this.submitedTooltip) {
+                    this.submitedTooltip = new Common.UI.SynchronizeTip({
+                        text: this.view.textSubmited,
+                        extCls: 'no-arrow',
+                        target: $(document.body)
+                    });
+                    this.submitedTooltip.on('closeclick', function () {
+                        this.submitedTooltip.hide();
+                    }, this);
+                }
+                this.submitedTooltip.show();
             }
         },
 

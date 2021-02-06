@@ -386,7 +386,8 @@ define([
             capBtnSubmit: 'Submit',
             tipPrevForm: 'Go to the previous field',
             tipNextForm: 'Go to the next field',
-            tipSubmit: 'Submit form'
+            tipSubmit: 'Submit form',
+            textSubmited: 'Form submitted successfully'
         }
     }()), DE.Views.FormsTab || {}));
 });
