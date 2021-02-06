@@ -48,3 +48,40 @@ textarea {
     background-color: @background-normal;
     color: @text-normal
 }
+
+.btn-edit-table,
+.btn-change-shape {
+    .background-ximage-v2('right-panels/rowscols_icon.png', 84px);
+    margin-right: 2px !important;
+    margin-bottom: 1px !important;
+}
+
+.btn-edit-table {
+    background-position: 0 0;
+
+    button.over & {
+        background-position: -28px 0;
+    }
+
+    .btn-group.open &,
+        button.active:not(.disabled) &,
+        button:active:not(.disabled) &
+    {
+        background-position: -56px 0;
+    }
+}
+
+.btn-change-shape {
+    background-position: 0 -16px;
+
+    button.over & {
+        background-position: -28px -16px;
+    }
+
+    .btn-group.open &,
+        button.active:not(.disabled) &,
+        button:active:not(.disabled) &
+    {
+        background-position: -56px -16px;
+    }
+}
