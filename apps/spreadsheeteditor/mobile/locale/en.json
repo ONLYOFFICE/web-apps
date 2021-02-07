@@ -32,7 +32,19 @@
             "textPictureFromURL": "Picture from URL",
             "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
             "textEmptyImgUrl": "You need to specify image URL.",
-            "notcriticalErrorTitle": "Warning"
+            "notcriticalErrorTitle": "Warning",
+            "textLink": "Link",
+            "textAddLink": "Add Link",
+            "textLinkType": "Link Type",
+            "textExternalLink": "External Link",
+            "textInternalDataRange": "Internal Data Range",
+            "textSheet": "Sheet",
+            "textRange": "Range",
+            "textRequired": "Required",
+            "textDisplay": "Display",
+            "textScreenTip": "Screen Tip",
+            "textInsert": "Insert",
+            "textInvalidRange": "ERROR! Invalid cells range"
         },
         "Edit" : {
             "textSelectObjectToEdit": "Select object to edit",

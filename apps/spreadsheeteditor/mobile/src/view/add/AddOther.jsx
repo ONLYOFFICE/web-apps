@@ -10,6 +10,9 @@ const AddOther = props => {
             <ListItem title={_t.textImage} link={'/add-image/'}>
                 <Icon slot="media" icon="icon-insimage"></Icon>
             </ListItem>
+            <ListItem title={_t.textLink} link={'/add-link/'}>
+                <Icon slot="media" icon="icon-link"></Icon>
+            </ListItem>
         </List>
     )
 };

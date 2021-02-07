@@ -12,6 +12,8 @@ import AddShapeController from "../../controller/add/AddShape";
 import {AddOtherController} from "../../controller/add/AddOther";
 import {AddImageController} from "../../controller/add/AddImage";
 import {PageImageLinkSettings} from "./AddImage";
+import {AddLinkController} from "../../controller/add/AddLink";
+import {PageTypeLink, PageSheet} from "./AddLink";
 
 const routes = [
     // Functions
@@ -31,6 +33,19 @@ const routes = [
     {
         path: '/add-image-from-url/',
         component: PageImageLinkSettings
+    },
+    // Link
+    {
+        path: '/add-link/',
+        component: AddLinkController
+    },
+    {
+        path: '/add-link-type/',
+        component: PageTypeLink
+    },
+    {
+        path: '/add-link-sheet/',
+        component: PageSheet
     }
 ];
 
@@ -108,6 +123,13 @@ const AddTabs = props => {
             id: 'add-other',
             icon: 'icon-add-other',
             component: <AddOtherController/>
+        });
+    }
+    if (showPanels && showPanels === 'hyperlink') {
+        tabs.push({
+            caption: _t.textAddLink,
+            id: 'add-link',
+            component: <AddLinkController/>
         });
     }
     return (
