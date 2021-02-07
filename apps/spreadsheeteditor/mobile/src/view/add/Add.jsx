@@ -14,6 +14,7 @@ import {AddImageController} from "../../controller/add/AddImage";
 import {PageImageLinkSettings} from "./AddImage";
 import {AddLinkController} from "../../controller/add/AddLink";
 import {PageTypeLink, PageSheet} from "./AddLink";
+import AddFilterController from "../../controller/add/AddFilter";
 
 const routes = [
     // Functions
@@ -46,6 +47,11 @@ const routes = [
     {
         path: '/add-link-sheet/',
         component: PageSheet
+    },
+    // Other
+    {
+        path: '/add-sort-and-filter/',
+        component: AddFilterController
     }
 ];
 

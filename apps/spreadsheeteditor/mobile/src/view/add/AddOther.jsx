@@ -13,6 +13,9 @@ const AddOther = props => {
             <ListItem title={_t.textLink} link={'/add-link/'}>
                 <Icon slot="media" icon="icon-link"></Icon>
             </ListItem>
+            <ListItem title={_t.textSortAndFilter} link={'/add-sort-and-filter/'}>
+                <Icon slot="media" icon="icon-sort"></Icon>
+            </ListItem>
         </List>
     )
 };

@@ -44,7 +44,9 @@
             "textDisplay": "Display",
             "textScreenTip": "Screen Tip",
             "textInsert": "Insert",
-            "textInvalidRange": "ERROR! Invalid cells range"
+            "textInvalidRange": "ERROR! Invalid cells range",
+            "textSortAndFilter": "Sort and Filter",
+            "textFilter": "Filter"
         },
         "Edit" : {
             "textSelectObjectToEdit": "Select object to edit",
