@@ -272,8 +272,8 @@ define([
                         text: this.view.textSubmited,
                         extCls: 'no-arrow',
                         showLink: false,
-                        target: $('#editor-container'),
-                        placement: 'top'
+                        target: $('.toolbar'),
+                        placement: 'bottom'
                     });
                     this.submitedTooltip.on('closeclick', function () {
                         this.submitedTooltip.hide();
