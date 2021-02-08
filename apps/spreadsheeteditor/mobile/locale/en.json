@@ -122,7 +122,22 @@
             "textDiagonalDownBorder": "Diagonal Down Border",
             "textThin": "Thin",
             "textMedium": "Medium",
-            "textThick": "Thick"
+            "textThick": "Thick",
+            "textGeneral": "General",
+            "textNumber": "Number",
+            "textInteger": "Integer",
+            "textScientific": "Scientific",
+            "textAccounting": "Accounting",
+            "textCurrency": "Currency",
+            "textDate": "Date",
+            "textTime": "Time",
+            "textPercentage": "Percentage",
+            "textText": "Text",
+            "textDollar": "Dollar",
+            "textEuro": "Euro",
+            "textPound": "Pound",
+            "textRouble": "Rouble",
+            "textYen": "Yen"
         }
     },
     "Common": {

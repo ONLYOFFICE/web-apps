@@ -13,13 +13,10 @@ const EditCell = props => {
     const storeCellSettings = props.storeCellSettings;
     const cellStyles = storeCellSettings.cellStyles;
     const styleName = storeCellSettings.styleName;
-    console.log(styleName);
-    console.log(cellStyles);
+    
     console.log(storeCellSettings);
 
     const fontInfo = storeCellSettings.fontInfo;
-    console.log(fontInfo);
-
     const fontName = fontInfo.name || _t.textFonts;
     const fontSize = fontInfo.size;
     const fontColor = storeCellSettings.fontColor;
@@ -33,11 +30,11 @@ const EditCell = props => {
 
     const fontColorPreview = fontColor !== 'auto' ?
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
-        <span className="color-preview auto"></span>;
+        <span className="color-preview"></span>;
     
     const fillColorPreview = fillColor !== 'auto' ?
         <span className="color-preview" style={{ background: `#${(typeof fillColor === "object" ? fillColor.color : fillColor)}`}}></span> :
-        <span className="color-preview auto"></span>;
+        <span className="color-preview"></span>;
 
     return (
         <Fragment>
@@ -94,8 +91,8 @@ const EditCell = props => {
                 </ListItem>
             </List>
             <List>
-                <ListItem title={_t.textFormat} link="/edit-cell-format/" routeProps={{
-                    onTextColor: props.onTextColor
+                <ListItem title={_t.textFormat} link="/edit-format-cell/" routeProps={{
+                    onCellFormat: props.onCellFormat
                 }}>
                     {!isAndroid ?
                         <Icon slot="media" icon="icon-format-general"></Icon> : null
@@ -109,7 +106,6 @@ const EditCell = props => {
                         return (
                             <ListItem key={index} style={{backgroundImage: `url(${elem.image})`}} 
                                 className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
-
                             </ListItem>
                         )
                     })}
@@ -195,17 +191,21 @@ const PageTextColorCell = props => {
     const storePalette = props.storePalette;
     const storeCellSettings = props.storeCellSettings;
     const customColors = storePalette.customColors;
-    const fontColor = storeCellSettings.fontColor;
+    let fontColor = storeCellSettings.fontColor;
+    
+    if(typeof fontColor === 'object') {
+        fontColor = storeCellSettings.fontColor.color;
+    }
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
             if (effectId !== undefined ) {
                 const newColor = {color: color, effectId: effectId, effectValue: effectValue};
-                props.onTextColor(newColor);
                 storeCellSettings.changeFontColor(newColor);
+                props.onTextColor(newColor);
             } else {
-                props.onTextColor(color);
                 storeCellSettings.changeFontColor(color);
+                props.onTextColor(color);
             }
         } else {
             // open custom color menu
@@ -220,7 +220,7 @@ const PageTextColorCell = props => {
                     <Link icon='icon-expand-down' sheetClose></Link>
                 </NavRight>
             </Navbar>
-            <ThemeColorPalette changeColor={changeColor} curColor={fontColor} customColors={customColors} transparent={true} />
+            <ThemeColorPalette changeColor={changeColor} curColor={fontColor} customColors={customColors} />
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-cell-text-custom-color/'} routeProps={{
                     onTextColor: props.onTextColor
@@ -238,17 +238,23 @@ const PageFillColorCell = props => {
     const storePalette = props.storePalette;
     const storeCellSettings = props.storeCellSettings;
     const customColors = storePalette.customColors;
-    const fillColor = storeCellSettings.fillColor;
+    let fillColor = storeCellSettings.fillColor;
+
+    if(typeof fillColor === 'object') {
+        fillColor = storeCellSettings.fillColor.color;
+    }
+
+    console.log(fillColor);
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
             if (effectId !== undefined ) {
                 const newColor = {color: color, effectId: effectId, effectValue: effectValue};
-                props.onFillColor(newColor);
                 storeCellSettings.changeFillColor(newColor);
+                props.onFillColor(newColor);
             } else {
-                props.onFillColor(color);
                 storeCellSettings.changeFillColor(color);
+                props.onFillColor(color);
             }
         } else {
             // open custom color menu
@@ -468,8 +474,6 @@ const PageBorderStyleCell = props => {
         13: `${_t.textThick}`
     };
 
-    // const borderSizes = storeCellSettings.borderSizes;
-
     return (
         <Page>
             <Navbar title={_t.textBorderStyle} backLink={_t.textBack} />
@@ -565,9 +569,13 @@ const PageBorderColorCell = props => {
     const storePalette = props.storePalette;
     const storeCellSettings = props.storeCellSettings;
     const borderInfo = storeCellSettings.borderInfo;
-    const borderColor = typeof borderInfo.color === "object" ? borderInfo.color.color : borderInfo.color;
+    let borderColor = borderInfo.color;
     const borderStyle = storeCellSettings.borderStyle;
     const customColors = storePalette.customColors;
+
+    if(typeof borderColor === "object") {
+        borderColor = borderInfo.color.color;
+    }
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
@@ -592,7 +600,7 @@ const PageBorderColorCell = props => {
                     <Link icon='icon-expand-down' sheetClose></Link>
                 </NavRight>
             </Navbar>
-            <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors} transparent={true} />
+            <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors} />
             <List>
                 <ListItem title={_t.textAddCustomColor} link={'/edit-border-custom-color-cell/'} routeProps={{
                     onBorderStyle: props.onBorderStyle
@@ -608,7 +616,12 @@ const PageCustomBorderColorCell = props => {
     const storeCellSettings = props.storeCellSettings;
     const storePalette = props.storePalette;
     const borderInfo = storeCellSettings.borderInfo;
-    const borderColor = typeof borderInfo.color === "object" ? borderInfo.color.color : borderInfo.color;
+    let borderColor = borderInfo.color;
+    
+    if(typeof borderColor === "object") {
+       borderColor = borderInfo.color.color;
+    }
+
     const borderStyle = storeCellSettings.borderStyle;
     
     const onAddNewColor = (colors, color) => {
@@ -657,6 +670,174 @@ const PageBorderSizeCell = props => {
     )
 }
 
+const PageFormatCell = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+
+    return (
+        <Page>
+            <Navbar title={_t.textFormat} backLink={_t.textBack} />
+            <List>
+                <ListItem title={_t.textGeneral} onClick={() => props.onCellFormat('R2VuZXJhbA==')}>
+                    <Icon slot="media" icon="icon-format-general"></Icon>
+                </ListItem>
+                <ListItem title={_t.textNumber} onClick={() => props.onCellFormat('MC4wMA==')}>
+                    <Icon slot="media" icon="icon-format-number"></Icon>
+                </ListItem>
+                <ListItem title={_t.textInteger} onClick={() => props.onCellFormat('JTIzMA==')}>
+                    <Icon slot="media" icon="icon-format-integer"></Icon>
+                </ListItem>
+                <ListItem title={_t.textScientific} onClick={() => props.onCellFormat('MC4wMEUlMkIwMA==')}>
+                    <Icon slot="media" icon="icon-format-scientific"></Icon>
+                </ListItem>
+                <ListItem title={_t.textAccounting} link="/edit-accounting-format-cell/" routeProps={{
+                    onCellFormat: props.onCellFormat
+                }}>
+                    <Icon slot="media" icon="icon-format-accounting"></Icon>
+                </ListItem>
+                <ListItem title={_t.textCurrency} link="/edit-currency-format-cell/" routeProps={{
+                    onCellFormat: props.onCellFormat
+                }}>
+                    <Icon slot="media" icon="icon-format-currency"></Icon>
+                </ListItem>
+                <ListItem title={_t.textDate} link='/edit-date-format-cell/' routeProps={{
+                    onCellFormat: props.onCellFormat
+                }}>
+                    <Icon slot="media" icon="icon-format-date"></Icon>
+                </ListItem>
+                <ListItem title={_t.textTime} link='/edit-time-format-cell/' routeProps={{
+                    onCellFormat: props.onCellFormat
+                }}>
+                    <Icon slot="media" icon="icon-format-time"></Icon>
+                </ListItem>
+                <ListItem title={_t.textPercentage} onClick={() => props.onCellFormat('MC4wMCUyNQ==')}>
+                    <Icon slot="media" icon="icon-format-percentage"></Icon>
+                </ListItem>
+                <ListItem title={_t.textText} onClick={() => props.onCellFormat('JTQw')}>
+                    <Icon slot="media" icon="icon-format-text"></Icon>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
+const PageAccountingFormatCell = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+
+    return (
+        <Page>
+            <Navbar title={_t.textAccounting} backLink={_t.textBack} />
+            <List>
+                <ListItem title={_t.textDollar} after='$' 
+                    onClick={() => props.onCellFormat('XyglMjQqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglMjQqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglMjQqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==')}>
+                </ListItem>
+                <ListItem title={_t.textEuro} after='€' 
+                    onClick={() => props.onCellFormat('XyglRTIlODIlQUMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglRTIlODIlQUMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglRTIlODIlQUMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==')}>
+                </ListItem>
+                <ListItem title={_t.textPound} after='£'
+                    onClick={() => props.onCellFormat('XyglQzIlQTMqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTMqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTMqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==')}> 
+                </ListItem>
+                <ListItem title={_t.textRouble} after='₽'
+                    onClick={() => props.onCellFormat('Xy0qJTIwJTIzJTJDJTIzJTIzMC4wMCU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0ItKiUyMCUyMyUyQyUyMyUyMzAuMDAlNUIlMjQlRDElODAuLTQxOSU1RF8tJTNCXy0qJTIwJTIyLSUyMiUzRiUzRiU1QiUyNCVEMSU4MC4tNDE5JTVEXy0lM0JfLSU0MF8t')}>
+                </ListItem>
+                <ListItem title={_t.textYen} after='¥'
+                    onClick={() => props.onCellFormat('XyglQzIlQTUqJTIwJTIzJTJDJTIzJTIzMC4wMF8pJTNCXyglQzIlQTUqJTIwKCUyMyUyQyUyMyUyMzAuMDApJTNCXyglQzIlQTUqJTIwJTIyLSUyMiUzRiUzRl8pJTNCXyglNDBfKQ==')}>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
+const PageCurrencyFormatCell = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+
+    return (
+        <Page>
+            <Navbar title={_t.textAccounting} backLink={_t.textBack} />
+            <List>
+                <ListItem title={_t.textDollar} after='$' 
+                    onClick={() => props.onCellFormat('JTI0JTIzJTJDJTIzJTIzMC4wMA==')}>
+                </ListItem>
+                <ListItem title={_t.textEuro} after='€'
+                    onClick={() => props.onCellFormat('JUUyJTgyJUFDJTIzJTJDJTIzJTIzMC4wMA==')}>
+                </ListItem>
+                <ListItem title={_t.textPound} after='£'
+                    onClick={() => props.onCellFormat('JUMyJUEzJTIzJTJDJTIzJTIzMC4wMA==')}>
+                </ListItem>
+                <ListItem title={_t.textRouble} after='₽'
+                    onClick={() => props.onCellFormat('JTIzJTJDJTIzJTIzMC4wMCUyMiVEMSU4MC4lMjI=')}>
+                </ListItem>
+                <ListItem title={_t.textYen} after='¥' 
+                    onClick={() => props.onCellFormat('JUMyJUE1JTIzJTJDJTIzJTIzMC4wMA==')}>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
+const PageDateFormatCell = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+
+    return (
+        <Page>
+            <Navbar title={_t.textDate} backLink={_t.textBack} />
+            <List>
+                <ListItem title='07-24-88' after='MM-dd-yy' 
+                    onClick={() => props.onCellFormat('TU0tZGQteXk=')}></ListItem>
+                <ListItem title='07-24-1988' after='MM-dd-yyyy' 
+                    onClick={() => props.onCellFormat('TU0tZGQteXl5eQ==')}>
+                </ListItem>
+                <ListItem title='24-07-88' after='dd-MM-yy' 
+                    onClick={() => props.onCellFormat('ZGQtTU0teXk=')}>
+                </ListItem>
+                <ListItem title='24-07-1988' after='dd-MM-yyyy' 
+                    onClick={() => props.onCellFormat('ZGQtTU0teXl5eQ==')}>
+                </ListItem>
+                <ListItem title='24-Jul-1988' after='dd-MMM-yyyy' 
+                    onClick={() => props.onCellFormat('ZGQtTU1NLXl5eXk=')}>
+                </ListItem>
+                <ListItem title='24-Jul' after='dd-MMM' 
+                    onClick={() => props.onCellFormat('ZGQtTU1N')}>
+                </ListItem>
+                <ListItem title='Jul-88' after='MMM-yy' 
+                    onClick={() => props.onCellFormat('TU1NLXl5')}>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
+const PageTimeFormatCell = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+
+    return (
+        <Page>
+            <Navbar title={_t.textTime} backLink={_t.textBack} />
+            <List>
+                <ListItem title='10:56' after='HH:mm'
+                    onClick={() => props.onCellFormat('aCUzQW1tJTNCJTQw')}>
+                </ListItem>
+                <ListItem title='21:56:00' after='HH:MM:ss'
+                    onClick={() => props.onCellFormat('aCUzQW1tJTNBc3MlM0IlNDA=')}>
+                </ListItem>
+                <ListItem title='05:56 AM' after='hh:mm tt' 
+                    onClick={() => props.onCellFormat('aCUzQW1tJTIwQU0lMkZQTSUzQiU0MA==')}>
+                </ListItem>
+                <ListItem title='05:56:00 AM' after='hh:mm:ss tt' 
+                    onClick={() => props.onCellFormat('aCUzQW1tJTNBc3MlMjBBTSUyRlBNJTNCJTQw')}>
+                </ListItem>
+                <ListItem title='38:56:00' after='[h]:mm:ss' 
+                    onClick={() => props.onCellFormat('JTVCaCU1RCUzQW1tJTNBc3MlM0IlNDA=')}>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
 
 const PageEditCell = inject("storeCellSettings")(observer(EditCell));
 const TextColorCell = inject("storeCellSettings", "storePalette", "storeFocusObjects")(observer(PageTextColorCell));
@@ -683,5 +864,10 @@ export {
     BorderStyleCell,
     BorderColorCell,
     CustomBorderColorCell,
-    BorderSizeCell
+    BorderSizeCell,
+    PageFormatCell,
+    PageAccountingFormatCell,
+    PageCurrencyFormatCell,
+    PageDateFormatCell,
+    PageTimeFormatCell
 };

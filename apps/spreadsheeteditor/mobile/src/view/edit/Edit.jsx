@@ -11,7 +11,7 @@ import EditImageController from "../../controller/edit/EditImage";
 
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
-import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell } from './EditCell';
+import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell } from './EditCell';
 
 const routes = [
 
@@ -106,6 +106,26 @@ const routes = [
     {
         path: '/edit-border-size-cell/',
         component: BorderSizeCell
+    },
+    {
+        path: '/edit-format-cell/',
+        component: PageFormatCell
+    },
+    {
+        path: '/edit-accounting-format-cell/',
+        component: PageAccountingFormatCell
+    },
+    {
+        path: '/edit-currency-format-cell/',
+        component: PageCurrencyFormatCell
+    },
+    {
+        path: '/edit-date-format-cell/',
+        component: PageDateFormatCell
+    },
+    {
+        path: '/edit-time-format-cell/',
+        component: PageTimeFormatCell
     }
 
 ];

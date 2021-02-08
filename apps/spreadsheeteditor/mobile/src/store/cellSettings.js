@@ -40,6 +40,7 @@ export class storeCellSettings {
 
         let color = xfs.asc_getFillColor();
         console.log(color);
+      
         let clr = this.resetColor(color);
         
         this.fillColor = clr;
@@ -147,14 +148,19 @@ export class storeCellSettings {
     resetColor(color) {
         let clr = 'transparent';
 
-        if (color) {
-            if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                clr = {
-                    color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
-                    effectValue: color.get_value()
-                }
+        if(color) {
+            if (color.get_auto()) {
+                // return clr;
+                clr = 'auto'
             } else {
-                clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    clr = {
+                        color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
+                        effectValue: color.get_value()
+                    }
+                } else {
+                    clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                }
             }
         }
 
