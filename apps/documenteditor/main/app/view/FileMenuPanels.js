@@ -63,7 +63,9 @@ define([
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF}
         ],[
-            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML},
+            {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
+            {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB}
         ]],
 
 
@@ -130,7 +132,9 @@ define([
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'}
         ],[
-            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'}
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'},
+            {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2, ext: '.fb2'},
+            {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB, ext: '.epub'}
         ]],
 
 
