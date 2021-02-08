@@ -118,6 +118,7 @@ define([
                 width: 80,
                 defaultUnit : 'cm',
                 value: 'Auto',
+                autoText    : this.txtAutoText,
                 maxValue: 55.87,
                 minValue: 0.1,
                 allowAuto: true,
@@ -253,6 +254,7 @@ define([
         textApplyTo: 'Apply changes to',
         textDocument: 'Whole document',
         textSection: 'Current section',
-        textForward: 'This point forward'
+        textForward: 'This point forward',
+        txtAutoText: 'Auto'
     }, DE.Views.LineNumbersDialog || {}))
 });

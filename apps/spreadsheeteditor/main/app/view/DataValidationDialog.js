@@ -220,8 +220,8 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                     {value: Asc.c_oAscEDataValidationErrorStyle.Warning, clsText: 'warn', displayValue: this.textAlert},
                     {value: Asc.c_oAscEDataValidationErrorStyle.Information, clsText: 'info', displayValue: this.textMessage}
                 ],
-                style: 'width: 95px;',
-                menuStyle   : 'min-width: 95px;',
+                style: 'width: 110px;',
+                menuStyle   : 'min-width: 110px;',
                 takeFocusOnClose: true
             });
             this.cmbStyle.setValue(Asc.c_oAscEDataValidationErrorStyle.Stop);
@@ -232,7 +232,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 allowBlank  : true,
                 validateOnBlur: false,
                 maxLength: 32,
-                style       : 'width: 100%;'
+                style       : 'width: 140px;'
             }).on('changed:after', function() {
                 me.isErrorTitleChanged = true;
             });

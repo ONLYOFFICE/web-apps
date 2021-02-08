@@ -224,7 +224,7 @@ define([
 
             this.chLinks = new Common.UI.CheckBox({
                 el: $('#tableofcontents-chb-links'),
-                labelText: this.strLinks,
+                labelText: (this.type==1) ? this.strLinksOF : this.strLinks,
                 value: 'checked'
             });
             this.chLinks.on('change', _.bind(function(field, newValue, oldValue, eOpts){
@@ -905,7 +905,8 @@ define([
         textTable: 'Table',
         txtDistinctive: 'Distinctive',
         txtCentered: 'Centered',
-        txtFormal: 'Formal'
+        txtFormal: 'Formal',
+        strLinksOF: 'Format table of figures as links'
 
     }, DE.Views.TableOfContentsSettings || {}))
 });

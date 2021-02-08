@@ -1865,6 +1865,7 @@
   "DE.Views.LineNumbersDialog.textSection": "К текущему разделу",
   "DE.Views.LineNumbersDialog.textStartAt": "Начать с",
   "DE.Views.LineNumbersDialog.textTitle": "Нумерация строк",
+  "DE.Views.LineNumbersDialog.txtAutoText": "Авто",
   "DE.Views.Links.capBtnBookmarks": "Закладка",
   "DE.Views.Links.capBtnCaption": "Название",
   "DE.Views.Links.capBtnContentsUpdate": "Обновить",
