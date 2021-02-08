@@ -134,6 +134,8 @@ class MainController extends Component {
             const onDocumentContentReady = () => {
                 Common.Gateway.documentReady();
                 f7.emit('resize');
+
+                Common.Notifications.trigger('document:ready');
             };
 
             const _process_array = (array, fn) => {

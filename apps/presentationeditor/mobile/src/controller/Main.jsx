@@ -322,6 +322,14 @@ class MainController extends Component {
                 storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.getType()));
             }
         });
+
+        // Link settings
+
+        const storeLinkSettings = this.props.storeLinkSettings;
+        
+        this.api.asc_registerCallback('asc_onCanAddHyperlink', (value) => {
+            storeLinkSettings.canAddHyperlink(value);
+        });
     }
 
     _onDocumentContentReady() {

@@ -11,6 +11,7 @@ import EditShapeController from "../../controller/edit/EditShape";
 import EditImageController from "../../controller/edit/EditImage";
 import EditTableController from "../../controller/edit/EditTable";
 import EditChartController from "../../controller/edit/EditChart";
+import { EditLinkController } from "../../controller/edit/EditLink";
 
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBullets, PageTextNumbers, PageTextLineSpacing } from './EditText';
@@ -18,7 +19,7 @@ import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorder
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
 import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartAlign } from './EditChart'
-//import EditLinkController from "../../controller/edit/EditLink";
+import { PageLinkTo, PageTypeLink } from './EditLink'
 
 const routes = [
 
@@ -194,6 +195,17 @@ const routes = [
     {
         path: '/edit-chart-custom-fill-color/',
         component: PageChartCustomFillColor
+    },
+
+    // Link
+
+    {
+        path: '/edit-link-type/',
+        component: PageTypeLink
+    },
+    {
+        path: '/edit-link-to/',
+        component: PageLinkTo
     }
 ];
 
@@ -303,14 +315,13 @@ const EditTabs = props => {
                 component: <EditChartController />
             })
         }
-        /*
         if (settings.indexOf('hyperlink') > -1) {
             editors.push({
                 caption: _t.textHyperlink,
                 id: 'edit-link',
                 component: <EditLinkController />
             })
-        }*/
+        }
     }
 
     return (

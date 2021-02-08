@@ -163,4 +163,19 @@ export class storeFocusObjects {
             return undefined;
         }
     }
+
+    @computed get linkObject() {
+        const links = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink) {
+                links.push(object);
+            }
+        }
+        if (links.length > 0) {
+            const object = links[links.length - 1]; // get top
+            return  object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
 }

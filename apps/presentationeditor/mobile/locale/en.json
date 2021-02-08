@@ -229,7 +229,22 @@
       "textRemoveTable": "Remove Table",
       "textCellMargins": "Cell Margins",
       "textRemoveChart": "Remove Chart",
-      "textNoStyles": "No styles for this type of charts."
+      "textNoStyles": "No styles for this type of charts.",
+      "textLinkType": "Link Type",
+      "textExternalLink": "External Link",
+      "textSlideInThisPresentation": "Slide in this Presentation",
+      "textLink": "Link",
+      "textLinkTo": "Link to",
+      "textNextSlide": "Next Slide",
+      "textPreviousSlide": "Previous Slide",
+      "textFirstSlide": "First Slide",
+      "textLastSlide": "Last Slide",
+      "textSlideNumber": "Slide Number",
+      "textEditLink": "Edit Link",
+      "textRemoveLink": "Remove Link",
+      "textDisplay": "Display",
+      "textScreenTip": "Screen Tip",
+      "textDefault": "Selected text"
     }
   },
   "Common": {

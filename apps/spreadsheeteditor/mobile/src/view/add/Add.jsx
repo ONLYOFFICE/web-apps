@@ -6,11 +6,53 @@ import { observer, inject } from "mobx-react";
 import {Device} from '../../../../../common/mobile/utils/device';
 
 import AddChartController from "../../controller/add/AddChart";
-import AddFunctionController from "../../controller/add/AddFunction";
-//import AddShapeController from "../../controller/add/AddShape";
-//import {AddOtherController} from "../../controller/add/AddOther";
+import {AddFunctionController} from "../../controller/add/AddFunction";
+import {PageFunctionGroup, PageFunctionInfo} from "./AddFunction";
+import AddShapeController from "../../controller/add/AddShape";
+import {AddOtherController} from "../../controller/add/AddOther";
+import {AddImageController} from "../../controller/add/AddImage";
+import {PageImageLinkSettings} from "./AddImage";
+import {AddLinkController} from "../../controller/add/AddLink";
+import {PageTypeLink, PageSheet} from "./AddLink";
+import AddFilterController from "../../controller/add/AddFilter";
 
 const routes = [
+    // Functions
+    {
+        path: '/add-function-group/',
+        component: PageFunctionGroup
+    },
+    {
+        path: '/add-function-info/',
+        component: PageFunctionInfo
+    },
+    // Image
+    {
+        path: '/add-image/',
+        component: AddImageController
+    },
+    {
+        path: '/add-image-from-url/',
+        component: PageImageLinkSettings
+    },
+    // Link
+    {
+        path: '/add-link/',
+        component: AddLinkController
+    },
+    {
+        path: '/add-link-type/',
+        component: PageTypeLink
+    },
+    {
+        path: '/add-link-sheet/',
+        component: PageSheet
+    },
+    // Other
+    {
+        path: '/add-sort-and-filter/',
+        component: AddFilterController
+    }
 ];
 
 const AddLayoutNavbar = ({ tabs, inPopover }) => {
@@ -62,21 +104,40 @@ const AddTabs = props => {
             caption: _t.textFunction,
             id: 'add-function',
             icon: 'icon-add-formula',
-            component: <AddFunctionController/>
+            component: <AddFunctionController onOptionClick={props.onOptionClick}/>
         });
     }
-    /*tabs.push({
-        caption: _t.textShape,
-        id: 'add-shape',
-        icon: 'icon-add-shape',
-        component: <AddShapeController />
-    });
-    tabs.push({
-        caption: _t.textOther,
-        id: 'add-other',
-        icon: 'icon-add-other',
-        component: <AddOtherController />
-    });*/
+    if (!showPanels || showPanels.indexOf('shape') > 0) {
+        tabs.push({
+            caption: _t.textShape,
+            id: 'add-shape',
+            icon: 'icon-add-shape',
+            component: <AddShapeController/>
+        });
+    }
+    if (showPanels && showPanels.indexOf('image') !== -1) {
+        tabs.push({
+            caption: _t.textImage,
+            id: 'add-image',
+            icon: 'icon-add-image',
+            component: <AddImageController inTabs={true}/>
+        });
+    }
+    if (!showPanels) {
+        tabs.push({
+            caption: _t.textOther,
+            id: 'add-other',
+            icon: 'icon-add-other',
+            component: <AddOtherController/>
+        });
+    }
+    if (showPanels && showPanels === 'hyperlink') {
+        tabs.push({
+            caption: _t.textAddLink,
+            id: 'add-link',
+            component: <AddLinkController/>
+        });
+    }
     return (
         <View style={props.style} stackPages={true} routes={routes}>
             <Page pageContent={false}>
@@ -93,8 +154,8 @@ class AddView extends Component {
 
         this.onoptionclick = this.onoptionclick.bind(this);
     }
-    onoptionclick(page){
-        f7.views.current.router.navigate(page);
+    onoptionclick(page, props){
+        f7.views.current.router.navigate(page, props);
     }
     render() {
         const show_popover = this.props.usePopover;
