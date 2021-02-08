@@ -4,7 +4,7 @@ import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-re
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../view/settings/Settings';
-import CollaborationView from '../../../../common/mobile/lib/view/Collaboration.jsx'
+import Collaboration from '../../../../common/mobile/lib/view/Collaboration.jsx'
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
 import { ContextMenu } from '../controller/ContextMenu';
@@ -62,7 +62,7 @@ export default class MainPage extends Component {
                       <Link id='btn-edit' icon='icon-edit-settings' href={false} onClick={e => this.handleClickToOpenOptions('edit')}></Link>
                       <Link id='btn-add' icon='icon-plus' href={false} onClick={e => this.handleClickToOpenOptions('add')}></Link>
                       { Device.phone ? null : <Link icon='icon-search' searchbarEnable='.searchbar' href={false}></Link> }
-                      <Link href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
+                      <Link id='btn-coauth' href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
                       <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
                   </NavRight>
                   { Device.phone ? null : <Search /> }
@@ -88,7 +88,7 @@ export default class MainPage extends Component {
               }
               {
                   !this.state.collaborationVisible ? null :
-                      <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
+                      <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
               }
               {/*<ContextMenu />*/}
           </Page>

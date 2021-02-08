@@ -1,95 +1,92 @@
 import React, { Component, useEffect } from 'react';
 import { observer, inject } from "mobx-react";
-import { Popover, List, ListItem, Navbar, NavTitle, NavRight } from 'framework7-react';
-import { Sheet, Toolbar, BlockTitle, Link, Page, View, Icon } from 'framework7-react';
+import { Popover, List, ListItem, Navbar, NavRight, Sheet, BlockTitle, Page, View, Icon, Link } from 'framework7-react';
 import { f7 } from 'framework7-react';
-import { withTranslation, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import {Device} from "../../utils/device";
 
-@inject('users')
-@observer
-class PageUsers extends Component {
-    constructor(props){
-        super(props)
+const PageUsers = inject("users")(observer(props => {
+    const { t } = useTranslation();
+    const _t = t('Common.Collaboration', {returnObjects: true});
+    const storeUsers = props.users;
+    return (
+        <Page name="collab__users">
+            <Navbar title={_t.textUsers} backLink={_t.textBack}></Navbar>
+            <BlockTitle>{_t.textEditUser}</BlockTitle>
+            <List className="coauth__list">
+                {storeUsers.users.map((model, i) => (
+                    <ListItem title={model.asc_getUserName()} key={i}>
+                        <Icon slot="media" icon="coauth__list__icon"
+                              style={{backgroundColor: model.asc_getColor()}}></Icon>
+                    </ListItem>
+                ))}
+            </List>
+        </Page>
+    )
+}));
+
+const routes = [
+    {
+        path: '/users/',
+        component: PageUsers
     }
+];
 
-    render() {
-        const { t } = this.props;
-        const userlist = this.props.users;
-        return (
-            <Page name="collab__users">
-                <Navbar title="Users" backLink="Back"></Navbar>
-                <BlockTitle>{t("Collaboration.textEditUser")}</BlockTitle>
-                <List className="coauth__list">
-                    {userlist.users.map((model, i) => (
-                        <ListItem title={model.asc_getUserName()} key={i}>
-                            <Icon slot="media" icon="coauth__list__icon"
-                                  style={{backgroundColor: model.asc_getColor()}}></Icon>
-                        </ListItem>
-                    ))}
-                </List>
-            </Page>)
-    }
-};
-
-const PageCollaboration = () => {
-    "use strict";
-
-    return <Page name="collab__main">
-                <Navbar title="Collaboration">
-                    <NavRight>
-                        <Link sheetClose>Close</Link>
-                    </NavRight>
+const PageCollaboration = props => {
+    const { t } = useTranslation();
+    const _t = t('Common.Collaboration', {returnObjects: true});
+    return (
+        <View style={props.style} stackPages={true} routes={routes}>
+            <Page name="collab__main">
+                <Navbar title={_t.textCollaboration}>
+                    {props.isSheet &&
+                        <NavRight>
+                            <Link sheetClose=".coauth__sheet">
+                                <Icon icon='icon-expand-down'/>
+                            </Link>
+                        </NavRight>
+                    }
                 </Navbar>
                 <List>
-                    <ListItem href="/users/" title="Users"/>
-                    <ListItem link="#" title="Comments"/>
+                    <ListItem link={'/users/'} title={_t.textUsers}/>
+                    <ListItem link="#" title={_t.textComments}/>
                 </List>
-            </Page>;
+            </Page>
+        </View>
+    )
 
 };
 
-class CollaborationPopover extends Component {
+class CollaborationView extends Component {
     constructor(props) {
         super(props);
+
+        this.onoptionclick = this.onoptionclick.bind(this);
+    }
+    onoptionclick(page){
+        f7.views.current.router.navigate(page);
     }
     render() {
+        const show_popover = this.props.usePopover;
         return (
-            <Popover className="collab__popover">
-                <Page>
-                    <Navbar title="Collaboration"></Navbar>
-                    <List>
-                        <ListItem link="#" title="Users"/>
-                        <ListItem link="#" title="Comments"/>
-                    </List>
-                </Page>
-            </Popover>
+            show_popover ?
+                <Popover id="coauth-popover" className="popover__titled" onPopoverClosed={() => this.props.onclosed()}>
+                    <PageCollaboration style={{height: '410px'}}/>
+                </Popover> :
+                <Sheet className="coauth__sheet" push onSheetClosed={() => this.props.onclosed()}>
+                    <PageCollaboration isSheet={true}/>
+                </Sheet>
         )
     }
 }
 
-class CollaborationSheet extends Component {
-    constructor(props) {
-        super(props);
-
-        this.routes = [
-            {path: '/', component: 'PageCollaboration'},
-            {path: '/users/', component: 'PageUsers'}
-        ];
-    }
-    render() {
-        return (
-            <Sheet className="coauth__sheet" push onSheetClosed={e => this.props.onclosed()}>
-                <View>
-                    <PageCollaboration />
-                </View>
-            </Sheet>
-        )
-    }
-}
-
-const CollaborationView = props => {
+const Collaboration = props => {
     useEffect(() => {
-        f7.sheet.open('.coauth__sheet');
+        if ( Device.phone ) {
+            f7.sheet.open('.coauth__sheet');
+        } else {
+            f7.popover.open('#coauth-popover', '#btn-coauth');
+        }
 
         return () => {
             // component will unmount
@@ -101,11 +98,10 @@ const CollaborationView = props => {
     };
 
     return (
-        <CollaborationSheet onclosed={onviewclosed} />
+        <CollaborationView usePopover={!Device.phone} onclosed={onviewclosed} />
     )
 };
 
-const pageusers = withTranslation()(PageUsers);
 // export withTranslation()(CollaborationPopover);
-export {CollaborationPopover, CollaborationSheet, PageCollaboration, pageusers as PageUsers}
-export default CollaborationView;
+export {PageCollaboration}
+export default Collaboration;
