@@ -271,7 +271,9 @@ define([
                     this.submitedTooltip = new Common.UI.SynchronizeTip({
                         text: this.view.textSubmited,
                         extCls: 'no-arrow',
-                        target: $(document.body)
+                        showLink: false,
+                        target: $('#editor-container'),
+                        placement: 'top'
                     });
                     this.submitedTooltip.on('closeclick', function () {
                         this.submitedTooltip.hide();
