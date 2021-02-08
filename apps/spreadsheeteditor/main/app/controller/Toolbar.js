@@ -2923,9 +2923,9 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        itemTemplate: _.template('<div class="item-equation" '+
-                            'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                            '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                        itemTemplate: _.template(
+                            '<div class="item-equation">' +
+                                '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
                             '</div>')
                     });
                     equationPicker.on('item:click', function(picker, item, record, e) {

@@ -85,12 +85,16 @@
 */
 :root {
     --bgX: 0px;
+
+    &.theme-dark {
+        --bgX: -20px;
+    }
 }
 
-.button-normal-icon(@icon-class, @index, @icon-size) {
+.button-normal-icon(@icon-class, @index, @icon-size, @normal-h-offset: 0px) {
     .@{icon-class} {
         background-position: -0*@icon-size  -@index*@icon-size;
-        background-position: var(--bgX)     -@index*@icon-size;
+        background-position: @normal-h-offset -@index*@icon-size;
     }
 //    .@{icon-class} {background-position-y: -@index*@icon-size;}
 }
@@ -110,19 +114,17 @@
     }
 }
 
-.mx-button-otherstates-icon2(@icon-size) {
+.mx-button-otherstates-icon2(@offset) {
     &.active, &:active{
         &:not(:disabled):not(.disabled) {
             .icon {
-                @btn-active-icon-offset: -1 * @icon-size;
-                background-position-x: @btn-active-icon-offset;
-                --bgX: @btn-active-icon-offset;
+                background-position-x: @offset;
             }
         }
     }
 
-    &.active   svg.icon,
-    &:active   svg.icon {fill:#fff;}
+    //&.active   svg.icon,
+    //&:active   svg.icon {fill:#fff;}
 }
 
 .button-otherstates-icon2(@icon-class, @icon-size) {
@@ -205,6 +207,7 @@
 {
     background-image: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/@{common-controls}')), ~"url(@{common-image-const-path}/@{common-controls})");
     background-repeat: no-repeat;
+    filter: @component-normal-icon-filer;
 
     @1d5ximage: replace(@common-controls, '\.png$', '@1.5x.png');
     @2ximage: replace(@common-controls, '\.png$', '@2x.png');

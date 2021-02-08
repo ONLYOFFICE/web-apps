@@ -2,8 +2,8 @@
 .tool-menu.right {
     .tool-menu-btns {
         position: absolute;
-        border-left: 1px solid @gray-dark;
-        background-color: @gray-light;
+        border-left: 1px solid @border-toolbar;
+        background-color: @background-toolbar;
         right: 0;
         overflow: hidden;
     }
@@ -16,7 +16,7 @@
     padding: 0 10px 0 15px;
     position: relative;
     overflow: hidden;
-    border-left: 1px solid @gray-dark;
+    border-left: 1px solid @border-toolbar;
     line-height: 15px;
 }
 
@@ -70,7 +70,7 @@
         width: 100%;
         resize: none;
         margin-bottom: 5px;
-        border: 1px solid @gray-dark;
+        //border: 1px solid @border-toolbar;
         height: 100%;
 
         &.disabled {
@@ -85,25 +85,6 @@
     }
 }
 
-.btn-edit-table,
-.btn-change-shape {
-    .background-ximage('@{common-image-path}/right-panels/rowscols_icon.png', '@{common-image-path}/right-panels/rowscols_icon@2x.png', 84px);
-    margin-right: 2px !important;
-    margin-bottom: 1px !important;
-}
-
-.btn-edit-table                  {background-position: 0      0;}
-button.over .btn-edit-table      {background-position: -28px  0;}
-.btn-group.open .btn-edit-table,
-button.active:not(.disabled) .btn-edit-table,
-button:active:not(.disabled) .btn-edit-table    {background-position: -56px  0;}
-
-.btn-change-shape                  {background-position: 0      -16px;}
-button.over .btn-change-shape      {background-position: -28px  -16px;}
-.btn-group.open .btn-change-shape,
-button.active:not(.disabled) .btn-change-shape,
-button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -16px;}
-
 .combo-pattern-item {
     .background-ximage('@{common-image-path}/right-panels/patterns.png', '@{common-image-path}/right-panels/patterns@2x.png', 112px);
 }
@@ -111,10 +92,10 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 .combo-dataview-menu {
     .form-control {
         cursor: pointer;
-        background-color: white;
+        background-color: @background-normal;
 
         &.text {
-            background: white;
+            background: @background-normal;
             vertical-align: bottom;
         }
     }
@@ -258,7 +239,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 
         &:hover,
         &.over {
-            background-color: @secondary;
+            background-color: @highlight-button-hover;
 
             .caret {
                 display: inline-block;

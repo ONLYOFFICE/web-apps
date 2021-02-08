@@ -41,16 +41,28 @@ define([
 
     Common.UI.ColorButton = Common.UI.Button.extend(_.extend({
         options : {
-            hint: false,
-            enableToggle: false,
-            visible: true
+            id              : null,
+            hint            : false,
+            enableToggle    : false,
+            allowDepress    : false,
+            toggleGroup     : null,
+            cls             : '',
+            iconCls         : '',
+            caption         : '',
+            menu            : null,
+            disabled        : false,
+            pressed         : false,
+            split           : false,
+            visible         : true
         },
 
         template: _.template([
             '<div class="btn-group" id="<%= id %>">',
                 '<button type="button" class="btn btn-color dropdown-toggle <%= cls %>" data-toggle="dropdown" style="<%= style %>">',
                     '<span>&nbsp;</span>',
-                    '<span class="inner-box-caret"><i class="caret img-commonctrl"></i></span>',
+                    '<span class="inner-box-caret">',
+                        '<i class="caret"></i>',
+                    '</span>',
                 '</button>',
             '</div>'
         ].join('')),

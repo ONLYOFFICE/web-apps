@@ -791,7 +791,7 @@
   "DE.Controllers.Toolbar.textAccent": "Диакритические знаки",
   "DE.Controllers.Toolbar.textBracket": "Скобки",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Необходимо указать URL изображения.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Введенное значение некорректно.<br>Введите числовое значение от 1 до 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Введенное значение некорректно.<br>Введите числовое значение от 1 до 300",
   "DE.Controllers.Toolbar.textFraction": "Дроби",
   "DE.Controllers.Toolbar.textFunction": "Функции",
   "DE.Controllers.Toolbar.textInsert": "Вставить",

@@ -1,8 +1,8 @@
 @height-title: 28px;
 @height-tabs: 32px;
 @height-controls: 67px;
+@img-equition-filter: var(--image-border-types-filter);
 
-//@tabs-bg-color: #fff;
 
 .toolbar {
     position: relative;
@@ -38,7 +38,7 @@
         align-items: stretch;
 
         .extra {
-            background-color: @tabs-bg-color;
+            background-color: @header-background-color;
         }
 
     //&::after {
@@ -54,7 +54,7 @@
 
     .tabs {
         //flex-grow: 1;
-        background-color: @tabs-bg-color;
+        background-color: @header-background-color;
         position: relative;
         overflow: hidden;
         display: flex;
@@ -74,11 +74,11 @@
             height: 100%;
 
             &:hover {
-                background-color: rgba(255,255,255,0.2);
+                background-color: @highlight-header-button-hover;
             }
 
             &.active {
-                background-color: @gray-light;
+                background-color: @background-toolbar;
             }
 
 
@@ -89,12 +89,12 @@
                 cursor: default;
                 font-size: 12px;
                 text-align: center;
-                color: #fff;
+                color: @text-toolbar-header;
             }
 
             &.active {
                 > a {
-                    color: #444;
+                    color: @text-normal;
                 }
             }
         }
@@ -125,7 +125,7 @@
             }
 
             &.left{
-                box-shadow: 5px 0 20px 5px @tabs-bg-color;
+                box-shadow: 5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(135deg);
@@ -133,7 +133,7 @@
                 }
             }
             &.right{
-                box-shadow: -5px 0 20px 5px @tabs-bg-color;
+                box-shadow: -5px 0 20px 5px @header-background-color;
 
                 &:after {
                     transform: rotate(-45deg);
@@ -191,8 +191,8 @@
         /**/
     }
 
-    background-color: @gray-light;
-    .box-inner-shadow(0 -1px 0 @gray-dark);
+    background-color: @background-toolbar;
+    .box-inner-shadow(0 -1px 0 @border-toolbar);
 
     .group {
         position: relative;
@@ -250,7 +250,7 @@
         }
 
         &.border {
-            border: 1px solid @gray;
+            border: 1px solid @border-regular-control;
             .border-radius(1px);
             width: 22px;
             height: 22px;
@@ -268,7 +268,7 @@
         right: 0;
         bottom: 0;
         opacity: 0;
-        background-color: @gray-light;
+        background-color: @background-toolbar;
         /* z-index: @zindex-tooltip + 1; */
     }
 
@@ -309,7 +309,7 @@
 
         .tabs, .extra {
             background-color: transparent;
-            box-shadow: inset 0 -1px 0 0 @gray;
+            box-shadow: inset 0 -1px 0 0 @border-regular-control;
         }
 
         .tabs {
@@ -323,7 +323,7 @@
                 &:after {
                     //transition: opacity .1s;
                     //transition: bottom .1s;
-                    border-top: @underscore_height solid @gray-deep;
+                    border-top: @underscore_height solid @text-normal;
                     content: '';
                     position: absolute;
                     width: 100%;
@@ -342,11 +342,11 @@
 
                 &:hover:not(.active) {
                     background-color: rgba(0, 0, 0, .05);
-                    //background-color: @secondary;
+                    //background-color: @highlight-button-hover;
                 }
 
                 > a {
-                    color: @gray-deep;
+                    color: @text-normal;
 
                     &::after {
                         display:block;
@@ -372,15 +372,15 @@
 
         .tabs .scroll {
             &.left {
-                box-shadow: 5px 0 20px 5px @gray-light;
+                box-shadow: 5px 0 20px 5px @background-toolbar;
             }
 
             &.right {
-                box-shadow: -5px 0 20px 5px @gray-light;
+                box-shadow: -5px 0 20px 5px @background-toolbar;
             }
 
             &:after {
-                border-color: @gray-deep;
+                border-color: @text-normal;
             }
         }
 
@@ -391,27 +391,27 @@
             }
 
             svg.icon {
-                fill: @gray-deep;
+                fill: @icon-toolbar-header;
             }
 
             .caption {
-                color: @gray-deep;
+                color: @text-normal;
             }
 
             &:hover:not(.disabled) {
-                background-color: @secondary;
+                background-color: @highlight-button-hover;
             }
 
             &:active, &.active {
                 &:not(.disabled) {
-                    background-color: @primary;
+                    background-color: @highlight-button-pressed;
 
                     svg.icon {
-                        fill: #fff;
+                        fill: @icon-toolbar-header;
                     }
 
                     .caption {
-                        color: #fff;
+                        color: @text-inverse;
                     }
                 }
             }
@@ -423,17 +423,17 @@
             }
 
             svg.icon {
-                fill: @gray-deep;
+                fill: @icon-toolbar-header;
             }
         }
 
         #rib-doc-name {
-            color: @gray-deep;
+            color: @text-normal;
         }
 
         &.editor-native-color {
             .tabs li:after {
-                border-color: @tabs-bg-color;
+                border-color: @header-background-color;
             }
         }
     }
@@ -467,22 +467,22 @@
 .btn-toolbar {
     &:active {
         svg.icon {
-            fill: #fff;
+            fill: @icon-toolbar-header;
         }
     }
 
     svg.icon {
         background-image: none;
 
-        fill: @gray-deep;
+        fill: @icon-normal;
     }
 
     &.borders--small {
         border-radius: 2px;
-        background-color: #fff;
+        background-color: @background-normal;
 
         &:not(:active) {
-            box-shadow: inset 0 0 0 1px #cbcbcb;
+            box-shadow: inset 0 0 0 1px @border-regular-control;
         }
 
         &, .icon {
@@ -508,11 +508,24 @@
     svg.icon {
         display: inline-block;
         vertical-align: middle;
-        fill: #444444;
+        fill: @icon-normal;
     }
 
     width: 20px;
     height: 20px;
+}
+
+.item-equation {
+    border: 1px solid @border-regular-control;
+
+    .equation-icon {
+        .background-ximage-v2('toolbar/math.png', 1500px, @commonimage: true);
+
+        .theme-dark & {
+            -webkit-filter: @img-equition-filter;
+            filter: @img-equition-filter;
+        }
+    }
 }
 
 // charts
@@ -538,7 +551,41 @@
     svg.icon {
         display: inline-block;
         vertical-align: middle;
-        fill: #444444;
+        fill: @icon-normal;
+    }
+}
+
+.color-schemas-menu {
+    span {
+        &.colors {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        &.color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 2px;
+            border: 1px solid @border-color-shading;
+            vertical-align: middle;
+        }
+
+        &.text {
+            vertical-align: middle;
+        }
+    }
+    &.checked {
+        &:before {
+            display: none !important;
+        }
+        &, &:hover, &:focus {
+            background-color: @highlight-button-pressed;
+            color: @dropdown-link-active-color;
+            span.color {
+                border-color: @icon-normal;
+            }
+        }
     }
 }
 

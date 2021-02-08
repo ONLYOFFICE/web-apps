@@ -1,6 +1,6 @@
 #history-box {
     position: relative;
-    border-right: 1px solid #cbcbcb;
+    border-right: 1px solid @border-toolbar;
 }
 
 #history-header {
@@ -10,7 +10,7 @@
     top: 0;
     right: 0;
     overflow: hidden;
-    border-bottom: 1px solid @gray-dark;
+    border-bottom: 1px solid @border-toolbar;
 
     #history-btn-back {
         height: 27px;
@@ -21,7 +21,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: @secondary;
+            background-color: @highlight-button-hover;
         }
     }
 }
@@ -33,7 +33,7 @@
     bottom: 0;
     right: 0;
     overflow: hidden;
-    border-top: 1px solid @gray-dark;
+    border-top: 1px solid @border-toolbar;
 
     #history-btn-expand {
         height: 27px;
@@ -44,7 +44,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: @secondary;
+            background-color: @highlight-button-hover;
         }
     }
 }
@@ -64,20 +64,15 @@
 
         &:hover:not(.selected),
         &.over {
-            background-color: @secondary;
-
-            .user-version {
-                color: #fff;
-                background-color: #ababab;
-            }
+            background-color: @highlight-button-hover;
         }
 
         &.selected {
-            background-color: @primary;
+            background-color: @highlight-button-pressed;
 
             .user-name,
             .user-date {
-                color: #fff;
+                color: @text-normal-pressed;
             }
 
             .revision-expand {
@@ -88,7 +83,7 @@
 
     .history-item-wrap {
         padding: 10px 2px 15px 20px;
-        color: @gray-deep;
+        color: @text-normal;
         text-overflow: ellipsis;
 
         .user-date {
@@ -104,11 +99,12 @@
             display: inline-block;
             max-width: 60px;
             height: 18px;
-            color: @primary;
+            color: @highlight-button-pressed;
             font-size: 10px;
             white-space: nowrap;
             overflow: hidden;
-            background-color: #e6e6e6;
+            color: @text-tertiary;
+            background-color: @background-normal;
             text-align: center;
             padding: 1px 5px;
             border-radius: 2px;
@@ -128,7 +124,7 @@
         .color {
             width: 12px;
             height: 12px;
-            border: 1px solid @gray-dark;
+            border: 1px solid @border-toolbar;
             margin: 0 5px 3px 0;
             vertical-align: middle;
         }
@@ -148,8 +144,8 @@
         }
 
         .revision-restore {
-            color: #fff;
-            border-bottom: 1px dotted #fff;
+            color: @text-normal;
+            border-bottom: 1px dotted @text-normal;
             height: 16px;
             margin-top: 5px;
             white-space: pre-wrap;

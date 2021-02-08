@@ -49,7 +49,8 @@
                     fillForms:  <can edit forms in view mode> // default = edit || review,
                     copy: <can copy data> // default = true,
                     editCommentAuthorOnly: <can edit your own comments only> // default = false
-                    deleteCommentAuthorOnly: <can delete your own comments only> // default = false
+                    deleteCommentAuthorOnly: <can delete your own comments only> // default = false,
+                    reviewGroup: ["Group1", ""] // current user can accept/reject review changes made by users from Group1 and users without a group. [] - use groups, but can't change any group's changes
                 }
             },
             editorConfig: {
@@ -876,6 +877,9 @@
 
         if (config.parentOrigin)
             params += "&parentOrigin=" + config.parentOrigin;
+
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme )
+            params += "&uitheme=" + config.editorConfig.customization.uiTheme;
 
         return params;
     }

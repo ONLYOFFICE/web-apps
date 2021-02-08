@@ -443,7 +443,7 @@
   "DE.Controllers.Toolbar.textAccent": "Akcenty",
   "DE.Controllers.Toolbar.textBracket": "Klamry",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Musisz podać adres URL obrazu.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Wprowadzona wartość jest nieprawidłowa.<br>Wprowadź wartość numeryczną w zakresie od 1 do 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Wprowadzona wartość jest nieprawidłowa.<br>Wprowadź wartość numeryczną w zakresie od 1 do 300",
   "DE.Controllers.Toolbar.textFraction": "Ułamki",
   "DE.Controllers.Toolbar.textFunction": "Funkcje",
   "DE.Controllers.Toolbar.textIntegral": "Całki",

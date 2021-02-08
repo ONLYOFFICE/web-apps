@@ -972,7 +972,8 @@ Common.Utils.UserInfoParser = new(function() {
         separator = String.fromCharCode(160),
         username = '',
         usergroups,
-        permissions;
+        reviewPermissions,
+        reviewGroups;
     return {
         setParser: function(value) {
             parse = !!value;
@@ -1002,23 +1003,27 @@ Common.Utils.UserInfoParser = new(function() {
 
         setCurrentName: function(name) {
             username = name;
-            this.setReviewPermissions(permissions);
+            this.setReviewPermissions(reviewGroups, reviewPermissions);
         },
 
         getCurrentName: function() {
             return username;
         },
 
-        setReviewPermissions: function(reviewPermissions) {
-            if (reviewPermissions) {
+        setReviewPermissions: function(groups, permissions) {
+            if (groups) {
+                if  (typeof groups == 'object' && groups.length>0)
+                    usergroups = groups;
+                reviewGroups = groups;
+            } else if (permissions) {
                 var arr = [],
-                    groups  =  this.getParsedGroups(username);
-                groups && groups.forEach(function(group) {
-                    var item = reviewPermissions[group.trim()];
+                    arrgroups  =  this.getParsedGroups(username);
+                arrgroups && arrgroups.forEach(function(group) {
+                    var item = permissions[group.trim()];
                     item && (arr = arr.concat(item));
                 });
                 usergroups = arr;
-                permissions = reviewPermissions;
+                reviewPermissions = permissions;
             }
         },
 

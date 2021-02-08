@@ -349,7 +349,7 @@ define([
         },
 
         onPreviewStart: function(slidenum, presenter) {
-            this.previewPanel = this.previewPanel || PE.getController('Viewport').getView('DocumentPreview');
+            this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
                 isResized = false;
             

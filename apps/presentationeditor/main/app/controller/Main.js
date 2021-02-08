@@ -157,6 +157,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.Themes.init(this.api);
                 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
@@ -876,6 +877,12 @@ define([
 
                 $('.doc-placeholder').remove();
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
+
+                $('#header-logo').children(0).click(e => {
+                    e.stopImmediatePropagation();
+
+                    Common.UI.Themes.toggleTheme();
+                })
             },
 
             onLicenseChanged: function(params) {
@@ -1025,10 +1032,11 @@ define([
                 this.appOptions.canFavorite = this.document.info && (this.document.info.favorite!==undefined && this.document.info.favorite!==null) && !this.appOptions.isOffline;
                 this.appOptions.canFavorite && appHeader.setFavorite(this.document.info.favorite);
 
-                this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
+                this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroup ||
+                                                         this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
                 Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
                 Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
-                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
+                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroup, this.editorConfig.customization.reviewPermissions);
                 appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);

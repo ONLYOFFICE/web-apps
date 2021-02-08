@@ -760,7 +760,7 @@
   "DE.Controllers.Toolbar.textAccent": "Accenter",
   "DE.Controllers.Toolbar.textBracket": "Klammer",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Du skal specificere billede URL",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Den indtastede værdi er ikke korrekt.<br>Venligst indtast en numerisk værdi mellem 1 og 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Den indtastede værdi er ikke korrekt.<br>Venligst indtast en numerisk værdi mellem 1 og 300",
   "DE.Controllers.Toolbar.textFraction": "Fraktioner",
   "DE.Controllers.Toolbar.textFunction": "Funktioner",
   "DE.Controllers.Toolbar.textInsert": "indsæt",

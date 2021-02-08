@@ -2,8 +2,8 @@
 .tool-menu.right {
     .tool-menu-btns {
         position: absolute;
-        border-left: 1px solid @gray-dark;
-        background-color: @gray-light;
+        border-left: 1px solid @border-toolbar;
+        background-color: @background-toolbar;
         right: 0;
         overflow: hidden;
     }
@@ -16,7 +16,7 @@
     padding: 0 10px 0 15px;
     position: relative;
     overflow: hidden;
-    border-left: 1px solid @gray-dark;
+    border-left: 1px solid @border-toolbar;
     line-height: 15px;
 }
 
@@ -78,7 +78,7 @@
         width: 100%;
         resize: none;
         margin-bottom: 5px;
-        border: 1px solid @gray-dark;
+        //border: 1px solid @border-toolbar;
         height: 100%;
 
         &.disabled {
@@ -97,23 +97,23 @@
     .background-ximage-v2('right-panels/RightPanelBigBtns.png', 74px, @commonimage: false);
 }
 
-.button-normal-icon(btn-colontitul-tl,    3, @huge-icon-size);
-.button-normal-icon(btn-colontitul-tc,    4, @huge-icon-size);
-.button-normal-icon(btn-colontitul-tr,    5, @huge-icon-size);
-.button-normal-icon(btn-colontitul-bl,    6, @huge-icon-size);
-.button-normal-icon(btn-colontitul-bc,    7, @huge-icon-size);
-.button-normal-icon(btn-colontitul-br,    8, @huge-icon-size);
+.button-normal-icon(btn-colontitul-tl,    3, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-colontitul-tc,    4, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-colontitul-tr,    5, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-colontitul-bl,    6, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-colontitul-bc,    7, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-colontitul-br,    8, @huge-icon-size, @button-huge-normal-icon-offset-x);
 
-.button-normal-icon(btn-wrap-none,        9, @huge-icon-size);
-.button-normal-icon(btn-wrap-parallel,    10, @huge-icon-size);
+.button-normal-icon(btn-wrap-none,        9, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-wrap-parallel,    10, @huge-icon-size, @button-huge-normal-icon-offset-x);
 
-.button-normal-icon(btn-table-align-left,    0, @huge-icon-size);
-.button-normal-icon(btn-table-align-center,  1, @huge-icon-size);
-.button-normal-icon(btn-table-align-right,   2, @huge-icon-size);
+.button-normal-icon(btn-table-align-left,    0, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-table-align-center,  1, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-table-align-right,   2, @huge-icon-size, @button-huge-normal-icon-offset-x);
 
-.button-normal-icon(btn-frame-inline,        9, @huge-icon-size);
-.button-normal-icon(btn-frame-flow,          10, @huge-icon-size);
-.button-normal-icon(btn-frame-none,          11, @huge-icon-size);
+.button-normal-icon(btn-frame-inline,        9, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-frame-flow,          10, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.button-normal-icon(btn-frame-none,          11, @huge-icon-size, @button-huge-normal-icon-offset-x);
 
 .button-otherstates-icon(icon-right-panel, @huge-icon-size);
 
@@ -157,25 +157,6 @@
     background-position: -250px 0;
 }
 
-.btn-edit-table,
-.btn-change-shape {
-    .background-ximage-v2('right-panels/rowscols_icon.png', 84px);
-    margin-right: 2px !important;
-    margin-bottom: 1px !important;
-}
-
-.btn-edit-table                  {background-position: 0      0;}
-button.over .btn-edit-table      {background-position: -28px  0;}
-.btn-group.open .btn-edit-table,
-button.active:not(.disabled) .btn-edit-table,
-button:active:not(.disabled) .btn-edit-table    {background-position: -56px  0;}
-
-.btn-change-shape                  {background-position: 0      -16px;}
-button.over .btn-change-shape      {background-position: -28px  -16px;}
-.btn-group.open .btn-change-shape,
-button.active:not(.disabled) .btn-change-shape,
-button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -16px;}
-
 .combo-pattern-item {
     .background-ximage-v2('right-panels/patterns.png', 112px);
 }
@@ -183,10 +164,10 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 .combo-dataview-menu {
     .form-control {
         cursor: pointer;
-        background-color: white;
+        background-color: @background-normal;
 
         &.text {
-            background: white;
+            background: @background-normal;
             vertical-align: bottom;
         }
     }
@@ -255,7 +236,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 
         &:hover,
         &.over {
-            background-color: @secondary;
+            background-color: @highlight-button-hover;
 
             .caret {
                 display: inline-block;

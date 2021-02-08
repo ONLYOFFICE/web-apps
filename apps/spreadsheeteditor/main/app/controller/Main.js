@@ -167,7 +167,8 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
-                
+                Common.UI.Themes.init(this.api);
+
                 var value = Common.localStorage.getBool("sse-settings-cachemode", true);
                 Common.Utils.InternalSettings.set("sse-settings-cachemode", value);
                 this.api.asc_setDefaultBlitMode(!!value);
@@ -936,6 +937,11 @@ define([
                 Common.Gateway.documentReady();
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && (Common.Utils.InternalSettings.get("guest-username")===null))
                     this.showRenameUserDialog();
+
+                $('#header-logo').children(0).click(e => {
+                    e.stopImmediatePropagation();
+                    Common.UI.Themes.toggleTheme();
+                })
             },
 
             onLicenseChanged: function(params) {
@@ -1070,10 +1076,11 @@ define([
                     this.appOptions.canFavorite && this.headerView && this.headerView.setFavorite(this.appOptions.spreadsheet.info.favorite);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
-                    this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
+                    this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroup ||
+                                                            this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
                     Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
                     Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
-                    this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
+                    this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroup, this.editorConfig.customization.reviewPermissions);
                     this.headerView.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
                 } else
                     this.appOptions.canModifyFilter = true;
@@ -2092,6 +2099,11 @@ define([
                         break;
                     case 'processmouse':
                         this.onProcessMouse(data.data);
+                        break;
+                    case 'theme:change':
+                        document.documentElement.className =
+                            document.documentElement.className.replace(/theme-\w+\s?/, data.data);
+                        this.api.asc_setSkin(data.data == "theme-dark" ? 'flatDark' : "flat");
                         break;
                     }
                 }

@@ -214,6 +214,10 @@ define([
                         '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strTheme %></label></td>',
+                    '<td class="right"><span id="fms-cmb-theme"></span></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
                     '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
@@ -394,6 +398,17 @@ define([
             });
             this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
+            this.cmbTheme = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-theme'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 'theme-light', displayValue: this.txtThemeLight },
+                    { value: 'theme-dark', displayValue: this.txtThemeDark }
+                ]
+            });
+
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
                     el: $(el)
@@ -509,9 +524,14 @@ define([
             this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("pe-settings-paste-button"));
+
+            item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.current()});
+            this.cmbTheme.setValue(item ? item.get('value') : 0);
         },
 
         applySettings: function() {
+            Common.UI.Themes.setTheme(this.cmbTheme.getValue());
+
             Common.localStorage.setItem("pe-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
@@ -608,6 +628,9 @@ define([
         strPaste: 'Cut, copy and paste',
         strPasteButton: 'Show Paste Options button when content is pasted',
         txtProofing: 'Proofing',
+        strTheme: 'Theme',
+        txtThemeLight: 'Light',
+        txtThemeDark: 'Dark',
         txtAutoCorrect: 'AutoCorrect options...'
     }, PE.Views.FileMenuPanels.Settings || {}));
 

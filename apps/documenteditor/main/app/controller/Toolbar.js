@@ -2065,12 +2065,14 @@ define([
                     chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
+                var controller = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor');
                 if (!this.diagramEditor)
-                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                    this.diagramEditor = controller.getView('Common.Views.ExternalDiagramEditor');
 
                 if (this.diagramEditor && me.api) {
                     this.diagramEditor.setEditMode(false);
-                    this.diagramEditor.show();
+                    // this.diagramEditor.show();
+                    controller.showExternalEditor();
 
                     chart = me.api.asc_getChartObject(type);
                     if (chart) {
@@ -2607,9 +2609,9 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        itemTemplate: _.template('<div class="item-equation" '+
-                            'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                            '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                        itemTemplate: _.template(
+                            '<div class="item-equation" style="" >' +
+                                '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
                             '</div>')
                     });
                     equationPicker.on('item:click', function(picker, item, record, e) {

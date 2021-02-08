@@ -74,11 +74,7 @@
             <% if (removable) { %>
                 <div class="btn-delete img-commonctrl"></div>
             <% } %>
-            <% if (resolved) { %>
-            <div class="btn-resolve-check img-commonctrl" data-toggle="tooltip"></div>
-            <% } else { %>
-            <div class="btn-resolve img-commonctrl" data-toggle="tooltip"></div>
-            <% } %>
+            <div class="btn-resolve <% if (resolved) print('comment-resolved') %>" data-toggle="tooltip"></div>
         </div>
     <% } %>
 
