@@ -2219,6 +2219,7 @@
   "DE.Views.TableOfContentsSettings.strAlign": "Right align page numbers",
   "DE.Views.TableOfContentsSettings.strFullCaption": "Include label and number",
   "DE.Views.TableOfContentsSettings.strLinks": "Format Table of Contents as links",
+  "DE.Views.TableOfContentsSettings.strLinksOF": "Format table of figures as links",
   "DE.Views.TableOfContentsSettings.strShowPages": "Show page numbers",
   "DE.Views.TableOfContentsSettings.textBuildTable": "Build table of contents from",
   "DE.Views.TableOfContentsSettings.textBuildTableOF": "Build table of figures from",
