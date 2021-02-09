@@ -3070,7 +3070,7 @@ define([
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 5);
-                me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+                me.toolbar.setVisible('review', config.isEdit || config.canCoAuthoring && config.canComments); // use config.canViewReview in review controller. set visible review tab in view mode only when asc_HaveRevisionsChanges
             }
 
             if ( config.isEdit ) {
