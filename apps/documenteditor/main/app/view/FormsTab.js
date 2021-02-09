@@ -148,7 +148,7 @@ define([
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                     this.btnClear = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-clear',
+                        iconCls: 'toolbar__icon clear-style',
                         caption: this.textClear
                     });
                 } else {
