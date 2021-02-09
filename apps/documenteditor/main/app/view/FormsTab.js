@@ -229,14 +229,14 @@ define([
 
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-review-prev',
+                    iconCls: 'toolbar__icon previous-field',
                     caption: this.capBtnPrev
                 });
                 this.paragraphControls.push(this.btnPrevForm);
 
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-review-next',
+                    iconCls: 'toolbar__icon next-field',
                     caption: this.capBtnNext
                 });
                 this.paragraphControls.push(this.btnNextForm);
@@ -244,7 +244,7 @@ define([
                 if (this.appConfig.canSubmitForms) {
                     this.btnSubmit = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-form-submit',
+                        iconCls: 'toolbar__icon submit-form',
                         caption: this.capBtnSubmit
                     });
                     this.paragraphControls.push(this.btnSubmit);
