@@ -49,7 +49,7 @@ define([
     DE.Views.FormsTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
         '<section class="panel" data-tab="forms">' +
-            '<div class="group">' +
+            '<div class="group" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-field"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-combobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-dropdown"></span>' +
@@ -57,8 +57,8 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
             '</div>' +
-            '<div class="separator long forms"></div>' +
-            '<div class="group no-group-mask form-view">' +
+            '<div class="separator long forms" style="display: none;"></div>' +
+            '<div class="group no-group-mask form-view" style="display: none;">' +
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-form-clear-fields"></span>' +
                 '</div>' +
@@ -71,8 +71,8 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
             '</div>' +
-            '<div class="separator long submit"></div>' +
-            '<div class="group no-group-mask form-view">' +
+            '<div class="separator long submit" style="display: none;"></div>' +
+            '<div class="group no-group-mask form-view" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-view"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-submit"></span>' +
             '</div>' +
@@ -303,11 +303,6 @@ define([
                         me.btnViewForm.updateHint(me.tipViewForm);
                     } else {
                         me.btnClear.updateHint(me.textClearFields);
-
-                        var separator_forms = me.$el.find('.separator.forms');
-                        separator_forms.prev('.group').hide();
-                        separator_forms.hide().next('.group').hide();
-                        !me.btnSubmit && me.$el.find('.separator.submit').hide().next('.group').hide();
                     }
                     me.btnPrevForm.updateHint(me.tipPrevForm);
                     me.btnNextForm.updateHint(me.tipNextForm);
@@ -321,8 +316,13 @@ define([
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
 
+                if (this.appConfig.canSubmitForms) {
+                    this.btnSubmit.render($host.find('#slot-btn-form-submit'));
+                }
+
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                     this.btnClear.render($host.find('#slot-btn-form-clear'));
+                    this.btnSubmit && $host.find('.separator.submit').show().next('.group').show();
                 } else {
                     this.btnTextField.render($host.find('#slot-btn-form-field'));
                     this.btnComboBox.render($host.find('#slot-btn-form-combobox'));
@@ -333,13 +333,14 @@ define([
                     this.btnViewForm.render($host.find('#slot-btn-form-view'));
                     this.btnClearFields.render($host.find('#slot-form-clear-fields'));
                     this.btnHighlight.render($host.find('#slot-form-highlight'));
+
+                    var separator_forms = $host.find('.separator.forms');
+                    separator_forms.prev('.group').show();
+                    separator_forms.show().next('.group').show();
+                    $host.find('.separator.submit').show().next('.group').show();
                 }
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
-
-                if (this.appConfig.canSubmitForms) {
-                    this.btnSubmit.render($host.find('#slot-btn-form-submit'));
-                }
 
                 return this.$el;
             },
