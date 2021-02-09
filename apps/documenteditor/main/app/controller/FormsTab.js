@@ -70,8 +70,9 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onChangeSpecialFormsGlobalSettings', _.bind(this.onChangeSpecialFormsGlobalSettings, this));
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
-                this.api.asc_registerCallback('asc_onStartAction',            _.bind(this.onLongActionBegin, this));
-                this.api.asc_registerCallback('asc_onEndAction',              _.bind(this.onLongActionEnd, this));
+                this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
+                this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
+                this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
 
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
@@ -232,7 +233,7 @@ define([
         },
 
         onSubmitClick: function() {
-            // this.api.asc_SubmitForm();
+            this.api.asc_SendForm();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -260,6 +261,8 @@ define([
 
         onLongActionBegin: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
+                this._submitFail = false;
+                this.submitedTooltip && this.submitedTooltip.hide();
                 this.view.btnSubmit.setDisabled(true);
             }
         },
@@ -279,7 +282,14 @@ define([
                         this.submitedTooltip.hide();
                     }, this);
                 }
-                this.submitedTooltip.show();
+                !this._submitFail && this.submitedTooltip.show();
+            }
+        },
+
+        onError: function(id, level, errData) {
+            if (id==Asc.c_oAscError.ID.Submit) {
+                this._submitFail = true;
+                this.submitedTooltip && this.submitedTooltip.hide();
             }
         },
 

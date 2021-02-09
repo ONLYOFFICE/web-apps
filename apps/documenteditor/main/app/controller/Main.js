@@ -1662,6 +1662,10 @@ define([
                         config.msg = this.errorSetPassword;
                         break;
 
+                    case Asc.c_oAscError.ID.Submit:
+                        config.msg = this.errorSubmit;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2833,7 +2837,8 @@ define([
             textRenameLabel: 'Enter a name to be used for collaboration',
             textRenameError: 'User name must not be empty.',
             textLongName: 'Enter a name that is less than 128 characters.',
-            textGuest: 'Guest'
+            textGuest: 'Guest',
+            errorSubmit: 'Submit failed.'
         }
     })(), DE.Controllers.Main || {}))
 });
