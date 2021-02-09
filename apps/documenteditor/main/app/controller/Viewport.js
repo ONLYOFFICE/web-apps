@@ -165,7 +165,7 @@ define([
 
             me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
-            if ( !config.isEdit ||
+            if ( !(config.isEdit || config.isRestrictedEdit && config.canFillForms) ||
                 ( !Common.localStorage.itemExists("de-compact-toolbar") &&
                 config.customization && config.customization.compactToolbar )) {
 
@@ -205,8 +205,8 @@ define([
         onAppReady: function (config) {
             var me = this;
             if ( me.header.btnOptions ) {
-                var compactview = !config.isEdit;
-                if ( config.isEdit ) {
+                var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms);
+                if ( config.isEdit || config.isRestrictedEdit && config.canFillForms) {
                     if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                         compactview = Common.localStorage.getBool("de-compact-toolbar");
                     } else
@@ -223,7 +223,7 @@ define([
                 if (!config.isEdit) {
                     me.header.mnuitemCompactToolbar.hide();
                     Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                        if ((action=='plugins' || action=='review') && visible) {
+                        if ((action=='plugins' || action=='review' || action=='forms') && visible) {
                             me.header.mnuitemCompactToolbar.show();
                         }
                     }, this));

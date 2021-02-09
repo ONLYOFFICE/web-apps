@@ -1281,7 +1281,7 @@ define([
                     me.$el.html(me.rendererComponents(me.$layout));
                 } else {
                     me.$layout.find('.canedit').hide();
-                    me.$layout.addClass('folded');
+                    me.isCompactView && me.$layout.addClass('folded');
                     me.$el.html(me.$layout);
                 }
 
