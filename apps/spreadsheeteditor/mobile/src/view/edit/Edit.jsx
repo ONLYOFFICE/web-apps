@@ -8,10 +8,12 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import EditCellController from "../../controller/edit/EditCell";
 import EditShapeController from "../../controller/edit/EditShape";
 import EditImageController from "../../controller/edit/EditImage";
+import EditTextController from "../../controller/edit/EditText";
 
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell } from './EditCell';
+import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
 
 const routes = [
 
@@ -126,6 +128,21 @@ const routes = [
     {
         path: '/edit-time-format-cell/',
         component: PageTimeFormatCell
+    }, 
+
+    // Text
+
+    {
+        path: '/edit-text-fonts/',
+        component: PageTextFonts
+    },
+    {
+        path: '/edit-text-font-color/',
+        component: PageTextFontColor
+    }, 
+    {
+        path: '/edit-text-custom-font-color/',
+        component: PageTextCustomFontColor
     }
 
 ];
@@ -216,6 +233,13 @@ const EditTabs = props => {
                 caption: _t.textImage,
                 id: 'edit-image',
                 component: <EditImageController />
+            })
+        }
+        if (settings.indexOf('text') > -1) {
+            editors.push({
+                caption: _t.textText,
+                id: 'edit-text',
+                component: <EditTextController />
             })
         }
     }

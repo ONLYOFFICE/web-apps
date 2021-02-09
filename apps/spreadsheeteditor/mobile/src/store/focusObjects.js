@@ -92,7 +92,7 @@ export class storeFocusObjects {
                 }
             }
         } else if (isTextShape || isTextChart) {
-            const selectedObjects = this.api.asc_getGraphicObjectProps();
+            const selectedObjects = Common.EditorApi.get().asc_getGraphicObjectProps();
             let isEquation = false;
 
             for (var i = 0; i < selectedObjects.length; i++) {

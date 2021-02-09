@@ -3,6 +3,7 @@ import { f7, ListItem, List, Icon } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
 const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
+    console.log(curColor);
     return (
         <div className='palette'>
             {themeColors.map((row, rowIndex) => {
@@ -11,7 +12,7 @@ const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
                         {row.map((effect, index) => {
                             return(
                                 <a key={`tc-${rowIndex}-${index}`}
-                                   className={curColor && curColor.color === effect.color && curColor.effectValue === effect.effectValue ? 'active' : ''}
+                                   className={((curColor && curColor.color === effect.color && curColor.effectValue === effect.effectValue) || (curColor && curColor === effect.color)) ? 'active' : ''}
                                    style={{ background: `#${effect.color}`}}
                                    onClick={() => {onColorClick(effect.color, effect.effectId, effect.effectValue)}}
                                 ></a>
