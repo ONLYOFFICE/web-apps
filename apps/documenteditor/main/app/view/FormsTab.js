@@ -378,7 +378,7 @@ define([
             tipCheckBox: 'Insert checkbox',
             tipRadioBox: 'Insert radio button',
             tipImageField: 'Insert image',
-            tipViewForm: 'Fill form mode',
+            tipViewForm: 'View form',
             textNoHighlight: 'No highlighting',
             textNewColor: 'Add New Custom Color',
             textClear: 'Clear Fields',
