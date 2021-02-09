@@ -90,7 +90,7 @@ export default class MainPage extends Component {
                   !this.state.collaborationVisible ? null :
                       <Collaboration onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
               }
-              {/*<ContextMenu />*/}
+              <ContextMenu />
           </Page>
       )
   }
