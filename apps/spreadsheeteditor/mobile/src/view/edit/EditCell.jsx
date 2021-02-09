@@ -14,7 +14,7 @@ const EditCell = props => {
     const cellStyles = storeCellSettings.cellStyles;
     const styleName = storeCellSettings.styleName;
     
-    console.log(storeCellSettings);
+    // console.log(storeCellSettings);
 
     const fontInfo = storeCellSettings.fontInfo;
     const fontName = fontInfo.name || _t.textFonts;
@@ -22,7 +22,8 @@ const EditCell = props => {
     const fontColor = storeCellSettings.fontColor;
     const displaySize = typeof fontSize === 'undefined' ? _t.textAuto : fontSize + ' ' + _t.textPt;
     const fillColor = storeCellSettings.fillColor;
-    console.log(fillColor);
+
+    // console.log(fillColor);
 
     const isBold = storeCellSettings.isBold;
     const isItalic = storeCellSettings.isItalic;
@@ -32,7 +33,7 @@ const EditCell = props => {
         <span className="color-preview" style={{ background: `#${(typeof fontColor === "object" ? fontColor.color : fontColor)}`}}></span> :
         <span className="color-preview"></span>;
     
-    const fillColorPreview = fillColor !== 'auto' ?
+    const fillColorPreview = fillColor !== 'transparent' ?
         <span className="color-preview" style={{ background: `#${(typeof fillColor === "object" ? fillColor.color : fillColor)}`}}></span> :
         <span className="color-preview"></span>;
 
@@ -186,17 +187,11 @@ const PageFontsCell = props => {
 const PageTextColorCell = props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
-    // const storeFocusObjects = props.storeFocusObjects;
-    // const slideObject = storeFocusObjects.slideObject;
     const storePalette = props.storePalette;
     const storeCellSettings = props.storeCellSettings;
     const customColors = storePalette.customColors;
-    let fontColor = storeCellSettings.fontColor;
+    const fontColor = storeCellSettings.fontColor;
     
-    if(typeof fontColor === 'object') {
-        fontColor = storeCellSettings.fontColor.color;
-    }
-
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
             if (effectId !== undefined ) {
@@ -233,18 +228,10 @@ const PageTextColorCell = props => {
 const PageFillColorCell = props => {
     const { t } = useTranslation();
     const _t = t("View.Edit", { returnObjects: true });
-    // const storeFocusObjects = props.storeFocusObjects;
-    // const slideObject = storeFocusObjects.slideObject;
     const storePalette = props.storePalette;
     const storeCellSettings = props.storeCellSettings;
     const customColors = storePalette.customColors;
-    let fillColor = storeCellSettings.fillColor;
-
-    if(typeof fillColor === 'object') {
-        fillColor = storeCellSettings.fillColor.color;
-    }
-
-    console.log(fillColor);
+    const fillColor = storeCellSettings.fillColor;
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
@@ -569,13 +556,9 @@ const PageBorderColorCell = props => {
     const storePalette = props.storePalette;
     const storeCellSettings = props.storeCellSettings;
     const borderInfo = storeCellSettings.borderInfo;
-    let borderColor = borderInfo.color;
+    const borderColor = borderInfo.color;
     const borderStyle = storeCellSettings.borderStyle;
     const customColors = storePalette.customColors;
-
-    if(typeof borderColor === "object") {
-        borderColor = borderInfo.color.color;
-    }
 
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
@@ -645,7 +628,6 @@ const PageBorderSizeCell = props => {
     const storeCellSettings = props.storeCellSettings;
     const borderInfo = storeCellSettings.borderInfo;
     const borderStyle = storeCellSettings.borderStyle;
-    // const borderSizes = storeCellSettings.borderSizes;
 
     const borderSizes = {
         7: `${_t.textThin}`,

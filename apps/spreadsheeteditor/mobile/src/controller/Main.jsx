@@ -209,7 +209,7 @@ class MainController extends Component {
         const styleSize = storeCellSettings.styleSize;
        
         this.api.asc_registerCallback('asc_onSelectionChanged', cellInfo => {
-            console.log(cellInfo);
+            // console.log(cellInfo);
             storeFocusObjects.resetCellInfo(cellInfo);
             storeCellSettings.initCellSettings(cellInfo);
             let selectedObjects = Common.EditorApi.get().asc_getGraphicObjectProps();
@@ -227,7 +227,7 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onEditorSelectionChanged', fontObj => {
-            console.log(fontObj)
+            // console.log(fontObj)
             storeCellSettings.initFontInfo(fontObj);
         });
 

@@ -39,9 +39,9 @@ export class storeCellSettings {
         this.initFontSettings(xfs);
 
         let color = xfs.asc_getFillColor();
-        console.log(color);
+        // console.log(color);
       
-        let clr = this.resetColor(color);
+        let clr = color.get_auto() ? 'transparent' : this.resetColor(color);
         
         this.fillColor = clr;
         this.styleName = cellInfo.asc_getStyleName();
@@ -150,7 +150,6 @@ export class storeCellSettings {
 
         if(color) {
             if (color.get_auto()) {
-                // return clr;
                 clr = 'auto'
             } else {
                 if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
