@@ -3053,8 +3053,8 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !config.isEdit;
-            if ( config.isEdit ) {
+            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms);
+            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms) {
                 if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("de-compact-toolbar");
                 } else
@@ -3112,6 +3112,8 @@ define([
                     if (config.isEdit && config.canFeatureContentControl) {
                         Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
                         me.onChangeSdtGlobalSettings();
+                    } else if (!compactview) {
+                        me.toolbar.setTab('forms');
                     }
                 }
             }
