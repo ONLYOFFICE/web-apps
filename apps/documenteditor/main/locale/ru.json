@@ -2219,6 +2219,7 @@
   "DE.Views.TableOfContentsSettings.strAlign": "Номера страниц по правому краю",
   "DE.Views.TableOfContentsSettings.strFullCaption": "Полное название",
   "DE.Views.TableOfContentsSettings.strLinks": "Форматировать оглавление как ссылки",
+  "DE.Views.TableOfContentsSettings.strLinksOF": "Форматировать список иллюстраций как ссылки",
   "DE.Views.TableOfContentsSettings.strShowPages": "Показать номера страниц",
   "DE.Views.TableOfContentsSettings.textBuildTable": "Собрать оглавление, используя:",
   "DE.Views.TableOfContentsSettings.textBuildTableOF": "Собрать список иллюстраций, используя:",

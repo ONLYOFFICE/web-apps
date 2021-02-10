@@ -2219,6 +2219,7 @@
   "DE.Views.TableOfContentsSettings.strAlign": "Seitenzahlen rechtsbündig",
   "DE.Views.TableOfContentsSettings.strFullCaption": "Bezeichnung und Nummer einschließen",
   "DE.Views.TableOfContentsSettings.strLinks": "Inhaltsverzeichnis als Links formatieren",
+  "DE.Views.TableOfContentsSettings.strLinksOF": "Abbildungsverzeichnis als Links formatieren",
   "DE.Views.TableOfContentsSettings.strShowPages": "Seitenzahlen anzeigen",
   "DE.Views.TableOfContentsSettings.textBuildTable": "Erstellen eines Inhaltsverzeichnisses mithilfe von",
   "DE.Views.TableOfContentsSettings.textBuildTableOF": "Abbildungsverzeichnis aus",
