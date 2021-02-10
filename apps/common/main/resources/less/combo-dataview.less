@@ -87,7 +87,10 @@
         padding: 3px;
         border: @scaled-one-px-value solid @border-regular-control;
         .box-shadow(none);
-        margin: 0 -1px -1px 0;
+
+        @minus-px: calc(-1px / @pixel-ratio-factor);
+        margin: 0 @minus-px @minus-px 0;
+        height: @combo-dataview-height;
 
 
         &:hover {
