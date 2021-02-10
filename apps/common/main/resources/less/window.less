@@ -94,10 +94,10 @@
                 &:before, &:after {
                     content: ' ';
                     position: absolute;
-                    left: 7px;
-                    top: 1px;
+                    left: calc(7px/@pixel-ratio-factor);
+                    top: @scaled-one-px-value;
                     height: 14px;
-                    width: 1px;
+                    width: @scaled-one-px-value;
                     background-color: @icon-normal;
                 }
 
