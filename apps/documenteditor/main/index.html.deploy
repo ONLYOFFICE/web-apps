@@ -63,7 +63,7 @@
 
         .loadmask > .sktoolbar {
             background: #f1f1f1;
-            border-bottom: 1px solid #cfcfcf;
+            border-bottom: var(--scaled-one-px-value, 1px) solid #cfcfcf;
             height: 46px;
             padding: 10px 6px;
             box-sizing: content-box;
@@ -105,7 +105,7 @@
             width: 794px;
             margin: 46px auto;
             height: 100%;
-            border: 1px solid #bebebe;
+            border: var(--scaled-one-px-value, 1px) solid #bebebe;
             padding-top: 50px;
         }
 
@@ -203,11 +203,6 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
-        var ui_theme_name = params.uitheme || localStorage.getItem("ui-theme");
-        if ( !!ui_theme_name ) {
-            document.documentElement.classList.add(ui_theme_name);
-        }
-
         if ( window.AscDesktopEditor ) {
             window.desktop = window.AscDesktopEditor;
             window.on_native_message = function (cmd, param) {
@@ -220,6 +215,8 @@
     <link rel="stylesheet" type="text/css" href="../../../apps/documenteditor/main/resources/css/app.css">
 </head>
 <body>
+    <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
+
     <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="loading-logo"><img src="../../../apps/documenteditor/main/resources/img/header/header-logo@2x.png"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div><div class="sktoolbar"><ul><li></li><li class="space"></li><li style="width: 209px;"></li><li class="space"></li><li style="width: 187px;"></li><li class="space"></li><li style="width: 60px;"></li><li class="fat"></li></ul><ul><li></li><li class="space"></li><li style="width: 209px;"></li><li class="space"></li><li style="width: 187px;"></li><li class="space"></li><li style="width: 60px;"></li></ul></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
     <div id="viewport"></div>
 

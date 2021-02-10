@@ -106,7 +106,7 @@
             font-size: 0;
             box-sizing: border-box;
             border-style: solid;
-            border-width: 1px;
+            border-width: var(--scaled-one-px-value, 1px);
             border-color: #e1e1e1 transparent;
         }
 
@@ -118,7 +118,7 @@
             margin-left: 20px;
             background: #f7f7f7;
             border-style: solid;
-            border-width: 1px;
+            border-width: var(--scaled-one-px-value, 1px);
             border-color: transparent #e1e1e1;
         }
 
@@ -177,6 +177,10 @@
             50%  { opacity:0.5; }
             100% { opacity:1; }
         }
+
+        .pixel-ratio__1_5 {
+            --scaled-one-px-value: calc(1px / 1.5);
+        }
     </style>
 
     <script>
@@ -232,11 +236,6 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
-        var ui_theme_name = params.uitheme || localStorage.getItem("ui-theme");
-        if ( !!ui_theme_name ) {
-            document.documentElement.classList.add(ui_theme_name);
-        }
-
         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
     </script>
@@ -249,6 +248,7 @@
 </head>
 
 <body>
+    <script src="../../common/main/lib/util/htmlutils.js"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel"><div>
             <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo@2x.png"></div>

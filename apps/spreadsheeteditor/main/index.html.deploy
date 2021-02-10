@@ -108,7 +108,7 @@
             font-size: 0;
             box-sizing: border-box;
             border-style: solid;
-            border-width: 1px;
+            border-width: var(--scaled-one-px-value, 1px);
             border-color: #e1e1e1 transparent;
         }
 
@@ -120,7 +120,7 @@
             margin-left: 20px;
             background: #f7f7f7;
             border-style: solid;
-            border-width: 1px;
+            border-width: var(--scaled-one-px-value, 1px);
             border-color: transparent #e1e1e1;
         }
 
@@ -178,6 +178,10 @@
             0%   { opacity:1; }
             50%  { opacity:0.5; }
             100% { opacity:1; }
+        }
+
+        .pixel-ratio__1_5 {
+            --scaled-one-px-value: calc(1px / 1.5);
         }
     </style>
 
@@ -240,11 +244,6 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
-        var ui_theme_name = params.uitheme || localStorage.getItem("ui-theme");
-        if ( !!ui_theme_name ) {
-            document.documentElement.classList.add(ui_theme_name);
-        }
-
         if ( window.AscDesktopEditor ) {
             window.desktop = window.AscDesktopEditor;
             window.on_native_message = function (cmd, param) {
@@ -258,6 +257,7 @@
     <link rel="stylesheet" type="text/css" href="../../../apps/spreadsheeteditor/main/resources/css/app.css">
 </head>
 <body>
+    <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel"><div>
             <div class="loading-logo"><img src="../../../apps/spreadsheeteditor/main/resources/img/header/header-logo@2x.png"></div>

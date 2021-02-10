@@ -63,7 +63,7 @@
 
         .loadmask > .sktoolbar {
             background: #f1f1f1;
-            border-bottom: 1px solid #cbcbcb;
+            border-bottom: var(--scaled-one-px-value, 1px) solid #cbcbcb;
             height: 46px;
             padding: 10px 6px;
             box-sizing: content-box;
@@ -139,7 +139,7 @@
             height: 100%;
             width: 100%;
             background: #fbfbfb;
-            border: 1px solid #dfdfdf;
+            border: var(--scaled-one-px-value, 1px) solid #dfdfdf;
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
             -moz-animation: flickerAnimation 2s infinite ease-in-out;
@@ -182,6 +182,10 @@
             0%   { opacity:1; }
             50%  { opacity:0.5; }
             100% { opacity:1; }
+        }
+
+        .pixel-ratio__1_5 {
+            --scaled-one-px-value: calc(1px / 1.5);
         }
     </style>
 
@@ -261,6 +265,7 @@
     <link rel="stylesheet" type="text/css" href="../../../apps/presentationeditor/main/resources/css/app.css">
 </head>
 <body>
+    <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel">
             <div><div class="loading-logo"><img src="../../../apps/presentationeditor/main/resources/img/header/header-logo@2x.png"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
