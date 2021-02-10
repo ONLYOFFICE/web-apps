@@ -119,48 +119,21 @@ Common.Utils = _.extend(new(function() {
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
         checkSize = function() {
-            var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9), " +
-                                "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx)";
-            var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
-                                "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
-            if ( window.matchMedia(str_mq_150).matches ) {
-                $(document.body).addClass('pixel-ratio__1_5');
-                $(document.body).removeClass('pixel-ratio__2');
+            var scale = window.AscCommon.checkDeviceScale();
+            var $root = $(document.body);
+            if ( scale.devicePixelRatio > 1 && scale.devicePixelRatio <= 1.5 ) {
+                $root.removeClass('pixel-ratio__2');
+                $root.addClass('pixel-ratio__1_5');
             } else
-            if ( window.matchMedia(str_mq_200).matches ) {
-                $(document.body).addClass('pixel-ratio__2');
-                $(document.body).removeClass('pixel-ratio__1_5');
+            if ( scale.devicePixelRatio > 1.5 && scale.devicePixelRatio < 2 ) {
+                $root.addClass('pixel-ratio__2');
+                $root.removeClass('pixel-ratio__1_5');
             } else {
-                $(document.body).removeClass('pixel-ratio__1_5');
-                $(document.body).removeClass('pixel-ratio__2');
+                $root.removeClass('pixel-ratio__1_5 pixel-ratio__2');
             }
 
-            me.zoom = 1;
-            if (false && isChrome && !isOpera && !isMobile && document && document.firstElementChild && document.body) {
-                // делаем простую проверку
-                // считаем: 0 < window.devicePixelRatio < 2 => _devicePixelRatio = 1; zoom = window.devicePixelRatio / _devicePixelRatio;
-                // считаем: window.devicePixelRatio >= 2 => _devicePixelRatio = 2; zoom = window.devicePixelRatio / _devicePixelRatio;
-                if (window.devicePixelRatio > 0.1) {
-                    if (window.devicePixelRatio < 1.99)
-                    {
-                        var _devicePixelRatio = 1;
-                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
-                    }
-                    else
-                    {
-                        var _devicePixelRatio = 2;
-                        me.zoom = window.devicePixelRatio / _devicePixelRatio;
-                    }
-                    // chrome 54.x: zoom = "reset" - clear retina zoom (windows)
-                    //document.firstElementChild.style.zoom = "reset";
-                    document.firstElementChild.style.zoom = 1.0 / me.zoom;
-                }
-                else
-                    document.firstElementChild.style.zoom = "normal";
-            }
-
-            me.innerWidth = window.innerWidth * me.zoom;
-            me.innerHeight = window.innerHeight * me.zoom;
+            // me.innerWidth = window.innerWidth * me.zoom;
+            // me.innerHeight = window.innerHeight * me.zoom;
         };
         me.zoom = 1;
         me.innerWidth = window.innerWidth;
