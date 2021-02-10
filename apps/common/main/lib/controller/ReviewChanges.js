@@ -833,6 +833,9 @@ define([
                 if (str_tip) {
                     me.tooltip.setTitle(str_tip);
                     me.tooltip.show();
+                    me.tipTimeout = setTimeout(function () {
+                        me.tooltip.hide();
+                    }, 5000);
                 }
             }
 
@@ -842,10 +845,10 @@ define([
                     hideonclick: true,
                     placement: 'bottom',
                     cls: 'main-info',
-                    offset: 30,
-                    hoverState: 'in'
+                    offset: 30
                 });
                 this.tooltip.on('tooltip:hide', function(cmp){
+                    clearTimeout(me.tipTimeout);
                     (cmp==me.tooltip) && setTimeout(showNextTip, 300);
                 });
             }
