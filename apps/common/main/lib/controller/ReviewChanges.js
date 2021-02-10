@@ -572,8 +572,8 @@ define([
             if ( this.appConfig.canReview ) {
                 state = (state == 'on');
 
-                this.api.asc_SetTrackRevisions(state);
                 Common.localStorage.setItem(this.view.appPrefix + "track-changes-" + (this.appConfig.fileKey || ''), state ? 1 : 0);
+                this.api.asc_SetTrackRevisions(state);
 
                 this.view.turnChanges(state);
             }
