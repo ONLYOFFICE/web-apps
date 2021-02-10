@@ -383,7 +383,7 @@ define([
 
             itemClicked: function (e) {
                 this.__name = undefined;
-                if (!this.__nameId) {
+                if (this.__nameId) {
                     clearTimeout(this.__nameId);
                     this.__nameId = undefined;
                 }
