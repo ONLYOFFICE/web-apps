@@ -70,6 +70,7 @@
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Funktionen \"Kopieren\", \"Ausschneiden\" und \"Einfügen\"",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Nicht wieder anzeigen",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "Der Linkverweis existiert nicht. Bitte korrigieren Sie das Link oder löschen Sie es. ",
   "SSE.Controllers.EditCell.textAuto": "Automatisch",
   "SSE.Controllers.EditCell.textFonts": "Schriftarten",
   "SSE.Controllers.EditCell.textPt": "pt",

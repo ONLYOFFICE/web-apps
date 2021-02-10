@@ -70,6 +70,7 @@
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Операции копирования, вырезания и вставки",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Больше не показывать",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "В объединенной ячейке останутся только данные из левой верхней ячейки.<br>Вы действительно хотите продолжить?",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "Ссылка указывает на несуществующую ячейку. Исправьте или удалите ссылку.",
   "SSE.Controllers.EditCell.textAuto": "Авто",
   "SSE.Controllers.EditCell.textFonts": "Шрифты",
   "SSE.Controllers.EditCell.textPt": "пт",

@@ -70,6 +70,7 @@
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Copy, Cut and Paste Actions",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Do not show again",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Only the data from the upper-left cell will remain in the merged cell. <br>Are you sure you want to continue?",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
   "SSE.Controllers.EditCell.textAuto": "Auto",
   "SSE.Controllers.EditCell.textFonts": "Fonts",
   "SSE.Controllers.EditCell.textPt": "pt",
