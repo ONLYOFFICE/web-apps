@@ -9,11 +9,13 @@ import EditCellController from "../../controller/edit/EditCell";
 import EditShapeController from "../../controller/edit/EditShape";
 import EditImageController from "../../controller/edit/EditImage";
 import EditTextController from "../../controller/edit/EditText";
+import EditChartController from "../../controller/edit/EditChart";
 
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell } from './EditCell';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
+import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageChartLegend, PageChartTitle, PageChartHorizontalAxisTitle, PageChartVerticalAxisTitle, PageChartHorizontalGridlines, PageChartVerticalGridlines, PageChartDataLabels } from './EditChart';
 
 const routes = [
 
@@ -143,6 +145,61 @@ const routes = [
     {
         path: '/edit-text-custom-font-color/',
         component: PageTextCustomFontColor
+    },
+
+    // Chart 
+
+    {
+        path: '/edit-chart-style/',
+        component: PageChartStyle
+    },
+    {
+        path: '/edit-chart-border-color/',
+        component: PageChartBorderColor
+    },
+    {
+        path: '/edit-chart-custom-fill-color/',
+        component: PageChartCustomFillColor
+    },
+    {
+        path: '/edit-chart-custom-border-color/',
+        component: PageChartCustomBorderColor
+    },
+    {
+        path: '/edit-chart-reorder/',
+        component: PageChartReorder
+    },
+    {
+        path: '/edit-chart-layout/',
+        component: PageChartLayout
+    },
+    {
+        path: '/edit-chart-title/',
+        component: PageChartTitle
+    },
+    {
+        path: '/edit-chart-legend/',
+        component: PageChartLegend
+    },
+    {
+        path: '/edit-horizontal-axis-title/',
+        component: PageChartHorizontalAxisTitle
+    },
+    {
+        path: '/edit-vertical-axis-title/',
+        component: PageChartVerticalAxisTitle
+    },
+    {
+        path: '/edit-horizontal-gridlines/',
+        component: PageChartHorizontalGridlines
+    },
+    {
+        path: '/edit-vertical-gridlines/',
+        component: PageChartVerticalGridlines
+    },
+    {
+        path: '/edit-data-labels/',
+        component: PageChartDataLabels
     }
 
 ];
@@ -240,6 +297,13 @@ const EditTabs = props => {
                 caption: _t.textText,
                 id: 'edit-text',
                 component: <EditTextController />
+            })
+        }
+        if (settings.indexOf('chart') > -1) {
+            editors.push({
+                caption: _t.textChart,
+                id: 'edit-chart',
+                component: <EditChartController />
             })
         }
     }

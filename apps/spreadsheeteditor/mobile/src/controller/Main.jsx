@@ -5,7 +5,7 @@ import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeCellSettings", "storeTextSettings")
+@inject("storeFocusObjects", "storeCellSettings", "storeTextSettings", "storeChartSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -207,10 +207,12 @@ class MainController extends Component {
         const storeFocusObjects = this.props.storeFocusObjects;
         const storeCellSettings = this.props.storeCellSettings;
         const storeTextSettings = this.props.storeTextSettings;
+        const storeChartSettings = this.props.storeChartSettings;
         const styleSize = storeCellSettings.styleSize;
        
         this.api.asc_registerCallback('asc_onSelectionChanged', cellInfo => {
             console.log(cellInfo);
+            
             storeFocusObjects.resetCellInfo(cellInfo);
             storeCellSettings.initCellSettings(cellInfo);
             storeTextSettings.initTextSettings(cellInfo);
@@ -219,8 +221,13 @@ class MainController extends Component {
 
             if(selectedObjects.length) {
                 storeFocusObjects.resetFocusObjects(selectedObjects);
-            }
 
+                // Chart Settings
+
+                if (storeFocusObjects.chartObject) { 
+                    storeChartSettings.updateChartStyles(this.api.asc_getChartPreviews(storeFocusObjects.chartObject.get_ChartProperties().getType()));
+                }
+            }
         });
 
         this.api.asc_setThumbnailStylesSizes(styleSize.width, styleSize.height);
@@ -243,6 +250,7 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
             Common.Utils.ThemeColor.setColors(colors, standart_colors);
         });
+
     }
 
     _onLongActionEnd(type, id) {

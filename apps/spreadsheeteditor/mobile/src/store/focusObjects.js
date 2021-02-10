@@ -165,4 +165,22 @@ export class storeFocusObjects {
             return undefined;
         }
     }
+
+    @computed get chartObject() {
+        const charts = [];
+        for (let object of this._focusObjects) {
+            if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
+                if (object.get_ObjectValue() && object.get_ObjectValue().get_ChartProperties()) {
+                    charts.push(object);
+                }  
+            }
+        }
+        if (charts.length > 0) {
+            const object = charts[charts.length - 1]; // get top
+            return object.get_ObjectValue();
+        } else {
+            return undefined;
+        }
+    }
+
 }
