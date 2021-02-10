@@ -293,7 +293,7 @@ define([
                 Common.localStorage.setItem("de-hide-right-settings", 1);
             }
 
-            this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode]);
+            this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
         SetActivePane: function(type, open) {

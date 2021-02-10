@@ -116,18 +116,24 @@ define([
             },
 
             setMode: function (mode) {
-                isEdit = mode.isEdit;
-                canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
-                canDownload = mode.canDownload || mode.canDownloadOrigin;
-                canPrint = mode.canPrint;
+                if (mode.isDisconnected) {
+                    canEdit = isEdit = false;
+                    if (!mode.enableDownload)
+                        canPrint = canDownload = false;
+                } else {
+                    isEdit = mode.isEdit;
+                    canEdit = !mode.isEdit && mode.canEdit && mode.canRequestEditRights;
+                    canDownload = mode.canDownload || mode.canDownloadOrigin;
+                    canPrint = mode.canPrint;
 
-                if (mode.customization && mode.canBrandingExt) {
-                    canAbout = (mode.customization.about!==false);
-                }
+                    if (mode.customization && mode.canBrandingExt) {
+                        canAbout = (mode.customization.about!==false);
+                    }
 
-                if (mode.customization) {
-                    canHelp = (mode.customization.help!==false);
-                    isShowMacros = (mode.customization.macros!==false);
+                    if (mode.customization) {
+                        canHelp = (mode.customization.help!==false);
+                        isShowMacros = (mode.customization.macros!==false);
+                    }
                 }
             },
 

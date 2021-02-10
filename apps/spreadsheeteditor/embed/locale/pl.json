@@ -1,5 +1,6 @@
 {
   "common.view.modals.txtCopy": "Skopiuj do schowka",
+  "common.view.modals.txtEmbed": "Osadź",
   "common.view.modals.txtHeight": "Wysokość",
   "common.view.modals.txtShare": "Udostępnij link",
   "common.view.modals.txtWidth": "Szerokość",
@@ -23,6 +24,7 @@
   "SSE.ApplicationController.unsupportedBrowserErrorText": "Twoja przeglądarka nie jest wspierana.",
   "SSE.ApplicationController.waitText": "Proszę czekać...",
   "SSE.ApplicationView.txtDownload": "Pobierz",
+  "SSE.ApplicationView.txtEmbed": "Osadź",
   "SSE.ApplicationView.txtFullScreen": "Pełny ekran",
   "SSE.ApplicationView.txtPrint": " Drukuj",
   "SSE.ApplicationView.txtShare": "Udostępnij"

@@ -310,7 +310,8 @@ define([
                     clr = me._sdkToThemeColor(color);
 
                 $('#text-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
-
+                var palette = this.getView('EditCell').paletteTextColor;
+                palette && palette.select(clr);
             },
 
             initCellSettings: function (cellInfo) {
@@ -332,7 +333,9 @@ define([
                 var color = xfs.asc_getFillColor(),
                     clr = me._sdkToThemeColor(color);
 
-                $('#fill-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
+                $('#fill-color .color-preview').css('background-color', ('transparent' == clr) ? clr : ('#' + (_.isObject(clr) ? clr.color : clr)));
+                var palette = this.getView('EditCell').paletteFillColor;
+                palette && palette.select(clr);
 
                 var styleName = cellInfo.asc_getStyleName();
                 $('#edit-cell .cell-styles li[data-type="' + styleName + '"]').addClass('active');

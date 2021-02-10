@@ -457,7 +457,7 @@ define([
                     if (me.btnCommentRemove) {
                         var items = [
                             {
-                                caption: config.canEditComments ? me.txtCommentRemCurrent : me.txtCommentRemMyCurrent,
+                                caption: config.canDeleteComments ? me.txtCommentRemCurrent : me.txtCommentRemMyCurrent,
                                 value: 'current'
                             },
                             {
@@ -465,7 +465,7 @@ define([
                                 value: 'my'
                             }
                         ];
-                        if (config.canEditComments)
+                        if (config.canDeleteComments)
                             items.push({
                                 caption: me.txtCommentRemAll,
                                 value: 'all'

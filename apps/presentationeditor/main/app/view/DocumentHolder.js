@@ -3651,7 +3651,7 @@ define([
 
             if (!menu) {
                 this.placeholderMenuChart = menu = new Common.UI.Menu({
-                    style: 'width: 364px;',
+                    style: 'width: 364px;padding-top: 12px;',
                     items: [
                         {template: _.template('<div id="id-placeholder-menu-chart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
                     ]

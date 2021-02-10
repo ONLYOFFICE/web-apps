@@ -1,6 +1,4 @@
 
-@tabs-bg-color: #446995;
-
 .toolbar {
     &.masked {
         button.disabled .icon:not(.no-mask) {
@@ -13,7 +11,7 @@
 
     .font-attr {
         > .btn-slot:not(:last-child):not(.split) {
-            margin-right: 6px;
+            margin-right: 4px;
         }
 
         > .btn-slot:not(:last-child).split {
@@ -29,7 +27,7 @@
     right: 0;
     bottom: 0;
     opacity: 0;
-    background-color: @gray-light;
+    background-color: @background-toolbar;
     z-index: @zindex-tooltip + 1;
 }
 
@@ -46,16 +44,15 @@
     > li > a.item-contents {
         div {
             .background-ximage-v2('toolbar/contents.png', 246px, @commonimage: false);
+            background-color: #fff;
             width: 246px;
             height: @contents-menu-item-height;
 
-            .get-scaled-value(1px);
-            .box-shadow(0 0 0 @scaledvalue @gray);
+            .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
 
             &:hover,
             &.selected {
-                .get-scaled-value(2px);
-                .box-shadow(0 0 0 @scaledvalue @primary);
+                .box-shadow(0 0 0 @scaled-two-px-value @border-control-focus);
             }
         }
 
@@ -63,8 +60,7 @@
             background-color: transparent;
 
             div {
-                .get-scaled-value(2px);
-                .box-shadow(0 0 0 @scaledvalue @primary);
+                .box-shadow(0 0 0 @scaled-two-px-value @border-control-focus);
             }
         }
     }
@@ -82,41 +78,6 @@
     .loop(2);
 }
 
-.color-schemas-menu {
-    span {
-        &.colors {
-            display: inline-block;
-            margin-right: 15px;
-        }
-
-        &.color {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            margin-right: 2px;
-
-            .get-scaled-value(1px);
-            border: @scaledvalue solid rgba(0, 0, 0, 0.2);
-            vertical-align: middle;
-        }
-
-        &.text {
-            vertical-align: middle;
-        }
-    }
-    &.checked {
-        &:before {
-            display: none !important;
-        }
-        &, &:hover, &:focus {
-            background-color: @primary;
-            color: @dropdown-link-active-color;
-            span.color {
-                border-color: rgba(255,255,255,0.7);
-            }
-        }
-    }
-}
 // page number position
 .menu-pageposition {
     .dataview {
@@ -130,8 +91,7 @@
                 opacity: 0.5;
 
                 &:hover {
-                    .get-scaled-value(1px);
-                    .box-shadow(0 0 0 @scaledvalue @gray);
+                    .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
                 }
             }
         }
@@ -178,12 +138,12 @@
 }
 
 #id-toolbar-menu-auto-fontcolor > a.selected,
-#control-settings-system-color > a.selected,
-#control-settings-system-color > a:hover {
+#id-toolbar-menu-auto-fontcolor > a:hover,
+#watermark-auto-color > a.selected,
+#watermark-auto-color > a:hover {
     span {
-        .get-scaled-value(1px);
-        outline: @scaledvalue solid #000;
-        border: @scaledvalue solid #fff;
+        outline: @scaled-one-px-value solid @icon-normal;
+        border: @scaled-one-px-value solid @background-normal;
     }
 }
 
@@ -191,14 +151,12 @@
     cursor: default;
     position: relative;
     padding: 14px 11px;
-
-    .get-scaled-value(1px);
-    border-left: @scaledvalue solid @gray;
-    border-top: @scaledvalue solid @gray;
+    border-left: @scaled-one-px-value solid @border-regular-control;
+    border-top: @scaled-one-px-value solid @border-regular-control;
 }
 
 .save-style-link {
-    border-bottom: 1px dotted #aaa;
+    border-bottom: @scaled-one-px-value dotted @text-secondary;
     cursor: pointer;
     margin-left: 22px;
 }
@@ -221,7 +179,7 @@
 
 #slot-field-fontname {
     float: left;
-    width: 158px;
+    width: 84px;
 }
 
 #slot-field-fontsize {
@@ -230,7 +188,7 @@
     margin-left: 2px;
 }
 
-#slot-btn-incfont, #slot-btn-decfont {
+#slot-btn-incfont, #slot-btn-decfont, #slot-btn-changecase {
     margin-left: 2px;
 }
 
@@ -242,8 +200,6 @@
 #special-paste-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
-    background-color: @gray-light;
-
-    .get-scaled-value(1px);
-    border: @scaledvalue solid @gray;
+    background-color: @background-toolbar;
+    border: @scaled-one-px-value solid @border-regular-control;
 }

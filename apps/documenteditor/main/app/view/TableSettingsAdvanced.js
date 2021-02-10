@@ -889,9 +889,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#tableadv-border-color-btn'),
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
+            this.btnBorderColor.on('auto:select', _.bind(me.onColorsBorderSelect, me));
             this.colorsBorder = this.btnBorderColor.getPicker();
 
             this.btnBackColor = new Common.UI.ColorButton({
@@ -1063,16 +1065,19 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
-                var colorstr = (typeof(this.borderProps.borderColor) == 'object') ? this.borderProps.borderColor.color : this.borderProps.borderColor;
+                this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');
+                var colorstr = (typeof(this.btnBorderColor.color) == 'object') ? this.btnBorderColor.color.color : this.btnBorderColor.color;
                 this.tableBordersImageSpacing.setVirtualBorderColor(colorstr);
                 this.tableBordersImage.setVirtualBorderColor(colorstr);
+                if (this.borderProps.borderColor=='auto')
+                    this.colorsBorder.clearSelection();
+                else
+                    this.colorsBorder.select(this.borderProps.borderColor,true);
 
                 this.cmbBorderSize.setValue(this.borderProps.borderSize.ptValue);
                 var rec = this.cmbBorderSize.getSelectedRecord();
                 if (rec)
                     this.onBorderSizeSelect(this.cmbBorderSize, rec);
-
-                this.colorsBorder.select(this.borderProps.borderColor, true);
             }
 
             for (var i=0; i<this.tableBordersImageSpacing.rows; i++) {
@@ -1163,7 +1168,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (this.isAltDescChanged)
                 this._changedProps.put_TableDescription(this.textareaAltDescription.val());
 
-            return { tableProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
+            return { tableProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color} };
         },
 
         _setDefaults: function(props) {
@@ -2063,7 +2068,13 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 var size = parseFloat(this.BorderSize.ptValue);
                 border.put_Value(1);
                 border.put_Size(size * 25.4 / 72.0);
-                var color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                var color;
+                if (this.btnBorderColor.isAutoColor()) {
+                    color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                } else {
+                    color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 border.put_Color(color);
             }
             else {

@@ -267,7 +267,8 @@ define([
                                 me.dblclick_el = tab;
                                 delete me.dblclick_timer;
                             },500);
-                        }
+                        } else
+                            me.dblclick_el = tab;
                     }
                 }
             },

@@ -214,6 +214,10 @@ define([
                         '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.strTheme %></label></td>',
+                    '<td class="right"><span id="fms-cmb-theme"></span></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
                     '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
@@ -236,13 +240,17 @@ define([
                         '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
                 '</tr>','<tr class="divider macros"></tr>',
+                '<tr class="fms-btn-apply">',
+                    '<td class="left"></td>',
+                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                '</tr>',
             '</tbody></table>',
         '</div>',
-        '<div>',
+        '<div class="fms-flex-apply hidden">',
             '<table style="margin: 10px 0;"><tbody>',
                 '<tr>',
                     '<td class="left"></td>',
-                    '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                    '<td class="right"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                 '</tr>',
             '</tbody></table>',
         '</div>'
@@ -368,6 +376,7 @@ define([
                 el          : $markup.findById('#fms-cmb-macros'),
                 style       : 'width: 160px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
@@ -389,13 +398,27 @@ define([
             });
             this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
-            this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-apply')
+            this.cmbTheme = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-theme'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 'theme-light', displayValue: this.txtThemeLight },
+                    { value: 'theme-dark', displayValue: this.txtThemeDark }
+                ]
             });
 
-            this.btnApply.on('click', _.bind(this.applySettings, this));
+            $markup.find('.btn.primary').each(function(index, el){
+                (new Common.UI.Button({
+                    el: $(el)
+                })).on('click', _.bind(me.applySettings, me));
+            });
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+            this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
+            this.pnlTable = this.pnlSettings.find('table');
+            this.trApply = $markup.find('.fms-btn-apply');
 
             this.$el = $(node).html($markup);
 
@@ -425,6 +448,11 @@ define([
 
         updateScroller: function() {
             if (this.scroller) {
+                Common.UI.Menu.Manager.hideAll();
+                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height();
+                this.pnlApply.toggleClass('hidden', !scrolled);
+                this.trApply.toggleClass('hidden', scrolled);
+                this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
             }
@@ -496,9 +524,14 @@ define([
             this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("pe-settings-paste-button"));
+
+            item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.current()});
+            this.cmbTheme.setValue(item ? item.get('value') : 0);
         },
 
         applySettings: function() {
+            Common.UI.Themes.setTheme(this.cmbTheme.getValue());
+
             Common.localStorage.setItem("pe-settings-spellcheck", this.chSpell.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
@@ -595,6 +628,9 @@ define([
         strPaste: 'Cut, copy and paste',
         strPasteButton: 'Show Paste Options button when content is pasted',
         txtProofing: 'Proofing',
+        strTheme: 'Theme',
+        txtThemeLight: 'Light',
+        txtThemeDark: 'Dark',
         txtAutoCorrect: 'AutoCorrect options...'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
@@ -970,11 +1006,6 @@ define([
         },
 
         updateInfo: function(doc) {
-            if (!this.doc && doc && doc.info) {
-                doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
-                doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
-            }
-
             this.doc = doc;
             if (!this.rendered)
                 return;
@@ -986,11 +1017,11 @@ define([
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
                 visible = this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null) || visible;
-                var value = doc.info.owner || doc.info.author;
+                var value = doc.info.owner;
                 if (value)
                     this.lblOwner.text(value);
                 visible = this._ShowHideInfoItem(this.lblOwner, !!value) || visible;
-                value = doc.info.uploaded || doc.info.created;
+                value = doc.info.uploaded;
                 if (value)
                     this.lblUploaded.text(value);
                 visible = this._ShowHideInfoItem(this.lblUploaded, !!value) || visible;

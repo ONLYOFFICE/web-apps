@@ -9,6 +9,8 @@
 
 // Bootstrap overwrite
 @import "../../../../common/main/resources/less/variables.less";
+@import "../../../../common/main/resources/less/colors-table.less";
+@import "../../../../common/main/resources/less/colors-table-dark.less";
 
 //
 // Bootstrap
@@ -149,7 +151,7 @@
 
 .slidenum-div {
     background-color: @body-bg;
-    color: @gray-deep;
+    color: @text-normal;
     padding: 5px 12px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     .box-shadow(0 6px 12px rgba(0, 0, 0, 0.175));
@@ -174,6 +176,14 @@
             background-position: -20px @top-position;
         }
     }
+}
+
+#slide-texture-img-box {
+    background: @background-normal;
+    border: @scaled-one-px-value solid @border-regular-control;
+    border-radius: 2px;
+    float: right;
+    padding: 14px 20px;
 }
 
 // Skeleton of document

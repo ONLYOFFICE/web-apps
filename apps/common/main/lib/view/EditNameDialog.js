@@ -78,7 +78,7 @@ define([
                 blankError  : me.options.error ? me.options.error : me.textLabelError,
                 style       : 'width: 100%;',
                 validateOnBlur: false,
-                validation  : function(value) {
+                validation  : me.options.validation || function(value) {
                     return value ? true : '';
                 }
             });

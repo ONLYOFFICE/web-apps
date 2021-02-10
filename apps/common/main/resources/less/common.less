@@ -1,6 +1,6 @@
 label {
     &.link {
-        border-bottom: @scaled-one-px-value dotted #aaa;
+        border-bottom: @scaled-one-px-value dotted @text-secondary;
         cursor: pointer;
 
         &.disabled {
@@ -9,7 +9,7 @@ label {
     }
 
     &.link-solid {
-        border-bottom: 1px solid #aaa;
+        border-bottom: @scaled-one-px-value solid @text-secondary;
         cursor: pointer;
 
         &.disabled {
@@ -46,15 +46,15 @@ label {
         overflow: hidden;
 
         .tool-menu-btns {
-            border-right: @scaled-one-px-value solid @gray-dark;
+            border-right: @scaled-one-px-value solid @border-regular-control;
         }
     }
 
     &.right {
         .tool-menu-btns {
             //position: absolute;
-            border-left: @scaled-one-px-value solid @gray-dark;
-            background-color: @gray-light;
+            border-left: @scaled-one-px-value solid @border-regular-control;
+            background-color: @background-toolbar;
             right: 0;
             overflow: hidden;
         }
@@ -76,7 +76,7 @@ label {
 .left-panel {
     padding-left: 40px;
     height: 100%;
-    border-right: @scaled-one-px-value solid @gray-dark;
+    border-right: @scaled-one-px-value solid @border-regular-control;
 
     #left-panel-chat {
         height: 100%;
@@ -94,18 +94,18 @@ label {
     padding: 0 10px 0 15px;
     position: relative;
     overflow: hidden;
-    border-left: @scaled-one-px-value solid @gray-dark;
+    border-left: @scaled-one-px-value solid @border-regular-control;
     line-height: 15px;
 }
 
 .statusbar {
     height: 25px;
-    background-color: @gray-light;
-    .box-inner-shadow(0 @scaled-one-px-value 0 @gray-dark);
+    background-color: @background-toolbar;
+    .box-inner-shadow(0 @scaled-one-px-value 0 @border-regular-control);
 
     .status-label {
         font-weight: bold;
-        color: @gray-deep;
+        color: @text-normal;
         white-space: nowrap;
     }
 }
@@ -118,13 +118,13 @@ label {
     .panel-menu {
         width: 260px;
         float: left;
-        border-right: @scaled-one-px-value solid @gray-dark;
-        background-color: @gray-light;
+        border-right: @scaled-one-px-value solid @border-regular-control;
+        background-color: @background-toolbar;
     }
 
     .flex-settings {
         &.bordered {
-            border-bottom: @scaled-one-px-value solid @gray;
+            border-bottom: @scaled-one-px-value solid @border-regular-control;
         }
         overflow: hidden;
         position: relative;
@@ -182,12 +182,70 @@ label {
         width: 100%;
         resize: none;
         margin-bottom: 5px;
-        border: @scaled-one-px-value solid @gray-dark;
+        border: @scaled-one-px-value solid @border-regular-control;
         height: 100%;
 
         &.disabled {
             opacity: 0.65;
             cursor: default !important;
         }
+    }
+}
+
+.dropdown-menu {
+    > li > a {
+        color: @text-normal;
+    }
+}
+
+textarea {
+    background-color: @background-normal;
+    color: @text-normal
+}
+
+.btn-edit-table,
+.btn-change-shape {
+    .background-ximage-v2('right-panels/rowscols_icon.png', 84px);
+    margin-right: 2px !important;
+    margin-bottom: 1px !important;
+}
+
+.btn-edit-table {
+    background-position: 0 0;
+
+    button.over & {
+        //background-position: -28px 0;
+    }
+
+    .btn-group.open &,
+        button.active:not(.disabled) &,
+        button:active:not(.disabled) &
+    {
+        //background-position: -56px 0;
+    }
+
+    // TODO: not good, must be controled by variable
+    .theme-dark & {
+        background-position-x: -56px;
+    }
+}
+
+.btn-change-shape {
+    background-position: 0 -16px;
+
+    button.over & {
+        //background-position: -28px -16px;
+    }
+
+    .btn-group.open &,
+        button.active:not(.disabled) &,
+        button:active:not(.disabled) &
+    {
+        //background-position: -56px -16px;
+    }
+
+    // TODO: not good, must be controled by variable
+    .theme-dark & {
+        background-position-x: -56px;
     }
 }

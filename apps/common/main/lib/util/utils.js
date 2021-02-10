@@ -731,6 +731,7 @@ Common.Utils.fillUserInfo = function(info, lang, defname) {
     !_user.id && (_user.id = ('uid-' + Date.now()));
     _user.fullname = _.isEmpty(_user.name) ? defname : _user.name;
     _user.group && (_user.fullname = (_user.group).toString() + Common.Utils.UserInfoParser.getSeparator() + _user.fullname);
+    _user.guest = _.isEmpty(_user.name);
     return _user;
 };
 
@@ -896,23 +897,24 @@ Common.Utils.warningDocumentIsLocked = function (opts) {
         opts.disablefunc(true);
 
     var app = window.DE || window.PE || window.SSE;
-    var tip = new Common.UI.SynchronizeTip({
-        extCls      : 'simple',
-        text        : Common.Locale.get("warnFileLocked",{name:"Common.Translation", default:'Document is in use by another application. You can continue editing and save it as a copy.'}),
-        textLink    : Common.Locale.get("txtContinueEditing",{name:app.nameSpace + ".Views.SignatureSettings", default:'Edit anyway'}),
-        placement   : 'document'
-    });
-    tip.on({
-        'dontshowclick': function() {
-            if ( opts.disablefunc ) opts.disablefunc(false);
-            app.getController('Main').api.asc_setIsReadOnly(false);
-            this.close();
-        },
-        'closeclick': function() {
-            this.close();
+
+    Common.UI.warning({
+        msg: Common.Locale.get("warnFileLocked",{name:"Common.Translation", default: "You can't edit this file. Document is in use by another application."}),
+        buttons: [{
+            value: 'view',
+            caption: Common.Locale.get("warnFileLockedBtnView",{name:"Common.Translation", default: "Open for viewing"})
+        }, {
+            value: 'edit',
+            caption: Common.Locale.get("warnFileLockedBtnEdit",{name:"Common.Translation", default: "Create a copy"})
+        }],
+        primary: 'view',
+        callback: function(btn){
+            if (btn == 'edit') {
+                if ( opts.disablefunc ) opts.disablefunc(false);
+                app.getController('Main').api.asc_setIsReadOnly(false);
+            }
         }
     });
-    tip.show();
 };
 
 jQuery.fn.extend({
@@ -983,8 +985,12 @@ Common.Utils.ModalWindow = new(function() {
 })();
 
 Common.Utils.UserInfoParser = new(function() {
-    var parse = false;
-    var separator = String.fromCharCode(160);
+    var parse = false,
+        separator = String.fromCharCode(160),
+        username = '',
+        usergroups,
+        reviewPermissions,
+        reviewGroups;
     return {
         setParser: function(value) {
             parse = !!value;
@@ -1010,6 +1016,36 @@ Common.Utils.UserInfoParser = new(function() {
                 return groups;
             } else
                 return undefined;
+        },
+
+        setCurrentName: function(name) {
+            username = name;
+            this.setReviewPermissions(reviewGroups, reviewPermissions);
+        },
+
+        getCurrentName: function() {
+            return username;
+        },
+
+        setReviewPermissions: function(groups, permissions) {
+            if (groups) {
+                if  (typeof groups == 'object' && groups.length>0)
+                    usergroups = groups;
+                reviewGroups = groups;
+            } else if (permissions) {
+                var arr = [],
+                    arrgroups  =  this.getParsedGroups(username);
+                arrgroups && arrgroups.forEach(function(group) {
+                    var item = permissions[group.trim()];
+                    item && (arr = arr.concat(item));
+                });
+                usergroups = arr;
+                reviewPermissions = permissions;
+            }
+        },
+
+        getCurrentGroups: function() {
+            return usergroups;
         }
     }
 })();

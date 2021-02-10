@@ -98,7 +98,14 @@ define([
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-back"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-favorite"></div>' +
                                     '<div class="btn-slot" id="slot-btn-options"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-user-name"></div>' +
+                                    '<div class="btn-current-user hidden">' +
+                                        '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
+                                    '</div>' +
                                 '</div>' +
                             '</section>' +
                         '</section>';
@@ -118,7 +125,7 @@ define([
                                 '<div class="lr-separator" id="id-box-doc-name">' +
                                     '<label id="title-doc-name" />' +
                                 '</div>' +
-                                '<label id="title-user-name" style="pointer-events: none;"></label>' +
+                                '<label id="title-user-name"></label>' +
                             '</section>';
 
         function onResetUsers(collection, opts) {
@@ -232,6 +239,14 @@ define([
                 Common.NotificationCenter.trigger('goback');
             });
 
+            me.btnFavorite.on('click', function (e) {
+                // wait for setFavorite method
+                // me.options.favorite = !me.options.favorite;
+                // me.btnFavorite.changeIcon(me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                // me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
+                Common.NotificationCenter.trigger('markfavorite', !me.options.favorite);
+            });
+
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
                     var _url = !!me.branding && !!me.branding.logo && (me.branding.logo.url!==undefined) ?
@@ -271,6 +286,20 @@ define([
 
                 $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
                 $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
+            }
+
+
+            if (appConfig.user.guest && appConfig.canRenameAnonymous) {
+                if (me.labelUserName) {
+                    me.labelUserName.addClass('clickable');
+                    me.labelUserName.on('click', function (e) {
+                        Common.NotificationCenter.trigger('user:rename');
+                    });
+                } else if (me.btnUserName) {
+                    me.btnUserName.on('click', function (e) {
+                        Common.NotificationCenter.trigger('user:rename');
+                    });
+                }
             }
 
             if ( me.btnPrint ) {
@@ -402,6 +431,12 @@ define([
 
                 me.mnuZoom = {options: {value: 100}};
 
+                me.btnFavorite = new Common.UI.Button({
+                    id: 'btn-favorite',
+                    cls: 'btn-header',
+                    iconCls: 'toolbar__icon icon--inverse btn-favorite'
+                });
+
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
@@ -463,6 +498,14 @@ define([
                         $html.find('#slot-btn-back').hide();
                     }
 
+                    if ( this.options.favorite !== undefined && this.options.favorite!==null) {
+                        me.btnFavorite.render($html.find('#slot-btn-favorite'));
+                        me.btnFavorite.changeIcon(!!me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                        me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
+                    } else {
+                        $html.find('#slot-btn-favorite').hide();
+                    }
+
                     if ( !config.isEdit ) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
                             this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'));
@@ -474,6 +517,16 @@ define([
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'));
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
+
+                    if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
+                        if (config.user.guest && config.canRenameAnonymous)
+                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'));
+                        else {
+                            me.elUserName = $html.find('.btn-current-user');
+                            me.elUserName.removeClass('hidden');
+                        }
+                        me.setUserName(me.options.userName);
+                    }
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
@@ -582,6 +635,19 @@ define([
                 return this.options.canBack;
             },
 
+            setFavorite: function (value) {
+                this.options.favorite = value;
+                this.btnFavorite[value!==undefined && value!==null ? 'show' : 'hide']();
+                this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                this.btnFavorite.updateHint(!value ? this.textAddFavorite : this.textRemoveFavorite);
+
+                return this;
+            },
+
+            getFavorite: function () {
+                return this.options.favorite;
+            },
+
             setCanRename: function (rename) {
                 rename = false;
 
@@ -622,6 +688,15 @@ define([
                     } else this.labelUserName.hide();
                 } else {
                     this.options.userName = name;
+                    if ( this.btnUserName ) {
+                        this.btnUserName.updateHint(name);
+                    } else if (this.elUserName) {
+                        this.elUserName.tooltip({
+                            title: name,
+                            placement: 'cursor',
+                            html: true
+                        });
+                    }
                 }
 
                 return this;
@@ -691,7 +766,9 @@ define([
             textHideLines: 'Hide Rulers',
             textZoom: 'Zoom',
             textAdvSettings: 'Advanced Settings',
-            tipViewSettings: 'View Settings'
+            tipViewSettings: 'View Settings',
+            textRemoveFavorite: 'Remove from Favorites',
+            textAddFavorite: 'Mark as favorite'
         }
     }(), Common.Views.Header || {}))
 });

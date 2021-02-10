@@ -232,7 +232,7 @@ define([
                     });
                     this.paragraphControls.push(this.btnSubscript);
 
-                    this.btnHighlightColor = new Common.UI.Button({
+                    this.btnHighlightColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-highlight',
@@ -254,7 +254,7 @@ define([
                     this.paragraphControls.push(this.btnHighlightColor);
                     this.textOnlyControls.push(this.btnHighlightColor);
 
-                    this.btnFontColor = new Common.UI.Button({
+                    this.btnFontColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-fontcolor',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-fontcolor',
@@ -268,27 +268,43 @@ define([
                                     template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
                                 },
                                 {caption: '--'},
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="">' + this.textNewColor + '</a>')}
                             ]
                         })
                     });
                     this.paragraphControls.push(this.btnFontColor);
 
-                    this.btnParagraphColor = new Common.UI.Button({
+                    this.btnParagraphColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-paracolor',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paracolor',
                         split: true,
                         menu: new Common.UI.Menu({
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + this.textNewColor + '</a>')}
                             ]
                         })
                     });
                     this.paragraphControls.push(this.btnParagraphColor);
                     this.textOnlyControls.push(this.btnParagraphColor);
+
+                    this.btnChangeCase = new Common.UI.Button({
+                        id: 'id-toolbar-btn-case',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-change-case',
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
+                                {caption: this.mniLowerCase, value: Asc.c_oAscChangeTextCaseType.LowerCase},
+                                {caption: this.mniUpperCase, value: Asc.c_oAscChangeTextCaseType.UpperCase},
+                                {caption: this.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
+                                {caption: this.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
+                            ]
+                        })
+                    });
+                    this.paragraphControls.push(this.btnChangeCase);
 
                     this.btnAlignLeft = new Common.UI.Button({
                         id: 'id-toolbar-btn-align-left',
@@ -437,7 +453,6 @@ define([
                         iconCls: 'toolbar__icon btn-inserttable',
                         caption: me.capBtnInsTable,
                         menu: new Common.UI.Menu({
-                            cls: 'shifted-left',
                             items: [
                                 {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
                                 {caption: this.mniCustomTable, value: 'custom'},
@@ -621,7 +636,7 @@ define([
                                 },
                                 {
                                     caption: this.textPictureControl,
-                                    // iconCls: 'mnu-control-rich',
+                                    iconCls: 'menu__icon btn-menu-image',
                                     value: 'picture'
                                 },
                                 {
@@ -667,7 +682,7 @@ define([
                                                 checkable: true
                                             }),
                                             {caption: '--'},
-                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                            {template: _.template('<div id="id-toolbar-menu-controls-color" style="width: 169px; height: 94px; margin: 10px;"></div>')},
                                             {template: _.template('<a id="id-toolbar-menu-new-control-color" style="padding-left:12px;">' + this.textNewColor + '</a>')}
                                         ]
                                     })
@@ -1096,6 +1111,7 @@ define([
                     this.mnuInsertImage = this.btnInsertImage.menu;
                     this.mnuPageSize = this.btnPageSize.menu;
                     this.mnuColorSchema = this.btnColorSchemas.menu;
+                    this.mnuChangeCase = this.btnChangeCase.menu;
 
                     this.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
@@ -1265,7 +1281,7 @@ define([
                     me.$el.html(me.rendererComponents(me.$layout));
                 } else {
                     me.$layout.find('.canedit').hide();
-                    me.$layout.addClass('folded');
+                    me.isCompactView && me.$layout.addClass('folded');
                     me.$el.html(me.$layout);
                 }
 
@@ -1348,6 +1364,7 @@ define([
                 _injectComponent('#slot-btn-subscript', this.btnSubscript);
                 _injectComponent('#slot-btn-highlight', this.btnHighlightColor);
                 _injectComponent('#slot-btn-fontcolor', this.btnFontColor);
+                _injectComponent('#slot-btn-changecase', this.btnChangeCase);
                 _injectComponent('#slot-btn-align-left', this.btnAlignLeft);
                 _injectComponent('#slot-btn-align-center', this.btnAlignCenter);
                 _injectComponent('#slot-btn-align-right', this.btnAlignRight);
@@ -1545,7 +1562,7 @@ define([
 
                     me.btnImgWrapping.updateHint(me.tipImgWrapping);
                     me.btnImgWrapping.setMenu(new Common.UI.Menu({
-                        cls: 'ppm-toolbar',
+                        cls: 'ppm-toolbar shifted-right',
                         items: [{
                                 caption     : _holder_view.txtInline,
                                 iconCls     : 'menu__icon wrap-inline',
@@ -1595,6 +1612,11 @@ define([
                                 wrapType    : Asc.c_oAscWrapStyle2.Behind,
                                 checkmark   : false,
                                 checkable   : true
+                            },
+                            { caption: '--' },
+                            {
+                                caption     : _holder_view.textEditWrapBoundary,
+                                wrapType    : 'edit'
                             }
                         ]
                     }));
@@ -1634,6 +1656,7 @@ define([
                 this.btnHighlightColor.updateHint(this.tipHighlightColor);
                 this.btnFontColor.updateHint(this.tipFontColor);
                 this.btnParagraphColor.updateHint(this.tipPrColor);
+                this.btnChangeCase.updateHint(this.tipChangeCase);
                 this.btnAlignLeft.updateHint(this.tipAlignLeft + Common.Utils.String.platformKey('Ctrl+L'));
                 this.btnAlignCenter.updateHint(this.tipAlignCenter + Common.Utils.String.platformKey('Ctrl+E'));
                 this.btnAlignRight.updateHint(this.tipAlignRight + Common.Utils.String.platformKey('Ctrl+R'));
@@ -1750,7 +1773,7 @@ define([
                 this.paragraphControls.push(this.mnuInsertPageCount);
 
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
-                    style: 'width: 364px;',
+                    style: 'width: 364px;padding-top: 12px;',
                     items: [
                         {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
                     ]
@@ -1762,7 +1785,7 @@ define([
                         parentMenu: menu,
                         showLast: false,
                         restoreHeight: 421,
-                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)),
+                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
@@ -1925,10 +1948,8 @@ define([
                 //
                 var colorVal;
                 if (this.btnHighlightColor.cmpEl) {
-                    colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnHighlightColor.cmpEl).append(colorVal);
                     this.btnHighlightColor.currentColor = 'FFFF00';
-                    colorVal.css('background-color', '#' + this.btnHighlightColor.currentColor);
+                    this.btnHighlightColor.setColor(this.btnHighlightColor.currentColor);
                     this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
                         el: $('#id-toolbar-menu-highlight'),
                         colors: [
@@ -1940,18 +1961,14 @@ define([
                 }
 
                 if (this.btnFontColor.cmpEl) {
-                    colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
-                    colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
+                    this.btnFontColor.setColor(this.btnFontColor.currentColor || 'transparent');
                     this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-fontcolor')
                     });
                 }
 
                 if (this.btnParagraphColor.cmpEl) {
-                    colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnParagraphColor.cmpEl).append(colorVal);
-                    colorVal.css('background-color', this.btnParagraphColor.currentColor || 'transparent');
+                    this.btnParagraphColor.setColor(this.btnParagraphColor.currentColor || 'transparent');
                     this.mnuParagraphColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-paracolor'),
                         transparent: true
@@ -1960,7 +1977,12 @@ define([
 
                 if (this.btnContentControls.cmpEl) {
                     this.mnuControlsColorPicker = new Common.UI.ThemeColorPalette({
-                        el: $('#id-toolbar-menu-controls-color')
+                        el: $('#id-toolbar-menu-controls-color'),
+                        colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
+                            '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
+                            '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
+                            '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', '99CCFF', 'CC99FF', 'FFFFFF'
+                        ]
                     });
                 }
             },
@@ -2388,7 +2410,13 @@ define([
             textRestartEachSection: 'Restart Each Section',
             textSuppressForCurrentParagraph: 'Suppress for Current Paragraph',
             textCustomLineNumbers: 'Line Numbering Options',
-            tipLineNumbers: 'Show line numbers'
+            tipLineNumbers: 'Show line numbers',
+            tipChangeCase: 'Change case',
+            mniSentenceCase: 'Sentence case.',
+            mniLowerCase: 'lowercase',
+            mniUpperCase: 'UPPERCASE',
+            mniCapitalizeWords: 'Capitalize Each Word',
+            mniToggleCase: 'tOGGLE cASE'
         }
     })(), DE.Views.Toolbar || {}));
 });

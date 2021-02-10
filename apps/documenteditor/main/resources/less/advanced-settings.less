@@ -12,16 +12,7 @@
         &.image {
             background-position: 10px 0;
             background-attachment: scroll;
-            background-color: white;
-        }
-    }
-
-    .btn {
-        &:active:not(.disabled),
-        &.active:not(.disabled){
-            .caret {
-                background-position: @arrow-small-offset-x @arrow-small-offset-y;
-            }
+            background-color: @background-normal;
         }
     }
 }
@@ -65,6 +56,9 @@
     }
 }
 
-
+.canvas-box {
+    border: @scaled-one-px-value solid @border-regular-control;
+    background-color: #fff;
+}
 
 

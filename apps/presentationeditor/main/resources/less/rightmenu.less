@@ -14,25 +14,6 @@
     background-size: cover;
 }
 
-.btn-edit-table,
-.btn-change-shape {
-    .background-ximage-v2('right-panels/rowscols_icon.png', 84px);
-    margin-right: 2px !important;
-    margin-bottom: 1px !important;
-}
-
-.btn-edit-table                  {background-position: 0      0;}
-button.over .btn-edit-table      {background-position: -28px  0;}
-.btn-group.open .btn-edit-table,
-button.active:not(.disabled) .btn-edit-table,
-button:active:not(.disabled) .btn-edit-table    {background-position: -56px  0;}
-
-.btn-change-shape                  {background-position: 0      -16px;}
-button.over .btn-change-shape      {background-position: -28px  -16px;}
-.btn-group.open .btn-change-shape,
-button.active:not(.disabled) .btn-change-shape,
-button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -16px;}
-
 .combo-pattern-item {
     .background-ximage('@{common-image-path}/right-panels/patterns.png', '@{common-image-path}/right-panels/patterns@2x.png', 112px);
 }
@@ -40,10 +21,10 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 .combo-dataview-menu {
     .form-control {
         cursor: pointer;
-        background-color: white;
+        background-color: @background-normal;
 
         &.text {
-            background: white;
+            background: @background-normal;
             vertical-align: bottom;
         }
     }
@@ -111,7 +92,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 
         &:hover,
         &.over {
-            background-color: @secondary;
+            background-color: @highlight-button-hover;
 
             .caret {
                 display: inline-block;

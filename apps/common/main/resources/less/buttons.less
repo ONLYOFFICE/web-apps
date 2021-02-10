@@ -4,8 +4,8 @@
 
 .btn {
     border-radius: 1px;
-    color: @gray-deep;
-    .adaptive-border-width(1px);
+    color: @text-normal;
+    border-width: @scaled-one-px-value;
 
     .btnsize(@value) {
         min-width: @value;
@@ -44,6 +44,11 @@
     &:focus {
         outline: 0;
         outline-offset: 0;
+        color: @text-normal;
+    }
+
+    &:hover {
+        color: @text-normal;
     }
 
     &:active, &.active {
@@ -52,18 +57,22 @@
     }
 
     .caret {
-        width: 7px;
-        height: 7px;
-        border: 0;
-        background-position: @arrow-small-offset-x @arrow-small-offset-y;
-        position: relative;
+        width: 4px;
+        height: 4px;
+        border: solid 1px @icon-normal;
+        border-bottom: none;
+        border-right: none;
+        background-image: none;
+
+        transition: transform 0.2s ease;
+        transform: rotate(-135deg) translate(1px,1px);
     }
 
     //&:active,
     &:active:not(.disabled),
     &.active:not(.disabled){
         .caret {
-            background-position: @arrow-small-offset-x - 7px @arrow-small-offset-y;
+            transform: rotate(45deg);
         }
     }
 
@@ -95,7 +104,7 @@
             &::after {
                 content: ' ';
                 position: absolute;
-                border: 1px solid #000;
+                border: 1px solid @icon-notification-badge;
                 border-left: 0 none;
                 border-right: 0 none;
                 width: 6px;
@@ -110,7 +119,7 @@
                 width: 10px;
                 height: 7px;
                 bottom: 2px;
-                background-color: #ffd112;
+                background-color: @background-notification-badge;
                 border-radius: 2px;
                 right: 0;
             }
@@ -126,7 +135,7 @@
                 width: 8px;
                 height: 8px;
                 background-color: transparent;
-                border: solid 1px @gray-deep;
+                border: solid 1px @text-normal;
                 border-bottom: none;
                 border-right: none;
             }
@@ -158,7 +167,7 @@
     &.active:not(.disabled) {
         .caret-up, .caret-down {
             &::after {
-                border-color: #FFFFFF;
+                border-color: @background-normal;
             }
         }
     }
@@ -180,7 +189,7 @@
     &.x-huge {
         @icon-size: 28px;
 
-        min-width: 45px;
+        min-width: 35px;
         height: @x-huge-btn-height;
 
         img {
@@ -214,8 +223,8 @@
             only screen and (-webkit-min-device-pixel-ratio: 1.5),
             only screen and (min-resolution: 1.5dppx),
             only screen and (min-resolution: 144dpi) {
-                width:calc(~"40px/1.5");
-                height:calc(~"40px/1.5");
+                //width:calc(~"40px/1.5");
+                //height:calc(~"40px/1.5");
             }
         }
 
@@ -266,11 +275,11 @@
 .icon-top {
     &.x-huge  {
         .btn&, .btn-group& .btn-toolbar {
-            .mx-button-otherstates-icon2(@x-huge-btn-icon-size);
+            .mx-button-otherstates-icon2(@button-huge-active-icon-offset-x);
         }
 
         .btn.small {
-            .mx-button-otherstates-icon2(20px);
+            .mx-button-otherstates-icon2(@button-small-active-icon-offset-x);
         }
     }
 }
@@ -287,7 +296,7 @@
     .btn.small;
 
     &.bg-white {
-        background-color: #fff;
+        background-color: @background-normal;
     }
 
     &:before,
@@ -298,14 +307,14 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @secondary;
+        background-color: @highlight-button-hover;
     }
 
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        color: lighten(@gray-lighter, 10%);
-        background-color: @primary;
+        color: @text-normal;
+        background-color: @highlight-button-pressed;
     }
 
     &:not(.icon-top)
@@ -363,6 +372,10 @@
         width: 14px;
         height: 3px;
         background-color: red;
+        &.bordered {
+            border: 1px solid @border-regular-control;
+        }
+
 
         .pixel-ratio__1_5 & {
             height: 4px;
@@ -382,13 +395,13 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @secondary;
+        background-color: @highlight-button-hover;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary;
-        color: #fff;
+        background-color: @highlight-button-pressed;
+        color: @text-normal-pressed;
     }
 
     .icon {
@@ -401,7 +414,7 @@
 
     &[disabled],
     &.disabled {
-        color: #000;
+        //color: #000;  btn-category has no text
         opacity: @btn-disabled-opacity;
     }
 }
@@ -437,7 +450,7 @@
 
     &.open {
         > .btn-toolbar {
-                //color: lighten(@gray-lighter, 10%);
+                //color: @text-normal;
 
                 // Show no shadow for `.btn-link` since it has no other button styles.
                 &.btn-link {
@@ -452,7 +465,7 @@
 
     &.over {
         > button {
-            //background-color: @secondary;
+            //background-color: @highlight-button-hover;
         }
     }
 
@@ -495,16 +508,11 @@
         }
     }
 
-@color-gray: @secondary;
-@color-dark: @primary;
-//@color-gray: #079e2f;
-//@color-dark: #c52c0e;
-
     &.split {
 
         &.over:not(.disabled),
         &.open {
-            box-shadow: inset 0 0 0 1px @color-gray;
+            box-shadow: inset 0 0 0 1px @highlight-button-hover;
 
             button:not(.active):not(.btn-text-split-default) {
                 background-color: transparent;
@@ -515,13 +523,13 @@
             button {
                 &:not(.active) {
                     &:hover {
-                        background-color: @color-gray;
+                        background-color: @highlight-button-hover;
                     }
                 }
 
                 &:active,
                 &:active:hover {
-                    background-color: @color-dark;
+                    background-color: @highlight-button-pressed;
                 }
             }
         }
@@ -529,7 +537,7 @@
         &.open {
             > button:not(.active) {
                 &:last-of-type {
-                    background-color: @color-dark;
+                    background-color: @highlight-button-pressed;
                 }
             }
 
@@ -539,7 +547,7 @@
         }
 
         button.active:not(.disabled) {
-            background-color: @color-dark;
+            background-color: @highlight-button-pressed;
         }
 
         .btn + .btn {
@@ -552,20 +560,20 @@
     width: 45px;
     height: 22px;
     padding: @scaled-one-px-value 11px @scaled-one-px-value @scaled-one-px-value;
-    border:@scaled-one-px-value solid @input-border;
+    border:@scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     span:nth-child(1) {
         float: left;
         width: 100%;
         height: 100%;
-        border: @scaled-one-px-value solid rgba(0, 0, 0, 0.2);
+        border: @scaled-one-px-value solid @border-color-shading;
         background-color: transparent;
     }
 
     .inner-box-caret {
         position: absolute;
-        right: 0;
+        right: 1px;
         top: 2px;
     }
 
@@ -574,7 +582,7 @@
     .over,
     &:active,
     &.active {
-        background: #fff  !important;
+        background: @background-normal !important;
         .box-shadow(none)  !important;
     }
 
@@ -585,8 +593,7 @@
 
     .color-transparent {
         &:before {
-            //border-right: 1px solid red;
-            .adaptive-solid-border(1px, red);
+            border-right: @scaled-one-px-value solid red;
             height: 34px;
             transform: translate(16px, -9px) rotate(62deg);
             left: 0;
@@ -596,10 +603,21 @@
     &:active:not(.disabled),
     &.active:not(.disabled) {
         .caret {
-            background-position: @arrow-small-offset-x @arrow-small-offset-y;
         }
     }
 }
+
+// for color button auto color
+.dropdown-menu {
+    li > a.selected,
+    li > a:hover {
+        span.color-auto {
+            outline: @scaled-one-px-value solid @border-regular-control;
+            border: @scaled-one-px-value solid @background-normal;
+        }
+    }
+}
+
 
 .btn-options {
     padding: 0;
@@ -609,7 +627,7 @@
     background-color: transparent;
 
     &.bg-white {
-        background-color: #fff;
+        background-color: @background-normal;
     }
 
     .icon {
@@ -623,26 +641,25 @@
         background-repeat: no-repeat;
     }
 
-    //box-shadow: inset 0 0 0 1px @gray;
-    .adaptive-box-shadow(~'inset 0 0 0 %1 @{gray}', 1px);
+    box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
     .border-radius(@border-radius-small);
 
     &:hover,
     &.over {
-        background-color: @secondary;
+        background-color: @highlight-button-hover;
     }
 
     &:active,
     &.active {
-        background-color: @primary;
+        background-color: @highlight-button-pressed;
     }
 }
 
 .btn-text-default {
     width: 75px;
     height: 22px;
-    background: @input-bg;
-    border: @scaled-one-px-value solid @input-border;
+    background: @background-normal;
+    border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     &.auto {
@@ -653,14 +670,14 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @secondary !important;
+        background-color: @highlight-button-hover !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary !important;
-        border-color: @primary;
-        color: white;
+        background-color: @highlight-button-pressed !important;
+        border-color: @highlight-button-pressed;
+        color: @text-normal-pressed;
     }
 
     &[disabled],
@@ -672,8 +689,8 @@
 .btn-text-menu-default {
     width: 100%;
     height: 22px;
-    background: @input-bg;
-    border: @scaled-one-px-value solid @input-border;
+    background: @background-normal;
+    border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     button {
@@ -688,12 +705,12 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @secondary !important;
+        background-color: @highlight-button-hover !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary !important;
+        background-color: @highlight-button-pressed !important;
         color: white;
     }
 
@@ -706,8 +723,8 @@
 .btn-text-split-default {
     width: 75px;
     height: 22px;
-    background: @input-bg;
-    border: @scaled-one-px-value solid @input-border;
+    background: @background-normal;
+    border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     &.dropdown-toggle {
@@ -720,14 +737,14 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @secondary !important;
+        background-color: @highlight-button-hover !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary !important;
-        border-color: @primary;
-        color: white;
+        background-color: @highlight-button-pressed !important;
+        border-color: @highlight-button-pressed;
+        color: @text-normal-pressed;
     }
 
     &[disabled],
@@ -739,8 +756,8 @@
 .btn-icon-default {
     width: 45px;
     height: 22px;
-    background: @input-bg;
-    border: @scaled-one-px-value solid @input-border;
+    background: @background-normal;
+    border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     .icon {
@@ -758,12 +775,12 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
-        background-color: @secondary !important;
+        background-color: @highlight-button-hover !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
-        background-color: @primary !important;
+        background-color: @highlight-button-pressed !important;
     }
 
     &[disabled],
@@ -779,8 +796,8 @@
     padding: 2px;
     margin:0;
     box-shadow: none;
-    background-color: @input-bg;
-    border: @scaled-one-px-value solid @input-border;
+    background-color: @background-normal;
+    border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
     &.template-table {
@@ -805,7 +822,7 @@
         margin-right: 3px;
         background-color: transparent;
         background-repeat: no-repeat;
-        border: @scaled-one-px-value solid @input-border;
+        border: @scaled-one-px-value solid @border-regular-control;
         position: relative;
     }
 
@@ -819,7 +836,7 @@
     .over,
     &:active,
     &.active {
-        background-color: @input-bg !important;
+        background-color: @background-normal !important;
     }
 
     &:active:not(.disabled),
@@ -841,21 +858,23 @@
 .dlg-btn {
     font-weight: bold;
     width: 86px;
-    color: @gray-deep;
-    background-color: @secondary;
+    color: @text-normal;
+    background-color: @background-normal;
+    border: 1px solid @border-regular-control;
 
     &:hover:not(.disabled),
     &.hover:not(.disabled) {
-        background-color: @secondary-hover;
+        background-color: @highlight-button-hover;
     }
 
     &.primary {
-        color: #fff;
-        background-color: @primary;
+        color: @text-inverse;
+        background-color: @background-primary-dialog-button;
+        border: 0 none;
 
         &:hover:not(.disabled),
         &.hover:not(.disabled) {
-            background-color: @primary-hover;
+            background-color: @highlight-primary-dialog-button-hover;
         }
     }
 

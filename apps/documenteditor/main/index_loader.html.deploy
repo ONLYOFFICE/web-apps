@@ -313,6 +313,8 @@
     <inline src="resources/img/doc-formats/ott.svg" />
     <inline src="resources/img/doc-formats/rtf.svg" />
     <inline src="resources/img/doc-formats/html.svg" />
+    <inline src="resources/img/doc-formats/fb2.svg" />
+    <inline src="resources/img/doc-formats/epub.svg" />
     <inline src="resources/img/toolbar/shapetypes.svg" />
     <inline src="resources/img/toolbar/charttypes.svg" />
     <inline src="resources/img/recent-file.svg" />

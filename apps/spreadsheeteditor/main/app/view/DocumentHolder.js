@@ -305,6 +305,9 @@ define([
                         },{
                             caption : me.txtSortFontColor,
                             value   : Asc.c_oAscSortOptions.ByColorFont
+                        },{
+                            caption : me.txtCustomSort,
+                            value   : 'advanced'
                         }
                     ]
                 })
@@ -1210,7 +1213,8 @@ define([
         textSum: 'Sum',
         textStdDev: 'StdDev',
         textVar: 'Var',
-        textMore: 'More functions'
+        textMore: 'More functions',
+        txtCustomSort: 'Custom sort'
 
     }, SSE.Views.DocumentHolder || {}));
 });

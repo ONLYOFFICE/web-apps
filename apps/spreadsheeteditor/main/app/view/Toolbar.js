@@ -272,18 +272,27 @@ define([
 
                 me.btnEditChart = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-edit-chart',
-                    cls         : 'btn-toolbar btn-text-value',
+                    cls         : 'btn-toolbar btn-text-default auto',
                     caption     : me.tipEditChart,
                     lock        : [_set.lostConnect],
-                    style       : 'width: 120px;'
+                    style       : 'min-width: 120px;'
                 });
 
                 me.btnEditChartData = new Common.UI.Button({
                     id          : 'id-toolbar-rtn-edit-chart-data',
-                    cls         : 'btn-toolbar btn-text-value',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-select-range',
                     caption     : me.tipEditChartData,
+                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect]
+                });
+
+                me.btnEditChartType = new Common.UI.Button({
+                    id          : 'id-toolbar-rtn-edit-chart-type',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-menu-chart',
+                    caption     : me.tipEditChartType,
                     lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
-                    style       : 'width: 120px;'
+                    style       : 'min-width: 120px;'
                 });
             } else
             if ( config.isEditMailMerge ) {
@@ -472,22 +481,29 @@ define([
                 });
 
                 me.mnuTextColorPicker = dummyCmp();
-                me.btnTextColor = new Common.UI.Button({
+                me.btnTextColor = new Common.UI.ButtonColored({
                     id          : 'id-toolbar-btn-fontcolor',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-fontcolor',
                     split       : true,
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
+                        cls: 'shifted-left',
                         items: [
-                            { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            {
+                                id: 'id-toolbar-menu-auto-fontcolor',
+                                caption: this.textAutoColor,
+                                template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
+                            },
+                            {caption: '--'},
+                            { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                             { template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]
                     })
                 });
 
                 me.mnuBackColorPicker = dummyCmp();
-                me.btnBackColor = new Common.UI.Button({
+                me.btnBackColor = new Common.UI.ButtonColored({
                     id          : 'id-toolbar-btn-fillparag',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paracolor',
@@ -495,7 +511,7 @@ define([
                     lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                             { template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]
                     })
@@ -1639,6 +1655,7 @@ define([
             _injectComponent('#slot-field-styles',       this.listStyles);
             _injectComponent('#slot-btn-chart',          this.btnEditChart);
             _injectComponent('#slot-btn-chart-data',     this.btnEditChartData);
+            _injectComponent('#slot-btn-chart-type',     this.btnEditChartType);
             _injectComponent('#slot-btn-pageorient',    this.btnPageOrient);
             _injectComponent('#slot-btn-pagemargins',   this.btnPageMargins);
             _injectComponent('#slot-btn-pagesize',      this.btnPageSize);
@@ -1842,19 +1859,22 @@ define([
                             template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
+                                cls: 'shifted-left',
                                 items       : [
-                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 169px; height: 220px; margin: 10px;"></div>'), stopPropagation: true },
+                                    {
+                                        id: 'id-toolbar-menu-auto-bordercolor',
+                                        caption: this.textAutoColor,
+                                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>'),
+                                        stopPropagation: true
+                                    },
+                                    {caption: '--'},
+                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 169px; height: 216px; margin: 10px;"></div>'), stopPropagation: true },
                                     { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
                                 ]
                             })
                         })
                     ]
                 }));
-
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnBorders.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnBorders.currentColor || 'transparent');
-
                 this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-bordercolor')
                 });
@@ -1862,7 +1882,7 @@ define([
 
             if ( this.btnInsertChart ) {
                 this.btnInsertChart.setMenu(new Common.UI.Menu({
-                    style: 'width: 364px;',
+                    style: 'width: 364px;padding-top: 12px;',
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -1874,7 +1894,7 @@ define([
                         parentMenu: menu,
                         showLast: false,
                         restoreHeight: 421,
-                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
+                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()/*.concat(Common.define.chartData.getSparkData())*/),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
@@ -1918,18 +1938,13 @@ define([
             // DataView and pickers
             //
             if (this.btnTextColor && this.btnTextColor.cmpEl) {
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnTextColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnTextColor.currentColor || 'transparent');
+                this.btnTextColor.setColor(this.btnTextColor.currentColor || 'transparent');
                 this.mnuTextColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-fontcolor')
                 });
             }
             if (this.btnBackColor && this.btnBackColor.cmpEl) {
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnBackColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnBackColor.currentColor || 'transparent');
-
+                this.btnBackColor.setColor(this.btnBackColor.currentColor || 'transparent');
                 this.mnuBackColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-paracolor'),
                     transparent: true
@@ -1983,7 +1998,7 @@ define([
             if (mode.isDisconnected) {
                 this.lockToolbar( SSE.enumLock.lostConnect, true );
                 this.lockToolbar( SSE.enumLock.lostConnect, true,
-                    {array:[this.btnEditChart, this.btnEditChartData, this.btnUndo,this.btnRedo]} );
+                    {array:[this.btnEditChart, this.btnEditChartData, this.btnEditChartType, this.btnUndo,this.btnRedo]} );
                 if (!mode.enableDownload)
                     this.lockToolbar(SSE.enumLock.cantPrint, true, {array: [this.btnPrint]});
             } else {
@@ -2447,6 +2462,8 @@ define([
         tipInsertSlicer: 'Insert slicer',
         textVertical: 'Vertical Text',
         textTabView: 'View',
-        tipEditChartData: 'Select Data'
+        tipEditChartData: 'Select Data',
+        tipEditChartType: 'Change Chart Type',
+        textAutoColor: 'Automatic'
     }, SSE.Views.Toolbar || {}));
 });

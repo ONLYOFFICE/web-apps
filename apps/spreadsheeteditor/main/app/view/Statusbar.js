@@ -305,7 +305,7 @@ define([
                     menuAlign: 'tl-tr',
                     cls: 'color-tab',
                     items: [
-                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 });
@@ -340,10 +340,6 @@ define([
                         {caption: this.ungroupSheets,  value: 'noselect'}
                     ]
                 }).on('render:after', function(btn) {
-                        var colorVal = $('<div class="btn-color-value-line"></div>');
-                        $('button:first-child', btn.cmpEl).append(colorVal);
-                        colorVal.css('background-color', btn.currentColor || 'transparent');
-
                         me.mnuTabColor = new Common.UI.ThemeColorPalette({
                             el: $('#id-tab-menu-color'),
                             transparent: true

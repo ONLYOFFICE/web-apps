@@ -5,8 +5,8 @@
         border-right: 0 none;
 
         &.move {
-            border-left: 1px solid @gray-dark;
-            border-right: 1px solid @gray-dark;
+            border-left: @scaled-one-px-value solid @border-toolbar;
+            border-right: @scaled-one-px-value solid @border-toolbar;
             opacity: 0.4;
         }
     }
@@ -20,7 +20,7 @@
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
-    background-color: @gray-light;
+    background-color: @background-toolbar;
     overflow: hidden;
 }
 
@@ -57,12 +57,12 @@
                 margin-bottom: 3px;
 
                 &:hover {
-                    background-color: @secondary;
+                    background-color: @highlight-button-hover;
                 }
 
                 &.active {
                     outline: 0;
-                    background-color: @primary;
+                    background-color: @highlight-button-pressed;
 
                     > a {
                         color: #fff;
@@ -115,7 +115,7 @@
     .panel-context {
         width: 100%;
         padding-left: 260px;
-        background-color: #fff;
+        background-color: @background-normal;
 
         .content-box {
             height: 100%;
@@ -259,7 +259,7 @@
 
                 &:hover,
                 &.over {
-                    background-color: @gray-light;
+                    background-color: @background-toolbar;
                 }
 
                 .recent-icon {
@@ -300,7 +300,7 @@
             }
 
             .dataview {
-                border-right: 1px solid @gray-dark;
+                border-right: @scaled-one-px-value solid @border-toolbar;
 
                 & > div:not([class^=ps-scrollbar]) {
                     display: block;
@@ -314,11 +314,11 @@
                     &:not(.header-name) {
                         &:hover,
                         &.over {
-                            background-color: @gray-light;
+                            background-color: @background-toolbar;
                         }
 
                         &.selected {
-                            background-color: @primary;
+                            background-color: @highlight-button-pressed;
                             color: @dropdown-link-active-color;
                         }
                     }
@@ -431,7 +431,7 @@
     }
 }
 
-#developer-hint, #beta-hint {
+#developer-hint, #beta-hint, #limit-hint {
     position: absolute;
     left: 0;
     padding: 12px 0;

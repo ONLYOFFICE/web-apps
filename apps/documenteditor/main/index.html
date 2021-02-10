@@ -64,7 +64,7 @@
             background: #f1f1f1;
             border-bottom: 1px solid #cfcfcf;
             height: 46px;
-            padding: 10px 12px;
+            padding: 10px 6px;
             box-sizing: content-box;
         }
 
@@ -86,7 +86,7 @@
 
         .loadmask > .sktoolbar li.space {
             background: none;
-            width: 12px;
+            width: 0;
         }
 
         .loadmask > .sktoolbar li.fat {
@@ -94,7 +94,7 @@
             right: 0;
             top: 0;
             bottom: 0;
-            left: 612px;
+            left: 525px;
             width: inherit;
             height: 44px;
         }
@@ -204,6 +204,11 @@
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
 
+        var ui_theme_name = params.uitheme || localStorage.getItem("ui-theme");
+        if ( !!ui_theme_name ) {
+            document.documentElement.classList.add(ui_theme_name);
+        }
+
         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
     </script>
@@ -215,10 +220,10 @@
 <body>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel">
-            <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo@2x.png"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div>
+            <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo@2x.png"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div>
         <div class="sktoolbar">
-            <ul><li></li><li class="space"></li><li style="width: 255px;"></li><li class="space"></li><li style="width: 180px;"></li><li class="space"></li><li style="width: 60px;"></li><li class="fat"></li></ul>
-            <ul><li></li><li class="space"></li><li style="width: 255px;"></li><li class="space"></li><li style="width: 180px;"></li><li class="space"></li><li style="width: 60px;"></li></ul>
+            <ul><li></li><li class="space"></li><li style="width: 209px;"></li><li class="space"></li><li style="width: 187px;"></li><li class="space"></li><li style="width: 60px;"></li><li class="fat"></li></ul>
+            <ul><li></li><li class="space"></li><li style="width: 209px;"></li><li class="space"></li><li style="width: 187px;"></li><li class="space"></li><li style="width: 60px;"></li></ul>
         </div>
         <div class="placeholder">
             <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
@@ -274,6 +279,8 @@
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/ott.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/rtf.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/html.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/fb2.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/epub.svg">
     <img class="inline-svg" src="resources/img/blank.svg">
     <img class="inline-svg" src="resources/img/recent-file.svg">
     <img class="inline-svg" src="resources/img/file-template.svg">

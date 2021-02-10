@@ -47,7 +47,7 @@ define([
     DE.Views.LineNumbersDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 290,
-            height: 308,
+            height: 320,
             header: true,
             style: 'min-width: 290px;',
             cls: 'modal-dlg',
@@ -72,7 +72,7 @@ define([
                 '<div id="line-numbers-restart-each-section" style="margin-bottom: 8px;"></div>',
                 '<div id="line-numbers-continuous" style="margin-bottom: 15px;"></div>',
                 '<div style="margin-bottom: 5px;">',
-                    '<label style="margin-top: 4px;">' + this.textApplyTo + '</label><div id="line-numbers-combo-apply" class="input-group-nr" style="display: inline-block; width:125px;float:right;"></div>',
+                    '<label>' + this.textApplyTo + '</label><div id="line-numbers-combo-apply" class="input-group-nr" style="width:150px;"></div>',
                 '</div>',
                 '</div>'
             ].join('');
@@ -161,7 +161,7 @@ define([
             this.cmbApply = new Common.UI.ComboBox({
                 el: $('#line-numbers-combo-apply'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 125px;',
+                menuStyle: 'min-width: 150px;',
                 editable: false,
                 data: [
                     { displayValue: this.textSection,   value: Asc.c_oAscSectionApplyType.Current },

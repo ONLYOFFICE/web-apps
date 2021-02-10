@@ -332,6 +332,8 @@ define([
         },
 
         onSelectBookmark: function(listView, itemView, record) {
+            if (!record) return;
+
             var value = record.get('value');
             this.txtName.setValue(value);
             this.btnAdd.setDisabled(false);

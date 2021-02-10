@@ -345,7 +345,7 @@ define([
 
                     var options = new Asc.asc_CFindOptions();
                     options.asc_setFindWhat(search);
-                    options.asc_setReplaceWith(replace);
+                    options.asc_setReplaceWith(replace || '');
                     options.asc_setIsMatchCase(matchCase);
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);
@@ -369,7 +369,7 @@ define([
 
                     var options = new Asc.asc_CFindOptions();
                     options.asc_setFindWhat(search);
-                    options.asc_setReplaceWith(replace);
+                    options.asc_setReplaceWith(replace || '');
                     options.asc_setIsMatchCase(matchCase);
                     options.asc_setIsWholeCell(matchCell);
                     options.asc_setScanOnOnlySheet(lookInSheet);

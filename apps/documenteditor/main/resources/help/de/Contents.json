@@ -58,10 +58,11 @@
     "src": "UsageInstructions/SectionBreaks.htm",
     "name": "Abschnittsumbrüche einfügen"
   },
-  {
-    "src": "UsageInstructions/InsertHeadersFooters.htm",
-    "name": "Kopf- und Fußzeilen einfügen"
-  },
+    {
+        "src": "UsageInstructions/InsertHeadersFooters.htm",
+        "name": "Kopf- und Fußzeilen einfügen"
+    },
+    {"src": "UsageInstructions/InsertDateTime.htm", "name": "Datum und Uhrzeit einfügen"},
   {
     "src": "UsageInstructions/InsertPageNumbers.htm",
     "name": "Seitenzahlen einfügen"
@@ -70,6 +71,8 @@
     "src": "UsageInstructions/InsertFootnotes.htm",
     "name": "Fußnoten einfügen"
   },
+  { "src": "UsageInstructions/InsertEndnotes.htm", "name": "Endnoten einfügen" },
+  { "src": "UsageInstructions/ConvertFootnotesEndnotes.htm", "name": "Endnoten und Fußnoten einfügen" },
     {
         "src": "UsageInstructions/InsertBookmarks.htm",
         "name": "Lesezeichen hinzufügen"
@@ -80,10 +83,11 @@
     "name": "Text in einem Absatz ausrichten",
     "headername": "Absatzformatierung"
   },
-  {
-    "src": "UsageInstructions/BackgroundColor.htm",
-    "name": "Hintergrundfarbe für einen Absatz festlegen"
-  },
+    {
+        "src": "UsageInstructions/BackgroundColor.htm",
+        "name": "Hintergrundfarbe für einen Absatz festlegen"
+    },
+    {"src": "UsageInstructions/SetOutlineLevel.htm", "name": "Gliederungsebene konfigurieren"},
   {
     "src": "UsageInstructions/ParagraphIndents.htm",
     "name": "Absatzeinzüge ändern"
@@ -129,6 +133,7 @@
     "src": "UsageInstructions/AddHyperlinks.htm",
     "name": "Hyperlink einfügen"
   },
+  {"src": "UsageInstructions/InsertCrossReference.htm", "name": "Querverweise einfügen"},
   {
     "src": "UsageInstructions/InsertDropCap.htm",
     "name": "Initialbuchstaben einfügen"
@@ -154,10 +159,12 @@
     "src": "UsageInstructions/InsertCharts.htm",
     "name": "Diagramme einfügen"
   },
-  {
-    "src": "UsageInstructions/InsertTextObjects.htm",
-    "name": "Textobjekte einfügen"
-  },
+    {
+        "src": "UsageInstructions/InsertTextObjects.htm",
+        "name": "Textobjekte einfügen"
+    },
+    { "src": "UsageInstructions/AddCaption.htm", "name": "Beschriftungen einfügen" },
+    { "src": "UsageInstructions/InsertSymbols.htm", "name": "Symbole und Sonderzeichen einfügen" },
   {
     "src": "UsageInstructions/InsertContentControls.htm",
     "name": "Inhaltssteuerelemente einfügen"
@@ -179,20 +186,22 @@
     "name": "Seriendruck verwenden",
     "headername": "Seriendruck"
   },
-  {
-    "src": "UsageInstructions/InsertEquation.htm",
-    "name": "Formeln einfügen",
-    "headername": "Mathematische Formeln"
-  },
+    {
+        "src": "UsageInstructions/InsertEquation.htm",
+        "name": "Formeln einfügen",
+        "headername": "Mathematische Formeln"
+    },
   {
     "src": "HelpfulHints/CollaborativeEditing.htm",
     "name": "Gemeinsame Bearbeitung von Dokumenten",
     "headername": "Co-Bearbeitung"
   },
-  {
-    "src": "HelpfulHints/Review.htm",
-    "name": "Dokumentenprüfung"
-  },
+    {
+        "src": "HelpfulHints/Review.htm",
+        "name": "Dokumentenprüfung"
+    },
+    
+    {"src": "HelpfulHints/Comparison.htm", "name": "Dokumente vergleichen"},
   {
     "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Dokumenteigenschaften anzeigen",
@@ -218,6 +227,7 @@
     "src": "HelpfulHints/SpellChecking.htm",
     "name": "Rechtschreibprüfung"
   },
+  {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoKorrekturfunktionen" },
   {
     "src": "HelpfulHints/About.htm",
     "name": "Über den Dokumenteneditor",

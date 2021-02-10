@@ -169,7 +169,6 @@ define([
 
             if (data) {
                 this.currentUserId      =   data.config.user.id;
-                this.currentUserName    =   data.config.user.fullname;
                 this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
                 this.hintmode           =   data['hintmode'] || false;
                 this.viewmode        =   data['viewmode'] || false;
@@ -217,7 +216,7 @@ define([
                     comment.asc_putTime(this.utcDateToString(new Date()));
                     comment.asc_putOnlyOfficeTime(this.ooDateToString(new Date()));
                     comment.asc_putUserId(this.currentUserId);
-                    comment.asc_putUserName(this.currentUserName);
+                    comment.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
                     comment.asc_putSolved(false);
 
                     if (!_.isUndefined(comment.asc_putDocumentFlag)) {
@@ -238,7 +237,7 @@ define([
         },
         onRemoveComments: function (type) {
             if (this.api) {
-                this.api.asc_RemoveAllComments(type=='my' || !this.mode.canEditComments, type=='current');// 1 param = true if remove only my comments, 2 param - remove current comments
+                this.api.asc_RemoveAllComments(type=='my' || !this.mode.canDeleteComments, type=='current');// 1 param = true if remove only my comments, 2 param - remove current comments
             }
         },
         onResolveComment: function (uid) {
@@ -291,7 +290,7 @@ define([
 
             return false;
         },
-        onShowComment: function (id, selected) {
+        onShowComment: function (id, selected, fromLeftPanelSelection) {
             var comment = this.findComment(id);
             if (comment) {
                 if (null !== comment.get('quote')) {
@@ -319,9 +318,11 @@ define([
                             this.isSelectedComment = selected;
                         }
 
-                        this.api.asc_selectComment(id);
-                        this._dontScrollToComment = true;
-                        this.api.asc_showComment(id,false);
+                        if (!fromLeftPanelSelection || !((0 === _.difference(this.uids, [id]).length) && (0 === _.difference([id], this.uids).length))) { 
+                            this.api.asc_selectComment(id);
+                            this._dontScrollToComment = true;
+                            this.api.asc_showComment(id,false);
+                        }
                     }
                 } else {
 
@@ -353,7 +354,7 @@ define([
                     ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
                     ascComment.asc_putOnlyOfficeTime(t.ooDateToString(new Date(comment.get('time'))));
                     ascComment.asc_putUserId(t.currentUserId);
-                    ascComment.asc_putUserName(t.currentUserName);
+                    ascComment.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
                     ascComment.asc_putSolved(comment.get('resolved'));
                     ascComment.asc_putGuid(comment.get('guid'));
                     ascComment.asc_putUserData(comment.get('userdata'));
@@ -430,7 +431,7 @@ define([
                                 if (reply.get('id') === replyId && !_.isUndefined(replyVal)) {
                                     addReply.asc_putText(replyVal);
                                     addReply.asc_putUserId(me.currentUserId);
-                                    addReply.asc_putUserName(me.currentUserName);
+                                    addReply.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
                                 } else {
                                     addReply.asc_putText(reply.get('reply'));
                                     addReply.asc_putUserId(reply.get('userid'));
@@ -510,7 +511,7 @@ define([
                         addReply.asc_putTime(me.utcDateToString(new Date()));
                         addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date()));
                         addReply.asc_putUserId(me.currentUserId);
-                        addReply.asc_putUserName(me.currentUserName);
+                        addReply.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
 
                         ascComment.asc_addReply(addReply);
 
@@ -775,6 +776,8 @@ define([
                 comment.set('userdata', data.asc_getUserData());
                 comment.set('time',     date.getTime());
                 comment.set('date',     t.dateToLocaleTimeString(date));
+                comment.set('editable', t.mode.canEditComments || (data.asc_getUserId() == t.currentUserId));
+                comment.set('removable', t.mode.canDeleteComments || (data.asc_getUserId() == t.currentUserId));
 
                 replies = _.clone(comment.get('replys'));
 
@@ -800,7 +803,8 @@ define([
                         editTextInPopover   : false,
                         showReplyInPopover  : false,
                         scope               : t.view,
-                        editable            : t.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId)
+                        editable            : t.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId),
+                        removable           : t.mode.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == t.currentUserId)
                     }));
                 }
 
@@ -1240,6 +1244,7 @@ define([
                 hideAddReply        : !_.isUndefined(this.hidereply) ? this.hidereply : (this.showPopover ? true : false),
                 scope               : this.view,
                 editable            : this.mode.canEditComments || (data.asc_getUserId() == this.currentUserId),
+                removable            : this.mode.canDeleteComments || (data.asc_getUserId() == this.currentUserId),
                 hint                : !this.mode.canComments,
                 groupName           : (groupname && groupname.length>1) ? groupname[1] : null
             });
@@ -1276,7 +1281,8 @@ define([
                         editTextInPopover   : false,
                         showReplyInPopover  : false,
                         scope               : this.view,
-                        editable            : this.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId)
+                        editable            : this.mode.canEditComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId),
+                        removable           : this.mode.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == this.currentUserId)
                     }));
                 }
             }
@@ -1306,7 +1312,7 @@ define([
                         time: date.getTime(),
                         date: this.dateToLocaleTimeString(date),
                         userid: this.currentUserId,
-                        username: this.currentUserName,
+                        username: Common.Utils.UserInfoParser.getCurrentName(),
                         usercolor: (user) ? user.get('color') : null,
                         editTextInPopover: true,
                         showReplyInPopover: false,
@@ -1370,7 +1376,7 @@ define([
                     comment.asc_putTime(this.utcDateToString(new Date()));
                     comment.asc_putOnlyOfficeTime(this.ooDateToString(new Date()));
                     comment.asc_putUserId(this.currentUserId);
-                    comment.asc_putUserName(this.currentUserName);
+                    comment.asc_putUserName(Common.Utils.UserInfoParser.getCurrentName());
                     comment.asc_putSolved(false);
 
                     if (!_.isUndefined(comment.asc_putDocumentFlag))
@@ -1437,7 +1443,7 @@ define([
                     for (i = 0; i < comments.length; ++i) {
                         comment = this.findComment(comments[i].asc_getId());
                         if (comment) {
-                            comment.set('editTextInPopover', t.mode.canEditComments);// dont't edit comment when customization->commentAuthorOnly is true
+                            comment.set('editTextInPopover', t.mode.canEditComments);// dont't edit comment when customization->commentAuthorOnly is true or when permissions.editCommentAuthorOnly is true
                             comment.set('hint', false);
                             this.popoverComments.push(comment);
                         }
