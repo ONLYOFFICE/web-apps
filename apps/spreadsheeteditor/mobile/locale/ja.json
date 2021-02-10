@@ -70,6 +70,7 @@
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "コピー,切り取り,貼り付けの操作",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "次回から表示しない",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "リンク参照が存在しません。 リンクを修正するか、ご削除ください。",
   "SSE.Controllers.EditCell.textAuto": "自動",
   "SSE.Controllers.EditCell.textFonts": "フォント",
   "SSE.Controllers.EditCell.textPt": "pt",

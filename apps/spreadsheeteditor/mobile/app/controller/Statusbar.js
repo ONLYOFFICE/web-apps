@@ -502,11 +502,13 @@ define([
 
         onLinkWorksheetRange: function(nameSheet, prevSheet) {
             var tab = this.sheets.findWhere({name: nameSheet});
-            var sdkIndex = tab.get('index');
-            if (sdkIndex !== prevSheet) {
-                var index = this.sheets.indexOf(tab);
-                this.statusbar.setActiveTab(index);
-                Common.NotificationCenter.trigger('sheet:active', sdkIndex);
+            if (tab) {
+                var sdkIndex = tab.get('index');
+                if (sdkIndex !== prevSheet) {
+                    var index = this.sheets.indexOf(tab);
+                    this.statusbar.setActiveTab(index);
+                    Common.NotificationCenter.trigger('sheet:active', sdkIndex);
+                }
             }
         },
 

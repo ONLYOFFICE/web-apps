@@ -33,6 +33,7 @@
   "SSE.Controllers.DocumentHolder.menuWrap": "줄 바꾸기",
   "SSE.Controllers.DocumentHolder.sheetCancel": "취소",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "왼쪽 위 셀의 데이터 만 병합 된 셀에 남아 있습니다. <br> 계속 하시겠습니까?",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "링크 참조가 존재하지 않습니다. 링크를 수정하거나 삭제하십시오.",
   "SSE.Controllers.EditCell.textAuto": "Auto",
   "SSE.Controllers.EditCell.textFonts": "글꼴",
   "SSE.Controllers.EditCell.textPt": "pt",

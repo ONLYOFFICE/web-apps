@@ -70,6 +70,7 @@
   "SSE.Controllers.DocumentHolder.textCopyCutPasteActions": "Actions copier, couper et coller",
   "SSE.Controllers.DocumentHolder.textDoNotShowAgain": "Ne plus afficher",
   "SSE.Controllers.DocumentHolder.warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "Le lien de référence n'existe pas. Veuillez corriger la référence ou la supprimer.",
   "SSE.Controllers.EditCell.textAuto": "Auto",
   "SSE.Controllers.EditCell.textFonts": "Polices",
   "SSE.Controllers.EditCell.textPt": "pt",
