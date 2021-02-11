@@ -874,6 +874,8 @@
 
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";
+        else if (config.document && config.document.permissions && (config.document.permissions.edit === false && config.document.permissions.fillForms ))
+            params += "&toolbar=true";
 
         if (config.parentOrigin)
             params += "&parentOrigin=" + config.parentOrigin;
