@@ -244,7 +244,7 @@ define([
 
                 var mnuitemHideRulers = new Common.UI.MenuItem({
                     caption: me.header.textHideLines,
-                    checked: Common.localStorage.getBool("pe-hidden-rulers", true),
+                    checked: Common.Utils.InternalSettings.get("pe-hidden-rulers"),
                     checkable: true,
                     value: 'rulers'
                 });
@@ -430,6 +430,7 @@ define([
             case 'rulers':
                 me.api.asc_SetViewRulers(!item.isChecked());
                 Common.localStorage.setBool('pe-hidden-rulers', item.isChecked());
+                Common.Utils.InternalSettings.set("pe-hidden-rulers", item.isChecked());
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
