@@ -71,4 +71,7 @@ export class storeAppOptions {
 
         this.canUseReviewPermissions = this.canLicense && this.customization && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object');
     }
+    @action setCanViewReview (value) {
+        this.canViewReview = value;
+    }
 }

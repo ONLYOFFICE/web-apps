@@ -1,15 +1,17 @@
 
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {inject} from "mobx-react";
 import { f7 } from "framework7-react";
 import { withTranslation } from 'react-i18next';
-import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx';
+import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx';
+import {InitReviewController as ReviewController} from '../../../../common/mobile/lib/controller/collaboration/Review.jsx';
 import { onAdvancedOptions } from './settings/Download.jsx';
 
 @inject("storeAppOptions", "storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings", "storeDocumentInfo", "storeChartSettings")
 class MainController extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        window.editorType = 'de';
     }
 
     initSdk() {
@@ -315,7 +317,12 @@ class MainController extends Component {
     }
 
     render() {
-        return <CollaborationController />
+        return (
+            <Fragment>
+                <CollaborationController />
+                <ReviewController />
+            </Fragment>
+            )
     }
 
     componentDidMount() {

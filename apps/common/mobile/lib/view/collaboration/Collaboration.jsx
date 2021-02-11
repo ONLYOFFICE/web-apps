@@ -3,7 +3,10 @@ import { observer, inject } from "mobx-react";
 import { Popover, List, ListItem, Navbar, NavRight, Sheet, BlockTitle, Page, View, Icon, Link } from 'framework7-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
-import {Device} from "../../utils/device";
+import {Device} from "../../../utils/device";
+
+import {ReviewController, ReviewChangeController} from "../../controller/collaboration/Review";
+import {PageDisplayMode} from "./Review";
 
 const PageUsers = inject("users")(observer(props => {
     const { t } = useTranslation();
@@ -29,6 +32,18 @@ const routes = [
     {
         path: '/users/',
         component: PageUsers
+    },
+    {
+        path: '/review/',
+        component: ReviewController
+    },
+    {
+        path: '/display-mode/',
+        component: PageDisplayMode
+    },
+    {
+        path: '/review-change/',
+        component: ReviewChangeController
     }
 ];
 
@@ -48,8 +63,17 @@ const PageCollaboration = props => {
                     }
                 </Navbar>
                 <List>
-                    <ListItem link={'/users/'} title={_t.textUsers}/>
-                    <ListItem link="#" title={_t.textComments}/>
+                    <ListItem link={'/users/'} title={_t.textUsers}>
+                        <Icon slot="media" icon="icon-users"></Icon>
+                    </ListItem>
+                    <ListItem link="#" title={_t.textComments}>
+                        <Icon slot="media" icon="icon-insert-comment"></Icon>
+                    </ListItem>
+                    {window.editorType === 'de' &&
+                        <ListItem link={'/review/'} title={_t.textReview}>
+                            <Icon slot="media" icon="icon-review"></Icon>
+                        </ListItem>
+                    }
                 </List>
             </Page>
         </View>

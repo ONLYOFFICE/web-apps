@@ -4,7 +4,7 @@ import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-re
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../view/settings/Settings';
-import Collaboration from '../../../../common/mobile/lib/view/Collaboration.jsx'
+import Collaboration from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
 import { ContextMenu } from '../controller/ContextMenu';

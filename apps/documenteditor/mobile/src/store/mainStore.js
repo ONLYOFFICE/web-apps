@@ -12,6 +12,7 @@ import {storeDocumentInfo} from "./documentInfo";
 import {storeApplicationSettings} from './applicationSettings';
 import {storeAppOptions} from "./appOptions";
 import {storePalette} from "./palette";
+import {storeReview} from "./review";
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -26,6 +27,7 @@ export const stores = {
     storeTableSettings: new storeTableSettings(),
     storeDocumentInfo: new storeDocumentInfo(),
     storeApplicationSettings: new storeApplicationSettings(),
-    storePalette: new storePalette()
+    storePalette: new storePalette(),
+    storeReview: new storeReview()
 };
 

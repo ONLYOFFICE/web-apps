@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
-import Notifications from '../../utils/notifications.js'
 import {observer, inject} from "mobx-react"
 
-
-@inject('users')
 class CollaborationController extends Component {
     constructor(props){
-        super(props)
+        super(props);
 
         Common.Notifications.on('engineCreated', api => {
             // this.api = api;
@@ -30,6 +27,6 @@ class CollaborationController extends Component {
     render() {
         return null
     }
-};
+}
 
-export default CollaborationController;
+export default inject('users')(observer(CollaborationController));

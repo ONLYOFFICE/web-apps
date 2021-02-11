@@ -89,9 +89,16 @@
     },
     "Common": {
         "ThemeColorPalette": {
-          "textThemeColors": "Theme Colors",
-          "textStandartColors": "Standard Colors",
-          "textCustomColors": "Custom Colors"
+            "textThemeColors": "Theme Colors",
+            "textStandartColors": "Standard Colors",
+            "textCustomColors": "Custom Colors"
+        },
+        "Collaboration": {
+            "textCollaboration": "Collaboration",
+            "textBack": "Back",
+            "textUsers": "Users",
+            "textEditUser": "Users who are editing the file:",
+            "textComments": "Comments"
         }
     }
 }
