@@ -755,11 +755,11 @@ define([
                 me.appOptions.canBranding  = params.asc_getCustomization();
                 me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
 
-                me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && (!!me.permissions.reviewGroup ||
+                me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && (!!me.permissions.reviewGroups ||
                                                         me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object'));
                 Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
                 Common.Utils.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
-                me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.permissions.reviewGroup, me.editorConfig.customization.reviewPermissions);
+                me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.permissions.reviewGroups, me.editorConfig.customization.reviewPermissions);
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
