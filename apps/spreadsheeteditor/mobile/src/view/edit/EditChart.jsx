@@ -263,8 +263,19 @@ const PageLayout = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
+    const storeChartSettings = props.storeChartSettings;
     const chartProperties = storeFocusObjects.chartObject.get_ChartProperties();
     const chartType = chartProperties.getType();
+
+    storeChartSettings.initChartLayout(chartProperties);
+
+    const chartTitle = storeChartSettings.chartTitle;
+    const chartLegend = storeChartSettings.chartLegend;
+    const chartAxisHorTitle = storeChartSettings.chartAxisHorTitle;
+    const chartAxisVertTitle = storeChartSettings.chartAxisVertTitle;
+    const chartHorGridlines = storeChartSettings.chartHorGridlines;
+    const chartVertGridlines = storeChartSettings.chartVertGridlines;
+    const chartDataLabel = storeChartSettings.chartDataLabel;
 
     let dataLabelPos = [
         { value: Asc.c_oAscChartDataLabelsPos.none, displayValue: _t.textNone },
@@ -304,11 +315,7 @@ const PageLayout = props => {
         );
     }
 
-    const disableSetting = (
-        chartType == Asc.c_oAscChartTypeSettings.pie ||
-        chartType == Asc.c_oAscChartTypeSettings.doughnut ||
-        chartType == Asc.c_oAscChartTypeSettings.pie3d
-    );
+    const disableSetting = props.disableSetting;
 
     const chartLayoutTitles = {
         0: `${_t.textNone}`,
@@ -322,29 +329,105 @@ const PageLayout = props => {
         2: `${_t.textTop}`,
         3: `${_t.textRight}`,
         4: `${_t.textBottom}`,
-        5: `${_t.textLeftOverlay}`,
-        6: `${_t.textRightOverlay}`
+        // 5: `${_t.textLeftOverlay}`,
+        // 6: `${_t.textRightOverlay}`
     }
+
+    const chartLayoutAxisTitleHorizontal = {
+        0: {
+            displayValue: `${_t.textNone}`,
+            value: 0
+        },
+        2: {
+            displayValue: `${_t.textNoOverlay}`,
+            value: 1
+        }
+    }
+
+    const chartLayoutAxisTitleVertical = {
+        0: `${_t.textNone}`,
+        1: `${_t.textRotated}`,
+        3: `${_t.textHorizontal}`
+    }
+
+    const chartLayoutGridlinesHorizontal = {
+        0: `${_t.textNone}`,
+        1: `${_t.textMajor}`,
+        2: `${_t.textMinor}`,
+        3: `${_t.textMajorAndMinor}`
+    }
+
+    const chartLayoutGridlinesVertical = {
+        0: `${_t.textNone}`,
+        1: `${_t.textMajor}`,
+        2: `${_t.textMinor}`,
+        3: `${_t.textMajorAndMinor}`
+    }
+
+    const chartDataLabels = {
+        0: `${_t.textNone}`,
+        3: `${_t.textCenter}`,
+        2: `${_t.textFit}`,
+        5: `${_t.textInnerTop}`,
+        7: `${_t.textOuterTop}`
+    }
+
+    console.log(chartProperties.getVertGridLines());
+
 
     return (
         <Page>
             <Navbar title={_t.textLayout} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textChartTitle} after={chartLayoutTitles[chartProperties.getTitle()]} link="/edit-chart-title/"></ListItem>
-                <ListItem title={_t.textLegend} after={chartLayoutLegends[chartProperties.getLegendPos()]} link="/edit-chart-legend/"></ListItem>
+                <ListItem title={_t.textChartTitle} 
+                    after={chartLayoutTitles[chartTitle]} link="/edit-chart-title/" routeProps={{
+                        chartLayoutTitles,
+                        setLayoutProperty: props.setLayoutProperty
+                    }}>
+                </ListItem>
+                <ListItem title={_t.textLegend} 
+                    after={chartLayoutLegends[chartLegend]} link="/edit-chart-legend/" routeProps={{
+                        chartLayoutLegends,
+                        setLayoutProperty: props.setLayoutProperty
+                    }}>
+                </ListItem>
             </List>
             <BlockTitle>{_t.textAxisTitle}</BlockTitle>
             <List>
-                <ListItem title={_t.textHorizontal} link="/edit-horizontal-axis-title/" disabled={disableSetting}></ListItem>
-                <ListItem title={_t.textVertical} link="/edit-vertical-axis-title/" disabled={disableSetting}></ListItem>
+                <ListItem title={_t.textHorizontal} link="/edit-horizontal-axis-title/" 
+                    after={chartLayoutAxisTitleHorizontal[chartAxisHorTitle].displayValue} disabled={disableSetting} routeProps={{
+                        chartLayoutAxisTitleHorizontal,
+                        setLayoutProperty: props.setLayoutProperty
+                    }}>
+                </ListItem>
+                <ListItem title={_t.textVertical} link="/edit-vertical-axis-title/" 
+                    after={chartLayoutAxisTitleVertical[chartAxisVertTitle]} disabled={disableSetting} routeProps={{
+                        chartLayoutAxisTitleVertical,
+                        setLayoutProperty: props.setLayoutProperty
+                    }}>
+                </ListItem>
             </List>
             <BlockTitle>{_t.textGridlines}</BlockTitle>
             <List>
-                <ListItem title={_t.textHorizontal} link="/edit-horizontal-gridlines/" disabled={disableSetting}></ListItem>
-                <ListItem title={_t.textVertical} link="/edit-vertical-gridlines/" disabled={disableSetting}></ListItem>
+                <ListItem title={_t.textHorizontal} link="/edit-horizontal-gridlines/" 
+                    after={chartLayoutGridlinesHorizontal[chartHorGridlines]} disabled={disableSetting} routeProps={{
+                        chartLayoutGridlinesHorizontal,
+                        setLayoutProperty: props.setLayoutProperty
+                    }}>
+                </ListItem>
+                <ListItem title={_t.textVertical} link="/edit-vertical-gridlines/" 
+                    after={chartLayoutGridlinesVertical[chartVertGridlines]} disabled={disableSetting} routeProps={{
+                        chartLayoutGridlinesVertical,
+                        setLayoutProperty: props.setLayoutProperty
+                    }}>
+                </ListItem>
             </List>
             <List>
-                <ListItem title={_t.textDataLabels} link="/edit-data-labels/"></ListItem>
+                <ListItem title={_t.textDataLabels} link="/edit-data-labels/" after={chartDataLabels[chartDataLabel]} routeProps={{
+                    chartDataLabels,
+                    setLayoutProperty: props.setLayoutProperty
+                }}>
+                </ListItem>
             </List>
         </Page>
     )
@@ -353,14 +436,22 @@ const PageLayout = props => {
 const PageChartTitle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const chartLayoutTitles = props.chartLayoutTitles;
+    const currentTitle = storeChartSettings.chartTitle;
 
     return (
         <Page>
             <Navbar title={_t.textChartTitle} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textNone} radio></ListItem>
-                <ListItem title={_t.textOverlay} radio></ListItem>
-                <ListItem title={_t.textNoOverlay} radio></ListItem>
+                {Object.keys(chartLayoutTitles).map(key => {
+                    return (
+                        <ListItem key={key} title={chartLayoutTitles[key]} radio checked={+key === currentTitle} onChange={() => {
+                            storeChartSettings.changeChartTitle(+key);
+                            props.setLayoutProperty('putTitle', key);
+                        }}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
@@ -369,18 +460,22 @@ const PageChartTitle = props => {
 const PageLegend = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const chartLayoutLegends = props.chartLayoutLegends;
+    const currentLegend = storeChartSettings.chartLegend;
 
     return (
         <Page>
             <Navbar title={_t.textLegend} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textNone} radio></ListItem>
-                <ListItem title={_t.textLeft} radio></ListItem>
-                <ListItem title={_t.textTop} radio></ListItem>
-                <ListItem title={_t.textRight} radio></ListItem>
-                <ListItem title={_t.textBottom} radio></ListItem>
-                <ListItem title={_t.textLeftOverlay} radio></ListItem>
-                <ListItem title={_t.textRightOverlay} radio></ListItem>
+                {Object.keys(chartLayoutLegends).map(key => {
+                    return (
+                        <ListItem key={key} title={chartLayoutLegends[key]} radio checked={+key === currentLegend} onChange={() => {
+                            storeChartSettings.changeChartLegend(+key);
+                            props.setLayoutProperty('putLegendPos', key);
+                        }}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
@@ -389,13 +484,23 @@ const PageLegend = props => {
 const PageHorizontalAxisTitle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const chartLayoutAxisTitleHorizontal = props.chartLayoutAxisTitleHorizontal;
+    const currentAxisHorTitle = storeChartSettings.chartAxisHorTitle;
 
     return (
         <Page>
             <Navbar title={_t.textHorizontal} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textNone} radio></ListItem>
-                <ListItem title={_t.textNoOverlay} radio></ListItem>
+                {Object.keys(chartLayoutAxisTitleHorizontal).map(key => {
+                    return (
+                        <ListItem key={key} title={chartLayoutAxisTitleHorizontal[key].displayValue} radio checked={+key === currentAxisHorTitle} onChange={() => {
+                            console.log(chartLayoutAxisTitleHorizontal[key].value);
+                            storeChartSettings.changeChartAxisHorTitle(chartLayoutAxisTitleHorizontal[key].value);
+                            props.setLayoutProperty('putHorAxisLabel', chartLayoutAxisTitleHorizontal[key].value);
+                        }}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
@@ -404,14 +509,22 @@ const PageHorizontalAxisTitle = props => {
 const PageVerticalAxisTitle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const chartLayoutAxisTitleVertical = props.chartLayoutAxisTitleVertical;
+    const currentAxisVertTitle = storeChartSettings.chartAxisVertTitle;
 
     return (
         <Page>
             <Navbar title={_t.textVertical} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textNone} radio></ListItem>
-                <ListItem title={_t.textRotated} radio></ListItem>
-                <ListItem title={_t.textHorizontal} radio></ListItem>
+                {Object.keys(chartLayoutAxisTitleVertical).map(key => {
+                    return (
+                        <ListItem key={key} title={chartLayoutAxisTitleVertical[key]} radio checked={+key === currentAxisVertTitle} onChange={() => {
+                            storeChartSettings.changeChartAxisVertTitle(+key);
+                            props.setLayoutProperty('putVertAxisLabel', key);
+                        }}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
@@ -420,15 +533,22 @@ const PageVerticalAxisTitle = props => {
 const PageHorizontalGridlines = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const chartLayoutGridlinesHorizontal = props.chartLayoutGridlinesHorizontal;
+    const currentChartHorGridlines = storeChartSettings.chartHorGridlines;
 
     return (
         <Page>
             <Navbar title={_t.textHorizontal} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textNone} radio></ListItem>
-                <ListItem title={_t.textMajor} radio></ListItem>
-                <ListItem title={_t.textMinor} radio></ListItem>
-                <ListItem title={_t.textMajorAndMinor} radio></ListItem>
+                {Object.keys(chartLayoutGridlinesHorizontal).map(key => {
+                    return (
+                        <ListItem key={key} title={chartLayoutGridlinesHorizontal[key]} radio checked={+key === currentChartHorGridlines} onChange={() => {
+                            storeChartSettings.changeChartHorGridlines(+key);
+                            props.setLayoutProperty('putHorGridLines', key);
+                        }}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
@@ -437,15 +557,22 @@ const PageHorizontalGridlines = props => {
 const PageVerticalGridlines = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const chartLayoutGridlinesVertical = props.chartLayoutGridlinesVertical;
+    const currentChartVertGridlines = storeChartSettings.chartVertGridlines;
 
     return (
         <Page>
             <Navbar title={_t.textVertical} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textNone} radio></ListItem>
-                <ListItem title={_t.textMajor} radio></ListItem>
-                <ListItem title={_t.textMinor} radio></ListItem>
-                <ListItem title={_t.textMajorAndMinor} radio></ListItem>
+                {Object.keys(chartLayoutGridlinesVertical).map(key => {
+                    return (
+                        <ListItem key={key} title={chartLayoutGridlinesVertical[key]} radio checked={+key === currentChartVertGridlines} onChange={() => {
+                            storeChartSettings.changeChartVertGridlines(+key);
+                            props.setLayoutProperty('putVertGridLines', key);
+                        }}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
@@ -454,16 +581,22 @@ const PageVerticalGridlines = props => {
 const PageDataLabels = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-
+    const storeChartSettings = props.storeChartSettings;
+    const chartDataLabels = props.chartDataLabels;
+    const currentChartDataLabel = storeChartSettings.chartDataLabel;
+    
     return (
         <Page>
             <Navbar title={_t.textDataLabels} backLink={_t.textBack} />
             <List>
-                <ListItem title={_t.textNone} radio></ListItem>
-                <ListItem title={_t.textCenter} radio></ListItem>
-                <ListItem title={_t.textInnerBottom} radio></ListItem>
-                <ListItem title={_t.textInnerTop} radio></ListItem>
-                <ListItem title={_t.textOuterTop} radio></ListItem>
+                {Object.keys(chartDataLabels).map(key => {
+                    return (
+                        <ListItem key={key} title={chartDataLabels[key]} radio checked={+key === currentChartDataLabel} onChange={() => {
+                            storeChartSettings.changeChartDataLabel(+key);
+                            props.setLayoutProperty('putDataLabelsPos', key);
+                        }}></ListItem>
+                    )
+                })}
             </List>
         </Page>
     )
@@ -492,7 +625,10 @@ const EditChart = props => {
                     onBorderColor: props.onBorderColor,
                     onBorderSize: props.onBorderSize
                 }}></ListItem>
-                <ListItem title={_t.textLayout} link='/edit-chart-layout/'></ListItem>
+                <ListItem title={_t.textLayout} link='/edit-chart-layout/' routeProps={{
+                    disableSetting, 
+                    setLayoutProperty: props.setLayoutProperty
+                }}></ListItem>
                 <ListItem title={_t.textVerticalAxis} link='/edit-chart-vertical-axis/' disabled={disableSetting}></ListItem>
                 <ListItem title={_t.textHorizontalAxis} link='/edit-chart-horizontal-axis/' disabled={disableSetting}></ListItem>
                 <ListItem title={_t.textReorder} link='/edit-chart-reorder/' routeProps={{

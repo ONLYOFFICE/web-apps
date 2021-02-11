@@ -29,6 +29,52 @@ export class storeChartSettings {
         }
     }
 
+    @observable chartTitle = undefined;
+    @observable chartLegend = undefined;
+    @observable chartAxisHorTitle = undefined;
+    @observable chartAxisVertTitle = undefined;
+    @observable chartHorGridlines = undefined;
+    @observable chartVertGridlines = undefined;
+    @observable chartDataLabel = undefined;
+
+    @action initChartLayout(chartProperties) {
+        this.chartTitle = chartProperties.getTitle() ? chartProperties.getTitle() : 0;
+        this.chartLegend = chartProperties.getLegendPos() ? chartProperties.getLegendPos() : 0;
+        this.chartAxisHorTitle = chartProperties.getHorAxisLabel() ? chartProperties.getHorAxisLabel() : 0;
+        this.chartAxisVertTitle = chartProperties.getVertAxisLabel() ? chartProperties.getVertAxisLabel() : 0;
+        this.chartHorGridlines = chartProperties.getHorGridLines() ? chartProperties.getHorGridLines() : 0;
+        this.chartVertGridlines = chartProperties.getVertGridLines() ? chartProperties.getVertGridLines() : 0;
+        this.chartDataLabel = chartProperties.getDataLabelsPos() ? chartProperties.getDataLabelsPos() : 0;
+    }
+
+    @action changeChartTitle(value) {
+        this.chartTitle = value;
+    }
+
+    @action changeChartLegend(value) {
+        this.chartLegend = value;
+    }
+
+    @action changeChartAxisHorTitle(value) {
+        this.chartAxisHorTitle = value;
+    }
+
+    @action changeChartAxisVertTitle(value) {
+        this.chartAxisVertTitle = value;
+    }
+
+    @action changeChartHorGridlines(value) {
+        this.chartHorGridlines = value;
+    }
+
+    @action changeChartVertGridlines(value) {
+        this.chartVertGridlines = value;
+    }
+
+    @action changeChartDataLabel(value) {
+        this.chartDataLabel = value;
+    }
+
     @observable chartStyles = null;
 
     @action clearChartStyles () {

@@ -146,6 +146,23 @@ class EditChartController extends Component {
         api.asc_setSelectedDrawingObjectLayer(ascType);
     }
 
+    setLayoutProperty(propertyMethod, value) {
+        const api = Common.EditorApi.get();
+        let chartObject = api.asc_getChartObject();
+
+        if (chartObject && value) {
+
+            chartObject[propertyMethod](+value);
+
+            if ("putDataLabelsPos" == propertyMethod && +value != 0) {
+                chartObject["putShowVal"](true);
+            }
+
+            api.asc_editChartDrawingObject(chartObject);
+        }
+
+    }
+
     render () {
         return (
             <EditChart 
@@ -156,6 +173,7 @@ class EditChartController extends Component {
                 onType={this.onType}
                 onStyle={this.onStyle}
                 onRemoveChart={this.onRemoveChart}
+                setLayoutProperty={this.setLayoutProperty}
             />
         )
     }
