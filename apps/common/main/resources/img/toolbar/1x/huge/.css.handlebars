@@ -1,0 +1,22 @@
+{{#spritesheet}}
+.btn {
+    &.active, &:active {
+        &:not(:disabled):not(.disabled) {
+            .options__icon.options__icon-huge {
+                @btn-active-icon-offset: -40px;
+                background-position-x: @btn-active-icon-offset;
+            }
+        }
+    }
+}
+
+.options__icon.options__icon-huge {
+    background-image: var(--huge-icon-background-image);
+}
+{{/spritesheet}}
+{{#sprites}}
+.options__icon-huge.{{name}}
+{
+    background-position: {{px.offset_x}} {{px.offset_y}};
+}
+{{/sprites}}

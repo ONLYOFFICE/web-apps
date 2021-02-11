@@ -72,7 +72,7 @@ define([
                 '<div class="input-group combobox fonts <%= cls %>" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control" spellcheck="false"> ',
                     '<div style="display: table-cell;"></div>',
-                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
@@ -131,6 +131,8 @@ define([
                      if ($(e.target).closest('input').length) { // enter in input field
                         if (this.lastValue !== this._input.val())
                             this._input.trigger('change');
+                        else
+                            return true;
                     } else { // enter in dropdown list
                         $(e.target).click();
                         if (this.rendered) {
@@ -139,7 +141,7 @@ define([
                             else
                                 this._input.blur();
                         }
-                     }
+                    }
                     return false;
                 } else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
                     this._input.val(this.lastValue);
@@ -343,10 +345,9 @@ define([
                 var me = this;
                 var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
                 if (this.__name !== name) {
-                    this.__name = name;
                     if (!this.__nameId) {
                         this.__nameId = setTimeout(function () {
-                            me.onApiChangeFontInternal(me.__name);
+                            me.onApiChangeFontInternal(name);
                             me.__nameId = null;
                         }, 100);
                     }
@@ -356,6 +357,7 @@ define([
             onApiChangeFontInternal: function(name) {
                 if (this.inFormControl) return;
 
+                this.__name = name;
                 if (this.getRawValue() !== name) {
                     var record = this.store.findWhere({
                         name: name
@@ -380,6 +382,12 @@ define([
             },
 
             itemClicked: function (e) {
+                this.__name = undefined;
+                if (this.__nameId) {
+                    clearTimeout(this.__nameId);
+                    this.__nameId = undefined;
+                }
+
                 Common.UI.ComboBox.prototype.itemClicked.apply(this, arguments);
 
                 var el = $(e.target).closest('li');

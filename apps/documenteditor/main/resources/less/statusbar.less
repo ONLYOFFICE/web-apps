@@ -1,14 +1,8 @@
 .statusbar {
     display: table;
     padding: 2px;
-    height: 25px;
-    background-color: @gray-light;
-    .box-inner-shadow(0 1px 0 @gray-dark);
 
     .status-label {
-        font-weight: bold;
-        color: @gray-deep;
-        white-space: nowrap;
         position: relative;
         top: 1px;
     }
@@ -75,7 +69,7 @@
     .cnt-lang {
         display: inline-block;
         cursor: pointer;
-        color: #000;
+        color: @text-normal;
         margin-left: 6px;
 
         .caret.up {
@@ -181,7 +175,7 @@
                 height: 12px;
                 display: inline-block;
                 vertical-align: middle;
-                border: 1px solid @gray-dark;
+                border: @scaled-one-px-value solid @border-toolbar;
             }
 
             .name {

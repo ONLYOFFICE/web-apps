@@ -106,7 +106,7 @@
             font-size: 0;
             box-sizing: border-box;
             border-style: solid;
-            border-width: 1px;
+            border-width: var(--scaled-one-px-value, 1px);
             border-color: #e1e1e1 transparent;
         }
 
@@ -118,7 +118,7 @@
             margin-left: 20px;
             background: #f7f7f7;
             border-style: solid;
-            border-width: 1px;
+            border-width: var(--scaled-one-px-value, 1px);
             border-color: transparent #e1e1e1;
         }
 
@@ -177,12 +177,16 @@
             50%  { opacity:0.5; }
             100% { opacity:1; }
         }
+
+        .pixel-ratio__1_5 {
+            --scaled-one-px-value: calc(1px / 1.5);
+        }
     </style>
 
     <script>
         // don't add zoom for mobile devices
-        if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
-            document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
+        // if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
+            // document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
 
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
@@ -244,6 +248,7 @@
 </head>
 
 <body>
+    <script src="../../common/main/lib/util/htmlutils.js"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel"><div>
             <div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo@2x.png"></div>

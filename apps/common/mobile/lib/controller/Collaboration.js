@@ -408,6 +408,7 @@ define([
                 }
                 !suppressEvent && this.initReviewingSettingsView();
                 DE.getController('Toolbar').setDisplayMode(displayMode);
+                DE.getController('DocumentHolder').setDisplayMode(displayMode);
             },
 
 
@@ -853,7 +854,7 @@ define([
                         }
                     } else {
                         $('.comment-resolve, .comment-menu, .add-reply, .reply-menu').removeClass('disabled');
-                        if (this.showComments.length > 1) {
+                        if (this.showComments && this.showComments.length > 1) {
                             $('.prev-comment, .next-comment').removeClass('disabled');
                         }
                     }
@@ -865,7 +866,7 @@ define([
                 $('.comment-menu').single('click', _.buffered(this.initMenuComments, 100, this));
                 $('.reply-menu').single('click', _.buffered(this.initReplyMenu, 100, this));
                 $('.comment-resolve').single('click', _.bind(this.onClickResolveComment, this, false));
-                if (this.showComments.length === 1) {
+                if (this.showComments && this.showComments.length === 1) {
                     $('.prev-comment, .next-comment').addClass('disabled');
                 }
             },
@@ -892,28 +893,31 @@ define([
                     });
                     mainView.hideNavbar();
                 } else {
-                    me.modalViewComment = uiApp.popover(
-                        '<div class="popover container-view-comment">' +
-                        '<div class="popover-inner">' +
-                        me.view.getTemplateContainerViewComments() +
-                        '</div>' +
-                        '</div>',
-                        $$('#toolbar-collaboration')
-                    );
-                    this.picker = $$(me.modalViewComment);
-                    var $overlay = $('.modal-overlay');
-
-                    $$(this.picker).on('opened', function () {
-                        $overlay.on('removeClass', function () {
-                            if (!$overlay.hasClass('modal-overlay-visible')) {
-                                $overlay.addClass('modal-overlay-visible')
-                            }
+                    if (!me.openModal) {
+                        me.modalViewComment = uiApp.popover(
+                            '<div class="popover container-view-comment">' +
+                            '<div class="popover-inner">' +
+                            me.view.getTemplateContainerViewComments() +
+                            '</div>' +
+                            '</div>',
+                            $$('#toolbar-collaboration')
+                        );
+                        this.picker = $$(me.modalViewComment);
+                        var $overlay = $('.modal-overlay');
+                        me.openModal = true;
+                        $$(this.picker).on('opened', function () {
+                            $overlay.on('removeClass', function () {
+                                if (!$overlay.hasClass('modal-overlay-visible')) {
+                                    $overlay.addClass('modal-overlay-visible')
+                                }
+                            });
+                        }).on('close', function () {
+                            $overlay.off('removeClass');
+                            $overlay.removeClass('modal-overlay-visible');
+                            $('.popover').remove();
+                            me.openModal = false;
                         });
-                    }).on('close', function () {
-                        $overlay.off('removeClass');
-                        $overlay.removeClass('modal-overlay-visible');
-                        $('.popover').remove();
-                    });
+                    }
                 }
                 me.getView('Common.Views.Collaboration').renderViewComments(me.showComments, me.indexCurrentComment);
                 $('.prev-comment').single('click', _.bind(me.onViewPrevComment, me));
@@ -923,7 +927,7 @@ define([
                 $('.reply-menu').single('click', _.buffered(me.initReplyMenu, 100, me));
                 $('.comment-resolve').single('click', _.bind(me.onClickResolveComment, me, false));
 
-                if (me.showComments.length === 1) {
+                if (me.showComments && me.showComments.length === 1) {
                     $('.prev-comment, .next-comment').addClass('disabled');
                 }
 
@@ -1000,7 +1004,7 @@ define([
             },
 
             onViewPrevComment: function() {
-                if (this.showComments.length > 0) {
+                if (this.showComments && this.showComments.length > 0) {
                     if (this.indexCurrentComment - 1 < 0) {
                         this.indexCurrentComment = this.showComments.length - 1;
                     } else {
@@ -1017,7 +1021,7 @@ define([
             },
 
             onViewNextComment: function() {
-                if (this.showComments.length > 0) {
+                if (this.showComments && this.showComments.length > 0) {
                     if (this.indexCurrentComment + 1 === this.showComments.length) {
                         this.indexCurrentComment = 0;
                     } else {
@@ -1140,7 +1144,7 @@ define([
                         var me = this;
                         _.delay(function () {
                             var _menuItems = [];
-                            _menuItems.push({
+                            comment.editable && _menuItems.push({
                                 caption: me.textEdit,
                                 event: 'edit'
                             });
@@ -1161,7 +1165,7 @@ define([
                                     event: 'addreply'
                                 });
                             }
-                            _menuItems.push({
+                            comment.removable && _menuItems.push({
                                 caption: me.textDeleteComment,
                                 event: 'delete',
                                 color: 'red'
@@ -1199,13 +1203,15 @@ define([
                     if (_.isNumber(idComment)) {
                         idComment = idComment.toString();
                     }
-                    _.delay(function () {
+                    var comment = this.findComment(idComment);
+                    var reply = comment && comment.replys ? comment.replys[ind] : null;
+                    reply && _.delay(function () {
                         var _menuItems = [];
-                        _menuItems.push({
+                        reply.editable && _menuItems.push({
                             caption: me.textEdit,
                             event: 'editreply'
                         });
-                        _menuItems.push({
+                        reply.removable && _menuItems.push({
                             caption: me.textDeleteReply,
                             event: 'deletereply',
                             color: 'red'
@@ -1551,7 +1557,8 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : date.getTime(),
                             userInitials        : this.getInitials(username),
-                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId)
+                            editable            : this.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
+                            removable           : this.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
                         });
                     }
                 }
@@ -1580,7 +1587,8 @@ define([
                     replys              : [],
                     groupName           : (groupname && groupname.length>1) ? groupname[1] : null,
                     userInitials        : this.getInitials(username),
-                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId)
+                    editable            : this.appConfig.canEditComments || (data.asc_getUserId() == _userId),
+                    removable           : this.appConfig.canDeleteComments || (data.asc_getUserId() == _userId)
                 };
                 if (comment) {
                     var replies = this.readSDKReplies(data);
@@ -1616,6 +1624,8 @@ define([
                     comment.quote = data.asc_getQuoteText();
                     comment.time = date.getTime();
                     comment.date = me.dateToLocaleTimeString(date);
+                    comment.editable = me.appConfig.canEditComments || (data.asc_getUserId() == _userId);
+                    comment.removable = me.appConfig.canDeleteComments || (data.asc_getUserId() == _userId);
 
                     replies = _.clone(comment.replys);
 
@@ -1640,7 +1650,8 @@ define([
                             reply               : data.asc_getReply(i).asc_getText(),
                             time                : dateReply.getTime(),
                             userInitials        : me.getInitials(username),
-                            editable            : me.appConfig.canEditComments || (data.asc_getUserId() == _userId)
+                            editable            : me.appConfig.canEditComments || (data.asc_getReply(i).asc_getUserId() == _userId),
+                            removable           : me.appConfig.canDeleteComments || (data.asc_getReply(i).asc_getUserId() == _userId)
                         });
                     }
                     comment.replys = replies;

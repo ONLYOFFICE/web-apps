@@ -215,9 +215,9 @@ define([
                     info = document.info || {};
 
                 document.title ? $('#settings-presentation-title').html(document.title) : $('.display-presentation-title').remove();
-                var value = info.owner || info.author;
+                var value = info.owner;
                 value ? $('#settings-pe-owner').html(value) : $('.display-owner').remove();
-                value = info.uploaded || info.created;
+                value = info.uploaded;
                 value ? $('#settings-pe-uploaded').html(value) : $('.display-uploaded').remove();
                 info.folder ? $('#settings-pe-location').html(info.folder) : $('.display-location').remove();
 

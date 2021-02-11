@@ -125,6 +125,9 @@ define([
             this.spinB.on('change', _.bind(this.showColor, this, null, true)).on('changing', _.bind(this.onChangingRGB, this, 3));
             this.textColor.on('change', _.bind(this.onChangeMaskedField, this));
             this.textColor.on('changed', _.bind(this.onChangedMaskedField, this));
+            this.textColor.$el.on('focus', function() {
+                setTimeout(function(){me.textColor.$el && me.textColor.$el.select();}, 1);
+            });
             this.spinR.$el.find('input').attr('maxlength', 3);
             this.spinG.$el.find('input').attr('maxlength', 3);
             this.spinB.$el.find('input').attr('maxlength', 3);

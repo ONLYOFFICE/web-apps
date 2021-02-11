@@ -60,7 +60,7 @@ define([
 
         template    :
             _.template(
-                '<div style="padding: 12px;">' +
+                '<div style="padding: 8px 12px 12px;">' +
                 '<% var me = this; %>' +
                 '<% $(colors).each(function(num, item) { %>' +
                     '<% if (me.isBlankSeparator(item)) { %> <div class="palette-color-spacer" style="width:100%;height:8px;float:left;"></div>' +

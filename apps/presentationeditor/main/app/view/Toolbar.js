@@ -334,7 +334,29 @@ define([
                     });
                     me.paragraphControls.push(me.btnSubscript);
 
-                    me.btnFontColor = new Common.UI.Button({
+                    me.btnHighlightColor = new Common.UI.ButtonColored({
+                        id: 'id-toolbar-btn-highlight',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-highlight',
+                        enableToggle: true,
+                        allowDepress: true,
+                        split: true,
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 100px;',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-highlight" style="width: 120px; height: 120px; margin: 10px;"></div>')},
+                                {caption: '--'},
+                                me.mnuHighlightTransparent = new Common.UI.MenuItem({
+                                    caption: me.strMenuNoFill,
+                                    checkable: true
+                                })
+                            ]
+                        })
+                    });
+                    me.paragraphControls.push(me.btnHighlightColor);
+
+                    me.btnFontColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-fontcolor',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-fontcolor',
@@ -343,12 +365,30 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'shifted-left',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>')}
                             ]
                         })
                     });
                     me.paragraphControls.push(me.btnFontColor);
+
+                    me.btnChangeCase = new Common.UI.Button({
+                        id: 'id-toolbar-btn-case',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-change-case',
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: me.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
+                                {caption: me.mniLowerCase, value: Asc.c_oAscChangeTextCaseType.LowerCase},
+                                {caption: me.mniUpperCase, value: Asc.c_oAscChangeTextCaseType.UpperCase},
+                                {caption: me.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
+                                {caption: me.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
+                            ]
+                        })
+                    });
+                    me.paragraphControls.push(me.btnChangeCase);
+                    me.mnuChangeCase = me.btnChangeCase.menu;
 
                     me.btnClearStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-clearstyle',
@@ -907,7 +947,7 @@ define([
 
                     this.lockControls = [this.btnChangeSlide, this.btnSave,
                         this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
-                        this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript,
+                        this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript, this.btnChangeCase, this.btnHighlightColor,
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
                         this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertChart,
@@ -1019,6 +1059,8 @@ define([
                 _injectComponent('#slot-btn-incfont', this.btnIncFontSize);
                 _injectComponent('#slot-btn-decfont', this.btnDecFontSize);
                 _injectComponent('#slot-btn-fontcolor', this.btnFontColor);
+                _injectComponent('#slot-btn-highlight', this.btnHighlightColor);
+                _injectComponent('#slot-btn-changecase', this.btnChangeCase);
                 _injectComponent('#slot-btn-clearstyle', this.btnClearStyle);
                 _injectComponent('#slot-btn-copystyle', this.btnCopyStyle);
                 _injectComponent('#slot-btn-markers', this.btnMarkers);
@@ -1140,6 +1182,8 @@ define([
                 this.btnSuperscript.updateHint(this.textSuperscript);
                 this.btnSubscript.updateHint(this.textSubscript);
                 this.btnFontColor.updateHint(this.tipFontColor);
+                this.btnHighlightColor.updateHint(this.tipHighlightColor);
+                this.btnChangeCase.updateHint(this.tipChangeCase);
                 this.btnClearStyle.updateHint(this.tipClearStyle);
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Ctrl+Shift+C'));
                 this.btnMarkers.updateHint(this.tipMarkers);
@@ -1206,7 +1250,7 @@ define([
                 );
 
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
-                    style: 'width: 364px;',
+                    style: 'width: 364px;padding-top: 12px;',
                     items: [
                         {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart"></div>')}
                     ]
@@ -1316,12 +1360,22 @@ define([
                 // DataView and pickers
                 //
                 if (this.btnFontColor.cmpEl) {
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', this.btnFontColor.cmpEl).append(colorVal);
-                    colorVal.css('background-color', this.btnFontColor.currentColor || 'transparent');
+                    this.btnFontColor.setColor(this.btnFontColor.currentColor || 'transparent');
                     this.mnuFontColorPicker = new Common.UI.ThemeColorPalette({
                         el: $('#id-toolbar-menu-fontcolor')
                     });
+                }
+                if (this.btnHighlightColor.cmpEl) {
+                    this.btnHighlightColor.currentColor = 'FFFF00';
+                    this.btnHighlightColor.setColor(this.btnHighlightColor.currentColor);
+                    this.mnuHighlightColorPicker = new Common.UI.ColorPalette({
+                        el: $('#id-toolbar-menu-highlight'),
+                        colors: [
+                            'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
+                            '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
+                        ]
+                    });
+                    this.mnuHighlightColorPicker.select('FFFF00');
                 }
             },
 
@@ -1751,7 +1805,15 @@ define([
             textColumnsOne: 'One Column',
             textColumnsTwo: 'Two Columns',
             textColumnsThree: 'Three Columns',
-            textColumnsCustom: 'Custom Columns'
+            textColumnsCustom: 'Custom Columns',
+            tipChangeCase: 'Change case',
+            mniSentenceCase: 'Sentence case.',
+            mniLowerCase: 'lowercase',
+            mniUpperCase: 'UPPERCASE',
+            mniCapitalizeWords: 'Capitalize Each Word',
+            mniToggleCase: 'tOGGLE cASE',
+            strMenuNoFill: 'No Fill',
+            tipHighlightColor: 'Highlight color'
         }
     }()), PE.Views.Toolbar || {}));
 });

@@ -157,6 +157,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.Themes.init(this.api);
                 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
@@ -517,6 +518,12 @@ define([
                 var application = this.getApplication(),
                     toolbarView = application.getController('Toolbar').getView('Toolbar');
 
+                if (this.appOptions.isEdit && toolbarView && toolbarView.btnHighlightColor.pressed &&
+                    ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
+                    this.api.SetMarkerFormat(false);
+                    toolbarView.btnHighlightColor.toggle(false, false);
+                }
+                
                 application.getController('DocumentHolder').getView('DocumentHolder').focus();
                 if (this.api && this.appOptions.isEdit && this.api.asc_isDocumentCanSave) {
                     var cansave = this.api.asc_isDocumentCanSave(),
@@ -870,6 +877,12 @@ define([
 
                 $('.doc-placeholder').remove();
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
+
+                $('#header-logo').children(0).click(e => {
+                    e.stopImmediatePropagation();
+
+                    Common.UI.Themes.toggleTheme();
+                })
             },
 
             onLicenseChanged: function(params) {
@@ -996,7 +1009,13 @@ define([
                 this.appOptions.canRename      = this.editorConfig.canRename;
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
-                this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
+                this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
+                this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
+                if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
+                    console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
+                    if (this.permissions.editCommentAuthorOnly===undefined && this.permissions.deleteCommentAuthorOnly===undefined)
+                        this.appOptions.canEditComments = this.appOptions.canDeleteComments = this.appOptions.isOffline;
+                }
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
@@ -1013,10 +1032,11 @@ define([
                 this.appOptions.canFavorite = this.document.info && (this.document.info.favorite!==undefined && this.document.info.favorite!==null) && !this.appOptions.isOffline;
                 this.appOptions.canFavorite && appHeader.setFavorite(this.document.info.favorite);
 
-                this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object');
+                this.appOptions.canUseReviewPermissions = this.appOptions.canLicense && (!!this.permissions.reviewGroup ||
+                                                         this.appOptions.canLicense && this.editorConfig.customization && this.editorConfig.customization.reviewPermissions && (typeof (this.editorConfig.customization.reviewPermissions) == 'object'));
                 Common.Utils.UserInfoParser.setParser(this.appOptions.canUseReviewPermissions);
                 Common.Utils.UserInfoParser.setCurrentName(this.appOptions.user.fullname);
-                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.editorConfig.customization.reviewPermissions);
+                this.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(this.permissions.reviewGroup, this.editorConfig.customization.reviewPermissions);
                 appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(Common.Utils.UserInfoParser.getCurrentName()));
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
@@ -1857,6 +1877,7 @@ define([
                 if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
                     var name = change.asc_getUserName();
                     if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        this._renameDialog && this._renameDialog.close();
                         Common.Utils.UserInfoParser.setCurrentName(name);
                         appHeader.setUserName(Common.Utils.UserInfoParser.getParsedName(name));
 
@@ -1948,7 +1969,8 @@ define([
                         title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,
                         type: Common.Utils.importTextType.DRM,
-                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline),
+                        warning: !(me.appOptions.isDesktopApp && me.appOptions.isOffline) && (typeof advOptions == 'string'),
+                        warningMsg: advOptions,
                         validatePwd: !!me._state.isDRM,
                         handler: function (result, value) {
                             me.isShowOpenDialog = false;

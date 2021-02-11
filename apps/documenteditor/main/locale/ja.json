@@ -788,7 +788,7 @@
   "DE.Controllers.Toolbar.textAccent": "アクセントカラー",
   "DE.Controllers.Toolbar.textBracket": "かっこ",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "画像のURLを指定しなければなりません。",
-  "DE.Controllers.Toolbar.textFontSizeErr": "入力された値が正しくありません。<br>1〜100の数値を入力してください。",
+  "DE.Controllers.Toolbar.textFontSizeErr": "入力された値が正しくありません。<br>1〜300の数値を入力してください。",
   "DE.Controllers.Toolbar.textFraction": "分数",
   "DE.Controllers.Toolbar.textFunction": "関数",
   "DE.Controllers.Toolbar.textInsert": "挿入する",

@@ -307,10 +307,6 @@ define([
 
                 if (data.doc) {
                     SSE.getController('Toolbar').setDocumentTitle(data.doc.title);
-                    if (data.doc.info) {
-                        data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
-                        data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
-                    }
                 }
             },
 
@@ -757,17 +753,24 @@ define([
                     me.appOptions.canComments     = me.appOptions.canLicense && (me.permissions.comment===undefined ? me.appOptions.isEdit : me.permissions.comment) && (me.editorConfig.mode !== 'view');
                     me.appOptions.canComments     = me.appOptions.canComments && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
                     me.appOptions.canViewComments = me.appOptions.canComments || !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
-                    me.appOptions.canEditComments = me.appOptions.isOffline || !(typeof (me.editorConfig.customization) == 'object' && me.editorConfig.customization.commentAuthorOnly);
+                    me.appOptions.canEditComments= me.appOptions.isOffline || !me.permissions.editCommentAuthorOnly;
+                    me.appOptions.canDeleteComments= me.appOptions.isOffline || !me.permissions.deleteCommentAuthorOnly;
+                    if ((typeof (this.editorConfig.customization) == 'object') && me.editorConfig.customization.commentAuthorOnly===true) {
+                        console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
+                        if (me.permissions.editCommentAuthorOnly===undefined && me.permissions.deleteCommentAuthorOnly===undefined)
+                            me.appOptions.canEditComments = me.appOptions.canDeleteComments = me.appOptions.isOffline;
+                    }
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                     me.appOptions.trialMode      = params.asc_getLicenseMode();
 
                     me.appOptions.canBranding  = params.asc_getCustomization();
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
 
-                    me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object');
+                    me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && (!!me.permissions.reviewGroup ||
+                                                            me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object'));
                     Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
                     Common.Utils.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
-                    me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.editorConfig.customization.reviewPermissions);
+                    me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.permissions.reviewGroup, me.editorConfig.customization.reviewPermissions);
                 }
 
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
@@ -1419,7 +1422,10 @@ define([
                     var buttons = [{
                         text: 'OK',
                         bold: true,
+                        close: false,
                         onClick: function () {
+                            if (!me._state.openDlg) return;
+                            $(me._state.openDlg).hasClass('modal-in') && uiApp.closeModal(me._state.openDlg);
                             var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                             me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
@@ -1440,7 +1446,7 @@ define([
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.txtProtected,
+                        text: (typeof advOptions=='string' ? advOptions : me.txtProtected),
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: buttons
                     });

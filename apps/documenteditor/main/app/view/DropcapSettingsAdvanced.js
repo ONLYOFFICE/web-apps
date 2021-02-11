@@ -113,14 +113,14 @@ define([
             });
 
             _.each([
-                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large btn-adv-paragraph-top',       '00'],
-                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large btn-adv-paragraph-inner-hor', '01'],
-                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'btn-borders-large btn-adv-paragraph-bottom',    '10'],
-                [c_tableBorder.BORDER_OUTER,              'lrtb',  'btn-borders-large btn-adv-paragraph-outer',     '11'],
-                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'btn-borders-large btn-adv-paragraph-left',      '20'],
-                [c_tableBorder.BORDER_ALL,                'lrtbm', 'btn-borders-large btn-adv-paragraph-all',       '21'],
-                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'btn-borders-large btn-adv-paragraph-right',     '30'],
-                [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large btn-adv-paragraph-none',      '31']
+                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',       '00'],
+                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',     '01'],
+                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',    '10'],
+                [c_tableBorder.BORDER_OUTER,              'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',     '11'],
+                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',      '20'],
+                [c_tableBorder.BORDER_ALL,                'lrtbm', 'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',       '21'],
+                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',     '30'],
+                [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',      '31']
             ], function(item, index) {
                 var _btn = new Common.UI.Button({
                     parentEl: $('#drop-advanced-button-borderline-' + item[3]),
@@ -163,9 +163,13 @@ define([
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#drop-advanced-button-bordercolor'),
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
+                this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
+            }, this));
+            this.btnBorderColor.on('auto:select', _.bind(function(btn, color) {
                 this.tableStyler.setVirtualBorderColor((typeof(color) == 'object') ? color.color : color);
             }, this));
             this.colorsBorder = this.btnBorderColor.getPicker();
@@ -270,7 +274,7 @@ define([
             this.btnNone = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-none'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap btn-drop-none',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-none',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
@@ -286,7 +290,7 @@ define([
             this.btnInText = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-intext'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap btn-drop-text',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-text',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
@@ -302,7 +306,7 @@ define([
             this.btnInMargin = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-inmargin'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap btn-drop-margin',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-margin',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
@@ -548,8 +552,15 @@ define([
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
-                    me._changedProps.put_XAlign(undefined);
-                    me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                    if (combo.getSelectedRecord()) {
+                        me._changedProps.put_XAlign(record.value);
+                    } else {
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_XAlign(undefined);
+                            me._changedProps.put_X(Common.Utils.Metric.fnRecalcToMM(number));
+                        }
+                    }
                 }
             }, me))
             .on('selected', _.bind(function(combo, record) {
@@ -593,8 +604,15 @@ define([
             })
             .on('changed:after', _.bind(function(combo, record) {
                 if (me._changedProps) {
-                    me._changedProps.put_YAlign(undefined);
-                    me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                    if (combo.getSelectedRecord()) {
+                        me._changedProps.put_YAlign(record.value);
+                    } else {
+                        var number = Common.Utils.String.parseFloat(record.value);
+                        if (!isNaN(number)) {
+                            me._changedProps.put_YAlign(undefined);
+                            me._changedProps.put_Y(Common.Utils.Metric.fnRecalcToMM(Common.Utils.String.parseFloat(record.value)));
+                        }
+                    }
                 }
             }, me))
             .on('selected', _.bind(function(combo, record) {
@@ -654,13 +672,16 @@ define([
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
-                this.tableStyler.setVirtualBorderColor((typeof(this.borderProps.borderColor) == 'object') ? this.borderProps.borderColor.color : this.borderProps.borderColor);
+                this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');
+                this.tableStyler.setVirtualBorderColor((typeof(this.btnBorderColor.color) == 'object') ? this.btnBorderColor.color.color : this.btnBorderColor.color);
+                if (this.borderProps.borderColor=='auto')
+                    this.colorsBorder.clearSelection();
+                else
+                    this.colorsBorder.select(this.borderProps.borderColor,true);
 
                 this.cmbBorderSize.setValue(this.borderProps.borderSize.ptValue);
                 this.BorderSize = {ptValue: this.borderProps.borderSize.ptValue, pxValue: this.borderProps.borderSize.pxValue};
                 this.tableStyler.setVirtualBorderSize(this.BorderSize.pxValue);
-
-                this.colorsBorder.select(this.borderProps.borderColor);
             }
 
             this.setTitle((this.isFrame) ? this.textTitleFrame : this.textTitle);
@@ -761,7 +782,7 @@ define([
                 paragraphProps  : this._changedProps,
                 borderProps     : {
                     borderSize      : this.BorderSize,
-                    borderColor     : this.btnBorderColor.color
+                    borderColor     : this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color
                 }
             };
         },
@@ -1072,7 +1093,13 @@ define([
                 var size = parseFloat(this.BorderSize.ptValue);
                 border.put_Value(1);
                 border.put_Size(size * 25.4 / 72.0);
-                var color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                var color;
+                if (this.btnBorderColor.isAutoColor()) {
+                    color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                } else {
+                    color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 border.put_Color(color);
             }
             else {

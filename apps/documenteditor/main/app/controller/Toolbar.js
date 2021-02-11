@@ -155,7 +155,9 @@ define([
                             Asc.c_oAscFileType.HTML,
                             Asc.c_oAscFileType.PDFA,
                             Asc.c_oAscFileType.DOTX,
-                            Asc.c_oAscFileType.OTT
+                            Asc.c_oAscFileType.OTT,
+                            Asc.c_oAscFileType.FB2,
+                            Asc.c_oAscFileType.EPUB
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -260,6 +262,7 @@ define([
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
             toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
+            toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
             toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
             toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
             toolbar.btnUnderline.on('click',                            _.bind(this.onUnderline, this));
@@ -1015,13 +1018,13 @@ define([
 
         onChangeSdtGlobalSettings: function() {
             var show = this.api.asc_GetGlobalContentControlShowHighlight();
-            this.toolbar.mnuNoControlsColor.setChecked(!show, true);
-            this.toolbar.mnuControlsColorPicker.clearSelection();
+            this.toolbar.mnuNoControlsColor && this.toolbar.mnuNoControlsColor.setChecked(!show, true);
+            this.toolbar.mnuControlsColorPicker && this.toolbar.mnuControlsColorPicker.clearSelection();
             if (show){
                 var clr = this.api.asc_GetGlobalContentControlHighlightColor();
                 if (clr) {
                     clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
-                    this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
+                    this.toolbar.mnuControlsColorPicker && this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
                 }
             }
         },
@@ -1335,6 +1338,12 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
+        },
+
+        onChangeCase: function(menu, item, e) {
+            if (this.api)
+                this.api.asc_ChangeTextCase(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onSelectBullets: function(btn, picker, itemView, record) {
@@ -2058,12 +2067,14 @@ define([
                     chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
+                var controller = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor');
                 if (!this.diagramEditor)
-                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                    this.diagramEditor = controller.getView('Common.Views.ExternalDiagramEditor');
 
                 if (this.diagramEditor && me.api) {
                     this.diagramEditor.setEditMode(false);
-                    this.diagramEditor.show();
+                    // this.diagramEditor.show();
+                    controller.showExternalEditor();
 
                     chart = me.api.asc_getChartObject(type);
                     if (chart) {
@@ -2373,7 +2384,7 @@ define([
             this.api.put_TextColor(color);
 
             this.toolbar.btnFontColor.currentColor = {color: color, isAuto: true};
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#000');
+            this.toolbar.btnFontColor.setColor('000');
 
             this.toolbar.mnuFontColorPicker.clearSelection();
             this.toolbar.mnuFontColorPicker.currentColor = {color: color, isAuto: true};
@@ -2390,10 +2401,8 @@ define([
         onSelectFontColor: function(picker, color) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
-            var clr = (typeof(color) == 'object') ? (color.isAuto ? '#000' : color.color) : color;
-
             this.toolbar.btnFontColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + clr);
+            this.toolbar.btnFontColor.setColor((typeof(color) == 'object') ? (color.isAuto ? '000' : color.color) : color);
 
             this.toolbar.mnuFontColorPicker.currentColor = color;
             if (this.api)
@@ -2405,10 +2414,8 @@ define([
         onParagraphColorPickerSelect: function(picker, color) {
             this._state.clrback = this._state.clrshd_asccolor = undefined;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
-
             this.toolbar.btnParagraphColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnParagraphColor.cmpEl).css('background-color', color!='transparent'?'#'+clr:clr);
+            this.toolbar.btnParagraphColor.setColor(color);
 
             this.toolbar.mnuParagraphColorPicker.currentColor = color;
             if (this.api) {
@@ -2444,7 +2451,7 @@ define([
             this._setMarkerColor('transparent', 'menu');
             item.setChecked(true, true);
             this.toolbar.btnHighlightColor.currentColor = 'transparent';
-            $('.btn-color-value-line', this.toolbar.btnHighlightColor.cmpEl).css('background-color', 'transparent');
+            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
         },
 
         onParagraphColor: function(shd) {
@@ -2604,9 +2611,9 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        itemTemplate: _.template('<div class="item-equation" '+
-                            'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                            '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                        itemTemplate: _.template(
+                            '<div class="item-equation" style="" >' +
+                                '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
                             '</div>')
                     });
                     equationPicker.on('item:click', function(picker, item, record, e) {
@@ -2846,7 +2853,7 @@ define([
             updateColors(this.toolbar.mnuFontColorPicker, 1);
             if (this.toolbar.btnFontColor.currentColor===undefined || !this.toolbar.btnFontColor.currentColor.isAuto) {
                 this.toolbar.btnFontColor.currentColor = this.toolbar.mnuFontColorPicker.currentColor.color || this.toolbar.mnuFontColorPicker.currentColor;
-                $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + this.toolbar.btnFontColor.currentColor);
+                this.toolbar.btnFontColor.setColor(this.toolbar.btnFontColor.currentColor);
             }
             if (this._state.clrtext_asccolor!==undefined) {
                 this._state.clrtext = undefined;
@@ -2856,15 +2863,12 @@ define([
 
             updateColors(this.toolbar.mnuParagraphColorPicker, 0);
             this.toolbar.btnParagraphColor.currentColor = this.toolbar.mnuParagraphColorPicker.currentColor.color || this.toolbar.mnuParagraphColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnParagraphColor.cmpEl).css('background-color', '#' + this.toolbar.btnParagraphColor.currentColor);
+            this.toolbar.btnParagraphColor.setColor(this.toolbar.btnParagraphColor.currentColor);
             if (this._state.clrshd_asccolor!==undefined) {
                 this._state.clrback = undefined;
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
-
-            updateColors(this.toolbar.mnuControlsColorPicker, 1);
-            this.onChangeSdtGlobalSettings();
         },
 
         _onInitEditorStyles: function(styles) {
@@ -2917,8 +2921,7 @@ define([
                 me.toolbar.mnuHighlightTransparent.setChecked(false);
 
                 me.toolbar.btnHighlightColor.currentColor = strcolor;
-                $('.btn-color-value-line', me.toolbar.btnHighlightColor.cmpEl).css('background-color', '#' + strcolor);
-
+                me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
                 me.toolbar.btnHighlightColor.toggle(true, true);
             }
 
@@ -3052,8 +3055,8 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !config.isEdit;
-            if ( config.isEdit ) {
+            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms);
+            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms) {
                 if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("de-compact-toolbar");
                 } else
@@ -3067,7 +3070,7 @@ define([
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 5);
-                me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+                me.toolbar.setVisible('review', config.isEdit || config.canCoAuthoring && config.canComments); // use config.canViewReview in review controller. set visible review tab in view mode only when asc_HaveRevisionsChanges
             }
 
             if ( config.isEdit ) {
@@ -3099,14 +3102,21 @@ define([
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
-
-                if (config.canFeatureContentControl) {
-                    tab = {caption: me.textTabForms, action: 'forms'};
-                    var forms = me.getApplication().getController('FormsTab');
-                    forms.setApi(me.api).setConfig({toolbar: me});
+            }
+            if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
+                tab = {caption: me.textTabForms, action: 'forms'};
+                var forms = me.getApplication().getController('FormsTab');
+                forms.setApi(me.api).setConfig({toolbar: me, config: config});
+                $panel = forms.createToolbarPanel();
+                if ($panel) {
                     me.toolbar.addTab(tab, $panel, 4);
                     me.toolbar.setVisible('forms', true);
-                    Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                    if (config.isEdit && config.canFeatureContentControl) {
+                        Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        me.onChangeSdtGlobalSettings();
+                    } else if (!compactview) {
+                        me.toolbar.setTab('forms');
+                    }
                 }
             }
         },

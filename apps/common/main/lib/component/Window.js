@@ -166,7 +166,7 @@ define([
                                 '<div class="header">' +
                                     '<div class="tools">' +
                                     '<% if (closable!==false) %>' +
-                                        '<div class="tool close img-commonctrl"></div>' +
+                                        '<div class="tool close"></div>' +
                                     '<% %>' +
                                     '<% if (help===true) %>' +
                                         '<div class="tool help">?</div>' +
@@ -455,7 +455,7 @@ define([
             if (!options.width) options.width = 'auto';
             
             var template =  '<div class="info-box">' +
-                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl <%= iconCls %>"></div><% } %>' +
+                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl img-no-theme-filter <%= iconCls %>"></div><% } %>' +
                                 '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-left:10px;" <% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
@@ -709,12 +709,14 @@ define([
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
                     } else {
+                        var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
 
                         setTimeout(function () {
-                            mask.css(_getTransformation('0.2'));
+                            mask.css(_getTransformation(maskOpacity));
                         }, 1);
                     }
 
@@ -801,11 +803,12 @@ define([
 
                     if ( hide_mask ) {
                         if (this.options.animate !== false) {
+                            var maskOpacity = $(':root').css('--modal-window-mask-opacity');
                             mask.css(_getTransformation(0));
 
                             setTimeout(function () {
                                 if (parseInt(mask.attr('counter'))<1) {
-                                    mask.css('opacity', '0.2');
+                                    mask.css('opacity', maskOpacity);
                                     mask.hide();
                                     mask.attr('counter', 0);
                                 }
@@ -841,11 +844,12 @@ define([
 
                         if ( hide_mask ) {
                             if (this.options.animate !== false) {
+                                var maskOpacity = $(':root').css('--modal-window-mask-opacity');
                                 mask.css(_getTransformation(0));
 
                                 setTimeout(function () {
                                     if (parseInt(mask.attr('counter'))<1) {
-                                        mask.css('opacity', '0.2');
+                                        mask.css('opacity', maskOpacity);
                                         mask.hide();
                                         mask.attr('counter', 0);
                                     }

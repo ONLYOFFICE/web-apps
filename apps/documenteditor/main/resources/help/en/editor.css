@@ -20,7 +20,7 @@ img
 {
 border: none;
 vertical-align: middle;
-max-width: 95%;
+max-width: 100%;
 }
 
 img.floatleft 
@@ -230,4 +230,8 @@ kbd {
 }
 .right_option {
     border-radius: 0 2px 2px 0;
+}
+
+.forms {
+    display: inline-block;
 }

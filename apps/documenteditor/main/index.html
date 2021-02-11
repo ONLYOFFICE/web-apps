@@ -62,7 +62,7 @@
 
         .loadmask > .sktoolbar {
             background: #f1f1f1;
-            border-bottom: 1px solid #cfcfcf;
+            border-bottom: var(--scaled-one-px-value, 1px) solid #cfcfcf;
             height: 46px;
             padding: 10px 6px;
             box-sizing: content-box;
@@ -104,7 +104,7 @@
             width: 794px;
             margin: 46px auto;
             height: 100%;
-            border: 1px solid #bebebe;
+            border: var(--scaled-one-px-value, 1px) solid #bebebe;
             padding-top: 50px;
         }
 
@@ -141,12 +141,16 @@
             50%  { opacity:1; }
             100% { opacity:0.5; }
         }
+
+        .pixel-ratio__1_5 {
+            --scaled-one-px-value: calc(1px / 1.5);
+        }
     </style>
 
     <script>
         // don't add zoom for mobile devices
-        if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
-            document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
+        // if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
+            // document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + 1 / (window.devicePixelRatio < 2 ? window.devicePixelRatio : window.devicePixelRatio / 2) + ';');
 
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
@@ -213,6 +217,7 @@
     <!-- debug end -->
 </head>
 <body>
+    <script src="../../common/main/lib/util/htmlutils.js"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel">
             <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo@2x.png"></div><div class="spacer"></div><div class="rect"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div>
@@ -274,6 +279,8 @@
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/ott.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/rtf.svg">
     <img class="inline-svg" src="../../common/main/resources/img/doc-formats/html.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/fb2.svg">
+    <img class="inline-svg" src="../../common/main/resources/img/doc-formats/epub.svg">
     <img class="inline-svg" src="resources/img/blank.svg">
     <img class="inline-svg" src="resources/img/recent-file.svg">
     <img class="inline-svg" src="resources/img/file-template.svg">

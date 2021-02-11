@@ -241,7 +241,7 @@ define([
             this.numDuration = new Common.UI.MetricSpinner({
                 el: $('#slide-spin-duration'),
                 step: 1,
-                width: 65,
+                width: 70,
                 value: '',
                 defaultUnit : this.textSec,
                 maxValue: 300,
@@ -1051,7 +1051,9 @@ define([
                         '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
                         '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
                         '<div style="display: table-cell;"></div>',
-                        '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '<button type="button" class="btn btn-default">',
+                            '<span class="caret"></span>',
+                        '</button>',
                         '</div>'
                     ].join(''))
                 });

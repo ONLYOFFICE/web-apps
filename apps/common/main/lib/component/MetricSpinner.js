@@ -120,8 +120,8 @@ define([
         template    :
                     '<input type="text" class="form-control" spellcheck="false">' +
                     '<div class="spinner-buttons">' +
-                        '<button type="button" class="spinner-up"><i class="img-commonctrl"></i></button>' +
-                        '<button type="button" class="spinner-down"><i class="img-commonctrl"></i></button>' +
+                        '<button type="button" class="spinner-up"><i class="arrow"></i></button>' +
+                        '<button type="button" class="spinner-down"><i class="arrow"></i></button>' +
                     '</div>',
 
         initialize : function(options) {

@@ -24,10 +24,8 @@
                 key: 'key',
                 vkey: 'vkey',
                 info: {
-                    author: 'author name', // must be deprecated, use owner instead
                     owner: 'owner name',
                     folder: 'path to document',
-                    created: '<creation date>', // must be deprecated, use uploaded instead
                     uploaded: '<uploaded date>',
                     sharingSettings: [
                         {
@@ -49,7 +47,10 @@
                     modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                     modifyContentControl: <can modify content controls in documenteditor> // default = true
                     fillForms:  <can edit forms in view mode> // default = edit || review,
-                    copy: <can copy data> // default = true
+                    copy: <can copy data> // default = true,
+                    editCommentAuthorOnly: <can edit your own comments only> // default = false
+                    deleteCommentAuthorOnly: <can delete your own comments only> // default = false,
+                    reviewGroup: ["Group1", ""] // current user can accept/reject review changes made by users from Group1 and users without a group. [] - use groups, but can't change any group's changes
                 }
             },
             editorConfig: {
@@ -140,7 +141,7 @@
                     statusBar: true,
                     autosave: true,
                     forcesave: false,
-                    commentAuthorOnly: false,
+                    commentAuthorOnly: false, // must be deprecated. use permissions.editCommentAuthorOnly and permissions.deleteCommentAuthorOnly instead
                     showReviewChanges: false,
                     help: true,
                     compactHeader: false,
@@ -395,7 +396,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott|fb2))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -876,6 +877,9 @@
 
         if (config.parentOrigin)
             params += "&parentOrigin=" + config.parentOrigin;
+
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme )
+            params += "&uitheme=" + config.editorConfig.customization.uiTheme;
 
         return params;
     }

@@ -214,6 +214,7 @@ define([
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.01);
                 }
+                this.numPosition && this.numPosition.setValue(Common.Utils.Metric.fnRecalcFromMM(this._state.Position), true);
             }
         },
 

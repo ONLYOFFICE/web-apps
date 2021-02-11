@@ -755,6 +755,10 @@
 		"a": "(lista-argumento)",
 		"d": "Función estadística utilizada para calcular la media geométrica de la lista de argumentos"
 	},
+	"GROWTH": {
+		"a": "(conocido_y, [conocido_x], [nueva_matriz_x], [constante])",
+		"d": "Función estadística utilizada para Calcula el crecimiento exponencial previsto a través de los datos existentes. Función devuelve los valores y de una serie de nuevos valores x especificados con valores x e y existentes."
+	},
 	"HARMEAN": {
 		"a": "(lista-argumento)",
 		"d": "Función estadística utilizada para calcular la media armónica de la lista de argumentos"
@@ -780,8 +784,12 @@
 		"d": "Función estadística utilizada para analizar el rango de celdas y devolver el mayor valor"
 	},
 	"LINEST": {
-		"a": "( known_y's, [known_x's], [const], [stats] )",
+		"a": "(conocido_y, [conocido_x], [constante], [estadística])",
 		"d": "Función estadística utilizada para calcula las estadísticas de una línea con el método de los 'mínimos cuadrados' para calcular la línea recta que mejor se ajuste a los datos y después devuelve una matriz que describe la línea; debido a que esta función devuelve una matriz de valores, debe ser especificada como fórmula de matriz"
+	},
+	"LOGEST": {
+		"a": "(conocido_y, [conocido_x], [constante], [estadística])",
+		"d": "Función estadística utilizada, en el análisis de regresión, para calcula una curva exponencial que se ajusta a los datos y devuelve una matriz de valores que describe la curva. Debido a que esta función devuelve una matriz de valores, debe ser especificada como una fórmula de matriz."
 	},
 	"LOGINV": {
 		"a": "(x, media, desviación-estándar)",
@@ -1039,6 +1047,10 @@
 		"a": "(conjunto1, conjunto2, colas, tipo)",
 		"d": "Función estadística utilizada para obtener la probabilidad asociada con el t-Test de Student; utilice PRUEBA.T para determinar si es probable que dos muestras provengan de las mismas dos poblaciones subyacentes que tienen la misma media."
 	},
+	"TREND": {
+		"a": "(conocido_y, [conocido_x], [nueva_matriz_x], [constante])",
+		"d": "Función estadística devuelve valores en una tendencia lineal. Se ajusta a una línea recta (usando el método de los mínimos cuadrados) al known_y de la matriz y known_x."
+	},	
 	"TRIMMEAN": {
 		"a": "(matriz, porcentaje)",
 		"d": "Función estadística utilizada para obtener la media del interior de un conjunto de datos; TRIMMEAN calcula la media tomada excluyendo un porcentaje de puntos de datos de las colas superior e inferior de un conjunto de datos."
@@ -1499,6 +1511,10 @@
 		"a": "(lista-argumento)",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver la relación entre el factorial de una suma de números y el producto de los factoriales."
 	},
+	"MUNIT": {
+		"a": "(dimensión)",
+		"d": "Función de matemáticas y trigonometría para devolver la matriz de la unidad de la dimensión especificada."
+	},
 	"ODD": {
 		"a": "( x )",
 		"d": "Función de matemáticas y trigonometría usada para redondear el número al número entero impar más cercano"
@@ -1526,6 +1542,10 @@
 	"RAND": {
 		"a": "()",
 		"d": "Función de matemáticas y trigonometría utilizada para devolver un número aleatorio mayor o igual que 0 y menor que 1. No requiere ningún argumento."
+	},
+	"RANDARRAY": {
+		"a": "([rows], [columns], [min], [max], [whole_number])",
+		"d": "Función de matemáticas y trigonometría utilizada para devolver una matriz de números aleatorios"
 	},
 	"RANDBETWEEN": {
 		"a": "(límite-inferior, límite-superior)",
@@ -1687,13 +1707,17 @@
 		"a": "( conjunto )",
 		"d": "Función de búsqueda y referencia utilizada para devolver el primer elemento de un conjunto"
 	},
+	"UNIQUE": {
+		"a": "(matriz, [by_col], [exactly_once])",
+		"d": "Función de búsqueda y referencia para devolver una lista de valores únicos de una lista o rango"
+	},
 	"VLOOKUP": {
 		"a": "(valor-buscar, tabla-conjunto, col-índice-núm[, [rango-buscar-marcador]])",
 		"d": "Función de búsqueda y referencia utilizada para realizar la búsqueda vertical de un valor en la columna de la izquierda de una tabla o conjunto y devolver el valor en la misma fila basado en un número de índice de columna especificado."
 	},
 	"CELL": {
 		"a": "(info_type, [reference])",
-		"d": "Función de información utilizada para devuelve información sobre el formato, la ubicación o el contenido de una celda"
+		"d": "Función de información utilizada para devolver información sobre el formato, la ubicación o el contenido de una celda"
 	},
 	"ERROR.TYPE": {
 		"a": "(valor)",

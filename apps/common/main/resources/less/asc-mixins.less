@@ -85,12 +85,27 @@
 */
 :root {
     --bgX: 0px;
+
+    --pixel-ratio-factor: 1;
+
+    .pixel-ratio__1_5 {
+        @ratio: 1.5;
+        @one-px: 1px / @ratio;
+        @two-px: 2px / @ratio;
+
+        --pixel-ratio-factor: @ratio;
+        --scaled-one-pixel: @one-px;
+        --scaled-two-pixel: @two-px;
+    }
+
+    .pixel-ratio__2 {
+    }
 }
 
-.button-normal-icon(@icon-class, @index, @icon-size) {
+.button-normal-icon(@icon-class, @index, @icon-size, @normal-h-offset: 0px) {
     .@{icon-class} {
         background-position: -0*@icon-size  -@index*@icon-size;
-        background-position: var(--bgX)     -@index*@icon-size;
+        background-position: @normal-h-offset -@index*@icon-size;
     }
 //    .@{icon-class} {background-position-y: -@index*@icon-size;}
 }
@@ -110,19 +125,17 @@
     }
 }
 
-.mx-button-otherstates-icon2(@icon-size) {
+.mx-button-otherstates-icon2(@offset) {
     &.active, &:active{
         &:not(:disabled):not(.disabled) {
             .icon {
-                @btn-active-icon-offset: -1 * @icon-size;
-                background-position-x: @btn-active-icon-offset;
-                --bgX: @btn-active-icon-offset;
+                background-position-x: @offset;
             }
         }
     }
 
-    &.active   svg.icon,
-    &:active   svg.icon {fill:#fff;}
+    //&.active   svg.icon,
+    //&:active   svg.icon {fill:#fff;}
 }
 
 .button-otherstates-icon2(@icon-class, @icon-size) {
@@ -180,13 +193,13 @@
     @2ximage: replace(@imagepath, '\.png$', '@2x.png');
 
     @media only screen {
-        // @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
-        //     (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
-        //         (min-resolution: 144dpi) and (max-resolution: 191dpi)
-        // {
-        //     background-image: ~"url(@{1d5ximage})";
-        //     background-size: @w @h;
-        // }
+         @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+             (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                 (min-resolution: 144dpi) and (max-resolution: 191dpi)
+         {
+             background-image: ~"url(@{1d5ximage})";
+             background-size: @w @h;
+         }
 
         @media (-webkit-min-device-pixel-ratio: 2),
             (min-resolution: 2dppx),
@@ -200,23 +213,24 @@
 
 @common-controls-width: 100px;
 .img-commonctrl, 
-        .dropdown-menu li .checked:before, .input-error:before,
+        .dropdown-menu li .checked:before, .input-error:before, .input-warning:before,
         .btn-toolbar .icon.img-commonctrl, .list-item div.checked:before
 {
     background-image: if(@icon-src-base64, data-uri(%("%s",'@{common-image-path}/@{common-controls}')), ~"url(@{common-image-const-path}/@{common-controls})");
     background-repeat: no-repeat;
+    filter: @component-normal-icon-filer;
 
     @1d5ximage: replace(@common-controls, '\.png$', '@1.5x.png');
     @2ximage: replace(@common-controls, '\.png$', '@2x.png');
 
     @media only screen {
-        //@media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
-        //        (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
-        //        (min-resolution: 144dpi) and (max-resolution: 191dpi)
-        //{
-        //    background-image: ~"url(@{common-image-const-path}/@{1d5ximage})";
-        //    background-size: @common-controls-width auto;
-        //}
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+                (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{common-image-const-path}/@{1d5ximage})";
+            background-size: @common-controls-width auto;
+        }
 
         @media (-webkit-min-device-pixel-ratio: 2),
                     (min-resolution: 2dppx),
@@ -235,13 +249,13 @@
     background-repeat: no-repeat;
 
     @media only screen {
-        //@media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
-        //        (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
-        //        (min-resolution: 144dpi) and (max-resolution: 191dpi)
-        //{
-        //    background-image: ~"url(@{common-image-const-path}/hsbcolorpicker/hsb-colorpicker@1.5x.png)";
-        //    background-size:  @img-colorpicker-width auto;
-        //}
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+                (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{common-image-const-path}/hsbcolorpicker/hsb-colorpicker@1.5x.png)";
+            background-size:  @img-colorpicker-width auto;
+        }
 
         @media (-webkit-min-device-pixel-ratio: 2),
                     (min-resolution: 2dppx),
@@ -263,13 +277,13 @@
     background-repeat: no-repeat;
 
     @media only screen {
-        //@media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
-        //        (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
-        //        (min-resolution: 144dpi) and (max-resolution: 191dpi)
-        //{
-        //    background-image: ~"url(@{common-image-const-path}/controls/flags@1.5x.png)";
-        //    background-size:  @img-flags-width auto;
-        //}
+        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+                (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+        {
+            background-image: ~"url(@{common-image-const-path}/controls/flags@1.5x.png)";
+            background-size:  @img-flags-width auto;
+        }
 
         @media (-webkit-min-device-pixel-ratio: 2),
                 (min-resolution: 2dppx),
@@ -280,3 +294,19 @@
         }
     }
 }
+
+//.adaptive-solid-border(@width, @color, @borderside: all) {
+//    @lb-border: if((@borderside = all), border, e('border-@{borderside}'));
+//    @lb-border-width: if((@borderside = all), border-width, e('border-@{borderside}-width'));
+//
+//    @{lb-border}: @width solid @color;
+//
+//    @media only screen {
+//        @media (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9),
+//            (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx),
+//                (min-resolution: 144dpi) and (max-resolution: 191dpi)
+//        {
+//            @{lb-border-width}: (@width / 1.5);
+//        }
+//    }
+//}

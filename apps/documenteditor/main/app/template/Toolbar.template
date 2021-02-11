@@ -35,6 +35,7 @@
                         <span class="btn-slot" id="slot-field-fontsize"></span>
                         <span class="btn-slot" id="slot-btn-incfont"></span>
                         <span class="btn-slot" id="slot-btn-decfont"></span>
+                        <span class="btn-slot split" id="slot-btn-changecase"></span>
                     </div>
                     <div class="elset font-attr">
                         <span class="btn-slot" id="slot-btn-bold"></span>
@@ -171,29 +172,6 @@
                     <div class="elset">
                         <span class="btn-slot text" id="slot-btn-tof-update"></span>
                     </div>
-                </div>
-            </section>
-            <section class="panel" data-tab="forms">
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-form-field"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-form-combobox"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-form-dropdown"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-form-checkbox"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-form-image"></span>
-                </div>
-                <div class="separator long"></div>
-                <div class="group">
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-form-clear-fields"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot text" id="slot-form-highlight"></span>
-                    </div>
-                </div>
-                <div class="separator long"></div>
-                <div class="group no-group-mask form-view">
-                    <span class="btn-slot text x-huge" id="slot-btn-form-view"></span>
                 </div>
             </section>
         </section>

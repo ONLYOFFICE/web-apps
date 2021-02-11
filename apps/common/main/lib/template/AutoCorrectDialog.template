@@ -25,9 +25,9 @@
             </tr>
         <tr>
             <td style="padding-bottom: 8px;">
-                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 86px;"><%= scope.textResetAll %></button>
-                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-delete" style="min-width: 86px;float: right;"><%= scope.textDelete %></button>
-                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-edit" style="min-width: 86px;float: right;margin-right:5px;"><%= scope.textAdd %></button>
+                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-reset" style="min-width: 80px;"><%= scope.textResetAll %></button>
+                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-delete" style="min-width: 80px;float: right;"><%= scope.textDelete %></button>
+                <button type="button" class="btn btn-text-default auto" id="auto-correct-btn-edit" style="min-width: 80px;float: right;margin-right:5px;"><%= scope.textAdd %></button>
                 </td>
             </tr>
         </table>

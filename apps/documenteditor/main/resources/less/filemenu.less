@@ -1,15 +1,6 @@
 
 #file-menu-panel {
-  > div {
-    height: 100%;
-  }
-
   .panel-menu {
-    width: 260px;
-    float: left;
-    border-right: 1px solid @gray-dark;
-    background-color: @gray-light;
-
     li {
       list-style: none;
       position: relative;
@@ -19,21 +10,21 @@
         margin-bottom: 3px;
 
         &:hover:not(.disabled) {
-          background-color: @secondary;
+          background-color: @highlight-button-hover;
         }
 
         &.active:not(.disabled) {
           outline: 0;
-          background-color: @primary;
+          background-color: @highlight-button-pressed;
 
           > a {
-            color: #fff;
+            color: @text-normal-pressed;
           }
         }
 
         &.disabled > a {
           cursor: default;
-          color: @gray;
+          color: @border-regular-control;
         }
 
       }
@@ -68,7 +59,7 @@
   .panel-context {
     width: 100%;
     padding-left: 260px;
-    background-color: #fff;
+    background-color: @background-normal;
 
     .content-box {
       height: 100%;
@@ -120,16 +111,6 @@
   }
 }
 
-.flex-settings {
-  #file-menu-panel & {
-    &.bordered {
-      border-bottom: 1px solid @gray;
-    }
-    overflow: hidden;
-    position: relative;
-  }
-}
-
 #panel-settings,
 #panel-info {
   #file-menu-panel & {
@@ -173,7 +154,7 @@
   h3 {
     margin: 0;
     font-size: 10pt;
-    color: #665;
+    color: @text-normal;
     font-weight: bold;
     padding: 0 0 10px 10px;
     white-space: nowrap;
@@ -207,7 +188,7 @@
   hr {
     margin: 0;
     border-bottom: none;
-    border-color: #e1e1e1;
+    border-color: @border-toolbar;
   }
 
   .thumb-list {
@@ -246,7 +227,7 @@
 
     &:hover,
     &.over {
-      background-color: @gray-light;
+      background-color: @background-toolbar;
     }
 
     .recent-icon {
@@ -268,7 +249,7 @@
     }
 
     .file-info {
-      color: #999;
+      color: @text-secondary;
     }
   }
 }
@@ -285,7 +266,7 @@
   }
 
   .dataview {
-    border-right: 1px solid @gray-dark;
+    border-right: @scaled-one-px-value solid @border-toolbar;
 
     & > .item {
       display: block;
@@ -299,11 +280,11 @@
       &:not(.header-name) {
         &:hover,
         &.over {
-          background-color: @gray-light;
+          background-color: @background-toolbar;
         }
 
         &.selected {
-          background-color: @primary;
+          background-color: @highlight-button-pressed;
           color: @dropdown-link-active-color;
         }
       }

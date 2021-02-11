@@ -93,7 +93,9 @@ define([
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
                     '<input type="text" class="form-control" spellcheck="false">',
-                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret img-commonctrl"></span></button>',
+                    '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
+                        '<span class="caret"></span>',
+                    '</button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
                             '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
@@ -360,15 +362,15 @@ define([
                     return false;
                 }
                 else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
+                    var isopen = this.isMenuOpen();
                     $(e.target).click();
-                    var me = this;
                     if (this.rendered) {
                         if (Common.Utils.isIE)
                             this._input.trigger('change', { onkeydown: true });
                         else
                             this._input.blur();
                     }
-                    return false;
+                    return !isopen;
                 }
                 else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
                     this._input.val(this.lastValue);

@@ -275,7 +275,7 @@ define([
                     cls         : 'btn-toolbar btn-text-default auto',
                     caption     : me.tipEditChart,
                     lock        : [_set.lostConnect],
-                    style       : 'min-width: 90px;'
+                    style       : 'min-width: 120px;'
                 });
 
                 me.btnEditChartData = new Common.UI.Button({
@@ -291,7 +291,8 @@ define([
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-menu-chart',
                     caption     : me.tipEditChartType,
-                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect]
+                    lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
+                    style       : 'min-width: 120px;'
                 });
             } else
             if ( config.isEditMailMerge ) {
@@ -480,22 +481,29 @@ define([
                 });
 
                 me.mnuTextColorPicker = dummyCmp();
-                me.btnTextColor = new Common.UI.Button({
+                me.btnTextColor = new Common.UI.ButtonColored({
                     id          : 'id-toolbar-btn-fontcolor',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-fontcolor',
                     split       : true,
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
+                        cls: 'shifted-left',
                         items: [
-                            { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            {
+                                id: 'id-toolbar-menu-auto-fontcolor',
+                                caption: this.textAutoColor,
+                                template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
+                            },
+                            {caption: '--'},
+                            { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                             { template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]
                     })
                 });
 
                 me.mnuBackColorPicker = dummyCmp();
-                me.btnBackColor = new Common.UI.Button({
+                me.btnBackColor = new Common.UI.ButtonColored({
                     id          : 'id-toolbar-btn-fillparag',
                     cls         : 'btn-toolbar',
                     iconCls     : 'toolbar__icon btn-paracolor',
@@ -503,7 +511,7 @@ define([
                     lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                             { template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]
                     })
@@ -1851,19 +1859,22 @@ define([
                             template    : _.template('<a id="<%= id %>"tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 2px 9px 0 -11px; border-style: solid; border-width: 3px; border-color: #000;"></span><%= caption %></a>'),
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
+                                cls: 'shifted-left',
                                 items       : [
-                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 169px; height: 220px; margin: 10px;"></div>'), stopPropagation: true },
+                                    {
+                                        id: 'id-toolbar-menu-auto-bordercolor',
+                                        caption: this.textAutoColor,
+                                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>'),
+                                        stopPropagation: true
+                                    },
+                                    {caption: '--'},
+                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 169px; height: 216px; margin: 10px;"></div>'), stopPropagation: true },
                                     { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
                                 ]
                             })
                         })
                     ]
                 }));
-
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnBorders.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnBorders.currentColor || 'transparent');
-
                 this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-bordercolor')
                 });
@@ -1871,7 +1882,7 @@ define([
 
             if ( this.btnInsertChart ) {
                 this.btnInsertChart.setMenu(new Common.UI.Menu({
-                    style: 'width: 364px;',
+                    style: 'width: 364px;padding-top: 12px;',
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart"></div>') }
                     ]
@@ -1927,18 +1938,13 @@ define([
             // DataView and pickers
             //
             if (this.btnTextColor && this.btnTextColor.cmpEl) {
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnTextColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnTextColor.currentColor || 'transparent');
+                this.btnTextColor.setColor(this.btnTextColor.currentColor || 'transparent');
                 this.mnuTextColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-fontcolor')
                 });
             }
             if (this.btnBackColor && this.btnBackColor.cmpEl) {
-                var colorVal = $('<div class="btn-color-value-line"></div>');
-                $('button:first-child', this.btnBackColor.cmpEl).append(colorVal);
-                colorVal.css('background-color', this.btnBackColor.currentColor || 'transparent');
-
+                this.btnBackColor.setColor(this.btnBackColor.currentColor || 'transparent');
                 this.mnuBackColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-paracolor'),
                     transparent: true
@@ -2457,6 +2463,7 @@ define([
         textVertical: 'Vertical Text',
         textTabView: 'View',
         tipEditChartData: 'Select Data',
-        tipEditChartType: 'Change Chart Type'
+        tipEditChartType: 'Change Chart Type',
+        textAutoColor: 'Automatic'
     }, SSE.Views.Toolbar || {}));
 });

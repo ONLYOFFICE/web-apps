@@ -197,7 +197,7 @@ define([
                     this._settings[Common.Utils.documentSettingsType.Signature].locked = value.get_Locked();
             }
 
-            if (control_props && control_props.get_FormPr()) {
+            if (control_props && control_props.get_FormPr() && this.rightmenu.formSettings) {
                 var spectype = control_props.get_SpecificType();
                 if (spectype==Asc.c_oAscContentControlSpecificType.CheckBox || spectype==Asc.c_oAscContentControlSpecificType.Picture ||
                     spectype==Asc.c_oAscContentControlSpecificType.ComboBox || spectype==Asc.c_oAscContentControlSpecificType.DropDownList || spectype==Asc.c_oAscContentControlSpecificType.None) {
@@ -321,7 +321,6 @@ define([
             this.rightmenu.tableSettings.UpdateThemeColors();
             this.rightmenu.shapeSettings.UpdateThemeColors();
             this.rightmenu.textartSettings.UpdateThemeColors();
-            this.rightmenu.formSettings && this.rightmenu.formSettings.UpdateThemeColors();
         },
 
         updateMetricUnit: function() {

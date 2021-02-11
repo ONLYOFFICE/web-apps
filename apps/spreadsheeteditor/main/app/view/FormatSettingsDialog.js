@@ -256,6 +256,10 @@ define([
                 me.Format = me.api.asc_convertNumFormatLocal2NumFormat(value);
                 me.lblExample.text(me.api.asc_getLocaleExample(me.Format));
                 me.chLinked.setValue(false, true);
+                if (!me._state.warning) {
+                    input.showWarning([me.txtCustomWarning]);
+                    me._state.warning = true;
+                }
             });
 
             this.chLinked = new Common.UI.CheckBox({
@@ -456,6 +460,8 @@ define([
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.inputCustomFormat.setValue(record.get('value'));
             this.chLinked.setValue(false, true);
+            this.inputCustomFormat.showWarning();
+            this._state.warning = false;
         },
 
         onFormatSelect: function(combo, record, e, initFormatInfo) {
@@ -601,7 +607,8 @@ define([
         txtAs100: 'As hundredths (50/100)',
         txtSample: 'Sample:',
         txtNone: 'None',
-        textLinked: 'Linked to source'
+        textLinked: 'Linked to source',
+        txtCustomWarning: 'Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.'
 
     }, SSE.Views.FormatSettingsDialog || {}))
 });

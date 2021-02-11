@@ -10,8 +10,8 @@
         width: @combo-dataview-width;
         height: 100%;
         .border-radius(@border-radius-small);
-        border: 1px solid @input-border;
-        background-color: @input-bg;
+        border: @scaled-one-px-value solid @border-regular-control;
+        background-color: @background-normal;
 
         .dataview {
             padding: 1px;
@@ -24,8 +24,8 @@
 
         button {
             border-radius:0 @border-radius-small @border-radius-small 0;
-            border: 1px solid @input-border;
-            background-color: @input-bg;
+            border: @scaled-one-px-value solid @border-regular-control;
+            background-color: @background-normal;
 
             &.dropdown-toggle {
                 .inner-box-caret {
@@ -35,15 +35,16 @@
                 .caret {
 //                    width: 7px;
 //                    height: 7px;
-                    border: 0;
-                    background-position: @arrow-small-offset-x @arrow-small-offset-y;
+//                    border: 0;
+//                    background-position: @arrow-small-offset-x @arrow-small-offset-y;
+                    margin-left: 1px;
                 }
             }
         }
     }
 
     .dropdown-menu {
-        border-color: @gray;
+        border-color: @border-regular-control;
         border-top-right-radius: 0;
         border-top-left-radius: 2px;
         margin: 0;
@@ -84,17 +85,20 @@
 
     .item {
         padding: 3px;
-        border: 1px solid @gray;
+        border: @scaled-one-px-value solid @border-regular-control;
         .box-shadow(none);
-        margin: 0 -1px -1px 0;
+
+        @minus-px: calc(-1px / @pixel-ratio-factor);
+        margin: 0 @minus-px @minus-px 0;
+        height: @combo-dataview-height;
 
 
         &:hover {
-            .box-inner-shadow(0 0 0 2px @gray);
+            .box-inner-shadow(0 0 0 @scaled-two-px-value @border-regular-control);
         }
 
         &.selected {
-            .box-inner-shadow(0 0 0 2px @gray-darker);
+            .box-inner-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
         }
     }
 
@@ -125,7 +129,7 @@
         width: auto;
         position: relative;
         border: none;
-        .box-shadow(0 0 0 1px @body-bg);
+        .box-shadow(0 0 0 @scaled-one-px-value @background-normal);
 
         > div {
             background-repeat: no-repeat;
@@ -142,15 +146,24 @@
                 padding: 0;
 
                 .caret {
-                    width: 27px;
-                    height: 27px;
-                    background-position: @arrow-big-offset-x @arrow-big-offset-y;
-                    transition: transform .2s;
+                    //width: 27px;
+                    //height: 27px;
+                    //background-position: @arrow-big-offset-x @arrow-big-offset-y;
+                    width: 8px;
+                    height: 8px;
+                    background-color: transparent;
+                    border: solid 1px @icon-normal;
+                    border-bottom: none;
+                    border-right: none;
+                    background-image: none;
+
+                    transition: transform 0.2s ease;
+                    transform: rotate(-135deg) translate(2px,2px);
                 }
 
                 &.active {
                     .caret {
-                        transform: rotate(180deg);
+                        transform: rotate(45deg);
                     }
                 }
             }
@@ -188,7 +201,7 @@
     &.disabled {
         .item {
             &:hover:not(.selected) {
-                .box-shadow(0 0 0 1px @gray);
+                .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
             }
         }
     }
@@ -238,7 +251,7 @@
 
     .item {
         &:hover {
-            .box-shadow(0 0 0 1px @gray);
+            .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
         }
     }
 
@@ -265,13 +278,13 @@
 
     .item {
         margin-left: 4px;
-        .box-shadow(0 0 0 1px @gray);
+        .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
     }
 
     &.disabled {
         .item {
             &:hover:not(.selected) {
-                .box-shadow(0 0 0 1px @gray);
+                .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
             }
         }
     }

@@ -1,14 +1,14 @@
 #cell-editing-box {
-    border-bottom: solid 1px @gray-dark;
-    border-left: solid 1px @gray-dark;
+    border-bottom: solid @scaled-one-px-value @border-toolbar;
+    border-left: solid @scaled-one-px-value @border-toolbar;
     min-height: 20px;
-    background-color: #fff;
+    background-color: @background-normal;
 
     .ce-group-name {
         float: left;
         height: 20px;
-        border-bottom: 1px solid @gray-dark;
-        background-color: @gray-light;
+        border-bottom: @scaled-one-px-value solid @border-toolbar;
+        background-color: @background-toolbar;
 
         #ce-cell-name {
             width: 100px;
@@ -17,12 +17,12 @@
             vertical-align: top;
             display: inline-block;
             border: 0 none;
-            border-right: 1px solid @gray-dark;
+            border-right: @scaled-one-px-value solid @border-toolbar;
             transition: none;
             -webkit-transition: none;
 
             &[disabled] {
-                color: @gray-darker;
+                color: @border-preview-select;
                 opacity: 0.5;
             }
         }
@@ -31,10 +31,10 @@
             display: inline-block;
             position: absolute;
             left: 80px;
-            background-color: @gray-light;
+            background-color: @background-toolbar;
 
             button {
-                background-color: #fff;
+                background-color: @background-normal;
                 height: 19px;
 
                 &.disabled {
@@ -75,7 +75,7 @@
         padding-left: 1px;
         margin: 0 16px 0 120px;
         height: 100%;
-        border-left: 1px solid @gray-dark;
+        border-left: @scaled-one-px-value solid @border-toolbar;
 
         #ce-cell-content {
             height: 100%;
@@ -87,7 +87,7 @@
             padding-bottom: 0;
 
             &[disabled] {
-                color: @gray-darker;
+                color: @border-preview-select;
                 opacity: 0.5;
             }
         }
@@ -102,8 +102,8 @@
         border-bottom: 0 none;
 
         &.move {
-            border-top: 1px solid @gray-dark;
-            border-bottom: 1px solid @gray-dark;
+            border-top: @scaled-one-px-value solid @border-toolbar;
+            border-bottom: @scaled-one-px-value solid @border-toolbar;
             opacity: 0.4;
         }
     }
@@ -123,7 +123,7 @@
 
     &.btn-collapse {
         .caret {
-            transform: rotate(180deg);
+            transform: rotate(45deg);
         }
     }
 }

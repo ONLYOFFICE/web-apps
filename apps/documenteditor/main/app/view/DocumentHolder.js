@@ -1880,7 +1880,7 @@ define([
                         }
                     })).show();
                 } else if (item.value == 'remove') {
-                    this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
+                    props.get_FormPr() ? this.api.asc_RemoveContentControl(props.get_InternalId()) : this.api.asc_RemoveContentControlWrapper(props.get_InternalId());
                 }
             }
             me.fireEvent('editcomplete', me);
@@ -3330,7 +3330,6 @@ define([
                         menu        : new Common.UI.Menu({
                             cls: 'shifted-right',
                             menuAlign: 'tl-tr',
-                            style   : 'width: 100px',
                             items   : [
                                 new Common.UI.MenuItem({
                                     caption: me.insertColumnLeftText
@@ -4353,6 +4352,10 @@ define([
                             return;
                     }
                     this.api.asc_addImage(obj);
+                    var me = this;
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
                     break;
                 case Asc.c_oAscContentControlSpecificType.DropDownList:
                 case Asc.c_oAscContentControlSpecificType.ComboBox:

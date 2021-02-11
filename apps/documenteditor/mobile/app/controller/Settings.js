@@ -346,8 +346,8 @@ define([
                 me.localSectionProps = me.api.asc_GetSectionProps();
 
                 if (me.localSectionProps) {
-                    me.maxMarginsH = me.localSectionProps.get_H() - 26;
-                    me.maxMarginsW = me.localSectionProps.get_W() - 127;
+                    me.maxMarginsH = me.localSectionProps.get_H() - 2.6;
+                    me.maxMarginsW = me.localSectionProps.get_W() - 12.7;
 
                     var top = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_TopMargin()).toFixed(2)),
                         bottom = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_BottomMargin()).toFixed(2)),
@@ -436,9 +436,9 @@ define([
                         info = document.info || {};
 
                     document.title ? $('#settings-document-title').html(document.title) : $('.display-document-title').remove();
-                    var value = info.owner || info.author;
+                    var value = info.owner;
                     value ? $('#settings-document-owner').html(value) : $('.display-owner').remove();
-                    value = info.uploaded || info.created;
+                    value = info.uploaded;
                     value ? $('#settings-doc-uploaded').html(value) : $('.display-uploaded').remove();
                     info.folder ? $('#settings-doc-location').html(info.folder) : $('.display-location').remove();
 

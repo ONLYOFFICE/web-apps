@@ -889,9 +889,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#tableadv-border-color-btn'),
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
+            this.btnBorderColor.on('auto:select', _.bind(me.onColorsBorderSelect, me));
             this.colorsBorder = this.btnBorderColor.getPicker();
 
             this.btnBackColor = new Common.UI.ColorButton({
@@ -929,10 +931,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
 
             var _arrBorderPresets = [
-                ['cm',      'btn-borders-large btn-adv-position-inner', 'tableadv-button-border-inner',     this.tipInner],
-                ['lrtb',    'btn-borders-large btn-adv-position-outer', 'tableadv-button-border-outer',     this.tipOuter],
-                ['lrtbcm',  'btn-borders-large btn-adv-position-all',   'tableadv-button-border-all',       this.tipAll],
-                ['',        'btn-borders-large btn-adv-position-none',  'tableadv-button-border-none',      this.tipNone]
+                ['cm',      'btn-borders-large toolbar__icon toolbar__icon-big borders-inner-only', 'tableadv-button-border-inner',     this.tipInner],
+                ['lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-outer-only', 'tableadv-button-border-outer',     this.tipOuter],
+                ['lrtbcm',  'btn-borders-large toolbar__icon toolbar__icon-big borders-all',   'tableadv-button-border-all',       this.tipAll],
+                ['',        'btn-borders-large toolbar__icon toolbar__icon-big borders-none',  'tableadv-button-border-none',      this.tipNone]
             ];
 
             this._btnsBorderPosition = [];
@@ -951,14 +953,14 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
 
             var _arrTableBorderPresets = [
-                ['cm', '',          'btn-borders-large btn-adv-position-inner-none',    'tableadv-button-border-inner-none',    this.tipCellInner],
-                ['lrtb', '',        'btn-borders-large btn-adv-position-outer-none',    'tableadv-button-border-outer-none',    this.tipCellOuter],
-                ['lrtbcm', '',      'btn-borders-large btn-adv-position-all-none',      'tableadv-button-border-all-none',      this.tipCellAll],
-                ['', '',            'btn-borders-large btn-adv-position-none-none',     'tableadv-button-border-none-none',     this.tipNone],
-                ['lrtbcm', 'lrtb',  'btn-borders-large btn-adv-position-all-table',     'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
-                ['', 'lrtb',        'btn-borders-large btn-adv-position-none-table',    'tableadv-button-border-none-table',    this.tipOuter],
-                ['cm', 'lrtb',      'btn-borders-large btn-adv-position-inner-table',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
-                ['lrtb', 'lrtb',    'btn-borders-large btn-adv-position-outer-table',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
+                ['cm', '',          'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-inner',    'tableadv-button-border-inner-none',    this.tipCellInner],
+                ['lrtb', '',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-outer',    'tableadv-button-border-outer-none',    this.tipCellOuter],
+                ['lrtbcm', '',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-all',      'tableadv-button-border-all-none',      this.tipCellAll],
+                ['', '',            'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none',          'tableadv-button-border-none-none',     this.tipNone],
+                ['lrtbcm', 'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-all',           'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
+                ['', 'lrtb',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-none',    'tableadv-button-border-none-table',    this.tipOuter],
+                ['cm', 'lrtb',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-inner',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
+                ['lrtb', 'lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-outer',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
             ];
 
             this._btnsTableBorderPosition = [];
@@ -1063,16 +1065,19 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
-                var colorstr = (typeof(this.borderProps.borderColor) == 'object') ? this.borderProps.borderColor.color : this.borderProps.borderColor;
+                this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');
+                var colorstr = (typeof(this.btnBorderColor.color) == 'object') ? this.btnBorderColor.color.color : this.btnBorderColor.color;
                 this.tableBordersImageSpacing.setVirtualBorderColor(colorstr);
                 this.tableBordersImage.setVirtualBorderColor(colorstr);
+                if (this.borderProps.borderColor=='auto')
+                    this.colorsBorder.clearSelection();
+                else
+                    this.colorsBorder.select(this.borderProps.borderColor,true);
 
                 this.cmbBorderSize.setValue(this.borderProps.borderSize.ptValue);
                 var rec = this.cmbBorderSize.getSelectedRecord();
                 if (rec)
                     this.onBorderSizeSelect(this.cmbBorderSize, rec);
-
-                this.colorsBorder.select(this.borderProps.borderColor, true);
             }
 
             for (var i=0; i<this.tableBordersImageSpacing.rows; i++) {
@@ -1163,7 +1168,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (this.isAltDescChanged)
                 this._changedProps.put_TableDescription(this.textareaAltDescription.val());
 
-            return { tableProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
+            return { tableProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color} };
         },
 
         _setDefaults: function(props) {
@@ -2063,7 +2068,13 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 var size = parseFloat(this.BorderSize.ptValue);
                 border.put_Value(1);
                 border.put_Size(size * 25.4 / 72.0);
-                var color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                var color;
+                if (this.btnBorderColor.isAutoColor()) {
+                    color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                } else {
+                    color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 border.put_Color(color);
             }
             else {

@@ -1,108 +1,12 @@
 
-.tool-menu.right {
-    .tool-menu-btns {
-        position: absolute;
-        border-left: 1px solid @gray-dark;
-        background-color: @gray-light;
-        right: 0;
-        overflow: hidden;
-    }
-}
-
-.right-panel {
-    width: 220px;
-    height: 100%;
-    display: none;
-    padding: 0 10px 0 15px;
-    position: relative;
-    overflow: hidden;
-    border-left: 1px solid @gray-dark;
-    line-height: 15px;
-}
-
 .settings-panel {
-    display: none;
-    overflow: visible;
-    margin-top: 7px;
-
-    & > table {
-        width: 100%;
-    }
-
-    &.active {
-        display: block;
-    }
-
-    .padding-small {
-        padding-bottom: 8px;
-    }
-
-    .padding-large {
-        padding-bottom: 16px;
-    }
-
-    .finish-cell {
-        height: 15px;
-    }
-
-    label {
-        .font-size-normal();
-        font-weight: normal;
-
-        &.input-label{
-            margin-bottom: 0;
-            vertical-align: middle;
-        }
-
-        &.header {
-            font-weight: bold;
-        }
-    }
-
-    .separator { width: 100%;}
-
-    .settings-hidden {
-        display: none;
-    }
-
-    textarea {
-        .user-select(text);
-        width: 100%;
-        resize: none;
-        margin-bottom: 5px;
-        border: 1px solid @gray-dark;
-        height: 100%;
-
-        &.disabled {
-            opacity: 0.65;
-            cursor: default !important;
-        }
-    }
 }
+
 .right-panel .settings-panel {
     label.input-label{
         vertical-align: baseline;
     }
 }
-
-.btn-edit-table,
-.btn-change-shape {
-    .background-ximage('@{common-image-path}/right-panels/rowscols_icon.png', '@{common-image-path}/right-panels/rowscols_icon@2x.png', 84px);
-    margin-right: 2px !important;
-    margin-bottom: 1px !important;
-}
-
-.btn-edit-table                  {background-position: 0      0;}
-button.over .btn-edit-table      {background-position: -28px  0;}
-.btn-group.open .btn-edit-table,
-button.active:not(.disabled) .btn-edit-table,
-button:active:not(.disabled) .btn-edit-table    {background-position: -56px  0;}
-
-.btn-change-shape                  {background-position: 0      -16px;}
-button.over .btn-change-shape      {background-position: -28px  -16px;}
-.btn-group.open .btn-change-shape,
-button.active:not(.disabled) .btn-change-shape,
-button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -16px;}
 
 .combo-pattern-item {
     .background-ximage('@{common-image-path}/right-panels/patterns.png', '@{common-image-path}/right-panels/patterns@2x.png', 112px);
@@ -111,10 +15,10 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 .combo-dataview-menu {
     .form-control {
         cursor: pointer;
-        background-color: white;
+        background-color: @background-normal;
 
         &.text {
-            background: white;
+            background: @background-normal;
             vertical-align: bottom;
         }
     }
@@ -258,7 +162,7 @@ button:active:not(.disabled) .btn-change-shape    {background-position: -56px  -
 
         &:hover,
         &.over {
-            background-color: @secondary;
+            background-color: @highlight-button-hover;
 
             .caret {
                 display: inline-block;

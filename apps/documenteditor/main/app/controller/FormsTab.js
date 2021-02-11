@@ -69,8 +69,10 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onChangeSpecialFormsGlobalSettings', _.bind(this.onChangeSpecialFormsGlobalSettings, this));
-                this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+                this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
+                this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
+                this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
 
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
@@ -80,8 +82,10 @@ define([
 
         setConfig: function(config) {
             this.toolbar = config.toolbar;
+            this.appConfig = config.config;
             this.view = this.createView('FormsTab', {
-                toolbar: this.toolbar.toolbar
+                toolbar: this.toolbar.toolbar,
+                config: config.config
             });
             this.addListeners({
                 'FormsTab': {
@@ -90,14 +94,19 @@ define([
                     'forms:clear': this.onClearClick,
                     'forms:no-color': this.onNoControlsColor,
                     'forms:select-color': this.onSelectControlsColor,
-                    'forms:open-color': this.onColorsShow,
-                    'forms:mode': this.onModeClick
+                    'forms:mode': this.onModeClick,
+                    'forms:goto': this.onGoTo,
+                    'forms:submit': this.onSubmitClick
                 }
             });
         },
 
         SetDisabled: function(state) {
             this.view && this.view.SetDisabled(state);
+        },
+
+        createToolbarPanel: function() {
+            return this.view.getPanel();
         },
 
         getView: function(name) {
@@ -110,7 +119,7 @@ define([
         },
 
         onApiFocusObject: function(selectedObjects) {
-            if (!this.toolbar.editMode) return;
+            if (!this.toolbar.editMode || this.appConfig.isRestrictedEdit) return;
 
             var pr, i = -1, type,
                 paragraph_locked = false,
@@ -145,36 +154,6 @@ define([
             }
         },
 
-        onSendThemeColors: function() {
-            this._needUpdateColors = true;
-        },
-
-        updateThemeColors: function() {
-            var updateColors = function(picker, defaultColorIndex) {
-                if (picker) {
-                    var clr;
-
-                    var effectcolors = Common.Utils.ThemeColor.getEffectColors();
-                    for (var i = 0; i < effectcolors.length; i++) {
-                        if (typeof(picker.currentColor) == 'object' &&
-                            clr === undefined &&
-                            picker.currentColor.effectId == effectcolors[i].effectId)
-                            clr = effectcolors[i];
-                    }
-
-                    picker.updateColors(effectcolors, Common.Utils.ThemeColor.getStandartColors());
-                    if (picker.currentColor === undefined) {
-                        picker.currentColor = effectcolors[defaultColorIndex];
-                    } else if ( clr!==undefined ) {
-                        picker.currentColor = clr;
-                    }
-                }
-            };
-
-            this.view && this.view.mnuFormsColorPicker && updateColors(this.view.mnuFormsColorPicker, 1);
-            this.onChangeSpecialFormsGlobalSettings();
-        },
-
         onChangeSpecialFormsGlobalSettings: function() {
             if (this.view && this.view.mnuFormsColorPicker) {
                 var clr = this.api.asc_GetSpecialFormsHighlightColor(),
@@ -186,13 +165,8 @@ define([
                     this.view.mnuFormsColorPicker.selectByRGB(clr, true);
                 }
                 this.view.btnHighlight.currentColor = clr;
-                $('.btn-color-value-line', this.view.btnHighlight.cmpEl).css('background-color', clr ? '#' + clr : 'transparent');
+                this.view.btnHighlight.setColor(this.view.btnHighlight.currentColor || 'transparent');
             }
-        },
-
-        onColorsShow: function(menu) {
-            this._needUpdateColors && this.updateThemeColors();
-            this._needUpdateColors = false;
         },
 
         onControlsSelect: function(type) {
@@ -252,6 +226,17 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onGoTo: function(type) {
+            if (this.api)
+                this.api.asc_MoveToFillingForm(type=='next');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onSubmitClick: function() {
+            this.api.asc_SendForm();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
         disableEditing: function(disable) {
             if (this._state.DisabledEditing != disable) {
                 this._state.DisabledEditing = disable;
@@ -274,12 +259,46 @@ define([
             }
         },
 
+        onLongActionBegin: function(type, id) {
+            if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
+                this._submitFail = false;
+                this.submitedTooltip && this.submitedTooltip.hide();
+                this.view.btnSubmit.setDisabled(true);
+            }
+        },
+
+        onLongActionEnd: function(type, id) {
+            if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
+                this.view.btnSubmit.setDisabled(false);
+                if (!this.submitedTooltip) {
+                    this.submitedTooltip = new Common.UI.SynchronizeTip({
+                        text: this.view.textSubmited,
+                        extCls: 'no-arrow',
+                        showLink: false,
+                        target: $('.toolbar'),
+                        placement: 'bottom'
+                    });
+                    this.submitedTooltip.on('closeclick', function () {
+                        this.submitedTooltip.hide();
+                    }, this);
+                }
+                !this._submitFail && this.submitedTooltip.show();
+            }
+        },
+
+        onError: function(id, level, errData) {
+            if (id==Asc.c_oAscError.ID.Submit) {
+                this._submitFail = true;
+                this.submitedTooltip && this.submitedTooltip.hide();
+            }
+        },
+
         onAppReady: function (config) {
             var me = this;
             (new Promise(function (accept, reject) {
                 accept();
             })).then(function(){
-                if (config.canEditContentControl) {
+                if (config.canEditContentControl && me.view.btnHighlight) {
                     var clr = me.api.asc_GetSpecialFormsHighlightColor();
                     clr && (clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b()));
                     me.view.btnHighlight.currentColor = clr;

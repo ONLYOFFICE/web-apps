@@ -22,8 +22,8 @@
     line-height: @loadmask-image-height;
     border: none;
     background-image: none;
-    background-color: fade(@gray-deep, 95%);
-    color: @gray-light;
+    background-color: @background-loader;
+    color: @text-contrast-background;
     .border-radius(@border-radius-large);
 
     left: 50%;
@@ -52,7 +52,7 @@
     .left-panel & {
         line-height: @loadmask-small-image-height;
         background-color: transparent;
-        color: @gray-deep;
+        color: @text-normal;
         padding: 8px;
         top: 78px;
         transform: translate(-50%, 0);

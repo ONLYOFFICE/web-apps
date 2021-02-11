@@ -414,7 +414,7 @@
   "DE.Controllers.Toolbar.textAccent": "Акценти",
   "DE.Controllers.Toolbar.textBracket": "дужки",
   "DE.Controllers.Toolbar.textEmptyImgUrl": "Потрібно вказати URL-адресу зображення.",
-  "DE.Controllers.Toolbar.textFontSizeErr": "Введене значення невірно. <br> Будь ласка, введіть числове значення від 1 до 100",
+  "DE.Controllers.Toolbar.textFontSizeErr": "Введене значення невірно. <br> Будь ласка, введіть числове значення від 1 до 300",
   "DE.Controllers.Toolbar.textFraction": "Дроби",
   "DE.Controllers.Toolbar.textFunction": "Функції",
   "DE.Controllers.Toolbar.textIntegral": "Інтеграли",
