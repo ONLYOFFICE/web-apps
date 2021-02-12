@@ -878,7 +878,7 @@ define([
                 $('.doc-placeholder').remove();
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
 
-                $('#header-logo').children(0).click(e => {
+                $('#header-logo').children(0).click(function() {
                     e.stopImmediatePropagation();
 
                     Common.UI.Themes.toggleTheme();
