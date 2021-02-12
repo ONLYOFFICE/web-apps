@@ -155,7 +155,8 @@
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
                     macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
-                    trackChanges: undefined // true/false - open editor with track changes mode on/off
+                    trackChanges: undefined // true/false - open editor with track changes mode on/off,
+                    hideRulers: false, // hide or show rulers on first loading (presentation or document editor)
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],

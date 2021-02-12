@@ -1439,7 +1439,9 @@ define([
                     Common.Utils.InternalSettings.set("de-settings-unit", value);
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
 
-                    me.api.asc_SetViewRulers(!Common.localStorage.getBool('de-hidden-rulers'));
+                    value = Common.localStorage.itemExists('de-hidden-rulers') ? Common.localStorage.getBool('de-hidden-rulers') : (this.appOptions.customization && !!this.appOptions.customization.hideRulers);
+                    Common.Utils.InternalSettings.set("de-hidden-rulers", value);
+                    me.api.asc_SetViewRulers(!value);
 
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
                     /** coauthoring begin **/
