@@ -69,9 +69,23 @@ define([
         };
 
         function iOSVersion() {
-            var ua = navigator.userAgent;
-            var m;
-            return (m = /(iPad|iPhone|iphone).*?(OS |os |OS\_)(\d+((_|\.)\d)?((_|\.)\d)?)/.exec(ua)) ? parseFloat(m[3]) : 0;
+            var ua = navigator.userAgent.toLowerCase();
+            var isAppleDevices = (ua.indexOf("ipad") > -1 || ua.indexOf("iphone") > -1 || ua.indexOf("ipod") > -1);
+            if (!isAppleDevices && Common.Utils.isSafari && Common.Utils.isMac && (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1))
+                isAppleDevices = true;
+
+            var iosversion = 0;
+            if (isAppleDevices) {
+                iosversion = 13;
+                try
+                {
+                    var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+                    if (!v) v = (navigator.appVersion).match(/Version\/(\d+).(\d+)/);
+                    iosversion = parseInt(v[1], 10);
+                }
+                catch (err) {}
+            }
+            return iosversion;
         }
 
         return {
