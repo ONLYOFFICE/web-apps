@@ -119,7 +119,23 @@ Common.Utils = _.extend(new(function() {
         isMobile = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera),
         me = this,
         checkSize = function() {
-            var scale = window.AscCommon.checkDeviceScale();
+            var scale = {};
+            if ( !!window.AscCommon )
+                scale = window.AscCommon.checkDeviceScale();
+            else {
+                var str_mq_150 = "screen and (-webkit-min-device-pixel-ratio: 1.5) and (-webkit-max-device-pixel-ratio: 1.9), " +
+                        "screen and (min-resolution: 1.5dppx) and (max-resolution: 1.9dppx)";
+                var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
+                        "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
+
+                if ( window.matchMedia(str_mq_150).matches ) {
+                    scale.devicePixelRatio = 1.5;
+                } else
+                if ( window.matchMedia(str_mq_200).matches )
+                    scale.devicePixelRatio = 2;
+                else scale.devicePixelRatio = 1;
+            }
+
             var $root = $(document.body);
             if ( scale.devicePixelRatio > 1 && scale.devicePixelRatio <= 1.5 ) {
                 $root.removeClass('pixel-ratio__2');
