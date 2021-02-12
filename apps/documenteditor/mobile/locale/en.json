@@ -54,6 +54,7 @@
       "textAccept": "Accept",
       "textReject": "Reject",
       "textNoChanges": "There are no changes.",
+      "textDelete": "Delete",
       "textInserted": "<b>Inserted:</b>",
       "textDeleted": "<b>Deleted:</b>",
       "textParaInserted": "<b>Paragraph Inserted</b> ",

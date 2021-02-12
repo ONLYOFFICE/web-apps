@@ -104,8 +104,18 @@ class Review extends Component {
     }
 
     render() {
+        const displayMode = this.props.storeReview.displayMode;
+        const isReviewOnly = this.appConfig.isReviewOnly;
+        const canReview = this.appConfig.canReview;
+        const canUseReviewPermissions = this.appConfig.canUseReviewPermissions;
+        const isRestrictedEdit = this.appConfig.isRestrictedEdit;
         return (
-            <PageReview trackChanges={this.state.trackChanges}
+            <PageReview isReviewOnly={isReviewOnly}
+                        canReview={canReview}
+                        canUseReviewPermissions={canUseReviewPermissions}
+                        isRestrictedEdit={isRestrictedEdit}
+                        displayMode={displayMode}
+                        trackChanges={this.state.trackChanges}
                         onTrackChanges={this.onTrackChanges}
                         onAcceptAll={this.onAcceptAll}
                         onRejectAll={this.onRejectAll}
@@ -118,6 +128,11 @@ class Review extends Component {
 class ReviewChange extends Component {
     constructor (props) {
         super(props);
+        this.onAcceptCurrentChange = this.onAcceptCurrentChange.bind(this);
+        this.onRejectCurrentChange = this.onRejectCurrentChange.bind(this);
+        this.onGotoNextChange = this.onGotoNextChange.bind(this);
+        this.onDeleteChange = this.onDeleteChange.bind(this);
+
         this.appConfig = props.storeAppOptions;
 
         if (this.appConfig && this.appConfig.canUseReviewPermissions) {
@@ -375,29 +390,83 @@ class ReviewChange extends Component {
             const userColor = item.get_UserColor();
             const goto = (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom);
             date = this.dateToLocaleTimeString(date);
-            const editable = this.appConfig.isReviewOnly && (item.get_UserId() == _userId) || !this.appConfig.isReviewOnly && (!this.appConfig.canUseReviewPermissions || this.checkUserGroups(item.get_UserName()));
+            const editable = this.appConfig.isReviewOnly && (item.get_UserId() == this.appConfig.user.id) || !this.appConfig.isReviewOnly && (!this.appConfig.canUseReviewPermissions || this.checkUserGroups(item.get_UserName()));
             arr.push({date: date, user: user, userColor: userColor, changeText: changeText, goto: goto, editable: editable});
         });
         return arr;
     }
 
+    onPrevChange () {
+        const api = Common.EditorApi.get();
+        api.asc_GetPrevRevisionsChange();
+    }
+
+    onNextChange () {
+        const api = Common.EditorApi.get();
+        api.asc_GetNextRevisionsChange();
+    }
+
+    onAcceptCurrentChange () {
+        const api = Common.EditorApi.get();
+        api.asc_AcceptChanges(this.dataChanges[0]);
+        setTimeout(() => {
+            api.asc_GetNextRevisionsChange();
+        });
+    }
+
+    onRejectCurrentChange () {
+        const api = Common.EditorApi.get();
+        api.asc_RejectChanges(this.dataChanges[0]);
+        setTimeout(() => {
+            api.asc_GetNextRevisionsChange();
+        });
+    }
+
+    onGotoNextChange () {
+        const api = Common.EditorApi.get();
+        api.asc_FollowRevisionMove(this.dataChanges[0]);
+    }
+
+    onDeleteChange () {
+        const api = Common.EditorApi.get();
+        api.asc_RejectChanges(this.dataChanges[0]);
+    }
+
     render() {
-        const dataChanges = this.props.storeReview.dataChanges;
-        const arrChangeReview = this.getArrChangeReview(dataChanges);
+        this.dataChanges = this.props.storeReview.dataChanges;
+        const arrChangeReview = this.getArrChangeReview(this.dataChanges);
         let change;
         let goto = false;
         if (arrChangeReview.length > 0) {
             change = {
                 date: arrChangeReview[0].date,
                 user: arrChangeReview[0].user,
+                userName: Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(arrChangeReview[0].user)),
                 color: arrChangeReview[0].userColor.get_hex(),
                 text: arrChangeReview[0].changeText,
-                initials: this.getInitials(arrChangeReview[0].user)
+                initials: this.getInitials(arrChangeReview[0].user),
+                editable: arrChangeReview[0].editable
             };
             goto = arrChangeReview[0].goto;
         }
+
+        const isReviewOnly = this.appConfig.isReviewOnly;
+        const canReview = this.appConfig.canReview;
+        const displayMode = this.props.storeReview.displayMode;
+
         return (
-            <PageReviewChange change={change} goto={goto}/>
+            <PageReviewChange change={change}
+                              goto={goto}
+                              isReviewOnly={isReviewOnly}
+                              canReview={canReview}
+                              displayMode={displayMode}
+                              onPrevChange={this.onPrevChange}
+                              onNextChange={this.onNextChange}
+                              onAcceptCurrentChange={this.onAcceptCurrentChange}
+                              onRejectCurrentChange={this.onRejectCurrentChange}
+                              onGotoNextChange={this.onGotoNextChange}
+                              onDeleteChange={this.onDeleteChange}
+            />
         )
     }
 }
