@@ -204,29 +204,29 @@ class ReviewChange extends Component {
             LINERULE_EXACT: 2
         };
         data.forEach((item) => {
-            let changeText = '', proptext = '',
+            let changeText = [], proptext = '',
                 value = item.get_Value(),
                 movetype = item.get_MoveType();
             switch (item.get_Type()) {
                 case Asc.c_oAscRevisionsChangeType.TextAdd:
-                    changeText = (movetype === Asc.c_oAscRevisionsMove.NoMove) ? _t.textInserted : _t.textParaMoveTo;
+                    changeText.push(<b key={'added_action_' + Asc.c_oAscRevisionsChangeType.TextAdd}>{_t.textInserted}</b>);
                     if (typeof value == 'object') {
                         value.forEach( (obj) => {
                             if (typeof obj === 'string')
-                                changeText += (' ' + Common.Utils.String.htmlEncode(obj));
+                                changeText.push(<label key={'added_text_' + Asc.c_oAscRevisionsChangeType.TextAdd}> {Common.Utils.String.htmlEncode(obj)}</label>);
                             else {
                                 switch (obj) {
                                     case 0:
-                                        changeText += (' &lt;' + _t.textImage + '&gt;');
+                                        changeText.push(<label>&lt;{_t.textImage}&gt;</label>);
                                         break;
                                     case 1:
-                                        changeText += (' &lt;' + _t.textShape + '&gt;');
+                                        changeText.push(<label>&lt;{_t.textShape}&gt;</label>);
                                         break;
                                     case 2:
-                                        changeText += (' &lt;' + _t.textChart + '&gt;');
+                                        changeText.push(<label>&lt;{_t.textChart}&gt;</label>);
                                         break;
                                     case 3:
-                                        changeText += (' &lt;' + _t.textEquation + '&gt;');
+                                        changeText.push(<label>&lt;{_t.textEquation}&gt;</label>);
                                         break;
                                 }
                             }
