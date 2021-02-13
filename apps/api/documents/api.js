@@ -424,6 +424,11 @@
                     return false;
                 }
 
+                if (_config.editorConfig.user && _config.editorConfig.user.id && (typeof _config.editorConfig.user.id == 'number')) {
+                    _config.editorConfig.user.id = _config.editorConfig.user.id.toString();
+                    console.warn("The \"id\" parameter for the editorConfig.user object must be a string.");
+                }
+
                 _config.document.token = _config.token;
             }
             
