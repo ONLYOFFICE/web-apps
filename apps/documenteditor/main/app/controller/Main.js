@@ -387,6 +387,7 @@ define([
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
                 this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
+                this.appOptions.canChangeUITheme = true;
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 

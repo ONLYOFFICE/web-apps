@@ -43,6 +43,10 @@ define([
                 return Common.localStorage.getItem('ui-theme', 'theme-light');
             },
 
+            isDarkTheme: function () {
+                return this.current() == 'theme-dark';
+            },
+
             setTheme: function (name) {
                 if ( sdk_themes_relation.contains(name) ) {
                     var classname = document.documentElement.className.replace(/theme-\w+\s?/, '');
@@ -51,6 +55,7 @@ define([
                     this.api.asc_setSkin(sdk_themes_relation[name]);
                     $(':root').addClass(name);
                     Common.localStorage.setItem('ui-theme', name);
+                    Common.NotificationCenter.trigger('uitheme:change', name);
                 }
             },
 

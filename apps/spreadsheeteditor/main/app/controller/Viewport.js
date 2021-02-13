@@ -327,6 +327,22 @@ define([
                     cls     : 'btn-toolbar'
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
+                if ( config.canChangeUITheme ) {
+                    var mnuitemDarkTheme = new Common.UI.MenuItem({
+                        caption: me.header.textDarkTheme,
+                        checked: Common.UI.Themes.isDarkTheme(),
+                        checkable: true,
+                        value: 'theme:dark'
+                    });
+
+
+                    me.header.btnOptions.menu.insertItem(10, mnuitemDarkTheme);
+                    me.header.btnOptions.menu.insertItem(10, {caption:'--'});
+                    Common.NotificationCenter.on('uitheme:change', function (name) {
+                        mnuitemDarkTheme.setChecked(Common.UI.Themes.isDarkTheme());
+                    });
+                }
+
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
             }
         },
@@ -490,6 +506,10 @@ define([
                 Common.localStorage.setBool('sse-freeze-shadow', item.isChecked());
                 break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            case 'theme:dark':
+                if ( item.isChecked() != Common.UI.Themes.isDarkTheme() )
+                    Common.UI.Themes.toggleTheme();
+                break;
             }
         },
 

@@ -168,6 +168,7 @@
   "Common.Views.Header.tipViewUsers": "View users and manage document access rights",
   "Common.Views.Header.txtAccessRights": "Change access rights",
   "Common.Views.Header.txtRename": "Rename",
+  "Common.Views.Header.textDarkTheme": "Dark theme",
   "Common.Views.ImageFromUrlDialog.textUrl": "Paste an image URL:",
   "Common.Views.ImageFromUrlDialog.txtEmpty": "This field is required",
   "Common.Views.ImageFromUrlDialog.txtNotUrl": "This field should be a URL in the \"http://www.example.com\" format",
