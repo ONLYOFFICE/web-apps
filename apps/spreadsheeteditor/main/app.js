@@ -203,7 +203,6 @@ require([
             ,'common/main/lib/controller/Protection'
             ,'common/main/lib/controller/Themes'
             ,'common/main/lib/controller/Desktop'
-            ,'../../../../sdkjs/common/device_scale'
         ], function() {
             app.start();
         });
