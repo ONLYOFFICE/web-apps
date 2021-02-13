@@ -1135,6 +1135,11 @@ define([
                         config.msg = this.errorFrmlMaxReference;
                         break;
 
+                    case Asc.c_oAscError.ID.DataValidate:
+                        errData && errData.asc_getErrorTitle() && (config.title = Common.Utils.String.htmlEncode(errData.asc_getErrorTitle()));
+                        config.msg = errData && errData.asc_getError() ? Common.Utils.String.htmlEncode(errData.asc_getError()) : this.errorDataValidate;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1163,31 +1168,24 @@ define([
                 else {
                     Common.Gateway.reportWarning(id, config.msg);
 
-                    config.title    = this.notcriticalErrorTitle;
-//                    config.iconCls  = 'warn';
-//                    config.buttons  = ['ok'];
+                    config.title    = config.title || this.notcriticalErrorTitle;
                     config.callback = _.bind(function(btn){
-                        if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && (this.appOptions.canDownload || this.appOptions.canDownloadOrigin)) {
-                            Common.UI.Menu.Manager.hideAll();
-                            if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
-                                this.api.asc_DownloadAs();
-                            else
-                                (this.appOptions.canDownload) ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : this.api.asc_DownloadOrigin();
+                        if (id == Asc.c_oAscError.ID.DataValidate) {
+                            this.api.asc_closeCellEditor(true);
                         }
                         this._state.lostEditingRights = false;
                     }, this);
                 }
 
-//                Common.UI.alert(config);
+                if (id == Asc.c_oAscError.ID.DataValidate) {
+                    config.buttons = [{ text: 'OK' }, { text: this.textCancel, onClick: config.callback }];
+                } else {
+                    config.buttons = [{ text: 'OK', onClick: config.callback }];
+                }
                 uiApp.modal({
                     title   : config.title,
                     text    : config.msg,
-                    buttons: [
-                        {
-                            text: 'OK',
-                            onClick: config.callback
-                        }
-                    ]
+                    buttons : config.buttons
                 });
 
                 Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -1783,7 +1781,8 @@ define([
             errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
             warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-            textGuest: 'Guest'
+            textGuest: 'Guest',
+            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.'
         }
     })(), SSE.Controllers.Main || {}))
 });
