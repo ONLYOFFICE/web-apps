@@ -939,7 +939,7 @@ define([
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && (Common.Utils.InternalSettings.get("guest-username")===null))
                     this.showRenameUserDialog();
 
-                $('#header-logo').children(0).click(function() {
+                $('#header-logo').children(0).click(function(e) {
                     e.stopImmediatePropagation();
                     Common.UI.Themes.toggleTheme();
                 })
