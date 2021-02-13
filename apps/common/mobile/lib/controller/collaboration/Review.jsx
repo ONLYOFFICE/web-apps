@@ -311,7 +311,6 @@ class ReviewChange extends Component {
                     changeText += proptext;
                     break;
                 case Asc.c_oAscRevisionsChangeType.ParaPr:
-                    changeText = '<b>' + _t.textParaFormatted;
                     if (value.Get_ContextualSpacing())
                         proptext += ((value.Get_ContextualSpacing() ? _t.textContextual : _t.textNoContextual) + ', ');
                     if (value.Get_IndLeft() !== undefined)
@@ -368,11 +367,9 @@ class ReviewChange extends Component {
                     }
 
                     if (proptext.length > 0) {
-                        changeText += ': ';
                         proptext = proptext.substring(0, proptext.length - 2);
                     }
-                    changeText += '</b>';
-                    changeText += proptext;
+                    changeText = `<b><b>${_t.textParaFormatted}</b>${proptext.length ? ': ' : ''}</b>${proptext}`;
                     break;
                 case Asc.c_oAscRevisionsChangeType.TablePr:
                     changeText = _t.textTableChanged;
