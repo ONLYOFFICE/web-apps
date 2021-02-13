@@ -652,9 +652,9 @@ define([
                 cls         : 'btn-large-dataview',
                 iconCls     : 'svgicon chart-spark-column',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 167px; padding-top: 12px;',
+                    style: 'width: 167px;',
                     items: [
-                        { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"  style="margin: 5px 5px 0 10px;"></div>') }
+                        { template: _.template('<div id="id-spark-menu-type" class="menu-insertchart"></div>') }
                     ]
                 })
             });

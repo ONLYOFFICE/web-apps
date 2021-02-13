@@ -146,10 +146,10 @@ define([
                 cls         : 'btn-large-dataview',
                 iconCls     : 'svgicon chart-bar-normal',
                 menu        : new Common.UI.Menu({
-                    style: 'width: 364px; padding-top: 12px;',
+                    style: 'width: 364px;',
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        { template: _.template('<div id="chart-type-dlg-menu-type" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                        { template: _.template('<div id="chart-type-dlg-menu-type" class="menu-insertchart"></div>') }
                     ]
                 })
             });
@@ -157,7 +157,7 @@ define([
                 me.mnuChartTypePicker = new Common.UI.DataView({
                     el: $('#chart-type-dlg-menu-type', me.$window),
                     parentMenu: btn.menu,
-                    restoreHeight: 421,
+                    restoreHeight: 465,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                     store: new Common.UI.DataViewStore(arr),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
@@ -394,10 +394,10 @@ define([
             });
             var combomenu = new Common.UI.Menu({
                 cls: 'menu-absolute',
-                style: 'width: 318px; padding-top: 12px;',
+                style: 'width: 318px;',
                 additionalAlign: this.menuAddAlign,
                 items: [
-                    { template: _.template('<div id="chart-type-dlg-series-menu-' + index + '" class="menu-insertchart"  style="margin: 5px 5px 5px 10px;"></div>') }
+                    { template: _.template('<div id="chart-type-dlg-series-menu-' + index + '" class="menu-insertchart"></div>') }
                 ]
             });
             combomenu.render(el);
@@ -406,7 +406,7 @@ define([
                 var picker = new Common.UI.DataView({
                     el: $('#chart-type-dlg-series-menu-' + index),
                     parentMenu: menu,
-                    restoreHeight: 421,
+                    restoreHeight: 465,
                     groups: new Common.UI.DataViewGroupStore(me._arrSeriesGroups),
                     store: store,
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
