@@ -102,6 +102,9 @@
                 return {
                     customization   : {
                         goback: { url: "onlyoffice.com" }
+                        , feedback: {
+                            url: "https://helpdesk.onlyoffice.com/?desktop=true"
+                        }
                     },
                     mode            : urlParams["mode"] || 'edit',
                     lang            : urlParams["lang"] || 'en',
