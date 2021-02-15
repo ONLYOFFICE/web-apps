@@ -73,6 +73,7 @@ define([
                 DisabledControls: true,
                 DisabledFillPanels: false,
                 CellAngle: undefined,
+                CellIndent: undefined,
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 CellColor: 'transparent',
                 FillType: Asc.c_oAscFill.FILL_TYPE_NOFILL,
@@ -148,6 +149,10 @@ define([
 
         onAngleChange: function(field, newValue, oldValue, eOpts) {
             this.api && this.api.asc_setCellAngle(field.getNumberValue());
+        },
+
+        onIndentChange: function(field, newValue, oldValue, eOpts) {
+            this.api && this.api.asc_setCellIndent(field.getNumberValue());
         },
 
         render: function () {
@@ -429,6 +434,21 @@ define([
             });
             this.lockedControls.push(this.btnBackColor);
 
+            this.spnIndent = new Common.UI.MetricSpinner({
+                el: $('#cell-spin-indent'),
+                step: 1,
+                width: 60,
+                defaultUnit : "",
+                value: '0',
+                allowDecimal: false,
+                maxValue: 250,
+                minValue: 0,
+                disabled: this._locked
+            });
+            this.lockedControls.push(this.spnIndent);
+            this.spnIndent.on('change', _.bind(this.onIndentChange, this));
+            this.spnIndent.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me);});
+
             this.spnAngle = new Common.UI.MetricSpinner({
                 el: $('#cell-spin-angle'),
                 step: 1,
@@ -512,11 +532,20 @@ define([
                 this._noApply = true;
 
                 var xfs = props.asc_getXfs(),
-                    value = xfs.asc_getAngle();
+                    value = xfs.asc_getAngle(),
+                    align = xfs.asc_getHorAlign();
                 if (Math.abs(this._state.CellAngle - value) > 0.1 || (this._state.CellAngle === undefined) && (this._state.CellAngle !== value)) {
                     this.spnAngle.setValue((value !== null) ? (value==255 ? 0 : value) : '', true);
                     this._state.CellAngle = value;
                 }
+
+                value = xfs.asc_getIndent();
+                if (Math.abs(this._state.CellIndent - value) > 0.1 || (this._state.CellIndent === undefined) && (this._state.CellIndent !== value)) {
+                    this.spnIndent.setValue((value !== null) ? value : '', true);
+                    this._state.CellIndent = value;
+                }
+                this._state.IndentDisabled = (this._state.CellAngle>0 || align!==AscCommon.align_Left && align!==AscCommon.align_Right);
+                this.spnIndent.setDisabled(this._locked || this._state.IndentDisabled);
 
                 value = xfs.asc_getWrapText();
                 if ( this._state.Wrap!==value ) {
@@ -898,6 +927,7 @@ define([
                     item.setDisabled(disable);
                 });
             }
+            this.spnIndent.setDisabled(disable || this._state.IndentDisabled);
         },
 
         onFillSrcSelect: function(combo, record) {
@@ -1319,7 +1349,8 @@ define([
         textGradientColor: 'Color',
         textPosition: 'Position',
         tipAddGradientPoint: 'Add gradient point',
-        tipRemoveGradientPoint: 'Remove gradient point'
+        tipRemoveGradientPoint: 'Remove gradient point',
+        textIndent: 'Indent'
 
     }, SSE.Views.CellSettings || {}));
 });

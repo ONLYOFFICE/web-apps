@@ -110,6 +110,16 @@
         </td>
     </tr>
     <tr>
+        <td colspan=2 class="">
+            <label class="header"><%= scope.textIndent %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large" colspan=2>
+            <div id="cell-spin-indent" style="display: inline-block;"></div>
+        </td>
+    </tr>
+    <tr>
         <td colspan=2 class="padding-small">
             <label class="header"><%= scope.textOrientation %></label>
         </td>

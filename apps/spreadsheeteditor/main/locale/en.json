@@ -1370,6 +1370,7 @@
   "SSE.Views.CellSettings.tipRemoveGradientPoint": "Remove gradient point",
   "SSE.Views.CellSettings.tipRight": "Set outer right border only",
   "SSE.Views.CellSettings.tipTop": "Set outer top border only",
+  "SSE.Views.CellSettings.textIndent": "Indent",
   "SSE.Views.ChartDataDialog.errorInFormula": "There's an error in formula you entered.",
   "SSE.Views.ChartDataDialog.errorInvalidReference": "The reference is not valid. Reference must be to an open worksheet.",
   "SSE.Views.ChartDataDialog.errorMaxPoints": "The maximum number of points in series per chart is 4096.",
