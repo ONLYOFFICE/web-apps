@@ -13,6 +13,22 @@ class EditChartController extends Component {
         this.onStyle = this.onStyle.bind(this);
         this.onBorderColor = this.onBorderColor.bind(this);
         this.onBorderSize = this.onBorderSize.bind(this);
+        this.onVerAxisMinValue = this.onVerAxisMinValue.bind(this);
+        this.onVerAxisMaxValue = this.onVerAxisMaxValue.bind(this);
+        this.onVerAxisCrossType = this.onVerAxisCrossType.bind(this);
+        this.onVerAxisCrossValue = this.onVerAxisCrossValue.bind(this);
+        this.onVerAxisDisplayUnits = this.onVerAxisDisplayUnits.bind(this);
+        this.onVerAxisReverse = this.onVerAxisReverse.bind(this);
+        this.onVerAxisTickMajor = this.onVerAxisTickMajor.bind(this);
+        this.onVerAxisTickMinor = this.onVerAxisTickMinor.bind(this);
+        this.onVerAxisLabelPos = this.onVerAxisLabelPos.bind(this);
+        this.onHorAxisCrossType = this.onHorAxisCrossType.bind(this);
+        this.onHorAxisCrossValue = this.onHorAxisCrossValue.bind(this);
+        this.onHorAxisPos = this.onHorAxisPos.bind(this);
+        this.onHorAxisReverse = this.onHorAxisReverse.bind(this);
+        this.onHorAxisTickMajor = this.onHorAxisTickMajor.bind(this);
+        this.onHorAxisTickMinor = this.onHorAxisTickMinor.bind(this);
+        this.onHorAxisLabelPos = this.onHorAxisLabelPos.bind(this);
     }
 
     closeModal() {
@@ -160,7 +176,206 @@ class EditChartController extends Component {
 
             api.asc_editChartDrawingObject(chartObject);
         }
+    }
 
+    initVertAxis() {
+        const api = Common.EditorApi.get();
+        const chartProperty = api.asc_getChartObject();
+
+        let verAxisProps = chartProperty.getVertAxisProps();
+        let axisVertProps = (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartProperty.getHorAxisProps();
+
+        return axisVertProps;
+    } 
+
+    getVerticalAxisProp() {
+        const api = Common.EditorApi.get();
+        let chartObject = api.asc_getChartObject(),
+            verAxisProps = chartObject.getVertAxisProps();
+
+        return (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartObject.getHorAxisProps();
+    }
+
+    setVerticalAxisProp(axisProps) {
+        const api = Common.EditorApi.get();
+        let chartObject = api.asc_getChartObject(),
+            verAxisProps = chartObject.getVertAxisProps();
+
+        if (chartObject) {
+            chartObject[(verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? 'putVertAxisProps' : 'putHorAxisProps'](axisProps);
+            api.asc_editChartDrawingObject(chartObject);
+        }
+    }
+
+    onVerAxisMinValue(value) {
+        let axisProps = this.getVerticalAxisProp(),
+            axisRule = !value ? Asc.c_oAscValAxisRule.auto : Asc.c_oAscValAxisRule.fixed;
+
+        axisProps.putMinValRule(axisRule);
+
+        if (axisRule == Asc.c_oAscValAxisRule.fixed) {
+            axisProps.putMinVal(+value);
+        }
+
+        this.setVerticalAxisProp(axisProps);
+    }
+
+    onVerAxisMaxValue(value) {
+        let axisProps = this.getVerticalAxisProp(),
+            axisRule = !value ? Asc.c_oAscValAxisRule.auto : Asc.c_oAscValAxisRule.fixed;
+
+        axisProps.putMaxValRule(axisRule);
+
+        if (axisRule == Asc.c_oAscValAxisRule.fixed) {
+            axisProps.putMaxVal(+value);
+        }
+
+        this.setVerticalAxisProp(axisProps);
+    }
+
+    onVerAxisCrossType(value) {
+        let axisProps = this.getVerticalAxisProp();
+
+        axisProps.putCrossesRule(+value);
+
+        this.setVerticalAxisProp(axisProps);
+    }
+
+    onVerAxisCrossValue(value) {
+        let axisProps = this.getVerticalAxisProp();
+
+        axisProps.putCrossesRule(Asc.c_oAscCrossesRule.value);
+        axisProps.putCrosses(+value);
+
+        this.setVerticalAxisProp(axisProps);
+    }
+
+    onVerAxisDisplayUnits(value) {
+        let axisProps = this.getVerticalAxisProp();
+
+        axisProps.putDispUnitsRule(+value);
+
+        this.setVerticalAxisProp(axisProps);
+    }
+
+    onVerAxisReverse(value) {
+        let axisProps = this.getVerticalAxisProp();
+
+        axisProps.putInvertValOrder(value);
+
+        this.setVerticalAxisProp(axisProps);
+    }
+
+    onVerAxisTickMajor(value) {
+        let axisProps = this.getVerticalAxisProp();
+
+        axisProps.putMajorTickMark(+value);
+
+        this.setVerticalAxisProp(axisProps);
+    }
+
+    onVerAxisTickMinor(value) {
+        let axisProps = this.getVerticalAxisProp();
+
+        axisProps.putMinorTickMark(+value);
+
+        this.setVerticalAxisProp(axisProps);
+    }
+
+    onVerAxisLabelPos(value) {
+        let axisProps = this.getVerticalAxisProp();
+
+        axisProps.putTickLabelsPos(+value);
+
+        this.setVerticalAxisProp(axisProps);
+    }
+
+    // Horizontal
+
+    initHorAxis() {
+        const api = Common.EditorApi.get();
+        const chartProperty = api.asc_getChartObject();
+
+        let horAxisProps = chartProperty.getHorAxisProps();
+        let axisHorProps = (horAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartProperty.getVertAxisProps() : horAxisProps;
+
+        return axisHorProps;
+    }
+
+    getHorizontalAxisProp() {
+        const api = Common.EditorApi.get();
+        let chartObject = api.asc_getChartObject(),
+            verHorProps = chartObject.getHorAxisProps();
+
+        return (verHorProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartObject.getVertAxisProps() : verHorProps;
+    }
+
+    setHorizontalAxisProp(axisProps) {
+        const api = Common.EditorApi.get();
+        let chartObject = api.asc_getChartObject(),
+            verAxisProps = chartObject.getHorAxisProps();
+
+        if (chartObject) {
+            chartObject[(verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? 'putVertAxisProps' : 'putHorAxisProps'](axisProps);
+            api.asc_editChartDrawingObject(chartObject);
+        }
+    }
+
+    onHorAxisCrossType(value) {
+        let axisProps = this.getHorizontalAxisProp();
+
+        axisProps.putCrossesRule(+value);
+
+        this.setHorizontalAxisProp(axisProps);
+    }
+
+    onHorAxisCrossValue(value) {
+        let axisProps = this.getHorizontalAxisProp();
+
+        axisProps.putCrossesRule(Asc.c_oAscCrossesRule.value);
+        axisProps.putCrosses(+value);
+
+        this.setHorizontalAxisProp(axisProps);
+    }
+
+    onHorAxisPos(value) {
+        let axisProps = this.getHorizontalAxisProp();
+
+        axisProps.putLabelsPosition(+value);
+
+        this.setHorizontalAxisProp(axisProps);
+    }
+
+    onHorAxisReverse(value) {
+        let axisProps = this.getHorizontalAxisProp();
+
+        axisProps.putInvertCatOrder(value);
+
+        this.setHorizontalAxisProp(axisProps);
+    }
+
+    onHorAxisTickMajor(value) {
+        let axisProps = this.getHorizontalAxisProp();
+
+        axisProps.putMajorTickMark(+value);
+
+        this.setHorizontalAxisProp(axisProps);
+    }
+
+    onHorAxisTickMinor(value) {
+        let axisProps = this.getHorizontalAxisProp();
+
+        axisProps.putMinorTickMark(+value);
+
+        this.setHorizontalAxisProp(axisProps);
+    }
+
+    onHorAxisLabelPos(value) {
+        let axisProps = this.getHorizontalAxisProp();
+
+        axisProps.putTickLabelsPos(+value);
+
+        this.setHorizontalAxisProp(axisProps);
     }
 
     render () {
@@ -174,6 +389,26 @@ class EditChartController extends Component {
                 onStyle={this.onStyle}
                 onRemoveChart={this.onRemoveChart}
                 setLayoutProperty={this.setLayoutProperty}
+                initVertAxis={this.initVertAxis}
+                onVerAxisMinValue={this.onVerAxisMinValue}
+                onVerAxisMaxValue={this.onVerAxisMaxValue}
+                onVerAxisCrossType={this.onVerAxisCrossType}
+                onVerAxisCrossValue={this.onVerAxisCrossValue}
+                onVerAxisDisplayUnits={this.onVerAxisDisplayUnits}
+                onVerAxisReverse={this.onVerAxisReverse}
+                onVerAxisTickMajor={this.onVerAxisTickMajor}
+                onVerAxisTickMinor={this.onVerAxisTickMinor}
+                onVerAxisLabelPos={this.onVerAxisLabelPos}
+                initHorAxis={this.initHorAxis}
+                getHorizontalAxisProp={this.getHorizontalAxisProp}
+                setHorizontalAxisProp={this.setHorizontalAxisProp}
+                onHorAxisCrossType={this.onHorAxisCrossType}
+                onHorAxisCrossValue={this.onHorAxisCrossValue}
+                onHorAxisPos={this.onHorAxisPos}
+                onHorAxisReverse={this.onHorAxisReverse}
+                onHorAxisTickMajor={this.onHorAxisTickMajor}
+                onHorAxisTickMinor={this.onHorAxisTickMinor}
+                onHorAxisLabelPos={this.onHorAxisLabelPos}
             />
         )
     }

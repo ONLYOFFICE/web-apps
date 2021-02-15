@@ -75,6 +75,72 @@ export class storeChartSettings {
         this.chartDataLabel = value;
     }
 
+    @observable axisVertCrosses = undefined;
+    @observable axisHorCrosses = undefined;
+    @observable displayUnits = undefined;
+    @observable valuesVertReverseOrder = undefined;
+    @observable valuesHorReverseOrder = undefined;
+    @observable vertMajorType = undefined;
+    @observable vertMinorType = undefined;
+    @observable vertLabelPosition = undefined;
+    @observable horMajorType = undefined;
+    @observable horMinorType = undefined;
+    @observable horLabelPosition = undefined;
+    @observable axisPosition = undefined;
+
+    // Vertical
+
+    @action changeVertAxisCrosses(value) {
+        this.axisVertCrosses = value;
+    }
+
+    @action changeDisplayUnits(value) {
+        this.displayUnits = value;
+    }
+
+    @action toggleVertValuesReverseOrder(value) {
+        this.valuesVertReverseOrder = value;
+    }
+
+    @action changeVertMajorType(value)
+    {
+        this.vertMajorType = value;
+    }
+
+    @action changeVertMinorType(value) {
+        this.vertMinorType = value;
+    }
+
+    @action changeVertLabelPosition(value) {
+        this.vertLabelPosition = value;
+    }
+
+    // Horizontal
+
+    @action changeHorAxisCrosses(value) {
+        this.axisHorCrosses = value;
+    }
+
+    @action toggleHorValuesReverseOrder(value) {
+        this.valuesHorReverseOrder = value;
+    }
+
+    @action changeHorMajorType(value){
+        this.horMajorType = value;
+    }
+
+    @action changeHorMinorType(value) {
+        this.horMinorType = value;
+    }
+
+    @action changeHorLabelPosition(value) {
+        this.horLabelPosition = value;
+    }
+
+    @action changeAxisPosition(value) {
+        this.axisPosition = value;
+    }
+
     @observable chartStyles = null;
 
     @action clearChartStyles () {

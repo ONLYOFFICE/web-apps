@@ -1,6 +1,6 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {List, ListItem, ListButton, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, Link, Tabs, Tab, NavTitle, NavRight} from 'framework7-react';
+import {List, ListItem, ListButton, ListInput, Icon, Row, Page, Navbar, BlockTitle, Toggle, Range, Link, Tabs, Tab, NavTitle, NavRight} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import {CustomColorPicker, ThemeColorPalette} from "../../../../../common/mobile/lib/component/ThemeColorPalette.jsx";
@@ -329,8 +329,8 @@ const PageLayout = props => {
         2: `${_t.textTop}`,
         3: `${_t.textRight}`,
         4: `${_t.textBottom}`,
-        // 5: `${_t.textLeftOverlay}`,
-        // 6: `${_t.textRightOverlay}`
+        5: `${_t.textLeftOverlay}`,
+        6: `${_t.textRightOverlay}`
     }
 
     const chartLayoutAxisTitleHorizontal = {
@@ -371,9 +371,6 @@ const PageLayout = props => {
         5: `${_t.textInnerTop}`,
         7: `${_t.textOuterTop}`
     }
-
-    console.log(chartProperties.getVertGridLines());
-
 
     return (
         <Page>
@@ -602,6 +599,593 @@ const PageDataLabels = props => {
     )
 }
 
+const PageVerticalAxis = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const axisProps = props.initVertAxis();
+    const crossValue = axisProps.getCrossesRule();
+
+    const axisCrosses = [
+        {display: `${_t.textAuto}`, value: Asc.c_oAscCrossesRule.auto},
+        {display: `${_t.textValue}`, value: Asc.c_oAscCrossesRule.value},
+        {display: `${_t.textMinimumValue}`, value: Asc.c_oAscCrossesRule.minValue},
+        {display: `${_t.textMaximumValue}`, value: Asc.c_oAscCrossesRule.maxValue}
+    ];
+
+    const vertAxisDisplayUnits = [
+        {display: `${_t.textNone}`, value: Asc.c_oAscValAxUnits.none},
+        {display: `${_t.textHundreds}`, value: Asc.c_oAscValAxUnits.HUNDREDS},
+        {display: `${_t.textThousands}`, value: Asc.c_oAscValAxUnits.THOUSANDS},
+        {display: `${_t.textTenThousands}`, value: Asc.c_oAscValAxUnits.TEN_THOUSANDS},
+        {display: `${_t.textHundredThousands}`, value: Asc.c_oAscValAxUnits.HUNDRED_THOUSANDS},
+        {display: `${_t.textMillions}`, value: Asc.c_oAscValAxUnits.MILLIONS},
+        {display: `${_t.textTenMillions}`, value: Asc.c_oAscValAxUnits.TEN_MILLIONS},
+        {display: `${_t.textHundredMil}`, value: Asc.c_oAscValAxUnits.HUNDRED_MILLIONS},
+        {display: `${_t.textBillions}`, value: Asc.c_oAscValAxUnits.BILLIONS},
+        {display: `${_t.textTrillions}`, value: Asc.c_oAscValAxUnits.TRILLIONS}
+    ];
+
+    const tickOptions = [
+        {display: `${_t.textNone}`, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+        {display: `${_t.textCross}`, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+        {display: `${_t.textIn}`, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+        {display: `${_t.textOut}`, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
+    ];
+
+    const verticalAxisLabelsPosition = [
+        {display: `${_t.textNone}`, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
+        {display: `${_t.textLow}`, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
+        {display: `${_t.textHigh}`, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
+        {display: `${_t.textNextToAxis}`, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
+    ];
+
+    const defineCurrentAxisCrosses = () => axisCrosses.find(elem => elem.value === crossValue);
+    const currentAxisCrosses = defineCurrentAxisCrosses();
+
+    if(!storeChartSettings.axisVertCrosses) {
+        storeChartSettings.changeVertAxisCrosses(currentAxisCrosses);
+    }
+
+    // console.log(storeChartSettings.axisCrosses);
+
+    const defineCurrentDisplayUnits = () => vertAxisDisplayUnits.find(elem => elem.value ===  axisProps.getDispUnitsRule());
+    const currentDisplayUnits = defineCurrentDisplayUnits();
+
+    if(!storeChartSettings.displayUnits) {
+        storeChartSettings.changeDisplayUnits(currentDisplayUnits);
+    }
+
+    // console.log(storeChartSettings.displayUnits);
+
+    if(storeChartSettings.valuesVertReverseOrder == undefined) {
+        storeChartSettings.toggleVertValuesReverseOrder(axisProps.getInvertValOrder());
+    }
+
+    const valueMajorType = axisProps.getMajorTickMark();
+    const valueMinorType = axisProps.getMinorTickMark();
+    const defineCurrentTickOption = (elemType) => tickOptions.find(elem => elem.value === elemType);
+    const currentMajorType = defineCurrentTickOption(valueMajorType);
+
+    if(!storeChartSettings.vertMajorType) {
+        storeChartSettings.changeVertMajorType(currentMajorType);
+    }
+
+    const currentMinorType = defineCurrentTickOption(valueMinorType);
+
+    if(!storeChartSettings.vertMinorType) {
+        storeChartSettings.changeVertMinorType(currentMinorType);
+    }
+
+    // console.log(storeChartSettings.vertMajorType);
+    // console.log(storeChartSettings.vertMinorType);
+
+    const defineLabelsPosition = () => verticalAxisLabelsPosition.find(elem => elem.value === axisProps.getTickLabelsPos());
+    const currentLabelsPosition = defineLabelsPosition();
+
+    if(!storeChartSettings.vertLabelPosition) {
+        storeChartSettings.changeVertLabelPosition(currentLabelsPosition);
+    }
+
+    // console.log(storeChartSettings.vertLabelPosition);
+
+    const [minValue, setMinValue] = useState(axisProps.getMinValRule() == Asc.c_oAscValAxisRule.auto ? '' : axisProps.getMinVal());
+    const [maxValue, setMaxValue] = useState(axisProps.getMaxValRule() == Asc.c_oAscValAxisRule.auto ? '' : axisProps.getMaxVal());
+
+    const currentCrossesValue = axisProps.getCrosses();
+    const [crossesValue, setCrossesValue] = useState(!currentCrossesValue ? '' : currentCrossesValue);
+
+    return (
+        <Page>
+            <Navbar title={_t.textAxisOptions} backLink={_t.textBack} />
+            <List>
+                <ListItem title={_t.textMinimumValue}>
+                    <div slot="after">
+                        <div className="item-input">
+                            <input type="number" className="field right placeholder-color" value={minValue} 
+                                onChange={e => props.onVerAxisMinValue(e.target.value)}
+                                onInput={e => setMinValue(e.target.value)} placeholder="Auto" />
+                        </div>
+                    </div>
+                </ListItem>
+                <ListItem title={_t.textMaximumValue}>
+                    <div slot="after">
+                        <div className="item-input">
+                            <input type="number" className="field right placeholder-color" value={maxValue} 
+                                onChange={e => props.onVerAxisMaxValue(e.target.value)} 
+                                onInput={e => setMaxValue(e.target.value)} placeholder="Auto" />
+                        </div>
+                    </div>
+                </ListItem>
+            </List>
+            <List>
+                <ListItem title={_t.textAxisCrosses} link="/edit-vert-axis-crosses/" after={storeChartSettings.axisVertCrosses.display} routeProps={{
+                    axisCrosses,
+                    onVerAxisCrossType: props.onVerAxisCrossType
+                }}></ListItem>
+                {storeChartSettings.axisVertCrosses.value == Asc.c_oAscCrossesRule.value ? (
+                    <ListItem title={_t.textCrossesValue}>
+                        <div slot="after">
+                            <div className="item-input">
+                                <input type="number" className="field right placeholder-color" value={crossesValue} 
+                                    onChange={e => props.onVerAxisCrossValue(e.target.value)} 
+                                    onInput={e => setCrossesValue(e.target.value)} placeholder="0" />
+                            </div>
+                        </div>
+                    </ListItem>
+                ) : null}
+            </List>
+            <List>
+                <ListItem title={_t.textDisplayUnits} link="/edit-display-units/" after={storeChartSettings.displayUnits.display} routeProps={{
+                    vertAxisDisplayUnits,
+                    onVerAxisDisplayUnits: props.onVerAxisDisplayUnits
+                }}></ListItem>
+                <ListItem title={_t.textValuesInReverseOrder}>
+                    <div slot="after">
+                        <Toggle checked={storeChartSettings.valuesVertReverseOrder} 
+                            onToggleChange={() => {
+                                storeChartSettings.toggleVertValuesReverseOrder(!storeChartSettings.valuesVertReverseOrder);
+                                props.onVerAxisReverse(!storeChartSettings.valuesVertReverseOrder);
+                            }} />
+                    </div>
+                </ListItem>
+            </List>
+            <BlockTitle>{_t.textTickOptions}</BlockTitle>
+            <List>
+                <ListItem title={_t.textMajorType} after={storeChartSettings.vertMajorType.display} link="/edit-vert-major-type/" routeProps={{
+                    tickOptions,
+                    onVerAxisTickMajor: props.onVerAxisTickMajor
+                }}></ListItem>
+                <ListItem title={_t.textMinorType} after={storeChartSettings.vertMinorType.display} link="/edit-vert-minor-type/" routeProps={{
+                    tickOptions,
+                    onVerAxisTickMinor: props.onVerAxisTickMinor
+                }}></ListItem>
+            </List>
+            <BlockTitle>{_t.textLabelOptions}</BlockTitle>
+            <List>
+                <ListItem title={_t.textLabelPosition} after={storeChartSettings.vertLabelPosition.display} link="/edit-vert-label-position/" routeProps={{
+                    verticalAxisLabelsPosition,
+                    onVerAxisLabelPos: props.onVerAxisLabelPos
+                }}></ListItem>
+            </List>
+        </Page>
+    )
+}
+
+const PageVertAxisCrosses = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const currentAxisCrosses = storeChartSettings.axisVertCrosses;
+    const axisCrosses = props.axisCrosses;
+
+    return (    
+        <Page>
+            <Navbar title={_t.textAxisCrosses} backLink={_t.textBack} />
+            <List>
+                {axisCrosses.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={currentAxisCrosses.value === elem.value} 
+                            onChange={() => { 
+                                storeChartSettings.changeVertAxisCrosses(elem);
+                                props.onVerAxisCrossType(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
+const PageDisplayUnits = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const displayUnits = storeChartSettings.displayUnits;
+    const vertAxisDisplayUnits = props.vertAxisDisplayUnits;
+    
+    return (
+        <Page>
+            <Navbar title={_t.textDisplayUnits} backLink={_t.textBack} />
+            <List>
+                {vertAxisDisplayUnits.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={displayUnits.value === elem.value}
+                            onChange={() => {
+                                storeChartSettings.changeDisplayUnits(elem);
+                                props.onVerAxisDisplayUnits(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
+const PageVertMajorType = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const vertMajorType = storeChartSettings.vertMajorType;
+    const tickOptions = props.tickOptions;
+
+    return (
+        <Page>
+            <Navbar title={_t.textMajorType} backLink={_t.textBack} />
+            <List>
+                {tickOptions.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={vertMajorType.value === elem.value}
+                            onChange={() => {
+                                storeChartSettings.changeVertMajorType(elem);
+                                props.onVerAxisTickMajor(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
+const PageVertMinorType = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const vertMinorType = storeChartSettings.vertMinorType;
+    const tickOptions = props.tickOptions;
+
+    return (
+        <Page>
+            <Navbar title={_t.textMinorType} backLink={_t.textBack} />
+            <List>
+                {tickOptions.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={vertMinorType.value === elem.value}
+                            onChange={() => {
+                                storeChartSettings.changeVertMinorType(elem);
+                                props.onVerAxisTickMinor(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
+const PageVertLabelPosition = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const vertLabelPosition = storeChartSettings.vertLabelPosition;
+    const verticalAxisLabelsPosition = props.verticalAxisLabelsPosition;
+
+    return (
+        <Page>
+            <Navbar title={_t.textLabelPosition} backLink={_t.textBack} />
+            <List>
+                {verticalAxisLabelsPosition.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={vertLabelPosition.value === elem.value}
+                            onChange={() => {
+                                storeChartSettings.changeVertLabelPosition(elem);
+                                props.onVerAxisLabelPos(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
+const PageHorizontalAxis = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const axisProps = props.initHorAxis();
+    const crossValue = axisProps.getCrossesRule();
+
+    const axisCrosses = [
+        {display: `${_t.textAuto}`, value: Asc.c_oAscCrossesRule.auto},
+        {display: `${_t.textValue}`, value: Asc.c_oAscCrossesRule.value},
+        {display: `${_t.textMinimumValue}`, value: Asc.c_oAscCrossesRule.minValue},
+        {display: `${_t.textMaximumValue}`, value: Asc.c_oAscCrossesRule.maxValue}
+    ];
+
+    const tickOptions = [
+        {display: `${_t.textNone}`, value: Asc.c_oAscTickMark.TICK_MARK_NONE},
+        {display: `${_t.textCross}`, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
+        {display: `${_t.textIn}`, value: Asc.c_oAscTickMark.TICK_MARK_IN},
+        {display: `${_t.textOut}`, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
+    ];
+
+    const horAxisLabelsPosition = [
+        {display: `${_t.textNone}`, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NONE},
+        {display: `${_t.textLow}`, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
+        {display: `${_t.textHigh}`, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
+        {display: `${_t.textNextToAxis}`, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
+    ];
+
+    const horAxisPosition = [
+        {display: `${_t.textOnTickMarks}`, value: Asc.c_oAscLabelsPosition.byDivisions},
+        {display: `${_t.textBetweenTickMarks}`, value: Asc.c_oAscLabelsPosition.betweenDivisions}
+    ];
+
+    const defineCurrentAxisCrosses = () => axisCrosses.find(elem => elem.value === crossValue);
+    const currentAxisCrosses = defineCurrentAxisCrosses();
+
+    if(!storeChartSettings.axisHorCrosses) {
+        storeChartSettings.changeHorAxisCrosses(currentAxisCrosses);
+    }
+
+    console.log(storeChartSettings.axisHorCrosses);
+
+    const defineAxisPosition = () => horAxisPosition.find(elem => elem.value === axisProps.getLabelsPosition());
+    const axisPosition = defineAxisPosition();
+
+    if(!storeChartSettings.axisPosition) {
+        storeChartSettings.changeAxisPosition(axisPosition);
+    }
+
+    console.log(storeChartSettings.axisPosition)
+
+    if(storeChartSettings.valuesHorReverseOrder == undefined) {
+        storeChartSettings.toggleHorValuesReverseOrder(axisProps.getInvertCatOrder());
+    }
+
+    console.log(storeChartSettings.valuesHorReverseOrder);
+
+    const valueMajorType = axisProps.getMajorTickMark();
+    const valueMinorType = axisProps.getMinorTickMark();
+    const defineCurrentTickOption = (elemType) => tickOptions.find(elem => elem.value === elemType);
+    const currentMajorType = defineCurrentTickOption(valueMajorType);
+
+    if(!storeChartSettings.horMajorType) {
+        storeChartSettings.changeHorMajorType(currentMajorType);
+    }
+
+    const currentMinorType = defineCurrentTickOption(valueMinorType);
+
+    if(!storeChartSettings.horMinorType) {
+        storeChartSettings.changeHorMinorType(currentMinorType);
+    }
+
+    console.log(storeChartSettings.horMajorType);
+    console.log(storeChartSettings.horMinorType);
+
+    const defineLabelsPosition = () => horAxisLabelsPosition.find(elem => elem.value === axisProps.getTickLabelsPos());
+    const currentLabelsPosition = defineLabelsPosition();
+
+    if(!storeChartSettings.horLabelPosition) {
+        storeChartSettings.changeHorLabelPosition(currentLabelsPosition);
+    }
+
+    console.log(storeChartSettings.horLabelPosition);
+
+    const currentCrossesValue = axisProps.getCrosses();
+    const [crossesValue, setCrossesValue] = useState(!currentCrossesValue ? '' : currentCrossesValue);
+
+    return (
+        <Page>
+            <Navbar title={_t.textAxisOptions} backLink={_t.textBack} />
+            <List>
+                <ListItem title={_t.textAxisCrosses} link="/edit-hor-axis-crosses/" after={storeChartSettings.axisHorCrosses.display} routeProps={{
+                    axisCrosses,
+                    onHorAxisCrossType: props.onHorAxisCrossType
+                }}></ListItem>
+                {storeChartSettings.axisHorCrosses.value == Asc.c_oAscCrossesRule.value ? (
+                    <ListItem title={_t.textCrossesValue}>
+                        <div slot="after">
+                            <div className="item-input">
+                                <input type="number" className="field right placeholder-color" value={crossesValue} 
+                                    onChange={e => props.onHorAxisCrossValue(e.target.value)} 
+                                    onInput={e => setCrossesValue(e.target.value)} placeholder="0" />
+                            </div>
+                        </div>
+                    </ListItem>
+                ) : null}
+            </List>
+            <List>
+                <ListItem title={_t.textAxisPosition} link="/edit-hor-axis-position/" after={storeChartSettings.axisPosition.display} routeProps={{
+                    horAxisPosition,
+                    onHorAxisPos: props.onHorAxisPos
+                }}></ListItem>
+                <ListItem title={_t.textValuesInReverseOrder}>
+                    <div slot="after">
+                        <Toggle checked={storeChartSettings.valuesHorReverseOrder} 
+                            onToggleChange={() => {
+                                storeChartSettings.toggleHorValuesReverseOrder(!storeChartSettings.valuesHorReverseOrder);
+                                props.onHorAxisReverse(!storeChartSettings.valuesHorReverseOrder);
+                            }} />
+                    </div>
+                </ListItem>
+            </List>
+            <BlockTitle>{_t.textTickOptions}</BlockTitle>
+            <List>
+                <ListItem title={_t.textMajorType} after={storeChartSettings.horMajorType.display} link="/edit-hor-major-type/" routeProps={{
+                    tickOptions,
+                    onHorAxisTickMajor: props.onHorAxisTickMajor
+                }}></ListItem>
+                <ListItem title={_t.textMinorType} after={storeChartSettings.horMinorType.display} link="/edit-hor-minor-type/" routeProps={{
+                    tickOptions,
+                    onHorAxisTickMinor: props.onHorAxisTickMinor
+                }}></ListItem>
+            </List>
+            <BlockTitle>{_t.textLabelOptions}</BlockTitle>
+            <List>
+                <ListItem title={_t.textLabelPosition} after={storeChartSettings.horLabelPosition.display} link="/edit-hor-label-position/" routeProps={{
+                    horAxisLabelsPosition,
+                    onHorAxisLabelPos: props.onHorAxisLabelPos
+                }}></ListItem>
+            </List>
+        </Page>
+    )
+}
+
+const PageHorAxisCrosses = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const currentAxisCrosses = storeChartSettings.axisHorCrosses;
+    const axisCrosses = props.axisCrosses;
+
+    return (    
+        <Page>
+            <Navbar title={_t.textAxisCrosses} backLink={_t.textBack} />
+            <List>
+                {axisCrosses.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={currentAxisCrosses.value === elem.value} 
+                            onChange={() => { 
+                                storeChartSettings.changeHorAxisCrosses(elem);
+                                props.onHorAxisCrossType(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
+const PageHorAxisPosition = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const axisPosition = storeChartSettings.axisPosition;
+    const horAxisPosition = props.horAxisPosition;
+
+    return (    
+        <Page>
+            <Navbar title={_t.textAxisPosition} backLink={_t.textBack} />
+            <List>
+                {horAxisPosition.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={axisPosition.value === elem.value} 
+                            onChange={() => { 
+                                storeChartSettings.changeAxisPosition(elem);
+                                props.onHorAxisPos(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
+const PageHorMajorType = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const horMajorType = storeChartSettings.horMajorType;
+    const tickOptions = props.tickOptions;
+
+    return (
+        <Page>
+            <Navbar title={_t.textMajorType} backLink={_t.textBack} />
+            <List>
+                {tickOptions.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={horMajorType.value === elem.value}
+                            onChange={() => {
+                                storeChartSettings.changeHorMajorType(elem);
+                                props.onHorAxisTickMajor(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
+const PageHorMinorType = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const horMinorType = storeChartSettings.horMinorType;
+    const tickOptions = props.tickOptions;
+
+    return (
+        <Page>
+            <Navbar title={_t.textMinorType} backLink={_t.textBack} />
+            <List>
+                {tickOptions.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={horMinorType.value === elem.value}
+                            onChange={() => {
+                                storeChartSettings.changeHorMinorType(elem);
+                                props.onHorAxisTickMinor(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
+const PageHorLabelPosition = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const storeChartSettings = props.storeChartSettings;
+    const horLabelPosition = storeChartSettings.horLabelPosition;
+    const horAxisLabelsPosition = props.horAxisLabelsPosition;
+
+    return (
+        <Page>
+            <Navbar title={_t.textLabelPosition} backLink={_t.textBack} />
+            <List>
+                {horAxisLabelsPosition.map((elem, index) => {
+                    return (
+                        <ListItem title={elem.display} key={index} radio
+                            checked={horLabelPosition.value === elem.value}
+                            onChange={() => {
+                                storeChartSettings.changeHorLabelPosition(elem);
+                                props.onHorAxisLabelPos(elem.value);
+                            }}>
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
+    )
+}
+
 const EditChart = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
@@ -629,8 +1213,28 @@ const EditChart = props => {
                     disableSetting, 
                     setLayoutProperty: props.setLayoutProperty
                 }}></ListItem>
-                <ListItem title={_t.textVerticalAxis} link='/edit-chart-vertical-axis/' disabled={disableSetting}></ListItem>
-                <ListItem title={_t.textHorizontalAxis} link='/edit-chart-horizontal-axis/' disabled={disableSetting}></ListItem>
+                <ListItem title={_t.textVerticalAxis} link='/edit-chart-vertical-axis/' disabled={disableSetting} routeProps={{
+                    initVertAxis: props.initVertAxis,
+                    onVerAxisMinValue: props.onVerAxisMinValue,
+                    onVerAxisMaxValue: props.onVerAxisMaxValue,
+                    onVerAxisCrossType: props.onVerAxisCrossType,
+                    onVerAxisCrossValue: props.onVerAxisCrossValue,
+                    onVerAxisDisplayUnits: props.onVerAxisDisplayUnits,
+                    onVerAxisReverse: props.onVerAxisReverse,
+                    onVerAxisTickMajor: props.onVerAxisTickMajor,
+                    onVerAxisTickMinor: props.onVerAxisTickMinor,
+                    onVerAxisLabelPos: props.onVerAxisLabelPos
+                }}></ListItem>
+                <ListItem title={_t.textHorizontalAxis} link='/edit-chart-horizontal-axis/' disabled={disableSetting} routeProps={{
+                    initHorAxis: props.initHorAxis,
+                    onHorAxisCrossType: props.onHorAxisCrossType,
+                    onHorAxisCrossValue: props.onHorAxisCrossValue,
+                    onHorAxisPos: props.onHorAxisPos,
+                    onHorAxisReverse: props.onHorAxisReverse,
+                    onHorAxisTickMajor: props.onHorAxisTickMajor,
+                    onHorAxisTickMinor: props.onHorAxisTickMinor,
+                    onHorAxisLabelPos: props.onHorAxisLabelPos
+                }}></ListItem>
                 <ListItem title={_t.textReorder} link='/edit-chart-reorder/' routeProps={{
                     onReorder: props.onReorder
                 }}></ListItem>
@@ -651,10 +1255,22 @@ const PageChartLayout = inject("storeChartSettings", "storeFocusObjects")(observ
 const PageChartLegend = inject("storeChartSettings")(observer(PageLegend));
 const ChartTitle = inject("storeChartSettings")(observer(PageChartTitle));
 const PageChartHorizontalAxisTitle = inject("storeChartSettings")(observer(PageHorizontalAxisTitle));
-const PageChartVerticalAxisTitle = inject("storeChartSettings")(observer(PageVerticalAxisTitle));
+const PageChartVerticalAxisTitle = inject("storeChartSettings", "storeFocusObjects")(observer(PageVerticalAxisTitle));
 const PageChartHorizontalGridlines = inject("storeChartSettings")(observer(PageHorizontalGridlines));
 const PageChartVerticalGridlines = inject("storeChartSettings")(observer(PageVerticalGridlines));
 const PageChartDataLabels = inject("storeChartSettings")(observer(PageDataLabels));
+const PageChartVerticalAxis = inject("storeChartSettings")(observer(PageVerticalAxis));
+const PageChartVertAxisCrosses = inject("storeChartSettings")(observer(PageVertAxisCrosses));
+const PageChartDisplayUnits = inject("storeChartSettings")(observer(PageDisplayUnits));
+const PageChartVertMajorType = inject("storeChartSettings")(observer(PageVertMajorType));
+const PageChartVertMinorType = inject("storeChartSettings")(observer(PageVertMinorType));
+const PageChartVertLabelPosition = inject("storeChartSettings")(observer(PageVertLabelPosition));
+const PageChartHorizontalAxis = inject("storeChartSettings")(observer(PageHorizontalAxis));
+const PageChartHorAxisCrosses = inject("storeChartSettings")(observer(PageHorAxisCrosses));
+const PageChartHorAxisPosition = inject("storeChartSettings")(observer(PageHorAxisPosition));
+const PageChartHorMajorType = inject("storeChartSettings")(observer(PageHorMajorType));
+const PageChartHorMinorType = inject("storeChartSettings")(observer(PageHorMinorType));
+const PageChartHorLabelPosition = inject("storeChartSettings")(observer(PageHorLabelPosition));
 
 export {
     PageEditChart as EditChart,
@@ -670,5 +1286,17 @@ export {
     PageChartVerticalAxisTitle,
     PageChartHorizontalGridlines,
     PageChartVerticalGridlines,
-    PageChartDataLabels
+    PageChartDataLabels,
+    PageChartVerticalAxis,
+    PageChartVertAxisCrosses,
+    PageChartDisplayUnits,
+    PageChartVertMajorType,
+    PageChartVertMinorType,
+    PageChartVertLabelPosition, 
+    PageChartHorizontalAxis,
+    PageChartHorAxisCrosses,
+    PageChartHorAxisPosition, 
+    PageChartHorMajorType,
+    PageChartHorMinorType,
+    PageChartHorLabelPosition
 }

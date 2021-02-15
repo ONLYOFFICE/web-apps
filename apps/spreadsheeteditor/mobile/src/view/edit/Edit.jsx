@@ -15,7 +15,7 @@ import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorder
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell } from './EditCell';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
-import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageChartLegend, PageChartTitle, PageChartHorizontalAxisTitle, PageChartVerticalAxisTitle, PageChartHorizontalGridlines, PageChartVerticalGridlines, PageChartDataLabels } from './EditChart';
+import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageChartLegend, PageChartTitle, PageChartHorizontalAxisTitle, PageChartVerticalAxisTitle, PageChartHorizontalGridlines, PageChartVerticalGridlines, PageChartDataLabels, PageChartVerticalAxis, PageChartVertAxisCrosses, PageChartDisplayUnits, PageChartVertMajorType, PageChartVertMinorType, PageChartVertLabelPosition, PageChartHorizontalAxis, PageChartHorAxisCrosses, PageChartHorAxisPosition, PageChartHorMajorType, PageChartHorMinorType, PageChartHorLabelPosition } from './EditChart';
 
 const routes = [
 
@@ -200,7 +200,62 @@ const routes = [
     {
         path: '/edit-data-labels/',
         component: PageChartDataLabels
+    },
+
+    // Vertical Axis
+
+    {
+        path: '/edit-chart-vertical-axis/',
+        component: PageChartVerticalAxis
+    },
+    {
+        path: '/edit-vert-axis-crosses/',
+        component: PageChartVertAxisCrosses
+    },
+    {
+        path: '/edit-display-units/',
+        component: PageChartDisplayUnits
+    },
+    {
+        path: '/edit-vert-major-type/',
+        component: PageChartVertMajorType
+    },
+    {
+        path: '/edit-vert-minor-type/',
+        component: PageChartVertMinorType
+    },
+    {
+        path: '/edit-vert-label-position/',
+        component: PageChartVertLabelPosition
+    },
+
+    // Horizontal Axis
+
+    {
+        path: '/edit-chart-horizontal-axis/',
+        component: PageChartHorizontalAxis
+    },
+    {
+        path: '/edit-hor-axis-crosses/',
+        component: PageChartHorAxisCrosses
+    },
+    {
+        path: '/edit-hor-axis-position/',
+        component: PageChartHorAxisPosition
+    },
+    {
+        path: '/edit-hor-major-type/',
+        component: PageChartHorMajorType
+    },
+    {
+        path: '/edit-hor-minor-type/',
+        component: PageChartHorMinorType
+    },
+    {
+        path: '/edit-hor-label-position/',
+        component: PageChartHorLabelPosition
     }
+
 
 ];
 
