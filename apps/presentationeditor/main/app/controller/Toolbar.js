@@ -110,11 +110,10 @@ define([
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
-                [254, 190.5], [254, 143], [254, 158.7], [254, 190.5], [338.3, 253.7], [355.6, 266.7],
-                [275, 190.5], [300.7, 225.5], [199.1, 149.3], [285.7, 190.5], [254, 190.5], [203.2, 25.4]
-            ];
+                { size: [9144000, 6858000], ratio: 9144000/6858000, type: Asc.c_oAscSlideSZType.SzScreen4x3},
+                { size: [12192000, 6858000], ratio: 12192000/6858000, type: Asc.c_oAscSlideSZType.SzCustom} ];
             this.currentPageSize = {
-                type: -1,
+                type: Asc.c_oAscSlideSZType.SzCustom,
                 width: 0,
                 height: 0
             };
@@ -621,24 +620,25 @@ define([
             }
         },
 
-        onApiPageSize: function(width, height) {
+        onApiPageSize: function(width, height, type) {
             if (Math.abs(this.currentPageSize.width - width) > 0.001 ||
-                Math.abs(this.currentPageSize.height - height) > 0.001) {
+                Math.abs(this.currentPageSize.height - height) > 0.001 ||
+                this.currentPageSize.type !== type) {
                 this.currentPageSize.width  = width;
                 this.currentPageSize.height = height;
-                this.currentPageSize.type   = -1;
+                this.currentPageSize.type   = type;
 
-                var portrait = (height>width);
+                var ratio = (height>width) ? height/width : width/height;
+                var idx = -1;
                 for (var i = 0; i < this.slideSizeArr.length; i++) {
-                    if (Math.abs(this.slideSizeArr[i][portrait ? 1 : 0] - this.currentPageSize.width) < 0.001 &&
-                        Math.abs(this.slideSizeArr[i][portrait ? 0 : 1] - this.currentPageSize.height) < 0.001) {
-                        this.currentPageSize.type = i;
+                    if (Math.abs(this.slideSizeArr[i].ratio - ratio) < 0.001 ) {
+                        idx = i;
                         break;
                     }
                 }
 
-                this.toolbar.btnSlideSize.menu.items[0].setChecked(this.currentPageSize.type == 0);
-                this.toolbar.btnSlideSize.menu.items[1].setChecked(this.currentPageSize.type == 1);
+                this.toolbar.btnSlideSize.menu.items[0].setChecked(idx == 0);
+                this.toolbar.btnSlideSize.menu.items[1].setChecked(idx == 1);
             }
         },
 
@@ -1745,16 +1745,13 @@ define([
             if (item.value !== 'advanced') {
                 var portrait = (this.currentPageSize.height > this.currentPageSize.width);
                 this.currentPageSize = {
-                    type    : item.value,
-                    width   : this.slideSizeArr[item.value][portrait ? 1 : 0],
-                    height  : this.slideSizeArr[item.value][portrait ? 0 : 1]
+                    type    : this.slideSizeArr[item.value].type,
+                    width   : this.slideSizeArr[item.value].size[portrait ? 1 : 0],
+                    height  : this.slideSizeArr[item.value].size[portrait ? 0 : 1]
                 };
 
                 if (this.api)
-                    this.api.changeSlideSize(
-                        this.slideSizeArr[item.value][portrait ? 1 : 0],
-                        this.slideSizeArr[item.value][portrait ? 0 : 1]
-                    );
+                    this.api.changeSlideSize(this.currentPageSize.width, this.currentPageSize.height, this.currentPageSize.type);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Slide Size');
@@ -1766,10 +1763,20 @@ define([
                     if (result == 'ok') {
                         props = dlg.getSettings();
                         me.currentPageSize = { type: props[0], width: props[1], height: props[2] };
-                        me.toolbar.btnSlideSize.menu.items[0].setChecked(props[0] == 0);
-                        me.toolbar.btnSlideSize.menu.items[1].setChecked(props[0] == 1);
+                        var portrait = (me.currentPageSize.height>me.currentPageSize.width),
+                            ratio = (portrait) ? me.currentPageSize.height/me.currentPageSize.width : me.currentPageSize.width/me.currentPageSize.height,
+                            idx = -1;
+                        for (var i = 0; i < me.slideSizeArr.length; i++) {
+                            if (Math.abs(me.slideSizeArr[i].ratio - ratio) < 0.001 ) {
+                                idx = i;
+                                break;
+                            }
+                        }
+
+                        me.toolbar.btnSlideSize.menu.items[0].setChecked(idx == 0);
+                        me.toolbar.btnSlideSize.menu.items[1].setChecked(idx == 1);
                         if (me.api)
-                            me.api.changeSlideSize(props[1], props[2]);
+                            me.api.changeSlideSize(props[1], props[2], props[0]);
                     }
 
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
