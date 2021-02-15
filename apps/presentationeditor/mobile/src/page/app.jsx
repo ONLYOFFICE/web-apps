@@ -3,10 +3,11 @@ import React from 'react';
 import {App,Panel,Views,View,Popup,Page,Navbar,Toolbar,NavRight,Link,Block,BlockTitle,List,ListItem,ListInput,ListButton,BlockFooter} from 'framework7-react';
 import { f7ready } from 'framework7-react';
 
-import routes from '../router/routes.js';
-
 import '../../../../common/Gateway.js';
 import '../../../../common/main/lib/util/utils.js';
+
+import routes from '../router/routes.js';
+
 import Notifications from '../../../../common/mobile/utils/notifications.js'
 import {MainController} from '../controller/Main';
 import {Device} from '../../../../common/mobile/utils/device'
