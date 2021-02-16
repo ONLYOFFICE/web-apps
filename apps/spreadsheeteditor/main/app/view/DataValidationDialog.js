@@ -479,6 +479,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
             var between = (data==Asc.EDataValidationOperator.Between || data==Asc.EDataValidationOperator.NotBetween);
             var source = (allow==Asc.c_oAscEDataValidationType.Custom || allow==Asc.c_oAscEDataValidationType.List);
             this.minMaxTr.toggleClass('hidden', allow==Asc.c_oAscEDataValidationType.None || source || !between);
+            this._isMinMaxVisible = !(allow==Asc.c_oAscEDataValidationType.None || source || !between);
             this.sourceTr.toggleClass('hidden', allow==Asc.c_oAscEDataValidationType.None || !source && between );
             this.dropdownTr.toggleClass('hidden', allow!=Asc.c_oAscEDataValidationType.List);
 
@@ -537,7 +538,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                 var focusedInput,
                     lblField,
                     error,
-                    minVisible = this.inputRangeMin.isVisible();
+                    minVisible = this._isMinMaxVisible;
                 var callback2 = function(isvalid) {
                     if (isvalid === Asc.c_oAscError.ID.No) {
                         isvalid = me.props.asc_checkValid();
@@ -577,7 +578,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
                     (isvalid === Asc.c_oAscError.ID.No) && callback.call(me);
                 };
                 var callback1 = function(isvalid) {
-                    if (me.inputRangeMax.isVisible() && isvalid === Asc.c_oAscError.ID.No) {
+                    if (me._isMinMaxVisible && isvalid === Asc.c_oAscError.ID.No) {
                         isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.DataValidation, me.props.asc_getFormula2() ? me.props.asc_getFormula2().asc_getValue() : null, true, undefined, type);
                         if (isvalid !== Asc.c_oAscError.ID.No) {
                             focusedInput = me.inputRangeMax;
