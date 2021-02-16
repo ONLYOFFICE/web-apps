@@ -110,8 +110,8 @@ define([
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
-                { size: [9144000, 6858000], ratio: 9144000/6858000, type: Asc.c_oAscSlideSZType.SzScreen4x3},
-                { size: [12192000, 6858000], ratio: 12192000/6858000, type: Asc.c_oAscSlideSZType.SzCustom} ];
+                { size: [9144000, 6858000], ratio: 6858000/9144000, type: Asc.c_oAscSlideSZType.SzScreen4x3},
+                { size: [12192000, 6858000], ratio: 6858000/12192000, type: Asc.c_oAscSlideSZType.SzCustom} ];
             this.currentPageSize = {
                 type: Asc.c_oAscSlideSZType.SzCustom,
                 width: 0,
@@ -628,7 +628,7 @@ define([
                 this.currentPageSize.height = height;
                 this.currentPageSize.type   = type;
 
-                var ratio = (height>width) ? height/width : width/height;
+                var ratio = height/width;
                 var idx = -1;
                 for (var i = 0; i < this.slideSizeArr.length; i++) {
                     if (Math.abs(this.slideSizeArr[i].ratio - ratio) < 0.001 ) {
@@ -1743,11 +1743,11 @@ define([
 
         onSlideSize: function(menu, item) {
             if (item.value !== 'advanced') {
-                var portrait = (this.currentPageSize.height > this.currentPageSize.width);
+                var newwidth = (this.currentPageSize.height / this.slideSizeArr[item.value].ratio);
                 this.currentPageSize = {
                     type    : this.slideSizeArr[item.value].type,
-                    width   : this.slideSizeArr[item.value].size[portrait ? 1 : 0],
-                    height  : this.slideSizeArr[item.value].size[portrait ? 0 : 1]
+                    width   : newwidth,
+                    height  : this.currentPageSize.height
                 };
 
                 if (this.api)
@@ -1763,8 +1763,7 @@ define([
                     if (result == 'ok') {
                         props = dlg.getSettings();
                         me.currentPageSize = { type: props[0], width: props[1], height: props[2] };
-                        var portrait = (me.currentPageSize.height>me.currentPageSize.width),
-                            ratio = (portrait) ? me.currentPageSize.height/me.currentPageSize.width : me.currentPageSize.width/me.currentPageSize.height,
+                        var ratio = me.currentPageSize.height/me.currentPageSize.width,
                             idx = -1;
                         for (var i = 0; i < me.slideSizeArr.length; i++) {
                             if (Math.abs(me.slideSizeArr[i].ratio - ratio) < 0.001 ) {
