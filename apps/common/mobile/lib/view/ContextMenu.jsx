@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Popover, List, ListItem, ListButton, Link, Icon } from 'framework7-react';
 import { f7 } from 'framework7-react';
 
+const idContextMenuElement = "idx-context-menu-popover";
+
 class ContextMenuView extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +17,7 @@ class ContextMenuView extends Component {
         const buttons = this.props.items || {};
 
         return (
-            <Popover id="idx-context-menu-popover"
+            <Popover id={idContextMenuElement}
                      className="document-menu"
                      backdrop={false}
                      closeByBackdropClick={false}
@@ -36,4 +38,4 @@ class ContextMenuView extends Component {
     }
 }
 
-export default ContextMenuView;
+export {ContextMenuView as default, idContextMenuElement};

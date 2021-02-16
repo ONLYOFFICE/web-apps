@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { f7 } from 'framework7-react';
 import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-react';
 
 import EditOptions from '../view/edit/Edit';
@@ -7,7 +8,7 @@ import Settings from '../view/settings/Settings';
 import Collaboration from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
-import { ContextMenu } from '../controller/ContextMenu';
+import { ContextMenu, idContextMenuElement } from '../controller/ContextMenu';
 
 export default class MainPage extends Component {
     constructor(props) {
@@ -21,6 +22,8 @@ export default class MainPage extends Component {
     }
 
     handleClickToOpenOptions = opts => {
+        f7.popover.close(idContextMenuElement, false);
+
         this.setState(state => {
             if ( opts == 'edit' )
                 return {editOptionsVisible: true};
