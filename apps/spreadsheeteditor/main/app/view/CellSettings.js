@@ -148,11 +148,11 @@ define([
         },
 
         onAngleChange: function(field, newValue, oldValue, eOpts) {
-            this.api && this.api.asc_setCellAngle(field.getNumberValue());
+            this.api && (newValue!==oldValue) && this.api.asc_setCellAngle(field.getNumberValue());
         },
 
         onIndentChange: function(field, newValue, oldValue, eOpts) {
-            this.api && this.api.asc_setCellIndent(field.getNumberValue());
+            this.api && (newValue!==oldValue) && this.api.asc_setCellIndent(field.getNumberValue());
         },
 
         render: function () {
