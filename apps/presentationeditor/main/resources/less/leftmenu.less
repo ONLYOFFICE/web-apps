@@ -5,7 +5,9 @@
         border-right: 0 none;
 
         &.move {
+            border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-left: @scaled-one-px-value solid @border-toolbar;
+            border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-right: @scaled-one-px-value solid @border-toolbar;
             opacity: 0.4;
         }
@@ -20,6 +22,7 @@
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
+    background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     overflow: hidden;
 }
@@ -57,11 +60,13 @@
                 margin-bottom: 3px;
 
                 &:hover {
+                    background-color: @highlight-button-hover-ie;
                     background-color: @highlight-button-hover;
                 }
 
                 &.active {
                     outline: 0;
+                    background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
 
                     > a {
@@ -115,6 +120,7 @@
     .panel-context {
         width: 100%;
         padding-left: 260px;
+        background-color: @background-normal-ie;
         background-color: @background-normal;
 
         .content-box {
@@ -259,6 +265,7 @@
 
                 &:hover,
                 &.over {
+                    background-color: @background-toolbar-ie;
                     background-color: @background-toolbar;
                 }
 
@@ -300,6 +307,7 @@
             }
 
             .dataview {
+                border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
                 border-right: @scaled-one-px-value solid @border-toolbar;
 
                 & > div:not([class^=ps-scrollbar]) {
@@ -314,10 +322,12 @@
                     &:not(.header-name) {
                         &:hover,
                         &.over {
+                            background-color: @background-toolbar-ie;
                             background-color: @background-toolbar;
                         }
 
                         &.selected {
+                            background-color: @highlight-button-pressed-ie;
                             background-color: @highlight-button-pressed;
                             color: @dropdown-link-active-color;
                         }
