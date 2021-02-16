@@ -532,8 +532,7 @@ define([
                 this._noApply = true;
 
                 var xfs = props.asc_getXfs(),
-                    value = xfs.asc_getAngle(),
-                    align = xfs.asc_getHorAlign();
+                    value = xfs.asc_getAngle();
                 if (Math.abs(this._state.CellAngle - value) > 0.1 || (this._state.CellAngle === undefined) && (this._state.CellAngle !== value)) {
                     this.spnAngle.setValue((value !== null) ? (value==255 ? 0 : value) : '', true);
                     this._state.CellAngle = value;
@@ -544,8 +543,6 @@ define([
                     this.spnIndent.setValue((value !== null) ? value : '', true);
                     this._state.CellIndent = value;
                 }
-                this._state.IndentDisabled = (this._state.CellAngle>0 || align!==AscCommon.align_Left && align!==AscCommon.align_Right);
-                this.spnIndent.setDisabled(this._locked || this._state.IndentDisabled);
 
                 value = xfs.asc_getWrapText();
                 if ( this._state.Wrap!==value ) {
@@ -927,7 +924,6 @@ define([
                     item.setDisabled(disable);
                 });
             }
-            this.spnIndent.setDisabled(disable || this._state.IndentDisabled);
         },
 
         onFillSrcSelect: function(combo, record) {
