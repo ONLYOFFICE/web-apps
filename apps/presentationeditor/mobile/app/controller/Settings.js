@@ -57,10 +57,11 @@ define([
             infoObj,
             modalView,
             _licInfo,
-            _lang;
+            _lang,
+            _currentPageSize;
 
         var _slideSizeArr = [
-            [254, 190.5], [254, 143]
+            [9144000, 6858000, Asc.c_oAscSlideSZType.SzScreen4x3], [12192000, 6858000, Asc.c_oAscSlideSZType.SzCustom]
         ];
 
         return {
@@ -330,10 +331,12 @@ define([
             // API handlers
 
             onApiPageSize: function(width, height) {
+                _currentPageSize = {width: width, height: height};
                 var $input = $('#page-settings-view input[name="slide-size"]');
                 if ($input.length > 0) {
+                    var ratio = height/width;
                     for (var i = 0; i < _slideSizeArr.length; i++) {
-                        if (Math.abs(_slideSizeArr[i][0] - width) < 0.001 && Math.abs(_slideSizeArr[i][1] - height) < 0.001) {
+                        if (Math.abs(_slideSizeArr[i][1]/_slideSizeArr[i][0] - ratio) < 0.001 ) {
                             $input.val([i]);
                             break;
                         }
@@ -404,8 +407,13 @@ define([
             _onSlideSize: function(e) {
                 var $target = $(e.currentTarget).find('input');
                 if ($target && this.api) {
-                    var value = parseFloat($target.prop('value'));
-                    this.api.changeSlideSize(_slideSizeArr[value][0], _slideSizeArr[value][1]);
+                    var value = parseFloat($target.prop('value')),
+                        ratio = _slideSizeArr[value][1] / _slideSizeArr[value][0];
+                    _currentPageSize = {
+                        width   : ((_currentPageSize.height || _slideSizeArr[value][1]) / ratio),
+                        height  : _currentPageSize.height
+                    };
+                    this.api.changeSlideSize(_currentPageSize.width, _currentPageSize.height, _slideSizeArr[value][2]);
                 }
             },
 
