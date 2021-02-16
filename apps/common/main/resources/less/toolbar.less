@@ -38,6 +38,7 @@
         align-items: stretch;
 
         .extra {
+            background-color: @header-background-color-ie;
             background-color: @header-background-color;
         }
 
@@ -54,6 +55,7 @@
 
     .tabs {
         //flex-grow: 1;
+        background-color: @header-background-color-ie;
         background-color: @header-background-color;
         position: relative;
         overflow: hidden;
@@ -74,10 +76,12 @@
             height: 100%;
 
             &:hover {
+                background-color: @highlight-header-button-hover-ie;
                 background-color: @highlight-header-button-hover;
             }
 
             &.active {
+                background-color: @background-toolbar-ie;
                 background-color: @background-toolbar;
             }
 
@@ -89,11 +93,13 @@
                 cursor: default;
                 font-size: 12px;
                 text-align: center;
+                color: @text-toolbar-header-ie;
                 color: @text-toolbar-header;
             }
 
             &.active {
                 > a {
+                    color: @text-normal-ie;
                     color: @text-normal;
                 }
             }
@@ -125,6 +131,7 @@
             }
 
             &.left{
+                box-shadow: 5px 0 20px 5px @header-background-color-ie;
                 box-shadow: 5px 0 20px 5px @header-background-color;
 
                 &:after {
@@ -133,6 +140,7 @@
                 }
             }
             &.right{
+                box-shadow: -5px 0 20px 5px @header-background-color-ie;
                 box-shadow: -5px 0 20px 5px @header-background-color;
 
                 &:after {
@@ -191,8 +199,10 @@
         /**/
     }
 
+    background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     @minus-px: calc(-1 * @scaled-one-px-value);
+    .box-inner-shadow(0 -1px @border-toolbar-ie);
     .box-inner-shadow(0 @minus-px @border-toolbar);
 
     .group {
@@ -251,6 +261,7 @@
         }
 
         &.border {
+            border: 1px solid @border-regular-control-ie;
             border: 1px solid @border-regular-control;
             .border-radius(1px);
             width: 22px;
@@ -269,6 +280,7 @@
         right: 0;
         bottom: 0;
         opacity: 0;
+        background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
         /* z-index: @zindex-tooltip + 1; */
     }
@@ -310,6 +322,7 @@
 
         .tabs, .extra {
             background-color: transparent;
+            box-shadow: inset 0 -1px 0 0 @border-regular-control-ie;
             box-shadow: inset 0 -1px 0 0 @border-regular-control;
         }
 
@@ -324,6 +337,7 @@
                 &:after {
                     //transition: opacity .1s;
                     //transition: bottom .1s;
+                    border-top: @underscore_height solid @text-normal-ie;
                     border-top: @underscore_height solid @text-normal;
                     content: '';
                     position: absolute;
@@ -347,6 +361,7 @@
                 }
 
                 > a {
+                    color: @text-normal-ie;
                     color: @text-normal;
 
                     &::after {
@@ -373,14 +388,17 @@
 
         .tabs .scroll {
             &.left {
+                box-shadow: 5px 0 20px 5px @background-toolbar-ie;
                 box-shadow: 5px 0 20px 5px @background-toolbar;
             }
 
             &.right {
+                box-shadow: -5px 0 20px 5px @background-toolbar-ie;
                 box-shadow: -5px 0 20px 5px @background-toolbar;
             }
 
             &:after {
+                border-color: @text-normal-ie;
                 border-color: @text-normal;
             }
         }
@@ -392,26 +410,32 @@
             }
 
             svg.icon {
+                fill: @icon-toolbar-header-ie;
                 fill: @icon-toolbar-header;
             }
 
             .caption {
+                color: @text-normal-ie;
                 color: @text-normal;
             }
 
             &:hover:not(.disabled) {
+                background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
             }
 
             &:active, &.active {
                 &:not(.disabled) {
+                    background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
 
                     svg.icon {
+                        fill: @icon-toolbar-header-ie;
                         fill: @icon-toolbar-header;
                     }
 
                     .caption {
+                        color: @text-inverse-ie;
                         color: @text-inverse;
                     }
                 }
@@ -424,16 +448,19 @@
             }
 
             svg.icon {
+                fill: @icon-toolbar-header-ie;
                 fill: @icon-toolbar-header;
             }
         }
 
         #rib-doc-name {
+            color: @text-normal-ie;
             color: @text-normal;
         }
 
         &.editor-native-color {
             .tabs li:after {
+                border-color: @header-background-color-ie;
                 border-color: @header-background-color;
             }
         }
@@ -468,6 +495,7 @@
 .btn-toolbar {
     &:active {
         svg.icon {
+            fill: @icon-toolbar-header-ie;
             fill: @icon-toolbar-header;
         }
     }
@@ -475,14 +503,17 @@
     svg.icon {
         background-image: none;
 
+        fill: @icon-normal-ie;
         fill: @icon-normal;
     }
 
     &.borders--small {
         border-radius: 2px;
+        background-color: @background-normal-ie;
         background-color: @background-normal;
 
         &:not(:active) {
+            box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
             box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
         }
 
@@ -509,6 +540,7 @@
     svg.icon {
         display: inline-block;
         vertical-align: middle;
+        fill: @icon-normal-ie;
         fill: @icon-normal;
     }
 
@@ -517,6 +549,7 @@
 }
 
 .item-equation {
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
 
     .equation-icon {
@@ -554,6 +587,7 @@
     svg.icon {
         display: inline-block;
         vertical-align: middle;
+        fill: @icon-normal-ie;
         fill: @icon-normal;
     }
 }
@@ -570,6 +604,7 @@
             width: 12px;
             height: 12px;
             margin-right: 2px;
+            border: @scaled-one-px-value-ie solid @border-color-shading-ie;
             border: @scaled-one-px-value solid @border-color-shading;
             vertical-align: middle;
         }
@@ -583,9 +618,11 @@
             display: none !important;
         }
         &, &:hover, &:focus {
+            background-color: @highlight-button-pressed-ie;
             background-color: @highlight-button-pressed;
             color: @dropdown-link-active-color;
             span.color {
+                border-color: @icon-normal-ie;
                 border-color: @icon-normal;
             }
         }
@@ -593,6 +630,7 @@
 }
 
 .item-equation {
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .background-ximage-v2('toolbar/math.png', 1500px);
 }

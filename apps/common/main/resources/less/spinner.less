@@ -39,7 +39,9 @@
         position: absolute;
         top: 0;
         right: 1px;
+        border-top: @scaled-one-px-value-ie solid transparent;
         border-top: @scaled-one-px-value solid transparent;
+        border-bottom: @scaled-one-px-value-ie solid transparent;
         border-bottom: @scaled-one-px-value solid transparent;
 
         i {
@@ -47,6 +49,7 @@
             width: 4px;
             height: 4px;
 
+            border: solid @scaled-one-px-value-ie @icon-normal-ie;
             border: solid @scaled-one-px-value @icon-normal;
             border-bottom: none;
             border-right: none;
@@ -58,6 +61,7 @@
             }
 
             &:hover {
+                background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
             }
         }

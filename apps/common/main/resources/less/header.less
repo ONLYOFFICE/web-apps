@@ -29,6 +29,7 @@
 .toolbar {
     .extra {
         svg.icon {
+            fill: @icon-toolbar-header-ie;
             fill: @icon-toolbar-header;
         }
 
@@ -57,11 +58,13 @@
     }
 
     label {
+        color: @text-toolbar-header-ie;
         color: @text-toolbar-header;
     }
 
     .dropdown-menu {
         label {
+            color: @text-normal-ie;
             color: @text-normal;
         }
     }
@@ -70,12 +73,14 @@
     .btn-header {
         &:hover {
             &:not(.disabled):not(.icon) {
+                background-color: @highlight-header-button-hover-ie;
                 background-color: @highlight-header-button-hover;
             }
         }
 
         &:active, &.active {
             &:not(.disabled):not(.icon) {
+                background-color: @highlight-header-button-pressed-ie;
                 background-color: @highlight-header-button-pressed;
             }
         }
@@ -98,6 +103,7 @@
         min-width: 50px;
         text-align: center;
 
+        color: @text-toolbar-header-ie;
         color: @text-toolbar-header;
         background-color: transparent;
         border: 0 none;
@@ -109,6 +115,7 @@
         white-space: nowrap;
         &.locked {
             text-decoration: none;
+            color: @border-preview-select-ie;
             color: @border-preview-select;
             cursor: default;
         }
@@ -179,6 +186,7 @@
         padding: 0;
 
         &.icon--inverse {
+            background-position-x: @button-header-normal-icon-offset-x-ie;
             background-position-x: @button-header-normal-icon-offset-x;
         }
     }
@@ -247,6 +255,7 @@
     }
 
     label {
+        color: @text-normal-ie;
         color: @text-normal;
     }
 
@@ -281,6 +290,7 @@
         }
 
         .user-name {
+            color: @text-normal-ie;
             color: @text-normal;
             font-size: 12px;
             font-weight: bold;
@@ -320,6 +330,7 @@
         position: relative;
 
         &.icon--inverse {
+            background-position-x: @button-header-normal-icon-offset-x-ie;
             background-position-x: @button-header-normal-icon-offset-x;
         }
     }
@@ -328,7 +339,7 @@
         &:active, &.active {
             .icon.toolbar__icon {
                 &.icon--inverse {
-                    background-position-x: @button-header-active-icon-offset-x;
+                    background-position-x: @button-header-active-icon-offset-x-ie;
                 }
             }
         }
@@ -353,6 +364,7 @@
 
     &:hover {
         &:not(.disabled) {
+            background-color: @highlight-header-button-hover-ie;
             background-color: @highlight-header-button-hover;
         }
     }
@@ -371,9 +383,11 @@
 }
 
 #box-document-title {
+    background-color: @header-background-color-ie;
     background-color: @header-background-color;
     display: flex;
     height: 100%;
+    color: @text-toolbar-header-ie;
     color: @text-toolbar-header;
     position: relative;
 
@@ -382,6 +396,7 @@
     }
 
     svg.icon {
+        fill: @icon-toolbar-header-ie;
         fill: @icon-toolbar-header;
 
         &.icon-save {

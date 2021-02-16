@@ -40,6 +40,7 @@
 
     .btn {
         border-left: 0;
+        border-color: @border-regular-control-ie;
         border-color: @border-regular-control;
         background-color: transparent;
         margin-left: -1px;
@@ -50,7 +51,9 @@
 
     .btn-default:not(.disabled),
     &.open .dropdown-toggle.btn-default {
+        background-color: @background-normal-ie;
         background-color: @background-normal;
+        border-color: @border-regular-control-ie;
         border-color: @border-regular-control;
         padding-right: 4px;
     }
@@ -58,6 +61,7 @@
     .btn-default.disabled {
         &:hover, &:focus {
             background-color: transparent;
+            border-color: @border-regular-control-ie;
             border-color: @border-regular-control;
         }
     }
@@ -65,6 +69,7 @@
     &.input-group-nr.open:not(.no-highlighted) {
         & > .form-control,
         & > .btn {
+            border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
 
             .caret {
@@ -76,6 +81,7 @@
     &.input-group-nr:not(.no-highlighted) > .form-control {
         &:focus,
         &:focus ~ button.dropdown-toggle {
+            border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
         }
     }
@@ -86,15 +92,18 @@
         }
 
         &.selected {
+            background-color: @highlight-button-pressed-ie;
             background-color: @highlight-button-pressed;
 
             a {
+                color: @text-normal-pressed-ie;
                 color: @text-normal-pressed;
 
                 &:hover,
                 &.hover,
                 &:focus,
                 &.focus {
+                    background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
                 }
             }
@@ -150,6 +159,7 @@
     &.input-group-nr:not(.no-highlighted) {
         & > .form-control,
         & > .btn {
+            border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
         }
     }

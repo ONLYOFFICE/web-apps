@@ -12,7 +12,9 @@
         + label {
             width: 14px;
             height: 14px;
+            background: @background-normal-ie;
             background: @background-normal;
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
             border-radius: 2px;
             position: absolute;
@@ -25,6 +27,7 @@
                 &::before {
                     content: '';
                     position: absolute;
+                    border: 2px solid @text-normal-ie;
                     border: @scaled-two-px-value solid @text-normal;
                     border-top: 0 none;
                     border-left: 0 none;
@@ -41,7 +44,9 @@
                 &::before {
                     content: '';
                     position: absolute;
+                    border: @scaled-one-px-value-ie solid @text-normal-ie;
                     border: @scaled-one-px-value solid @text-normal;
+                    background: @icon-normal-ie;
                     background: @icon-normal;
                     width: 8px;
                     height: 8px;

@@ -17,6 +17,7 @@
 
     .layout-resizer {
         z-index: @zindex-dropdown - 10;
+        background: @background-toolbar-ie;
         background: @background-toolbar;
         border: 0 none;
 
@@ -36,7 +37,9 @@
             cursor: row-resize;
 
             &.move {
+                border-top: solid @scaled-one-px-value-ie @border-toolbar-ie;
                 border-top: solid @scaled-one-px-value @border-toolbar;
+                border-bottom: solid @scaled-one-px-value-ie @border-toolbar-ie;
                 border-bottom: solid @scaled-one-px-value @border-toolbar;
             }
         }
@@ -53,7 +56,9 @@
             cursor: col-resize;
 
             &.move {
+                border-left: solid @scaled-one-px-value-ie @border-toolbar-ie;
                 border-left: solid @scaled-one-px-value @border-toolbar;
+                border-right: solid @scaled-one-px-value-ie @border-toolbar-ie;
                 border-right: solid @scaled-one-px-value @border-toolbar;
             }
         }
