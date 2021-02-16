@@ -14,6 +14,7 @@
         right: 0;
         bottom: 45px;
         height: 300px;
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-bottom: @scaled-one-px-value solid @border-toolbar;
 
         &.stretch {
@@ -32,9 +33,11 @@
         text-align: center;
 
         label {
+            color: @text-normal-ie;
             color: @text-normal;
             font: 12px arial;
             line-height: normal;
+            border-bottom: @scaled-one-px-value-ie dotted @text-normal-ie;
             border-bottom: @scaled-one-px-value dotted @text-normal;
             padding-top: 12px;
             outline: none;
@@ -58,9 +61,11 @@
             width: 100%;
             resize: none;
             margin-bottom: 5px;
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border: @scaled-one-px-value solid @border-regular-control;
             height: 100%;
             &:focus {
+                border-color: @border-control-focus-ie;
                 border-color: @border-control-focus;
             }
         }
@@ -83,6 +88,7 @@
     line-height: normal;
     position: relative;
     overflow: hidden;
+    color: @border-preview-select-ie;
     color: @border-preview-select;
 
     textarea {
@@ -90,11 +96,14 @@
         height: 50px;
         resize: none;
         margin-bottom: 5px;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         word-break: break-all;
         line-height: 15px;
+        color: @text-normal-ie;
         color: @text-normal;
         &:focus {
+            border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
         }
     }
@@ -109,6 +118,7 @@
     }
 
     .separator-cmt {
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-bottom: @scaled-one-px-value solid @border-toolbar;
         margin: 20px 0px 0px 0px;
     }
@@ -119,6 +129,7 @@
     }
 
     .user-name {
+        color: @text-normal-ie;
         color: @text-normal;
         font-size: 12px;
         font-weight: bold;
@@ -133,6 +144,7 @@
     .color {
         width: 12px;
         height: 12px;
+        border: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border: @scaled-one-px-value solid @border-toolbar;
         margin: 0 5px 3px 0;
         vertical-align: middle;
@@ -170,6 +182,7 @@
         font-style: italic;
         margin-top: 10px;
         padding: 0px 5px 5px 5px;
+        border-left: @scaled-one-px-value-ie solid #939393;
         border-left: @scaled-one-px-value solid #939393;
         word-break: break-all;
         white-space: pre-wrap;
@@ -177,6 +190,7 @@
     }
 
     .user-message {
+        color: @text-normal-ie;
         color: @text-normal;
         padding: 9px 0px 0 0px;
         white-space: pre-wrap;
@@ -200,10 +214,12 @@
     }
 
     .user-reply {
+        color: @text-normal-ie;
         color: @text-normal;
         margin-top: 10px;
         white-space: pre-wrap;
         width: auto;
+        border-bottom: @scaled-one-px-value-ie dotted @text-normal-ie;
         border-bottom: @scaled-one-px-value dotted @text-normal;
         height: 16px;
         cursor: pointer;
@@ -270,6 +286,7 @@
         &:after {
             content: '';
             position: absolute;
+            border: solid @text-normal-ie;
             border: solid @text-normal;
             border-width: 0 2px 2px 0;
             transform: rotate(40deg);
@@ -281,6 +298,7 @@
 
         &.comment-resolved {
             &:after {
+                border-color: @icon-success-ie;
                 border-color: @icon-success;
             }
         }
@@ -420,12 +438,14 @@
         left: 2px;
         width: 15px;
         height: 15px;
+        background-color: @background-normal-ie;
         background-color: @background-normal;
         -moz-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
         -webkit-transform: rotate(45deg);
         -o-transform: rotate(45deg);
         transform: rotate(45deg);
+        border: solid @scaled-one-px-value-ie @border-toolbar-ie;
         border: solid @scaled-one-px-value @border-toolbar;
     }
 }

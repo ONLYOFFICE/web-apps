@@ -12,6 +12,7 @@
       text-align: center;
       height: 100%;
       width: 100%;
+      color: @text-tertiary-ie;
       color: @text-tertiary;
       td {
         padding: 5px;
@@ -20,6 +21,7 @@
   }
 
   &:focus {
+    border-color: @border-preview-select-ie;
     border-color: @border-preview-select;
   }
 
@@ -31,10 +33,12 @@
 
     &:hover,
     &.over {
+      background-color: @highlight-button-hover-ie;
       background-color: @highlight-button-hover;
     }
 
     &.selected {
+      background-color: @highlight-button-pressed-ie;
       background-color: @highlight-button-pressed;
     }
 
@@ -58,6 +62,7 @@
     text-overflow: ellipsis;
 
     &.empty {
+      color: @text-tertiary-ie;
       color: @text-tertiary;
       font-style: italic;
     }

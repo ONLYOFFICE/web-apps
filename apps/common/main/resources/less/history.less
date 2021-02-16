@@ -1,5 +1,6 @@
 #history-box {
     position: relative;
+    border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
     border-right: @scaled-one-px-value solid @border-toolbar;
 }
 
@@ -10,6 +11,7 @@
     top: 0;
     right: 0;
     overflow: hidden;
+    border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
     border-bottom: @scaled-one-px-value solid @border-toolbar;
 
     #history-btn-back {
@@ -21,6 +23,7 @@
         cursor: pointer;
 
         &:hover {
+            background-color: @highlight-button-hover-ie;
             background-color: @highlight-button-hover;
         }
     }
@@ -33,6 +36,7 @@
     bottom: 0;
     right: 0;
     overflow: hidden;
+    border-top: @scaled-one-px-value-ie solid @border-toolbar-ie;
     border-top: @scaled-one-px-value solid @border-toolbar;
 
     #history-btn-expand {
@@ -44,6 +48,7 @@
         cursor: pointer;
 
         &:hover {
+            background-color: @highlight-button-hover-ie;
             background-color: @highlight-button-hover;
         }
     }
@@ -64,14 +69,17 @@
 
         &:hover:not(.selected),
         &.over {
+            background-color: @highlight-button-hover-ie;
             background-color: @highlight-button-hover;
         }
 
         &.selected {
+            background-color: @highlight-button-pressed-ie;
             background-color: @highlight-button-pressed;
 
             .user-name,
             .user-date {
+                color: @text-normal-pressed-ie;
                 color: @text-normal-pressed;
             }
 
@@ -83,6 +91,7 @@
 
     .history-item-wrap {
         padding: 10px 2px 15px 20px;
+        color: @text-normal-ie;
         color: @text-normal;
         text-overflow: ellipsis;
 
@@ -99,11 +108,14 @@
             display: inline-block;
             max-width: 60px;
             height: 18px;
+            color: @highlight-button-pressed-ie;
             color: @highlight-button-pressed;
             font-size: 10px;
             white-space: nowrap;
             overflow: hidden;
+            color: @text-tertiary-ie;
             color: @text-tertiary;
+            background-color: @background-normal-ie;
             background-color: @background-normal;
             text-align: center;
             padding: 1px 5px;
@@ -124,6 +136,7 @@
         .color {
             width: 12px;
             height: 12px;
+            border: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border: @scaled-one-px-value solid @border-toolbar;
             margin: 0 5px 3px 0;
             vertical-align: middle;
@@ -144,7 +157,9 @@
         }
 
         .revision-restore {
+            color: @text-normal-ie;
             color: @text-normal;
+            border-bottom: @scaled-one-px-value-ie dotted @text-normal-ie;
             border-bottom: @scaled-one-px-value dotted @text-normal;
             height: 16px;
             margin-top: 5px;

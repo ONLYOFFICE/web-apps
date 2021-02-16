@@ -154,6 +154,7 @@ Common.Utils = _.extend(new(function() {
         me.zoom = 1;
         me.innerWidth = window.innerWidth;
         me.innerHeight = window.innerHeight;
+        if ( isIE ) $(document.body).addClass('ie');
         checkSize();
         $(window).on('resize', checkSize);
 

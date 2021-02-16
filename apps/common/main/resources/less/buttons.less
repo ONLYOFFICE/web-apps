@@ -4,7 +4,9 @@
 
 .btn {
     border-radius: 1px;
+    color: @text-normal-ie;
     color: @text-normal;
+    border-width: @scaled-one-px-value-ie;
     border-width: @scaled-one-px-value;
 
     .btnsize(@value) {
@@ -44,10 +46,12 @@
     &:focus {
         outline: 0;
         outline-offset: 0;
+        color: @text-normal-ie;
         color: @text-normal;
     }
 
     &:hover {
+        color: @text-normal-ie;
         color: @text-normal;
     }
 
@@ -59,6 +63,7 @@
     .caret {
         width: 4px;
         height: 4px;
+        border: solid 1px @icon-normal-ie;
         border: solid 1px @icon-normal;
         border-bottom: none;
         border-right: none;
@@ -104,6 +109,7 @@
             &::after {
                 content: ' ';
                 position: absolute;
+                border: 1px solid @icon-notification-badge-ie;
                 border: 1px solid @icon-notification-badge;
                 border-left: 0 none;
                 border-right: 0 none;
@@ -119,6 +125,7 @@
                 width: 10px;
                 height: 7px;
                 bottom: 2px;
+                background-color: @background-notification-badge-ie;
                 background-color: @background-notification-badge;
                 border-radius: 2px;
                 right: 0;
@@ -135,6 +142,7 @@
                 width: 8px;
                 height: 8px;
                 background-color: transparent;
+                border: solid 1px @text-normal-ie;
                 border: solid 1px @text-normal;
                 border-bottom: none;
                 border-right: none;
@@ -167,6 +175,7 @@
     &.active:not(.disabled) {
         .caret-up, .caret-down {
             &::after {
+                border-color: @background-normal-ie;
                 border-color: @background-normal;
             }
         }
@@ -296,6 +305,7 @@
     .btn.small;
 
     &.bg-white {
+        background-color: @background-normal-ie;
         background-color: @background-normal;
     }
 
@@ -307,13 +317,16 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
+        background-color: @highlight-button-hover-ie;
         background-color: @highlight-button-hover;
     }
 
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
+        color: @text-normal-ie;
         color: @text-normal;
+        background-color: @highlight-button-pressed-ie;
         background-color: @highlight-button-pressed;
     }
 
@@ -373,6 +386,7 @@
         height: 3px;
         background-color: red;
         &.bordered {
+            border: 1px solid @border-regular-control-ie;
             border: 1px solid @border-regular-control;
         }
 
@@ -395,12 +409,15 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
+        background-color: @highlight-button-hover-ie;
         background-color: @highlight-button-hover;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
+        background-color: @highlight-button-pressed-ie;
         background-color: @highlight-button-pressed;
+        color: @text-normal-pressed-ie;
         color: @text-normal-pressed;
     }
 
@@ -512,6 +529,7 @@
 
         &.over:not(.disabled),
         &.open {
+            box-shadow: inset 0 0 0 1px @highlight-button-hover-ie;
             box-shadow: inset 0 0 0 1px @highlight-button-hover;
 
             button:not(.active):not(.btn-text-split-default) {
@@ -523,12 +541,14 @@
             button {
                 &:not(.active) {
                     &:hover {
+                        background-color: @highlight-button-hover-ie;
                         background-color: @highlight-button-hover;
                     }
                 }
 
                 &:active,
                 &:active:hover {
+                    background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
                 }
             }
@@ -537,6 +557,7 @@
         &.open {
             > button:not(.active) {
                 &:last-of-type {
+                    background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
                 }
             }
@@ -547,6 +568,7 @@
         }
 
         button.active:not(.disabled) {
+            background-color: @highlight-button-pressed-ie;
             background-color: @highlight-button-pressed;
         }
 
@@ -559,7 +581,9 @@
 .btn-color {
     width: 45px;
     height: 22px;
+    padding: @scaled-one-px-value-ie 11px @scaled-one-px-value-ie @scaled-one-px-value-ie;
     padding: @scaled-one-px-value 11px @scaled-one-px-value @scaled-one-px-value;
+    border:@scaled-one-px-value-ie solid @border-regular-control-ie;
     border:@scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
@@ -567,6 +591,7 @@
         float: left;
         width: 100%;
         height: 100%;
+        border: @scaled-one-px-value-ie solid @border-color-shading-ie;
         border: @scaled-one-px-value solid @border-color-shading;
         background-color: transparent;
     }
@@ -582,6 +607,7 @@
     .over,
     &:active,
     &.active {
+        background: @background-normal-ie !important;
         background: @background-normal !important;
         .box-shadow(none)  !important;
     }
@@ -593,6 +619,7 @@
 
     .color-transparent {
         &:before {
+            border-right: @scaled-one-px-value-ie solid red;
             border-right: @scaled-one-px-value solid red;
             height: 34px;
             transform: translate(16px, -9px) rotate(62deg);
@@ -612,7 +639,9 @@
     li > a.selected,
     li > a:hover {
         span.color-auto {
+            outline: @scaled-one-px-value-ie solid @border-regular-control-ie;
             outline: @scaled-one-px-value solid @border-regular-control;
+            border: @scaled-one-px-value-ie solid @background-normal-ie;
             border: @scaled-one-px-value solid @background-normal;
         }
     }
@@ -627,6 +656,7 @@
     background-color: transparent;
 
     &.bg-white {
+        background-color: @background-normal-ie;
         background-color: @background-normal;
     }
 
@@ -641,16 +671,19 @@
         background-repeat: no-repeat;
     }
 
+    box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
     box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
     .border-radius(@border-radius-small);
 
     &:hover,
     &.over {
+        background-color: @highlight-button-hover-ie;
         background-color: @highlight-button-hover;
     }
 
     &:active,
     &.active {
+        background-color: @highlight-button-pressed-ie;
         background-color: @highlight-button-pressed;
     }
 }
@@ -658,7 +691,9 @@
 .btn-text-default {
     width: 75px;
     height: 22px;
+    background: @background-normal-ie;
     background: @background-normal;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
@@ -670,13 +705,17 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
+        background-color: @highlight-button-hover-ie !important;
         background-color: @highlight-button-hover !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
+        background-color: @highlight-button-pressed-ie !important;
         background-color: @highlight-button-pressed !important;
+        border-color: @highlight-button-pressed-ie;
         border-color: @highlight-button-pressed;
+        color: @text-normal-pressed-ie;
         color: @text-normal-pressed;
     }
 
@@ -689,7 +728,9 @@
 .btn-text-menu-default {
     width: 100%;
     height: 22px;
+    background: @background-normal-ie;
     background: @background-normal;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
@@ -705,11 +746,13 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
+        background-color: @highlight-button-hover-ie !important;
         background-color: @highlight-button-hover !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
+        background-color: @highlight-button-pressed-ie !important;
         background-color: @highlight-button-pressed !important;
         color: white;
     }
@@ -723,7 +766,9 @@
 .btn-text-split-default {
     width: 75px;
     height: 22px;
+    background: @background-normal-ie;
     background: @background-normal;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
@@ -737,13 +782,17 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
+        background-color: @highlight-button-hover-ie !important;
         background-color: @highlight-button-hover !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
+        background-color: @highlight-button-pressed-ie !important;
         background-color: @highlight-button-pressed !important;
+        border-color: @highlight-button-pressed-ie;
         border-color: @highlight-button-pressed;
+        color: @text-normal-pressed-ie;
         color: @text-normal-pressed;
     }
 
@@ -756,7 +805,9 @@
 .btn-icon-default {
     width: 45px;
     height: 22px;
+    background: @background-normal-ie;
     background: @background-normal;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
@@ -775,11 +826,13 @@
 
     &:hover:not(.disabled),
     .over:not(.disabled) {
+        background-color: @highlight-button-hover-ie !important;
         background-color: @highlight-button-hover !important;
     }
 
     &:active:not(.disabled),
     &.active:not(.disabled) {
+        background-color: @highlight-button-pressed-ie !important;
         background-color: @highlight-button-pressed !important;
     }
 
@@ -796,7 +849,9 @@
     padding: 2px;
     margin:0;
     box-shadow: none;
+    background-color: @background-normal-ie;
     background-color: @background-normal;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
     .border-radius(@border-radius-small);
 
@@ -822,6 +877,7 @@
         margin-right: 3px;
         background-color: transparent;
         background-repeat: no-repeat;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         position: relative;
     }
@@ -836,6 +892,7 @@
     .over,
     &:active,
     &.active {
+        background-color: @background-normal-ie !important;
         background-color: @background-normal !important;
     }
 
@@ -858,22 +915,29 @@
 .dlg-btn {
     font-weight: bold;
     width: 86px;
+    color: @text-normal-ie;
     color: @text-normal;
+    background-color: @background-normal-ie;
     background-color: @background-normal;
+    border: 1px solid @border-regular-control-ie;
     border: 1px solid @border-regular-control;
 
     &:hover:not(.disabled),
     &.hover:not(.disabled) {
+        background-color: @highlight-button-hover-ie;
         background-color: @highlight-button-hover;
     }
 
     &.primary {
+        color: @text-inverse-ie;
         color: @text-inverse;
+        background-color: @background-primary-dialog-button-ie;
         background-color: @background-primary-dialog-button;
         border: 0 none;
 
         &:hover:not(.disabled),
         &.hover:not(.disabled) {
+            background-color: @highlight-primary-dialog-button-hover-ie;
             background-color: @highlight-primary-dialog-button-hover;
         }
     }

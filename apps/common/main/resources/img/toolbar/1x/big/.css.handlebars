@@ -4,6 +4,7 @@
         &.active, &:active {
             &:not(:disabled):not(.disabled) {
                 .toolbar__icon {
+                    background-position-x: 0;
                     background-position-x: var(--button-huge-active-icon-offset-x,0);
                 }
             }
@@ -13,6 +14,7 @@
     &.active, &:active {
         &:not(:disabled):not(.disabled) {
             .toolbar__icon.toolbar__icon-big {
+                background-position-x: 0;
                 background-position-x: var(--button-huge-active-icon-offset-x,0);
             }
         }
@@ -29,6 +31,7 @@
 {{#parselang name}}.x-huge .{{name}}{{/parselang}}, 
     .toolbar__icon-big.{{name}}
 {
-    background-position: var(--button-huge-normal-icon-offset-x,0) {{px.offset_y}}; 
+    background-position: 0 {{px.offset_y}};
+    background-position: var(--button-huge-normal-icon-offset-x,0) {{px.offset_y}};
 }
 {{/sprites}}

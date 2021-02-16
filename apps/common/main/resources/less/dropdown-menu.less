@@ -3,8 +3,11 @@
 }
 
 .dropdown-menu {
+    background-color: @background-normal-ie;
     background-color: @background-normal;
+    border-color: @border-regular-control-ie;
     border-color: @border-regular-control;
+    border-width: @scaled-one-px-value-ie;
     border-width: @scaled-one-px-value;
 
     &.scrollable-menu {
@@ -34,6 +37,7 @@
         & > a {
             padding: 5px 20px;
             cursor: pointer;
+            color: @text-normal-ie;
             color: @text-normal;
 
             &:focus, &.focus {
@@ -47,17 +51,22 @@
             }
 
             &:hover {
+                color: @text-normal-pressed-ie;
                 color: @text-normal-pressed;
+                background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
             }
         }
 
         &.over > a {
             text-decoration: none;
+            color: @text-normal-pressed-ie;
             color: @text-normal-pressed;
+            background-color: @highlight-button-hover-ie;
             background-color: @highlight-button-hover;
 
             &:after {
+                border-left-color: @icon-normal-pressed-ie;
                 border-left-color: @icon-normal-pressed;
             }
         }
@@ -94,6 +103,7 @@
 
         .no-checkmark.checked {
             .menu-item-icon {
+                background-color: @highlight-button-pressed-ie;
                 background-color: @highlight-button-pressed;
                 border-radius: 2px;
             }
@@ -123,7 +133,9 @@
     }
 
     .divider {
+        height: @scaled-one-px-value-ie;
         height: @scaled-one-px-value;
+        background-color: @border-divider-ie;
         background-color: @border-divider;
     }
 }

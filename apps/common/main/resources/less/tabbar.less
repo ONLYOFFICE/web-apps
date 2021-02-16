@@ -8,8 +8,11 @@
 
         &.active {
             > span, > span:hover, > span:focus {
+                background-color: @background-normal-ie;
                 background-color: @background-normal;
+                color: @text-normal-ie;
                 color: @text-normal;
+                border-color: @background-normal-ie;
                 border-color: @background-normal;
                 cursor: pointer;
             }
@@ -21,7 +24,9 @@
 
         > span {
             display: inline;
+            background-color: @background-toolbar-ie;
             background-color: @background-toolbar;
+            color: @text-secondary-ie;
             color: @text-secondary;
 
             padding-top: 0;
@@ -36,7 +41,9 @@
             }
 
             &:hover, &:focus {
+                background-color: @background-toolbar-ie;
                 background-color: @background-toolbar;
+                border-color: @background-toolbar-ie;
                 border-color: @background-toolbar;
                 cursor: pointer;
             }

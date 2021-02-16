@@ -1,13 +1,18 @@
 #cell-editing-box {
+    border-bottom: solid @scaled-one-px-value-ie @border-toolbar-ie;
     border-bottom: solid @scaled-one-px-value @border-toolbar;
+    border-left: solid @scaled-one-px-value-ie @border-toolbar-ie;
     border-left: solid @scaled-one-px-value @border-toolbar;
     min-height: 20px;
+    background-color: @background-normal-ie;
     background-color: @background-normal;
 
     .ce-group-name {
         float: left;
         height: 20px;
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-bottom: @scaled-one-px-value solid @border-toolbar;
+        background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
         #ce-cell-name {
@@ -17,11 +22,13 @@
             vertical-align: top;
             display: inline-block;
             border: 0 none;
+            border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-right: @scaled-one-px-value solid @border-toolbar;
             transition: none;
             -webkit-transition: none;
 
             &[disabled] {
+                color: @border-preview-select-ie;
                 color: @border-preview-select;
                 opacity: 0.5;
             }
@@ -31,9 +38,11 @@
             display: inline-block;
             position: absolute;
             left: 80px;
+            background-color: @background-toolbar-ie;
             background-color: @background-toolbar;
 
             button {
+                background-color: @background-normal-ie;
                 background-color: @background-normal;
                 height: 19px;
 
@@ -75,6 +84,7 @@
         padding-left: 1px;
         margin: 0 16px 0 120px;
         height: 100%;
+        border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
 
         #ce-cell-content {
@@ -87,6 +97,7 @@
             padding-bottom: 0;
 
             &[disabled] {
+                color: @border-preview-select-ie;
                 color: @border-preview-select;
                 opacity: 0.5;
             }
@@ -102,7 +113,9 @@
         border-bottom: 0 none;
 
         &.move {
+            border-top: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-top: @scaled-one-px-value solid @border-toolbar;
+            border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-bottom: @scaled-one-px-value solid @border-toolbar;
             opacity: 0.4;
         }

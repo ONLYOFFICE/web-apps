@@ -106,7 +106,9 @@
 #id-toolbar-menu-auto-fontcolor > a.selected,
 #id-toolbar-menu-auto-fontcolor > a:hover {
     span {
+        outline: @scaled-one-px-value-ie solid @border-regular-control-ie;
         outline: @scaled-one-px-value solid @border-regular-control;
+        border: @scaled-one-px-value-ie solid @background-normal-ie;
         border: @scaled-one-px-value solid @background-normal;
     }
 }
@@ -115,7 +117,9 @@
 #autocorrect-paste-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
+    background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
 }
 

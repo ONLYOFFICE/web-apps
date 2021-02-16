@@ -374,7 +374,6 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = !!this.api.asc_isSupportFeature("sheet-views");
-                this.appOptions.canChangeUITheme = true;
 
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge)
                     Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));

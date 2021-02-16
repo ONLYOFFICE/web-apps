@@ -29,6 +29,7 @@
             &:hover,
             &.selected {
                 .layout > div:first-child {
+                    .box-shadow(0 0 0 2px @highlight-button-pressed-ie);
                     .box-shadow(0 0 0 2px @highlight-button-pressed);
                 }
             }
@@ -96,7 +97,9 @@
 #special-paste-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
+    background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
 }
 

@@ -85,9 +85,11 @@
 .combo-dataview-menu {
     .form-control {
         cursor: pointer;
+        background-color: @background-normal-ie;
         background-color: @background-normal;
 
         &.text {
+            background: @background-normal-ie;
             background: @background-normal;
             vertical-align: bottom;
         }
@@ -157,6 +159,7 @@
 
         &:hover,
         &.over {
+            background-color: @highlight-button-hover-ie;
             background-color: @highlight-button-hover;
 
             .caret {

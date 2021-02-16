@@ -17,14 +17,19 @@
   }
 
   .border-values {
+    border: @scaled-one-px-value-ie solid @input-border;
     border: @scaled-one-px-value solid @input-border;
 
     .item {
       &.selected {
+        background-color: @highlight-button-hover-ie;
         background-color: @highlight-button-hover;
+        border-color: @highlight-button-hover-ie;
         border-color: @highlight-button-hover;
+        color: @text-normal-ie;
         color: @text-normal;
         border-style: solid;
+        border-width: @scaled-one-px-value-ie 0;
         border-width: @scaled-one-px-value 0;
       }
     }
@@ -94,6 +99,7 @@
       }
 
       &.border {
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         .border-radius(1px);
         width: 22px;

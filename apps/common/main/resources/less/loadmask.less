@@ -22,7 +22,9 @@
     line-height: @loadmask-image-height;
     border: none;
     background-image: none;
+    background-color: @background-loader-ie;
     background-color: @background-loader;
+    color: @text-contrast-background-ie;
     color: @text-contrast-background;
     .border-radius(@border-radius-large);
 
@@ -52,6 +54,7 @@
     .left-panel & {
         line-height: @loadmask-small-image-height;
         background-color: transparent;
+        color: @text-normal-ie;
         color: @text-normal;
         padding: 8px;
         top: 78px;
