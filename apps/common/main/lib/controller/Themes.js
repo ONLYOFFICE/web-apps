@@ -39,6 +39,10 @@ define([
                 // getComputedStyle(document.documentElement).getPropertyValue('--background-normal');
             },
 
+            available: function () {
+                return !Common.Utils.isIE;
+            },
+
             current: function () {
                 return Common.localStorage.getItem('ui-theme', 'theme-light');
             },

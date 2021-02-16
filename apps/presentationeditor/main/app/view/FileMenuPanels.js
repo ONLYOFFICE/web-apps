@@ -214,7 +214,7 @@ define([
                         '<label id="fms-lbl-coauth-mode" style="vertical-align: middle;"><%= scope.strCoAuthModeDescFast %></label></div></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
-                '<tr class="edit">',
+                '<tr class="themes">',
                     '<td class="left"><label><%= scope.strTheme %></label></td>',
                     '<td class="right"><span id="fms-cmb-theme"></span></td>',
                 '</tr>','<tr class="divider edit"></tr>',
@@ -471,6 +471,10 @@ define([
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring ? 'show' : 'hide']();
             /** coauthoring end **/
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
+
+            if ( !Common.UI.Themes.available() ) {
+                $('tr.themes, tr.themes + tr.divider', this.el).hide();
+            }
         },
 
         setApi: function(o) {
