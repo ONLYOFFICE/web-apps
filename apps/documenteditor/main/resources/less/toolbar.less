@@ -27,6 +27,7 @@
     right: 0;
     bottom: 0;
     opacity: 0;
+    background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     z-index: @zindex-tooltip + 1;
 }
@@ -48,10 +49,12 @@
             width: 246px;
             height: @contents-menu-item-height;
 
+            .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
             .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
 
             &:hover,
             &.selected {
+                .box-shadow(0 0 0 2px @border-control-focus-ie);
                 .box-shadow(0 0 0 @scaled-two-px-value @border-control-focus);
             }
         }
@@ -60,6 +63,7 @@
             background-color: transparent;
 
             div {
+                .box-shadow(0 0 0 2px @border-control-focus-ie);
                 .box-shadow(0 0 0 @scaled-two-px-value @border-control-focus);
             }
         }
@@ -91,6 +95,7 @@
                 opacity: 0.5;
 
                 &:hover {
+                    .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
                     .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
                 }
             }
@@ -142,7 +147,9 @@
 #watermark-auto-color > a.selected,
 #watermark-auto-color > a:hover {
     span {
+        outline: @scaled-one-px-value-ie solid @icon-normal-ie;
         outline: @scaled-one-px-value solid @icon-normal;
+        border: @scaled-one-px-value-ie solid @background-normal-ie;
         border: @scaled-one-px-value solid @background-normal;
     }
 }
@@ -151,11 +158,14 @@
     cursor: default;
     position: relative;
     padding: 14px 11px;
+    border-left: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border-left: @scaled-one-px-value solid @border-regular-control;
+    border-top: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border-top: @scaled-one-px-value solid @border-regular-control;
 }
 
 .save-style-link {
+    border-bottom: @scaled-one-px-value-ie dotted @text-secondary-ie;
     border-bottom: @scaled-one-px-value dotted @text-secondary;
     cursor: pointer;
     margin-left: 22px;
@@ -200,6 +210,8 @@
 #special-paste-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
+    background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
+    border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
 }

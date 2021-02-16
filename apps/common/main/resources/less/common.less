@@ -1,5 +1,6 @@
 label {
     &.link {
+        border-bottom: @scaled-one-px-value-ie dotted @text-secondary-ie;
         border-bottom: @scaled-one-px-value dotted @text-secondary;
         cursor: pointer;
 
@@ -9,6 +10,7 @@ label {
     }
 
     &.link-solid {
+        border-bottom: @scaled-one-px-value-ie solid @text-secondary-ie;
         border-bottom: @scaled-one-px-value solid @text-secondary;
         cursor: pointer;
 
@@ -46,6 +48,7 @@ label {
         overflow: hidden;
 
         .tool-menu-btns {
+            border-right: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border-right: @scaled-one-px-value solid @border-regular-control;
         }
     }
@@ -53,7 +56,9 @@ label {
     &.right {
         .tool-menu-btns {
             //position: absolute;
+            border-left: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border-left: @scaled-one-px-value solid @border-regular-control;
+            background-color: @background-toolbar-ie;
             background-color: @background-toolbar;
             right: 0;
             overflow: hidden;
@@ -76,6 +81,7 @@ label {
 .left-panel {
     padding-left: 40px;
     height: 100%;
+    border-right: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border-right: @scaled-one-px-value solid @border-regular-control;
 
     #left-panel-chat {
@@ -94,17 +100,21 @@ label {
     padding: 0 10px 0 15px;
     position: relative;
     overflow: hidden;
+    border-left: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border-left: @scaled-one-px-value solid @border-regular-control;
     line-height: 15px;
 }
 
 .statusbar {
     height: 25px;
+    background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
+    .box-inner-shadow(0 @scaled-one-px-value-ie 0 @border-regular-control-ie);
     .box-inner-shadow(0 @scaled-one-px-value 0 @border-regular-control);
 
     .status-label {
         font-weight: bold;
+        color: @text-normal-ie;
         color: @text-normal;
         white-space: nowrap;
     }
@@ -118,12 +128,15 @@ label {
     .panel-menu {
         width: 260px;
         float: left;
+        border-right: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border-right: @scaled-one-px-value solid @border-regular-control;
+        background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
     }
 
     .flex-settings {
         &.bordered {
+            border-bottom: @scaled-one-px-value-ie solid @border-regular-control-ie;
             border-bottom: @scaled-one-px-value solid @border-regular-control;
         }
         overflow: hidden;
@@ -182,6 +195,7 @@ label {
         width: 100%;
         resize: none;
         margin-bottom: 5px;
+        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
         border: @scaled-one-px-value solid @border-regular-control;
         height: 100%;
 
@@ -194,13 +208,16 @@ label {
 
 .dropdown-menu {
     > li > a {
+        color: @text-normal-ie;
         color: @text-normal;
     }
 }
 
 textarea {
+    background-color: @background-normal-ie;
     background-color: @background-normal;
-    color: @text-normal
+    color: @text-normal-ie;
+    color: @text-normal;
 }
 
 .btn-edit-table,

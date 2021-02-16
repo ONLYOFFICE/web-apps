@@ -3,6 +3,9 @@
     &.active, &:active {
         &:not(:disabled):not(.disabled) {
             .toolbar__icon {
+                @btn-active-icon-offset: 0;
+                background-position-x: @btn-active-icon-offset;
+
                 background-position-x: var(--button-small-active-icon-offset-x, 0);
             }
         }
@@ -10,6 +13,7 @@
 }
 .menu__icon {
     .no-checkmark.checked & {
+        background-position-x: 0;
         background-position-x: @menu-icon-item-checked-offset-x;
     }
 }
@@ -19,6 +23,9 @@
 {{/spritesheet}}
 {{#sprites}}
 {{#parselang name}}.{{name}}{{/parselang}} {
+    @btn-icon-offset: 0;
+    background-position: @btn-icon-offset {{px.offset_y}};
+
     background-position: var(--button-small-normal-icon-offset-x, 0) {{px.offset_y}};
 }
 {{/sprites}}

@@ -313,7 +313,7 @@ define([
                     cls     : 'btn-toolbar'
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
-                if ( config.canChangeUITheme ) {
+                if ( Common.UI.Themes.available() ) {
                     var mnuitemDarkTheme = new Common.UI.MenuItem({
                         caption: me.header.textDarkTheme,
                         checked: Common.UI.Themes.isDarkTheme(),

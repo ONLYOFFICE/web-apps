@@ -99,6 +99,7 @@
 .asc-synchronizetip {
     padding: 15px 8px 15px 15px;
     border-radius: 5px;
+    background-color: @background-notification-popover-ie;
     background-color: @background-notification-popover;
     overflow: visible;
 
@@ -123,6 +124,7 @@
     position: absolute;
     top: 5px;
     left: 8px;
+    background-color: @background-notification-popover-ie;
     background-color: @background-notification-popover;
     width: 15px;
     height: 15px;
@@ -141,7 +143,9 @@
 }
 
 .show-link label {
+    border-bottom: @scaled-one-px-value-ie dotted @text-link-ie;
     border-bottom: @scaled-one-px-value dotted @text-link;
+    color: @text-link-ie;
     color: @text-link;
     cursor: pointer;
 }

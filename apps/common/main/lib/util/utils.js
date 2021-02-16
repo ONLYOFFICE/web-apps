@@ -141,7 +141,7 @@ Common.Utils = _.extend(new(function() {
                 $root.removeClass('pixel-ratio__2');
                 $root.addClass('pixel-ratio__1_5');
             } else
-            if ( scale.devicePixelRatio > 1.5 && scale.devicePixelRatio < 2 ) {
+            if ( scale.devicePixelRatio > 1.5 /*&& scale.devicePixelRatio <= 2*/ ) {
                 $root.addClass('pixel-ratio__2');
                 $root.removeClass('pixel-ratio__1_5');
             } else {
@@ -154,6 +154,7 @@ Common.Utils = _.extend(new(function() {
         me.zoom = 1;
         me.innerWidth = window.innerWidth;
         me.innerHeight = window.innerHeight;
+        if ( isIE ) $(document.body).addClass('ie');
         checkSize();
         $(window).on('resize', checkSize);
 
