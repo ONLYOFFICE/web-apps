@@ -27,7 +27,12 @@ define([
                 })
 
                 this.api = api;
-                api.asc_setSkin(sdk_themes_relation[Common.localStorage.getItem('ui-theme', 'theme-light')]);
+                var theme_name = Common.localStorage.getItem('ui-theme', 'theme-light');
+                api.asc_setSkin(sdk_themes_relation[theme_name]);
+
+                if ( !$('body').hasClass(theme_name) ) {
+                    $('body').addClass(theme_name);
+                }
 
                 // app.eventbus.addListeners({
                 //    'FileMenu': {
