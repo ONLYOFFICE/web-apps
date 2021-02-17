@@ -341,6 +341,27 @@ define([
                     Common.NotificationCenter.on('uitheme:change', function (name) {
                         mnuitemDarkTheme.setChecked(Common.UI.Themes.isDarkTheme());
                     });
+
+                    if (!Common.localStorage.getBool("hide-dark-theme-tip")) {
+                        me.themeTip = new Common.UI.SynchronizeTip({
+                            target: me.header.btnOptions.$el,
+                            placement   : 'bottom-left',
+                            showLink: false,
+                            extCls: (config.customization && config.customization.toolbarNoTabs) ? 'toolbar-color' : 'theme-color',
+                            text: me.textTipTheme
+                        });
+                        me.themeTip.on({
+                            'closeclick': function() {
+                                me.themeTip.hide();
+                            },
+                            'hide': function() {
+                                me.themeTip = undefined;
+                                Common.localStorage.setBool("hide-dark-theme-tip", true);
+                            }
+                        });
+                        me.themeTip.show();
+                        me.header.btnOptions.on('click', function() { me.themeTip && me.themeTip.hide(); });
+                    }
                 }
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
@@ -532,6 +553,7 @@ define([
         textHideHeadings: 'Hide Headings',
         textHideGridlines: 'Hide Gridlines',
         textFreezePanes: 'Freeze Panes',
-        textFreezePanesShadow: 'Show Freezed Panes Shadow'
+        textFreezePanesShadow: 'Show Freezed Panes Shadow',
+        textTipTheme: 'You can switch to Dark Theme in the View Settings'
     }, SSE.Controllers.Viewport));
 });

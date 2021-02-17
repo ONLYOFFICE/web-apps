@@ -96,6 +96,7 @@ define([
 
             hide: function() {
                 if (this.cmpEl) this.cmpEl.hide();
+                this.trigger('hide');
             },
 
             close: function() {
@@ -108,7 +109,7 @@ define([
                     this.cmpEl.css({top : showxy.top + 5 + 'px', left: showxy.left + 5 + 'px'});
                     return;
                 }
-                
+
                 var placement = this.placement.split('-');
                 if (placement.length>0) {
                     var top, left, bottom, right;

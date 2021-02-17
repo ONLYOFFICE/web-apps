@@ -1282,6 +1282,7 @@
   "SSE.Controllers.Viewport.textHideFBar": "Hide Formula Bar",
   "SSE.Controllers.Viewport.textHideGridlines": "Hide Gridlines",
   "SSE.Controllers.Viewport.textHideHeadings": "Hide Headings",
+  "SSE.Controllers.Viewport.textTipTheme": "You can switch to Dark Theme in the View Settings",
   "SSE.Views.AdvancedSeparatorDialog.strDecimalSeparator": "Decimal separator",
   "SSE.Views.AdvancedSeparatorDialog.strThousandsSeparator": "Thousands separator",
   "SSE.Views.AdvancedSeparatorDialog.textLabel": "Settings used to recognize numeric data",

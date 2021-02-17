@@ -1042,6 +1042,7 @@
   "PE.Controllers.Toolbar.txtSymbol_zeta": "Zeta",
   "PE.Controllers.Viewport.textFitPage": "Fit to Slide",
   "PE.Controllers.Viewport.textFitWidth": "Fit to Width",
+  "PE.Controllers.Viewport.textTipTheme": "You can switch to Dark Theme in the View Settings",
   "PE.Views.ChartSettings.textAdvanced": "Show advanced settings",
   "PE.Views.ChartSettings.textChartType": "Change Chart Type",
   "PE.Views.ChartSettings.textEditData": "Edit Data",
