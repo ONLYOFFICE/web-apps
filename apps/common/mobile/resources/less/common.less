@@ -3,7 +3,6 @@
 @black: #000000;
 @gray: #c4c4c4;
 @green: #4cd964;
-@darkGreen: #40865c;
 @red: #f00;
 @background-normal: @white;
 @autoColor: @black;
@@ -457,20 +456,7 @@
     }
 }
 
-.list-block .item-input {
-    width: 100%;
-    margin-top: -8px;
-    margin-bottom: -7px;
-    flex-shrink: 1;
-}
-
-.item-content .item-after input.field.right {
-    text-align: right;
-}
-
-.item-content .item-after input.field {
-    color: @darkGreen;
-}
+// input[type="number"]
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -478,10 +464,3 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-input[type="number"]::placeholder {
-    color: @darkGreen;
-}
-input[type="number"]::-webkit-input-placeholder {color: @darkGreen;}
-input[type="number"]::-moz-placeholder {color: @darkGreen;}
-input[type="number"]:-moz-placeholder {color: @darkGreen;}
-input[type="number"]:-ms-input-placeholder {color: @darkGreen;}

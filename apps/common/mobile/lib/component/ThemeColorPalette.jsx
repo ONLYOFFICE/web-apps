@@ -3,7 +3,6 @@ import { f7, ListItem, List, Icon } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 
 const ThemeColors = ({ themeColors, onColorClick, curColor }) => {
-    console.log(curColor);
     return (
         <div className='palette'>
             {themeColors.map((row, rowIndex) => {

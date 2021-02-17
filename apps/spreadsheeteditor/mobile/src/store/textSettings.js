@@ -33,7 +33,7 @@ export class storeTextSettings {
         this.isUnderline = xfs.asc_getFontUnderline();
     
         let color = xfs.asc_getFontColor();
-        console.log(color);
+        // console.log(color);
         this.textColor = this.resetTextColor(color);
 
         this.paragraphAlign = xfs.asc_getHorAlign();

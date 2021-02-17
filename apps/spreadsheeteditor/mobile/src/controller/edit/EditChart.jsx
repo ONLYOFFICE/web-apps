@@ -8,6 +8,7 @@ import { EditChart } from '../../view/edit/EditChart';
 class EditChartController extends Component {
     constructor (props) {
         super(props);
+        this.props.storeChartSettings.initChartLayout(this.props.storeFocusObjects.chartObject.get_ChartProperties());
         this.onRemoveChart = this.onRemoveChart.bind(this);
         this.onType = this.onType.bind(this);
         this.onStyle = this.onStyle.bind(this);

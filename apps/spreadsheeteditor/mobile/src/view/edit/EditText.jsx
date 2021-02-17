@@ -16,7 +16,7 @@ const EditText = props => {
     const fontName = storeTextSettings.fontName || _t.textFonts;
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
-    console.log(fontColor);
+    // console.log(fontColor);
 
     const displaySize = typeof fontSize === 'undefined' ? _t.textAuto : fontSize + ' ' + _t.textPt;
     const isBold = storeTextSettings.isBold;
@@ -166,17 +166,15 @@ const PageFontColor = props => {
     const textColor = storeTextSettings.textColor;
     const customColors = storePalette.customColors;
 
-    console.log(textColor);
-
     const changeColor = (color, effectId, effectValue) => {
         if (color !== 'empty') {
             if (effectId !== undefined) {
                 const newColor = {color: color, effectId: effectId, effectValue: effectValue};
-                storeTextSettings.changeTextColor(newColor);
                 props.onTextColor(newColor);
+                storeTextSettings.changeTextColor(newColor);
             } else {
-                storeTextSettings.changeTextColor(color);
                 props.onTextColor(color);
+                storeTextSettings.changeTextColor(color);
             }
         } else {
             // open custom color menu

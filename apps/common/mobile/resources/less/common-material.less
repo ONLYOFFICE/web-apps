@@ -3,6 +3,9 @@
     @tabLinkColor: rgba(255,255,255,.7);
     @red: #f44336;
     @white: #fff;
+    @darkGreen: #40865c;
+    @darkGrey: #757575;
+
     --f7-navbar-shadow-image: none;
     --f7-radio-active-color: @themeColor;
     --f7-toggle-active-color: @themeColor;
@@ -278,7 +281,9 @@
             }
         }
     }
+
     // Color palette
+
     #color-picker {
         .right-block {
             .button-round {
@@ -286,4 +291,55 @@
             }
         }
     }
+
+    // input[type="number"]
+
+    .list.inputs-list {
+        ul:after {
+            display: none;
+        }
+        .item-inner {
+            display: block;
+            margin-bottom: 4px;
+            padding-bottom: 0;
+            &:after {
+                display: none;
+            }
+        }
+        .item-input {
+            flex-shrink: 1;
+            font-size: 0;
+            position: relative;
+            margin-bottom: 4px;
+            min-height: 36px;
+            &:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                right: auto;
+                top: auto;
+                height: 1px;
+                width: 100%;
+                background-color: rgba(0,0,0,.12);
+                display: block;
+                z-index: 15;
+                transform-origin: 50% 100%;
+                transition: .2;
+            }
+        }
+        .item-link {
+            .item-inner .item-title {
+                font-size: 16px;
+            }
+        }
+        .item-after {
+            font-size: 14px;
+            color: @darkGrey;
+            div {
+                width: 100%;
+            }
+        }
+    }
+
 }

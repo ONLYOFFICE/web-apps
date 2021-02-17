@@ -2,7 +2,7 @@ import {action, observable, computed} from 'mobx';
 
 export class storeChartSettings {
 
-    @observable borderColor;
+    @observable borderColor = undefined;
 
     setBorderColor (color) {
         this.borderColor = color;
@@ -11,7 +11,6 @@ export class storeChartSettings {
     @action initBorderColor(shapeProperties) {
         let stroke = shapeProperties.get_stroke();
         this.borderColor = (stroke && stroke.get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) ? this.resetColor(stroke.get_color()) : 'transparent';
-        return this.borderColor;
     }
 
     @observable fillColor = undefined;
@@ -27,6 +26,8 @@ export class storeChartSettings {
         if (fillType == Asc.c_oAscFill.FILL_TYPE_SOLID) {
             this.fillColor = this.resetColor(fill.asc_getFill().asc_getColor());
         }
+
+        return this.fillColor;
     }
 
     @observable chartTitle = undefined;

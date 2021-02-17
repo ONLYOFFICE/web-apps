@@ -3,6 +3,7 @@
 
 .device-ios {
     @blockTitleColor: #6d6d72;
+    @darkGreen: #40865c;
 
     --f7-navbar-link-color: @themeColor;
     --f7-navbar-text-color: @black;
@@ -389,4 +390,32 @@
             background-color: @white;
         }
     }
+
+    // input[type="number"]
+
+    .item-input {
+        width: 100%;
+        margin-top: -8px;
+        margin-bottom: -7px;
+        flex-shrink: 1;
+    }
+
+    .item-content { 
+        .item-after input {
+            height: 43px;
+        }
+        .item-after input.right {
+            text-align: right;
+        }
+        .item-after input.field {
+            color: @darkGreen;
+        }
+    }
+    
+    input[type="number"]::placeholder { color: @darkGreen;}
+    input[type="number"]::-webkit-input-placeholder {color: @darkGreen;}
+    input[type="number"]::-moz-placeholder {color: @darkGreen;}
+    input[type="number"]:-moz-placeholder {color: @darkGreen;}
+    input[type="number"]:-ms-input-placeholder {color: @darkGreen;}
+
 }
