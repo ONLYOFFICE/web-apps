@@ -221,20 +221,20 @@ define([
         createDelayedControls: function() {
             var me = this;
             var _arrPosition = [
-                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_LEFT,      'icon-right-panel btn-colontitul-tl', 'headerfooter-button-top-left', this.textTopLeft],
-                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_CENTER,    'icon-right-panel btn-colontitul-tc', 'headerfooter-button-top-center', this.textTopCenter],
-                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_RIGHT,     'icon-right-panel btn-colontitul-tr', 'headerfooter-button-top-right', this.textTopRight],
-                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_LEFT,      'icon-right-panel btn-colontitul-bl', 'headerfooter-button-bottom-left', this.textBottomLeft],
-                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_CENTER,    'icon-right-panel btn-colontitul-bc', 'headerfooter-button-bottom-center', this.textBottomCenter],
-                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_RIGHT,     'icon-right-panel btn-colontitul-br', 'headerfooter-button-bottom-right', this.textBottomRight]
+                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_LEFT,      'page-number-top-left', 'headerfooter-button-top-left', this.textTopLeft],
+                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_CENTER,    'page-number-top-center', 'headerfooter-button-top-center', this.textTopCenter],
+                [c_pageNumPosition.PAGE_NUM_POSITION_TOP,     c_pageNumPosition.PAGE_NUM_POSITION_RIGHT,     'page-number-top-right', 'headerfooter-button-top-right', this.textTopRight],
+                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_LEFT,      'page-number-bottom-left', 'headerfooter-button-bottom-left', this.textBottomLeft],
+                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_CENTER,    'page-number-bottom-center', 'headerfooter-button-bottom-center', this.textBottomCenter],
+                [c_pageNumPosition.PAGE_NUM_POSITION_BOTTOM,  c_pageNumPosition.PAGE_NUM_POSITION_RIGHT,     'page-number-bottom-right', 'headerfooter-button-bottom-right', this.textBottomRight]
             ];
 
             this._btnsPosition = [];
             _.each(_arrPosition, function(item, index, list){
                 var _btn = new Common.UI.Button({
                     parentEl: $('#'+item[3]),
-                    cls: 'btn-options huge bg-white',
-                    iconCls: item[2],
+                    cls: 'btn-options huge-1 bg-white',
+                    iconCls: 'options__icon options__icon-huge ' + item[2],
                     posWhere:item[0],
                     posAlign:item[1],
                     hint: item[4]

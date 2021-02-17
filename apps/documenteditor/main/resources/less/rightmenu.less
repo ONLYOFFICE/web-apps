@@ -18,12 +18,11 @@
     .background-ximage-v2('right-panels/RightPanelBigBtns.png', 74px, @commonimage: false);
 }
 
-.button-normal-icon(btn-colontitul-tl,    3, @huge-icon-size, @button-huge-normal-icon-offset-x);
-.button-normal-icon(btn-colontitul-tc,    4, @huge-icon-size, @button-huge-normal-icon-offset-x);
-.button-normal-icon(btn-colontitul-tr,    5, @huge-icon-size, @button-huge-normal-icon-offset-x);
-.button-normal-icon(btn-colontitul-bl,    6, @huge-icon-size, @button-huge-normal-icon-offset-x);
-.button-normal-icon(btn-colontitul-bc,    7, @huge-icon-size, @button-huge-normal-icon-offset-x);
-.button-normal-icon(btn-colontitul-br,    8, @huge-icon-size, @button-huge-normal-icon-offset-x);
+.ie {
+    .options__icon.options__icon-huge {
+        .background-ximage('@{app-image-path}/iconshuge.png', '@{app-image-path}/iconshuge@2x.png', 40px);
+    }
+}
 
 .button-normal-icon(btn-wrap-none,        9, @huge-icon-size, @button-xhuge-normal-icon-offset-x);
 .button-normal-icon(btn-wrap-parallel,    10, @huge-icon-size, @button-xhuge-normal-icon-offset-x);

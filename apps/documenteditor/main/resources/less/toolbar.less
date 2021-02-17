@@ -85,8 +85,8 @@
 // page number position
 .menu-pageposition {
     .dataview {
-        width: 125px;
-        height: 85px;
+        width: 144px;
+        height: 100px;
         margin: 0 10px;
 
         &.disabled {
@@ -103,9 +103,12 @@
     }
 
     .item-pagenumber {
-        .background-ximage('@{app-image-path}/toolbar/colontitules.png', '@{app-image-path}/toolbar/colontitules@2x.png', 33px);
-        width: 33px;
-        height: 33px;
+        .ie & {
+            .background-ximage('@{app-image-path}/iconshuge.png', '@{app-image-path}/iconshuge@2x.png', 40px);
+        }
+
+        width: 40px;
+        height: 40px;
     }
 }
 
