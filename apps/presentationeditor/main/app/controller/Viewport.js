@@ -331,7 +331,7 @@ define([
                         mnuitemDarkTheme.setChecked(Common.UI.Themes.isDarkTheme());
                     });
 
-                    if (!Common.localStorage.getBool("hide-dark-theme-tip")) {
+                    if (!Common.localStorage.getBool("hide-dark-theme-tip") && !(config.customization && config.customization.hideStartTips===true)) {
                         me.themeTip = new Common.UI.SynchronizeTip({
                             target: me.header.btnOptions.$el,
                             placement   : 'bottom-left',
