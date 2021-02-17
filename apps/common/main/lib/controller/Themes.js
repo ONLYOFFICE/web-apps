@@ -54,10 +54,10 @@ define([
             setTheme: function (name) {
                 if ( sdk_themes_relation.contains(name) ) {
                     var classname = document.documentElement.className.replace(/theme-\w+\s?/, '');
-                    document.documentElement.className = classname;
+                    document.body.className = classname;
 
                     this.api.asc_setSkin(sdk_themes_relation[name]);
-                    $(':root').addClass(name);
+                    $('body').addClass(name);
                     Common.localStorage.setItem('ui-theme', name);
                     Common.NotificationCenter.trigger('uitheme:change', name);
                 }
