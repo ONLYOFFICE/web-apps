@@ -61,8 +61,20 @@ define([
                     var classname = document.documentElement.className.replace(/theme-\w+\s?/, '');
                     document.body.className = classname;
 
-                    this.api.asc_setSkin(sdk_themes_relation[name]);
                     $('body').addClass(name);
+                    this.api.asc_setSkin(sdk_themes_relation[name]);
+
+                    var style = getComputedStyle(document.body);
+                    if ( !!window.DE ) {
+                        var color_background_normal = style.getPropertyValue('--background-normal');
+                        this.api.asc_setSkin({
+                            "RulerOutline": style.getPropertyValue('--border-toolbar')
+                            , "RulerMarkersFillColor": color_background_normal
+                            , "RulerMarkersFillColorOld": color_background_normal
+                            , "RulerTableColor1": color_background_normal
+                        });
+                    }
+
                     Common.localStorage.setItem('ui-theme', name);
                     Common.NotificationCenter.trigger('uitheme:change', name);
                 }
