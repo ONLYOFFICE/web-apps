@@ -10,12 +10,14 @@ import EditShapeController from "../../controller/edit/EditShape";
 import EditImageController from "../../controller/edit/EditImage";
 import EditTextController from "../../controller/edit/EditText";
 import EditChartController from "../../controller/edit/EditChart";
+import { EditLinkController } from "../../controller/edit/EditLink";
 
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell } from './EditCell';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
 import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageChartLegend, PageChartTitle, PageChartHorizontalAxisTitle, PageChartVerticalAxisTitle, PageChartHorizontalGridlines, PageChartVerticalGridlines, PageChartDataLabels, PageChartVerticalAxis, PageChartVertAxisCrosses, PageChartDisplayUnits, PageChartVertMajorType, PageChartVertMinorType, PageChartVertLabelPosition, PageChartHorizontalAxis, PageChartHorAxisCrosses, PageChartHorAxisPosition, PageChartHorMajorType, PageChartHorMinorType, PageChartHorLabelPosition } from './EditChart';
+import { PageTypeLink, PageSheet } from './EditLink';
 
 const routes = [
 
@@ -254,6 +256,17 @@ const routes = [
     {
         path: '/edit-hor-label-position/',
         component: PageChartHorLabelPosition
+    },
+
+    // Link 
+
+    {
+        path: '/edit-link-type/',
+        component: PageTypeLink
+    },
+    {
+        path: '/edit-link-sheet',
+        component: PageSheet
     }
 
 
@@ -359,6 +372,13 @@ const EditTabs = props => {
                 caption: _t.textChart,
                 id: 'edit-chart',
                 component: <EditChartController />
+            })
+        }
+        if (settings.indexOf('hyperlink') > -1) {
+            editors.push({
+                caption: _t.textHyperlink,
+                id: 'edit-link',
+                component: <EditLinkController />
             })
         }
     }

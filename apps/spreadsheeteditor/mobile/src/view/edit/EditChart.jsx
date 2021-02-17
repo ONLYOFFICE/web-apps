@@ -606,7 +606,7 @@ const PageDataLabels = props => {
 const PageVerticalAxis = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const isAndroid = Device.android;
+    const isIos = Device.ios;
     const storeChartSettings = props.storeChartSettings;
     const axisProps = props.initVertAxis();
     const crossValue = axisProps.getCrossesRule();
@@ -694,41 +694,42 @@ const PageVerticalAxis = props => {
     return (
         <Page>
             <Navbar title={_t.textAxisOptions} backLink={_t.textBack} />
-            <List className={isAndroid ? "inputs-list": ""}>
-                <ListItem title={_t.textMinimumValue}>
-                    <div slot="after">
-                        <div className="item-input">
-                            <input type="number" className="field right placeholder-color" value={minValue} 
-                                onChange={e => props.onVerAxisMinValue(e.target.value)}
-                                onInput={e => setMinValue(e.target.value)} placeholder="Auto" />
-                        </div>
-                    </div>
-                </ListItem>
-                <ListItem title={_t.textMaximumValue}>
-                    <div slot="after">
-                        <div className="item-input">
-                            <input type="number" className="field right placeholder-color" value={maxValue} 
-                                onChange={e => props.onVerAxisMaxValue(e.target.value)} 
-                                onInput={e => setMaxValue(e.target.value)} placeholder="Auto" />
-                        </div>
-                    </div>
-                </ListItem>
+            <List inlineLabels className="inputs-list">
+                <ListInput 
+                    label={_t.textMinimumValue}
+                    type="number"
+                    placeholder="Auto"
+                    value={minValue}
+                    onChange={e => props.onVerAxisMinValue(e.target.value)}
+                    onInput={e => setMinValue(e.target.value)}
+                    className={isIos ? 'list-input-right' : ''}
+                />
+
+                <ListInput 
+                    label={_t.textMaximumValue}
+                    type="number"
+                    placeholder="Auto"
+                    value={maxValue}
+                    onChange={e => props.onVerAxisMaxValue(e.target.value)} 
+                    onInput={e => setMaxValue(e.target.value)}
+                    className={isIos ? 'list-input-right' : ''}
+                />
             </List>
-            <List className={isAndroid ? "inputs-list": ""}>
+            <List inlineLabels className="inputs-list">
                 <ListItem title={_t.textAxisCrosses} link="/edit-vert-axis-crosses/" after={storeChartSettings.axisVertCrosses.display} routeProps={{
                     axisCrosses,
                     onVerAxisCrossType: props.onVerAxisCrossType
                 }}></ListItem>
                 {storeChartSettings.axisVertCrosses.value == Asc.c_oAscCrossesRule.value ? (
-                    <ListItem title={_t.textCrossesValue}>
-                        <div slot="after">
-                            <div className="item-input">
-                                <input type="number" className="field right placeholder-color" value={crossesValue} 
-                                    onChange={e => props.onVerAxisCrossValue(e.target.value)} 
-                                    onInput={e => setCrossesValue(e.target.value)} placeholder="0" />
-                            </div>
-                        </div>
-                    </ListItem>
+                    <ListInput 
+                        label={_t.textCrossesValue}
+                        type="number"
+                        placeholder="0"
+                        value={crossesValue}
+                        onChange={e => props.onVerAxisCrossValue(e.target.value)} 
+                        onInput={e => setCrossesValue(e.target.value)}
+                        className={isIos ? 'list-input-right' : ''}
+                    />
                 ) : null}
             </List>
             <List>
@@ -993,15 +994,15 @@ const PageHorizontalAxis = props => {
                     onHorAxisCrossType: props.onHorAxisCrossType
                 }}></ListItem>
                 {storeChartSettings.axisHorCrosses.value == Asc.c_oAscCrossesRule.value ? (
-                    <ListItem title={_t.textCrossesValue}>
-                        <div slot="after">
-                            <div className="item-input">
-                                <input type="number" className="field right placeholder-color" value={crossesValue} 
-                                    onChange={e => props.onHorAxisCrossValue(e.target.value)} 
-                                    onInput={e => setCrossesValue(e.target.value)} placeholder="0" />
-                            </div>
-                        </div>
-                    </ListItem>
+                    <ListInput 
+                        label={_t.textCrossesValue}
+                        type="text"
+                        placeholder="0"
+                        value={crossesValue}
+                        onChange={e => props.onHorAxisCrossValue(e.target.value)} 
+                        onInput={e => setCrossesValue(e.target.value)}
+                        className={isIos ? 'list-input-right' : ''}
+                    />
                 ) : null}
             </List>
             <List>

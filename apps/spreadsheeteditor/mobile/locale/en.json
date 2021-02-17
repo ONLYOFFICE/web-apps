@@ -200,7 +200,22 @@
             "textCrossesValue": "Crosses Value",
             "textOnTickMarks": "On Tick Marks",
             "textBetweenTickMarks": "Between Tick Marks",
-            "textAxisPosition": "Axis Position"
+            "textAxisPosition": "Axis Position",
+            "textHyperlink": "Hyperlink",
+            "textLinkType": "Link Type",
+            "textLink": "Link",
+            "textSheet": "Sheet",
+            "textRange": "Range",
+            "textDisplay": "Display",
+            "textScreenTip": "Screen Tip",
+            "textEditLink": "Edit Link",
+            "textRemoveLink": "Remove Link",
+            "textRequired": "Required",
+            "textInternalDataRange": "Internal Data Range",
+            "textExternalLink": "External Link",
+            "textDefault": "Selected range",
+            "textInvalidRange": "Invalid cells range",
+            "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
         }
     },
     "Common": {
