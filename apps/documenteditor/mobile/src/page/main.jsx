@@ -1,4 +1,6 @@
-import React, { Component, Fragment } from 'react';
+
+import React, { Component } from 'react';
+import { f7 } from 'framework7-react';
 import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-react';
 import { inject } from "mobx-react";
 
@@ -9,7 +11,7 @@ import Collaboration from '../../../../common/mobile/lib/view/collaboration/Coll
 import { AddCommentController } from '../../../../common/mobile/lib/controller/collaboration/Comments.jsx';
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
-import { ContextMenu } from '../controller/ContextMenu';
+import { ContextMenu, idContextMenuElement } from '../controller/ContextMenu';
 
 export default class MainPage extends Component {
     constructor(props) {
@@ -23,6 +25,8 @@ export default class MainPage extends Component {
     }
 
     handleClickToOpenOptions = opts => {
+        f7.popover.close(idContextMenuElement, false);
+
         this.setState(state => {
             if ( opts == 'edit' )
                 return {editOptionsVisible: true};

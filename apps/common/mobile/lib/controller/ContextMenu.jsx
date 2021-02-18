@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { f7 } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device'
 
-import ContextMenuView from '../view/ContextMenu';
+import ContextMenuView, { idContextMenuElement } from '../view/ContextMenu';
+
+const idCntextMenuTargetElement = '#idx-context-menu-target';
 
 class ContextMenuController extends Component {
     constructor(props) {
@@ -19,10 +21,10 @@ class ContextMenuController extends Component {
     }
 
     onDocumentReady() {
-        this.$targetEl = $$('#idx-context-menu-target');
+        this.$targetEl = $$(idCntextMenuTargetElement);
         if ( !this.$targetEl.length ) {
             // this.$targetEl = $$('<div id="idx-context-menu-target" style="position:absolute;width:15px;height:15px;background-color:green;z-index:1;"></div>');
-            this.$targetEl = $$('<div id="idx-context-menu-target" style="position:absolute;"></div>');
+            this.$targetEl = $$(`<div id="${idCntextMenuTargetElement} style="position:absolute;"></div>`);
             this.$targetEl.css({left: '-10000px', top: '-10000px'});
 
             $$('#editor_sdk').append(this.$targetEl);
@@ -93,7 +95,7 @@ class ContextMenuController extends Component {
     onApiOpenContextMenu(x, y) {
         if ( !this.state.opened ) {
             this.$targetEl.css({left: `${x}px`, top: `${y}px`});
-            const popover = f7.popover.open('#idx-context-menu-popover', '#idx-context-menu-target');
+            const popover = f7.popover.open(idContextMenuElement, idCntextMenuTargetElement);
 
             if ( Device.android )
                 this.offsetPopoverTop(popover);
@@ -106,7 +108,7 @@ class ContextMenuController extends Component {
 
     onApiHideContextMenu() {
         if ( this.state.opened ) {
-            f7.popover.close('#idx-context-menu-popover');
+            f7.popover.close(idContextMenuElement);
 
             this.$targetEl.css({left: '-10000px', top: '-10000px'});
             this.setState({opened: false});

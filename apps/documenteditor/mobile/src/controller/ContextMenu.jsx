@@ -1,6 +1,7 @@
 import React from 'react';
 import { f7 } from 'framework7-react';
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
+import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
 
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -35,4 +36,4 @@ class ContextMenu extends ContextMenuController {
     }
 }
 
-export { ContextMenu };
+export { ContextMenu, idContextMenuElement };
