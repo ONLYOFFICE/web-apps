@@ -671,8 +671,8 @@ define([
                     if (rec) {
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
-                        this._fromKeyDown = false;
                         this.scrollToRecord(rec);
+                        this._fromKeyDown = false;
                     }
                 }
             } else {
@@ -1119,8 +1119,8 @@ define([
                     if (rec) {
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
-                        this._fromKeyDown = false;
                         this.scrollToRecord(rec);
+                        this._fromKeyDown = false;
                     }
                 }
             } else {

@@ -2280,16 +2280,18 @@ define([
                                 li = menuContainer.find('a.focus').closest('li');
                             else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
                                 var innerEl = menu.cmpEl,
-                                    inner_top = innerEl.offset().top,
-                                    li_focused = menuContainer.find('a.focus').closest('li');
-
-                                var li_top = li_focused.offset().top;
-                                if (li_top < inner_top || li_top+li_focused.outerHeight() > inner_top + innerEl.height()) {
-                                    if (menu.scroller) {
-                                        menu.scroller.scrollTop(innerEl.scrollTop() + li_top - inner_top, 0);
-                                    } else {
-                                        innerEl.scrollTop(innerEl.scrollTop() + li_top - inner_top);
-                                    }
+                                    li_focused = menuContainer.find('a.focus').closest('li'),
+                                    innerHeight = innerEl.innerHeight(),
+                                    padding = (innerHeight - innerEl.height())/2,
+                                    pos = li_focused.position().top,
+                                    itemHeight = li_focused.outerHeight(),
+                                    newpos;
+                                if (pos<0)
+                                    newpos = innerEl.scrollTop() + pos - padding;
+                                else if (pos+itemHeight>innerHeight)
+                                    newpos = innerEl.scrollTop() + pos + itemHeight - innerHeight + padding;
+                                if (newpos!==undefined) {
+                                    menu.scroller ? menu.scroller.scrollTop(newpos, 0) : innerEl.scrollTop(newpos);
                                 }
                             }
                         }

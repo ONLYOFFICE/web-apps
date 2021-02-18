@@ -65,6 +65,17 @@ function onDropDownKeyDown(e) {
     $parent.trigger(afterEvent);
 }
 
+function checkFocusedItem(cmp, item) {
+    var innerHeight = cmp.innerHeight(),
+        padding = (innerHeight - cmp.height())/2,
+        pos = item.position().top,
+        itemHeight = item.outerHeight();
+    if (pos<0)
+        cmp.scrollTop(cmp.scrollTop() + pos - padding);
+    else if (pos+itemHeight>innerHeight)
+        cmp.scrollTop(cmp.scrollTop() + pos + itemHeight - innerHeight + padding);
+}
+
 function patchDropDownKeyDown(e) {
     if (!/(38|40|27|37|39)/.test(e.keyCode)) return;
 
@@ -128,6 +139,8 @@ function patchDropDownKeyDown(e) {
         if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over'))
             $parent.addClass('focused-submenu'); // for Safari. When focus go from parent menuItem to it's submenu don't hide this submenu
 
+
+        checkFocusedItem($this, $items.eq(index));
         $items.eq(index).focus();
     }
 }
