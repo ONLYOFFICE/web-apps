@@ -12,10 +12,11 @@ import {storeCellSettings} from "./cellSettings";
 // import {storeImageSettings} from "./imageSettings";
 // import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
+import {storeSpreadsheetSettings} from "./spreadsheetSettings";
 
 export const stores = {
     storeFocusObjects: new storeFocusObjects(),
-    // storeDocumentSettings: new storeDocumentSettings(),
+    storeSpreadsheetSettings: new storeSpreadsheetSettings(),
     users: new storeUsers(),
     sheets: new storeWorksheets(),
     storeFunctions: new storeFunctions(),

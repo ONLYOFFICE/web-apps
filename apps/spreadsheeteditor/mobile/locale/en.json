@@ -216,6 +216,33 @@
             "textDefault": "Selected range",
             "textInvalidRange": "Invalid cells range",
             "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+        },
+        "Settings": {
+            "textFindAndReplace": "Find and Replace",
+            "textSpreadsheetSettings": "Spreadsheet Settings",
+            "textApplicationSettings": "Application Settings",
+            "textDownload": "Download",
+            "textPrint": "Print",
+            "textSpreadsheetInfo": "Spreadsheet Info",
+            "textHelp": "Help",
+            "textAbout": "About",
+            "textDone": "Done",
+            "textSettings": "Settings",
+            "textBack": "Back",
+            "textOrientation": "Orientation",
+            "textPortrait": "Portrait",
+            "textLandscape": "Landscape",
+            "textFormat": "Format",
+            "textMargins": "Margins",
+            "textColorSchemes": "Color Schemes",
+            "textHideHeadings": "Hide Headings",
+            "textHideGridlines": "Hide Gridlines",
+            "textLeft": "Left",
+            "textBottom": "Bottom",
+            "textTop": "Top",
+            "textRight": "Right",
+            "textCustomSize": "Custom Size",
+            "textSpreadsheetFormats": "Spreadsheet Formats"
         }
     },
     "Common": {

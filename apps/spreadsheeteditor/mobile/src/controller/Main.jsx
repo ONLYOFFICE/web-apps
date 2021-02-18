@@ -5,7 +5,7 @@ import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
 
-@inject("storeFocusObjects", "storeCellSettings", "storeTextSettings", "storeChartSettings")
+@inject("storeFocusObjects", "storeCellSettings", "storeTextSettings", "storeChartSettings", "storeSpreadsheetSettings")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -204,6 +204,7 @@ class MainController extends Component {
         // me.api.asc_registerCallback('asc_onDocumentName',               _.bind(me.onDocumentName, me));
         me.api.asc_registerCallback('asc_onEndAction',                  me._onLongActionEnd.bind(me));
 
+        const storeSpreadsheetSettings = this.props.storeSpreadsheetSettings;
         const storeFocusObjects = this.props.storeFocusObjects;
         const storeCellSettings = this.props.storeCellSettings;
         const storeTextSettings = this.props.storeTextSettings;
@@ -249,6 +250,12 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onSendThemeColors', (colors, standart_colors) => {
             Common.Utils.ThemeColor.setColors(colors, standart_colors);
+        });
+
+        // Spreadsheet Settings
+
+        this.api.asc_registerCallback('asc_onSendThemeColorSchemes', schemes => {
+            storeSpreadsheetSettings.addSchemes(schemes);
         });
 
     }
