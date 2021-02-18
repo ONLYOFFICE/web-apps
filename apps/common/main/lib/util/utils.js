@@ -148,8 +148,9 @@ Common.Utils = _.extend(new(function() {
                 $root.removeClass('pixel-ratio__1_5');
             }
 
-            // me.innerWidth = window.innerWidth * me.zoom;
-            // me.innerHeight = window.innerHeight * me.zoom;
+            me.zoom = scale.correct ? scale.zoom : 1;
+            me.innerWidth = window.innerWidth * me.zoom;
+            me.innerHeight = window.innerHeight * me.zoom;
         };
         me.zoom = 1;
         me.innerWidth = window.innerWidth;
