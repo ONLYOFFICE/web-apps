@@ -408,7 +408,7 @@ define([
                         arr = (version || '').split('.'),
                         ver = '';
                     (arr.length>0) && (ver += ('v. ' + arr[0]));
-                    (arr.length>1) && (ver += ('.' + arr[0]));
+                    (arr.length>1) && (ver += ('.' + arr[1]));
                     this.betaHint = $('<div id="beta-hint"' + style + '>' + (ver + ' (beta)' ) + '</div>').appendTo(this.$el);
                     this.betaHeight = this.betaHint.outerHeight();
                     !this.devHintInited && $(window).on('resize', _.bind(this.onWindowResize, this));
