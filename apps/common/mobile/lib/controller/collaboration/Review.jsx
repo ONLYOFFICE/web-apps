@@ -157,17 +157,6 @@ class ReviewChange extends Component {
         });
         return arr;
     }
-    getInitials (name) {
-        const fio = Common.Utils.UserInfoParser.getParsedName(name).split(' ');
-        let initials = fio[0].substring(0, 1).toUpperCase();
-        for (let i = fio.length-1; i>0; i--) {
-            if (fio[i][0]!=='(' && fio[i][0]!==')') {
-                initials += fio[i].substring(0, 1).toUpperCase();
-                break;
-            }
-        }
-        return initials;
-    }
     checkUserGroups (username) {
         const groups = Common.Utils.UserInfoParser.getParsedGroups(username);
         return this.currentUserGroups && groups && (this.intersection(this.currentUserGroups, (groups.length>0) ? groups : [""]).length>0);
@@ -444,7 +433,7 @@ class ReviewChange extends Component {
                 userName: Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(arrChangeReview[0].user)),
                 color: arrChangeReview[0].userColor.get_hex(),
                 text: arrChangeReview[0].changeText,
-                initials: this.getInitials(arrChangeReview[0].user),
+                initials: this.props.users.getInitials(arrChangeReview[0].user),
                 editable: arrChangeReview[0].editable
             };
             goto = arrChangeReview[0].goto;
@@ -474,6 +463,6 @@ class ReviewChange extends Component {
 
 const InitReviewController = inject("storeAppOptions", "storeReview")(observer(InitReview));
 const ReviewController = inject("storeAppOptions", "storeReview")(observer(Review));
-const ReviewChangeController = withTranslation()(inject("storeAppOptions", "storeReview")(observer(ReviewChange)));
+const ReviewChangeController = withTranslation()(inject("storeAppOptions", "storeReview", "users")(observer(ReviewChange)));
 
 export {InitReviewController, ReviewController, ReviewChangeController};

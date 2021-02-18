@@ -279,7 +279,8 @@ class AddOtherController extends Component {
 
     render () {
         return (
-            <AddOther onInsertLink={this.onInsertLink}
+            <AddOther closeModal={this.closeModal}
+                      onInsertLink={this.onInsertLink}
                       getDisplayLinkText={this.getDisplayLinkText}
                       onInsertPageNumber={this.onInsertPageNumber}
                       onPageBreak={this.onPageBreak}

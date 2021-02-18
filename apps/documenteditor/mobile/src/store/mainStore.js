@@ -13,6 +13,7 @@ import {storeApplicationSettings} from './applicationSettings';
 import {storeAppOptions} from "./appOptions";
 import {storePalette} from "./palette";
 import {storeReview} from "./review";
+import {storeComments} from "../../../../common/mobile/lib/store/comments";
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -28,6 +29,7 @@ export const stores = {
     storeDocumentInfo: new storeDocumentInfo(),
     storeApplicationSettings: new storeApplicationSettings(),
     storePalette: new storePalette(),
-    storeReview: new storeReview()
+    storeReview: new storeReview(),
+    storeComments: new storeComments()
 };
 

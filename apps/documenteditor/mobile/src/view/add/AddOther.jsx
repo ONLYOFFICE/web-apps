@@ -200,7 +200,10 @@ const AddOther = props => {
     const _t = t('Add', {returnObjects: true});
     return (
         <List>
-            <ListItem title={_t.textComment}>
+            <ListItem title={_t.textComment} onClick={() => {
+                props.closeModal();
+                props.storeComments.openAddComment(true);
+            }}>
                 <Icon slot="media" icon="icon-insert-comment"></Icon>
             </ListItem>
             <ListItem title={_t.textLink} link={'/add-link/'} routeProps={{
@@ -234,7 +237,9 @@ const AddOther = props => {
     )
 };
 
-export {AddOther,
+const AddOtherContainer = inject("storeComments")(observer(AddOther));
+
+export {AddOtherContainer as AddOther,
         PageLink as PageAddLink,
         PageNumber as PageAddNumber,
         PageBreak as PageAddBreak,

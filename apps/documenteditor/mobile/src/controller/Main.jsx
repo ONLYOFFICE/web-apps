@@ -6,8 +6,18 @@ import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx';
 import {InitReviewController as ReviewController} from '../../../../common/mobile/lib/controller/collaboration/Review.jsx';
 import { onAdvancedOptions } from './settings/Download.jsx';
+import {AddCommentController} from "../../../../common/mobile/lib/controller/collaboration/Comments";
 
-@inject("storeAppOptions", "storeDocumentSettings", "storeFocusObjects", "storeTextSettings", "storeParagraphSettings", "storeTableSettings", "storeDocumentInfo", "storeChartSettings")
+@inject(
+    "storeAppOptions",
+    "storeDocumentSettings",
+    "storeFocusObjects",
+    "storeTextSettings",
+    "storeParagraphSettings",
+    "storeTableSettings",
+    "storeDocumentInfo",
+    "storeChartSettings"
+    )
 class MainController extends Component {
     constructor(props) {
         super(props);
@@ -48,6 +58,8 @@ class MainController extends Component {
                 this.props.storeAppOptions.setConfigOptions(this.editorConfig);
 
                 this.editorConfig.lang && this.api.asc_setLocale(this.editorConfig.lang);
+
+                Common.Notifications.trigger('configOptionsFill');
             };
 
             const loadDocument = data => {
@@ -321,6 +333,7 @@ class MainController extends Component {
             <Fragment>
                 <CollaborationController />
                 <ReviewController />
+                <AddCommentController />
             </Fragment>
             )
     }

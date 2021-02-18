@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Page, View, Navbar, NavLeft, NavRight, Link, Icon } from 'framework7-react';
+import { inject } from "mobx-react";
 
 import EditOptions from '../view/edit/Edit';
 import AddOptions from '../view/add/Add';
 import Settings from '../view/settings/Settings';
 import Collaboration from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
+import { AddCommentController } from '../../../../common/mobile/lib/controller/collaboration/Comments.jsx';
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
 import { ContextMenu } from '../controller/ContextMenu';
@@ -16,7 +18,7 @@ export default class MainPage extends Component {
             editOptionsVisible: false,
             addOptionsVisible: false,
             settingsVisible: false,
-            collaborationVisible: false,
+            collaborationVisible: false
         };
     }
 

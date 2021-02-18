@@ -1,0 +1,32 @@
+.device-android {
+  .wrap-comment {
+    .header-comment {
+      display: flex;
+      align-items: center;
+      .initials {
+        height: 30px;
+        width: 30px;
+        border-radius: 50px;
+        color: @white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+        font-size: 14px;
+      }
+    }
+    .wrap-textarea {
+      .input:not(.input-outline):after {
+        content: none;
+      }
+    }
+  }
+  #add-comment-dialog {
+    .dialog {
+      --f7-dialog-text-color: @black;
+      .done {
+        padding-right: 6px;
+      }
+    }
+  }
+}

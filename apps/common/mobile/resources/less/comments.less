@@ -1,0 +1,39 @@
+@import './ios/comments';
+@import './material/comments';
+
+.wrap-comment {
+  padding: 16px 24px 0 16px;
+  .name {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .wrap-textarea {
+    margin-top: 6px;
+    textarea {
+      font-size: 14px;
+      margin-top: 0;
+      min-height: 100px;
+      padding: 5px 0;
+    }
+  }
+}
+#add-comment-dialog {
+  .dialog {
+    --f7-dialog-width: 400px;
+    .dialog-inner {
+      padding: 0;
+      height: 400px;
+      .wrap-comment {
+        .name {
+          text-align: left;
+        }
+        .wrap-textarea {
+          textarea {
+            color: @black;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

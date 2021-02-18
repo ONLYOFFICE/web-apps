@@ -5,7 +5,8 @@ class CollaborationController extends Component {
     constructor(props){
         super(props);
 
-        Common.Notifications.on('engineCreated', api => {
+        Common.Notifications.on('configOptionsFill', () => {
+            const api = Common.EditorApi.get();
             // this.api = api;
             api.asc_registerCallback('asc_onAuthParticipantsChanged', this.onChangeEditUsers.bind(this));
             api.asc_registerCallback('asc_onParticipantsChanged',     this.onChangeEditUsers.bind(this));
@@ -22,6 +23,7 @@ class CollaborationController extends Component {
     onChangeEditUsers(users) {
         const storeUsers = this.props.users;
         storeUsers.reset(users);
+        storeUsers.setCurrentUser(this.props.storeAppOptions.user.id);
     };
 
     render() {
@@ -29,4 +31,4 @@ class CollaborationController extends Component {
     }
 }
 
-export default inject('users')(observer(CollaborationController));
+export default inject('users', 'storeAppOptions')(observer(CollaborationController));
