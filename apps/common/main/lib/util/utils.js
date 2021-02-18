@@ -140,7 +140,7 @@ Common.Utils = _.extend(new(function() {
             if ( scale.devicePixelRatio < 1.5 ) {
                 $root.removeClass('pixel-ratio__1_5 pixel-ratio__2');
             } else
-            if ( scale.devicePixelRatio > 1.5 && !(scale.devicePixelRatio > 2) ) {
+            if ( !(scale.devicePixelRatio < 1.5) && !(scale.devicePixelRatio > 2) ) {
                 $root.removeClass('pixel-ratio__2');
                 $root.addClass('pixel-ratio__1_5');
             } else {
