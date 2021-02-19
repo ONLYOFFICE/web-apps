@@ -190,7 +190,7 @@ define([
             me.btnBold = new Common.UI.Button({
                 parentEl: $('#id-dlg-sign-bold'),
                 cls: 'btn-toolbar',
-                iconCls: 'btn-bold',
+                iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: me.textBold
             });
@@ -204,7 +204,7 @@ define([
             me.btnItalic = new Common.UI.Button({
                 parentEl: $('#id-dlg-sign-italic'),
                 cls: 'btn-toolbar',
-                iconCls: 'btn-italic',
+                iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: me.textItalic
             });
