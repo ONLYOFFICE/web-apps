@@ -393,10 +393,14 @@
 
     // input[type="number"]
 
-    input[type="number"]::placeholder { color: @darkGreen;}
-    input[type="number"]::-webkit-input-placeholder {color: @darkGreen;}
-    input[type="number"]::-moz-placeholder {color: @darkGreen;}
-    input[type="number"]:-moz-placeholder {color: @darkGreen;}
-    input[type="number"]:-ms-input-placeholder {color: @darkGreen;}
-
+    input[type="number"] {
+        &::placeholder,
+            &::-webkit-input-placeholder,
+            &::-moz-placeholder,
+            &:-moz-placeholder,
+            &:-ms-input-placeholder
+        {
+            color: @darkGreen;
+        }
+    }
 }
