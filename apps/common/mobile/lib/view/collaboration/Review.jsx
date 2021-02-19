@@ -147,7 +147,7 @@ const PageReviewChange = props => {
                             <div className='date-change'>{change.date}</div>
                         </div>
                     </div>
-                    <div className='text' dangerouslySetInnerHTML={{__html: change.text}}></div>
+                    <div className='text'>{change.text}</div>
                 </div> :
                 <div className='no-changes'>{_t.textNoChanges}</div>
             }

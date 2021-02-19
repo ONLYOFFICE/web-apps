@@ -193,184 +193,249 @@ class ReviewChange extends Component {
             LINERULE_EXACT: 2
         };
         data.forEach((item) => {
-            let changeText = '', proptext = '',
+            let changeText = [], proptext = [],
                 value = item.get_Value(),
                 movetype = item.get_MoveType();
             switch (item.get_Type()) {
                 case Asc.c_oAscRevisionsChangeType.TextAdd:
-                    changeText = (movetype === Asc.c_oAscRevisionsMove.NoMove) ? _t.textInserted : _t.textParaMoveTo;
+                    changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextAdd}`}><b>{movetype === Asc.c_oAscRevisionsMove.NoMove ? _t.textInserted : _t.textParaMoveTo}</b></label>);
                     if (typeof value == 'object') {
                         value.forEach( (obj) => {
                             if (typeof obj === 'string')
-                                changeText += (' ' + Common.Utils.String.htmlEncode(obj));
+                                changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextAdd}-1`}> {Common.Utils.String.htmlEncode(obj)}</label>);
                             else {
                                 switch (obj) {
                                     case 0:
-                                        changeText += (' &lt;' + _t.textImage + '&gt;');
+                                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextAdd}-2`}> &lt;{_t.textImage}&gt;</label>);
                                         break;
                                     case 1:
-                                        changeText += (' &lt;' + _t.textShape + '&gt;');
+                                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextAdd}-3`}> &lt;{_t.textShape}&gt;</label>);
                                         break;
                                     case 2:
-                                        changeText += (' &lt;' + _t.textChart + '&gt;');
+                                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextAdd}-4`}> &lt;{_t.textChart}&gt;</label>);
                                         break;
                                     case 3:
-                                        changeText += (' &lt;' + _t.textEquation + '&gt;');
+                                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextAdd}-5`}> &lt;{_t.textEquation}&gt;</label>);
                                         break;
                                 }
                             }
                         })
                     } else if (typeof value === 'string') {
-                        changeText += (' ' + Common.Utils.String.htmlEncode(value));
+                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextAdd}-6`}> {Common.Utils.String.htmlEncode(value)}</label>);
                     }
                     break;
                 case Asc.c_oAscRevisionsChangeType.TextRem:
-                    changeText = (movetype === Asc.c_oAscRevisionsMove.NoMove) ? _t.textDeleted : (item.is_MovedDown() ? _t.textParaMoveFromDown : _t.textParaMoveFromUp);
+                    changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextRem}`}><b>{(movetype === Asc.c_oAscRevisionsMove.NoMove) ? _t.textDeleted : (item.is_MovedDown() ? _t.textParaMoveFromDown : _t.textParaMoveFromUp)}</b></label>);
                     if (typeof value == 'object') {
                         value.forEach( (obj) => {
                             if (typeof obj === 'string')
-                                changeText += (' ' + Common.Utils.String.htmlEncode(obj));
+                                changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextRem}-1`}> {Common.Utils.String.htmlEncode(obj)}</label>);
                             else {
                                 switch (obj) {
                                     case 0:
-                                        changeText += (' &lt;' + _t.textImage + '&gt;');
+                                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextRem}-2`}> &lt;{_t.textImage}&gt;</label>);
                                         break;
                                     case 1:
-                                        changeText += (' &lt;' + _t.textShape + '&gt;');
+                                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextRem}-3`}> &lt;{_t.textShape}&gt;</label>);
                                         break;
                                     case 2:
-                                        changeText += (' &lt;' + _t.textChart + '&gt;');
+                                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextRem}-4`}> &lt;{_t.textChart}&gt;</label>);
                                         break;
                                     case 3:
-                                        changeText += (' &lt;' + _t.textEquation + '&gt;');
+                                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextRem}-5`}> &lt;{_t.textEquation}&gt;</label>);
                                         break;
                                 }
                             }
                         })
                     } else if (typeof value === 'string') {
-                        changeText += (' ' + Common.Utils.String.htmlEncode(value));
+                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextRem}-6`}> {Common.Utils.String.htmlEncode(value)}</label>);
                     }
                     break;
                 case Asc.c_oAscRevisionsChangeType.ParaAdd:
-                    changeText = _t.textParaInserted;
+                    changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaAdd}`}><b>{_t.textParaInserted}</b> </label>);
                     break;
                 case Asc.c_oAscRevisionsChangeType.ParaRem:
-                    changeText = _t.textParaDeleted;
+                    changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaRem}`}><b>{_t.textParaDeleted}</b> </label>);
                     break;
                 case Asc.c_oAscRevisionsChangeType.TextPr:
-                    changeText = '<b>' + _t.textFormatted;
                     if (value.Get_Bold() !== undefined)
-                        proptext += ((value.Get_Bold() ? '' : _t.textNot) + _t.textBold + ', ');
-                    if (value.Get_Italic() !== undefined)
-                        proptext += ((value.Get_Italic() ? '' : _t.textNot) + _t.textItalic + ', ');
-                    if (value.Get_Underline() !== undefined)
-                        proptext += ((value.Get_Underline() ? '' : _t.textNot) + _t.textUnderline + ', ');
-                    if (value.Get_Strikeout() !== undefined)
-                        proptext += ((value.Get_Strikeout() ? '' : _t.textNot) + _t.textStrikeout + ', ');
-                    if (value.Get_DStrikeout() !== undefined)
-                        proptext += ((value.Get_DStrikeout() ? '' : _t.textNot) + _t.textDStrikeout + ', ');
-                    if (value.Get_Caps() !== undefined)
-                        proptext += ((value.Get_Caps() ? '' : _t.textNot) + _t.textCaps + ', ');
-                    if (value.Get_SmallCaps() !== undefined)
-                        proptext += ((value.Get_SmallCaps() ? '' : _t.textNot) + _t.textSmallCaps + ', ');
-                    if (value.Get_VertAlign() !== undefined)
-                        proptext += (((value.Get_VertAlign() == 1) ? _t.textSuperScript : ((value.Get_VertAlign() == 2) ? _t.textSubScript : _t.textBaseline)) + ', ');
-                    if (value.Get_Color() !== undefined)
-                        proptext += (_t.textColor + ', ');
-                    if (value.Get_Highlight() !== undefined)
-                        proptext += (_t.textHighlight + ', ');
-                    if (value.Get_Shd() !== undefined)
-                        proptext += (_t.textShd + ', ');
-                    if (value.Get_FontFamily() !== undefined)
-                        proptext += (value.Get_FontFamily() + ', ');
-                    if (value.Get_FontSize() !== undefined)
-                        proptext += (value.Get_FontSize() + ', ');
-                    if (value.Get_Spacing() !== undefined)
-                        proptext += (_t.textSpacing + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Spacing()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
-                    if (value.Get_Position() !== undefined)
-                        proptext += (_t.textPosition + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Position()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
-                    if (value.Get_Lang() !== undefined)
-                        proptext += (Common.util.LanguageInfo.getLocalLanguageName(value.Get_Lang())[1] + ', ');
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-1`}>{(value.Get_Bold() ? '' : _t.textNot) + _t.textBold}</label>);
+                    if (value.Get_Italic() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-02`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-2`}>{(value.Get_Italic() ? '' : _t.textNot) + _t.textItalic}</label>);
+                    }
+                    if (value.Get_Underline() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-03`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-3`}>{(value.Get_Underline() ? '' : _t.textNot) + _t.textUnderline}</label>);
+                    }
+                    if (value.Get_Strikeout() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-04`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-4`}>{(value.Get_Strikeout() ? '' : _t.textNot) + _t.textStrikeout}</label>);
+                    }
+                    if (value.Get_DStrikeout() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-05`}>, </label>);
+                        proptext.push(<label  key={`${Asc.c_oAscRevisionsChangeType.TextPr}-5`}>{(value.Get_DStrikeout() ? '' : _t.textNot) + _t.textDStrikeout}</label>);
+                    }
+                    if (value.Get_Caps() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-06`}>, </label>);
+                        proptext.push(<label  key={`${Asc.c_oAscRevisionsChangeType.TextPr}-6`}>{(value.Get_Caps() ? '' : _t.textNot) + _t.textCaps}</label>);
+                    }
+                    if (value.Get_SmallCaps() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-07`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-7`}>{(value.Get_SmallCaps() ? '' : _t.textNot) + _t.textSmallCaps}</label>);
+                    }
+                    if (value.Get_VertAlign() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-08`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-8`}>{((value.Get_VertAlign() == 1) ? _t.textSuperScript : ((value.Get_VertAlign() == 2) ? _t.textSubScript : _t.textBaseline))}</label>);
+                    }
+                    if (value.Get_Color() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-09`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-9`}>{_t.textColor}</label>);
+                    }
+                    if (value.Get_Highlight() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-010`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-10`}>{_t.textHighlight}</label>);
+                    }
+                    if (value.Get_Shd() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-011`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-11`}>{_t.textShd}</label>);
+                    }
+                    if (value.Get_FontFamily() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-012`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-12`}>{value.Get_FontFamily()}</label>);
+                    }
+                    if (value.Get_FontSize() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-013`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-13`}>{value.Get_FontSize()}</label>);
+                    }
+                    if (value.Get_Spacing() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-014`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-14`}>{_t.textSpacing} {Common.Utils.Metric.fnRecalcFromMM(value.Get_Spacing()).toFixed(2)} {Common.Utils.Metric.getCurrentMetricName()}</label>);
+                    }
+                    if (value.Get_Position() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-015`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-15`}>{_t.textPosition} {Common.Utils.Metric.fnRecalcFromMM(value.Get_Position()).toFixed(2)} {Common.Utils.Metric.getCurrentMetricName()}</label>);
+                    }
+                    if (value.Get_Lang() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-016`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-16`}>{Common.util.LanguageInfo.getLocalLanguageName(value.Get_Lang())[1]}</label>);
+                    }
 
                     if (proptext.length > 0) {
-                        changeText += ': ';
-                        proptext = proptext.substring(0, proptext.length - 2);
+                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-17`}><b>{_t.textFormatted}: </b></label>);
+                        proptext.forEach((item) => {
+                            changeText.push(item);
+                        });
+                    } else {
+                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.TextPr}-18`}><b>{_t.textFormatted}</b></label>);
                     }
-                    changeText += '</b>';
-                    changeText += proptext;
                     break;
                 case Asc.c_oAscRevisionsChangeType.ParaPr:
-                    changeText = '<b>' + _t.textParaFormatted;
                     if (value.Get_ContextualSpacing())
-                        proptext += ((value.Get_ContextualSpacing() ? _t.textContextual : _t.textNoContextual) + ', ');
-                    if (value.Get_IndLeft() !== undefined)
-                        proptext += (_t.textIndentLeft + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndLeft()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
-                    if (value.Get_IndRight() !== undefined)
-                        proptext += (_t.textIndentRight + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndRight()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
-                    if (value.Get_IndFirstLine() !== undefined)
-                        proptext += (_t.textFirstLine + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndFirstLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-1`}>{(value.Get_ContextualSpacing() ? _t.textContextual : _t.textNoContextual)}</label>);
+                    if (value.Get_IndLeft() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-02`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-2`}>{_t.textIndentLeft} {Common.Utils.Metric.fnRecalcFromMM(value.Get_IndLeft()).toFixed(2)} {Common.Utils.Metric.getCurrentMetricName()}</label>);
+                    }
+                    if (value.Get_IndRight() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-03`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-3`}>{_t.textIndentRight} {Common.Utils.Metric.fnRecalcFromMM(value.Get_IndRight()).toFixed(2)} {Common.Utils.Metric.getCurrentMetricName()}</label>);
+                    }
+                    if (value.Get_IndFirstLine() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-04`}>, </label>);
+                        proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-4`}>{_t.textFirstLine} {Common.Utils.Metric.fnRecalcFromMM(value.Get_IndFirstLine()).toFixed(2)} {Common.Utils.Metric.getCurrentMetricName()}</label>);
+                    }
                     if (value.Get_Jc() !== undefined) {
                         switch (value.Get_Jc()) {
                             case 0:
-                                proptext += (_t.textRight + ', ');
+                                proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-05`}>, </label>);
+                                proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-5`}>{_t.textRight}</label>);
                                 break;
                             case 1:
-                                proptext += (_t.textLeft + ', ');
+                                proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-06`}>, </label>);
+                                proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-6`}>{_t.textLeft}</label>);
                                 break;
                             case 2:
-                                proptext += (_t.textCenter + ', ');
+                                proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-07`}>, </label>);
+                                proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-7`}>{_t.textCenter}</label>);
                                 break;
                             case 3:
-                                proptext += (_t.textJustify + ', ');
+                                proptext.length > 0 && proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-08`}>, </label>);
+                                proptext.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-8`}>{_t.textJustify}</label>);
                                 break;
-
                         }
                     }
-                    if (value.Get_KeepLines() !== undefined)
-                        proptext += ((value.Get_KeepLines() ? _t.textKeepLines : _t.textNoKeepLines) + ', ');
-                    if (value.Get_KeepNext())
-                        proptext += ((value.Get_KeepNext() ? _t.textKeepNext : _t.textNoKeepNext) + ', ');
-                    if (value.Get_PageBreakBefore())
-                        proptext += ((value.Get_PageBreakBefore() ? _t.textBreakBefore : _t.textNoBreakBefore) + ', ');
-                    if (value.Get_SpacingLineRule() !== undefined && value.Get_SpacingLine() !== undefined) {
-                        proptext += _t.textLineSpacing;
-                        proptext += (((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_LEAST) ? _t.textAtLeast : ((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_AUTO) ? _t.textMultiple : _t.textExact)) + ' ');
-                        proptext += (((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_AUTO) ? value.Get_SpacingLine() : Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName()) + ', ');
+                    if (value.Get_KeepLines() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`keepLines-01`}>, </label>);
+                        proptext.push(<label key={`keepLines-1`}>{(value.Get_KeepLines() ? _t.textKeepLines : _t.textNoKeepLines)}</label>);
                     }
-                    if (value.Get_SpacingBeforeAutoSpacing())
-                        proptext += (_t.textSpacingBefore + ' ' + _t.textAuto + ', ');
-                    else if (value.Get_SpacingBefore() !== undefined)
-                        proptext += (_t.textSpacingBefore + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingBefore()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
-                    if (value.Get_SpacingAfterAutoSpacing())
-                        proptext += (_t.textSpacingAfter + ' ' + _t.textAuto + ', ');
-                    else if (value.Get_SpacingAfter() !== undefined)
-                        proptext += (_t.textSpacingAfter + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingAfter()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
-                    if (value.Get_WidowControl())
-                        proptext += ((value.Get_WidowControl() ? _t.textWidow : _t.textNoWidow) + ', ');
-                    if (value.Get_Tabs() !== undefined)
-                        proptext += (_t.textTabs + ', ');
-                    if (value.Get_NumPr() !== undefined)
-                        proptext += (_t.textNum + ', ');
+                    if (value.Get_KeepNext()) {
+                        proptext.length > 0 && proptext.push(<label key={`keepNext-01`}>, </label>);
+                        proptext.push(<label key={`keepNext-1`}>{(value.Get_KeepNext() ? _t.textKeepNext : _t.textNoKeepNext)}</label>);
+                    }
+                    if (value.Get_PageBreakBefore()) {
+                        proptext.length > 0 && proptext.push(<label key={`breakBefore-01`}>, </label>);
+                        proptext.push(<label key={`breakBefore-1`}>{(value.Get_PageBreakBefore() ? _t.textBreakBefore : _t.textNoBreakBefore)}</label>);
+                    }
+                    if (value.Get_SpacingLineRule() !== undefined && value.Get_SpacingLine() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`spacingLineRule-01`}>, </label>);
+                        proptext.push(<label key={`spacingLineRule-1`}>{t.textLineSpacing}</label>);
+                        proptext.push(<label key={`spacingLineRule-2`}>{((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_LEAST) ? _t.textAtLeast : ((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_AUTO) ? _t.textMultiple : _t.textExact))} </label>);
+                        proptext.push(<label key={`spacingLineRule-3`}>{((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_AUTO) ? value.Get_SpacingLine() : Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName())}</label>);
+                    }
+                    if (value.Get_SpacingBeforeAutoSpacing()) {
+                        proptext.length > 0 && proptext.push(<label key={`spacingBeforeAutoSpacing-01`}>, </label>);
+                        proptext.push(<label key={`spacingBeforeAutoSpacing-1`}>{_t.textSpacingBefore} {_t.textAuto}</label>);
+                    }
+                    else if (value.Get_SpacingBefore() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`spacingBefore-01`}>, </label>);
+                        proptext.push(<label key={`spacingBefore-1`}>{_t.textSpacingBefore} {Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingBefore()).toFixed(2)} {Common.Utils.Metric.getCurrentMetricName()}</label>);
+                    }
+                    if (value.Get_SpacingAfterAutoSpacing()) {
+                        proptext.length > 0 && proptext.push(<label key={`spacingAfterAutoSpacing-01`}>, </label>);
+                        proptext.push(<label key={`spacingAfterAutoSpacing-1`}>{_t.textSpacingAfter} {_t.textAuto}</label>);
+                    }
+                    else if (value.Get_SpacingAfter() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`spacingAfter-01`}>, </label>);
+                        proptext.push(<label key={`spacingAfter-1`}>{_t.textSpacingAfter} {Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingAfter()).toFixed(2)} {Common.Utils.Metric.getCurrentMetricName()}</label>);
+                    }
+                    if (value.Get_WidowControl()) {
+                        proptext.length > 0 && proptext.push(<label key={`widowControl-01`}>, </label>);
+                        proptext.push(<label key={`widowControl-1`}>{(value.Get_WidowControl() ? _t.textWidow : _t.textNoWidow)}</label>);
+                    }
+                    if (value.Get_Tabs() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`tabs-01`}>, </label>);
+                        proptext.push(<label key={`tabs-1`}>{_t.textTabs}</label>);
+                    }
+                    if (value.Get_NumPr() !== undefined) {
+                        proptext.length > 0 && proptext.push(<label key={`num-01`}>, </label>);
+                        proptext.push(<label key={`num-1`}>{_t.textNum}</label>)
+                    }
                     if (value.Get_PStyle() !== undefined) {
                         const style = api.asc_GetStyleNameById(value.Get_PStyle());
-                        if (style.length > 0) proptext += (style + ', ');
+                        if (style.length > 0) {
+                            proptext.length > 0 && proptext.push(<label key={`style-01`}>, </label>);
+                            proptext.push(<label key={`style-1`}>{style}</label>);
+                        }
                     }
 
                     if (proptext.length > 0) {
-                        changeText += ': ';
-                        proptext = proptext.substring(0, proptext.length - 2);
+                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-9`}><b>{_t.textParaFormatted}: </b></label>);
+                        proptext.forEach((item) => {
+                            changeText.push(item);
+                        });
+                    } else {
+                        changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-10`}><b>{_t.textParaFormatted}</b></label>);
                     }
-                    changeText += '</b>';
-                    changeText += proptext;
                     break;
                 case Asc.c_oAscRevisionsChangeType.TablePr:
-                    changeText = _t.textTableChanged;
+                    changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-11`}><b>{_t.textTableChanged}</b></label>);
                     break;
                 case Asc.c_oAscRevisionsChangeType.RowsAdd:
-                    changeText = _t.textTableRowsAdd;
+                    changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-12`}><b>{_t.textTableRowsAdd}</b></label>);
                     break;
                 case Asc.c_oAscRevisionsChangeType.RowsRem:
-                    changeText = _t.textTableRowsDel;
+                    changeText.push(<label key={`${Asc.c_oAscRevisionsChangeType.ParaPr}-13`}><b>{_t.textTableRowsDel}</b></label>);
                     break;
 
             }
