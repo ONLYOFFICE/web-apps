@@ -15,7 +15,7 @@
   "Common.define.chartData.textStock": "Bursiere",
   "Common.define.chartData.textSurface": "Suprafața",
   "Common.Translation.warnFileLocked": "Fișierul este editat într-o altă aplicație. Puteți continua să editați și să-l salvați ca o copie.",
-  "Common.UI.ColorButton.textNewColor": "Adăugare culoarea particularizată nouă",
+  "Common.UI.ColorButton.textNewColor": "Culoare particularizată",
   "Common.UI.ComboBorderSize.txtNoBorders": "Fără borduri",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Fără borduri",
   "Common.UI.ComboDataView.emptyComboText": "Fără stiluri",
