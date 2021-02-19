@@ -142,13 +142,12 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
         },
 
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
+        getFocusedComponents: function() {
+            return [this.inputName, this.inputTitle, this.inputEmail, this.textareaInstructions];
+        },
 
-            var me = this;
-            _.delay(function(){
-                me.inputName.cmpEl.find('input').focus();
-            },500);
+        getDefaultFocusableComponent: function () {
+            return this.inputName;
         },
 
         setSettings: function (props) {
