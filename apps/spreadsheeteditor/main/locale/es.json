@@ -250,6 +250,7 @@
   "Common.Views.SignDialog.textCertificate": "Certificar",
   "Common.Views.SignDialog.textChange": "Cambiar",
   "Common.Views.SignDialog.textInputName": "Ingresar nombre de quien firma",
+  "Common.Views.SignDialog.textNameError": "El nombre del firmante no debe estar vacío.",
   "Common.Views.SignDialog.textItalic": "Cursiva",
   "Common.Views.SignDialog.textPurpose": "Propósito al firmar este documento",
   "Common.Views.SignDialog.textSelect": "Seleccionar",

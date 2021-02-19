@@ -253,6 +253,7 @@
   "Common.Views.SignDialog.textCertificate": "証明書",
   "Common.Views.SignDialog.textChange": "変更する",
   "Common.Views.SignDialog.textInputName": "署名者の名前をご入力ください",
+  "Common.Views.SignDialog.textNameError": "署名者の名前を空にしておくことはできません。",
   "Common.Views.SignDialog.textItalic": "イタリック",
   "Common.Views.SignDialog.textPurpose": "この文書にサインする目的",
   "Common.Views.SignDialog.textSelect": "選択",

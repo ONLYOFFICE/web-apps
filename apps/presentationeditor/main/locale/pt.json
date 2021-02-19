@@ -253,6 +253,7 @@
   "Common.Views.SignDialog.textCertificate": "Certificado",
   "Common.Views.SignDialog.textChange": "Alterar",
   "Common.Views.SignDialog.textInputName": "Campo Nome do assinante",
+  "Common.Views.SignDialog.textNameError": "Nome de assinante não deve estar vazio.",
   "Common.Views.SignDialog.textItalic": "Itálico",
   "Common.Views.SignDialog.textPurpose": "Objetivo para assinar o documento",
   "Common.Views.SignDialog.textSelect": "Selecionar",

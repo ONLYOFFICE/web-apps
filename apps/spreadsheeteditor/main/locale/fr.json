@@ -250,6 +250,7 @@
   "Common.Views.SignDialog.textCertificate": "Certificat",
   "Common.Views.SignDialog.textChange": "Modifier",
   "Common.Views.SignDialog.textInputName": "Nom du signataire d'entrée",
+  "Common.Views.SignDialog.textNameError": "Veuillez indiquer le nom du signataire.",
   "Common.Views.SignDialog.textItalic": "Italique",
   "Common.Views.SignDialog.textPurpose": "But de la signature du document",
   "Common.Views.SignDialog.textSelect": "Sélectionner",

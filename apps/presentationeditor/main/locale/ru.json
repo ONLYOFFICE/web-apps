@@ -253,6 +253,7 @@
   "Common.Views.SignDialog.textCertificate": "Сертификат",
   "Common.Views.SignDialog.textChange": "Изменить",
   "Common.Views.SignDialog.textInputName": "Введите имя подписывающего",
+  "Common.Views.SignDialog.textNameError": "Имя подписывающего не должно быть пустым.",
   "Common.Views.SignDialog.textItalic": "Курсив",
   "Common.Views.SignDialog.textPurpose": "Цель подписания документа",
   "Common.Views.SignDialog.textSelect": "Выбрать",
