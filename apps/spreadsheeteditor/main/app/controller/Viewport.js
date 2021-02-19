@@ -532,7 +532,6 @@ define([
         textHideHeadings: 'Hide Headings',
         textHideGridlines: 'Hide Gridlines',
         textFreezePanes: 'Freeze Panes',
-        textFreezePanesShadow: 'Show Freezed Panes Shadow',
-        textTipTheme: 'You can switch to Dark Theme in the View Settings'
+        textFreezePanesShadow: 'Show Freezed Panes Shadow'
     }, SSE.Controllers.Viewport));
 });

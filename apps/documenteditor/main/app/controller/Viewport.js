@@ -434,7 +434,6 @@ define([
         },
 
         textFitPage: 'Fit to Page',
-        textFitWidth: 'Fit to Width',
-        textTipTheme: 'You can switch to Dark Theme in the View Settings'
+        textFitWidth: 'Fit to Width'
     }, DE.Controllers.Viewport));
 });
