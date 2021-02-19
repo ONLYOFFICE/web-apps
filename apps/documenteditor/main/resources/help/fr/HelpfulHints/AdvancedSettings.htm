@@ -24,7 +24,7 @@
             </ul>
             </li>
             <li><b>Vérification orthographique</b> sert à activer/désactiver la vérification orthographique.</li>
-            <li><b>Vérification</b> sert à remplacer un mot ou un symbole que vous avez saisi dans la casse <b>Remplacer</b> ou que vous avez choisi de la liste de corrections automatiques avec un autre mot ou symbole qui s’affiche dans la casse <b>Par</b>.</li>
+            <li><b>Vérification</b> sert à remplacer un mot ou un symbole que vous avez saisi dans le champ <b>Remplacer</b> ou que vous avez choisi de la liste de corrections automatiques avec un autre mot ou symbole qui s’affiche dans le champ de saisie <b>Par</b>.</li>
             <li><b>Entrée alternative</b> sert à activer / désactiver les hiéroglyphes.</li>
             <li><b>Guides d'alignement</b> est utilisé pour activer/désactiver les guides d'alignement qui apparaissent lorsque vous déplacez des objets et vous permettent de les positionner précisément sur la page.</li>
             <li><b>Compatibilité</b> sert à <em>rendre les fichiers compatibles avec les anciennes versions de MS Word lorsqu’ils sont enregistrés au format DOCX</em>.</li>
@@ -45,6 +45,19 @@
                     <li>Choisissez <b>comme Windows</b> si vous aimez la façon dont les polices sont habituellement affichées sous Windows, c'est à dire en utilisant la police de Windows.</li>
                     <li>Choisissez <b>comme OS X</b> si vous aimez la façon dont les polices sont habituellement affichées sous Mac, c'est à dire sans hinting.</li>
                     <li>Choisissez <b>Natif</b> si vous voulez que votre texte sera affiché avec les hintings intégrés dans les fichiers de polices.</li>
+                    <li>
+                        <b>Mise en cache par défaut</b> sert à sélectionner cache de police. Il n'est pas recommandé d'activer ce mode-ci sans raison évidente. Ce mode peut être utile dans certains cas, par exemple les problèmes d'accélération matérielle activé sous Google Chrome.
+                        <p>Document Editor gère deux modes de mise en cache:</p>
+                        <ol>
+                            <li>Dans le <b>premier mode de mise en cache</b> chaque lettre est mis en cache comme une image indépendante.</li>
+                            <li>Dans le <b>deuxième mode de mise en cache</b> l'image d'une certaine taille est sélectionnée avec des lettres dynamiques et avec de l'allocation/libération de la mémoire mis en place. La deuxième image est créée s'il y a de mémoire suffisante etc.</li>
+                        </ol>
+                        <p>Le <b>Mode de mise en cache par défaut</b> est activé en fonction du navigateur utilisé:</p>
+                        <ul>
+                            <li>Avec la <b>mise en cache par défaut</b> activée, le <b>deuxième mode de mise en cache</b> est utilisé dans Internet Explorer (v. 9, 10, 11), le <b>premier mode de mise en cache </b>est utilisé avec les autres navigateurs.</li>
+                            <li>Avec la <b>mise en cache par défaut</b> désactivée, le <b>premier mode de mise en cache</b> est utilisé dans Internet Explorer (v. 9, 10, 11), le <b>deuxième mode de mise en cache </b>est utilisé avec les autres navigateurs.</li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li><b>Unité de mesure</b> sert à spécifier les unités de mesure utilisées sur les règles et dans les fenêtres de paramètres pour les paramètres tels que largeur, hauteur, espacement, marges etc. Vous pouvez choisir l'option <b>Centimètre</b>, <b>Point</b> ou <b>Pouce</b>.</li>
