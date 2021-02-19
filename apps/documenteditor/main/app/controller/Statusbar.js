@@ -257,7 +257,7 @@ define([
             var tip = new Common.UI.SynchronizeTip({
                 target  : me.btnTurnReview.$el,
                 text    : text,
-                placement: 'top'
+                placement: 'top-left'
             });
             tip.on({
                 'dontshowclick': function() {

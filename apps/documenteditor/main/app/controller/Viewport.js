@@ -328,7 +328,6 @@ define([
                         mnuitemDarkTheme.setChecked(Common.UI.Themes.isDarkTheme());
                     });
                 }
-
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
             }
         },
