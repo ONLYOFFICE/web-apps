@@ -5,6 +5,15 @@ function checkScaling() {
     if ( window.matchMedia(str_mq_150).matches ) {
         document.body.classList.add('pixel-ratio__1_5');
     }
+
+    if ( !window.matchMedia("screen and (-webkit-device-pixel-ratio: 1.5)," +
+                            "screen and (-webkit-device-pixel-ratio: 1)," +
+                            "screen and (-webkit-device-pixel-ratio: 2)").matches )
+    {
+        // don't add zoom for mobile devices
+        if (!(/android|avantgo|playbook|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent || navigator.vendor || window.opera)))
+            document.getElementsByTagName('html')[0].setAttribute('style', 'zoom: ' + (1 / window.devicePixelRatio) + ';');
+    }
 }
 
 checkScaling();
