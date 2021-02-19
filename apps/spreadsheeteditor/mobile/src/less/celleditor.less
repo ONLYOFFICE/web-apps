@@ -13,6 +13,7 @@
     }
 
     display: flex;
+    z-index: 5001;
 
     height: @cellEditorHeight;
     min-height: @cellEditorHeight;
@@ -27,7 +28,7 @@
     &:after {
         content: '';
         position: absolute;
-        background-color: var(--f7-navbar-border-color, var(--f7-bars-border-color));
+        background-color: @border-regular-control;
         display: block;
         z-index: 15;
         top: auto;
@@ -43,6 +44,10 @@
     #box-cell-name {
         display: inline-flex;
         background-color: var(--f7-navbar-bg-color);
+
+        .md & {
+            background-color: @gray-light;
+        }
     }
 
     #idx-cell-name {
@@ -57,6 +62,12 @@
         &[disabled] {
             color: @gray-darker;
             opacity: 0.5;
+        }
+    }
+
+    .phone & {
+        #idx-cell-name {
+            display: none;
         }
     }
 
