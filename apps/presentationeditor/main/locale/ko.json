@@ -1223,8 +1223,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "레터 용지 (8.5x11 인치)",
   "PE.Views.SlideSizeSettings.txtOverhead": "오버 헤드",
   "PE.Views.SlideSizeSettings.txtStandard": "표준 (4 : 3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "와이드 스크린 (16 : 9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "와이드 스크린 (16:10)",
   "PE.Views.Statusbar.goToPageText": "슬라이드로 이동",
   "PE.Views.Statusbar.pageIndexText": "{1} 중 {0} 슬라이드",
   "PE.Views.Statusbar.tipAccessRights": "문서 액세스 권한 관리",

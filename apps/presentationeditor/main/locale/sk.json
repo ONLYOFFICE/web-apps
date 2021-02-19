@@ -1361,8 +1361,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Listový papier (8,5 x 11 palcov)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Horný",
   "PE.Views.SlideSizeSettings.txtStandard": "Štandard (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Širokouhlý (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Širokouhlý (16:10)",
   "PE.Views.Statusbar.goToPageText": "Prejsť na snímku",
   "PE.Views.Statusbar.pageIndexText": "Snímka {0} z {1}",
   "PE.Views.Statusbar.tipAccessRights": "Spravovať prístupové práva k dokumentom",

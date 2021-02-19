@@ -260,7 +260,7 @@
   "SSE.Controllers.Main.textPaidFeature": "Función de pago",
   "SSE.Controllers.Main.textPassword": "Contraseña",
   "SSE.Controllers.Main.textPreloader": "Cargando...",
-  "SSE.Controllers.Main.textRemember": "Recordar mi elección",
+  "SSE.Controllers.Main.textRemember": "Recordar mi elección para todos los archivos",
   "SSE.Controllers.Main.textShape": "Forma",
   "SSE.Controllers.Main.textStrict": "Modo estricto",
   "SSE.Controllers.Main.textTryUndoRedo": "Las funciones Deshacer/Rehacer son desactivadas para el modo de co-edición Rápido.<br>Haga Clic en el botón \"Modo estricto\" para cambiar al modo de co-edición al Estricto para editar el archivo sin la interferencia de otros usuarios y enviar sus cambios sólo después de guardarlos. Se puede cambiar entre los modos de co-edición usando los ajustes avanzados de edición.",

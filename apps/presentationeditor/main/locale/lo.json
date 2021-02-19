@@ -1650,8 +1650,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "ເຈ້ຍຂະໜາດ (8.5x11 in)",
   "PE.Views.SlideSizeSettings.txtOverhead": "ເທິງຫົວ",
   "PE.Views.SlideSizeSettings.txtStandard": "ມາດຕະຖານ (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "ຈໍກວ້າງ (16: 9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "ຈໍກວ້າງ (16:10)",
   "PE.Views.Statusbar.goToPageText": "ໄປຍັງສະໄລ",
   "PE.Views.Statusbar.pageIndexText": "ພາບສະໄລ້ {0} ຂອງ {1}",
   "PE.Views.Statusbar.textShowBegin": "ສະແດງແຕ່ເລີ່ມຕົ້ນ",

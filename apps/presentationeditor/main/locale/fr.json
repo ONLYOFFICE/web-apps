@@ -1650,8 +1650,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Papier à lettres (8.5x11 in)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Transparent",
   "PE.Views.SlideSizeSettings.txtStandard": "Standard (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Écran large (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Écran large (16:10)",
   "PE.Views.Statusbar.goToPageText": "Atteindre la diapositive",
   "PE.Views.Statusbar.pageIndexText": "Diapositive {0} de {1}",
   "PE.Views.Statusbar.textShowBegin": "Afficher dès le début",

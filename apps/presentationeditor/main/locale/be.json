@@ -1638,8 +1638,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Аркуш Letter (8.5x11 цаляў)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Празрыстая плёнка",
   "PE.Views.SlideSizeSettings.txtStandard": "Стандартны (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Шырокаэкранны (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Шырокаэкранны (16:10)",
   "PE.Views.Statusbar.goToPageText": "Перайсці да слайда",
   "PE.Views.Statusbar.pageIndexText": "Слайд {0} з {1}",
   "PE.Views.Statusbar.textShowBegin": "Паказаць ад пачатку",

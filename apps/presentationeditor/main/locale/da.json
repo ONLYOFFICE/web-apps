@@ -1588,8 +1588,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Brevpapir (8,5 x 11 i)",
   "PE.Views.SlideSizeSettings.txtOverhead": "overliggende",
   "PE.Views.SlideSizeSettings.txtStandard": "Standard (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Widescreen (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Widescreen (16:10)",
   "PE.Views.Statusbar.goToPageText": "Gå til dias",
   "PE.Views.Statusbar.pageIndexText": "Dias {0} af {1}",
   "PE.Views.Statusbar.textShowBegin": "Vis fra begyndelsen",

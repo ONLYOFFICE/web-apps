@@ -1650,8 +1650,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Letter Paper (8.5x11 in)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Overheadfolien",
   "PE.Views.SlideSizeSettings.txtStandard": "Standard (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Breitbildschirm (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Breitbildschirm (16:10)",
   "PE.Views.Statusbar.goToPageText": "Zu Folie übergehen",
   "PE.Views.Statusbar.pageIndexText": "Folie {0} von {1}",
   "PE.Views.Statusbar.textShowBegin": "Vom Anfang anzeigen",

@@ -1650,8 +1650,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Brief (216 x 279 mm)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Overhead",
   "PE.Views.SlideSizeSettings.txtStandard": "Standaard (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Breedbeeld (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Breedbeeld (16:10)",
   "PE.Views.Statusbar.goToPageText": "Naar dia gaan",
   "PE.Views.Statusbar.pageIndexText": "Dia {0} van {1}",
   "PE.Views.Statusbar.textShowBegin": "Vanaf begin weergeven",

@@ -1630,8 +1630,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Carta lettera (8,5x11 pollici)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Lucidi",
   "PE.Views.SlideSizeSettings.txtStandard": "Standard (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Widescreen (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Widescreen (16:10)",
   "PE.Views.Statusbar.goToPageText": "Vai alla diapositiva",
   "PE.Views.Statusbar.pageIndexText": "Diapositiva {0} di {1}",
   "PE.Views.Statusbar.textShowBegin": "Mostra dall'inizio",

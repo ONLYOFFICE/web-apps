@@ -1100,8 +1100,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Arkusz Letter (8.5x11 cali)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Folia",
   "PE.Views.SlideSizeSettings.txtStandard": "Standard (4: 3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Ekran panoramiczny (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Ekran panoramiczny (16:10)",
   "PE.Views.Statusbar.goToPageText": "Idź do slajdu",
   "PE.Views.Statusbar.pageIndexText": "Slajd {0} z {1}",
   "PE.Views.Statusbar.tipAccessRights": "Zarządzaj prawami dostępu do dokumentu",

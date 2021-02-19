@@ -1649,8 +1649,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "Levélpapír (8.5x11 hüvelyk)",
   "PE.Views.SlideSizeSettings.txtOverhead": "Felső",
   "PE.Views.SlideSizeSettings.txtStandard": "Sztenderd (4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "Szélesvásznú (16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "Szélesvásznú (16:10)",
   "PE.Views.Statusbar.goToPageText": "Diára ugrás",
   "PE.Views.Statusbar.pageIndexText": "Dia {0}. - {1}.",
   "PE.Views.Statusbar.textShowBegin": "Indítás az elejétől",

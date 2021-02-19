@@ -1642,8 +1642,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "信纸（8.5x11英寸）",
   "PE.Views.SlideSizeSettings.txtOverhead": "高架",
   "PE.Views.SlideSizeSettings.txtStandard": "标准（4：3）",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "宽屏（16：9）",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "宽屏（16:10）",
   "PE.Views.Statusbar.goToPageText": "转到幻灯片",
   "PE.Views.Statusbar.pageIndexText": "{1}的幻灯片{0}",
   "PE.Views.Statusbar.textShowBegin": "从开始显示",

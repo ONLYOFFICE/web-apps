@@ -1649,8 +1649,6 @@
   "PE.Views.SlideSizeSettings.txtLetter": "レター サイズ 8.5x11 インチ",
   "PE.Views.SlideSizeSettings.txtOverhead": "オーバーヘッド",
   "PE.Views.SlideSizeSettings.txtStandard": "標準(4:3)",
-  "PE.Views.SlideSizeSettings.txtWidescreen1": "ワイド画面(16:9)",
-  "PE.Views.SlideSizeSettings.txtWidescreen2": "ワイド画面(16:10)",
   "PE.Views.Statusbar.goToPageText": "スライドへジャンプ",
   "PE.Views.Statusbar.pageIndexText": "スライド{0}から{1}",
   "PE.Views.Statusbar.textShowBegin": "最初から",
