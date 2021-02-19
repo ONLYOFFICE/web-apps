@@ -85,7 +85,6 @@ const PageSpreadsheetMargins = props => {
     const _t = t('View.Settings', {returnObjects: true});
     const metricText = Common.Utils.Metric.getMetricName(Common.Utils.Metric.getCurrentMetric());
     const margins = props.initSpreadsheetMargins();
-    console.log(margins);
 
     const [stateTop, setTop] = useState(margins.top);
     const [stateBottom, setBottom] = useState(margins.bottom);
@@ -128,13 +127,13 @@ const PageSpreadsheetMargins = props => {
             <Navbar title={_t.textMargins} backLink={_t.textBack} />
             <List>
                 <ListItem title={_t.textTop}>
-                    {!isAndroid && <div slot='after-start'>{parseFloat(stateTop.toFixed(2)) + ' ' + metricText}</div>}
+                    {!isAndroid && <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateTop).toFixed(2)) + ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {onChangeMargins('top', true)}}>
                                 {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                             </Button>
-                            {isAndroid && <label>{parseFloat(stateTop.toFixed(2)) + ' ' + metricText}</label>}
+                            {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateTop).toFixed(2)) + ' ' + metricText}</label>}
                             <Button outline className='increment item-link' onClick={() => {onChangeMargins('top', false)}}>
                                 {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
                             </Button>
@@ -142,13 +141,13 @@ const PageSpreadsheetMargins = props => {
                     </div>
                 </ListItem>
                 <ListItem title={_t.textBottom}>
-                    {!isAndroid && <div slot='after-start'>{parseFloat(stateBottom.toFixed(2)) + ' ' + metricText}</div>}
+                    {!isAndroid && <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateBottom).toFixed(2)) + ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {onChangeMargins('bottom', true)}}>
                                 {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                             </Button>
-                            {isAndroid && <label>{parseFloat(stateBottom.toFixed(2)) + ' ' + metricText}</label>}
+                            {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateBottom).toFixed(2)) + ' ' + metricText}</label>}
                             <Button outline className='increment item-link' onClick={() => {onChangeMargins('bottom', false)}}>
                                 {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
                             </Button>
@@ -156,13 +155,13 @@ const PageSpreadsheetMargins = props => {
                     </div>
                 </ListItem>
                 <ListItem title={_t.textLeft}>
-                    {!isAndroid && <div slot='after-start'>{parseFloat(stateLeft.toFixed(2)) + ' ' + metricText}</div>}
+                    {!isAndroid && <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateLeft).toFixed(2)) + ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {onChangeMargins('left', true)}}>
                                 {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                             </Button>
-                            {isAndroid && <label>{parseFloat(stateLeft.toFixed(2)) + ' ' + metricText}</label>}
+                            {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateLeft).toFixed(2)) + ' ' + metricText}</label>}
                             <Button outline className='increment item-link' onClick={() => {onChangeMargins('left', false)}}>
                                 {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
                             </Button>
@@ -170,13 +169,13 @@ const PageSpreadsheetMargins = props => {
                     </div>
                 </ListItem>
                 <ListItem title={_t.textRight}>
-                    {!isAndroid && <div slot='after-start'>{parseFloat(stateRight.toFixed(2)) + ' ' + metricText}</div>}
+                    {!isAndroid && <div slot='after-start'>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateRight).toFixed(2)) + ' ' + metricText}</div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {onChangeMargins('right', true)}}>
                                 {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                             </Button>
-                            {isAndroid && <label>{parseFloat(stateRight.toFixed(2)) + ' ' + metricText}</label>}
+                            {isAndroid && <label>{parseFloat(Common.Utils.Metric.fnRecalcFromMM(stateRight).toFixed(2)) + ' ' + metricText}</label>}
                             <Button outline className='increment item-link' onClick={() => {onChangeMargins('right', false)}}>
                                 {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
                             </Button>

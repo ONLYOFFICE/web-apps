@@ -35,10 +35,10 @@ class SpreadsheetSettingsController extends Component {
 
         this.localMarginProps = props.asc_getPageMargins();
 
-        let left = parseFloat(Common.Utils.Metric.fnRecalcFromMM(this.localMarginProps.asc_getLeft()).toFixed(2)),
-            top = parseFloat(Common.Utils.Metric.fnRecalcFromMM(this.localMarginProps.asc_getTop()).toFixed(2)),
-            right = parseFloat(Common.Utils.Metric.fnRecalcFromMM(this.localMarginProps.asc_getRight()).toFixed(2)),
-            bottom = parseFloat(Common.Utils.Metric.fnRecalcFromMM(this.localMarginProps.asc_getBottom()).toFixed(2));
+        let left = this.localMarginProps.asc_getLeft(),
+            top = this.localMarginProps.asc_getTop(),
+            right = this.localMarginProps.asc_getRight(),
+            bottom = this.localMarginProps.asc_getBottom();
 
         return {left, top, right, bottom};
     }
@@ -60,7 +60,6 @@ class SpreadsheetSettingsController extends Component {
         }
 
         api.asc_changePageMargins(changeProps.asc_getLeft(), changeProps.asc_getRight(), changeProps.asc_getTop(), changeProps.asc_getBottom(), api.asc_getActiveWorksheetIndex());
-        // this.initSpreadsheetMargins();
     }
 
     onOrientationChange(value) {

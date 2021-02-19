@@ -242,7 +242,21 @@
             "textTop": "Top",
             "textRight": "Right",
             "textCustomSize": "Custom Size",
-            "textSpreadsheetFormats": "Spreadsheet Formats"
+            "textSpreadsheetFormats": "Spreadsheet Formats",
+            "textDownloadAs": "Download As",
+            "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+            "notcriticalErrorTitle": "Warning",
+            "txtEncoding": "Encoding",
+            "txtDelimiter": "Delimiter",
+            "txtSpace": "Space",
+            "txtTab": "Tab",
+            "advCSVOptions": "Choose CSV Options",
+            "advDRMOptions": "Protected File",
+            "advDRMEnterPassword": "You password please:",
+            "advDRMPassword": "Password",
+            "closeButtonText": "Close File",
+            "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
+            "textCancel": "Cancel"
         }
     },
     "Common": {
