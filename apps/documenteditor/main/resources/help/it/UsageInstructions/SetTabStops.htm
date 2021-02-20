@@ -1,45 +1,48 @@
 ﻿<!DOCTYPE html>
 <html>
-	<head>
-		<title>Set tab stops</title>
-		<meta charset="utf-8" />
-		<meta name="description" content="Set tab stops" />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
-        <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
-	</head>
-	<body>
-		<div class="mainpart">
+<head>
+    <title>Impostare le tabulazioni</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Set tab stops" />
+    <link type="text/css" rel="stylesheet" href="../editor.css" />
+    <script type="text/javascript" src="../callback.js"></script>
+    <script type="text/javascript" src="../search/js/page-search.js"></script>
+</head>
+<body>
+    <div class="mainpart">
         <div class="search-field">
             <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
-			<h1>Set tab stops</h1>
-			<p>In Document Editor, you can change tab stops i.e. the position the cursor advances to when you press the <b>Tab</b> key on the keyboard.</p>
-			<p>To set tab stops you can use the horizontal ruler:</p>
-			<ol>
-			    <li>Select the necessary tab stop type clicking the <img alt="Left Tab Stop button" src="../images/tabstopleft.png" /> button in the upper left corner of the working area. The following three tab types are available:
-			        <ul>
-			            <li><b>Left</b> <img alt="Left Tab Stop button" src="../images/tabstopleft.png" /> - lines up your text by the left side at the tab stop position; the text moves to the right from the tab stop as you type. Such a tab stop will be indicated on the horizontal ruler by the <img alt="Left Tab Stop marker" src="../images/tabstopleft_marker.png" /> marker.</li>
-			            <li><b>Center</b> <img alt="Center Tab Stop button" src="../images/tabstopcenter.png" /> - centers the text at the tab stop position. Such a tab stop will be indicated on the horizontal ruler by the <img alt="Center Tab Stop marker" src="../images/tabstopcenter_marker.png" /> marker.</li>
-			            <li><b>Right</b> <img alt="Right Tab Stop button" src="../images/tabstopright.png" /> - lines up your text by the right side at the tab stop position; the text moves to the left from the tab stop as you type. Such a tab stop will be indicated on the horizontal ruler by the <img alt="Right Tab Stop marker" src="../images/tabstopright_marker.png" /> marker.</li>
-			        </ul>
-			    </li>
-			    <li>Click on the bottom edge of the ruler where you want to place the tab stop. Drag it along the ruler to change its position. To remove the added tab stop drag it out of the ruler. 
-			    <p><img alt="Horizontal Ruler with the Tab stops added" src="../images/tabstops_ruler.png" /></p>
-			    </li>			
-			</ol>
-			<hr />
-			<p>You can also use the paragraph properties window to adjust tab stops. Click the right mouse button, select the <b>Paragraph Advanced Settings</b> option in the menu or use the <b>Show advanced settings</b> link at the right sidebar, and switch to the <b>Tabs</b> tab in the opened <b>Paragraph - Advanced Settings</b> window.</p>
-			<img alt="Paragraph Properties - Tabs tab" src="../images/paradvsettings_tab.png" />
-			<p>You can set the following parameters:</p>
-			<ul>
-			    <li><b>Default Tab</b> is set at 1.25 cm. You can decrease or increase this value using the arrow buttons or enter the necessary one in the box.</li>
-                <li><b>Tab Position</b> - is used to set custom tab stops. Enter the necessary value in this box, adjust it more precisely using the arrow buttons and press the <b>Specify</b> button. Your custom tab position will be added to the list in the field below. If you've previously added some tab stops using the ruler, all these tab positions will also be displayed in the list.</li>
-                <li><b>Alignment</b> - is used to set the necessary alignment type for each of the tab positions in the list above. Select the necessary tab position in the list, choose the <b>Left</b>, <b>Center</b> or <b>Right</b> option from the drop-down list and press the <b>Specify</b> button.</li>
-                <li><b>Leader</b> - allows to choose a character used to create a leader for each of the tab positions. A leader is a line of characters (dots or hyphens) that fills the space between tabs. Select the necessary tab position in the list, choose the leader type from the drop-down list and press the <b>Specify</b> button.
-                    <p>To delete tab stops from the list select a tab stop and press the <b>Remove</b> or <b>Remove All</b> button.</p>
-                </li>
-			</ul>			
-		</div>
-	</body>
+        <h1>Impostare le tabulazioni</h1>
+        <p>Nell'Editor documenti è possibile modificare le tabulazioni, ovvero la posizione in cui il cursore avanza quando si preme il tasto <b>Tab</b> sulla tastiera.</p>
+        <p>Per impostare le tabulazioni è possibile utilizzare il righello orizzontale:</p>
+        <ol>
+            <li>
+                Selezionare il tipo di tabulazione necessario facendo clic sul pulsante <img alt="Sinistra" src="../images/tabstopleft.png" /> nell'angolo superiore sinistro dell'area di lavoro. Sono disponibili i seguenti tre tipi di tabulazioni:
+                <ul>
+                    <li><b>Sinistra</b> <img alt="Sinistra" src="../images/tabstopleft.png" /> - allinea il testo sul lato sinistro nella posizione di tabulazione; il testo si sposta a destra dalla tabulazione durante la digitazione. Tale punto di tabulazione sarà indicato sul righello orizzontale dal marcatore <img alt="Sinistra" src="../images/tabstopleft_marker.png" />.</li>
+                    <li><b>Centrata</b> <img alt="Centrata" src="../images/tabstopcenter.png" /> - centra il testo nella posizione di tabulazione. Tale tabulazione sarà indicata sul righello orizzontale dal marcatore <img alt="Centrata" src="../images/tabstopcenter_marker.png" />.</li>
+                    <li><b>Destra</b> <img alt="Destra" src="../images/tabstopright.png" /> - allinea il testo dal lato destro nella posizione di tabulazione; il testo si sposta a sinistra dalla tabulazione durante la digitazione. Tale punto di tabulazione sarà indicato sul righello orizzontale dal marcatore <img alt="Destra" src="../images/tabstopright_marker.png" />.</li>
+                </ul>
+            </li>
+            <li>
+                Fare clic sul bordo inferiore del righello in cui si desidera posizionare la tabulazione. Trascinarlo lungo il righello per modificarne la posizione. Per rimuovere la tabulazione aggiunta, trascinarla fuori dal righello.
+                <p><img alt="Righello orizzontale - Tabulazioni" src="../images/tabstops_ruler.png" /></p>
+            </li>
+        </ol>
+        <hr />
+        <p>È inoltre possibile utilizzare la finestra delle proprietà del paragrafo per regolare le tabulazioni. Fare clic con il tasto destro del mouse, selezionare l'opzione <b>Impostazioni avanzate del paragrafo</b> nel menu o utilizzare il collegamento <b>Mostra impostazioni avanzate</b> nella barra laterale destra e passare alla scheda <b>Tabulazioni</b> nella finestra <b>Paragrafo - Impostazioni avanzate</b> aperta.</p>
+        <img alt="Paragrafo - Impostazioni avanzate - Tabulazioni" src="../images/paradvsettings_tab.png" />
+        <p>È possibile impostare i seguenti parametri:</p>
+        <ul>
+            <li><b>Tabulazione predefinita</b> è impostata su 1,25 cm. È possibile ridurre o aumentare questo valore utilizzando i pulsanti freccia o immettere quello necessario nella casella.</li>
+            <li><b>Posizione tabulazione</b> - consente di impostare tabulazioni personalizzate. Immettere il valore necessario in questa casella, regolarlo in modo più preciso utilizzando i pulsanti freccia e premere il pulsante <b>Specifica</b>. La posizione di tabulazione personalizzata verrà aggiunta all'elenco nel campo sottostante. Se in precedenza sono state aggiunte alcune tabulazioni utilizzando il righello, tutte queste posizioni verranno visualizzate anche nell'elenco.</li>
+            <li><b>Allineamento</b> - consente di impostare il tipo di allineamento necessario per ciascuna delle posizioni di tabulazione nell'elenco precedente. Selezionare la posizione di tabulazione desiderata nell'elenco, scegliere l'opzione <b>Sinistra</b>, <b>Centrata</b> o <b>Destra</b> dall'elenco a discesa e premere il pulsante <b>Specifica</b>.</li>
+            <li>
+                <b>Leader</b> - consente di scegliere un carattere utilizzato per creare una direttrice per ciascuna delle posizioni di tabulazione. Una direttrice è una riga di caratteri (punti o trattini) che riempie lo spazio tra le tabulazioni. Selezionare la posizione di tabulazione desiderata nell'elenco, scegliere il tipo di direttrice dall'elenco a discesa e premere il pulsante <b>Specifica</b>.
+                <p>Per eliminare i punti di tabulazione dall'elenco selezionare un punto di tabulazione e premere il pulsante <b>Elimina</b> o <b>Elimina tutto</b>.</p>
+            </li>
+        </ul>
+    </div>
+</body>
 </html>

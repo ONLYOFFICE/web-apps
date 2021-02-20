@@ -24,5 +24,6 @@
   "PE.ApplicationController.waitText": "Čekejte prosím…",
   "PE.ApplicationView.txtDownload": "Stáhnout",
   "PE.ApplicationView.txtFullScreen": "Na celou obrazovku",
+  "PE.ApplicationView.txtPrint": "Tisk",
   "PE.ApplicationView.txtShare": "Sdílet"
 }

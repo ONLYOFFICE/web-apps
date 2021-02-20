@@ -285,6 +285,9 @@
         outline: none;
         opacity: 0.3;
 
+        background-origin: content-box;
+        padding: 1px 0 0 1px;
+
         -webkit-box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
         -moz-box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
         box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
@@ -428,50 +431,56 @@
     &.big-email {   .socnet-btn(3); }
 }
 
+@icon-width: 20px;
+@icon-height: 20px;
 .svg-icon {
     background: data-uri('../../../../common/embed/resources/img/icon-menu-sprite.svg') no-repeat;
-    background-size: 22px*11 22px*2;
+    background-size: @icon-width*13 @icon-height*2;
 
     &.download {
-        background-position: -22px 0;
+        background-position: -@icon-width 0;
     }
     &.share {
-        background-position: -22px*2 0;
+        background-position: -@icon-width*2 0;
     }
     &.embed {
-        background-position: -22px*3 0;
+        background-position: -@icon-width*3 0;
     }
     &.fullscr {
-        background-position: -22px*4 0;
+        background-position: -@icon-width*4 0;
     }
     &.zoom-up {
-        background-position: -22px*5 -22px;
+        background-position: -@icon-width*5 -@icon-height;
     }
     &.zoom-down {
-        background-position: -22px*6 -22px;
+        background-position: -@icon-width*6 -@icon-height;
     }
     &.slide-prev {
-        background-position: -22px*7 -22px;
+        background-position: -@icon-width*7 -@icon-height;
     }
     &.slide-next {
-        background-position: -22px*8 -22px;
+        background-position: -@icon-width*8 -@icon-height;
     }
 
     &.play {
-        background-position: -22px*9 -22px;
+        background-position: -@icon-width*9 -@icon-height;
     }
 
     &.pause {
-        background-position: -22px*10 -22px;
+        background-position: -@icon-width*10 -@icon-height;
+    }
+
+    &.print {
+        background-position: -@icon-width*11 0;
     }
 }
 
 .mi-icon {
-    width: 22px;
-    height: 22px;
+    width: @icon-width;
+    height: @icon-height;
     //display: inline-block;
     float: left;
-    margin: -1px 15px 0 -15px;
+    margin: 0 15px 0 -15px;
 }
 
 .btn, button {
@@ -550,7 +559,7 @@
     &.open {
         > button {
             background-color: @btnActiveColor;
-            background-position: 0 -22px;
+            background-position: 0 -@icon-height;
         }
     }
 }
@@ -559,9 +568,11 @@
     button {
         width: 24px;
         height: 22px;
+        background-origin: content-box;
+        padding: 0 1px;
 
         &:active {
-            background-position: 0 -22px;
+            background-position: 0 -@icon-height;
         }
     }
 

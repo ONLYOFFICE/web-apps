@@ -135,7 +135,7 @@ define([
                         if ( showTrackChangesTip ) {
                             me.btnTurnReview.updateHint('');
                             if (me.changesTooltip === undefined)
-                                me.changesTooltip = me.createChangesTip(me.textTrackChanges, 'de-track-changes-tip', false);
+                                me.changesTooltip = me.createChangesTip(me.textTrackChanges, 'de-track-changes-tip');
 
                             me.changesTooltip.show();
                         } else {
@@ -143,15 +143,17 @@ define([
                         }
                     }
 
-                    if ( config.isReviewOnly || Common.localStorage.getBool("de-track-changes-" + (config.fileKey || ''))) {
+                    var trackRevisions = me.api.asc_IsTrackRevisions(),
+                        trackChanges = typeof (config.customization) == 'object' ? config.customization.trackChanges : undefined;
+                    if ( config.isReviewOnly || trackChanges===true || (trackChanges!==false) && trackRevisions) {
                         _process_changestip();
-                    } else if ( me.api.asc_IsTrackRevisions() ) {
+                    } else if ( trackRevisions ) {
                         var showNewChangesTip = !Common.localStorage.getBool("de-new-changes");
                         if ( me.api.asc_HaveRevisionsChanges() && showNewChangesTip ) {
                             me.btnTurnReview.updateHint('');
 
                             if (me.newChangesTooltip === undefined)
-                                me.newChangesTooltip = me.createChangesTip(me.textHasChanges, 'de-new-changes', true);
+                                me.newChangesTooltip = me.createChangesTip(me.textHasChanges, 'de-new-changes');
 
                             me.newChangesTooltip.show();
                         } else
@@ -161,10 +163,14 @@ define([
             });
         },
 
-        onTurnPreview: function(state) {
-            if (state == 'off' && this.changesTooltip && this.changesTooltip.isVisible()) {
+        onTurnPreview: function(state, global, fromApi) {
+            if (!state && this.changesTooltip && this.changesTooltip.isVisible()) {
                 this.changesTooltip.hide();
                 this.btnTurnReview.updateHint(this.tipReview);
+            } else if (fromApi && state && global ) {
+                if (this.globalChangesTooltip === undefined)
+                    this.globalChangesTooltip = this.createChangesTip(this.textSetTrackChanges);
+                !this.globalChangesTooltip.isVisible() && this.globalChangesTooltip.show();
             }
         },
 
@@ -251,12 +257,13 @@ define([
             this.setStatusCaption('');
         },
 
-        createChangesTip: function (text, storage, newchanges) {
+        createChangesTip: function (text, storage) {
             var me = this;
             var tip = new Common.UI.SynchronizeTip({
                 target  : me.btnTurnReview.$el,
                 text    : text,
-                placement: 'top'
+                placement: 'top-left',
+                showLink: !!storage
             });
             tip.on({
                 'dontshowclick': function() {
@@ -277,6 +284,7 @@ define([
         zoomText        : 'Zoom {0}%',
         textHasChanges  : 'New changes have been tracked',
         textTrackChanges: 'The document is opened with the Track Changes mode enabled',
-        tipReview       : 'Review'
+        tipReview       : 'Review',
+        textSetTrackChanges: 'You are in Track Changes mode'
     }, DE.Controllers.Statusbar || {}));
 });

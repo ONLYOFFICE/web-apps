@@ -188,6 +188,15 @@ define([
             return this;
         },
 
+        disableEditing: function(disabled) {
+            this.leftMenu.btnComments.setDisabled(disabled);
+            this.leftMenu.btnChat.setDisabled(disabled);
+            this.leftMenu.btnPlugins.setDisabled(disabled);
+            this.leftMenu.btnSpellcheck.setDisabled(disabled);
+
+            this.leftMenu.getMenu('file').disableEditing(disabled);
+        },
+
         createDelayedElements: function() {
             /** coauthoring begin **/
             if ( this.mode.canCoAuthoring ) {
@@ -208,7 +217,7 @@ define([
                 this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
             }
 
-            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
+            (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             /** coauthoring end **/
             Common.util.Shortcuts.resumeEvents();
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram)
@@ -222,7 +231,7 @@ define([
                 this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
             } else
                 this.leftMenu.btnPlugins.hide();
-            this.mode.trialMode && this.leftMenu.setDeveloperMode(this.mode.trialMode);
+            (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
         clickMenuFileItem: function(menu, action, isopts) {

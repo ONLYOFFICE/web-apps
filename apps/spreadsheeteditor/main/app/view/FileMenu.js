@@ -134,6 +134,10 @@ define([
                 caption : this.btnProtectCaption,
                 canFocused: false
             });
+            if ( !!this.options.miProtect ) {
+                this.miProtect.setDisabled(this.options.miProtect.isDisabled());
+                delete this.options.miProtect;
+            }
 
             this.miRecent = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-recent'),
@@ -318,6 +322,12 @@ define([
                 this.panels['help'] = ((new SSE.Views.FileMenuPanels.Help({menu: this})).render());
                 this.panels['help'].setLangConfig(this.mode.lang);
             }
+
+            if ( this.mode.disableEditing != undefined ) {
+                this.panels['opts'].disableEditing(this.mode.disableEditing);
+                this.miProtect.setDisabled(this.mode.disableEditing);
+                delete this.mode.disableEditing;
+            }
         },
 
         setMode: function(mode, delay) {
@@ -389,11 +399,29 @@ define([
         },
 
         getButton: function(type) {
-            if (type == 'save') {
-                if (this.rendered)
-                    return this.miSave;
-                else
+            if ( !this.rendered ) {
+                if (type == 'save') {
                     return this.options.miSave ? this.options.miSave : (this.options.miSave = new Common.UI.MenuItem({}));
+                } else
+                if (type == 'protect') {
+                    return this.options.miProtect ? this.options.miProtect : (this.options.miProtect = new Common.UI.MenuItem({}));
+                }
+            } else {
+                if (type == 'save') {
+                    return this.miSave;
+                } else
+                if (type == 'protect') {
+                    return this.miProtect;
+                }
+            }
+        },
+
+        disableEditing: function(disabled) {
+            if ( !this.panels ) {
+                this.mode.disableEditing = disabled;
+            } else {
+                this.panels['opts'].disableEditing(disabled);
+                this.miProtect.setDisabled(disabled);
             }
         },
 

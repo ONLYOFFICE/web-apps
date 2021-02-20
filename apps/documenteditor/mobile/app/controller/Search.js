@@ -69,6 +69,12 @@ define([
             return out;
         };
 
+        function iOSVersion() {
+            var ua = navigator.userAgent;
+            var m;
+            return (m = /(iPad|iPhone|iphone).*?(OS |os |OS\_)(\d+((_|\.)\d)?((_|\.)\d)?)/.exec(ua)) ? parseFloat(m[3]) : 0;
+        }
+
         return {
             models: [],
             collections: [],
@@ -99,8 +105,14 @@ define([
                 var me = this;
                 me.createView('Search').render();
 
-                $('#editor_sdk').single('mousedown touchstart', _.bind(me.onEditorTouchStart, me));
-                $('#editor_sdk').single('mouseup touchend',     _.bind(me.onEditorTouchEnd, me));
+                if (iOSVersion()<13) {
+                    $('#editor_sdk').single('mousedown touchstart', _.bind(me.onEditorTouchStart, me));
+                    $('#editor_sdk').single('mouseup touchend',     _.bind(me.onEditorTouchEnd, me));
+                } else {
+                    $('#editor_sdk').single('pointerdown', _.bind(me.onEditorTouchStart, me));
+                    $('#editor_sdk').single('pointerup',     _.bind(me.onEditorTouchEnd, me));
+                }
+
                 Common.NotificationCenter.on('readermode:change', function (reader) {
                     _startPoint = {};
                 });
@@ -294,7 +306,7 @@ define([
                     matchword = Common.SharedSettings.get('search-highlight') || false;
 
                 if (search && search.length) {
-                    if (!this.api.asc_replaceText(search, replace, false, matchcase, matchword)) {
+                    if (!this.api.asc_replaceText(search, replace || '', false, matchcase, matchword)) {
                         var me = this;
                         uiApp.alert(
                             '',
@@ -312,7 +324,7 @@ define([
                     matchword = Common.SharedSettings.get('search-highlight') || false;
 
                 if (search && search.length) {
-                    this.api.asc_replaceText(search, replace, true, matchcase, matchword);
+                    this.api.asc_replaceText(search, replace || '', true, matchcase, matchword);
                 }
             },
 

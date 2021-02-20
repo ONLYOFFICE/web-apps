@@ -213,6 +213,7 @@ define([
                 menuStyle   : 'min-width: 86px;',
                 style       : 'width: 86px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.textLeft },
@@ -232,6 +233,7 @@ define([
                 menuStyle   : 'min-width: 180px;',
                 style       : 'width: 180px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.textPortrait },
@@ -275,6 +277,7 @@ define([
                 menuStyle   : 'min-width: 180px;',
                 style       : 'width: 180px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 0, displayValue: this.textNormal },
@@ -303,6 +306,14 @@ define([
             this.window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.updateMetricUnit();
+        },
+
+        getFocusedComponents: function() {
+            return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnTop;
         },
 
         _handleInput: function(state) {

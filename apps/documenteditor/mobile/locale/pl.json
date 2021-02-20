@@ -1,9 +1,10 @@
 {
-  "Common.Controllers.Collaboration.textParaDeleted": "Akapit usunięty ",
+  "Common.Controllers.Collaboration.textParaDeleted": "<b>Akapit usunięty</b>",
   "Common.UI.ThemeColorPalette.textStandartColors": "Kolory standardowe",
   "Common.UI.ThemeColorPalette.textThemeColors": "Kolory motywu",
   "Common.Utils.Metric.txtCm": "cm",
   "Common.Utils.Metric.txtPt": "pt",
+  "Common.Views.Collaboration.textAcceptAllChanges": "Zaakceptuj wszystkie zmiany",
   "Common.Views.Collaboration.textCollaboration": "Współpraca",
   "DE.Controllers.AddContainer.textImage": "Obraz",
   "DE.Controllers.AddContainer.textOther": "Inny",

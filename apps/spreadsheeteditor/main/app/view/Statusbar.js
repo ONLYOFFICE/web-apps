@@ -203,6 +203,7 @@ define([
 
                     }, this),
                     'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
+                        Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         var arrTabs = [],
                             arrName = [],
@@ -237,13 +238,15 @@ define([
                         this.dropTabs = selectTabs;
                     }, this),
                     'tab:drop': _.bind(function (dataTransfer, index) {
+                         if (this.isEditFormula) return;
                          var data = dataTransfer.getData("onlyoffice");
                          if (data) {
                              var arrData = JSON.parse(data);
                              if (arrData) {
                                  var key = _.findWhere(arrData, {type: 'key'}).value;
                                  if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
-                                     this.api.asc_moveWorksheet(index, _.findWhere(arrData, {type: 'indexes'}).value);
+                                     this.api.asc_moveWorksheet(_.isNumber(index) ? index : this.api.asc_getWorksheetsCount(), _.findWhere(arrData, {type: 'indexes'}).value);
+                                     this.api.asc_enableKeyEvents(true);
                                      Common.NotificationCenter.trigger('tabs:dragend', this);
                                  } else {
                                      var names = [], wc = this.api.asc_getWorksheetsCount();
@@ -253,23 +256,21 @@ define([
                                      var newNames = [];
                                      var arrNames = _.findWhere(arrData, {type: 'names'}).value;
                                      arrNames.forEach(function (name) {
-                                         var ind = 0,
+                                         var ind = 1,
                                              name = name;
-                                         var first = name;
-                                         if (names.indexOf(name.toLowerCase()) !== -1) {
-                                             while (true) {
-                                                 if (names.indexOf(name.toLowerCase()) === -1) {
-                                                     newNames.push(name);
-                                                     break;
-                                                 } else {
-                                                     ind++;
-                                                     name = first + '(' + ind + ')';
-                                                 }
-                                             }
-                                         } else {
-                                             newNames.push(name);
+                                         var re = /^(.*)\((\d)\)$/.exec(name);
+                                         var first = re ? re[1] : name + ' ';
+                                         var arr = [];
+                                         newNames.length > 0 && newNames.forEach(function (item) {
+                                             arr.push(item.toLowerCase());
+                                         });
+                                         while (names.indexOf(name.toLowerCase()) !== -1 || arr.indexOf(name.toLowerCase()) !== -1) {
+                                             ind++;
+                                             name = first + '(' + ind + ')';
                                          }
+                                         newNames.push(name);
                                      });
+                                     var index = _.isNumber(index) ? index : this.api.asc_getWorksheetsCount();
                                      this.api.asc_EndMoveSheet(index, newNames, _.findWhere(arrData, {type: 'onlyoffice'}).value);
                                  }
                              }
@@ -304,7 +305,7 @@ define([
                     menuAlign: 'tl-tr',
                     cls: 'color-tab',
                     items: [
-                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 });
@@ -339,10 +340,6 @@ define([
                         {caption: this.ungroupSheets,  value: 'noselect'}
                     ]
                 }).on('render:after', function(btn) {
-                        var colorVal = $('<div class="btn-color-value-line"></div>');
-                        $('button:first-child', btn.cmpEl).append(colorVal);
-                        colorVal.css('background-color', btn.currentColor || 'transparent');
-
                         me.mnuTabColor = new Common.UI.ThemeColorPalette({
                             el: $('#id-tab-menu-color'),
                             transparent: true
@@ -352,6 +349,66 @@ define([
                             me.fireEvent('sheet:setcolor', [color]);
                         });
                     });
+
+                var customizeStatusBarMenuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem">'+
+                    '<div style="position: relative;">'+
+                    '<div style="position: absolute; left: 0; width: 100px;"><%= caption %></div>' +
+                    '<label style="width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: right; vertical-align: bottom; padding-left: 100px; color: silver;cursor: pointer;"><%= options.exampleval ? options.exampleval : "" %></label>' +
+                    '</div></a>');
+
+                this.customizeStatusBarMenu = new Common.UI.Menu({
+                    style: 'margin-top: -14px; margin-left: -7px;',
+                    menuAlign: 'bl-tl',
+                    items: [
+                        //{template: _.template('<div style="padding-left: 6px; padding-top: 2px;">' + this.textCustomizeStatusBar + '</div>')},
+                        //{caption: '--'},
+                        {
+                            id: 'math-item-average',
+                            caption: this.itemAverage,
+                            value: 'average',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {
+                            id: 'math-item-count',
+                            caption: this.itemCount,
+                            value: 'count',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {
+                            id: 'math-item-min',
+                            caption: this.itemMinimum,
+                            value: 'min',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {
+                            id: 'math-item-max',
+                            caption: this.itemMaximum,
+                            value: 'max',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        },
+                        {
+                            id: 'math-item-sum',
+                            caption: this.itemSum,
+                            value: 'sum',
+                            checkable: true,
+                            checked: true,
+                            template: customizeStatusBarMenuTemplate,
+                            exampleval: ''
+                        }
+                    ]
+                });
 
                 this.tabbar.$el.append('<div class="dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"></div>');
                 this.tabMenu.render(this.tabbar.$el);
@@ -374,6 +431,28 @@ define([
 
                 this.boxZoom = $('#status-zoom-box', this.el);
                 this.boxZoom.find('.separator').css('border-left-color','transparent');
+
+                this.$el.append('<div id="statusbar-menu" style="width:0; height:0;"></div>');
+                this.$customizeStatusBarMenu = this.$el.find('#statusbar-menu');
+                this.$customizeStatusBarMenu.on({
+                    'show.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.$customizeStatusBarMenu.find('ul').focus();
+                         }, 100);
+                    },
+                    'hide.bs.dropdown': function () {
+                        _.defer(function(){
+                            me.api.asc_enableKeyEvents(true);
+                        }, 100);
+                    }
+                });
+                this.$customizeStatusBarMenu.append('<div class="dropdown-toggle" data-toggle="dropdown" style="width:0; height:0;"></div>');
+                this.customizeStatusBarMenu.render(this.$customizeStatusBarMenu);
+                this.customizeStatusBarMenu.cmpEl.attr({tabindex: -1});
+                this.customizeStatusBarMenu.on('show:after', _.bind(this.onCustomizeStatusBarAfterShow, this));
+                this.customizeStatusBarMenu.on('hide:after', _.bind(this.onCustomizeStatusBarAfterHide, this));
+                this.customizeStatusBarMenu.on('item:click', _.bind(this.onCustomizeStatusBarClick, this));
+                this.$el.on('contextmenu', _.bind(this.showCustomizeStatusBar, this));
 
                 return this;
             },
@@ -406,11 +485,12 @@ define([
 
                 if (this.api) {
                     var wc = this.api.asc_getWorksheetsCount(), i = -1;
-                    var hidentems = [], items = [], tab, locked;
+                    var hidentems = [], items = [], tab, locked, name;
                     var sindex = this.api.asc_getActiveWorksheetIndex();
 
                     while (++i < wc) {
                         locked = me.api.asc_isWorksheetLockedOrDeleted(i);
+                        name = me.api.asc_getActiveNamedSheetView ? me.api.asc_getActiveNamedSheetView(i) || '' : '';
                         tab = {
                             sheetindex    : i,
                             index         : items.length,
@@ -418,7 +498,10 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked
+                            isLockTheDrag : locked,
+                            iconCls       : 'btn-sheet-view',
+                            iconTitle     : name,
+                            iconVisible   : name!==''
                         };
 
                         this.api.asc_isWorksheetHidden(i)? hidentems.push(tab) : items.push(tab);
@@ -461,12 +544,35 @@ define([
                     this.labelMax.text((info.max && info.max.length) ? (this.textMax + ': ' + info.max) : '');
                     this.labelSum.text((info.sum && info.sum.length) ? (this.textSum + ': ' + info.sum) : '');
                     this.labelAverage.text((info.average && info.average.length) ? (this.textAverage + ': ' + info.average) : '');
+
+                    this.customizeStatusBarMenu.items.forEach(function (item) {
+                        if (item.options.id === 'math-item-average') {
+                            item.options.exampleval = (info.average && info.average.length) ? info.average : '';
+                        } else if (item.options.id === 'math-item-min') {
+                            item.options.exampleval = (info.min && info.min.length) ? info.min : '';
+                        } else if (item.options.id === 'math-item-max') {
+                            item.options.exampleval = (info.max && info.max.length) ? info.max : '';
+                        } else if (item.options.id === 'math-item-count') {
+                            item.options.exampleval = (info.count) ? String(info.count) : '';
+                        } else if (item.options.id === 'math-item-sum') {
+                            item.options.exampleval = (info.sum && info.sum.length) ? info.sum : '';
+                        } else {
+                            item.options.exampleval = '';
+                        }
+                        $(item.el).find('label').text(item.options.exampleval);
+                    });
                 } else {
+                    this.customizeStatusBarMenu.items.forEach(function (item) {
+                        item.options.exampleval = '';
+                        $(item.el).find('label').text('');
+                    });
                     if (this.boxMath.is(':visible')) this.boxMath.hide();
                 }
 
                 var me = this;
                 _.delay(function(){
+                    me.updateVisibleItemsBoxMath();
+                    me.updateTabbarBorders();
                     me.onTabInvisible(undefined, me.tabbar.checkInvisible(true));
                 },30);
             },
@@ -630,6 +736,21 @@ define([
                 this.tabBarBox.css('right',  right + 'px');
             },
 
+            updateVisibleItemsBoxMath: function () {
+                var widthStatusbar = parseInt(this.$el.css('width'));
+                var width = parseInt(this.boxZoom.css('width')) + parseInt($('#status-tabs-scroll').css('width')) + parseInt($('#status-addtabs-box').css('width'));
+                if (this.boxFiltered.is(':visible')) {
+                    width += parseInt(this.boxFiltered.css('width'));
+                }
+                this.$el.find('.over-box').removeClass('over-box');
+                while (width + parseInt(this.boxMath.css('width')) + 100 > widthStatusbar) {
+                    var items = this.boxMath.find('label:not(.hide, .over-box)');
+                    (items.length>0) && $(items[items.length - 1]).addClass('over-box');
+                    if (items.length<=1)
+                        break;
+                }
+            },
+
             changeViewMode: function (edit) {
                 if (edit) {
                     this.tabBarBox.css('left',  '152px');
@@ -639,6 +760,55 @@ define([
 
                 this.tabbar.options.draggable = edit;
                 this.editMode = edit;
+            },
+
+            showCustomizeStatusBar: function (e) {
+                var el = $(e.target);
+                if ($('#status-zoom-box').find(el).length > 0
+                    || $(e.target).closest('.statusbar .list-item').length>0
+                    || $('#status-tabs-scroll').find(el).length > 0
+                    || $('#status-addtabs-box').find(el).length > 0) return;
+                this.customizeStatusBarMenu.hide();
+                this.customizeStatusBarMenu.atposition = {
+                    left: e.clientX*Common.Utils.zoom(),
+                    top: e.clientY*Common.Utils.zoom()
+                };
+                this.customizeStatusBarMenu.show();
+            },
+
+            onCustomizeStatusBarAfterShow: function (obj) {
+                if (obj.atposition) {
+                    obj.setOffset(obj.atposition.left);
+                }
+                this.enableKeyEvents = true;
+            },
+
+            onCustomizeStatusBarAfterHide: function () {
+                if (!_.isUndefined(this.enableKeyEvents)) {
+                    if (this.api) {
+                        this.api.asc_enableKeyEvents(this.enableKeyEvents);
+                    }
+
+                    this.enableKeyEvents = undefined;
+                }
+            },
+
+            onCustomizeStatusBarClick: function (o, item, event) {
+                var value = item.value,
+                    checked = item.checked;
+                this.boxMath.find('#status-math-' + value)[checked ? 'removeClass' : 'addClass']('hide');
+                if (this.boxMath.find('label').length === this.boxMath.find('label.hide').length) {
+                    this.boxMath.find('.separator').hide();
+                } else {
+                    if (this.boxMath.find('.separator').is(":hidden")) {
+                        this.boxMath.find('.separator').show();
+                    }
+                }
+                this.updateVisibleItemsBoxMath();
+                this.updateTabbarBorders();
+                this.onTabInvisible(undefined, this.tabbar.checkInvisible(true));
+                event.stopPropagation();
+                item.$el.find('a').blur();
             },
 
             tipZoomIn           : 'Zoom In',
@@ -668,7 +838,13 @@ define([
             filteredRecordsText : '{0} of {1} records filtered',
             filteredText        : 'Filter mode',
             selectAllSheets     : 'Select All Sheets',
-            ungroupSheets       : 'Ungroup Sheets'
+            ungroupSheets       : 'Ungroup Sheets',
+            //textCustomizeStatusBar: 'Customize status bar',
+            itemAverage         : 'Average',
+            itemCount           : 'Count',
+            itemMinimum         : 'Minimum',
+            itemMaximum         : 'Maximum',
+            itemSum             : 'Sum'
         }, SSE.Views.Statusbar || {}));
 
         SSE.Views.Statusbar.RenameDialog = Common.UI.Window.extend(_.extend({
@@ -838,7 +1014,7 @@ define([
                 Common.UI.Window.prototype.show.apply(this, arguments);
 
                 _.delay(function(me){
-                    me.listNames.$el.find('.listview').focus();
+                    me.listNames.focus();
                 }, 100, this);
             },
 
@@ -869,7 +1045,7 @@ define([
 
             onUpdateFocus: function () {
                 _.delay(function(me){
-                    me.listNames.$el.find('.listview').focus();
+                    me.listNames.focus();
                 }, 100, this);
             },
 

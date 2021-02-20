@@ -489,9 +489,18 @@ define([
             var init = (aFontSelects.length<1);
             init && this.initFonts();
 
+            //fill recents
+            this.fillRecentSymbols();
+
+            var lastfont;
             if (options.font) {
+                lastfont = options.font;
+            } else if (aRecents.length>0) {
+                lastfont = aRecents[0].font;
+            }
+            if (lastfont) {
                 for(var i = 0; i < aFontSelects.length; ++i){
-                    if(aFontSelects[i].displayValue === options.font){
+                    if(aFontSelects[i].displayValue === lastfont){
                         nCurrentFont = i;
                         break;
                     }
@@ -526,6 +535,8 @@ define([
                 nCurrentSymbol = options.code;
             } else if (options.symbol) {
                 nCurrentSymbol = this.fixedCharCodeAt(options.symbol, 0);
+            } else if (aRecents.length>0) {
+                nCurrentSymbol = aRecents[0].symbol;
             }
 
             if (init && this.options.lang && this.options.lang != 'en') {
@@ -539,6 +550,8 @@ define([
 
             this.on('resizing', _.bind(this.onWindowResizing, this));
             this.on('resize', _.bind(this.onWindowResize, this));
+
+            bMainFocus = true;
         },
 
         initFonts: function() {
@@ -705,9 +718,6 @@ define([
                 me.updateInput();
             });
 
-            //fill recents
-            this.fillRecentSymbols();
-
             this.symbolTablePanel = $window.find('#symbol-table-scrollable-div');
             this.previewPanel = $window.find('#id-preview-data');
             this.previewParent = this.previewPanel.parent();
@@ -721,18 +731,18 @@ define([
             // special
             var data = [{symbol: '—',  description: this.textEmDash,       shortcutKey: 'Alt+Ctrl+Num -', code: '2014'},
                         {symbol: '–',   description: this.textEnDash,       shortcutKey: '', code: '2013'},
-                        {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: 'Ctrl+Shift+_', code: '2011'},
-                        {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
+                        {symbol: '‑',   description: this.textNBHyphen,     shortcutKey: 'Ctrl+Shift+_', code: '002D', special: {"NonBreakingHyphen":true}},
+                        // {symbol: '',    description: this.textSHyphen,      shortcutKey: 'Alt+-', code: '00AD'},
                         {symbol: '',    description: this.textEmSpace,      shortcutKey: '', code: '2003'},
                         {symbol: '',    description: this.textEnSpace,      shortcutKey: '', code: '2002'},
                         {symbol: '',    description: this.textQEmSpace,     shortcutKey: '', code: '2005'},
                         {symbol: '°',   description: this.textNBSpace,      shortcutKey: 'Ctrl+Shift+Space', code: '00A0'},
-                        {symbol: '©',   description: this.textCopyright,    shortcutKey: 'Alt+Ctrl+C', code: '00A9'},
-                        {symbol: '®',   description: this.textRegistered,   shortcutKey: 'Alt+Ctrl+R', code: '00AE'},
-                        {symbol: '™',  description: this.textTradeMark,    shortcutKey: 'Alt+Ctrl+T', code: '2122'},
+                        {symbol: '©',   description: this.textCopyright,    shortcutKey: '', code: '00A9'},
+                        {symbol: '®',   description: this.textRegistered,   shortcutKey: '', code: '00AE'},
+                        {symbol: '™',  description: this.textTradeMark,    shortcutKey: '', code: '2122'},
                         {symbol: '§',   description: this.textSection,      shortcutKey: '', code: '00A7'},
                         {symbol: '¶',   description: this.textPilcrow,      shortcutKey: '', code: '00B6'},
-                        {symbol: '…',  description: this.textEllipsis,     shortcutKey: 'Alt+Ctrl+.', code: '2026'},
+                        {symbol: '…',  description: this.textEllipsis,     shortcutKey: '', code: '2026'},
                         {symbol: '‛',   description: this.textSOQuote,      shortcutKey: '', code: '2018'},
                         {symbol: '’',   description: this.textSCQuote,      shortcutKey: '', code: '2019'},
                         {symbol: '‟',   description: this.textDOQuote,      shortcutKey: '', code: '201C'},
@@ -790,24 +800,27 @@ define([
         },
 
         getPasteSymbol: function(cellId) {
-            var bUpdateRecents = cellId[0] === 'c';
+            var bUpdateRecents = false;
             var sFont;
-            if(bUpdateRecents){
-                sFont = aFontSelects[nCurrentFont].displayValue;
-            } else {
-                var nFontId = parseInt(cellId.split('_')[2]);
-                sFont = aFontSelects[nFontId].displayValue;
+            if (cellId && cellId.length>0) {
+                bUpdateRecents = (cellId[0] === 'c');
+                if(bUpdateRecents){
+                    sFont = aFontSelects[nCurrentFont].displayValue;
+                } else {
+                    var nFontId = parseInt(cellId.split('_')[2]);
+                    sFont = aFontSelects[nFontId].displayValue;
+                }
             }
             return {font: sFont, symbol: this.encodeSurrogateChar(nCurrentSymbol), code: nCurrentSymbol, updateRecents: bUpdateRecents};
         },
 
         getSpecialSymbol: function() {
             var rec = this.specialList.getSelectedRec();
-            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16)};
+            return {font: undefined, symbol: this.encodeSurrogateChar(rec.get('code')), code: parseInt(rec.get('code'), 16), special: rec.get('special')};
         },
 
         onBtnClick: function(event) {
-            this._handleInput(event.currentTarget.attributes['result'].value);
+            this._handleInput(event.currentTarget.attributes['result'].value, true);
         },
 
         onPrimary: function(event) {
@@ -815,14 +828,18 @@ define([
             return false;
         },
 
-        _handleInput: function(state) {
+        _handleInput: function(state, fromButton) {
+            if(!fromButton && document.activeElement && document.activeElement.localName == 'textarea' && /area_id/.test(document.activeElement.id)){
+                return;
+            }
+
             var special = this.btnSpecial.isActive();
-            var settings = special ? this.getSpecialSymbol() : this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'));
+            var settings = (state=='ok') ? (special ? this.getSpecialSymbol() : this.getPasteSymbol(this.$window.find('.cell-selected').attr('id'))) : {};
             if (this.options.handler) {
                 this.options.handler.call(this, this, state, settings);
             }
             if (state=='ok') {
-                !special && settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
+                !special && this.checkRecent(nCurrentSymbol, settings.font);
                 !special && settings.updateRecents && this.updateRecents();
                 if (this.type)
                     return;
@@ -1050,7 +1067,7 @@ define([
                 this._handleInput('ok');
             else {
                 var settings = this.getPasteSymbol($(e.target).attr('id'));
-                settings.updateRecents && this.checkRecent(nCurrentSymbol, settings.font);
+                this.checkRecent(nCurrentSymbol, settings.font);
                 settings.updateRecents && this.updateView(false, undefined, undefined, true);
                 this.fireEvent('symbol:dblclick', this, 'ok', settings);
             }
@@ -1472,7 +1489,7 @@ define([
             this.specialPanel.toggleClass('hidden', !special);
             var me = this;
             _.delay(function(){
-                special ? me.specialList.cmpEl.find('.listview').focus() : me.previewPanel.focus();
+                special ? me.specialList.focus() : me.previewPanel.focus();
             },50);
 
         },

@@ -226,7 +226,7 @@ define([
                 if (!config.isEdit) {
                     me.header.mnuitemCompactToolbar.hide();
                     Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                        if (action=='plugins' && visible) {
+                        if ((action=='plugins' || action=='review') && visible) {
                             me.header.mnuitemCompactToolbar.show();
                         }
                     }, this));
@@ -244,7 +244,7 @@ define([
 
                 var mnuitemHideRulers = new Common.UI.MenuItem({
                     caption: me.header.textHideLines,
-                    checked: Common.localStorage.getBool("pe-hidden-rulers", true),
+                    checked: Common.Utils.InternalSettings.get("pe-hidden-rulers"),
                     checkable: true,
                     value: 'rulers'
                 });
@@ -316,6 +316,22 @@ define([
                     cls     : 'btn-toolbar'
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
+                if ( Common.UI.Themes.available() ) {
+                    var mnuitemDarkTheme = new Common.UI.MenuItem({
+                        caption: me.header.textDarkTheme,
+                        checked: Common.UI.Themes.isDarkTheme(),
+                        checkable: true,
+                        value: 'theme:dark'
+                    });
+
+
+                    me.header.btnOptions.menu.insertItem(7, mnuitemDarkTheme);
+                    me.header.btnOptions.menu.insertItem(7, {caption:'--'});
+                    Common.NotificationCenter.on('uitheme:change', function (name) {
+                        mnuitemDarkTheme.setChecked(Common.UI.Themes.isDarkTheme());
+                    });
+                }
+
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
             }
         },
@@ -349,7 +365,7 @@ define([
         },
 
         onPreviewStart: function(slidenum, presenter) {
-            this.previewPanel = this.previewPanel || PE.getController('Viewport').getView('DocumentPreview');
+            this.previewPanel = this.previewPanel || this.getView('DocumentPreview');
             var me = this,
                 isResized = false;
             
@@ -430,6 +446,7 @@ define([
             case 'rulers':
                 me.api.asc_SetViewRulers(!item.isChecked());
                 Common.localStorage.setBool('pe-hidden-rulers', item.isChecked());
+                Common.Utils.InternalSettings.set("pe-hidden-rulers", item.isChecked());
                 Common.NotificationCenter.trigger('layout:changed', 'rulers');
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
@@ -442,6 +459,10 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', me.header);
                 break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            case 'theme:dark':
+                if ( item.isChecked() != Common.UI.Themes.isDarkTheme() )
+                    Common.UI.Themes.toggleTheme();
+                break;
             }
         },
 

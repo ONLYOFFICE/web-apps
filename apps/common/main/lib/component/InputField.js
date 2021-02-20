@@ -246,6 +246,10 @@ define([
 
                 if (e.keyCode === Common.UI.Keys.RETURN)
                     this._doChange(e);
+                if (e.keyCode == Common.UI.Keys.ESC)
+                    this.setValue(this.value);
+                if (e.keyCode==Common.UI.Keys.RETURN || e.keyCode==Common.UI.Keys.ESC)
+                    this.trigger('inputleave', this);
             },
 
             onKeyUp: function(e) {
@@ -300,7 +304,7 @@ define([
             },
 
             focus: function() {
-                this._input.focus();
+                this._input && this._input.focus();
             },
 
             checkValidate: function() {
@@ -354,10 +358,10 @@ define([
                 return true;
             },
 
-            showError: function(errors) {
+            showError: function(errors, isWarning) {
                 var me = this;
                 if (!_.isEmpty(errors)) {
-                    me.cmpEl.addClass('error');
+                    me.cmpEl.addClass(isWarning ? 'warning' : 'error');
 
                     var errorBadge = me.cmpEl.find('.input-error'),
                         modalParents = errorBadge.closest('.asc-window'),
@@ -376,7 +380,12 @@ define([
                     }
                 } else {
                     me.cmpEl.removeClass('error');
+                    me.cmpEl.removeClass('warning');
                 }
+            },
+
+            showWarning: function(errors) {
+                this.showError(errors, true);
             }
         }
     })());

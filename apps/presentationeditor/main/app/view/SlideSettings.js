@@ -77,14 +77,16 @@ define([
 
             this.FillItems = [];
 
-            this._stateDisabled = {
-                background: true,
-                effects: true,
-                timing: true,
-                header: true
+            this._locked = {
+                background: false,
+                effects: false,
+                transition: false,
+                header: false
             };
+            this._stateDisabled = {};
 
             this._state = {
+                Transparency: null,
                 FillType:undefined,
                 SlideColor: 'ffffff',
                 BlipFillType: Asc.c_oAscFillBlipType.STRETCH,
@@ -142,10 +144,40 @@ define([
             });
             this.FillItems.push(this.btnBackColor);
 
+            this.numTransparency = new Common.UI.MetricSpinner({
+                el: $('#slide-spin-transparency'),
+                step: 1,
+                width: 62,
+                value: '100 %',
+                defaultUnit : "%",
+                maxValue: 100,
+                minValue: 0,
+                disabled: true
+            });
+            this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
+            this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.FillItems.push(this.numTransparency);
+
+            this.sldrTransparency = new Common.UI.SingleSlider({
+                el: $('#slide-slider-transparency'),
+                width: 75,
+                minValue: 0,
+                maxValue: 100,
+                value: 100
+            });
+            this.sldrTransparency.setDisabled(true);
+            this.sldrTransparency.on('change', _.bind(this.onTransparencyChange, this));
+            this.sldrTransparency.on('changecomplete', _.bind(this.onTransparencyChangeComplete, this));
+            this.FillItems.push(this.sldrTransparency);
+
+            this.lblTransparencyStart = $(this.el).find('#slide-lbl-transparency-start');
+            this.lblTransparencyEnd = $(this.el).find('#slide-lbl-transparency-end');
+
             this.FillColorContainer = $('#slide-panel-color-fill');
             this.FillImageContainer = $('#slide-panel-image-fill');
             this.FillPatternContainer = $('#slide-panel-pattern-fill');
             this.FillGradientContainer = $('#slide-panel-gradient-fill');
+            this.TransparencyContainer = $('#slide-panel-transparent-fill');
 
             this._arrEffectName = [
                 {displayValue: this.textNone,    value: Asc.c_oAscSlideTransitionTypes.None},
@@ -209,7 +241,7 @@ define([
             this.numDuration = new Common.UI.MetricSpinner({
                 el: $('#slide-spin-duration'),
                 step: 1,
-                width: 65,
+                width: 70,
                 value: '',
                 defaultUnit : this.textSec,
                 maxValue: 300,
@@ -260,7 +292,7 @@ define([
                 disabled: true
             });
             this.btnApplyToAll.on('click', _.bind(function(btn){
-                if (this.api) this.api.SlideTimingApplyToAll();
+                if (this.api) this.api.SlideTransitionApplyToAll();
                 this.fireEvent('editcomplete', this);
             }, this));
 
@@ -482,6 +514,50 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onNumTransparencyChange: function(field, newValue, oldValue, eOpts){
+            this.sldrTransparency.setValue(field.getNumberValue(), true);
+            if (this.api)  {
+                var num = field.getNumberValue();
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_transparent(num * 2.55);
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
+            }
+        },
+
+        onTransparencyChange: function(field, newValue, oldValue){
+            this._sliderChanged = newValue;
+            this.numTransparency.setValue(newValue, true);
+
+            if (this._sendUndoPoint) {
+                this.api.setStartPointHistory();
+                this._sendUndoPoint = false;
+                this.updateslider = setInterval(_.bind(this._transparencyApplyFunc, this), 100);
+            }
+        },
+
+        onTransparencyChangeComplete: function(field, newValue, oldValue){
+            clearInterval(this.updateslider);
+            this._sliderChanged = newValue;
+            if (!this._sendUndoPoint) { // start point was added
+                this.api.setEndPointHistory();
+                this._transparencyApplyFunc();
+            }
+            this._sendUndoPoint = true;
+        },
+
+        _transparencyApplyFunc: function() {
+            if (this._sliderChanged!==undefined) {
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_transparent(this._sliderChanged * 2.55);
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
+                this._sliderChanged = undefined;
+            }
+        },
+
         onGradTypeSelect: function(combo, record){
             this.GradFillType = record.value;
 
@@ -495,6 +571,8 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                 else
                     this.btnDirection.setIconCls('');
+                this.numGradientAngle.setValue(this.GradLinearDirectionType, true);
+                this.numGradientAngle.setDisabled(this._locked.background);
             } else if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_PATH) {
                 this.mnuDirectionPicker.store.reset(this._viewDataRadial);
                 this.mnuDirectionPicker.cmpEl.width(60);
@@ -504,6 +582,8 @@ define([
                     this.btnDirection.setIconCls('item-gradient ' + this._viewDataRadial[this.GradRadialDirectionIdx].iconcls);
                 else
                     this.btnDirection.setIconCls('');
+                this.numGradientAngle.setValue(0, true);
+                this.numGradientAngle.setDisabled(true);
             }
 
             if (this.api && !this._noApply) {
@@ -544,6 +624,8 @@ define([
             (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
+                    this.numGradientAngle.setValue(rawData.type, true);
+
                     var props = new Asc.CAscSlideProps();
                     var fill = new Asc.asc_CShapeFill();
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
@@ -595,6 +677,7 @@ define([
 
         onGradientChange: function(slider, newValue, oldValue){
             this.GradColor.values = slider.getValues();
+            this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx], true);
             this._sliderChanged = true;
             if (this.api && !this._noApply) {
                 if (this._sendUndoPoint)  {
@@ -806,7 +889,7 @@ define([
 
             this.sldrGradient = new Common.UI.MultiSliderGradient({
                 el: $('#slide-slider-gradient'),
-                width: 125,
+                width: 192,
                 minValue: 0,
                 maxValue: 100,
                 values: [0, 100]
@@ -818,6 +901,8 @@ define([
                 var color = me.GradColor.colors[me.GradColor.currentIdx];
                 me.btnGradColor.setColor(color);
                 me.colorsGrad.select(color,false);
+                var pos = me.GradColor.values[me.GradColor.currentIdx];
+                me.spnGradPosition.setValue(pos, true);
             });
             this.sldrGradient.on('thumbdblclick', function(cmp){
                 me.btnGradColor.cmpEl.find('button').dropdown('toggle');
@@ -834,18 +919,74 @@ define([
                 me.GradColor.colors = colors;
                 me.GradColor.currentIdx = currentIdx;
             });
-            this.sldrGradient.on('addthumb', function(cmp, index, nearIndex, color){
-                me.GradColor.colors[index] = me.GradColor.colors[nearIndex];
+            this.sldrGradient.on('addthumb', function(cmp, index, pos){
+                me.GradColor.colors[index] = me.GradColor.colors[me.GradColor.currentIdx];
                 me.GradColor.currentIdx = index;
-                me.sldrGradient.addNewThumb(index, color);
+                var color = me.sldrGradient.addNewThumb(index, pos);
+                me.GradColor.colors[me.GradColor.currentIdx] = color;
             });
             this.sldrGradient.on('removethumb', function(cmp, index){
                 me.sldrGradient.removeThumb(index);
                 me.GradColor.values.splice(index, 1);
                 me.sldrGradient.changeGradientStyle();
+                if (_.isUndefined(me.GradColor.currentIdx) || me.GradColor.currentIdx >= me.GradColor.colors.length) {
+                    var newIndex = index > 0 ? index - 1 : index;
+                    newIndex = (newIndex === 0 && me.GradColor.values.length > 2) ? me.GradColor.values.length - 2 : newIndex;
+                    me.GradColor.currentIdx = newIndex;
+                }
+                me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
             });
             this.FillItems.push(this.sldrGradient);
 
+            this.spnGradPosition = new Common.UI.MetricSpinner({
+                el: $('#slide-gradient-position'),
+                step: 1,
+                width: 60,
+                defaultUnit : "%",
+                value: '50 %',
+                allowDecimal: false,
+                maxValue: 100,
+                minValue: 0,
+                disabled: this._locked.background
+            });
+            this.FillItems.push(this.spnGradPosition);
+            this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
+            this.spnGradPosition.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            this.btnAddGradientStep = new Common.UI.Button({
+                parentEl: $('#slide-gradient-add-step'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-add-breakpoint',
+                disabled: this._locked.background,
+                hint: this.tipAddGradientPoint
+            });
+            this.btnAddGradientStep.on('click', _.bind(this.onAddGradientStep, this));
+            this.FillItems.push(this.btnAddGradientStep);
+
+            this.btnRemoveGradientStep = new Common.UI.Button({
+                parentEl: $('#slide-gradient-remove-step'),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-remove-breakpoint',
+                disabled: this._locked.background,
+                hint: this.tipRemoveGradientPoint
+            });
+            this.btnRemoveGradientStep.on('click', _.bind(this.onRemoveGradientStep, this));
+            this.FillItems.push(this.btnRemoveGradientStep);
+
+            this.numGradientAngle = new Common.UI.MetricSpinner({
+                el: $('#slide-spin-gradient-angle'),
+                step: 10,
+                width: 60,
+                defaultUnit : "°",
+                value: '0 °',
+                allowDecimal: true,
+                maxValue: 359.9,
+                minValue: 0,
+                disabled: this._locked.background
+            });
+            this.FillItems.push(this.numGradientAngle);
+            this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
+            this.numGradientAngle.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
         },
         
         createDelayedElements: function() {
@@ -910,7 +1051,9 @@ define([
                         '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle" tabindex="0" data-toggle="dropdown">',
                         '<div class="form-control text" style="width: 90px;">' + this.textSelectTexture + '</div>',
                         '<div style="display: table-cell;"></div>',
-                        '<button type="button" class="btn btn-default"><span class="caret img-commonctrl"></span></button>',
+                        '<button type="button" class="btn btn-default">',
+                            '<span class="caret"></span>',
+                        '</button>',
                         '</div>'
                     ].join(''))
                 });
@@ -994,9 +1137,9 @@ define([
                 this.EffectType = undefined;
             }
 
-            this.cmbEffectType.setDisabled(arr.length<1 || this._stateDisabled.effects);
-            this.numDuration.setDisabled(arr.length<1 || this._stateDisabled.effects);
-            this.btnPreview.setDisabled(arr.length<1 || this._stateDisabled.effects);
+            this.cmbEffectType.setDisabled(arr.length<1 || this._locked.effects);
+            this.numDuration.setDisabled(arr.length<1 || this._locked.effects);
+            this.btnPreview.setDisabled(arr.length<1 || this._locked.effects);
         },
 
         onEffectNameSelect: function(combo, record) {
@@ -1008,10 +1151,10 @@ define([
             this.Effect = type;
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_TransitionType(type);
-                timing.put_TransitionOption(this.EffectType);
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionType(type);
+                transition.put_TransitionOption(this.EffectType);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
@@ -1021,10 +1164,10 @@ define([
             this.EffectType = record.value;
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_TransitionType(this.Effect);
-                timing.put_TransitionOption(this.EffectType);
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionType(this.Effect);
+                transition.put_TransitionOption(this.EffectType);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
@@ -1033,9 +1176,9 @@ define([
         onDurationChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_TransitionDuration(field.getNumberValue()*1000);
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_TransitionDuration(field.getNumberValue()*1000);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
         },
@@ -1043,9 +1186,9 @@ define([
         onDelayChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_SlideAdvanceDuration(field.getNumberValue()*1000);
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceDuration(field.getNumberValue()*1000);
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
         },
@@ -1053,9 +1196,9 @@ define([
         onStartOnClickChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_SlideAdvanceOnMouseClick(field.getValue()=='checked');
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceOnMouseClick(field.getValue()=='checked');
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
@@ -1065,9 +1208,9 @@ define([
             this.numDelay.setDisabled(field.getValue()!=='checked');
             if (this.api && !this._noApply)   {
                 var props = new Asc.CAscSlideProps();
-                var timing = new Asc.CAscSlideTiming();
-                timing.put_SlideAdvanceAfter(field.getValue()=='checked');
-                props.put_timing(timing);
+                var transition = new Asc.CAscSlideTransition();
+                transition.put_SlideAdvanceAfter(field.getValue()=='checked');
+                props.put_transition(transition);
                 this.api.SetSlideProps(props);
             }
             this.fireEvent('editcomplete', this);
@@ -1125,11 +1268,13 @@ define([
             this.FillImageContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_BLIP);
             this.FillPatternContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_PATT);
             this.FillGradientContainer.toggleClass('settings-hidden', value !== Asc.c_oAscFill.FILL_TYPE_GRAD);
+            this.TransparencyContainer.toggleClass('settings-hidden', (value === Asc.c_oAscFill.FILL_TYPE_NOFILL || value === null));
         },
 
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
+            this.SetSlideDisabled(this._locked.background, this._locked.effects, this._locked.transition, this._locked.header);
 
             if (props)
             {
@@ -1141,6 +1286,17 @@ define([
                 var fill = props.get_background();
                 var fill_type = fill.get_type();
                 var color = null;
+
+                var transparency = fill.get_transparent();
+                if ( Math.abs(this._state.Transparency-transparency)>0.001 || Math.abs(this.numTransparency.getNumberValue()-transparency)>0.001 ||
+                    (this._state.Transparency===null || transparency===null)&&(this._state.Transparency!==transparency || this.numTransparency.getNumberValue()!==transparency)) {
+
+                    if (transparency !== undefined) {
+                        this.sldrTransparency.setValue((transparency===null) ? 100 : transparency/255*100, true);
+                        this.numTransparency.setValue(this.sldrTransparency.getValue(), true);
+                    }
+                    this._state.Transparency=transparency;
+                }
 
                 if (fill===null || fill_type===null || fill_type==Asc.c_oAscFill.FILL_TYPE_NOFILL) { // заливки нет или не совпадает у неск. фигур
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
@@ -1236,8 +1392,10 @@ define([
                                 this.btnDirection.setIconCls('item-gradient ' + record.get('iconcls'));
                             else
                                 this.btnDirection.setIconCls('');
+                            this.numGradientAngle.setValue(value, true);
                         }
-                    }
+                    } else
+                        this.numGradientAngle.setValue(0, true);
 
                     var me = this;
                     var colors = fill.get_colors(),
@@ -1274,6 +1432,7 @@ define([
                         me.GradColor.currentIdx = 0;
                     }
                     me.sldrGradient.setActiveThumb(me.GradColor.currentIdx);
+                    this.spnGradPosition.setValue(this.GradColor.values[this.GradColor.currentIdx]);
                     this.OriginalFillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     this.FGColor = {Value: 1, Color: this.GradColor.colors[0]};
                     this.BGColor = {Value: 1, Color: 'ffffff'};
@@ -1312,9 +1471,9 @@ define([
                     this._state.SlideColor = this.SlideColor.Color;
                 }
 
-                var timing = props.get_timing();
-                if (timing) {
-                    var value = timing.get_TransitionType();
+                var transition = props.get_transition();
+                if (transition) {
+                    var value = transition.get_TransitionType();
                     var found = false;
                     if (this._state.Effect !== value) {
                         var item = this.cmbEffectName.store.findWhere({value: value});
@@ -1329,7 +1488,7 @@ define([
                         this._state.Effect = value;
                     }
 
-                    value = timing.get_TransitionOption();
+                    value = transition.get_TransitionOption();
                     if (this._state.EffectType !== value || found) {
                         found = false;
                         item = this.cmbEffectType.store.findWhere({value: value});
@@ -1342,7 +1501,7 @@ define([
                         this._state.EffectType = value;
                     }
 
-                    value = timing.get_TransitionDuration();
+                    value = transition.get_TransitionDuration();
                     if ( Math.abs(this._state.Duration-value)>0.001 ||
                         (this._state.Duration===null || value===null)&&(this._state.Duration!==value) ||
                         (this._state.Duration===undefined || value===undefined)&&(this._state.Duration!==value) ) {
@@ -1350,7 +1509,7 @@ define([
                         this._state.Duration=value;
                     }
 
-                    value = timing.get_SlideAdvanceDuration();
+                    value = transition.get_SlideAdvanceDuration();
                     if ( Math.abs(this._state.Delay-value)>0.001 ||
                         (this._state.Delay===null || value===null)&&(this._state.Delay!==value) ||
                         (this._state.Delay===undefined || value===undefined)&&(this._state.Delay!==value) ) {
@@ -1358,12 +1517,12 @@ define([
                         this._state.Delay=value;
                     }
 
-                    value = timing.get_SlideAdvanceOnMouseClick();
+                    value = transition.get_SlideAdvanceOnMouseClick();
                     if ( this._state.OnMouseClick!==value ) {
                         this.chStartOnClick.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
                         this._state.OnMouseClick=value;
                     }
-                    value = timing.get_SlideAdvanceAfter();
+                    value = transition.get_SlideAdvanceAfter();
                     if ( this._state.AdvanceAfter!==value ) {
                         this.chDelay.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
                         this.numDelay.setDisabled(this.chDelay.getValue()!=='checked');
@@ -1457,7 +1616,16 @@ define([
             }
         },
 
-        SetSlideDisabled: function(background, effects, timing, header) {
+        setLocked: function (background, effects, transition, header) {
+            this._locked = {
+                background: background, effects: effects, transition: transition, header: header
+            };
+        },
+
+        SetSlideDisabled: function(background, effects, transition, header) {
+            this._locked = {
+                background: background, effects: effects, transition: transition, header: header
+            };
             if (this._initSettings) return;
             
             if (background !== this._stateDisabled.background) {
@@ -1465,6 +1633,9 @@ define([
                 for (var i=0; i<this.FillItems.length; i++) {
                     this.FillItems[i].setDisabled(background);
                 }
+                this.lblTransparencyStart.toggleClass('disabled', background);
+                this.lblTransparencyEnd.toggleClass('disabled', background);
+                this.numGradientAngle.setDisabled(background || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
                 this._stateDisabled.background = background;
             }
             if (effects !== this._stateDisabled.effects) {
@@ -1475,17 +1646,88 @@ define([
                 this.btnPreview.setDisabled(length<1 || effects);
                 this._stateDisabled.effects = effects;
             }
-            if (timing !== this._stateDisabled.timing) {
-                this.chStartOnClick.setDisabled(timing);
-                this.chDelay.setDisabled(timing);
-                this.numDelay.setDisabled(timing || this.chDelay.getValue()!=='checked');
-                this.btnApplyToAll.setDisabled(timing);
-                this._stateDisabled.timing = timing;
+            if (transition !== this._stateDisabled.transition) {
+                this.chStartOnClick.setDisabled(transition);
+                this.chDelay.setDisabled(transition);
+                this.numDelay.setDisabled(transition || this.chDelay.getValue()!=='checked');
+                this.btnApplyToAll.setDisabled(transition);
+                this._stateDisabled.transition = transition;
             }
             if (header !== this._stateDisabled.header) {
                 this.chSlideNum.setDisabled(header);
                 this.chDateTime.setDisabled(header);
                 this._stateDisabled.header = header;
+            }
+        },
+
+        onPositionChange: function(btn) {
+            var pos = btn.getNumberValue(),
+                minValue = (this.GradColor.currentIdx-1<0) ? 0 : this.GradColor.values[this.GradColor.currentIdx-1],
+                maxValue = (this.GradColor.currentIdx+1<this.GradColor.values.length) ? this.GradColor.values[this.GradColor.currentIdx+1] : 100,
+                needSort = pos < minValue || pos > maxValue;
+            if (this.api) {
+                this.GradColor.values[this.GradColor.currentIdx] = pos;
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
+                fill.put_fill( new Asc.asc_CFillGrad());
+                fill.get_fill().put_grad_type(this.GradFillType);
+                var arr = [];
+                this.GradColor.values.forEach(function(item){
+                    arr.push(item*1000);
+                });
+                fill.get_fill().put_positions(arr);
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
+
+                if (needSort) {
+                    this.sldrGradient.sortThumbs();
+                    this.sldrGradient.trigger('change', this.sldrGradient);
+                    this.sldrGradient.trigger('changecomplete', this.sldrGradient);
+                }
+            }
+        },
+
+        onAddGradientStep: function() {
+            if (this.GradColor.colors.length > 9) return;
+            var curIndex = this.GradColor.currentIdx;
+            var pos = (this.GradColor.values[curIndex] + this.GradColor.values[curIndex < this.GradColor.colors.length - 1 ? curIndex + 1 : curIndex - 1]) / 2;
+
+            this.GradColor.colors[this.GradColor.colors.length] = this.GradColor.colors[curIndex];
+            this.GradColor.currentIdx = this.GradColor.colors.length - 1;
+            var color = this.sldrGradient.addNewThumb(undefined, pos, curIndex);
+            this.GradColor.colors[this.GradColor.currentIdx] = color;
+
+            this.sldrGradient.trigger('change', this.sldrGradient);
+            this.sldrGradient.trigger('changecomplete', this.sldrGradient);
+        },
+
+        onRemoveGradientStep: function() {
+            if (this.GradColor.values.length < 3) return;
+            var index = this.GradColor.currentIdx;
+            this.GradColor.values.splice(this.GradColor.currentIdx, 1);
+            this.sldrGradient.removeThumb(this.GradColor.currentIdx);
+            if (_.isUndefined(this.GradColor.currentIdx) || this.GradColor.currentIdx >= this.GradColor.colors.length) {
+                var newIndex = index > 0 ? index - 1 : index;
+                newIndex = (newIndex === 0 && this.GradColor.values.length > 2) ? this.GradColor.values.length - 2 : newIndex;
+                this.GradColor.currentIdx = newIndex;
+            }
+            this.sldrGradient.setActiveThumb(this.GradColor.currentIdx);
+            this.sldrGradient.trigger('change', this.sldrGradient);
+            this.sldrGradient.trigger('changecomplete', this.sldrGradient);
+        },
+
+        onGradientAngleChange: function(field, newValue, oldValue, eOpts) {
+            if (this.api && !this._noApply) {
+                var props = new Asc.CAscSlideProps();
+                var fill = new Asc.asc_CShapeFill();
+                fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
+                fill.put_fill( new Asc.asc_CFillGrad());
+                fill.get_fill().put_grad_type(this.GradFillType);
+                fill.get_fill().put_linear_angle(field.getNumberValue() * 60000);
+                fill.get_fill().put_linear_scale(true);
+                props.put_background(fill);
+                this.api.SetSlideProps(props);
             }
         },
 
@@ -1557,11 +1799,16 @@ define([
         textRadial: 'Radial',
         textDirection: 'Direction',
         textStyle: 'Style',
-        textGradient: 'Gradient',
+        textGradient: 'Gradient Points',
         textSec: 's',
         strSlideNum: 'Show Slide Number',
         strDateTime: 'Show Date and Time',
         textFromStorage: 'From Storage',
-        textSelectImage: 'Select Picture'
+        textSelectImage: 'Select Picture',
+        textPosition: 'Position',
+        tipAddGradientPoint: 'Add gradient point',
+        tipRemoveGradientPoint: 'Remove gradient point',
+        textAngle: 'Angle',
+        strTransparency: 'Opacity'
     }, PE.Views.SlideSettings || {}));
 });

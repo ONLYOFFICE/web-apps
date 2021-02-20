@@ -1,15 +1,3 @@
-.tool-menu {
-    height: 100%;
-    display: block;
-
-    &.left {
-        overflow: hidden;
-
-        .tool-menu-btns {
-            border-right: 1px solid @gray-dark;
-        }
-    }
-}
 
 #left-menu {
     &+.layout-resizer {
@@ -17,35 +5,12 @@
         border-right: 0 none;
 
         &.move {
-            border-left: 1px solid @gray-dark;
-            border-right: 1px solid @gray-dark;
+            border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-left: @scaled-one-px-value solid @border-toolbar;
+            border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+            border-right: @scaled-one-px-value solid @border-toolbar;
             opacity: 0.4;
         }
-    }
-}
-
-.tool-menu-btns {
-    width: 40px;
-    height: 100%;
-    display: inline-block;
-    position: absolute;
-    padding-top: 15px;
-
-    button {
-        margin-bottom: 8px;
-    }
-}
-
-.left-panel {
-    padding-left: 40px;
-    height: 100%;
-    border-right: 1px solid @gray-dark;
-
-    #left-panel-chat {
-        height: 100%;
-    }
-    #left-panel-comments {
-        height: 100%;
     }
 }
 
@@ -57,7 +22,8 @@
     top: 0;
     position: absolute;
     z-index: @zindex-dropdown - 5;
-    background-color: @gray-light;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
     overflow: hidden;
 }
 
@@ -72,17 +38,19 @@
     }
 }
 
-#file-menu-panel {
-    > div {
-        height: 100%;
+.btn-blank-format {
+    display: block;
+    width: 96px;
+    height: 96px;
+    cursor: pointer;
+
+    svg&:hover {
+        opacity:0.85;
     }
+}
 
+#file-menu-panel {
     .panel-menu {
-        width: 260px;
-        float: left;
-        border-right: 1px solid @gray-dark;
-        background-color: @gray-light;
-
         li {
             list-style: none;
             position: relative;
@@ -92,15 +60,17 @@
                 margin-bottom: 3px;
 
                 &:hover {
-                    background-color: @secondary;
+                    background-color: @highlight-button-hover-ie;
+                    background-color: @highlight-button-hover;
                 }
 
                 &.active {
                     outline: 0;
-                    background-color: @primary;
+                    background-color: @highlight-button-pressed-ie;
+                    background-color: @highlight-button-pressed;
 
                     > a {
-                        color: #fff;
+                        color: @text-normal-pressed;
                     }
                 }
 
@@ -150,7 +120,8 @@
     .panel-context {
         width: 100%;
         padding-left: 260px;
-        background-color: #fff;
+        background-color: @background-normal-ie;
+        background-color: @background-normal;
 
         .content-box {
             height: 100%;
@@ -178,10 +149,15 @@
             }
         }
 
+        #panel-settings,
+        #panel-info {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
         #panel-settings {
-            padding: 0 30px;
             table {
-                margin: 30px 0;
                 width: 100%;
 
                 tr {
@@ -231,7 +207,7 @@
 
                 h3 {
                     padding-left: 0;
-                    padding-top: 40px;
+                    padding-top: 45px;
                     white-space: nowrap;
                 }
             }
@@ -240,8 +216,8 @@
                 display: inline-block;
                 margin: 25px 20px 65px;
 
-                width: 102px;
-                height: 128px;
+                width: 96px;
+                height: 96px;
                 cursor: pointer;
             }
 
@@ -260,8 +236,8 @@
                     cursor: pointer;
 
                     .thumb {
-                        width: 102px;
-                        height: 128px;
+                        width: 96px;
+                        height: 96px;
                         background-repeat: no-repeat;
                         background-position: center;
                    }
@@ -289,7 +265,8 @@
 
                 &:hover,
                 &.over {
-                    background-color: @gray-light;
+                    background-color: @background-toolbar-ie;
+                    background-color: @background-toolbar;
                 }
 
                 .recent-icon {
@@ -330,7 +307,8 @@
             }
 
             .dataview {
-                border-right: 1px solid @gray-dark;
+                border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
+                border-right: @scaled-one-px-value solid @border-toolbar;
 
                 & > div:not([class^=ps-scrollbar]) {
                     display: block;
@@ -344,12 +322,14 @@
                     &:not(.header-name) {
                         &:hover,
                         &.over {
-                            background-color: @gray-light;
+                            background-color: @background-toolbar-ie;
+                            background-color: @background-toolbar;
                         }
 
                         &.selected {
-                            background-color: @primary;
-                            color: @dropdown-link-active-color;
+                            background-color: @highlight-button-pressed-ie;
+                            background-color: @highlight-button-pressed;
+                            color: @text-normal-pressed;
                         }
                     }
                 }
@@ -364,9 +344,12 @@
             }
         }
 
-        #panel-info,
         #panel-rights {
             padding: 0 30px;
+        }
+
+        #panel-info,
+        #panel-rights {
             table {
                 tr {
                     td {
@@ -395,7 +378,6 @@
 
                 &.main {
                     width: 100%;
-                    margin: 30px 0;
                 }
             }
 
@@ -459,13 +441,13 @@
     }
 }
 
-#developer-hint {
+#developer-hint, #beta-hint, #limit-hint {
     position: absolute;
     left: 0;
     padding: 12px 0;
     background-color: #ffb400;
     color: #6e4e00 !important;
-    white-space: nowrap;
+    white-space: pre;
     line-height: @app-header-height;
     writing-mode: tb-rl;
     -moz-transform: rotate(180deg);

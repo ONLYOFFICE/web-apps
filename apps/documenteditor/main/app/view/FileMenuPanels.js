@@ -41,7 +41,8 @@
  */
 
 define([
-    'common/main/lib/view/DocumentAccessDialog'
+    'common/main/lib/view/DocumentAccessDialog',
+    'common/main/lib/view/AutoCorrectDialog'
 ], function () {
     'use strict';
 
@@ -62,7 +63,9 @@ define([
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF}
         ],[
-            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML}
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML},
+            {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2},
+            {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB}
         ]],
 
 
@@ -129,7 +132,9 @@ define([
             {name: 'OTT',   imgCls: 'ott',   type: Asc.c_oAscFileType.OTT, ext: '.ott'},
             {name: 'RTF',   imgCls: 'rtf',   type: Asc.c_oAscFileType.RTF, ext: '.rtf'}
         ],[
-            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'}
+            {name: 'HTML (Zipped)',  imgCls: 'html',  type: Asc.c_oAscFileType.HTML, ext: '.html'},
+            {name: 'FB2',   imgCls: 'fb2',  type: Asc.c_oAscFileType.FB2, ext: '.fb2'},
+            {name: 'EPUB',  imgCls: 'epub',  type: Asc.c_oAscFileType.EPUB, ext: '.epub'}
         ]],
 
 
@@ -187,7 +192,8 @@ define([
         menu: undefined,
 
         template: _.template([
-            '<table><tbody>',
+        '<div class="flex-settings">',
+            '<table style="margin: 30px 0 0;"><tbody>',
                 /** coauthoring begin **/
                 '<tr class="comments">',
                     '<td class="left"><label><%= scope.txtLiveComment %></label></td>',
@@ -201,6 +207,10 @@ define([
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtSpellCheck %></label></td>',
                     '<td class="right"><div id="fms-chb-spell-check"></div></td>',
+                '</tr>','<tr class="divider edit"></tr>',
+                '<tr class="edit">',
+                    '<td class="left"><label><%= scope.txtProofing %></label></td>',
+                    '<td class="right"><button type="button" class="btn btn-text-default" id="fms-btn-auto-correct" style="width:auto; display: inline-block;padding-right: 10px;padding-left: 10px;"><%= scope.txtAutoCorrect %></button></div></td>',
                 '</tr>','<tr class="divider edit"></tr>',
                 '<tr class="edit">',
                     '<td class="left"><label><%= scope.txtInput %></label></td>',
@@ -234,6 +244,10 @@ define([
                     '<td class="right"><span id="fms-cmb-show-changes"></span></td>',
                 '</tr>','<tr class="divider coauth changes"></tr>',
                 /** coauthoring end **/
+                '<tr class="themes">',
+                    '<td class="left"><label><%= scope.strTheme %></label></td>',
+                    '<td class="right"><span id="fms-cmb-theme"></span></td>',
+                '</tr>','<tr class="divider edit"></tr>',
                 '<tr>',
                     '<td class="left"><label><%= scope.strZoom %></label></td>',
                     '<td class="right"><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
@@ -256,11 +270,20 @@ define([
                         '<div><div id="fms-cmb-macros" style="display: inline-block; margin-right: 15px;vertical-align: middle;"></div>',
                         '<label id="fms-lbl-macros" style="vertical-align: middle;"><%= scope.txtWarnMacrosDesc %></label></div></td>',
                 '</tr>','<tr class="divider macros"></tr>',
-                '<tr>',
+                '<tr class="fms-btn-apply">',
                     '<td class="left"></td>',
-                    '<td class="right"><button id="fms-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                    '<td class="right" style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                 '</tr>',
-            '</tbody></table>'
+            '</tbody></table>',
+        '</div>',
+        '<div class="fms-flex-apply hidden">',
+            '<table style="margin: 10px 0;"><tbody>',
+                '<tr>',
+                '<td class="left"></td>',
+                '<td class="right"><button class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
+                '</tr>',
+            '</tbody></table>',
+        '</div>'
         ].join('')),
 
         initialize: function(options) {
@@ -328,7 +351,7 @@ define([
                 style       : 'width: 160px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                menuStyle   : 'max-height: 210px;',
+                menuStyle   : 'max-height: 157px;',
                 data        : [
                     { value: -1, displayValue: this.txtFitPage },
                     { value: -2, displayValue: this.txtFitWidth },
@@ -414,6 +437,7 @@ define([
                 el          : $markup.findById('#fms-cmb-macros'),
                 style       : 'width: 160px;',
                 editable    : false,
+                menuCls     : 'menu-aligned',
                 cls         : 'input-group-nr',
                 data        : [
                     { value: 2, displayValue: this.txtStopMacros, descValue: this.txtStopMacrosDesc },
@@ -430,21 +454,49 @@ define([
                 labelText: this.strPasteButton
             });
 
-            this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fms-btn-apply')
+            this.btnAutoCorrect = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-auto-correct')
+            });
+            this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
+
+            this.cmbTheme = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-theme'),
+                style       : 'width: 160px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 'theme-light', displayValue: this.txtThemeLight },
+                    { value: 'theme-dark', displayValue: this.txtThemeDark }
+                ]
             });
 
-            this.btnApply.on('click', this.applySettings.bind(this));
+            $markup.find('.btn.primary').each(function(index, el){
+                (new Common.UI.Button({
+                    el: $(el)
+                })).on('click', _.bind(me.applySettings, me));
+            });
+
+            this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+            this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
+            this.pnlTable = this.pnlSettings.find('table');
+            this.trApply = $markup.find('.fms-btn-apply');
 
             this.$el = $(node).html($markup);
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
+                    el: this.pnlSettings,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
             }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
             return this;
         },
 
@@ -452,7 +504,19 @@ define([
             Common.UI.BaseView.prototype.show.call(this,arguments);
 
             this.updateSettings();
-            this.scroller && this.scroller.update();
+            this.updateScroller();
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                Common.UI.Menu.Manager.hideAll();
+                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height();
+                this.pnlApply.toggleClass('hidden', !scrolled);
+                this.trApply.toggleClass('hidden', scrolled);
+                this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
+                this.scroller.update();
+                this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
         },
 
         setMode: function(mode) {
@@ -471,6 +535,14 @@ define([
             /** coauthoring end **/
 
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
+            if ( !Common.UI.Themes.available() ) {
+                $('tr.themes, tr.themes + tr.divider', this.el).hide();
+            }
+        },
+
+        setApi: function(o) {
+            this.api = o;
+            return this;
         },
 
         updateSettings: function() {
@@ -527,9 +599,14 @@ define([
             this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("de-settings-paste-button"));
+
+            item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.current()});
+            this.cmbTheme.setValue(item ? item.get('value') : 0);
         },
 
         applySettings: function() {
+            Common.UI.Themes.setTheme(this.cmbTheme.getValue());
+
             Common.localStorage.setItem("de-settings-inputmode", this.chInputMode.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
@@ -593,6 +670,14 @@ define([
             this._fontRender = combo.getValue();
         },
 
+        autoCorrect: function() {
+            if (this.dlgAutoCorrect && this.dlgAutoCorrect.isVisible()) return;
+            this.dlgAutoCorrect = new Common.Views.AutoCorrectDialog({
+                api: this.api
+            });
+            this.dlgAutoCorrect.show();
+        },
+
         strLiveComment: 'Turn on option',
         strInputMode:   'Turn on hieroglyphs',
         strZoom: 'Default Zoom Value',
@@ -642,7 +727,12 @@ define([
         txtRunMacrosDesc: 'Enable all macros without notification',
         txtStopMacrosDesc: 'Disable all macros without notification',
         strPaste: 'Cut, copy and paste',
-        strPasteButton: 'Show Paste Options button when content is pasted'
+        strPasteButton: 'Show Paste Options button when content is pasted',
+        txtProofing: 'Proofing',
+        strTheme: 'Theme',
+        txtThemeLight: 'Light',
+        txtThemeDark: 'Dark',
+        txtAutoCorrect: 'AutoCorrect options...'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
@@ -718,8 +808,8 @@ define([
             '<h3 style="margin-top: 20px;"><%= scope.fromBlankText %></h3><hr noshade />',
             '<div class="blank-document">',
                 '<div class="blank-document-btn">',
-                    '<svg class="btn-doc-format">',
-                        '<use xlink:href="#svg-format-docx"></use>',
+                    '<svg class="btn-blank-format">',
+                        '<use xlink:href="#svg-format-blank"></use>',
                     '</svg>',
                 '</div>',
                 '<div class="blank-document-info">',
@@ -735,7 +825,7 @@ define([
                         '<% if (!_.isEmpty(item.image)) { %> ',
                             ' style="background-image: url(<%= item.image %>);">',
                         '<% } else { ' +
-                            'print(\"><svg class=\'btn-doc-format\'><use xlink:href=\'#svg-format-blank\'></use></svg>\")' +
+                            'print(\"><svg class=\'btn-blank-format\'><use xlink:href=\'#svg-file-template\'></use></svg>\")' +
                         ' } %>',
                         '</div>',
                         '<div class="title"><%= Common.Utils.String.htmlEncode(item.title || item.name || "") %></div>',
@@ -798,7 +888,8 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-                '<table class="main">',
+            '<div class="flex-settings">',
+                '<table class="main" style="margin: 30px 0 0;">',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
@@ -881,12 +972,17 @@ define([
                             '</table>',
                         '</div></td>',
                     '</tr>',
-                    '<tr class="divider"></tr>',
+                    '<tr style="height: 5px;"></tr>',
+                '</table>',
+            '</div>',
+            '<div id="fms-flex-apply">',
+                '<table class="main" style="margin: 10px 0;">',
                     '<tr>',
                         '<td class="left"></td>',
                         '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary"><%= scope.okButtonText %></button></td>',
                     '</tr>',
-                '</table>'
+                '</table>',
+            '</div>'
             ].join(''));
 
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
@@ -963,6 +1059,7 @@ define([
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
                     me.authors.splice(idx, 1);
+                    me.updateScroller(true);
                 }
             });
 
@@ -984,6 +1081,7 @@ define([
                             if (!isFromApply) {
                                 var div = $(Common.Utils.String.format(me.authorTpl, Common.Utils.String.htmlEncode(str)));
                                 me.trAuthor.before(div);
+                                me.updateScroller();
                             }
                         }
                     });
@@ -996,6 +1094,9 @@ define([
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
+            this.pnlInfo = $markup.find('.flex-settings').addBack().filter('.flex-settings');
+            this.pnlApply = $markup.findById('#fms-flex-apply');
+
             this.rendered = true;
 
             this.updateInfo(this.doc);
@@ -1003,11 +1104,18 @@ define([
             this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
+                    el: this.pnlInfo,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
             }
+
+            Common.NotificationCenter.on({
+                'window:resize': function() {
+                    me.isVisible() && me.updateScroller();
+                }
+            });
+
             return this;
         },
 
@@ -1016,7 +1124,8 @@ define([
 
             this.updateStatisticInfo();
             this.updateFileInfo();
-            this.scroller && this.scroller.update();
+            this.scroller && this.scroller.scrollTop(0);
+            this.updateScroller();
         },
 
         hide: function() {
@@ -1025,12 +1134,14 @@ define([
             this.stopUpdatingStatisticInfo();
         },
 
-        updateInfo: function(doc) {
-            if (!this.doc && doc && doc.info) {
-                doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
-                doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
+        updateScroller: function(destroy) {
+            if (this.scroller) {
+                this.scroller.update(destroy ? {} : undefined);
+                this.pnlInfo.toggleClass('bordered', this.scroller.isVisible());
             }
+        },
 
+        updateInfo: function(doc) {
             this.doc = doc;
             if (!this.rendered)
                 return;
@@ -1042,11 +1153,11 @@ define([
                 if (doc.info.folder )
                     this.lblPlacement.text( doc.info.folder );
                 visible = this._ShowHideInfoItem(this.lblPlacement, doc.info.folder!==undefined && doc.info.folder!==null) || visible;
-                var value = doc.info.owner || doc.info.author;
+                var value = doc.info.owner;
                 if (value)
                     this.lblOwner.text(value);
                 visible = this._ShowHideInfoItem(this.lblOwner, !!value) || visible;
-                value = doc.info.uploaded || doc.info.created;
+                value = doc.info.uploaded;
                 if (value)
                     this.lblUploaded.text(value);
                 visible = this._ShowHideInfoItem(this.lblUploaded, !!value) || visible;
@@ -1056,7 +1167,7 @@ define([
 
             var appname = (this.api) ? this.api.asc_getAppProps() : null;
             if (appname) {
-                appname = (appname.asc_getApplication() || '') + ' ' + (appname.asc_getAppVersion() || '');
+                appname = (appname.asc_getApplication() || '') + (appname.asc_getAppVersion() ? ' ' : '') + (appname.asc_getAppVersion() || '');
                 this.lblApplication.text(appname);
             }
             this._ShowHideInfoItem(this.lblApplication, !!appname);
@@ -1095,7 +1206,7 @@ define([
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
-                    this.lblModifyBy.text(value);
+                    this.lblModifyBy.text(Common.Utils.UserInfoParser.getParsedName(value));
                 visible = this._ShowHideInfoItem(this.lblModifyBy, !!value) || visible;
                 $('tr.divider.modify', this.el)[visible?'show':'hide']();
 
@@ -1159,7 +1270,7 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.inputAuthor.setVisible(mode.isEdit);
-            this.btnApply.setVisible(mode.isEdit);
+            this.pnlApply.toggleClass('hidden', !mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
@@ -1274,7 +1385,7 @@ define([
             this.rendered = false;
 
             this.template = _.template([
-                '<table class="main">',
+                '<table class="main" style="margin: 30px 0;">',
                     '<tr class="rights">',
                         '<td class="left" style="vertical-align: top;"><label>' + this.txtRights + '</label></td>',
                         '<td class="right"><div id="id-info-rights"></div></td>',
@@ -1489,7 +1600,7 @@ define([
             });
 
             this.viewHelpPicker.on('item:select', function(dataview, itemview, record) {
-                me.iFrame.src = me.urlPref + record.get('src');
+                me.onSelectItem(record.get('src'));
             });
 
             this.iFrame = document.createElement('iframe');
@@ -1535,10 +1646,14 @@ define([
                         }
                     },
                     success: function () {
-                        var rec = (me.openUrl) ? store.findWhere({ src: me.openUrl }) || store.at(0) : store.at(0);
-                        me.viewHelpPicker.selectRecord(rec);
-                        me.viewHelpPicker.scrollToRecord(rec);
-                        me.iFrame.src = me.urlPref + rec.get('src');
+                        var rec = me.openUrl ? store.find(function(record){
+                            return (me.openUrl.indexOf(record.get('src'))>=0);
+                        }) : store.at(0);
+                        if (rec) {
+                            me.viewHelpPicker.selectRecord(rec, true);
+                            me.viewHelpPicker.scrollToRecord(rec);
+                        }
+                        me.onSelectItem(me.openUrl ? me.openUrl : rec.get('src'));
                     }
                 };
                 store.url = 'resources/help/' + lang + '/Contents.json';
@@ -1554,15 +1669,22 @@ define([
                 this._scrollerInited = true;
             }
             if (url) {
-                var rec = this.viewHelpPicker.store.findWhere({
-                    src: url
-                });
-                if (rec) {
-                    this.viewHelpPicker.selectRecord(rec);
-                    this.viewHelpPicker.scrollToRecord(rec);
+                if (this.viewHelpPicker.store.length>0) {
+                    var rec = this.viewHelpPicker.store.find(function(record){
+                        return (url.indexOf(record.get('src'))>=0);
+                    });
+                    if (rec) {
+                        this.viewHelpPicker.selectRecord(rec, true);
+                        this.viewHelpPicker.scrollToRecord(rec);
+                    }
+                    this.onSelectItem(url);
                 } else
                     this.openUrl = url;
             }
+        },
+
+        onSelectItem: function(src) {
+            this.iFrame.src = this.urlPref + src;
         }
     });
 

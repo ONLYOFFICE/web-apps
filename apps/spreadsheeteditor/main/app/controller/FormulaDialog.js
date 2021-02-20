@@ -99,7 +99,7 @@ define([
                     if (autocomplete)
                         this.api.asc_insertInCell(func.name, Asc.c_oAscPopUpSelectorType.Func, !!autocomplete);
                     else
-                        this.api.asc_startWizard(func.name);
+                        this.api.asc_startWizard(func.name, this._cleanCell);
                     !autocomplete && this.updateLast10Formulas(func.origin);
                 }
             }
@@ -133,6 +133,7 @@ define([
                 });
                 this.formulas.on({
                     'hide': function () {
+                        me._cleanCell = undefined; // _cleanCell - clean cell when change formula in formatted table total row
                         me.api.asc_enableKeyEvents(true);
                     }
                 });
@@ -212,7 +213,7 @@ define([
             return null;
         },
 
-        showDialog: function (group) {
+        showDialog: function (group, clean) {
             if (this.formulas) {
                 if ( this.needUpdateFormula ) {
                     this.needUpdateFormula = false;
@@ -222,6 +223,7 @@ define([
                     }
                 }
                 this._formulagroup = group;
+                this._cleanCell = clean;
                 this.api.asc_startWizard();
             }
         },
@@ -231,12 +233,13 @@ define([
                 // show formula settings
                 var me = this;
                 var name = props.asc_getName(),
+                    origin = this.api.asc_getFormulaNameByLocale(name),
                     descrarr = this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     funcprops = {
-                        name: this.api.asc_getFormulaLocaleName(name),
-                        origin: name,
-                        args: ((descrarr && descrarr[name]) ? descrarr[name].a : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()),
-                        desc: (descrarr && descrarr[name]) ? descrarr[name].d : ''
+                        name: name,
+                        origin: origin,
+                        args: ((descrarr && descrarr[origin]) ? descrarr[origin].a : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()),
+                        desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : ''
                     };
 
                 (new SSE.Views.FormulaWizard({
@@ -249,6 +252,7 @@ define([
                         }
                     }
                 })).show();
+                this._cleanCell = undefined;
             } else
                 this.formulas.show(this._formulagroup);
             this._formulagroup = undefined;

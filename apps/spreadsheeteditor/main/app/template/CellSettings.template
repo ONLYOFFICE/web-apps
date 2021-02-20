@@ -41,7 +41,22 @@
                 <div style="display: inline-block; margin-top: 3px;">
                     <div id="cell-slider-gradient" style="display: inline-block; vertical-align: middle;"></div>
                 </div>
-                <div id="cell-gradient-color-btn" style="display: inline-block;float: right;"></div>
+                <div style="height: 40px;margin-top:6px;display:flex;justify-content:space-between;">
+                    <div style="display: flex;">
+                    <div style="">
+                        <label class="input-label" style=""><%= scope.textGradientColor %></label>
+                        <div id="cell-gradient-color-btn"></div>
+                    </div>
+                    <div style="margin-left: 10px;">
+                        <label class="input-label" style=""><%= scope.textPosition %></label>
+                        <div id="cell-gradient-position"></div>
+                    </div>
+                    </div>
+                    <div style="display:flex;padding-top:15px;">
+                        <div id="cell-gradient-add-step"></div>
+                        <div id="cell-gradient-remove-step"></div>
+                    </div>
+                </div>
             </div>
         </td>
     </tr>
@@ -92,6 +107,16 @@
     <tr>
         <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="">
+            <label class="header"><%= scope.textIndent %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large" colspan=2>
+            <div id="cell-spin-indent" style="display: inline-block;"></div>
         </td>
     </tr>
     <tr>

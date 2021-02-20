@@ -75,17 +75,34 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="table-btn-convert-range" style="width:100%;"><%= scope.textConvertRange %></button>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+</table>
+<table cols="2">
+    <tr>
+        <td class="padding-small" colspan=2>
+            <label class="header"><%= scope.textActions %></label>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="table-btn-rem-duplicates" style="width:100%;"><%= scope.textRemDuplicates %></button>
+            <div id="table-btn-rem-duplicates" style="width:100%;"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="table-btn-slicer" style="width:100%;"><%= scope.textSlicer %></button>
+            <div id="table-btn-convert-range" style="width:100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="table-btn-slicer" style="width:100%;"></div>
+        </td>
+    </tr>
+    <tr class="pivot-only">
+        <td class="padding-small" colspan=2>
+            <div id="table-btn-pivot" style="width:100%;"></div>
         </td>
     </tr>
     <tr>

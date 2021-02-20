@@ -200,11 +200,12 @@ define([
             allowScrollbar: true,
             scrollAlwaysVisible: false,
             showLast: true,
-            useBSKeydown: false
+            useBSKeydown: false,
+            cls: ''
         },
 
         template: _.template([
-            '<div class="dataview inner" style="<%= style %>">',
+            '<div class="dataview inner <%= cls %>" style="<%= style %>">',
                 '<% _.each(groups, function(group) { %>',
                     '<% if (group.headername !== undefined) { %>',
                         '<div class="header-name"><%= group.headername %></div>',
@@ -238,10 +239,12 @@ define([
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.showLast       = me.options.showLast;
             me.style          = me.options.style        || '';
+            me.cls            = me.options.cls          || '';
             me.emptyText      = me.options.emptyText    || '';
             me.listenStoreEvents= (me.options.listenStoreEvents!==undefined) ? me.options.listenStoreEvents : true;
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
+            me.tabindex = me.options.tabindex || 0;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
@@ -266,7 +269,8 @@ define([
                 this.setElement(parentEl, false);
                 this.cmpEl = $(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
-                    style: me.style
+                    style: me.style,
+                    cls: me.cls
                 }));
 
                 parentEl.html(this.cmpEl);
@@ -274,7 +278,8 @@ define([
                 this.cmpEl = me.$el || $(this.el);
                 this.cmpEl.html(this.template({
                     groups: me.groups ? me.groups.toJSON() : null,
-                    style: me.style
+                    style: me.style,
+                    cls: me.cls
                 }));
             }
 
@@ -453,7 +458,8 @@ define([
 
             $(this.el).html(this.template({
                 groups: this.groups ? this.groups.toJSON() : null,
-                style: this.style
+                style: this.style,
+                cls: this.cls
             }));
 
             if (!_.isUndefined(this.scroller)) {
@@ -565,7 +571,7 @@ define([
             }
         },
 
-        scrollToRecord: function (record) {
+        scrollToRecord: function (record, force) {
             if (!record) return;
             var innerEl = $(this.el).find('.inner'),
                 inner_top = innerEl.offset().top,
@@ -576,7 +582,7 @@ define([
             var div_top = div.offset().top,
                 div_first = $(this.dataViewItems[0].el),
                 div_first_top = (div_first.length>0) ? div_first[0].clientTop : 0;
-            if (div_top < inner_top + div_first_top || div_top+div.outerHeight()*0.9 > inner_top + div_first_top + innerEl.height()) {
+            if (force || div_top < inner_top + div_first_top || div_top+div.outerHeight()*0.9 > inner_top + div_first_top + innerEl.height()) {
                 if (this.scroller && this.allowScrollbar) {
                     this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top, 0);
                 } else {
@@ -665,8 +671,8 @@ define([
                     if (rec) {
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
-                        this._fromKeyDown = false;
                         this.scrollToRecord(rec);
+                        this._fromKeyDown = false;
                     }
                 }
             } else {
@@ -678,7 +684,7 @@ define([
             if (this.enableKeyEvents && this.handleSelect) {
                 var el = $(this.el).find('.inner').addBack().filter('.inner');
                 el.addClass('canfocused');
-                el.attr('tabindex', '0');
+                el.attr('tabindex', this.tabindex.toString());
                 el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keydown' : 'keydown', _.bind(this.onKeyDown, this));
             }
         },
@@ -763,6 +769,10 @@ define([
 
         onResize: function() {
             this._layoutParams = undefined;
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.find('.dataview').focus();
         }
     });
 
@@ -798,6 +808,8 @@ define([
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.style          = me.options.style        || '';
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
+            me.tabindex = me.options.tabindex || 0;
+
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
@@ -1107,8 +1119,8 @@ define([
                     if (rec) {
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
-                        this._fromKeyDown = false;
                         this.scrollToRecord(rec);
+                        this._fromKeyDown = false;
                     }
                 }
             } else {
@@ -1120,7 +1132,7 @@ define([
             if (this.enableKeyEvents && this.handleSelect) {
                 var el = $(this.el).find('.inner').addBack().filter('.inner');
                 el.addClass('canfocused');
-                el.attr('tabindex', '0');
+                el.attr('tabindex', this.tabindex.toString());
                 el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keydown' : 'keydown', _.bind(this.onKeyDown, this));
             }
         },
@@ -1192,6 +1204,10 @@ define([
 
         onResize: function() {
             this._layoutParams = undefined;
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.find('.dataview').focus();
         }
     });
 

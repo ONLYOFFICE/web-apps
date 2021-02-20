@@ -82,7 +82,7 @@ define([
                         '<div class="input-row">',
                             '<label>' + this.textUrl + '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;border: 1px solid #cfcfcf;"></div>',
+                        '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;"></div>',
                     '</div>',
                     '<div class="input-row">',
                         '<label>' + this.textDisplay + '</label>',
@@ -169,7 +169,8 @@ define([
             me.internalList = new Common.UI.TreeView({
                 el: $('#id-dlg-hyperlink-list'),
                 store: new Common.UI.TreeViewStore(),
-                enableKeyEvents: true
+                enableKeyEvents: true,
+                tabindex: 1
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
@@ -181,6 +182,10 @@ define([
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
             me.externalPanel = $window.find('#id-external-link');
             me.internalPanel = $window.find('#id-internal-link');
+        },
+
+        getFocusedComponents: function() {
+            return [this.inputUrl, {cmp: this.internalList, selector: '.treeview'}, this.inputDisplay, this.inputTip];
         },
 
         ShowHideElem: function(value) {
@@ -269,8 +274,17 @@ define([
                 }
                 var rec = this.internalList.getSelectedRec();
                 this.btnOk.setDisabled(!rec || rec.get('level')==0 && rec.get('index')>0);
-            } else
+                var me = this;
+                _.delay(function(){
+                    me.inputDisplay.focus();
+                },50);
+            } else {
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
+                var me = this;
+                _.delay(function(){
+                    me.inputUrl.focus();
+                },50);
+            }
         },
 
         onLinkTypeClick: function(type, btn, event) {
@@ -296,11 +310,6 @@ define([
 
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                me.inputUrl.cmpEl.find('input').focus();
-            },50);
         },
 
         setSettings: function (props) {
@@ -414,7 +423,7 @@ define([
                     if (this.btnExternal.isActive()) {//WebLink
                         if (this.inputUrl.checkValidate() !== true)  {
                             this.isInputFirstChange = true;
-                            this.inputUrl.cmpEl.find('input').focus();
+                            this.inputUrl.focus();
                             return;
                         }
                     } else {
@@ -423,7 +432,7 @@ define([
                             return;
                     }
                     if (this.inputDisplay.checkValidate() !== true) {
-                        this.inputDisplay.cmpEl.find('input').focus();
+                        this.inputDisplay.focus();
                         return;
                     }
                     (!this._originalProps.get_Bookmark() && !this._originalProps.get_Value()) &&  Common.Utils.InternalSettings.set("de-settings-link-type", this.btnInternal.isActive()); // save last added hyperlink

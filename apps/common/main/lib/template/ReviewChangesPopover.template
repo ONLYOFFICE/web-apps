@@ -13,7 +13,7 @@
                 <% if (editable) { %>
                 <div class="btn-delete img-commonctrl"></div>
                 <% } %>
-            <% } else { %>
+            <% } else if (editable) { %>
             <div class="btn-accept img-commonctrl"></div>
             <div class="btn-reject img-commonctrl"></div>
             <% } %>

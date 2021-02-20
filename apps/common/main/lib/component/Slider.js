@@ -432,7 +432,7 @@ define([
                 var index = me.thumbs.length - 1;
                 me.setThumbPosition(index, pos);
                 me.thumbs[index].value = value;
-                me.trigger('addthumb', me, index, nearIndex, thumbColor);
+                me.trigger('addthumb', me, index, pos);
 
                 me.trigger('change', me);
                 me.trigger('changecomplete', me);

@@ -111,10 +111,12 @@ define([
 
             if (settings.api) {
                 me.api = settings.api;
+                me.wrapEvents = {
+                    onApiRangeChanged: _.bind(me.onApiRangeChanged, me)
+                };
 
                 me.api.asc_setSelectionDialogMode(settings.type, settings.range ? settings.range : '');
-                me.api.asc_unregisterCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
-                me.api.asc_registerCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
+                me.api.asc_registerCallback('asc_onSelectionRangeChanged', me.wrapEvents.onApiRangeChanged);
                 Common.NotificationCenter.trigger('cells:range', settings.type);
             }
 
@@ -166,6 +168,8 @@ define([
 
                 this.settings.argvalues[this.settings.argindex] = val;
                 this.api.asc_insertArgumentsInFormula(this.settings.argvalues);
+            } else if (this.settings.type == Asc.c_oAscSelectionDialogType.DataValidation) {
+                this.inputRange.setValue('=' + name);
             } else
                 this.inputRange.setValue(name);
             if (this.inputRange.cmpEl.hasClass('error'))
@@ -177,8 +181,10 @@ define([
         },
 
         onClose: function(event) {
-            if (this.api)
+            if (this.api) {
                 this.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
+                this.api.asc_unregisterCallback('asc_onSelectionRangeChanged', this.wrapEvents.onApiRangeChanged);
+            }
             Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.None);
 
             SSE.getController('RightMenu').SetDisabled(false);

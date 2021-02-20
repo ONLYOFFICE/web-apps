@@ -77,7 +77,9 @@ define([
                 'Toolbar': {
                     'render:before' : function (toolbar) {
                         var config = SSE.getController('Main').appOptions;
-                        toolbar.setExtra('right', me.header.getPanel('right', config));
+                        if (!config.isEditDiagram && !config.isEditMailMerge)
+                            toolbar.setExtra('right', me.header.getPanel('right', config));
+
                         if (!config.isEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
@@ -125,6 +127,7 @@ define([
             this.api.asc_registerCallback('asc_onZoomChanged',              this.onApiZoomChange.bind(this));
             this.api.asc_registerCallback('asc_onSheetsChanged',            this.onApiSheetChanged.bind(this));
             this.api.asc_registerCallback('asc_onUpdateSheetViewSettings',  this.onApiSheetChanged.bind(this));
+            this.api.asc_registerCallback('asc_onWorksheetLocked',          this.onWorksheetLocked.bind(this));
             this.api.asc_registerCallback('asc_onEditCell',                 this.onApiEditCell.bind(this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',this.onApiCoAuthoringDisconnect.bind(this));
             Common.NotificationCenter.on('api:disconnect',              this.onApiCoAuthoringDisconnect.bind(this));
@@ -201,13 +204,13 @@ define([
                 if (!config.isEdit && !config.isEditDiagram && !config.isEditMailMerge) {
                     me.header.mnuitemCompactToolbar.hide();
                     Common.NotificationCenter.on('tab:visible', _.bind(function(action, visible){
-                        if (action=='plugins' && visible) {
+                        if ((action=='plugins' || action=='review') && visible) {
                             me.header.mnuitemCompactToolbar.show();
                         }
                     }, this));
                 }
 
-                var mnuitemHideFormulaBar = new Common.UI.MenuItem({
+                me.header.mnuitemHideFormulaBar = new Common.UI.MenuItem({
                     caption     : me.textHideFBar,
                     checked     : Common.localStorage.getBool('sse-hidden-formula'),
                     checkable   : true,
@@ -218,6 +221,7 @@ define([
                     caption     : me.textHideHeadings,
                     checkable   : true,
                     checked     : me.header.mnuitemHideHeadings.isChecked(),
+                    disabled    : me.header.mnuitemHideHeadings.isDisabled(),
                     value       : 'headings'
                 });
 
@@ -225,6 +229,7 @@ define([
                     caption     : me.textHideGridlines,
                     checkable   : true,
                     checked     : me.header.mnuitemHideGridlines.isChecked(),
+                    disabled    : me.header.mnuitemHideGridlines.isDisabled(),
                     value       : 'gridlines'
                 });
 
@@ -232,7 +237,15 @@ define([
                     caption     : me.textFreezePanes,
                     checkable   : true,
                     checked     : me.header.mnuitemFreezePanes.isChecked(),
+                    disabled    : me.header.mnuitemFreezePanes.isDisabled(),
                     value       : 'freezepanes'
+                });
+
+                me.header.mnuitemFreezePanesShadow = new Common.UI.MenuItem({
+                    caption     : me.textFreezePanesShadow,
+                    checkable   : true,
+                    checked     : Common.localStorage.getBool('sse-freeze-shadow', true),
+                    value       : 'freezepanesshadow'
                 });
 
                 me.header.mnuZoom = new Common.UI.MenuItem({
@@ -261,12 +274,13 @@ define([
                         style: 'min-width: 180px;',
                         items: [
                             me.header.mnuitemCompactToolbar,
-                            mnuitemHideFormulaBar,
+                            me.header.mnuitemHideFormulaBar,
                             {caption:'--'},
                             me.header.mnuitemHideHeadings,
                             me.header.mnuitemHideGridlines,
                             {caption:'--'},
                             me.header.mnuitemFreezePanes,
+                            me.header.mnuitemFreezePanesShadow,
                             {caption:'--'},
                             me.header.mnuZoom,
                             {caption:'--'},
@@ -281,7 +295,6 @@ define([
                     me.header.mnuitemHideGridlines.hide();
                     me.header.mnuitemFreezePanes.hide();
                     menu.items[5].hide();
-                    menu.items[7].hide();
                     if (!config.canViewComments) { // show advanced settings for editing and commenting mode
                         // mnuitemAdvSettings.hide();
                         // menu.items[9].hide();
@@ -313,6 +326,22 @@ define([
                     el      : $('#hdr-menu-zoom-in', me.header.mnuZoom.$el),
                     cls     : 'btn-toolbar'
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
+
+                if ( Common.UI.Themes.available() ) {
+                    var mnuitemDarkTheme = new Common.UI.MenuItem({
+                        caption: me.header.textDarkTheme,
+                        checked: Common.UI.Themes.isDarkTheme(),
+                        checkable: true,
+                        value: 'theme:dark'
+                    });
+
+
+                    me.header.btnOptions.menu.insertItem(10, mnuitemDarkTheme);
+                    me.header.btnOptions.menu.insertItem(10, {caption:'--'});
+                    Common.NotificationCenter.on('uitheme:change', function (name) {
+                        mnuitemDarkTheme.setChecked(Common.UI.Themes.isDarkTheme());
+                    });
+                }
 
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
             }
@@ -391,6 +420,7 @@ define([
             case 'celleditor':
                 if (arguments[1]) {
                     this.boxSdk.css('border-top', arguments[1]=='hidden'?'none':'');
+                    this.header.mnuitemHideFormulaBar && this.header.mnuitemHideFormulaBar.setChecked(arguments[1]=='hidden', true);
                 }
                 this.viewport.celayout.doLayout();
                 break;
@@ -433,6 +463,21 @@ define([
                 me.header.mnuitemHideHeadings.setChecked(!params.asc_getShowRowColHeaders());
                 me.header.mnuitemHideGridlines.setChecked(!params.asc_getShowGridLines());
                 me.header.mnuitemFreezePanes.setChecked(params.asc_getIsFreezePane());
+
+                var currentSheet = me.api.asc_getActiveWorksheetIndex();
+                this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+            }
+        },
+
+        onWorksheetLocked: function(index,locked) {
+            var me = this;
+            var appConfig = me.viewport.mode;
+            if ( !!appConfig && !appConfig.isEditDiagram && !appConfig.isEditMailMerge ) {
+                if (index == this.api.asc_getActiveWorksheetIndex()) {
+                    me.header.mnuitemHideHeadings.setDisabled(locked);
+                    me.header.mnuitemHideGridlines.setDisabled(locked);
+                    me.header.mnuitemFreezePanes.setDisabled(locked);
+                }
             }
         },
 
@@ -456,7 +501,15 @@ define([
             case 'headings': me.api.asc_setDisplayHeadings(!item.isChecked()); break;
             case 'gridlines': me.api.asc_setDisplayGridlines(!item.isChecked()); break;
             case 'freezepanes': me.api.asc_freezePane(); break;
+            case 'freezepanesshadow':
+                me.api.asc_setFrozenPaneBorderType(item.isChecked() ? Asc.c_oAscFrozenPaneBorderType.shadow : Asc.c_oAscFrozenPaneBorderType.line);
+                Common.localStorage.setBool('sse-freeze-shadow', item.isChecked());
+                break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
+            case 'theme:dark':
+                if ( item.isChecked() != Common.UI.Themes.isDarkTheme() )
+                    Common.UI.Themes.toggleTheme();
+                break;
             }
         },
 
@@ -471,9 +524,14 @@ define([
             }
         },
 
+        disableEditing: function (disabled) {
+            this.header.btnOptions.menu.items[6].setDisabled(disabled);
+        },
+
         textHideFBar: 'Hide Formula Bar',
         textHideHeadings: 'Hide Headings',
         textHideGridlines: 'Hide Gridlines',
-        textFreezePanes: 'Freeze Panes'
+        textFreezePanes: 'Freeze Panes',
+        textFreezePanesShadow: 'Show Freezed Panes Shadow'
     }, SSE.Controllers.Viewport));
 });

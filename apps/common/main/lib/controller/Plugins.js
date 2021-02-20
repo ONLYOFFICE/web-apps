@@ -225,6 +225,7 @@ define([
                     variation.set_Size(itemVar.get('size'));
                     variation.set_InitOnSelectionChanged(itemVar.get('initOnSelectionChanged'));
                     variation.set_Events(itemVar.get('events'));
+                    variation.set_Help(itemVar.get('help'));
 
                     variationsArr.push(variation);
                 });
@@ -245,7 +246,7 @@ define([
                 if (!btn) return;
 
                 var _group = $('> .group', me.$toolbarPanelPlugins);
-                var $slot = $('<span class="slot"></span>').appendTo(_group);
+                var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                 btn.render($slot);
             }
         },
@@ -270,7 +271,7 @@ define([
 
                     var btn = me.panelPlugins.createPluginButton(model);
                     if (btn) {
-                        var $slot = $('<span class="slot"></span>').appendTo(_group);
+                        var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                         btn.render($slot);
                         rank_plugins++;
                     }
@@ -380,6 +381,7 @@ define([
                         });
                     }
 
+                    var help = variation.get_Help();
                     me.pluginDlg = new Common.Views.PluginDlg({
                         cls: isCustomWindow ? 'plain' : '',
                         header: !isCustomWindow,
@@ -389,7 +391,8 @@ define([
                         url: url,
                         frameId : frameId,
                         buttons: isCustomWindow ? undefined : newBtns,
-                        toolcallback: _.bind(this.onToolClose, this)
+                        toolcallback: _.bind(this.onToolClose, this),
+                        help: !!help
                     });
                     me.pluginDlg.on({
                         'render:after': function(obj){
@@ -404,6 +407,9 @@ define([
                         },
                         'resize': function(args){
                             me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                        },
+                        'help': function(){
+                            help && window.open(help, '_blank');
                         }
                     });
 
@@ -535,7 +541,8 @@ define([
                                 url: itemVar.url,
                                 icons: itemVar.icons,
                                 buttons: itemVar.buttons,
-                                visible: visible
+                                visible: visible,
+                                help: itemVar.help
                             });
 
                             variationsArr.push(model);
@@ -637,23 +644,23 @@ define([
                     arr = [],
                     plugins = this.configPlugins,
                     warn = false;
-                if (plugins.plugins && plugins.plugins.length>0) {
+                if (plugins.plugins && plugins.plugins.length>0)
                     arr = plugins.plugins;
-                    var val = plugins.config.autostart || plugins.config.autoStartGuid;
-                    if (typeof (val) == 'string')
-                        val = [val];
-                    warn = !!plugins.config.autoStartGuid;
-                    autostart = val || [];
-                }
+                var val = plugins.config.autostart || plugins.config.autoStartGuid;
+                if (typeof (val) == 'string')
+                    val = [val];
+                warn = !!plugins.config.autoStartGuid;
+                autostart = val || [];
+
                 plugins = this.serverPlugins;
-                if (plugins.plugins && plugins.plugins.length>0) {
+                if (plugins.plugins && plugins.plugins.length>0)
                     arr = arr.concat(plugins.plugins);
-                    var val = plugins.config.autostart || plugins.config.autoStartGuid;
-                    if (typeof (val) == 'string')
-                        val = [val];
-                    (warn || plugins.config.autoStartGuid) && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
-                    autostart = autostart.concat(val || []);
-                }
+                val = plugins.config.autostart || plugins.config.autoStartGuid;
+                if (typeof (val) == 'string')
+                    val = [val];
+                (warn || plugins.config.autoStartGuid) && console.warn("Obsolete: The autoStartGuid parameter is deprecated. Please check the documentation for new plugin connection configuration.");
+                autostart = autostart.concat(val || []);
+
                 this.autostart = autostart;
                 this.parsePlugins(arr, false);
             }

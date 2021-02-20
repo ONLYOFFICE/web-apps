@@ -18,6 +18,8 @@
         </div>
         <div id="id-signature-settings" class="settings-panel">
         </div>
+        <div id="id-form-settings" class="settings-panel">
+        </div>
     </div>
     <div class="tool-menu-btns">
         <div class="ct-btn-category arrow-left"></div>
@@ -30,5 +32,6 @@
         <button id="id-right-menu-textart" class="btn btn-category arrow-left" content-target="id-textart-settings"><i class="icon toolbar__icon btn-menu-textart">&nbsp;</i></button>
         <button id="id-right-menu-mail-merge" class="btn btn-category arrow-left hidden" content-target="id-mail-merge-settings"><i class="icon toolbar__icon btn-mailmerge">&nbsp;</i></button>
         <button id="id-right-menu-signature" class="btn btn-category arrow-left hidden" content-target="id-signature-settings"><i class="icon toolbar__icon btn-menu-signature">&nbsp;</i></button>
+        <button id="id-right-menu-form" class="btn btn-category arrow-left hidden" content-target="id-form-settings"><i class="icon toolbar__icon btn-field">&nbsp;</i></button>
     </div>
 </div>

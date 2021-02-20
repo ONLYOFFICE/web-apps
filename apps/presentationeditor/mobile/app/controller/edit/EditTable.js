@@ -442,7 +442,7 @@ define([
                 $('#edit-table-styles .table-styles div').removeClass('active');
                 $target.addClass('active');
 
-                properties.put_TableStyle(type);
+                properties.put_TableStyle(type.toString());
                 me.api.tblApply(properties);
             },
 

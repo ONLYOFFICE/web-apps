@@ -1,5 +1,7 @@
 .listview {
-  border: 1px solid @input-border;
+  border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+  border: @scaled-one-px-value solid @border-regular-control;
+  .border-radius(@border-radius-small);
   line-height: 15px;
 
   &.inner {
@@ -13,11 +15,17 @@
         text-align: center;
         width: 100%;
         height: 100%;
-        color: #b2b2b2;
+        color: @text-tertiary-ie;
+        color: @text-tertiary;
         td {
           padding: 5px;
         }
     }
+  }
+
+  &:not(.no-focus):focus {
+    border-color: @border-preview-select-ie;
+    border-color: @border-preview-select;
   }
 
   & > .item {
@@ -27,27 +35,37 @@
     cursor: pointer;
     white-space: pre-wrap;
 
-    background-color: @list-group-bg;
-    border-color: @list-group-border;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+    border-color: @border-regular-control-ie;
+    border-color: @border-regular-control;
     border-style: solid;
-    border-width: 1px 0;
-    border-top-color: #fafafa;
+    border-width: @scaled-one-px-value-ie 0;
+    border-width: @scaled-one-px-value 0;
+    border-top-color: transparent;
   }
 
   &:not(.disabled) > .item {
     &:hover {
-      background-color: @secondary;
-      border-color: @secondary;
+      background-color: @highlight-button-hover-ie;
+      background-color: @highlight-button-hover;
+      border-color: @highlight-button-hover-ie;
+      border-color: @highlight-button-hover;
       border-style: solid;
-      border-width: 1px 0;
+      border-width: @scaled-one-px-value-ie 0;
+      border-width: @scaled-one-px-value 0;
     }
 
     &.selected {
-      background-color: @primary;
-      color: #fff;
-      border-color: @primary;
+      background-color: @highlight-button-pressed-ie;
+      background-color: @highlight-button-pressed;
+      color: @text-normal-pressed-ie;
+      color: @text-normal-pressed;
+      border-color: @highlight-button-pressed-ie;
+      border-color: @highlight-button-pressed;
       border-style: solid;
-      border-width: 1px 0;
+      border-width: @scaled-one-px-value-ie 0;
+      border-width: @scaled-one-px-value 0;
     }
   }
 

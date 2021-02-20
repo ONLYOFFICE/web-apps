@@ -104,28 +104,31 @@ define([
             this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
             this.api.asc_registerCallback('asc_onFilterInfo',   _.bind(this.onApiFilterInfo , this));
             this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
+            this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', _.bind(this.onRefreshNamedSheetViewList, this));
 
             this.statusbar.setApi(api);
         },
 
         zoomDocument: function(d,e) {
+            if (!this.api) return;
+
             switch (d) {
                 case 'up':
                     var f = Math.floor(this.api.asc_getZoom() * 10)/10;
                     f += .1;
-                    !(f > 2.) && this.api.asc_setZoom(f);
+                    !(f > 4.) && this.api.asc_setZoom(f);
                     break;
                 case 'down':
                     f = Math.ceil(this.api.asc_getZoom() * 10)/10;
                     f -= .1;
-                    !(f < .5) && this.api.asc_setZoom(f);
+                    !(f < .1) && this.api.asc_setZoom(f);
                     break;
             }
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
         menuZoomClick: function(menu, item) {
-            this.api.asc_setZoom(item.value/100);
+            this.api && this.api.asc_setZoom(item.value/100);
             Common.NotificationCenter.trigger('edit:complete', this.statusbar);
         },
 
@@ -206,10 +209,13 @@ define([
                 statusbar = this.statusbar;
 
             statusbar.isEditFormula = disableAdd;
+            statusbar.tabbar && (statusbar.tabbar.isEditFormula = disableAdd);
             statusbar.btnZoomUp.setDisabled(disable);
             statusbar.btnZoomDown.setDisabled(disable);
             statusbar.labelZoom[disable?'addClass':'removeClass']('disabled');
             statusbar.btnAddWorksheet.setDisabled(disable || this.api.asc_isWorkbookLocked() || statusbar.rangeSelectionMode!=Asc.c_oAscSelectionDialogType.None);
+
+            statusbar.$el.find('#statusbar_bottom li span').attr('oo_editor_input', !disableAdd);
 
             if (disableAdd && mask.length>0 || !disableAdd && mask.length==0) return;
             statusbar.$el.find('.statusbar').toggleClass('masked', disableAdd);
@@ -230,6 +236,8 @@ define([
         },
 
         onWindowResize: function(area) {
+            this.statusbar.updateVisibleItemsBoxMath();
+            this.statusbar.updateTabbarBorders();
             this.statusbar.onTabInvisible(undefined, this.statusbar.tabbar.checkInvisible(true));
         },
 
@@ -704,12 +712,62 @@ define([
 
         onApiActiveSheetChanged: function (index) {
             this.statusbar.tabMenu.hide();
+            if (this._sheetViewTip && this._sheetViewTip.isVisible() && this.api.asc_getActiveNamedSheetView && !this.api.asc_getActiveNamedSheetView(index)) { // hide tip when sheet in the default mode
+                this._sheetViewTip.hide();
+            }
+        },
+
+        onRefreshNamedSheetViewList: function() {
+            var views = this.api.asc_getNamedSheetViews(),
+                active = false,
+                name="",
+                me = this;
+            for (var i=0; i<views.length; i++) {
+                if (views[i].asc_getIsActive()) {
+                    active = true;
+                    name = views[i].asc_getName();
+                    break;
+                }
+            }
+            var tab = this.statusbar.tabbar.getAt(this.statusbar.tabbar.getActive());
+            if (tab) {
+                tab.changeIconState(active, name);
+            }
+
+            if (active && !Common.localStorage.getBool("sse-hide-sheet-view-tip") && !Common.Utils.InternalSettings.get("sse-hide-sheet-view-tip")) {
+                if (!this._sheetViewTip) {
+                    this._sheetViewTip = new Common.UI.SynchronizeTip({
+                        target      : $('#editor_sdk'),
+                        extCls      : 'no-arrow',
+                        text        : this.textSheetViewTipFilters,
+                        placement   : 'target'
+                    });
+                    this._sheetViewTip.on({
+                        'dontshowclick': function() {
+                            Common.localStorage.setBool("sse-hide-sheet-view-tip", true);
+                            Common.Utils.InternalSettings.set("sse-hide-sheet-view-tip", true);
+                            this.close();
+                            me._sheetViewTip = undefined;
+                        },
+                        'closeclick': function() {
+                            Common.Utils.InternalSettings.set("sse-hide-sheet-view-tip", true);
+                            this.close();
+                            me._sheetViewTip = undefined;
+                        }
+                    });
+                }
+                if (!this._sheetViewTip.isVisible())
+                    this._sheetViewTip.show();
+            } else if (!active && this._sheetViewTip && this._sheetViewTip.isVisible())
+                this._sheetViewTip.hide();
         },
 
         zoomText        : 'Zoom {0}%',
         errorLastSheet  : 'Workbook must have at least one visible worksheet.',
         errorRemoveSheet: 'Can\'t delete the worksheet.',
         warnDeleteSheet : 'The worksheet maybe has data. Proceed operation?',
-        strSheet        : 'Sheet'
+        strSheet        : 'Sheet',
+        textSheetViewTip: 'You are in Sheet View mode. Filters and sorting are visible only to you and those who are still in this view.',
+        textSheetViewTipFilters: 'You are in Sheet View mode. Filters are visible only to you and those who are still in this view.'
     }, SSE.Controllers.Statusbar || {}));
 });

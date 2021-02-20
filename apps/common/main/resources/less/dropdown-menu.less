@@ -3,6 +3,13 @@
 }
 
 .dropdown-menu {
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+    border-color: @border-regular-control-ie;
+    border-color: @border-regular-control;
+    border-width: @scaled-one-px-value-ie;
+    border-width: @scaled-one-px-value;
+
     &.scrollable-menu {
         height: auto;
         max-height: 400px;
@@ -13,6 +20,7 @@
         .ps-scrollbar-y-rail {
             margin-top: 1px;
             margin-bottom: 1px;
+            cursor: default;
         }
     }
 
@@ -29,22 +37,39 @@
         & > a {
             padding: 5px 20px;
             cursor: pointer;
+            color: @text-normal-ie;
+            color: @text-normal;
 
             &:focus, &.focus {
                 outline: 0;
             }
 
             &.focus {
-                text-decoration: none;
-                color: @dropdown-link-hover-color;
-                background-color: @dropdown-link-hover-bg;
+                color: @text-normal-pressed-ie;
+                color: @text-normal-pressed;
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
+            }
+
+            &:hover {
+                color: @text-normal-pressed-ie;
+                color: @text-normal-pressed;
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
             }
         }
 
         &.over > a {
             text-decoration: none;
-            color: @dropdown-link-hover-color;
-            background-color: @dropdown-link-hover-bg;
+            color: @text-normal-pressed-ie;
+            color: @text-normal-pressed;
+            background-color: @highlight-button-hover-ie;
+            background-color: @highlight-button-hover;
+
+            &:after {
+                border-left-color: @icon-normal-pressed-ie;
+                border-left-color: @icon-normal-pressed;
+            }
         }
 
         .checked:not(.no-checkmark) {
@@ -79,9 +104,39 @@
 
         .no-checkmark.checked {
             .menu-item-icon {
-                background-color: @primary;
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
                 border-radius: 2px;
             }
         }
+    }
+
+    &.shifted-right {
+        li {
+            & > a {
+                padding-left: 28px;
+            }
+            .menu-item-icon {
+                margin: -3px 0 0 -24px;
+            }
+            .checked:not(.no-checkmark):before  {
+                margin-left: -22px;
+            }
+        }
+    }
+    &.shifted-left {
+        li {
+            & > a {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        }
+    }
+
+    .divider {
+        height: @scaled-one-px-value-ie;
+        height: @scaled-one-px-value;
+        background-color: @border-divider-ie;
+        background-color: @border-divider;
     }
 }

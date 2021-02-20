@@ -175,15 +175,15 @@ define([
                             '<div class="item-inner">' +
                             '<div class="header-comment"><div class="comment-left">';
                         if (isAndroid) {
-                            template += '<div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>';
+                            template += '<div class="initials-comment" style="background-color: ' + (comment.usercolor ? comment.usercolor : '#cfcfcf') + ';">' + comment.userInitials + '</div><div>';
                         }
-                        template += '<div class="user-name">' + comment.username + '</div>' +
+                        template += '<div class="user-name">' + me.getUserName(comment.username) + '</div>' +
                             '<div class="comment-date">' + comment.date + '</div>';
                         if (isAndroid) {
                             template += '</div>';
                         }
                         template += '</div>';
-                        if (comment.editable && !me.viewmode) {
+                        if (!me.viewmode) {
                             template += '<div class="comment-right">' +
                                 '<div class="comment-resolve"><i class="icon icon-resolve-comment' + (comment.resolved ? ' check' : '') + '"></i></div>' +
                                 '<div class="comment-menu"><i class="icon icon-menu-comment"></i></div>' +
@@ -200,15 +200,15 @@ define([
                                     '<div class="header-reply">' +
                                     '<div class="reply-left">';
                                 if (isAndroid) {
-                                    template += '<div class="initials-reply" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>'
+                                    template += '<div class="initials-reply" style="background-color: ' + (reply.usercolor ? reply.usercolor : '#cfcfcf') + ';">' + reply.userInitials + '</div><div>'
                                 }
-                                template += '<div class="user-name">' + reply.username + '</div>' +
+                                template += '<div class="user-name">' + me.getUserName(reply.username) + '</div>' +
                                     '<div class="reply-date">' + reply.date + '</div>' +
                                     '</div>';
                                 if (isAndroid) {
                                     template += '</div>';
                                 }
-                                if (reply.editable && !me.viewmode) {
+                                if ((reply.editable || reply.removable) && !me.viewmode) {
                                     template += '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>';
                                 }
                                 template += '</div>' +
@@ -248,12 +248,12 @@ define([
                             '<li class="comment item-content" data-uid="<%= item.uid %>">',
                             '<div class="item-inner">',
                             '<div class="header-comment"><div class="comment-left">',
-                            '<% if (android) { %><div class="initials-comment" style="background-color:<%= item.usercolor %> "> <%= item.userInitials %></div><div><% } %>',
-                            '<div class="user-name"><%= item.username %></div>',
+                            '<% if (android) { %><div class="initials-comment" style="background-color:<% if (item.usercolor!==null) { %><%=item.usercolor%><% } else { %> #cfcfcf <% } %>;"> <%= item.userInitials %></div><div><% } %>',
+                            '<div class="user-name"><%= scope.getUserName(item.username) %></div>',
                             '<div class="comment-date"><%= item.date %></div>',
                             '<% if (android) { %></div><% } %>',
                             '</div>',
-                            '<% if (item.editable && !viewmode) { %>',
+                            '<% if (!viewmode) { %>',
                             '<div class="comment-right">',
                             '<div class="comment-resolve"><i class="icon icon-resolve-comment <% if (item.resolved) { %> check <% } %>"></i></div>',
                             '<div class="comment-menu"><i class="icon icon-menu-comment"></i></div>',
@@ -270,12 +270,12 @@ define([
                             '<li class="reply-item" data-ind="<%= reply.ind %>">',
                                 '<div class="header-reply">',
                                     '<div class="reply-left">',
-                                        '<% if (android) { %><div class="initials-reply" style="background-color: <%= reply.usercolor %>;"><%= reply.userInitials %></div><div><% } %>',
-                                        '<div class="user-name"><%= reply.username %></div>',
+                                        '<% if (android) { %><div class="initials-reply" style="background-color: <% if (reply.usercolor!==null) { %><%=reply.usercolor%><% } else { %> #cfcfcf <% } %>;"><%= reply.userInitials %></div><div><% } %>',
+                                        '<div class="user-name"><%= scope.getUserName(reply.username) %></div>',
                                         '<div class="reply-date"><%= reply.date %></div>',
                                     '</div>',
                                     '<% if (android) { %></div><% } %>',
-                                    '<% if (reply.editable && !viewmode) { %>',
+                                    '<% if ((reply.editable || reply.removable) && !viewmode) { %>',
                                     '<div class="reply-menu"><i class="icon icon-menu-comment"></i></div>',
                                     '<% } %>',
                                 '</div>',
@@ -292,7 +292,8 @@ define([
                             item: comment,
                             replys: comment.replys.length,
                             viewmode: me.viewmode,
-                            quote: me.sliceQuote(comment.quote)
+                            quote: me.sliceQuote(comment.quote),
+                            scope: me
                         }));
                     });
                     $listComments.html(items.join(''));
@@ -303,8 +304,8 @@ define([
                 var $pageEdit = $('.page-edit-comment .page-content');
                 var isAndroid = Framework7.prototype.device.android === true;
                 var template = '<div class="wrap-comment">' +
-                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
-                    '<div class="user-name">' + comment.username + '</div>' +
+                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + (comment.usercolor ? comment.usercolor : '#cfcfcf') + ';">' + comment.userInitials + '</div><div>' : '') +
+                    '<div class="user-name">' + this.getUserName(comment.username) + '</div>' +
                     '<div class="comment-date">' + comment.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
@@ -317,7 +318,7 @@ define([
                 var isAndroid = Framework7.prototype.device.android === true;
                 var template = '<div class="wrap-reply">' +
                     (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + color + ';">' + initials + '</div><div>' : '') +
-                    '<div class="user-name">' + name + '</div>' +
+                    '<div class="user-name">' + this.getUserName(name) + '</div>' +
                     '<div class="comment-date">' + date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea class="reply-textarea" placeholder="' + this.textAddReply + '">' + '</textarea></div>' +
@@ -329,8 +330,8 @@ define([
                 var $pageEdit = $('.page-edit-reply .page-content');
                 var isAndroid = Framework7.prototype.device.android === true;
                 var template = '<div class="wrap-comment">' +
-                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>' : '') +
-                    '<div class="user-name">' + reply.username + '</div>' +
+                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + (reply.usercolor ? reply.usercolor : '#cfcfcf') + ';">' + reply.userInitials + '</div><div>' : '') +
+                    '<div class="user-name">' + this.getUserName(reply.username) + '</div>' +
                     '<div class="comment-date">' + reply.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea id="comment-text" class="edit-reply-textarea">' + reply.reply + '</textarea></div>' +
@@ -354,7 +355,7 @@ define([
                     '<div class="page-content">' +
                     '<div class="wrap-reply">' +
                     (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + color + ';">' + initial + '</div><div>' : '') +
-                    '<div class="user-name">' + name + '</div>' +
+                    '<div class="user-name">' + this.getUserName(name) + '</div>' +
                     '<div class="comment-date">' + date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea class="reply-textarea" placeholder="' + this.textAddReply + '"></textarea></div>' +
@@ -400,8 +401,8 @@ define([
                     '<div class="page-edit-comment">' +
                     '<div class="page-content">' +
                     '<div class="wrap-comment">' +
-                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + comment.usercolor + ';">' + comment.userInitials + '</div><div>' : '') +
-                    '<div class="user-name">' + comment.username + '</div>' +
+                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + (comment.usercolor ? comment.usercolor : '#cfcfcf') + ';">' + comment.userInitials + '</div><div>' : '') +
+                    '<div class="user-name">' + this.getUserName(comment.username) + '</div>' +
                     '<div class="comment-date">' + comment.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea id="comment-text" class="comment-textarea">' + comment.comment + '</textarea></div>' +
@@ -426,8 +427,8 @@ define([
                     '<div class="page add-comment">' +
                     '<div class="page-content">' +
                     '<div class="wrap-comment">' +
-                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + reply.usercolor + ';">' + reply.userInitials + '</div><div>' : '') +
-                    '<div class="user-name">' + reply.username + '</div>' +
+                    (isAndroid ? '<div class="header-comment"><div class="initials-comment" style="background-color: ' + (reply.usercolor ? reply.usercolor : '#cfcfcf') + ';">' + reply.userInitials + '</div><div>' : '') +
+                    '<div class="user-name">' + this.getUserName(reply.username) + '</div>' +
                     '<div class="comment-date">' + reply.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div><textarea id="comment-text" class="edit-reply-textarea">' + reply.reply + '</textarea></div>' +
@@ -442,11 +443,15 @@ define([
             renderChangeReview: function(change) {
                 var isAndroid = Framework7.prototype.device.android === true;
                 var template = (isAndroid ? '<div class="header-change"><div class="initials-change" style="background-color: #' + change.color + ';">' + change.initials + '</div><div>' : '') +
-                    '<div id="user-name">' + change.user + '</div>' +
+                    '<div id="user-name">' + this.getUserName(change.user) + '</div>' +
                     '<div id="date-change">' + change.date + '</div>' +
                     (isAndroid ? '</div></div>' : '') +
                     '<div id="text-change">' + change.text + '</div>';
                 $('#current-change').html(_.template(template));
+            },
+
+            getUserName: function (username) {
+                return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
             },
 
             textCollaboration: 'Collaboration',

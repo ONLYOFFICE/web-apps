@@ -12,7 +12,7 @@ li {
 
   &.selected, a.checked {
     .icon.spellcheck-lang {
-      background-position-x: -20px; --bgX: -20px;
+        background-position-x: @button-small-active-icon-offset-x;
     }
   }
 }
@@ -23,10 +23,12 @@ li {
       &:before {
         display: none;
       }
-      background-color: @primary;
+      background-color: @highlight-button-pressed-ie;
+      background-color: @highlight-button-pressed;
 
       &, &:hover, &:focus {
-        color: @dropdown-link-active-color;
+        color: @text-normal-pressed-ie;
+        color: @text-normal-pressed;
       }
     }
   }

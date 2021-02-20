@@ -58,9 +58,9 @@ define([
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/WatermarkSettingsDialog',
-    'documenteditor/main/app/view/CompareSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
-    'documenteditor/main/app/view/DateTimeDialog'
+    'documenteditor/main/app/view/DateTimeDialog',
+    'documenteditor/main/app/view/LineNumbersDialog'
 ], function () {
     'use strict';
 
@@ -101,7 +101,9 @@ define([
                 pgmargins: undefined,
                 fontsize: undefined,
                 in_equation: false,
-                in_chart: false
+                in_chart: false,
+                linenum_apply: Asc.c_oAscSectionApplyType.All,
+                suppress_num: undefined
             };
             this.flg = {};
             this.diagramEditor = null;
@@ -153,7 +155,9 @@ define([
                             Asc.c_oAscFileType.HTML,
                             Asc.c_oAscFileType.PDFA,
                             Asc.c_oAscFileType.DOTX,
-                            Asc.c_oAscFileType.OTT
+                            Asc.c_oAscFileType.OTT,
+                            Asc.c_oAscFileType.FB2,
+                            Asc.c_oAscFileType.EPUB
                         ];
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -258,6 +262,7 @@ define([
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
             toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
+            toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
             toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
             toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
             toolbar.btnUnderline.on('click',                            _.bind(this.onUnderline, this));
@@ -310,7 +315,7 @@ define([
             toolbar.btnInsertShape.menu.on('hide:after',                _.bind(this.onInsertShapeHide, this));
             toolbar.btnDropCap.menu.on('item:click',                    _.bind(this.onDropCapSelect, this));
             toolbar.btnContentControls.menu.on('item:click',            _.bind(this.onControlsSelect, this));
-            toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this));
+            toolbar.mnuDropCapAdvanced.on('click',                      _.bind(this.onDropCapAdvancedClick, this, false));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnPageOrient.menu.on('item:click',                 _.bind(this.onPageOrientSelect, this));
             toolbar.btnPageMargins.menu.on('item:click',                _.bind(this.onPageMarginsSelect, this));
@@ -334,6 +339,8 @@ define([
             toolbar.btnInsertSymbol.on('click',                         _.bind(this.onInsertSymbolClick, this));
             toolbar.mnuNoControlsColor.on('click',                      _.bind(this.onNoControlsColor, this));
             toolbar.mnuControlsColorPicker.on('select',                 _.bind(this.onSelectControlsColor, this));
+            toolbar.btnLineNumbers.menu.on('item:click',                _.bind(this.onLineNumbersSelect, this));
+            toolbar.btnLineNumbers.menu.on('show:after',                _.bind(this.onLineNumbersShow, this));
             Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
             Common.Gateway.on('setmailmergerecipients',                 _.bind(this.setMailMergeRecipients, this));
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
@@ -341,6 +348,8 @@ define([
             $('#id-save-style-plus, #id-save-style-link', toolbar.$el).on('click', this.onMenuSaveStyle.bind(this));
 
             this.onSetupCopyStyleButton();
+            this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
+            this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());            
         },
 
         setApi: function(api) {
@@ -383,6 +392,7 @@ define([
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
                 this.api.asc_registerCallback('asc_onColumnsProps', _.bind(this.onColumnsProps, this));
                 this.api.asc_registerCallback('asc_onSectionProps', _.bind(this.onSectionProps, this));
+                this.api.asc_registerCallback('asc_onLineNumbersProps', _.bind(this.onLineNumbersProps, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onShowParaMarks', _.bind(this.onShowParaMarks, this));
                 this.api.asc_registerCallback('asc_onChangeSdtGlobalSettings', _.bind(this.onChangeSdtGlobalSettings, this));
@@ -392,6 +402,7 @@ define([
                 this.api.asc_registerCallback('asc_onTableEraseModeChanged', _.bind(this.onTableErase, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this));
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
+                Common.NotificationCenter.on('dropcap:settings', _.bind(this.onDropCapAdvancedClick, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
@@ -782,11 +793,12 @@ define([
 
             toolbar.btnContentControls.setDisabled(paragraph_locked || header_locked);
             if (!(paragraph_locked || header_locked)) {
-                var control_disable = control_plain || content_locked;
+                var control_disable = control_plain || content_locked,
+                    if_form = control_props && control_props.get_FormPr();
                 for (var i=0; i<7; i++)
                     toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
-                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                toolbar.btnContentControls.menu.items[10].setDisabled(!in_control);
+                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked || if_form);
+                toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
             var need_text_disable = paragraph_locked || header_locked || in_chart || rich_edit_lock || plain_edit_lock;
@@ -829,12 +841,12 @@ define([
             need_disable = toolbar.mnuPageNumCurrentPos.isDisabled() && toolbar.mnuPageNumberPosPicker.isDisabled() || control_plain;
             toolbar.mnuInsertPageNum.setDisabled(need_disable);
 
-            var in_footnote = this.api.asc_IsCursorInFootnote();
-            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control || rich_edit_lock || plain_edit_lock || rich_del_lock;
+            var in_footnote = this.api.asc_IsCursorInFootnote() || this.api.asc_IsCursorInEndnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_image || in_equation && !btn_eq_state || in_footnote || in_control || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
             toolbar.btnsPageBreak.setDisabled(need_disable);
             toolbar.btnBlankPage.setDisabled(need_disable);
 
-            need_disable = paragraph_locked || header_locked || in_equation || control_plain || content_locked;
+            need_disable = paragraph_locked || header_locked || in_equation || control_plain || content_locked || in_footnote;
             toolbar.btnInsertShape.setDisabled(need_disable);
             toolbar.btnInsertText.setDisabled(need_disable);
 
@@ -882,6 +894,10 @@ define([
                 this.btnsComment.setDisabled(need_disable);
 
             toolbar.btnWatermark.setDisabled(header_locked);
+
+            if (frame_pr) {
+                this._state.suppress_num = !!frame_pr.get_SuppressLineNumbers();
+            }
 
             this._state.in_equation = in_equation;
         },
@@ -1002,13 +1018,13 @@ define([
 
         onChangeSdtGlobalSettings: function() {
             var show = this.api.asc_GetGlobalContentControlShowHighlight();
-            this.toolbar.mnuNoControlsColor.setChecked(!show, true);
-            this.toolbar.mnuControlsColorPicker.clearSelection();
+            this.toolbar.mnuNoControlsColor && this.toolbar.mnuNoControlsColor.setChecked(!show, true);
+            this.toolbar.mnuControlsColorPicker && this.toolbar.mnuControlsColorPicker.clearSelection();
             if (show){
                 var clr = this.api.asc_GetGlobalContentControlHighlightColor();
                 if (clr) {
                     clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
-                    this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
+                    this.toolbar.mnuControlsColorPicker && this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
                 }
             }
         },
@@ -1308,8 +1324,8 @@ define([
                 }
             } else {
                 value = Common.Utils.String.parseFloat(record.value);
-                value = value > 100
-                    ? 100
+                value = value > 300
+                    ? 300
                     : value < 1
                         ? 1
                         : Math.floor((value+0.4)*2)/2;
@@ -1322,6 +1338,12 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
+        },
+
+        onChangeCase: function(menu, item, e) {
+            if (this.api)
+                this.api.asc_ChangeTextCase(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onSelectBullets: function(btn, picker, itemView, record) {
@@ -1671,6 +1693,68 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onLineNumbersSelect: function(menu, item) {
+            if (_.isUndefined(item.value))
+                return;
+
+            switch (item.value) {
+                case 0:
+                    this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, null);
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    this._state.linenum = undefined;
+                    if (this.api && item.checked) {
+                        var props = new Asc.CSectionLnNumType();
+                        props.put_Restart(item.value==1 ? Asc.c_oAscLineNumberRestartType.Continuous : (item.value==2 ? Asc.c_oAscLineNumberRestartType.NewPage : Asc.c_oAscLineNumberRestartType.NewSection));
+                        !!this.api.asc_GetLineNumbersProps() && props.put_CountBy(undefined); 
+                        this.api.asc_SetLineNumbersProps(Asc.c_oAscSectionApplyType.Current, props);
+                    }
+                    break;
+                case 4:
+                    this.api && this.api.asc_SetParagraphSuppressLineNumbers(item.checked);
+                    break;
+                case 5:
+                    var win,
+                        me = this;
+                    win = new DE.Views.LineNumbersDialog({
+                        applyTo: me._state.linenum_apply,
+                        handler: function(dlg, result) {
+                            if (result == 'ok') {
+                                var settings = dlg.getSettings();
+                                me.api.asc_SetLineNumbersProps(settings.type, settings.props);
+                                me._state.linenum_apply = settings.type;
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        }
+                    });
+                    win.show();
+                    win.setSettings(me.api.asc_GetLineNumbersProps());
+                    break;
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onLineNumbersProps: function(props) {
+            var index = 0;
+            if (props) {
+                switch (props.get_Restart()) {
+                    case Asc.c_oAscLineNumberRestartType.Continuous:   index = 1; break;
+                    case Asc.c_oAscLineNumberRestartType.NewPage:   index = 2; break;
+                    case Asc.c_oAscLineNumberRestartType.NewSection: index = 3; break;
+                }
+            }
+            if (this._state.linenum === index)
+                return;
+            this.toolbar.btnLineNumbers.menu.items[index].setChecked(true);
+            this._state.linenum = index;
+        },
+
+        onLineNumbersShow: function(menu) {
+            menu.items[4].setChecked(this._state.suppress_num);
+        },
+
         onColorSchemaClick: function(menu, item) {
             if (this.api) {
                 this.api.asc_ChangeColorSchemeByIdx(item.value);
@@ -1740,11 +1824,11 @@ define([
             this._state.dropcap = v;
         },
 
-        onDropCapAdvancedClick: function() {
+        onDropCapAdvancedClick: function(isFrame) {
             var win, props, text,
                 me = this;
 
-            if (_.isUndefined(me.fontstore)) {
+            if (!isFrame && _.isUndefined(me.fontstore)) {
                 me.fontstore = new Common.Collections.Fonts();
                 var fonts = me.toolbar.cmbFontName.store.toJSON();
                 var arr = [];
@@ -1774,16 +1858,18 @@ define([
                     (new DE.Views.DropcapSettingsAdvanced({
                         tableStylerRows: 2,
                         tableStylerColumns: 1,
-                        fontStore: me.fontstore,
+                        fontStore: !isFrame ? me.fontstore : null,
                         paragraphProps: props,
                         borderProps: me.borderAdvancedProps,
                         api: me.api,
-                        isFrame: false,
+                        isFrame: !!isFrame,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 me.borderAdvancedProps = value.borderProps;
-                                if (value.paragraphProps && value.paragraphProps.get_DropCap() === Asc.c_oAscDropCap.None) {
-                                    me.api.removeDropcap(true);
+                                if (value.paragraphProps &&
+                                    ( !isFrame && value.paragraphProps.get_DropCap() === Asc.c_oAscDropCap.None ||
+                                      isFrame && value.paragraphProps.get_Wrap() === c_oAscFrameWrap.None)) {
+                                    me.api.removeDropcap(!isFrame);
                                 } else
                                     me.api.put_FramePr(value.paragraphProps);
                             }
@@ -1826,16 +1912,30 @@ define([
                     }
                 }
             } else {
+                var isnew = (item.value.indexOf('new-')==0),
+                    oPr, oFormPr;
+                if (isnew) {
+                    oFormPr = new AscCommon.CSdtFormPr();
+                    this.toolbar.fireEvent('insertcontrol', this.toolbar);
+                }
                 if (item.value == 'plain' || item.value == 'rich')
                     this.api.asc_AddContentControl((item.value=='plain') ? Asc.c_oAscSdtLevelType.Inline : Asc.c_oAscSdtLevelType.Block);
-                else if (item.value == 'picture')
-                    this.api.asc_AddContentControlPicture();
-                else if (item.value == 'checkbox')
-                    this.api.asc_AddContentControlCheckBox();
-                else if (item.value == 'date')
+                else if (item.value.indexOf('picture')>=0)
+                    this.api.asc_AddContentControlPicture(oFormPr);
+                else if (item.value.indexOf('checkbox')>=0 || item.value.indexOf('radiobox')>=0) {
+                    if (isnew) {
+                        oPr = new AscCommon.CSdtCheckBoxPr();
+                        (item.value.indexOf('radiobox')>=0) && oPr.put_GroupKey('Group 1');
+                    }
+                    this.api.asc_AddContentControlCheckBox(oPr, oFormPr);
+                } else if (item.value == 'date')
                     this.api.asc_AddContentControlDatePicker();
-                else if (item.value == 'combobox' || item.value == 'dropdown')
-                    this.api.asc_AddContentControlList(item.value == 'combobox');
+                else if (item.value.indexOf('combobox')>=0 || item.value.indexOf('dropdown')>=0)
+                    this.api.asc_AddContentControlList(item.value.indexOf('combobox')>=0, oPr, oFormPr);
+                else if (item.value == 'new-field') {
+                    oPr = new AscCommon.CSdtTextFormPr();
+                    this.api.asc_AddContentControlTextForm(oPr, oFormPr);
+                }
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Add Content Control');
             }
@@ -1959,19 +2059,22 @@ define([
             }
 
             if (chart) {
-                var props = new Asc.asc_CImgProperty();
-                chart.changeType(type);
-                props.put_ChartProperties(chart);
-                this.api.ImgApply(props);
-
+                var isCombo = (type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                               type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
+                if (isCombo && chart.getSeries().length<2) {
+                    Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
+                } else
+                    chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
+                var controller = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor');
                 if (!this.diagramEditor)
-                    this.diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                    this.diagramEditor = controller.getView('Common.Views.ExternalDiagramEditor');
 
                 if (this.diagramEditor && me.api) {
                     this.diagramEditor.setEditMode(false);
-                    this.diagramEditor.show();
+                    // this.diagramEditor.show();
+                    controller.showExternalEditor();
 
                     chart = me.api.asc_getChartObject(type);
                     if (chart) {
@@ -2281,7 +2384,7 @@ define([
             this.api.put_TextColor(color);
 
             this.toolbar.btnFontColor.currentColor = {color: color, isAuto: true};
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#000');
+            this.toolbar.btnFontColor.setColor('000');
 
             this.toolbar.mnuFontColorPicker.clearSelection();
             this.toolbar.mnuFontColorPicker.currentColor = {color: color, isAuto: true};
@@ -2298,10 +2401,8 @@ define([
         onSelectFontColor: function(picker, color) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
-            var clr = (typeof(color) == 'object') ? (color.isAuto ? '#000' : color.color) : color;
-
             this.toolbar.btnFontColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + clr);
+            this.toolbar.btnFontColor.setColor((typeof(color) == 'object') ? (color.isAuto ? '000' : color.color) : color);
 
             this.toolbar.mnuFontColorPicker.currentColor = color;
             if (this.api)
@@ -2313,10 +2414,8 @@ define([
         onParagraphColorPickerSelect: function(picker, color) {
             this._state.clrback = this._state.clrshd_asccolor = undefined;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
-
             this.toolbar.btnParagraphColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnParagraphColor.cmpEl).css('background-color', color!='transparent'?'#'+clr:clr);
+            this.toolbar.btnParagraphColor.setColor(color);
 
             this.toolbar.mnuParagraphColorPicker.currentColor = color;
             if (this.api) {
@@ -2352,7 +2451,7 @@ define([
             this._setMarkerColor('transparent', 'menu');
             item.setChecked(true, true);
             this.toolbar.btnHighlightColor.currentColor = 'transparent';
-            $('.btn-color-value-line', this.toolbar.btnHighlightColor.cmpEl).css('background-color', 'transparent');
+            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
         },
 
         onParagraphColor: function(shd) {
@@ -2512,9 +2611,9 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        itemTemplate: _.template('<div class="item-equation" '+
-                            'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                            '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                        itemTemplate: _.template(
+                            '<div class="item-equation" style="" >' +
+                                '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
                             '</div>')
                     });
                     equationPicker.on('item:click', function(picker, item, record, e) {
@@ -2569,7 +2668,8 @@ define([
             if (this.dlgSymbolTable && this.dlgSymbolTable.isVisible()) return;
 
             if (this.api) {
-                var me = this;
+                var me = this,
+                    selected = me.api.asc_GetSelectedText();
                 me.dlgSymbolTable = new Common.Views.SymbolTableDialog({
                     api: me.api,
                     lang: me.mode.lang,
@@ -2577,17 +2677,19 @@ define([
                     type: 1,
                     special: true,
                     showShortcutKey: true,
+                    font: selected && selected.length>0 ? this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name() : undefined,
+                    symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                     buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                     handler: function(dlg, result, settings) {
                         if (result == 'ok') {
-                            me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code);
+                            me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
                         } else
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }
                 });
                 me.dlgSymbolTable.show();
                 me.dlgSymbolTable.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code);
+                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
                 });
             }
         },
@@ -2751,7 +2853,7 @@ define([
             updateColors(this.toolbar.mnuFontColorPicker, 1);
             if (this.toolbar.btnFontColor.currentColor===undefined || !this.toolbar.btnFontColor.currentColor.isAuto) {
                 this.toolbar.btnFontColor.currentColor = this.toolbar.mnuFontColorPicker.currentColor.color || this.toolbar.mnuFontColorPicker.currentColor;
-                $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + this.toolbar.btnFontColor.currentColor);
+                this.toolbar.btnFontColor.setColor(this.toolbar.btnFontColor.currentColor);
             }
             if (this._state.clrtext_asccolor!==undefined) {
                 this._state.clrtext = undefined;
@@ -2761,15 +2863,12 @@ define([
 
             updateColors(this.toolbar.mnuParagraphColorPicker, 0);
             this.toolbar.btnParagraphColor.currentColor = this.toolbar.mnuParagraphColorPicker.currentColor.color || this.toolbar.mnuParagraphColorPicker.currentColor;
-            $('.btn-color-value-line', this.toolbar.btnParagraphColor.cmpEl).css('background-color', '#' + this.toolbar.btnParagraphColor.currentColor);
+            this.toolbar.btnParagraphColor.setColor(this.toolbar.btnParagraphColor.currentColor);
             if (this._state.clrshd_asccolor!==undefined) {
                 this._state.clrback = undefined;
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
-
-            updateColors(this.toolbar.mnuControlsColorPicker, 1);
-            this.onChangeSdtGlobalSettings();
         },
 
         _onInitEditorStyles: function(styles) {
@@ -2822,8 +2921,7 @@ define([
                 me.toolbar.mnuHighlightTransparent.setChecked(false);
 
                 me.toolbar.btnHighlightColor.currentColor = strcolor;
-                $('.btn-color-value-line', me.toolbar.btnHighlightColor.cmpEl).css('background-color', '#' + strcolor);
-
+                me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
                 me.toolbar.btnHighlightColor.toggle(true, true);
             }
 
@@ -2876,27 +2974,36 @@ define([
             this.DisableToolbar(true, true);
         },
 
-        DisableToolbar: function(disable, viewMode, reviewmode) {
+        DisableToolbar: function(disable, viewMode, reviewmode, fillformmode) {
             if (viewMode!==undefined) this.editMode = !viewMode;
             disable = disable || !this.editMode;
 
             var toolbar_mask = $('.toolbar-mask'),
                 group_mask = $('.toolbar-group-mask'),
-                mask = reviewmode ? group_mask : toolbar_mask;
+                mask = (reviewmode || fillformmode) ? group_mask : toolbar_mask;
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
             if(disable) {
                 if (reviewmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.review)'));
+                } else if (fillformmode) {
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.form-view)'));
                 } else
                     mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
             } else {
                 mask.remove();
             }
-            $('.no-group-mask').css('opacity', (reviewmode || !disable) ? 1 : 0.4);
+            $('.no-group-mask').each(function(index, item){
+                var $el = $(item);
+                if ($el.find('.toolbar-group-mask').length>0)
+                    $el.css('opacity', 0.4);
+                else {
+                    $el.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
+                }
+            });
 
-            disable = disable || (reviewmode ? toolbar_mask.length>0 : group_mask.length>0);
+            disable = disable || ((reviewmode || fillformmode) ? toolbar_mask.length>0 : group_mask.length>0);
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
@@ -2948,8 +3055,8 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !config.isEdit;
-            if ( config.isEdit ) {
+            var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms);
+            if ( config.isEdit || config.isRestrictedEdit && config.canFillForms) {
                 if ( Common.localStorage.itemExists("de-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("de-compact-toolbar");
                 } else
@@ -2961,8 +3068,10 @@ define([
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-            if ( $panel )
-                me.toolbar.addTab(tab, $panel, 4);
+            if ( $panel ) {
+                me.toolbar.addTab(tab, $panel, 5);
+                me.toolbar.setVisible('review', config.isEdit || config.canCoAuthoring && config.canComments); // use config.canViewReview in review controller. set visible review tab in view mode only when asc_HaveRevisionsChanges
+            }
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
@@ -2986,13 +3095,29 @@ define([
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 
-                        if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                        if ($panel) me.toolbar.addTab(tab, $panel, 6);
                     }
                 }
 
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+            }
+            if ( config.isEdit && config.canFeatureContentControl || config.isRestrictedEdit && config.canFillForms ) {
+                tab = {caption: me.textTabForms, action: 'forms'};
+                var forms = me.getApplication().getController('FormsTab');
+                forms.setApi(me.api).setConfig({toolbar: me, config: config});
+                $panel = forms.createToolbarPanel();
+                if ($panel) {
+                    me.toolbar.addTab(tab, $panel, 4);
+                    me.toolbar.setVisible('forms', true);
+                    if (config.isEdit && config.canFeatureContentControl) {
+                        Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                        me.onChangeSdtGlobalSettings();
+                    } else if (!compactview) {
+                        me.toolbar.setTab('forms');
+                    }
+                }
             }
         },
 
@@ -3414,7 +3539,8 @@ define([
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
         txtMarginsH: 'Top and bottom margins are too high for a given page height',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        textTabForms: 'Forms'
 
     }, DE.Controllers.Toolbar || {}));
 });

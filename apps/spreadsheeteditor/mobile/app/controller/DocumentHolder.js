@@ -86,16 +86,6 @@ define([
                 this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
                 Common.NotificationCenter.on('api:disconnect',          _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect,this));
-                this.api.asc_registerCallback('asc_onShowComment',      _.bind(this.onApiShowComment, this));
-                this.api.asc_registerCallback('asc_onHideComment',        _.bind(this.onApiHideComment, this));
-            },
-
-            onApiShowComment: function(comments) {
-                _isComments = comments && comments.length>0;
-            },
-
-            onApiHideComment: function() {
-                _isComments = false;
             },
 
             setMode: function (mode) {
@@ -207,7 +197,7 @@ define([
                 case 'merge':
                     if (me.api.asc_mergeCellsDataLost(Asc.c_oAscMergeOptions.Merge)) {
                         _.defer(function () {
-                            uiApp.confirm(me.warnMergeLostData, undefined, function(){
+                            uiApp.confirm(me.warnMergeLostData, me.notcriticalErrorTitle, function(){
                                 me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Merge);
                             });
                         });
@@ -247,7 +237,12 @@ define([
                     break;
                 case 'viewcomment':
                     me.view.hideMenu();
-                    SSE.getController('Common.Controllers.Collaboration').showCommentModal();
+                    var cellinfo = this.api.asc_getCellInfo(),
+                        comments = cellinfo.asc_getComments();
+                    if (comments.length) {
+                        SSE.getController('Common.Controllers.Collaboration').apiShowComments(comments[0].asc_getId());
+                        SSE.getController('Common.Controllers.Collaboration').showCommentModal();
+                    }
                     break;
                 case 'addcomment':
                     me.view.hideMenu();
@@ -258,7 +253,7 @@ define([
                 if ('showActionSheet' == event && _actionSheets.length > 0) {
                     _.delay(function () {
                         _.each(_actionSheets, function (action) {
-                            action.text = action.caption
+                            action.text = action.caption;
                             action.onClick = function () {
                                 me.onContextMenuClick(null, action.event)
                             }
@@ -313,6 +308,7 @@ define([
                 var iscelllocked    = cellinfo.asc_getLocked(),
                     seltype         = cellinfo.asc_getSelectionType(),
                     xfs             = cellinfo.asc_getXfs();
+                _isComments      = cellinfo.asc_getComments().length>0; //prohibit adding multiple comments in one cell;
 
                 switch (seltype) {
                     case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
@@ -521,7 +517,8 @@ define([
             menuAddComment: 'Add Comment',
             textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
             errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only.',
-            textDoNotShowAgain: 'Don\'t show again'
+            textDoNotShowAgain: 'Don\'t show again',
+            notcriticalErrorTitle: 'Warning'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });

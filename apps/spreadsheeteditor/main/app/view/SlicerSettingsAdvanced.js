@@ -70,6 +70,16 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                     scope: this
                 })
             }, options);
+
+            this.options.handler = function(result, value) {
+                if ( result != 'ok' || this.isNameValid() ) {
+                    if (options.handler)
+                        options.handler.call(this, result, value);
+                    return;
+                }
+                return true;
+            };
+
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
             this._changedProps = null;
@@ -88,8 +98,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             // Style & Size
             this.inputHeader = new Common.UI.InputField({
                 el          : $('#sliceradv-text-header'),
-                allowBlank  : false,
-                blankError  : me.txtEmpty,
+                allowBlank  : true,
                 style       : 'width: 178px;'
             }).on('changed:after', function() {
                 me.isCaptionChanged = true;
@@ -372,11 +381,34 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                 me.isAltDescChanged = true;
             });
 
-            this.on('show', function(obj) {
-                obj.getChild('.footer .primary').focus();
-            });
-
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.inputHeader, this.numWidth, this.numHeight, this.numCols, this.numColHeight, // 0 tab
+                this.inputName,  // 2 tab
+                this.inputAltTitle, this.textareaAltDescription  // 4 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.inputHeader.focus();
+                        break;
+                    case 2:
+                        me.inputName.focus();
+                        break;
+                    case 4:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
         },
 
         getSettings: function() {
@@ -453,7 +485,9 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                     this.chShowNoData.setDisabled(checked || (this.chIndNoData.getValue()!='checked'));
                     this.chShowDel.setDisabled(checked);
 
-                    this.inputName.setValue(slicerprops.asc_getName());
+                    value = slicerprops.asc_getName();
+                    this.inputName.setValue(value !== null && value !== undefined ? value : '');
+                    this.inputName.setDisabled(value === null || value === undefined);
                     this.lblSource.text(slicerprops.asc_getSourceName());
                     this.lblFormula.text(slicerprops.asc_getNameInFormulas());
 
@@ -524,6 +558,15 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
             if (newValue && this._originalProps) {
                 this._originalProps.asc_putAnchor(field.options.value);
             }
+        },
+
+        isNameValid: function() {
+            if (this.isNameChanged && _.isEmpty(this.inputName.getValue())) {
+                this.setActiveCategory(2);
+                this.inputName.cmpEl.find('input').focus();
+                return false;
+            }
+            return true;
         },
 
         textTitle: 'Slicer - Advanced Settings',

@@ -52,6 +52,8 @@ define([
     DE.Controllers.Toolbar = Backbone.Controller.extend(_.extend((function() {
         // private
         var stateDisplayMode = false;
+        var _users = [];
+        var _displayCollaboration = false;
 
         return {
             models: [],
@@ -78,12 +80,14 @@ define([
                 this.api.asc_registerCallback('asc_onCanRedo',      _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_registerCallback('asc_onFocusObject',  _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.displayCollaboration, this));
-                this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.displayCollaboration, this));
+                this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onUsersChanged, this));
+                this.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(this.onUsersChanged, this));
+                this.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(this.onUserConnection, this));
                 Common.NotificationCenter.on('api:disconnect',      _.bind(this.onCoAuthoringDisconnect, this));
             },
 
             setMode: function (mode) {
+                this.mode = mode;
                 this.getView('Toolbar').setMode(mode);
             },
 
@@ -177,13 +181,17 @@ define([
                 $('#toolbar-search, #document-back, #toolbar-collaboration').removeClass('disabled');
             },
 
-            deactivateEditControls: function() {
-                $('#toolbar-edit, #toolbar-add, #toolbar-settings').addClass('disabled');
+            deactivateEditControls: function(enableDownload) {
+                $('#toolbar-edit, #toolbar-add').addClass('disabled');
+                if (enableDownload)
+                    DE.getController('Settings').setMode({isDisconnected: true, enableDownload: enableDownload});
+                else
+                    $('#toolbar-settings').addClass('disabled');
             },
 
-            onCoAuthoringDisconnect: function() {
+            onCoAuthoringDisconnect: function(enableDownload) {
                 this.isDisconnected = true;
-                this.deactivateEditControls();
+                this.deactivateEditControls(enableDownload);
                 $('#toolbar-undo').toggleClass('disabled', true);
                 $('#toolbar-redo').toggleClass('disabled', true);
                 DE.getController('AddContainer').hideModal();
@@ -191,19 +199,40 @@ define([
                 DE.getController('Settings').hideModal();
             },
 
-            displayCollaboration: function(users) {
-                if(users !== undefined) {
+            displayCollaboration: function() {
+                if(_users !== undefined) {
                     var length = 0;
-                    _.each(users, function (item) {
-                        if (!item.asc_getView())
+                    _.each(_users, function (item) {
+                        if ((item.asc_getState()!==false) && !item.asc_getView())
                             length++;
                     });
-                    if (length > 0) {
-                        $('#toolbar-collaboration').show();
-                    } else {
-                        $('#toolbar-collaboration').hide();
+                    _displayCollaboration = (length >= 1 || !this.mode || this.mode.canViewComments || this.mode.canReview || this.mode.canViewReview);
+                    _displayCollaboration ? $('#toolbar-collaboration').show() : $('#toolbar-collaboration').hide();
+                }
+            },
+
+            onUsersChanged: function(users) {
+                _users = users;
+                this.displayCollaboration();
+            },
+
+            onUserConnection: function(change){
+                var changed = false;
+                for (var uid in _users) {
+                    if (undefined !== uid) {
+                        var user = _users[uid];
+                        if (user && user.asc_getId() == change.asc_getId()) {
+                            _users[uid] = change;
+                            changed = true;
+                        }
                     }
                 }
+                !changed && change && (_users[change.asc_getId()] = change);
+                this.displayCollaboration();
+            },
+
+            getDisplayCollaboration: function() {
+                return _displayCollaboration;
             },
 
             dlgLeaveTitleText   : 'You leave the application',

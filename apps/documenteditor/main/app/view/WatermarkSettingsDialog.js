@@ -148,6 +148,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     // disable text
                     this.props.put_Type(Asc.c_oAscWatermarkType.Image);
                     this.disableControls(Asc.c_oAscWatermarkType.Image);
+                    this.focusControls();
                 }
             }, this));
 
@@ -162,6 +163,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     // disable image
                     this.props.put_Type(Asc.c_oAscWatermarkType.Text);
                     this.disableControls(Asc.c_oAscWatermarkType.Text);
+                    this.focusControls();
                 }
             }, this));
 
@@ -198,7 +200,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 el          : $('#watermark-combo-scale'),
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width: 142px;',
-                data        : this._arrScale
+                data        : this._arrScale,
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
             }, this));
             this.cmbScale.setValue(this._arrScale[0].value);
@@ -211,7 +214,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 editable    : false,
                 menuStyle   : 'min-width: 100%;max-height: 210px;',
                 scrollAlwaysVisible: true,
-                data        : []
+                data        : [],
+                takeFocusOnClose: true
             }).on('selected', _.bind(this.onSelectLang, this));
             this.cmbLang.setValue(Common.util.LanguageInfo.getLocalLanguageName(9)[1]);//en
             this.textControls.push(this.cmbLang);
@@ -222,7 +226,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 menuStyle   : 'min-width: 100%;max-height: 210px;',
                 scrollAlwaysVisible: true,
                 displayField: 'value',
-                data        : [{value: "ASAP"}, {value: "CONFIDENTIAL"}, {value: "COPY"}, {value: "DO NOT COPY"}, {value: "DRAFT"}, {value: "ORIGINAL"}, {value: "PERSONAL"}, {value: "SAMPLE"}, {value: "TOP SECRET"}, {value: "URGENT"} ]
+                data        : [{value: "ASAP"}, {value: "CONFIDENTIAL"}, {value: "COPY"}, {value: "DO NOT COPY"}, {value: "DRAFT"}, {value: "ORIGINAL"}, {value: "PERSONAL"}, {value: "SAMPLE"}, {value: "TOP SECRET"}, {value: "URGENT"} ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
             }, this));
             this.cmbText.setValue(this.cmbText.options.data[0].value);
@@ -236,7 +241,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
                 recent      : 0,
-                hint        : this.tipFontName
+                hint        : this.tipFontName,
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 this.fontName = record.name;
             }, this));
@@ -266,7 +272,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 menuCls     : 'scrollable-menu',
                 menuStyle: 'min-width: 55px;max-height: 270px;',
                 hint: this.tipFontSize,
-                data: data
+                data: data,
+                takeFocusOnClose: true
             });
             this.cmbFontSize.setValue(-1);
             this.textControls.push(this.cmbFontSize);
@@ -309,10 +316,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             var initNewColor = function(btn, picker_el) {
                 if (btn && btn.cmpEl) {
-                    btn.currentColor = '#c0c0c0';
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', btn.cmpEl).append(colorVal);
-                    colorVal.css('background-color', btn.currentColor);
+                    btn.currentColor = 'c0c0c0';
+                    btn.setColor( btn.currentColor);
                     var picker = new Common.UI.ThemeColorPalette({
                         el: $(picker_el)
                     });
@@ -323,21 +328,23 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 picker.on('select', _.bind(me.onColorSelect, me));
                 return picker;
             };
-            this.btnTextColor = new Common.UI.Button({
+            this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#watermark-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 menu        : new Common.UI.Menu({
+                    cls: 'shifted-left',
+                    additionalAlign: this.menuAddAlign,
                     items: [
                     {
                         id: 'watermark-auto-color',
                         caption: this.textAuto,
-                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 -7px; background-color: #000;"></span><%= caption %></a>')
+                        template: _.template('<a tabindex="-1" type="menuitem"><span class="menu-item-icon" style="background-image: none; width: 12px; height: 12px; margin: 1px 7px 0 1px; background-color: #000;"></span><%= caption %></a>')
                     },
                     {caption: '--'},
-                        { template: _.template('<div id="watermark-menu-textcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
-                        { template: _.template('<a id="watermark-menu-textcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
+                        { template: _.template('<div id="watermark-menu-textcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
+                        { template: _.template('<a id="watermark-menu-textcolor-new">' + this.textNewColor + '</a>') }
                     ]
                 })
             });
@@ -375,14 +382,31 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [ this.cmbLang, this.cmbText, this.cmbFonts, this.cmbFontSize, this.cmbScale ];
+        },
+
+        getDefaultFocusableComponent: function () {
+            if (!this.cmbLang.isDisabled())
+                return this.cmbLang;
+            else if (!this.cmbScale.isDisabled())
+                return this.cmbScale;
+        },
+
+        focusControls: function() {
+            var el = this.getDefaultFocusableComponent();
+            el && setTimeout(function(){
+                el.focus();
+            }, 10);
+        },
+
         onColorSelect: function(picker, color) {
             var clr_item = this.btnTextColor.menu.$el.find('#watermark-auto-color > a');
             clr_item.hasClass('selected') && clr_item.removeClass('selected');
             this.isAutoColor = false;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
             this.btnTextColor.currentColor = color;
-            $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + clr);
+            this.btnTextColor.setColor( this.btnTextColor.currentColor);
         },
 
         updateThemeColors: function() {
@@ -398,9 +422,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             !clr_item.hasClass('selected') && clr_item.addClass('selected');
             this.isAutoColor = true;
 
-            var color = "000";
-            this.btnTextColor.currentColor = color;
-            $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + color);
+            this.btnTextColor.currentColor = "000";
+            this.btnTextColor.setColor( this.btnTextColor.currentColor);
             this.mnuTextColorPicker.clearSelection();
         },
 
@@ -431,12 +454,9 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
-        },
-
         loadLanguages: function() {
-            var me = this;
+            var me = this,
+                focus = false;
             var callback = function(languages) {
                 var data = [];
                 me.languages = languages;
@@ -454,8 +474,10 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                     me.text && me.cmbText.setValue(me.text);
                 } else
                     me.cmbLang.setDisabled(true);
+                focus && me.focusControls();
             };
             var languages = DE.Views.WatermarkText.get();
+            focus = !languages;
             if (languages)
                 callback(languages);
             else
@@ -588,7 +610,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                             }
                         }
                         this.btnTextColor.currentColor = clr;
-                        $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + ((typeof(clr) == 'object') ? clr.color : clr));
+                        this.btnTextColor.setColor( this.btnTextColor.currentColor);
                     }
                     val = props.get_Text();
                     val && this.cmbText.setValue(val);
@@ -603,8 +625,9 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             var val = this.props.get_Type();
             if (val == Asc.c_oAscWatermarkType.Image) {
-                val = this.cmbScale.getValue();
-                val = props.put_Scale((val<0) ? val : val/100);
+                val = parseInt(this.cmbScale.getValue());
+                isNaN(val) && (val = -1);
+                props.put_Scale((val<0) ? val : val/100);
             } else {
                 props.put_Text(this.cmbText.getValue());
                 props.put_IsDiagonal(this.radioDiag.getValue());
@@ -612,7 +635,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
                 val = props.get_TextPr() || new Asc.CTextProp();
                 if (val) {
-                    val.put_FontSize(this.cmbFontSize.getValue());
+                    val.put_FontSize(Math.min(this.cmbFontSize.getValue(), 1638));
                     var font = new AscCommon.asc_CTextFontFamily();
                     font.put_Name(this.fontName);
                     font.put_Index(-1);

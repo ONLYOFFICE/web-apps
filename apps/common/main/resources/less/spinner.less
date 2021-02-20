@@ -10,7 +10,7 @@
         padding-right: @trigger-width + 2px;
 
         &:focus {
-            border-color: @gray-darker;
+            // border-color: @border-preview-select;
         }
     }
 
@@ -18,7 +18,8 @@
         display: block;
         position: relative;
         width: @trigger-width;
-        height: @spin-height/2;
+        height: @spin-height/2 - 1;
+        height: calc(@spin-height/2 - 1px/@pixel-ratio-factor);
         padding: 0;
         margin: 0;
         border: none;
@@ -39,35 +40,43 @@
         position: absolute;
         top: 0;
         right: 1px;
+        border-top: @scaled-one-px-value-ie solid transparent;
+        border-top: @scaled-one-px-value solid transparent;
+        border-bottom: @scaled-one-px-value-ie solid transparent;
+        border-bottom: @scaled-one-px-value solid transparent;
 
         i {
             display: inline-block;
-            width: @trigger-width;
-            height: @spin-height/2;
+            width: 4px;
+            height: 4px;
+
+            border: solid @scaled-one-px-value-ie @icon-normal-ie;
+            border: solid @scaled-one-px-value @icon-normal;
+            border-bottom: none;
+            border-right: none;
         }
 
         button {
             &.disabled {
                 opacity: .35;
             }
+
+            &:hover {
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
+            }
         }
     }
 
     .spinner-up {
         i {
-            background-position: @spinner-offset-x @spinner-offset-y;
+            transform: rotate(45deg) translate(-1px,-1px);
         }
-
-        &.over   i { background-position: @spinner-offset-x - @trigger-width @spinner-offset-y; }
-        &.active i { background-position: @spinner-offset-x @spinner-offset-y; }
     }
 
     .spinner-down {
         i {
-            background-position: @spinner-offset-x @spinner-offset-y - @spin-height / 2;
+            transform: rotate(-135deg) translate(2px,2px);
         }
-
-        &.over   i { background-position: @spinner-offset-x - @trigger-width @spinner-offset-y - @spin-height / 2; }
-        &.active i { background-position: @spinner-offset-x @spinner-offset-y - @spin-height / 2; }
     }
 }

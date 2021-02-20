@@ -192,9 +192,11 @@ define([
                 }
 
                 me.defaultTitleText = '{{APP_TITLE_TEXT}}';
-                me.warnNoLicense  = me.warnNoLicense.replace('%1', '{{COMPANY_NAME}}');
-                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace('%1', '{{COMPANY_NAME}}');
-                me.textNoLicenseTitle = me.textNoLicenseTitle.replace('%1', '{{COMPANY_NAME}}');
+                me.warnNoLicense  = me.warnNoLicense.replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnNoLicenseUsers = me.warnNoLicenseUsers.replace(/%1/g, '{{COMPANY_NAME}}');
+                me.textNoLicenseTitle = me.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnLicenseExceeded = me.warnLicenseExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
+                me.warnLicenseUsersExceeded = me.warnLicenseUsersExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
             },
 
             loadConfig: function(data) {
@@ -202,8 +204,19 @@ define([
 
                 me.editorConfig = $.extend(me.editorConfig, data.config);
 
+                me.appOptions.customization = me.editorConfig.customization;
+                me.appOptions.canRenameAnonymous = !((typeof (me.appOptions.customization) == 'object') && (typeof (me.appOptions.customization.anonymous) == 'object') && (me.appOptions.customization.anonymous.request===false));
+                me.appOptions.guestName = (typeof (me.appOptions.customization) == 'object') && (typeof (me.appOptions.customization.anonymous) == 'object') &&
+                (typeof (me.appOptions.customization.anonymous.label) == 'string') && me.appOptions.customization.anonymous.label.trim()!=='' ?
+                    Common.Utils.String.htmlEncode(me.appOptions.customization.anonymous.label) : me.textGuest;
+                var value;
+                if (me.appOptions.canRenameAnonymous) {
+                    value = Common.localStorage.getItem("guest-username");
+                    Common.Utils.InternalSettings.set("guest-username", value);
+                    Common.Utils.InternalSettings.set("save-guest-username", !!value);
+                }
                 me.editorConfig.user          =
-                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
+                me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, value ? (value + ' (' + me.appOptions.guestName + ')' ) : me.textAnonymous);
                 me.appOptions.isDesktopApp    = me.editorConfig.targetApp == 'desktop';
                 me.appOptions.canCreateNew    = !_.isEmpty(me.editorConfig.createUrl) && !me.appOptions.isDesktopApp;
                 me.appOptions.canOpenRecent   = me.editorConfig.recent !== undefined && !me.appOptions.isDesktopApp;
@@ -218,14 +231,13 @@ define([
                 me.appOptions.mergeFolderUrl  = me.editorConfig.mergeFolderUrl;
                 me.appOptions.canAnalytics    = false;
                 me.appOptions.canRequestClose = me.editorConfig.canRequestClose;
-                me.appOptions.customization   = me.editorConfig.customization;
                 me.appOptions.canBackToFolder = (me.editorConfig.canBackToFolder!==false) && (typeof (me.editorConfig.customization) == 'object') && (typeof (me.editorConfig.customization.goback) == 'object')
                     && (!_.isEmpty(me.editorConfig.customization.goback.url) || me.editorConfig.customization.goback.requestClose && me.appOptions.canRequestClose);
                 me.appOptions.canBack         = me.appOptions.canBackToFolder === true;
                 me.appOptions.canPlugins      = false;
                 me.plugins                    = me.editorConfig.plugins;
 
-                var value = Common.localStorage.getItem("sse-settings-regional");
+                value = Common.localStorage.getItem("sse-settings-regional");
                 if (value!==null)
                     this.api.asc_setLocale(parseInt(value));
                 else {
@@ -295,10 +307,6 @@ define([
 
                 if (data.doc) {
                     SSE.getController('Toolbar').setDocumentTitle(data.doc.title);
-                    if (data.doc.info) {
-                        data.doc.info.author && console.log("Obsolete: The 'author' parameter of the document 'info' section is deprecated. Please use 'owner' instead.");
-                        data.doc.info.created && console.log("Obsolete: The 'created' parameter of the document 'info' section is deprecated. Please use 'uploaded' instead.");
-                    }
                 }
             },
 
@@ -309,7 +317,7 @@ define([
 
                 if ( me.api ) {
                     me.api.asc_enableKeyEvents(mode.isEdit);
-                    me.api.asc_setViewMode(!mode.isEdit);
+                    me.api.asc_setViewMode(!mode.isEdit && !mode.isRestrictedEdit);
                 }
             },
 
@@ -612,7 +620,8 @@ define([
 
                 var licType = params.asc_getLicenseType();
                 if (licType !== undefined && this.appOptions.canEdit && this.editorConfig.mode !== 'view' &&
-                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS))
+                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
+                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
 
                 if (this._isDocReady && this._state.licenseType)
@@ -639,7 +648,10 @@ define([
                 if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = [{text: 'OK'}];
-                    if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                    if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
+                        (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                        license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                    } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                     } else {
                         license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
@@ -657,9 +669,13 @@ define([
                                         }
                                     }];
                     }
-                    SSE.getController('Toolbar').activateViewControls();
-                    SSE.getController('Toolbar').deactivateEditControls();
-                    Common.NotificationCenter.trigger('api:disconnect');
+                    if (this._state.licenseType===Asc.c_oLicenseResult.SuccessLimit) {
+                        SSE.getController('Toolbar').activateControls();
+                    } else {
+                        SSE.getController('Toolbar').activateViewControls();
+                        SSE.getController('Toolbar').deactivateEditControls();
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
 
                     var value = Common.localStorage.getItem("sse-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
@@ -705,7 +721,6 @@ define([
             onEditorPermissions: function(params) {
                 var me = this,
                     licType = params ? params.asc_getLicenseType() : Asc.c_oLicenseResult.Error;
-
                 if (params && !(me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge)) {
                     if (Asc.c_oLicenseResult.Expired === licType ||
                         Asc.c_oLicenseResult.Error === licType ||
@@ -716,6 +731,8 @@ define([
                         });
                         return;
                     }
+                    if (Asc.c_oLicenseResult.ExpiredLimited === licType)
+                        me._state.licenseType = licType;
 
                     if ( me.onServerVersion(params.asc_getBuildVersion()) ) return;
 
@@ -723,6 +740,7 @@ define([
                         me.permissions.edit = false;
                     }
 
+                    me.appOptions.permissionsLicense = licType;
                     me.appOptions.canAutosave = true;
                     me.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
@@ -735,12 +753,24 @@ define([
                     me.appOptions.canComments     = me.appOptions.canLicense && (me.permissions.comment===undefined ? me.appOptions.isEdit : me.permissions.comment) && (me.editorConfig.mode !== 'view');
                     me.appOptions.canComments     = me.appOptions.canComments && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
                     me.appOptions.canViewComments = me.appOptions.canComments || !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.comments===false);
-                    me.appOptions.canEditComments = me.appOptions.isOffline || !(typeof (me.editorConfig.customization) == 'object' && me.editorConfig.customization.commentAuthorOnly);
+                    me.appOptions.canEditComments= me.appOptions.isOffline || !me.permissions.editCommentAuthorOnly;
+                    me.appOptions.canDeleteComments= me.appOptions.isOffline || !me.permissions.deleteCommentAuthorOnly;
+                    if ((typeof (this.editorConfig.customization) == 'object') && me.editorConfig.customization.commentAuthorOnly===true) {
+                        console.log("Obsolete: The 'commentAuthorOnly' parameter of the 'customization' section is deprecated. Please use 'editCommentAuthorOnly' and 'deleteCommentAuthorOnly' parameters in the permissions instead.");
+                        if (me.permissions.editCommentAuthorOnly===undefined && me.permissions.deleteCommentAuthorOnly===undefined)
+                            me.appOptions.canEditComments = me.appOptions.canDeleteComments = me.appOptions.isOffline;
+                    }
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
-                    me.appOptions.canRename      = !!me.permissions.rename;
+                    me.appOptions.trialMode      = params.asc_getLicenseMode();
 
                     me.appOptions.canBranding  = params.asc_getCustomization();
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
+
+                    me.appOptions.canUseReviewPermissions = me.appOptions.canLicense && (!!me.permissions.reviewGroups ||
+                                                            me.editorConfig.customization && me.editorConfig.customization.reviewPermissions && (typeof (me.editorConfig.customization.reviewPermissions) == 'object'));
+                    Common.Utils.UserInfoParser.setParser(me.appOptions.canUseReviewPermissions);
+                    Common.Utils.UserInfoParser.setCurrentName(me.appOptions.user.fullname);
+                    me.appOptions.canUseReviewPermissions && Common.Utils.UserInfoParser.setReviewPermissions(me.permissions.reviewGroups, me.editorConfig.customization.reviewPermissions);
                 }
 
                 me.appOptions.canRequestEditRights = me.editorConfig.canRequestEditRights;
@@ -750,11 +780,13 @@ define([
                 me.appOptions.isEdit         = (me.appOptions.canLicense || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && me.permissions.edit !== false && me.editorConfig.mode !== 'view' && me.isSupportEditFeature();
                 me.appOptions.canDownload    = (me.permissions.download !== false);
                 me.appOptions.canPrint       = (me.permissions.print !== false);
+                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && me.appOptions.canComments;
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 
-                me.api.asc_setViewMode(!me.appOptions.isEdit);
+                me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
+                (me.appOptions.isRestrictedEdit && me.appOptions.canComments) && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 me.api.asc_LoadDocument();
 
                 if (!me.appOptions.isEdit) {
@@ -786,6 +818,7 @@ define([
                 }
                 me.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(me.onAuthParticipantsChanged, me));
                 me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
+                me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
             },
 
             applyModeEditorElements: function() {
@@ -1094,6 +1127,19 @@ define([
                         config.msg = this.errorUpdateVersionOnDisconnect;
                         break;
 
+                    case  Asc.c_oAscError.ID.FrmlMaxLength:
+                        config.msg = this.errorFrmlMaxLength;
+                        break;
+
+                    case Asc.c_oAscError.ID.FrmlMaxReference:
+                        config.msg = this.errorFrmlMaxReference;
+                        break;
+
+                    case Asc.c_oAscError.ID.DataValidate:
+                        errData && errData.asc_getErrorTitle() && (config.title = Common.Utils.String.htmlEncode(errData.asc_getErrorTitle()));
+                        config.msg = errData && errData.asc_getError() ? Common.Utils.String.htmlEncode(errData.asc_getError()) : this.errorDataValidate;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -1122,31 +1168,24 @@ define([
                 else {
                     Common.Gateway.reportWarning(id, config.msg);
 
-                    config.title    = this.notcriticalErrorTitle;
-//                    config.iconCls  = 'warn';
-//                    config.buttons  = ['ok'];
+                    config.title    = config.title || this.notcriticalErrorTitle;
                     config.callback = _.bind(function(btn){
-                        if (id == Asc.c_oAscError.ID.Warning && btn == 'ok' && (this.appOptions.canDownload || this.appOptions.canDownloadOrigin)) {
-                            Common.UI.Menu.Manager.hideAll();
-                            if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
-                                this.api.asc_DownloadAs();
-                            else
-                                (this.appOptions.canDownload) ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : this.api.asc_DownloadOrigin();
+                        if (id == Asc.c_oAscError.ID.DataValidate) {
+                            this.api.asc_closeCellEditor(true);
                         }
                         this._state.lostEditingRights = false;
                     }, this);
                 }
 
-//                Common.UI.alert(config);
+                if (id == Asc.c_oAscError.ID.DataValidate) {
+                    config.buttons = [{ text: 'OK' }, { text: this.textCancel, onClick: config.callback }];
+                } else {
+                    config.buttons = [{ text: 'OK', onClick: config.callback }];
+                }
                 uiApp.modal({
                     title   : config.title,
                     text    : config.msg,
-                    buttons: [
-                        {
-                            text: 'OK',
-                            onClick: config.callback
-                        }
-                    ]
+                    buttons : config.buttons
                 });
 
                 Common.component.Analytics.trackEvent('Internal Error', id.toString());
@@ -1381,7 +1420,10 @@ define([
                     var buttons = [{
                         text: 'OK',
                         bold: true,
+                        close: false,
                         onClick: function () {
+                            if (!me._state.openDlg) return;
+                            $(me._state.openDlg).hasClass('modal-in') && uiApp.closeModal(me._state.openDlg);
                             var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                             me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
@@ -1402,7 +1444,7 @@ define([
 
                     me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
-                        text: me.txtProtected,
+                        text: (typeof advOptions=='string' ? advOptions : me.txtProtected),
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
                         buttons: buttons
                     });
@@ -1430,8 +1472,13 @@ define([
                 this._state.usersCount = length;
             },
 
-            returnUserCount: function() {
-                return this._state.usersCount;
+            onUserConnection: function(change){
+                if (change && this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (change.asc_getIdOriginal() == this.appOptions.user.id)) { // change name of the current user
+                    var name = change.asc_getUserName();
+                    if (name && name !== Common.Utils.UserInfoParser.getCurrentName() ) {
+                        Common.Utils.UserInfoParser.setCurrentName(name);
+                    }
+                }
             },
 
             applySettings: function() {
@@ -1626,7 +1673,7 @@ define([
             textStrict: 'Strict mode',
             txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Visit website',
-            textNoLicenseTitle: '%1 open source version',
+            textNoLicenseTitle: 'License limit reached',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored and page is reloaded.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -1681,10 +1728,10 @@ define([
             txtStyle_Comma: 'Comma',
             errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
             txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset',
-            warnNoLicense: 'This version of %1 editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider purchasing a commercial license.',
-            warnNoLicenseUsers: 'This version of %1 editors has certain limitations for concurrent users.<br>If you need more please consider purchasing a commercial license.',
-            warnLicenseExceeded: 'The number of concurrent connections to the document server has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
-            warnLicenseUsersExceeded: 'The number of concurrent users has been exceeded and the document will be opened for viewing only.<br>Please contact your administrator for more information.',
+            warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
+            warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
+            warnLicenseExceeded: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact your administrator to learn more.",
+            warnLicenseUsersExceeded: "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
             errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
             pastInMergeAreaError: 'Cannot change part of a merged cell',
             errorWrongBracketsCount: 'Found an error in the formula entered.<br>Wrong cout of brackets.',
@@ -1725,11 +1772,17 @@ define([
             waitText: 'Please, wait...',
             errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
             errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            errorOpensource: 'Files can be opened for viewing only. Mobile web editors are not available in the Open Source version.',
+            errorOpensource: 'Using the free Community version you can open documents for viewing only. To access mobile web editors, a commercial license is required.',
             textHasMacros: 'The file contains automatic macros.<br>Do you want to run macros?',
             textRemember: 'Remember my choice',
             textYes: 'Yes',
-            textNo: 'No'
+            textNo: 'No',
+            errorFrmlMaxLength: 'You cannot add this formula as its length exceeded the allowed number of characters.<br>Please edit it and try again.',
+            errorFrmlMaxReference: 'You cannot enter this formula because it has too many values,<br>cell references, and/or names.',
+            warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+            textGuest: 'Guest',
+            errorDataValidate: 'The value you entered is not valid.<br>A user has restricted values that can be entered into this cell.'
         }
     })(), SSE.Controllers.Main || {}))
 });

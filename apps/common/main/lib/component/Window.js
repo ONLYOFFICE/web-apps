@@ -137,7 +137,8 @@
 
 define([
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/component/CheckBox',
+    'common/main/lib/component/FocusManager'
 ], function () {
     'use strict';
 
@@ -152,6 +153,7 @@ define([
                 alias:      'Window',
                 cls:        '',
                 toolclose:  'close',
+                help:       false,
                 maxwidth: undefined,
                 maxheight: undefined,
                 minwidth: 0,
@@ -162,9 +164,14 @@ define([
         var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
                             '<% if (header==true) { %>' +
                                 '<div class="header">' +
+                                    '<div class="tools">' +
                                     '<% if (closable!==false) %>' +
-                                        '<div class="tool close img-commonctrl"></div>' +
+                                        '<div class="tool close"></div>' +
                                     '<% %>' +
+                                    '<% if (help===true) %>' +
+                                        '<div class="tool help">?</div>' +
+                                    '<% %>' +
+                                    '</div>' +
                                     '<div class="title"><%= title %></div> ' +
                                 '</div>' +
                             '<% } %>' +
@@ -232,6 +239,14 @@ define([
             return {width: width, height: height, top: Common.Utils.InternalSettings.get('window-inactive-area-top')};
         }
 
+        function _autoSize() {
+            if (this.initConfig.height == 'auto') {
+                var height = parseInt(this.$window.find('> .body').css('height'));
+                this.initConfig.header && (height += parseInt(this.$window.find('> .header').css('height')));
+                this.$window.height(height);
+            }
+        }
+
         function _centre() {
             var main_geometry = _readDocumetGeometry(),
                 main_width = main_geometry.width,
@@ -284,7 +299,7 @@ define([
 
         /* window drag's functions */
         function _dragstart(event) {
-            if ( $(event.target).hasClass('close') ) return;
+            if ( $(event.target).hasClass('close') || $(event.target).hasClass('help') ) return;
             Common.UI.Menu.Manager.hideAll();
             var zoom = (event instanceof jQuery.Event) ? Common.Utils.zoom() : 1;
             this.dragging.enabled = true;
@@ -440,7 +455,7 @@ define([
             if (!options.width) options.width = 'auto';
             
             var template =  '<div class="info-box">' +
-                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl <%= iconCls %>"></div><% } %>' +
+                                '<% if (typeof iconCls !== "undefined") { %><div class="icon img-commonctrl img-no-theme-filter <%= iconCls %>"></div><% } %>' +
                                 '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-left:10px;" <% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
@@ -591,7 +606,7 @@ define([
                             if (b.value !== undefined)
                                 newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
                         } else {
-                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b) ? 'primary' : ''};
+                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''};
                             if (b=='custom')
                                 newBtns[b].cls += ' custom';
                         }
@@ -635,8 +650,13 @@ define([
                         else
                             (this.initConfig.toolclose=='hide') ? this.hide() : this.close();
                     };
+                    var dohelp = function() {
+                        if ( this.$window.find('.tool.help').hasClass('disabled') ) return;
+                        this.fireEvent('help',this);
+                    };
                     this.$window.find('.header').on('mousedown', this.binding.dragStart);
                     this.$window.find('.tool.close').on('click', _.bind(doclose, this));
+                    this.$window.find('.tool.help').on('click', _.bind(dohelp, this));
 
                     if (!this.initConfig.modal)
                         Common.Gateway.on('processmouse', _.bind(_onProcessMouse, this));
@@ -647,11 +667,7 @@ define([
                     });
                 }
 
-                if (this.initConfig.height == 'auto') {
-                    var height = parseInt(this.$window.find('> .body').css('height'));
-                    this.initConfig.header && (height += parseInt(this.$window.find('> .header').css('height')));
-                    this.$window.height(height);
-                } else {
+                if (this.initConfig.height !== 'auto') {
                     this.$window.css('height',this.initConfig.height);
                 }
 
@@ -693,13 +709,14 @@ define([
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
                     } else {
-                        var opacity = mask.css('opacity');
+                        var maskOpacity = $(':root').css('--modal-window-mask-opacity');
+
                         mask.css('opacity', 0);
                         mask.attr('counter', parseInt(mask.attr('counter'))+1);
                         mask.show();
 
                         setTimeout(function () {
-                            mask.css(_getTransformation(opacity));
+                            mask.css(_getTransformation(maskOpacity));
                         }, 1);
                     }
 
@@ -709,6 +726,7 @@ define([
 
                 if (!this.$window) {
                     this.render();
+                    _autoSize.call(this);
 
                     if (_.isNumber(x) && _.isNumber(y)) {
                         this.$window.css('left',Math.floor(x));
@@ -763,7 +781,7 @@ define([
                     this.fireEvent('show', this);
                 }
 
-                Common.NotificationCenter.trigger('window:show');
+                Common.NotificationCenter.trigger('window:show', this);
             },
 
             close: function(suppressevent) {
@@ -785,12 +803,12 @@ define([
 
                     if ( hide_mask ) {
                         if (this.options.animate !== false) {
-                            var opacity = mask.css('opacity');
+                            var maskOpacity = $(':root').css('--modal-window-mask-opacity');
                             mask.css(_getTransformation(0));
 
                             setTimeout(function () {
-                                mask.css('opacity', opacity);
                                 if (parseInt(mask.attr('counter'))<1) {
+                                    mask.css('opacity', maskOpacity);
                                     mask.hide();
                                     mask.attr('counter', 0);
                                 }
@@ -803,7 +821,7 @@ define([
                         }
                     }
 
-                    Common.NotificationCenter.trigger('modal:close', this);
+                    Common.NotificationCenter.trigger('modal:close', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                 }
 
                 this.$window.remove();
@@ -826,12 +844,12 @@ define([
 
                         if ( hide_mask ) {
                             if (this.options.animate !== false) {
-                                var opacity = mask.css('opacity');
+                                var maskOpacity = $(':root').css('--modal-window-mask-opacity');
                                 mask.css(_getTransformation(0));
 
                                 setTimeout(function () {
-                                    mask.css('opacity', opacity);
                                     if (parseInt(mask.attr('counter'))<1) {
+                                        mask.css('opacity', maskOpacity);
                                         mask.hide();
                                         mask.attr('counter', 0);
                                     }
@@ -843,7 +861,7 @@ define([
                                 }
                             }
                         }
-                        Common.NotificationCenter.trigger('modal:hide', this);
+                        Common.NotificationCenter.trigger('modal:hide', this, hide_mask && (parseInt(mask.attr('counter'))<1));
                     }
                     this.$window.hide();
                     this.$window.removeClass('notransform');
@@ -951,6 +969,13 @@ define([
                         this.$window.find('.resize-border').remove();
                     }
                     this.resizable = resizable;
+                } else {
+                    if (resizable) {
+                        (minSize && minSize.length>1) && (this.initConfig.minwidth = minSize[0]);
+                        (minSize && minSize.length>1) && (this.initConfig.minheight = minSize[1]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxwidth = maxSize[0]);
+                        (maxSize && maxSize.length>1) && (this.initConfig.maxheight = maxSize[1]);
+                    }
                 }
             },
 
@@ -963,6 +988,13 @@ define([
             },
 
             onPrimary: function() {},
+
+            getFocusedComponents: function() {
+                return [];
+            },
+
+            getDefaultFocusableComponent: function() {
+            },
 
             cancelButtonText: 'Cancel',
             okButtonText: 'OK',

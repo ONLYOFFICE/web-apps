@@ -129,6 +129,7 @@ define([
                 menuStyle: 'min-width: 264px;max-height:160px;',
                 scrollAlwaysVisible: true,
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { value: Asc.c_oAscDataConsolidateFunction.Sum,     displayValue: this.txtSum },
                     { value: Asc.c_oAscDataConsolidateFunction.Count,   displayValue: this.txtCount },
@@ -193,12 +194,16 @@ define([
             this.afterRender();
         },
 
-        afterRender: function() {
-            this._setDefaults(this.props);
+        getFocusedComponents: function() {
+            return [this.inputCustomName, this.cmbSummarize];
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        getDefaultFocusableComponent: function () {
+            return this.inputCustomName;
+        },
+
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         _setDefaults: function (props) {

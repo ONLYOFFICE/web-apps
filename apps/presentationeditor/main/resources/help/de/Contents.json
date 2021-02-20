@@ -10,7 +10,7 @@
   },
   {
     "src": "ProgramInterface/HomeTab.htm",
-    "name": "Registerkarte Start"
+    "name": "Registerkarte Startseite"
   },
   {
     "src": "ProgramInterface/InsertTab.htm",
@@ -22,7 +22,7 @@
   },
   {
     "src": "ProgramInterface/PluginsTab.htm",
-    "name": "Registerkarte Plug-ins"
+    "name": "Registerkarte Plugins"
   },
   {
     "src": "UsageInstructions/OpenCreateNew.htm",
@@ -39,13 +39,14 @@
     "headername": "Folien bearbeiten"
   },
   {
-    "src": "UsageInstructions/SetPageParameters.htm",
+    "src": "UsageInstructions/SetSlideParameters.htm",
     "name": "Folienparameter festlegen"
   },
-  {
-    "src": "UsageInstructions/ApplyTransitions.htm",
-    "name": "Übergänge hinzufügen"
-  },
+    {
+        "src": "UsageInstructions/ApplyTransitions.htm",
+        "name": "Übergänge hinzufügen"
+    },
+    {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Fußzeilen einfügen"},
   {
     "src": "UsageInstructions/PreviewPresentation.htm",
     "name": "Vorschau einer Präsentation"
@@ -80,10 +81,12 @@
     "src": "UsageInstructions/InsertCharts.htm",
     "name": "Diagramme einfügen und bearbeiten"
   },
-  {
-    "src": "UsageInstructions/InsertTables.htm",
-    "name": "Tabellen einfügen und formatieren"
-  },
+    {
+        "src": "UsageInstructions/InsertTables.htm",
+        "name": "Tabellen einfügen und formatieren"
+    },
+    
+    { "src": "UsageInstructions/InsertSymbols.htm", "name": "Symbole und Sonderzeichen einfügen" },
   {
     "src": "UsageInstructions/FillObjectsSelectColor.htm",
     "name": "Objekte ausfüllen und Farben auswählen"
@@ -96,11 +99,11 @@
     "src": "UsageInstructions/AlignArrangeObjects.htm",
     "name": "Objekte auf einer Folie anordnen und ausrichten"
   },
-  {
-    "src": "UsageInstructions/InsertEquation.htm",
-    "name": "Formeln einfügen",
-    "headername": "Mathematische Formeln"
-  },
+    {
+        "src": "UsageInstructions/InsertEquation.htm",
+        "name": "Formeln einfügen",
+        "headername": "Mathematische Formeln"
+    },
   {
     "src": "HelpfulHints/CollaborativeEditing.htm",
     "name": "Gemeinsame Bearbeitung von Präsentationen",
@@ -131,6 +134,7 @@
     "src": "HelpfulHints/SpellChecking.htm",
     "name": "Rechtschreibprüfung"
   },
+  {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoKorrekturfunktionen" },
   {
     "src": "HelpfulHints/About.htm",
     "name": "Über den Präsentationseditor",

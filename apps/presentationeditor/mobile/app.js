@@ -182,6 +182,9 @@ require([
         // Default title for modals
         modalTitle: '{{APP_TITLE_TEXT}}',
 
+        // Enable tap hold events
+        tapHold: true,
+        
         // If it is webapp, we can enable hash navigation:
 //        pushState: false,
 

@@ -149,3 +149,69 @@
         </table>
     </div>
 </div>
+<div id="id-adv-control-settings-additional" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" style="width: 100%;">
+            <tr class="group-key">
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textGroupKey %></label>
+                    <div id="control-settings-txt-groupkey"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textKey %></label>
+                    <div id="control-settings-txt-key"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textLabel %></label>
+                    <div id="control-settings-txt-label"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textHelp %></label>
+                    <textarea id="control-settings-txt-help" class="form-control" style="width: 100%; height: 90px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div id="control-settings-chb-required"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-control-settings-field" class="settings-panel">
+    <div class="inner-content">
+        <table cols="2" style="width: auto;">
+            <tr>
+                <td class="padding-small" colspan="2">
+                    <div id="control-settings-chb-max-chars" style="display: inline-block;margin-right: 10px;"></div>
+                    <div id="control-settings-spin-max-chars" style="display: inline-block;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" colspan="2">
+                    <div id="control-settings-chb-comb"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label" style="margin-right: 10px;"><%= scope.textPlaceholderSymbol %></label>
+                </td>
+                <td class="padding-small">
+                    <button type="button" class="btn btn-text-default" id="control-settings-btn-placeholder-edit" style="width:53px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" colspan="2">
+                    <label class="input-label" style="margin-right: 10px;"><%= scope.textWidth %></label>
+                    <div id="control-settings-spin-width" style=""></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

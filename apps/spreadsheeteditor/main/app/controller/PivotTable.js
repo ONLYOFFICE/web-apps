@@ -65,7 +65,11 @@ define([
                     'pivottable:layout':        _.bind(this.onPivotLayout, this),
                     'pivottable:blankrows':     _.bind(this.onPivotBlankRows, this),
                     'pivottable:subtotals':     _.bind(this.onPivotSubtotals, this),
-                    'pivottable:grandtotals':   _.bind(this.onPivotGrandTotals, this)
+                    'pivottable:grandtotals':   _.bind(this.onPivotGrandTotals, this),
+                    'pivot:open':               _.bind(this.onPivotOpen, this)
+                },
+                'TableSettings': {
+                    'pivottable:create':        _.bind(this.onCreateClick, this)
                 }
             });
         },
@@ -85,12 +89,10 @@ define([
             Common.NotificationCenter.on('api:disconnect', _.bind(this.SetDisabled, this));
         },
 
-        setConfig: function (data, api) {
-            this.view =   this.createView('PivotTable');
-            this.setApi(api);
-            if (data) {
-                this.sdkViewName        =   data['sdkviewname'] || this.sdkViewName;
-            }
+        setConfig: function (config) {
+            this.view =   this.createView('PivotTable', {
+                toolbar: config.toolbar.toolbar
+            });
         },
 
         setApi: function (api) {
@@ -102,6 +104,7 @@ define([
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onSelectionChanged, this));
                 Common.NotificationCenter.on('cells:range',                 _.bind(this.onCellsRange, this));
             }
+            return this;
         },
 
         setMode: function(mode) {
@@ -354,10 +357,13 @@ define([
 
             var count = styles.menuPicker.store.length;
             if (count>0 && count==Templates.length) {
-                var data = styles.menuPicker.store.models;
-                _.each(Templates, function(template, index){
-                    data[index].set('imageUrl', template.asc_getImage());
+                var data = styles.menuPicker.dataViewItems;
+                data && _.each(Templates, function(template, index){
+                    var img = template.asc_getImage();
+                    data[index].model.set('imageUrl', img, {silent: true});
+                    $(data[index].el).find('img').attr('src', img);
                 });
+                styles.fieldPicker.store.reset(styles.fieldPicker.store.models);
             } else {
                 styles.menuPicker.store.reset([]);
                 var arr = [];
@@ -377,13 +383,23 @@ define([
             }
         },
 
+        onPivotOpen: function() {
+            var styles = this.view.pivotStyles;
+            if (styles && styles.needFillComboView &&  styles.menuPicker.store.length > 0 && styles.rendered){
+                var styleRec;
+                if (this._state.TemplateName) styleRec = styles.menuPicker.store.findWhere({name: this._state.TemplateName});
+                styles.fillComboView((styleRec) ? styleRec : styles.menuPicker.store.at(0), true);
+            }
+        },
+
         onSelectionChanged: function(info) {
             if (this.rangeSelectionMode || !this.appConfig.isEdit || !this.view) return;
 
             var pivotInfo = info.asc_getPivotTableInfo();
 
             Common.Utils.lockControls(SSE.enumLock.noPivot, !pivotInfo, {array: this.view.lockedControls});
-            Common.Utils.lockControls(SSE.enumLock.editPivot, !!pivotInfo, {array: [this.view.btnAddPivot]});
+            Common.Utils.lockControls(SSE.enumLock.pivotLock, pivotInfo && (info.asc_getLockedPivotTable()===true), {array: this.view.lockedControls});
+            Common.Utils.lockControls(SSE.enumLock.editPivot, !!pivotInfo, {array: this.view.btnsAddPivot});
 
             if (pivotInfo)
                 this.ChangeSettings(pivotInfo);

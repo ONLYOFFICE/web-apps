@@ -182,7 +182,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 data        : [
                     { value: 0, displayValue: (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm) },
                     { value: 1, displayValue: this.txtPercent }
-                ]
+                ],
+                takeFocusOnClose: true
             });
             this.cmbUnit.on('selected', _.bind(function(combo, record) {
                 if (this._changedProps) {
@@ -475,7 +476,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 data        : [
                     { value: 0, displayValue: (currmetric == Common.Utils.Metric.c_MetricUnits.pt) ? this.txtPt : ((currmetric == Common.Utils.Metric.c_MetricUnits.inch) ? this.txtInch : this.txtCm) },
                     { value: 1, displayValue: this.txtPercent }
-                ]
+                ],
+                takeFocusOnClose: true
             });
             this.cmbPrefWidthUnit.on('selected', _.bind(function(combo, record) {
                 if (this._changedProps) {
@@ -736,7 +738,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHAlign
+                data: this._arrHAlign,
+                takeFocusOnClose: true
             });
             this.cmbHAlign.setValue(this._state.HAlignType);
             this.cmbHAlign.on('selected', _.bind(this.onHAlignSelect, this));
@@ -752,7 +755,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHRelative
+                data: this._arrHRelative,
+                takeFocusOnClose: true
             });
             this.cmbHRelative.setValue(this._state.HAlignFrom);
             this.cmbHRelative.on('selected', _.bind(this.onHRelativeSelect, this));
@@ -762,7 +766,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrHRelative
+                data: this._arrHRelative,
+                takeFocusOnClose: true
             });
             this.cmbHPosition.setDisabled(true);
             this.cmbHPosition.setValue(this._state.HPositionFrom);
@@ -780,7 +785,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVAlign
+                data: this._arrVAlign,
+                takeFocusOnClose: true
             });
             this.cmbVAlign.setValue(this._state.VAlignType);
             this.cmbVAlign.on('selected', _.bind(this.onVAlignSelect, this));
@@ -796,7 +802,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVRelative
+                data: this._arrVRelative,
+                takeFocusOnClose: true
             });
             this.cmbVRelative.setValue(this._state.VAlignFrom);
             this.cmbVRelative.on('selected', _.bind(this.onVRelativeSelect, this));
@@ -806,7 +813,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 115px;',
                 editable: false,
-                data: this._arrVRelative
+                data: this._arrVRelative,
+                takeFocusOnClose: true
             });
             this.cmbVPosition.setDisabled(true);
             this.cmbVPosition.setValue(this._state.VPositionFrom);
@@ -881,9 +889,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.btnBorderColor = new Common.UI.ColorButton({
                 parentEl: $('#tableadv-border-color-btn'),
                 additionalAlign: this.menuAddAlign,
-                color: '000000'
+                color: 'auto',
+                auto: true
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
+            this.btnBorderColor.on('auto:select', _.bind(me.onColorsBorderSelect, me));
             this.colorsBorder = this.btnBorderColor.getPicker();
 
             this.btnBackColor = new Common.UI.ColorButton({
@@ -921,10 +931,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             });
 
             var _arrBorderPresets = [
-                ['cm',      'btn-borders-large btn-adv-position-inner', 'tableadv-button-border-inner',     this.tipInner],
-                ['lrtb',    'btn-borders-large btn-adv-position-outer', 'tableadv-button-border-outer',     this.tipOuter],
-                ['lrtbcm',  'btn-borders-large btn-adv-position-all',   'tableadv-button-border-all',       this.tipAll],
-                ['',        'btn-borders-large btn-adv-position-none',  'tableadv-button-border-none',      this.tipNone]
+                ['cm',      'btn-borders-large toolbar__icon toolbar__icon-big borders-inner-only', 'tableadv-button-border-inner',     this.tipInner],
+                ['lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-outer-only', 'tableadv-button-border-outer',     this.tipOuter],
+                ['lrtbcm',  'btn-borders-large toolbar__icon toolbar__icon-big borders-all',   'tableadv-button-border-all',       this.tipAll],
+                ['',        'btn-borders-large toolbar__icon toolbar__icon-big borders-none',  'tableadv-button-border-none',      this.tipNone]
             ];
 
             this._btnsBorderPosition = [];
@@ -943,14 +953,14 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
 
             var _arrTableBorderPresets = [
-                ['cm', '',          'btn-borders-large btn-adv-position-inner-none',    'tableadv-button-border-inner-none',    this.tipCellInner],
-                ['lrtb', '',        'btn-borders-large btn-adv-position-outer-none',    'tableadv-button-border-outer-none',    this.tipCellOuter],
-                ['lrtbcm', '',      'btn-borders-large btn-adv-position-all-none',      'tableadv-button-border-all-none',      this.tipCellAll],
-                ['', '',            'btn-borders-large btn-adv-position-none-none',     'tableadv-button-border-none-none',     this.tipNone],
-                ['lrtbcm', 'lrtb',  'btn-borders-large btn-adv-position-all-table',     'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
-                ['', 'lrtb',        'btn-borders-large btn-adv-position-none-table',    'tableadv-button-border-none-table',    this.tipOuter],
-                ['cm', 'lrtb',      'btn-borders-large btn-adv-position-inner-table',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
-                ['lrtb', 'lrtb',    'btn-borders-large btn-adv-position-outer-table',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
+                ['cm', '',          'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-inner',    'tableadv-button-border-inner-none',    this.tipCellInner],
+                ['lrtb', '',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-outer',    'tableadv-button-border-outer-none',    this.tipCellOuter],
+                ['lrtbcm', '',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none-all',      'tableadv-button-border-all-none',      this.tipCellAll],
+                ['', '',            'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-none',          'tableadv-button-border-none-none',     this.tipNone],
+                ['lrtbcm', 'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-all',           'tableadv-button-border-all-table',     this.tipTableOuterCellAll],
+                ['', 'lrtb',        'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-none',    'tableadv-button-border-none-table',    this.tipOuter],
+                ['cm', 'lrtb',      'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-inner',   'tableadv-button-border-inner-table',   this.tipTableOuterCellInner],
+                ['lrtb', 'lrtb',    'btn-borders-large toolbar__icon toolbar__icon-big borders-twin-outer-outer',   'tableadv-button-border-outer-table',   this.tipTableOuterCellOuter]
             ];
 
             this._btnsTableBorderPosition = [];
@@ -995,8 +1005,56 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.CellBackContainer = $('#tableadv-panel-cell-back');
             this.TableBackContainer = $('#tableadv-panel-table-back');
 
-            this.btnsCategory[1].on('click', _.bind(this.onCellCategoryClick, this));
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.nfWidth, this.cmbUnit, this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, this.nfSpacing, // 0 tab
+                this.nfPrefWidth, this.cmbPrefWidthUnit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 1 tab
+                this.cmbHAlign , this.cmbHRelative, this.spnX, this.cmbHPosition,
+                this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, // 3 tab
+                this.spnIndentLeft, this.spnDistanceTop, this.spnDistanceLeft, this.spnDistanceBottom, this.spnDistanceRight, // 4 tab
+                this.inputAltTitle, this.textareaAltDescription  // 5 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        if (!me.nfWidth.isDisabled())
+                            me.nfWidth.focus();
+                        else
+                            me.spnTableMarginTop.focus();
+                        break;
+                    case 1:
+                        me.onCellCategoryClick(btn);
+                        if (!me.nfPrefWidth.isDisabled())
+                            me.nfPrefWidth.focus();
+                        else if (!me.spnMarginTop.isDisabled())
+                            me.spnMarginTop.focus();
+                        break;
+                    case 3:
+                        if (!me.cmbHAlign.isDisabled())
+                            me.cmbHAlign.focus();
+                        else
+                            me.spnX.focus();
+                        break;
+                    case 4:
+                        if (me.spnIndentLeft.isVisible())
+                            me.spnIndentLeft.focus();
+                        else
+                            me.spnDistanceTop.focus();
+                        break;
+                    case 5:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
         },
 
         afterRender: function() {
@@ -1007,16 +1065,19 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
-                var colorstr = (typeof(this.borderProps.borderColor) == 'object') ? this.borderProps.borderColor.color : this.borderProps.borderColor;
+                this.btnBorderColor.setAutoColor(this.borderProps.borderColor=='auto');
+                var colorstr = (typeof(this.btnBorderColor.color) == 'object') ? this.btnBorderColor.color.color : this.btnBorderColor.color;
                 this.tableBordersImageSpacing.setVirtualBorderColor(colorstr);
                 this.tableBordersImage.setVirtualBorderColor(colorstr);
+                if (this.borderProps.borderColor=='auto')
+                    this.colorsBorder.clearSelection();
+                else
+                    this.colorsBorder.select(this.borderProps.borderColor,true);
 
                 this.cmbBorderSize.setValue(this.borderProps.borderSize.ptValue);
                 var rec = this.cmbBorderSize.getSelectedRecord();
                 if (rec)
                     this.onBorderSizeSelect(this.cmbBorderSize, rec);
-
-                this.colorsBorder.select(this.borderProps.borderColor, true);
             }
 
             for (var i=0; i<this.tableBordersImageSpacing.rows; i++) {
@@ -1107,7 +1168,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (this.isAltDescChanged)
                 this._changedProps.put_TableDescription(this.textareaAltDescription.val());
 
-            return { tableProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.color} };
+            return { tableProps: this._changedProps, borderProps: {borderSize: this.BorderSize, borderColor: this.btnBorderColor.isAutoColor() ? 'auto' : this.btnBorderColor.color} };
         },
 
         _setDefaults: function(props) {
@@ -1438,6 +1499,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.spnIndentLeft.setDisabled(!this.btnAlignLeft.pressed);
                 this._changedProps.put_TableIndent(Common.Utils.Metric.fnRecalcToMM(this.spnIndentLeft.getNumberValue()));
             }
+            !this.spnIndentLeft.isDisabled() && this.spnIndentLeft.focus();
         },
 
         onBtnFlowWrapClick: function(btn, e) {
@@ -1467,6 +1529,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.radioHPosition.setValue(true);
                 }
             }
+            this.spnDistanceTop.focus();
         },
 
         onHAlignSelect: function(combo, record){
@@ -1566,6 +1629,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
             if (newValue) {
                 this.cmbHAlign.setDisabled(false);
+                this.cmbHAlign.focus();
                 this.cmbHRelative.setDisabled(false);
                 this.spnX.setDisabled(true);
                 this.cmbHPosition.setDisabled(true);
@@ -1593,6 +1657,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbHAlign.setDisabled(true);
                 this.cmbHRelative.setDisabled(true);
                 this.spnX.setDisabled(false);
+                this.spnX.focus();
                 this.cmbHPosition.setDisabled(false);
                 this._state.alignChanged = false;
             }
@@ -1612,6 +1677,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
             if (newValue) {
                 this.cmbVAlign.setDisabled(false);
+                this.cmbVAlign.focus();
                 this.cmbVRelative.setDisabled(false);
                 this.spnY.setDisabled(true);
                 this.cmbVPosition.setDisabled(true);
@@ -1638,6 +1704,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.cmbVAlign.setDisabled(true);
                 this.cmbVRelative.setDisabled(true);
                 this.spnY.setDisabled(false);
+                this.spnY.focus();
                 this.cmbVPosition.setDisabled(false);
                 this.chMove.setValue(this._state.VPositionFrom==Asc.c_oAscVAnchor.Text, true);
             }
@@ -2001,7 +2068,13 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 var size = parseFloat(this.BorderSize.ptValue);
                 border.put_Value(1);
                 border.put_Size(size * 25.4 / 72.0);
-                var color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                var color;
+                if (this.btnBorderColor.isAutoColor()) {
+                    color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                } else {
+                    color = Common.Utils.ThemeColor.getRgbColor(this.btnBorderColor.color);
+                }
                 border.put_Color(color);
             }
             else {

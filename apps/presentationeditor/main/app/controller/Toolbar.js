@@ -104,15 +104,16 @@ define([
                 zoom_percent: undefined,
                 fontsize: undefined,
                 in_equation: undefined,
-                in_chart: false
+                in_chart: false,
+                no_columns: false,
+                clrhighlight: undefined
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
-                [254, 190.5], [254, 143], [254, 158.7], [254, 190.5], [338.3, 253.7], [355.6, 266.7],
-                [275, 190.5], [300.7, 225.5], [199.1, 149.3], [285.7, 190.5], [254, 190.5], [203.2, 25.4]
-            ];
+                { size: [9144000, 6858000], ratio: 6858000/9144000, type: Asc.c_oAscSlideSZType.SzScreen4x3},
+                { size: [12192000, 6858000], ratio: 6858000/12192000, type: Asc.c_oAscSlideSZType.SzCustom} ];
             this.currentPageSize = {
-                type: -1,
+                type: Asc.c_oAscSlideSZType.SzCustom,
                 width: 0,
                 height: 0
             };
@@ -266,6 +267,8 @@ define([
             toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
             toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+            toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
+            toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
             toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
             toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
             toolbar.btnUnderline.on('click',                            _.bind(this.onUnderline, this));
@@ -276,6 +279,7 @@ define([
             toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onMenuVerticalAlignSelect, this));
             toolbar.btnDecLeftOffset.on('click',                        _.bind(this.onDecOffset, this));
             toolbar.btnIncLeftOffset.on('click',                        _.bind(this.onIncOffset, this));
+            toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
             toolbar.btnMarkers.on('click',                              _.bind(this.onMarkers, this));
             toolbar.btnNumbers.on('click',                              _.bind(this.onNumbers, this));
             toolbar.mnuMarkerSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 0));
@@ -297,7 +301,12 @@ define([
             toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
             toolbar.mnuFontColorPicker.on('select',                     _.bind(this.onSelectFontColor, this));
             $('#id-toolbar-menu-new-fontcolor').on('click',             _.bind(this.onNewFontColor, this));
+            toolbar.btnHighlightColor.on('click',                       _.bind(this.onBtnHighlightColor, this));
+            toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
+            toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
+            toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
+            toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
@@ -347,6 +356,8 @@ define([
                 this.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(this.onApiVerticalTextAlign, this));
                 this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
+                this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+                this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiHighlightColor, this));
 
                 this.api.asc_registerCallback('asc_onUpdateThemeIndex',     _.bind(this.onApiUpdateThemeIndex, this));
                 this.api.asc_registerCallback('asc_onEndAddShape',          _.bind(this.onApiEndAddShape, this));
@@ -486,7 +497,6 @@ define([
                             this.toolbar.mnuMarkersPicker.selectByIndex(this._state.bullets.subtype, true);
                         else
                             this.toolbar.mnuMarkersPicker.deselectAll(true);
-                        this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(this._state.bullets.subtype<0);
                         break;
                     case 1:
                         var idx = 0;
@@ -515,7 +525,6 @@ define([
                         }
                         this.toolbar.btnNumbers.toggle(true, true);
                         this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
-                        this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(idx==0);
                         break;
                 }
             }
@@ -611,24 +620,25 @@ define([
             }
         },
 
-        onApiPageSize: function(width, height) {
+        onApiPageSize: function(width, height, type) {
             if (Math.abs(this.currentPageSize.width - width) > 0.001 ||
-                Math.abs(this.currentPageSize.height - height) > 0.001) {
+                Math.abs(this.currentPageSize.height - height) > 0.001 ||
+                this.currentPageSize.type !== type) {
                 this.currentPageSize.width  = width;
                 this.currentPageSize.height = height;
-                this.currentPageSize.type   = -1;
+                this.currentPageSize.type   = type;
 
-                var portrait = (height>width);
+                var ratio = height/width;
+                var idx = -1;
                 for (var i = 0; i < this.slideSizeArr.length; i++) {
-                    if (Math.abs(this.slideSizeArr[i][portrait ? 1 : 0] - this.currentPageSize.width) < 0.001 &&
-                        Math.abs(this.slideSizeArr[i][portrait ? 0 : 1] - this.currentPageSize.height) < 0.001) {
-                        this.currentPageSize.type = i;
+                    if (Math.abs(this.slideSizeArr[i].ratio - ratio) < 0.001 ) {
+                        idx = i;
                         break;
                     }
                 }
 
-                this.toolbar.btnSlideSize.menu.items[0].setChecked(this.currentPageSize.type == 0);
-                this.toolbar.btnSlideSize.menu.items[1].setChecked(this.currentPageSize.type == 1);
+                this.toolbar.btnSlideSize.menu.items[0].setChecked(idx == 0);
+                this.toolbar.btnSlideSize.menu.items[1].setChecked(idx == 1);
             }
         },
 
@@ -671,7 +681,8 @@ define([
                 no_object = true,
                 in_equation = false,
                 in_chart = false,
-                layout_index = -1;
+                layout_index = -1,
+                no_columns = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -688,10 +699,27 @@ define([
                     shape_locked = pr.get_Locked();
                     no_object = false;
                     if (type == Asc.c_oAscTypeSelectElement.Table ||
-                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage() && !pr.get_FromChart()) {
+                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage()) {
                         no_text = false;
                     }
-                    in_chart = type == Asc.c_oAscTypeSelectElement.Chart;
+                    if (type == Asc.c_oAscTypeSelectElement.Table ||
+                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage() && !pr.get_FromChart()) {
+                        no_paragraph = false;
+                    }
+                    if (type == Asc.c_oAscTypeSelectElement.Chart) {
+                        in_chart = true;
+                        no_columns = true;
+                    }
+                    if (type == Asc.c_oAscTypeSelectElement.Shape) {
+                        var shapetype = pr.asc_getType();
+                        if (shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                            || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
+                            || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
+                            || shapetype=='straightConnector1')
+                            no_columns = true;
+                    }
+                    if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Table)
+                        no_columns = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
                 }
@@ -702,16 +730,17 @@ define([
                 this._state.in_chart = in_chart;
             }
 
-            if (paragraph_locked!==undefined && this._state.prcontrolsdisable !== paragraph_locked) {
+            if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
-                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, paragraph_locked, {array: me.toolbar.paragraphControls.concat(me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum)});
+                if (paragraph_locked!==undefined)
+                    this.toolbar.lockToolbar(PE.enumLock.paragraphLock, paragraph_locked, {array: me.toolbar.paragraphControls});
+                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, paragraph_locked===true, {array: [me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum]});
             }
 
             if (this._state.no_paragraph !== no_paragraph) {
                 if (this._state.activated) this._state.no_paragraph = no_paragraph;
                 this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: me.toolbar.paragraphControls});
                 this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: [me.toolbar.btnCopyStyle]});
-                this.toolbar.lockToolbar(PE.enumLock.paragraphLock, !no_paragraph && this._state.prcontrolsdisable, {array: [me.toolbar.btnInsDateTime, me.toolbar.btnInsSlideNum]});
             }
 
             if (this._state.no_text !== no_text) {
@@ -742,6 +771,11 @@ define([
             if (this._state.in_equation !== in_equation) {
                 if (this._state.activated) this._state.in_equation = in_equation;
                 this.toolbar.lockToolbar(PE.enumLock.inEquation, in_equation, {array: [me.toolbar.btnSuperscript, me.toolbar.btnSubscript]});
+            }
+
+            if (this._state.no_columns !== no_columns) {
+                if (this._state.activated) this._state.no_columns = no_columns;
+                this.toolbar.lockToolbar(PE.enumLock.noColumns, no_columns, {array: [me.toolbar.btnColumns]});
             }
 
             if (this.toolbar.btnChangeSlide) {
@@ -887,9 +921,9 @@ define([
                         for (var i=0; i<selectedElements.length; i++) {
                             if (Asc.c_oAscTypeSelectElement.Slide == selectedElements[i].get_ObjectType()) {
                                 var elValue = selectedElements[i].get_ObjectValue(),
-                                    timing = elValue.get_timing();
-                                if (timing)
-                                    loop = timing.get_ShowLoop();
+                                    transition = elValue.get_transition();
+                                if (transition)
+                                    loop = transition.get_ShowLoop();
                             }
                         }
                     }
@@ -899,9 +933,9 @@ define([
                             loop = dlg.getSettings();
                             if (me.api) {
                                 var props = new Asc.CAscSlideProps();
-                                var timing = new Asc.CAscSlideTiming();
-                                timing.put_ShowLoop(loop);
-                                props.put_timing(timing);
+                                var transition = new Asc.CAscSlideTransition();
+                                transition.put_ShowLoop(loop);
+                                props.put_transition(transition);
                                 me.api.SetSlideProps(props);
                             }
                         }
@@ -989,6 +1023,22 @@ define([
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
         },
 
+        onIncrease: function(e) {
+            if (this.api)
+                this.api.FontSizeIn();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
+        },
+
+        onDecrease: function(e) {
+            if (this.api)
+                this.api.FontSizeOut();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
+        },
+
         onBold: function(btn, e) {
             this._state.bold = undefined;
             if (this.api)
@@ -1061,6 +1111,12 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Indent');
+        },
+
+        onChangeCase: function(menu, item, e) {
+            if (this.api)
+                this.api.asc_ChangeTextCase(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         onMenuHorizontalAlignSelect: function(menu, item) {
@@ -1140,7 +1196,8 @@ define([
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
-                                me.api.paraApply(value);
+                                props.asc_putBullet(value);
+                                me.api.paraApply(props);
                             }
                         }
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1279,6 +1336,77 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Line Spacing');
             }
+        },
+
+        onColumnsSelect: function(menu, item) {
+            if (_.isUndefined(item.value))
+                return;
+
+            this._state.columns = undefined;
+
+            if (this.api) {
+                if (item.value == 'advanced') {
+                    var win,
+                        me = this;
+                    var selectedElements = me.api.getSelectedElements();
+                    if (selectedElements && selectedElements.length>0){
+                        var elType, elValue;
+                        for (var i = selectedElements.length - 1; i >= 0; i--) {
+                            elType = selectedElements[i].get_ObjectType();
+                            elValue = selectedElements[i].get_ObjectValue();
+                            if (Asc.c_oAscTypeSelectElement.Shape == elType) {
+                                var win = new PE.Views.ShapeSettingsAdvanced(
+                                    {
+                                        shapeProps: elValue,
+                                        handler: function(result, value) {
+                                            if (result == 'ok') {
+                                                if (me.api) {
+                                                    me.api.ShapeApply(value.shapeProps);
+                                                }
+                                            }
+                                            me.fireEvent('editcomplete', me);
+                                        }
+                                    });
+                                win.show();
+                                win.setActiveCategory(4);
+                                break;
+                            }
+                        }
+                    }
+                } else if (item.checked) {
+                    var props = new Asc.asc_CShapeProperty(),
+                        cols = item.value;
+                    props.asc_putColumnNumber(cols+1);
+                    this.api.ShapeApply(props);
+                }
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Insert Columns');
+        },
+
+        onBeforeColumns: function() {
+            var index = -1;
+            var selectedElements = this.api.getSelectedElements();
+            if (selectedElements && selectedElements.length>0){
+                var elType, elValue;
+                for (var i = selectedElements.length - 1; i >= 0; i--) {
+                    if (Asc.c_oAscTypeSelectElement.Shape == selectedElements[i].get_ObjectType()) {
+                        var value = selectedElements[i].get_ObjectValue().asc_getColumnNumber();
+                        if (value<4)
+                            index = value-1;
+                        break;
+                    }
+                }
+            }
+            if (this._state.columns === index)
+                return;
+
+            if (index < 0)
+                this.toolbar.btnColumns.menu.clearAll();
+            else
+                this.toolbar.btnColumns.menu.items[index].setChecked(true);
+            this._state.columns = index;
         },
 
         onBeforeShapeAlign: function() {
@@ -1615,18 +1743,15 @@ define([
 
         onSlideSize: function(menu, item) {
             if (item.value !== 'advanced') {
-                var portrait = (this.currentPageSize.height > this.currentPageSize.width);
+                var newwidth = (this.currentPageSize.height / this.slideSizeArr[item.value].ratio);
                 this.currentPageSize = {
-                    type    : item.value,
-                    width   : this.slideSizeArr[item.value][portrait ? 1 : 0],
-                    height  : this.slideSizeArr[item.value][portrait ? 0 : 1]
+                    type    : this.slideSizeArr[item.value].type,
+                    width   : newwidth,
+                    height  : this.currentPageSize.height
                 };
 
                 if (this.api)
-                    this.api.changeSlideSize(
-                        this.slideSizeArr[item.value][portrait ? 1 : 0],
-                        this.slideSizeArr[item.value][portrait ? 0 : 1]
-                    );
+                    this.api.changeSlideSize(this.currentPageSize.width, this.currentPageSize.height, this.currentPageSize.type);
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Slide Size');
@@ -1638,10 +1763,19 @@ define([
                     if (result == 'ok') {
                         props = dlg.getSettings();
                         me.currentPageSize = { type: props[0], width: props[1], height: props[2] };
-                        me.toolbar.btnSlideSize.menu.items[0].setChecked(props[0] == 0);
-                        me.toolbar.btnSlideSize.menu.items[1].setChecked(props[0] == 1);
+                        var ratio = me.currentPageSize.height/me.currentPageSize.width,
+                            idx = -1;
+                        for (var i = 0; i < me.slideSizeArr.length; i++) {
+                            if (Math.abs(me.slideSizeArr[i].ratio - ratio) < 0.001 ) {
+                                idx = i;
+                                break;
+                            }
+                        }
+
+                        me.toolbar.btnSlideSize.menu.items[0].setChecked(idx == 0);
+                        me.toolbar.btnSlideSize.menu.items[1].setChecked(idx == 1);
                         if (me.api)
-                            me.api.changeSlideSize(props[1], props[2]);
+                            me.api.changeSlideSize(props[1], props[2], props[0]);
                     }
 
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -1665,17 +1799,19 @@ define([
             if (selectedElements && _.isArray(selectedElements)) {
                 for (var i = 0; i< selectedElements.length; i++) {
                     if (Asc.c_oAscTypeSelectElement.Chart == selectedElements[i].get_ObjectType()) {
-                        chart = true;
+                        chart = selectedElements[i].get_ObjectValue();
                         break;
                     }
                 }
             }
 
             if (chart) {
-                var props = new Asc.CAscChartProp();
-                props.changeType(type);
-                this.api.ChartApply(props);
-
+                var isCombo = (type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
+                type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom);
+                if (isCombo && chart.get_ChartProperties() && chart.get_ChartProperties().getSeries().length<2) {
+                    Common.NotificationCenter.trigger('showerror', Asc.c_oAscError.ID.ComboSeriesError, Asc.c_oAscError.Level.NoCritical);
+                } else
+                    chart.changeType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else {
                 if (!this.diagramEditor)
@@ -1709,8 +1845,6 @@ define([
 
             this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
             this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
-            this.toolbar.mnuMarkerSettings && this.toolbar.mnuMarkerSettings.setDisabled(true);
-            this.toolbar.mnuNumberSettings && this.toolbar.mnuNumberSettings.setDisabled(true);
         },
 
         _getApiTextSize: function () {
@@ -1731,10 +1865,8 @@ define([
         onSelectFontColor: function(picker, color) {
             this._state.clrtext = this._state.clrtext_asccolor  = undefined;
 
-            var clr = (typeof(color) == 'object') ? color.color : color;
-
             this.toolbar.btnFontColor.currentColor = color;
-            $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + clr);
+            this.toolbar.btnFontColor.setColor((typeof(color) == 'object') ? color.color : color);
 
             this.toolbar.mnuFontColorPicker.currentColor = color;
             if (this.api)
@@ -1783,6 +1915,86 @@ define([
             this._state.clrtext_asccolor = color;
         },
 
+        onApiStartHighlight: function(pressed) {
+            this.toolbar.btnHighlightColor.toggle(pressed, true);
+        },
+
+        onApiHighlightColor: function(c) {
+            if (c) {
+                if (c == -1) {
+                    if (this._state.clrhighlight != -1) {
+                        this.toolbar.mnuHighlightTransparent.setChecked(true, true);
+
+                        if (this.toolbar.mnuHighlightColorPicker.cmpEl) {
+                            this._state.clrhighlight = -1;
+                            this.toolbar.mnuHighlightColorPicker.select(null, true);
+                        }
+                    }
+                } else if (c !== null) {
+                    if (this._state.clrhighlight != c.get_hex().toUpperCase()) {
+                        this.toolbar.mnuHighlightTransparent.setChecked(false);
+                        this._state.clrhighlight = c.get_hex().toUpperCase();
+
+                        if ( _.contains(this.toolbar.mnuHighlightColorPicker.colors, this._state.clrhighlight) )
+                            this.toolbar.mnuHighlightColorPicker.select(this._state.clrhighlight, true);
+                    }
+                }  else {
+                    if ( this._state.clrhighlight !== c) {
+                        this.toolbar.mnuHighlightTransparent.setChecked(false, true);
+                        this.toolbar.mnuHighlightColorPicker.select(null, true);
+                        this._state.clrhighlight = c;
+                    }
+                }
+            }
+        },
+
+        _setMarkerColor: function(strcolor, h) {
+            var me = this;
+
+            if (h === 'menu') {
+                me.toolbar.mnuHighlightTransparent.setChecked(false);
+
+                me.toolbar.btnHighlightColor.currentColor = strcolor;
+                me.toolbar.btnHighlightColor.setColor(me.toolbar.btnHighlightColor.currentColor);
+                me.toolbar.btnHighlightColor.toggle(true, true);
+            }
+
+            strcolor = strcolor || 'transparent';
+
+            if (strcolor == 'transparent') {
+                me.api.SetMarkerFormat(true, false);
+            } else {
+                var r = strcolor[0] + strcolor[1],
+                    g = strcolor[2] + strcolor[3],
+                    b = strcolor[4] + strcolor[5];
+                me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlightColor);
+            Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
+        },
+
+        onBtnHighlightColor: function(btn) {
+            if (btn.pressed) {
+                this._setMarkerColor(btn.currentColor);
+                Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
+            }
+            else {
+                this.api.SetMarkerFormat(false);
+            }
+        },
+
+        onSelectHighlightColor: function(picker, color) {
+            this._setMarkerColor(color, 'menu');
+        },
+
+        onHighlightTransparentClick: function(item, e) {
+            this._setMarkerColor('transparent', 'menu');
+            item.setChecked(true, true);
+            this.toolbar.btnHighlightColor.currentColor = 'transparent';
+            this.toolbar.btnHighlightColor.setColor(this.toolbar.btnHighlightColor.currentColor);
+        },
+
         onResetAutoshapes: function () {
             var me = this;
             var onShowBefore = function(menu) {
@@ -1813,9 +2025,9 @@ define([
                         parentMenu: menu.items[i].menu,
                         store: equationsStore.at(i).get('groupStore'),
                         scrollAlwaysVisible: true,
-                        itemTemplate: _.template('<div class="item-equation" '+
-                            'style="background-position:<%= posX %>px <%= posY %>px;" >' +
-                            '<div style="width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
+                        itemTemplate: _.template(
+                            '<div class="item-equation">' +
+                                '<div class="equation-icon" style="background-position:<%= posX %>px <%= posY %>px;width:<%= width %>px;height:<%= height %>px;" id="<%= id %>"></div>' +
                             '</div>')
                     });
                     equationPicker.on('item:click', function(picker, item, record, e) {
@@ -1869,22 +2081,25 @@ define([
         onInsertSymbolClick: function() {
             if (this.api) {
                 var me = this,
+                    selected = me.api.asc_GetSelectedText(),
                     win = new Common.Views.SymbolTableDialog({
                         api: me.api,
                         lang: me.toolbar.mode.lang,
                         type: 1,
                         special: true,
                         buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        font: selected && selected.length>0 ? me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name() : undefined,
+                        symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
-                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code);
+                                me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
                             } else
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     });
                 win.show();
                 win.on('symbol:dblclick', function(cmp, result, settings) {
-                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code);
+                    me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
                 });
             }
         },
@@ -2029,7 +2244,7 @@ define([
             updateColors(this.toolbar.mnuFontColorPicker, 1);
             if (this.toolbar.btnFontColor.currentColor===undefined) {
                 this.toolbar.btnFontColor.currentColor = this.toolbar.mnuFontColorPicker.currentColor.color || this.toolbar.mnuFontColorPicker.currentColor;
-                $('.btn-color-value-line', this.toolbar.btnFontColor.cmpEl).css('background-color', '#' + this.toolbar.btnFontColor.currentColor);
+                this.toolbar.btnFontColor.setColor(this.toolbar.btnFontColor.currentColor);
             }
             if (this._state.clrtext_asccolor!==undefined) {
                 this._state.clrtext = undefined;
@@ -2181,8 +2396,10 @@ define([
 
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
-            if ( $panel )
+            if ( $panel ) {
                 me.toolbar.addTab(tab, $panel, 3);
+                me.toolbar.setVisible('review', config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments);
+            }
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);

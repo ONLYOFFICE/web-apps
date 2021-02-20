@@ -132,8 +132,8 @@ define([
                     _paragraphObject.get_SmallCaps() && $inputTextCaps.val(['small']).prop('prevValue', 'small');
                     _paragraphObject.get_AllCaps() && $inputTextCaps.val(['all']).prop('prevValue', 'all');
 
-                    _fontInfo.letterSpacing = Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_TextSpacing());
-                    $('#letter-spacing .item-after label').text(_fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
+                    _fontInfo.letterSpacing = (_paragraphObject.get_TextSpacing()===null || _paragraphObject.get_TextSpacing()===undefined) ? _paragraphObject.get_TextSpacing() : Common.Utils.Metric.fnRecalcFromMM(_paragraphObject.get_TextSpacing());
+                    $('#letter-spacing .item-after label').text((_fontInfo.letterSpacing===null || _fontInfo.letterSpacing===undefined) ? '' : _fontInfo.letterSpacing + ' ' + Common.Utils.Metric.getCurrentMetricName());
                 }
             },
 
@@ -327,9 +327,9 @@ define([
                     spacing = _fontInfo.letterSpacing;
 
                 if ($button.hasClass('decrement')) {
-                    spacing = Math.max(-100, --spacing);
+                    spacing = (spacing===null || spacing===undefined) ? 0 : Math.max(-100, --spacing);
                 } else {
-                    spacing = Math.min(100, ++spacing);
+                    spacing = (spacing===null || spacing===undefined) ? 0 : Math.min(100, ++spacing);
                 }
                 _fontInfo.letterSpacing = spacing;
 
@@ -370,7 +370,9 @@ define([
                 }
 
                 if (this.api) {
-                    this.api.put_TextColor(Common.Utils.ThemeColor.getRgbColor("000000"));
+                    var color = new Asc.asc_CColor();
+                    color.put_auto(true);
+                    this.api.put_TextColor(color);
                 }
             },
 
@@ -449,7 +451,8 @@ define([
             onApiBullets: function(data) {
                 var type    = data.get_ListType(),
                     subtype = data.get_ListSubType();
-
+                $('.dataview.bullets li').removeClass('active');
+                $('.dataview.numbers li').removeClass('active');
                 switch (type) {
                     case 0:
                         $('.dataview.bullets li[data-type=' + subtype + ']').addClass('active');
@@ -457,6 +460,9 @@ define([
                     case 1:
                         $('.dataview.numbers li[data-type=' + subtype + ']').addClass('active');
                         break;
+                    default:
+                        $('.dataview.bullets li[data-type="-1"]').addClass('active');
+                        $('.dataview.numbers li[data-type="-1"]').addClass('active');
                 }
             },
 
@@ -480,12 +486,17 @@ define([
 
             onApiTextColor: function (color) {
                 var me = this;
+                var palette = this.getView('EditText').paletteTextColor;
 
                 if (color.get_auto()) {
+                    if (palette) {
+                        palette.clearSelection();
+                    }
+
                     $('#font-color .color-preview').css('background-color', '#000');
+                    $('#font-color-auto').addClass('active');
                 } else {
-                    var palette = me.getView('EditText').paletteTextColor,
-                        clr;
+                    var clr;
 
                     if (color) {
                         if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
@@ -499,7 +510,7 @@ define([
 
                         $('#font-color .color-preview').css('background-color', '#' + (_.isObject(clr) ? clr.color : clr));
                     }
-
+                    $('#font-color-auto').removeClass('active');
                     if (palette) {
                         palette.select(clr);
                     }

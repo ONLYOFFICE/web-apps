@@ -127,7 +127,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 editable: false,
                 data: this._arrTextAlignment,
                 style: 'width: 173px;',
-                menuStyle   : 'min-width: 173px;'
+                menuStyle   : 'min-width: 173px;',
+                takeFocusOnClose: true
             });
             this.cmbTextAlignment.setValue('');
 
@@ -176,7 +177,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 editable: false,
                 data: this._arrSpecial,
                 style: 'width: 85px;',
-                menuStyle   : 'min-width: 85px;'
+                menuStyle   : 'min-width: 85px;',
+                takeFocusOnClose: true
             });
             this.cmbSpecial.setValue('');
             this.cmbSpecial.on('selected', _.bind(this.onSpecialSelect, this));
@@ -210,7 +212,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     this.Spacing = properties.get_Spacing();
                 }
-                this.Spacing.put_Before(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                var value = field.getNumberValue();
+                this.Spacing.put_Before(value<0 ? -1 : Common.Utils.Metric.fnRecalcToMM(value));
             }, this));
             this.spinners.push(this.numSpacingBefore);
 
@@ -230,7 +233,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                     var properties = (this._originalProps) ? this._originalProps : new Asc.asc_CParagraphProperty();
                     this.Spacing = properties.get_Spacing();
                 }
-                this.Spacing.put_After(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                var value = field.getNumberValue();
+                this.Spacing.put_After(value<0 ? -1 : Common.Utils.Metric.fnRecalcToMM(value));
             }, this));
             this.spinners.push(this.numSpacingAfter);
 
@@ -240,7 +244,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 editable: false,
                 data: this._arrLineRule,
                 style: 'width: 85px;',
-                menuStyle   : 'min-width: 85px;'
+                menuStyle   : 'min-width: 85px;',
+                takeFocusOnClose: true
             });
             this.cmbLineRule.setValue(this.CurLineRuleIdx);
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
@@ -355,7 +360,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                     '<div style="width: 117px;display: inline-block;"><%= value %></div>',
                     '<div style="display: inline-block;"><%= displayTabAlign %></div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.tabList.store.comparator = function(rec) {
                 return rec.get("tabPos");
@@ -376,7 +382,8 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 menuStyle   : 'min-width: 108px;',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : this._arrTabAlign
+                data        : this._arrTabAlign,
+                takeFocusOnClose: true
             });
             this.cmbAlign.setValue(Asc.c_oAscTabType.Left);
 
@@ -396,6 +403,34 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this.btnRemoveAll.on('click', _.bind(this.removeAllTabs, this));
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.cmbTextAlignment, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
+                this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
+                this.numSpacing, // 1 tab
+                this.numDefaultTab, this.numTab, this.cmbAlign, {cmp: this.tabList, selector: '.listview'} // 2 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        me.cmbTextAlignment.focus();
+                        break;
+                    case 1:
+                        me.numSpacing.focus();
+                        break;
+                    case 2:
+                        me.numDefaultTab.focus();
+                        break;
+                }
+            }, 10);
         },
 
         getSettings: function() {
@@ -434,8 +469,10 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.cmbSpecial.setValue(this.CurSpecial);
                 this.numSpecialBy.setValue(this.FirstLine!== null ? Math.abs(Common.Utils.Metric.fnRecalcFromMM(this.FirstLine)) : '', true);
 
-                this.numSpacingBefore.setValue((props.get_Spacing() !== null && props.get_Spacing().get_Before() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_Before()) : '', true);
-                this.numSpacingAfter.setValue((props.get_Spacing() !== null && props.get_Spacing().get_After() !== null) ? Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_After()) : '', true);
+                var value = props.get_Spacing() ? props.get_Spacing().get_Before() : null;
+                this.numSpacingBefore.setValue((value !== null) ? (value<0 ? value : Common.Utils.Metric.fnRecalcFromMM(value)) : '', true);
+                value = props.get_Spacing() ? props.get_Spacing().get_After() : null;
+                this.numSpacingAfter.setValue((value !== null) ? (value<0 ? value : Common.Utils.Metric.fnRecalcFromMM(value)) : '', true);
 
                 var linerule = props.get_Spacing().get_LineRule();
                 this.cmbLineRule.setValue((linerule !== null) ? linerule : '', true);

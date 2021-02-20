@@ -46,7 +46,10 @@ define([
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/TableOfContentsSettings',
     'documenteditor/main/app/view/BookmarksDialog',
-    'documenteditor/main/app/view/CaptionDialog'
+    'documenteditor/main/app/view/CaptionDialog',
+    'documenteditor/main/app/view/NotesRemoveDialog',
+    'documenteditor/main/app/view/CrossReferenceDialog',
+    'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
 
@@ -68,18 +71,22 @@ define([
                     'links:notes': this.onNotesClick,
                     'links:hyperlink': this.onHyperlinkClick,
                     'links:bookmarks': this.onBookmarksClick,
-                    'links:caption': this.onCaptionClick
+                    'links:caption': this.onCaptionClick,
+                    'links:crossref': this.onCrossRefClick,
+                    'links:tof': this.onTableFigures,
+                    'links:tof-update': this.onTableFiguresUpdate
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
-                    'links:update': this.onTableContentsUpdate
+                    'links:update': this.onTableContentsUpdate,
+                    'links:caption': this.onCaptionClick
                 }
             });
         },
         onLaunch: function () {
             this._state = {
                 prcontrolsdisable:undefined,
-                in_object: false
+                in_object: undefined
             };
             Common.Gateway.on('setactionlink', function (url) {
                 console.log('url with actions: ' + url);
@@ -95,6 +102,8 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onAscReplaceCurrentTOF',_.bind(this.onAscReplaceCurrentTOF, this));
+                this.api.asc_registerCallback('asc_onAscTOFUpdate',_.bind(this.onAscTOFUpdate, this));
             }
             return this;
         },
@@ -129,7 +138,8 @@ define([
                 in_equation = false,
                 in_image = false,
                 in_table = false,
-                frame_pr = null;
+                frame_pr = null,
+                object_type;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -143,21 +153,27 @@ define([
                     in_header = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Image) {
                     in_image = true;
+                    object_type = type;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
+                    object_type = type;
                 } else if (type === Asc.c_oAscTypeSelectElement.Table) {
                     in_table = true;
+                    object_type = type;
                 }
             }
             this._state.prcontrolsdisable = paragraph_locked || header_locked;
-            this._state.in_object = in_image || in_table || in_equation;
+            this._state.in_object = object_type;
 
             var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
-                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false;
+                control_plain = (control_props) ? (control_props.get_ContentControlType()==Asc.c_oAscSdtLevelType.Inline) : false,
+                lock_type = control_props ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked,
+                content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
             var rich_del_lock = (frame_pr) ? !frame_pr.can_DeleteBlockContentControl() : false,
                 rich_edit_lock = (frame_pr) ? !frame_pr.can_EditBlockContentControl() : false,
                 plain_del_lock = (frame_pr) ? !frame_pr.can_DeleteInlineContentControl() : false,
                 plain_edit_lock = (frame_pr) ? !frame_pr.can_EditInlineContentControl() : false;
+
 
             var need_disable = paragraph_locked || in_equation || in_image || in_header || control_plain || rich_edit_lock || plain_edit_lock;
             this.view.btnsNotes.setDisabled(need_disable);
@@ -167,9 +183,15 @@ define([
 
             need_disable = in_header || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
             this.view.btnsContents.setDisabled(need_disable);
+            this.view.btnTableFigures.setDisabled(need_disable);
+            this.view.btnTableFiguresUpdate.setDisabled(need_disable || paragraph_locked || !this.api.asc_CanUpdateTablesOfFigures());
 
             need_disable = in_header;
             this.view.btnCaption.setDisabled(need_disable);
+
+            need_disable = paragraph_locked || header_locked || control_plain || rich_edit_lock || plain_edit_lock || content_locked;
+            this.view.btnCrossRef.setDisabled(need_disable);
+            this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible() && this.dlgCrossRefDialog.setLocked(need_disable);
         },
 
         onApiCanAddHyperlink: function(value) {
@@ -259,6 +281,7 @@ define([
                         win = new DE.Views.TableOfContentsSettings({
                         api: this.api,
                         props: props,
+                        type: 0,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 (props) ? me.api.asc_SetTableOfContentsPr(value) : me.api.asc_AddTableOfContents(null, value);
@@ -292,33 +315,43 @@ define([
                 case 'ins_footnote':
                     this.api.asc_AddFootnote();
                     break;
+                case 'ins_endnote':
+                    this.api.asc_AddEndnote();
+                    break;
                 case 'delele':
-                    Common.UI.warning({
-                        msg: this.view.confirmDeleteFootnotes,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function (btn) {
-                            if (btn == 'yes') {
-                                this.api.asc_RemoveAllFootnotes();
+                    (new DE.Views.NotesRemoveDialog({
+                        handler: function (dlg, result) {
+                            if (result=='ok') {
+                                var settings = dlg.getSettings();
+                                (settings.footnote || settings.endnote) && me.api.asc_RemoveAllFootnotes(settings.footnote, settings.endnote);
                             }
-                            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-                        }, this)
-                    });
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    })).show();
                     break;
                 case 'settings':
+                    var isEndNote = me.api.asc_IsCursorInEndnote(),
+                        isFootNote = me.api.asc_IsCursorInFootnote();
+                    isEndNote = (isEndNote || isFootNote) ? isEndNote : Common.Utils.InternalSettings.get("de-settings-note-last") || false;
                     (new DE.Views.NoteSettingsDialog({
                         api: me.api,
                         handler: function (result, settings) {
                             if (settings) {
-                                me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
+                                settings.isEndNote ? me.api.asc_SetEndnoteProps(settings.props, settings.applyToAll) :
+                                                     me.api.asc_SetFootnoteProps(settings.props, settings.applyToAll);
                                 if (result == 'insert')
                                     setTimeout(function() {
-                                        me.api.asc_AddFootnote(settings.custom);
+                                        settings.isEndNote ? me.api.asc_AddEndnote(settings.custom) : me.api.asc_AddFootnote(settings.custom);
                                     }, 1);
+                                if (result == 'insert' || result == 'apply') {
+                                    Common.Utils.InternalSettings.set("de-settings-note-last", settings.isEndNote);
+                                }
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         },
-                        props: me.api.asc_GetFootnoteProps()
+                        isEndNote: isEndNote,
+                        hasSections: me.api.asc_GetSectionsCount()>1,
+                        props: isEndNote ? me.api.asc_GetEndnoteProps() : me.api.asc_GetFootnoteProps()
                     })).show();
                     break;
                 case 'prev':
@@ -329,6 +362,36 @@ define([
                     break;
                 case 'next':
                     this.api.asc_GotoFootnote(true);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'prev-end':
+                    this.api.asc_GotoEndnote(false);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'next-end':
+                    this.api.asc_GotoEndnote(true);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'to-endnotes':
+                    this.api.asc_ConvertFootnoteType(false, true, false);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'to-footnotes':
+                    this.api.asc_ConvertFootnoteType(false, false, true);
+                    setTimeout(function() {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }, 50);
+                    break;
+                case 'swap':
+                    this.api.asc_ConvertFootnoteType(false, true, true);
                     setTimeout(function() {
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     }, 50);
@@ -353,7 +416,7 @@ define([
         onCaptionClick: function(btn) {
             var me = this;
             (new DE.Views.CaptionDialog({
-                isObject: this._state.in_object,
+                objectType: this._state.in_object,
                 handler: function (result, settings) {
                     if (result == 'ok') {
                         me.api.asc_AddObjectCaption(settings);
@@ -408,6 +471,79 @@ define([
 
         onShowContentControlsActions: function(obj, x, y) {
             (obj.type == Asc.c_oAscContentControlSpecificType.TOC) && this.onShowTOCActions(obj, x, y);
+        },
+
+        onCrossRefClick: function(btn) {
+            if (this.dlgCrossRefDialog && this.dlgCrossRefDialog.isVisible()) return;
+
+            var me = this;
+            me.dlgCrossRefDialog = new DE.Views.CrossReferenceDialog({
+                api: me.api,
+                crossRefProps: me.crossRefProps,
+                handler: function (result, settings) {
+                    if (result != 'ok')
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            });
+            me.dlgCrossRefDialog.on('close', function(obj){
+                me.crossRefProps = me.dlgCrossRefDialog.getSettings();
+            });
+            me.dlgCrossRefDialog.show();
+        },
+
+        onTableFigures: function(){
+            var props = this.api.asc_GetTableOfFiguresPr();
+            var me = this,
+                win = new DE.Views.TableOfContentsSettings({
+                    api: this.api,
+                    props: props,
+                    type: 1,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api.asc_AddTableOfFigures(value);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+            win.show();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTableFiguresUpdate: function(){
+            this.api.asc_UpdateTablesOfFigures();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onAscReplaceCurrentTOF: function(apiCallback) {
+            Common.UI.warning({
+                msg: this.view.confirmReplaceTOF,
+                buttons: ['yes', 'no', 'cancel'],
+                primary: 'yes',
+                callback: _.bind(function(btn) {
+                    if (btn=='yes' || btn=='no') {
+                        apiCallback && apiCallback(btn === 'yes');
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                }, this)
+            });
+        },
+
+        onAscTOFUpdate: function(apiCallback) {
+            var me = this;
+            (new Common.Views.OptionsDialog({
+                width: 300,
+                title: this.view.titleUpdateTOF,
+                items: [
+                    {caption: this.view.textUpdatePages, value: true, checked: true},
+                    {caption: this.view.textUpdateAll, value: false, checked: false}
+                ],
+                handler: function (dlg, result) {
+                    if (result=='ok') {
+                        apiCallback && apiCallback(dlg.getSettings());
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         }
 
     }, DE.Controllers.Links || {}));

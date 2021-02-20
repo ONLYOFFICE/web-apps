@@ -17,6 +17,10 @@
     opacity: 0.2;
     background-color: rgb(0,0,0);
     z-index: @zindex-modal - 1;
+
+    .theme-dark & {
+        opacity: 0.6;
+    }
 }
 
 .asc-window {
@@ -26,8 +30,10 @@
     z-index: @zindex-modal-background;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     border-radius: 5px;
-    background-color: @body-bg;
-    border: solid 1px @gray-dark;
+    background-color: @background-normal-ie;
+    background-color: @background-normal;
+    border: solid @scaled-one-px-value-ie @border-toolbar-ie;
+    border: solid @scaled-one-px-value @border-toolbar;
 
     left: 0;
     top: 0;
@@ -46,18 +52,26 @@
         top: 0;
         text-overflow: ellipsis;
 
-        color: @gray-darker;
+        color: @text-normal-ie;
+        color: @text-normal;
         text-align: center;
         font-size: 12px;
         font-weight: 700;
-        text-shadow: 1px 1px #f8f8f8;
         vertical-align: bottom;
         line-height: 26px;
 
-        background: @gray-lighter;
-        border-bottom: solid 1px @gray-dark;
+        background: @background-toolbar-ie;
+        background: @background-toolbar;
+        border-bottom: solid @scaled-one-px-value-ie @border-toolbar-ie;
+        border-bottom: solid @scaled-one-px-value @border-toolbar;
 
         cursor: move;
+
+        .tools {
+            position: absolute;
+            right: 0;
+            padding-right: 6px;
+        }
 
         .tool {
             float: right;
@@ -69,14 +83,58 @@
             margin: 4px 3px 0px 0px;
 
             &.close {
-                background-position: @but-close-offset-x @but-close-offset-y;
+                position: relative;
+                opacity: 0.7;
+                transition: transform .3s;
 
                 &:hover {
-                    background-position: @but-close-offset-x @but-close-offset-y - 16px;
+                    transform: scale(1.1);
+                    opacity: 1;
                 }
 
                 &.disabled {
-                    background-position: @but-close-offset-x @but-close-offset-y - 32px;
+                    cursor: default;
+                }
+
+                &:before, &:after {
+                    content: ' ';
+                    position: absolute;
+                    left: 7px;
+                    left: calc(7px/@pixel-ratio-factor);
+                    top: @scaled-one-px-value-ie;
+                    top: @scaled-one-px-value;
+                    height: 14px;
+                    width: @scaled-one-px-value-ie;
+                    width: @scaled-one-px-value;
+                    background-color: @icon-normal-ie;
+                    background-color: @icon-normal;
+                }
+
+                &:before {
+                    transform: rotate(45deg);
+                }
+
+                &:after {
+                    transform: rotate(-45deg);
+                }
+            }
+
+            &.help {
+                width: 20px;
+                margin-right:0;
+                line-height: 14px;
+                font-size: 14px;
+                font-weight: bold;
+                color: @text-normal-ie;
+                color: @text-normal;
+                opacity: 0.7;
+
+                &:hover {
+                    opacity: 1;
+                }
+
+                &.disabled {
+                    opacity: 0.3;
                     cursor: default;
                 }
             }
@@ -98,7 +156,8 @@
         position: absolute;
         top: 34px;
         width: 100%;
-        background-color: @body-bg;
+        background-color: @background-normal-ie;
+        background-color: @background-normal;
     }
 
     &.modal {
@@ -113,33 +172,39 @@
         z-index: @zindex-modal - 2;
     }
 
-    &.alert {
-        min-height: 90px;
-        min-width: 230px;
+    .icon {
+        &.warn {
+            width: 35px;
+            height: 32px;
+            background-position: @alerts-offset-x @alerts-offset-y - 105px;
+        }
 
-        .icon {
-            float: left;
+        &.error, &.info, &.confirm {
             width: 35px;
             height: 35px;
-            margin: 0 0 0 10px;
-
-            &.warn {
-                height: 32px;
-                background-position: @alerts-offset-x @alerts-offset-y - 105px;
-            }
-
-            &.error {
-                background-position: @alerts-offset-x @alerts-offset-y - 0;
-            }
-
-            &.info {
-                background-position: @alerts-offset-x @alerts-offset-y - 35px;
-            }
-
-            &.confirm {
-                background-position: @alerts-offset-x @alerts-offset-y - 70px;
-            }
         }
+
+        &.error {
+            background-position: @alerts-offset-x @alerts-offset-y - 0;
+        }
+
+        &.info {
+            background-position: @alerts-offset-x @alerts-offset-y - 35px;
+        }
+
+        &.confirm {
+            background-position: @alerts-offset-x @alerts-offset-y - 70px;
+        }
+    }
+
+    &.alert {
+        .icon {
+            float: left;
+            margin: 0 0 0 10px;
+        }
+
+        min-height: 90px;
+        min-width: 230px;
 
         .body {
             .info-box {
@@ -155,10 +220,12 @@
 
                         a {
                             text-decoration: underline;
-                            color: @gray-deep;
+                            color: @text-normal-ie;
+                            color: @text-normal;
 
                             &:focus, &:hover {
-                                color: @gray-deep;
+                                color: @text-normal-ie;
+                                color: @text-normal;
                             }
                         }
                     }
@@ -216,8 +283,10 @@
         width: 5px;
         height: 5px;
         z-index: 1;
-        background: @gray-lighter;
-        border: 1px none @gray-dark;
+        background: @background-toolbar-ie;
+        background: @background-toolbar;
+        border: @scaled-one-px-value-ie none @border-toolbar-ie;
+        border: @scaled-one-px-value none @border-toolbar;
 
         &.left {
             left: 0;
@@ -242,6 +311,12 @@
             &:not(:first-child) {
                 margin-left: 10px;
             }
+        }
+    }
+
+    .img-commonctrl {
+        &.img-no-theme-filter {
+            filter: none;
         }
     }
 }

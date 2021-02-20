@@ -29,7 +29,8 @@
 .toolbar {
     .extra {
         svg.icon {
-            fill: #fff;
+            fill: @icon-toolbar-header-ie;
+            fill: @icon-toolbar-header;
         }
 
         .btn-slot {
@@ -57,12 +58,14 @@
     }
 
     label {
-        color: #fff;
+        color: @text-toolbar-header-ie;
+        color: @text-toolbar-header;
     }
 
     .dropdown-menu {
         label {
-            color: @gray-deep;
+            color: @text-normal-ie;
+            color: @text-normal;
         }
     }
 
@@ -70,13 +73,15 @@
     .btn-header {
         &:hover {
             &:not(.disabled):not(.icon) {
-                background-color: rgba(255,255,255,0.2);
+                background-color: @highlight-header-button-hover-ie;
+                background-color: @highlight-header-button-hover;
             }
         }
 
         &:active, &.active {
             &:not(.disabled):not(.icon) {
-                background-color: rgba(0,0,0,0.2);
+                background-color: @highlight-header-button-pressed-ie;
+                background-color: @highlight-header-button-pressed;
             }
         }
 
@@ -88,6 +93,7 @@
     #box-doc-name {
         flex-grow: 1;
         display: flex;
+        justify-content: center;
     }
 
     #rib-doc-name {
@@ -97,30 +103,20 @@
         min-width: 50px;
         text-align: center;
 
-        color: #fff;
+        color: @text-toolbar-header-ie;
+        color: @text-toolbar-header;
         background-color: transparent;
         border: 0 none;
         cursor: default;
-
-        &:hover:not(:disabled) {
-            border: 1px solid @gray-dark;
-            background-color: rgba(255,255,255,0.2);
-        }
-
-        &:focus:not(:active) {
-            border: 1px solid @gray-dark;
-            cursor: text;
-            background-color: white;
-            color: @gray-deep;
-        }
-        width: 100%;
+        line-height: 32px;
     }
 
     #rib-save-status {
         white-space: nowrap;
         &.locked {
             text-decoration: none;
-            color: @gray-darker;
+            color: @border-preview-select-ie;
+            color: @border-preview-select;
             cursor: default;
         }
 
@@ -190,7 +186,8 @@
         padding: 0;
 
         &.icon--inverse {
-            background-position-x: -20px;
+            background-position-x: @button-header-normal-icon-offset-x-ie;
+            background-position-x: @button-header-normal-icon-offset-x;
         }
     }
 
@@ -202,6 +199,38 @@
     &.disabled {
         opacity: 0.65;
         pointer-events: none;
+    }
+}
+
+.btn-current-user {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 40px;
+    padding: 0 10px;
+
+    .icon {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        background-repeat: no-repeat;
+        padding: 0;
+
+        &.icon--inverse {
+            background-position-x: -20px;
+        }
+    }
+
+    svg.icon {
+        vertical-align: middle;
+
+        @media
+        only screen and (-webkit-min-device-pixel-ratio: 1.5),
+        only screen and (min-resolution: 1.5dppx),
+        only screen and (min-resolution: 144dpi) {
+            width:calc(~"28px/1.5");
+            height:calc(~"28px/1.5");
+        }
     }
 }
 
@@ -226,7 +255,8 @@
     }
 
     label {
-        color: @gray-deep;
+        color: @text-normal-ie;
+        color: @text-normal;
     }
 
     .cousers-list {
@@ -255,12 +285,13 @@
             height: 12px;
             display: inline-block;
             vertical-align: middle;
-            border: 1px solid @gray-dark;
+            border: @scaled-one-px-value solid @border-toolbar;
             margin: 0 5px 1px 0;
         }
 
         .user-name {
-            color: @gray-deep;
+            color: @text-normal-ie;
+            color: @text-normal;
             font-size: 12px;
             font-weight: bold;
             white-space: nowrap;
@@ -299,7 +330,18 @@
         position: relative;
 
         &.icon--inverse {
-            background-position-x: -20px;
+            background-position-x: @button-header-normal-icon-offset-x-ie;
+            background-position-x: @button-header-normal-icon-offset-x;
+        }
+    }
+
+    .btn& {
+        &:active, &.active {
+            .icon.toolbar__icon {
+                &.icon--inverse {
+                    background-position-x: @button-header-active-icon-offset-x-ie;
+                }
+            }
         }
     }
 
@@ -322,7 +364,8 @@
 
     &:hover {
         &:not(.disabled) {
-            background-color: rgba(255,255,255,0.2);
+            background-color: @highlight-header-button-hover-ie;
+            background-color: @highlight-header-button-hover;
         }
     }
 
@@ -340,10 +383,12 @@
 }
 
 #box-document-title {
-    background-color: @tabs-bg-color;
+    background-color: @header-background-color-ie;
+    background-color: @header-background-color;
     display: flex;
     height: 100%;
-    color:#fff;
+    color: @text-toolbar-header-ie;
+    color: @text-toolbar-header;
     position: relative;
 
     .btn-slot {
@@ -351,7 +396,8 @@
     }
 
     svg.icon {
-        fill: #fff;
+        fill: @icon-toolbar-header-ie;
+        fill: @icon-toolbar-header;
 
         &.icon-save {
             &.btn-save-coauth, &.btn-synch {
@@ -373,20 +419,25 @@
         }
     }
 
+    #id-box-doc-name {
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+    }
+
     #title-doc-name {
-        white-space: nowrap;
+        white-space: pre;
         text-overflow: ellipsis;
         overflow: hidden;
         text-align: center;
         font-size: 12px;
-        height: 100%;
-        width: 100%;
+        line-height: 28px;
         background-color: transparent;
         border: 0 none;
         cursor: default;
    }
     #title-user-name {
-        white-space: nowrap;
+        white-space: pre;
         text-overflow: ellipsis;
         overflow: hidden;
         text-align: right;
@@ -395,9 +446,29 @@
         height: 100%;
         padding: 0 12px;
         line-height: @height-title;
+        pointer-events: none;
+        &.clickable {
+            cursor: pointer;
+            pointer-events: auto;
+        }
    }
 
     .lr-separator {
         flex-grow: 1;
+    }
+}
+
+#box-doc-name, #box-document-title {
+    .inner-box-icon.crypted {
+        width: 20px;
+        position: relative;
+
+        > svg {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            margin-top: -10px;
+        }
     }
 }

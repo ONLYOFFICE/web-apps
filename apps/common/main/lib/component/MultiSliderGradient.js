@@ -56,8 +56,8 @@ define([
             colorValues: ['#000000', '#ffffff'],
             currentThumb: 0,
             thumbTemplate: '<div class="thumb img-commonctrl" style="">' +
-                            '<div class="thumb-top"></div>' +
-                            '<div class="thumb-bottom"></div>' +
+                            '<div class="thumb-top"><div class="thumb-top-inner"></div></div>' +
+                            '<div class="thumb-bottom"><div class="thumb-bottom-inner"></div></div>' +
                             '</div>'
         },
 
@@ -146,6 +146,43 @@ define([
             return recalc_indexes;
         },
 
+        findLeftThumb: function(pos) {
+            var me = this,
+                leftThumb = 100,
+                index = 0,
+                len = this.thumbs.length,
+                dist;
+
+            for (var i=0; i<len; i++) {
+                dist = pos - me.thumbs[i].position;
+                if (dist > 0 && dist <= leftThumb) {
+                    var above = me.thumbs[i + 1];
+                    var below = me.thumbs[i - 1];
+
+                    if (below !== undefined && pos < below.position) {
+                        continue;
+                    }
+                    if (above !== undefined && pos > above.position) {
+                        continue;
+                    }
+                    index = i;
+                    leftThumb = dist;
+                }
+            }
+            return index;
+        },
+
+        calculationNewColor: function(color1, color2, ratio) {
+            var w1 = ratio ? ratio/100 : 0.5;
+            var w2 = 1 - w1;
+            var rgbColor1 = Common.Utils.ThemeColor.getRgbColor(color1),
+                rgbColor2 = Common.Utils.ThemeColor.getRgbColor(color2);
+            var rgb = [Math.round(rgbColor1.get_r() * w2 + rgbColor2.get_r() * w1),
+                Math.round(rgbColor1.get_g() * w2 + rgbColor2.get_g() * w1),
+                Math.round(rgbColor1.get_b() * w2 + rgbColor2.get_b() * w1)];
+            return Common.Utils.ThemeColor.getHexColor(rgb[0], rgb[1], rgb[2]);
+        },
+
         addThumb: function() {
             Common.UI.MultiSlider.prototype.addThumb.call(this);
 
@@ -159,13 +196,29 @@ define([
             me.changeSliderStyle();
         },
 
-        addNewThumb: function(index, color) {
-            var me = this;
+        addNewThumb: function(index, pos, curIndex) {
+            var me = this,
+                indexLeftThumb = this.findLeftThumb(pos),
+                index = index,
+                color;
+            if (!_.isUndefined(curIndex)) {
+                this.addThumb();
+                index = this.thumbs.length - 1;
+                color = this.calculationNewColor(this.thumbs[indexLeftThumb].colorValue, this.thumbs[indexLeftThumb === index - 1 ? indexLeftThumb : indexLeftThumb + 1].colorValue);
+                this.setThumbPosition(index, pos);
+                var value = pos/this.delta + this.minValue;
+                this.thumbs[index].value = value;
+            } else {
+                var ratio = (pos - this.thumbs[indexLeftThumb].value) * 100 / (this.thumbs[indexLeftThumb + 1].value - this.thumbs[indexLeftThumb].value);
+                color = ratio < 0 ? this.thumbs[indexLeftThumb].colorValue : this.calculationNewColor(this.thumbs[indexLeftThumb].colorValue, this.thumbs[indexLeftThumb === index - 1 ? indexLeftThumb : indexLeftThumb + 1].colorValue, ratio);
+            }
             me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> div');
-            (index>0) && this.setColorValue(color, index);
+            (index>0) && this.setColorValue('#' + color, index);
             me.sortThumbs();
             me.changeSliderStyle();
             me.changeGradientStyle();
+
+            return color;
         },
 
         removeThumb: function(index) {

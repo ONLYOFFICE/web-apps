@@ -186,13 +186,23 @@ define([
             this.setSettings();
         },
 
+        getFocusedComponents: function() {
+            return [this.txtRangeTop, this.txtRangeLeft];
+        },
+
+        getDefaultFocusableComponent: function () {
+            if (this._alreadyRendered) return; // focus only at first show
+            this._alreadyRendered = true;
+            return this.txtRangeTop;
+        },
+
         isRangeValid: function() {
             if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, this.txtRangeTop.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
-                this.txtRangeTop.cmpEl.find('input').focus();
+                this.txtRangeTop.focus();
                 return false;
             }
             if (this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.PrintTitles, this.txtRangeLeft.getValue(), false) == Asc.c_oAscError.ID.DataRangeError)  {
-                this.txtRangeLeft.cmpEl.find('input').focus();
+                this.txtRangeLeft.focus();
                 return false;
             }
             return true;
@@ -260,6 +270,9 @@ define([
                         handler: handlerDlg
                     }).on('close', function() {
                         me.show();
+                        _.delay(function(){
+                            txtRange.focus();
+                        },1);
                     });
 
                     var xy = me.$window.offset();
@@ -279,6 +292,9 @@ define([
                     this.dataRangeTop = value;
                 else
                     this.dataRangeLeft = value;
+                _.delay(function(){
+                    txtRange.focus();
+                },1);
             }
         },
 

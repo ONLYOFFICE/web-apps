@@ -536,10 +536,8 @@ define([
 
             var initNewColor = function(btn, picker_el) {
                 if (btn && btn.cmpEl) {
-                    btn.currentColor = '#000000';
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', btn.cmpEl).append(colorVal);
-                    colorVal.css('background-color', btn.currentColor);
+                    btn.currentColor = '000000';
+                    btn.setColor(btn.currentColor);
                     var picker = new Common.UI.ThemeColorPalette({
                         el: $(picker_el)
                     });
@@ -552,7 +550,7 @@ define([
                 return picker;
             };
             this.btnTextColor = [];
-            this.btnTextColor.push(new Common.UI.Button({
+            this.btnTextColor.push(new Common.UI.ButtonColored({
                 parentEl: $('#id-dlg-h-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
@@ -561,7 +559,7 @@ define([
                 menu        : new Common.UI.Menu({
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-dlg-h-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-h-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 })
@@ -571,7 +569,7 @@ define([
             this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[0], "#id-dlg-h-menu-fontcolor"));
             this.headerControls.push(this.btnTextColor[0]);
 
-            this.btnTextColor.push(new Common.UI.Button({
+            this.btnTextColor.push(new Common.UI.ButtonColored({
                 parentEl: $('#id-dlg-f-textcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
@@ -580,7 +578,7 @@ define([
                 menu        : new Common.UI.Menu({
                     additionalAlign: this.menuAddAlign,
                     items: [
-                        { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-dlg-f-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-dlg-f-menu-fontcolor-new" style="padding-left:12px;">' + this.textNewColor + '</a>') }
                     ]
                 })
@@ -901,9 +899,8 @@ define([
         },
 
         onColorSelect: function(btn, picker, color) {
-            var clr = (typeof(color) == 'object') ? color.color : color;
             btn.currentColor = color;
-            $('.btn-color-value-line', btn.cmpEl).css('background-color', '#' + clr);
+            btn.setColor(btn.currentColor);
             picker.currentColor = color;
             if (this.HFObject)
                 this.HFObject.setTextColor(Common.Utils.ThemeColor.getRgbColor(color));

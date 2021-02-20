@@ -102,7 +102,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',               _.bind(this.onApiDisconnect, this));
-            // this.api.asc_registerCallback('asc_onUpdateTabColor', _.bind(this.onApiUpdateTabColor, this));
+            this.api.asc_registerCallback('asc_onUpdateTabColor', _.bind(this.onApiUpdateTabColor, this));
             // this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             this.api.asc_registerCallback('asc_onWorkbookLocked', _.bind(this.onWorkbookLocked, this));
             this.api.asc_registerCallback('asc_onWorksheetLocked', _.bind(this.onWorksheetLocked, this));
@@ -143,6 +143,8 @@ define([
 
             this.sheets.reset(items);
             this.hiddensheets.reset(hiddentems);
+
+            this.updateTabsColors();
 
             return;
 
@@ -252,12 +254,12 @@ define([
             var me = this;
 
             if (me.sheets.length == 1) {
-                uiApp.alert(me.errorLastSheet);
+                uiApp.alert(me.errorLastSheet, me.notcriticalErrorTitle);
             } else {
-                uiApp.confirm(me.warnDeleteSheet, undefined, _.buffered(function() {
+                uiApp.confirm(me.warnDeleteSheet, me.notcriticalErrorTitle, _.buffered(function() {
                     if ( !me.api.asc_deleteWorksheet() ) {
                         _.defer(function(){
-                            uiApp.alert(me.errorRemoveSheet);
+                            uiApp.alert(me.errorRemoveSheet, me.notcriticalErrorTitle);
                         });
                     }
                 }, 300));
@@ -267,11 +269,11 @@ define([
         hideWorksheet: function(hide, index) {
             if ( hide ) {
                 this.sheets.length == 1 ?
-                    uiApp.alert(this.errorLastSheet) :
+                    uiApp.alert(this.errorLastSheet, this.notcriticalErrorTitle) :
                     this.api['asc_hideWorksheet']([index]);
             } else {
                 this.api['asc_showWorksheet'](index);
-                // this.loadTabColor(index);
+                this.loadTabColor(index);
             }
         },
 
@@ -436,11 +438,9 @@ define([
 
         loadTabColor: function (sheetindex) {
             if (this.api) {
-                if (!this.api.asc_isWorksheetHidden(sheetindex)) {
-                    var tab = _.findWhere(this.statusbar.tabbar.tabs, {sheetindex: sheetindex});
-                    if (tab) {
-                        this.setTabLineColor(tab, this.api.asc_getWorksheetTabColor(sheetindex));
-                    }
+                var tab = this.sheets.findWhere({index: sheetindex});
+                if (tab) {
+                    this.setTabLineColor(tab, this.api.asc_getWorksheetTabColor(sheetindex));
                 }
             }
         },
@@ -454,17 +454,24 @@ define([
                 }
 
                 if (color.length) {
-                    if (!tab.isActive()) {
-                        color = '0px 3px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+                    if (!tab.get('active')) {
+                        color = '0px 4px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
                     } else {
-                        color = '0px 3px 0 ' + color + ' inset';
+                        color = '0px 4px 0 ' + color + ' inset';
                     }
 
-                    tab.$el.find('a').css('box-shadow', color);
+                    tab.get('el').find('a').css('box-shadow', color);
                 } else {
-                    tab.$el.find('a').css('box-shadow', '');
+                    tab.get('el').find('a').css('box-shadow', '');
                 }
             }
+        },
+
+        updateTabsColors: function () {
+            var me = this;
+            _.each(this.sheets.models, function (item) {
+                me.setTabLineColor(item, me.api.asc_getWorksheetTabColor(item.get('index')));
+            });
         },
 
         onError: function(id, level, errData) {

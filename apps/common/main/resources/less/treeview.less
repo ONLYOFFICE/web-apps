@@ -1,4 +1,7 @@
 .treeview {
+  border: 1px solid @input-border;
+  .border-radius(@border-radius-small);
+
   &.inner {
     width: 100%;
     height: 100%;
@@ -9,11 +12,17 @@
       text-align: center;
       height: 100%;
       width: 100%;
-      color: #b2b2b2;
+      color: @text-tertiary-ie;
+      color: @text-tertiary;
       td {
         padding: 5px;
       }
     }
+  }
+
+  &:focus {
+    border-color: @border-preview-select-ie;
+    border-color: @border-preview-select;
   }
 
   > .item {
@@ -24,11 +33,13 @@
 
     &:hover,
     &.over {
-      background-color: @secondary;
+      background-color: @highlight-button-hover-ie;
+      background-color: @highlight-button-hover;
     }
 
     &.selected {
-      background-color: #cbcdcf;
+      background-color: @highlight-button-pressed-ie;
+      background-color: @highlight-button-pressed;
     }
 
     &.selected .empty {
@@ -51,7 +62,8 @@
     text-overflow: ellipsis;
 
     &.empty {
-      color: #999;
+      color: @text-tertiary-ie;
+      color: @text-tertiary;
       font-style: italic;
     }
   }

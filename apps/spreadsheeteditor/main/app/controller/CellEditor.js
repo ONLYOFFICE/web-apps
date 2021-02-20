@@ -185,7 +185,7 @@ define([
 
         onLayoutResize: function(o, r) {
             if (r == 'cell:edit') {
-                if (this.editor.$el.height() > 19) {
+                if (Math.floor(this.editor.$el.height()) > 19) {
                     if (!this.editor.$btnexpand.hasClass('btn-collapse'))
                         this.editor.$btnexpand['addClass']('btn-collapse');
                     o && Common.localStorage.setItem('sse-celleditor-height', this.editor.$el.height());
@@ -225,7 +225,7 @@ define([
         },
 
         expandEditorField: function() {
-            if (this.editor.$el.height() > 19) {
+            if ( Math.floor(this.editor.$el.height()) > 19) {
                 this.editor.keep_height = this.editor.$el.height();
                 this.editor.$el.height(19);
                 this.editor.$btnexpand['removeClass']('btn-collapse');
@@ -284,7 +284,7 @@ define([
         },
 
         onNameBeforeShow: function() {
-            var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook),
+            var names = this.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.WorksheetWorkbook, true),
                 rangesMenu = this.editor.btnNamedRanges.menu,
                 prev_name='';
 
@@ -309,6 +309,11 @@ define([
 
         onLockDefNameManager: function(state) {
             this.namedrange_locked = (state == Asc.c_oAscDefinedNameReason.LockDefNameManager);
+        },
+
+        disableEditing: function(disabled) {
+            this.editor.$btnfunc[!disabled?'removeClass':'addClass']('disabled');
+            this.editor.btnNamedRanges.setVisible(!disabled);
         }
     });
 });

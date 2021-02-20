@@ -2,7 +2,8 @@ body {
     width: 100%;
     height: 100%;
     .user-select(none);
-    color: @gray-deep;
+    color: @text-normal-ie;
+    color: @text-normal;
 
     &.safari {
         position: absolute;
@@ -33,7 +34,8 @@ label {
     top:0;
     right: 0;
     bottom: 0;
-    background-color: @gray-light;
+    background-color: @background-toolbar-ie;
+    background-color: @background-toolbar;
     overflow: hidden;
 }
 
@@ -52,8 +54,10 @@ label {
     }
 
     #editor_sdk {
-        border-top: 1px solid @gray-dark;
-        border-left: 1px solid @gray-dark;
+        border-top: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-top: @scaled-one-px-value solid @border-toolbar;
+        border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-left: @scaled-one-px-value solid @border-toolbar;
     }
 
     .layout-resizer {

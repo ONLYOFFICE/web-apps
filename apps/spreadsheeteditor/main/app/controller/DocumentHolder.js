@@ -237,6 +237,7 @@ define([
                 view.pmiNumFormat.menu.on('item:click',             _.bind(me.onNumberFormatSelect, me));
                 view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
                 view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
+                view.tableTotalMenu.on('item:click',                _.bind(me.onTotalMenuClick, me));
 
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
@@ -321,6 +322,7 @@ define([
                 this.api.asc_registerCallback('asc_onFormulaInfo', _.bind(this.onFormulaInfo, this));
                 this.api.asc_registerCallback('asc_ChangeCropState', _.bind(this.onChangeCropState, this));
                 this.api.asc_registerCallback('asc_onInputMessage', _.bind(this.onInputMessage, this));
+                this.api.asc_registerCallback('asc_onTableTotalMenu', _.bind(this.onTableTotalMenu, this));
             }
             return this;
         },
@@ -405,6 +407,10 @@ define([
         },
 
         onSortCells: function(menu, item) {
+            if (item.value=='advanced') {
+                Common.NotificationCenter.trigger('data:sortcustom', this);
+                return;
+            }
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
                 if (res) {
@@ -507,7 +513,7 @@ define([
         onInsFunction: function(item) {
             var controller = this.getApplication().getController('FormulaDialog');
             if (controller && this.api) {
-                controller.showDialog();
+                controller.showDialog(undefined, item.value==Asc.ETotalsRowFunction.totalrowfunctionCustom);
             }
         },
 
@@ -546,7 +552,7 @@ define([
                 win.show();
                 win.setSettings({
                     sheets  : items,
-                    ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All),
+                    ranges  : me.api.asc_getDefinedNames(Asc.c_oAscGetDefinedNamesList.All, true),
                     currentSheet: me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex()),
                     props   : props,
                     text    : cell.asc_getText(),
@@ -759,7 +765,7 @@ define([
         onSelectBulletMenu: function(menu, item) {
             if (this.api) {
                 if (item.options.value == -1) {
-                    this.api.asc_setListType(item.options.value);
+                    this.api.asc_setListType(0, item.options.value);
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                     Common.component.Analytics.trackEvent('DocumentHolder', 'List Type');
                 } else if (item.options.value == 'settings') {
@@ -773,15 +779,17 @@ define([
                         }
                     }
                     if (props) {
+                        var listtype = me.api.asc_getCurrentListType();
                         (new Common.Views.ListSettingsDialog({
                             api: me.api,
                             props: props,
-                            type: me.api.asc_getCurrentListType().get_ListType(),
+                            type: 0,
                             interfaceLang: me.permissions.lang,
                             handler: function(result, value) {
                                 if (result == 'ok') {
                                     if (me.api) {
-                                        me.api.asc_setGraphicObjectProps(value);
+                                        props.asc_putBullet(value);
+                                        me.api.asc_setGraphicObjectProps(props);
                                     }
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
@@ -1061,7 +1069,7 @@ define([
                     if (usersStore){
                         var rec = usersStore.findUser(id);
                         if (rec)
-                            return rec.get('username');
+                            return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
                     }
                     return me.guestText;
                 };
@@ -1081,7 +1089,7 @@ define([
                         if (linkstr) {
                             linkstr = Common.Utils.String.htmlEncode(linkstr) + '<br><b>' + me.textCtrlClick + '</b>';
                         } else {
-                            linkstr = props.asc_getHyperlinkUrl() + '<br><b>' + me.textCtrlClick + '</b>';
+                            linkstr = Common.Utils.String.htmlEncode(props.asc_getHyperlinkUrl()) + '<br><b>' + me.textCtrlClick + '</b>';
                         }
                     } else {
                         linkstr = Common.Utils.String.htmlEncode(props.asc_getTooltip() || (props.asc_getLocation()));
@@ -1250,7 +1258,7 @@ define([
                     }
                 }
 
-                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible())) {
+                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible()) && !dataarray[index_filter-1].asc_getFilter().asc_getPivotObj()) {
                     if (!filterTip.parentEl) {
                         filterTip.parentEl = $('<div id="tip-container-filtertip" style="position: absolute; z-index: 10000;"></div>');
                         me.documentHolder.cmpEl.append(filterTip.parentEl);
@@ -1697,7 +1705,7 @@ define([
                             documentHolder.mnuChartEdit.chartInfo = elValue;
                             ischartmenu = true;
                             has_chartprops = true;
-                        }  if ( elValue.asc_getSlicerProperties() ) {
+                        }  else if ( elValue.asc_getSlicerProperties() ) {
                             documentHolder.mnuSlicerAdvanced.imageInfo = elValue;
                             isslicermenu = true;
                         } else {
@@ -1774,16 +1782,42 @@ define([
                             direct = value.asc_getVert(),
                             listtype = this.api.asc_getCurrentListType();
                         isObjLocked = isObjLocked || value.asc_getLocked();
+                        var cls = '';
+                        switch (align) {
+                            case Asc.c_oAscVAlign.Top:
+                                cls = 'menu__icon btn-align-top';
+                                break;
+                            case Asc.c_oAscVAlign.Center:
+                                cls = 'menu__icon btn-align-middle';
+                                break;
+                            case Asc.c_oAscVAlign.Bottom:
+                                cls = 'menu__icon btn-align-bottom';
+                                break;
+                        }
+                        documentHolder.menuParagraphVAlign.setIconCls(cls);
                         documentHolder.menuParagraphTop.setChecked(align == Asc.c_oAscVAlign.Top);
                         documentHolder.menuParagraphCenter.setChecked(align == Asc.c_oAscVAlign.Center);
                         documentHolder.menuParagraphBottom.setChecked(align == Asc.c_oAscVAlign.Bottom);
 
+                        cls = '';
+                        switch (direct) {
+                            case Asc.c_oAscVertDrawingText.normal:
+                                cls = 'menu__icon text-orient-hor';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert:
+                                cls = 'menu__icon text-orient-rdown';
+                                break;
+                            case Asc.c_oAscVertDrawingText.vert270:
+                                cls = 'menu__icon text-orient-rup';
+                                break;
+                        }
+                        documentHolder.menuParagraphDirection.setIconCls(cls);
                         documentHolder.menuParagraphDirectH.setChecked(direct == Asc.c_oAscVertDrawingText.normal);
                         documentHolder.menuParagraphDirect90.setChecked(direct == Asc.c_oAscVertDrawingText.vert);
                         documentHolder.menuParagraphDirect270.setChecked(direct == Asc.c_oAscVertDrawingText.vert270);
 
                         documentHolder.menuParagraphBulletNone.setChecked(listtype.get_ListType() == -1);
-                        documentHolder.mnuListSettings.setDisabled(listtype.get_ListType() == -1);
+                        // documentHolder.mnuListSettings.setDisabled(listtype.get_ListType() == -1);
                         var rec = documentHolder.paraBulletsPicker.store.findWhere({ type: listtype.get_ListType(), subtype: listtype.get_ListSubType() });
                         documentHolder.paraBulletsPicker.selectRecord(rec, true);
                     } else if (elType == Asc.c_oAscTypeSelectElement.Paragraph) {
@@ -1845,6 +1879,7 @@ define([
                 documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit);
                 documentHolder.pmiSortCells.menu.items[2].setVisible(!internaleditor);
                 documentHolder.pmiSortCells.menu.items[3].setVisible(!internaleditor);
+                documentHolder.pmiSortCells.menu.items[4].setVisible(!internaleditor);
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
@@ -1914,8 +1949,8 @@ define([
                     item.setDisabled(isCellLocked);
                 });
                 documentHolder.pmiCopy.setDisabled(false);
-                documentHolder.pmiCut.setDisabled(isCellLocked || inPivot); // can't edit pivot cells
-                documentHolder.pmiPaste.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiCut.setDisabled(isCellLocked); // can't edit pivot cells
+                documentHolder.pmiPaste.setDisabled(isCellLocked);
                 documentHolder.pmiInsertEntire.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.pmiInsertCells.setDisabled(isCellLocked || isTableLocked || inPivot);
                 documentHolder.pmiInsertTable.setDisabled(isCellLocked || isTableLocked);
@@ -1929,6 +1964,7 @@ define([
                 documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);
+                documentHolder.pmiFreezePanes.setDisabled(this.api.asc_isWorksheetLockedOrDeleted(this.api.asc_getActiveWorksheetIndex()));
 
                 if (showMenu) this.showPopupMenu(documentHolder.ssMenu, {}, event);
             } else if (this.permissions.isEditDiagram && seltype == Asc.c_oAscSelectionType.RangeChartText) {
@@ -2118,6 +2154,63 @@ define([
             }
         },
 
+        onTableTotalMenu: function(current) {
+            if (current !== undefined) {
+                var me                  = this,
+                    documentHolderView  = me.documentHolder,
+                    menu                = documentHolderView.tableTotalMenu,
+                    menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
+
+                if (menu.isVisible()) {
+                    menu.hide();
+                    return;
+                }
+
+                Common.UI.Menu.Manager.hideAll();
+
+                if (!menu.rendered) {
+                    // Prepare menu container
+                    if (menuContainer.length < 1) {
+                        menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                        documentHolderView.cmpEl.append(menuContainer);
+                    }
+
+                    menu.render(menuContainer);
+                    menu.cmpEl.attr({tabindex: "-1"});
+                }
+
+                menu.clearAll();
+                var func = _.find(menu.items, function(item) { return item.value == current; });
+                if (func)
+                    func.setChecked(true, true);
+
+                var coord  = me.api.asc_getActiveCellCoord(),
+                    offset = {left:0,top:0},
+                    showPoint = [coord.asc_getX() + offset.left, (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + offset.top];
+                menuContainer.css({left: showPoint[0], top : showPoint[1]});
+
+                me._preventClick = true;
+                menuContainer.attr('data-value', 'prevent-canvas-click');
+                menu.show();
+
+                menu.alignPosition();
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
+            } else {
+                this.documentHolder.tableTotalMenu.hide();
+            }
+        },
+
+        onTotalMenuClick: function(menu, item) {
+            if (item.value==Asc.ETotalsRowFunction.totalrowfunctionCustom) {
+                this.onInsFunction(item);
+            } else {
+                this.api.asc_insertInCell(item.value, Asc.c_oAscPopUpSelectorType.TotalRowFunc);
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
         onFormulaCompleteMenu: function(funcarr) {
             if (!this.documentHolder.funcMenu || Common.Utils.ModalWindow.isVisible() || this.rangeSelectionMode) return;
 
@@ -2187,16 +2280,18 @@ define([
                                 li = menuContainer.find('a.focus').closest('li');
                             else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
                                 var innerEl = menu.cmpEl,
-                                    inner_top = innerEl.offset().top,
-                                    li_focused = menuContainer.find('a.focus').closest('li');
-
-                                var li_top = li_focused.offset().top;
-                                if (li_top < inner_top || li_top+li_focused.outerHeight() > inner_top + innerEl.height()) {
-                                    if (menu.scroller) {
-                                        menu.scroller.scrollTop(innerEl.scrollTop() + li_top - inner_top, 0);
-                                    } else {
-                                        innerEl.scrollTop(innerEl.scrollTop() + li_top - inner_top);
-                                    }
+                                    li_focused = menuContainer.find('a.focus').closest('li'),
+                                    innerHeight = innerEl.innerHeight(),
+                                    padding = (innerHeight - innerEl.height())/2,
+                                    pos = li_focused.position().top,
+                                    itemHeight = li_focused.outerHeight(),
+                                    newpos;
+                                if (pos<0)
+                                    newpos = innerEl.scrollTop() + pos - padding;
+                                else if (pos+itemHeight>innerHeight)
+                                    newpos = innerEl.scrollTop() + pos + itemHeight - innerHeight + padding;
+                                if (newpos!==undefined) {
+                                    menu.scroller ? menu.scroller.scrollTop(newpos, 0) : innerEl.scrollTop(newpos);
                                 }
                             }
                         }
@@ -2442,12 +2537,16 @@ define([
                                 type: Common.Utils.importTextType.Paste,
                                 preview: true,
                                 api: me.api,
-                                handler: function (result, encoding, delimiter, delimiterChar) {
+                                handler: function (result, encoding, delimiter, delimiterChar, decimal, thousands) {
                                     if (result == 'ok') {
                                         if (me && me.api) {
                                             var props = new Asc.SpecialPasteProps();
                                             props.asc_setProps(Asc.c_oSpecialPasteProps.useTextImport);
-                                            props.asc_setAdvancedOptions(new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar));
+
+                                            var options = new Asc.asc_CTextOptions(encoding, delimiter, delimiterChar);
+                                            decimal && options.asc_setNumberDecimalSeparator(decimal);
+                                            thousands && options.asc_setNumberGroupSeparator(thousands);
+                                            props.asc_setAdvancedOptions(options);
                                             me.api.asc_SpecialPaste(props);
                                         }
                                         me._state.lastSpecPasteChecked = item;
@@ -2574,8 +2673,8 @@ define([
             // Prepare menu container
             if (pasteContainer.length < 1) {
                 me._arrAutoCorrectPaste = [];
-                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.UndoTableAutoExpansion] = me.txtUndoExpansion;
-                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.RedoTableAutoExpansion] = me.txtRedoExpansion;
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.UndoTableAutoExpansion] = {caption: me.txtUndoExpansion, icon: 'menu__icon btn-undo'};
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.RedoTableAutoExpansion] = {caption: me.txtRedoExpansion, icon: 'menu__icon btn-redo'};
 
                 pasteContainer = $('<div id="autocorrect-paste-container" style="position: absolute;"><div id="id-document-holder-btn-autocorrect-paste"></div></div>');
                 documentHolderView.cmpEl.append(pasteContainer);
@@ -2583,9 +2682,10 @@ define([
                 me.btnAutoCorrectPaste = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-autocorrect-paste'),
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-paste',
-                    menu        : new Common.UI.Menu({items: []})
+                    iconCls     : 'toolbar__icon btn-autocorrect',
+                    menu        : new Common.UI.Menu({cls: 'shifted-right', items: []})
                 });
+                me.btnAutoCorrectPaste.menu.on('show:after', _.bind(me.onAutoCorrectOpenAfter, me));
             }
 
             if (pasteItems.length>0) {
@@ -2598,14 +2698,32 @@ define([
                 var group_prev = -1;
                 _.each(pasteItems, function(menuItem, index) {
                     var mnu = new Common.UI.MenuItem({
-                        caption: me._arrAutoCorrectPaste[menuItem],
-                        value: menuItem
+                        caption: me._arrAutoCorrectPaste[menuItem].caption,
+                        value: menuItem,
+                        iconCls: me._arrAutoCorrectPaste[menuItem].icon
                     }).on('click', function(item, e) {
                         me.api.asc_applyAutoCorrectOptions(item.value);
                         setTimeout(function(){menu.hide();}, 100);
                     });
                     menu.addItem(mnu);
                 });
+                me.mnuAutoCorrectStop = new Common.UI.MenuItem({
+                    caption: me.textStopExpand,
+                    checkable: true,
+                    allowDepress: true,
+                    checked: !Common.Utils.InternalSettings.get("sse-settings-autoformat-new-rows")
+                }).on('click', function(item){
+                    Common.localStorage.setBool("sse-settings-autoformat-new-rows", !item.checked);
+                    Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", !item.checked);
+                    me.api.asc_setIncludeNewRowColTable(!item.checked);
+                    setTimeout(function(){menu.hide();}, 100);
+                });
+                menu.addItem(me.mnuAutoCorrectStop);
+                menu.addItem({caption: '--'});
+                var mnu = new Common.UI.MenuItem({
+                    caption: me.textAutoCorrectSettings
+                }).on('click', _.bind(me.onAutoCorrectOptions, me));
+                menu.addItem(mnu);
             }
 
             var width = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
@@ -2661,6 +2779,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2831,6 +2950,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2858,6 +2978,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2877,6 +2998,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2906,6 +3028,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -2958,6 +3081,7 @@ define([
                         equation    : true,
                         disabled    : me._currentParaObjDisabled,
                         menu        : new Common.UI.Menu({
+                            cls: 'shifted-right',
                             menuAlign: 'tl-tr',
                             items   : [
                                 {
@@ -3389,6 +3513,20 @@ define([
             }
         },
 
+        onAutoCorrectOpenAfter: function(menu) {
+            this.mnuAutoCorrectStop && this.mnuAutoCorrectStop.setChecked(!Common.Utils.InternalSettings.get("sse-settings-autoformat-new-rows"));
+        },
+
+        onAutoCorrectOptions: function() {
+            var win = (new Common.Views.AutoCorrectDialog({
+                api: this.api
+            }));
+            if (win) {
+                win.show();
+                win.setActiveCategory(2);
+            }
+        },
+        
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
             this._canProtect = canProtect;
@@ -3540,7 +3678,9 @@ define([
         txtBlanks: '(Blanks)',
         txtColumn: 'Column',
         txtImportWizard: 'Text Import Wizard',
-        textPasteSpecial: 'Paste special'
+        textPasteSpecial: 'Paste special',
+        textStopExpand: 'Stop automatically expanding tables',
+        textAutoCorrectSettings: 'AutoCorrect options'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

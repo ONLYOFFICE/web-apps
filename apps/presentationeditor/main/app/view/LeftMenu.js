@@ -359,15 +359,59 @@ define([
             return this;
         },
 
-        setDeveloperMode: function(mode) {
+        setDeveloperMode: function(mode, beta, version) {
             if ( !this.$el.is(':visible') ) return;
 
-            if (!this.developerHint) {
-                this.developerHint = $('<div id="developer-hint">' + ((mode == Asc.c_oLicenseMode.Trial) ? this.txtTrial.toLocaleUpperCase() : this.txtDeveloper.toLocaleUpperCase()) + '</div>').appendTo(this.$el);
-                this.devHeight = this.developerHint.outerHeight();
-                $(window).on('resize', _.bind(this.onWindowResize, this));
+            if ((mode & Asc.c_oLicenseMode.Trial) || (mode & Asc.c_oLicenseMode.Developer)) {
+                if (!this.developerHint) {
+                    var str = '';
+                    if ((mode & Asc.c_oLicenseMode.Trial) && (mode & Asc.c_oLicenseMode.Developer))
+                        str = this.txtTrialDev;
+                    else if ((mode & Asc.c_oLicenseMode.Trial)!==0)
+                        str = this.txtTrial;
+                    else if ((mode & Asc.c_oLicenseMode.Developer)!==0)
+                        str = this.txtDeveloper;
+                    str = str.toUpperCase();
+                    this.developerHint = $('<div id="developer-hint">' + str + '</div>').appendTo(this.$el);
+                    this.devHeight = this.developerHint.outerHeight();
+                    !this.devHintInited && $(window).on('resize', _.bind(this.onWindowResize, this));
+                    this.devHintInited = true;
+                }
             }
-            this.developerHint.toggleClass('hidden', !mode);
+            this.developerHint && this.developerHint.toggleClass('hidden', !((mode & Asc.c_oLicenseMode.Trial) || (mode & Asc.c_oLicenseMode.Developer)));
+
+            if (beta) {
+                if (!this.betaHint) {
+                    var style = (mode) ? 'style="margin-top: 4px;"' : '',
+                        arr = (version || '').split('.'),
+                        ver = '';
+                    (arr.length>0) && (ver += ('v. ' + arr[0]));
+                    (arr.length>1) && (ver += ('.' + arr[0]));
+                    this.betaHint = $('<div id="beta-hint"' + style + '>' + (ver + ' (beta)' ) + '</div>').appendTo(this.$el);
+                    this.betaHeight = this.betaHint.outerHeight();
+                    !this.devHintInited && $(window).on('resize', _.bind(this.onWindowResize, this));
+                    this.devHintInited = true;
+                }
+            }
+            this.betaHint && this.betaHint.toggleClass('hidden', !beta);
+
+            var btns = this.$el.find('button.btn-category:visible'),
+                lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
+            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.onWindowResize();
+        },
+
+        setLimitMode: function() {
+            if ( !this.$el.is(':visible') ) return;
+
+            if (!this.limitHint) {
+                var str = this.txtLimit.toUpperCase();
+                this.limitHint = $('<div id="limit-hint" style="margin-top: 4px;">' + str + '</div>').appendTo(this.$el);
+                this.limitHeight = this.limitHint.outerHeight();
+                !this.devHintInited && $(window).on('resize', _.bind(this.onWindowResize, this));
+                this.devHintInited = true;
+            }
+            this.limitHint && this.limitHint.toggleClass('hidden', false);
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
@@ -376,7 +420,17 @@ define([
         },
 
         onWindowResize: function() {
-            this.developerHint.css('top', Math.max((this.$el.height()-this.devHeight)/2, this.minDevPosition));
+            var height = (this.devHeight || 0) + (this.betaHeight || 0) + (this.limitHeight || 0);
+            var top = Math.max((this.$el.height()-height)/2, this.minDevPosition);
+            if (this.developerHint) {
+                this.developerHint.css('top', top);
+                top += this.devHeight;
+            }
+            if (this.betaHint) {
+                this.betaHint.css('top', top);
+                top += (this.betaHeight + 4);
+            }
+            this.limitHint && this.limitHint.css('top', top);
         },
 
         /** coauthoring begin **/
@@ -389,6 +443,8 @@ define([
         tipSlides: 'Slides',
         tipPlugins  : 'Plugins',
         txtDeveloper: 'DEVELOPER MODE',
-        txtTrial: 'TRIAL MODE'
+        txtTrial: 'TRIAL MODE',
+        txtTrialDev: 'Trial Developer Mode',
+        txtLimit: 'Limit Access'
     }, PE.Views.LeftMenu || {}));
 });

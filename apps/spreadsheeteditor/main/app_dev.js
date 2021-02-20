@@ -148,6 +148,7 @@ require([
             'Main',
             'PivotTable',
             'DataTab',
+            'ViewTab',
             'Common.Controllers.Fonts',
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
@@ -171,6 +172,7 @@ require([
             'spreadsheeteditor/main/app/controller/Print',
             'spreadsheeteditor/main/app/controller/PivotTable',
             'spreadsheeteditor/main/app/controller/DataTab',
+            'spreadsheeteditor/main/app/controller/ViewTab',
             'spreadsheeteditor/main/app/view/FileMenuPanels',
             'spreadsheeteditor/main/app/view/ParagraphSettings',
             'spreadsheeteditor/main/app/view/ImageSettings',
@@ -189,6 +191,7 @@ require([
             'common/main/lib/controller/Plugins'
             ,'common/main/lib/controller/ReviewChanges'
             ,'common/main/lib/controller/Protection'
+            ,'common/main/lib/controller/Themes'
             ,'common/main/lib/controller/Desktop'
         ], function() {
             window.compareVersions = true;

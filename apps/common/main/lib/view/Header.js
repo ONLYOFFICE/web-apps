@@ -53,7 +53,6 @@ define([
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers;
-        var $saveStatus;
         var _readonlyRights = false;
 
         var templateUserItem =
@@ -74,33 +73,41 @@ define([
 
         var templateRightBox = '<section>' +
                             '<section id="box-doc-name">' +
-                                '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
+                                // '<input type="text" id="rib-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
+                                '<label id="rib-doc-name" />' +
                             '</section>' +
-                            '<a id="rib-save-status" class="status-label locked"><%= textSaveEnd %></a>' +
-                            '<div class="hedset">' +
-                                '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
-                                '<div class="btn-slot" id="slot-hbtn-print"></div>' +
-                                '<div class="btn-slot" id="slot-hbtn-download"></div>' +
-                            '</div>' +
-                            '<div class="hedset">' +
-                                // '<span class="btn-slot text" id="slot-btn-users"></span>' +
-                                '<section id="tlb-box-users" class="box-cousers dropdown"">' +
-                                    '<div class="btn-users">' +
-                                        '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
-                                        '<label class="caption">&plus;</label>' +
+                            '<section style="display: inherit;">' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
+                                    '<div class="btn-slot" id="slot-hbtn-print"></div>' +
+                                    '<div class="btn-slot" id="slot-hbtn-download"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    // '<span class="btn-slot text" id="slot-btn-users"></span>' +
+                                    '<section id="tlb-box-users" class="box-cousers dropdown"">' +
+                                        '<div class="btn-users">' +
+                                            '<i class="icon toolbar__icon icon--inverse btn-users"></i>' +
+                                            '<label class="caption">&plus;</label>' +
+                                        '</div>' +
+                                        '<div class="cousers-menu dropdown-menu">' +
+                                            '<label id="tlb-users-menu-descr"><%= tipUsers %></label>' +
+                                            '<div class="cousers-list"></div>' +
+                                            '<label id="tlb-change-rights" class="link"><%= txtAccessRights %></label>' +
+                                        '</div>' +
+                                    '</section>'+
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-back"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-favorite"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-options"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-user-name"></div>' +
+                                    '<div class="btn-current-user hidden">' +
+                                        '<i class="icon toolbar__icon icon--inverse btn-user"></i>' +
                                     '</div>' +
-                                    '<div class="cousers-menu dropdown-menu">' +
-                                        '<label id="tlb-users-menu-descr"><%= tipUsers %></label>' +
-                                        '<div class="cousers-list"></div>' +
-                                        '<label id="tlb-change-rights" class="link"><%= txtAccessRights %></label>' +
-                                    '</div>' +
-                                '</section>'+
-                            '</div>' +
-                            '<div class="hedset">' +
-                                '<div class="btn-slot" id="slot-btn-undock"></div>' +
-                                '<div class="btn-slot" id="slot-btn-back"></div>' +
-                                '<div class="btn-slot" id="slot-btn-options"></div>' +
-                            '</div>' +
+                                '</div>' +
+                            '</section>' +
                         '</section>';
 
         var templateLeftBox = '<section class="logo">' +
@@ -109,16 +116,16 @@ define([
 
         var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
-                                '<div class="hedset" id="header-tools">' +
+                                '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-dt-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
                                 '</div>' +
-                                '<div class="lr-separator">' +
-                                    '<input type="text" id="title-doc-name" spellcheck="false" data-can-copy="false" style="pointer-events: none;" disabled="disabled">' +
+                                '<div class="lr-separator" id="id-box-doc-name">' +
+                                    '<label id="title-doc-name" />' +
                                 '</div>' +
-                                '<label id="title-user-name" style="pointer-events: none;"></label>' +
+                                '<label id="title-user-name"></label>' +
                             '</section>';
 
         function onResetUsers(collection, opts) {
@@ -128,7 +135,9 @@ define([
                     $userList.html(templateUserList({
                         users: collection.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).value(),
                         usertpl: _.template(templateUserItem),
-                        fnEncode: Common.Utils.String.htmlEncode
+                        fnEncode: function(username) {
+                            return Common.Utils.String.htmlEncode(Common.Utils.UserInfoParser.getParsedName(username));
+                        }
                     }));
 
                     $userList.scroller = new Common.UI.Scroller({
@@ -204,16 +213,21 @@ define([
         }
 
         function onAppShowed(config) {
-            if ( this.labelDocName && this.labelDocName.get(0).id == 'title-doc-name'
-                && this.labelDocName.is(':visible') )
-            {
-                var $tools = this.btnSave.$el.parent('#header-tools');
-                var _left_width = $tools.prev().outerWidth() + $tools.outerWidth();
-                var _right_width = this.labelUserName.outerWidth();
+            if ( this.labelDocName ) {
+                if ( config.isCrypted ) {
+                    this.labelDocName.before(
+                        '<div class="inner-box-icon crypted">' +
+                            '<svg class="icon"><use xlink:href="#svg-icon-crypted"></use></svg>' +
+                        '</div>');
+                }
+
+                var $parent = this.labelDocName.parent();
+                var _left_width = $parent.position().left,
+                    _right_width = $parent.next().outerWidth();
 
                 if ( _left_width < _right_width )
-                    this.labelDocName.css('padding-left', _right_width - _left_width);
-                else this.labelDocName.css('padding-right', _left_width - _right_width);
+                    this.labelDocName.parent().css('padding-left', _right_width - _left_width);
+                else this.labelDocName.parent().css('padding-right', _left_width - _right_width);
             }
         }
 
@@ -223,6 +237,14 @@ define([
             var me = this;
             me.btnGoBack.on('click', function (e) {
                 Common.NotificationCenter.trigger('goback');
+            });
+
+            me.btnFavorite.on('click', function (e) {
+                // wait for setFavorite method
+                // me.options.favorite = !me.options.favorite;
+                // me.btnFavorite.changeIcon(me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                // me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
+                Common.NotificationCenter.trigger('markfavorite', !me.options.favorite);
             });
 
             if ( me.logo )
@@ -235,43 +257,48 @@ define([
                     }
                 });
 
-            onResetUsers(storeUsers);
+            if ( $panelUsers ) {
+                onResetUsers(storeUsers);
 
-            $panelUsers.on('shown.bs.dropdown', function () {
-                $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
-            });
+                $panelUsers.on('shown.bs.dropdown', function () {
+                    $userList.scroller && $userList.scroller.update({minScrollbarLength: 40, alwaysVisibleY: true});
+                });
 
-            $panelUsers.find('.cousers-menu')
-                .on('click', function(e) { return false; });
+                $panelUsers.find('.cousers-menu')
+                    .on('click', function(e) { return false; });
 
-            var editingUsers = storeUsers.getEditingCount();
-            $btnUsers.tooltip({
-                title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
-                titleNorm: me.tipAccessRights,
-                titleExt: me.tipViewUsers,
-                placement: 'bottom',
-                html: true
-            });
+                var editingUsers = storeUsers.getEditingCount();
+                $btnUsers.tooltip({
+                    title: (editingUsers > 1 || editingUsers>0 && !appConfig.isEdit && !appConfig.isRestrictedEdit) ? me.tipViewUsers : me.tipAccessRights,
+                    titleNorm: me.tipAccessRights,
+                    titleExt: me.tipViewUsers,
+                    placement: 'bottom',
+                    html: true
+                });
 
-            $btnUsers.on('click', onUsersClick.bind(me));
+                $btnUsers.on('click', onUsersClick.bind(me));
 
-            var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
-            $labelChangeRights.on('click', function(e) {
-                $panelUsers.removeClass('open');
-                Common.NotificationCenter.trigger('collaboration:sharing');
-            });
+                var $labelChangeRights = $panelUsers.find('#tlb-change-rights');
+                $labelChangeRights.on('click', function(e) {
+                    $panelUsers.removeClass('open');
+                    Common.NotificationCenter.trigger('collaboration:sharing');
+                });
 
-            $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
-            $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
+                $labelChangeRights[(!mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings))?'show':'hide']();
+                $panelUsers[(editingUsers > 1  || editingUsers > 0 && !appConfig.isEdit && !appConfig.isRestrictedEdit || !mode.isOffline && (mode.sharingSettingsUrl && mode.sharingSettingsUrl.length || mode.canRequestSharingSettings)) ? 'show' : 'hide']();
+            }
 
-            if ( $saveStatus ) {
-                $saveStatus.attr('data-width', me.textSaveExpander);
-                if (appConfig.canUseHistory) {
-                    // $saveStatus.on('click', function(e) {
-                    //     me.fireEvent('history:show', ['header']);
-                    // });
-                } else {
-                    $saveStatus.addClass('locked');
+
+            if (appConfig.user.guest && appConfig.canRenameAnonymous) {
+                if (me.labelUserName) {
+                    me.labelUserName.addClass('clickable');
+                    me.labelUserName.on('click', function (e) {
+                        Common.NotificationCenter.trigger('user:rename');
+                    });
+                } else if (me.btnUserName) {
+                    me.btnUserName.on('click', function (e) {
+                        Common.NotificationCenter.trigger('user:rename');
+                    });
                 }
             }
 
@@ -323,24 +350,6 @@ define([
                 me.btnOptions.updateHint(me.tipViewSettings);
         }
 
-        function onAppConfig(config) {
-            var me = this;
-            if ( config.canUndock ) {
-                me.btnUndock = new Common.UI.Button({
-                    cls: 'btn-header no-caret',
-                    iconCls: 'svgicon svg-btn-undock',
-                    hint: me.tipUndock,
-                    split: true
-                });
-
-                me.btnUndock.on('click', function (e) {
-                    Common.NotificationCenter.trigger('action:undocking', 'undock');
-                });
-
-                me.btnUndock.render($('#toolbar .box-tabs #slot-btn-undock'));
-            }
-        }
-
         function onDocNameKeyDown(e) {
             var me = this;
 
@@ -372,13 +381,6 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 me.labelDocName.attr('size', name.length > 10 ? name.length : 10);
-            }
-        }
-
-        function onAppUndocked(c) {
-            var me = this;
-            if ( me.btnUndock ) {
-                c.status == 'undocked' ? me.btnUndock.hide() : me.btnUndock.show();
             }
         }
 
@@ -429,11 +431,15 @@ define([
 
                 me.mnuZoom = {options: {value: 100}};
 
+                me.btnFavorite = new Common.UI.Button({
+                    id: 'btn-favorite',
+                    cls: 'btn-header',
+                    iconCls: 'toolbar__icon icon--inverse btn-favorite'
+                });
+
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
-                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
-                    'app:config' : function (c) {Common.Utils.asyncCall(onAppConfig, me, c);},
-                    'undock:status': onAppUndocked.bind(this)
+                    'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);}
                 });
                 Common.NotificationCenter.on('collaboration:sharingdeny', onLostEditRights);
             },
@@ -470,17 +476,11 @@ define([
                 if ( role == 'right' ) {
                     var $html = $(_.template(templateRightBox)({
                         tipUsers: this.labelCoUsersDescr,
-                        txtAccessRights: this.txtAccessRights,
-                        textSaveEnd: this.textSaveEnd
+                        txtAccessRights: this.txtAccessRights
                     }));
 
                     if ( !me.labelDocName ) {
                         me.labelDocName = $html.find('#rib-doc-name');
-                        // this.labelDocName.attr('maxlength', 50);
-                        me.labelDocName.text = function (text) {
-                            this.val(text).attr('size', text.length);
-                        }
-
                         if ( me.documentCaption ) {
                             me.labelDocName.text(me.documentCaption);
                         }
@@ -492,14 +492,18 @@ define([
                         this.setCanRename(this.options.canRename);
                     }
 
-                    // $saveStatus = $html.find('#rib-save-status');
-                    $html.find('#rib-save-status').hide();
-                    // if ( config.isOffline ) $saveStatus = false;
-
                     if ( this.options.canBack === true ) {
                         me.btnGoBack.render($html.find('#slot-btn-back'));
                     } else {
                         $html.find('#slot-btn-back').hide();
+                    }
+
+                    if ( this.options.favorite !== undefined && this.options.favorite!==null) {
+                        me.btnFavorite.render($html.find('#slot-btn-favorite'));
+                        me.btnFavorite.changeIcon(!!me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                        me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
+                    } else {
+                        $html.find('#slot-btn-favorite').hide();
                     }
 
                     if ( !config.isEdit ) {
@@ -514,6 +518,16 @@ define([
                     }
                     me.btnOptions.render($html.find('#slot-btn-options'));
 
+                    if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
+                        if (config.user.guest && config.canRenameAnonymous)
+                            me.btnUserName = createTitleButton('toolbar__icon icon--inverse btn-user', $html.findById('#slot-btn-user-name'));
+                        else {
+                            me.elUserName = $html.find('.btn-current-user');
+                            me.elUserName.removeClass('hidden');
+                        }
+                        me.setUserName(me.options.userName);
+                    }
+
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $html.find('.btn-users');
@@ -527,7 +541,6 @@ define([
 
                     !!me.labelDocName && me.labelDocName.hide().off();                  // hide document title if it was created in right box
                     me.labelDocName = $html.find('#title-doc-name');
-                    me.labelDocName.text = function (str) {this.val(str);};             // redefine text function to lock temporaly rename docuemnt option
                     me.labelDocName.text( me.documentCaption );
 
                     me.labelUserName = $('> #title-user-name', $html);
@@ -622,6 +635,19 @@ define([
                 return this.options.canBack;
             },
 
+            setFavorite: function (value) {
+                this.options.favorite = value;
+                this.btnFavorite[value!==undefined && value!==null ? 'show' : 'hide']();
+                this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                this.btnFavorite.updateHint(!value ? this.textAddFavorite : this.textRemoveFavorite);
+
+                return this;
+            },
+
+            getFavorite: function () {
+                return this.options.favorite;
+            },
+
             setCanRename: function (rename) {
                 rename = false;
 
@@ -655,21 +681,6 @@ define([
                 }
             },
 
-            setSaveStatus: function (status) {
-                if ( $saveStatus ) {
-                    if ( $saveStatus.is(':hidden') ) $saveStatus.show();
-
-                    var _text;
-                    switch ( status ) {
-                    case 'begin': _text = this.textSaveBegin; break;
-                    case 'changed': _text = this.textSaveChanged; break;
-                    default: _text = this.textSaveEnd;
-                    }
-
-                    $saveStatus.text( _text );
-                }
-            },
-
             setUserName: function(name) {
                 if ( !!this.labelUserName ) {
                     if ( !!name ) {
@@ -677,6 +688,15 @@ define([
                     } else this.labelUserName.hide();
                 } else {
                     this.options.userName = name;
+                    if ( this.btnUserName ) {
+                        this.btnUserName.updateHint(name);
+                    } else if (this.elUserName) {
+                        this.elUserName.tooltip({
+                            title: name,
+                            placement: 'cursor',
+                            html: true
+                        });
+                    }
                 }
 
                 return this;
@@ -685,6 +705,8 @@ define([
             getButton: function(type) {
                 if (type == 'save')
                     return this.btnSave;
+                else if (type == 'users')
+                    return $panelUsers;
             },
 
             lockHeaderBtns: function (alias, lock) {
@@ -719,18 +741,16 @@ define([
 
             fakeMenuItem: function() {
                 return {
-                    conf: {checked: false},
+                    conf: {checked: false, disabled: false},
                     setChecked: function (val) { this.conf.checked = val; },
-                    isChecked: function () { return this.conf.checked; }
+                    isChecked: function () { return this.conf.checked; },
+                    setDisabled: function (val) { this.conf.disabled = val; },
+                    isDisabled: function () { return this.conf.disabled; }
                 };
             },
 
             textBack: 'Go to Documents',
             txtRename: 'Rename',
-            textSaveBegin: 'Saving...',
-            textSaveEnd: 'All changes saved',
-            textSaveChanged: 'Modified',
-            textSaveExpander: 'All changes saved',
             txtAccessRights: 'Change access rights',
             tipAccessRights: 'Manage document access rights',
             labelCoUsersDescr: 'Document is currently being edited by several users.',
@@ -741,13 +761,15 @@ define([
             tipSave: 'Save',
             tipUndo: 'Undo',
             tipRedo: 'Redo',
-            tipUndock: 'Undock',
             textCompactView: 'Hide Toolbar',
             textHideStatusBar: 'Hide Status Bar',
             textHideLines: 'Hide Rulers',
             textZoom: 'Zoom',
             textAdvSettings: 'Advanced Settings',
-            tipViewSettings: 'View Settings'
+            tipViewSettings: 'View Settings',
+            textRemoveFavorite: 'Remove from Favorites',
+            textDarkTheme: 'Dark theme',
+            textAddFavorite: 'Mark as favorite'
         }
     }(), Common.Views.Header || {}))
 });

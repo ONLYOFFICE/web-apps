@@ -99,11 +99,11 @@ Common.util = Common.util||{};
                 'modal:show': function(e){
                     window.key.suspend();
                 },
-                'modal:close': function(e) {
-                    window.key.resume();
+                'modal:close': function(e, last) {
+                    last && window.key.resume();
                 },
-                'modal:hide': function(e) {
-                    window.key.resume();
+                'modal:hide': function(e, last) {
+                    last && window.key.resume();
                 }
             });
         },

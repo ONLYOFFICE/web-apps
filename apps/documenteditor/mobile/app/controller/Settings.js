@@ -143,13 +143,17 @@ define([
 
             setMode: function (mode) {
                 this.getView('Settings').setMode(mode);
-                if (mode.canBranding)
-                    _licInfo = mode.customization;
-                _canReview = mode.canReview;
-                _isReviewOnly = mode.isReviewOnly;
-                _fileKey = mode.fileKey;
-                _isEdit = mode.isEdit;
-                _lang = mode.lang;
+                if (mode.isDisconnected) {
+                    _canReview = _isReviewOnly = _isEdit = false;
+                } else {
+                    if (mode.canBranding)
+                        _licInfo = mode.customization;
+                    _canReview = mode.canReview;
+                    _isReviewOnly = mode.isReviewOnly;
+                    _fileKey = mode.fileKey;
+                    _isEdit = mode.isEdit;
+                    _lang = mode.lang;
+                }
             },
 
             initEvents: function () {
@@ -232,9 +236,10 @@ define([
                     me.initPageAdvancedSettings();
                     $('#settings-spellcheck input:checkbox').attr('checked', Common.Utils.InternalSettings.get("de-mobile-spellcheck"));
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
-                    $('#settings-no-characters input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-no-characters") == 'true') ? true : false);
+                    $('#settings-no-characters input:checkbox').attr('checked', Common.localStorage.getItem("de-mobile-no-characters") === 'true');
                     $('#settings-no-characters input:checkbox').single('change',   _.bind(me.onNoCharacters, me));
-                    $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
+                    var value = Common.localStorage.getItem("de-mobile-hidden-borders");
+                    $('#settings-hidden-borders input:checkbox').attr('checked', value===null || value==='true');
                     $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
                     $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
                     var displayComments = Common.localStorage.getBool("de-mobile-settings-livecomment", true);
@@ -269,10 +274,7 @@ define([
                     if(_stateDisplayMode == "final" || _stateDisplayMode == "original") {
                         $('#settings-document').addClass('disabled');
                     }
-                    var _userCount = DE.getController('Main').returnUserCount();
-                    if (_userCount > 0) {
-                        $('#settings-collaboration').show();
-                    }
+                    DE.getController('Toolbar').getDisplayCollaboration() && $('#settings-collaboration').show();
                 }
             },
 
@@ -344,8 +346,8 @@ define([
                 me.localSectionProps = me.api.asc_GetSectionProps();
 
                 if (me.localSectionProps) {
-                    me.maxMarginsH = me.localSectionProps.get_H() - 26;
-                    me.maxMarginsW = me.localSectionProps.get_W() - 127;
+                    me.maxMarginsH = me.localSectionProps.get_H() - 2.6;
+                    me.maxMarginsW = me.localSectionProps.get_W() - 12.7;
 
                     var top = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_TopMargin()).toFixed(2)),
                         bottom = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_BottomMargin()).toFixed(2)),
@@ -434,15 +436,15 @@ define([
                         info = document.info || {};
 
                     document.title ? $('#settings-document-title').html(document.title) : $('.display-document-title').remove();
-                    var value = info.owner || info.author;
+                    var value = info.owner;
                     value ? $('#settings-document-owner').html(value) : $('.display-owner').remove();
-                    value = info.uploaded || info.created;
+                    value = info.uploaded;
                     value ? $('#settings-doc-uploaded').html(value) : $('.display-uploaded').remove();
                     info.folder ? $('#settings-doc-location').html(info.folder) : $('.display-location').remove();
 
                     var appProps = (this.api) ? this.api.asc_getAppProps() : null;
                     if (appProps) {
-                        var appName = (appProps.asc_getApplication() || '') + ' ' + (appProps.asc_getAppVersion() || '');
+                        var appName = (appProps.asc_getApplication() || '') + (appProps.asc_getAppVersion() ? ' ' : '') + (appProps.asc_getAppVersion() || '');
                         appName ? $('#settings-doc-application').html(appName) : $('.display-application').remove();
                     }
                     var props = (this.api) ? this.api.asc_getCoreProps() : null;
@@ -454,11 +456,11 @@ define([
                         value = props.asc_getDescription();
                         value ? $('#settings-doc-comment').html(value) : $('.display-comment').remove();
                         value = props.asc_getModified();
-                        value ? $('#settings-doc-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
+                        value ? $('#settings-doc-last-mod').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'})) : $('.display-last-mode').remove();
                         value = props.asc_getLastModifiedBy();
-                        value ? $('#settings-doc-mod-by').html(value) : $('.display-mode-by').remove();
+                        value ? $('#settings-doc-mod-by').html(Common.Utils.UserInfoParser.getParsedName(value)) : $('.display-mode-by').remove();
                         value = props.asc_getCreated();
-                        value ? $('#settings-doc-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
+                        value ? $('#settings-doc-date').html(value.toLocaleString(_lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleTimeString(_lang, {timeStyle: 'short'})) : $('.display-created-date').remove();
                         value = props.asc_getCreator();
                         var templateCreator = "";
                         value && value.split(/\s*[,;]\s*/).forEach(function(item) {
@@ -606,9 +608,9 @@ define([
                             );
                         });
                     } else {
-                        _.defer(function () {
+                        _.delay(function () {
                             me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format));
-                        });
+                        }, 300);
                     }
 
                     me.hideModal();
@@ -627,9 +629,9 @@ define([
             onPrint: function(e) {
                 var me = this;
 
-                _.defer(function () {
+                _.delay(function () {
                     me.api.asc_Print();
-                });
+                }, 300);
                 me.hideModal();
             },
 
