@@ -859,7 +859,7 @@ define([
                     validation = function(value) {
                         var isvalid;
                         if (!_.isEmpty(value)) {
-                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, true, !props.getInColumns(), me._state.ChartType);
+                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, value, true, props.getInRows(), me._state.ChartType);
                             if (isvalid == Asc.c_oAscError.ID.No)
                                 return true;
                         } else return '';

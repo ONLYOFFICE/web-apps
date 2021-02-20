@@ -1090,7 +1090,7 @@ define([
                     if (props) {
                         (ischartedit) ? props.changeType(type) : props.putType(type);
                         var range = props.getRange(),
-                            isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType()) : Asc.c_oAscError.ID.No;
+                            isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
                         if (isvalid == Asc.c_oAscError.ID.No) {
                             (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
                         } else {

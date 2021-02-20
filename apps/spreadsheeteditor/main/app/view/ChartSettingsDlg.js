@@ -1572,7 +1572,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         var rec = this.mnuChartTypePicker.getSelectedRec();
                         rec && (type = rec.get('type'));
                     }
-                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !this.chartSettings.getInColumns(), type);
+                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, this.chartSettings.getInRows(), type);
                     if (isvalid == Asc.c_oAscError.ID.No)
                         return true;
                 } else
