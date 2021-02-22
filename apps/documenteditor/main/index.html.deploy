@@ -19,6 +19,7 @@
             width: 100%;
             overflow: hidden;
             border: none;
+            background: #f0f0f0;
             background: var(--canvas-background, #f0f0f0);
             z-index: 1001;
         }
@@ -63,7 +64,9 @@
         }
 
         .loadmask > .sktoolbar {
+            background: #f7f7f7;
             background: var(--background-toolbar, #f7f7f7);
+            border-bottom: 1px solid #cbcbcb;
             border-bottom: var(--scaled-one-px-value, 1px) solid var(--border-toolbar, #cbcbcb);
             height: 46px;
             padding: 10px 6px;
@@ -78,6 +81,7 @@
         }
 
         .loadmask > .sktoolbar li {
+            background: #ccc;
             background: var(--highlight-button-pressed, #ccc);
             border-radius: 3px;
             width: 20px;
@@ -102,10 +106,12 @@
         }
 
         .loadmask > .placeholder {
+            background: #fff;
             background: var(--canvas-content-background, #fff);
             width: 794px;
             margin: 46px auto;
             height: 100%;
+            border: 1px solid #ccc;
             border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #ccc);
             padding-top: 50px;
         }
