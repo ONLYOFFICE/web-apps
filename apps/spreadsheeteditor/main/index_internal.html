@@ -8,6 +8,15 @@
 
     <!-- splash -->
     <style type="text/css">
+        .theme-dark {
+            --background-toolbar: #404040;
+            --background-normal: #333;
+            --border-toolbar: #2a2a2a;
+            --canvas-background: #666666;
+            --canvas-content-background: #fff;
+            --canvas-page-border: #555;
+        }
+
         .loadmask {
             left: 0;
             top: 0;
@@ -16,7 +25,7 @@
             width: 100%;
             overflow: hidden;
             border: none;
-            background-color: #f4f4f4;
+            background: var(--canvas-background, #f0f0f0);
             z-index: 1001;
         }
 
@@ -29,7 +38,7 @@
 
         .loadmask > .skformula {
             height: 24px;
-            background: #f1f1f1;
+            background: var(--background-toolbar, #f7f7f7);
         }
 
         .loadmask > .skformula ul {
@@ -37,8 +46,8 @@
             font-size: 0;
             box-sizing: border-box;
             border-style: solid;
-            border-width: 1px;
-            border-color: #e1e1e1 transparent;
+            border-width: var(--scaled-one-px-value, 1px);
+            border-color: var(--border-toolbar, #cbcbcb) transparent;
         }
 
         .loadmask > .skformula li {
@@ -47,10 +56,10 @@
             height: 19px;
             width: 100%;
             margin-left: 20px;
-            background: #f7f7f7;
+            background: var(--background-normal, #fff);
             border-style: solid;
-            border-width: 1px;
-            border-color: transparent #e1e1e1;
+            border-width: var(--scaled-one-px-value, 1px);
+            border-color: transparent var(--border-toolbar, #cbcbcb);
         }
 
         .loadmask > .skformula li:first-child {
@@ -59,11 +68,11 @@
         }
 
         .loadmask > .placeholder {
-            background: #fbfbfb;
+            background: var(--canvas-content-background, #fff);
             width: 100%;
             height: 100%;
             font-size: 0;
-            border: 1px solid #dfdfdf;
+            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #ccc);
             white-space: nowrap;
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
