@@ -4,8 +4,10 @@ import { withTranslation } from 'react-i18next';
 import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import SpreadsheetSettingsController from '../../controller/settings/SpreadsheetSettings.jsx';
+import ApplicationSettingsController from '../../controller/settings/ApplicationSettings.jsx';
 import {DownloadWithTranslation} from '../../controller/settings/Download.jsx';
 import {SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins} from './SpreadsheetSettings.jsx';
+import {MacrosSettings, RegionalSettings, FormulaLanguage} from './ApplicationSettings.jsx';
 
 const routes = [
     {
@@ -31,6 +33,22 @@ const routes = [
     {
         path: '/download/',
         component: DownloadWithTranslation
+    },
+    {
+        path: '/application-settings/',
+        component: ApplicationSettingsController
+    },
+    {
+        path: '/macros-settings/',
+        component: MacrosSettings
+    },
+    {
+        path: '/regional-settings/',
+        component: RegionalSettings
+    },
+    {
+        path: '/formula-languages/',
+        component: FormulaLanguage
     }
 ];
 
@@ -94,7 +112,7 @@ const SettingsList = withTranslation()(props => {
                     <ListItem link="#" title={_t.textSpreadsheetSettings} onClick={onoptionclick.bind(this, '/spreadsheet-settings/')}>
                         <Icon slot="media" icon="icon-table-settings"></Icon>
                     </ListItem>
-                    <ListItem title={_t.textApplicationSettings} link="#">
+                    <ListItem title={_t.textApplicationSettings} link="#" onClick={onoptionclick.bind(this, '/application-settings/')}>
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
                     <ListItem title={_t.textDownload} link="#" onClick={onoptionclick.bind(this, "/download/")}>

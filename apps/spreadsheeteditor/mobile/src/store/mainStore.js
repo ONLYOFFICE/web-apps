@@ -6,7 +6,7 @@ import {storeWorksheets} from './sheets';
 import {storeFunctions} from './functions';
 import {storePalette} from "./palette";
 import {storeTextSettings} from "./textSettings";
-// import {storeParagraphSettings} from "./paragraphSettings";
+import {storeApplicationSettings} from "./applicationSettings";
 import {storeShapeSettings} from "./shapeSettings";
 import {storeCellSettings} from "./cellSettings";
 // import {storeImageSettings} from "./imageSettings";
@@ -17,6 +17,7 @@ import {storeSpreadsheetSettings} from "./spreadsheetSettings";
 export const stores = {
     storeFocusObjects: new storeFocusObjects(),
     storeSpreadsheetSettings: new storeSpreadsheetSettings(),
+    storeApplicationSettings: new storeApplicationSettings(),
     users: new storeUsers(),
     sheets: new storeWorksheets(),
     storeFunctions: new storeFunctions(),

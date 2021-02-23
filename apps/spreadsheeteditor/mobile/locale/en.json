@@ -256,7 +256,24 @@
             "advDRMPassword": "Password",
             "closeButtonText": "Close File",
             "txtProtected": "Once you enter the password and open the file, the current password to the file will be reset",
-            "textCancel": "Cancel"
+            "textCancel": "Cancel",
+            "textUnitOfMeasurement": "Unit Of Measurement",
+            "textCentimeter": "Centimeter",
+            "textPoint": "Point",
+            "textInch": "Inch",
+            "textMacrosSettings": "Macros Settings",
+            "textFormulaLanguage": "Formula Language",
+            "textRegionalSettings": "Regional Settings",
+            "textCommentingDisplay": "Commenting Display",
+            "textComments": "Comments",
+            "textResolvedComments": "Resolved Comments",
+            "textR1C1Style": "R1C1 Reference Style",
+            "textDisableAll": "Disable All",
+            "textDisableAllMacrosWithoutNotification": "Disable all macros without a notification",
+            "textShowNotification": "Show Notification",
+            "textDisableAllMacrosWithNotification": "Disable all macros with a notification",
+            "textEnableAll": "Enable All",
+            "textEnableAllMacrosWithoutNotification": "Enable all macros without a notification"
         }
     },
     "Common": {
