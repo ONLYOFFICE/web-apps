@@ -892,14 +892,14 @@ define([
                 parentEl: $('#format-rules-edit-color-pos-fill'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '000000'
+                color       : '638EC6'
             });
 
             this.btnNegFill = new Common.UI.ColorButton({
                 parentEl: $('#format-rules-edit-color-neg-fill'),
                 style: "width:45px;",
                 menu        : true,
-                color       : '000000'
+                color       : 'FF0000'
             });
 
             this.chFill = new Common.UI.CheckBox({
@@ -1598,9 +1598,8 @@ define([
                 var colorPicker = btn.getPicker();
                 colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
                 btn.colorPicker = colorPicker;
-                colorPicker.currentColor = '000000';
+                colorPicker.currentColor = btn.color;
                 colorPicker.select(colorPicker.currentColor, true);
-                btn.setColor(colorPicker.currentColor);
             };
             initColor(this.btnPosFill);
             this.btnPosFill.on('color:select', _.bind(this.onBarColorsSelect, this, 'pos'));
