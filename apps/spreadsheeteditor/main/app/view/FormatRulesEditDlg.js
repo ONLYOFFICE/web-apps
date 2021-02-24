@@ -520,9 +520,7 @@ define([
             var initNewColor = function(btn, picker_el, transparent) {
                 if (btn && btn.cmpEl) {
                     btn.currentColor = '#000000';
-                    var colorVal = $('<div class="btn-color-value-line"></div>');
-                    $('button:first-child', btn.cmpEl).append(colorVal);
-                    colorVal.css('background-color', btn.currentColor);
+                    btn.setColor(btn.currentColor);
                     var picker = new Common.UI.ThemeColorPalette({
                         el: $(picker_el),
                         transparent: transparent
@@ -535,7 +533,7 @@ define([
                 return picker;
             };
 
-            this.btnTextColor = new Common.UI.Button({
+            this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fontcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
@@ -553,7 +551,7 @@ define([
             this.mnuTextColorPicker.on('select', _.bind(me.onFormatTextColorSelect, me));
             this.btnTextColor.on('click', _.bind(me.onFormatTextColor, me));
 
-            this.btnFillColor = new Common.UI.Button({
+            this.btnFillColor = new Common.UI.ButtonColored({
                 parentEl: $('#format-rules-fillcolor'),
                 cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-paracolor',
@@ -1132,8 +1130,12 @@ define([
                         value = props.asc_getColorScaleOrDataBarOrIconSetRule();
                         break;
                 }
+
                 if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
-                    type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
+                    type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.notContainsBlanks ||
+                    type == Asc.c_oAscCFType.duplicateValues || type == Asc.c_oAscCFType.uniqueValues ||
+                    type == Asc.c_oAscCFType.containsErrors || type == Asc.c_oAscCFType.notContainsErrors ||
+                    type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
                     this.xfsFormat = props.asc_getDxf();
                 }
@@ -1528,7 +1530,10 @@ define([
         previewFormat: function() {
             if (this._changedProps) {
                 var type = this._changedProps.asc_getType();
-                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.duplicateValues ||
+                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
+                    type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.notContainsBlanks ||
+                    type == Asc.c_oAscCFType.duplicateValues || type == Asc.c_oAscCFType.uniqueValues ||
+                    type == Asc.c_oAscCFType.containsErrors || type == Asc.c_oAscCFType.notContainsErrors ||
                     type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
                     type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
                     this.xfsFormat && !this._changedProps.asc_getDxf() && this._changedProps.asc_setDxf(this.xfsFormat);

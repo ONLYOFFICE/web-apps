@@ -1603,6 +1603,7 @@ define([
                     }
                 })).show();
             } else if (item.value == 'clear') {
+                me.api.asc_clearCF(item.options.type);
             } else {
                 (new SSE.Views.FormatRulesEditDlg({
                     api: me.api,
