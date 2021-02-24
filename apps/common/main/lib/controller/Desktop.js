@@ -115,6 +115,9 @@ define([
                         titlebuttons[obj.action].btn.click();
                     }
                 } else
+                if (/theme:changed/.test(cmd)) {
+                    Common.UI.Themes.setTheme(param);
+                } else
                 if (/element:show/.test(cmd)) {
                     var _mr = /title:(?:(true|show)|(false|hide))/.exec(param);
                     if ( _mr ) {
@@ -235,6 +238,9 @@ define([
                     Common.NotificationCenter.on({
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close')
+                        , 'uitheme:changed' : function (name) {
+                            native.execCommand("uitheme:changed", name);
+                        }
                     });
                 }
             },
