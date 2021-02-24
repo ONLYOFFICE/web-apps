@@ -804,6 +804,7 @@ define([
                     type        : i
                 }).on('selected', function(combo, record) {
                     me.scaleControls[combo.options.type].range.setDisabled(record.value==Asc.c_oAscCfvoType.Minimum || record.value==Asc.c_oAscCfvoType.Maximum);
+                    me.setDefComboValue(combo.options.type, record.value, me.scaleControls[combo.options.type].range);
                 });
                 combo.setValue((i==1) ? Asc.c_oAscCfvoType.Percentile : arr[0].value);
 
@@ -852,6 +853,7 @@ define([
                 }).on('selected', function(combo, record) {
                     me.barControls[combo.options.type].range.setDisabled(record.value==Asc.c_oAscCfvoType.Minimum || record.value==Asc.c_oAscCfvoType.Maximum ||
                                                                          record.value==Asc.c_oAscCfvoType.AutoMin || record.value==Asc.c_oAscCfvoType.AutoMax);
+                    me.setDefComboValue(combo.options.type, record.value, me.barControls[combo.options.type].range);
                 });
                 combo.setValue(arr[1].value);
 
@@ -864,7 +866,7 @@ define([
                     validateOnChange: false,
                     type        : i
                 });
-                range.setValue('');
+                range.setValue(0);
                 range.on('button:click', _.bind(this.onSelectData, this));
                 this.barControls.push({combo: combo, range: range});
             }
@@ -1639,8 +1641,21 @@ define([
             }
         },
 
-        onAxisColorsSelect: function(picker, color) {
-            picker.colorPicker.currentColor = color;
+        setDefComboValue: function(index, type, range) {
+            var category = this.cmbCategory.getValue(),
+                value = '';
+            switch (type) {
+                case Asc.c_oAscCfvoType.Number:
+                    value = 0;
+                    break;
+                case Asc.c_oAscCfvoType.Percent:
+                    value = (index==0) ? 0 : (index==1 && category==8 ? 50 : 100);
+                    break;
+                case Asc.c_oAscCfvoType.Percentile:
+                    value = (index==0) ? 10 : (index==1 && category==8 ? 50 : 90);
+                    break;
+            }
+            range.setValue(value);
         },
 
         onPrimary: function() {
