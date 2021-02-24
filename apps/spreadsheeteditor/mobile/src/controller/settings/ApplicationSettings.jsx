@@ -20,13 +20,12 @@ class ApplicationSettingsController extends Component {
         info.asc_setType(Asc.c_oAscNumFormatType.None);
         info.asc_setSymbol(regSettings);
 
-        let arr = api.asc_getFormatCells(info);
-        let text = api.asc_getLocaleExample(arr[4], 1000.01, regSettings);
+        const arr = api.asc_getFormatCells(info);
+        const text4 = api.asc_getLocaleExample(arr[4], 1000.01, regSettings),
+              text5 = api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(), regSettings),
+              text6 = api.asc_getLocaleExample(arr[6], Asc.cDate().getExcelDateWithTime(), regSettings);
 
-        text = text + ' ' + api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(), regSettings);
-        text = text + ' ' + api.asc_getLocaleExample(arr[6], Asc.cDate().getExcelDateWithTime(), regSettings);
-
-        this.textRegSettingsExample = text;
+        this.textRegSettingsExample = `${text4} ${text5} ${text6}`;
     }
 
     onChangeDisplayComments(displayComments) {
