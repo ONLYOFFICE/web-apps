@@ -8,6 +8,7 @@ import { f7ready } from 'framework7-react';
 import routes from '../router/routes.js';
 
 import '../../../../common/main/lib/util/utils.js';
+import '../../../../common/main/lib/util/LanguageInfo.js';
 import Notifications from '../../../../common/mobile/utils/notifications.js'
 import {MainController} from '../controller/Main';
 import {Device} from '../../../../common/mobile/utils/device'
