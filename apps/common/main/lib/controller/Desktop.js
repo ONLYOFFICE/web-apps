@@ -41,12 +41,15 @@ define([
 ], function () {
     'use strict';
 
-    var native = window.AscDesktopEditor;
-    !!native && native.execCommand('webapps:features', JSON.stringify({
+    var features = {
         version: '{{PRODUCT_VERSION}}',
         eventloading: true,
-        titlebuttons: true
-    }));
+        titlebuttons: true,
+        uithemes: true
+    };
+
+    var native = window.AscDesktopEditor;
+    !!native && native.execCommand('webapps:features', JSON.stringify(features));
 
     var Desktop = function () {
         var config = {version:'{{PRODUCT_VERSION}}'};
@@ -134,7 +137,7 @@ define([
                 }
             }
 
-            native.execCommand('webapps:features', JSON.stringify({version: config.version, eventloading:true, titlebuttons:true}));
+            native.execCommand('webapps:features', JSON.stringify(features));
 
             // hide mask for modal window
             var style = document.createElement('style');
@@ -196,8 +199,9 @@ define([
                     });
 
                     Common.NotificationCenter.on('app:face', function (mode) {
-                        native.execCommand('webapps:features', JSON.stringify(
-                            {version: config.version, eventloading:true, titlebuttons:true, viewmode:!mode.isEdit, crypted:mode.isCrypted} ));
+                        features.viewmode = !mode.isEdit;
+                        features.crypted = mode.isCrypted;
+                        native.execCommand('webapps:features', JSON.stringify(features));
 
                         titlebuttons = {};
                         if ( mode.isEdit ) {
