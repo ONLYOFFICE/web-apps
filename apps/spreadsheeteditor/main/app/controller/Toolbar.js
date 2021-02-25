@@ -1665,9 +1665,57 @@ define([
             ];
             picker.setStore(new Common.UI.DataViewStore(arr));
 
-            this.toolbar.mnuIconSets.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-toolbar-menu-iconsets" class="menu-shapes" style="margin-left: 5px;"></div>')
+            menuItem = this.toolbar.mnuIconSets;
+            menuItem.menu.addItem(new Common.UI.MenuItem({
+                template: _.template('<div id="id-toolbar-menu-iconsets" class="menu-iconsets" style="width: 227px;"></div>')
             }));
+            arr = [];
+            var indexes = [Asc.EIconSetType.Arrows3, Asc.EIconSetType.Arrows3Gray, Asc.EIconSetType.Triangles3, Asc.EIconSetType.Arrows4Gray, Asc.EIconSetType.Arrows4, Asc.EIconSetType.Arrows5Gray, Asc.EIconSetType.Arrows5];
+            for (var i=0; i<indexes.length; i++) {
+                var item = collection.at(indexes[i]);
+                arr.push({group: 'menu-iconset-group-direct', data: {index: item.get('data'), icons: item.get('icons')}});
+            }
+            indexes = [Asc.EIconSetType.Traffic3Lights1, Asc.EIconSetType.Traffic3Lights2, Asc.EIconSetType.Signs3, Asc.EIconSetType.Traffic4Lights, Asc.EIconSetType.RedToBlack4];
+            for (var i=0; i<indexes.length; i++) {
+                var item = collection.at(indexes[i]);
+                arr.push({group: 'menu-iconset-group-shape', data: {index: item.get('data'), icons: item.get('icons')}});
+            }
+            indexes = [Asc.EIconSetType.Symbols3, Asc.EIconSetType.Symbols3_2, Asc.EIconSetType.Flags3];
+            for (var i=0; i<indexes.length; i++) {
+                var item = collection.at(indexes[i]);
+                arr.push({group: 'menu-iconset-group-indicator', data: {index: item.get('data'), icons: item.get('icons')}});
+            }
+            indexes = [Asc.EIconSetType.Stars3, Asc.EIconSetType.Rating4, Asc.EIconSetType.Quarters5, Asc.EIconSetType.Rating5, Asc.EIconSetType.Boxes5];
+            for (var i=0; i<indexes.length; i++) {
+                var item = collection.at(indexes[i]);
+                arr.push({group: 'menu-iconset-group-rating', data: {index: item.get('data'), icons: item.get('icons')}});
+            }
+            picker = new Common.UI.DataView({
+                el: $('#id-toolbar-menu-iconsets', menuItem.$el),
+                parentMenu: menuItem.menu,
+                groups: new Common.UI.DataViewGroupStore([
+                    {id: 'menu-iconset-group-direct', caption: this.textDirectional},
+                    {id: 'menu-iconset-group-shape', caption: this.textShapes},
+                    {id: 'menu-iconset-group-indicator', caption: this.textIndicator},
+                    {id: 'menu-iconset-group-rating', caption: this.textRating}
+                ]),
+                store: new Common.UI.DataViewStore(arr),
+                itemTemplate: _.template('<div class="item-iconset" id="<%= id %>">' +
+                                            '<% _.each(data.icons, function(icon) { %>' +
+                                                '<img src="<%= icon %>" style="width:16px;height:16px;">' +
+                                            '<% }) %>' +
+                                        '</div>')
+            });
+            picker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    if (record) {
+                        me.api.asc_setCF([], [], [Asc.c_oAscCFRuleTypeSettings.icons, record.get('data').index]);
+                    }
+                    if (e.type !== 'click')
+                        me.toolbar.btnCondFormat.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnCondFormat);
+                }
+            });
         },
 
         onCondFormatMenu: function(menu, item) {
@@ -4235,7 +4283,11 @@ define([
         textInsert: 'Insert',
         txtInsertCells: 'Insert Cells',
         txtDeleteCells: 'Delete Cells',
-        errorComboSeries: 'To create a combination chart, select at least two series of data.'
+        errorComboSeries: 'To create a combination chart, select at least two series of data.',
+        textDirectional: 'Directional',
+        textShapes: 'Shapes',
+        textIndicator: 'Indicators',
+        textRating: 'Ratings'
 
     }, SSE.Controllers.Toolbar || {}));
 });

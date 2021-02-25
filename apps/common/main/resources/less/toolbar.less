@@ -668,3 +668,23 @@
     width: 20px;
     height: 21px;
 }
+
+.menu-iconsets {
+    margin: 5px 5px 0 10px;
+
+    .group-items-container > div {
+        margin-right: 8px !important;
+        &:not(:hover),
+        &:not(.selected) {
+            .box-shadow(none);
+        }
+    }
+    .item-iconset {
+        img {
+            margin: 2px;
+        }
+
+        width: 100px;
+        height: 20px;
+    }
+}
