@@ -55,6 +55,7 @@ define([
     'spreadsheeteditor/main/app/collection/ShapeGroups',
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/collection/EquationGroups',
+    'spreadsheeteditor/main/app/collection/ConditionalFormatIcons',
     'spreadsheeteditor/main/app/controller/FormulaDialog'
 ], function () {
     'use strict';
@@ -87,6 +88,7 @@ define([
                 'ShapeGroups',
                 'EquationGroups',
                 'TableTemplates',
+                'ConditionalFormatIcons',
                 'Common.Collections.TextArt'
             ],
             views: [],
@@ -2034,7 +2036,21 @@ define([
                 });
                 artStore.reset(arr);
             },
-            
+
+            fillCondFormatIcons: function(iconSets){
+                if (_.isEmpty(iconSets)) return;
+
+                var arr = [],
+                    store = this.getCollection('ConditionalFormatIcons');
+                _.each(iconSets, function(iconSet, index){
+                    arr.push({
+                        icons : iconSet,
+                        data  : index
+                    });
+                });
+                store.reset(arr);
+            },
+
             updateThemeColors: function() {
                 var me = this;
                 setTimeout(function(){

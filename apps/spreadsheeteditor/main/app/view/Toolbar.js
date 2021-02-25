@@ -2012,30 +2012,33 @@ define([
                             type        : Asc.c_oAscCFType.duplicateValues
                         },
                         {caption: '--'},
-                        {
+                        this.mnuDataBars = new Common.UI.MenuItem({
                             caption     : this.textDataBars,
                             type        : Asc.c_oAscCFType.dataBar,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
+                                style: 'min-width: auto;',
                                 items: []
                             })
-                        },
-                        {
+                        }),
+                        this.mnuColorScales = new Common.UI.MenuItem({
                             caption     : this.textColorScales,
                             type        : Asc.c_oAscCFType.colorScale,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
+                                style: 'min-width: auto;',
                                 items: []
                             })
-                        },
-                        {
+                        }),
+                        this.mnuIconSets = new Common.UI.MenuItem({
                             caption     : Common.define.conditionalData.textIconSets,
                             type        : Asc.c_oAscCFType.iconSet,
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
+                                style: 'min-width: auto;',
                                 items: []
                             })
-                        },
+                        }),
                         {caption: '--'},
                         {
                             caption     : Common.define.conditionalData.textFormula,

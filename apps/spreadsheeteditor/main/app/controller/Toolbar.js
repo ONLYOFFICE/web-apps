@@ -393,6 +393,7 @@ define([
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
                 if (toolbar.btnCondFormat.rendered) {
+                    toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this));
                     toolbar.btnCondFormat.menu.on('item:click',             _.bind(this.onCondFormatMenu, this));
                     toolbar.btnCondFormat.menu.items[7].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
                     toolbar.btnCondFormat.menu.items[9].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
@@ -1585,6 +1586,88 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Style');
             }
+        },
+
+        onShowBeforeCondFormat: function() {
+            var collection = SSE.getCollection('ConditionalFormatIcons');
+            if (collection.length>0) return;
+
+            SSE.getController('Main').fillCondFormatIcons(this.api.asc_getCFIcons());
+
+            var me = this;
+            var menuItem = this.toolbar.mnuDataBars;
+            menuItem.menu.addItem(new Common.UI.MenuItem({
+                template: _.template('<div id="id-toolbar-menu-databar" class="menu-shapes" style="margin-left: 5px; width: 173px;"></div>')
+            }));
+            var picker = new Common.UI.DataViewSimple({
+                el: $('#id-toolbar-menu-databar', menuItem.$el),
+                parentMenu: menuItem.menu,
+                itemTemplate: _.template('<div class="item-databar" id="<%= id %>"><svg width="20" height="22" class=\"icon\"><use xlink:href=\"#bar-<%= data.name %>\"></use></svg></div>')
+            });
+            picker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    if (record) {
+                        me.api.asc_setCF([], [], [Asc.c_oAscCFRuleTypeSettings.dataBar, record.get('data').index]);
+                    }
+                    if (e.type !== 'click')
+                        me.toolbar.btnCondFormat.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnCondFormat);
+                }
+            });
+            var arr = [
+                { data: {name: 'gradient-blue', index: 0} },
+                { data: {name: 'gradient-green', index: 1} },
+                { data: {name: 'gradient-red', index: 2} },
+                { data: {name: 'gradient-yellow', index: 3} },
+                { data: {name: 'gradient-lightblue', index: 4} },
+                { data: {name: 'gradient-purple', index: 5} },
+                { data: {name: 'solid-blue', index: 6} },
+                { data: {name: 'solid-green', index: 7} },
+                { data: {name: 'solid-red', index: 8} },
+                { data: {name: 'solid-yellow', index: 9} },
+                { data: {name: 'solid-lightblue', index: 10} },
+                { data: {name: 'solid-purple', index: 11} }
+            ];
+            picker.setStore(new Common.UI.DataViewStore(arr));
+
+            menuItem = this.toolbar.mnuColorScales;
+            menuItem.menu.addItem(new Common.UI.MenuItem({
+                template: _.template('<div id="id-toolbar-menu-colorscales" class="menu-shapes" style="margin-left: 5px; width: 117px;"></div>')
+            }));
+            picker = new Common.UI.DataViewSimple({
+                el: $('#id-toolbar-menu-colorscales', menuItem.$el),
+                parentMenu: menuItem.menu,
+                itemTemplate: _.template('<div class="item-colorscale" id="<%= id %>"><svg width="20" height="21" class=\"icon\"><use xlink:href=\"#color-scale-<%= data.name %>\"></use></svg></div>')
+            });
+            picker.on('item:click', function(picker, item, record, e) {
+                if (me.api) {
+                    if (record) {
+                        me.api.asc_setCF([], [], [Asc.c_oAscCFRuleTypeSettings.colorScale, record.get('data').index]);
+                    }
+                    if (e.type !== 'click')
+                        me.toolbar.btnCondFormat.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnCondFormat);
+                }
+            });
+            arr = [
+                { data: {name: 'green-yellow-red', index: 0} },
+                { data: {name: 'red-yellow-green', index: 1} },
+                { data: {name: 'green-white-red', index: 2} },
+                { data: {name: 'red-white-green', index: 3} },
+                { data: {name: 'blue-white-red', index: 4} },
+                { data: {name: 'red-white-blue', index: 5} },
+                { data: {name: 'white-red', index: 6} },
+                { data: {name: 'red-white', index: 7} },
+                { data: {name: 'green-white', index: 8} },
+                { data: {name: 'white-green', index: 9} },
+                { data: {name: 'green-yellow', index: 10} },
+                { data: {name: 'yellow-green', index: 11} }
+            ];
+            picker.setStore(new Common.UI.DataViewStore(arr));
+
+            this.toolbar.mnuIconSets.menu.addItem(new Common.UI.MenuItem({
+                template: _.template('<div id="id-toolbar-menu-iconsets" class="menu-shapes" style="margin-left: 5px;"></div>')
+            }));
         },
 
         onCondFormatMenu: function(menu, item) {
@@ -2909,7 +2992,7 @@ define([
                         el: $('#id-toolbar-menu-shapegroup' + i, menu.items[i].$el),
                         store: shapesStore.at(i).get('groupStore'),
                         parentMenu: menu.items[i].menu,
-                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
+                        itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="21" height="21" class=\"icon\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>')
                     });
                     shapePicker.on('item:click', function(picker, item, record, e) {
                         if (me.api) {
