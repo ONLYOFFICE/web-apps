@@ -9,9 +9,10 @@ import routes from '../router/routes.js';
 
 import '../../../../common/main/lib/util/utils.js';
 import '../../../../common/main/lib/util/LanguageInfo.js';
-import Notifications from '../../../../common/mobile/utils/notifications.js'
+import {LocalStorage} from '../../../../common/mobile/utils/LocalStorage.js';
+import Notifications from '../../../../common/mobile/utils/notifications.js';
 import {MainController} from '../controller/Main';
-import {Device} from '../../../../common/mobile/utils/device'
+import {Device} from '../../../../common/mobile/utils/device';
 import CellEditor from '../controller/CellEditor';
 
 const f7params = {
@@ -24,8 +25,9 @@ const f7params = {
 export default class extends React.Component {
     constructor() {
         super();
-
+       
         Common.Notifications = new Notifications();
+        Common.localStorage = LocalStorage;
     }
 
     render() {

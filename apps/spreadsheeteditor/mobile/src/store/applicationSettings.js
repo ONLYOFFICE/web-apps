@@ -1,11 +1,11 @@
 import {action, observable} from 'mobx';
-
 export class storeApplicationSettings {
    
     @observable unitMeasurement = Common.Utils.Metric.getCurrentMetric();
     @observable macrosMode = 0;
     @observable formulaLang = Common.Locale.currentLang || dataLang[0].value;
-    @observable regSettings = 0x0409;
+    @observable regCode = undefined;
+    @observable regExample = '';
     @observable regData = [];
     @observable isRefStyle = false;
     @observable isComments = true;
@@ -35,31 +35,36 @@ export class storeApplicationSettings {
         return regDataCode;
     }
 
-    // @action initRegData() {
-    //     const regDataCodes = this.getRegDataCodes();
-    //     regDataCodes.forEach(item => {
-    //         let langInfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
-    //         this.regData.push({code: item.value, displayName: langInfo[1], langName: langInfo[0]});
-    //     })
-    // }
+    @action initRegData() {
+        const regDataCodes = this.getRegDataCodes();
 
-    // @action initRegSettings() {
-    //     const regData = this.getRegDataCodes();
-    //     let value = Number(Common.localStorage.getItem('sse-settings-regional'));
+        regDataCodes.forEach(item => {
+            let langInfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
+            this.regData.push({code: item.value, displayName: langInfo[1], langName: langInfo[0]});
+        })
+    }
 
-    //     if(!value) {
-    //         this.regSettings = 0x0409;
-    //     } else {
-    //         regData.forEach(obj => {
-    //             if(obj.value === value) {
-    //                 this.regSettings = obj.value;
-    //             }
-    //         });
-    //     }
-    // }
+    @action getRegCode() {
+        const regData = this.regData;
+        let value = Number(Common.localStorage.getItem('sse-settings-regional'));
+        
+        regData.forEach(obj => {
+            if(obj.code === value) {
+                this.regCode = obj.code;
+            }
+        });
 
-    @action changeRegSettings(value) {
-        this.regSettings = value;
+        if(!this.regCode) {
+            this.regCode = 0x0409;
+        }
+    }
+
+    @action changeRegCode(value) {
+        this.regCode = value;
+    }
+
+    @action setRegExample(value) {
+        this.regExample = value;
     }
 
     @action changeUnitMeasurement(value) {

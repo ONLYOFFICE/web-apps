@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import { observer, inject } from "mobx-react";
-import { Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
+import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Icon } from "framework7-react";
 import { useTranslation } from "react-i18next";
 
 const PageApplicationSettings = props => {
@@ -9,14 +9,14 @@ const PageApplicationSettings = props => {
     const storeApplicationSettings = props.storeApplicationSettings;
     const unitMeasurement = storeApplicationSettings.unitMeasurement;
     const formulaLang = storeApplicationSettings.formulaLang;
-    // const regSettings = storeApplicationSettings.regSettings;
+    const regData = storeApplicationSettings.regData;
+    const regCode = storeApplicationSettings.regCode;
+    const regExample = storeApplicationSettings.regExample;
     const dataLang = storeApplicationSettings.getFormulaLanguages();
-    const dataRegCodes = storeApplicationSettings.getRegDataCodes();
     const defineFormulaLang = () => dataLang.find(obj => obj.value === formulaLang);
-    // const defineRegSettings = () => dataRegCodes.find(obj => obj.value === regSettings);
     const currentFormulaLang = defineFormulaLang();
-    // const currentRegSettings = defineRegSettings();
-    const textRegSettingsExample = props.textRegSettingsExample;
+    const defineRegSetting = () => regData.find(obj => regCode === obj.code);
+    const currentRegSetting = defineRegSetting();
     const isRefStyle = storeApplicationSettings.isRefStyle;
     const isComments = storeApplicationSettings.isComments;
     const isResolvedComments = storeApplicationSettings.isResolvedComments;
@@ -55,7 +55,9 @@ const PageApplicationSettings = props => {
                     </List>
                     <BlockTitle>{_t.textRegionalSettings}</BlockTitle>
                     <List mediaList>
-                        <ListItem title="English" subtitle={`Example: ${textRegSettingsExample}`} link="/regional-settings/"></ListItem>
+                        <ListItem title={currentRegSetting.displayName} subtitle={`Example: ${regExample}`} link="/regional-settings/" routeProps={{
+                            onRegSettings: props.onRegSettings
+                        }}></ListItem>
                     </List>
                     <BlockTitle>{_t.textCommentingDisplay}</BlockTitle>
                     <List>
@@ -106,10 +108,27 @@ const PageRegionalSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
     const storeApplicationSettings = props.storeApplicationSettings;
-
+    const regData = storeApplicationSettings.regData;
+    const regCode = storeApplicationSettings.regCode;
+    
     return (
-        <Page>
+        <Page className="regional-settings">
             <Navbar title={_t.textRegionalSettings} backLink={_t.textBack} />
+            <List>
+                {regData.length ? regData.map((elem, index) => {
+                    return (
+                        <ListItem key={index} radio checked={elem.code === regCode} onChange={() => {
+                            storeApplicationSettings.changeRegCode(elem.code);
+                            props.onRegSettings(elem.code);
+                        }}>
+                            <div className="item-title-row">
+                                <Icon slot="media" icon={`lang-flag ${elem.langName}`}></Icon>
+                                <div className="item-title">{elem.displayName}</div>
+                            </div> 
+                        </ListItem>
+                    )
+                }) : null}
+            </List>
         </Page>
     )
 }
