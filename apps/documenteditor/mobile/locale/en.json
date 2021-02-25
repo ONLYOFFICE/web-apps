@@ -115,7 +115,8 @@
       "textParaMoveFromDown": "Moved Down:",
       "textAddComment": "Add Comment",
       "textCancel": "Cancel",
-      "textDone": "Done"
+      "textDone": "Done",
+      "textNoComments": "This document doesn't contain comments"
     }
   },
   "Settings": {

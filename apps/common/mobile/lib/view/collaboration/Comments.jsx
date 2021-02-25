@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import { f7, Popup, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon } from 'framework7-react';
+import { f7, Popup, Page, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
+
+// Add comment
 
 const AddCommentPopup = inject("storeComments")(observer(props => {
     const { t } = useTranslation();
@@ -121,4 +123,67 @@ const AddComment = props => {
     )
 };
 
-export {AddComment}
+// View comments
+const ViewComments = ({storeComments}) => {
+    const { t } = useTranslation();
+    const _t = t('Common.Collaboration', {returnObjects: true});
+
+    const comments = storeComments.sortComments;
+    return (
+        <Page>
+            <Navbar title={_t.textComments} backLink={_t.textBack}/>
+            {!comments ?
+                <div className='no-comments'>{_t.textNoComments}</div> :
+                <List className='comment-list'>
+                    {comments.map((comment, indexComment) => {
+                        return (
+                            <ListItem key={`comment-${indexComment}`}>
+                                <div slot='header'>
+                                    <div className='user-name'>{comment.userName}</div>
+                                    <div className='comment-date'>{comment.date}</div>
+                                </div>
+                                <div slot='footer'>
+                                    <div className='comment-quote'>{comment.quote}</div>
+                                    <div className='comment-text'><pre>{comment.comment}</pre></div>
+                                    {comment.replies.length > 0 &&
+                                    <ul className='list-reply'>
+                                        {comment.replies.map((reply, indexReply) => {
+                                            return (
+                                                <li key={`reply-${indexComment}-${indexReply}`}
+                                                    className='reply-item'
+                                                >
+                                                    <div className='item-content'>
+                                                        <div className='item-inner'>
+                                                            <div className='item-title'>
+                                                                <div slot='header'>
+                                                                    <div className='user-name'>{reply.userName}</div>
+                                                                    <div className='reply-date'>{reply.date}</div>
+                                                                </div>
+                                                                <div slot='footer'>
+                                                                    <div className='reply-text'><pre>{reply.reply}</pre></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                    }
+                                </div>
+                            </ListItem>
+                        )
+                    })}
+                </List>
+            }
+
+        </Page>
+    )
+};
+
+const _ViewComments = inject('storeComments')(observer(ViewComments));
+
+export {
+    AddComment,
+    _ViewComments as ViewComments
+}

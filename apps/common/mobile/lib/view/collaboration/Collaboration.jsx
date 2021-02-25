@@ -8,6 +8,8 @@ import {Device} from "../../../utils/device";
 import {ReviewController, ReviewChangeController} from "../../controller/collaboration/Review";
 import {PageDisplayMode} from "./Review";
 
+import {ViewCommentsController} from "../../controller/collaboration/Comments";
+
 const PageUsers = inject("users")(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
@@ -44,6 +46,10 @@ const routes = [
     {
         path: '/review-change/',
         component: ReviewChangeController
+    },
+    {
+        path: '/comments/',
+        component: ViewCommentsController
     }
 ];
 
@@ -66,7 +72,7 @@ const PageCollaboration = props => {
                     <ListItem link={'/users/'} title={_t.textUsers}>
                         <Icon slot="media" icon="icon-users"></Icon>
                     </ListItem>
-                    <ListItem link="#" title={_t.textComments}>
+                    <ListItem link='/comments/' title={_t.textComments}>
                         <Icon slot="media" icon="icon-insert-comment"></Icon>
                     </ListItem>
                     {window.editorType === 'de' &&

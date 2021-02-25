@@ -37,3 +37,69 @@
     }
   }
 }
+
+.comment-list {
+  .item-inner {
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+  .item-title {
+    width: 100%;
+  }
+  .user-name {
+    font-size: 16px;
+    line-height: 22px;
+    color: @black;
+    margin: 0;
+    font-weight: 700;
+  }
+  .comment-date, .reply-date {
+    font-size: 12px;
+    line-height: 18px;
+    color: @comment-date;
+    margin: 0;
+    margin-top: 0;
+  }
+  .comment-quote {
+    color: @themeColor;
+    border-left: 1px solid @themeColor;
+    padding-left: 10px;
+    padding-right: 16px;
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  .comment-text, .reply-text {
+    color: @black;
+    font-size: 14px;
+    line-height: 25px;
+    margin: 0;
+    max-width: 100%;
+    padding-right: 15px;
+    pre {
+      white-space: pre-wrap;
+    }
+  }
+  .list-reply {
+    padding-left: 26px;
+  }
+  .reply-item {
+    &:after {
+      content: none;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      left: auto;
+      bottom: 0;
+      right: auto;
+      top: 0;
+      height: 1px;
+      width: 100%;
+      background-color: @separator-color;
+      display: block;
+      z-index: 15;
+      -webkit-transform-origin: 50% 100%;
+      transform-origin: 50% 100%;
+    }
+  }
+}
