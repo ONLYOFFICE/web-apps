@@ -9,6 +9,8 @@ import {storeTextSettings} from "./textSettings";
 import {storeApplicationSettings} from "./applicationSettings";
 import {storeShapeSettings} from "./shapeSettings";
 import {storeCellSettings} from "./cellSettings";
+import {storeSpreadsheetInfo} from "./spreadsheetInfo";
+import {storeAppOptions} from "./appOptions";
 // import {storeImageSettings} from "./imageSettings";
 // import {storeTableSettings} from "./tableSettings";
 import {storeChartSettings} from "./chartSettings";
@@ -22,6 +24,8 @@ export const stores = {
     sheets: new storeWorksheets(),
     storeFunctions: new storeFunctions(),
     storeTextSettings: new storeTextSettings(),
+    storeSpreadsheetInfo: new storeSpreadsheetInfo(),
+    storeAppOptions: new storeAppOptions(),
     // storeParagraphSettings: new storeParagraphSettings(),
     storeShapeSettings: new storeShapeSettings(),
     storeChartSettings: new storeChartSettings(),

@@ -4,8 +4,9 @@ import { inject } from "mobx-react";
 import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/Collaboration.jsx'
+import { onAdvancedOptions } from './settings/Download.jsx';
 
-@inject("storeFocusObjects", "storeCellSettings", "storeTextSettings", "storeChartSettings", "storeSpreadsheetSettings")
+@inject("storeAppOptions", "storeFocusObjects", "storeCellSettings", "storeTextSettings", "storeChartSettings", "storeSpreadsheetSettings", "storeSpreadsheetInfo")
 class MainController extends Component {
     constructor(props) {
         super(props)
@@ -52,6 +53,8 @@ class MainController extends Component {
                 me.appOptions.user            = Common.Utils.fillUserInfo(me.editorConfig.user, me.editorConfig.lang, me.textAnonymous);
                 me.appOptions.lang            = me.editorConfig.lang;
 
+                this.props.storeAppOptions.setConfigOptions(this.editorConfig);
+
                 // var value = Common.localStorage.getItem("sse-settings-regional");
                 // if (value!==null)
                 //     this.api.asc_setLocale(parseInt(value));
@@ -92,8 +95,10 @@ class MainController extends Component {
 
                     let _permissions = Object.assign({}, data.doc.permissions),
                         _user = new Asc.asc_CUserInfo();
-                    _user.put_Id(this.appOptions.user.id);
-                    _user.put_FullName(this.appOptions.user.fullname);
+                    const _userOptions = this.props.storeAppOptions.user;
+                      
+                    _user.put_Id(_userOptions.id);
+                    _user.put_FullName(_userOptions.fullname);
 
                     docInfo = new Asc.asc_CDocInfo();
                     docInfo.put_Id(data.doc.key);
@@ -124,6 +129,12 @@ class MainController extends Component {
                 this.api.asc_enableKeyEvents(true);
 
                 // Common.SharedSettings.set('document', data.doc);
+
+                // Document Info
+
+                const storeSpreadsheetInfo = this.props.storeSpreadsheetInfo;
+
+                storeSpreadsheetInfo.setDataDoc(this.document);
             };
 
             const onEditorPermissions = params => {
@@ -131,6 +142,8 @@ class MainController extends Component {
                 const licType = params.asc_getLicenseType();
 
                 me.appOptions.canLicense      = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
+
+                this.props.storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions);
                 // me.appOptions.canEdit         = (me.permissions.edit !== false || me.permissions.review === true) && // can edit or review
                 //     (me.editorConfig.canRequestEditRights || me.editorConfig.mode !== 'view') && // if mode=="view" -> canRequestEditRights must be defined
                 //     (!me.appOptions.isReviewOnly || me.appOptions.canLicense) && // if isReviewOnly==true -> canLicense must be true
@@ -256,6 +269,14 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', schemes => {
             storeSpreadsheetSettings.addSchemes(schemes);
+        });
+
+        // Downloaded Advanced Options
+        
+        this.api.asc_registerCallback('asc_onAdvancedOptions', (type, advOptions, mode, formatOptions) => {
+            const {t} = this.props;
+            const _t = t("Settings", { returnObjects: true });
+            onAdvancedOptions(type, advOptions, mode, formatOptions, _t, this.props.storeAppOptions.canRequestClose);
         });
 
     }

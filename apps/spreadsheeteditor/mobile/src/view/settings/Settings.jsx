@@ -5,6 +5,7 @@ import {f7} from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import SpreadsheetSettingsController from '../../controller/settings/SpreadsheetSettings.jsx';
 import ApplicationSettingsController from '../../controller/settings/ApplicationSettings.jsx';
+import SpreadsheetInfoController from '../../controller/settings/SpreadsheetInfo.jsx';
 import {DownloadWithTranslation} from '../../controller/settings/Download.jsx';
 import {SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins} from './SpreadsheetSettings.jsx';
 import {MacrosSettings, RegionalSettings, FormulaLanguage} from './ApplicationSettings.jsx';
@@ -49,6 +50,10 @@ const routes = [
     {
         path: '/formula-languages/',
         component: FormulaLanguage
+    },
+    {
+        path: '/spreadsheet-info/',
+        component: SpreadsheetInfoController
     }
 ];
 

@@ -273,7 +273,19 @@
             "textShowNotification": "Show Notification",
             "textDisableAllMacrosWithNotification": "Disable all macros with a notification",
             "textEnableAll": "Enable All",
-            "textEnableAllMacrosWithoutNotification": "Enable all macros without a notification"
+            "textEnableAllMacrosWithoutNotification": "Enable all macros without a notification",
+            "textSpreadsheetTitle": "Spreadsheet Title",
+            "textOwner": "Owner",
+            "textLocation": "Location",
+            "textUploaded": "Uploaded",
+            "textTitle": "Title",
+            "textSubject": "Subject",
+            "textComment": "Comment",
+            "textLastModified": "Last Modified",
+            "textLastModifiedBy": "Last Modified By",
+            "textCreated": "Created",
+            "textApplication": "Application",
+            "textAuthor": "Author"
         }
     },
     "Common": {
