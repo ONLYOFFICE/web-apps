@@ -15,6 +15,7 @@
                         "expand": true,
                         "cwd": "../../sdkjs/common/",
                         "src": [
+                            "device_scale.js",
                             "Images/*",
                             "Images/placeholders/*",
 							"Images/content_controls/*",
