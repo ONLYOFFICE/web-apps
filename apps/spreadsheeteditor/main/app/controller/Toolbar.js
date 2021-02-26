@@ -1597,12 +1597,12 @@ define([
             var me = this;
             var menuItem = this.toolbar.mnuDataBars;
             menuItem.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-toolbar-menu-databar" class="menu-shapes" style="margin-left: 5px; width: 173px;"></div>')
+                template: _.template('<div id="id-toolbar-menu-databar" class="menu-shapes" style="margin-left: 5px; width: 203px;"></div>')
             }));
             var picker = new Common.UI.DataViewSimple({
                 el: $('#id-toolbar-menu-databar', menuItem.$el),
                 parentMenu: menuItem.menu,
-                itemTemplate: _.template('<div class="item-databar" id="<%= id %>"><svg width="20" height="22" class=\"icon\"><use xlink:href=\"#bar-<%= data.name %>\"></use></svg></div>')
+                itemTemplate: _.template('<div class="item-databar" id="<%= id %>"><svg width="25" height="25" class=\"icon\"><use xlink:href=\"#bar-<%= data.name %>\"></use></svg></div>')
             });
             picker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
@@ -1632,12 +1632,12 @@ define([
 
             menuItem = this.toolbar.mnuColorScales;
             menuItem.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-toolbar-menu-colorscales" class="menu-shapes" style="margin-left: 5px; width: 117px;"></div>')
+                template: _.template('<div id="id-toolbar-menu-colorscales" class="menu-shapes" style="margin-left: 5px; width: 136px;"></div>')
             }));
             picker = new Common.UI.DataViewSimple({
                 el: $('#id-toolbar-menu-colorscales', menuItem.$el),
                 parentMenu: menuItem.menu,
-                itemTemplate: _.template('<div class="item-colorscale" id="<%= id %>"><svg width="20" height="21" class=\"icon\"><use xlink:href=\"#color-scale-<%= data.name %>\"></use></svg></div>')
+                itemTemplate: _.template('<div class="item-colorscale" id="<%= id %>"><svg width="25" height="25" class=\"icon\"><use xlink:href=\"#color-scale-<%= data.name %>\"></use></svg></div>')
             });
             picker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
