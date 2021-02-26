@@ -213,8 +213,24 @@
 #special-paste-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
+
     background-color: @background-toolbar-ie;
     background-color: @background-toolbar;
     border: @scaled-one-px-value-ie solid @border-regular-control-ie;
     border: @scaled-one-px-value solid @border-regular-control;
+}
+
+.dropdown-menu.list-settings-level {
+    .menu-list-preview {
+        .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
+        .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+    }
+
+    a:hover {
+        background-color: transparent;
+        .menu-list-preview {
+            .box-shadow(0 0 0 2px @border-control-focus-ie);
+            .box-shadow(0 0 0 @scaled-two-px-value @border-control-focus);
+        }
+    }
 }
