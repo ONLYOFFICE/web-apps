@@ -562,24 +562,24 @@ define([
                 this.view.turnChanges(true);
             } else
             if ( this.appConfig.canReview ) {
-                var sendMessage = !fromApi;
                 var saveToFile = !!global; // save track changes flag (state) to file
-                this.api.asc_SetTrackRevisions(!!state, saveToFile, sendMessage);
+                if (saveToFile) {
+                    this.api.asc_SetLocalTrackRevisions(null);
+                    this.api.asc_SetGlobalTrackRevisions(!!state);
+                } else
+                    this.api.asc_SetLocalTrackRevisions(!!state);
                 Common.Utils.InternalSettings.set(this.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
                 this.view.turnChanges(state, global);
             }
         },
 
-        onApiTrackRevisionsChange: function(state, global, userId) {
-            // change local or global state
-            if (userId && this.getUserName(userId)) {
-                if (state)
-                    this.showTips(Common.Utils.String.format(global ? this.textOnGlobal : this.textOn, this.getUserName(userId)));
-                else
-                    this.showTips(Common.Utils.String.format(global ? this.textOffGlobal : this.textOff, this.getUserName(userId)));
-            }
-            if (global && Common.Utils.InternalSettings.get(this.view.appPrefix + "track-changes")>1) {
-                Common.NotificationCenter.trigger('reviewchanges:turn', state, global, true);
+        onApiTrackRevisionsChange: function(localFlag, globalFlag, userId) { // use userId only for globalFlag
+            // change global state
+            if (userId) {
+                this.showTips(Common.Utils.String.format(globalFlag ? this.textOnGlobal : this.textOffGlobal, this.getUserName(userId)));
+                if (Common.Utils.InternalSettings.get(this.view.appPrefix + "track-changes")>1) {
+                    Common.NotificationCenter.trigger('reviewchanges:turn', globalFlag, true, true);
+                }
             }
         },
 
@@ -780,7 +780,7 @@ define([
                 })).then(function () {
                     function _setReviewStatus(state, global) {
                         me.view.turnChanges(state, global);
-                        me.api.asc_SetTrackRevisions(state);
+                        !global && me.api.asc_SetLocalTrackRevisions(state);
                         Common.Utils.InternalSettings.set(me.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
                     };
 
