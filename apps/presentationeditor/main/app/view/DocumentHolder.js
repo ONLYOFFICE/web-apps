@@ -1480,7 +1480,9 @@ define([
 
             var onApiCurrentPages = function(number) {
                 if (me.currentMenu && me.currentMenu.isVisible() && me._isFromSlideMenu !== true && me._isFromSlideMenu !== number)
-                    me.currentMenu.hide();
+                    setTimeout(function() {
+                        me.currentMenu && me.currentMenu.hide();
+                    }, 1);
 
                 me._isFromSlideMenu = number;
             };
