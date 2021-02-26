@@ -6,6 +6,7 @@ class PresentationSettingsController extends Component {
     constructor(props) {
         super(props);
         this.initSlideSize = this.initSlideSize.bind(this);
+        this.onSlideSize = this.onSlideSize.bind(this);
     }
 
     initSlideSize() {
@@ -18,7 +19,15 @@ class PresentationSettingsController extends Component {
 
     onSlideSize(slideSizeArr) {
         const api = Common.EditorApi.get();
-        api.changeSlideSize(slideSizeArr[0], slideSizeArr[1]);
+
+        let ratio = slideSizeArr[1] / slideSizeArr[0];
+        let currentHeight = this.props.storePresentationSettings.currentPageSize.height;
+        let currentPageSize = {
+            width: (currentHeight || slideSizeArr[1]) / ratio,
+            height: currentHeight
+        };
+        // api.changeSlideSize(slideSizeArr[0], slideSizeArr[1], slideSizeArr[2]);
+        api.changeSlideSize(currentPageSize.width, currentPageSize.height, slideSizeArr[2]);
     }
 
     // Color Schemes

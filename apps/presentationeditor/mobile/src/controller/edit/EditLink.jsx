@@ -9,8 +9,14 @@ import { EditLink } from '../../view/edit/EditLink';
 class EditLinkController extends Component {
     constructor (props) {
         super(props);
+
+        const api = Common.EditorApi.get();
+
         this.onEditLink = this.onEditLink.bind(this);
         this.onRemoveLink = this.onRemoveLink.bind(this);
+        this.initLink = this.initLink.bind(this);
+        this.slidesCount = api.getCountPages();
+        this.initLink();
     }
 
     closeModal () {
@@ -18,6 +24,58 @@ class EditLinkController extends Component {
             f7.sheet.close('#edit-sheet', true);
         } else {
             f7.popover.close('#edit-popover');
+        }
+    }
+
+    initLink() {
+        const api = Common.EditorApi.get();
+        const linkObject = this.props.storeFocusObjects.linkObject;
+        const url = linkObject.get_Value();
+        const tooltip = linkObject.get_ToolTip();
+        const display = linkObject.get_Text();
+
+        this.url = url;
+        this.tooltip = tooltip;
+        this.display = display;
+        this.slideLink = 0;
+        this.slideNum = 0;
+
+        let indAction;
+        let slidesCount;
+        let slideNum;
+
+        if(url === null || url === undefined || url === '') {
+            this.typeLink = 1;
+        }
+        else {
+            indAction = url.indexOf("ppaction://hlink");
+            if(0 == indAction) {
+                if (url == "ppaction://hlinkshowjump?jump=firstslide") {
+                    this.slideLink = 2;
+                } else if (url == "ppaction://hlinkshowjump?jump=lastslide") {
+                    this.slideLink = 3;
+                }
+                else if (url == "ppaction://hlinkshowjump?jump=nextslide") {
+                    this.slideLink = 0;
+                }
+                else if (url == "ppaction://hlinkshowjump?jump=previousslide") {
+                    this.slideLink = 1;
+                }
+                else {
+                    this.slideLink = 4;
+                    slidesCount = api.getCountPages();
+                    let mask = "ppaction://hlinksldjumpslide",
+                        indSlide = url.indexOf(mask);
+                    if (0 == indSlide) {
+                        slideNum = parseInt(url.substring(mask.length));
+                        if (slideNum < 0) this.slideNum = 0;
+                        if (slideNum >= slidesCount) this.slideNum = slidesCount - 1;
+                    } else this.slideNum = 0;
+                }
+                this.typeLink = 0
+            } else {
+                this.typeLink = 1;
+            }
         }
     }
 
@@ -102,13 +160,21 @@ class EditLinkController extends Component {
     render () {
         return (
             <EditLink 
+                initLink={this.initLink}
+                typeLink={this.typeLink}
+                url={this.url}
+                display={this.display}
+                tooltip={this.tooltip}
+                slideLink={this.slideLink}
+                slideNum={this.slideNum}
                 onEditLink={this.onEditLink} 
                 onRemoveLink={this.onRemoveLink}
+                slidesCount={this.slidesCount}
             />
         )
     }
 }
 
-const EditLinkWithTranslation = withTranslation()(EditLinkController);
+const EditLinkWithTranslation = inject("storeFocusObjects")(observer(withTranslation()(EditLinkController)));
 
 export {EditLinkWithTranslation as EditLinkController};
