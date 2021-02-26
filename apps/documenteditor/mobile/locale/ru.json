@@ -241,6 +241,7 @@
   "DE.Controllers.Main.textContactUs": "Отдел продаж",
   "DE.Controllers.Main.textCustomLoader": "Обратите внимание, что по условиям лицензии у вас нет прав изменять экран, отображаемый при загрузке.<br>Пожалуйста, обратитесь в наш отдел продаж, чтобы сделать запрос.",
   "DE.Controllers.Main.textDone": "Готово",
+  "DE.Controllers.Main.textGuest": "Гость",
   "DE.Controllers.Main.textHasMacros": "Файл содержит автозапускаемые макросы.<br>Хотите запустить макросы?",
   "DE.Controllers.Main.textLoadingDocument": "Загрузка документа",
   "DE.Controllers.Main.textNo": "Нет",
