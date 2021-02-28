@@ -1,5 +1,10 @@
 .dropdown-menu > .disabled > a {
     cursor: default;
+
+    color: @text-normal-ie;
+    color: @text-normal;
+
+    opacity: @component-disabled-opacity;
 }
 
 .dropdown-menu {
@@ -89,7 +94,6 @@
 
         &.disabled {
             .menu-item-icon {
-                opacity: .4;
             }
         }
 
