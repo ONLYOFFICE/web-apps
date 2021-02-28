@@ -53,7 +53,7 @@ const routes = [
     }
 ];
 
-const PageCollaboration = props => {
+const PageCollaboration = inject('storeAppOptions')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     return (
@@ -72,9 +72,11 @@ const PageCollaboration = props => {
                     <ListItem link={'/users/'} title={_t.textUsers}>
                         <Icon slot="media" icon="icon-users"></Icon>
                     </ListItem>
-                    <ListItem link='/comments/' title={_t.textComments}>
-                        <Icon slot="media" icon="icon-insert-comment"></Icon>
-                    </ListItem>
+                    {props.storeAppOptions.canViewComments &&
+                        <ListItem link='/comments/' title={_t.textComments}>
+                            <Icon slot="media" icon="icon-insert-comment"></Icon>
+                        </ListItem>
+                    }
                     {window.editorType === 'de' &&
                         <ListItem link={'/review/'} title={_t.textReview}>
                             <Icon slot="media" icon="icon-review"></Icon>
@@ -85,7 +87,7 @@ const PageCollaboration = props => {
         </View>
     )
 
-};
+}));
 
 class CollaborationView extends Component {
     constructor(props) {
@@ -132,6 +134,5 @@ const Collaboration = props => {
     )
 };
 
-// export withTranslation()(CollaborationPopover);
 export {PageCollaboration}
 export default Collaboration;

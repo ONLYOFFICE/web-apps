@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import { inject, observer } from "mobx-react";
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 
-import {AddComment, ViewComments} from '../../view/collaboration/Comments';
+import {AddComment, EditComment, ViewComments} from '../../view/collaboration/Comments';
 
 // utils
 const timeZoneOffsetInMs = (new Date()).getTimezoneOffset() * 60000;
@@ -255,21 +255,210 @@ class AddCommentController extends Component {
 }
 
 class ViewCommentsController extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props);
+        this.onCommentMenuClick = this.onCommentMenuClick.bind(this);
+        this.onResolveComment = this.onResolveComment.bind(this);
+        this.onEditComment = this.onEditComment.bind(this);
+        this.closeEditComment = this.closeEditComment.bind(this);
+
+        this.currentUser = this.props.users.currentUser;
+
+        this.state = {
+            showEditComment: false,
+            showEditReply: false
+        };
+    }
+    onChangeComment (comment) {
+        const ascComment = !!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null);
+        if (ascComment && comment) {
+            ascComment.asc_putText(comment.comment);
+            ascComment.asc_putQuoteText(comment.quote);
+            ascComment.asc_putTime(utcDateToString(new Date(comment.time)));
+            ascComment.asc_putOnlyOfficeTime(ooDateToString(new Date(comment.time)));
+            ascComment.asc_putUserId(comment.userId);
+            ascComment.asc_putUserName(comment.userName);
+            ascComment.asc_putSolved(comment.resolved);
+            ascComment.asc_putGuid(comment.guid);
+
+            if (!!ascComment.asc_putDocumentFlag) {
+                ascComment.asc_putDocumentFlag(comment.unattached);
+            }
+
+            var reply = comment.replies;
+            if (reply && reply.length > 0) {
+                reply.forEach((reply) => {
+                    var addReply = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                    if (addReply) {
+                        addReply.asc_putText(reply.reply);
+                        addReply.asc_putTime(utcDateToString(new Date(reply.time)));
+                        addReply.asc_putOnlyOfficeTime(ooDateToString(new Date(reply.time)));
+                        addReply.asc_putUserId(reply.userId);
+                        addReply.asc_putUserName(reply.userName);
+
+                        ascComment.asc_addReply(addReply);
+                    }
+                });
+            }
+            const api = Common.EditorApi.get();
+            api.asc_changeComment(comment.uid, ascComment);
+        }
+    }
+    onResolveComment (comment) {
+        let reply = null,
+            addReply = null,
+            ascComment = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+
+        if (ascComment && comment) {
+            ascComment.asc_putText(comment.comment);
+            ascComment.asc_putQuoteText(comment.quote);
+            ascComment.asc_putTime(utcDateToString(new Date(comment.time)));
+            ascComment.asc_putOnlyOfficeTime(ooDateToString(new Date(comment.time)));
+            ascComment.asc_putUserId(comment.userId);
+            ascComment.asc_putUserName(comment.userName);
+            ascComment.asc_putSolved(!comment.resolved);
+            ascComment.asc_putGuid(comment.guid);
+
+            if (!!ascComment.asc_putDocumentFlag) {
+                ascComment.asc_putDocumentFlag(comment.unattached);
+            }
+
+            reply = comment.replies;
+            if (reply && reply.length > 0) {
+                reply.forEach((reply) => {
+                    addReply = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                    if (addReply) {
+                        addReply.asc_putText(reply.reply);
+                        addReply.asc_putTime(utcDateToString(new Date(reply.time)));
+                        addReply.asc_putOnlyOfficeTime(ooDateToString(new Date(reply.time)));
+                        addReply.asc_putUserId(reply.userId);
+                        addReply.asc_putUserName(reply.userName);
+
+                        ascComment.asc_addReply(addReply);
+                    }
+                });
+            }
+            const api = Common.EditorApi.get();
+            api.asc_changeComment(comment.uid, ascComment);
+        }
+    }
+    deleteComment (comment) {
+        const api = Common.EditorApi.get();
+        comment && api.asc_removeComment(comment.uid);
+    }
+    onEditComment (comment, text) {
+        comment.comment = text.trim();
+        comment.userid = this.currentUser.asc_getIdOriginal();
+        comment.username = this.currentUser.asc_getUserName();
+        this.onChangeComment(comment);
+    }
+    deleteReply (comment, indReply) {
+        let replies = null,
+            addReply = null,
+            ascComment = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+
+        if (ascComment && comment) {
+            ascComment.asc_putText(comment.comment);
+            ascComment.asc_putQuoteText(comment.quote);
+            ascComment.asc_putTime(utcDateToString(new Date(comment.time)));
+            ascComment.asc_putOnlyOfficeTime(ooDateToString(new Date(comment.time)));
+            ascComment.asc_putUserId(comment.userId);
+            ascComment.asc_putUserName(comment.userName);
+            ascComment.asc_putSolved(comment.resolved);
+            ascComment.asc_putGuid(comment.guid);
+
+            if (!!ascComment.asc_putDocumentFlag) {
+                ascComment.asc_putDocumentFlag(comment.unattached);
+            }
+
+            replies = comment.replies;
+            if (replies && replies.length) {
+                replies.forEach((reply) => {
+                    if (reply.ind !== indReply) {
+                        addReply = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                        if (addReply) {
+                            addReply.asc_putText(reply.reply);
+                            addReply.asc_putTime(utcDateToString(new Date(reply.time)));
+                            addReply.asc_putOnlyOfficeTime(ooDateToString(new Date(reply.time)));
+                            addReply.asc_putUserId(reply.userId);
+                            addReply.asc_putUserName(reply.userName);
+
+                            ascComment.asc_addReply(addReply);
+                        }
+                    }
+                });
+            }
+            const api = Common.EditorApi.get();
+            api.asc_changeComment(comment.uid, ascComment);
+        }
+    }
+    onCommentMenuClick (action, comment) {
+        const { t } = this.props;
+        const _t = t("Common.Collaboration", { returnObjects: true });
+        switch (action) {
+            case 'editComment':
+                this.setState({
+                    showEditComment: true,
+                    editProps: {
+                        comment: comment,
+                        onEditComment: this.onEditComment
+                    }
+                });
+                console.log('editComment');
+                break;
+            case 'resolve':
+                this.onResolveComment(comment);
+                break;
+            case 'deleteComment':
+                f7.dialog.confirm(
+                    _t.textMessageDeleteComment,
+                    _t.textDeleteComment,
+                    () => {
+                        this.deleteComment(comment);
+                    }
+                );
+                break;
+            case 'editReply':
+                this.setState({showEditReply: true});
+                console.log('editReply');
+                break;
+            case 'deleteReply':
+                f7.dialog.confirm(
+                    _t.textMessageDeleteReply,
+                    _t.textDeleteReply,
+                    () => {
+                        this.deleteReply(comment, indReply);
+                    }
+                );
+                break;
+            case 'addReply':
+                console.log('addReply');
+                break;
+        }
+    }
+
+    closeEditComment () {
+        this.setState({showEditComment: false});
     }
     render() {
         return(
-            <ViewComments />
+            <Fragment>
+                <ViewComments showEditComment={this.showEditComment}
+                              onCommentMenuClick={this.onCommentMenuClick}
+                              onResolveComment={this.onResolveComment}
+                />
+                {this.state.showEditComment && <EditComment editProps={this.state.editProps} opened={this.state.showEditComment} close={this.closeEditComment}/>}
+            </Fragment>
         )
     }
 }
 
 const _CommentsController = inject('storeAppOptions', 'storeComments', 'users')(observer(CommentsController));
 const _AddCommentController = inject('storeAppOptions', 'storeComments', 'users')(observer(AddCommentController));
+const _ViewCommentsController = inject('storeComments', 'users')(observer(withTranslation()(ViewCommentsController)));
 
 export {
     _CommentsController as CommentsController,
     _AddCommentController as AddCommentController,
-    ViewCommentsController
+    _ViewCommentsController as ViewCommentsController
 };
