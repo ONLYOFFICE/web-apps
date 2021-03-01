@@ -103,7 +103,7 @@ define([
                 el: $('#pivot-list-fields'),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                template: _.template(['<div class="listview inner no-focus" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div>',
                     '<label class="checkbox-indeterminate" style="position:absolute;">',
@@ -139,7 +139,7 @@ define([
                 el: $('#pivot-list-columns'),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                template: _.template(['<div class="listview inner no-focus" style=""></div>'].join('')),
                 itemTemplate: itemTemplate
             });
             this.columnsList.on('item:click', _.bind(this.onColumnsSelect, this, 0));
@@ -154,7 +154,7 @@ define([
                 el: $('#pivot-list-rows'),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                template: _.template(['<div class="listview inner no-focus" style=""></div>'].join('')),
                 itemTemplate: itemTemplate
             });
             this.rowsList.on('item:click', _.bind(this.onColumnsSelect, this, 1));
@@ -169,7 +169,7 @@ define([
                 el: $('#pivot-list-values'),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                template: _.template(['<div class="listview inner no-focus" style=""></div>'].join('')),
                 itemTemplate: itemTemplate
             });
             this.valuesList.on('item:click', _.bind(this.onColumnsSelect, this, 2));
@@ -184,7 +184,7 @@ define([
                 el: $('#pivot-list-filters'),
                 store: new Common.UI.DataViewStore(),
                 simpleAddMode: true,
-                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                template: _.template(['<div class="listview inner no-focus" style=""></div>'].join('')),
                 itemTemplate: itemTemplate
             });
             this.filtersList.on('item:click', _.bind(this.onColumnsSelect, this,3));

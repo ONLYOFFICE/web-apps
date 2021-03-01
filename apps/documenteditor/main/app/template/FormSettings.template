@@ -1,0 +1,108 @@
+<table cols="1">
+    <tr>
+        <td>
+            <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
+        </td>
+    </tr>
+    <tr class="form-keyfield">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textKey %></label>
+            <div id="form-combo-key" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-connected">
+        <td class="padding-small">
+            <label style="opacity: 0.5; margin-right: 5px;" id="form-settings-connected"><%= scope.textConnected %></label>
+            <label class="link-solid" id="form-settings-disconnect"><%= scope.textDisconnect %></label>
+        </td>
+    </tr>
+    <tr class="form-radiobox">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textGroupKey %></label>
+            <div id="form-combo-group-key" style="width: 100%;"></div>
+        </td>
+    </tr>
+    <tr class="form-placeholder">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textPlaceholder %></label>
+            <div id="form-txt-pholder"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large">
+            <label class="input-label"><%= scope.textTip %></label>
+            <div id="form-txt-help"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-max-chars" style="display: inline-block;margin-top: 4px;"></div>
+            <div id="form-spin-max-chars" style="display: inline-block;float: right;"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <div id="form-chb-comb"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-small">
+            <label class="input-label" style="margin-left: 22px;margin-top: 4px;"><%= scope.textWidth %></label>
+            <div id="form-spin-width" style="display: inline-block; float: right;"></div>
+        </td>
+    </tr>
+    <tr class="form-textfield">
+        <td class="padding-large">
+            <label class="input-label" style="margin-left: 22px;margin-top: 4px;"><%= scope.textColor %></label>
+            <div id="form-color-btn" style="display: inline-block; float: right;"></div>
+        </td>
+    </tr>
+    <tr class="form-image">
+        <td class="padding-large">
+            <div id="form-button-replace" style="width:100%;"></div>
+        </td>
+    </tr>
+</table>
+<table cols="2" class="form-list">
+    <tr>
+        <td colspan="2" class="padding-small">
+            <label class="input-label"><%= scope.textValue %></label>
+        </td>
+    </tr>
+    <tr style="vertical-align: top;">
+        <td class="padding-small">
+            <div id="form-txt-new-value" style="margin-right: 5px;"></div>
+        </td>
+        <td class="padding-small">
+            <div id="form-list-add" style="margin-left: 5px;"></div>
+        </td>
+    </tr>
+    <tr style="vertical-align: top;">
+        <td class="padding-large">
+            <div id="form-list-list" style="width:162px; height: 95px;margin-right: 5px;background-color: #fff;"></div>
+        </td>
+        <td class="padding-large">
+            <div id="form-list-delete" style="margin-bottom: 5px;margin-left: 5px;"></div>
+            <div id="form-list-up" style="margin-bottom: 5px;margin-left: 5px;"></div>
+            <div id="form-list-down" style="margin-left: 5px;"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-btn-delete"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="form-btn-lock"></div>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

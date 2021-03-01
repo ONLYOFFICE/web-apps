@@ -318,7 +318,9 @@ define([
 
             initReviewingSettingsView: function () {
                 var me = this;
-                $('#settings-review input:checkbox').attr('checked', this.appConfig.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
+
+                var trackChanges = typeof (this.appConfig.customization) == 'object' ? this.appConfig.customization.trackChanges : undefined;
+                $('#settings-review input:checkbox').attr('checked', this.appConfig.isReviewOnly || trackChanges===true || (trackChanges!==false) && Common.localStorage.getBool("de-mobile-track-changes-" + (_fileKey || '')));
                 $('#settings-review input:checkbox').single('change', _.bind(me.onTrackChanges, me));
                 $('#settings-accept-all').single('click', _.bind(me.onAcceptAllClick, me));
                 $('#settings-reject-all').single('click', _.bind(me.onRejectAllClick, me));
@@ -409,6 +411,7 @@ define([
                 }
                 !suppressEvent && this.initReviewingSettingsView();
                 DE.getController('Toolbar').setDisplayMode(displayMode);
+                DE.getController('DocumentHolder').setDisplayMode(displayMode);
             },
 
 
@@ -890,28 +893,31 @@ define([
                     });
                     mainView.hideNavbar();
                 } else {
-                    me.modalViewComment = uiApp.popover(
-                        '<div class="popover container-view-comment">' +
-                        '<div class="popover-inner">' +
-                        me.view.getTemplateContainerViewComments() +
-                        '</div>' +
-                        '</div>',
-                        $$('#toolbar-collaboration')
-                    );
-                    this.picker = $$(me.modalViewComment);
-                    var $overlay = $('.modal-overlay');
-
-                    $$(this.picker).on('opened', function () {
-                        $overlay.on('removeClass', function () {
-                            if (!$overlay.hasClass('modal-overlay-visible')) {
-                                $overlay.addClass('modal-overlay-visible')
-                            }
+                    if (!me.openModal) {
+                        me.modalViewComment = uiApp.popover(
+                            '<div class="popover container-view-comment">' +
+                            '<div class="popover-inner">' +
+                            me.view.getTemplateContainerViewComments() +
+                            '</div>' +
+                            '</div>',
+                            $$('#toolbar-collaboration')
+                        );
+                        this.picker = $$(me.modalViewComment);
+                        var $overlay = $('.modal-overlay');
+                        me.openModal = true;
+                        $$(this.picker).on('opened', function () {
+                            $overlay.on('removeClass', function () {
+                                if (!$overlay.hasClass('modal-overlay-visible')) {
+                                    $overlay.addClass('modal-overlay-visible')
+                                }
+                            });
+                        }).on('close', function () {
+                            $overlay.off('removeClass');
+                            $overlay.removeClass('modal-overlay-visible');
+                            $('.popover').remove();
+                            me.openModal = false;
                         });
-                    }).on('close', function () {
-                        $overlay.off('removeClass');
-                        $overlay.removeClass('modal-overlay-visible');
-                        $('.popover').remove();
-                    });
+                    }
                 }
                 me.getView('Common.Views.Collaboration').renderViewComments(me.showComments, me.indexCurrentComment);
                 $('.prev-comment').single('click', _.bind(me.onViewPrevComment, me));

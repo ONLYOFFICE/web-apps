@@ -110,7 +110,16 @@ define([
                         'Y Axis': this.txtYAxis,
                         'Your text here': this.txtArt,
                         'Header': this.txtHeader,
-                        'Footer': this.txtFooter
+                        'Footer': this.txtFooter,
+                        "above": this.txtAbove,
+                        "below": this.txtBelow,
+                        "on page ": this.txtOnPage + " ",
+                        " -Section ": " " + this.txtSection + " ",
+                        "First Page ": this.txtFirstPage + " ",
+                        "Even Page ": this.txtEvenPage + " ",
+                        "Odd Page ": this.txtOddPage + " ",
+                        "Same as Previous": this.txtSameAsPrev,
+                        "Current Document": this.txtCurrentDocument
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -542,7 +551,8 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-                me.api.asc_SetTrackRevisions(me.appOptions.isReviewOnly || Common.localStorage.getBool("de-mobile-track-changes-" + (me.appOptions.fileKey || '')));
+                var trackChanges = typeof (me.appOptions.customization) == 'object' ? me.appOptions.customization.trackChanges : undefined;
+                me.api.asc_SetTrackRevisions(me.appOptions.isReviewOnly || trackChanges===true || (trackChanges!==false) && Common.localStorage.getBool("de-mobile-track-changes-" + (me.appOptions.fileKey || '')));
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("de-mobile-settings-livecomment", true);
@@ -553,12 +563,6 @@ define([
                 value = Common.localStorage.getItem("de-settings-zoom");
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
                 (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
-
-                value = Common.localStorage.getItem("de-show-hiddenchars");
-                me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
-
-                value = Common.localStorage.getItem("de-show-tableline");
-                me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
 
                 value = Common.localStorage.getBool("de-mobile-spellcheck", !(this.appOptions.customization && this.appOptions.customization.spellcheck===false));
                 Common.Utils.InternalSettings.set("de-mobile-spellcheck", value);
@@ -574,10 +578,10 @@ define([
                 me.api.SetTextBoxInputMode(Common.localStorage.getBool("de-settings-inputmode"));
 
                 value = Common.localStorage.getItem("de-mobile-no-characters");
-                me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
+                me.api.put_ShowParaMarks(value==='true');
 
                 value = Common.localStorage.getItem("de-mobile-hidden-borders");
-                me.api.put_ShowTableEmptyLine((value!==null) ? eval(value) : true);
+                me.api.put_ShowTableEmptyLine(value===null || value==='true');
 
                 /** coauthoring begin **/
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
@@ -804,7 +808,9 @@ define([
                 me.appOptions.canPrint        = (me.permissions.print !== false);
                 me.appOptions.fileKey = me.document.key;
                 me.appOptions.canFillForms   = me.appOptions.canLicense && ((me.permissions.fillForms===undefined) ? me.appOptions.isEdit : me.permissions.fillForms) && (me.editorConfig.mode !== 'view');
-                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && me.appOptions.canFillForms;
+                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && (me.appOptions.canComments || me.appOptions.canFillForms);
+                if (me.appOptions.isRestrictedEdit && me.appOptions.canComments && me.appOptions.canFillForms) // must be one restricted mode, priority for filling forms
+                    me.appOptions.canComments = false;
                 me.appOptions.trialMode      = params.asc_getLicenseMode();
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
@@ -826,6 +832,7 @@ define([
                 me.applyModeEditorElements();
 
                 me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
+                me.appOptions.isRestrictedEdit && this.appOptions.canComments && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 me.appOptions.isRestrictedEdit && me.appOptions.canFillForms && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 me.api.asc_LoadDocument();
                 me.api.Resize();
@@ -1308,7 +1315,10 @@ define([
                     var buttons = [{
                         text: 'OK',
                         bold: true,
+                        close: false,
                         onClick: function () {
+                            if (!me._state.openDlg) return;
+                            $(me._state.openDlg).hasClass('modal-in') && uiApp.closeModal(me._state.openDlg);
                             var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                             me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
@@ -1597,7 +1607,16 @@ define([
             errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
-            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.'
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+            txtAbove: "above",
+            txtBelow: "below",
+            txtOnPage: "on page",
+            txtSection: "-Section",
+            txtFirstPage: "First Page",
+            txtEvenPage: "Even Page",
+            txtOddPage: "Odd Page",
+            txtSameAsPrev: "Same as Previous",
+            txtCurrentDocument: "Current Document"
         }
     })(), DE.Controllers.Main || {}))
 });

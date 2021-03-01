@@ -170,6 +170,8 @@ define([
                 window["flat_desine"] = true;
                 this.api = this.getApplication().getController('Viewport').getApi();
 
+                Common.UI.FocusManager.init();
+
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
 
@@ -369,6 +371,7 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = !!this.api.asc_isSupportFeature("comparison");
                 this.appOptions.canFeatureContentControl = !!this.api.asc_isSupportFeature("content-controls");
+                this.appOptions.canFeatureForms = false; // hide in 6.2
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
@@ -545,6 +548,7 @@ define([
                 } else {
                     this.api.asc_coAuthoringDisconnect();
                     appHeader.setCanRename(false);
+                    appHeader.getButton('users') && appHeader.getButton('users').hide();
                     this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
                     this.disableEditing(true);
                     var versions = opts.data.history,
@@ -1000,6 +1004,7 @@ define([
                     me.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
                 }
                 Common.Utils.InternalSettings.set("de-settings-coauthmode", me._state.fastCoauth);
+                me.api.asc_SetPerformContentControlActionByClick(me.appOptions.isRestrictedEdit && me.appOptions.canFillForms);
 
                 /** coauthoring end **/
 
@@ -1244,6 +1249,7 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
+                this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isProtectionSupport();
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
@@ -1368,6 +1374,7 @@ define([
                         toolbarView.on('insertshape', _.bind(me.onInsertShape, me));
                         toolbarView.on('inserttextart', _.bind(me.onInsertTextArt, me));
                         toolbarView.on('insertchart', _.bind(me.onInsertChart, me));
+                        toolbarView.on('insertcontrol', _.bind(me.onInsertControl, me));
                     }
 
                     var value = Common.localStorage.getItem('de-settings-unit');
@@ -2044,6 +2051,10 @@ define([
                 this.getApplication().getController('RightMenu').onInsertTextArt();
             },
 
+            onInsertControl:  function() {
+                this.getApplication().getController('RightMenu').onInsertControl();
+            },
+
             unitsChanged: function(m) {
                 var value = Common.localStorage.getItem("de-settings-unit");
                 value = (value!==null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
@@ -2265,7 +2276,7 @@ define([
                 var _disable_ui = function (disable) {
                     me.disableEditing(disable);
                     var app = me.getApplication();
-                    app.getController('DocumentHolder').getView().SetDisabled(disable, true);
+                    app.getController('DocumentHolder').getView().SetDisabled(disable);
                     app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
 
                     var leftMenu = app.getController('LeftMenu');

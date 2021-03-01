@@ -138,33 +138,39 @@
         z-index: @zindex-modal - 2;
     }
 
-    &.alert {
-        min-height: 90px;
-        min-width: 230px;
+    .icon {
+        &.warn {
+            width: 35px;
+            height: 32px;
+            background-position: @alerts-offset-x @alerts-offset-y - 105px;
+        }
 
-        .icon {
-            float: left;
+        &.error, &.info, &.confirm {
             width: 35px;
             height: 35px;
-            margin: 0 0 0 10px;
-
-            &.warn {
-                height: 32px;
-                background-position: @alerts-offset-x @alerts-offset-y - 105px;
-            }
-
-            &.error {
-                background-position: @alerts-offset-x @alerts-offset-y - 0;
-            }
-
-            &.info {
-                background-position: @alerts-offset-x @alerts-offset-y - 35px;
-            }
-
-            &.confirm {
-                background-position: @alerts-offset-x @alerts-offset-y - 70px;
-            }
         }
+
+        &.error {
+            background-position: @alerts-offset-x @alerts-offset-y - 0;
+        }
+
+        &.info {
+            background-position: @alerts-offset-x @alerts-offset-y - 35px;
+        }
+
+        &.confirm {
+            background-position: @alerts-offset-x @alerts-offset-y - 70px;
+        }
+    }
+
+    &.alert {
+        .icon {
+            float: left;
+            margin: 0 0 0 10px;
+        }
+
+        min-height: 90px;
+        min-width: 230px;
 
         .body {
             .info-box {

@@ -105,14 +105,17 @@ define([
 
             render : function(parentEl) {
                 var oldRawValue = null;
+                var oldTabindex = '';
 
                 if (!_.isUndefined(this._input)) {
                     oldRawValue = this._input.val();
+                    oldTabindex = this._input.attr('tabindex');
                 }
 
                 Common.UI.ComboBox.prototype.render.call(this, parentEl);
 
                 this.setRawValue(oldRawValue);
+                this._input.attr('tabindex', oldTabindex);
 
                 this._input.on('keyup',     _.bind(this.onInputKeyUp, this));
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
@@ -128,6 +131,8 @@ define([
                      if ($(e.target).closest('input').length) { // enter in input field
                         if (this.lastValue !== this._input.val())
                             this._input.trigger('change');
+                         else
+                            return true;
                     } else { // enter in dropdown list
                         $(e.target).click();
                         if (this.rendered) {
@@ -136,7 +141,7 @@ define([
                             else
                                 this._input.blur();
                         }
-                     }
+                    }
                     return false;
                 } else if (e.keyCode == Common.UI.Keys.ESC && this.isMenuOpen()) {
                     this._input.val(this.lastValue);
@@ -199,7 +204,7 @@ define([
                         me.closeMenu();
                         me.onAfterHideMenu(e);
                     }, 10);
-                } else if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode != Common.UI.Keys.CTRL && e.keyCode != Common.UI.Keys.SHIFT && e.keyCode != Common.UI.Keys.ALT){
+                } else if (e.keyCode != Common.UI.Keys.RETURN && e.keyCode != Common.UI.Keys.CTRL && e.keyCode != Common.UI.Keys.SHIFT && e.keyCode != Common.UI.Keys.ALT && e.keyCode != Common.UI.Keys.TAB){
                     if (!this.isMenuOpen() && !e.ctrlKey)
                         this.openMenu();
 
@@ -301,7 +306,7 @@ define([
                 if (callback) {
                     this.spriteThumbs = new Image();
                     this.spriteThumbs.onload = callback;
-                    this.spriteThumbs.src = (window.devicePixelRatio > 1) ? thumbPath2x : thumbPath;
+                    this.spriteThumbs.src = isRetina ? thumbPath2x : thumbPath;
                 }
             },
 
@@ -338,16 +343,21 @@ define([
 
             onApiChangeFont: function(font) {
                 var me = this;
-                setTimeout(function () {
-                    me.onApiChangeFontInternal(font);
-                }, 100);
+                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
+                if (this.__name !== name) {
+                    if (!this.__nameId) {
+                        this.__nameId = setTimeout(function () {
+                            me.onApiChangeFontInternal(name);
+                            me.__nameId = null;
+                        }, 100);
+                    }
+                }
             },
 
-            onApiChangeFontInternal: function(font) {
+            onApiChangeFontInternal: function(name) {
                 if (this.inFormControl) return;
 
-                var name = (_.isFunction(font.get_Name) ?  font.get_Name() : font.asc_getFontName());
-
+                this.__name = name;
                 if (this.getRawValue() !== name) {
                     var record = this.store.findWhere({
                         name: name

@@ -266,6 +266,8 @@ define([
             toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
             toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, true));
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, false));
+            toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
+            toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
             toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
             toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
             toolbar.btnUnderline.on('click',                            _.bind(this.onUnderline, this));
@@ -990,6 +992,22 @@ define([
                     Common.component.Analytics.trackEvent('ToolBar', 'Copy Warning');
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+        },
+
+        onIncrease: function(e) {
+            if (this.api)
+                this.api.FontSizeIn();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
+        },
+
+        onDecrease: function(e) {
+            if (this.api)
+                this.api.FontSizeOut();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
         },
 
         onBold: function(btn, e) {
@@ -1871,12 +1889,15 @@ define([
         onInsertSymbolClick: function() {
             if (this.api) {
                 var me = this,
+                    selected = me.api.asc_GetSelectedText(),
                     win = new Common.Views.SymbolTableDialog({
                         api: me.api,
                         lang: me.toolbar.mode.lang,
                         type: 1,
                         special: true,
                         buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        font: selected && selected.length>0 ? me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name() : undefined,
+                        symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
                                 me.api.asc_insertSymbol(settings.font ? settings.font : me.api.get_TextProps().get_TextPr().get_FontFamily().get_Name(), settings.code, settings.special);
@@ -2263,7 +2284,7 @@ define([
 
         textEmptyImgUrl : 'You need to specify image URL.',
         textWarning     : 'Warning',
-        textFontSizeErr : 'The entered value must be more than 0',
+        textFontSizeErr : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 300',
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         textSymbols                                : 'Symbols',
         textFraction                               : 'Fraction',

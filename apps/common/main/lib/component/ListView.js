@@ -115,6 +115,10 @@ define([
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
                 }
+            },
+
+            focus: function() {
+                this.cmpEl && this.cmpEl.find('.listview').focus();
             }
         }
     })());

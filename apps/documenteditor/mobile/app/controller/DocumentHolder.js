@@ -65,7 +65,8 @@ define([
             _timer = 0,
             _canViewComments = true,
             _isRestrictedEdit = false,
-            _canFillForms = true;
+            _canFillForms = true,
+            _stateDisplayMode = false;
 
         return {
             models: [],
@@ -553,7 +554,7 @@ define([
                         items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
                     };
 
-                    if (_isEdit && !me.isDisconnected) {
+                    if (_isEdit && !me.isDisconnected && !_stateDisplayMode) {
                         if (!lockedText && !lockedTable && !lockedImage && !lockedHeader && canCopy) {
                             arrItemsIcon.push({
                                 caption: me.menuCut,
@@ -671,6 +672,10 @@ define([
 
             onCoAuthoringDisconnect: function() {
                 this.isDisconnected = true;
+            },
+
+            setDisplayMode: function(displayMode) {
+                _stateDisplayMode = displayMode == "final" || displayMode == "original" ? true : false;
             },
 
             textGuest: 'Guest',

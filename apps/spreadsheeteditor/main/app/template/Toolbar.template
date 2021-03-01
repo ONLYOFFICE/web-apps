@@ -211,6 +211,7 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-text-column"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-rem-duplicates"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-data-validation"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

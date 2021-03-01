@@ -133,6 +133,8 @@ define([
         },
 
         onApiEditCell: function(state) {
+            if (this.viewmode) return; // signed file
+
             if (state == Asc.c_oAscCellEditorState.editStart){
                 this.api.isCellEdited = true;
                 this.editor.cellNameDisabled(true);
@@ -151,6 +153,8 @@ define([
         },
 
         onApiSelectionChanged: function(info) {
+            if (this.viewmode) return; // signed file
+
             var seltype = info.asc_getSelectionType(),
                 coauth_disable = (!this.mode.isEditMailMerge && !this.mode.isEditDiagram) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true) : false;
 
@@ -241,6 +245,8 @@ define([
         },
 
         onInsertFunction: function() {
+            if (this.viewmode) return; // signed file
+
             if ( this.mode.isEdit && !this.editor.$btnfunc['hasClass']('disabled')) {
                 var controller = this.getApplication().getController('FormulaDialog');
                 if (controller) {
@@ -314,6 +320,13 @@ define([
         disableEditing: function(disabled) {
             this.editor.$btnfunc[!disabled?'removeClass':'addClass']('disabled');
             this.editor.btnNamedRanges.setVisible(!disabled);
+        },
+
+        setPreviewMode: function(mode) {
+            if (this.viewmode === mode) return;
+            this.viewmode = mode;
+            this.editor.$btnfunc[!mode?'removeClass':'addClass']('disabled');
+            this.editor.cellNameDisabled(mode);
         }
     });
 });

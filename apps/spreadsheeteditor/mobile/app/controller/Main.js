@@ -311,7 +311,7 @@ define([
 
                 if ( me.api ) {
                     me.api.asc_enableKeyEvents(mode.isEdit);
-                    me.api.asc_setViewMode(!mode.isEdit);
+                    me.api.asc_setViewMode(!mode.isEdit && !mode.isRestrictedEdit);
                 }
             },
 
@@ -549,10 +549,16 @@ define([
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     // Force ON fast co-authoring mode
-                    me._state.fastCoauth = true;
-                } else
+                    this._state.fastCoauth = true;
+                    this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
+                    this._state.fastCoauth = true;
+                    this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                    this.api.asc_setAutoSaveGap(1);
+                } else {
                     this._state.fastCoauth = false;
-                this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                    this.api.asc_SetFastCollaborative(this._state.fastCoauth);
+                }
                 /** coauthoring end **/
 
                 me.api.asc_registerCallback('asc_onStartAction',            _.bind(me.onLongActionBegin, me));
@@ -765,11 +771,13 @@ define([
                 me.appOptions.isEdit         = (me.appOptions.canLicense || me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && me.permissions.edit !== false && me.editorConfig.mode !== 'view' && me.isSupportEditFeature();
                 me.appOptions.canDownload    = (me.permissions.download !== false);
                 me.appOptions.canPrint       = (me.permissions.print !== false);
+                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && me.appOptions.canComments;
 
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 
-                me.api.asc_setViewMode(!me.appOptions.isEdit);
+                me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
+                (me.appOptions.isRestrictedEdit && me.appOptions.canComments) && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 me.api.asc_LoadDocument();
 
                 if (!me.appOptions.isEdit) {
@@ -1404,7 +1412,10 @@ define([
                     var buttons = [{
                         text: 'OK',
                         bold: true,
+                        close: false,
                         onClick: function () {
+                            if (!me._state.openDlg) return;
+                            $(me._state.openDlg).hasClass('modal-in') && uiApp.closeModal(me._state.openDlg);
                             var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                             me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 

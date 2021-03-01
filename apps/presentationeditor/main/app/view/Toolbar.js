@@ -261,6 +261,22 @@ define([
                     });
                     me.paragraphControls.push(me.cmbFontSize);
 
+                    me.btnIncFontSize = new Common.UI.Button({
+                        id: 'id-toolbar-btn-incfont',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-incfont',
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock]
+                    });
+                    me.paragraphControls.push(me.btnIncFontSize);
+
+                    me.btnDecFontSize = new Common.UI.Button({
+                        id: 'id-toolbar-btn-decfont',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-decfont',
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock]
+                    });
+                    me.paragraphControls.push(me.btnDecFontSize);
+
                     me.btnBold = new Common.UI.Button({
                         id: 'id-toolbar-btn-bold',
                         cls: 'btn-toolbar',
@@ -326,7 +342,7 @@ define([
                         menu: new Common.UI.Menu({
                             cls: 'shifted-left',
                             items: [
-                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>')},
+                                {template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>')},
                                 {template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>')}
                             ]
                         })
@@ -850,7 +866,7 @@ define([
                     ].join(''));
 
                     this.lockControls = [this.btnChangeSlide, this.btnSave,
-                        this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize,
+                        this.btnCopy, this.btnPaste, this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
                         this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript,
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign,
@@ -960,6 +976,8 @@ define([
                 _injectComponent('#slot-btn-strikeout', this.btnStrikeout);
                 _injectComponent('#slot-btn-superscript', this.btnSuperscript);
                 _injectComponent('#slot-btn-subscript', this.btnSubscript);
+                _injectComponent('#slot-btn-incfont', this.btnIncFontSize);
+                _injectComponent('#slot-btn-decfont', this.btnDecFontSize);
                 _injectComponent('#slot-btn-fontcolor', this.btnFontColor);
                 _injectComponent('#slot-btn-clearstyle', this.btnClearStyle);
                 _injectComponent('#slot-btn-copystyle', this.btnCopyStyle);
@@ -1072,6 +1090,8 @@ define([
                 this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
                 this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
                 this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
+                this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
+                this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
                 this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
                 this.btnItalic.updateHint(this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
                 this.btnUnderline.updateHint(this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
@@ -1144,7 +1164,7 @@ define([
                 );
 
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
-                    style: 'width: 364px;',
+                    style: 'width: 364px;padding-top: 12px;',
                     items: [
                         {template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>')}
                     ]
@@ -1156,7 +1176,7 @@ define([
                         parentMenu: menu,
                         showLast: false,
                         restoreHeight: 421,
-                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)),
+                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });
@@ -1682,7 +1702,9 @@ define([
             capInsertAudio: 'Audio',
             capInsertVideo: 'Video',
             tipInsertAudio: 'Insert audio',
-            tipInsertVideo: 'Insert video'
+            tipInsertVideo: 'Insert video',
+            tipIncFont: 'Increment font size',
+            tipDecFont: 'Decrement font size'
         }
     }()), PE.Views.Toolbar || {}));
 });

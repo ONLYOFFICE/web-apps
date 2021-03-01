@@ -259,10 +259,14 @@ define([
             renderLayouts: function() {
                 var $layoutContainer = $('.container-edit .slide-layout');
                 if ($layoutContainer.length > 0 && _layouts.length>0) {
-                    var columns = parseInt(($layoutContainer.width()-20) / (_layouts[0].itemWidth+2)), // magic
+                    var itemWidth = _layouts[0].itemWidth,
+                        columns = parseInt(($layoutContainer.width()-20) / (itemWidth+2)), // magic
                         row = -1,
                         layouts = [];
-
+                    if (columns<1) {
+                        columns = 1;
+                        itemWidth = $layoutContainer.width()-20;
+                    }
                     _.each(_layouts, function (layout, index) {
                         if (0 == index % columns) {
                             layouts.push([]);
@@ -276,13 +280,14 @@ define([
                         '<ul class="row">',
                         '<% _.each(row, function(item) { %>',
                         '<li data-type="<%= item.idx %>">',
-                        '<img src="<%= item.imageUrl %>" width="<%= item.itemWidth %>" height="<%= item.itemHeight %>">',
+                        '<img src="<%= item.imageUrl %>" width="<%= itemWidth %>" height="<%= item.itemHeight %>">',
                         '</li>',
                         '<% }); %>',
                         '</ul>',
                         '<% }); %>'
                     ].join(''))({
-                        layouts: layouts
+                        layouts: layouts,
+                        itemWidth: itemWidth
                     });
 
                     $layoutContainer.html(template);

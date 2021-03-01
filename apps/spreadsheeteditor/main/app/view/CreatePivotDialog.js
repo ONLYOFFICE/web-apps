@@ -164,17 +164,18 @@ define([
             this.afterRender();
         },
 
-        afterRender: function() {
-            this._setDefaults(this.props);
+        getFocusedComponents: function() {
+            return [this.txtSourceRange, this.txtDestRange];
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        getDefaultFocusableComponent: function () {
+            if (this._alreadyRendered) return; // focus only at first show
+            this._alreadyRendered = true;
+            return this.txtSourceRange;
+        },
 
-            var me = this;
-            _.delay(function(){
-                me.txtSourceRange.cmpEl.find('input').focus();
-            },50);
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         _setDefaults: function (props) {
@@ -257,6 +258,9 @@ define([
                     handler: handlerDlg
                 }).on('close', function() {
                     me.show();
+                    _.delay(function(){
+                        txtRange.focus();
+                    },1);
                 });
 
                 var xy = me.$window.offset();

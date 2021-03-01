@@ -1,5 +1,6 @@
 .listview {
   border: 1px solid @input-border;
+  .border-radius(@border-radius-small);
   line-height: 15px;
 
   &.inner {
@@ -18,6 +19,10 @@
           padding: 5px;
         }
     }
+  }
+
+  &:not(.no-focus):focus {
+    border-color: @gray-darker;
   }
 
   & > .item {

@@ -315,6 +315,33 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight,
+                this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, // 0 tab
+                this.inputAltTitle, this.textareaAltDescription  // 1 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 0:
+                        if (!me.spnMarginTop.isDisabled())
+                            me.spnMarginTop.focus();
+                        else
+                            me.spnTableMarginTop.focus();
+                        break;
+                    case 1:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
+        },
+
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);

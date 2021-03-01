@@ -152,6 +152,7 @@ define([
                 menuStyle: 'min-width: 75px;',
                 editable: false,
                 disabled: !this.isObject,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: this.textBefore,   value: 1 },
                     { displayValue: this.textAfter,   value: 0 }
@@ -180,6 +181,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;max-height:155px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this.arrLabel,
                 alwaysVisibleY: true
             });
@@ -264,6 +266,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: [
                     { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal, maskExp: /[0-9]/, defValue: 1 },
                     { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter, maskExp: /[a-z]/, defValue: 'a' },
@@ -305,6 +308,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;max-height:135px;',
                 editable: false,
+                takeFocusOnClose: true,
                 disabled: true,
                 data: this._arrLevel
             });
@@ -320,6 +324,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 160px;',
                 editable: false,
+                takeFocusOnClose: true,
                 disabled: true,
                 data: [
                     { displayValue: '-     (' + this.textHyphen + ')',      value: '-' },
@@ -341,12 +346,16 @@ define([
             this.afterRender();
         },
 
-        afterRender: function() {
-            this._setDefaults(this.props);
+        getFocusedComponents: function() {
+            return [this.txtCaption, this.cmbPosition, this.cmbLabel, this.cmbNumbering, this.cmbChapter, this.cmbSeparator];
         },
 
-        show: function() {
-            Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
+        getDefaultFocusableComponent: function () {
+            return this.txtCaption;
+        },
+
+        afterRender: function() {
+            this._setDefaults(this.props);
         },
 
         close: function() {

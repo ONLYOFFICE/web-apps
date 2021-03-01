@@ -3,7 +3,7 @@
 	<head>
 		<title>Utiliser des formules dans les tableaux</title>
 		<meta charset="utf-8" />
-        <meta name="description" content="Insert formulas into the table cells to perform simple calculations on data" />
+        <meta name="description" content="Ajouter des formules dans les cellules du tableau pour effectuer des calculs simples" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Utiliser des formules dans les tableaux</h1>
             <h3>Insérer une formule</h3>
@@ -39,9 +39,9 @@
             </ul>
             <p>Ces arguments peuvent être utilisés avec les fonctions MOYENNE, NB, MAX, MIN, PRODUIT, SOMME.</p>
             <p>Vous pouvez également saisir manuellement des références à une cellule donnée (par exemple, <em>A1</em>) ou à une plage de cellules (par exemple, <em>A1:B3</em>).</p>
-            <h3>Utiliser des marque-pages</h3>
-            <p>Si vous avez ajouté des <a href="../UsageInstructions/InsertBookmarks.htm" onclick="onhyperlinkclick(this)">marque-pages</a> à certaines cellules de votre tableau, vous pouvez utiliser ces marque-pages comme arguments lorsque vous saisissez des formules.</p>
-            <p>Dans la fenêtre <b>Paramètres de formule</b>, placez le curseur entre parenthèses dans la zone de saisie du champ <b>Formule</b> où vous voulez que l'argument soit ajouté et utilisez la liste déroulante <b>Insérer le marque-pages</b> pour sélectionner un des marque-pages préalablement ajoutés.</p>
+            <h3>Utiliser des signets</h3>
+            <p>Si vous avez ajouté des <a href="../UsageInstructions/InsertBookmarks.htm" onclick="onhyperlinkclick(this)">signets</a> à certaines cellules de votre tableau, vous pouvez utiliser ces signets comme arguments lorsque vous saisissez des formules.</p>
+            <p>Dans la fenêtre <b>Paramètres de formule</b>, placez le curseur entre parenthèses dans la zone de saisie du champ <b>Formule</b> où vous voulez que l'argument soit ajouté et utilisez la liste déroulante <b>Insérer le signets</b> pour sélectionner un des signets préalablement ajoutés.</p>
             <h3>Mise à jour des résultats de la formule</h3>
             <p>Si vous modifiez certaines valeurs dans les cellules du tableau, vous devez mettre à jour manuellement les résultats de formule :</p>
             <ul>
@@ -140,7 +140,7 @@
                     <td>Mathématique</td>
                     <td>ARRONDI(number, num_digits)</td>
                     <td>La fonction est utilisée pour arrondir un nombre à un nombre de décimales spécifié.</td>
-                    <td>=ARRONDI(2,25,3)<br />Renvoie 2,3</td>
+                    <td>=ARRONDI(2,25,1)<br />Renvoie 2,3</td>
                 </tr>
                 <tr>
                     <td>Mathématique</td>
@@ -152,7 +152,7 @@
                     <td>Mathématique</td>
                     <td>SOMME(number1, number2, ...)</td>
                     <td>La fonction est utilisée pour additionner tous les nombres contenus dans une plage de cellules et renvoyer le résultat.</td>
-                    <td>=SOMME(5,3,3)<br />Renvoie 10</td>
+                    <td>=SOMME(5,3,2)<br />Renvoie 10</td>
                 </tr>
                 <tr>
                     <td>Logique</td>

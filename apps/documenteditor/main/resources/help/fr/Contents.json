@@ -58,18 +58,22 @@
     "src": "UsageInstructions/SectionBreaks.htm",
     "name": "Insérer les sauts de section"
   },
-  {
-    "src": "UsageInstructions/InsertHeadersFooters.htm",
-    "name": "Insérer les en-têtes et pieds de page"
-  },
-  {
-    "src": "UsageInstructions/InsertPageNumbers.htm",
-    "name": "Insérer les numéros de page"
-  },
-  {
-    "src": "UsageInstructions/InsertFootnotes.htm",
-    "name": "Insérer les notes de bas de page"
-  },
+    {
+        "src": "UsageInstructions/InsertHeadersFooters.htm",
+        "name": "Insérer les en-têtes et pieds de page"
+    },
+    {"src": "UsageInstructions/InsertDateTime.htm", "name": "Insérer la date et l'heure"},
+    {
+        "src": "UsageInstructions/InsertPageNumbers.htm",
+        "name": "Insérer les numéros de page"
+    },
+    {"src": "UsageInstructions/InsertLineNumbers.htm", "name": "Insérer des numéros de ligne"},
+    {
+        "src": "UsageInstructions/InsertFootnotes.htm",
+        "name": "Insérer les notes de bas de page"
+    },
+    { "src": "UsageInstructions/InsertEndnotes.htm", "name": "Insérer des notes de fin" },
+    { "src": "UsageInstructions/ConvertFootnotesEndnotes.htm", "name": "Conversion de notes de bas de page en notes de fin" },
     {
         "src": "UsageInstructions/InsertBookmarks.htm",
         "name": "Ajouter des marque-pages"
@@ -126,10 +130,11 @@
     "src": "UsageInstructions/CopyClearFormatting.htm",
     "name": "Copier/effacer la mise en forme du texte"
   },
-  {
-    "src": "UsageInstructions/AddHyperlinks.htm",
-    "name": "Ajouter des liens hypertextes"
-  },
+    {
+        "src": "UsageInstructions/AddHyperlinks.htm",
+        "name": "Ajouter des liens hypertextes"
+    },
+    {"src": "UsageInstructions/InsertCrossReference.htm", "name": "Insertion de renvoi"},
   {
     "src": "UsageInstructions/InsertDropCap.htm",
     "name": "Insérer une lettrine"
@@ -165,10 +170,11 @@
     "src": "UsageInstructions/InsertContentControls.htm",
     "name": "Insérer des contrôles de contenu"
   },
-  {
-    "src": "UsageInstructions/CreateTableOfContents.htm",
-    "name": "Créer une table des matières"
-  },
+    {
+        "src": "UsageInstructions/CreateTableOfContents.htm",
+        "name": "Créer une table des matières"
+    },
+    {"src": "UsageInstructions/AddTableofFigures.htm", "name": "Insérer et mettre en forme un tableau des figures" },
   {
     "src": "UsageInstructions/AlignArrangeObjects.htm",
     "name": "Aligner et organiser des objets sur une page"
@@ -196,7 +202,16 @@
         "src": "HelpfulHints/Review.htm",
         "name": "Révision du document"
     },
-    {"src": "HelpfulHints/Comparison.htm", "name": "Comparer les documents"},
+    { "src": "HelpfulHints/Comparison.htm", "name": "Comparer les documents" },
+    {"src": "UsageInstructions/PhotoEditor.htm", "name": "Modification d'une image", "headername": "Plugins"},
+    {"src": "UsageInstructions/YouTube.htm", "name": "Insérer une vidéo" },
+    {"src": "UsageInstructions/HighlightedCode.htm", "name": "Insérer le code en surbrillance" },
+    {"src": "UsageInstructions/InsertReferences.htm", "name": "Insérer les références" },
+    {"src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
+    {"src": "UsageInstructions/OCR.htm", "name": "Extraction du texte incrusté dans l'image" },
+    {"src": "UsageInstructions/Speech.htm", "name": "Lire un texte à haute voix" },
+    {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
+    {"src": "UsageInstructions/Wordpress.htm", "name": "Télécharger un document sur Wordpress"},
   {
     "src": "UsageInstructions/ViewDocInfo.htm",
     "name": "Afficher les informations sur le document",
@@ -218,10 +233,11 @@
     "src": "HelpfulHints/Search.htm",
     "name": "Fonctions de recherche et remplacement"
   },
-  {
-    "src": "HelpfulHints/SpellChecking.htm",
-    "name": "Vérification de l'orthographe"
-  },
+    {
+        "src": "HelpfulHints/SpellChecking.htm",
+        "name": "Vérification de l'orthographe"
+    },
+    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
   {
     "src": "HelpfulHints/About.htm",
     "name": "À propos de Document Editor",

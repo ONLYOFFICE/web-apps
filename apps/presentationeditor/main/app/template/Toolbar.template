@@ -43,18 +43,20 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <div class="elset" style="width:191px;">
-                        <span class="btn-slot" style="float: left; width: 144px;" id="slot-field-fontname"></span>
+                    <div class="elset" style="width:207px;">
+                        <span class="btn-slot" style="float: left; width: 115px;" id="slot-field-fontname"></span>
                         <span class="btn-slot" style="float: left; width: 45px; margin-left: 2px;" id="slot-field-fontsize"></span>
+                        <span class="btn-slot" id="slot-btn-incfont"></span>
+                        <span class="btn-slot" id="slot-btn-decfont"></span>
                     </div>
                     <div class="elset font-attr">
                         <span class="btn-slot" id="slot-btn-bold"></span>
                         <span class="btn-slot" id="slot-btn-italic"></span>
                         <span class="btn-slot" id="slot-btn-underline"></span>
                         <span class="btn-slot" id="slot-btn-strikeout"></span>
-                        <span class="btn-slot split" id="slot-btn-fontcolor"></span>
                         <span class="btn-slot" id="slot-btn-superscript"></span>
                         <span class="btn-slot" id="slot-btn-subscript"></span>
+                        <span class="btn-slot split" id="slot-btn-fontcolor"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>

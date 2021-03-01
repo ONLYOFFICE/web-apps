@@ -3,7 +3,7 @@
 	<head>
 		<title>Insérer les formes automatiques</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Add an autoshape to your document and adjust its properties." />
+		<meta name="description" content="Insérer les formes automatiques et modifier ses paramètres." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -11,13 +11,13 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Insérer les formes automatiques</h1>
             <h3>Insérer une forme automatique</h3>
 			<p>Pour insérer une forme automatique à votre document,</p>
 			<ol>
-                <li>passez à l'onglet <b>Insertion</b> de la barre d'outils supérieure,</li>
+                <li>passez à l'onglet <b>Insérer</b> de la barre d'outils supérieure,</li>
 				<li>cliquez sur l'icône <img alt="Insérer une forme automatique" src="../images/insertautoshape.png" /> <b>Forme</b>  de la barre d'outils supérieure,</li>
 				<li>sélectionnez l'un des groupes des formes automatiques disponibles : Formes de base, Flèches figurées, Maths, Graphiques, Étoiles et rubans, Légendes, Boutons, Rectangles, Lignes,</li>
 				<li>cliquez sur la forme automatique nécessaire du groupe sélectionné,</li>
@@ -45,20 +45,37 @@
 			<hr />
 			<p>Certains paramètres de la forme automatique peuvent être modifiés en utilisant l'onglet <b>Paramètres de la forme</b> de la barre latérale droite. Pour l'activer, sélectionnez la forme ajoutée avec la souris et sélectionnez l'icône <b>Paramètres de la forme</b> <img alt="Paramètres de la forme" src="../images/shape_settings_icon.png" /> à droite. Vous pouvez y modifier les paramètres suivants :</p>
 			<ul>
-			<li  id="shape_fill"><b>Remplissage</b> - utilisez cette section pour sélectionner le remplissage de la forme automatique. Les options disponibles sont les suivantes :<ul>
-				<li><b>Couleur</b> - sélectionnez cette option pour spécifier la couleur unie à remplir l'espace intérieur de la forme automatique sélectionnée.<p><img alt="Couleur" src="../images/fill_color.png" /></p>
-				<p id="color">Cliquez sur la case de couleur et sélectionnez la couleur voulue à partir de l'<a href="../UsageInstructions/ChangeColorScheme.htm" onclick="onhyperlinkclick(this)">ensemble de couleurs</a> disponibles ou spécifiez n'importe quelle couleur de votre choix :</p>
+			<li  id="shape_fill"><b>Remplissage</b> - utilisez cette section pour sélectionner le remplissage de la forme automatique. Les options disponibles sont les suivantes:
+			<ul>
+				<li><b>Couleur de remplissage</b> - sélectionnez cette option pour spécifier la couleur unie à remplir l'espace intérieur de la forme automatique sélectionnée.<p><img alt="Couleur" src="../images/fill_color.png" /></p>
+				<p id="color">Cliquez sur la case de couleur et sélectionnez la couleur voulue à partir <a href="../UsageInstructions/ChangeColorScheme.htm" onclick="onhyperlinkclick(this)">du jeux de couleurs</a> disponible ou spécifiez n'importe quelle couleur de votre choix :</p>
 				</li>
-				<li><b>Dégradé</b> - sélectionnez cette option pour specifier deux couleurs pour créer une transition douce entre elles et remplir la forme.<p><img alt="Dégradé" src="../images/fill_gradient.png" /></p>
-				    <ul>
-				    <li><b>Style</b> - choisissez une des options disponibles : <b>Linéaire</b> (la transition se fait selon un axe horizontal/vertical ou en diagonale, sous l'angle de 45 degrés) ou <b>Radial</b> (la transition se fait autour d'un point, les couleurs se fondent progressivement du centre aux bords en formant un cercle).</li>
-				    <li><b>Direction</b> - choisissez un modèle du menu. Si vous avez sélectionné le style <b>Linéaire</b>, vous pouvez choisir une des directions suivantes : du haut à gauche vers le bas à droite, du haut en bas, du haut à droite vers le bas à gauche, de droite à gauche, du bas à droite vers le haut à gauche, du bas en haut, du bas à gauche vers le haut à droite, de gauche à droite. Si vous avez choisi le style <b>Radial</b>, il n'est disponible qu'un seul modèle.</li>
-				    <li><b>Dégradé</b> - cliquez sur le curseur de dégradé gauche <img alt="Curseur" src="../images/gradientslider.png" /> au-dessous de la barre de dégradé pour activer la palette de couleurs qui correspond à la première couleur. Cliquez sur la palette de couleurs à droite pour sélectionner la première couleur. Faites glisser le curseur pour définir le point de dégradé c'est-à-dire le point quand une couleur se fond dans une autre. Utilisez le curseur droit au-dessous de la barre de dégradé pour spécifier la deuxième couleur et définir le point de dégradé.</li>
-				    </ul>			
-				</li>
-				<li><b>Image ou texture</b> - sélectionnez cette option pour utiliser une image ou une texture prédéfinie en tant que arrière-plan de la forme.<p><img alt="Remplissage avec Image ou texture" src="../images/fill_picture.png" /></p>
+				<li>
+					<b>Remplissage en dégradé</b> - sélectionnez cette option pour remplir une forme avec deux ou plusieurs couleurs et créer une transition douce entre elles. Particulariser le remplissage en dégrédé  sans limites. Cliquez sur l'icône <b>Paramètres de la forme</b> <img alt="Shape settings icon" src="../images/shape_settings_icon.png" /> pour ouvrir le menu de <b>Remplissage</b> de la barre latérale droite:
+					<p><img alt="Dégradé" src="../images/fill_gradient.png" /></p>
+					<p>Les options de menu disponibles :</p>
+    				<ul>
+						<li>
+							<b>Style</b> - choisissez une des options disponibles: <b>Linéaire</b> ou <b>Radial</b>:
+							<ul>
+								<li><b>Linéaire</b> - la transition se fait selon un axe horizontal/vertical ou selon la direction sous l'angle de votre choix. Cliquez sur <b>Direction</b> pour choisir la direction prédéfinie et cliquez sur <b>Angle</b> pour préciser l'angle du dégragé.
+								<li><b>Radial</b> - la transition se fait autour d'un point, les couleurs se fondent progressivement du centre aux bords en formant un cercle.</li>
+					        </ul>
+                        </li>
+                        <li>
+                            <b>Point de dégradé</b> est un points spécifique dans lequel se fait la transition dégradé de couleurs.
+                            <ul>
+                                <li>Utiliser le bouton <img alt="Add Gradient Point" src="../images/addgradientpoint.png" /> <b>Ajouter un point de dégradé</b> dans la barre de défilement pour ajouter un dégradé. Le nombre maximal de points est 10. Chaque dégradé suivant n'affecte pas l'apparence du remplissage en dégradé actuel. Utilisez le bouton <img alt="Remove Gradient Point" src="../images/removegradientpoint.png" /> <b>Supprimer le point de dégradé</b> pour supprimer un certain dégradé.</li>
+                                <li>Ajustez la position du dégradé en glissant l'arrêt dans la barre de défilement ou utiliser le pourcentage de <b>Position</b> pour préciser l'emplacement du point.</li>
+                                <li>Pour appliquer une couleur à un point de dégradé, cliquez sur un point dans la barre de défilement, puis cliquez sur <b>Couleur</b> pour sélectionner la couleur appropriée.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+				<li><b>Image ou texture</b> - sélectionnez cette option pour utiliser une image ou une texture prédéfinie en tant que arrière-plan de la forme.
+				<p><img alt="Remplissage avec Image ou texture" src="../images/fill_picture.png" /></p>
 					<ul>
-						<li>Si vous souhaitez utiliser une image en tant que l'arrière-plan de la forme, vous pouvez ajouter une image <b>D'un fichier</b> en la sélectionnant sur le disque dur de votre ordinateur ou <b>D'une URL</b> en insérant l'adresse URL appropriée dans la fenêtre ouverte.</li>
+						<li>Si vous souhaitez utiliser une image en tant que l'arrière-plan de la forme, vous pouvez ajouter une image <b>D'un fichier</b> en la sélectionnant sur le disque dur de votre ordinateur ou <b>D'une URL</b> en insérant l'adresse URL appropriée dans la fenêtre ouverte ou <b>À partir de l'espace de stockage</b> en sélectionnant l'image enregistrée sur vortre portail.</li>
 						<li>Si vous souhaitez utiliser une texture en tant que arrière-plan de la forme, utilisez le menu déroulant <b>D'une texture</b> et sélectionnez le préréglage de la texture nécessaire.<p>Actuellement, les textures suivantes sont disponibles : Toile, Carton, Tissu foncé, Grain, Granit, Papier gris, Tricot, Cuir, Papier brun, Papyrus, Bois.</p>
 						</li>
 					</ul>
@@ -98,8 +115,10 @@
             </li>
 			<li><b>Style d'habillage</b> - utilisez cette section pour sélectionner un des styles d'habillage - aligné sur le texte, carré, rapproché, au travers, haut et bas, devant le texte, derrière le texte (pour en savoir plus, consultez la section des paramètres avancés ci-dessous).</li>
 			<li><b>Modifier la forme</b> - utilisez cette section pour remplacer la forme automatique insérée par une autre sélectionnée de la liste déroulante.</li>
+			<li><b>Ajouter une ombre</b> - cochez cette case pour affichage de la forme ombré.</li>
 			</ul>
 			<hr />
+			<h3>Adjuster les paramètres avancés d'une forme automatique</h3>
 			<p>Pour changer les <b>paramètres avancés</b> de la forme automatique, cliquez sur la forme avec le bouton droit et sélectionnez l'option <b>Paramètres avancés</b> dans le menu ou utilisez le lien <b>Afficher paramètres avancés</b> sur la barre latérale droite. La fenêtre "Forme - Paramètres avancés" s'ouvre :</p>
             <p><img alt="Forme - Paramètres avancés" src="../images/shape_properties.png" /></p>
 			<p>L'onglet <b>Taille</b> comporte les paramètres suivants :</p>
@@ -126,7 +145,7 @@
 			<p>L'onglet <b>Habillage du texte</b> contient les paramètres suivants :</p>
 			<ul>
 				<li><b>Style d'habillage</b> - utilisez cette option pour changer la façon dont la forme est positionnée par rapport au texte : elle peut faire partie du texte (si vous sélectionnez le style 'aligné sur le texte') ou être contournée par le texte de tous les côtés (si vous sélectionnez l'un des autres styles).<ul>
-				    <li><p><img alt="Style d'habillage - Aligné sur le texte" src="../images/wrappingstyle_inline.png" /> <b>Aligné</b> sur le texte - la forme fait partie du texte, comme un caractère, ainsi si le texte est déplacé, la forme est déplacée elle aussi. Dans ce cas-là les options de position ne sont pas accessibles.</p>
+				    <li><p><img alt="Style d'habillage - En ligne" src="../images/wrappingstyle_inline.png" /> <b>En ligne</b> sur le texte - la forme fait partie du texte, comme un caractère, ainsi si le texte est déplacé, la forme est déplacée elle aussi. Dans ce cas-là les options de position ne sont pas accessibles.</p>
 				    <p>Si vous sélectionnez un des styles suivants, vous pouvez déplacer l'image indépendamment du texte et définir sa position exacte :</p>
 				    </li>
 				    <li><p><img alt="Style d'habillage - Carré" src="../images/wrappingstyle_square.png" /> <b>Carré</b> - le texte est ajusté autour des bords de la forme.</p></li>
@@ -179,7 +198,7 @@
 				<li><b>Flèches</b> - ce groupe d'options est disponible pour les formes du groupe <b>Lignes</b>. Il permet de définir le <b>Style de début</b> et <b>Style de fin</b> aussi bien que la <b>Taille</b> des flèches en sélectionnant l'option appropriée de la liste déroulante.</li>
 			</ul>
             <p><img alt="Forme - Paramètres avancés" src="../images/shape_properties_4.png" /></p>
-			<p>L'onglet <b>Marges</b> vous permet de changer les marges internes <b>En haut</b>, <b>En bas</b>, <b>A gauche</b> et <b>A droite</b> (c'est-à-dire la distance entre le texte à l'intérieur de la forme et les bordures de la forme automatique).</p>
+			<p>La section <b>Rembourrage texte</b> vous permet de changer les marges internes <b>En haut</b>, <b>En bas</b>, <b>A gauche</b> et <b>A droite</b> (c'est-à-dire la distance entre le texte à l'intérieur de la forme et les bordures de la forme automatique).</p>
             <p class="note"><b>Remarque</b> : cet onglet n'est disponible que si tu texte est ajouté dans la forme automatique, sinon l'onglet est désactivé.</p>
             <p><img alt="Forme - Paramètres avancés" src="../images/shape_properties_5.png" /></p>
             <p>L'onglet <b>Texte de remplacement</b> permet de spécifier un <b>Titre</b> et une <b>Description</b> qui sera lue aux personnes avec des déficiences cognitives ou visuelles pour les aider à mieux comprendre l'information du tableau.</p>

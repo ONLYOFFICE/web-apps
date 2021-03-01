@@ -45,6 +45,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
     'common/main/lib/component/Window',
     'common/main/lib/component/CheckBox'
 ], function (contentTemplate) { 'use strict';
+    var _mathStore = new Common.UI.DataViewStore();
+    var _functionsStore = new Common.UI.DataViewStore();
 
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
@@ -62,7 +64,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 {panelId: 'id-autocorrect-dialog-settings-math',        panelCaption: this.textMathCorrect},
                 {panelId: 'id-autocorrect-dialog-settings-recognized',  panelCaption: this.textRecognized}
             ];
-            if (this.appPrefix=='de-')
+            if (this.appPrefix=='de-' || this.appPrefix=='pe-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-de-autoformat',  panelCaption: this.textAutoFormat});
             else if (this.appPrefix=='sse-')
                 items.push({panelId: 'id-autocorrect-dialog-settings-sse-autoformat',  panelCaption: this.textAutoFormat});
@@ -88,8 +90,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 ].join('')
             }, options || {});
 
-            this.mathStore = this.options.mathStore || new Common.UI.DataViewStore();
-            this.functionsStore = this.options.functionsStore || new Common.UI.DataViewStore();
             this.api = this.options.api;
 
             var path = this.appPrefix + "settings-math-correct";
@@ -103,7 +103,6 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.arrAddRec = value ? JSON.parse(value) : [];
             value = Common.Utils.InternalSettings.get(path + "-rem");
             this.arrRemRec = value ? JSON.parse(value) : [];
-
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
 
@@ -129,7 +128,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
             this.mathList = new Common.UI.ListView({
                 el: $window.find('#auto-correct-math-list'),
-                store: new Common.UI.DataViewStore(this.mathStore.slice(0, 9)),
+                store: new Common.UI.DataViewStore(_mathStore.slice(0, 9)),
                 simpleAddMode: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
@@ -138,7 +137,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         '<div style="width:230px;overflow: hidden;text-overflow: ellipsis;flex-grow:1;font-family: Cambria Math;font-size:13px;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
                     '</div>'
                 ].join('')),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.mathList.on('item:select', _.bind(this.onSelectMathItem, this));
 
@@ -177,7 +177,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         me.mathList.scrollToRecord(_selectedItem);
                     }
                     _.delay(function(){
-                        me.mathList.cmpEl.find('.listview').focus();
+                        me.mathList.focus();
                     },10);
 
                 }
@@ -214,13 +214,14 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
 
             this.mathRecList = new Common.UI.ListView({
                 el: $window.find('#auto-correct-recognized-list'),
-                store: new Common.UI.DataViewStore(this.functionsStore.slice(0, 9)),
+                store: new Common.UI.DataViewStore(_functionsStore.slice(0, 9)),
                 simpleAddMode: false,
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 340px;text-overflow: ellipsis;overflow: hidden;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= value %></div>'
                 ].join('')),
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                tabindex: 1
             });
             this.mathRecList.on('item:select', _.bind(this.onSelectRecItem, this));
 
@@ -259,7 +260,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                         me.mathRecList.scrollToRecord(_selectedItem);
                     }
                     _.delay(function(){
-                        me.mathRecList.cmpEl.find('.listview').focus();
+                        me.mathRecList.focus();
                     },10);
 
                 }
@@ -280,7 +281,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             });
             this.btnDeleteRec.on('click', _.bind(this.onDeleteRec, this, false));
 
-            if (this.appPrefix=='de-') {
+            if (this.appPrefix=='de-' || this.appPrefix=='pe-') {
                 this.chQuotes = new Common.UI.CheckBox({
                     el: $('#id-autocorrect-dialog-chk-quotes'),
                     labelText: this.textQuotes,
@@ -349,6 +350,13 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             }
         },
 
+        getFocusedComponents: function() {
+            return [
+                this.inputReplace, this.inputBy, {cmp: this.mathList, selector: '.listview'}, // 0 tab
+                this.inputRecFind, {cmp: this.mathRecList, selector: '.listview'} // 1 tab
+            ];
+        },
+
         getSettings: function() {
             return;
         },
@@ -401,9 +409,9 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 $('input', me.inputReplace.cmpEl).select().focus();
             },delay ? 50 : 0);
 
-            if (me.mathList.store.length < me.mathStore.length) {
+            if (me.mathList.store.length < _mathStore.length) {
                 _.delay(function(){
-                    me.mathList.setStore(me.mathStore);
+                    me.mathList.setStore(_mathStore);
                     me.mathList.onResetItems();
                 },delay ? 100 : 10);
             }
@@ -426,7 +434,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     this.btnDelete.setCaption(disabled ? this.textRestore : this.textDelete);
                     disabled ? this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced')) : this.api.asc_AddOrEditFromAutoCorrectMathSymbols(rec.get('replaced'), rec.get('defaultValue'));
                 } else {
-                    this.mathStore.remove(rec);
+                    _mathStore.remove(rec);
                     this.mathList.scroller && this.mathList.scroller.update({});
                     this.api.asc_deleteFromAutoCorrectMathSymbols(rec.get('replaced'));
                 }
@@ -448,7 +456,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     me.mathList.scrollToRecord(record);
                 };
             if (!rec) {
-                rec = this.mathStore.findWhere({replaced: this.inputReplace.getValue()})
+                rec = _mathStore.findWhere({replaced: this.inputReplace.getValue()})
             }
             if (rec) {
                 var idx = _.findIndex(this.arrAdd, function(item){return (item[0]==rec.get('replaced'));});
@@ -478,7 +486,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 });
 
             } else {
-                rec = this.mathStore.add({
+                rec = _mathStore.add({
                     replaced: this.inputReplace.getValue(),
                     by: this.inputBy.getValue(),
                     defaultDisabled: false
@@ -515,8 +523,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.arrAdd = [];
             this.arrRem = [];
 
-            this.mathStore.remove(this.mathStore.where({defaultValue: undefined}));
-            this.mathStore.each(function(item, index){
+            _mathStore.remove(_mathStore.where({defaultValue: undefined}));
+            _mathStore.each(function(item, index){
                 item.set('by', item.get('defaultValueStr'));
                 item.set('defaultDisabled', false);
             });
@@ -529,9 +537,9 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
         },
 
         onInitList: function() {
-            if (this.mathStore.length>0) return;
+            if (_mathStore.length>0) return;
 
-            this.mathStore.comparator = function(item1, item2) {
+            _mathStore.comparator = function(item1, item2) {
                 var n1 = item1.get('replaced').toLowerCase(),
                     n2 = item2.get('replaced').toLowerCase();
                 if (n1==n2) return 0;
@@ -575,14 +583,14 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     changed.by = item[1];
                 }
             });
-            this.mathStore.reset(data.concat(dataAdd));
+            _mathStore.reset(data.concat(dataAdd));
             this.updateControls();
         },
 
         onInitRecList: function() {
-            if (this.functionsStore.length>0) return;
+            if (_functionsStore.length>0) return;
 
-            this.functionsStore.comparator = function(item1, item2) {
+            _functionsStore.comparator = function(item1, item2) {
                 var n1 = item1.get('value').toLowerCase(),
                     n2 = item2.get('value').toLowerCase();
                 if (n1==n2) return 0;
@@ -612,7 +620,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     });
                 }
             });
-            this.functionsStore.reset(data.concat(dataAdd));
+            _functionsStore.reset(data.concat(dataAdd));
             this.updateRecControls();
         },
 
@@ -642,8 +650,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
             this.arrAddRec = [];
             this.arrRemRec = [];
 
-            this.functionsStore.remove(this.functionsStore.where({defaultValue: false}));
-            this.functionsStore.each(function(item, index){
+            _functionsStore.remove(_functionsStore.where({defaultValue: false}));
+            _functionsStore.each(function(item, index){
                 item.set('defaultDisabled', false);
             });
             this.mathRecList.deselectAll();
@@ -660,9 +668,9 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 $('input', me.inputRecFind.cmpEl).select().focus();
             },delay ? 50 : 0);
 
-            if (me.mathRecList.store.length < me.functionsStore.length) {
+            if (me.mathRecList.store.length < _functionsStore.length) {
                 _.delay(function(){
-                    me.mathRecList.setStore(me.functionsStore);
+                    me.mathRecList.setStore(_functionsStore);
                     me.mathRecList.onResetItems();
                 },delay ? 100 : 10);
             }
@@ -685,7 +693,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     this.btnDeleteRec.setCaption(disabled ? this.textRestore : this.textDelete);
                     disabled ? this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value')) : this.api.asc_AddFromAutoCorrectMathFunctions(rec.get('value'));
                 } else {
-                    this.functionsStore.remove(rec);
+                    _functionsStore.remove(rec);
                     this.mathRecList.scroller && this.mathRecList.scroller.update({});
                     this.api.asc_deleteFromAutoCorrectMathFunctions(rec.get('value'));
                 }
@@ -706,11 +714,11 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     me.mathRecList.scrollToRecord(record);
                 };
             if (!rec) {
-                rec = this.functionsStore.findWhere({value: this.inputRecFind.getValue()})
+                rec = _functionsStore.findWhere({value: this.inputRecFind.getValue()})
             }
             if (!rec) {
                 if (/^[A-Z]+$/i.test(this.inputRecFind.getValue())) {
-                    rec = this.functionsStore.add({
+                    rec = _functionsStore.add({
                         value: this.inputRecFind.getValue(),
                         defaultValue: false,
                         defaultDisabled: false

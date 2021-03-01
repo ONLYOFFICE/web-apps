@@ -130,6 +130,14 @@ define([
             this.updateMetricUnit();
         },
 
+        getFocusedComponents: function() {
+            return [this.spnColumns, this.spnSpacing];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnColumns;
+        },
+
         _handleInput: function(state) {
             if (this.options.handler) {
                 this.options.handler.call(this, this, state);

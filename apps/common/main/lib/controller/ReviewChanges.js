@@ -48,7 +48,8 @@ define([
     'common/main/lib/collection/ReviewChanges',
     'common/main/lib/view/ReviewChanges',
     'common/main/lib/view/ReviewPopover',
-    'common/main/lib/view/LanguageDialog'
+    'common/main/lib/view/LanguageDialog',
+    'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
 
@@ -571,8 +572,8 @@ define([
             if ( this.appConfig.canReview ) {
                 state = (state == 'on');
 
-                this.api.asc_SetTrackRevisions(state);
                 Common.localStorage.setItem(this.view.appPrefix + "track-changes-" + (this.appConfig.fileKey || ''), state ? 1 : 0);
+                this.api.asc_SetTrackRevisions(state);
 
                 this.view.turnChanges(state);
             }
@@ -630,13 +631,19 @@ define([
                         }).show();
                     }
                 } else if (item === 'settings') {
-                    (new DE.Views.CompareSettingsDialog({
-                        props: me._state.compareSettings,
-                        handler: function(result, value) {
-                            if (result == 'ok') {
-                                me._state.compareSettings = value;
+                    var value = me._state.compareSettings ? me._state.compareSettings.getWords() : true;
+                    (new Common.Views.OptionsDialog({
+                        title: me.textTitleComparison,
+                        items: [
+                            {caption: me.textChar, value: false, checked: (value===false)},
+                            {caption: me.textWord, value: true, checked: (value!==false)}
+                        ],
+                        label: me.textShow,
+                        handler: function (dlg, result) {
+                            if (result=='ok') {
+                                me._state.compareSettings = new AscCommonWord.ComparisonOptions();
+                                me._state.compareSettings.putWords(dlg.getSettings());
                             }
-
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         }
                     })).show();
@@ -739,7 +746,7 @@ define([
             leftMenu.setPreviewMode(disable);
 
             if (this.view) {
-                this.view.$el.find('.no-group-mask').css('opacity', 1);
+                this.view.$el.find('.no-group-mask.review').css('opacity', 1);
 
                 this.view.btnsDocLang && this.view.btnsDocLang.forEach(function(button) {
                     if ( button ) {
@@ -772,7 +779,8 @@ define([
                         me.api.asc_SetTrackRevisions(state);
                     };
 
-                    var state = config.isReviewOnly || Common.localStorage.getBool(me.view.appPrefix + "track-changes-" + (config.fileKey || ''));
+                    var trackChanges = typeof (me.appConfig.customization) == 'object' ? me.appConfig.customization.trackChanges : undefined;
+                    var state = config.isReviewOnly || trackChanges===true || (trackChanges!==false) && Common.localStorage.getBool(me.view.appPrefix + "track-changes-" + (config.fileKey || ''));
                     me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
                     _setReviewStatus(state);
 
@@ -964,6 +972,11 @@ define([
         textParaMoveFromUp: '<b>Moved Up:</b>',
         textParaMoveFromDown: '<b>Moved Down:</b>',
         textUrl: 'Paste a document URL',
-        textAcceptBeforeCompare: 'In order to compare documents all the tracked changes in them will be considered to have been accepted. Do you want to continue?'
+        textAcceptBeforeCompare: 'In order to compare documents all the tracked changes in them will be considered to have been accepted. Do you want to continue?',
+        textTitleComparison: 'Comparison Settings',
+        textShow: 'Show changes at',
+        textChar: 'Character level',
+        textWord: 'Word level'
+
     }, Common.Controllers.ReviewChanges || {}));
 });

@@ -106,7 +106,8 @@ Common.Utils = _.extend(new(function() {
             Signature  : 9,
             Pivot      : 10,
             Cell       : 11,
-            Slicer     : 12
+            Slicer     : 12,
+            Form       : 13
         },
         importTextType = {
             DRM: 0,
@@ -878,23 +879,24 @@ Common.Utils.warningDocumentIsLocked = function (opts) {
         opts.disablefunc(true);
 
     var app = window.DE || window.PE || window.SSE;
-    var tip = new Common.UI.SynchronizeTip({
-        extCls      : 'simple',
-        text        : Common.Locale.get("warnFileLocked",{name:"Common.Translation", default:'Document is in use by another application. You can continue editing and save it as a copy.'}),
-        textLink    : Common.Locale.get("txtContinueEditing",{name:app.nameSpace + ".Views.SignatureSettings", default:'Edit anyway'}),
-        placement   : 'document'
-    });
-    tip.on({
-        'dontshowclick': function() {
-            if ( opts.disablefunc ) opts.disablefunc(false);
-            app.getController('Main').api.asc_setIsReadOnly(false);
-            this.close();
-        },
-        'closeclick': function() {
-            this.close();
+
+    Common.UI.warning({
+        msg: Common.Locale.get("warnFileLocked",{name:"Common.Translation", default: "You can't edit this file. Document is in use by another application."}),
+        buttons: [{
+            value: 'view',
+            caption: Common.Locale.get("warnFileLockedBtnView",{name:"Common.Translation", default: "Open for viewing"})
+        }, {
+            value: 'edit',
+            caption: Common.Locale.get("warnFileLockedBtnEdit",{name:"Common.Translation", default: "Create a copy"})
+        }],
+        primary: 'view',
+        callback: function(btn){
+            if (btn == 'edit') {
+                if ( opts.disablefunc ) opts.disablefunc(false);
+                app.getController('Main').api.asc_setIsReadOnly(false);
+            }
         }
     });
-    tip.show();
 };
 
 jQuery.fn.extend({

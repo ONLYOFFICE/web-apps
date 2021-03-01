@@ -143,7 +143,8 @@ define([
                         }
                     }
 
-                    if ( config.isReviewOnly || Common.localStorage.getBool("de-track-changes-" + (config.fileKey || ''))) {
+                    var trackChanges = typeof (config.customization) == 'object' ? config.customization.trackChanges : undefined;
+                    if ( config.isReviewOnly || trackChanges===true || (trackChanges!==false) && Common.localStorage.getBool("de-track-changes-" + (config.fileKey || ''))) {
                         _process_changestip();
                     } else if ( me.api.asc_IsTrackRevisions() ) {
                         var showNewChangesTip = !Common.localStorage.getBool("de-new-changes");

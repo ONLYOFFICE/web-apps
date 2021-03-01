@@ -182,7 +182,7 @@ define([
 
             initFontsPage: function () {
                 var me = this,
-                    displaySize = _fontInfo.size;
+                    displaySize = _fontInfo.asc_getFontSize();
 
                 _.isUndefined(displaySize) ? displaySize = this.textAuto : displaySize = displaySize + ' ' + this.textPt;
 
@@ -196,7 +196,7 @@ define([
 
             initTextColorPage: function () {
                 var me = this,
-                    color = me._sdkToThemeColor(_fontInfo.color),
+                    color = me._sdkToThemeColor(_fontInfo.asc_getFontColor()),
                     palette = me.getView('EditText').paletteTextColor;
 
                 if (palette) {
@@ -210,7 +210,7 @@ define([
             onFontSize: function (e) {
                 var me = this,
                     $button = $(e.currentTarget),
-                    fontSize = _fontInfo.size;
+                    fontSize = _fontInfo.asc_getFontSize();
 
                 if ($button.hasClass('decrement')) {
                     _.isUndefined(fontSize) ? me.api.asc_decreaseFontSize() : fontSize = Math.max(1, --fontSize);

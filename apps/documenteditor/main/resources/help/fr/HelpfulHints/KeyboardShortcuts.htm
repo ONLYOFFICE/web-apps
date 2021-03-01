@@ -3,7 +3,7 @@
 	<head>
 		<title>Raccourcis clavier</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="The keyboard shortcut list used for a faster and easier access to the features of Document Editor using the keyboard." />
+		<meta name="description" content="La liste des principaux raccourcis claviers à connaître pour un accès rapide à certaines fonctions de Document Editor." />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -13,7 +13,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Raccourcis clavier</h1>
             <ul class="shortcut_variants">
@@ -115,6 +115,12 @@
                     <td>Ouvrir le <b>menu contextuel</b> de l'élément sélectionné.</td>
                 </tr>
 				<tr>
+				    <td>Réinitialiser le niveau de zoom</td>
+                    <td><kbd>Ctrl</kbd>+<kbd>0</kbd></td>
+                    <td><kbd>^ Ctrl</kbd>+<kbd>0</kbd> or <kbd>&#8984; Cmd</kbd>+<kbd>0</kbd></td>
+                    <td>Réinitialiser le niveau de zoom du document actuel par défaut à 100%.</td>
+                </tr>
+				<tr>
 					<th colspan="4" class="keyboard_section">Navigation</th>
 				</tr>
 				<tr>
@@ -212,7 +218,8 @@
                     <td><kbd>Ctrl</kbd>+<kbd>→</kbd></td>
                     <td><kbd>^ Ctrl</kbd>+<kbd>→</kbd>,<br /><kbd>&#8984; Cmd</kbd>+<kbd>→</kbd></td>
                     <td>Déplacer le curseur d'un mot vers la droite.</td>
-                </tr><!--<tr>
+                </tr>
+				<!--<tr>
                     <td>Move one paragraph up</td>
                     <td>Ctrl+Up arrow</td>
                     <td>Move the cursor one paragraph up.</td>
@@ -221,7 +228,8 @@
                     <td>Move one paragraph down</td>
                     <td>Ctrl+Down arrow</td>
                     <td>Move the cursor one paragraph down.</td>
-                </tr>--><tr>
+                </tr>-->
+				<tr>
                     <td>Déplacer une ligne vers le haut </td>
                     <td><kbd>↑</kbd></td>
                     <td><kbd>↑</kbd></td>
@@ -233,6 +241,12 @@
                     <td><kbd>↓</kbd></td>
                     <td>Déplacer le curseur d'une ligne vers le bas.</td>
                 </tr>
+				<tr>
+					<td>Naviguer entre les contrôles dans un dialogue modal</td>
+					<td><kbd>↹ Tab</kbd>/<kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
+					<td><kbd>↹ Tab</kbd>/<kbd>⇧ Maj</kbd>+<kbd>↹ Tab</kbd></td>
+					<td>Naviguer entre les contrôles pour mettre en évidence le contrôle précédent ou suivant dans les dialogues modaux.</td>
+				</tr>
 				<tr>
 					<th colspan="4" class="keyboard_section">Écriture</th>
 				</tr>
@@ -274,7 +288,7 @@
 				</tr>
 				<tr>
 					<td>Créer un trait d'union insécable</td>
-					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>Trait d'union</kbd></td>
+					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>_</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>Trait d'union</kbd></td>
 					<td>Créer un trait d'union entre les caractères qui ne peuvent pas être utilisés pour passer à la ligne suivante.</td>
 				</tr>
@@ -505,11 +519,13 @@
 					<td><kbd>Ctrl</kbd>+<kbd>R</kbd></td>
 					<td><kbd>^ Ctrl</kbd>+<kbd>R</kbd></td>
 					<td>Passer de l'aligné à droite à l'aligné à gauche.</td>
-				</tr><!--<tr>
+				</tr>
+				<!--<tr>
 					<td>Align left</td>
 					<td>Ctrl+L</td>
 					<td>Align left with the text lined up by the left side of the page, the right side remains unaligned. If your text is initially left-aligned</td>
-				</tr>--><tr>
+				</tr>-->
+				<tr>
                     <td>Appliquer la mise en forme de l'indice (espacement automatique)</td>
                     <td><kbd>Ctrl</kbd>+<kbd>=</kbd></td>
 					<td></td>
@@ -544,11 +560,13 @@
                     <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>P</kbd></td>
                     <td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>P</kbd></td>
                     <td>Ajoutez le numéro de page actuel à la position actuelle du curseur.</td>
-                </tr><!--<tr>
+                </tr>
+				<!--<tr>
                     <td>Add dash</td>
                     <td>Num-</td>
                     <td>Add a dash.</td>
-                </tr>--><tr>
+                </tr>-->
+				<tr>
 					<td>Caractères non imprimables</td>
 					<td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>Num8</kbd></td>
 					<td></td>
@@ -641,15 +659,35 @@
                 
                 <tr>
                     <th colspan="4" class="keyboard_section">Insertion des caractères spéciaux</th>
-                </tr><!--<tr>
+                </tr>
+				<!--<tr>
                     <td>Insert the Euro sign</td>
                     <td><kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>E</kbd></td>
                     <td>Insert the Euro sign (€) at the current cursor position.</td>
-                </tr>--><tr>
+                </tr>-->
+				<tr>
                     <td>Insérer une formule</td>
                     <td><kbd>Alt</kbd>+<kbd>=</kbd></td>
 					<td></td>
                     <td>Insérer une formule à la position actuelle du curseur.</td>
+                </tr>
+                <tr>
+                    <td>Ins&eacute;rer un tiret sur cadratin</td>
+                    <td><kbd>Alt</kbd>+<kbd>Ctrl</kbd>+<kbd>Verr.num-</kbd></td>
+                    <td></td>
+                    <td>Ins&eacute;rer un tiret sur cadratin &lsquo;&mdash;&rsquo; dans le document actuel &agrave; droite du curseur.</td>
+                </tr>
+                <tr>
+				    <td>Ins&eacute;rer un trait d'union ins&eacute;cable </td>
+                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>_</kbd></td>
+                    <td><kbd>^ Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>Trait d&rsquo;union</kbd></td>
+                    <td>Ins&eacute;rer un trait d'union ins&eacute;cable &lsquo;&mdash;&rsquo; dans le document actuel &agrave; droite du curseur.</td>
+                </tr>
+                <tr>
+                    <td>Ins&eacute;rer un espace ins&eacute;cable</td>
+                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>␣  Barre d'espace</kbd></td>
+                    <td><kbd>Ctrl</kbd>+<kbd>⇧ Maj</kbd>+<kbd>␣  Barre d'espace</kbd></td>
+                    <td>Ins&eacute;rer un espace ins&eacute;cable &lsquo;o&rsquo; dans le document actuel &agrave; droite du curseur.</td>
                 </tr>
 			</table>
 		</div>

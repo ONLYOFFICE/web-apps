@@ -1,4 +1,7 @@
 .treeview {
+  border: 1px solid @input-border;
+  .border-radius(@border-radius-small);
+
   &.inner {
     width: 100%;
     height: 100%;
@@ -14,6 +17,10 @@
         padding: 5px;
       }
     }
+  }
+
+  &:focus {
+    border-color: @gray-darker;
   }
 
   > .item {

@@ -3,7 +3,7 @@
 	<head>
 		<title>Présentation de l'interface de Document Editor</title>
 		<meta charset="utf-8" />
-        <meta name="description" content="Introducing the Document Editor user interface" />
+        <meta name="description" content="Présentation de l'interface de Document Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Présentation de l'interface de Document Editor</h1>
 			<p><b>Document Editor</b> utilise une interface à onglets où les commandes d'édition sont regroupées en onglets par fonctionnalité.</p>
@@ -34,17 +34,20 @@
                         <li class="onlineDocumentFeatures"><img alt="Icône Gérer les droits d'accès au document" src="../images/access_rights.png" /> <b>Gérer les droits d'accès au document</b> - (disponible uniquement dans la <em>version en ligne</em>) permet de <a href="../HelpfulHints/CollaborativeEditing.htm" onclick="onhyperlinkclick(this)">définir les droits d'accès</a> aux documents stockés dans le cloud.</li>
                     </ul>                    
                 </li>
-                <li>La <b>Barre d'outils supérieure</b> affiche un ensemble de commandes d'édition en fonction de l'onglet de menu sélectionné. Actuellement, les onglets suivants sont disponibles : <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">Fichier</a>, <a href="../ProgramInterface/HomeTab.htm" onclick="onhyperlinkclick(this)">Accueil</a>, <a href="../ProgramInterface/InsertTab.htm" onclick="onhyperlinkclick(this)">Insertion</a>, <a href="../ProgramInterface/LayoutTab.htm" onclick="onhyperlinkclick(this)">Disposition</a>, <a href="../ProgramInterface/ReferencesTab.htm" onclick="onhyperlinkclick(this)">Références</a>, <a href="../ProgramInterface/ReviewTab.htm" onclick="onhyperlinkclick(this)">Collaboration</a>, <span class="desktopDocumentFeatures">Protection,</span> <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Modules complémentaires</a>.<p>Les options <img alt="Icône Copier" src="../images/copy.png" /> <b>Copier</b>, et <img alt="Icône Coller" src="../images/paste.png" /> <b>Coller</b> sont toujours disponibles dans la partie gauche de la <b>Barre d'outils supérieure</b>, quel que soit l'onglet sélectionné.</p>
+                <li>La <b>Barre d'outils supérieure</b> affiche un ensemble de commandes d'édition en fonction de l'onglet de menu sélectionné. Actuellement, les onglets suivants sont disponibles : <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">Fichier</a>, <a href="../ProgramInterface/HomeTab.htm" onclick="onhyperlinkclick(this)">Accueil</a>, <a href="../ProgramInterface/InsertTab.htm" onclick="onhyperlinkclick(this)">Insertion</a>, <a href="../ProgramInterface/LayoutTab.htm" onclick="onhyperlinkclick(this)">Mise en page</a>, <a href="../ProgramInterface/ReferencesTab.htm" onclick="onhyperlinkclick(this)">Références</a>, <!--a href="../ProgramInterface/FormsTab.htm" onclick="onhyperlinkclick(this)">Formulaire</a--> <a href="../ProgramInterface/ReviewTab.htm" onclick="onhyperlinkclick(this)">Collaboration</a>, <span class="desktopDocumentFeatures">Protection,</span> <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Modules complémentaires</a>.<p>Les options <img alt="Icône Copier" src="../images/copy.png" /> <b>Copier</b>, et <img alt="Icône Coller" src="../images/paste.png" /> <b>Coller</b> sont toujours disponibles dans la partie gauche de la <b>Barre d'outils supérieure</b>, quel que soit l'onglet sélectionné.</p>
                 </li>
                 <li>La <b>Barre d'état</b> au bas de la fenêtre de l'éditeur contient l'indicateur du numéro de page, affiche certaines notifications (telles que "Toutes les modifications sauvegardées", etc.), permet de <a href="../HelpfulHints/SpellChecking.htm" onclick="onhyperlinkclick(this)">définir la langue du texte, activer la vérification orthographique</a>, activer le <a href="../HelpfulHints/Review.htm" onclick="onhyperlinkclick(this)">mode suivi des modifications</a>, régler le <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">zoom</a>.</li>
                 <li>La <b>barre latérale gauche</b> contient les icônes suivantes :<ul>
                         <li><img alt="Icône Recherche" src="../images/searchicon.png" /> - permet d'utiliser l'outil <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Rechercher et remplacer</a>,</li>
                         <li><img alt="Icône Commentaires" src="../images/commentsicon.png" /> - permet d'ouvrir le panneau <a href="../HelpfulHints/CollaborativeEditing.htm#comments" onclick="onhyperlinkclick(this)">Commentaires</a>,</li>
                         <li><img alt="Icône Navigation" src="../images/navigationicon.png" /> - permet d'accéder au panneau de <a href="../UsageInstructions/CreateTableOfContents.htm#navigation" onclick="onhyperlinkclick(this)">Navigation</a> et de gérer les rubriques,</li>
-                        <li class="onlineDocumentFeatures"><img alt="Chat" src="../images/chaticon.png" /> - (disponible dans la <em>version en ligne</em> seulement) permet d'ouvrir le panneau de <a href="../HelpfulHints/CollaborativeEditing.htm#chat" onclick="onhyperlinkclick(this)">Chat</a>, ainsi que les icônes qui permettent de contacter notre équipe de support et de visualiser les informations sur le programme.</li>
+                        <li class="onlineDocumentFeatures"><img alt="Chat" src="../images/chaticon.png" /> - (disponible uniquement dans la <em>version en ligne</em>) permet d'ouvrir le panneau de <a href="../HelpfulHints/CollaborativeEditing.htm#chat" onclick="onhyperlinkclick(this)">Chat</a>,</li>
+                        <li class="onlineDocumentFeatures"><img alt="Feedback and Support icon" src="../images/feedbackicon.png" /> - (disponible uniquement dans la <em>version en ligne</em>) permet de contacter notre équipe d'assistance technique,</li>
+                        <li class="onlineDocumentFeatures"><img alt="About icon" src="../images/abouticon.png" /> -  (disponible uniquement dans la <em>version en ligne</em>) permet de visualiser les informations sur le programme.</li>
+
                     </ul>
                 </li>
-                <li>La barre latérale droite permet d'ajuster les paramètres supplémentaires de différents objets. Lorsque vous sélectionnez un objet particulier dans le texte, l'icône correspondante est activée dans la barre latérale droite. Cliquez sur cette icône pour développer la barre latérale droite.</li>
+                <li>La <b> barre latérale droite</b> permet d'ajuster les paramètres supplémentaires de différents objets. Lorsque vous sélectionnez un objet particulier dans le texte, l'icône correspondante est activée dans la <b> barre latérale droite</b>. Cliquez sur cette icône pour développer la <b> barre latérale droite</b>.</li>
                 <li>Les <b>Règles</b> horizontales et verticales permettent d'aligner le texte et d'autres éléments dans un document, définir des marges, des taquets et des retraits de paragraphe.</li>
                 <li>La <b>Zone de travail</b> permet d'afficher le contenu du document, d'entrer et de modifier les données.</li>
                 <li>La <b>Barre de défilement </b>sur la droite permet de faire défiler vers le haut et vers le bas des documents multi-page.</li>

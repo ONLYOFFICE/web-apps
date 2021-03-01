@@ -118,7 +118,8 @@ define([
                         'Slide number': this.txtSlideNumber,
                         'Slide subtitle': this.txtSlideSubtitle,
                         'Table': this.txtSldLtTTbl,
-                        'Slide title': this.txtSlideTitle
+                        'Slide title': this.txtSlideTitle,
+                        'Click to add first slide': this.txtAddFirstSlide
                     }
                 });
 
@@ -298,7 +299,7 @@ define([
 
                 if (me.api) {
                     me.api.asc_enableKeyEvents(mode.isEdit);
-                    me.api.asc_setViewMode(!mode.isEdit);
+                    me.api.asc_setViewMode(!mode.isEdit && !mode.isRestrictedEdit);
                 }
             },
 
@@ -543,10 +544,15 @@ define([
                 if (me.appOptions.isEdit && me.appOptions.canLicense && !me.appOptions.isOffline && me.appOptions.canCoAuthoring) {
                     // Force ON fast co-authoring mode
                     me._state.fastCoauth = true;
+                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
+                } else if (!me.appOptions.isEdit && me.appOptions.isRestrictedEdit) {
+                    me._state.fastCoauth = true;
+                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
+                    me.api.asc_setAutoSaveGap(1);
                 } else {
                     me._state.fastCoauth = false;
+                    me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 }
-                me.api.asc_SetFastCollaborative(me._state.fastCoauth);
                 /** coauthoring end **/
 
                 if (me.appOptions.isEdit) {
@@ -732,6 +738,7 @@ define([
                 me.appOptions.canChat         = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                 me.appOptions.canEditStyles   = me.appOptions.canLicense && me.appOptions.canEdit;
                 me.appOptions.canPrint        = (me.permissions.print !== false);
+                me.appOptions.isRestrictedEdit = !me.appOptions.isEdit && me.appOptions.canComments;
                 me.appOptions.trialMode      = params.asc_getLicenseMode();
 
                 var type = /^(?:(pdf|djvu|xps))$/.exec(me.document.fileType);
@@ -747,7 +754,8 @@ define([
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 
-                me.api.asc_setViewMode(!me.appOptions.isEdit);
+                me.api.asc_setViewMode(!me.appOptions.isEdit && !me.appOptions.isRestrictedEdit);
+                (me.appOptions.isRestrictedEdit && me.appOptions.canComments) && me.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 me.api.asc_LoadDocument();
                 me.api.Resize();
 
@@ -1197,7 +1205,10 @@ define([
                     var buttons = [{
                         text: 'OK',
                         bold: true,
+                        close: false,
                         onClick: function () {
+                            if (!me._state.openDlg) return;
+                            $(me._state.openDlg).hasClass('modal-in') && uiApp.closeModal(me._state.openDlg);
                             var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                             me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
@@ -1534,7 +1545,8 @@ define([
             errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
             errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
             warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
-            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.'
+            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
+            txtAddFirstSlide: 'Click to add first slide'
         }
     })(), PE.Controllers.Main || {}))
 });

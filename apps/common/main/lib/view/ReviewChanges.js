@@ -57,7 +57,7 @@ define([
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<section id="review-changes-panel" class="panel" data-tab="review">' +
-                '<div class="group no-group-mask">' +
+                '<div class="group no-group-mask review">' +
                     '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +
                 '</div>' +
@@ -70,7 +70,7 @@ define([
                 '<div class="group">' +
                     '<span id="btn-review-on" class="btn-slot text x-huge"></span>' +
                 '</div>' +
-                '<div class="group no-group-mask" style="padding-left: 0;">' +
+                '<div class="group no-group-mask review" style="padding-left: 0;">' +
                     '<span id="btn-review-view" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="group move-changes" style="padding-left: 0;">' +
@@ -84,11 +84,11 @@ define([
                     '<span id="btn-compare" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long compare"></div>' +
-                '<div class="group no-group-mask">' +
+                '<div class="group no-group-mask review form-view">' +
                     '<span id="slot-btn-chat" class="btn-slot text x-huge"></span>' +
                 '</div>' +
                 '<div class="separator long chat"></div>' +
-                '<div class="group no-group-mask">' +
+                '<div class="group no-group-mask review form-view">' +
                     '<span id="slot-btn-history" class="btn-slot text x-huge"></span>' +
                 '</div>' +
             '</section>';
@@ -647,7 +647,7 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
-                this.btnChat && this.btnChat.setDisabled(state);
+                // this.btnChat && this.btnChat.setDisabled(state);
 
                 this.btnCommentRemove && this.btnCommentRemove.setDisabled(state || !Common.Utils.InternalSettings.get(this.appPrefix + "settings-livecomment"));
             },

@@ -123,6 +123,15 @@ define([
             this.descLabel = $('#formula-dlg-desc');
             this.fillFormulasGroups();
         },
+
+        getFocusedComponents: function() {
+            return [this.inputSearch, this.cmbFuncGroup, {cmp: this.cmbListFunctions, selector: '.listview'}];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.inputSearch;
+        },
+
         show: function (group) {
             if (this.$window) {
                 var main_width, main_height, top, left, win_height = this.initConfig.height;
@@ -147,12 +156,7 @@ define([
             group && this.cmbFuncGroup.setValue(group);
             (group || this.cmbFuncGroup.getValue()=='Last10') && this.fillFunctions(this.cmbFuncGroup.getValue());
 
-            if (this.cmbListFunctions) {
-                this.inputSearch.setValue('');
-                _.delay(function (me) {
-                    me.inputSearch.$el.find('input').focus();
-                }, 100, this);
-            }
+            this.inputSearch.setValue('');
             this._preventCloseCellEditor = false;
         },
 
@@ -211,7 +215,7 @@ define([
         onUpdateFocus: function () {
             if (this.cmbListFunctions) {
                 _.delay(function (me) {
-                    me.cmbListFunctions.$el.find('.listview').focus();
+                    me.cmbListFunctions.focus();
                 }, 100, this);
             }
         },
@@ -242,9 +246,9 @@ define([
                         menuStyle   : 'min-width: 100%;',
                         cls         : 'input-group-nr',
                         data        : groupsListItems,
-                        editable    : false
+                        editable    : false,
+                        takeFocusOnClose: true
                     });
-
                     this.cmbFuncGroup.on('selected', _.bind(this.onSelectGroup, this));
                 } else {
                     this.cmbFuncGroup.setData(groupsListItems);
@@ -266,6 +270,7 @@ define([
                     this.cmbListFunctions = new Common.UI.ListView({
                         el: $('#formula-dlg-combo-functions'),
                         store: this.functions,
+                        tabindex: 1,
                         itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;"><%= value %></div>')
                     });
 

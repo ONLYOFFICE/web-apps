@@ -275,7 +275,7 @@ define([
                     cls         : 'btn-toolbar btn-text-value',
                     caption     : me.tipEditChart,
                     lock        : [_set.lostConnect],
-                    style       : 'width: 120px;'
+                    style       : 'min-width: 120px;'
                 });
 
                 me.btnEditChartData = new Common.UI.Button({
@@ -283,7 +283,7 @@ define([
                     cls         : 'btn-toolbar btn-text-value',
                     caption     : me.tipEditChartData,
                     lock        : [_set.editCell, _set.selRange, _set.selRangeEdit, _set.lostConnect],
-                    style       : 'width: 120px;'
+                    style       : 'min-width: 120px;'
                 });
             } else
             if ( config.isEditMailMerge ) {
@@ -480,7 +480,7 @@ define([
                     lock        : [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="id-toolbar-menu-fontcolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                             { template: _.template('<a id="id-toolbar-menu-new-fontcolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]
                     })
@@ -495,7 +495,7 @@ define([
                     lock        : [_set.selImage, _set.editCell, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect],
                     menu        : new Common.UI.Menu({
                         items: [
-                            { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                            { template: _.template('<div id="id-toolbar-menu-paracolor" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                             { template: _.template('<a id="id-toolbar-menu-new-paracolor" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                         ]
                     })
@@ -1843,7 +1843,7 @@ define([
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items       : [
-                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 169px; height: 220px; margin: 10px;"></div>'), stopPropagation: true },
+                                    { template: _.template('<div id="id-toolbar-menu-bordercolor" style="width: 169px; height: 216px; margin: 10px;"></div>'), stopPropagation: true },
                                     { template: _.template('<a id="id-toolbar-menu-new-bordercolor" style="padding-left:12px;">' + this.textNewColor + '</a>'),  stopPropagation: true }
                                 ]
                             })
@@ -1862,7 +1862,7 @@ define([
 
             if ( this.btnInsertChart ) {
                 this.btnInsertChart.setMenu(new Common.UI.Menu({
-                    style: 'width: 364px;',
+                    style: 'width: 364px;padding-top: 12px;',
                     items: [
                         { template: _.template('<div id="id-toolbar-menu-insertchart" class="menu-insertchart" style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
@@ -1874,7 +1874,7 @@ define([
                         parentMenu: menu,
                         showLast: false,
                         restoreHeight: 421,
-                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData(true)/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
+                        groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()/*.concat(Common.define.chartData.getSparkGroupData(true))*/),
                         store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()/*.concat(Common.define.chartData.getSparkData())*/),
                         itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>')
                     });

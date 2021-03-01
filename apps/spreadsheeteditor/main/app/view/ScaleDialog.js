@@ -126,7 +126,8 @@ define([
                 menuStyle   : 'min-width: 90px;',
                 editable: true,
                 data: this.arrDataScale,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             }).on('selected', _.bind(this.changeWidthHeight, this, 'width'))
               .on('changed:after', _.bind(this.changeWidthHeight, this, 'width'))
               .on('changed:before', _.bind(this.onChangeComboScale, this, 'width'));
@@ -138,7 +139,8 @@ define([
                 menuStyle   : 'min-width: 90px;',
                 editable: true,
                 data: this.arrDataScale,
-                scrollAlwaysVisible: true
+                scrollAlwaysVisible: true,
+                takeFocusOnClose: true
             }).on('selected', _.bind(this.changeWidthHeight, this, 'height'))
               .on('changed:after', _.bind(this.changeWidthHeight, this, 'height'))
               .on('changed:before', _.bind(this.onChangeComboScale, this, 'height'));
@@ -163,6 +165,14 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbScaleWidth, this.cmbScaleHeight, this.spnScale];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.radioScaleTo.getValue() ? this.spnScale : this.cmbScaleWidth;
         },
 
         afterRender: function() {

@@ -173,6 +173,7 @@ define([
             this.bookmarksList = new Common.UI.ListView({
                 el: $('#bookmarks-list', this.$window),
                 store: new Common.UI.DataViewStore(),
+                tabindex: 1,
                 itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
             });
             this.bookmarksList.store.comparator = function(rec) {
@@ -245,6 +246,10 @@ define([
             }
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.txtName, {cmp: this.bookmarksList, selector: '.listview'}];
         },
 
         afterRender: function() {
@@ -351,6 +356,7 @@ define([
             var rec = this.bookmarksList.store.findWhere({value: this.txtName.getValue()});
             this.bookmarksList.selectRecord(rec);
             this.bookmarksList.scrollToRecord(rec);
+            this.txtName.focus();
         },
 
         onDblClickBookmark: function(listView, itemView, record) {

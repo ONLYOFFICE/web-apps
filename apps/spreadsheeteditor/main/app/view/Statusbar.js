@@ -178,7 +178,7 @@ define([
                     //'tab:manual'        : _.bind(this.onAddTabClick, this),
                     'tab:contextmenu'   : _.bind(this.onTabMenu, this),
                     'tab:dblclick'      : _.bind(function () {
-                        if (me.editMode && (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                        if (me.editMode && !(me.mode && me.mode.isDisconnected) && (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)&&
                                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles)) {
                             me.fireEvent('sheet:changename');
@@ -305,7 +305,7 @@ define([
                     menuAlign: 'tl-tr',
                     cls: 'color-tab',
                     items: [
-                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 220px; margin: 10px;"></div>') },
+                        { template: _.template('<div id="id-tab-menu-color" style="width: 169px; height: 216px; margin: 10px;"></div>') },
                         { template: _.template('<a id="id-tab-menu-new-color" style="padding-left:12px;">' + me.textNewColor + '</a>') }
                     ]
                 });
@@ -502,7 +502,7 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked,
+                            isLockTheDrag : locked || me.mode.isDisconnected,
                             iconCls       : 'btn-sheet-view',
                             iconTitle     : name,
                             iconVisible   : name!==''
@@ -1018,7 +1018,7 @@ define([
                 Common.UI.Window.prototype.show.apply(this, arguments);
 
                 _.delay(function(me){
-                    me.listNames.$el.find('.listview').focus();
+                    me.listNames.focus();
                 }, 100, this);
             },
 
@@ -1049,7 +1049,7 @@ define([
 
             onUpdateFocus: function () {
                 _.delay(function(me){
-                    me.listNames.$el.find('.listview').focus();
+                    me.listNames.focus();
                 }, 100, this);
             },
 

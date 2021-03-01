@@ -407,6 +407,10 @@ define([
         },
 
         onSortCells: function(menu, item) {
+            if (item.value=='advanced') {
+                Common.NotificationCenter.trigger('data:sortcustom', this);
+                return;
+            }
             if (this.api) {
                 var res = this.api.asc_sortCellsRangeExpand();
                 if (res) {
@@ -1254,7 +1258,7 @@ define([
                     }
                 }
 
-                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible())) {
+                if (index_filter!==undefined && !(me.dlgFilter && me.dlgFilter.isVisible()) && !(me.currentMenu && me.currentMenu.isVisible()) && !dataarray[index_filter-1].asc_getFilter().asc_getPivotObj()) {
                     if (!filterTip.parentEl) {
                         filterTip.parentEl = $('<div id="tip-container-filtertip" style="position: absolute; z-index: 10000;"></div>');
                         me.documentHolder.cmpEl.append(filterTip.parentEl);
@@ -1747,21 +1751,20 @@ define([
                 documentHolder.menuImgRotate.setDisabled(isObjLocked);
 
                 documentHolder.menuImgCrop.setVisible(this.api.asc_canEditCrop());
-                if (documentHolder.menuImgCrop.isVisible())
-                    documentHolder.menuImgCrop.setDisabled(isObjLocked);
+                documentHolder.menuImgCrop.setDisabled(isObjLocked);
 
                 var isInSign = !!signGuid;
                 documentHolder.menuSignatureEditSign.setVisible(isInSign);
                 documentHolder.menuSignatureEditSetup.setVisible(isInSign);
                 documentHolder.menuEditSignSeparator.setVisible(isInSign);
-                if (isInSign) {
-                    documentHolder.menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
-                    documentHolder.menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
-                }
 
                 if (showMenu) this.showPopupMenu(documentHolder.imgMenu, {}, event);
                 documentHolder.mnuShapeSeparator.setVisible(documentHolder.mnuShapeAdvanced.isVisible() || documentHolder.mnuChartEdit.isVisible() || documentHolder.mnuImgAdvanced.isVisible());
                 documentHolder.mnuSlicerSeparator.setVisible(documentHolder.mnuSlicerAdvanced.isVisible());
+                if (isInSign) {
+                    documentHolder.menuSignatureEditSign.cmpEl.attr('data-value', signGuid); // sign
+                    documentHolder.menuSignatureEditSetup.cmpEl.attr('data-value', signGuid); // edit signature settings
+                }
             } else if (istextshapemenu || istextchartmenu) {
                 if (!documentHolder.textInShapeMenu || !showMenu && !documentHolder.textInShapeMenu.isVisible()) return;
                 
@@ -1875,6 +1878,7 @@ define([
                 documentHolder.pmiSortCells.setVisible((iscellmenu||isallmenu) && !iscelledit);
                 documentHolder.pmiSortCells.menu.items[2].setVisible(!internaleditor);
                 documentHolder.pmiSortCells.menu.items[3].setVisible(!internaleditor);
+                documentHolder.pmiSortCells.menu.items[4].setVisible(!internaleditor);
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
@@ -2023,17 +2027,17 @@ define([
             documentHolder.menuSignatureRemove.setVisible(isInSign && !isRequested);
             documentHolder.menuViewSignSeparator.setVisible(canComment);
 
+            documentHolder.menuViewAddComment.setVisible(canComment);
+            commentsController && commentsController.blockPopover(true);
+            documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked);
+            if (showMenu) this.showPopupMenu(documentHolder.viewModeMenu, {}, event);
+
             if (isInSign) {
                 documentHolder.menuSignatureViewSign.cmpEl.attr('data-value', signGuid); // sign
                 documentHolder.menuSignatureDetails.cmpEl.attr('data-value', signProps.asc_getId()); // view certificate
                 documentHolder.menuSignatureViewSetup.cmpEl.attr('data-value', signGuid); // view signature settings
                 documentHolder.menuSignatureRemove.cmpEl.attr('data-value', signGuid);
             }
-
-            documentHolder.menuViewAddComment.setVisible(canComment);
-            commentsController && commentsController.blockPopover(true);
-            documentHolder.menuViewAddComment.setDisabled(isCellLocked || isTableLocked);
-            if (showMenu) this.showPopupMenu(documentHolder.viewModeMenu, {}, event);
         },
 
         showPopupMenu: function(menu, value, event){
@@ -2666,8 +2670,8 @@ define([
             // Prepare menu container
             if (pasteContainer.length < 1) {
                 me._arrAutoCorrectPaste = [];
-                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.UndoTableAutoExpansion] = me.txtUndoExpansion;
-                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.RedoTableAutoExpansion] = me.txtRedoExpansion;
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.UndoTableAutoExpansion] = {caption: me.txtUndoExpansion, icon: 'menu__icon btn-undo'};
+                me._arrAutoCorrectPaste[Asc.c_oAscAutoCorrectOptions.RedoTableAutoExpansion] = {caption: me.txtRedoExpansion, icon: 'menu__icon btn-redo'};
 
                 pasteContainer = $('<div id="autocorrect-paste-container" style="position: absolute;"><div id="id-document-holder-btn-autocorrect-paste"></div></div>');
                 documentHolderView.cmpEl.append(pasteContainer);
@@ -2675,9 +2679,10 @@ define([
                 me.btnAutoCorrectPaste = new Common.UI.Button({
                     parentEl: $('#id-document-holder-btn-autocorrect-paste'),
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-paste',
-                    menu        : new Common.UI.Menu({items: []})
+                    iconCls     : 'toolbar__icon btn-autocorrect',
+                    menu        : new Common.UI.Menu({cls: 'shifted-right', items: []})
                 });
+                me.btnAutoCorrectPaste.menu.on('show:after', _.bind(me.onAutoCorrectOpenAfter, me));
             }
 
             if (pasteItems.length>0) {
@@ -2690,14 +2695,32 @@ define([
                 var group_prev = -1;
                 _.each(pasteItems, function(menuItem, index) {
                     var mnu = new Common.UI.MenuItem({
-                        caption: me._arrAutoCorrectPaste[menuItem],
-                        value: menuItem
+                        caption: me._arrAutoCorrectPaste[menuItem].caption,
+                        value: menuItem,
+                        iconCls: me._arrAutoCorrectPaste[menuItem].icon
                     }).on('click', function(item, e) {
                         me.api.asc_applyAutoCorrectOptions(item.value);
                         setTimeout(function(){menu.hide();}, 100);
                     });
                     menu.addItem(mnu);
                 });
+                me.mnuAutoCorrectStop = new Common.UI.MenuItem({
+                    caption: me.textStopExpand,
+                    checkable: true,
+                    allowDepress: true,
+                    checked: !Common.Utils.InternalSettings.get("sse-settings-autoformat-new-rows")
+                }).on('click', function(item){
+                    Common.localStorage.setBool("sse-settings-autoformat-new-rows", !item.checked);
+                    Common.Utils.InternalSettings.set("sse-settings-autoformat-new-rows", !item.checked);
+                    me.api.asc_setIncludeNewRowColTable(!item.checked);
+                    setTimeout(function(){menu.hide();}, 100);
+                });
+                menu.addItem(me.mnuAutoCorrectStop);
+                menu.addItem({caption: '--'});
+                var mnu = new Common.UI.MenuItem({
+                    caption: me.textAutoCorrectSettings
+                }).on('click', _.bind(me.onAutoCorrectOptions, me));
+                menu.addItem(mnu);
             }
 
             var width = me.tooltips.coauth.bodyWidth - me.tooltips.coauth.XY[0] - me.tooltips.coauth.rightMenuWidth - 15,
@@ -3487,6 +3510,20 @@ define([
             }
         },
 
+        onAutoCorrectOpenAfter: function(menu) {
+            this.mnuAutoCorrectStop && this.mnuAutoCorrectStop.setChecked(!Common.Utils.InternalSettings.get("sse-settings-autoformat-new-rows"));
+        },
+
+        onAutoCorrectOptions: function() {
+            var win = (new Common.Views.AutoCorrectDialog({
+                api: this.api
+            }));
+            if (win) {
+                win.show();
+                win.setActiveCategory(2);
+            }
+        },
+        
         SetDisabled: function(state, canProtect) {
             this._isDisabled = state;
             this._canProtect = canProtect;
@@ -3638,7 +3675,9 @@ define([
         txtBlanks: '(Blanks)',
         txtColumn: 'Column',
         txtImportWizard: 'Text Import Wizard',
-        textPasteSpecial: 'Paste special'
+        textPasteSpecial: 'Paste special',
+        textStopExpand: 'Stop automatically expanding tables',
+        textAutoCorrectSettings: 'AutoCorrect options'
 
     }, SSE.Controllers.DocumentHolder || {}));
 });

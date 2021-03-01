@@ -45,6 +45,7 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/SelectFileDlg',
     'common/main/lib/view/SymbolTableDialog',
+    'common/main/lib/view/OptionsDialog',
     'common/main/lib/util/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
@@ -60,7 +61,6 @@ define([
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
-    'spreadsheeteditor/main/app/view/CellsAddDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog'
 ], function () { 'use strict';
 
@@ -1602,7 +1602,7 @@ define([
                                     arr = [];
                                 for (var i=0; i<4; i++)
                                     arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
-                                (new SSE.Views.CellsAddDialog({
+                                (new Common.Views.OptionsDialog({
                                     title: me.txtInsertCells,
                                     items: arr,
                                     handler: function (dlg, result) {
@@ -1629,7 +1629,7 @@ define([
                                     arr = [];
                                 for (var i=0; i<4; i++)
                                     arr.push({caption: items[i].caption, value: items[i].value, disabled: items[i].isDisabled()});
-                                (new SSE.Views.CellsAddDialog({
+                                (new Common.Views.OptionsDialog({
                                     title: me.txtDeleteCells,
                                     items: arr,
                                     handler: function (dlg, result) {
@@ -2038,10 +2038,7 @@ define([
                 val;
 
             /* read font name */
-            var fontparam = fontobj.asc_getFontName();
-            if (fontparam != toolbar.cmbFontName.getValue()) {
-                Common.NotificationCenter.trigger('fonts:change', fontobj);
-            }
+            Common.NotificationCenter.trigger('fonts:change', fontobj);
 
             /* read font params */
             if (!toolbar.mode.isEditMailMerge && !toolbar.mode.isEditDiagram) {
@@ -2153,10 +2150,7 @@ define([
                 val, need_disable = false;
 
             /* read font name */
-            var fontparam = xfs.asc_getFontName();
-            if (fontparam != toolbar.cmbFontName.getValue()) {
-                Common.NotificationCenter.trigger('fonts:change', xfs);
-            }
+            Common.NotificationCenter.trigger('fonts:change', xfs);
 
             /* read font size */
             var str_size = xfs.asc_getFontSize();
@@ -2335,7 +2329,7 @@ define([
                     formatTableInfo = info.asc_getFormatTableInfo();
                 if (!toolbar.mode.isEditMailMerge) {
                     /* read cell horizontal align */
-                    fontparam = xfs.asc_getHorAlign();
+                    var fontparam = xfs.asc_getHorAlign();
                     if (this._state.pralign !== fontparam) {
                         this._state.pralign = fontparam;
 
@@ -2410,7 +2404,7 @@ define([
                 }
                 need_disable =  this._state.controlsdisabled.filters || (val===null);
                 toolbar.lockToolbar(SSE.enumLock.ruleFilter, need_disable,
-                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates) });
+                            { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort, toolbar.btnTableTemplate, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation) });
 
                 toolbar.lockToolbar(SSE.enumLock.tableHasSlicer, filterInfo && filterInfo.asc_getIsSlicerAdded(), { array: toolbar.btnsSetAutofilter });
 
@@ -2446,12 +2440,12 @@ define([
 
                 this._state.inpivot = !!info.asc_getPivotTableInfo();
                 toolbar.lockToolbar(SSE.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnCustomSort,
-                                                                                          toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates)});
-                toolbar.lockToolbar(SSE.enumLock.noSlicerSource, !(formatTableInfo), { array: [toolbar.btnInsertSlicer]});
+                                                                                          toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
+                toolbar.lockToolbar(SSE.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
                 need_disable = !this.appConfig.canModifyFilter;
                 toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnsSortDown, toolbar.btnsSortUp, toolbar.btnCustomSort, toolbar.btnTableTemplate,
-                                                                                          toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2], toolbar.btnInsertTable, toolbar.btnRemoveDuplicates)});
+                                                                                          toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2], toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
 
             }
 
@@ -2881,12 +2875,15 @@ define([
         onInsertSymbolClick: function() {
             if (this.api) {
                 var me = this,
+                    selected = me.api.asc_GetSelectedText(),
                     win = new Common.Views.SymbolTableDialog({
                         api: me.api,
                         lang: me.toolbar.mode.lang,
                         type: 1,
                         special: true,
                         buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
+                        font: selected && selected.length>0 ? me.api.asc_getCellInfo().asc_getXfs().asc_getFontName() : undefined,
+                        symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                         handler: function(dlg, result, settings) {
                             if (result == 'ok') {
                                 me.api.asc_insertSymbol(settings.font ? settings.font : me.api.asc_getCellInfo().asc_getXfs().asc_getFontName(), settings.code, settings.special);
@@ -3337,6 +3334,7 @@ define([
                     me.toolbar.btnsClearAutofilter = datatab.getButtons('clear-filter');
                     me.toolbar.btnCustomSort = datatab.getButtons('sort-custom');
                     me.toolbar.btnRemoveDuplicates = datatab.getButtons('rem-duplicates');
+                    me.toolbar.btnDataValidation = datatab.getButtons('data-validation');
 
                     var formulatab = me.getApplication().getController('FormulaDialog');
                     formulatab.setConfig({toolbar: me});

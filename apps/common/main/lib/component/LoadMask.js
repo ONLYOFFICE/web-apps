@@ -78,8 +78,8 @@ define([
 
             template: _.template([
                 '<div id="<%= id %>" class="asc-loadmask-body <%= cls %>" role="presentation" tabindex="-1">',
-                '<div class="asc-loadmask-image"></div>',
-                '<div class="asc-loadmask-title"><%= title %></div>',
+                    '<i id="loadmask-spinner" class="asc-loadmask-image"></i>',
+                    '<div class="asc-loadmask-title"><%= title %></div>',
                 '</div>'
             ].join('')),
 
@@ -128,10 +128,6 @@ define([
                     ownerEl.append(maskeEl);
                     ownerEl.append(loaderEl);
 
-                    loaderEl.css({
-                        top : Math.round(ownerEl.height() / 2 - (loaderEl.height() + parseInt(loaderEl.css('padding-top'))  + parseInt(loaderEl.css('padding-bottom'))) / 2) + 'px',
-                        left: Math.round(ownerEl.width()  / 2 - (loaderEl.width()  + parseInt(loaderEl.css('padding-left')) + parseInt(loaderEl.css('padding-right')))  / 2) + 'px'
-                    });
                     // if (ownerEl.height()<1 || ownerEl.width()<1)
                     //     loaderEl.css({visibility: 'hidden'});
 

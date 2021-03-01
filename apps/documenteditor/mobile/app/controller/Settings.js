@@ -236,9 +236,10 @@ define([
                     me.initPageAdvancedSettings();
                     $('#settings-spellcheck input:checkbox').attr('checked', Common.Utils.InternalSettings.get("de-mobile-spellcheck"));
                     $('#settings-spellcheck input:checkbox').single('change',   _.bind(me.onSpellcheck, me));
-                    $('#settings-no-characters input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-no-characters") == 'true') ? true : false);
+                    $('#settings-no-characters input:checkbox').attr('checked', Common.localStorage.getItem("de-mobile-no-characters") === 'true');
                     $('#settings-no-characters input:checkbox').single('change',   _.bind(me.onNoCharacters, me));
-                    $('#settings-hidden-borders input:checkbox').attr('checked', (Common.localStorage.getItem("de-mobile-hidden-borders") == 'true') ? true : false);
+                    var value = Common.localStorage.getItem("de-mobile-hidden-borders");
+                    $('#settings-hidden-borders input:checkbox').attr('checked', value===null || value==='true');
                     $('#settings-hidden-borders input:checkbox').single('change',   _.bind(me.onShowTableEmptyLine, me));
                     $('#settings-orthography').single('click',                  _.bind(me.onOrthographyCheck, me));
                     var displayComments = Common.localStorage.getBool("de-mobile-settings-livecomment", true);
@@ -345,8 +346,8 @@ define([
                 me.localSectionProps = me.api.asc_GetSectionProps();
 
                 if (me.localSectionProps) {
-                    me.maxMarginsH = me.localSectionProps.get_H() - 26;
-                    me.maxMarginsW = me.localSectionProps.get_W() - 127;
+                    me.maxMarginsH = me.localSectionProps.get_H() - 2.6;
+                    me.maxMarginsW = me.localSectionProps.get_W() - 12.7;
 
                     var top = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_TopMargin()).toFixed(2)),
                         bottom = parseFloat(Common.Utils.Metric.fnRecalcFromMM(me.localSectionProps.get_BottomMargin()).toFixed(2)),

@@ -86,7 +86,8 @@ define([
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
-                scrollAlwaysVisible: false
+                scrollAlwaysVisible: false,
+                takeFocusOnClose: false
             },
 
             template: _.template([
@@ -323,6 +324,9 @@ define([
                         $list.scrollTop(height);
                     }
                     setTimeout(function(){$selected.find('a').focus();}, 1);
+                } else {
+                    var me = this;
+                    setTimeout(function(){me.cmpEl.find('ul li:first a').focus();}, 1);
                 }
 
                 if (this.scroller)
@@ -343,10 +347,19 @@ define([
                 this.cmpEl.find('.dropdown-toggle').blur();
                 this.trigger('hide:after', this, e, isFromInputControl);
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
+                if (this.options.takeFocusOnClose) {
+                    var me = this;
+                    setTimeout(function(){me.focus();}, 1);
+                }
             },
 
             onAfterKeydownMenu: function(e) {
-                if (e.keyCode == Common.UI.Keys.RETURN) {
+                if (e.keyCode == Common.UI.Keys.DOWN && !this.editable && !this.isMenuOpen()) {
+                    this.openMenu();
+                    this.onAfterShowMenu();
+                    return false;
+                }
+                else if (e.keyCode == Common.UI.Keys.RETURN && (this.editable || this.isMenuOpen())) {
                     $(e.target).click();
                     var me = this;
                     if (this.rendered) {
@@ -666,6 +679,10 @@ define([
                     wheelSpeed: 10,
                     alwaysVisibleY: this.scrollAlwaysVisible
                 }, this.options.scroller));
+            },
+
+            focus: function() {
+                this._input && this._input.focus();
             }
         }
     })());
@@ -687,6 +704,10 @@ define([
             Common.UI.ComboBox.prototype.selectRecord.call(this, record);
             if (this.options.updateFormControl)
                 this.options.updateFormControl.call(this, this._selectedItem);
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.find('.form-control').focus();
         }
     }, Common.UI.ComboBoxCustom || {}));
 });

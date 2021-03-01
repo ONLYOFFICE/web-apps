@@ -242,6 +242,7 @@ define([
             me.listenStoreEvents= (me.options.listenStoreEvents!==undefined) ? me.options.listenStoreEvents : true;
             me.allowScrollbar = (me.options.allowScrollbar!==undefined) ? me.options.allowScrollbar : true;
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
+            me.tabindex = me.options.tabindex || 0;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
@@ -678,7 +679,7 @@ define([
             if (this.enableKeyEvents && this.handleSelect) {
                 var el = $(this.el).find('.inner').addBack().filter('.inner');
                 el.addClass('canfocused');
-                el.attr('tabindex', '0');
+                el.attr('tabindex', this.tabindex.toString());
                 el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keydown' : 'keydown', _.bind(this.onKeyDown, this));
             }
         },
@@ -763,6 +764,10 @@ define([
 
         onResize: function() {
             this._layoutParams = undefined;
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.find('.dataview').focus();
         }
     });
 
@@ -798,6 +803,8 @@ define([
             me.useBSKeydown   = me.options.useBSKeydown; // only with enableKeyEvents && parentMenu
             me.style          = me.options.style        || '';
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
+            me.tabindex = me.options.tabindex || 0;
+
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
             me.rendered       = false;
@@ -1120,7 +1127,7 @@ define([
             if (this.enableKeyEvents && this.handleSelect) {
                 var el = $(this.el).find('.inner').addBack().filter('.inner');
                 el.addClass('canfocused');
-                el.attr('tabindex', '0');
+                el.attr('tabindex', this.tabindex.toString());
                 el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keydown' : 'keydown', _.bind(this.onKeyDown, this));
             }
         },
@@ -1192,6 +1199,10 @@ define([
 
         onResize: function() {
             this._layoutParams = undefined;
+        },
+
+        focus: function() {
+            this.cmpEl && this.cmpEl.find('.dataview').focus();
         }
     });
 

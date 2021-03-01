@@ -577,6 +577,10 @@ define([
                     spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
+                var val = this._state.Width;
+                this.numWidth && this.numWidth.setValue((val !== null && val !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
+                val = this._state.Height;
+                this.numHeight && this.numHeight.setValue((val !== null && val !== undefined) ? Common.Utils.Metric.fnRecalcFromMM(val) : '', true);
             }
         },
 

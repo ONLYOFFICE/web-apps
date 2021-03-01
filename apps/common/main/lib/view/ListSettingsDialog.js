@@ -155,6 +155,7 @@ define([
                 el          : $('#id-dlg-list-numbering-format'),
                 menuStyle   : 'min-width: 100%;max-height: 183px;',
                 editable    : false,
+                takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
                     { displayValue: this.txtNone,       value: -1 },
@@ -196,6 +197,7 @@ define([
                 menuStyle   : 'min-width: 100%;max-height: 183px;',
                 style       : "width: 100px;",
                 editable    : false,
+                takeFocusOnClose: true,
                 template    : _.template(template.join('')),
                 itemsTemplate: _.template(itemsTemplate.join('')),
                 data        : [
@@ -318,6 +320,10 @@ define([
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [this.cmbNumFormat, this.cmbBulletFormat, this.spnSize, this.spnStart];
+        },
+
         afterRender: function() {
             this.updateThemeColors();
             this._setDefaults(this.props);
@@ -342,6 +348,13 @@ define([
             this.numberingControls.toggleClass('hidden', value==0);
             this.cmbNumFormat.setVisible(value==1);
             this.cmbBulletFormat.setVisible(value==0);
+            var me = this;
+            _.delay(function(){
+                if (value)
+                    me.cmbNumFormat.focus();
+                else
+                    me.cmbBulletFormat.focus();
+            },50);
         },
 
         _handleInput: function(state) {

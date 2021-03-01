@@ -234,10 +234,7 @@ define([
         },
 
         getNumberValue: function(){
-            if (this.options.allowAuto && this.value==this.options.autoText)
-                return -1;
-            else
-                return parseFloat(this.value);
+            return this.checkAutoText(this.value) ? -1 : parseFloat(this.value);
         },
 
         getUnitValue: function(){
@@ -262,7 +259,7 @@ define([
             this.lastValue = this.value;
             if ( typeof value === 'undefined' || value === ''){
                 this.value = '';
-            } else if (this.options.allowAuto && (Math.abs(Common.Utils.String.parseFloat(value)+1.)<0.0001 || value==this.options.autoText)) {
+            } else if (this.options.allowAuto && (Math.abs(Common.Utils.String.parseFloat(value)+1.)<0.0001 || this.checkAutoText(value))) {
                 this.value = this.options.autoText;
             } else {
                 var number = this._add(Common.Utils.String.parseFloat(value), 0, (this.options.allowDecimal) ? 3 : 0);
@@ -450,8 +447,8 @@ define([
                     val = this.getRawValue();
                     val = _.isEmpty(val) ? me.oldValue : Common.Utils.String.parseFloat(val);
                 } else if(me.getValue() !== '') {
-                    if (me.options.allowAuto && me.getValue()==me.options.autoText) {
-                        val = me.options.minValue-me.options.step;
+                    if (me.checkAutoText(me.getValue())) {
+                        val = me.options.defaultValue-me.options.step;
                     } else
                         val = Common.Utils.String.parseFloat(me.getValue());
                     if (isNaN(val))
@@ -471,7 +468,7 @@ define([
                     val = this.getRawValue();
                     val = _.isEmpty(val) ? me.oldValue : Common.Utils.String.parseFloat(val);
                 } else if(me.getValue() !== '') {
-                    if (me.options.allowAuto && me.getValue()==me.options.autoText) {
+                    if (me.checkAutoText(me.getValue())) {
                         val = me.options.minValue;
                     } else
                         val = Common.Utils.String.parseFloat(me.getValue());
@@ -537,6 +534,22 @@ define([
                 v_out = parseFloat((v_out * 6.0 / 25.4).toFixed(6));
 
             return v_out;
+        },
+
+        focus: function() {
+            if (this.$input) this.$input.focus();
+        },
+
+        setDefaultValue: function(value) {
+            this.options.defaultValue = value;
+        },
+
+        checkAutoText: function(value) {
+            if (this.options.allowAuto && typeof value == 'string') {
+                var val = value.toLowerCase();
+                return (val==this.options.autoText.toLowerCase() || val=='auto');
+            }
+            return false;
         }
     });
 

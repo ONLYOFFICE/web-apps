@@ -11,10 +11,11 @@
         # Full #
 
         config = {
-            type: 'desktop or mobile',
+            type: 'desktop or mobile or embedded',
             width: '100% by default',
             height: '100% by default',
             documentType: 'word' | 'cell' | 'slide',// deprecate 'text' | 'spreadsheet' | 'presentation',
+            token: <string> encrypted signature
             document: {
                 title: 'document title',
                 url: 'document url'
@@ -51,6 +52,12 @@
                 }
             },
             editorConfig: {
+                actionLink: { // open file and scroll to data, used with onMakeActionLink or the onRequestSendNotify event
+                    action: {
+                        type: "bookmark", // or type="comment"
+                        data: <bookmark name> // or comment id
+                    }
+                },
                 mode: 'view or edit',
                 lang: <language code>,
                 location: <location>,
@@ -141,7 +148,8 @@
                     mentionShare : true // customize tooltip for mention,
                     macros: true // can run macros in document
                     plugins: true // can run plugins in document
-                    macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn'
+                    macrosMode: 'warn' // warn about automatic macros, 'enable', 'disable', 'warn',
+                    trackChanges: undefined // true/false - open editor with track changes mode on/off
                 },
                 plugins: {
                     autostart: ['asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}'],
@@ -155,9 +163,30 @@
             },
             events: {
                 'onAppReady': <application ready callback>,
-                'onBack': <back to folder callback>,
                 'onDocumentStateChange': <document state changed callback>
                 'onDocumentReady': <document ready callback>
+                'onRequestEditRights': <request rights for switching from view to edit>,
+                'onRequestHistory': <request version history>,// must call refreshHistory method
+                'onRequestHistoryData': <request version data>,// must call setHistoryData method
+                'onRequestRestore': <try to restore selected version>,
+                'onRequestHistoryClose': <request closing history>,
+                'onError': <error callback>,
+                'onWarning': <warning callback>,
+                'onInfo': <document open callback>,// send view or edit mode
+                'onOutdatedVersion': <outdated version callback>,// send when  previous version is opened
+                'onDownloadAs': <download as callback>,// send url of downloaded file as a response for downloadAs method
+                'onRequestSaveAs': <try to save copy of the document>,
+                'onCollaborativeChanges': <co-editing changes callback>,// send when other user co-edit document
+                'onRequestRename': <try to rename document>,
+                'onMetaChange': // send when meta information changed
+                'onRequestClose': <request close editor>,
+                'onMakeActionLink': <request link to document with bookmark, comment...>,// must call setActionLink method
+                'onRequestUsers': <request users list for mentions>,// must call setUsers method
+                'onRequestSendNotify': //send when user is mentioned in a comment,
+                'onRequestInsertImage': <try to insert image>,// must call insertImage method
+                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method
+                'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
+                'onRequestCreateNew': <try to create document>,
             }
         }
 
@@ -361,7 +390,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|docm|dot|dotm|dotx|fodt|ott|fb2))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -850,7 +879,7 @@
         iframe.allowFullscreen = true;
         iframe.setAttribute("allowfullscreen",""); // for IE11
         iframe.setAttribute("onmousewheel",""); // for Safari on Mac
-        iframe.setAttribute("allow", "autoplay");
+        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture");
         
 		if (config.type == "mobile")
 		{

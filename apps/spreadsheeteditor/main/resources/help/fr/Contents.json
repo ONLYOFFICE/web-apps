@@ -22,10 +22,11 @@
     "src": "ProgramInterface/PivotTableTab.htm",
     "name": "Onglet Tableau croisé dynamique"
   },
-  {
-    "src": "ProgramInterface/CollaborationTab.htm",
-    "name": "Onglet Collaboration"
-  },
+    {
+        "src": "ProgramInterface/CollaborationTab.htm",
+        "name": "Onglet Collaboration"
+    },
+    {"src":  "ProgramInterface/ViewTab.htm", "name": "L'onglet Affichage"},
   {
     "src": "ProgramInterface/PluginsTab.htm",
     "name": "Onglet Modules complémentaires"
@@ -84,15 +85,20 @@
     "name": "Insérer ou supprimer des cellules, des lignes et des colonnes",
     "headername": "Modifier les lignes/colonnes"
   },
-  {
-    "src": "UsageInstructions/SortData.htm",
-    "name": "Trier et filtrer les données"
-  },
+    {
+        "src": "UsageInstructions/SortData.htm",
+        "name": "Trier et filtrer les données"
+    },
+    { "src": "UsageInstructions/FormattedTables.htm", "name": "Mettre sous forme de modèle de tableau" },
+    {"src": "UsageInstructions/Slicers.htm", "name": "Créer des segments dans les tableaux mis en forme d'après un modèle" },
     {
         "src": "UsageInstructions/PivotTables.htm",
-        "name": "Modifier les tableaux croisés dynamiques"
+        "name": "Créer et éditer les tableaux croisés dynamiques"
     },
-    {"src": "UsageInstructions/GroupData.htm", "name": "Grouper des données" },
+    { "src": "UsageInstructions/GroupData.htm", "name": "Grouper des données" },
+    { "src": "UsageInstructions/RemoveDuplicates.htm", "name": "Supprimer les valeurs dupliquées" },
+    { "src": "UsageInstructions/ConditionalFormatting.htm", "name": "La mise en forme conditionnelle" },
+    {"src": "UsageInstructions/DataValidation.htm", "name": "Validation des données" },
   {
     "src": "UsageInstructions/InsertFunction.htm",
     "name": "Insérer une fonction",
@@ -129,11 +135,17 @@
     "name": "Insérer des équations",
     "headername": "Équations mathématiques"
   },
-  {
-    "src": "HelpfulHints/CollaborativeEditing.htm",
-    "name": "Edition collaborative des classeurs",
-    "headername": "Co-édition des classeurs"
-  },
+    {
+        "src": "HelpfulHints/CollaborativeEditing.htm",
+        "name": "Edition collaborative des classeurs",
+        "headername": "Co-édition des classeurs"
+    },
+    { "src": "UsageInstructions/SheetView.htm", "name": "Configurer les paramètres d'affichage de feuille" },
+    {"src": "UsageInstructions/PhotoEditor.htm", "name": "Modification d'une image", "headername": "Plugins"},
+    {"src": "UsageInstructions/YouTube.htm", "name": "Insérer une vidéo" },
+    {"src": "UsageInstructions/HighlightedCode.htm", "name": "Insérer le code en surbrillance" },
+    {"src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
+    {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
     {
         "src": "UsageInstructions/ViewDocInfo.htm",
         "name": "Afficher les informations de fichier",
@@ -156,7 +168,8 @@
         "src": "HelpfulHints/Search.htm",
         "name": "Fonctions de recherche et remplacement"
     },
-    {"src": "HelpfulHints/SpellChecking.htm", "name": "Vérification de l’orthographe"},
+    { "src": "HelpfulHints/SpellChecking.htm", "name": "Vérification de l’orthographe" },
+    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
   {
     "src": "HelpfulHints/About.htm",
     "name": "A propos de Spreadsheet Editor",

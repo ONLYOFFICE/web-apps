@@ -32,7 +32,7 @@
  */
 
 /**
- *  TableOfContentsSettings.js.js
+ *  TableOfContentsSettings.js
  *
  *  Created by Julia Radzhabova on 26.12.2017
  *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
@@ -55,10 +55,12 @@ define([
         initialize : function(options) {
             var me = this;
 
+            var height = options.type ? 385 : 455;
             _.extend(this.options, {
-                title: this.textTitle,
+                title: options.type ? this.textTitleTOF : this.textTitle,
+                height: height,
                 template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
+                    '<div class="box" style="height:' + (height - 85) + 'px;">',
                         '<div class="content-panel" style="padding: 15px 10px;"><div class="inner-content">',
                             '<div class="settings-panel active">',
                                 '<table cols="2" style="width: 100%;">',
@@ -90,13 +92,28 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small">',
+                                        '<% if (type == 1) { %>',
+                                            '<label class="input-label padding-small" style="display: block;">' + me.textBuildTableOF + '</label>',
+                                            '<div id="tableofcontents-radio-caption" class="padding-small" style="display: block;"></div>',
+                                            '<div id="tableofcontents-radio-style" class="" style="display: block;"></div>',
+                                        '<% } else { %>',
                                             '<label class="input-label padding-small" style="display: block;">' + me.textBuildTable + '</label>',
                                             '<div id="tableofcontents-radio-levels" class="padding-small" style="display: block;"></div>',
                                             '<div id="tableofcontents-radio-styles" class="" style="display: block;"></div>',
+                                        '<% } %>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-small" style="vertical-align: top;">',
+                                        '<% if (type == 1) { %>',
+                                            '<div id="tableofcontents-tof-from-caption" style="width:220px;">',
+                                                '<div id="tableofcontents-combo-captions" style="display: inline-block; width:129px; margin-bottom: 10px;"></div>',
+                                            '</div>',
+                                            '<div id="tableofcontents-tof-from-style" style="width:220px;" class="hidden">',
+                                                '<div id="tableofcontents-combo-tof-styles" style="display: inline-block; width:129px; margin-bottom: 10px;"></div>',
+                                            '</div>',
+                                            '<div id="tableofcontents-chb-full-caption"></div>',
+                                        '<% } else { %>',
                                             '<div id="tableofcontents-from-levels" style="width:220px;">',
                                                 '<label class="input-label">' + me.textLevels + '</label>',
                                                 '<div id="tableofcontents-spin-levels" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
@@ -110,6 +127,7 @@ define([
                                                         '<div id="tableofcontents-styles-list" class="header-styles-tableview" style="width:100%; height: 121px;"></div>',
                                                 '</td></tr></table>',
                                             '</div>',
+                                        '<% } %>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: top;">',
                                             '<label class="input-label" style="margin-left: 10px;">' + me.textStyles + '</label>',
@@ -127,6 +145,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this.type       = options.type || 0; // 0 - TOC, 1 - TOF
             this.startLevel = 1;
             this.endLevel = 3;
             this._noApply = true;
@@ -145,17 +164,18 @@ define([
                 value: 'checked'
             });
             this.chPages.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                var checked = (field.getValue()=='checked');
-                this.chAlign.setDisabled(!checked);
-                this.cmbLeader.setDisabled(!checked);
+                var checked = (field.getValue()=='checked'),
+                    centered = (this.type==1) && (this.cmbStyles.getValue()==Asc.c_oAscTOFStylesType.Centered);
+                this.chAlign.setDisabled(!checked || centered);
+                this.cmbLeader.setDisabled(!checked || centered);
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_ShowPageNumbers(checked);
-                    if (checked) {
+                    if (checked && !centered) {
                         properties.put_RightAlignTab(this.chAlign.getValue() == 'checked');
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
@@ -174,7 +194,7 @@ define([
                     if (checked) {
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
@@ -197,134 +217,221 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_TabLeader(record.value);
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
 
             this.chLinks = new Common.UI.CheckBox({
                 el: $('#tableofcontents-chb-links'),
-                labelText: this.strLinks,
+                labelText: (this.type==1) ? this.strLinksOF : this.strLinks,
                 value: 'checked'
             });
             this.chLinks.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_Hyperlink(field.getValue()=='checked');
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
 
-            this.radioLevels = new Common.UI.RadioBox({
-                el: $('#tableofcontents-radio-levels'),
-                labelText: this.textRadioLevels,
-                name: 'asc-radio-content-build',
-                checked: true
-            });
-            this.radioLevels.on('change', _.bind(function(field, newValue, eOpts) {
-                if (newValue) {
-                    this.levelsContainer.toggleClass('hidden', !newValue);
-                    this.stylesContainer.toggleClass('hidden', newValue);
-                    if (this._needUpdateOutlineLevels)
-                        this.synchronizeLevelsFromStyles();
-                }
-            }, this));
+            if (this.type==1) {
+                this.radioCaption = new Common.UI.RadioBox({
+                    el: $('#tableofcontents-radio-caption'),
+                    labelText: this.textRadioCaption,
+                    name: 'asc-radio-content-tof-build',
+                    checked: true
+                });
+                this.radioCaption.on('change', _.bind(function(field, newValue, eOpts) {
+                    if (newValue) {
+                        this.captionContainer.toggleClass('hidden', !newValue);
+                        this.styleContainer.toggleClass('hidden', newValue);
+                        this.changeCaption(this.cmbCaptions.getSelectedRecord());
+                        this.disableButtons();
+                    }
+                }, this));
 
-            this.radioStyles = new Common.UI.RadioBox({
-                el: $('#tableofcontents-radio-styles'),
-                labelText: this.textRadioStyles,
-                name: 'asc-radio-content-build'
-            });
-            this.radioStyles.on('change', _.bind(function(field, newValue, eOpts) {
-                if (newValue) {
-                    this.stylesContainer.toggleClass('hidden', !newValue);
-                    this.levelsContainer.toggleClass('hidden', newValue);
-                    if (this._needUpdateStyles)
-                        this.synchronizeLevelsFromOutline();
-                    this.stylesList.scroller.update({alwaysVisibleY: true});
-                    setTimeout(function(){
-                        var rec = me.stylesLevels.findWhere({checked: true});
-                        if (rec)
-                            me.stylesList.scrollToRecord(rec);
-                    }, 10);
-                }
-            }, this));
+                this.radioStyle = new Common.UI.RadioBox({
+                    el: $('#tableofcontents-radio-style'),
+                    labelText: this.textRadioStyle,
+                    name: 'asc-radio-content-tof-build'
+                });
+                this.radioStyle.on('change', _.bind(function(field, newValue, eOpts) {
+                    if (newValue) {
+                        this.styleContainer.toggleClass('hidden', !newValue);
+                        this.captionContainer.toggleClass('hidden', newValue);
+                        this.changeTOFStyle(this.cmbTOFStyles.getSelectedRecord());
+                        this.disableButtons();
+                    }
+                }, this));
 
+                this.cmbCaptions = new Common.UI.ComboBox({
+                    el: $('#tableofcontents-combo-captions'),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100%;max-height: 233px;',
+                    editable: false,
+                    data: []
+                });
+                this.cmbCaptions.on('selected', _.bind(function(combo, record) {
+                    this.changeCaption(record);
+                    this.disableButtons();
+                }, this));
+
+                this.cmbTOFStyles = new Common.UI.ComboBox({
+                    el: $('#tableofcontents-combo-tof-styles'),
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 100%;max-height: 233px;',
+                    editable: false,
+                    data: []
+                });
+                this.cmbTOFStyles.on('selected', _.bind(function(combo, record) {
+                    this.changeTOFStyle(record);
+                }, this));
+
+                this.chFullCaption = new Common.UI.CheckBox({
+                    el: $('#tableofcontents-chb-full-caption'),
+                    labelText: this.strFullCaption,
+                    value: 'checked'
+                });
+                this.chFullCaption.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                    if (this.api && !this._noApply) {
+                        var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                        properties.put_IncludeLabelAndNumber(field.getValue()=='checked');
+                        this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties);
+                        this.scrollerY.update();
+                    }
+                }, this));
+
+                this.captionContainer = $('#tableofcontents-tof-from-caption');
+                this.styleContainer = $('#tableofcontents-tof-from-style');
+            } else {
+                this.radioLevels = new Common.UI.RadioBox({
+                    el: $('#tableofcontents-radio-levels'),
+                    labelText: this.textRadioLevels,
+                    name: 'asc-radio-content-build',
+                    checked: true
+                });
+                this.radioLevels.on('change', _.bind(function(field, newValue, eOpts) {
+                    if (newValue) {
+                        this.levelsContainer.toggleClass('hidden', !newValue);
+                        this.stylesContainer.toggleClass('hidden', newValue);
+                        if (this._needUpdateOutlineLevels)
+                            this.synchronizeLevelsFromStyles();
+                    }
+                }, this));
+
+                this.radioStyles = new Common.UI.RadioBox({
+                    el: $('#tableofcontents-radio-styles'),
+                    labelText: this.textRadioStyles,
+                    name: 'asc-radio-content-build'
+                });
+                this.radioStyles.on('change', _.bind(function(field, newValue, eOpts) {
+                    if (newValue) {
+                        this.stylesContainer.toggleClass('hidden', !newValue);
+                        this.levelsContainer.toggleClass('hidden', newValue);
+                        if (this._needUpdateStyles)
+                            this.synchronizeLevelsFromOutline();
+                        this.stylesList.scroller.update({alwaysVisibleY: true});
+                        setTimeout(function(){
+                            var rec = me.stylesLevels.findWhere({checked: true});
+                            if (rec)
+                                me.stylesList.scrollToRecord(rec);
+                        }, 10);
+                    }
+                }, this));
+                this.spnLevels = new Common.UI.CustomSpinner({
+                    el: $('#tableofcontents-spin-levels'),
+                    step: 1,
+                    width: 85,
+                    defaultUnit : "",
+                    value: this.endLevel,
+                    maxValue: 9,
+                    minValue: 1,
+                    allowDecimal: false,
+                    maskExp: /[1-9]/
+                });
+                this.spnLevels.on('change', _.bind(function(field, newValue, oldValue, eOpts){
+                    this._needUpdateStyles = true;
+                    this.startLevel = 1;
+                    this.endLevel = field.getNumberValue();
+
+                    if (this.api && !this._noApply) {
+                        var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                        properties.clear_Styles();
+                        properties.put_OutlineRange(this.startLevel, this.endLevel);
+                        this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                        this.scrollerY.update();
+                    }
+                }, this));
+
+                this.stylesLevels = new Common.UI.DataViewStore();
+
+                if (this.stylesLevels) {
+                    this.stylesList = new Common.UI.ListView({
+                        el: $('#tableofcontents-styles-list', this.$window),
+                        store: this.stylesLevels,
+                        simpleAddMode: true,
+                        showLast: false,
+                        template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                        itemTemplate: _.template([
+                            '<div id="<%= id %>" class="list-item">',
+                            '<div class="<% if (checked) { %>checked<% } %>"><%= displayValue %></div>',
+                            '<div>',
+                            '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;" maxLength="1">',
+                            '</div>',
+                            '</div>',
+                            '</div>'
+                        ].join(''))
+                    });
+                    this.stylesList.on('item:change', _.bind(this.onItemChange, this));
+                    this.stylesList.on('item:add', _.bind(this.addEvents, this));
+                }
+
+                this.levelsContainer = $('#tableofcontents-from-levels');
+                this.stylesContainer = $('#tableofcontents-from-styles');
+            }
+
+            var arr = (this.type==1) ? [
+                { displayValue: this.txtCurrent,     value: Asc.c_oAscTOFStylesType.Current },
+                { displayValue: this.txtSimple,     value: Asc.c_oAscTOFStylesType.Simple },
+                { displayValue: this.txtOnline,     value: Asc.c_oAscTOFStylesType.Web },
+                { displayValue: this.txtClassic,     value: Asc.c_oAscTOFStylesType.Classic },
+                { displayValue: this.txtDistinctive,     value: Asc.c_oAscTOFStylesType.Distinctive },
+                { displayValue: this.txtCentered,     value: Asc.c_oAscTOFStylesType.Centered },
+                { displayValue: this.txtFormal,     value: Asc.c_oAscTOFStylesType.Formal }
+            ] : [
+                { displayValue: this.txtCurrent,     value: Asc.c_oAscTOCStylesType.Current },
+                { displayValue: this.txtSimple,     value: Asc.c_oAscTOCStylesType.Simple },
+                { displayValue: this.txtOnline,     value: Asc.c_oAscTOCStylesType.Web },
+                { displayValue: this.txtStandard,     value: Asc.c_oAscTOCStylesType.Standard },
+                { displayValue: this.txtModern,     value: Asc.c_oAscTOCStylesType.Modern },
+                { displayValue: this.txtClassic,     value: Asc.c_oAscTOCStylesType.Classic }
+            ];
             this.cmbStyles = new Common.UI.ComboBox({
                 el: $('#tableofcontents-combo-styles'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 95px;',
                 editable: false,
-                data: [
-                    { displayValue: this.txtCurrent,     value: Asc.c_oAscTOCStylesType.Current },
-                    { displayValue: this.txtSimple,     value: Asc.c_oAscTOCStylesType.Simple },
-                    { displayValue: this.txtOnline,     value: Asc.c_oAscTOCStylesType.Web },
-                    { displayValue: this.txtStandard,     value: Asc.c_oAscTOCStylesType.Standard },
-                    { displayValue: this.txtModern,     value: Asc.c_oAscTOCStylesType.Modern },
-                    { displayValue: this.txtClassic,     value: Asc.c_oAscTOCStylesType.Classic }
-                ]
+                data: arr
             });
-            this.cmbStyles.setValue(Asc.c_oAscTOCStylesType.Current);
+            this.cmbStyles.setValue(this.type==1 ? Asc.c_oAscTOFStylesType.Current : Asc.c_oAscTOCStylesType.Current);
             this.cmbStyles.on('selected', _.bind(function(combo, record) {
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_StylesType(record.value);
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    if (this.type==1) {
+                        var checked = (record.value!==Asc.c_oAscTOFStylesType.Centered);
+                        this.chAlign.setValue(checked, true);
+                        this.chAlign.setDisabled(!checked);
+                        this.cmbLeader.setDisabled(!checked);
+                        properties.put_RightAlignTab(checked);
+                        checked && properties.put_TabLeader(this.cmbLeader.getValue());
+                    }
+                    (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties) : this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
                     this.scrollerY.update();
                 }
             }, this));
-
-            this.spnLevels = new Common.UI.CustomSpinner({
-                el: $('#tableofcontents-spin-levels'),
-                step: 1,
-                width: 85,
-                defaultUnit : "",
-                value: this.endLevel,
-                maxValue: 9,
-                minValue: 1,
-                allowDecimal: false,
-                maskExp: /[1-9]/
-            });
-            this.spnLevels.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                this._needUpdateStyles = true;
-                this.startLevel = 1;
-                this.endLevel = field.getNumberValue();
-
-                if (this.api && !this._noApply) {
-                    var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
-                    properties.clear_Styles();
-                    properties.put_OutlineRange(this.startLevel, this.endLevel);
-                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
-                    this.scrollerY.update();
-                }
-            }, this));
-
-            this.stylesLevels = new Common.UI.DataViewStore();
-
-            if (this.stylesLevels) {
-                this.stylesList = new Common.UI.ListView({
-                    el: $('#tableofcontents-styles-list', this.$window),
-                    store: this.stylesLevels,
-                    simpleAddMode: true,
-                    showLast: false,
-                    template: _.template(['<div class="listview inner" style=""></div>'].join('')),
-                    itemTemplate: _.template([
-                        '<div id="<%= id %>" class="list-item">',
-                            '<div class="<% if (checked) { %>checked<% } %>"><%= name %></div>',
-                            '<div>',
-                                '<div class="input-field" style="width:40px;"><input type="text" class="form-control" value="<%= value %>" style="text-align: right;" maxLength="1">',
-                            '</div>',
-                            '</div>',
-                        '</div>'
-                    ].join(''))
-                });
-                this.stylesList.on('item:change', _.bind(this.onItemChange, this));
-                this.stylesList.on('item:add', _.bind(this.addEvents, this));
-            }
-
-            this.levelsContainer = $('#tableofcontents-from-levels');
-            this.stylesContainer = $('#tableofcontents-from-styles');
 
             this.scrollerY = new Common.UI.Scroller({
                 el: this.$window.find('#tableofcontents-img').parent(),
@@ -332,6 +439,10 @@ define([
             });
             this.scrollerY.update();
             this.scrollerY.scrollTop(0);
+
+            this.btnOk = new Common.UI.Button({
+                el: this.$window.find('.primary')
+            });
 
             this.afterRender();
         },
@@ -345,31 +456,13 @@ define([
         },
 
         close: function() {
-            this.api.SetDrawImagePlaceContents(null);
+            (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures(null) : this.api.SetDrawImagePlaceContents(null);
             this.scrollerY.update();
             Common.Views.AdvancedSettingsWindow.prototype.close.apply(this);
         },
 
         _setDefaults: function (props) {
             this._noApply = true;
-
-            var me = this,
-                docStyles = this.api.asc_GetStylesArray(),
-                styles = [],
-                checkStyles = false;
-            _.each(docStyles, function (style) {
-                    var name = style.get_Name(),
-                        level = me.api.asc_GetHeadingLevel(name);
-                if (style.get_QFormat() || level>=0) {
-                    styles.push({
-                        name: name,
-                        allowSelected: false,
-                        checked: false,
-                        value: '',
-                        headerLevel: (level>=0) ? level+1 : -1 // -1 if is not header
-                    });
-                }
-            });
 
             if (props) {
                 var value = props.get_Hyperlink();
@@ -385,8 +478,56 @@ define([
                         value = props.get_TabLeader();
                         (value!==undefined) && this.cmbLeader.setValue(value);
                     }
+                } else {
+                    (this.type==1) && (this.cmbStyles.getValue()==Asc.c_oAscTOFStylesType.Centered) && this.chAlign.setValue(false);
                 }
+            }
 
+            (this.type==1) ? this.fillTOFProps(props) : this.fillTOCProps(props);
+
+            // Show Pages is always true when window is opened
+            this._originalProps = (props) ? props : new Asc.CTableOfContentsPr();
+            if (!props) {
+                if (this.type==1) {
+                    this._originalProps.put_Caption(this.textFigure);
+                    this._originalProps.put_IncludeLabelAndNumber(this.chFullCaption.getValue() == 'checked');
+                } else {
+                    this._originalProps.put_OutlineRange(this.startLevel, this.endLevel);
+                }
+                this._originalProps.put_Hyperlink(this.chLinks.getValue() == 'checked');
+                this._originalProps.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
+                if (this.chPages.getValue() == 'checked') {
+                    this._originalProps.put_RightAlignTab(this.chAlign.getValue() == 'checked');
+                    this._originalProps.put_TabLeader(this.cmbLeader.getValue());
+                }
+            }
+
+            (this.type==1) ? this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', this._originalProps) : this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
+            this.scrollerY.update();
+
+            this._noApply = false;
+        },
+
+        fillTOCProps: function(props) {
+            var me = this,
+                docStyles = this.api.asc_GetStylesArray(),
+                styles = [],
+                checkStyles = false;
+            _.each(docStyles, function (style) {
+                var name = style.get_Name(),
+                    level = me.api.asc_GetHeadingLevel(name);
+                if (style.get_QFormat() || level>=0) {
+                    styles.push({
+                        name: name,
+                        displayValue: style.get_TranslatedName(),
+                        allowSelected: false,
+                        checked: false,
+                        value: '',
+                        headerLevel: (level>=0) ? level+1 : -1 // -1 if is not header
+                    });
+                }
+            });
+            if (props) {
                 var start = props.get_OutlineStart(),
                     end = props.get_OutlineEnd(),
                     count = props.get_StylesCount();
@@ -413,6 +554,7 @@ define([
                     } else {
                         styles.push({
                             name: style,
+                            displayValue: style,
                             allowSelected: false,
                             checked: true,
                             value: level,
@@ -469,8 +611,8 @@ define([
                 }
             }
             styles.sort(function(a, b){
-                var aname = a.name.toLocaleLowerCase(),
-                    bname = b.name.toLocaleLowerCase();
+                var aname = a.displayValue.toLocaleLowerCase(),
+                    bname = b.displayValue.toLocaleLowerCase();
                 if (aname < bname) return -1;
                 if (aname > bname) return 1;
                 return 0;
@@ -483,23 +625,69 @@ define([
                 if (rec)
                     this.stylesList.scrollToRecord(rec);
             }
+        },
 
-            // Show Pages is always true when window is opened
-            this._originalProps = (props) ? props : new Asc.CTableOfContentsPr();
-            if (!props) {
-                this._originalProps.put_OutlineRange(this.startLevel, this.endLevel);
-                this._originalProps.put_Hyperlink(this.chLinks.getValue() == 'checked');
-                this._originalProps.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
-                if (this.chPages.getValue() == 'checked') {
-                    this._originalProps.put_RightAlignTab(this.chAlign.getValue() == 'checked');
-                    this._originalProps.put_TabLeader(this.cmbLeader.getValue());
+        fillTOFProps: function(props) {
+            var me = this,
+                isCaption = true;
+            var arr = Common.Utils.InternalSettings.get("de-settings-captions");
+            if (arr==null || arr==undefined) {
+                arr = Common.localStorage.getItem("de-settings-captions") || '';
+                Common.Utils.InternalSettings.set("de-settings-captions", arr);
+            }
+            arr = arr ? JSON.parse(arr) : [];
+
+            // 0 - not removable
+            arr = arr.concat([{ value: this.textEquation, displayValue: this.textEquation },
+                { value: this.textFigure, displayValue: this.textFigure },
+                { value: this.textTable, displayValue: this.textTable }
+            ]);
+            arr.sort(function(a,b){
+                var sa = a.displayValue.toLowerCase(),
+                    sb = b.displayValue.toLowerCase();
+                return sa>sb ? 1 : (sa<sb ? -1 : 0);
+            });
+            arr = [{ value: null, displayValue: this.textNone }].concat(arr);
+            this.cmbCaptions.setData(arr);
+            var value;
+            if (props) {
+                isCaption = !!props.get_Caption();
+                var rec = this.cmbCaptions.store.findWhere({value: props.get_Caption()});
+                rec && (value = rec.get('value'));
+            }
+            (arr.length>0) && this.cmbCaptions.setValue(value ? value : this.textFigure);
+
+            arr = [];
+            _.each(this.api.asc_getAllUsedParagraphStyles(), function (style, index) {
+                arr.push({
+                    displayValue: style.get_TranslatedName(),
+                    styleName: style.get_Name(),
+                    value: index
+                });
+            });
+            arr.sort(function(a, b){
+                var aname = a.displayValue.toLocaleLowerCase(),
+                    bname = b.displayValue.toLocaleLowerCase();
+                if (aname < bname) return -1;
+                if (aname > bname) return 1;
+                return 0;
+            });
+            this.cmbTOFStyles.setData(arr);
+            value = undefined;
+            if (props) {
+                var count = props.get_StylesCount();
+                if (count>0) {
+                    var rec = this.cmbTOFStyles.store.findWhere({styleName: props.get_StyleName(0)});
+                    rec && (value = rec.get('value'));
                 }
             }
+            (arr.length>0) && this.cmbTOFStyles.setValue(value ? value : arr[0].value);
 
-            this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
-            this.scrollerY.update();
-
-            this._noApply = false;
+            if (props) {
+                value = props.get_IncludeLabelAndNumber();
+                this.chFullCaption.setValue((value !== null && value !== undefined) ? value : 'indeterminate', true);
+            }
+            !isCaption && this.radioStyle.setValue(true);
         },
 
         synchronizeLevelsFromOutline: function() {
@@ -574,15 +762,25 @@ define([
             props.put_StylesType(this.cmbStyles.getValue());
 
             props.clear_Styles();
-            if (this._needUpdateOutlineLevels) {
-                this.synchronizeLevelsFromStyles();
+            if (this.type==1) {
+                if (this.radioCaption.getValue()) {
+                    props.put_Caption(this.cmbCaptions.getValue());
+                } else {
+                    props.put_Caption(null);
+                    var rec = this.cmbTOFStyles.getSelectedRecord();
+                    rec && props.add_Style(rec.styleName);
+                }
+            } else {
+                if (this._needUpdateOutlineLevels) {
+                    this.synchronizeLevelsFromStyles();
+                }
+                if (!this._needUpdateStyles)  // if this._needUpdateStyles==true - fill only OutlineRange
+                    this.stylesLevels.each(function (style) {
+                        if (style.get('checked'))
+                            props.add_Style(style.get('name'), style.get('value'));
+                    });
+                props.put_OutlineRange(this.startLevel, this.endLevel);
             }
-            if (!this._needUpdateStyles)  // if this._needUpdateStyles==true - fill only OutlineRange
-                this.stylesLevels.each(function (style) {
-                    if (style.get('checked'))
-                        props.add_Style(style.get('name'), style.get('value'));
-                });
-            props.put_OutlineRange(this.startLevel, this.endLevel);
             return props;
         },
 
@@ -633,6 +831,51 @@ define([
             }, 10);
         },
 
+        changeCaption: function(record) {
+            if (this.api && !this._noApply && record) {
+                var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                properties.put_Caption(record.value);
+                properties.clear_Styles();
+                this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties);
+                this.scrollerY.update();
+            }
+        },
+
+        changeTOFStyle: function(record) {
+            if (this.api && !this._noApply) {
+                var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
+                properties.put_Caption(null);
+                properties.clear_Styles();
+                properties.add_Style(record.styleName);
+                this.api.SetDrawImagePlaceTableOfFigures('tableofcontents-img', properties);
+                this.scrollerY.update();
+            }
+        },
+
+        disableButtons: function() {
+            this.type && this.btnOk.setDisabled(this.radioCaption.getValue() && this.cmbCaptions.getValue()===null || this.radioStyle.getValue() && this.cmbTOFStyles.length<1);
+        },
+
+        onDlgBtnClick: function(event) {
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
+        },
+
+        _handleInput: function(state) {
+            if (this.handler) {
+                if (state == 'ok' && this.btnOk.isDisabled()) {
+                    return;
+                }
+                this.handler.call(this, state, this.getSettings());
+            }
+
+            this.close();
+        },
+
         textTitle:  'Table of Contents',
         textLeader: 'Leader',
         textBuildTable: 'Build table of contents from',
@@ -651,7 +894,19 @@ define([
         txtStandard: 'Standard',
         txtModern: 'Modern',
         txtClassic: 'Classic',
-        txtOnline: 'Online'
+        txtOnline: 'Online',
+        textTitleTOF: 'Table of Figures',
+        textBuildTableOF: 'Build table of figures from',
+        textRadioCaption: 'Caption',
+        textRadioStyle: 'Style',
+        strFullCaption: 'Include label and number',
+        textEquation: 'Equation',
+        textFigure: 'Figure',
+        textTable: 'Table',
+        txtDistinctive: 'Distinctive',
+        txtCentered: 'Centered',
+        txtFormal: 'Formal',
+        strLinksOF: 'Format table of figures as links'
 
     }, DE.Views.TableOfContentsSettings || {}))
 });

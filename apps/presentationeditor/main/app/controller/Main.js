@@ -155,6 +155,8 @@ define([
                 window["flat_desine"] = true;
                 this.api = this.getApplication().getController('Viewport').getApi();
 
+                Common.UI.FocusManager.init();
+                
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");
@@ -966,7 +968,9 @@ define([
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
+                this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
+                this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport();
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isProtectionSupport();
                 this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
@@ -1977,6 +1981,23 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-rec-functions-rem", value);
                 arrRem = value ? JSON.parse(value) : [];
                 me.api.asc_refreshOnStartAutoCorrectMathFunctions(arrRem, arrAdd);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-bulleted", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-bulleted", value);
+                me.api.asc_SetAutomaticBulletedLists(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-numbered", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-numbered", value);
+                me.api.asc_SetAutomaticNumberedLists(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-smart-quotes", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-smart-quotes", value);
+                me.api.asc_SetAutoCorrectSmartQuotes(value);
+
+                value = Common.localStorage.getBool("pe-settings-autoformat-hyphens", true);
+                Common.Utils.InternalSettings.set("pe-settings-autoformat-hyphens", value);
+                me.api.asc_SetAutoCorrectHyphensWithDash(value);
+
             },
             
             // Translation

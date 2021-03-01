@@ -171,7 +171,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     { value: Asc.c_oAscChartTitleShowSettings.none, displayValue: this.textNone },
                     { value: Asc.c_oAscChartTitleShowSettings.overlay, displayValue: this.textOverlay },
                     { value: Asc.c_oAscChartTitleShowSettings.noOverlay, displayValue: this.textNoOverlay }
-                ]
+                ],
+                takeFocusOnClose: true
             });
 
             this.cmbLegendPos = new Common.UI.ComboBox({
@@ -187,7 +188,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     { value: Asc.c_oAscChartLegendShowSettings.left, displayValue: this.textLegendLeft },
                     { value: Asc.c_oAscChartLegendShowSettings.leftOverlay, displayValue: this.textLeftOverlay },
                     { value: Asc.c_oAscChartLegendShowSettings.rightOverlay, displayValue: this.textRightOverlay }
-                ]
+                ],
+                takeFocusOnClose: true
             });
 
             this.cmbHorTitle = new Common.UI.ComboBox({
@@ -198,7 +200,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 data        : [
                     { value: Asc.c_oAscChartHorAxisLabelShowSettings.none, displayValue: this.textNone },
                     { value: Asc.c_oAscChartHorAxisLabelShowSettings.noOverlay, displayValue: this.textNoOverlay }
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings)
                     this.chartSettings.putHorAxisLabel(record.value);
@@ -213,7 +216,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     { value: Asc.c_oAscChartVertAxisLabelShowSettings.none, displayValue: this.textNone },
                     { value: Asc.c_oAscChartVertAxisLabelShowSettings.rotated, displayValue: this.textRotated },
                     { value: Asc.c_oAscChartVertAxisLabelShowSettings.horizontal, displayValue: this.textHorizontal }
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings) 
                     this.chartSettings.putVertAxisLabel(record.value);
@@ -227,7 +231,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 data        : [
                     { value: true, displayValue: this.textShow },
                     { value: false, displayValue: this.textHide }
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings)
                     this.chartSettings.putShowHorAxis(record.value);
@@ -241,7 +246,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 data        : [
                     { value: true, displayValue: this.textShow },
                     { value: false, displayValue: this.textHide }
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings)
                     this.chartSettings.putShowVerAxis(record.value);
@@ -257,7 +263,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     { value: Asc.c_oAscGridLinesSettings.major, displayValue: this.textMajor },
                     { value: Asc.c_oAscGridLinesSettings.minor, displayValue: this.textMinor },
                     { value: Asc.c_oAscGridLinesSettings.majorMinor, displayValue: this.textMajorMinor }
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings) 
                     this.chartSettings.putHorGridLines(record.value);
@@ -273,7 +280,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     { value: Asc.c_oAscGridLinesSettings.major, displayValue: this.textMajor },
                     { value: Asc.c_oAscGridLinesSettings.minor, displayValue: this.textMinor },
                     { value: Asc.c_oAscGridLinesSettings.majorMinor, displayValue: this.textMajorMinor }
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings) 
                     this.chartSettings.putVertGridLines(record.value);
@@ -290,7 +298,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     { value: Asc.c_oAscChartDataLabelsPos.inBase, displayValue: this.textInnerBottom },
                     { value: Asc.c_oAscChartDataLabelsPos.inEnd, displayValue: this.textInnerTop },
                     { value: Asc.c_oAscChartDataLabelsPos.outEnd, displayValue: this.textOuterTop }
-                ]
+                ],
+                takeFocusOnClose: true
             });
 
             this.cmbDataLabels.on('selected', _.bind(me.onSelectDataLabels, this));
@@ -327,7 +336,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     { value: 0, displayValue: this.textNone },
                     { value: 1, displayValue: this.textStraight },
                     { value: 2, displayValue: this.textSmooth }
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.chartSettings) {
                     this.chartSettings.putLine(record.value!==0);
@@ -356,7 +366,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 data        : [
                     {displayValue: this.textAuto, value: Asc.c_oAscValAxisRule.auto},
                     {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putMinValRule(record.value);
@@ -392,7 +403,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 data        : [
                     {displayValue: this.textAuto, value: Asc.c_oAscValAxisRule.auto},
                     {displayValue: this.textFixed, value: Asc.c_oAscValAxisRule.fixed}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putMaxValRule(record.value);
@@ -430,7 +442,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textValue, value: Asc.c_oAscCrossesRule.value},
                     {displayValue: this.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
                     {displayValue: this.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putCrossesRule(record.value);
@@ -483,7 +496,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textHundredMil, value: Asc.c_oAscValAxUnits.HUNDRED_MILLIONS},
                     {displayValue: this.textBillions, value: Asc.c_oAscValAxUnits.BILLIONS},
                     {displayValue: this.textTrillions, value: Asc.c_oAscValAxUnits.TRILLIONS}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putDispUnitsRule(record.value);
@@ -509,7 +523,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
                     {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
                     {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putMajorTickMark(record.value);
@@ -526,7 +541,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
                     {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
                     {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putMinorTickMark(record.value);
@@ -543,7 +559,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
                     {displayValue: this.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
                     {displayValue: this.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putTickLabelsPos(record.value);
@@ -562,7 +579,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textValue, value: Asc.c_oAscCrossesRule.value},
                     {displayValue: this.textMinValue, value: Asc.c_oAscCrossesRule.minValue},
                     {displayValue: this.textMaxValue, value: Asc.c_oAscCrossesRule.maxValue}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putCrossesRule(record.value);
@@ -602,7 +620,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 data        : [
                     {displayValue: this.textOnTickMarks, value: Asc.c_oAscLabelsPosition.byDivisions},
                     {displayValue: this.textBetweenTickMarks, value: Asc.c_oAscLabelsPosition.betweenDivisions}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putLabelsPosition(record.value);
@@ -628,7 +647,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
                     {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
                     {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putMajorTickMark(record.value);
@@ -645,7 +665,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textCross, value: Asc.c_oAscTickMark.TICK_MARK_CROSS},
                     {displayValue: this.textIn, value: Asc.c_oAscTickMark.TICK_MARK_IN},
                     {displayValue: this.textOut, value: Asc.c_oAscTickMark.TICK_MARK_OUT}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putMinorTickMark(record.value);
@@ -676,7 +697,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textLow, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_LOW},
                     {displayValue: this.textHigh, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_HIGH},
                     {displayValue: this.textNextToAxis, value: Asc.c_oAscTickLabelsPos.TICK_LABEL_POSITION_NEXT_TO}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putTickLabelsPos(record.value);
@@ -723,7 +745,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 data        : [
                     {displayValue: this.textAuto, value: Asc.c_oAscBetweenLabelsRule.auto},
                     {displayValue: this.textManual, value: Asc.c_oAscBetweenLabelsRule.manual}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 if (this.currentAxisProps) {
                     this.currentAxisProps.putIntervalBetweenLabelsRule(record.value);
@@ -731,9 +754,6 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         this.spnLabelInterval.setValue(1, true);
                 }
             }, this));
-
-            this.btnsCategory[2].on('click', _.bind(this.onVCategoryClick, this));
-            this.btnsCategory[3].on('click', _.bind(this.onHCategoryClick, this));
 
             // Sparklines
             this.btnSparkType = new Common.UI.Button({
@@ -824,7 +844,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                 el          : $('#spark-dlg-combo-empty'),
                 menuStyle   : 'min-width: 220px;',
                 editable    : false,
-                cls         : 'input-group-nr'
+                cls         : 'input-group-nr',
+                takeFocusOnClose: true
             });
             this.cmbEmptyCells.on('selected', _.bind(function(combo, record){
                 if (this._changedProps) {
@@ -873,7 +894,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textAutoEach, value: Asc.c_oAscSparklineAxisMinMax.Individual},
                     {displayValue: this.textSameAll, value: Asc.c_oAscSparklineAxisMinMax.Group},
                     {displayValue: this.textFixed, value: Asc.c_oAscSparklineAxisMinMax.Custom}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 this.spnSparkMinValue.setDisabled(record.value!==Asc.c_oAscSparklineAxisMinMax.Custom);
                 if (this._changedProps) {
@@ -906,7 +928,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     {displayValue: this.textAutoEach, value: Asc.c_oAscSparklineAxisMinMax.Individual},
                     {displayValue: this.textSameAll, value: Asc.c_oAscSparklineAxisMinMax.Group},
                     {displayValue: this.textFixed, value: Asc.c_oAscSparklineAxisMinMax.Custom}
-                ]
+                ],
+                takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
                 this.spnSparkMaxValue.setDisabled(record.value!==Asc.c_oAscSparklineAxisMinMax.Custom);
                 if (this._changedProps) {
@@ -975,6 +998,42 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             });
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [
+                this.cmbChartTitle, this.cmbLegendPos, this.cmbDataLabels, this.txtSeparator, this.cmbHorShow, this.cmbVertShow,
+                this.cmbHorTitle, this.cmbVertTitle, this.cmbHorGrid, this.cmbVertGrid, // 1 tab
+                this.cmbMinType , this.spnMinValue, this.cmbMaxType, this.spnMaxValue, this.cmbVCrossType, this.spnVAxisCrosses,
+                this.cmbUnits , this.cmbVMajorType, this.cmbVMinorType, this.cmbVLabelPos, // 2 tab
+                this.cmbHCrossType , this.spnHAxisCrosses, this.cmbAxisPos, this.cmbHMajorType, this.cmbHMinorType, this.spnMarksInterval,
+                this.cmbHLabelPos , this.spnLabelDist, this.cmbLabelInterval, this.spnLabelInterval, // 3 tab
+                this.inputAltTitle, this.textareaAltDescription  // 7 tab
+            ];
+        },
+
+        onCategoryClick: function(btn, index) {
+            Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
+
+            var me = this;
+            setTimeout(function(){
+                switch (index) {
+                    case 1:
+                        me.cmbChartTitle.focus();
+                        break;
+                    case 2:
+                        me.onVCategoryClick(btn);
+                        me.cmbMinType.focus();
+                        break;
+                    case 3:
+                        me.onHCategoryClick(btn);
+                        me.cmbHCrossType.focus();
+                        break;
+                    case 7:
+                        me.inputAltTitle.focus();
+                        break;
+                }
+            }, 10);
         },
 
         afterRender: function() {

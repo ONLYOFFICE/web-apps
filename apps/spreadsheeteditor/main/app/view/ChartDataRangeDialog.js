@@ -170,10 +170,16 @@ define([
             this.lblRange3 = $window.find('#id-dlg-chart-range-lbl3');
 
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
+        },
 
-           _.defer(function(){
-               me.inputRange1.cmpEl.find('input').focus();
-           }, 10);
+        getFocusedComponents: function() {
+            return [this.inputRange1, this.inputRange2, this.inputRange3];
+        },
+
+        getDefaultFocusableComponent: function () {
+            if (this._alreadyRendered) return; // focus only at first show
+            this._alreadyRendered = true;
+            return this.inputRange1;
         },
 
         onPrimary: function() {
@@ -237,7 +243,7 @@ define([
                     me.show();
                     _.delay(function(){
                         me._noApply = true;
-                        input.cmpEl.find('input').focus();
+                        input.focus();
                         me._noApply = false;
                     },1);
                 });

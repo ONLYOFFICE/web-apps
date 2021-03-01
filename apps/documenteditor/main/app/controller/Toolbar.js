@@ -58,7 +58,6 @@ define([
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/WatermarkSettingsDialog',
-    'documenteditor/main/app/view/CompareSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
     'documenteditor/main/app/view/DateTimeDialog',
     'documenteditor/main/app/view/LineNumbersDialog'
@@ -791,11 +790,12 @@ define([
 
             toolbar.btnContentControls.setDisabled(paragraph_locked || header_locked);
             if (!(paragraph_locked || header_locked)) {
-                var control_disable = control_plain || content_locked;
+                var control_disable = control_plain || content_locked,
+                    if_form = control_props && control_props.get_FormPr();
                 for (var i=0; i<7; i++)
                     toolbar.btnContentControls.menu.items[i].setDisabled(control_disable);
-                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked);
-                toolbar.btnContentControls.menu.items[10].setDisabled(!in_control);
+                toolbar.btnContentControls.menu.items[8].setDisabled(!in_control || lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.SdtLocked || if_form);
+                toolbar.btnContentControls.menu.items[10].setDisabled(!in_control || if_form);
             }
 
             var need_text_disable = paragraph_locked || header_locked || in_chart || rich_edit_lock || plain_edit_lock;
@@ -1015,13 +1015,13 @@ define([
 
         onChangeSdtGlobalSettings: function() {
             var show = this.api.asc_GetGlobalContentControlShowHighlight();
-            this.toolbar.mnuNoControlsColor.setChecked(!show, true);
-            this.toolbar.mnuControlsColorPicker.clearSelection();
+            this.toolbar.mnuNoControlsColor && this.toolbar.mnuNoControlsColor.setChecked(!show, true);
+            this.toolbar.mnuControlsColorPicker && this.toolbar.mnuControlsColorPicker.clearSelection();
             if (show){
                 var clr = this.api.asc_GetGlobalContentControlHighlightColor();
                 if (clr) {
                     clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b());
-                    this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
+                    this.toolbar.mnuControlsColorPicker && this.toolbar.mnuControlsColorPicker.selectByRGB(clr, true);
                 }
             }
         },
@@ -1321,8 +1321,8 @@ define([
                 }
             } else {
                 value = Common.Utils.String.parseFloat(record.value);
-                value = value > 100
-                    ? 100
+                value = value > 300
+                    ? 300
                     : value < 1
                         ? 1
                         : Math.floor((value+0.4)*2)/2;
@@ -1907,6 +1907,7 @@ define([
                     oPr, oFormPr;
                 if (isnew) {
                     oFormPr = new AscCommon.CSdtFormPr();
+                    this.toolbar.fireEvent('insertcontrol', this.toolbar);
                 }
                 if (item.value == 'plain' || item.value == 'rich')
                     this.api.asc_AddContentControl((item.value=='plain') ? Asc.c_oAscSdtLevelType.Inline : Asc.c_oAscSdtLevelType.Block);
@@ -2659,7 +2660,8 @@ define([
             if (this.dlgSymbolTable && this.dlgSymbolTable.isVisible()) return;
 
             if (this.api) {
-                var me = this;
+                var me = this,
+                    selected = me.api.asc_GetSelectedText();
                 me.dlgSymbolTable = new Common.Views.SymbolTableDialog({
                     api: me.api,
                     lang: me.mode.lang,
@@ -2667,6 +2669,8 @@ define([
                     type: 1,
                     special: true,
                     showShortcutKey: true,
+                    font: selected && selected.length>0 ? this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name() : undefined,
+                    symbol: selected && selected.length>0 ? selected.charAt(0) : undefined,
                     buttons: [{value: 'ok', caption: this.textInsert}, 'close'],
                     handler: function(dlg, result, settings) {
                         if (result == 'ok') {
@@ -2857,9 +2861,6 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
-
-            updateColors(this.toolbar.mnuControlsColorPicker, 1);
-            this.onChangeSdtGlobalSettings();
         },
 
         _onInitEditorStyles: function(styles) {
@@ -2966,27 +2967,36 @@ define([
             this.DisableToolbar(true, true);
         },
 
-        DisableToolbar: function(disable, viewMode, reviewmode) {
+        DisableToolbar: function(disable, viewMode, reviewmode, fillformmode) {
             if (viewMode!==undefined) this.editMode = !viewMode;
             disable = disable || !this.editMode;
 
             var toolbar_mask = $('.toolbar-mask'),
                 group_mask = $('.toolbar-group-mask'),
-                mask = reviewmode ? group_mask : toolbar_mask;
+                mask = (reviewmode || fillformmode) ? group_mask : toolbar_mask;
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
             if(disable) {
                 if (reviewmode) {
-                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask)'));
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.review)'));
+                } else if (fillformmode) {
+                    mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar section.panel .group:not(.no-mask):not(.no-group-mask.form-view)'));
                 } else
                     mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
             } else {
                 mask.remove();
             }
-            $('.no-group-mask').css('opacity', (reviewmode || !disable) ? 1 : 0.4);
+            $('.no-group-mask').each(function(index, item){
+                var $el = $(item);
+                if ($el.find('.toolbar-group-mask').length>0)
+                    $el.css('opacity', 0.4);
+                else {
+                    $el.css('opacity', reviewmode || fillformmode || !disable ? 1 : 0.4);
+                }
+            });
 
-            disable = disable || (reviewmode ? toolbar_mask.length>0 : group_mask.length>0);
+            disable = disable || ((reviewmode || fillformmode) ? toolbar_mask.length>0 : group_mask.length>0);
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
@@ -3052,7 +3062,7 @@ define([
             var tab = {action: 'review', caption: me.toolbar.textTabCollaboration};
             var $panel = me.application.getController('Common.Controllers.ReviewChanges').createToolbarPanel();
             if ( $panel )
-                me.toolbar.addTab(tab, $panel, 4);
+                me.toolbar.addTab(tab, $panel, 5);
 
             if ( config.isEdit ) {
                 me.toolbar.setMode(config);
@@ -3076,13 +3086,25 @@ define([
                         tab = {action: 'protect', caption: me.toolbar.textTabProtect};
                         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
 
-                        if ($panel) me.toolbar.addTab(tab, $panel, 5);
+                        if ($panel) me.toolbar.addTab(tab, $panel, 6);
                     }
                 }
 
                 var links = me.getApplication().getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.toolbarControls, links.getView('Links').getButtons());
+
+                if (config.canFeatureContentControl) {
+                    if (config.canFeatureForms) {
+                        tab = {caption: me.textTabForms, action: 'forms'};
+                        var forms = me.getApplication().getController('FormsTab');
+                        forms.setApi(me.api).setConfig({toolbar: me});
+                        me.toolbar.addTab(tab, $panel, 4);
+                        me.toolbar.setVisible('forms', true);
+                        Array.prototype.push.apply(me.toolbar.toolbarControls, forms.getView('FormsTab').getButtons());
+                    }
+                    me.onChangeSdtGlobalSettings();
+                }
             }
         },
 
@@ -3158,7 +3180,7 @@ define([
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
         textWarning                                : 'Warning',
-        textFontSizeErr                            : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 100',
+        textFontSizeErr                            : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 300',
         textSymbols                                : 'Symbols',
         textFraction                               : 'Fraction',
         textScript                                 : 'Script',
@@ -3504,7 +3526,8 @@ define([
         notcriticalErrorTitle: 'Warning',
         txtMarginsW: 'Left and right margins are too high for a given page wight',
         txtMarginsH: 'Top and bottom margins are too high for a given page height',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        textTabForms: 'Forms'
 
     }, DE.Controllers.Toolbar || {}));
 });

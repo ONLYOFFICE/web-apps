@@ -84,6 +84,7 @@ define([
 
                 this.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(this.onApiShowPopMenu, this));
                 this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
+                this.api.asc_registerCallback('asc_onHyperlinkClick',   _.bind(this.onApiHyperlinkClick, this));
                 Common.NotificationCenter.on('api:disconnect',          _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onCoAuthoringDisconnect,this));
             },
@@ -294,6 +295,19 @@ define([
 
             onApiHidePopMenu: function() {
                 this.view.hideMenu();
+            },
+
+            onApiHyperlinkClick: function(url) {
+                if (!url) {
+                    var me = this;
+                    _.defer(function () {
+                        uiApp.modal({
+                            title: me.notcriticalErrorTitle,
+                            text : me.errorInvalidLink,
+                            buttons: [{text: 'OK'}]
+                        });
+                    });
+                }
             },
 
             // Internal
@@ -518,7 +532,8 @@ define([
             textCopyCutPasteActions: 'Copy, Cut and Paste Actions',
             errorCopyCutPaste: 'Copy, cut and paste actions using the context menu will be performed within the current file only.',
             textDoNotShowAgain: 'Don\'t show again',
-            notcriticalErrorTitle: 'Warning'
+            notcriticalErrorTitle: 'Warning',
+            errorInvalidLink: 'The link reference does not exist. Please correct the link or delete it.'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });

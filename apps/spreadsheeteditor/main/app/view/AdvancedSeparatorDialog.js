@@ -98,6 +98,14 @@ define([
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [this.inputDecimalSeparator, this.inputThousandsSeparator];
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.inputDecimalSeparator;
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
         },
@@ -107,15 +115,6 @@ define([
                 this.inputDecimalSeparator.setValue(props.decimal || '');
                 this.inputThousandsSeparator.setValue(props.thousands || '');
             }
-        },
-
-        show: function() {
-            Common.UI.Window.prototype.show.apply(this, arguments);
-
-            var me = this;
-            _.delay(function(){
-                me.inputDecimalSeparator.cmpEl.find('input').focus();
-            },50);
         },
 
         onPrimary: function(event) {

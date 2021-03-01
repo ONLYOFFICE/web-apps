@@ -120,12 +120,16 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-large">
-            <div style="display: inline-block;">
-                <label class="input-label"><%= scope.strDuration %></label>
-                <div id="slide-spin-duration" style="display: inline-block; vertical-align: middle;"></div>
+        <td class="padding-small">
+            <div>
+                <label class="input-label" style="margin-top:4px;"><%= scope.strDuration %></label>
+                <div id="slide-spin-duration" style="display: inline-block; float:right;"></div>
             </div>
-            <button type="button" class="btn btn-text-default" id="slide-button-preview" style="width:70px;display: inline-block; float:right;"><%= scope.textPreview %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-large">
+            <button type="button" class="btn btn-text-default" id="slide-button-preview" style="width:100%;"><%= scope.textPreview %></button>
         </td>
     </tr>
     <tr>
@@ -136,7 +140,7 @@
     <tr>
         <td class="padding-large">
             <div>
-                <div id="slide-checkbox-delay" style="display: inline-block; width: 100px; margin-top:2px;"></div>
+                <div id="slide-checkbox-delay" style="display: inline-block; width: 100px; margin-top:4px;"></div>
                 <div id="slide-spin-delay" style="display: inline-block; float:right;"></div>
             </div>
         </td>

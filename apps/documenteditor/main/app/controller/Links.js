@@ -48,7 +48,8 @@ define([
     'documenteditor/main/app/view/BookmarksDialog',
     'documenteditor/main/app/view/CaptionDialog',
     'documenteditor/main/app/view/NotesRemoveDialog',
-    'documenteditor/main/app/view/CrossReferenceDialog'
+    'documenteditor/main/app/view/CrossReferenceDialog',
+    'common/main/lib/view/OptionsDialog'
 ], function () {
     'use strict';
 
@@ -71,7 +72,9 @@ define([
                     'links:hyperlink': this.onHyperlinkClick,
                     'links:bookmarks': this.onBookmarksClick,
                     'links:caption': this.onCaptionClick,
-                    'links:crossref': this.onCrossRefClick
+                    'links:crossref': this.onCrossRefClick,
+                    'links:tof': this.onTableFigures,
+                    'links:tof-update': this.onTableFiguresUpdate
                 },
                 'DocumentHolder': {
                     'links:contents': this.onTableContents,
@@ -98,6 +101,8 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onAscReplaceCurrentTOF',_.bind(this.onAscReplaceCurrentTOF, this));
+                this.api.asc_registerCallback('asc_onAscTOFUpdate',_.bind(this.onAscTOFUpdate, this));
             }
             return this;
         },
@@ -173,6 +178,8 @@ define([
 
             need_disable = in_header || rich_edit_lock || plain_edit_lock || rich_del_lock || plain_del_lock;
             this.view.btnsContents.setDisabled(need_disable);
+            this.view.btnTableFigures.setDisabled(need_disable);
+            this.view.btnTableFiguresUpdate.setDisabled(need_disable || paragraph_locked || !this.api.asc_CanUpdateTablesOfFigures());
 
             need_disable = in_header;
             this.view.btnCaption.setDisabled(need_disable);
@@ -269,6 +276,7 @@ define([
                         win = new DE.Views.TableOfContentsSettings({
                         api: this.api,
                         props: props,
+                        type: 0,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 (props) ? me.api.asc_SetTableOfContentsPr(value) : me.api.asc_AddTableOfContents(null, value);
@@ -476,6 +484,61 @@ define([
                 me.crossRefProps = me.dlgCrossRefDialog.getSettings();
             });
             me.dlgCrossRefDialog.show();
+        },
+
+        onTableFigures: function(){
+            var props = this.api.asc_GetTableOfFiguresPr();
+            var me = this,
+                win = new DE.Views.TableOfContentsSettings({
+                    api: this.api,
+                    props: props,
+                    type: 1,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api.asc_AddTableOfFigures(value);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+            win.show();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onTableFiguresUpdate: function(){
+            this.api.asc_UpdateTablesOfFigures();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onAscReplaceCurrentTOF: function(apiCallback) {
+            Common.UI.warning({
+                msg: this.view.confirmReplaceTOF,
+                buttons: ['yes', 'no', 'cancel'],
+                primary: 'yes',
+                callback: _.bind(function(btn) {
+                    if (btn=='yes' || btn=='no') {
+                        apiCallback && apiCallback(btn === 'yes');
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                }, this)
+            });
+        },
+
+        onAscTOFUpdate: function(apiCallback) {
+            var me = this;
+            (new Common.Views.OptionsDialog({
+                width: 300,
+                title: this.view.titleUpdateTOF,
+                items: [
+                    {caption: this.view.textUpdatePages, value: true, checked: true},
+                    {caption: this.view.textUpdateAll, value: false, checked: false}
+                ],
+                handler: function (dlg, result) {
+                    if (result=='ok') {
+                        apiCallback && apiCallback(dlg.getSettings());
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         }
 
     }, DE.Controllers.Links || {}));

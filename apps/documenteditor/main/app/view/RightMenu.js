@@ -58,6 +58,7 @@ define([
     'documenteditor/main/app/view/MailMergeSettings',
     'documenteditor/main/app/view/TextArtSettings',
     'documenteditor/main/app/view/SignatureSettings',
+    'documenteditor/main/app/view/FormSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
@@ -210,6 +211,22 @@ define([
                 this.signatureSettings = new DE.Views.SignatureSettings();
             }
 
+            if (mode && mode.canFeatureContentControl && mode.canEditContentControl && mode.canFeatureForms) {
+                this.btnForm = new Common.UI.Button({
+                    hint: this.txtFormSettings,
+                    asctype: Common.Utils.documentSettingsType.Form,
+                    enableToggle: true,
+                    disabled: true,
+                    toggleGroup: 'tabpanelbtnsGroup',
+                    allowMouseEventsOnDisabled: true
+                });
+                this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings",      btn: this.btnForm};
+                this.btnForm.setElement($markup.findById('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);
+                this.btnForm.on('click', this.onBtnMenuClick.bind(this));
+                this.formSettings = new DE.Views.FormSettings();
+            }
+
+
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
                     el: $(this.el).find('.right-panel'),
@@ -242,12 +259,14 @@ define([
             this.textartSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             if (this.mergeSettings) this.mergeSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _fire_editcomplete);
+            if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', _fire_editcomplete);
         },
 
         setMode: function(mode) {
             this.mergeSettings && this.mergeSettings.setMode(mode);
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
+            this.formSettings && this.formSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -274,7 +293,7 @@ define([
                 Common.localStorage.setItem("de-hide-right-settings", 1);
             }
 
-            this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode]);
+            this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
         SetActivePane: function(type, open) {
@@ -326,6 +345,7 @@ define([
         txtTextArtSettings:         'Text Art Settings',
         txtChartSettings:           'Chart Settings',
         txtMailMergeSettings:       'Mail Merge Settings',
-        txtSignatureSettings:       'Signature Settings'
+        txtSignatureSettings:       'Signature Settings',
+        txtFormSettings:            'Form Settings'
     }, DE.Views.RightMenu || {}));
 });
