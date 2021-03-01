@@ -853,8 +853,10 @@ define([
                     offset: 30
                 });
                 this.tooltip.on('tooltip:hide', function(cmp){
-                    clearTimeout(me.tipTimeout);
-                    (cmp==me.tooltip) && setTimeout(showNextTip, 300);
+                    if (cmp==me.tooltip) {
+                        clearTimeout(me.tipTimeout);
+                        setTimeout(showNextTip, 300);
+                    }
                 });
             }
 
