@@ -285,7 +285,12 @@
             "textLastModifiedBy": "Last Modified By",
             "textCreated": "Created",
             "textApplication": "Application",
-            "textAuthor": "Author"
+            "textAuthor": "Author",
+            "textVersion": "Version",
+            "textEmail": "Email",
+            "textAddress": "Address",
+            "textTel": "Tel",
+            "textPoweredBy": "Powered By"
         }
     },
     "Common": {
