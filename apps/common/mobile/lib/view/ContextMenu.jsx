@@ -38,4 +38,5 @@ class ContextMenuView extends Component {
     }
 }
 
-export {ContextMenuView as default, idContextMenuElement};
+const exportedIdMenuElemen = `#${idContextMenuElement}`;
+export {ContextMenuView as default, exportedIdMenuElemen as idContextMenuElement};

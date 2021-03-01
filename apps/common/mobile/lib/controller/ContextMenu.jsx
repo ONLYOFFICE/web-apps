@@ -24,7 +24,7 @@ class ContextMenuController extends Component {
         this.$targetEl = $$(idCntextMenuTargetElement);
         if ( !this.$targetEl.length ) {
             // this.$targetEl = $$('<div id="idx-context-menu-target" style="position:absolute;width:15px;height:15px;background-color:green;z-index:1;"></div>');
-            this.$targetEl = $$(`<div id="${idCntextMenuTargetElement} style="position:absolute;"></div>`);
+            this.$targetEl = $$(`<div id="${idCntextMenuTargetElement.substr(1)}" style="position:absolute;"></div>`);
             this.$targetEl.css({left: '-10000px', top: '-10000px'});
 
             $$('#editor_sdk').append(this.$targetEl);
