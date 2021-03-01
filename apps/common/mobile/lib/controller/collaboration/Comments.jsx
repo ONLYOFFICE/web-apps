@@ -3,6 +3,7 @@ import { inject, observer } from "mobx-react";
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
+import { LocalStorage } from '../../../utils/LocalStorage';
 
 import {AddComment, EditComment, ViewComments} from '../../view/collaboration/Comments';
 
@@ -63,6 +64,17 @@ class CommentsController extends Component {
 
         Common.Notifications.on('configOptionsFill', () => {
             this.curUserId = this.appOptions.user.id;
+        });
+
+        Common.Notifications.on('document:ready', () => {
+            if (window.editorType === 'de' || window.editorType === 'sse') {
+                const api = Common.EditorApi.get();
+                /** coauthoring begin **/
+                const isLiveCommenting = LocalStorage.getBool(`${window.editorType}-mobile-settings-livecomment`, true);
+                const resolved = LocalStorage.getBool(`${window.editorType}-settings-resolvedcomment`, true);
+                isLiveCommenting ? api.asc_showComments(resolved) : api.asc_hideComments();
+                /** coauthoring end **/
+            }
         });
     }
     addComment (id, data) {
