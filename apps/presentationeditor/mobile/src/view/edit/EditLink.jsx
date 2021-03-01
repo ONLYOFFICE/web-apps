@@ -13,8 +13,8 @@ const PageTypeLink = props => {
         <Page>
             <Navbar title={_t.textLinkType} backLink={_t.textBack}/>
             <List>
-                <ListItem title={_t.textExternalLink} radio checked={typeLink === 1} onClick={() => {setTypeLink(1); props.changeType(1); props.initLink();}}></ListItem>
-                <ListItem title={_t.textSlideInThisPresentation} radio checked={typeLink === 0} onClick={() => {setTypeLink(0); props.changeType(0); props.initLink();}}></ListItem>
+                <ListItem title={_t.textExternalLink} radio checked={typeLink === 1} onClick={() => {setTypeLink(1); props.changeType(1);}}></ListItem>
+                <ListItem title={_t.textSlideInThisPresentation} radio checked={typeLink === 0} onClick={() => {setTypeLink(0); props.changeType(0);}}></ListItem>
             </List>
         </Page>
     )
@@ -32,7 +32,7 @@ const PageLinkTo = props => {
         props.changeTo(type);
     };
 
-    const [stateNumberTo, setNumberTo] = useState(0);
+    const [stateNumberTo, setNumberTo] = useState(props.numberTo);
 
     const changeNumber = (curNumber, isDecrement) => {
         setTypeTo(4);
@@ -139,6 +139,7 @@ const PageLink = props => {
                     <ListItem link={'/edit-link-to/'} title={_t.textLinkTo} after={displayTo} routeProps={{
                         changeTo: changeTo,
                         curTo: linkTo,
+                        numberTo: numberTo,
                         initLink: props.initLink,
                         slidesCount: props.slidesCount
                     }}/>
