@@ -116,7 +116,16 @@
       "textAddComment": "Add Comment",
       "textCancel": "Cancel",
       "textDone": "Done",
-      "textNoComments": "This document doesn't contain comments"
+      "textNoComments": "This document doesn't contain comments",
+      "textEdit": "Edit",
+      "textResolve": "Resolve",
+      "textReopen": "Reopen",
+      "textAddReply": "Add Reply",
+      "textDeleteComment": "Delete Comment",
+      "textMessageDeleteComment": "Do you really want to delete this comment?",
+      "textMessageDeleteReply": "Do you really want to delete this reply?",
+      "textDeleteReply": "Delete Reply",
+      "textEditComment": "Edit Comment"
     }
   },
   "Settings": {

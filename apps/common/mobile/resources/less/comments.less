@@ -39,9 +39,25 @@
 }
 
 .comment-list {
-  .item-inner {
+  .item-content .item-inner {
     padding-right: 0;
     padding-bottom: 0;
+    padding-top: 16px;
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      padding-right: 16px;
+      .right {
+        display: flex;
+        justify-content: space-between;
+        width: 70px;
+      }
+    }
+    .reply-header {
+      display: flex;
+      justify-content: space-between;
+      padding-right: 16px;
+    }
   }
   .item-title {
     width: 100%;
@@ -77,29 +93,14 @@
     padding-right: 15px;
     pre {
       white-space: pre-wrap;
+      overflow-wrap: break-word;
     }
   }
   .list-reply {
     padding-left: 26px;
   }
-  .reply-item {
-    &:after {
-      content: none;
-    }
-    &:before {
-      content: '';
-      position: absolute;
-      left: auto;
-      bottom: 0;
-      right: auto;
-      top: 0;
-      height: 1px;
-      width: 100%;
-      background-color: @separator-color;
-      display: block;
-      z-index: 15;
-      -webkit-transform-origin: 50% 100%;
-      transform-origin: 50% 100%;
-    }
-  }
+}
+
+.edit-comment-popup {
+  z-index: 20000;
 }

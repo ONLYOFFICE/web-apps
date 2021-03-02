@@ -42,21 +42,21 @@ class ApplicationSettingsController extends Component {
         if (!value) {
             api.asc_hideComments();
             this.switchDisplayResolved(value);
-            // Common.localStorage.setBool("de-settings-resolvedcomment", false);
+            LocalStorage.setBool("de-settings-resolvedcomment", false);
         } else {
-            // let resolved = Common.localStorage.getBool("de-settings-resolvedcomment");
-            api.asc_showComments(value);
+            const resolved = LocalStorage.getBool("de-settings-resolvedcomment");
+            api.asc_showComments(resolved);
         }
-        // Common.localStorage.setBool("de-mobile-settings-livecomment", value);
+        LocalStorage.setBool("de-mobile-settings-livecomment", value);
     }
 
     switchDisplayResolved(value) {
         const api = Common.EditorApi.get();
-        // let displayComments = Common.localStorage.getBool("de-mobile-settings-livecomment");
-        if (value) {
+        const displayComments = LocalStorage.getBool("de-mobile-settings-livecomment");
+        if (displayComments) {
             api.asc_showComments(value);
+            LocalStorage.setBool("de-settings-resolvedcomment", value);
         }
-        // Common.localStorage.setBool("de-settings-resolvedcomment", value);
     }
 
     setMacrosSettings(value) {
