@@ -76,6 +76,11 @@ class SearchView extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            searchQuery: '',
+            replaceQuery: ''
+        };
+
         $$(document).on('page:init', (e, page) => {
             if ( page.name == 'home' ) {
                 this.searchbar = f7.searchbar.create({
@@ -114,16 +119,18 @@ class SearchView extends Component {
 
         this.onSettingsClick = this.onSettingsClick.bind(this);
         this.onSearchClick = this.onSearchClick.bind(this);
+        this.onReplaceClick = this.onReplaceClick.bind(this);
     }
 
     componentDidMount(){
         const $$ = Dom7;
-        this.$repalce = $$('#idx-replace-val');
+        this.$replace = $$('#idx-replace-val');
     }
 
     onSettingsClick(e) {
         if ( Device.phone ) {
             // f7.popup.open('.settings-popup');
+            f7.popover.open('#idx-search-settings', '#idx-btn-search-settings');
         } else f7.popover.open('#idx-search-settings', '#idx-btn-search-settings');
     }
 
@@ -149,9 +156,18 @@ class SearchView extends Component {
         }
     }
 
+    onReplaceClick() {
+        if ( this.searchbar && this.searchbar.query) {
+            if ( this.props.onReplaceQuery ) {
+                let params = this.searchParams();
+                this.props.onReplaceQuery(params);
+            }   
+        }
+    }
+
     onSearchbarShow(isshowed, bar) {
         if ( !isshowed ) {
-            this.$repalce.val('');
+            this.$replace.val('');
         }
     }
 
@@ -187,9 +203,27 @@ class SearchView extends Component {
         return out;
     }
 
+    changeSearchQuery(value) {
+        this.setState({
+            searchQuery: value
+        });
+    }
+
+    changeReplaceQuery(value) {
+        this.setState({
+            replaceQuery: value
+        });
+    }
+
     render() {
         const usereplace = searchOptions.usereplace;
         const hidden = {display: "none"};
+        const searchQuery = this.state.searchQuery;
+        const replaceQuery = this.state.replaceQuery;
+
+        // console.log(searchQuery);
+        // console.log(replaceQuery)
+
         return (
             <form className="searchbar">
                 <div className="searchbar-bg"></div>
@@ -200,20 +234,23 @@ class SearchView extends Component {
                         </a>
                     </div>
                     <div className="searchbar-input-wrap">
-                        <input placeholder="Search" type="search" />
+                        <input placeholder="Search" type="search" value={searchQuery} 
+                            onChange={e => {this.changeSearchQuery(e.target.value)}} />
                         <i className="searchbar-icon" />
                         <span className="input-clear-button" />
                     </div>
                     <div className="searchbar-input-wrap" style={!usereplace ? hidden: null}>
-                        <input placeholder="Replace" type="search" id="idx-replace-val" />
+                        <input placeholder="Replace" type="search" id="idx-replace-val" value={replaceQuery} 
+                            onChange={e => {this.changeReplaceQuery(e.target.value)}} />
                         <i className="searchbar-icon" />
                         <span className="input-clear-button" />
                     </div>
                     <div className="buttons-row">
-                        <a className="link icon-only prev" onClick={e => this.onSearchClick(SEARCH_BACKWARD)}>
+                        <a className={"link replace " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceClick()}>Replace</a>
+                        <a className={"link icon-only prev " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_BACKWARD)}>
                             <i className="icon icon-prev" />
                         </a>
-                        <a className="link icon-only next" onClick={e => this.onSearchClick(SEARCH_FORWARD)}>
+                        <a className={"link icon-only next " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_FORWARD)}>
                             <i className="icon icon-next" />
                         </a>
                     </div>

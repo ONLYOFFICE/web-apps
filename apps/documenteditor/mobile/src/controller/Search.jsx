@@ -2,7 +2,7 @@ import React from 'react';
 import { List, ListItem, Toggle } from 'framework7-react';
 import { SearchController, SearchView, SearchSettingsView } from '../../../../common/mobile/lib/controller/Search';
 import { f7 } from 'framework7-react';
-
+// import { useTranslation, withTranslation } from 'react-i18next';
 
 class SearchSettings extends SearchSettingsView {
     constructor(props) {
@@ -58,18 +58,26 @@ class DESearchView extends SearchView {
 }
 
 const Search = props => {
+
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
-
-        if ( !params.replace ) {
-            if ( !api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
-                f7.dialog.alert('there are no more results', e => {
-                });
+       
+        if (params.find && params.find.length) {
+            if (!api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
+                f7.dialog.alert(null, 'Text not Found');
             }
         }
     };
 
-    return <DESearchView onSearchQuery={onSearchQuery} />
+    const onReplaceQuery = params => {
+        const api = Common.EditorApi.get();
+    
+        if (params.find && params.find.length) {
+            api.asc_replaceText(params.find, params.replace, false, params.caseSensitive, params.highlight);
+        }
+    }
+
+    return <DESearchView onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} />
 };
 
 export {Search, SearchSettings}

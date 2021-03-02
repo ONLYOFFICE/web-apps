@@ -71,15 +71,17 @@ export default class MainPage extends Component {
                       <Link id='btn-coauth' href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
                       <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
                   </NavRight>
-                  { Device.phone ? null : <Search /> }
+                  {/* { Device.phone ? null : <Search /> } */}
+                  <Search />
               </Navbar>
               {/* Page content */}
               <View id="editor_sdk">
 
               </View>
-              {
+              {/* {
                   Device.phone ? null : <SearchSettings />
-              }
+              } */}
+              <SearchSettings />
               {
                   !this.state.editOptionsVisible ? null :
                       <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
