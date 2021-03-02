@@ -1589,10 +1589,14 @@ define([
         },
 
         onShowBeforeCondFormat: function() {
-            var collection = SSE.getCollection('ConditionalFormatIcons');
-            if (collection.length>0) return;
+            if (SSE.getCollection('ConditionalFormatIconsPresets').length>0) return;
+            var presets = this.api.asc_getCFIconsByType();
+            SSE.getController('Main').fillCondFormatIconsPresets(presets);
 
-            SSE.getController('Main').fillCondFormatIcons(this.api.asc_getCFIcons());
+            var collectionIcons = SSE.getCollection('ConditionalFormatIcons');
+            if (collectionIcons.length<1)
+                SSE.getController('Main').fillCondFormatIcons(this.api.asc_getFullCFIcons());
+
 
             var me = this;
             var menuItem = this.toolbar.mnuDataBars;
@@ -1672,23 +1676,22 @@ define([
             arr = [];
             var indexes = [Asc.EIconSetType.Arrows3, Asc.EIconSetType.Arrows3Gray, Asc.EIconSetType.Triangles3, Asc.EIconSetType.Arrows4Gray, Asc.EIconSetType.Arrows4, Asc.EIconSetType.Arrows5Gray, Asc.EIconSetType.Arrows5];
             for (var i=0; i<indexes.length; i++) {
-                var item = collection.at(indexes[i]);
-                arr.push({group: 'menu-iconset-group-direct', data: {index: item.get('data'), icons: item.get('icons')}});
+                var item = presets[indexes[i]];
+                arr.push({group: 'menu-iconset-group-direct', data: {index: indexes[i], iconSet: presets[indexes[i]], icons: collectionIcons}});
             }
             indexes = [Asc.EIconSetType.Traffic3Lights1, Asc.EIconSetType.Traffic3Lights2, Asc.EIconSetType.Signs3, Asc.EIconSetType.Traffic4Lights, Asc.EIconSetType.RedToBlack4];
             for (var i=0; i<indexes.length; i++) {
-                var item = collection.at(indexes[i]);
-                arr.push({group: 'menu-iconset-group-shape', data: {index: item.get('data'), icons: item.get('icons')}});
+                arr.push({group: 'menu-iconset-group-shape', data: {index: indexes[i], iconSet: presets[indexes[i]], icons: collectionIcons}});
             }
             indexes = [Asc.EIconSetType.Symbols3, Asc.EIconSetType.Symbols3_2, Asc.EIconSetType.Flags3];
             for (var i=0; i<indexes.length; i++) {
-                var item = collection.at(indexes[i]);
-                arr.push({group: 'menu-iconset-group-indicator', data: {index: item.get('data'), icons: item.get('icons')}});
+                var item = presets[indexes[i]];
+                arr.push({group: 'menu-iconset-group-indicator', data: {index: indexes[i], iconSet: presets[indexes[i]], icons: collectionIcons}});
             }
             indexes = [Asc.EIconSetType.Stars3, Asc.EIconSetType.Rating4, Asc.EIconSetType.Quarters5, Asc.EIconSetType.Rating5, Asc.EIconSetType.Boxes5];
             for (var i=0; i<indexes.length; i++) {
-                var item = collection.at(indexes[i]);
-                arr.push({group: 'menu-iconset-group-rating', data: {index: item.get('data'), icons: item.get('icons')}});
+                var item = presets[indexes[i]];
+                arr.push({group: 'menu-iconset-group-rating', data: {index: indexes[i], iconSet: presets[indexes[i]], icons: collectionIcons}});
             }
             picker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-iconsets', menuItem.$el),
@@ -1700,9 +1703,10 @@ define([
                     {id: 'menu-iconset-group-rating', caption: this.textRating}
                 ]),
                 store: new Common.UI.DataViewStore(arr),
+                showLast: false,
                 itemTemplate: _.template('<div class="item-iconset" id="<%= id %>">' +
-                                            '<% _.each(data.icons, function(icon) { %>' +
-                                                '<img src="<%= icon %>" style="width:16px;height:16px;">' +
+                                            '<% _.each(data.iconSet, function(icon) { %>' +
+                                                '<img src="<%= data.icons.at(icon-1).get(\'icon\') %>" style="width:16px;height:16px;">' +
                                             '<% }) %>' +
                                         '</div>')
             });

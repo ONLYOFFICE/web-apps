@@ -47,6 +47,18 @@ define([
             defaults: function() {
                 return {
                     id: Common.UI.getId(),
+                    index: 0,
+                    icon: null
+                }
+            }
+        })
+    });
+
+    SSE.Collections.ConditionalFormatIconsPresets = Backbone.Collection.extend({
+        model: Backbone.Model.extend({
+            defaults: function() {
+                return {
+                    id: Common.UI.getId(),
                     data: 0,
                     icons: null
                 }
