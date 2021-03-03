@@ -71,13 +71,21 @@ const Search = props => {
 
     const onReplaceQuery = params => {
         const api = Common.EditorApi.get();
-    
+
         if (params.find && params.find.length) {
             api.asc_replaceText(params.find, params.replace, false, params.caseSensitive, params.highlight);
         }
     }
 
-    return <DESearchView onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} />
+    const onReplaceAllQuery = params => {
+        const api = Common.EditorApi.get();
+
+        if (params.find && params.find.length) {
+            api.asc_replaceText(params.find, params.replace, true, params.caseSensitive, params.highlight);
+        }
+    }
+
+    return <DESearchView onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
 };
 
 export {Search, SearchSettings}

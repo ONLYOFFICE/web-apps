@@ -17,4 +17,54 @@
     .searchbar-input-wrap {
         margin-right: 10px;
     }
+
+    .searchbar-inner {
+        &__center {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        &__right {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .buttons-row-replace {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: max-content;
+        a {
+            font-size: 15px;
+            height: auto;
+            display: block;
+            line-height: normal;
+        }
+    }
+
+    // .searchbar-expandable.replace {
+    //     height: 88px;
+    //     top: 0;
+    // }
+
+    // @media(max-width: 550px)
+    // {
+    //     .searchbar-inner {
+    //         height: 88px;
+    //         &__left {
+    //             min-width: 22px;
+    //             max-width: 22px;
+    //             margin-right: 15px;
+    //         }
+    //         &__center {
+    //             flex-direction: column;
+    //         }
+    //         &__right {
+    //            flex-direction: column-reverse;
+    //            margin-left: 10px;
+    //         }
+    //     }
+    // }
 }
