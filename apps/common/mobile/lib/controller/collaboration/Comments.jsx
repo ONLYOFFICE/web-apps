@@ -5,7 +5,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../utils/LocalStorage';
 
-import {AddComment, EditComment, AddReply, ViewComments} from '../../view/collaboration/Comments';
+import {AddComment, EditComment, AddReply, EditReply, ViewComments} from '../../view/collaboration/Comments';
 
 // utils
 const timeZoneOffsetInMs = (new Date()).getTimezoneOffset() * 60000;
@@ -271,6 +271,7 @@ class EditCommentController extends Component {
         super(props);
         this.onEditComment = this.onEditComment.bind(this);
         this.onAddReply = this.onAddReply.bind(this);
+        this.onEditReply = this.onEditReply.bind(this);
     }
     getUserInfo () {
         this.currentUser = this.props.users.currentUser;
@@ -375,6 +376,14 @@ class EditCommentController extends Component {
             }
         }
     }
+    onEditReply (comment, reply, textReply) {
+        const currentUser = this.props.users.currentUser;
+        const indReply = reply.ind;
+        comment.replies[indReply].reply = textReply;
+        comment.replies[indReply].userid = currentUser.asc_getIdOriginal();
+        comment.replies[indReply].username = currentUser.asc_getUserName();
+        this.onChangeComment(comment);
+    }
     render() {
         const storeComments = this.props.storeComments;
         const comment = storeComments.currentComment;
@@ -382,6 +391,7 @@ class EditCommentController extends Component {
             <Fragment>
                 {storeComments.isOpenEditComment && <EditComment comment={comment} onEditComment={this.onEditComment}/>}
                 {storeComments.isOpenAddReply && <AddReply userInfo={this.getUserInfo()} comment={comment} onAddReply={this.onAddReply}/>}
+                {storeComments.isOpenEditReply && <EditReply comment={comment} reply={storeComments.currentReply} onEditReply={this.onEditReply}/>}
             </Fragment>
         )
     }
@@ -438,10 +448,12 @@ class ViewCommentsController extends Component {
         const api = Common.EditorApi.get();
         comment && api.asc_removeComment(comment.uid);
     }
-    deleteReply (comment, indReply) {
+    deleteReply (comment, reply) {
         let replies = null,
             addReply = null,
             ascComment = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+
+        const indReply = reply.ind;
 
         if (ascComment && comment) {
             ascComment.asc_putText(comment.comment);
@@ -478,7 +490,7 @@ class ViewCommentsController extends Component {
             api.asc_changeComment(comment.uid, ascComment);
         }
     }
-    onCommentMenuClick (action, comment) {
+    onCommentMenuClick (action, comment, reply) {
         const { t } = this.props;
         const _t = t("Common.Collaboration", { returnObjects: true });
         switch (action) {
@@ -498,15 +510,14 @@ class ViewCommentsController extends Component {
                 );
                 break;
             case 'editReply':
-                this.setState({showEditReply: true});
-                console.log('editReply');
+                this.props.storeComments.openEditReply(true, comment, reply);
                 break;
             case 'deleteReply':
                 f7.dialog.confirm(
                     _t.textMessageDeleteReply,
                     _t.textDeleteReply,
                     () => {
-                        this.deleteReply(comment, indReply);
+                        this.deleteReply(comment, reply);
                     }
                 );
                 break;

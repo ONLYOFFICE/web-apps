@@ -121,11 +121,21 @@ export class storeComments {
         }
     }
 
+    currentReply = null;
     @observable isOpenAddReply = false;
     @action openAddReply (open, comment) {
         if (open !== this.isOpenAddReply) {
             this.currentComment = open ? comment : null;
             this.isOpenAddReply = open;
+        }
+    }
+
+    @observable isOpenEditReply = false;
+    @action openEditReply (open, comment, reply) {
+        if (open !== this.isOpenEditReply) {
+            this.currentComment = open ? comment : null;
+            this.currentReply = open ? reply : null;
+            this.isOpenEditReply = open;
         }
     }
 }

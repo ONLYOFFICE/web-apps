@@ -148,6 +148,25 @@ const CommentActions = ({comment, onCommentMenuClick, opened, openActionComment}
     )
 };
 
+const ReplyActions = ({comment, reply, onCommentMenuClick, opened, openActionReply}) => {
+    const { t } = useTranslation();
+    const _t = t('Common.Collaboration', {returnObjects: true});
+    return (
+        <Actions id='reply-menu' opened={opened} onActionsClosed={() => openActionReply(false)}>
+            <ActionsGroup>
+                {reply && <Fragment>
+                    {reply.editable && <ActionsButton onClick={() => {onCommentMenuClick('editReply', comment, reply);}}>{_t.textEdit}</ActionsButton>}
+                    {reply.removable && <ActionsButton color='red' onClick={() => {onCommentMenuClick('deleteReply', comment, reply);}}>{_t.textDeleteReply}</ActionsButton>}
+                </Fragment>
+                }
+            </ActionsGroup>
+            <ActionsGroup>
+                <ActionsButton>{_t.textCancel}</ActionsButton>
+            </ActionsGroup>
+        </Actions>
+    )
+};
+
 // Edit comment
 const EditCommentPopup = inject("storeComments")(observer(({storeComments, comment, onEditComment}) => {
     const { t } = useTranslation();
@@ -253,7 +272,6 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                             done.classList.remove('disabled');
                         }
                     });
-                    done.classList.add('disabled');
                 }
             }
         }).open();
@@ -386,6 +404,127 @@ const AddReply = ({userInfo, comment, onAddReply}) => {
     )
 };
 
+const EditReplyPopup = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply}) => {
+    const { t } = useTranslation();
+    const _t = t('Common.Collaboration', {returnObjects: true});
+    useEffect(() => {
+        f7.popup.open('.edit-reply-popup');
+    });
+    const [stateText, setText] = useState(reply.reply);
+    return (
+        <Popup className="edit-reply-popup">
+            <Navbar>
+                <NavLeft>
+                    <Link onClick={() => {
+                        f7.popup.close('.edit-reply-popup');
+                        storeComments.openEditReply(false);
+                    }}>{_t.textCancel}</Link>
+                </NavLeft>
+                <NavTitle>{_t.textEditReply}</NavTitle>
+                <NavRight>
+                    <Link className={stateText.length === 0 && 'disabled'}
+                          onClick={() => {
+                              onEditReply(comment, reply, stateText);
+                              f7.popup.close('.edit-reply-popup');
+                              storeComments.openEditReply(false);
+                          }}
+                    >
+                        {Device.android ? <Icon icon='icon-done-comment-white'/> : _t.textDone}
+                    </Link>
+                </NavRight>
+            </Navbar>
+            <div className='wrap-comment'>
+                <div className="comment-header">
+                    {Device.android &&
+                    <div className='initials' style={{backgroundColor: `${reply.userColor}`}}>{reply.userInitials}</div>
+                    }
+                    <div>
+                        <div className='name'>{reply.userName}</div>
+                        <div className='reply-date'>{reply.date}</div>
+                    </div>
+                </div>
+                <div className='wrap-textarea'>
+                    <Input type='textarea' placeholder={_t.textEditReply} autofocus value={stateText} onChange={(event) => {setText(event.target.value);}}></Input>
+                </div>
+            </div>
+        </Popup>
+    )
+}));
+
+const EditReplyDialog = inject("storeComments")(observer(({storeComments, comment, reply, onEditReply}) => {
+    const { t } = useTranslation();
+    const _t = t('Common.Collaboration', {returnObjects: true});
+    const templateInitials = `<div class="initials" style="background-color: ${reply.userColor};">${reply.userInitials}</div>`;
+    useEffect(() => {
+        f7.dialog.create({
+            destroyOnClose: true,
+            containerEl: document.getElementById('edit-reply-dialog'),
+            content:
+                `<div class="navbar">
+                    <div class="navbar-bg"></div>
+                    <div class="navbar-inner sliding">
+                        <div class="left">
+                            <a href="#" id="reply-cancel">${_t.textCancel}</a>
+                        </div>
+                        <div class="title">${_t.textEditReply}</div>
+                        <div class="right">
+                            <a href="#" class="done" id="reply-done">${ Device.android ? '<i class="icon icon-done-comment-white"></i>' : _t.textDone}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class='wrap-comment'>
+                    <div class="header-comment">
+                        ${Device.android ? templateInitials : ''}
+                        <div>
+                            <div class='name'>${reply.userName}</div>
+                            <div class='reply-date'>${reply.date}</div>
+                        </div>
+                    </div>
+                    <div class='wrap-textarea'>
+                        <textarea id='reply-text' placeholder='${_t.textEditComment}' autofocus>${reply.reply}</textarea>
+                    </div>
+                </div>`,
+            on: {
+                opened: () => {
+                    const cancel = document.getElementById('reply-cancel');
+                    cancel.addEventListener('click', () => {
+                        f7.dialog.close();
+                        storeComments.openEditReply(false);
+                    });
+                    const done = document.getElementById('reply-done');
+                    done.addEventListener('click', () => {
+                        const value = document.getElementById('reply-text').value;
+                        if (value.length > 0) {
+                            onEditReply(comment, reply, value);
+                            f7.dialog.close();
+                            storeComments.openEditReply(false);
+                        }
+                    });
+                    const area = document.getElementById('reply-text');
+                    area.addEventListener('input', (event) => {
+                        if (event.target.value.length === 0 && !done.classList.contains('disabled')) {
+                            done.classList.add('disabled');
+                        } else if (event.target.value.length > 0 && done.classList.contains('disabled')) {
+                            done.classList.remove('disabled');
+                        }
+                    });
+                }
+            }
+        }).open();
+    });
+    return (
+        <div id='edit-reply-dialog'></div>
+    );
+}));
+
+const EditReply = ({comment, reply, onEditReply}) => {
+    return (
+        Device.phone ?
+            <EditReplyPopup comment={comment} reply={reply} onEditReply={onEditReply}/> :
+            <EditReplyDialog comment={comment} reply={reply} onEditReply={onEditReply}/>
+    )
+};
+
 // View comments
 const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment}) => {
     const { t } = useTranslation();
@@ -405,8 +544,11 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
         }
     };
 
-    const [clickComment, setClickComment] = useState();
+    const [clickComment, setComment] = useState();
     const [commentActionsOpened, openActionComment] = useState(false);
+
+    const [reply, setReply] = useState();
+    const [replyActionsOpened, openActionReply] = useState(false);
 
     return (
         <Page>
@@ -429,7 +571,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                         <div className='right'>
                                             <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div>
                                             <div className='comment-menu'
-                                                 onClick={() => {setClickComment(comment); openActionComment(true);}}
+                                                 onClick={() => {setComment(comment); openActionComment(true);}}
                                             ><Icon icon='icon-menu-comment'/></div>
                                         </div>
                                     }
@@ -457,7 +599,11 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                                                     </div>
                                                                     {!viewMode &&
                                                                         <div className='right'>
-                                                                            <div className='reply-menu'><Icon icon='icon-menu-comment'/></div>
+                                                                            <div className='reply-menu'
+                                                                                 onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}
+                                                                            >
+                                                                                <Icon icon='icon-menu-comment'/>
+                                                                            </div>
                                                                         </div>
                                                                     }
                                                                 </div>
@@ -480,6 +626,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
             }
 
             <CommentActions comment={clickComment} onCommentMenuClick={onCommentMenuClick} opened={commentActionsOpened} openActionComment={openActionComment}/>
+            <ReplyActions comment={clickComment} reply={reply} onCommentMenuClick={onCommentMenuClick} opened={replyActionsOpened} openActionReply={openActionReply}/>
         </Page>
     )
 };
@@ -490,5 +637,6 @@ export {
     AddComment,
     EditComment,
     AddReply,
+    EditReply,
     _ViewComments as ViewComments
 }
