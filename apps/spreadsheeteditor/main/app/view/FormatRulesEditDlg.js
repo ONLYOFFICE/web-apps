@@ -209,59 +209,65 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr class="iconset">',
-                                        '<td class="padding-large">',
-                                            '<label class="header">', me.textIconStyle,'</label>',
-                                            '<div>',
-                                                '<div id="format-rules-icon-style" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
-                                                '<div id="format-rules-edit-chk-icon-show" style="margin-left: 10px;display: inline-block;vertical-align: middle;"></div>',
-                                                '<button type="button" class="btn btn-text-default auto" id="format-rules-edit-btn-icon-reverse" style="float:right; display: inline-block;">', me.textReverse, '</button>',
-                                            '</div>',
-                                        '</td>',
-                                    '</tr>',
-                                    '<tr class="iconset icons-5">',
-                                        '<td class="padding-small">',
-                                            '<div id="format-rules-combo-icon-5" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-txt-icon-5" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
-                                            '<div id="format-rules-edit-combo-op-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-txt-value-5" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-combo-type-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
-                                        '</td>',
-                                    '</tr>',
-                                    '<tr class="iconset icons-4">',
-                                        '<td class="padding-small">',
-                                            '<div id="format-rules-combo-icon-4" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-txt-icon-4" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
-                                            '<div id="format-rules-edit-combo-op-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-txt-value-4" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-combo-type-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
-                                        '</td>',
-                                    '</tr>',
-                                    '<tr class="iconset icons-3">',
-                                        '<td class="padding-small">',
-                                            '<div id="format-rules-combo-icon-3" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-txt-icon-3" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
-                                            '<div id="format-rules-edit-combo-op-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-txt-value-3" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-combo-type-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
-                                        '</td>',
-                                    '</tr>',
-                                    '<tr class="iconset icons-2">',
-                                        '<td class="padding-small">',
-                                            '<div id="format-rules-combo-icon-2" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-txt-icon-2" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
-                                            '<div id="format-rules-edit-combo-op-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-txt-value-2" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-combo-type-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
-                                        '</td>',
-                                    '</tr>',
-                                    '<tr class="iconset icons-1">',
-                                        '<td class="padding-small">',
-                                            '<div id="format-rules-combo-icon-1" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-txt-icon-1" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
-                                            '<div id="format-rules-edit-combo-op-1" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-txt-value-1" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
-                                            '<div id="format-rules-edit-combo-type-1" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
-                                        '</td>',
+                                    '<td>',
+                                        '<table>',
+                                        '<tr>',
+                                            '<td class="padding-large" style="padding-top: 8px;">',
+                                                '<label class="header">', me.textIconStyle,'</label>',
+                                                '<div>',
+                                                    '<div id="format-rules-icon-style" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                                    '<div id="format-rules-edit-chk-icon-show" style="margin-left: 10px;display: inline-block;vertical-align: middle;"></div>',
+                                                    '<button type="button" class="btn btn-text-default auto" id="format-rules-edit-btn-icon-reverse" style="float:right; display: inline-block;">', me.textReverse, '</button>',
+                                                '</div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr class="icons-5">',
+                                            '<td class="padding-small">',
+                                                '<div id="format-rules-combo-icon-5" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-txt-icon-5" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                                '<div id="format-rules-edit-combo-op-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-txt-value-5" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-combo-type-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr class="icons-4">',
+                                            '<td class="padding-small">',
+                                                '<div id="format-rules-combo-icon-4" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-txt-icon-4" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                                '<div id="format-rules-edit-combo-op-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-txt-value-4" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-combo-type-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr class="icons-3">',
+                                            '<td class="padding-small">',
+                                                '<div id="format-rules-combo-icon-3" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-txt-icon-3" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                                '<div id="format-rules-edit-combo-op-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-txt-value-3" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-combo-type-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr class="icons-2">',
+                                            '<td class="padding-small">',
+                                                '<div id="format-rules-combo-icon-2" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-txt-icon-2" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                                '<div id="format-rules-edit-combo-op-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-txt-value-2" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-combo-type-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '<tr class="icons-1">',
+                                            '<td class="padding-small">',
+                                                '<div id="format-rules-combo-icon-1" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-txt-icon-1" class="iconset-label" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                                '<div id="format-rules-edit-combo-op-1" class="input-group-nr hidden" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-txt-value-1" class=" hidden" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                                '<div id="format-rules-edit-combo-type-1" class="input-group-nr hidden" style="display: inline-block;vertical-align: middle;"></div>',
+                                            '</td>',
+                                        '</tr>',
+                                        '</table>',
+                                    '</td>',
                                     '</tr>',
                                 '</table>',
                             '</div></div>',
@@ -1107,19 +1113,23 @@ define([
             }).on('selected', function(combo, record) {
                 me.fillIconsControls(record.value, record.data.values);
             });
+            this.cmbIconsPresets.setValue(3);
+            this.iconsProps = {iconsSet: 3};
 
-            this.chFill = new Common.UI.CheckBox({
+            this.chIconShow = new Common.UI.CheckBox({
                 el: $('#format-rules-edit-chk-icon-show'),
                 labelText: this.textShowIcon
             });
-            this.chFill.on('change', function(field, newValue, oldValue, eOpts){
-
+            this.chIconShow.on('change', function(field, newValue, oldValue, eOpts){
             });
 
             this.btnReverse = new Common.UI.Button({
                 el: $('#format-rules-edit-btn-icon-reverse')
             });
-            // this.btnReverse.on('click', _.bind(this.reverseIcons, this));
+            this.btnReverse.on('click', function() {
+                me.iconsProps.isReverse = !me.iconsProps.isReverse;
+                me.reverseIconsControls();
+            });
 
             var icons = [];
             collectionIcons.each(function(icon, index){
@@ -1162,6 +1172,7 @@ define([
                 picker.on('item:click', _.bind(this.onSelectIcon, this, combo));
                 // this.selectIconItem();
                 this.iconsControls[i].cmbIcons = combo;
+                this.iconsControls[i].pickerIcons = picker;
 
                 combo = new Common.UI.ComboBox({
                     el          : $('#format-rules-edit-combo-type-' + (i+1)),
@@ -1182,9 +1193,10 @@ define([
                     menuStyle   : 'min-width: 100%;',
                     editable    : false,
                     cls         : 'input-group-nr',
-                    data        : [{value: 0, displayValue: '>='}, {value: 1, displayValue: '>'}],
+                    data        : [{value: 0, displayValue: '>=', prevOp: '<'}, {value: 1, displayValue: '>', prevOp: '<='}],
                     type        : i
                 }).on('selected', function(combo, record) {
+                    me.fillIconsLabels();
                 });
                 combo.setValue(0);
                 this.iconsControls[i].cmbOperator = combo;
@@ -1197,6 +1209,8 @@ define([
                     btnHint     : this.textSelectData,
                     validateOnChange: false,
                     type        : i
+                }).on('changed:after', function(input, newValue, oldValue, e) {
+                    me.fillIconsLabels();
                 });
                 range.setValue('');
                 this.iconsControls[i].value = range;
@@ -1204,6 +1218,9 @@ define([
 
                 this.iconsControls[i].label = $('#format-rules-txt-icon-' + (i+1));
             }
+
+            var rec = this.cmbIconsPresets.getSelectedRecord();
+            rec && this.fillIconsControls(rec.value, rec.data.values);
 
             this.afterRender();
         },
@@ -1346,6 +1363,8 @@ define([
                         break;
                     case Asc.c_oAscCFType.iconSet:
                         value = props.asc_getColorScaleOrDataBarOrIconSetRule();
+                        this.chIconShow.setValue(!value.asc_getShowValue());
+                        this.iconsProps.isReverse = value.asc_getReverse();
                         this.fillIconsControls(value.asc_getIconSet(), value.asc_getCFVOs(), value.asc_getIconSets());
                         break;
                 }
@@ -1521,7 +1540,28 @@ define([
                         props.asc_setColorScaleOrDataBarOrIconSetRule(barProps);
                         break;
                     case Asc.c_oAscCFType.iconSet:
-                        // value = props.asc_getColorScaleOrDataBarOrIconSetRule();
+                        var iconsProps = new AscCommonExcel.CIconSet();
+                        iconsProps.asc_setShowValue(this.chIconShow.getValue()!=='checked');
+                        iconsProps.asc_setReverse(!!this.iconsProps.isReverse);
+                        iconsProps.asc_setIconSet(this.iconsProps.iconsSet);
+
+                        var arr = this.iconsControls,
+                            len = this.iconsProps.iconsLength,
+                            icons = (!this.cmbIconsPresets.getSelectedRecord()) ? [] : null,
+                            values = [];
+                        for (var i=0; i<len; i++) {
+                            var controls = arr[i],
+                                value = new AscCommonExcel.CConditionalFormatValueObject();
+                            value.asc_setType(controls.cmbType.getValue());
+                            value.asc_setVal(controls.value.getValue());
+                            values.push(value);
+                            if (icons) {
+                                this.iconsProps.isReverse ? icons.unshift(controls.pickerIcons.getSelectedRec().get('value')+1) : icons.push(controls.pickerIcons.getSelectedRec().get('value')+1);
+                            }
+                        }
+                        iconsProps.asc_setCFVOs(values);
+                        iconsProps.asc_setIconSets(icons);
+                        props.asc_setColorScaleOrDataBarOrIconSetRule(iconsProps);
                         break;
                 }
             }
@@ -1858,7 +1898,11 @@ define([
         },
 
         fillIconsControls: function(iconSet, values, icons) {
-            // this.$window.find('.iconset').toggleClass('hidden', category!==10);
+            this.iconsProps.iconsSet = iconSet;
+            this.iconsProps.iconsLength = values.length;
+            this.$window.find('.icons-5').toggleClass('hidden', this.iconsProps.iconsLength<5);
+            this.$window.find('.icons-4').toggleClass('hidden', this.iconsProps.iconsLength<4);
+
             var arr = this.iconsControls;
             for (var i=0; i<values.length; i++) {
                 var icontype = values[i].asc_getType(),
@@ -1866,6 +1910,52 @@ define([
                     controls = arr[i];
                 controls.cmbType.setValue(icontype);
                 controls.value.setValue(val || '');
+            }
+            if (icons && icons.length>0) {
+                this.cmbIconsPresets.setValue(this.textCustom);
+            } else {
+                this.cmbIconsPresets.setValue(iconSet);
+                var collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
+                icons = collectionPresets.at(iconSet).get('icons');
+            }
+            var isReverse = this.iconsProps.isReverse;
+            var len = icons.length;
+            for (var i=0; i<icons.length; i++) {
+                var controls = arr[isReverse ? len-i-1 : i];
+                var rec = controls.pickerIcons.store.findWhere({value: icons[i]-1});
+                rec && controls.pickerIcons.selectRecord(rec, true);
+                this.selectIconItem(controls.cmbIcons, rec);
+            }
+            this.fillIconsLabels();
+        },
+
+        fillIconsLabels: function() {
+            var arr = this.iconsControls,
+                len = this.iconsProps.iconsLength,
+                regstr = new RegExp('^\s*[0-9]+[,.]?[0-9]*\s*$');
+            var val = arr[1].value.getValue();
+            arr[0].label.text(Common.Utils.String.format(this.textIconLabelFirst, arr[1].cmbOperator.getSelectedRecord().prevOp, regstr.test(val) ? parseFloat(val) : this.textFormula));
+            for (var i=1; i<len-1; i++) {
+                val = arr[i+1].value.getValue();
+                arr[i].label.text(Common.Utils.String.format(this.textIconLabel, arr[i+1].cmbOperator.getSelectedRecord().prevOp, regstr.test(val) ? parseFloat(val) : this.textFormula));
+            }
+            arr[len-1].label.text(this.textIconLabelLast);
+        },
+
+        reverseIconsControls: function() {
+            var arr = this.iconsControls,
+                len = this.iconsProps.iconsLength;
+            for (var i=0; i<len/2; i++) {
+                var controls1 = arr[i],
+                    controls2 = arr[len-i-1];
+                var icon1 = controls1.pickerIcons.getSelectedRec().get('value'),
+                    icon2 = controls2.pickerIcons.getSelectedRec().get('value');
+                var rec = controls1.pickerIcons.store.findWhere({value: icon2});
+                rec && controls1.pickerIcons.selectRecord(rec, true);
+                this.selectIconItem(controls1.cmbIcons, rec);
+                rec = controls2.pickerIcons.store.findWhere({value: icon1});
+                rec && controls2.pickerIcons.selectRecord(rec, true);
+                this.selectIconItem(controls2.cmbIcons, rec);
             }
         },
 
@@ -1875,7 +1965,7 @@ define([
 
         selectIconItem: function(combo, record) {
             var formcontrol = $(combo.el).find('.form-control');
-            formcontrol.css('background-image', 'url(' + record.get('imgUrl') + ')');
+            formcontrol.css('background-image', record ? 'url(' + record.get('imgUrl') + ')' : '');
         },
 
         onPrimary: function() {
@@ -1982,7 +2072,10 @@ define([
         textSameAs: 'Same as positive',
         textIconStyle: 'Icon Style',
         textReverse: 'Reverse Icons Order',
-        textShowIcon: 'Show icon only'
+        textShowIcon: 'Show icon only',
+        textIconLabelFirst: 'when {0} {1}',
+        textIconLabel: 'when {0} {1} and',
+        textIconLabelLast: 'when value is'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });
