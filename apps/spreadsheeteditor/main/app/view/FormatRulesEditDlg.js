@@ -1193,12 +1193,12 @@ define([
                     menuStyle   : 'min-width: 100%;',
                     editable    : false,
                     cls         : 'input-group-nr',
-                    data        : [{value: 0, displayValue: '>=', prevOp: '<'}, {value: 1, displayValue: '>', prevOp: '<='}],
+                    data        : [{value: true, displayValue: '>=', prevOp: '<'}, {value: false, displayValue: '>', prevOp: '<='}],
                     type        : i
                 }).on('selected', function(combo, record) {
                     me.fillIconsLabels();
                 });
-                combo.setValue(0);
+                combo.setValue(1);
                 this.iconsControls[i].cmbOperator = combo;
 
                 var range = new Common.UI.InputFieldBtn({
@@ -1554,6 +1554,7 @@ define([
                                 value = new AscCommonExcel.CConditionalFormatValueObject();
                             value.asc_setType(controls.cmbType.getValue());
                             value.asc_setVal(controls.value.getValue());
+                            value.asc_setGte(controls.cmbOperator.getValue());
                             values.push(value);
                             if (icons) {
                                 this.iconsProps.isReverse ? icons.unshift(controls.pickerIcons.getSelectedRec().get('value')+1) : icons.push(controls.pickerIcons.getSelectedRec().get('value')+1);
@@ -1905,11 +1906,10 @@ define([
 
             var arr = this.iconsControls;
             for (var i=0; i<values.length; i++) {
-                var icontype = values[i].asc_getType(),
-                    val =  values[i].asc_getVal(),
-                    controls = arr[i];
-                controls.cmbType.setValue(icontype);
-                controls.value.setValue(val || '');
+                var controls = arr[i];
+                controls.cmbType.setValue(values[i].asc_getType());
+                controls.value.setValue(values[i].asc_getVal() || '');
+                controls.cmbOperator.setValue(values[i].asc_getGte());
             }
             if (icons && icons.length>0) {
                 this.cmbIconsPresets.setValue(this.textCustom);

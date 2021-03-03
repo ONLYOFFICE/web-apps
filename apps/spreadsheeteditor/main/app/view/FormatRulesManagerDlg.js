@@ -691,7 +691,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         },
 
         onKeyDown: function (lisvView, record, e) {
-            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled())
+            if (e.keyCode==Common.UI.Keys.DELETE && !this.btnDelete.isDisabled() && !/form-control/.test(e.target.className))
                 this.onDeleteRule();
         },
 
