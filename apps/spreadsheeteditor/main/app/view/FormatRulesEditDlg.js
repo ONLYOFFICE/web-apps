@@ -1070,16 +1070,16 @@ define([
             });
 
             // Icons
-            var collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
-            if (collectionPresets.length<1)
+            this.collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
+            if (this.collectionPresets.length<1)
                 SSE.getController('Main').fillCondFormatIconsPresets(this.api.asc_getCFIconsByType());
 
-            var collectionIcons = SSE.getCollection('ConditionalFormatIcons');
-            if (collectionIcons.length<1)
+            this.collectionIcons = SSE.getCollection('ConditionalFormatIcons');
+            if (this.collectionIcons.length<1)
                 SSE.getController('Main').fillCondFormatIcons(this.api.asc_getFullCFIcons());
 
             arr = [];
-            var len = collectionPresets.length;
+            var len = this.collectionPresets.length;
             var iconsPresets = this.api.asc_getCFPresets()[Asc.c_oAscCFRuleTypeSettings.icons];
             _.each(iconsPresets, function(preset, index){
                 if (index>=len) return;
@@ -1097,9 +1097,9 @@ define([
                 arr.push({
                     value: index,
                     data  : {
-                        iconSet: collectionPresets.at(index).get('icons'),
+                        iconSet: me.collectionPresets.at(index).get('icons'),
                         values: values,
-                        icons: collectionIcons
+                        icons: me.collectionIcons
                     }
                 });
             });
@@ -1132,7 +1132,7 @@ define([
             });
 
             var icons = [];
-            collectionIcons.each(function(icon, index){
+            me.collectionIcons.each(function(icon, index){
                 icons.push({
                     value: icon.get('index'),
                     imgUrl: icon.get('icon')
@@ -1557,7 +1557,20 @@ define([
                             value.asc_setGte(controls.cmbOperator.getValue());
                             values.push(value);
                             if (icons) {
-                                this.iconsProps.isReverse ? icons.unshift(controls.pickerIcons.getSelectedRec().get('value')+1) : icons.push(controls.pickerIcons.getSelectedRec().get('value')+1);
+                                var icon = controls.pickerIcons.getSelectedRec().get('value')+1;
+                                for (var k=0; k<this.collectionPresets.length; k++) {
+                                    var items = this.collectionPresets.at(k).get('icons');
+                                    for (var j=0; j<items.length; j++) {
+                                        if (icon==items[j]) {
+                                            icon = new AscCommonExcel.CConditionalFormatIconSet();
+                                            icon.asc_setIconSet(k);
+                                            icon.asc_setIconId(j);
+                                            this.iconsProps.isReverse ? icons.unshift(icon) : icons.push(icon);
+                                            break;
+                                        }
+                                    }
+                                    if (typeof icon=='object') break;
+                                }
                             }
                         }
                         iconsProps.asc_setCFVOs(values);
@@ -1899,6 +1912,7 @@ define([
         },
 
         fillIconsControls: function(iconSet, values, icons) {
+            var me = this;
             this.iconsProps.iconsSet = iconSet;
             this.iconsProps.iconsLength = values.length;
             this.$window.find('.icons-5').toggleClass('hidden', this.iconsProps.iconsLength<5);
@@ -1911,18 +1925,21 @@ define([
                 controls.value.setValue(values[i].asc_getVal() || '');
                 controls.cmbOperator.setValue(values[i].asc_getGte());
             }
+            var iconsIndexes = [];
             if (icons && icons.length>0) {
                 this.cmbIconsPresets.setValue(this.textCustom);
+                _.each(icons, function(item) {
+                    iconsIndexes.push(me.collectionPresets.at(item.asc_getIconSet()).get('icons')[item.asc_getIconId()]);
+                });
             } else {
                 this.cmbIconsPresets.setValue(iconSet);
-                var collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
-                icons = collectionPresets.at(iconSet).get('icons');
+                iconsIndexes = me.collectionPresets.at(iconSet).get('icons');
             }
             var isReverse = this.iconsProps.isReverse;
-            var len = icons.length;
-            for (var i=0; i<icons.length; i++) {
+            var len = iconsIndexes.length;
+            for (var i=0; i<iconsIndexes.length; i++) {
                 var controls = arr[isReverse ? len-i-1 : i];
-                var rec = controls.pickerIcons.store.findWhere({value: icons[i]-1});
+                var rec = controls.pickerIcons.store.findWhere({value: iconsIndexes[i]-1});
                 rec && controls.pickerIcons.selectRecord(rec, true);
                 this.selectIconItem(controls.cmbIcons, rec);
             }
