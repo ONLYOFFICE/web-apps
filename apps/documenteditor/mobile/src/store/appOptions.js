@@ -1,6 +1,14 @@
 import {action, observable} from 'mobx';
 
 export class storeAppOptions {
+    constructor() {
+        // makeObservable(this);
+    }
+
+    @observable isEdit = false;
+    @observable canViewComments = false;
+    @observable canReview = false;
+
     config = {};
     @action setConfigOptions (config) {
         this.config = config;

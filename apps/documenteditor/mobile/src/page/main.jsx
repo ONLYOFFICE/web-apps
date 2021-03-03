@@ -11,7 +11,7 @@ import Collaboration from '../../../../common/mobile/lib/view/collaboration/Coll
 import { AddCommentController } from '../../../../common/mobile/lib/controller/collaboration/Comments.jsx';
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
-import { ContextMenu, idContextMenuElement } from '../controller/ContextMenu';
+import ContextMenu from '../controller/ContextMenu';
 
 export default class MainPage extends Component {
     constructor(props) {
@@ -25,7 +25,7 @@ export default class MainPage extends Component {
     }
 
     handleClickToOpenOptions = opts => {
-        f7.popover.close(idContextMenuElement, false);
+        ContextMenu.closeContextMenu();
 
         this.setState(state => {
             if ( opts == 'edit' )

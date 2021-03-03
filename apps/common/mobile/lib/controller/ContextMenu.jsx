@@ -12,8 +12,10 @@ class ContextMenuController extends Component {
 
         this.state = {
             opened: false
+            , items: []
         };
 
+        this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.onMenuClosed = this.onMenuClosed.bind(this);
         this.onDocumentReady = this.onDocumentReady.bind(this);
         this.onApiOpenContextMenu = this.onApiOpenContextMenu.bind(this);
@@ -94,6 +96,8 @@ class ContextMenuController extends Component {
 
     onApiOpenContextMenu(x, y) {
         if ( !this.state.opened ) {
+            this.setState({items: this.initMenuItems()});
+
             this.$targetEl.css({left: `${x}px`, top: `${y}px`});
             const popover = f7.popover.open(idContextMenuElement, idCntextMenuTargetElement);
 
@@ -108,7 +112,8 @@ class ContextMenuController extends Component {
 
     onApiHideContextMenu() {
         if ( this.state.opened ) {
-            f7.popover.close(idContextMenuElement);
+            $$(idContextMenuElement).hide();
+            f7.popover.close(idContextMenuElement, false);
 
             this.$targetEl.css({left: '-10000px', top: '-10000px'});
             this.setState({opened: false});
@@ -116,6 +121,9 @@ class ContextMenuController extends Component {
     }
 
     onMenuClosed() {
+        this.$targetEl.css({left: '-10000px', top: '-10000px'});
+        this.setState({opened: false});
+
         // (async () => {
         //     await 1 && this.setState(state => {
         //         this.$targetEl.css({left: '-10000px', top: '-10000px'});
@@ -125,6 +133,7 @@ class ContextMenuController extends Component {
     }
 
     onMenuItemClick(action) {
+        this.onApiHideContextMenu();
     }
 
     componentWillUnmount() {
@@ -151,7 +160,7 @@ class ContextMenuController extends Component {
 
     render() {
         return (
-            <ContextMenuView items={this.initMenuItems()} onMenuClosed={this.onMenuClosed} onMenuItemClick={this.onMenuItemClick} />
+            <ContextMenuView items={this.state.items} onMenuClosed={this.onMenuClosed} onMenuItemClick={this.onMenuItemClick} />
         )
     }
 }
