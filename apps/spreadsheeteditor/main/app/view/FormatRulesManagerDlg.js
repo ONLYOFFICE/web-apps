@@ -453,6 +453,11 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 allowBlank  : true,
                 disabled    : !item.get('activeSheet'),
                 validateOnChange: true
+            }).on('changed:after', function(input, newValue, oldValue, e) {
+                rule.dataRangeValid = newValue;
+                rule.txtDataRange.setValue(rule.dataRangeValid);
+                item.set('ruleChanged', true);
+                item.get('props').asc_setLocation(rule.dataRangeValid);
             }).on('button:click', _.bind(this.onSelectData, this, rule, item));
 
             var val = item.get('range');
