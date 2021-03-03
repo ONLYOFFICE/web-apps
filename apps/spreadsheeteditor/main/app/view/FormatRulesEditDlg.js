@@ -208,6 +208,61 @@ define([
                                             '</div>',
                                         '</td>',
                                     '</tr>',
+                                    '<tr class="iconset">',
+                                        '<td class="padding-large">',
+                                            '<label class="header">', me.textIconStyle,'</label>',
+                                            '<div>',
+                                                '<div id="format-rules-icon-style" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                                '<div id="format-rules-edit-chk-icon-show" style="margin-left: 10px;display: inline-block;vertical-align: middle;"></div>',
+                                                '<button type="button" class="btn btn-text-default auto" id="format-rules-edit-btn-icon-reverse" style="float:right; display: inline-block;">', me.textReverse, '</button>',
+                                            '</div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="iconset icons-5">',
+                                        '<td class="padding-small">',
+                                            '<div id="format-rules-combo-icon-5" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-txt-icon-5" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                            '<div id="format-rules-edit-combo-op-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-txt-value-5" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-combo-type-5" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="iconset icons-4">',
+                                        '<td class="padding-small">',
+                                            '<div id="format-rules-combo-icon-4" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-txt-icon-4" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                            '<div id="format-rules-edit-combo-op-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-txt-value-4" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-combo-type-4" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="iconset icons-3">',
+                                        '<td class="padding-small">',
+                                            '<div id="format-rules-combo-icon-3" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-txt-icon-3" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                            '<div id="format-rules-edit-combo-op-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-txt-value-3" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-combo-type-3" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="iconset icons-2">',
+                                        '<td class="padding-small">',
+                                            '<div id="format-rules-combo-icon-2" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-txt-icon-2" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                            '<div id="format-rules-edit-combo-op-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-txt-value-2" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-combo-type-2" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="iconset icons-1">',
+                                        '<td class="padding-small">',
+                                            '<div id="format-rules-combo-icon-1" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-txt-icon-1" style="display: inline-block;vertical-align: middle;margin-right: 10px;width: 140px;"></div>',
+                                            '<div id="format-rules-edit-combo-op-1" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-txt-value-1" class="" style="display: inline-block;height: 22px;vertical-align: middle;margin-right: 10px;"></div>',
+                                            '<div id="format-rules-edit-combo-type-1" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
+                                        '</td>',
+                                    '</tr>',
                                 '</table>',
                             '</div></div>',
                         '</div>',
@@ -1008,6 +1063,148 @@ define([
                 color       : '000000'
             });
 
+            // Icons
+            var collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
+            if (collectionPresets.length<1)
+                SSE.getController('Main').fillCondFormatIconsPresets(this.api.asc_getCFIconsByType());
+
+            var collectionIcons = SSE.getCollection('ConditionalFormatIcons');
+            if (collectionIcons.length<1)
+                SSE.getController('Main').fillCondFormatIcons(this.api.asc_getFullCFIcons());
+
+            arr = [];
+            var len = collectionPresets.length;
+            var iconsPresets = this.api.asc_getCFPresets()[Asc.c_oAscCFRuleTypeSettings.icons];
+            _.each(iconsPresets, function(preset, index){
+                if (index>=len) return;
+                var values = [];
+                for (var i = 0; i < preset.length; i++) {
+                    var formatValueObject = new AscCommonExcel.CConditionalFormatValueObject();
+                    formatValueObject.asc_setType(preset[i][0]);
+                    formatValueObject.asc_setVal(preset[i][1]);
+                    if (preset[i][2]) {
+                        // formatValueObject.asc_setFormula(new AscCommonExcel.CFormulaCF());
+                        // formatValueObject.asc_getFormula().asc_setText(preset[1][i][2]);
+                    }
+                    values.push(formatValueObject);
+                }
+                arr.push({
+                    value: index,
+                    data  : {
+                        iconSet: collectionPresets.at(index).get('icons'),
+                        values: values,
+                        icons: collectionIcons
+                    }
+                });
+            });
+
+            this.cmbIconsPresets = new Common.UI.ComboBoxIcons({
+                el          : $('#format-rules-icon-style'),
+                editable    : false,
+                style       : 'width: 120px;',
+                menuStyle   : 'max-height: 220px;min-width: 100%;',
+                data        : arr
+            }).on('selected', function(combo, record) {
+                me.fillIconsControls(record.value, record.data.values);
+            });
+
+            this.chFill = new Common.UI.CheckBox({
+                el: $('#format-rules-edit-chk-icon-show'),
+                labelText: this.textShowIcon
+            });
+            this.chFill.on('change', function(field, newValue, oldValue, eOpts){
+
+            });
+
+            this.btnReverse = new Common.UI.Button({
+                el: $('#format-rules-edit-btn-icon-reverse')
+            });
+            // this.btnReverse.on('click', _.bind(this.reverseIcons, this));
+
+            var icons = [];
+            collectionIcons.each(function(icon, index){
+                icons.push({
+                    value: icon.get('index'),
+                    imgUrl: icon.get('icon')
+                });
+            });
+
+            this.iconsControls = [];
+            for (var i=0; i<5; i++) {
+                this.iconsControls.push({});
+
+                var combo = new Common.UI.ComboBox({
+                    el: $('#format-rules-combo-icon-' + (i+1)),
+                    type        : i,
+                    template: _.template([
+                        '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle"  data-toggle="dropdown">',
+                        '<div class="form-control image" style="width: 55px;background-repeat: no-repeat; background-position: 16px center;"></div>',
+                        '<div style="display: table-cell;"></div>',
+                        '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
+                        '</div>'
+                    ].join(''))
+                });
+                var menu = (new Common.UI.Menu({
+                    style: 'min-width: 105px;',
+                    additionalAlign: this.menuAddAlign,
+                    items: [
+                        { template: _.template('<div id="format-rules-combo-menu-icon-' + (i+1) + '" style="width: 217px; margin: 0 5px;"></div>') }
+                    ]
+                })).render($('#format-rules-combo-icon-' + (i+1)));
+
+                var picker = new Common.UI.DataView({
+                    el: $('#format-rules-combo-menu-icon-' + (i+1)),
+                    parentMenu: menu,
+                    store: new Common.UI.DataViewStore(icons),
+                    itemTemplate: _.template('<img id="<%= id %>" class="item-icon" src="<%= imgUrl %>" style="width: 16px; height: 16px;">'),
+                    type        : i
+                });
+                picker.on('item:click', _.bind(this.onSelectIcon, this, combo));
+                // this.selectIconItem();
+                this.iconsControls[i].cmbIcons = combo;
+
+                combo = new Common.UI.ComboBox({
+                    el          : $('#format-rules-edit-combo-type-' + (i+1)),
+                    style       : 'width: 80px;',
+                    menuStyle   : 'min-width: 100%;max-height: 211px;',
+                    editable    : false,
+                    cls         : 'input-group-nr',
+                    data        : data,
+                    type        : i
+                }).on('selected', function(combo, record) {
+                });
+                combo.setValue(Asc.c_oAscCfvoType.Percent);
+                this.iconsControls[i].cmbType = combo;
+
+                combo = new Common.UI.ComboBox({
+                    el          : $('#format-rules-edit-combo-op-' + (i+1)),
+                    style       : 'width: 55px;',
+                    menuStyle   : 'min-width: 100%;',
+                    editable    : false,
+                    cls         : 'input-group-nr',
+                    data        : [{value: 0, displayValue: '>='}, {value: 1, displayValue: '>'}],
+                    type        : i
+                }).on('selected', function(combo, record) {
+                });
+                combo.setValue(0);
+                this.iconsControls[i].cmbOperator = combo;
+
+                var range = new Common.UI.InputFieldBtn({
+                    el          : $('#format-rules-edit-txt-value-' + (i+1)),
+                    name        : 'range',
+                    style       : 'width: 100px;',
+                    allowBlank  : true,
+                    btnHint     : this.textSelectData,
+                    validateOnChange: false,
+                    type        : i
+                });
+                range.setValue('');
+                this.iconsControls[i].value = range;
+                // range.on('button:click', _.bind(this.onSelectIconData, this));
+
+                this.iconsControls[i].label = $('#format-rules-txt-icon-' + (i+1));
+            }
+
             this.afterRender();
         },
 
@@ -1149,6 +1346,7 @@ define([
                         break;
                     case Asc.c_oAscCFType.iconSet:
                         value = props.asc_getColorScaleOrDataBarOrIconSetRule();
+                        this.fillIconsControls(value.asc_getIconSet(), value.asc_getCFVOs(), value.asc_getIconSets());
                         break;
                 }
 
@@ -1407,6 +1605,7 @@ define([
             }
 
             this.$window.find('.databar').toggleClass('hidden', category!==9);
+            this.$window.find('.iconset').toggleClass('hidden', category!==10);
         },
 
         onSelectData: function(cmp) {
@@ -1658,6 +1857,27 @@ define([
             range.setValue(value);
         },
 
+        fillIconsControls: function(iconSet, values, icons) {
+            // this.$window.find('.iconset').toggleClass('hidden', category!==10);
+            var arr = this.iconsControls;
+            for (var i=0; i<values.length; i++) {
+                var icontype = values[i].asc_getType(),
+                    val =  values[i].asc_getVal(),
+                    controls = arr[i];
+                controls.cmbType.setValue(icontype);
+                controls.value.setValue(val || '');
+            }
+        },
+
+        onSelectIcon: function(combo, picker, view, record) {
+            this.selectIconItem(combo, record);
+        },
+
+        selectIconItem: function(combo, record) {
+            var formcontrol = $(combo.el).find('.form-control');
+            formcontrol.css('background-image', 'url(' + record.get('imgUrl') + ')');
+        },
+
         onPrimary: function() {
             this.onDlgBtnClick('ok');
             return false;
@@ -1759,7 +1979,10 @@ define([
         textAxis: 'Axis',
         textPosition: 'Position',
         textShowBar: 'Show bar only',
-        textSameAs: 'Same as positive'
+        textSameAs: 'Same as positive',
+        textIconStyle: 'Icon Style',
+        textReverse: 'Reverse Icons Order',
+        textShowIcon: 'Show icon only'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });

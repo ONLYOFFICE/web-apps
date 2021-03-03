@@ -383,4 +383,120 @@ define([
 
     }, Common.UI.ComboBoxColor || {}));
 
+    Common.UI.ComboBoxIcons= Common.UI.ComboBox.extend(_.extend({
+        template: _.template([
+            '<div class="input-group combobox combo-color input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<div class="form-control" style="padding:2px 0 2px 3px; <%= style %> display: block;">',
+                    '<div style="display: inline-block;overflow: hidden;width: 100%;height: 100%;"></div>',
+                '</div>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
+                    '<span class="caret"></span>',
+                '</button>',
+                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                    '<% _.each(items, function(item) { %>',
+                        '<% if (item.value==-1) { %>',
+                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                        '<% } else { %>',
+                            '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                                '<a tabindex="-1" type="menuitem" style="padding: 5px;">',
+                                    '<% _.each(item.data.iconSet, function(icon) { %>',
+                                    '<img src="<%= item.data.icons.at(icon-1).get(\'icon\') %>" style="width:16px;height:16px;margin-right: 5px;">',
+                                    '<% }) %>',
+                                '</a>',
+                            '</li>',
+                        '<% } %>',
+                    '<% }); %>',
+                '</ul>',
+            '</div>'
+        ].join('')),
+
+        itemClicked: function (e) {
+            var el = $(e.currentTarget).parent();
+
+            this._selectedItem = this.store.findWhere({
+                id: el.attr('id')
+            });
+            if (this._selectedItem) {
+                $('.selected', $(this.el)).removeClass('selected');
+                el.addClass('selected');
+                this.updateFormControl(this._selectedItem);
+
+                this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
+                e.preventDefault();
+            }
+        },
+
+        updateFormControl: function(record) {
+            var formcontrol = $(this.el).find('.form-control > div');
+
+            if (record.get('value')!=-1) {
+                var str = '';
+                _.each(record.get('data').iconSet, function(icon) {
+                    str += '<img src="' + record.get('data').icons.at(icon-1).get("icon") + '" style="width:16px;height:16px;margin-right: 5px;">';
+                });
+                formcontrol[0].innerHTML = str;
+                formcontrol.css({'margin-top': '0'});
+            } else {
+                formcontrol[0].innerHTML = record.get('displayValue');
+                formcontrol.css({'margin-top': '1px'});
+            }
+        },
+
+        setValue: function(value) {
+            var obj;
+            this._selectedItem = this.store.findWhere((obj={}, obj[this.valueField]=value, obj));
+
+            $('.selected', $(this.el)).removeClass('selected');
+
+            if (this._selectedItem) {
+                this.updateFormControl(this._selectedItem);
+                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+            } else {
+                var formcontrol = $(this.el).find('.form-control > div');
+                formcontrol[0].innerHTML = value;
+                formcontrol.css({'margin-top': '1px'});
+            }
+        },
+
+        onResetItems: function() {
+            if (this.itemsTemplate) {
+                $(this.el).find('ul').html( $(this.itemsTemplate({
+                    items: this.store.toJSON(),
+                    scope: this
+                })));
+            } else {
+                $(this.el).find('ul').html(_.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<% if (item.value==-1) { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% } else { %>',
+                    '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                        '<a tabindex="-1" type="menuitem" style="padding: 5px;">',
+                            '<% _.each(item.data.iconSet, function(icon) { %>',
+                                '<img src="<%= item.data.icons.at(icon-1).get(\'icon\') %>" style="width:16px;height:16px;margin-right: 5px;">',
+                            '<% }) %>',
+                        '</a>',
+                    '</li>',
+                    '<% } %>',
+                    '<% }); %>'
+                ].join(''))({
+                    items: this.store.toJSON(),
+                    scope: this
+                }));
+            }
+
+            if (!_.isUndefined(this.scroller)) {
+                this.scroller.destroy();
+                delete this.scroller;
+            }
+            this.scroller = new Common.UI.Scroller(_.extend({
+                el: $('.dropdown-menu', this.cmpEl),
+                minScrollbarLength : 40,
+                includePadding     : true,
+                wheelSpeed: 10,
+                alwaysVisibleY: this.scrollAlwaysVisible
+            }, this.options.scroller));
+        }
+
+    }, Common.UI.ComboBoxIcons || {}));
 });

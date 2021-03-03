@@ -1589,9 +1589,12 @@ define([
         },
 
         onShowBeforeCondFormat: function() {
-            if (SSE.getCollection('ConditionalFormatIconsPresets').length>0) return;
-            var presets = this.api.asc_getCFIconsByType();
-            SSE.getController('Main').fillCondFormatIconsPresets(presets);
+            if (this.toolbar.mnuDataBars.menu.items.length>0) // menu is inited
+                return;
+
+            var collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
+            if (collectionPresets.length<1)
+                SSE.getController('Main').fillCondFormatIconsPresets(this.api.asc_getCFIconsByType());
 
             var collectionIcons = SSE.getCollection('ConditionalFormatIcons');
             if (collectionIcons.length<1)
@@ -1676,22 +1679,19 @@ define([
             arr = [];
             var indexes = [Asc.EIconSetType.Arrows3, Asc.EIconSetType.Arrows3Gray, Asc.EIconSetType.Triangles3, Asc.EIconSetType.Arrows4Gray, Asc.EIconSetType.Arrows4, Asc.EIconSetType.Arrows5Gray, Asc.EIconSetType.Arrows5];
             for (var i=0; i<indexes.length; i++) {
-                var item = presets[indexes[i]];
-                arr.push({group: 'menu-iconset-group-direct', data: {index: indexes[i], iconSet: presets[indexes[i]], icons: collectionIcons}});
+                arr.push({group: 'menu-iconset-group-direct', data: {index: indexes[i], iconSet: collectionPresets.at([indexes[i]]).get('icons'), icons: collectionIcons}});
             }
             indexes = [Asc.EIconSetType.Traffic3Lights1, Asc.EIconSetType.Traffic3Lights2, Asc.EIconSetType.Signs3, Asc.EIconSetType.Traffic4Lights, Asc.EIconSetType.RedToBlack4];
             for (var i=0; i<indexes.length; i++) {
-                arr.push({group: 'menu-iconset-group-shape', data: {index: indexes[i], iconSet: presets[indexes[i]], icons: collectionIcons}});
+                arr.push({group: 'menu-iconset-group-shape', data: {index: indexes[i], iconSet: collectionPresets.at([indexes[i]]).get('icons'), icons: collectionIcons}});
             }
             indexes = [Asc.EIconSetType.Symbols3, Asc.EIconSetType.Symbols3_2, Asc.EIconSetType.Flags3];
             for (var i=0; i<indexes.length; i++) {
-                var item = presets[indexes[i]];
-                arr.push({group: 'menu-iconset-group-indicator', data: {index: indexes[i], iconSet: presets[indexes[i]], icons: collectionIcons}});
+                arr.push({group: 'menu-iconset-group-indicator', data: {index: indexes[i], iconSet: collectionPresets.at([indexes[i]]).get('icons'), icons: collectionIcons}});
             }
             indexes = [Asc.EIconSetType.Stars3, Asc.EIconSetType.Rating4, Asc.EIconSetType.Quarters5, Asc.EIconSetType.Rating5, Asc.EIconSetType.Boxes5];
             for (var i=0; i<indexes.length; i++) {
-                var item = presets[indexes[i]];
-                arr.push({group: 'menu-iconset-group-rating', data: {index: indexes[i], iconSet: presets[indexes[i]], icons: collectionIcons}});
+                arr.push({group: 'menu-iconset-group-rating', data: {index: indexes[i], iconSet: collectionPresets.at([indexes[i]]).get('icons'), icons: collectionIcons}});
             }
             picker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-iconsets', menuItem.$el),
