@@ -110,4 +110,22 @@ export class storeComments {
             this.isOpenAddComment = open;
         }
     }
+
+    // Edit comment
+    currentComment = null;
+    @observable isOpenEditComment = false;
+    @action openEditComment (open, comment) {
+        if (open !== this.isOpenEditComment) {
+            this.currentComment = open ? comment : null;
+            this.isOpenEditComment = open;
+        }
+    }
+
+    @observable isOpenAddReply = false;
+    @action openAddReply (open, comment) {
+        if (open !== this.isOpenAddReply) {
+            this.currentComment = open ? comment : null;
+            this.isOpenAddReply = open;
+        }
+    }
 }

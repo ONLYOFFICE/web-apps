@@ -17,14 +17,14 @@
     }
   }
 }
-#add-comment-dialog {
+#add-comment-dialog, #edit-comment-dialog, #add-reply-dialog {
   .dialog {
     --f7-dialog-width: 400px;
     .dialog-inner {
       padding: 0;
       height: 400px;
       .wrap-comment {
-        .name {
+        .name, .comment-date {
           text-align: left;
         }
         .wrap-textarea {
@@ -101,6 +101,6 @@
   }
 }
 
-.edit-comment-popup {
+.edit-comment-popup, .add-reply-popup {
   z-index: 20000;
 }
