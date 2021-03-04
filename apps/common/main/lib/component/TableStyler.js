@@ -677,10 +677,12 @@ define([
             };
 
             me.setTableColor = function(color) {
+                table_content.toggleClass('transparent', color == 'transparent');
                 table_content.css('background-color', (color == 'transparent' ) ? color : ('#'+color));
             };
 
             me.setCellsColor = function(color) {
+                !me.spacingMode && table_content.toggleClass('transparent', color == 'transparent');
                 cells_content.css('background-color', (color == 'transparent' ) ? color : ('#'+color));
             };
 
