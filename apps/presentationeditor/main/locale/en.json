@@ -1552,6 +1552,7 @@
   "PE.Views.SignatureSettings.strValid": "Valid signatures",
   "PE.Views.SignatureSettings.txtContinueEditing": "Edit anyway",
   "PE.Views.SignatureSettings.txtEditWarning": "Editing will remove the signatures from the presentation.<br>Are you sure you want to continue?",
+  "PE.Views.SignatureSettings.txtRemoveWarning": "Are you sure you want to remove this signature?<br>This action cannot be undone.",
   "PE.Views.SignatureSettings.txtSigned": "Valid signatures has been added to the presentation. The presentation is protected from editing.",
   "PE.Views.SignatureSettings.txtSignedInvalid": "Some of the digital signatures in presentation are invalid or could not be verified. The presentation is protected from editing.",
   "PE.Views.SlideSettings.strBackground": "Background color",
