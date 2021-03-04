@@ -59,7 +59,7 @@ define([
                 width = 414;
                 height = 277;
             } else {
-                width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 262);
+                width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280);
                 height = (options.type == Common.Utils.importTextType.CSV || options.type == Common.Utils.importTextType.Paste || options.type == Common.Utils.importTextType.Columns) ? 190 : (options.warning ? 187 : 147);
             }
 
@@ -92,7 +92,7 @@ define([
                         '</div>',
                         '<% } else { %>',
                         '<div>',
-                            '<label class="header">' + t.txtPassword + '</label>',
+                            '<label class="">' + t.txtOpenFile + '</label>',
                             '<div id="id-password-txt"></div>',
                         '</div>',
                         '<% } %>',
@@ -507,7 +507,8 @@ define([
         txtColon: 'Colon',
         txtSemicolon: 'Semicolon',
         txtProtected: 'Once you enter the password and open the file, the current password to the file will be reset.',
-        txtAdvanced: 'Advanced'
+        txtAdvanced: 'Advanced',
+        txtOpenFile: "Enter a password to open the file"
 
     }, Common.Views.OpenDialog || {}));
 });

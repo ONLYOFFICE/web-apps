@@ -256,6 +256,8 @@ define([
         },
 
         showSignatureMenu: function(record, showPoint) {
+            this.api.asc_gotoSignature(record.get('guid'));
+            
             var menu = this.signatureMenu,
                 parent = $(this.el),
                 menuContainer = parent.find('#menu-signature-container');
@@ -388,6 +390,8 @@ define([
                 SSE.getController('Statusbar').SetDisabled(disable);
                 SSE.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 SSE.getController('DocumentHolder').SetDisabled(disable, true);
+                SSE.getController('CellEditor').setPreviewMode(disable);
+                SSE.getController('Viewport').disableEditing(disable);
 
                 // var leftMenu = SSE.getController('LeftMenu').leftMenu;
                 // leftMenu.btnComments.setDisabled(disable);

@@ -46,6 +46,7 @@
   "SSE.Controllers.AddOther.textEmptyImgUrl": "Hay que especificar URL de imagen",
   "SSE.Controllers.AddOther.txtNotUrl": "Este campo debe ser una dirección URL en el formato 'http://www.example.com'",
   "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Las acciones de copiar, cortar y pegar utilizando el menú contextual se realizarán sólo dentro del archivo actual.",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "El enlace no existe. Por favor, corrija o elimine el enlace.",
   "SSE.Controllers.DocumentHolder.menuAddComment": "Agregar comentario",
   "SSE.Controllers.DocumentHolder.menuAddLink": "Añadir enlace ",
   "SSE.Controllers.DocumentHolder.menuCell": "Celda",

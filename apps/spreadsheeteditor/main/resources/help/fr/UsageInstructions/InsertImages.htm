@@ -3,7 +3,7 @@
 	<head>
 		<title>Insérer des images</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Add an image to your spreadsheet and adjust its position and size" />
+		<meta name="description" content="Insérer des images à votre classeur et modifier la position et la taille" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Insérer des images</h1>
 			<p>Spreadsheet Editor vous permet d'insérer des images aux formats populaires. Les formats d'image pris en charge sont les suivants : <b>BMP</b>, <b>GIF</b>, <b>JPEG</b>, <b>JPG</b>, <b>PNG</b>.</p>
@@ -72,19 +72,28 @@
 				<li>dans la section <b>Remplacer l'image</b> cliquez sur le bouton approprié : <b>D'un fichier</b> ou <b>D'une URL</b> et sélectionnez l'image désirée.<p class="note"><b>Remarque</b> : vous pouvez également cliquer avec le bouton droit sur l'image et utiliser l'option <b>Remplacer l'image</b> dans le menu contextuel.</p>
                 </li>
 			</ol>
-			<p>L'image sélectionnée sera remplacée.</p>           
-            <p>Lorsque l'image est sélectionnée, l'icône <img alt="Paramètres de la forme" src="../images/shape_settings_icon.png" /> <b>Paramètres de forme</b> est également disponible sur la droite. Vous pouvez cliquer sur cette icône pour ouvrir l'onglet <b>Paramètres de forme</b> dans la barre latérale droite et ajuster le type de <a href="../UsageInstructions/InsertAutoshapes.htm#shape_stroke" onclick="onhyperlinkclick(this)"><b>contour</b></a>, la taille et la couleur ainsi que le type de forme en sélectionnant une autre forme dans le menu <b>Modifier la forme automatique</b>. La forme de l'image changera en conséquence.</p>
-            <p><img alt="Onglet Paramètres de la forme" src="../images/right_image_shape.png" /></p>
-            <p>Pour modifier les paramètres avancés, cliquez sur l'image avec le bouton droit de la souris et sélectionnez <b>Paramètres avancés</b> du menu contextuel ou cliquez sur le lien de la barre latérale droite <b>Afficher paramètres avancés</b>. La fenêtre des propriétés de l'image sera ouverte :</p>
-            <p><img alt="Image - Paramètres avancés : Rotation" src="../images/imageadvancedsettings1.png" /></p>
-            <p>L'onglet <b>Rotation</b> comporte les paramètres suivants :</p>
+            <p>L'image sélectionnée sera remplacée.</p>
+            <p>Lorsque l'image est sélectionnée, l'icône <b>Paramètres de la forme</b> <img alt="L'icône Paramètres de la forme" src="../images/shape_settings_icon.png" /> est également disponible sur la droite. Vous pouvez cliquer sur cette icône pour ouvrir l'onglet <b>Paramètres de la forme </b>dans la barre latérale droite et ajuster le type du <a href="../UsageInstructions/InsertAutoshapes.htm#shape_stroke" onclick="onhyperlinkclick(this)"><b>Trait</b></a> sa taille et sa couleur ainsi que le type de forme en sélectionnant une autre forme dans le menu <b>Modifier la forme automatique</b>. La forme de l'image changera en conséquence.</p>
+            <p>Sous l'onglet <b>Paramètres de la forme</b>, vous pouvez utiliser l'option <b>Ajouter une ombre</b> pour créer une zone ombrée autour de l'image.</p>
+            <p><img alt="L'onglet Paramètres de la forme" src="../images/right_image_shape.png" /></p>
+            <h3>Ajuster les paramètres avancés de l'image</h3>
+            <p>Pour modifier les paramètres avancés, cliquez sur l'image avec le bouton droit de la souris et sélectionnez <b>Paramètres avancés de l'image</b> du menu contextuel ou cliquez sur le lien de la barre latérale droite <b>Afficher les paramètres avancés</b>. La fenêtre paramètres de l'image s'ouvre:</p>
+            <p><img alt="La fenêtre Image - Paramètres avancés Rotation" src="../images/imageadvancedsettings1.png" /></p>
+            <p>L'onglet <b>Rotation</b> comporte les paramètres suivants:</p>
             <ul>
-                <li><b>Angle</b> - utilisez cette option pour faire pivoter l’image d'un angle exactement spécifié. Entrez la valeur souhaitée mesurée en degrés dans le champ ou réglez-la à l'aide des flèches situées à droite.</li>
-                <li><b>Retourné</b> - cochez la case <b>Horizontalement</b> pour retourner l’image horizontalement (de gauche à droite) ou la case <b>Verticalement</b> pour retourner l’image verticalement (à l'envers).</li>
+                <li><b>Angle</b> - utilisez cette option pour faire pivoter l'image d'un angle exactement spécifié. Entrez la valeur souhaitée mesurée en degrés dans le champ ou réglez-la à l'aide des flèches situées à droite. </li>
+                <li><b>Retourné</b> - cochez la case <b>Horizontalement</b> pour retourner l'image horizontalement (de gauche à droite) ou la case <b>Verticalement</b> pour retourner l'image verticalement (à l'envers).</li>
             </ul>
-            <p><img alt="Image - Paramètres avancés" src="../images/imageadvancedsettings.png" /></p>
+            <p><img alt="La fenêtre Image - Paramètres avancés Alignement dans une cellule" src="../images/imageadvancedsettings2.png" /></p>
+            <p>L'onglet<b> Alignement dans une cellule</b> comprend les options suivantes:</p>
+            <ul>
+                <li><b>Déplacer et dimensionner avec des cellules</b> - cette option permet de placer l'image derrière la cellule. Quand une cellule se déplace (par exemple: insertion ou suppression des lignes/colonnes), l'image se déplace aussi. Quand vous ajustez la largeur ou la hauteur de la cellule, la dimension de l'image s'ajuste aussi.</li>
+                <li><b>Déplacer sans dimensionner avec les cellules</b> - cette option permet de placé l'image derrière la cellule mais d'empêcher le redimensionnement. Quand une cellule se déplace, l'image se déplace aussi, mais si vous redimensionnez la cellule, l'image demeure inchangé.</li>
+                <li><b>Ne pas déplacer et dimensionner avec les cellules</b> - cette option empêche le déplacement ou redimensionnement de l'image si la position ou la dimension de la cellule restent inchangées.</li>
+            </ul>
+            <p><img alt="La fenêtre Image - Paramètres avancés L'onglet Texte de remplacement" src="../images/imageadvancedsettings.png" /></p>
             <p>L'onglet <b>Texte de remplacement</b> permet de spécifier un <b>Titre</b> et une <b>Description</b> qui sera lue aux personnes avec des déficiences cognitives ou visuelles pour les aider à mieux comprendre l'information de l'image.</p>
-			<p>Pour supprimer une image insérée, sélectionnez-la avec la souris et appuyez sur la touche <b>Supprimer</b>.</p>
-		</div>
+            <p>Pour supprimer l'image insérée, cliquez sur celle-ci et appuyez sur la touche <b>Suppr.</b></p>
+        </div>
 	</body>
 </html>

@@ -46,6 +46,7 @@
   "SSE.Controllers.AddOther.textEmptyImgUrl": "画像のURLを指定する必要があります。",
   "SSE.Controllers.AddOther.txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります",
   "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "コンテキストメニューを使用したコピー、切り取り、貼り付けの操作は、現在のファイル内でのみ実行されます。",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "リンク参照が存在しません。 リンクを修正するか、ご削除ください。",
   "SSE.Controllers.DocumentHolder.menuAddComment": "コメントの追加",
   "SSE.Controllers.DocumentHolder.menuAddLink": "リンクを追加する",
   "SSE.Controllers.DocumentHolder.menuCell": "セル",

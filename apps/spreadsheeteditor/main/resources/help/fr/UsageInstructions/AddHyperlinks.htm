@@ -3,7 +3,7 @@
 	<head>
 		<title>Ajouter des liens hypertextes</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Add hyperlinks to a word or text fragment leading to an external website or another worksheet" />
+		<meta name="description" content="Ajouter des liens hypertextes renvoyant vers une ressource externe ou un autre classeur" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Ajouter des liens hypertextes</h1>
 			<p>Pour ajouter un lien hypertexte,</p>
@@ -20,9 +20,10 @@
                 <li>passez à l'onglet <b>Insertion</b> de la barre d'outils supérieure,</li>
 				<li>cliquez sur l'icône <b>Ajouter un lien hypertexte</b> <img alt="Icône Ajouter un lien hypertexte" src="../images/addhyperlink.png" /> de la barre d'outils supérieure,</li>
 				<li>dans la fenêtre ouverte spécifiez les paramètres du lien hypertexte :<ul>
-					<li>Sélectionnez le type de lien que vous voulez insérer :<p>Utilisez l'option <b>Lien externe</b> et entrez une URL au format <em>http://www.example.com</em> dans le champ <b>Lien vers</b> si vous avez besoin d'ajouter un lien hypertexte menant vers un site externe.</p>
+					<li>Sélectionnez le type de lien que vous voulez insérer:<p>Utilisez l'option <b>Lien externe</b> et entrez une URL au format <em>http://www.example.com</em> dans le champ <b>Lien vers</b> si vous avez besoin d'ajouter un lien hypertexte menant vers un site externe.</p>
                         <p><img alt="Fenêtre Paramètres de lien hypertexte" src="../images/hyperlinkwindow.png" /></p>
-					<p>Utilisez l'option <b>Plage de données interne</b> et sélectionnez une feuille et une plage dans les champs ci-dessous si vous avez besoin d'ajouter un lien hypertexte menant à une plage de cellules dans le même classeur.</p>
+						<p>Utilisez l'option <B>Plage de données interne</B> et sélectionnez une feuille et une plage dans les champs ci-dessous, ou une <a href="UseNamedRanges.htm" onclick="onhyperlinkclick(this)">Plage nommée</a> existante si vous avez besoin d'ajouter un lien hypertexte menant à une plage de cellules dans le même classeur.</p>
+						<p>Vous pouvez aussi créer un lien externe qui renvoie à une cellule précise ou une plage de cellules en appuyant le bouton <B>Obtenir le lien</B>.</p>
                         <p><img alt="Fenêtre Paramètres de lien hypertexte" src="../images/internallink.png" /></p>
 					</li>
 					<li><b>Afficher</b> - entrez un texte qui sera cliquable et mène vers l'adresse indiquée dans le champ supérieur.<p class="note"><b>Remarque</b> : si la cellule sélectionnée contient déjà des données, elles seront automatiquement affichées dans ce champ.</p>

@@ -458,6 +458,7 @@ define([
             var appConfig = me.viewport.mode;
             if ( !!appConfig && !appConfig.isEditDiagram && !appConfig.isEditMailMerge ) {
                 if (index == this.api.asc_getActiveWorksheetIndex()) {
+                    locked = locked || me.viewmode;
                     me.header.mnuitemHideHeadings.setDisabled(locked);
                     me.header.mnuitemHideGridlines.setDisabled(locked);
                     me.header.mnuitemFreezePanes.setDisabled(locked);
@@ -505,7 +506,10 @@ define([
         },
 
         disableEditing: function (disabled) {
-            this.header.btnOptions.menu.items[6].setDisabled(disabled);
+            this.viewmode = disabled;
+            this.header.mnuitemHideHeadings.setDisabled(disabled);
+            this.header.mnuitemHideGridlines.setDisabled(disabled);
+            this.header.mnuitemFreezePanes.setDisabled(disabled);
         },
 
         textHideFBar: 'Hide Formula Bar',
