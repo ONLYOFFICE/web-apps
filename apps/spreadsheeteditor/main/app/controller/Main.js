@@ -131,8 +131,17 @@ define([
                         'Column Labels': this.txtColLbls,
                         'Multi-Select (Alt+S)': this.txtMultiSelect,
                         'Clear Filter (Alt+C)':  this.txtClearFilter,
-                        '(blank)': this.txtBlank
+                        '(blank)': this.txtBlank,
+                        'Group': this.txtGroup,
+                        'Seconds': this.txtSeconds,
+                        'Minutes': this.txtMinutes,
+                        'Hours': this.txtHours,
+                        'Days': this.txtDays,
+                        'Months': this.txtMonths,
+                        'Quarters': this.txtQuarters,
+                        'Years': this.txtYears
                     };
+
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
@@ -2813,7 +2822,15 @@ define([
             textRenameLabel: 'Enter a name to be used for collaboration',
             textRenameError: 'User name must not be empty.',
             textLongName: 'Enter a name that is less than 128 characters.',
-            textGuest: 'Guest'
+            textGuest: 'Guest',
+            txtGroup: 'Group',
+            txtSeconds: 'Seconds',
+            txtMinutes: 'Minutes',
+            txtHours: 'Hours',
+            txtDays: 'Days',
+            txtMonths: 'Months',
+            txtQuarters: 'Quarters',
+            txtYears: 'Years'
         }
     })(), SSE.Controllers.Main || {}))
 });
