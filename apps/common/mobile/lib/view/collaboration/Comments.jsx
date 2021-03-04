@@ -37,7 +37,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                 </NavRight>
             </Navbar>
             <div className='wrap-comment'>
-                <div className="header-comment">
+                <div className="comment-header">
                     {Device.android &&
                     <div className='initials' style={{backgroundColor: `${userInfo.color}`}}>{userInfo.initials}</div>
                     }
@@ -74,7 +74,7 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                     </div>
                 </div>
                 <div class='wrap-comment'>
-                    <div class="header-comment">
+                    <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div class='name'>${userInfo.name}</div>
                     </div>
@@ -237,7 +237,7 @@ const EditCommentDialog = inject("storeComments")(observer(({storeComments, comm
                     </div>
                 </div>
                 <div class='wrap-comment'>
-                    <div class="header-comment">
+                    <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div>
                             <div class='name'>${comment.userName}</div>
@@ -318,7 +318,7 @@ const AddReplyPopup = inject("storeComments")(observer(({storeComments, userInfo
                 </NavRight>
             </Navbar>
             <div className='wrap-comment'>
-                <div className="header-comment">
+                <div className="comment-header">
                     {Device.android &&
                     <div className='initials' style={{backgroundColor: `${userInfo.color}`}}>{userInfo.initials}</div>
                     }
@@ -354,7 +354,7 @@ const AddReplyDialog = inject("storeComments")(observer(({storeComments, userInf
                     </div>
                 </div>
                 <div class='wrap-comment'>
-                    <div class="header-comment">
+                    <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div class='name'>${userInfo.name}</div>
                     </div>
@@ -473,7 +473,7 @@ const EditReplyDialog = inject("storeComments")(observer(({storeComments, commen
                     </div>
                 </div>
                 <div class='wrap-comment'>
-                    <div class="header-comment">
+                    <div class="comment-header">
                         ${Device.android ? templateInitials : ''}
                         <div>
                             <div class='name'>${reply.userName}</div>
@@ -580,7 +580,7 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
                                     {comment.quote && <div className='comment-quote'>{sliceQuote(comment.quote)}</div>}
                                     <div className='comment-text'><pre>{comment.comment}</pre></div>
                                     {comment.replies.length > 0 &&
-                                    <ul className='list-reply'>
+                                    <ul className='reply-list'>
                                         {comment.replies.map((reply, indexReply) => {
                                             return (
                                                 <li key={`reply-${indexComment}-${indexReply}`}

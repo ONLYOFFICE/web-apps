@@ -1,11 +1,8 @@
 .device-android {
-  .wrap-comment {
-    .header-comment {
+  .wrap-comment, .comment-list, .reply-list {
+    .comment-header, .reply-header {
       display: flex;
-      align-items: center;
       .initials {
-        height: 30px;
-        width: 30px;
         border-radius: 50px;
         color: @white;
         display: flex;
@@ -15,13 +12,24 @@
         font-size: 14px;
       }
     }
+  }
+
+  .wrap-comment {
+    .comment-header {
+      align-items: center;
+      .initials {
+        height: 30px;
+        width: 30px;
+      }
+    }
     .wrap-textarea {
       .input:not(.input-outline):after {
         content: none;
       }
     }
   }
-  #add-comment-dialog {
+
+  #add-comment-dialog, #edit-comment-dialog, #add-reply-dialog, #edit-reply-dialog {
     .dialog {
       --f7-dialog-text-color: @black;
       .done {
@@ -29,4 +37,46 @@
       }
     }
   }
+
+  .comment-list {
+    .item-inner:after {
+      content: none;
+    }
+    .comment-header {
+      .left {
+        display: flex;
+        align-items: center;
+        .initials {
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+  .reply-list {
+    .reply-header {
+      .left {
+        display: flex;
+        .initials {
+          margin-top: 5px;
+          width: 24px;
+          height: 24px;
+          font-size: 11px;
+        }
+      }
+    }
+  }
+
+  .edit-comment-popup, .edit-reply-popup, #edit-comment-dialog, #edit-reply-dialog {
+    .wrap-comment {
+      .comment-header, .reply-header {
+        .initials {
+          height: 40px;
+          width: 40px;
+        }
+      }
+    }
+  }
+
 }
