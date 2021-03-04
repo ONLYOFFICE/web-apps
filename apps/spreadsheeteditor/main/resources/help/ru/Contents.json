@@ -30,6 +30,7 @@
     { "src": "UsageInstructions/GroupData.htm", "name": "Группировка данных" },
     { "src": "UsageInstructions/RemoveDuplicates.htm", "name": "Удаление дубликатов" },
     {"src": "UsageInstructions/ConditionalFormatting.htm", "name": "Условное форматирование" },
+    {"src": "UsageInstructions/DataValidation.htm", "name": "Проверка данных" },
     {"src": "UsageInstructions/InsertFunction.htm", "name": "Вставка функций", "headername": "Работа с функциями" },	
     {"src": "UsageInstructions/UseNamedRanges.htm", "name": "Использование именованных диапазонов"},
 	{"src": "UsageInstructions/InsertImages.htm", "name": "Вставка изображений", "headername": "Действия над объектами"},	

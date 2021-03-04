@@ -178,7 +178,7 @@ define([
                     //'tab:manual'        : _.bind(this.onAddTabClick, this),
                     'tab:contextmenu'   : _.bind(this.onTabMenu, this),
                     'tab:dblclick'      : _.bind(function () {
-                        if (me.editMode && (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
+                        if (me.editMode && !(me.mode && me.mode.isDisconnected) && (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.Chart) &&
                                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.FormatTable)&&
                                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles)) {
                             me.fireEvent('sheet:changename');
@@ -498,7 +498,7 @@ define([
                             label         : me.api.asc_getWorksheetName(i),
 //                          reorderable   : !locked,
                             cls           : locked ? 'coauth-locked':'',
-                            isLockTheDrag : locked,
+                            isLockTheDrag : locked || me.mode.isDisconnected,
                             iconCls       : 'btn-sheet-view',
                             iconTitle     : name,
                             iconVisible   : name!==''

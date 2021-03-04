@@ -169,10 +169,11 @@
     "src": "UsageInstructions/InsertContentControls.htm",
     "name": "Inhaltssteuerelemente einfügen"
   },
-  {
-    "src": "UsageInstructions/CreateTableOfContents.htm",
-    "name": "Inhaltsverzeichnis erstellen"
-  },
+    {
+        "src": "UsageInstructions/CreateTableOfContents.htm",
+        "name": "Inhaltsverzeichnis erstellen"
+    },
+    {"src": "UsageInstructions/AddTableofFigures.htm", "name": "Abbildungsverzeichnis hinzufügen und formatieren" },
   {
     "src": "UsageInstructions/AlignArrangeObjects.htm",
     "name": "Objekte auf einer Seite anordnen und ausrichten"

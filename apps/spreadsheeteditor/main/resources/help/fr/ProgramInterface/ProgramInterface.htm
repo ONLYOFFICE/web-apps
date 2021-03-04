@@ -3,7 +3,7 @@
 	<head>
 		<title>Présentation de l'interface utilisateur de Spreadsheet Editor</title>
 		<meta charset="utf-8" />
-        <meta name="description" content="Introducing the Spreadsheet Editor user interface" />
+        <meta name="description" content="Présentation de l'interface utilisateur de Spreadsheet Editor" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Présentation de l'interface utilisateur de Spreadsheet Editor</h1>
 			<p><b>Spreadsheet Editor</b> utilise une interface à onglets dans laquelle les commandes d'édition sont regroupées en onglets par fonctionnalité.</p>
@@ -35,17 +35,20 @@
                     </ul>
                 </li>
                 
-                <li>La <b>Barre d'outils supérieure</b> affiche un ensemble de commandes d'édition en fonction de l'onglet de menu sélectionné. Actuellement, les onglets suivants sont disponibles : <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">Fichier</a>, <a href="../ProgramInterface/HomeTab.htm" onclick="onhyperlinkclick(this)">Accueil</a>, <a href="../ProgramInterface/InsertTab.htm" onclick="onhyperlinkclick(this)">Insertion</a> ,<a href="../ProgramInterface/LayoutTab.htm" onclick="onhyperlinkclick(this)">Mise en page</a>, <span class="onlineDocumentFeatures"><a href="../ProgramInterface/PivotTableTab.htm" onclick="onhyperlinkclick(this)">Tableau croisé dynamique</a></span>, <a href="../ProgramInterface/CollaborationTab.htm" onclick="onhyperlinkclick(this)">Collaboration</a>, <span class="desktopDocumentFeatures">Protection</span>, <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Modules complémentaires</a>.<p>Les options <img alt="Icône Copier" src="../images/copy.png" /> <b>Copier</b>, et <img alt="Icône Coller" src="../images/paste.png" /> <b>Coller</b> sont toujours disponibles dans la partie gauche de la <b>Barre d'outils supérieure</b>, quel que soit l'onglet sélectionné.</p>
+                <li>La <b>Barre d'outils supérieure</b> affiche un ensemble de commandes d'édition en fonction de l'onglet de menu sélectionné. Actuellement, les onglets suivants sont disponibles: <a href="../ProgramInterface/FileTab.htm" onclick="onhyperlinkclick(this)">Fichier</a>, <a href="../ProgramInterface/HomeTab.htm" onclick="onhyperlinkclick(this)">Accueil</a>, <a href="../ProgramInterface/InsertTab.htm" onclick="onhyperlinkclick(this)">Insertion</a> ,<a href="../ProgramInterface/LayoutTab.htm" onclick="onhyperlinkclick(this)">Mise en page</a>, <span class="onlineDocumentFeatures"><a href="../ProgramInterface/PivotTableTab.htm" onclick="onhyperlinkclick(this)">Formule</a>, <a href="../ProgramInterface/DataTab.htm" onclick="onhyperlinkclick(this)">Données</a>, <span class="onlineDocumentFeatures"><a href="../ProgramInterface/PivotTableTab.htm" onclick="onhyperlinkclick(this)">Tableau croisé dynamique</a></span>, <a href="../ProgramInterface/CollaborationTab.htm" onclick="onhyperlinkclick(this)">Collaboration</a>, <span class="desktopDocumentFeatures">Protection</span>, <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Affichage</a>, <a href="../ProgramInterface/PluginsTab.htm" onclick="onhyperlinkclick(this)">Modules complémentaires</a>.<p>Les options <img alt="Icône Copier" src="../images/copy.png" /> <b>Copier</b>, et <img alt="Icône Coller" src="../images/paste.png" /> <b>Coller</b> sont toujours disponibles dans la partie gauche de la <b>Barre d'outils supérieure</b>, quel que soit l'onglet sélectionné.</p>
                 </li>
                 <li>La <b>Barre de formule</b> permet d'entrer et de modifier des <a href="../UsageInstructions/InsertFunction.htm" onclick="onhyperlinkclick(this)">formules</a> ou des valeurs dans les cellules. La <b>Barre de formule</b> affiche le contenu de la cellule actuellement sélectionnée.</li>
                 <li>La <b>Barre d'état</b> en bas de la fenêtre de l'éditeur contient des <a href="../HelpfulHints/Navigation.htm" onclick="onhyperlinkclick(this)">outils de navigation</a> : boutons de navigation de feuille, onglets de feuille et boutons de zoom. La <b>Barre d'état</b> affiche également le nombre d'enregistrements filtrés si vous appliquez un <a href="../UsageInstructions/SortData.htm#filter" onclick="onhyperlinkclick(this)">filtre</a> ou les résultats des <a href="../UsageInstructions/InsertFunction.htm" onclick="onhyperlinkclick(this)">calculs automatiques</a> si vous sélectionnez plusieurs cellules contenant des données.</li>
                 <li>La <b>barre latérale gauche</b> contient les icônes suivantes :<ul>
                         <li><img alt="Icône Recherche" src="../images/searchicon.png" /> - permet d'utiliser l'outil <a href="../HelpfulHints/Search.htm" onclick="onhyperlinkclick(this)">Rechercher et remplacer</a>,</li>
                         <li><img alt="Icône Commentaires" src="../images/commentsicon.png" /> - permet d'ouvrir le panneau <a href="../HelpfulHints/CollaborativeEditing.htm#comments" onclick="onhyperlinkclick(this)">Commentaires</a>,</li>
-                        <li class="onlineDocumentFeatures"><img alt="Chat" src="../images/chaticon.png" /> - (disponible dans la <em>version en ligne</em> seulement) permet d'ouvrir le panneau de <a href="../HelpfulHints/CollaborativeEditing.htm#chat" onclick="onhyperlinkclick(this)">Chat</a>, ainsi que les icônes qui permettent de contacter notre équipe de support et de visualiser les informations sur le programme.</li>
+                        <li><img alt="Icône Navigation" src="../images/navigationicon.png" /> - permet d'accéder au panneau de <a href="../UsageInstructions/CreateTableOfContents.htm#navigation" onclick="onhyperlinkclick(this)">Navigation</a> et de gérer les rubriques,</li>
+                        <li class="onlineDocumentFeatures"><img alt="Chat" src="../images/chaticon.png" /> - (disponible uniquement dans la <em>version en ligne</em>) permet d'ouvrir le panneau de <a href="../HelpfulHints/CollaborativeEditing.htm#chat" onclick="onhyperlinkclick(this)">Chat</a>,</li>
+                        <li class="onlineDocumentFeatures"><img alt="Feedback and Support icon" src="../images/feedbackicon.png" /> - (disponible uniquement dans la <em>version en ligne</em>) permet de contacter notre équipe d'assistance technique,</li>
+                        <li class="onlineDocumentFeatures"><img alt="About icon" src="../images/abouticon.png" /> -  (disponible uniquement dans la <em>version en ligne</em>) permet de visualiser les informations sur le programme.</li>
                     </ul>
                 </li>
-                <li>La barre latérale droite permet d'ajuster les paramètres supplémentaires de différents objets. Lorsque vous sélectionnez un objet particulier sur une diapositive, l'icône correspondante est activée dans la barre latérale droite. Cliquez sur cette icône pour développer la barre latérale droite.</li>
+                <li>La <b>Barre latérale droite</b> permet d'ajuster les paramètres supplémentaires de différents objets. Lorsque vous sélectionnez un objet particulier sur une diapositive, l'icône correspondante est activée dans la barre latérale droite. Cliquez sur cette icône pour développer la barre latérale droite.</li>
                 <li>La <b>Zone de travail</b> permet d'afficher le contenu du classeur, d'entrer et de modifier les données.</li>
                 <li>Les <b>Barres de défilement</b> horizontales et verticales permettent de faire défiler la feuille actuelle de haut en bas ou de gauche à droite.</li>
             </ol>

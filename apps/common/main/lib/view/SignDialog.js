@@ -74,6 +74,8 @@ define([
                 bold: false,
                 italic: false
             };
+            var filter = Common.localStorage.getKeysFilter();
+            this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
             this.template = [
                 '<div class="box" style="height: ' + ((this.signType == 'invisible') ? '132px;' : '300px;') + '">',
@@ -145,6 +147,7 @@ define([
                 menuStyle   : 'min-width: 234px;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
                 recent      : 0,
+                takeFocusOnClose: true,
                 hint        : me.tipFontName
             }).on('selected', function(combo, record) {
                 if (me.signObject) {
@@ -160,6 +163,7 @@ define([
                 menuCls     : 'scrollable-menu',
                 menuStyle: 'min-width: 55px;max-height: 270px;',
                 hint: this.tipFontSize,
+                takeFocusOnClose: true,
                 data: [
                     { value: 8, displayValue: "8" },
                     { value: 9, displayValue: "9" },
@@ -186,11 +190,13 @@ define([
                 me.font.size = record.value;
             });
             this.cmbFontSize.setValue(this.font.size);
+            this.cmbFontSize.on('changed:before', _.bind(this.onFontSizeChanged, this, true));
+            this.cmbFontSize.on('changed:after',  _.bind(this.onFontSizeChanged, this, false));
 
             me.btnBold = new Common.UI.Button({
                 parentEl: $('#id-dlg-sign-bold'),
                 cls: 'btn-toolbar',
-                iconCls: 'btn-bold',
+                iconCls: 'toolbar__icon btn-bold',
                 enableToggle: true,
                 hint: me.textBold
             });
@@ -204,7 +210,7 @@ define([
             me.btnItalic = new Common.UI.Button({
                 parentEl: $('#id-dlg-sign-italic'),
                 cls: 'btn-toolbar',
-                iconCls: 'btn-italic',
+                iconCls: 'toolbar__icon btn-italic',
                 enableToggle: true,
                 hint: me.textItalic
             });
@@ -239,6 +245,10 @@ define([
             $window.find('.dlg-btn').on('click', _.bind(me.onBtnClick, me));
 
             me.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.inputPurpose, this.inputName, this.cmbFonts, this.cmbFontSize];
         },
 
         show: function() {
@@ -301,8 +311,14 @@ define([
 
         _handleInput: function(state) {
             if (this.options.handler) {
-                if (state == 'ok' && (this.btnOk.isDisabled() || this.signObject && !this.signObject.isValid()))
-                        return;
+                if (state == 'ok' && (this.btnOk.isDisabled() || this.signObject && !this.signObject.isValid())) {
+                    if (!this.btnOk.isDisabled()) {
+                        this.inputName.showError([this.textNameError]);
+                        this.inputName.focus();
+                    }
+                    return;
+                }
+
 
                 this.options.handler.call(this, this, state);
             }
@@ -334,6 +350,39 @@ define([
             this.signObject.setText(value, this.font.name, this.font.size, this.font.italic, this.font.bold);
         },
 
+        onFontSizeChanged: function(before, combo, record, e) {
+            var value,
+                me = this;
+
+            if (before) {
+                var item = combo.store.findWhere({
+                    displayValue: record.value
+                });
+
+                if (!item) {
+                    value = /^\+?(\d*(\.|,)?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+
+                    if (!value) {
+                        value = combo.getValue();
+                        combo.setRawValue(value);
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            } else {
+                var maxvalue = (this.appPrefix=='sse-') ? 409 : 300;
+                value = Common.Utils.String.parseFloat(record.value);
+                value = value > maxvalue ? maxvalue :
+                    value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
+
+                combo.setRawValue(value);
+                if (this.signObject) {
+                    this.signObject.setText(this.inputName.getValue(), this.font.name, value, this.font.italic, this.font.bold);
+                }
+                this.font.size = value;
+            }
+        },
+
         textTitle:          'Sign Document',
         textPurpose:        'Purpose for signing this document',
         textCertificate:    'Certificate',
@@ -347,7 +396,8 @@ define([
         tipFontSize: 'Font Size',
         textBold:           'Bold',
         textItalic:         'Italic',
-        textSelect: 'Select'
+        textSelect: 'Select',
+        textNameError: 'Signer name must not be empty.'
 
     }, Common.Views.SignDialog || {}))
 });

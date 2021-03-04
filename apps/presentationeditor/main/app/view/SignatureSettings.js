@@ -228,6 +228,8 @@ define([
         },
 
         showSignatureMenu: function(record, showPoint) {
+            this.api.asc_gotoSignature(record.get('guid'));
+            
             var menu = this.signatureMenu,
                 parent = $(this.el),
                 menuContainer = parent.find('#menu-signature-container');
