@@ -113,9 +113,9 @@ class CommentsController extends Component {
             let user = this.usersStore.searchUserById(data.asc_getUserId());
 
             comment.comment = data.asc_getText();
-            comment.userid = data.asc_getUserId();
+            comment.userId = data.asc_getUserId();
             comment.userName = data.asc_getUserName();
-            comment.usercolor = (user) ? user.asc_getColor() : null;
+            comment.userColor = (user) ? user.asc_getColor() : null;
             comment.resolved = data.asc_getSolved();
             comment.quote = data.asc_getQuoteText();
             comment.time = date.getTime();

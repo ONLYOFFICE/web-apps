@@ -45,10 +45,12 @@ export class storeUsers {
     }
 
     searchUserById (id) {
+        let user = null;
         this.users.forEach((item) => {
             if (item.asc_getIdOriginal() === id) {
-                return  item;
+                user = item;
             }
         });
+        return user;
     }
 }
