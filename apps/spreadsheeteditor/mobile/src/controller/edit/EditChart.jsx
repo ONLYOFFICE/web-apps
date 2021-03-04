@@ -8,7 +8,6 @@ import { EditChart } from '../../view/edit/EditChart';
 class EditChartController extends Component {
     constructor (props) {
         super(props);
-        this.props.storeChartSettings.initChartLayout(this.props.storeFocusObjects.chartObject.get_ChartProperties());
         this.onRemoveChart = this.onRemoveChart.bind(this);
         this.onType = this.onType.bind(this);
         this.onStyle = this.onStyle.bind(this);
@@ -179,16 +178,6 @@ class EditChartController extends Component {
         }
     }
 
-    initVertAxis() {
-        const api = Common.EditorApi.get();
-        const chartProperty = api.asc_getChartObject();
-
-        let verAxisProps = chartProperty.getVertAxisProps();
-        let axisVertProps = (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartProperty.getHorAxisProps();
-
-        return axisVertProps;
-    } 
-
     getVerticalAxisProp() {
         const api = Common.EditorApi.get();
         let chartObject = api.asc_getChartObject(),
@@ -293,16 +282,6 @@ class EditChartController extends Component {
 
     // Horizontal
 
-    initHorAxis() {
-        const api = Common.EditorApi.get();
-        const chartProperty = api.asc_getChartObject();
-
-        let horAxisProps = chartProperty.getHorAxisProps();
-        let axisHorProps = (horAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartProperty.getVertAxisProps() : horAxisProps;
-
-        return axisHorProps;
-    }
-
     getHorizontalAxisProp() {
         const api = Common.EditorApi.get();
         let chartObject = api.asc_getChartObject(),
@@ -390,7 +369,6 @@ class EditChartController extends Component {
                 onStyle={this.onStyle}
                 onRemoveChart={this.onRemoveChart}
                 setLayoutProperty={this.setLayoutProperty}
-                initVertAxis={this.initVertAxis}
                 onVerAxisMinValue={this.onVerAxisMinValue}
                 onVerAxisMaxValue={this.onVerAxisMaxValue}
                 onVerAxisCrossType={this.onVerAxisCrossType}
@@ -400,7 +378,6 @@ class EditChartController extends Component {
                 onVerAxisTickMajor={this.onVerAxisTickMajor}
                 onVerAxisTickMinor={this.onVerAxisTickMinor}
                 onVerAxisLabelPos={this.onVerAxisLabelPos}
-                initHorAxis={this.initHorAxis}
                 getHorizontalAxisProp={this.getHorizontalAxisProp}
                 setHorizontalAxisProp={this.setHorizontalAxisProp}
                 onHorAxisCrossType={this.onHorAxisCrossType}

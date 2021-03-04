@@ -16,7 +16,7 @@ import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorder
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
 import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell } from './EditCell';
 import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
-import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageChartLegend, PageChartTitle, PageChartHorizontalAxisTitle, PageChartVerticalAxisTitle, PageChartHorizontalGridlines, PageChartVerticalGridlines, PageChartDataLabels, PageChartVerticalAxis, PageChartVertAxisCrosses, PageChartDisplayUnits, PageChartVertMajorType, PageChartVertMinorType, PageChartVertLabelPosition, PageChartHorizontalAxis, PageChartHorAxisCrosses, PageChartHorAxisPosition, PageChartHorMajorType, PageChartHorMinorType, PageChartHorLabelPosition } from './EditChart';
+import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
 import { PageTypeLink, PageSheet } from './EditLink';
 
 const routes = [
@@ -181,27 +181,27 @@ const routes = [
     },
     {
         path: '/edit-chart-legend/',
-        component: PageChartLegend
+        component: PageLegend
     },
     {
         path: '/edit-horizontal-axis-title/',
-        component: PageChartHorizontalAxisTitle
+        component: PageHorizontalAxisTitle
     },
     {
         path: '/edit-vertical-axis-title/',
-        component: PageChartVerticalAxisTitle
+        component: PageVerticalAxisTitle
     },
     {
         path: '/edit-horizontal-gridlines/',
-        component: PageChartHorizontalGridlines
+        component: PageHorizontalGridlines
     },
     {
         path: '/edit-vertical-gridlines/',
-        component: PageChartVerticalGridlines
+        component: PageVerticalGridlines
     },
     {
         path: '/edit-data-labels/',
-        component: PageChartDataLabels
+        component: PageDataLabels
     },
 
     // Vertical Axis
@@ -212,23 +212,23 @@ const routes = [
     },
     {
         path: '/edit-vert-axis-crosses/',
-        component: PageChartVertAxisCrosses
+        component: PageVertAxisCrosses
     },
     {
         path: '/edit-display-units/',
-        component: PageChartDisplayUnits
+        component: PageDisplayUnits
     },
     {
         path: '/edit-vert-major-type/',
-        component: PageChartVertMajorType
+        component: PageVertMajorType
     },
     {
         path: '/edit-vert-minor-type/',
-        component: PageChartVertMinorType
+        component: PageVertMinorType
     },
     {
         path: '/edit-vert-label-position/',
-        component: PageChartVertLabelPosition
+        component: PageVertLabelPosition
     },
 
     // Horizontal Axis
@@ -239,23 +239,23 @@ const routes = [
     },
     {
         path: '/edit-hor-axis-crosses/',
-        component: PageChartHorAxisCrosses
+        component: PageHorAxisCrosses
     },
     {
         path: '/edit-hor-axis-position/',
-        component: PageChartHorAxisPosition
+        component: PageHorAxisPosition
     },
     {
         path: '/edit-hor-major-type/',
-        component: PageChartHorMajorType
+        component: PageHorMajorType
     },
     {
         path: '/edit-hor-minor-type/',
-        component: PageChartHorMinorType
+        component: PageHorMinorType
     },
     {
         path: '/edit-hor-label-position/',
-        component: PageChartHorLabelPosition
+        component: PageHorLabelPosition
     },
 
     // Link 

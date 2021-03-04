@@ -268,18 +268,17 @@ const PageLayout = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
     const storeFocusObjects = props.storeFocusObjects;
-    const storeChartSettings = props.storeChartSettings;
     const chartObject = storeFocusObjects.chartObject;
     const chartProperties = chartObject.get_ChartProperties();
     const chartType = chartProperties.getType();
 
-    const chartTitle = storeChartSettings.chartTitle;
-    const chartLegend = storeChartSettings.chartLegend;
-    const chartAxisHorTitle = storeChartSettings.chartAxisHorTitle;
-    const chartAxisVertTitle = storeChartSettings.chartAxisVertTitle;
-    const chartHorGridlines = storeChartSettings.chartHorGridlines;
-    const chartVertGridlines = storeChartSettings.chartVertGridlines;
-    const chartDataLabel = storeChartSettings.chartDataLabel;
+    const [chartTitle, setTitle] = useState(chartProperties.getTitle());
+    const [chartLegend, setLegend] = useState(chartProperties.getLegendPos());
+    const [chartAxisHorTitle, setAxisHorTitle] = useState(chartProperties.getHorAxisLabel());
+    const [chartAxisVertTitle, setAxisVertTitle] = useState(chartProperties.getVertAxisLabel());
+    const [chartHorGridlines, setHorGridlines] = useState(chartProperties.getHorGridLines());
+    const [chartVertGridlines, setVertGridlines] = useState(chartProperties.getVertGridLines());
+    const [chartDataLabel, setDataLabel] = useState(chartProperties.getDataLabelsPos());
 
     let dataLabelPos = [
         { value: Asc.c_oAscChartDataLabelsPos.none, displayValue: _t.textNone },
@@ -325,7 +324,7 @@ const PageLayout = props => {
         0: `${_t.textNone}`,
         1: `${_t.textOverlay}`,
         2: `${_t.textNoOverlay}`
-    }
+    };
 
     const chartLayoutLegends = {
         0: `${_t.textNone}`,
@@ -335,32 +334,32 @@ const PageLayout = props => {
         4: `${_t.textBottom}`,
         5: `${_t.textLeftOverlay}`,
         6: `${_t.textRightOverlay}`
-    }
+    };
 
     const chartLayoutAxisTitleHorizontal = {
         0: `${_t.textNone}`,
         1: `${_t.textNoOverlay}`
-    }
+    };
 
     const chartLayoutAxisTitleVertical = {
         0: `${_t.textNone}`,
         1: `${_t.textRotated}`,
         3: `${_t.textHorizontal}`
-    }
+    };
 
     const chartLayoutGridlinesHorizontal = {
         0: `${_t.textNone}`,
         1: `${_t.textMajor}`,
         2: `${_t.textMinor}`,
         3: `${_t.textMajorAndMinor}`
-    }
+    };
 
     const chartLayoutGridlinesVertical = {
         0: `${_t.textNone}`,
         1: `${_t.textMajor}`,
         2: `${_t.textMinor}`,
         3: `${_t.textMajorAndMinor}`
-    }
+    };
 
     const chartDataLabels = {
         0: `${_t.textNone}`,
@@ -368,7 +367,7 @@ const PageLayout = props => {
         2: `${_t.textFit}`,
         5: `${_t.textInnerTop}`,
         7: `${_t.textOuterTop}`
-    }
+    };
 
     return (
         <Page>
@@ -377,13 +376,17 @@ const PageLayout = props => {
                 <ListItem title={_t.textChartTitle} 
                     after={chartLayoutTitles[chartTitle]} link="/edit-chart-title/" routeProps={{
                         chartLayoutTitles,
-                        setLayoutProperty: props.setLayoutProperty
+                        chartTitle,
+                        setTitle,
+                        setLayoutProperty: props.setLayoutProperty,
                     }}>
                 </ListItem>
                 <ListItem title={_t.textLegend} 
                     after={chartLayoutLegends[chartLegend]} link="/edit-chart-legend/" routeProps={{
                         chartLayoutLegends,
-                        setLayoutProperty: props.setLayoutProperty
+                        setLayoutProperty: props.setLayoutProperty,
+                        chartLegend,
+                        setLegend
                     }}>
                 </ListItem>
             </List>
@@ -392,13 +395,17 @@ const PageLayout = props => {
                 <ListItem title={_t.textHorizontal} link="/edit-horizontal-axis-title/" 
                     after={chartLayoutAxisTitleHorizontal[chartAxisHorTitle]} disabled={disableSetting} routeProps={{
                         chartLayoutAxisTitleHorizontal,
-                        setLayoutProperty: props.setLayoutProperty
+                        setLayoutProperty: props.setLayoutProperty,
+                        chartAxisHorTitle,
+                        setAxisHorTitle
                     }}>
                 </ListItem>
                 <ListItem title={_t.textVertical} link="/edit-vertical-axis-title/" 
                     after={chartLayoutAxisTitleVertical[chartAxisVertTitle]} disabled={disableSetting} routeProps={{
                         chartLayoutAxisTitleVertical,
-                        setLayoutProperty: props.setLayoutProperty
+                        setLayoutProperty: props.setLayoutProperty,
+                        chartAxisVertTitle,
+                        setAxisVertTitle
                     }}>
                 </ListItem>
             </List>
@@ -407,20 +414,26 @@ const PageLayout = props => {
                 <ListItem title={_t.textHorizontal} link="/edit-horizontal-gridlines/" 
                     after={chartLayoutGridlinesHorizontal[chartHorGridlines]} disabled={disableSetting} routeProps={{
                         chartLayoutGridlinesHorizontal,
-                        setLayoutProperty: props.setLayoutProperty
+                        setLayoutProperty: props.setLayoutProperty,
+                        chartHorGridlines,
+                        setHorGridlines
                     }}>
                 </ListItem>
                 <ListItem title={_t.textVertical} link="/edit-vertical-gridlines/" 
                     after={chartLayoutGridlinesVertical[chartVertGridlines]} disabled={disableSetting} routeProps={{
                         chartLayoutGridlinesVertical,
-                        setLayoutProperty: props.setLayoutProperty
+                        setLayoutProperty: props.setLayoutProperty,
+                        chartVertGridlines,
+                        setVertGridlines
                     }}>
                 </ListItem>
             </List>
             <List>
                 <ListItem title={_t.textDataLabels} link="/edit-data-labels/" after={chartDataLabels[chartDataLabel]} routeProps={{
                     chartDataLabels,
-                    setLayoutProperty: props.setLayoutProperty
+                    setLayoutProperty: props.setLayoutProperty,
+                    chartDataLabel,
+                    setDataLabel
                 }}>
                 </ListItem>
             </List>
@@ -431,9 +444,8 @@ const PageLayout = props => {
 const PageChartTitle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
     const chartLayoutTitles = props.chartLayoutTitles;
-    const currentTitle = storeChartSettings.chartTitle;
+    const [currentTitle, setTitle] = useState(props.chartTitle);
 
     return (
         <Page>
@@ -442,7 +454,8 @@ const PageChartTitle = props => {
                 {Object.keys(chartLayoutTitles).map(key => {
                     return (
                         <ListItem key={key} title={chartLayoutTitles[key]} radio checked={+key === currentTitle} onChange={() => {
-                            storeChartSettings.changeChartTitle(+key);
+                            props.setTitle(+key);
+                            setTitle(+key);
                             props.setLayoutProperty('putTitle', key);
                             props.f7router.back();
                         }}></ListItem>
@@ -456,9 +469,8 @@ const PageChartTitle = props => {
 const PageLegend = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
     const chartLayoutLegends = props.chartLayoutLegends;
-    const currentLegend = storeChartSettings.chartLegend;
+    const [currentLegend, setLegend] = useState(props.chartLegend);
 
     return (
         <Page>
@@ -467,7 +479,8 @@ const PageLegend = props => {
                 {Object.keys(chartLayoutLegends).map(key => {
                     return (
                         <ListItem key={key} title={chartLayoutLegends[key]} radio checked={+key === currentLegend} onChange={() => {
-                            storeChartSettings.changeChartLegend(+key);
+                            props.setLegend(+key);
+                            setLegend(+key);
                             props.setLayoutProperty('putLegendPos', key);
                             props.f7router.back();
                         }}></ListItem>
@@ -481,9 +494,8 @@ const PageLegend = props => {
 const PageHorizontalAxisTitle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
     const chartLayoutAxisTitleHorizontal = props.chartLayoutAxisTitleHorizontal;
-    const currentAxisHorTitle = storeChartSettings.chartAxisHorTitle;
+    const [currentAxisHorTitle, setAxisHorTitle] = useState(props.chartAxisHorTitle);
 
     return (
         <Page>
@@ -492,7 +504,8 @@ const PageHorizontalAxisTitle = props => {
                 {Object.keys(chartLayoutAxisTitleHorizontal).map(key => {
                     return (
                         <ListItem key={key} title={chartLayoutAxisTitleHorizontal[key]} radio checked={+key === currentAxisHorTitle} onChange={() => {
-                            storeChartSettings.changeChartAxisHorTitle(+key);
+                            props.setAxisHorTitle(+key);
+                            setAxisHorTitle(+key);
                             props.setLayoutProperty('putHorAxisLabel', key);
                             props.f7router.back();
                         }}></ListItem>
@@ -506,9 +519,8 @@ const PageHorizontalAxisTitle = props => {
 const PageVerticalAxisTitle = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
     const chartLayoutAxisTitleVertical = props.chartLayoutAxisTitleVertical;
-    const currentAxisVertTitle = storeChartSettings.chartAxisVertTitle;
+    const [currentAxisVertTitle, setAxisVertTitle] = useState(props.chartAxisVertTitle);
 
     return (
         <Page>
@@ -517,7 +529,8 @@ const PageVerticalAxisTitle = props => {
                 {Object.keys(chartLayoutAxisTitleVertical).map(key => {
                     return (
                         <ListItem key={key} title={chartLayoutAxisTitleVertical[key]} radio checked={+key === currentAxisVertTitle} onChange={() => {
-                            storeChartSettings.changeChartAxisVertTitle(+key);
+                            props.setAxisVertTitle(+key);
+                            setAxisVertTitle(+key);
                             props.setLayoutProperty('putVertAxisLabel', key);
                             props.f7router.back();
                         }}></ListItem>
@@ -531,9 +544,8 @@ const PageVerticalAxisTitle = props => {
 const PageHorizontalGridlines = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
     const chartLayoutGridlinesHorizontal = props.chartLayoutGridlinesHorizontal;
-    const currentChartHorGridlines = storeChartSettings.chartHorGridlines;
+    const [currentChartHorGridlines, setHorGridlines] = useState(props.chartHorGridlines);
 
     return (
         <Page>
@@ -542,7 +554,8 @@ const PageHorizontalGridlines = props => {
                 {Object.keys(chartLayoutGridlinesHorizontal).map(key => {
                     return (
                         <ListItem key={key} title={chartLayoutGridlinesHorizontal[key]} radio checked={+key === currentChartHorGridlines} onChange={() => {
-                            storeChartSettings.changeChartHorGridlines(+key);
+                            props.setHorGridlines(+key);
+                            setHorGridlines(+key);
                             props.setLayoutProperty('putHorGridLines', key);
                             props.f7router.back();
                         }}></ListItem>
@@ -556,9 +569,8 @@ const PageHorizontalGridlines = props => {
 const PageVerticalGridlines = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
     const chartLayoutGridlinesVertical = props.chartLayoutGridlinesVertical;
-    const currentChartVertGridlines = storeChartSettings.chartVertGridlines;
+    const [currentChartVertGridlines, setVertGridlines] = useState(props.chartVertGridlines);
 
     return (
         <Page>
@@ -567,7 +579,8 @@ const PageVerticalGridlines = props => {
                 {Object.keys(chartLayoutGridlinesVertical).map(key => {
                     return (
                         <ListItem key={key} title={chartLayoutGridlinesVertical[key]} radio checked={+key === currentChartVertGridlines} onChange={() => {
-                            storeChartSettings.changeChartVertGridlines(+key);
+                            props.setVertGridlines(+key);
+                            setVertGridlines(+key);
                             props.setLayoutProperty('putVertGridLines', key);
                             props.f7router.back();
                         }}></ListItem>
@@ -581,10 +594,9 @@ const PageVerticalGridlines = props => {
 const PageDataLabels = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
     const chartDataLabels = props.chartDataLabels;
-    const currentChartDataLabel = storeChartSettings.chartDataLabel;
-    
+    const [currentChartDataLabel, setDataLabel] = useState(props.chartDataLabel);
+
     return (
         <Page>
             <Navbar title={_t.textDataLabels} backLink={_t.textBack} />
@@ -592,7 +604,8 @@ const PageDataLabels = props => {
                 {Object.keys(chartDataLabels).map(key => {
                     return (
                         <ListItem key={key} title={chartDataLabels[key]} radio checked={+key === currentChartDataLabel} onChange={() => {
-                            storeChartSettings.changeChartDataLabel(+key);
+                            props.setDataLabel(+key);
+                            setDataLabel(+key);
                             props.setLayoutProperty('putDataLabelsPos', key);
                             props.f7router.back();
                         }}></ListItem>
@@ -606,9 +619,11 @@ const PageDataLabels = props => {
 const PageVerticalAxis = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const api = Common.EditorApi.get();
+    const chartProperty = api.asc_getChartObject();
     const isIos = Device.ios;
-    const storeChartSettings = props.storeChartSettings;
-    const axisProps = props.initVertAxis();
+    const verAxisProps = chartProperty.getVertAxisProps();
+    const axisProps = (verAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? verAxisProps : chartProperty.getHorAxisProps();
     const crossValue = axisProps.getCrossesRule();
 
     const axisCrosses = [
@@ -646,44 +661,22 @@ const PageVerticalAxis = props => {
     ];
 
     const defineCurrentAxisCrosses = () => axisCrosses.find(elem => elem.value === crossValue);
-    const currentAxisCrosses = defineCurrentAxisCrosses();
-
-    if(!storeChartSettings.axisVertCrosses) {
-        storeChartSettings.changeVertAxisCrosses(currentAxisCrosses);
-    }
+    const [currentAxisCrosses, setAxisCrosses] = useState(defineCurrentAxisCrosses());
 
     const defineCurrentDisplayUnits = () => vertAxisDisplayUnits.find(elem => elem.value ===  axisProps.getDispUnitsRule());
-    const currentDisplayUnits = defineCurrentDisplayUnits();
+    const [currentDisplayUnits, setDisplayUnits] = useState(defineCurrentDisplayUnits());
 
-    if(!storeChartSettings.displayUnits) {
-        storeChartSettings.changeDisplayUnits(currentDisplayUnits);
-    }
-
-    if(storeChartSettings.valuesVertReverseOrder == undefined) {
-        storeChartSettings.toggleVertValuesReverseOrder(axisProps.getInvertValOrder());
-    }
+    const [valuesReverseOrder, toggleValuesReverseOrder] = useState(axisProps.getInvertValOrder());
 
     const valueMajorType = axisProps.getMajorTickMark();
     const valueMinorType = axisProps.getMinorTickMark();
+
     const defineCurrentTickOption = (elemType) => tickOptions.find(elem => elem.value === elemType);
-    const currentMajorType = defineCurrentTickOption(valueMajorType);
-
-    if(!storeChartSettings.vertMajorType) {
-        storeChartSettings.changeVertMajorType(currentMajorType);
-    }
-
-    const currentMinorType = defineCurrentTickOption(valueMinorType);
-
-    if(!storeChartSettings.vertMinorType) {
-        storeChartSettings.changeVertMinorType(currentMinorType);
-    }
+    const [currentMajorType, setMajorType] = useState(defineCurrentTickOption(valueMajorType));
+    const [currentMinorType, setMinorType] = useState(defineCurrentTickOption(valueMinorType));
 
     const defineLabelsPosition = () => verticalAxisLabelsPosition.find(elem => elem.value === axisProps.getTickLabelsPos());
-    const currentLabelsPosition = defineLabelsPosition();
-
-    if(!storeChartSettings.vertLabelPosition) {
-        storeChartSettings.changeVertLabelPosition(currentLabelsPosition);
-    }
+    const [currentLabelsPosition, setLabelsPosition] = useState(defineLabelsPosition());
 
     const [minValue, setMinValue] = useState(axisProps.getMinValRule() == Asc.c_oAscValAxisRule.auto ? '' : axisProps.getMinVal());
     const [maxValue, setMaxValue] = useState(axisProps.getMaxValRule() == Asc.c_oAscValAxisRule.auto ? '' : axisProps.getMaxVal());
@@ -716,11 +709,13 @@ const PageVerticalAxis = props => {
                 />
             </List>
             <List inlineLabels className="inputs-list">
-                <ListItem title={_t.textAxisCrosses} link="/edit-vert-axis-crosses/" after={storeChartSettings.axisVertCrosses.display} routeProps={{
+                <ListItem title={_t.textAxisCrosses} link="/edit-vert-axis-crosses/" after={currentAxisCrosses.display} routeProps={{
                     axisCrosses,
-                    onVerAxisCrossType: props.onVerAxisCrossType
+                    onVerAxisCrossType: props.onVerAxisCrossType,
+                    currentAxisCrosses,
+                    setAxisCrosses
                 }}></ListItem>
-                {storeChartSettings.axisVertCrosses.value == Asc.c_oAscCrossesRule.value ? (
+                {currentAxisCrosses.value == Asc.c_oAscCrossesRule.value ? (
                     <ListInput 
                         label={_t.textCrossesValue}
                         type="number"
@@ -733,36 +728,44 @@ const PageVerticalAxis = props => {
                 ) : null}
             </List>
             <List>
-                <ListItem title={_t.textDisplayUnits} link="/edit-display-units/" after={storeChartSettings.displayUnits.display} routeProps={{
+                <ListItem title={_t.textDisplayUnits} link="/edit-display-units/" after={currentDisplayUnits.display} routeProps={{
                     vertAxisDisplayUnits,
-                    onVerAxisDisplayUnits: props.onVerAxisDisplayUnits
+                    onVerAxisDisplayUnits: props.onVerAxisDisplayUnits,
+                    currentDisplayUnits,
+                    setDisplayUnits
                 }}></ListItem>
                 <ListItem title={_t.textValuesInReverseOrder}>
                     <div slot="after">
-                        <Toggle checked={storeChartSettings.valuesVertReverseOrder} 
-                            onToggleChange={() => {
-                                storeChartSettings.toggleVertValuesReverseOrder(!storeChartSettings.valuesVertReverseOrder);
-                                props.onVerAxisReverse(!storeChartSettings.valuesVertReverseOrder);
+                        <Toggle checked={valuesReverseOrder} 
+                            onChange={() => {
+                                toggleValuesReverseOrder(!valuesReverseOrder);
+                                props.onVerAxisReverse(!valuesReverseOrder);
                             }} />
                     </div>
                 </ListItem>
             </List>
             <BlockTitle>{_t.textTickOptions}</BlockTitle>
             <List>
-                <ListItem title={_t.textMajorType} after={storeChartSettings.vertMajorType.display} link="/edit-vert-major-type/" routeProps={{
+                <ListItem title={_t.textMajorType} after={currentMajorType.display} link="/edit-vert-major-type/" routeProps={{
                     tickOptions,
-                    onVerAxisTickMajor: props.onVerAxisTickMajor
+                    onVerAxisTickMajor: props.onVerAxisTickMajor,
+                    currentMajorType,
+                    setMajorType
                 }}></ListItem>
-                <ListItem title={_t.textMinorType} after={storeChartSettings.vertMinorType.display} link="/edit-vert-minor-type/" routeProps={{
+                <ListItem title={_t.textMinorType} after={currentMinorType.display} link="/edit-vert-minor-type/" routeProps={{
                     tickOptions,
-                    onVerAxisTickMinor: props.onVerAxisTickMinor
+                    onVerAxisTickMinor: props.onVerAxisTickMinor,
+                    currentMinorType,
+                    setMinorType
                 }}></ListItem>
             </List>
             <BlockTitle>{_t.textLabelOptions}</BlockTitle>
             <List>
-                <ListItem title={_t.textLabelPosition} after={storeChartSettings.vertLabelPosition.display} link="/edit-vert-label-position/" routeProps={{
+                <ListItem title={_t.textLabelPosition} after={currentLabelsPosition.display} link="/edit-vert-label-position/" routeProps={{
                     verticalAxisLabelsPosition,
-                    onVerAxisLabelPos: props.onVerAxisLabelPos
+                    onVerAxisLabelPos: props.onVerAxisLabelPos,
+                    currentLabelsPosition,
+                    setLabelsPosition
                 }}></ListItem>
             </List>
         </Page>
@@ -772,9 +775,8 @@ const PageVerticalAxis = props => {
 const PageVertAxisCrosses = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const currentAxisCrosses = storeChartSettings.axisVertCrosses;
     const axisCrosses = props.axisCrosses;
+    const [currentAxisCrosses, setAxisCrosses] = useState(props.currentAxisCrosses);
 
     return (    
         <Page>
@@ -785,7 +787,8 @@ const PageVertAxisCrosses = props => {
                         <ListItem title={elem.display} key={index} radio
                             checked={currentAxisCrosses.value === elem.value} 
                             onChange={() => { 
-                                storeChartSettings.changeVertAxisCrosses(elem);
+                                props.setAxisCrosses(elem);
+                                setAxisCrosses(elem);
                                 props.onVerAxisCrossType(elem.value);
                                 props.f7router.back();
                             }}>
@@ -800,9 +803,8 @@ const PageVertAxisCrosses = props => {
 const PageDisplayUnits = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const displayUnits = storeChartSettings.displayUnits;
     const vertAxisDisplayUnits = props.vertAxisDisplayUnits;
+    const [currentDisplayUnits, setDisplayUnits] = useState(props.currentDisplayUnits);
     
     return (
         <Page>
@@ -811,9 +813,10 @@ const PageDisplayUnits = props => {
                 {vertAxisDisplayUnits.map((elem, index) => {
                     return (
                         <ListItem title={elem.display} key={index} radio
-                            checked={displayUnits.value === elem.value}
+                            checked={currentDisplayUnits.value === elem.value}
                             onChange={() => {
-                                storeChartSettings.changeDisplayUnits(elem);
+                                props.setDisplayUnits(elem);
+                                setDisplayUnits(elem);
                                 props.onVerAxisDisplayUnits(elem.value);
                                 props.f7router.back();
                             }}>
@@ -828,8 +831,7 @@ const PageDisplayUnits = props => {
 const PageVertMajorType = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const vertMajorType = storeChartSettings.vertMajorType;
+    const [currentMajorType, setMajorType] = useState(props.currentMajorType);
     const tickOptions = props.tickOptions;
 
     return (
@@ -839,9 +841,10 @@ const PageVertMajorType = props => {
                 {tickOptions.map((elem, index) => {
                     return (
                         <ListItem title={elem.display} key={index} radio
-                            checked={vertMajorType.value === elem.value}
+                            checked={currentMajorType.value === elem.value}
                             onChange={() => {
-                                storeChartSettings.changeVertMajorType(elem);
+                                props.setMajorType(elem);
+                                setMajorType(elem);
                                 props.onVerAxisTickMajor(elem.value);
                                 props.f7router.back();
                             }}>
@@ -856,8 +859,7 @@ const PageVertMajorType = props => {
 const PageVertMinorType = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const vertMinorType = storeChartSettings.vertMinorType;
+    const [currentMinorType, setMinorType] = useState(props.currentMinorType);
     const tickOptions = props.tickOptions;
 
     return (
@@ -867,9 +869,10 @@ const PageVertMinorType = props => {
                 {tickOptions.map((elem, index) => {
                     return (
                         <ListItem title={elem.display} key={index} radio
-                            checked={vertMinorType.value === elem.value}
+                            checked={currentMinorType.value === elem.value}
                             onChange={() => {
-                                storeChartSettings.changeVertMinorType(elem);
+                                props.setMinorType(elem);
+                                setMinorType(elem);
                                 props.onVerAxisTickMinor(elem.value);
                                 props.f7router.back();
                             }}>
@@ -884,8 +887,7 @@ const PageVertMinorType = props => {
 const PageVertLabelPosition = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const vertLabelPosition = storeChartSettings.vertLabelPosition;
+    const [currentLabelsPosition, setLabelsPosition] = useState(props.currentLabelsPosition);
     const verticalAxisLabelsPosition = props.verticalAxisLabelsPosition;
 
     return (
@@ -895,9 +897,10 @@ const PageVertLabelPosition = props => {
                 {verticalAxisLabelsPosition.map((elem, index) => {
                     return (
                         <ListItem title={elem.display} key={index} radio
-                            checked={vertLabelPosition.value === elem.value}
+                            checked={currentLabelsPosition.value === elem.value}
                             onChange={() => {
-                                storeChartSettings.changeVertLabelPosition(elem);
+                                props.setLabelsPosition(elem);
+                                setLabelsPosition(elem);
                                 props.onVerAxisLabelPos(elem.value);
                                 props.f7router.back();
                             }}>
@@ -912,8 +915,11 @@ const PageVertLabelPosition = props => {
 const PageHorizontalAxis = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const axisProps = props.initHorAxis();
+    const api = Common.EditorApi.get();
+    const isIos = Device.ios;
+    const chartProperty = api.asc_getChartObject();
+    const horAxisProps = chartProperty.getHorAxisProps();
+    const axisProps = (horAxisProps.getAxisType() == Asc.c_oAscAxisType.val) ? chartProperty.getVertAxisProps() : horAxisProps;
     const crossValue = axisProps.getCrossesRule();
 
     const axisCrosses = [
@@ -943,44 +949,23 @@ const PageHorizontalAxis = props => {
     ];
 
     const defineCurrentAxisCrosses = () => axisCrosses.find(elem => elem.value === crossValue);
-    const currentAxisCrosses = defineCurrentAxisCrosses();
-
-    if(!storeChartSettings.axisHorCrosses) {
-        storeChartSettings.changeHorAxisCrosses(currentAxisCrosses);
-    }
+    const [currentAxisCrosses, setAxisCrosses] = useState(defineCurrentAxisCrosses());
 
     const defineAxisPosition = () => horAxisPosition.find(elem => elem.value === axisProps.getLabelsPosition());
-    const axisPosition = defineAxisPosition();
+    const [axisPosition, setAxisPosition] = useState(defineAxisPosition());
 
-    if(!storeChartSettings.axisPosition) {
-        storeChartSettings.changeAxisPosition(axisPosition);
-    }
-
-    if(storeChartSettings.valuesHorReverseOrder == undefined) {
-        storeChartSettings.toggleHorValuesReverseOrder(axisProps.getInvertCatOrder());
-    }
+    const [valuesReverseOrder, toggleValuesReverseOrder] = useState(axisProps.getInvertCatOrder());
 
     const valueMajorType = axisProps.getMajorTickMark();
     const valueMinorType = axisProps.getMinorTickMark();
+
     const defineCurrentTickOption = (elemType) => tickOptions.find(elem => elem.value === elemType);
-    const currentMajorType = defineCurrentTickOption(valueMajorType);
 
-    if(!storeChartSettings.horMajorType) {
-        storeChartSettings.changeHorMajorType(currentMajorType);
-    }
-
-    const currentMinorType = defineCurrentTickOption(valueMinorType);
-
-    if(!storeChartSettings.horMinorType) {
-        storeChartSettings.changeHorMinorType(currentMinorType);
-    }
+    const [currentMajorType, setMajorType] = useState(defineCurrentTickOption(valueMajorType));
+    const [currentMinorType, setMinorType] = useState(defineCurrentTickOption(valueMinorType));
 
     const defineLabelsPosition = () => horAxisLabelsPosition.find(elem => elem.value === axisProps.getTickLabelsPos());
-    const currentLabelsPosition = defineLabelsPosition();
-
-    if(!storeChartSettings.horLabelPosition) {
-        storeChartSettings.changeHorLabelPosition(currentLabelsPosition);
-    }
+    const [currentLabelsPosition, setLabelsPosition] = useState(defineLabelsPosition());
 
     const currentCrossesValue = axisProps.getCrosses();
     const [crossesValue, setCrossesValue] = useState(!currentCrossesValue ? '' : currentCrossesValue);
@@ -988,15 +973,17 @@ const PageHorizontalAxis = props => {
     return (
         <Page>
             <Navbar title={_t.textAxisOptions} backLink={_t.textBack} />
-            <List className={isAndroid ? "inputs-list": ""}>
-                <ListItem title={_t.textAxisCrosses} link="/edit-hor-axis-crosses/" after={storeChartSettings.axisHorCrosses.display} routeProps={{
+            <List inlineLabels className="inputs-list">
+                <ListItem title={_t.textAxisCrosses} link="/edit-hor-axis-crosses/" after={currentAxisCrosses.display} routeProps={{
                     axisCrosses,
-                    onHorAxisCrossType: props.onHorAxisCrossType
+                    onHorAxisCrossType: props.onHorAxisCrossType,
+                    currentAxisCrosses,
+                    setAxisCrosses
                 }}></ListItem>
-                {storeChartSettings.axisHorCrosses.value == Asc.c_oAscCrossesRule.value ? (
+                {currentAxisCrosses.value == Asc.c_oAscCrossesRule.value ? (
                     <ListInput 
                         label={_t.textCrossesValue}
-                        type="text"
+                        type="number"
                         placeholder="0"
                         value={crossesValue}
                         onChange={e => props.onHorAxisCrossValue(e.target.value)} 
@@ -1006,36 +993,44 @@ const PageHorizontalAxis = props => {
                 ) : null}
             </List>
             <List>
-                <ListItem title={_t.textAxisPosition} link="/edit-hor-axis-position/" after={storeChartSettings.axisPosition.display} routeProps={{
+                <ListItem title={_t.textAxisPosition} link="/edit-hor-axis-position/" after={axisPosition.display} routeProps={{
                     horAxisPosition,
-                    onHorAxisPos: props.onHorAxisPos
+                    onHorAxisPos: props.onHorAxisPos,
+                    axisPosition,
+                    setAxisPosition
                 }}></ListItem>
                 <ListItem title={_t.textValuesInReverseOrder}>
                     <div slot="after">
-                        <Toggle checked={storeChartSettings.valuesHorReverseOrder} 
-                            onToggleChange={() => {
-                                storeChartSettings.toggleHorValuesReverseOrder(!storeChartSettings.valuesHorReverseOrder);
-                                props.onHorAxisReverse(!storeChartSettings.valuesHorReverseOrder);
+                        <Toggle checked={valuesReverseOrder} 
+                            onChange={() => {
+                                toggleValuesReverseOrder(!valuesReverseOrder);
+                                props.onHorAxisReverse(!valuesReverseOrder);
                             }} />
                     </div>
                 </ListItem>
             </List>
             <BlockTitle>{_t.textTickOptions}</BlockTitle>
             <List>
-                <ListItem title={_t.textMajorType} after={storeChartSettings.horMajorType.display} link="/edit-hor-major-type/" routeProps={{
+                <ListItem title={_t.textMajorType} after={currentMajorType.display} link="/edit-hor-major-type/" routeProps={{
                     tickOptions,
-                    onHorAxisTickMajor: props.onHorAxisTickMajor
+                    onHorAxisTickMajor: props.onHorAxisTickMajor,
+                    currentMajorType,
+                    setMajorType
                 }}></ListItem>
-                <ListItem title={_t.textMinorType} after={storeChartSettings.horMinorType.display} link="/edit-hor-minor-type/" routeProps={{
+                <ListItem title={_t.textMinorType} after={currentMinorType.display} link="/edit-hor-minor-type/" routeProps={{
                     tickOptions,
-                    onHorAxisTickMinor: props.onHorAxisTickMinor
+                    onHorAxisTickMinor: props.onHorAxisTickMinor,
+                    currentMinorType,
+                    setMinorType
                 }}></ListItem>
             </List>
             <BlockTitle>{_t.textLabelOptions}</BlockTitle>
             <List>
-                <ListItem title={_t.textLabelPosition} after={storeChartSettings.horLabelPosition.display} link="/edit-hor-label-position/" routeProps={{
+                <ListItem title={_t.textLabelPosition} after={currentLabelsPosition.display} link="/edit-hor-label-position/" routeProps={{
                     horAxisLabelsPosition,
-                    onHorAxisLabelPos: props.onHorAxisLabelPos
+                    onHorAxisLabelPos: props.onHorAxisLabelPos,
+                    currentLabelsPosition,
+                    setLabelsPosition
                 }}></ListItem>
             </List>
         </Page>
@@ -1045,8 +1040,7 @@ const PageHorizontalAxis = props => {
 const PageHorAxisCrosses = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const currentAxisCrosses = storeChartSettings.axisHorCrosses;
+    const [currentAxisCrosses, setAxisCrosses] = useState(props.currentAxisCrosses);
     const axisCrosses = props.axisCrosses;
 
     return (    
@@ -1058,7 +1052,8 @@ const PageHorAxisCrosses = props => {
                         <ListItem title={elem.display} key={index} radio
                             checked={currentAxisCrosses.value === elem.value} 
                             onChange={() => { 
-                                storeChartSettings.changeHorAxisCrosses(elem);
+                                props.setAxisCrosses(elem);
+                                setAxisCrosses(elem);
                                 props.onHorAxisCrossType(elem.value);
                                 props.f7router.back();
                             }}>
@@ -1073,8 +1068,7 @@ const PageHorAxisCrosses = props => {
 const PageHorAxisPosition = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const axisPosition = storeChartSettings.axisPosition;
+    const [axisPosition, setAxisPosition] = useState(props.axisPosition);
     const horAxisPosition = props.horAxisPosition;
 
     return (    
@@ -1086,7 +1080,8 @@ const PageHorAxisPosition = props => {
                         <ListItem title={elem.display} key={index} radio
                             checked={axisPosition.value === elem.value} 
                             onChange={() => { 
-                                storeChartSettings.changeAxisPosition(elem);
+                                props.setAxisPosition(elem);
+                                setAxisPosition(elem);
                                 props.onHorAxisPos(elem.value);
                                 props.f7router.back();
                             }}>
@@ -1101,8 +1096,7 @@ const PageHorAxisPosition = props => {
 const PageHorMajorType = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const horMajorType = storeChartSettings.horMajorType;
+    const [currentMajorType, setMajorType] = useState(props.currentMajorType);
     const tickOptions = props.tickOptions;
 
     return (
@@ -1112,9 +1106,10 @@ const PageHorMajorType = props => {
                 {tickOptions.map((elem, index) => {
                     return (
                         <ListItem title={elem.display} key={index} radio
-                            checked={horMajorType.value === elem.value}
+                            checked={currentMajorType.value === elem.value}
                             onChange={() => {
-                                storeChartSettings.changeHorMajorType(elem);
+                                props.setMajorType(elem);
+                                setMajorType(elem);
                                 props.onHorAxisTickMajor(elem.value);
                                 props.f7router.back();
                             }}>
@@ -1129,8 +1124,7 @@ const PageHorMajorType = props => {
 const PageHorMinorType = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const horMinorType = storeChartSettings.horMinorType;
+    const [currentMinorType, setMinorType] = useState(props.currentMinorType);
     const tickOptions = props.tickOptions;
 
     return (
@@ -1140,9 +1134,10 @@ const PageHorMinorType = props => {
                 {tickOptions.map((elem, index) => {
                     return (
                         <ListItem title={elem.display} key={index} radio
-                            checked={horMinorType.value === elem.value}
+                            checked={currentMinorType.value === elem.value}
                             onChange={() => {
-                                storeChartSettings.changeHorMinorType(elem);
+                                props.setMinorType(elem);
+                                setMinorType(elem);
                                 props.onHorAxisTickMinor(elem.value);
                                 props.f7router.back();
                             }}>
@@ -1157,8 +1152,7 @@ const PageHorMinorType = props => {
 const PageHorLabelPosition = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeChartSettings = props.storeChartSettings;
-    const horLabelPosition = storeChartSettings.horLabelPosition;
+    const [currentLabelsPosition, setLabelsPosition] = useState(props.currentLabelsPosition);
     const horAxisLabelsPosition = props.horAxisLabelsPosition;
 
     return (
@@ -1168,9 +1162,10 @@ const PageHorLabelPosition = props => {
                 {horAxisLabelsPosition.map((elem, index) => {
                     return (
                         <ListItem title={elem.display} key={index} radio
-                            checked={horLabelPosition.value === elem.value}
+                            checked={currentLabelsPosition.value === elem.value}
                             onChange={() => {
-                                storeChartSettings.changeHorLabelPosition(elem);
+                                props.setLabelsPosition(elem);
+                                setLabelsPosition(elem);
                                 props.onHorAxisLabelPos(elem.value);
                                 props.f7router.back();
                             }}>
@@ -1207,10 +1202,10 @@ const EditChart = props => {
                 }}></ListItem>
                 <ListItem title={_t.textLayout} link='/edit-chart-layout/' routeProps={{
                     disableSetting, 
-                    setLayoutProperty: props.setLayoutProperty
+                    setLayoutProperty: props.setLayoutProperty,
+                    initChartLayout: props.initChartLayout
                 }}></ListItem>
                 <ListItem title={_t.textVerticalAxis} link='/edit-chart-vertical-axis/' disabled={disableSetting} routeProps={{
-                    initVertAxis: props.initVertAxis,
                     onVerAxisMinValue: props.onVerAxisMinValue,
                     onVerAxisMaxValue: props.onVerAxisMaxValue,
                     onVerAxisCrossType: props.onVerAxisCrossType,
@@ -1222,7 +1217,6 @@ const EditChart = props => {
                     onVerAxisLabelPos: props.onVerAxisLabelPos
                 }}></ListItem>
                 <ListItem title={_t.textHorizontalAxis} link='/edit-chart-horizontal-axis/' disabled={disableSetting} routeProps={{
-                    initHorAxis: props.initHorAxis,
                     onHorAxisCrossType: props.onHorAxisCrossType,
                     onHorAxisCrossValue: props.onHorAxisCrossValue,
                     onHorAxisPos: props.onHorAxisPos,
@@ -1247,26 +1241,9 @@ const PageChartStyle = inject("storeChartSettings", "storeFocusObjects")(observe
 const PageChartCustomFillColor = inject("storeChartSettings", "storePalette")(observer(PageCustomFillColor));
 const PageChartBorderColor = inject("storeChartSettings", "storePalette")(observer(PageBorderColor));
 const PageChartCustomBorderColor = inject("storeChartSettings", "storePalette")(observer(PageCustomBorderColor));
-const PageChartLayout = inject("storeChartSettings", "storeFocusObjects")(observer(PageLayout));
-const PageChartLegend = inject("storeChartSettings")(observer(PageLegend));
-const ChartTitle = inject("storeChartSettings")(observer(PageChartTitle));
-const PageChartHorizontalAxisTitle = inject("storeChartSettings")(observer(PageHorizontalAxisTitle));
-const PageChartVerticalAxisTitle = inject("storeChartSettings", "storeFocusObjects")(observer(PageVerticalAxisTitle));
-const PageChartHorizontalGridlines = inject("storeChartSettings")(observer(PageHorizontalGridlines));
-const PageChartVerticalGridlines = inject("storeChartSettings")(observer(PageVerticalGridlines));
-const PageChartDataLabels = inject("storeChartSettings")(observer(PageDataLabels));
-const PageChartVerticalAxis = inject("storeChartSettings")(observer(PageVerticalAxis));
-const PageChartVertAxisCrosses = inject("storeChartSettings")(observer(PageVertAxisCrosses));
-const PageChartDisplayUnits = inject("storeChartSettings")(observer(PageDisplayUnits));
-const PageChartVertMajorType = inject("storeChartSettings")(observer(PageVertMajorType));
-const PageChartVertMinorType = inject("storeChartSettings")(observer(PageVertMinorType));
-const PageChartVertLabelPosition = inject("storeChartSettings")(observer(PageVertLabelPosition));
-const PageChartHorizontalAxis = inject("storeChartSettings")(observer(PageHorizontalAxis));
-const PageChartHorAxisCrosses = inject("storeChartSettings")(observer(PageHorAxisCrosses));
-const PageChartHorAxisPosition = inject("storeChartSettings")(observer(PageHorAxisPosition));
-const PageChartHorMajorType = inject("storeChartSettings")(observer(PageHorMajorType));
-const PageChartHorMinorType = inject("storeChartSettings")(observer(PageHorMinorType));
-const PageChartHorLabelPosition = inject("storeChartSettings")(observer(PageHorLabelPosition));
+const PageChartLayout = inject("storeFocusObjects")(observer(PageLayout));
+const PageChartVerticalAxis = inject("storeFocusObjects")(observer(PageVerticalAxis));
+const PageChartHorizontalAxis = inject("storeFocusObjects")(observer(PageHorizontalAxis));
 
 export {
     PageEditChart as EditChart,
@@ -1276,23 +1253,23 @@ export {
     PageChartCustomBorderColor,
     PageReorder as PageChartReorder,
     PageChartLayout,
-    PageChartLegend,
-    ChartTitle as PageChartTitle,
-    PageChartHorizontalAxisTitle,
-    PageChartVerticalAxisTitle,
-    PageChartHorizontalGridlines,
-    PageChartVerticalGridlines,
-    PageChartDataLabels,
+    PageLegend,
+    PageChartTitle,
+    PageHorizontalAxisTitle,
+    PageVerticalAxisTitle,
+    PageHorizontalGridlines,
+    PageVerticalGridlines,
+    PageDataLabels,
     PageChartVerticalAxis,
-    PageChartVertAxisCrosses,
-    PageChartDisplayUnits,
-    PageChartVertMajorType,
-    PageChartVertMinorType,
-    PageChartVertLabelPosition, 
+    PageVertAxisCrosses,
+    PageDisplayUnits,
+    PageVertMajorType,
+    PageVertMinorType,
+    PageVertLabelPosition, 
     PageChartHorizontalAxis,
-    PageChartHorAxisCrosses,
-    PageChartHorAxisPosition, 
-    PageChartHorMajorType,
-    PageChartHorMinorType,
-    PageChartHorLabelPosition
+    PageHorAxisCrosses,
+    PageHorAxisPosition, 
+    PageHorMajorType,
+    PageHorMinorType,
+    PageHorLabelPosition
 }
