@@ -1046,6 +1046,14 @@ define([
                 items: []
             }).on('show:after', function () {
                 this.scroller.update({alwaysVisibleY: true});
+            }).on('keydown:before', function (menu, e) {
+                if (e.altKey && e.keyCode == Common.UI.Keys.DOWN) {
+                    var li = $(e.target).closest('li');
+                    if (li.length>0)
+                        li.click();
+                    else
+                        menu.hide();
+                }
             });
 
             this.funcMenu = new Common.UI.Menu({
