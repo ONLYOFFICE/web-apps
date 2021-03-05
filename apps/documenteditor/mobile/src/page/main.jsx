@@ -76,7 +76,7 @@ export default class MainPage extends Component {
               </Navbar>
               {/* Page content */}
               <View id="editor_sdk">
-
+            
               </View>
               {/* {
                   Device.phone ? null : <SearchSettings />

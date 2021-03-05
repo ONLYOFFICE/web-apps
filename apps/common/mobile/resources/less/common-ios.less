@@ -393,10 +393,17 @@
 
     // Find and Replace 
 
+    .navbar {
+        .searchbar-input-wrap {
+            margin-right: 10px;
+            height: 28px;
+        }
+    }
+
     .searchbar input[type=search] {
         box-sizing: border-box;
         width: 100%;
-        height: 28px;
+        height: 100%;
         display: block;
         border: none;
         appearance: none;
@@ -408,6 +415,39 @@
         padding: 0 8px;
         background-color: @white;
         padding: 0 28px;
-        height: 100%;
+    }
+
+    @media(max-width: 550px)
+    {
+        .searchbar-expandable.searchbar-enabled {
+            top: auto;
+            .searchbar-inner {
+                &__left {
+                    margin-right: 15px;
+                }
+                &__center {
+                    flex-direction: column;
+                }
+                &__right {
+                    flex-direction: column-reverse;
+                    margin-left: 10px;
+                }
+            }
+            &.replace {
+                height: 88px;
+                top: 0;
+                .searchbar-inner {
+                    height: 100%;
+                    &__left {
+                        align-items: flex-start;
+                    }
+                    &__center {
+                        .searchbar-input-wrap {
+                            margin: 8px 0;
+                        }
+                    }
+                }
+            }
+        } 
     }
 }

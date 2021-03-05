@@ -147,7 +147,7 @@ class SearchView extends Component {
 
         if (searchOptions.usereplace) {
             params.replace = this.$replace.val();
-        }
+        } 
 
         return params;
     }
@@ -240,14 +240,16 @@ class SearchView extends Component {
         const hidden = {display: "none"};
         const searchQuery = this.state.searchQuery;
         const replaceQuery = this.state.replaceQuery;
+        const isIos = Device.ios;
         // const _t = this.t('View.Settings', {returnObjects: true});
 
-        // console.log(searchQuery);
-        // console.log(replaceQuery)
+        if(this.searchbar && this.searchbar.enabled) {
+            usereplace ? this.searchbar.el.classList.add('replace') : this.searchbar.el.classList.remove('replace');
+        }
 
         return (
             <form className="searchbar">
-                <div className="searchbar-bg"></div>
+                {isIos ? <div className="searchbar-bg"></div> : null}
                 <div className="searchbar-inner">
                     <div className="buttons-row searchbar-inner__left">
                         <a id="idx-btn-search-settings" className="link icon-only" onClick={this.onSettingsClick}>
@@ -258,13 +260,13 @@ class SearchView extends Component {
                         <div className="searchbar-input-wrap">
                             <input placeholder="Search" type="search" value={searchQuery} 
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} />
-                            <i className="searchbar-icon" />
+                            {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" />
                         </div>
                         <div className="searchbar-input-wrap" style={!usereplace ? hidden: null}>
                             <input placeholder="Replace" type="search" id="idx-replace-val" value={replaceQuery} 
                                 onChange={e => {this.changeReplaceQuery(e.target.value)}} />
-                            <i className="searchbar-icon" />
+                            {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" />
                         </div>
                     </div>
