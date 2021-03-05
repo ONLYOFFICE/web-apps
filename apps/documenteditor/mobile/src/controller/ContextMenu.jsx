@@ -47,6 +47,12 @@ class ContextMenu extends ContextMenuController {
     onMenuItemClick(action) {
         super.onMenuItemClick(action);
 
+        switch (action) {
+            case 'addcomment':
+                Common.Notifications.trigger('addcomment');
+                break;
+        }
+
         console.log("click context menu item: " + action);
     }
 
@@ -78,7 +84,7 @@ class ContextMenu extends ContextMenuController {
             });
         }
 
-        if ( canViewComments && this.isComments && isEdit ) {
+        if ( canViewComments && this.isComments && !isEdit ) {
             itemsText.push({
                 caption: /*me.menuViewComment*/'View Comment',
                 event: 'viewcomment'
@@ -152,6 +158,24 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
+                // For test
+                if ( this.isComments && canViewComments ) {
+                    itemsText.push({
+                        caption: /*me.menuViewComment*/'View Comment',
+                        event: 'viewcomment'
+                    });
+                }
+
+                const isObject = isShape || isChart || isImage || isTable;
+                const hideAddComment = !canViewComments || api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject);
+                if ( !hideAddComment ) {
+                    itemsText.push({
+                        caption: /*me.menuAddComment*/'Add Comment',
+                        event: 'addcomment'
+                    });
+                }
+                // end test
+
                 if ( isTable && api.CheckBeforeMergeCells() && !lockedTable && !lockedHeader) {
                     itemsText.push({
                         caption: /*me.menuMerge*/'Merge',
@@ -215,14 +239,14 @@ class ContextMenu extends ContextMenuController {
                     });
                 }
 
-                const isObject = isShape || isChart || isImage || isTable;
+                /*const isObject = isShape || isChart || isImage || isTable;
                 const hideAddComment = !canViewComments || api.can_AddQuotedComment() === false || lockedText || lockedTable || lockedImage || lockedHeader || (!isText && isObject);
                 if ( !hideAddComment ) {
                     itemsText.push({
-                        caption: /*me.menuAddComment*/'Add Comment',
+                        caption: 'Add Comment',
                         event: 'addcomment'
                     });
-                }
+                }*/
             }
         }
 

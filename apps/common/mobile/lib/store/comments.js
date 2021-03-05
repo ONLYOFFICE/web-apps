@@ -102,15 +102,6 @@ export class storeComments {
         return false;
     }
 
-    // Add comment modal window
-    @observable isOpenAddComment = false;
-
-    @action openAddComment (open) {
-        if (open !== this.isOpenAddComment) {
-            this.isOpenAddComment = open;
-        }
-    }
-
     // Edit comment
     currentComment = null;
     @observable isOpenEditComment = false;

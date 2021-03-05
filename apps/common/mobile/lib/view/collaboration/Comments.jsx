@@ -19,7 +19,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
             <Navbar>
                 <NavLeft>
                     <Link onClick={() => {
-                        props.storeComments.openAddComment(false);
+                        props.closeAddComment();
                         f7.popup.close('.add-comment-popup');
                     }}>{_t.textCancel}</Link>
                 </NavLeft>
@@ -28,7 +28,7 @@ const AddCommentPopup = inject("storeComments")(observer(props => {
                     <Link className={stateText.length === 0 && 'disabled'}
                           onClick={() => {
                               if (props.onAddNewComment(stateText, false)) {
-                                  props.storeComments.openAddComment(false);
+                                  props.closeAddComment();
                                   f7.popup.close('.add-comment-popup');
                               }
                     }}>
@@ -87,14 +87,14 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
                     const cancel = document.getElementById('comment-cancel');
                     cancel.addEventListener('click', () => {
                         f7.dialog.close();
-                        props.storeComments.openAddComment(false);
+                        props.closeAddComment();
                     });
                     const done = document.getElementById('comment-done');
                     done.addEventListener('click', () => {
                         const value = document.getElementById('comment-text').value;
                         if (value.length > 0 && props.onAddNewComment(value, false)) {
                             f7.dialog.close();
-                            props.storeComments.openAddComment(false);
+                            props.closeAddComment();
                         }
                     });
                     const area = document.getElementById('comment-text');
@@ -118,8 +118,8 @@ const AddCommentDialog = inject("storeComments")(observer(props => {
 const AddComment = props => {
     return (
         Device.phone ?
-            <AddCommentPopup userInfo={props.userInfo} onAddNewComment={props.onAddNewComment} /> :
-            <AddCommentDialog userInfo={props.userInfo} onAddNewComment={props.onAddNewComment} />
+            <AddCommentPopup {...props} /> :
+            <AddCommentDialog {...props} />
     )
 };
 

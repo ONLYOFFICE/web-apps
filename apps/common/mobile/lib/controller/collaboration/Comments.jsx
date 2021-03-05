@@ -218,8 +218,20 @@ class CommentsController extends Component {
 class AddCommentController extends Component {
     constructor(props) {
         super(props);
+        this.closeAddComment = this.closeAddComment.bind(this);
         this.getUserInfo = this.getUserInfo.bind(this);
         this.onAddNewComment = this.onAddNewComment.bind(this);
+
+        this.state = {
+            isOpen: false
+        };
+
+        Common.Notifications.on('addcomment', () => {
+            this.setState({isOpen: true});
+        });
+    }
+    closeAddComment () {
+        this.setState({isOpen: false});
     }
     getUserInfo () {
         this.currentUser = this.props.users.currentUser;
@@ -255,13 +267,8 @@ class AddCommentController extends Component {
         return false;
     }
     render() {
-        const isOpen = this.props.storeComments.isOpenAddComment;
-        let userInfo;
-        if (isOpen) {
-            userInfo = this.getUserInfo();
-        }
         return(
-            isOpen ? <AddComment userInfo={userInfo} onAddNewComment={this.onAddNewComment} /> : null
+            this.state.isOpen ? <AddComment userInfo={this.getUserInfo()} onAddNewComment={this.onAddNewComment} closeAddComment={this.closeAddComment}/> : null
         )
     }
 }
