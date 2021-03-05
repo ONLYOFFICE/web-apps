@@ -170,6 +170,12 @@
         }
     }
 
+    &:not(:disabled) {
+        .icon {
+            opacity: @button-icon-opacity;
+        }
+    }
+
     &:active:not(.disabled),
     &.active:not(.disabled) {
         .caret-up, .caret-down {
@@ -300,6 +306,12 @@
     border: 0;
     .border-radius(1px);
     background-color: transparent;
+
+    .masked & {
+        &:disabled {
+            opacity: 1;
+        }
+    }
 
     .btn.small;
 
@@ -885,6 +897,12 @@
         vertical-align: middle;
         width: 52px;
         padding: 5px;
+
+        fill: @icon-normal;
+
+        .btn& {
+            opacity: 1;
+        }
     }
 
     &:hover,

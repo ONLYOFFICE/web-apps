@@ -369,8 +369,8 @@ define([
 
             this.btnFrameNone = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-none'),
-                cls         : 'btn huge btn-options',
-                iconCls     : 'icon-right-panel btn-frame-none',
+                cls         : 'btn huge-1 btn-options',
+                iconCls     : 'options__icon options__icon-huge none',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -385,8 +385,8 @@ define([
 
             this.btnFrameInline = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-inline'),
-                cls         : 'btn huge btn-options',
-                iconCls     : 'icon-right-panel btn-frame-inline',
+                cls         : 'btn huge-1 btn-options',
+                iconCls     : 'options__icon options__icon-huge table-align-center',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -401,8 +401,8 @@ define([
 
             this.btnFrameFlow = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-flow'),
-                cls         : 'btn huge btn-options',
-                iconCls     : 'icon-right-panel btn-frame-flow',
+                cls         : 'btn huge-1 btn-options',
+                iconCls     : 'options__icon options__icon-huge table-flow',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
