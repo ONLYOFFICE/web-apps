@@ -279,7 +279,7 @@ define([
                 } else {
                     this.rangePr.asc_setStartNum(parseFloat(this.inputStart.getValue().toString().replace(',','.')));
                     this.rangePr.asc_setEndNum(parseFloat(this.inputEnd.getValue().toString().replace(',','.')));
-                    this.rangePr.asc_setGroupInterval(parseFloat(this.inputBy.getValue()));
+                    this.rangePr.asc_setGroupInterval(parseFloat(this.inputBy.getValue().toString().replace(',','.')));
                 }
             }
 
@@ -324,7 +324,7 @@ define([
                     this.inputEnd.focus();
                     return false;
                 }
-                if (!regstr.test(this.inputBy.getValue())) {
+                if (!regstr.test(this.inputBy.getValue().toString())) {
                     this.inputBy.showError([this.textError]);
                     this.inputBy.focus();
                     return false;
