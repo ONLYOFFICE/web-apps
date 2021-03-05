@@ -482,7 +482,7 @@ define([
             item.value=='grouping' ? this.api.asc_groupPivot() : this.api.asc_ungroupPivot();
         },
 
-        onShowPivotGroupDialog: function(rangePr, dateTypes) {
+        onShowPivotGroupDialog: function(rangePr, dateTypes, defRangePr) {
             var win, props,
                 me = this;
             win = new SSE.Views.PivotGroupDialog({
@@ -496,7 +496,7 @@ define([
                 }
             });
             win.show();
-            win.setSettings(rangePr, dateTypes, me.permissions.lang);
+            win.setSettings(rangePr, dateTypes, defRangePr, me.permissions.lang);
         },
 
         onClear: function(menu, item) {

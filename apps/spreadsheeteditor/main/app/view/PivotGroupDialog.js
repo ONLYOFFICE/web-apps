@@ -131,7 +131,9 @@ define([
                 labelText: this.textStart
             });
             this.chStart.on('change', function (field, newValue, oldValue, eOpts) {
-
+                if (newValue=='checked' && !me.dateTypes && me.defRangePr) {
+                    me.inputStart.setValue(me.defRangePr.start);
+                }
             });
 
             this.chEnd = new Common.UI.CheckBox({
@@ -139,7 +141,9 @@ define([
                 labelText: this.textEnd
             });
             this.chEnd.on('change', function (field, newValue, oldValue, eOpts) {
-
+                if (newValue=='checked' && !me.dateTypes && me.defRangePr) {
+                    me.inputEnd.setValue(me.defRangePr.end);
+                }
             });
 
             this.inputStart = new Common.UI.InputField({
@@ -232,7 +236,7 @@ define([
             this.btnOk.setDisabled(selected<1);
         },
 
-        setSettings: function (rangePr, dateTypes, lang) {
+        setSettings: function (rangePr, dateTypes, defRangePr, lang) {
             this.$window.find('.group-number').toggleClass('hidden', !!dateTypes);
             this.$window.find('.group-date').toggleClass('hidden', !dateTypes);
             if (rangePr) {
@@ -242,6 +246,9 @@ define([
                 this.inputEnd.setValue((dateTypes ? new Date(rangePr.asc_getEndDate()).toLocaleDateString(lang) : rangePr.asc_getEndNum()) || '');
                 !dateTypes && this.inputBy.setValue(rangePr.asc_getGroupInterval() || '');
                 this.rangePr = rangePr;
+                if (defRangePr) {
+                    this.defRangePr = {start: defRangePr.asc_getStartNum(), end: defRangePr.asc_getEndNum()};
+                }
             }
             if (dateTypes) {
                 var me = this,
@@ -270,8 +277,8 @@ define([
                     this.rangePr.asc_setStartDate(new Date(this.inputStart.getValue()).getTime());
                     this.rangePr.asc_setEndDate(new Date(this.inputEnd.getValue()).getTime());
                 } else {
-                    this.rangePr.asc_setStartNum(parseFloat(this.inputStart.getValue()));
-                    this.rangePr.asc_setEndNum(parseFloat(this.inputEnd.getValue()));
+                    this.rangePr.asc_setStartNum(parseFloat(this.inputStart.getValue().toString().replace(',','.')));
+                    this.rangePr.asc_setEndNum(parseFloat(this.inputEnd.getValue().toString().replace(',','.')));
                     this.rangePr.asc_setGroupInterval(parseFloat(this.inputBy.getValue()));
                 }
             }
@@ -281,13 +288,13 @@ define([
 
         isRangeValid: function() {
             if (this.dateTypes) {
-                var res1 = new Date(this.inputStart.getValue()).getTime();
+                var res1 = new Date(this.inputStart.getValue().toString()).getTime();
                 if (isNaN(res1)) {
                     this.inputStart.showError([this.textError]);
                     this.inputStart.focus();
                     return false;
                 }
-                var res2 = new Date(this.inputEnd.getValue()).getTime();
+                var res2 = new Date(this.inputEnd.getValue().toString()).getTime();
                 if (isNaN(res2)) {
                     this.inputEnd.showError([this.textError]);
                     this.inputEnd.focus();
@@ -300,19 +307,19 @@ define([
                 }
             } else {
                 var regstr = new RegExp('^\s*[0-9]+[,.]?[0-9]*\s*$');
-                var res1 = this.inputStart.getValue();
+                var res1 = this.inputStart.getValue().toString();
                 if (!regstr.test(res1)) {
                     this.inputStart.showError([this.textError]);
                     this.inputStart.focus();
                     return false;
                 }
-                var res2 = this.inputEnd.getValue();
+                var res2 = this.inputEnd.getValue().toString();
                 if (!regstr.test(res2)) {
                     this.inputEnd.showError([this.textError]);
                     this.inputEnd.focus();
                     return false;
                 }
-                if (parseFloat(res2)<parseFloat(res1)) {
+                if (parseFloat(res2.replace(',','.'))<parseFloat(res1.replace(',','.'))) {
                     Common.UI.warning({msg: this.textGreaterError, maxwidth: 600});
                     this.inputEnd.focus();
                     return false;
