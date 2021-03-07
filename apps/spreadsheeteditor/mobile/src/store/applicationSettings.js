@@ -1,15 +1,40 @@
-import {action, observable} from 'mobx';
+import {makeObservable, action, observable} from 'mobx';
+
 export class storeApplicationSettings {
-   
-    @observable unitMeasurement = Common.Utils.Metric.getCurrentMetric();
-    @observable macrosMode = 0;
-    @observable formulaLang = Common.Locale.currentLang || dataLang[0].value;
-    @observable regCode = undefined;
-    @observable regExample = '';
-    @observable regData = [];
-    @observable isRefStyle = false;
-    @observable isComments = true;
-    @observable isResolvedComments = true;
+    constructor() {
+        makeObservable(this, {
+            unitMeasurement: observable
+            , macrosMode: observable
+            , formulaLang: observable
+            , regCode: observable
+            , regExample: observable
+            , regData: observable
+            , isRefStyle: observable
+            , isComments: observable
+            , isResolvedComments: observable
+            , initRegData: action
+            , getRegCode: action
+            , changeRegCode: action
+            , setRegExample: action
+            , changeUnitMeasurement: action
+            , changeMacrosSettings: action
+            , changeDisplayComments: action
+            , changeDisplayResolved: action
+            , changeRefStyle: action
+            , changeFormulaLang: action
+
+        })
+    }
+
+    unitMeasurement = Common.Utils.Metric.getCurrentMetric();
+    macrosMode = 0;
+    formulaLang = Common.Locale.currentLang || dataLang[0].value;
+    regCode = undefined;
+    regExample = '';
+    regData = [];
+    isRefStyle = false;
+    isComments = true;
+    isResolvedComments = true;
 
     getFormulaLanguages() {
         const dataLang = [
@@ -35,7 +60,7 @@ export class storeApplicationSettings {
         return regDataCode;
     }
 
-    @action initRegData() {
+    initRegData() {
         const regDataCodes = this.getRegDataCodes();
 
         regDataCodes.forEach(item => {
@@ -44,7 +69,7 @@ export class storeApplicationSettings {
         })
     }
 
-    @action getRegCode() {
+    getRegCode() {
         const regData = this.regData;
         let value = Number(Common.localStorage.getItem('sse-settings-regional'));
         
@@ -59,36 +84,36 @@ export class storeApplicationSettings {
         }
     }
 
-    @action changeRegCode(value) {
+    changeRegCode(value) {
         this.regCode = value;
     }
 
-    @action setRegExample(value) {
+    setRegExample(value) {
         this.regExample = value;
     }
 
-    @action changeUnitMeasurement(value) {
+    changeUnitMeasurement(value) {
         this.unitMeasurement = +value;
     }
 
-    @action changeMacrosSettings(value) {
+    changeMacrosSettings(value) {
         this.macrosMode = +value;
     }
 
-    @action changeDisplayComments(value) {
+    changeDisplayComments(value) {
         this.isComments = value;
         if (!value) this.changeDisplayResolved(value);
     }
 
-    @action changeDisplayResolved(value) {
+    changeDisplayResolved(value) {
         this.isResolvedComments = value;
     }
 
-    @action changeRefStyle(value) {
+    changeRefStyle(value) {
         this.isRefStyle = value;
     }
 
-    @action changeFormulaLang(value) {
+    changeFormulaLang(value) {
         this.formulaLang = value;
     }
 }
