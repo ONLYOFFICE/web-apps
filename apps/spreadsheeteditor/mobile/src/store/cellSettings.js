@@ -120,8 +120,7 @@ export class storeCellSettings {
         this.fontInfo.size = xfs.asc_getFontSize();
 
         this.fontInfo.color = xfs.asc_getFontColor();
-        let clr = this.resetColor(this.fontInfo.color);
-        this.fontColor = clr;
+        this.fontColor = this.resetColor(this.fontInfo.color);
 
         this.isBold = xfs.asc_getFontBold();
         this.isItalic = xfs.asc_getFontItalic();
@@ -132,9 +131,8 @@ export class storeCellSettings {
         let array = [];
 
         for (let font of fonts) {
-            let fontId = font.asc_getFontId();
             array.push({
-                id          : fontId,
+                id          : font.asc_getFontId(),
                 name        : font.asc_getFontName(),
                 //displayValue: font.asc_getFontName(),
                 imgidx      : font.asc_getFontThumbnail(),
@@ -167,6 +165,7 @@ export class storeCellSettings {
 
     changeBorderSize(size) {
         this.borderInfo.width = size;
+        console.log('change border width ' + size);
     }
 
     changeBorderStyle(type) {
