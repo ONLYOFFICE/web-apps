@@ -71,7 +71,6 @@ export class storeTableSettings {
     // Border style
     @observable cellBorders;
     @observable cellBorderWidth = 0.5;
-    @observable cellBorderWidth = 0.5;
     @observable cellBorderColor = '000000';
 
     borderSizeTransform () {
