@@ -1,7 +1,11 @@
-import {action, observable, computed} from 'mobx';
+import {makeObservable, action, observable, computed} from 'mobx';
 import {f7} from 'framework7-react';
 
 export class storeTableSettings {
+    constructor() {
+        makeObservable(this)
+    }
+
     @observable _templates = [];
     @action initTableTemplates (templates) {
         this._templates = templates;
