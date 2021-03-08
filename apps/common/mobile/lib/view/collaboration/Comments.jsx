@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import {observer, inject} from "mobx-react";
-import { f7, Popup, Page, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
+import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
 
@@ -633,10 +633,137 @@ const ViewComments = ({storeComments, storeAppOptions, onCommentMenuClick, onRes
 
 const _ViewComments = inject('storeComments', 'storeAppOptions')(observer(ViewComments));
 
+const CommentList = () => {
+    return (
+        <List>
+
+        </List>
+    )
+};
+
+const ViewCommentSheet = ({closeCurComments}) => {
+    const { t } = useTranslation();
+    const _t = t('Common.Collaboration', {returnObjects: true});
+
+    const appHeight = f7.height;
+    //const [sheetHeight, setSheetHeight] = useState('45%');
+
+    let swipeStart,
+        swipeChange;
+
+    useEffect(() => {
+        f7.sheet.open('#view-comment-sheet');
+        const swipeHandler = document.getElementById('swipe-handler');
+        swipeHandler.addEventListener('touchstart', handleTouchStart);
+        swipeHandler.addEventListener('touchmove', handleTouchMove);
+        swipeHandler.addEventListener('touchend', handleTouchEnd);
+    });
+    const handleTouchStart = (event) => {
+        console.log('start');
+        const touchObj = event.changedTouches[0];
+        swipeStart = parseInt(touchObj.clientY);
+        swipeChange = parseInt(touchObj.clientY);
+    };
+    const handleTouchMove = (event) => {
+        console.log('move');
+        const touchObj = event.changedTouches[0];
+        const dist = parseInt(touchObj.clientY) - swipeStart;
+        const height = (appHeight - parseInt(touchObj.clientY)).toString();
+        document.getElementById('view-comment-sheet').style.setProperty('height', `${height}px`);
+        /*if (dist < 0) {
+            newHeight = '100%';
+            me.swipeFull = true;
+            me.closeCommentPicker = false;
+            if (window.SSE) {
+                if ($('.container-view-comment').hasClass('onHide')) {
+                    $('.container-view-comment').removeClass('onHide');
+                }
+            } else {
+                $('.container-view-comment').css('opacity', '1');
+            }
+        } else if (dist < 100) {
+            newHeight = '50%';
+            me.swipeFull = false;
+            me.closeCommentPicker = false;
+            if (window.SSE) {
+                if ($('.container-view-comment').hasClass('onHide')) {
+                    $('.container-view-comment').removeClass('onHide');
+                }
+            } else {
+                $('.container-view-comment').css('opacity', '1');
+            }
+        } else {
+            me.closeCommentPicker = true;
+            if (window.SSE) {
+                if (!$('.container-view-comment').hasClass('onHide')) {
+                    $('.container-view-comment').addClass('onHide');
+                }
+            } else {
+                $('.container-view-comment').css('opacity', '0.6');
+            }
+        }
+        $('.container-view-comment').css('height', newHeight);
+        me.swipeHeight = newHeight;
+        e.preventDefault();*/
+    };
+    const handleTouchEnd = () => {
+        console.log('end');
+        /*var touchobj = e.changedTouches[0];
+        var swipeEnd = parseInt(touchobj.clientY);
+        var dist = swipeEnd - me.swipeStart;
+        if (me.closeCommentPicker) {
+            uiApp.closeModal();
+            me.modalViewComment.remove();
+        } else if (me.swipeFull) {
+            if (dist > 20) {
+                $('.container-view-comment').css('height', '50%');
+            }
+        }
+        me.swipeHeight = undefined;
+        me.swipeChange = undefined;
+        me.closeCommentPicker = undefined;*/
+    };
+    return (
+        <Sheet id='view-comment-sheet'>
+            <Toolbar position='bottom'>
+                <Link className='btn-add-reply' href='#'>{_t.textAddReply}</Link>
+                <div className='comment-navigation row'>
+                    <Link href='#'><Icon slot='media' icon='icon-prev'/></Link>
+                    <Link href='#'><Icon slot='media' icon='icon-next'/></Link>
+                </div>
+            </Toolbar>
+            <div id='swipe-handler' className='swipe-container'>
+                <Icon icon='icon-swipe'/>
+            </div>
+            <CommentList />
+        </Sheet>
+    )
+};
+
+const ViewCommentPopover = () => {
+    useEffect(() => {
+        f7.popover.open('#view-comment-popover', '#btn-coauth');
+    });
+    return (
+        <Popover id='view-comment-popover'>
+            <CommentList />
+        </Popover>
+    )
+};
+
+const ViewCurrentComments = props => {
+    return (
+        Device.phone ?
+            <ViewCommentSheet {...props}/> :
+            <ViewCommentPopover {...props}/>
+    )
+};
+
 export {
     AddComment,
     EditComment,
     AddReply,
     EditReply,
-    _ViewComments as ViewComments
-}
+    _ViewComments as ViewComments,
+    ViewCurrentComments
+};

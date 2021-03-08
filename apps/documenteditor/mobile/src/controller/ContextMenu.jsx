@@ -51,6 +51,9 @@ class ContextMenu extends ContextMenuController {
             case 'addcomment':
                 Common.Notifications.trigger('addcomment');
                 break;
+            case 'viewcomment':
+                Common.Notifications.trigger('viewcomment');
+                break;
         }
 
         console.log("click context menu item: " + action);

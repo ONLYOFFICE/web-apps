@@ -5,7 +5,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../utils/LocalStorage';
 
-import {AddComment, EditComment, AddReply, EditReply, ViewComments} from '../../view/collaboration/Comments';
+import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments} from '../../view/collaboration/Comments';
 
 // utils
 const timeZoneOffsetInMs = (new Date()).getTimezoneOffset() * 60000;
@@ -409,9 +409,18 @@ class ViewCommentsController extends Component {
         super(props);
         this.onCommentMenuClick = this.onCommentMenuClick.bind(this);
         this.onResolveComment = this.onResolveComment.bind(this);
-        this.closeEditComment = this.closeEditComment.bind(this);
+        this.closeViewCurComments = this.closeViewCurComments.bind(this);
 
-        this.currentUser = this.props.users.currentUser;
+        this.state = {
+            isOpenViewCurComments: false
+        };
+
+        Common.Notifications.on('viewcomment', () => {
+            this.setState({isOpenViewCurComments: true});
+        });
+    }
+    closeViewCurComments () {
+        this.setState({isOpenViewCurComments: false});
     }
     onResolveComment (comment) {
         let reply = null,
@@ -533,15 +542,12 @@ class ViewCommentsController extends Component {
                 break;
         }
     }
-
-    closeEditComment () {
-        this.setState({showEditComment: false});
-    }
     render() {
         return(
-            <ViewComments onCommentMenuClick={this.onCommentMenuClick}
-                          onResolveComment={this.onResolveComment}
-            />
+            <Fragment>
+                {this.props.allComments && <ViewComments onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} />}
+                {this.state.isOpenViewCurComments && <ViewCurrentComments opened={this.state.isOpenViewCurComments} closeCurComments={this.closeViewCurComments} />}
+            </Fragment>
         )
     }
 }
