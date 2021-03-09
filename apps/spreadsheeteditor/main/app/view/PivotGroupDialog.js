@@ -131,7 +131,7 @@ define([
                 labelText: this.textStart
             });
             this.chStart.on('change', function (field, newValue, oldValue, eOpts) {
-                if (newValue=='checked' && !me.dateTypes && me.defRangePr) {
+                if (newValue=='checked' && me.defRangePr) {
                     me.inputStart.setValue(me.defRangePr.start);
                 }
             });
@@ -141,7 +141,7 @@ define([
                 labelText: this.textEnd
             });
             this.chEnd.on('change', function (field, newValue, oldValue, eOpts) {
-                if (newValue=='checked' && !me.dateTypes && me.defRangePr) {
+                if (newValue=='checked' && me.defRangePr) {
                     me.inputEnd.setValue(me.defRangePr.end);
                 }
             });
@@ -236,18 +236,18 @@ define([
             this.btnOk.setDisabled(selected<1);
         },
 
-        setSettings: function (rangePr, dateTypes, defRangePr, lang) {
+        setSettings: function (rangePr, dateTypes, defRangePr) {
             this.$window.find('.group-number').toggleClass('hidden', !!dateTypes);
             this.$window.find('.group-date').toggleClass('hidden', !dateTypes);
             if (rangePr) {
                 this.chStart.setValue(rangePr.asc_getAutoStart(), true);
                 this.chEnd.setValue(rangePr.asc_getAutoEnd(), true);
-                this.inputStart.setValue((dateTypes ? new Date(rangePr.asc_getStartDate()).toLocaleDateString(lang) : rangePr.asc_getStartNum()) || '');
-                this.inputEnd.setValue((dateTypes ? new Date(rangePr.asc_getEndDate()).toLocaleDateString(lang) : rangePr.asc_getEndNum()) || '');
+                this.inputStart.setValue((dateTypes ? rangePr.asc_getStartDateText() : rangePr.asc_getStartNum()) || '');
+                this.inputEnd.setValue((dateTypes ? rangePr.asc_getEndDateText() : rangePr.asc_getEndNum()) || '');
                 !dateTypes && this.inputBy.setValue(rangePr.asc_getGroupInterval() || '');
                 this.rangePr = rangePr;
                 if (defRangePr) {
-                    this.defRangePr = {start: defRangePr.asc_getStartNum(), end: defRangePr.asc_getEndNum()};
+                    this.defRangePr = {start: dateTypes ? defRangePr.asc_getStartDateText() : defRangePr.asc_getStartNum(), end: dateTypes ? defRangePr.asc_getEndDateText() : defRangePr.asc_getEndNum()};
                 }
             }
             if (dateTypes) {
@@ -274,8 +274,8 @@ define([
                 if (this.dateTypes) {
                     this.dateTypes = this.listDate.getSelectedRec().map(function(item){return item.get('type');});
                     this.rangePr.asc_setGroupInterval(this.spnDays.getNumberValue());
-                    this.rangePr.asc_setStartDate(new Date(this.inputStart.getValue()).getTime());
-                    this.rangePr.asc_setEndDate(new Date(this.inputEnd.getValue()).getTime());
+                    this.rangePr.asc_setStartDateText(this.inputStart.getValue());
+                    this.rangePr.asc_setEndDateText(this.inputEnd.getValue());
                 } else {
                     this.rangePr.asc_setStartNum(parseFloat(this.inputStart.getValue().toString().replace(',','.')));
                     this.rangePr.asc_setEndNum(parseFloat(this.inputEnd.getValue().toString().replace(',','.')));
@@ -288,22 +288,26 @@ define([
 
         isRangeValid: function() {
             if (this.dateTypes) {
-                var res1 = new Date(this.inputStart.getValue().toString()).getTime();
-                if (isNaN(res1)) {
-                    this.inputStart.showError([this.textError]);
-                    this.inputStart.focus();
-                    return false;
-                }
-                var res2 = new Date(this.inputEnd.getValue().toString()).getTime();
-                if (isNaN(res2)) {
-                    this.inputEnd.showError([this.textError]);
-                    this.inputEnd.focus();
-                    return false;
-                }
-                if (res2<res1) {
-                    Common.UI.warning({msg: this.textGreaterError, maxwidth: 600});
-                    this.inputEnd.focus();
-                    return false;
+                if (this.rangePr) {
+                    this.rangePr.asc_setStartDateText(this.inputStart.getValue());
+                    var res1 = this.rangePr.asc_getStartDate();
+                    if (isNaN(res1)) {
+                        this.inputStart.showError([this.textError]);
+                        this.inputStart.focus();
+                        return false;
+                    }
+                    this.rangePr.asc_setEndDateText(this.inputEnd.getValue());
+                    var res2 = this.rangePr.asc_getEndDate();
+                    if (isNaN(res2)) {
+                        this.inputEnd.showError([this.textError]);
+                        this.inputEnd.focus();
+                        return false;
+                    }
+                    if (res2<res1) {
+                        Common.UI.warning({msg: this.textGreaterError, maxwidth: 600});
+                        this.inputEnd.focus();
+                        return false;
+                    }
                 }
             } else {
                 var regstr = new RegExp('^\s*[0-9]+[,.]?[0-9]*\s*$');

@@ -496,7 +496,7 @@ define([
                 }
             });
             win.show();
-            win.setSettings(rangePr, dateTypes, defRangePr, me.permissions.lang);
+            win.setSettings(rangePr, dateTypes, defRangePr);
         },
 
         onClear: function(menu, item) {
