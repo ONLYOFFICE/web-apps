@@ -645,86 +645,50 @@ const ViewCommentSheet = ({closeCurComments}) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
 
-    const appHeight = f7.height;
-    //const [sheetHeight, setSheetHeight] = useState('45%');
-
-    let swipeStart,
-        swipeChange;
-
     useEffect(() => {
         f7.sheet.open('#view-comment-sheet');
-        const swipeHandler = document.getElementById('swipe-handler');
-        swipeHandler.addEventListener('touchstart', handleTouchStart);
-        swipeHandler.addEventListener('touchmove', handleTouchMove);
-        swipeHandler.addEventListener('touchend', handleTouchEnd);
     });
+
+    const [stateHeight, setHeight] = useState('45%');
+    const [stateOpacity, setOpacity] = useState(1);
+
+    const [stateStartY, setStartY] = useState();
+    const [isNeedClose, setNeedClose] = useState(false);
+
     const handleTouchStart = (event) => {
-        console.log('start');
         const touchObj = event.changedTouches[0];
-        swipeStart = parseInt(touchObj.clientY);
-        swipeChange = parseInt(touchObj.clientY);
+        setStartY(parseInt(touchObj.clientY));
     };
     const handleTouchMove = (event) => {
-        console.log('move');
         const touchObj = event.changedTouches[0];
-        const dist = parseInt(touchObj.clientY) - swipeStart;
-        const height = (appHeight - parseInt(touchObj.clientY)).toString();
-        document.getElementById('view-comment-sheet').style.setProperty('height', `${height}px`);
-        /*if (dist < 0) {
-            newHeight = '100%';
-            me.swipeFull = true;
-            me.closeCommentPicker = false;
-            if (window.SSE) {
-                if ($('.container-view-comment').hasClass('onHide')) {
-                    $('.container-view-comment').removeClass('onHide');
-                }
-            } else {
-                $('.container-view-comment').css('opacity', '1');
-            }
-        } else if (dist < 100) {
-            newHeight = '50%';
-            me.swipeFull = false;
-            me.closeCommentPicker = false;
-            if (window.SSE) {
-                if ($('.container-view-comment').hasClass('onHide')) {
-                    $('.container-view-comment').removeClass('onHide');
-                }
-            } else {
-                $('.container-view-comment').css('opacity', '1');
-            }
+        const dist = parseInt(touchObj.clientY) - stateStartY;
+        if (dist < 0) { // to top
+            setHeight('90%');
+            setOpacity(1);
+            setNeedClose(false);
+        } else if (dist < 80) {
+            setHeight('45%');
+            setOpacity(1);
+            setNeedClose(false);
         } else {
-            me.closeCommentPicker = true;
-            if (window.SSE) {
-                if (!$('.container-view-comment').hasClass('onHide')) {
-                    $('.container-view-comment').addClass('onHide');
-                }
-            } else {
-                $('.container-view-comment').css('opacity', '0.6');
-            }
+            setNeedClose(true);
+            setOpacity(0.6);
         }
-        $('.container-view-comment').css('height', newHeight);
-        me.swipeHeight = newHeight;
-        e.preventDefault();*/
     };
-    const handleTouchEnd = () => {
+    const handleTouchEnd = (event) => {
         console.log('end');
-        /*var touchobj = e.changedTouches[0];
-        var swipeEnd = parseInt(touchobj.clientY);
-        var dist = swipeEnd - me.swipeStart;
-        if (me.closeCommentPicker) {
-            uiApp.closeModal();
-            me.modalViewComment.remove();
-        } else if (me.swipeFull) {
-            if (dist > 20) {
-                $('.container-view-comment').css('height', '50%');
-            }
+        const touchObj = event.changedTouches[0];
+        const swipeEnd = parseInt(touchObj.clientY);
+        const dist = swipeEnd - stateStartY;
+        if (isNeedClose) {
+            f7.sheet.close('#view-comment-sheet');
+            closeCurComments();
+        } else if (stateHeight === '90%' && dist > 20) {
+            setHeight('45%');
         }
-        me.swipeHeight = undefined;
-        me.swipeChange = undefined;
-        me.closeCommentPicker = undefined;*/
     };
     return (
-        <Sheet id='view-comment-sheet'>
+        <Sheet id='view-comment-sheet' style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
             <Toolbar position='bottom'>
                 <Link className='btn-add-reply' href='#'>{_t.textAddReply}</Link>
                 <div className='comment-navigation row'>
@@ -732,7 +696,7 @@ const ViewCommentSheet = ({closeCurComments}) => {
                     <Link href='#'><Icon slot='media' icon='icon-next'/></Link>
                 </div>
             </Toolbar>
-            <div id='swipe-handler' className='swipe-container'>
+            <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon-swipe'/>
             </div>
             <CommentList />
