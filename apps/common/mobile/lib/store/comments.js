@@ -1,11 +1,35 @@
 
-import {observable, action, computed} from 'mobx';
+import {makeObservable, observable, action, computed} from 'mobx';
 
 export class storeComments {
-    @observable collectionComments = [];
-    @observable groupCollectionComments = [];
+    constructor() {
+        makeObservable(this, {
+            collectionComments: observable,
+            groupCollectionComments: observable,
+            filter: observable,
+            groupCollectionFilter: observable,
 
-    @action addComment (comment) {
+            addComment: action,
+            removeComment: action,
+            changeFilter: action,
+
+            sortComments: computed,
+
+            isOpenEditComment: observable,
+            openEditComment: action,
+            isOpenAddReply: observable,
+            openAddReply: action,
+            isOpenEditReply: observable,
+            openEditReply: action
+        })
+    }
+    collectionComments = [];
+    groupCollectionComments = [];
+
+    filter = undefined;
+    groupCollectionFilter = []; // for sse
+
+    addComment (comment) {
         comment.groupName ? this.addCommentToGroupCollection(comment) : this.addCommentToCollection(comment);
     }
 
@@ -24,7 +48,7 @@ export class storeComments {
         }
     }
 
-    @action removeComment (id) {
+    removeComment (id) {
         if (this.collectionComments.length > 0) {
             this.removeCommentFromCollection(id);
         } else {
@@ -57,10 +81,7 @@ export class storeComments {
         }
     }
 
-    @observable filter; // for sse
-    @observable groupCollectionFilter = []; // for sse
-
-    @action changeFilter (filter) {
+    changeFilter (filter) {
         let comments = [];
         this.filter = filter;
         filter.forEach((item) => {
@@ -94,7 +115,7 @@ export class storeComments {
         return model;
     }
 
-    @computed get sortComments () {
+    get sortComments () {
         const comments = (this.groupCollectionFilter.length !== 0) ? this.groupCollectionFilter : (this.collectionComments.length !== 0 ? this.collectionComments : false);
         if (comments.length > 0) {
             return  [...comments].sort((a, b) => a.time > b.time ? 1 : -1);
@@ -104,8 +125,8 @@ export class storeComments {
 
     // Edit comment
     currentComment = null;
-    @observable isOpenEditComment = false;
-    @action openEditComment (open, comment) {
+    isOpenEditComment = false;
+    openEditComment (open, comment) {
         if (open !== this.isOpenEditComment) {
             this.currentComment = open ? comment : null;
             this.isOpenEditComment = open;
@@ -113,16 +134,16 @@ export class storeComments {
     }
 
     currentReply = null;
-    @observable isOpenAddReply = false;
-    @action openAddReply (open, comment) {
+    isOpenAddReply = false;
+    openAddReply (open, comment) {
         if (open !== this.isOpenAddReply) {
             this.currentComment = open ? comment : null;
             this.isOpenAddReply = open;
         }
     }
 
-    @observable isOpenEditReply = false;
-    @action openEditReply (open, comment, reply) {
+    isOpenEditReply = false;
+    openEditReply (open, comment, reply) {
         if (open !== this.isOpenEditReply) {
             this.currentComment = open ? comment : null;
             this.currentReply = open ? reply : null;
