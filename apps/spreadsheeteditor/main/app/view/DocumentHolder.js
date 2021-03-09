@@ -338,6 +338,16 @@ define([
                 caption     : me.txtReapply
             });
 
+            me.mnuGroupPivot = new Common.UI.MenuItem({
+                caption     : this.txtGroup,
+                value       : 'grouping'
+            });
+
+            me.mnuUnGroupPivot = new Common.UI.MenuItem({
+                caption     : this.txtUngroup,
+                value       : 'ungrouping'
+            });
+
             me.pmiInsFunction = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-function',
                 caption     : me.txtFormula
@@ -560,6 +570,8 @@ define([
                     me.pmiSortCells,
                     me.pmiFilterCells,
                     me.pmiReapply,
+                    me.mnuGroupPivot,
+                    me.mnuUnGroupPivot,
                     {caption: '--'},
                     me.pmiAddComment,
                     me.pmiCellMenuSeparator,
