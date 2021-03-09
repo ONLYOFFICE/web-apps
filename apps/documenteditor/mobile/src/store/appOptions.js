@@ -1,16 +1,23 @@
-import {action, observable} from 'mobx';
+import {makeObservable, action, observable} from 'mobx';
 
 export class storeAppOptions {
     constructor() {
-        // makeObservable(this);
+        makeObservable(this, {
+            isEdit: observable,
+            canViewComments: observable,
+            canReview: observable,
+            setConfigOptions: action,
+            setPermissionOptions: action,
+            setCanViewReview: action
+        });
     }
 
-    @observable isEdit = false;
-    @observable canViewComments = false;
-    @observable canReview = false;
+    isEdit = false;
+    canViewComments = false;
+    canReview = false;
 
     config = {};
-    @action setConfigOptions (config) {
+    setConfigOptions (config) {
         this.config = config;
         this.user = Common.Utils.fillUserInfo(config.user, config.lang, "Local.User"/*me.textAnonymous*/);
         this.isDesktopApp = config.targetApp == 'desktop';
@@ -32,7 +39,7 @@ export class storeAppOptions {
         this.canBack = this.canBackToFolder === true;
         this.canPlugins = false;
     }
-    @action setPermissionOptions (document, licType, params, permissions) {
+    setPermissionOptions (document, licType, params, permissions) {
         this.review = (permissions.review === undefined) ? (permissions.edit !== false) : permissions.review;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -79,7 +86,7 @@ export class storeAppOptions {
 
         this.canUseReviewPermissions = this.canLicense && this.customization && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object');
     }
-    @action setCanViewReview (value) {
+    setCanViewReview (value) {
         this.canViewReview = value;
     }
 }
