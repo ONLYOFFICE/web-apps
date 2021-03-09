@@ -398,6 +398,9 @@
             margin-right: 10px;
             height: 28px;
         }
+        .buttons-row-replace a {
+            color: @themeColor;
+        }
     }
 
     .searchbar input[type=search] {
@@ -417,10 +420,18 @@
         padding: 0 28px;
     }
 
+    .searchbar-inner {
+        &__right {
+            .buttons-row a.next {
+                margin-left: 15px;
+            }
+        }
+    }
+
     @media(max-width: 550px)
     {
         .searchbar-expandable.searchbar-enabled {
-            top: auto;
+            top: 0;
             .searchbar-inner {
                 &__left {
                     margin-right: 15px;
@@ -435,12 +446,7 @@
             }
             &.replace {
                 height: 88px;
-                top: 0;
                 .searchbar-inner {
-                    height: 100%;
-                    &__left {
-                        align-items: flex-start;
-                    }
                     &__center {
                         .searchbar-input-wrap {
                             margin: 8px 0;

@@ -2,7 +2,7 @@ import React from 'react';
 import { List, ListItem, Toggle } from 'framework7-react';
 import { SearchController, SearchView, SearchSettingsView } from '../../../../common/mobile/lib/controller/Search';
 import { f7 } from 'framework7-react';
-// import { useTranslation, withTranslation } from 'react-i18next';
+import { useTranslation, withTranslation } from 'react-i18next';
 
 class SearchSettings extends SearchSettingsView {
     constructor(props) {
@@ -58,12 +58,16 @@ class DESearchView extends SearchView {
 }
 
 const Search = props => {
+    // const { t } = useTranslation();
+    // const _t = t('View.Settings', {returnObjects: true});
 
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
-       
+
         if (params.find && params.find.length) {
             if (!api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
+                // const { t } = useTranslation();
+                // const _t = t('View.Settings', {returnObjects: true});
                 f7.dialog.alert(null, 'Text not Found');
             }
         }

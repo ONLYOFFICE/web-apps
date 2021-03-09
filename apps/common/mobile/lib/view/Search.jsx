@@ -130,8 +130,6 @@ class SearchView extends Component {
     componentDidMount(){
         const $$ = Dom7;
         this.$replace = $$('#idx-replace-val');
-        // this.t = t;
-        // console.log(this.t);
     }
 
     onSettingsClick(e) {
@@ -153,10 +151,12 @@ class SearchView extends Component {
     }
 
     onSearchClick(action) {
-        if (this.searchbar && this.searchbar.query) {
-            if ( this.props.onSearchQuery ) {
+        if (this.searchbar && this.state.searchQuery) {
+            if (this.props.onSearchQuery) {
                 let params = this.searchParams();
+                params.find = this.state.searchQuery;
                 params.forward = action != SEARCH_BACKWARD;
+                // console.log(params);
 
                 this.props.onSearchQuery(params);
             }
@@ -164,26 +164,28 @@ class SearchView extends Component {
     }
 
     onReplaceClick() {
-        if (this.searchbar && this.searchbar.query) {
-            if ( this.props.onReplaceQuery ) {
+        if (this.searchbar && this.state.searchQuery) {
+            if (this.props.onReplaceQuery) {
                 let params = this.searchParams();
+                params.find = this.state.searchQuery;
+                // console.log(params);
+
                 this.props.onReplaceQuery(params);
             }   
         }
     }
 
     onReplaceAllClick() {
-        if (this.searchbar && this.searchbar.query) {
+        if (this.searchbar && this.state.searchQuery) {
             if (this.props.onReplaceAllQuery) {
                 let params = this.searchParams();
+                params.find = this.state.searchQuery;
+                // console.log(params);
+
                 this.props.onReplaceAllQuery(params);
             }   
         }
     }
-
-    // onReplaceHold() {
-    //     f7.dialog.alert('Tap hold fired!');
-    // }
 
     onSearchbarShow(isshowed, bar) {
         if ( !isshowed ) {
@@ -241,11 +243,13 @@ class SearchView extends Component {
         const searchQuery = this.state.searchQuery;
         const replaceQuery = this.state.replaceQuery;
         const isIos = Device.ios;
+        
         // const _t = this.t('View.Settings', {returnObjects: true});
+        // console.log(this.state.searchQuery, this.state.replaceQuery);
 
         if(this.searchbar && this.searchbar.enabled) {
             usereplace ? this.searchbar.el.classList.add('replace') : this.searchbar.el.classList.remove('replace');
-        }
+        } 
 
         return (
             <form className="searchbar">

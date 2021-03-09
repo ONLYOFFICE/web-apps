@@ -293,6 +293,9 @@
         &__center {
             flex-wrap: wrap;
         }
+        &__left {
+            padding-top: 4px;
+        }
     }
 
     .buttons-row-replace a {
@@ -354,10 +357,10 @@
         color: @white;
     }
 
-    .navbar.with-searchbar-expandable-enabled, .navbar.with-searchbar-expandable-enabled {
+    .navbar {
         .searchbar-expandable.searchbar-enabled {
             top: 0;
-            height: 100%;
+            // height: 100%;
             .searchbar-inner {
                 height: 100%;
                 &__center {
@@ -365,18 +368,24 @@
                 }
                 &__right {
                     flex-direction: column-reverse;
-                    margin-left: 10px;
                 }
             }
             &.replace {
                 height: 96px;
-                .searchbar-inner {
-                    height: 100%;
-                    &__left {
-                        align-items: flex-start;
-                    }
-                }
             }
+        }
+        a.link {
+            padding: 0 16px;
+        }
+        a.icon-only {
+            width: auto;
+            height: 48px;
+        }
+        .buttons-row-replace a {
+            color: @white;
+        }
+        .searchbar .buttons-row {
+            align-self: flex-start;
         }
     }
 

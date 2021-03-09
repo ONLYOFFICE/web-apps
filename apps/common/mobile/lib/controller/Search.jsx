@@ -1,5 +1,6 @@
 import React from 'react';
-import SearchView, {SearchSettingsView} from '../view/Search'
+import SearchView, {SearchSettingsView} from '../view/Search';
+import { useTranslation, withTranslation } from 'react-i18next';
 
 
 const SearchController = props => {

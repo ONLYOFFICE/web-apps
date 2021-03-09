@@ -26,6 +26,10 @@
         }
     }
 
+    .searchbar-expandable {
+        transition-duration: 0s;
+    }
+
     .buttons-row-replace {
         display: flex;
         flex-direction: column;
@@ -42,7 +46,6 @@
     @media(max-width: 550px)
     {
         .searchbar-expandable.searchbar-enabled {
-            top: auto;
             .searchbar-inner {
                 &__left {
                     min-width: 22px;
@@ -53,16 +56,14 @@
                 }
                 &__right {
                     flex-direction: column-reverse;
-                    margin-left: 10px;
                 }
             }
             &.replace {
-                height: 88px;
                 top: 0;
                 .searchbar-inner {
                     height: 100%;
                     &__left {
-                        align-items: flex-start;
+                        align-self: flex-start;
                     }
                 }
             }

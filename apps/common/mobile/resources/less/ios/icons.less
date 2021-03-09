@@ -4,5 +4,21 @@
         &.icon_mask {
             background-color: white;
         }
+        &.icon-prev {
+            width: 22px;
+            height: 22px;
+            .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M16,20.5L15,21.5L4.5,11l0,0l0,0L15,0.5L16,1.5L6.6,11L16,20.5z"/></g></svg>');
+            &:after {
+              display: none;
+            }
+        }
+        &.icon-next {
+            width: 22px;
+            height: 22px;
+            .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 22 22" fill="@{themeColor}"><g><path d="M15.5,11L6,1.5l1.1-1.1L17.5,11l0,0l0,0L7.1,21.5L6,20.5L15.5,11z"/></g></svg>');
+            &:after {
+                display: none;
+            }
+        }
     }
 }
