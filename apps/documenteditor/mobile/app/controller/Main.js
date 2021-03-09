@@ -80,7 +80,8 @@ define([
                     usersCount          : 1,
                     fastCoauth          : true,
                     lostEditingRights   : false,
-                    licenseType         : false
+                    licenseType         : false,
+                    isDocModified: false
                 };
 
                 // Initialize viewport
@@ -1144,7 +1145,7 @@ define([
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    Common.Gateway.setDocumentModified(isModified);
+                    this._isDocReady && (this._state.isDocModified !== isModified) && Common.Gateway.setDocumentModified(isModified);
                     this._state.isDocModified = isModified;
                 }
             },
@@ -1152,7 +1153,7 @@ define([
             onDocumentModifiedChanged: function() {
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
-                    Common.Gateway.setDocumentModified(this.api.isDocumentModified());
+                    this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
                 }
 
                 this.updateWindowTitle();
