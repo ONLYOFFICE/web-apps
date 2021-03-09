@@ -161,7 +161,7 @@ define([
 //                $(document.body).css('position', 'absolute');
                 var me = this;
 
-                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false};
+                this._state = {isDisconnected: false, usersCount: 1, fastCoauth: true, lostEditingRights: false, licenseType: false, isDocModified: false};
 
                 if (!Common.Utils.isBrowserSupported()){
                     Common.Utils.showBrowserRestriction();
@@ -1739,7 +1739,7 @@ define([
                             window.document.title = title;
                     }
 
-                    Common.Gateway.setDocumentModified(change);
+                    this._isDocReady && (this._state.isDocModified !== change) && Common.Gateway.setDocumentModified(change);
 
                     this._state.isDocModified = change;
                 }
@@ -1750,8 +1750,10 @@ define([
 
             onDocumentModifiedChanged: function(change) {
                 this.updateWindowTitle(change);
-                Common.Gateway.setDocumentModified(change);
-
+                if (this._state.isDocModified !== change) {
+                    this._isDocReady && Common.Gateway.setDocumentModified(change);
+                }
+                
                 if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
                     var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
