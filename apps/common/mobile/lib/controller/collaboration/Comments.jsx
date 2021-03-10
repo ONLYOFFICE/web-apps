@@ -5,7 +5,7 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../utils/LocalStorage';
 
-import {AddComment, EditComment, ViewComments} from '../../view/collaboration/Comments';
+import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments} from '../../view/collaboration/Comments';
 
 // utils
 const timeZoneOffsetInMs = (new Date()).getTimezoneOffset() * 60000;
@@ -113,9 +113,9 @@ class CommentsController extends Component {
             let user = this.usersStore.searchUserById(data.asc_getUserId());
 
             comment.comment = data.asc_getText();
-            comment.userid = data.asc_getUserId();
+            comment.userId = data.asc_getUserId();
             comment.userName = data.asc_getUserName();
-            comment.usercolor = (user) ? user.asc_getColor() : null;
+            comment.userColor = (user) ? user.asc_getColor() : null;
             comment.resolved = data.asc_getSolved();
             comment.quote = data.asc_getQuoteText();
             comment.time = date.getTime();
@@ -218,8 +218,20 @@ class CommentsController extends Component {
 class AddCommentController extends Component {
     constructor(props) {
         super(props);
+        this.closeAddComment = this.closeAddComment.bind(this);
         this.getUserInfo = this.getUserInfo.bind(this);
         this.onAddNewComment = this.onAddNewComment.bind(this);
+
+        this.state = {
+            isOpen: false
+        };
+
+        Common.Notifications.on('addcomment', () => {
+            this.setState({isOpen: true});
+        });
+    }
+    closeAddComment () {
+        this.setState({isOpen: false});
     }
     getUserInfo () {
         this.currentUser = this.props.users.currentUser;
@@ -255,34 +267,30 @@ class AddCommentController extends Component {
         return false;
     }
     render() {
-        const isOpen = this.props.storeComments.isOpenAddComment;
-        let userInfo;
-        if (isOpen) {
-            userInfo = this.getUserInfo();
-        }
         return(
-            isOpen ? <AddComment userInfo={userInfo} onAddNewComment={this.onAddNewComment} /> : null
+            this.state.isOpen ? <AddComment userInfo={this.getUserInfo()} onAddNewComment={this.onAddNewComment} closeAddComment={this.closeAddComment}/> : null
         )
     }
 }
 
-class ViewCommentsController extends Component {
+class EditCommentController extends Component {
     constructor (props) {
         super(props);
-        this.onCommentMenuClick = this.onCommentMenuClick.bind(this);
-        this.onResolveComment = this.onResolveComment.bind(this);
         this.onEditComment = this.onEditComment.bind(this);
-        this.closeEditComment = this.closeEditComment.bind(this);
-
+        this.onAddReply = this.onAddReply.bind(this);
+        this.onEditReply = this.onEditReply.bind(this);
+    }
+    getUserInfo () {
         this.currentUser = this.props.users.currentUser;
-
-        this.state = {
-            showEditComment: false,
-            showEditReply: false
+        const name = this.currentUser.asc_getUserName();
+        return {
+            name: name,
+            initials: this.props.users.getInitials(name),
+            color: this.currentUser.asc_getColor()
         };
     }
     onChangeComment (comment) {
-        const ascComment = !!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null);
+        const ascComment = typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null);
         if (ascComment && comment) {
             ascComment.asc_putText(comment.comment);
             ascComment.asc_putQuoteText(comment.quote);
@@ -315,6 +323,104 @@ class ViewCommentsController extends Component {
             const api = Common.EditorApi.get();
             api.asc_changeComment(comment.uid, ascComment);
         }
+    }
+    onEditComment (comment, text) {
+        comment.comment = text.trim();
+        const user = this.props.users.currentUser;
+        comment.userid = user.asc_getIdOriginal();
+        comment.username = user.asc_getUserName();
+        this.onChangeComment(comment);
+    }
+    onAddReply (comment, replyVal) {
+        let reply = null;
+        let addReply = null;
+        const ascComment = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+
+        if (ascComment) {
+            ascComment.asc_putText(comment.comment);
+            ascComment.asc_putQuoteText(comment.quote);
+            ascComment.asc_putTime(utcDateToString(new Date(comment.time)));
+            ascComment.asc_putOnlyOfficeTime(ooDateToString(new Date(comment.time)));
+            ascComment.asc_putUserId(comment.userId);
+            ascComment.asc_putUserName(comment.userName);
+            ascComment.asc_putSolved(comment.resolved);
+            ascComment.asc_putGuid(comment.guid);
+
+            if (!!ascComment.asc_putDocumentFlag) {
+                ascComment.asc_putDocumentFlag(comment.unattached);
+            }
+
+            reply = comment.replies;
+            if (reply && reply.length) {
+                reply.forEach(function (reply) {
+
+                    addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+                    if (addReply) {
+                        addReply.asc_putText(reply.reply);
+                        addReply.asc_putTime(utcDateToString(new Date(reply.time)));
+                        addReply.asc_putOnlyOfficeTime(ooDateToString(new Date(reply.time)));
+                        addReply.asc_putUserId(reply.userId);
+                        addReply.asc_putUserName(reply.userName);
+
+                        ascComment.asc_addReply(addReply);
+                    }
+                });
+            }
+
+            addReply = (typeof Asc.asc_CCommentDataWord !== 'undefined' ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+            if (addReply) {
+                addReply.asc_putText(replyVal);
+                addReply.asc_putTime(utcDateToString(new Date()));
+                addReply.asc_putOnlyOfficeTime(ooDateToString(new Date()));
+                const currentUser = this.props.users.currentUser;
+                addReply.asc_putUserId(currentUser.asc_getIdOriginal());
+                addReply.asc_putUserName(currentUser.asc_getUserName());
+
+                ascComment.asc_addReply(addReply);
+
+                const api = Common.EditorApi.get();
+                api.asc_changeComment(comment.uid, ascComment);
+            }
+        }
+    }
+    onEditReply (comment, reply, textReply) {
+        const currentUser = this.props.users.currentUser;
+        const indReply = reply.ind;
+        comment.replies[indReply].reply = textReply;
+        comment.replies[indReply].userid = currentUser.asc_getIdOriginal();
+        comment.replies[indReply].username = currentUser.asc_getUserName();
+        this.onChangeComment(comment);
+    }
+    render() {
+        const storeComments = this.props.storeComments;
+        const comment = storeComments.currentComment;
+        return (
+            <Fragment>
+                {storeComments.isOpenEditComment && <EditComment comment={comment} onEditComment={this.onEditComment}/>}
+                {storeComments.isOpenAddReply && <AddReply userInfo={this.getUserInfo()} comment={comment} onAddReply={this.onAddReply}/>}
+                {storeComments.isOpenEditReply && <EditReply comment={comment} reply={storeComments.currentReply} onEditReply={this.onEditReply}/>}
+            </Fragment>
+        )
+    }
+}
+
+class ViewCommentsController extends Component {
+    constructor (props) {
+        super(props);
+        this.onCommentMenuClick = this.onCommentMenuClick.bind(this);
+        this.onResolveComment = this.onResolveComment.bind(this);
+        this.closeViewCurComments = this.closeViewCurComments.bind(this);
+
+        this.state = {
+            isOpenViewCurComments: false
+        };
+
+        Common.Notifications.on('viewcomment', () => {
+            this.setState({isOpenViewCurComments: true});
+        });
+    }
+    closeViewCurComments () {
+        this.setState({isOpenViewCurComments: false});
     }
     onResolveComment (comment) {
         let reply = null,
@@ -358,16 +464,12 @@ class ViewCommentsController extends Component {
         const api = Common.EditorApi.get();
         comment && api.asc_removeComment(comment.uid);
     }
-    onEditComment (comment, text) {
-        comment.comment = text.trim();
-        comment.userid = this.currentUser.asc_getIdOriginal();
-        comment.username = this.currentUser.asc_getUserName();
-        this.onChangeComment(comment);
-    }
-    deleteReply (comment, indReply) {
+    deleteReply (comment, reply) {
         let replies = null,
             addReply = null,
             ascComment = (!!Asc.asc_CCommentDataWord ? new Asc.asc_CCommentDataWord(null) : new Asc.asc_CCommentData(null));
+
+        const indReply = reply.ind;
 
         if (ascComment && comment) {
             ascComment.asc_putText(comment.comment);
@@ -404,19 +506,12 @@ class ViewCommentsController extends Component {
             api.asc_changeComment(comment.uid, ascComment);
         }
     }
-    onCommentMenuClick (action, comment) {
+    onCommentMenuClick (action, comment, reply) {
         const { t } = this.props;
         const _t = t("Common.Collaboration", { returnObjects: true });
         switch (action) {
             case 'editComment':
-                this.setState({
-                    showEditComment: true,
-                    editProps: {
-                        comment: comment,
-                        onEditComment: this.onEditComment
-                    }
-                });
-                console.log('editComment');
+                this.props.storeComments.openEditComment(true, comment);
                 break;
             case 'resolve':
                 this.onResolveComment(comment);
@@ -431,35 +526,27 @@ class ViewCommentsController extends Component {
                 );
                 break;
             case 'editReply':
-                this.setState({showEditReply: true});
-                console.log('editReply');
+                this.props.storeComments.openEditReply(true, comment, reply);
                 break;
             case 'deleteReply':
                 f7.dialog.confirm(
                     _t.textMessageDeleteReply,
                     _t.textDeleteReply,
                     () => {
-                        this.deleteReply(comment, indReply);
+                        this.deleteReply(comment, reply);
                     }
                 );
                 break;
             case 'addReply':
-                console.log('addReply');
+                this.props.storeComments.openAddReply(true, comment);
                 break;
         }
-    }
-
-    closeEditComment () {
-        this.setState({showEditComment: false});
     }
     render() {
         return(
             <Fragment>
-                <ViewComments showEditComment={this.showEditComment}
-                              onCommentMenuClick={this.onCommentMenuClick}
-                              onResolveComment={this.onResolveComment}
-                />
-                {this.state.showEditComment && <EditComment editProps={this.state.editProps} opened={this.state.showEditComment} close={this.closeEditComment}/>}
+                {this.props.allComments && <ViewComments onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} />}
+                {this.state.isOpenViewCurComments && <ViewCurrentComments opened={this.state.isOpenViewCurComments} closeCurComments={this.closeViewCurComments} />}
             </Fragment>
         )
     }
@@ -467,10 +554,12 @@ class ViewCommentsController extends Component {
 
 const _CommentsController = inject('storeAppOptions', 'storeComments', 'users')(observer(CommentsController));
 const _AddCommentController = inject('storeAppOptions', 'storeComments', 'users')(observer(AddCommentController));
+const _EditCommentController = inject('storeComments', 'users')(observer(EditCommentController));
 const _ViewCommentsController = inject('storeComments', 'users')(observer(withTranslation()(ViewCommentsController)));
 
 export {
     _CommentsController as CommentsController,
     _AddCommentController as AddCommentController,
+    _EditCommentController as EditCommentController,
     _ViewCommentsController as ViewCommentsController
 };

@@ -202,7 +202,7 @@ const AddOther = props => {
         <List>
             <ListItem title={_t.textComment} onClick={() => {
                 props.closeModal();
-                props.storeComments.openAddComment(true);
+                Common.Notifications.trigger('addcomment');
             }}>
                 <Icon slot="media" icon="icon-insert-comment"></Icon>
             </ListItem>

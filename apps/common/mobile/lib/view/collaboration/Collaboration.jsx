@@ -49,7 +49,12 @@ const routes = [
     },
     {
         path: '/comments/',
-        component: ViewCommentsController
+        component: ViewCommentsController,
+        options: {
+            props: {
+                allComments: true
+            }
+        }
     }
 ];
 

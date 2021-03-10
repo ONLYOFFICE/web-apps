@@ -1,45 +1,59 @@
-import {action, observable} from 'mobx';
+import {makeObservable, action, observable} from 'mobx';
 
 export class storeApplicationSettings {
-   
-    @observable unitMeasurement = 1;
+    constructor() {
+        makeObservable(this, {
+            unitMeasurement: observable
+            , isSpellChecking: observable
+            , isNonprintingCharacters: observable
+            , isHiddenTableBorders: observable
+            , isComments: observable
+            , isResolvedComments: observable
+            , macrosMode: observable
+            , changeSpellCheck: action
+            , changeUnitMeasurement: action
+            , changeNoCharacters: action
+            , changeShowTableEmptyLine: action
+            , changeDisplayComments: action
+            , changeDisplayResolved: action
+            , changeMacrosSettings: action
+        })
+    }
 
-    @observable isSpellChecking = true;
+    unitMeasurement = 1;
+    isSpellChecking = true;
+    isNonprintingCharacters = false;
+    isHiddenTableBorders = false;
+    isComments = true;
+    isResolvedComments = true;
+    macrosMode = 0;
 
-    @observable isNonprintingCharacters = false;
-    @observable isHiddenTableBorders = false;
-
-    @observable isComments = true;
-    @observable isResolvedComments = true;
-
-    @observable macrosMode = 0;
-
-    @action changeUnitMeasurement(value) {
+    changeUnitMeasurement(value) {
         this.unitMeasurement = +value;
     }
 
-    @action changeSpellCheck(value) {
+    changeSpellCheck(value) {
         this.isSpellChecking = value;
     }
 
-    @action changeNoCharacters(value) {
+    changeNoCharacters(value) {
         this.isNonprintingCharacters = value;
     }
 
-    @action changeShowTableEmptyLine(value) {
+    changeShowTableEmptyLine(value) {
         this.isHiddenTableBorders = value;
     }
 
-    @action changeDisplayComments(value) {
+    changeDisplayComments(value) {
         this.isComments = value;
         if (!value) this.changeDisplayResolved(value);
     }
 
-    @action changeDisplayResolved(value) {
+    changeDisplayResolved(value) {
         this.isResolvedComments = value;
     }
 
-    @action changeMacrosSettings(value) {
+    changeMacrosSettings(value) {
         this.macrosMode = +value;
     }
 }

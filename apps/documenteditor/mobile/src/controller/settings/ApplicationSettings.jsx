@@ -25,16 +25,14 @@ class ApplicationSettingsController extends Component {
     }
 
     switchNoCharacters(value) {
-        Common.localStorage.setItem("de-mobile-no-characters", value);
+        LocalStorage.setItem("de-mobile-no-characters", value);
 
-        const api = Common.EditorApi.get();
-        api.put_ShowParaMarks(value);
+        Common.EditorApi.get().put_ShowParaMarks(value);
     }
 
     switchShowTableEmptyLine(value) {
-        Common.localStorage.setItem("de-mobile-hidden-borders", value);
-        const api = Common.EditorApi.get();
-        api.put_ShowTableEmptyLine(value);
+        LocalStorage.setItem("de-mobile-hidden-borders", value);
+        Common.EditorApi.get().put_ShowTableEmptyLine(value);
     }
 
     switchDisplayComments(value) {
@@ -51,10 +49,9 @@ class ApplicationSettingsController extends Component {
     }
 
     switchDisplayResolved(value) {
-        const api = Common.EditorApi.get();
         const displayComments = LocalStorage.getBool("de-mobile-settings-livecomment");
         if (displayComments) {
-            api.asc_showComments(value);
+            Common.EditorApi.get().asc_showComments(value);
             LocalStorage.setBool("de-settings-resolvedcomment", value);
         }
     }

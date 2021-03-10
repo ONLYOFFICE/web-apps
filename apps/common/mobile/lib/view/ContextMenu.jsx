@@ -26,9 +26,9 @@ class ContextMenuView extends Component {
             >
                 <List className="list-block">
                     {buttons.map((b, index) =>
-                        !!b.text ?
-                            <ListButton className="asd" title={b.text} key={index} onClick={e => this.props.onMenuItemClick(b.action)} /> :
-                            <ListButton className="asd" title={b.text} key={index}>
+                        !b.icon ?
+                            <ListButton title={b.caption} key={index} onClick={e => this.props.onMenuItemClick(b.event)} /> :
+                            <ListButton key={index}>
                                 <Icon slot="media" icon={`icon_mask ${b.icon}`} />
                             </ListButton>
                     )}

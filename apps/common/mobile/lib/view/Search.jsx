@@ -4,7 +4,7 @@ import { Toggle } from 'framework7-react';
 import { f7 } from 'framework7-react';
 import { Dom7 } from 'framework7';
 import { Device } from '../../../../common/mobile/utils/device';
-import { observable } from "mobx";
+import { observable, runInAction } from "mobx";
 import { observer } from "mobx-react";
 import { useTranslation, withTranslation } from 'react-i18next';
 
@@ -31,7 +31,7 @@ class SearchSettingsView extends Component {
     }
 
     onFindReplaceClick(action) {
-        searchOptions.usereplace = action == 'replace';
+        runInAction(() => searchOptions.usereplace = action == 'replace');
 
         this.setState({
             useReplace: searchOptions.usereplace
