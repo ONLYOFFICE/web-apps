@@ -1,8 +1,17 @@
-import {action, observable} from 'mobx';
+import {makeObservable, action, observable} from 'mobx';
 
 export class storeAppOptions {
+    constructor() {
+        makeObservable(this, {
+            isEdit: observable,
+            setConfigOptions: action,
+            setPermissionOptions: action
+        });
+    }
+
+    isEdit = false;
     config = {};
-    @action setConfigOptions (config) {
+    setConfigOptions (config) {
         this.config = config;
         this.user = Common.Utils.fillUserInfo(config.user, config.lang, "Local.User"/*me.textAnonymous*/);
         this.isDesktopApp = config.targetApp == 'desktop';
@@ -24,7 +33,7 @@ export class storeAppOptions {
         this.canBack = this.canBackToFolder === true;
         this.canPlugins = false;
     }
-    @action setPermissionOptions (document, licType, params, permissions) {
+    setPermissionOptions (document, licType, params, permissions) {
         this.review = (permissions.review === undefined) ? (permissions.edit !== false) : permissions.review;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);

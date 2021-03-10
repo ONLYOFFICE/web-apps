@@ -6,7 +6,12 @@ import { withTranslation } from 'react-i18next';
 import CollaborationController from '../../../../common/mobile/lib/controller/collaboration/Collaboration.jsx';
 import {InitReviewController as ReviewController} from '../../../../common/mobile/lib/controller/collaboration/Review.jsx';
 import { onAdvancedOptions } from './settings/Download.jsx';
-import {CommentsController, AddCommentController} from "../../../../common/mobile/lib/controller/collaboration/Comments";
+import {
+    CommentsController,
+    AddCommentController,
+    EditCommentController,
+    ViewCommentsController
+} from "../../../../common/mobile/lib/controller/collaboration/Comments";
 
 @inject(
     "storeAppOptions",
@@ -335,6 +340,8 @@ class MainController extends Component {
                 <ReviewController />
                 <CommentsController />
                 <AddCommentController />
+                <EditCommentController />
+                <ViewCommentsController />
             </Fragment>
             )
     }

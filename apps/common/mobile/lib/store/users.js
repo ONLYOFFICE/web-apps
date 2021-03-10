@@ -1,16 +1,25 @@
 
-import {observable, action, computed} from 'mobx';
+import {makeObservable, observable, action} from 'mobx';
 
 export class storeUsers {
-    @observable users = [];
+    constructor() {
+        makeObservable(this, {
+            users: observable,
+            reset: action,
+            currentUser: observable,
+            setCurrentUser: action,
+            connection: action
+        })
+    }
 
-    @action reset(users) {
+    users = [];
+    currentUser;
+
+    reset (users) {
         this.users = Object.values(users)
     }
 
-    @observable currentUser;
-
-    @action setCurrentUser(id) {
+    setCurrentUser (id) {
         this.users.forEach((item) => {
             if (item.asc_getIdOriginal() === id) {
                 this.currentUser = item;
@@ -18,7 +27,7 @@ export class storeUsers {
         });
     }
 
-    @action connection (change) {
+    connection (change) {
         let changed = false;
         for (let uid in this.users) {
             if (undefined !== uid) {
@@ -45,10 +54,12 @@ export class storeUsers {
     }
 
     searchUserById (id) {
+        let user = null;
         this.users.forEach((item) => {
             if (item.asc_getIdOriginal() === id) {
-                return  item;
+                user = item;
             }
         });
+        return user;
     }
 }
