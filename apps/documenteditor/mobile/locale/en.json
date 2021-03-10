@@ -125,7 +125,8 @@
       "textMessageDeleteComment": "Do you really want to delete this comment?",
       "textMessageDeleteReply": "Do you really want to delete this reply?",
       "textDeleteReply": "Delete Reply",
-      "textEditComment": "Edit Comment"
+      "textEditComment": "Edit Comment",
+      "textEditReply": "Edit Reply"
     }
   },
   "Settings": {
