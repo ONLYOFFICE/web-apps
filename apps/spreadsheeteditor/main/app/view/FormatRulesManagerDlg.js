@@ -454,10 +454,15 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 disabled    : !item.get('activeSheet'),
                 validateOnChange: true
             }).on('changed:after', function(input, newValue, oldValue, e) {
-                rule.dataRangeValid = newValue;
-                rule.txtDataRange.setValue(rule.dataRangeValid);
-                item.set('ruleChanged', true);
-                item.get('props').asc_setLocation(rule.dataRangeValid);
+                if (rule.dataRangeValid !== newValue) {
+                    if (me.isRangeValid(newValue)) {
+                        rule.dataRangeValid = newValue;
+                        item.set('ruleChanged', true);
+                        item.get('props').asc_setLocation(rule.dataRangeValid);
+                    } else
+                        rule.txtDataRange.setValue(rule.dataRangeValid);
+                }
+
             }).on('button:click', _.bind(this.onSelectData, this, rule, item));
 
             var val = item.get('range');
@@ -488,16 +493,21 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             props.asc_getPreview(this.rules[rule.get('ruleIndex')].previewDiv, text);
         },
 
+        isRangeValid: function(range) {
+            return (Asc.c_oAscError.ID.No === this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.ConditionalFormattingRule, range, true));
+        },
+
         onSelectData: function(rule, item) {
             var me = this;
             if (me.api) {
                 var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
-                        rule.dataRangeValid = dlg.getSettings();
+                        if (me.isRangeValid(dlg.getSettings())) {
+                            rule.dataRangeValid = dlg.getSettings();
+                            item.set('ruleChanged', true);
+                            item.get('props').asc_setLocation(rule.dataRangeValid);
+                        }
                         rule.txtDataRange.setValue(rule.dataRangeValid);
-                        rule.txtDataRange.checkValidate();
-                        item.set('ruleChanged', true);
-                        item.get('props').asc_setLocation(rule.dataRangeValid);
                     }
                 };
 
@@ -512,8 +522,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 win.show(xy.left + 160, xy.top + 125);
                 win.setSettings({
                     api     : me.api,
-                    range   : (!_.isEmpty(rule.txtDataRange.getValue()) && (rule.txtDataRange.checkValidate()==true)) ? rule.txtDataRange.getValue() : rule.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.ConditionalFormattingRule
+                    range   : !_.isEmpty(rule.txtDataRange.getValue()) ? rule.txtDataRange.getValue() : rule.dataRangeValid,
+                    type    : Asc.c_oAscSelectionDialogType.ConditionalFormattingRule,
+                    validation: function() {return true;}
                 });
             }
         },
