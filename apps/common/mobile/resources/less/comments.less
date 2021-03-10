@@ -155,3 +155,23 @@
     }
   }
 }
+
+.page-current-comment {
+  position: relative;
+  .page-content {
+    background-color: @white;
+  }
+  .comment-list {
+    ul {
+      &:before, &:after {
+        content: none;
+      }
+      .item-content .item-inner {
+          padding-top: 0;
+          .reply-list .item-content .item-inner {
+            padding-top: 13px;
+          }
+      }
+    }
+  }
+}

@@ -9,8 +9,12 @@ export class storeComments {
             filter: observable,
             groupCollectionFilter: observable,
 
+            showComments: observable,
+            changeShowComment: action,
+
             addComment: action,
             removeComment: action,
+            changeComment: action,
             changeFilter: action,
 
             sortComments: computed,
@@ -28,6 +32,14 @@ export class storeComments {
 
     filter = undefined;
     groupCollectionFilter = []; // for sse
+
+    showComments = [];
+    changeShowComment (uid) {
+        this.showComments.length = 0;
+        uid.forEach((item) => {
+            this.showComments.push(this.findComment(item));
+        });
+    }
 
     addComment (comment) {
         comment.groupName ? this.addCommentToGroupCollection(comment) : this.addCommentToCollection(comment);
@@ -78,6 +90,23 @@ export class storeComments {
                     this.groupCollectionFilter.splice(this.groupCollectionFilter.indexOf(comment), 1);
                 }
             }
+        }
+    }
+
+    changeComment (id, changeComment) {
+        const comment = this.findComment(id);
+        if (comment) {
+            comment.comment = changeComment.comment;
+            comment.userId = changeComment.userId;
+            comment.userName = changeComment.userName;
+            comment.userColor = changeComment.userColor;
+            comment.resolved = changeComment.resolved;
+            comment.quote = changeComment.quote;
+            comment.time = changeComment.time;
+            comment.date = changeComment.date;
+            comment.editable = changeComment.editable;
+            comment.removable = changeComment.removable;
+            comment.replies = changeComment.replies;
         }
     }
 
