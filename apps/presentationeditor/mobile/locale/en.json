@@ -244,7 +244,15 @@
       "textRemoveLink": "Remove Link",
       "textDisplay": "Display",
       "textScreenTip": "Screen Tip",
-      "textDefault": "Selected text"
+      "textDefault": "Selected text",
+      "textNoTextFound": "Text not found",
+      "textReplaceAll": "Replace All",
+      "textFind": "Find",
+      "textFindAndReplace": "Find and Replace",
+      "textDone": "Done",
+      "textSearch": "Search",
+      "textCase": "Case sensitive",
+      "textHighlight": "Highlight results"
     }
   },
   "Common": {

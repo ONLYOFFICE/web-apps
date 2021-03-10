@@ -66,8 +66,6 @@ const Search = props => {
 
         if (params.find && params.find.length) {
             if (!api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
-                // const { t } = useTranslation();
-                // const _t = t('View.Settings', {returnObjects: true});
                 f7.dialog.alert(null, 'Text not Found');
             }
         }

@@ -55,7 +55,7 @@ class SearchSettingsView extends Component {
             </Navbar>;
         const extra = this.extraSearchOptions();
         const content =
-            <View style={popoverStyle}>
+            <View style={show_popover ? popoverStyle : null}>
                 <Page>
                     {navbar}
                     <List>
@@ -83,6 +83,8 @@ class SearchView extends Component {
             replaceQuery: ''
         };
 
+        const $$ = Dom7;
+
         $$(document).on('page:init', (e, page) => {
             if ( page.name == 'home' ) {
                 this.searchbar = f7.searchbar.create({
@@ -104,7 +106,6 @@ class SearchView extends Component {
                 //     return (m = /(iPad|iPhone|iphone).*?(OS |os |OS\_)(\d+((_|\.)\d)?((_|\.)\d)?)/.exec(ua)) ? parseFloat(m[3]) : 0;
                 // }
 
-                const $$ = Dom7;
                 const $editor = $$('#editor_sdk');
                 const $replaceLink = $$('#replace-link');
                
@@ -195,10 +196,12 @@ class SearchView extends Component {
 
     onEditorTouchStart(e) {
         this.startPoint = this.pointerPosition(e);
+        // console.log(this.startPoint);
     }
 
     onEditorTouchEnd(e) {
         const endPoint = this.pointerPosition(e);
+        // console.log(endPoint);
 
         if ( this.searchbar.enabled ) {
             const distance = (this.startPoint.x === undefined || this.startPoint.y === undefined) ? 0 :
