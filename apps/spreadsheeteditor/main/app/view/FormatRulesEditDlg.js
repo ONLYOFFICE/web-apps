@@ -90,13 +90,13 @@ define([
                                         '<td class="padding-small">',
                                             '<label class="header">', me.textFormat,'</label>',
                                             '<div>',
-                                                '<div id="format-rules-format-preset" class="input-group-nr" style="display: inline-block;vertical-align: top;"></div>',
+                                                '<div id="format-rules-format-preset" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
                                                 '<div id="format-rules-bold" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-italic" style="display: inline-block;margin-left: 5px;"></div>',
                                                 '<div id="format-rules-underline" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-strikeout" style="display: inline-block;margin-left: 5px;"></div>',
                                                 // '<div id="format-rules-subscript" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-superscript" style="display: inline-block;margin-left: 5px;"></div>',
                                                 '<div id="format-rules-fontcolor" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-fillcolor" style="display: inline-block;margin-left: 5px;"></div>',
                                                 '<div id="format-rules-borders" style="display: inline-block;margin-left: 5px;"></div>',
-                                                '<div id="format-rules-edit-combo-num-format" class="input-group-nr" style="display: inline-block;vertical-align: top;margin-left: 5px;"></div>',
+                                                '<div id="format-rules-edit-combo-num-format" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-left: 5px;"></div>',
                                             '</div>',
                                         '</td>',
                                     '</tr>',
@@ -1214,7 +1214,7 @@ define([
                 });
                 range.setValue('');
                 this.iconsControls[i].value = range;
-                // range.on('button:click', _.bind(this.onSelectIconData, this));
+                range.on('button:click', _.bind(this.onSelectData, this));
 
                 this.iconsControls[i].label = $('#format-rules-txt-icon-' + (i+1));
             }
@@ -1684,7 +1684,8 @@ define([
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(cmp.getValue()) && (cmp.checkValidate()==true)) ? cmp.getValue() : '',
-                    type    : Asc.c_oAscSelectionDialogType.Chart
+                    type    : Asc.c_oAscSelectionDialogType.ConditionalFormattingRule,
+                    validation: function() {return true;}
                 });
             }
         },
@@ -1986,6 +1987,163 @@ define([
             formcontrol.css('background-image', record ? 'url(' + record.get('imgUrl') + ')' : '');
         },
 
+        isRangeValid: function() {
+            var rec = this.ruleStore.findWhere({index: this.cmbCategory.getValue()}),
+                res;
+
+            if (rec) {
+                var type = rec.get('type'),
+                    arr = [],
+                    msg,
+                    focusedInput;
+                switch (type) {
+                    case Asc.c_oAscCFType.containsText:
+                    case Asc.c_oAscCFType.expression:
+                        if (this.txtRange1.getValue()==='')
+                            msg = (type==Asc.c_oAscCFType.containsText ? this.textEmptyText:  this.textEmptyFormulaExt);
+                        else {
+                            res = this.api.asc_isValidDataRefCf(type, [[this.txtRange1.getValue()]]);
+                            res && (res = res[0]);
+                        }
+                        (res || msg) && (focusedInput = this.txtRange1);
+                        break;
+                    case Asc.c_oAscCFType.cellIs:
+                        var subtype = this.cmbRule.getValue();
+                        if (this.txtRange1.getValue()==='') {
+                            msg = this.textEmptyValue;
+                            focusedInput = this.txtRange1;
+                        } else if ((subtype == Asc.c_oAscCFOperator.notBetween || subtype == Asc.c_oAscCFOperator.between) && (this.txtRange2.getValue()==='')) {
+                            msg = this.textEmptyValue;
+                            focusedInput = this.txtRange2;
+                        } else {
+                            arr = [[this.txtRange1.getValue()]];
+                            if (subtype == Asc.c_oAscCFOperator.notBetween || subtype == Asc.c_oAscCFOperator.between)
+                                arr.push([this.txtRange2.getValue()]);
+                            res = this.api.asc_isValidDataRefCf(type, arr);
+                            if (res) {
+                                focusedInput = res[1] ? this.txtRange2 : this.txtRange1;
+                                res = res[0];
+                            }
+                        }
+                        break;
+                    case Asc.c_oAscCFType.top10:
+                        var isPercent = !!this.cmbPercent.getValue();
+                        res = this.api.asc_isValidDataRefCf(type, [[this.numRank.getNumberValue(), isPercent]]);
+                        res && (res = res[0]);
+                        if (res == Asc.c_oAscError.ID.ErrorTop10Between)
+                            msg = Common.Utils.String.format(this.textErrorTop10Between, isPercent ? 0 : 1, isPercent ? 100 : 1000);
+                        break;
+                    case Asc.c_oAscCFType.colorScale:
+                        var scalesCount = rec.get('num');
+                        var scaleControls = (scalesCount==2) ? [this.scaleControls[0], this.scaleControls[2]] : this.scaleControls;
+                        for (var i=0; i<scalesCount; i++) {
+                            if (!scaleControls[i].range.isDisabled() && scaleControls[i].range.getValue()==='') {
+                                msg = (scaleControls[i].combo.getValue()==Asc.c_oAscCfvoType.Formula) ? this.textEmptyFormula : this.textEmptyText;
+                                focusedInput = scaleControls[i].range;
+                                break;
+                            }
+                        }
+                        if (!msg) {
+                            for (var i=0; i<scalesCount; i++) {
+                                arr.push([scaleControls[i].range.getValue(), scaleControls[i].combo.getValue()]);
+                            }
+                            res = this.api.asc_isValidDataRefCf(type, arr);
+                            if (res) {
+                                var index = res[1];
+                                focusedInput = scaleControls[index].range;
+                                res = res[0];
+                                if (res == Asc.c_oAscError.ID.ValueMustBeGreaterThen) {
+                                    msg = Common.Utils.String.format(this.textErrorGreater, index==0 ? this.textMinpoint : (index==scalesCount-1 ? this.textMaxpoint : this.textMidpoint),
+                                                                                            (index==scalesCount-1 && scalesCount==3) ? this.textMidpoint : this.textMinpoint);
+                                } else if (res == Asc.c_oAscError.ID.NotValidPercentage)
+                                    msg = Common.Utils.String.format(this.textNotValidPercentageExt, index==0 ? this.textMinpoint : (index==scalesCount-1 ? this.textMaxpoint : this.textMidpoint));
+                                else if (res == Asc.c_oAscError.ID.NotValidPercentile)
+                                    msg = Common.Utils.String.format(this.textNotValidPercentileExt, index==0 ? this.textMinpoint : (index==scalesCount-1 ? this.textMaxpoint : this.textMidpoint));
+                            }
+                        }
+                        break;
+                    case Asc.c_oAscCFType.dataBar:
+                        var barControls = this.barControls;
+                        for (var i=0; i<barControls.length; i++) {
+                            if (!barControls[i].range.isDisabled() && barControls[i].range.getValue()==='') {
+                                msg = (barControls[i].combo.getValue()==Asc.c_oAscCfvoType.Formula) ? this.textEmptyFormula : this.textEmptyText;
+                                focusedInput = barControls[i].range;
+                                break;
+                            }
+                        }
+                        if (!msg) {
+                            for (var i=0; i<barControls.length; i++) {
+                                arr.push([barControls[i].range.getValue(), barControls[i].combo.getValue()]);
+                            }
+                            res = this.api.asc_isValidDataRefCf(type, arr);
+                            if (res) {
+                                var index = res[1];
+                                focusedInput = barControls[index].range;
+                                res = res[0];
+                                if (res == Asc.c_oAscError.ID.NotValidPercentage)
+                                    msg = Common.Utils.String.format(this.textNotValidPercentageExt, index ? this.textLongBar : this.textShortBar);
+                                else if (res == Asc.c_oAscError.ID.NotValidPercentile)
+                                    msg = Common.Utils.String.format(this.textNotValidPercentileExt, index ? this.textLongBar : this.textShortBar);
+                            }
+                        }
+                        break;
+                    case Asc.c_oAscCFType.iconSet:
+                        var iconsControls = this.iconsControls;
+                        for (var i=0; i<this.iconsProps.iconsLength; i++) {
+                            if (!iconsControls[i].value.isDisabled() && iconsControls[i].value.getValue()==='') {
+                                msg = (iconsControls[i].cmbType.getValue()==Asc.c_oAscCfvoType.Formula) ? this.textEmptyFormula : this.textEmptyText;
+                                focusedInput = iconsControls[i].value;
+                                break;
+                            }
+                        }
+                        if (!msg) {
+                            for (var i=0; i<this.iconsProps.iconsLength; i++) {
+                                arr.push([iconsControls[i].value.getValue(), iconsControls[i].cmbType.getValue()]);
+                            }
+                            res = this.api.asc_isValidDataRefCf(type, arr);
+                            if (res) {
+                                focusedInput = iconsControls[res[1]].value;
+                                res = res[0];
+                            }
+                        }
+                        break;
+
+                }
+                if (!msg && res) {
+                    switch (res) {
+                        case Asc.c_oAscError.ID.NotValidPercentile:
+                            msg = this.textNotValidPercentile;
+                            break;
+                        case Asc.c_oAscError.ID.NotValidPercentage:
+                            msg = this.textNotValidPercentage;
+                            break;
+                        case Asc.c_oAscError.ID.CannotAddConditionalFormatting:
+                            msg = this.textCannotAddCF;
+                            break;
+                        case Asc.c_oAscError.ID.NotSingleReferenceCannotUsed:
+                            msg = this.textSingleRef;
+                            break;
+                        case Asc.c_oAscError.ID.CannotUseRelativeReference:
+                            msg = this.textRelativeRef;
+                            break;
+                        case Asc.c_oAscError.ID.IconDataRangesOverlap:
+                            msg = this.textIconsOverlap;
+                            break;
+                        default:
+                            msg = this.textInvalid;
+                    }
+                }
+                msg && Common.UI.warning({
+                    msg: msg,
+                    maxwidth: 600,
+                    callback: function(btn){
+                        focusedInput && focusedInput.focus();
+                    }
+                });
+                return (!msg);
+            }
+        },
+
         onPrimary: function() {
             this.onDlgBtnClick('ok');
             return false;
@@ -1995,17 +2153,9 @@ define([
             var me = this;
             var state = (typeof(event) == 'object') ? event.currentTarget.attributes['result'].value : event;
             if (state == 'ok') {
-                // var checkname = this.inputName.checkValidate(),
-                //     checkrange = this.txtDataRange.checkValidate();
-                // if (checkname !== true)  {
-                //     this.inputName.cmpEl.find('input').focus();
-                //     this.isInputFirstChange = true;
-                //     return;
-                // }
-                // if (checkrange !== true) {
-                //     this.txtDataRange.cmpEl.find('input').focus();
-                //     return;
-                // }
+                if (!this.isRangeValid())
+                    return;
+
                 this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
             }
 
@@ -2093,7 +2243,24 @@ define([
         textShowIcon: 'Show icon only',
         textIconLabelFirst: 'when {0} {1}',
         textIconLabel: 'when {0} {1} and',
-        textIconLabelLast: 'when value is'
+        textIconLabelLast: 'when value is',
+        textEmptyText: 'Enter a value.',
+        textEmptyFormula: 'Enter a valid formula.',
+        textEmptyFormulaExt: 'The formula you entered does not evaluate to a number, date, time or string.',
+        textEmptyValue: 'The value you entered is not a valid number, date, time or string.',
+        textErrorTop10Between: 'Enter a number between {0} and {1}.',
+        textNotValidPercentage: 'One or more of the specified values is not a valid percentage.',
+        textNotValidPercentile: 'One or more of the specified values is not a valid percentile.',
+        textNotValidPercentageExt: 'The specified {0} value is not a valid percentage.',
+        textNotValidPercentileExt: 'The specified {0} value is not a valid percentile.',
+        textShortBar: 'shortest bar',
+        textLongBar: 'longest bar',
+        textCannotAddCF: 'Cannot add the conditional formatting.',
+        textIconsOverlap: 'One or more icon data ranges overlap.<br>Adjust icon data range values so that the ranges do not overlap.',
+        textSingleRef: 'This type of reference cannot be used in a conditional formatting formula.<br>Change the reference to a single cell, or use the reference with a worksheet function, such as =SUM(A1:B5).',
+        textRelativeRef: 'You cannot use relative references in conditional formatting criteria for color scales, data bars, and icon sets.',
+        textErrorGreater: 'The value for the {0} must be greater than the value for the {1}.',
+        textInvalid: 'Invalid data range.'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });

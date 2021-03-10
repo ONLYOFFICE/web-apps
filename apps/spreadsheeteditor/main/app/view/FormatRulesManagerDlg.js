@@ -513,7 +513,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(rule.txtDataRange.getValue()) && (rule.txtDataRange.checkValidate()==true)) ? rule.txtDataRange.getValue() : rule.dataRangeValid,
-                    type    : Asc.c_oAscSelectionDialogType.Chart
+                    type    : Asc.c_oAscSelectionDialogType.ConditionalFormattingRule
                 });
             }
         },
