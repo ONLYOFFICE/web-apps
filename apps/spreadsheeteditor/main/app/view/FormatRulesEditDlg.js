@@ -1978,6 +1978,7 @@ define([
 
         onSelectIcon: function(combo, picker, view, record) {
             this.selectIconItem(combo, record);
+            this.cmbIconsPresets.setValue(this.textCustom);
         },
 
         selectIconItem: function(combo, record) {

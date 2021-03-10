@@ -1749,6 +1749,7 @@ define([
                     langId  : value,
                     handler : function(result, settings) {
                         if (result == 'ok' && settings) {
+                            me.api.asc_setCF([settings], []);
                         }
                     }
                 })).show();
