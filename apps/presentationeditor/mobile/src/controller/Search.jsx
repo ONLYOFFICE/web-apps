@@ -36,12 +36,6 @@ class PESearchView extends SearchView {
 
     onSearchbarShow(isshowed, bar) {
         super.onSearchbarShow(isshowed, bar);
-        
-        // const api = Common.EditorApi.get();
-        // if ( isshowed ) {
-        //     const checkboxMarkResults = f7.toggle.get('.toggle-mark-results');
-        //     api.asc_selectSearchingResults(checkboxMarkResults.checked);
-        // } else api.asc_selectSearchingResults(false);
     }
 }
 

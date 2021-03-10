@@ -7,12 +7,19 @@ class PresentationSettingsController extends Component {
         super(props);
         this.initSlideSize = this.initSlideSize.bind(this);
         this.onSlideSize = this.onSlideSize.bind(this);
+        this.initSlideSize();
     }
 
     initSlideSize() {
         if (!this.init) {
             const api = Common.EditorApi.get();
+            const slideSizes = [
+                [9144000, 6858000, Asc.c_oAscSlideSZType.SzScreen4x3], 
+                [12192000, 6858000, Asc.c_oAscSlideSZType.SzCustom]
+            ];
+
             this.props.storePresentationSettings.changeSizeIndex(api.get_PresentationWidth(), api.get_PresentationHeight());
+            this.props.storePresentationSettings.initSlideSizes(slideSizes);
             this.init = true;
         }
     }
