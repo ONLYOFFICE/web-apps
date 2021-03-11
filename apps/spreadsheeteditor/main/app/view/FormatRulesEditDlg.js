@@ -488,7 +488,7 @@ define([
                 ]
             }).on('selected', function(combo, record) {
                 var percent = !!record.value;
-                me.numRank.setMaxValue(percent ? 100 : 1000);
+                // me.numRank.setMaxValue(percent ? 100 : 1000);
                 me.numRank.setValue(me.numRank.getNumberValue());
             });
             this.cmbPercent.setValue(0);
@@ -501,8 +501,8 @@ define([
                 defaultValue : 10,
                 allowDecimal: false,
                 value: '10',
-                maxValue: 1000,
-                minValue: 1
+                maxValue: 1000000000000,
+                minValue: -1000000000000
             });
             this.numRank.on('change', _.bind(function(field, newValue, oldValue, eOpts){
             }, this));
