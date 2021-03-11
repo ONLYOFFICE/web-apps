@@ -556,7 +556,9 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                             color_data = {
                                 value: value,
                                 displayValue: item ? '' : ((level.cmbSort.getValue()==Asc.c_oAscSortOptions.ByColorFill) ? me.textNone : me.textAuto),
-                                color: item
+                                color: item,
+                                styleObj: {'background-color': item ? '#' + value : 'transparent' },
+                                styleStr: item ? 'background-color: #' + value + ';' : 'background-color:transparent;'
                             };
                         item ? level.color_data.push(color_data) : level.color_data.unshift(color_data);
                         if (colorValue == color_data.value)

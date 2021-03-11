@@ -508,23 +508,30 @@ define([
             }, this));
 
             // Format
-            var color_data = [
-                {   value: 'ffeb9c', displayValue: 'absdef', color: '#ffeb9c', displayColor: '9c6500' },
-                {   value: 'ffc7ce', displayValue: 'absdef', color: '#ffc7ce', displayColor: 'b32e35' },
-                {   value: 'c6efce', displayValue: 'absdef', color: '#c6efce', displayColor: '2e8230' },
-                {   value: 'ffcc99', displayValue: 'absdef', color: '#ffcc99', displayColor: '56507b' }
-            ];
+            var presets = this.api.asc_getCFPresets();
+            var formatPresets = presets[Asc.c_oAscCFRuleTypeSettings.format];
+            var color_data = [];
+            _.each(formatPresets, function(preset, index){
+                color_data.push({
+                    value: index,
+                    fontColor: preset[0],
+                    fillColor: preset[1],
+                    borderColor: preset[2],
+                    displayValue: preset[0] ? 'absdef' : '',
+                    styleObj: {'background-color': preset[1] ? '#' + preset[1] : 'transparent', color: preset[0] ? '#' + preset[0] : 'transparent', border: preset[2] ? '1px solid #' + preset[2] : '', 'text-align': 'center' },
+                    styleStr: 'background-color: ' + (preset[1] ? '#' + preset[1] : 'transparent') + ';color:'  + (preset[0] ? '#' + preset[0] : 'transparent') + ';' + (preset[2] ? 'border: 1px solid #' + preset[2] + ';' : '' + 'text-align: center;')
+                });
+            });
+
             this.cmbFormats = new Common.UI.ComboBoxColor({
                 el          : $('#format-rules-format-preset'),
                 editable    : false,
                 style       : 'width: 150px;',
                 menuStyle   : 'min-width: 100%;max-height: 211px;',
                 data        : color_data
-            }).on('selected', function(combo, record) {
-                // record.color;
             });
-            this.cmbFormats.setValue(color_data[0].value);
-            // this.cmbFormats.on('selected', _.bind(this.onFormatsSelect, this));
+            this.cmbFormats.setValue(this.textCustom);
+            this.cmbFormats.on('selected', _.bind(this.onFormatsSelect, this));
 
             this.btnBold = new Common.UI.Button({
                 parentEl: $('#format-rules-bold'),
@@ -1080,7 +1087,7 @@ define([
 
             arr = [];
             var len = this.collectionPresets.length;
-            var iconsPresets = this.api.asc_getCFPresets()[Asc.c_oAscCFRuleTypeSettings.icons];
+            var iconsPresets = presets[Asc.c_oAscCFRuleTypeSettings.icons];
             _.each(iconsPresets, function(preset, index){
                 if (index>=len) return;
                 var values = [];
@@ -1242,36 +1249,6 @@ define([
                 ruleType,
                 subtype = this.subtype;
 
-            var setColor = function(color, control, picker) {
-                picker = control ? control.colorPicker : picker;
-                if (color) {
-                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
-                        color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
-                    } else {
-                        color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                    }
-                } else {
-                    color = picker.options.transparent ? 'transparent' : '000000';
-                }
-                control && control.setColor(color);
-                if (_.isObject(color)) {
-                    var isselected = false;
-                    for (var i = 0; i < 10; i++) {
-                        if (Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue) {
-                            picker.select(color, true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) picker.clearSelection();
-                } else {
-                    picker.select(color, true);
-                }
-                picker && (picker.currentColor = color);
-                control && (control.currentColor = color);
-                return color;
-            };
-
             if (props) {
                 var value;
                 switch (type) {
@@ -1323,7 +1300,7 @@ define([
                             controls.combo.setValue(scaletype);
                             controls.range.setDisabled(scaletype == Asc.c_oAscCfvoType.Minimum || scaletype == Asc.c_oAscCfvoType.Maximum);
                             controls.range.setValue((scaletype !== Asc.c_oAscCfvoType.Minimum && scaletype !== Asc.c_oAscCfvoType.Maximum && val!==null && val!==undefined) ? val : '');
-                            setColor(color, controls.color);
+                            this.setColor(color, controls.color);
                         }
                         break;
                     case Asc.c_oAscCFType.dataBar:
@@ -1340,16 +1317,16 @@ define([
                                                     val!==null && val!==undefined) ? val : '');
                         }
                         this.cmbFill.setValue(value.asc_getGradient());
-                        setColor(value.asc_getColor(), this.btnPosFill);
-                        setColor(value.asc_getNegativeColor() || value.asc_getColor(), this.btnNegFill);
+                        this.setColor(value.asc_getColor(), this.btnPosFill);
+                        this.setColor(value.asc_getNegativeColor() || value.asc_getColor(), this.btnNegFill);
                         this.chFill.setValue(value.asc_getNegativeBarColorSameAsPositive());
 
                         var color = value.asc_getBorderColor();
                         this.cmbBorder.setValue(color===null);
                         this.btnPosBorder.setDisabled(color===null);
                         if (color) {
-                            setColor(value.asc_getBorderColor(), this.btnPosBorder);
-                            setColor(value.asc_getNegativeBorderColor() || value.asc_getBorderColor(), this.btnNegBorder);
+                            this.setColor(value.asc_getBorderColor(), this.btnPosBorder);
+                            this.setColor(value.asc_getNegativeBorderColor() || value.asc_getBorderColor(), this.btnNegBorder);
                         }
                         this.chBorder.setValue(value.asc_getNegativeBarBorderColorSameAsPositive());
                         this.chBorder.setDisabled(color===null);
@@ -1358,7 +1335,7 @@ define([
                         this.cmbBarDirection.setValue(value.asc_getDirection());
                         this.chShowBar.setValue(!value.asc_getShowValue());
                         this.cmbAxisPos.setValue(value.asc_getAxisPosition());
-                        value.asc_getAxisColor() && setColor(value.asc_getAxisColor(), this.btnAxisColor);
+                        value.asc_getAxisColor() && this.setColor(value.asc_getAxisColor(), this.btnAxisColor);
                         this.btnAxisColor.setDisabled(value.asc_getAxisPosition() == Asc.c_oAscDataBarAxisPosition.none);
                         break;
                     case Asc.c_oAscCFType.iconSet:
@@ -1368,14 +1345,18 @@ define([
                         this.fillIconsControls(value.asc_getIconSet(), value.asc_getCFVOs(), value.asc_getIconSets());
                         break;
                 }
+            }
+            if (type === Asc.c_oAscCFType.containsText || type === Asc.c_oAscCFType.notContainsText || type === Asc.c_oAscCFType.beginsWith ||
+                type === Asc.c_oAscCFType.endsWith || type === Asc.c_oAscCFType.containsBlanks || type === Asc.c_oAscCFType.notContainsBlanks ||
+                type === Asc.c_oAscCFType.duplicateValues || type === Asc.c_oAscCFType.uniqueValues ||
+                type === Asc.c_oAscCFType.containsErrors || type === Asc.c_oAscCFType.notContainsErrors ||
+                type === Asc.c_oAscCFType.timePeriod || type === Asc.c_oAscCFType.aboveAverage ||
+                type === Asc.c_oAscCFType.top10 || type === Asc.c_oAscCFType.cellIs || type === Asc.c_oAscCFType.expression) {
 
-                if (type == Asc.c_oAscCFType.containsText || type == Asc.c_oAscCFType.notContainsText || type == Asc.c_oAscCFType.beginsWith ||
-                    type == Asc.c_oAscCFType.endsWith || type == Asc.c_oAscCFType.containsBlanks || type == Asc.c_oAscCFType.notContainsBlanks ||
-                    type == Asc.c_oAscCFType.duplicateValues || type == Asc.c_oAscCFType.uniqueValues ||
-                    type == Asc.c_oAscCFType.containsErrors || type == Asc.c_oAscCFType.notContainsErrors ||
-                    type == Asc.c_oAscCFType.timePeriod || type == Asc.c_oAscCFType.aboveAverage ||
-                    type == Asc.c_oAscCFType.top10 || type == Asc.c_oAscCFType.cellIs || type == Asc.c_oAscCFType.expression) {
+                if (props)
                     this.xfsFormat = props.asc_getDxf();
+                else {
+                    this.cmbFormats.setValue(0);
                 }
             }
 
@@ -1414,20 +1395,60 @@ define([
                 this.refreshRules(rec.get('index'), ruleType);
             }
 
-            var xfs = this.xfsFormat ? this.xfsFormat : (new AscCommonExcel.CellXfs());
+            rec = this.cmbFormats.getSelectedRecord();
+            if (rec && rec.value>=0) {
+                this.onFormatsSelect(this.cmbFormats, rec);
+            } else {
+                var xfs = this.xfsFormat ? this.xfsFormat : (new AscCommonExcel.CellXfs());
+                this.fillXfsFormatInfo(xfs);
+            }
+            this.previewFormat();
+        },
+
+        setColor: function(color, control, picker) {
+            picker = control ? control.colorPicker : picker;
+            if (color) {
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                } else {
+                    color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+                }
+            } else {
+                color = picker.options.transparent ? 'transparent' : '000000';
+            }
+            control && control.setColor(color);
+            if (_.isObject(color)) {
+                var isselected = false;
+                for (var i = 0; i < 10; i++) {
+                    if (Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue) {
+                        picker.select(color, true);
+                        isselected = true;
+                        break;
+                    }
+                }
+                if (!isselected) picker.clearSelection();
+            } else {
+                picker.select(color, true);
+            }
+            picker && (picker.currentColor = color);
+            control && (control.currentColor = color);
+            return color;
+        },
+
+        fillXfsFormatInfo: function(xfs) {
             if (xfs) {
                 this.btnBold.toggle(xfs.asc_getFontBold() === true, true);
                 this.btnItalic.toggle(xfs.asc_getFontItalic() === true, true);
                 this.btnUnderline.toggle(xfs.asc_getFontUnderline() === true, true);
                 this.btnStrikeout.toggle(xfs.asc_getFontStrikeout() === true, true);
 
-                var color = setColor(xfs.asc_getFontColor(), null, this.mnuTextColorPicker);
+                var color = this.setColor(xfs.asc_getFontColor(), null, this.mnuTextColorPicker);
                 this.btnTextColor.currentColor = color;
                 this.mnuTextColorPicker.currentColor = color;
                 color = (typeof(color) == 'object') ? color.color : color;
                 $('.btn-color-value-line', this.btnTextColor.cmpEl).css('background-color', '#' + color);
 
-                color = setColor(xfs.asc_getFillColor(), null, this.mnuFillColorPicker);
+                color = this.setColor(xfs.asc_getFillColor(), null, this.mnuFillColorPicker);
                 this.btnFillColor.currentColor = color;
                 this.mnuFillColorPicker.currentColor = color;
                 color = (typeof(color) == 'object') ? color.color : color;
@@ -1436,7 +1457,6 @@ define([
                 var val = xfs.asc_getNumFormatInfo();
                 val && this.cmbNumberFormat.setValue(val.asc_getType(), this.textCustom);
             }
-            this.previewFormat();
         },
 
         getSettings: function() {
@@ -1690,26 +1710,51 @@ define([
             }
         },
 
+        onFormatsSelect: function(combo, record) {
+            var xfs = new AscCommonExcel.CellXfs();
+            // this.xfsFormat && xfs.asc_setNumFormatInfo(this.xfsFormat.asc_getNumFormatInfo());
+            record.fontColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(record.fontColor));
+            record.fillColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(record.fillColor));
+            if (record.borderColor) {
+                var new_borders = [],
+                    bordersWidth = Asc.c_oAscBorderStyles.Thin,
+                    bordersColor = Common.Utils.ThemeColor.getRgbColor(record.borderColor);
+                new_borders[Asc.c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                new_borders[Asc.c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                new_borders[Asc.c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                new_borders[Asc.c_oAscBorderOptions.Bottom] = new Asc.asc_CBorder(bordersWidth, bordersColor);
+                xfs.asc_setBorder(new_borders);
+            }
+            this.xfsFormat = xfs;
+            this._changedProps && this._changedProps.asc_setDxf(xfs);
+            this.fillXfsFormatInfo(xfs);
+            this.previewFormat();
+        },
+
         onBoldClick: function() {
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontBold(this.btnBold.isActive());
+            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
         onItalicClick: function() {
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontItalic(this.btnItalic.isActive());
+            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
         onUnderlineClick: function() {
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontUnderline(this.btnUnderline.isActive());
+            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
         onStrikeoutClick: function() {
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
+            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
@@ -1775,6 +1820,7 @@ define([
                 }
                 !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
                 this.xfsFormat.asc_setBorder(new_borders);
+                this.cmbFormats.setValue(this.textCustom);
                 this.previewFormat();
             }
         },
@@ -1787,6 +1833,7 @@ define([
 
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
+            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
@@ -1802,6 +1849,7 @@ define([
 
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
+            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 

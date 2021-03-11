@@ -292,7 +292,7 @@ define([
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                 '<% } else { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                    '<a tabindex="-1" type="menuitem" style="padding: 5px;"><div style="height: 15px;background-color: #<%= item.value %>"></div></a>',
+                    '<a tabindex="-1" type="menuitem" style="padding: 5px;"><div style="height: 15px;<%= item.styleStr %>"><%= scope.getDisplayValue(item) %></div></a>',
                     '</li>',
                 '<% } %>',
             '<% }); %>',
@@ -321,11 +321,11 @@ define([
 
             formcontrol[0].innerHTML = record.get('displayValue');
             if (record.get('value')!=-1) {
-                formcontrol.css({'background': '#' + record.get('value'), 'margin-top': '0'});
-                record.get('displayColor') && formcontrol.css({'color': '#' + record.get('displayColor'), 'text-align': 'center'});
+                formcontrol.css({'margin-top': '0'});
+                formcontrol.css(record.get('styleObj'));
             } else {
-                formcontrol.css({'background': '', 'margin-top': '1px'});
-                formcontrol.css({'color': '', 'text-align': ''});
+                formcontrol.css({'margin-top': '1px'});
+                formcontrol.css(record.get('styleObj'));
             }
         },
 
@@ -340,8 +340,9 @@ define([
                 $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
             } else {
                 var formcontrol = $(this.el).find('.form-control > div');
-                formcontrol[0].innerHTML = '';
-                formcontrol.css('background', '');
+                formcontrol[0].innerHTML = value;
+                formcontrol.css('margin-top', '1px');
+                formcontrol.css({'color': '', 'text-align': '', 'background': '', 'border': ''});
             }
         },
 
@@ -358,7 +359,7 @@ define([
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                     '<% } else { %>',
                     '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                    '<a tabindex="-1" type="menuitem" style="padding: 5px;"><div style="height: 15px;background-color: #<%= item.value %>"></div></a>',
+                    '<a tabindex="-1" type="menuitem" style="padding: 5px;"><div style="height: 15px;<%= item.styleStr %>"><%= scope.getDisplayValue(item) %></div></a>',
                     '</li>',
                     '<% } %>',
                     '<% }); %>'
