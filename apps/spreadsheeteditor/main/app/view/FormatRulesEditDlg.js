@@ -71,10 +71,6 @@ define([
                                                 '<label class="header">', me.textRule,'</label>',
                                                 '<div id="format-rules-edit-combo-category" class="input-group-nr"></div>',
                                             '</div>',
-                                            // '<div style="width:150px; display: inline-block; margin-right: 10px;">',
-                                            //     '<label class="header">', me.textApply,'</label>',
-                                            //     '<div id="format-rules-edit-txt-scope" style="height: 22px;"></div>',
-                                            // '</div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr class="hasformat">',
@@ -91,12 +87,18 @@ define([
                                             '<label class="header">', me.textFormat,'</label>',
                                             '<div>',
                                                 '<div id="format-rules-format-preset" class="input-group-nr" style="display: inline-block;vertical-align: middle;"></div>',
-                                                '<div id="format-rules-bold" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-italic" style="display: inline-block;margin-left: 5px;"></div>',
+                                            '</div>',
+                                        '</td>',
+                                    '</tr>',
+                                    '<tr class="hasformat">',
+                                        '<td class="padding-large">',
+                                            '<div>',
+                                                '<div id="format-rules-bold" style="display: inline-block;"></div>','<div id="format-rules-italic" style="display: inline-block;margin-left: 5px;"></div>',
                                                 '<div id="format-rules-underline" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-strikeout" style="display: inline-block;margin-left: 5px;"></div>',
-                                                // '<div id="format-rules-subscript" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-superscript" style="display: inline-block;margin-left: 5px;"></div>',
                                                 '<div id="format-rules-fontcolor" style="display: inline-block;margin-left: 5px;"></div>','<div id="format-rules-fillcolor" style="display: inline-block;margin-left: 5px;"></div>',
                                                 '<div id="format-rules-borders" style="display: inline-block;margin-left: 5px;"></div>',
                                                 '<div id="format-rules-edit-combo-num-format" class="input-group-nr" style="display: inline-block;vertical-align: middle;margin-left: 5px;"></div>',
+                                                '<button type="button" class="btn btn-text-default auto" id="format-rules-edit-btn-clear" style="display: inline-block;vertical-align: middle;margin-left: 10px;min-width: 80px;">', me.textClear, '</button>',
                                             '</div>',
                                         '</td>',
                                     '</tr>',
@@ -483,8 +485,8 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    {value: 0, displayValue: 'Item'},
-                    {value: 1, displayValue: 'Percent'}
+                    {value: 0, displayValue: this.textItem},
+                    {value: 1, displayValue: this.textPercent}
                 ]
             }).on('selected', function(combo, record) {
                 var percent = !!record.value;
@@ -517,7 +519,7 @@ define([
                     fontColor: preset[0],
                     fillColor: preset[1],
                     borderColor: preset[2],
-                    displayValue: preset[0] ? 'absdef' : '',
+                    displayValue: preset[0] ? Common.define.conditionalData.exampleText : '',
                     styleObj: {'background-color': preset[1] ? '#' + preset[1] : 'transparent', color: preset[0] ? '#' + preset[0] : 'transparent', border: preset[2] ? '1px solid #' + preset[2] : '', 'text-align': 'center' },
                     styleStr: 'background-color: ' + (preset[1] ? '#' + preset[1] : 'transparent') + ';color:'  + (preset[0] ? '#' + preset[0] : 'transparent') + ';' + (preset[2] ? 'border: 1px solid #' + preset[2] + ';' : '' + 'text-align: center;')
                 });
@@ -568,26 +570,6 @@ define([
                 hint: this.textStrikeout
             });
             this.btnStrikeout.on('click',_.bind(this.onStrikeoutClick, this));
-
-            // this.btnSuperscript = new Common.UI.Button({
-            //     parentEl: $('#format-rules-superscript'),
-            //     cls: 'btn-toolbar',
-            //     iconCls: 'toolbar__icon btn-superscript',
-            //     enableToggle: true,
-            //     toggleGroup: 'superscriptFRGroup',
-            //     hint: this.textSuperscript
-            // });
-            // // this.btnSuperscript.on('click', _.bind(this.onSuperscriptClick, this));
-            //
-            // this.btnSubscript = new Common.UI.Button({
-            //     parentEl: $('#format-rules-subscript'),
-            //     cls: 'btn-toolbar',
-            //     iconCls: 'toolbar__icon btn-subscript',
-            //     enableToggle: true,
-            //     toggleGroup: 'superscriptFRGroup',
-            //     hint: this.textSubscript
-            // });
-            // this.btnSubscript.on('click', _.bind(this.onSubscriptClick, this));
 
             var initNewColor = function(btn, picker_el, transparent) {
                 if (btn && btn.cmpEl) {
@@ -836,7 +818,7 @@ define([
             this.cmbNumberFormat = new Common.UI.ComboBox({
                 el          : $('#format-rules-edit-combo-num-format'),
                 cls         : 'input-group-nr',
-                style       : 'width: 100px;',
+                style       : 'width: 111px;',
                 menuStyle   : 'min-width: 100%;max-height: 211px;',
                 hint        : this.tipNumFormat,
                 itemsTemplate: formatTemplate,
@@ -845,6 +827,11 @@ define([
             });
             this.cmbNumberFormat.setValue(Asc.c_oAscNumFormatType.General);
             this.cmbNumberFormat.on('selected', _.bind(this.onNumberFormatSelect, this));
+
+            this.btnClear = new Common.UI.Button({
+                el: $('#format-rules-edit-btn-clear')
+            });
+            this.btnClear.on('click', _.bind(this.clearFormat, this));
 
             // Scale
             this.scaleControls = [];
@@ -1712,9 +1699,9 @@ define([
 
         onFormatsSelect: function(combo, record) {
             var xfs = new AscCommonExcel.CellXfs();
-            record.fontColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(record.fontColor));
-            record.fillColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(record.fillColor));
-            if (record.borderColor) {
+            record && record.fontColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(record.fontColor));
+            record && record.fillColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(record.fillColor));
+            if (record && record.borderColor) {
                 var new_borders = [],
                     bordersWidth = Asc.c_oAscBorderStyles.Thin,
                     bordersColor = Common.Utils.ThemeColor.getRgbColor(record.borderColor);
@@ -1727,6 +1714,14 @@ define([
             this.xfsFormat = xfs;
             this._changedProps && this._changedProps.asc_setDxf(xfs);
             this.fillXfsFormatInfo(xfs);
+            this.previewFormat();
+        },
+
+        clearFormat: function() {
+            this.xfsFormat = null;
+            this._changedProps && this._changedProps.asc_setDxf(null);
+            this.fillXfsFormatInfo(new AscCommonExcel.CellXfs());
+            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
@@ -2307,7 +2302,9 @@ define([
         textSingleRef: 'This type of reference cannot be used in a conditional formatting formula.<br>Change the reference to a single cell, or use the reference with a worksheet function, such as =SUM(A1:B5).',
         textRelativeRef: 'You cannot use relative references in conditional formatting criteria for color scales, data bars, and icon sets.',
         textErrorGreater: 'The value for the {0} must be greater than the value for the {1}.',
-        textInvalid: 'Invalid data range.'
+        textInvalid: 'Invalid data range.',
+        textClear: 'Clear',
+        textItem: 'Item'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });
