@@ -62,6 +62,10 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 me.render();
                 me.trigger('change', me, me.model);
             });
+            me.listenTo(me.model, 'change:lock', function() {
+                me.render();
+                me.trigger('change', me, me.model);
+            });
             me.listenTo(me.model, 'change:tip', function() {
                 var el = me.$el || $(me.el),
                     tip = el.data('bs.tooltip');
@@ -113,6 +117,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.rulesDeleted = [];
             this.listSettings = {length: 0, min: 0, max: 0};
             this.locked     = options.locked || false;
+            this.userTooltip = true;
 
             this.wrapEvents = {
                 onLockCFManager: _.bind(this.onLockCFManager, this),
@@ -143,7 +148,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 emptyText: '',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                    '<div class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>" id="format-manager-item-<%= ruleIndex %>">',
+                    '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= ruleIndex %>">',
                         '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
                         '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
                         '<div style="width:112px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;"></div></div>',
@@ -498,7 +503,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 style       : 'width: 100%;',
                 btnHint     : this.textSelectData,
                 allowBlank  : true,
-                disabled    : !item.get('activeSheet'),
+                disabled    : !item.get('activeSheet') || item.get('lock'),
                 validateOnChange: true
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (rule.dataRangeValid !== newValue) {
@@ -776,11 +781,15 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         onLockCFManager: function(index) {
             if (this.currentSheet !== index) return;
             this.locked = true;
+            this.updateButtons();
+            if (this.userTooltip===true && this.rulesList.cmpEl.find('.lock-user').length>0)
+                this.rulesList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
         },
 
         onUnLockCFManager: function(index) {
             if (this.currentSheet !== index) return;
             this.locked = false;
+            this.updateButtons();
         },
 
         onLockCFRule: function(index, ruleId, userId) {
@@ -788,10 +797,12 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var store = this.rulesList.store,
                 rec = store.findWhere({ruleId: ruleId});
             if (rec) {
-                rec.set('lock', true);
                 rec.set('lockuser', (userId) ? this.getUserName(userId) : this.guestText);
+                rec.set('lock', true);
                 this.updateButtons();
             }
+            if (this.userTooltip===true && this.rulesList.cmpEl.find('.lock-user').length>0)
+                this.rulesList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
         },
 
         onUnLockCFRule: function(index, ruleId) {
@@ -799,8 +810,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var store = this.rulesList.store,
                 rec = store.findWhere({ruleId: ruleId});
             if (rec) {
-                rec.set('lock', false);
                 rec.set('lockuser', '');
+                rec.set('lock', false);
                 this.updateButtons();
             }
         },
