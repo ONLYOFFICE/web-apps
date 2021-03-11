@@ -39,7 +39,7 @@
   }
 
   .comment-list {
-    .item-inner:after {
+    .item-inner:after, li:last-child li .item-inner:after {
       content: none;
     }
     .comment-header {
@@ -76,6 +76,12 @@
           width: 40px;
         }
       }
+    }
+  }
+
+  #view-comment-popover {
+    .toolbar-bottom:after {
+      content: none;
     }
   }
 

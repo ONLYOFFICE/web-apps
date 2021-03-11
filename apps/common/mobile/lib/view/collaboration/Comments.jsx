@@ -652,13 +652,31 @@ const CommentList = inject("storeComments", "storeAppOptions")(observer(({storeC
     const [reply, setReply] = useState();
     const [replyActionsOpened, openActionReply] = useState(false);
 
+    const onViewPrevComment = () => {
+        if (currentIndex - 1 < 0) {
+            setCurrentIndex(comments.length - 1);
+        } else {
+            setCurrentIndex(currentIndex - 1);
+        }
+    };
+
+    const onViewNextComment = () => {
+        if (currentIndex + 1 === comments.length) {
+            setCurrentIndex(0);
+        } else {
+            setCurrentIndex(currentIndex + 1);
+        }
+    };
+
     return (
         <Fragment>
             <Toolbar position='bottom'>
-                <Link className='btn-add-reply' href='#'>{_t.textAddReply}</Link>
+                {!viewMode &&
+                    <Link className='btn-add-reply' href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
+                }
                 <div className='comment-navigation row'>
-                    <Link href='#'><Icon slot='media' icon='icon-prev'/></Link>
-                    <Link href='#'><Icon slot='media' icon='icon-next'/></Link>
+                    <Link href='#' onClick={onViewPrevComment}><Icon slot='media' icon='icon-prev'/></Link>
+                    <Link href='#' onClick={onViewNextComment}><Icon slot='media' icon='icon-next'/></Link>
                 </div>
             </Toolbar>
             <Page className='page-current-comment'>
@@ -785,13 +803,13 @@ const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveCommen
     )
 };
 
-const ViewCommentPopover = () => {
+const ViewCommentPopover = ({onCommentMenuClick, onResolveComment}) => {
     useEffect(() => {
         f7.popover.open('#view-comment-popover', '#btn-coauth');
     });
     return (
-        <Popover id='view-comment-popover'>
-            <CommentList />
+        <Popover id='view-comment-popover' style={{height: '410px'}}>
+            <CommentList onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} />
         </Popover>
     )
 };

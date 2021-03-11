@@ -130,6 +130,9 @@
       border-radius: 2px;
     }
   }
+}
+
+#view-comment-popover, #view-comment-sheet {
   .toolbar {
     position: fixed;
     background-color: @white;
@@ -151,6 +154,23 @@
       justify-content: space-between;
       .link {
         padding: 0 12px;
+      }
+    }
+  }
+}
+
+#view-comment-popover {
+  background-color: @white;
+  .page .page-content {
+    padding: 16px;
+    padding-left: 0;
+  }
+  .comment-list {
+    .item-content {
+      .item-inner {
+        .comment-header, .reply-header {
+          padding-right: 0;
+        }
       }
     }
   }
