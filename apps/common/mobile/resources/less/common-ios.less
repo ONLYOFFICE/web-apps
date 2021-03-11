@@ -417,4 +417,71 @@
             }
         }
     }
+
+    // Find and Replace 
+
+    .navbar {
+        .searchbar-input-wrap {
+            margin-right: 10px;
+            height: 28px;
+        }
+        .buttons-row-replace a {
+            color: @themeColor;
+        }
+    }
+
+    .searchbar input[type=search] {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        display: block;
+        border: none;
+        appearance: none;
+        border-radius: 5px;
+        font-family: inherit;
+        color: @black;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 0 8px;
+        background-color: @white;
+        padding: 0 28px;
+    }
+
+    .searchbar-inner {
+        &__right {
+            .buttons-row a.next {
+                margin-left: 15px;
+            }
+        }
+    }
+
+    @media(max-width: 550px)
+    {
+        .searchbar-expandable.searchbar-enabled {
+            top: 0;
+            .searchbar-inner {
+                &__left {
+                    margin-right: 15px;
+                }
+                &__center {
+                    flex-direction: column;
+                }
+                &__right {
+                    flex-direction: column-reverse;
+                    margin-left: 10px;
+                }
+            }
+            &.replace {
+                height: 88px;
+                .searchbar-inner {
+                    height: 100%;
+                    &__center {
+                        .searchbar-input-wrap {
+                            margin: 8px 0;
+                        }
+                    }
+                }
+            }
+        } 
+    }
 }

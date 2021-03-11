@@ -115,7 +115,7 @@ const SettingsList = withTranslation()(props => {
                 {navbar}
                 <List>
                     {!props.inPopover &&
-                        <ListItem title={_t.textFindAndReplace}>
+                        <ListItem title={_t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={closeModal}>
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }

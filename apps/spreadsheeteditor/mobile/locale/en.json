@@ -290,7 +290,24 @@
             "textEmail": "Email",
             "textAddress": "Address",
             "textTel": "Tel",
-            "textPoweredBy": "Powered By"
+            "textPoweredBy": "Powered By",
+            "textFind": "Find",
+            "textSearch": "Search",
+            "textReplace": "Replace",
+            "textMatchCase": "Match Case",
+            "textMatchCell": "Match Cell",
+            "textSearchIn": "Search In",
+            "textWorkbook": "Workbook",
+            "textSheet": "Sheet",
+            "textHighlightRes": "Highlight results",
+            "textByColumns": "By columns",
+            "textByRows": "By rows",
+            "textSearchBy": "Search",
+            "textLookIn": "Look In",
+            "textFormulas": "Formulas",
+            "textValues": "Values",
+            "textNoTextFound": "Text not found",
+            "textReplaceAll": "Replace All"
         }
     },
     "Common": {

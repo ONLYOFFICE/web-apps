@@ -311,4 +311,116 @@
             }
         }
     }
+
+    // Find and Replace 
+
+    .searchbar-inner {
+        &__center {
+            flex-wrap: wrap;
+        }
+        &__left {
+            padding-top: 4px;
+        }
+    }
+
+    .buttons-row-replace a {
+        color: @white;
+    }
+
+    .navbar {
+        .searchbar-input-wrap {
+            height: 32px;
+            margin-right: 10px;
+            margin: 4px 0;
+        }
+        &-inner {
+            overflow: initial;
+        }
+    }
+
+    .searchbar .input-clear-button {
+        width: 18px;
+        height: 18px;
+        &:after {
+            color: @white;
+            font-size: 19px;
+        }
+    }
+
+    .searchbar-icon {
+        &:after {
+            color: @white;
+            font-size: 19px;
+        }
+    }
+
+    .searchbar input[type=search] {
+        box-sizing: border-box;
+        width: 100%;
+        display: block;
+        border: none;
+        appearance: none;
+        border-radius: 0;
+        font-family: inherit;
+        color: @white;
+        font-size: 16px;
+        font-weight: 400;
+        padding: 0;
+        border-bottom: 1px solid @white;
+        height: 100%;
+        padding: 0 36px 0 24px;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        opacity: 1;
+        background-size: 24px 24px;
+        transition-duration: .3s;
+        .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" fill="@{white}" height="24" viewBox="0 0 24 24" width="24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    }
+
+    .searchbar input[type=search]::placeholder {
+        color: @white;
+    }
+
+    .navbar {
+        .searchbar-expandable.searchbar-enabled {
+            top: 0;
+            // height: 100%;
+            .searchbar-inner {
+                height: 100%;
+                &__center {
+                    flex-direction: column;
+                }
+                &__right {
+                    flex-direction: column-reverse;
+                }
+            }
+            &.replace {
+                height: 96px;
+            }
+        }
+        a.link {
+            padding: 0 16px;
+        }
+        a.icon-only {
+            width: auto;
+            height: 48px;
+        }
+        .buttons-row-replace a {
+            color: @white;
+        }
+        .searchbar .buttons-row {
+            align-self: flex-start;
+        }
+    }
+
+    @media(max-width: 550px) {
+        .searchbar-expandable.searchbar-enabled {
+            .searchbar-inner {
+                &__left {
+                    margin-right: 33px;
+                }
+            }
+        }
+    }
 }
