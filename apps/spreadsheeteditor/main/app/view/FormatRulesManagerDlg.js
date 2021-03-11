@@ -112,6 +112,14 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.rulesStores = {};
             this.rulesDeleted = [];
             this.listSettings = {length: 0, min: 0, max: 0};
+            this.locked     = options.locked || false;
+
+            this.wrapEvents = {
+                onLockCFManager: _.bind(this.onLockCFManager, this),
+                onUnLockCFManager: _.bind(this.onUnLockCFManager, this),
+                onLockCFRule: _.bind(this.onLockCFRule, this),
+                onUnLockCFRule: _.bind(this.onUnLockCFRule, this)
+            };
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -135,10 +143,13 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 emptyText: '',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
-                    '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= ruleIndex %>">',
+                    '<div class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>" id="format-manager-item-<%= ruleIndex %>">',
                         '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
                         '<div style="width:181px;padding-right: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
                         '<div style="width:112px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;"></div></div>',
+                        '<% if (lock) { %>',
+                            '<div class="lock-user"><%=lockuser%></div>',
+                        '<% } %>',
                     '</div>'
                 ].join(''))
             });
@@ -195,6 +206,11 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.currentSheet = this.api.asc_getActiveWorksheetIndex();
             this.refreshScopeList();
             this.refreshRuleList(this.cmbScope.getSelectedRecord());
+
+            this.api.asc_registerCallback('asc_onLockCFManager', this.wrapEvents.onLockCFManager);
+            this.api.asc_registerCallback('asc_onUnLockCFManager', this.wrapEvents.onUnLockCFManager);
+            this.api.asc_registerCallback('asc_onLockCFRule', this.wrapEvents.onLockCFRule);
+            this.api.asc_registerCallback('asc_onUnLockCFRule', this.wrapEvents.onUnLockCFRule);
         },
 
         refreshScopeList: function() {
@@ -247,7 +263,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                             activeSheet: location[0],
                             priority: rule.asc_getPriority(), // priority of the rule, is changed when move or when new rule is added
                             ruleChanged: false, // true if was edited in FormatRulesEditDlg or was created, need to send this rule to sdk if true
-                            props: rule
+                            props: rule,
+                            lock: false,
+                            lockuser: ''
                         });
                     }
                 }
@@ -263,8 +281,37 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.rulesList.onResetItems();
             this.rulesList.deselectAll();
             this.updateRulesCount();
-            (this.listSettings.length>0) && this.rulesList.selectByIndex(this.listSettings.min);
+            if (this.listSettings.length>0) {
+                this.rulesList.selectByIndex(this.listSettings.min);
+                if (this.userTooltip===true && this.rulesList.cmpEl.find('.lock-user').length>0)
+                    this.rulesList.cmpEl.on('mouseover',  _.bind(this.onMouseOverLock, this)).on('mouseout',  _.bind(this.onMouseOutLock, this));
+            }
             this.updateButtons();
+        },
+
+        onMouseOverLock: function (evt, el, opt) {
+            if (this.userTooltip===true && $(evt.target).hasClass('lock-user')) {
+                var me = this,
+                    tipdata = $(evt.target).tooltip({title: this.tipIsLocked,trigger:'manual'}).data('bs.tooltip');
+
+                this.userTooltip = tipdata.tip();
+                this.userTooltip.css('z-index', parseInt(this.$window.css('z-index')) + 10);
+                tipdata.show();
+
+                setTimeout(function() { me.userTipHide(); }, 5000);
+            }
+        },
+
+        userTipHide: function () {
+            if (typeof this.userTooltip == 'object') {
+                this.userTooltip.remove();
+                this.userTooltip = undefined;
+                this.rulesList.cmpEl.off('mouseover').off('mouseout');
+            }
+        },
+
+        onMouseOutLock: function (evt, el, opt) {
+            if (typeof this.userTooltip == 'object') this.userTipHide();
         },
 
         getRuleName: function(rule) {
@@ -560,7 +607,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                                 activeSheet: true,
                                 ruleChanged: true,
                                 priority: 1,
-                                props: settings
+                                props: settings,
+                                lock: false,
+                                lockuser: ''
                             }, {at: 0});
                             me.updateRulesPriority(ruleStore);
                         }
@@ -615,13 +664,16 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         },
 
         onSelectRule: function(lisvView, itemView, record) {
-            this.updateMoveButtons();
+            this.userTipHide();
+            this.updateButtons();
         },
 
         updateButtons: function() {
-            this.btnNew.setDisabled(this.rulesList.store.length>63);
-            this.btnDelete.setDisabled(this.listSettings.length<1);
-            this.btnEdit.setDisabled(this.listSettings.length<1);
+            var rec = this.rulesList.getSelectedRec(),
+                lock = rec ? rec.get('lock') : false;
+            this.btnNew.setDisabled(this.rulesList.store.length>63 || this.locked);
+            this.btnDelete.setDisabled(this.listSettings.length<1 || lock);
+            this.btnEdit.setDisabled(this.listSettings.length<1 || lock);
             this.updateMoveButtons();
             this.rulesList.scroller && this.rulesList.scroller.update();
         },
@@ -629,8 +681,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         updateMoveButtons: function() {
             var rec = this.rulesList.getSelectedRec(),
                 index = rec ? this.rulesList.store.indexOf(rec) : -1;
-            this.btnUp.setDisabled(index<=this.listSettings.min);
-            this.btnDown.setDisabled(index<0 || index==this.listSettings.max);
+            this.btnUp.setDisabled(index<=this.listSettings.min || this.locked);
+            this.btnDown.setDisabled(index<0 || index==this.listSettings.max || this.locked);
         },
 
         getPrevRuleIndex: function(index) {
@@ -711,6 +763,58 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 this.onDeleteRule();
         },
 
+        close: function () {
+            this.userTipHide();
+            this.api.asc_unregisterCallback('asc_onLockCFManager', this.wrapEvents.onLockCFManager);
+            this.api.asc_unregisterCallback('asc_onUnLockCFManager', this.wrapEvents.onUnLockCFManager);
+            this.api.asc_unregisterCallback('asc_onLockCFRule', this.wrapEvents.onLockCFRule);
+            this.api.asc_unregisterCallback('asc_onUnLockCFRule', this.wrapEvents.onUnLockCFRule);
+
+            Common.UI.Window.prototype.close.call(this);
+        },
+
+        onLockCFManager: function(index) {
+            if (this.currentSheet !== index) return;
+            this.locked = true;
+        },
+
+        onUnLockCFManager: function(index) {
+            if (this.currentSheet !== index) return;
+            this.locked = false;
+        },
+
+        onLockCFRule: function(index, ruleId, userId) {
+            if (this.currentSheet !== index) return;
+            var store = this.rulesList.store,
+                rec = store.findWhere({ruleId: ruleId});
+            if (rec) {
+                rec.set('lock', true);
+                rec.set('lockuser', (userId) ? this.getUserName(userId) : this.guestText);
+                this.updateButtons();
+            }
+        },
+
+        onUnLockCFRule: function(index, ruleId) {
+            if (this.currentSheet !== index) return;
+            var store = this.rulesList.store,
+                rec = store.findWhere({ruleId: ruleId});
+            if (rec) {
+                rec.set('lock', false);
+                rec.set('lockuser', '');
+                this.updateButtons();
+            }
+        },
+
+        getUserName: function(id){
+            var usersStore = SSE.getCollection('Common.Collections.Users');
+            if (usersStore){
+                var rec = usersStore.findUser(id);
+                if (rec)
+                    return Common.Utils.UserInfoParser.getParsedName(rec.get('username'));
+            }
+            return this.guestText;
+        },
+
         txtTitle: 'Conditional Formatting',
         textNew: 'New',
         textEdit: 'Edit',
@@ -750,7 +854,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
         textEnds: 'Cell value ends with',
         textIconSet: 'Icon set',
         textDuplicate: 'Duplicate values',
-        textUnique: 'Unique values'
+        textUnique: 'Unique values',
+        tipIsLocked: 'This element is being edited by another user.',
+        guestText: 'Guest'
 
     }, SSE.Views.FormatRulesManagerDlg || {}));
 });
