@@ -465,8 +465,8 @@ define([
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: 'theme-light', displayValue: this.txtThemeLight },
-                    { value: 'theme-dark', displayValue: this.txtThemeDark }
+                    { value: Common.UI.Themes.THEME_LIGHT_ID, displayValue: this.txtThemeLight },
+                    { value: Common.UI.Themes.THEME_DARK_ID, displayValue: this.txtThemeDark }
                 ]
             });
 
@@ -601,7 +601,7 @@ define([
             this.chPaste.setValue(Common.Utils.InternalSettings.get("de-settings-paste-button"));
 
             item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.current()});
-            this.cmbTheme.setValue(item ? item.get('value') : 0);
+            this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.THEME_LIGHT_ID);
         },
 
         applySettings: function() {

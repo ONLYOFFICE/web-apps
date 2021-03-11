@@ -18,6 +18,9 @@ define([
         }
 
         return {
+            THEME_LIGHT_ID: 'theme-light',
+            THEME_DARK_ID: 'theme-dark',
+
             init: function (api) {
                 var me = this;
                 $(window).on('storage', function (e) {
@@ -49,7 +52,7 @@ define([
             },
 
             current: function () {
-                return Common.localStorage.getItem('ui-theme', 'theme-light');
+                return Common.localStorage.getItem('ui-theme') || 'theme-light';
             },
 
             isDarkTheme: function () {
