@@ -2,8 +2,7 @@ const webpack = require('webpack');
 const ora = require('ora');
 const rm = require('rimraf');
 const chalk = require('chalk');
-const editor = process.env.TARGET_EDITOR;
-const config = !process.env.TARGET_EDITOR ? require('./webpack.config.js') : require('./webpack.config.pe.js');
+const config = require('./webpack.config.js');
 
 const env = process.env.NODE_ENV || 'development';
 const target = process.env.TARGET || 'web';
