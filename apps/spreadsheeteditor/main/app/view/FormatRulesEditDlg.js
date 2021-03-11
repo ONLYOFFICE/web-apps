@@ -1712,7 +1712,6 @@ define([
 
         onFormatsSelect: function(combo, record) {
             var xfs = new AscCommonExcel.CellXfs();
-            this.xfsFormat && xfs.asc_setNumFormatInfo(this.xfsFormat.asc_getNumFormatInfo());
             record.fontColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(record.fontColor));
             record.fillColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(record.fillColor));
             if (record.borderColor) {
