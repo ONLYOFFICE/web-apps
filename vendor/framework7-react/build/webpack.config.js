@@ -153,6 +153,12 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env),
       'process.env.TARGET': JSON.stringify(target),
+      __PRODUCT_VERSION__: JSON.stringify(process.env.PRODUCT_VERSION ? process.env.PRODUCT_VERSION : '0.0.1'),
+      __PUBLISHER_ADDRESS__: JSON.stringify('20A-12 Ernesta Birznieka-Upisha street, Riga, Latvia, EU, LV-1050'),
+      __SUPPORT_EMAIL__: JSON.stringify('support@onlyoffice.com'),
+      __PUBLISHER_PHONE__: JSON.stringify('+371 633-99867'),
+      __PUBLISHER_URL__: JSON.stringify('https://www.onlyoffice.com'),
+      __PUBLISHER_NAME__: JSON.stringify('Ascensio System SIA'),
     }),
 
     ...(env === 'production' ? [

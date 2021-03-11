@@ -17,9 +17,8 @@ const PagePresentationAbout = props => {
     const infoCustomer = customer ? customer.info : null;
     const logoCustomer = customer ? customer.logo : null;
 
-    console.log(store);
-    console.log(isCanBranding);
-
+    const publisherUrl = __PUBLISHER_URL__,
+        publisherPrintUrl = publisherUrl.replace(/https?:\/{2}|\/$/,"");
     return (
         <Page className="about">
             <Navbar title={_t.textAbout} backLink={_t.textBack} />
@@ -35,7 +34,25 @@ const PagePresentationAbout = props => {
             </div>
             <div className="content-block">
                 <h3>PRESENTATION EDITOR</h3>
-                <h3>{_t.textVersion} 6.1.1</h3>
+                <h3>{_t.textVersion} {__PRODUCT_VERSION__}</h3>
+            </div>
+            <div className="content-block">
+                <p>
+                    <label>{_t.textAddress}</label>
+                    <a id="settings-about-address" className="external">{__PUBLISHER_ADDRESS__}</a>
+                </p>
+                <p>
+                    <label>{_t.textEmail}</label>
+                    <a id="settings-about-email" className="external" href={`mailto:${__SUPPORT_EMAIL__}`}>{__SUPPORT_EMAIL__}</a>
+                </p>
+                <p>
+                    <label>{_t.textTel}</label>
+                    <a id="settings-about-tel" className="external" href={`tel:${__PUBLISHER_PHONE__}`}>{__PUBLISHER_PHONE__}</a>
+                </p>
+                <p>
+                    <a id="settings-about-url" className="external" target="_blank" href={publisherUrl}>{publisherPrintUrl}</a>
+                </p>
+                {/*<p><label id="settings-about-info" style="display: none;"></label></p>*/}
             </div>
             <div className="content-block">
                 {nameCustomer && nameCustomer.length ? (
