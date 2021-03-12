@@ -170,6 +170,7 @@
   "PE.Controllers.Main.textContactUs": "Verkaufsteam",
   "PE.Controllers.Main.textCustomLoader": "Bitte beachten Sie, dass Sie gemäß den Lizenzbedingungen nicht berechtigt sind, den Loader zu wechseln. <br> Wenden Sie sich an unseren Vertrieb, um ein Angebot zu erhalten.",
   "PE.Controllers.Main.textDone": "Fertig",
+  "PE.Controllers.Main.textGuest": "Gast",
   "PE.Controllers.Main.textHasMacros": "Diese Datei beinhaltet Makros.<br>Möchten Sie Makros ausführen?",
   "PE.Controllers.Main.textLoadingDocument": "Präsentation wird geladen ",
   "PE.Controllers.Main.textNo": "Nein",

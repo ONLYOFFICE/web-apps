@@ -46,6 +46,7 @@
   "SSE.Controllers.AddOther.textEmptyImgUrl": "ທ່ານຕ້ອງບອກ ທີຢູ່ຮູບ URL",
   "SSE.Controllers.AddOther.txtNotUrl": "ຊ່ອງຂໍ້ມູນນີ້ຄວນຈະເປັນ URL ໃນຮູບແບບ 'http://www.example.com'",
   "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "ການກ໋ອບປີ້,ຕັດ ແລະ ວາງ ການດຳເນີນການໂດຍໃຊ້ເມນູ ຈະດຳເນີນການພາຍໃນຟາຍປັດຈຸບັນເທົ່ານັ້ນ",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "ບໍ່ມີການອ້າງອີງຈຸດເຊື່ອມຕໍ່. ກະລຸນາແກ້ໄຂ ຫຼື ລົບຈຸດເຊື່ອມຕໍ່.",
   "SSE.Controllers.DocumentHolder.menuAddComment": "ເພີ່ມຄຳເຫັນ",
   "SSE.Controllers.DocumentHolder.menuAddLink": "ເພີ່ມລິ້ງ",
   "SSE.Controllers.DocumentHolder.menuCell": "ແຊວ",
