@@ -1,21 +1,14 @@
-import React, { Fragment } from 'react';
-import { List, ListItem, Toggle, BlockTitle } from 'framework7-react';
+import React, { Fragment, useEffect } from 'react';
+import { List, ListItem, Toggle, BlockTitle, Navbar, NavRight, Link, Page } from 'framework7-react';
 import { SearchController, SearchView, SearchSettingsView } from '../../../../common/mobile/lib/controller/Search';
 import { f7 } from 'framework7-react';
-import { useTranslation, withTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { Dom7 } from 'framework7';
+import { Device } from '../../../../common/mobile/utils/device';
 
 class SearchSettings extends SearchSettingsView {
     constructor(props) {
         super(props);
-
-        // this.state = {
-        //     searchIn: 0,
-        //     searchBy: 1,
-        //     lookIn: 1,
-        //     isMatchCase: false,
-        //     isMatchCell: false
-        // }
 
         this.onToggleMarkResults = this.onToggleMarkResults.bind(this);
     }
@@ -27,52 +20,66 @@ class SearchSettings extends SearchSettingsView {
 
     extraSearchOptions() {
         const anc_markup = super.extraSearchOptions();
+        const show_popover = !Device.phone;
+        const { t } = this.props;
+        const _t = t("View.Settings", { returnObjects: true });
 
         const markup = (
-            <Fragment>
-                <BlockTitle>Search In</BlockTitle>
+            <Page>
+                <Navbar title={_t.textFindAndReplace}>
+                    {!show_popover &&
+                        <NavRight>
+                            <Link popupClose=".search-settings-popup">{_t.textDone}</Link>
+                        </NavRight>
+                    }
+                </Navbar>
                 <List>
-                    <ListItem radio title="Workbook" name="search-in-checkbox" value="0" checked={this.state.searchIn === 0} onClick={() => this.setState({
+                    <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
+                    <ListItem radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} onClick={e => this.onFindReplaceClick('replace')} />
+                </List>
+                <BlockTitle>{_t.textSearchIn}</BlockTitle>
+                <List>
+                    <ListItem radio title={_t.textWorkbook} name="search-in-checkbox" value="0" checked={this.state.searchIn === 0} onClick={() => this.setState({
                         searchIn: 0
                     })} />
-                    <ListItem radio title="Sheet" name="search-in-checkbox" value="1" checked={this.state.searchIn === 1} onClick={( )=> this.setState({
+                    <ListItem radio title={_t.textSheet} name="search-in-checkbox" value="1" checked={this.state.searchIn === 1} onClick={( )=> this.setState({
                         searchIn: 1
                     })} />
                 </List>
-                <BlockTitle>Search</BlockTitle>
+                <BlockTitle>{_t.textSearchBy}</BlockTitle>
                 <List>
-                    <ListItem radio title="By rows" name="search-by-checkbox" value="0" checked={this.state.searchBy === 0} onClick={() => this.setState({
+                    <ListItem radio title={_t.textByRows} name="search-by-checkbox" value="0" checked={this.state.searchBy === 0} onClick={() => this.setState({
                         searchBy: 0
                     })} />
-                    <ListItem radio title="By columns" name="search-by-checkbox" value="1" checked={this.state.searchBy === 1} onClick={() => this.setState({
+                    <ListItem radio title={_t.textByColumns} name="search-by-checkbox" value="1" checked={this.state.searchBy === 1} onClick={() => this.setState({
                         searchBy: 1
                     })} />
                 </List>
-                <BlockTitle>Look In</BlockTitle>
+                <BlockTitle>{_t.textLookIn}</BlockTitle>
                 <List>
-                    <ListItem radio title="Formulas" name="look-in-checkbox" value="0" checked={this.state.lookIn === 0} onClick={() => this.setState({
+                    <ListItem radio title={_t.textFormulas} name="look-in-checkbox" value="0" checked={this.state.lookIn === 0} onClick={() => this.setState({
                         lookIn: 0
                     })} />
-                    <ListItem radio title="Values" name="look-in-checkbox" value="1" checked={this.state.lookIn === 1} onClick={() => this.setState({
+                    <ListItem radio title={_t.textValues} name="look-in-checkbox" value="1" checked={this.state.lookIn === 1} onClick={() => this.setState({
                         lookIn: 1
                     })} />
                 </List>
                 <List>
-                    <ListItem title="Match Case">
+                    <ListItem title={_t.textMatchCase}>
                         <Toggle slot="after" className="toggle-match-case" checked={this.state.isMatchCase} onToggleChange={() => this.setState({
                             isMatchCase: !this.state.isMatchCase
                         })} />
                     </ListItem>
-                    <ListItem title="Match Cell">
+                    <ListItem title={_t.textMatchCell}>
                         <Toggle slot="after" className="toggle-match-cell" checked={this.state.isMatchCell} onToggleChange={() => this.setState({
                             isMatchCell: !this.state.isMatchCell
                         })} />
                     </ListItem>
-                    <ListItem title="Highlight results">
+                    <ListItem title={_t.textHighlightRes}>
                         <Toggle slot="after" className="toggle-mark-results" defaultChecked onToggleChange={this.onToggleMarkResults} />
                     </ListItem>
                 </List>
-            </Fragment>
+            </Page>
         )
 
         return {...anc_markup, ...markup};
@@ -80,6 +87,10 @@ class SearchSettings extends SearchSettingsView {
 }
 
 class SESearchView extends SearchView {
+    constructor(props) {
+        super(props);
+    }
+
     searchParams() {
         let params = super.searchParams();
         const $$ = Dom7;
@@ -114,12 +125,13 @@ class SESearchView extends SearchView {
     }
 }
 
-const Search = props => {
-    // const { t } = useTranslation();
-    // const _t = t('View.Settings', {returnObjects: true});
+const Search = withTranslation()(props => {
+    const { t } = props;
+    const _t = t('View.Settings', {returnObjects: true});
 
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
+      
         let lookIn = +params.lookIn === 0;
         let searchIn = +params.searchIn === 1;
         let searchBy = +params.searchBy === 0;
@@ -136,7 +148,7 @@ const Search = props => {
             options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
 
             if (!api.asc_findText(options)) {
-                f7.dialog.alert(null, 'Text not Found');
+                f7.dialog.alert(null, _t.textNoTextFound);
             }
         }
     };
@@ -189,7 +201,9 @@ const Search = props => {
         }
     }
 
-    return <SESearchView onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
-};
+    return <SESearchView _t={_t} onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
+});
 
-export {Search, SearchSettings}
+const SearchSettingsWithTranslation = withTranslation()(SearchSettings);
+
+export {Search, SearchSettingsWithTranslation as SearchSettings}
