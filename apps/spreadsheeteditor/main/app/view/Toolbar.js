@@ -1072,7 +1072,7 @@ define([
                 me.btnCondFormat = new Common.UI.Button({
                     id          : 'id-toolbar-btn-condformat',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-condformat',
+                    iconCls     : 'toolbar__icon btn-cond-format',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth],
                     menu        : true
                 });
