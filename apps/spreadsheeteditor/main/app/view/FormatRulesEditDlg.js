@@ -82,6 +82,13 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             var me = this;
 
+            this.dataValTypes = [
+                {value: Asc.c_oAscCfvoType.Number, displayValue: this.txtNumber},
+                {value: Asc.c_oAscCfvoType.Percent, displayValue: this.textPercent},
+                {value: Asc.c_oAscCfvoType.Formula, displayValue: this.textFormula},
+                {value: Asc.c_oAscCfvoType.Percentile, displayValue: this.textPercentile}
+            ];
+
             var rules = [
                 {
                     name: this.textValue,
@@ -289,8 +296,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             }, this));
 
             // Format
-            var presets = this.api.asc_getCFPresets();
-            var formatPresets = presets[Asc.c_oAscCFRuleTypeSettings.format];
+            this.CFPresets = this.api.asc_getCFPresets();
+            var formatPresets = this.CFPresets[Asc.c_oAscCFRuleTypeSettings.format];
             var color_data = [];
             _.each(formatPresets, function(preset, index){
                 color_data.push({
@@ -571,8 +578,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             ];
 
             if (this.api) {
-                var me = this,
-                    info = new Asc.asc_CFormatCellsInfo();
+                var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(Asc.c_oAscNumFormatType.None);
                 info.asc_setSymbol(this.langId);
                 var arr = this.api.asc_getFormatCells(info); // all formats
@@ -612,63 +618,192 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             });
             this.btnClear.on('click', _.bind(this.clearFormat, this));
 
-            // Scale
-            this.scaleControls = [];
-            this.lblMidScale = this.$window.find('#format-rules-edit-lbl-scale-2');
+            this.panels = {
+                format:     {el: this.$window.find('.hasformat'),   rendered: false,    initColors: false},
+                scale:      {el: this.$window.find('.scale'),       rendered: false,    initColors: false},
+                databar:    {el: this.$window.find('.databar'),     rendered: false,    initColors: false},
+                iconset:    {el: this.$window.find('.iconset'),     rendered: false,    initColors: false}
+            };
 
-            var data = [
-                {value: Asc.c_oAscCfvoType.Number, displayValue: this.txtNumber},
-                {value: Asc.c_oAscCfvoType.Percent, displayValue: this.textPercent},
-                {value: Asc.c_oAscCfvoType.Formula, displayValue: this.textFormula},
-                {value: Asc.c_oAscCfvoType.Percentile, displayValue: this.textPercentile}
-            ];
+            this.panels.format.rendered = true;
+            this.afterRender();
+        },
+
+        addNewIconsLine: function() {
+            var me = this;
+            var i = this.iconsControls.length;
+            this.iconsControls.push({});
+
+            var combo = new Common.UI.ComboBox({
+                el: $('#format-rules-combo-icon-' + (i+1)),
+                type        : i,
+                template: _.template([
+                    '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle"  data-toggle="dropdown">',
+                    '<div class="form-control image" style="width: 55px;background-repeat: no-repeat; background-position: 16px center;"></div>',
+                    '<div style="display: table-cell;"></div>',
+                    '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
+                    '</div>'
+                ].join(''))
+            });
+            var menu = (new Common.UI.Menu({
+                style: 'min-width: 105px;',
+                additionalAlign: this.menuAddAlign,
+                items: [
+                    { template: _.template('<div id="format-rules-combo-menu-icon-' + (i+1) + '" style="width: 217px; margin: 0 5px;"></div>') }
+                ]
+            })).render($('#format-rules-combo-icon-' + (i+1)));
+
+            var picker = new Common.UI.DataView({
+                el: $('#format-rules-combo-menu-icon-' + (i+1)),
+                parentMenu: menu,
+                store: new Common.UI.DataViewStore(me.iconsList),
+                itemTemplate: _.template('<img id="<%= id %>" class="item-icon" src="<%= imgUrl %>" style="width: 16px; height: 16px;">'),
+                type        : i
+            });
+            picker.on('item:click', _.bind(this.onSelectIcon, this, combo));
+
+            this.iconsControls[i].cmbIcons = combo;
+            this.iconsControls[i].pickerIcons = picker;
+
+            combo = new Common.UI.ComboBox({
+                el          : $('#format-rules-edit-combo-type-' + (i+1)),
+                style       : 'width: 80px;',
+                menuStyle   : 'min-width: 100%;max-height: 211px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : this.dataValTypes,
+                type        : i
+            }).on('selected', function(combo, record) {
+            });
+            combo.setValue(Asc.c_oAscCfvoType.Percent);
+            this.iconsControls[i].cmbType = combo;
+
+            combo = new Common.UI.ComboBox({
+                el          : $('#format-rules-edit-combo-op-' + (i+1)),
+                style       : 'width: 55px;',
+                menuStyle   : 'min-width: 100%;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [{value: true, displayValue: '>=', prevOp: '<'}, {value: false, displayValue: '>', prevOp: '<='}],
+                type        : i
+            }).on('selected', function(combo, record) {
+                me.fillIconsLabels();
+            });
+            combo.setValue(1);
+            this.iconsControls[i].cmbOperator = combo;
+
+            var range = new Common.UI.InputFieldBtn({
+                el          : $('#format-rules-edit-txt-value-' + (i+1)),
+                name        : 'range',
+                style       : 'width: 100px;',
+                allowBlank  : true,
+                btnHint     : this.textSelectData,
+                validateOnChange: false,
+                type        : i
+            }).on('changed:after', function(input, newValue, oldValue, e) {
+                me.fillIconsLabels();
+            });
+            range.setValue('');
+            this.iconsControls[i].value = range;
+            range.on('button:click', _.bind(this.onSelectData, this));
+
+            this.iconsControls[i].label = $('#format-rules-txt-icon-' + (i+1));
+        },
+
+        renderIconsPanel: function() {
+            if (this.panels.iconset.rendered) return;
+
+            // Icons
+            var me = this;
+
+            this.collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
+            if (this.collectionPresets.length<1)
+                SSE.getController('Main').fillCondFormatIconsPresets(this.api.asc_getCFIconsByType());
+
+            this.collectionIcons = SSE.getCollection('ConditionalFormatIcons');
+            if (this.collectionIcons.length<1)
+                SSE.getController('Main').fillCondFormatIcons(this.api.asc_getFullCFIcons());
+
+            this.iconsList = [];
+            me.collectionIcons.each(function(icon, index){
+                me.iconsList.push({
+                    value: icon.get('index'),
+                    imgUrl: icon.get('icon')
+                });
+            });
+
+            var arr = [];
+            var len = this.collectionPresets.length;
+            var iconsPresets = this.CFPresets[Asc.c_oAscCFRuleTypeSettings.icons];
+            _.each(iconsPresets, function(preset, index){
+                if (index>=len) return;
+                var values = [];
+                for (var i = 0; i < preset.length; i++) {
+                    var formatValueObject = new AscCommonExcel.CConditionalFormatValueObject();
+                    formatValueObject.asc_setType(preset[i][0]);
+                    formatValueObject.asc_setVal(preset[i][1]);
+                    if (preset[i][2]) {
+                        // formatValueObject.asc_setFormula(new AscCommonExcel.CFormulaCF());
+                        // formatValueObject.asc_getFormula().asc_setText(preset[1][i][2]);
+                    }
+                    values.push(formatValueObject);
+                }
+                arr.push({
+                    value: index,
+                    data  : {
+                        iconSet: me.collectionPresets.at(index).get('icons'),
+                        values: values,
+                        icons: me.collectionIcons
+                    }
+                });
+            });
+
+            this.cmbIconsPresets = new Common.UI.ComboBoxIcons({
+                el          : $('#format-rules-icon-style'),
+                editable    : false,
+                style       : 'width: 120px;',
+                menuStyle   : 'max-height: 220px;min-width: 100%;',
+                data        : arr
+            }).on('selected', function(combo, record) {
+                me.fillIconsControls(record.value, record.data.values);
+            });
+            this.cmbIconsPresets.setValue(3);
+            this.iconsProps = {iconsSet: 3};
+
+            this.chIconShow = new Common.UI.CheckBox({
+                el: $('#format-rules-edit-chk-icon-show'),
+                labelText: this.textShowIcon
+            });
+            this.chIconShow.on('change', function(field, newValue, oldValue, eOpts){
+            });
+
+            this.btnReverse = new Common.UI.Button({
+                el: $('#format-rules-edit-btn-icon-reverse')
+            });
+            this.btnReverse.on('click', function() {
+                me.iconsProps.isReverse = !me.iconsProps.isReverse;
+                me.reverseIconsControls();
+            });
+
+            this.iconsControls = [];
             for (var i=0; i<3; i++) {
-                var arr = data;
-                if (i==0)
-                    arr = [{value: Asc.c_oAscCfvoType.Minimum, displayValue: this.textMinimum}].concat(arr);
-                else if (i==2)
-                    arr = [{value: Asc.c_oAscCfvoType.Maximum, displayValue: this.textMaximum}].concat(arr);
-                var combo = new Common.UI.ComboBox({
-                    el          : $('#format-rules-edit-combo-scale-' + (i+1)),
-                    style       : 'width: 100%;',
-                    menuStyle   : 'min-width: 100%;max-height: 211px;',
-                    editable    : false,
-                    cls         : 'input-group-nr',
-                    data        : arr,
-                    type        : i
-                }).on('selected', function(combo, record) {
-                    me.scaleControls[combo.options.type].range.setDisabled(record.value==Asc.c_oAscCfvoType.Minimum || record.value==Asc.c_oAscCfvoType.Maximum);
-                    me.setDefComboValue(combo.options.type, record.value, me.scaleControls[combo.options.type].range);
-                });
-                combo.setValue((i==1) ? Asc.c_oAscCfvoType.Percentile : arr[0].value);
-
-                var range = new Common.UI.InputFieldBtn({
-                    el          : $('#format-rules-edit-txt-scale-' + (i+1)),
-                    name        : 'range',
-                    style       : 'width: 100%;',
-                    allowBlank  : true,
-                    btnHint     : this.textSelectData,
-                    validateOnChange: false,
-                    type        : i,
-                    disabled    : (i!=1)
-                });
-                range.setValue((i==1) ? 50 : '');
-                range.on('button:click', _.bind(this.onSelectData, this));
-
-                var color = new Common.UI.ColorButton({
-                    parentEl: $('#format-rules-edit-color-scale-' + (i+1)),
-                    menu        : true,
-                    type        : i,
-                    color       : '000000'
-                });
-                this.scaleControls.push({combo: combo, range: range, color: color});
+                this.addNewIconsLine();
             }
 
+            var rec = this.cmbIconsPresets.getSelectedRecord();
+            rec && this.fillIconsControls(rec.value, rec.data.values);
+            this.panels.iconset.rendered = true;
+        },
+
+        renderDataBarPanel: function() {
+            if (this.panels.databar.rendered) return;
+
             // Data Bar
+            var me = this;
             this.barControls = [];
 
             for (var i=0; i<2; i++) {
-                var arr = data;
+                var arr = this.dataValTypes;
                 if (i==0) {
                     arr = [{value: Asc.c_oAscCfvoType.Minimum, displayValue: this.textMinimum}].concat(arr);
                     arr.push({value: Asc.c_oAscCfvoType.AutoMin, displayValue: this.textAutomatic});
@@ -686,7 +821,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     type        : i
                 }).on('selected', function(combo, record) {
                     me.barControls[combo.options.type].range.setDisabled(record.value==Asc.c_oAscCfvoType.Minimum || record.value==Asc.c_oAscCfvoType.Maximum ||
-                                                                         record.value==Asc.c_oAscCfvoType.AutoMin || record.value==Asc.c_oAscCfvoType.AutoMax);
+                        record.value==Asc.c_oAscCfvoType.AutoMin || record.value==Asc.c_oAscCfvoType.AutoMax);
                     me.setDefComboValue(combo.options.type, record.value, me.barControls[combo.options.type].range);
                 });
                 combo.setValue(arr[1].value);
@@ -842,165 +977,65 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 color       : '000000'
             });
 
-            // Icons
-            this.collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
-            if (this.collectionPresets.length<1)
-                SSE.getController('Main').fillCondFormatIconsPresets(this.api.asc_getCFIconsByType());
+            this.panels.databar.rendered = true;
+            this.updateThemeColors();
+        },
 
-            this.collectionIcons = SSE.getCollection('ConditionalFormatIcons');
-            if (this.collectionIcons.length<1)
-                SSE.getController('Main').fillCondFormatIcons(this.api.asc_getFullCFIcons());
+        renderScalesPanel: function() {
+            if (this.panels.scale.rendered) return;
 
-            arr = [];
-            var len = this.collectionPresets.length;
-            var iconsPresets = presets[Asc.c_oAscCFRuleTypeSettings.icons];
-            _.each(iconsPresets, function(preset, index){
-                if (index>=len) return;
-                var values = [];
-                for (var i = 0; i < preset.length; i++) {
-                    var formatValueObject = new AscCommonExcel.CConditionalFormatValueObject();
-                    formatValueObject.asc_setType(preset[i][0]);
-                    formatValueObject.asc_setVal(preset[i][1]);
-                    if (preset[i][2]) {
-                        // formatValueObject.asc_setFormula(new AscCommonExcel.CFormulaCF());
-                        // formatValueObject.asc_getFormula().asc_setText(preset[1][i][2]);
-                    }
-                    values.push(formatValueObject);
-                }
-                arr.push({
-                    value: index,
-                    data  : {
-                        iconSet: me.collectionPresets.at(index).get('icons'),
-                        values: values,
-                        icons: me.collectionIcons
-                    }
-                });
-            });
+            // Scale
+            var me = this;
+            this.scaleControls = [];
+            this.lblMidScale = this.$window.find('#format-rules-edit-lbl-scale-2');
 
-            this.cmbIconsPresets = new Common.UI.ComboBoxIcons({
-                el          : $('#format-rules-icon-style'),
-                editable    : false,
-                style       : 'width: 120px;',
-                menuStyle   : 'max-height: 220px;min-width: 100%;',
-                data        : arr
-            }).on('selected', function(combo, record) {
-                me.fillIconsControls(record.value, record.data.values);
-            });
-            this.cmbIconsPresets.setValue(3);
-            this.iconsProps = {iconsSet: 3};
-
-            this.chIconShow = new Common.UI.CheckBox({
-                el: $('#format-rules-edit-chk-icon-show'),
-                labelText: this.textShowIcon
-            });
-            this.chIconShow.on('change', function(field, newValue, oldValue, eOpts){
-            });
-
-            this.btnReverse = new Common.UI.Button({
-                el: $('#format-rules-edit-btn-icon-reverse')
-            });
-            this.btnReverse.on('click', function() {
-                me.iconsProps.isReverse = !me.iconsProps.isReverse;
-                me.reverseIconsControls();
-            });
-
-            var icons = [];
-            me.collectionIcons.each(function(icon, index){
-                icons.push({
-                    value: icon.get('index'),
-                    imgUrl: icon.get('icon')
-                });
-            });
-
-            this.iconsControls = [];
-            for (var i=0; i<5; i++) {
-                this.iconsControls.push({});
-
+            for (var i=0; i<3; i++) {
+                var arr = this.dataValTypes;
+                if (i==0)
+                    arr = [{value: Asc.c_oAscCfvoType.Minimum, displayValue: this.textMinimum}].concat(arr);
+                else if (i==2)
+                    arr = [{value: Asc.c_oAscCfvoType.Maximum, displayValue: this.textMaximum}].concat(arr);
                 var combo = new Common.UI.ComboBox({
-                    el: $('#format-rules-combo-icon-' + (i+1)),
-                    type        : i,
-                    template: _.template([
-                        '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle"  data-toggle="dropdown">',
-                        '<div class="form-control image" style="width: 55px;background-repeat: no-repeat; background-position: 16px center;"></div>',
-                        '<div style="display: table-cell;"></div>',
-                        '<button type="button" class="btn btn-default"><span class="caret"></span></button>',
-                        '</div>'
-                    ].join(''))
-                });
-                var menu = (new Common.UI.Menu({
-                    style: 'min-width: 105px;',
-                    additionalAlign: this.menuAddAlign,
-                    items: [
-                        { template: _.template('<div id="format-rules-combo-menu-icon-' + (i+1) + '" style="width: 217px; margin: 0 5px;"></div>') }
-                    ]
-                })).render($('#format-rules-combo-icon-' + (i+1)));
-
-                var picker = new Common.UI.DataView({
-                    el: $('#format-rules-combo-menu-icon-' + (i+1)),
-                    parentMenu: menu,
-                    store: new Common.UI.DataViewStore(icons),
-                    itemTemplate: _.template('<img id="<%= id %>" class="item-icon" src="<%= imgUrl %>" style="width: 16px; height: 16px;">'),
-                    type        : i
-                });
-                picker.on('item:click', _.bind(this.onSelectIcon, this, combo));
-                // this.selectIconItem();
-                this.iconsControls[i].cmbIcons = combo;
-                this.iconsControls[i].pickerIcons = picker;
-
-                combo = new Common.UI.ComboBox({
-                    el          : $('#format-rules-edit-combo-type-' + (i+1)),
-                    style       : 'width: 80px;',
+                    el          : $('#format-rules-edit-combo-scale-' + (i+1)),
+                    style       : 'width: 100%;',
                     menuStyle   : 'min-width: 100%;max-height: 211px;',
                     editable    : false,
                     cls         : 'input-group-nr',
-                    data        : data,
+                    data        : arr,
                     type        : i
                 }).on('selected', function(combo, record) {
+                    me.scaleControls[combo.options.type].range.setDisabled(record.value==Asc.c_oAscCfvoType.Minimum || record.value==Asc.c_oAscCfvoType.Maximum);
+                    me.setDefComboValue(combo.options.type, record.value, me.scaleControls[combo.options.type].range);
                 });
-                combo.setValue(Asc.c_oAscCfvoType.Percent);
-                this.iconsControls[i].cmbType = combo;
-
-                combo = new Common.UI.ComboBox({
-                    el          : $('#format-rules-edit-combo-op-' + (i+1)),
-                    style       : 'width: 55px;',
-                    menuStyle   : 'min-width: 100%;',
-                    editable    : false,
-                    cls         : 'input-group-nr',
-                    data        : [{value: true, displayValue: '>=', prevOp: '<'}, {value: false, displayValue: '>', prevOp: '<='}],
-                    type        : i
-                }).on('selected', function(combo, record) {
-                    me.fillIconsLabels();
-                });
-                combo.setValue(1);
-                this.iconsControls[i].cmbOperator = combo;
+                combo.setValue((i==1) ? Asc.c_oAscCfvoType.Percentile : arr[0].value);
 
                 var range = new Common.UI.InputFieldBtn({
-                    el          : $('#format-rules-edit-txt-value-' + (i+1)),
+                    el          : $('#format-rules-edit-txt-scale-' + (i+1)),
                     name        : 'range',
-                    style       : 'width: 100px;',
+                    style       : 'width: 100%;',
                     allowBlank  : true,
                     btnHint     : this.textSelectData,
                     validateOnChange: false,
-                    type        : i
-                }).on('changed:after', function(input, newValue, oldValue, e) {
-                    me.fillIconsLabels();
+                    type        : i,
+                    disabled    : (i!=1)
                 });
-                range.setValue('');
-                this.iconsControls[i].value = range;
+                range.setValue((i==1) ? 50 : '');
                 range.on('button:click', _.bind(this.onSelectData, this));
 
-                this.iconsControls[i].label = $('#format-rules-txt-icon-' + (i+1));
+                var color = new Common.UI.ColorButton({
+                    parentEl: $('#format-rules-edit-color-scale-' + (i+1)),
+                    menu        : true,
+                    type        : i,
+                    color       : '000000'
+                });
+                this.scaleControls.push({combo: combo, range: range, color: color});
             }
-
-            var rec = this.cmbIconsPresets.getSelectedRecord();
-            rec && this.fillIconsControls(rec.value, rec.data.values);
-
-            this.afterRender();
+            this.panels.scale.rendered = true;
+            this.updateThemeColors();
         },
 
         afterRender: function() {
             this.updateThemeColors();
-
             this._setDefaults(this.props);
             this.setTitle((this.isEdit) ? this.txtTitleEdit : this.txtTitleNew);
         },
@@ -1053,6 +1088,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         this.txtRange1.setValue(props.asc_getValue1() || '');
                         break;
                     case Asc.c_oAscCFType.colorScale:
+                        this.renderScalesPanel();
                         value = props.asc_getColorScaleOrDataBarOrIconSetRule();
                         var scales = value.asc_getCFVOs(),
                             colors = value.asc_getColors();
@@ -1070,6 +1106,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         }
                         break;
                     case Asc.c_oAscCFType.dataBar:
+                        this.renderDataBarPanel();
                         value = props.asc_getColorScaleOrDataBarOrIconSetRule();
                         var bars = value.asc_getCFVOs();
                         var arr = this.barControls;
@@ -1105,6 +1142,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         this.btnAxisColor.setDisabled(value.asc_getAxisPosition() == Asc.c_oAscDataBarAxisPosition.none);
                         break;
                     case Asc.c_oAscCFType.iconSet:
+                        this.renderIconsPanel();
                         value = props.asc_getColorScaleOrDataBarOrIconSetRule();
                         this.chIconShow.setValue(!value.asc_getShowValue());
                         this.iconsProps.isReverse = value.asc_getReverse();
@@ -1437,14 +1475,17 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             this.txtRange1.cmpEl.width(category==11 ? 310 : 150);
 
-            this.$window.find('.scale').toggleClass('hidden', category<7 || category>8);
             if (category==7 || category==8) {
+                this.renderScalesPanel();
                 this.scaleControls[1].combo.setVisible(category==8);
                 this.scaleControls[1].range.setVisible(category==8);
                 this.scaleControls[1].color.setVisible(category==8);
                 this.lblMidScale.toggleClass('hidden', category==7);
             }
+            this.$window.find('.scale').toggleClass('hidden', category<7 || category>8);
 
+            (category==9) && this.renderDataBarPanel();
+            (category==10) && this.renderIconsPanel();
             this.$window.find('.databar').toggleClass('hidden', category!==9);
             this.$window.find('.iconset').toggleClass('hidden', category!==10);
         },
@@ -1657,42 +1698,50 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         },
 
         updateThemeColors: function() {
-            for (var i=0; i<this.scaleControls.length; i++) {
-                var btn = this.scaleControls[i].color;
-                btn.setMenu();
-                var colorPicker = btn.getPicker();
-                colorPicker.options.type = i;
-                colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-                colorPicker.currentColor = (i==0) ? 'FFC000' : (i==1 ? 'FFFF00' : '92D050');
-                colorPicker.select(colorPicker.currentColor, true);
-                btn.setColor(colorPicker.currentColor);
-                this.scaleControls[i].colorPicker = colorPicker;
-                btn.on('color:select', _.bind(this.onScaleColorsSelect, this));
+            if (this.panels.scale.rendered && !this.panels.scale.initColors) {
+                for (var i=0; i<this.scaleControls.length; i++) {
+                    var btn = this.scaleControls[i].color;
+                    btn.setMenu();
+                    var colorPicker = btn.getPicker();
+                    colorPicker.options.type = i;
+                    colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                    colorPicker.currentColor = (i==0) ? 'FFC000' : (i==1 ? 'FFFF00' : '92D050');
+                    colorPicker.select(colorPicker.currentColor, true);
+                    btn.setColor(colorPicker.currentColor);
+                    this.scaleControls[i].colorPicker = colorPicker;
+                    btn.on('color:select', _.bind(this.onScaleColorsSelect, this));
+                }
+                this.panels.scale.initColors = true;
             }
 
-            var me = this;
-            var initColor = function(btn) {
-                btn.setMenu();
-                var colorPicker = btn.getPicker();
-                colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-                btn.colorPicker = colorPicker;
-                colorPicker.currentColor = btn.color;
-                colorPicker.select(colorPicker.currentColor, true);
-            };
-            initColor(this.btnPosFill);
-            this.btnPosFill.on('color:select', _.bind(this.onBarColorsSelect, this, 'pos'));
-            initColor(this.btnNegFill);
-            this.btnNegFill.on('color:select', _.bind(this.onBarColorsSelect, this, ''));
-            initColor(this.btnPosBorder);
-            this.btnPosBorder.on('color:select', _.bind(this.onBarColorsSelect, this, 'pos-border'));
-            initColor(this.btnNegBorder);
-            this.btnNegBorder.on('color:select', _.bind(this.onBarColorsSelect, this, ''));
-            initColor(this.btnAxisColor);
-            this.btnAxisColor.on('color:select', _.bind(this.onBarColorsSelect, this, ''));
+            if (this.panels.databar.rendered && !this.panels.databar.initColors) {
+                var initColor = function(btn) {
+                    btn.setMenu();
+                    var colorPicker = btn.getPicker();
+                    colorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                    btn.colorPicker = colorPicker;
+                    colorPicker.currentColor = btn.color;
+                    colorPicker.select(colorPicker.currentColor, true);
+                };
+                initColor(this.btnPosFill);
+                this.btnPosFill.on('color:select', _.bind(this.onBarColorsSelect, this, 'pos'));
+                initColor(this.btnNegFill);
+                this.btnNegFill.on('color:select', _.bind(this.onBarColorsSelect, this, ''));
+                initColor(this.btnPosBorder);
+                this.btnPosBorder.on('color:select', _.bind(this.onBarColorsSelect, this, 'pos-border'));
+                initColor(this.btnNegBorder);
+                this.btnNegBorder.on('color:select', _.bind(this.onBarColorsSelect, this, ''));
+                initColor(this.btnAxisColor);
+                this.btnAxisColor.on('color:select', _.bind(this.onBarColorsSelect, this, ''));
+                this.panels.databar.initColors = true;
+            }
 
-            this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.mnuFillColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.mnuBorderColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            if (this.panels.format.rendered && !this.panels.format.initColors) {
+                this.mnuTextColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                this.mnuFillColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                this.mnuBorderColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+                this.panels.format.initColors = true;
+            }
         },
 
         onScaleColorsSelect: function(picker, color) {
@@ -1742,6 +1791,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.$window.find('.icons-4').toggleClass('hidden', this.iconsProps.iconsLength<4);
 
             var arr = this.iconsControls;
+            (arr.length<this.iconsProps.iconsLength) && this.addNewIconsLine();
+            (arr.length<this.iconsProps.iconsLength) && this.addNewIconsLine();
+
             for (var i=0; i<values.length; i++) {
                 var controls = arr[i];
                 controls.cmbType.setValue(values[i].asc_getType());
