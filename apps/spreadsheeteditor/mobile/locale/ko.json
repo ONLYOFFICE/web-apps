@@ -16,6 +16,7 @@
   "SSE.Controllers.AddLink.txtNotUrl": "이 필드는 'http://www.example.com'형식의 URL이어야합니다.",
   "SSE.Controllers.AddOther.textEmptyImgUrl": "이미지 URL을 지정해야합니다.",
   "SSE.Controllers.AddOther.txtNotUrl": "이 필드는 'http://www.example.com'형식의 URL이어야합니다.",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "링크 참조가 존재하지 않습니다. 링크를 수정하거나 삭제하십시오.",
   "SSE.Controllers.DocumentHolder.menuAddLink": "링크 추가",
   "SSE.Controllers.DocumentHolder.menuCell": "셀",
   "SSE.Controllers.DocumentHolder.menuCopy": "복사",

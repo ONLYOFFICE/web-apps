@@ -76,7 +76,7 @@ define([
                     }
 
                     Common.localStorage.setItem('ui-theme', name);
-                    Common.NotificationCenter.trigger('uitheme:change', name);
+                    Common.NotificationCenter.trigger('uitheme:changed', name);
                 }
             },
 

@@ -2364,7 +2364,7 @@ define([
                 var _disable_ui = function (disable) {
                     me.disableEditing(disable);
                     var app = me.getApplication();
-                    app.getController('DocumentHolder').getView().SetDisabled(disable, true);
+                    app.getController('DocumentHolder').getView().SetDisabled(disable);
                     app.getController('Navigation') && app.getController('Navigation').SetDisabled(disable);
 
                     var leftMenu = app.getController('LeftMenu');

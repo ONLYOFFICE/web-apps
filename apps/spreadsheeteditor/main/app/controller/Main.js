@@ -2359,7 +2359,7 @@ define([
                         app.getController('RightMenu').SetDisabled(disable, true);
                         app.getController('Statusbar').SetDisabled(disable);
                         app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
-                        app.getController('DocumentHolder').SetDisabled(disable, true);
+                        app.getController('DocumentHolder').SetDisabled(disable);
                         var leftMenu = app.getController('LeftMenu');
                         leftMenu.setPreviewMode(disable);
                         leftMenu.disableEditing(disable);

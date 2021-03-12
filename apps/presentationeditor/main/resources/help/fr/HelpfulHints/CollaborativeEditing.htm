@@ -3,7 +3,7 @@
 	<head>
 		<title>Edition collaborative des présentations</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Tips on collaborative editing" />
+		<meta name="description" content="Les conseils pour édition collaborative" />
 		<link type="text/css" rel="stylesheet" href="../editor.css" />
         <script type="text/javascript" src="../callback.js"></script>
         <script type="text/javascript" src="../search/js/page-search.js"></script>
@@ -11,7 +11,7 @@
 	<body>
 		<div class="mainpart">
         <div class="search-field">
-            <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+            <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Edition collaborative des présentations</h1>
 			<p><b>Presentation Editor</b> vous offre la possibilité de travailler sur votre présentation simultanément avec d'autres utilisateurs. Cette fonction inclut :</p>
@@ -65,14 +65,31 @@
                 <p>Pour ajouter un commentaire à une diapositive donnée, sélectionnez la diapositive et utilisez le bouton <img alt="Commentaires" src="../images/comment_toptoolbar.png" /> <b>Commentaire</b> dans l'onglet <b>Insertion</b> ou <b>Collaboration</b> de la barre d'outils supérieure. Le commentaire ajouté sera affiché dans le coin supérieur gauche de la diapositive.</p>
                 <p>Pour créer un commentaire de niveau présentation qui n'est pas lié à un objet ou une diapositive spécifique, cliquez sur l'icône <img alt="Icône Commentaires" src="../images/commentsicon.png" /> dans la barre latérale gauche pour ouvrir le panneau <b>Commentaires</b> et utilisez le lien <b>Ajouter un commentaire au document</b>. Les commentaires au niveau de la présentation peuvent être consultés dans le panneau <b>Commentaires</b>. Les commentaires relatifs aux objets et aux diapositives y sont également disponibles.</p>
                 <p>Tout autre utilisateur peut répondre au commentaire ajouté en posant une question ou en faisant référance au travail fait. Pour le faire il suffit de cliquer sur le lien <b>Ajouter une réponse</b> situé au-dessus du commentaire.</p>
-                <p>Pour gérer les commentaires ajoutés, procédez de la manière suivante :</p>
+                <p>Si vous utilisez le mode de co-édition <b>Strict</b>, les nouveaux commentaires ajoutés par d'autres utilisateurs ne seront visibles qu'après un clic sur l'icône <img alt="Icône Enregistrer" src="../images/saveupdate.png" /> dans le coin supérieur gauche de la barre supérieure.</p>
+
+                <p>Vous pouvez gérer les commentaires ajoutés en utilisant des icônes dans la bulle du commentaire ou dans le panneau gauche:</p>
                 <ul>
-                    <li>pour les modifier, cliquez sur l'icône <img alt="Editer" src="../images/editcommenticon.png" />,</li>
-                    <li>pour les supprimer, cliquez sur l'icône <img alt="Supprimer" src="../images/deletecommenticon.png" />,</li>
+                    <li>pour modifier les commentaires sélectionnés, cliquez sur l'icône <img alt="Editer" src="../images/editcommenticon.png" />,</li>
+                    <li>pour supprimer les commentaires sélectionnés, cliquez sur l'icône <img alt="Supprimer" src="../images/deletecommenticon.png" />,</li>
                     <li>fermez la discussion en cliquant sur l'icône <img alt="Icône Résoudre" src="../images/resolveicon.png" /> si la tâche ou le problème décrit dans votre commentaire est résolu, après quoi la discussion ouverte par votre commentaire reçoit le statut résolu. Pour l'ouvrir à nouveau, cliquez sur l'icône <img alt="Icône Ouvrir à nouveau" src="../images/resolvedicon.png" />.</li>
                 </ul>
-                <p>Les nouveaux commentaires ajoutés par d'autres utilisateurs ne seront visibles qu'après un clic sur l'icône <img alt="Icône Enregistrer" src="../images/saveupdate.png" /> dans le coin gauche de la barre supérieure.</p>
-                <p>Pour fermer le panneau avec les commentaires cliquez sur l'icône <img alt="Icône Commentaires" src="../images/commentsicon.png" /> encore une fois.</p>
+             <h3>Ajouter les mentions</h3>
+            <p>Lorsque vous ajoutez un commentaire sur lequel vous voulez attirer l&rsquo;attention d&rsquo;une personne, vous pouvez utiliser la fonction de <B>mentions</B> et envoyer une notification par courrier &eacute;lectronique ou <B>Talk</B>.  </p>
+            <p>Ajoutez une mention en tapant le signe "+" ou "@" n'importe o&ugrave; dans votre commentaire, alors la liste de tous les utilisateurs sur votre portail s'affiche. Pour faire la recherche plus rapide, tapez les premi&egrave;res lettres du pr&eacute;nom de la personne, la liste propose les suggestions au cours de la frappe. Puis s&eacute;lectionnez le nom souhait&eacute; dans la liste. Si la personne mentionn&eacute;e n&rsquo;a pas l&rsquo;autorisation d&rsquo;ouvrir ce fichier, la fen&ecirc;tre <b>Param&egrave;tres de partage</b> va appara&icirc;tre. Par d&eacute;faut, un document est partag&eacute; en <B>Lecture seule</B>.  Configurez les param&egrave;tres de partage selon vos besoins et cliquez sur <B>OK</B>.</p>
+            <p>La personne mentionn&eacute;e recevra une notification par courrier &eacute;lectronique la informant que son nom est mentionn&eacute; dans un commentaire. La personne recevra encore une notification lorsque un fichier comment&eacute; est partag&eacute;.</p>
+            <p>Pour supprimer les commentaires,</p>
+            <ol>
+            <li>appuyez sur le bouton <img alt="L'ic&ocirc;ne Supprimer le commentaire" src="../images/removecomment_toptoolbar.png" /> <b>Supprimer</b> sous l'onglet <b>Collaboration</b> dans la barre d'outils en haut,</li>
+            <li>s&eacute;lectionnez l'option convenable du menu:
+            <ul>
+                <li><b>Supprimer les commentaires actuels </b>&agrave; supprimer la s&eacute;lection du moment. Toutes les r&eacute;ponses qui d&eacute;j&agrave; ont &eacute;t&eacute; ajout&eacute;es seront supprim&eacute;es aussi.</li>
+                <li><b>Supprimer mes commentaires</b> &agrave; supprimer vos commentaire et laisser les commentaires des autres. Toutes les r&eacute;ponses qui d&eacute;j&agrave; ont &eacute;t&eacute; ajout&eacute;es &agrave; vos commentaires seront supprim&eacute;es aussi.</li>
+                <li><b>Supprimer tous les commentaires</b> &agrave; supprimer tous les commentaires du document.</li>
+            </ul>
+            </li>
+        </ol>
+
+                <p>Pour fermer le panneau avec les commentaires cliquez sur l'icône <img alt="Icône Commentaires" src="../images/commentsicon.png" /> dans la barre latérale gauche encore une fois.</p>
             </div>
 	</body>
 </html>

@@ -12,13 +12,22 @@
     "src": "ProgramInterface/HomeTab.htm",
     "name": "Registerkarte Start"
   },
-    {
-        "src": "ProgramInterface/InsertTab.htm",
-        "name": "Registerkarte Einfügen"
-    },
-    { "src": "ProgramInterface/LayoutTab.htm", "name": "Registerkarte Layout" },
-    { "src": "ProgramInterface/FormulaTab.htm", "name": "Registerkarte Formel" },
-    { "src": "ProgramInterface/DataTab.htm", "name": "Registerkarte Daten" },
+  {
+    "src": "ProgramInterface/InsertTab.htm",
+    "name": "Registerkarte Einfügen"
+  },
+  {
+    "src": "ProgramInterface/LayoutTab.htm",
+    "name": "Registerkarte Layout"
+  },
+  {
+    "src": "ProgramInterface/FormulaTab.htm",
+    "name": "Registerkarte Formel"
+  },
+  {
+    "src": "ProgramInterface/DataTab.htm",
+    "name": "Registerkarte Daten"
+  },
   {
     "src": "ProgramInterface/PivotTableTab.htm",
     "name": "Registerkarte Pivot-Tabelle"
@@ -31,7 +40,10 @@
     "src": "ProgramInterface/PluginsTab.htm",
     "name": "Registerkarte Plug-ins"
   },
-  {"src":  "ProgramInterface/ViewTab.htm", "name": "Registerkarte Tabellenansicht"},
+  {
+    "src": "ProgramInterface/ViewTab.htm",
+    "name": "Registerkarte Tabellenansicht"
+  },
   {
     "src": "UsageInstructions/OpenCreateNew.htm",
     "name": "Eine neue Kalkulationstabelle erstellen oder eine vorhandene öffnen",
@@ -45,12 +57,15 @@
     "src": "UsageInstructions/UndoRedo.htm",
     "name": "Aktionen rückgängig machen/wiederholen"
   },
-    {
-        "src": "UsageInstructions/ManageSheets.htm",
-        "name": "Tabellenblätter verwalten",
-        "headername": "Mit Tabellenblättern arbeiten"
-    },
-    {"src": "UsageInstructions/InsertHeadersFooters.htm", "name": "Kopf- und Fußzeilen einfügen"},
+  {
+    "src": "UsageInstructions/ManageSheets.htm",
+    "name": "Tabellenblätter verwalten",
+    "headername": "Mit Tabellenblättern arbeiten"
+  },
+  {
+    "src": "UsageInstructions/InsertHeadersFooters.htm",
+    "name": "Kopf- und Fußzeilen einfügen"
+  },
   {
     "src": "UsageInstructions/FontTypeSizeStyle.htm",
     "name": "Schriftart, -größe und -farbe festlegen",
@@ -86,19 +101,38 @@
     "name": "Verwalten von Zellen, Zeilen und Spalten",
     "headername": "Zeilen/Spalten bearbeiten"
   },
-    {
-        "src": "UsageInstructions/SortData.htm",
-        "name": "Daten filtern und sortieren"
-    },
-    { "src": "UsageInstructions/FormattedTables.htm", "name": "Tabellenvorlage formatieren" },
-    {"src": "UsageInstructions/Slicers.htm", "name": "Datenschnitte in den formatierten Tabellen erstellen" },
-    {
-        "src": "UsageInstructions/PivotTables.htm",
-        "name": "Pivot-Tabellen erstellen und bearbeiten"
-    },
-    { "src": "UsageInstructions/GroupData.htm", "name": "Daten gruppieren" },
-    { "src": "UsageInstructions/RemoveDuplicates.htm", "name": "Duplikate entfernen" },
-    {"src": "UsageInstructions/ConditionalFormatting.htm", "name": "Bedingte Formatierung" },
+  {
+    "src": "UsageInstructions/SortData.htm",
+    "name": "Daten filtern und sortieren"
+  },
+  {
+    "src": "UsageInstructions/FormattedTables.htm",
+    "name": "Tabellenvorlage formatieren"
+  },
+  {
+    "src": "UsageInstructions/Slicers.htm",
+    "name": "Datenschnitte in den formatierten Tabellen erstellen"
+  },
+  {
+    "src": "UsageInstructions/PivotTables.htm",
+    "name": "Pivot-Tabellen erstellen und bearbeiten"
+  },
+  {
+    "src": "UsageInstructions/GroupData.htm",
+    "name": "Daten gruppieren"
+  },
+  {
+    "src": "UsageInstructions/RemoveDuplicates.htm",
+    "name": "Duplikate entfernen"
+  },
+  {
+    "src": "UsageInstructions/ConditionalFormatting.htm",
+    "name": "Bedingte Formatierung"
+  },
+  {
+    "src": "UsageInstructions/DataValidation.htm",
+    "name": "Datenüberprüfung"
+  },
   {
     "src": "UsageInstructions/InsertFunction.htm",
     "name": "Funktion einfügen",
@@ -121,33 +155,42 @@
     "src": "UsageInstructions/InsertAutoshapes.htm",
     "name": "AutoFormen einfügen und formatieren"
   },
-    {
-        "src": "UsageInstructions/InsertTextObjects.htm",
-        "name": "Textobjekte einfügen"
-    },
-    
-    { "src": "UsageInstructions/InsertSymbols.htm", "name": "Symbole und Sonderzeichen einfügen" },
+  {
+    "src": "UsageInstructions/InsertTextObjects.htm",
+    "name": "Textobjekte einfügen"
+  },
+
+  {
+    "src": "UsageInstructions/InsertSymbols.htm",
+    "name": "Symbole und Sonderzeichen einfügen"
+  },
   {
     "src": "UsageInstructions/ManipulateObjects.htm",
     "name": "Objekte formatieren"
   },
-    {
-        "src": "UsageInstructions/InsertEquation.htm",
-        "name": "Formeln einfügen",
-        "headername": "Mathematische Formeln"
-    },
+  {
+    "src": "UsageInstructions/InsertEquation.htm",
+    "name": "Formeln einfügen",
+    "headername": "Mathematische Formeln"
+  },
   {
     "src": "HelpfulHints/CollaborativeEditing.htm",
     "name": "Gemeinsame Bearbeitung von Kalkulationstabellen",
     "headername": "Co-Bearbeitung von Tabellenblättern"
   },
-   {"src": "UsageInstructions/SheetView.htm", "name": "Tabellenansichten verwalten"},
-    {
-        "src": "UsageInstructions/ViewDocInfo.htm",
-        "name": "Tabelleneigenschaften anzeigen",
-        "headername": "Werkzeuge und Einstellungen"
-    },
-    {"src": "UsageInstructions/ScaleToFit.htm", "name": "Ein Arbeitsblatt skalieren"},
+  {
+    "src": "UsageInstructions/SheetView.htm",
+    "name": "Tabellenansichten verwalten"
+  },
+  {
+    "src": "UsageInstructions/ViewDocInfo.htm",
+    "name": "Tabelleneigenschaften anzeigen",
+    "headername": "Werkzeuge und Einstellungen"
+  },
+  {
+    "src": "UsageInstructions/ScaleToFit.htm",
+    "name": "Ein Arbeitsblatt skalieren"
+  },
   {
     "src": "UsageInstructions/SavePrintDownload.htm",
     "name": "Kalkulationstabelle speichern/drucken/herunterladen"
@@ -160,12 +203,18 @@
     "src": "HelpfulHints/Navigation.htm",
     "name": "Ansichtseinstellungen und Navigationswerkzeuge"
   },
-    {
-        "src": "HelpfulHints/Search.htm",
-        "name": "Such- und Ersatzfunktionen"
-    },
-    {"src": "HelpfulHints/SpellChecking.htm", "name": "Rechtschreibprüfung"},
-	{"src": "UsageInstructions/MathAutoCorrect.htm", "name": "AutoKorrekturfunktionen" },
+  {
+    "src": "HelpfulHints/Search.htm",
+    "name": "Such- und Ersatzfunktionen"
+  },
+  {
+    "src": "HelpfulHints/SpellChecking.htm",
+    "name": "Rechtschreibprüfung"
+  },
+  {
+    "src": "UsageInstructions/MathAutoCorrect.htm",
+    "name": "AutoKorrekturfunktionen"
+  },
   {
     "src": "HelpfulHints/About.htm",
     "name": "Über den Kalkulationstabelleneditor",

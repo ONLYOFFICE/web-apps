@@ -562,24 +562,27 @@ define([
                 this.view.turnChanges(true);
             } else
             if ( this.appConfig.canReview ) {
-                var sendMessage = !fromApi;
-                var saveToFile = !!global; // save track changes flag (state) to file
-                this.api.asc_SetTrackRevisions(!!state, saveToFile, sendMessage);
-                Common.Utils.InternalSettings.set(this.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
-                this.view.turnChanges(state, global);
+                if (!!global) {
+                    this.api.asc_SetLocalTrackRevisions(null);
+                    this.api.asc_SetGlobalTrackRevisions(!!state);
+                } else
+                    this.api.asc_SetLocalTrackRevisions(!!state);
             }
         },
 
-        onApiTrackRevisionsChange: function(state, global, userId) {
-            // change local or global state
-            if (userId && this.getUserName(userId)) {
-                if (state)
-                    this.showTips(Common.Utils.String.format(global ? this.textOnGlobal : this.textOn, this.getUserName(userId)));
-                else
-                    this.showTips(Common.Utils.String.format(global ? this.textOffGlobal : this.textOff, this.getUserName(userId)));
-            }
-            if (global && Common.Utils.InternalSettings.get(this.view.appPrefix + "track-changes")>1) {
-                Common.NotificationCenter.trigger('reviewchanges:turn', state, global, true);
+        onApiTrackRevisionsChange: function(localFlag, globalFlag, userId) {
+            if ( this.appConfig.isReviewOnly ) {
+                this.view.turnChanges(true);
+            } else
+            if ( this.appConfig.canReview ) {
+                var global = (localFlag===null),
+                    state = global ? globalFlag : localFlag;
+                Common.Utils.InternalSettings.set(this.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
+                this.view.turnChanges(state, global);
+                if (userId && this.userCollection) {
+                    var rec = this.userCollection.findOriginalUser(userId);
+                    rec && this.showTips(Common.Utils.String.format(globalFlag ? this.textOnGlobal : this.textOffGlobal, Common.Utils.UserInfoParser.getParsedName(rec.get('username'))));
+                }
             }
         },
 
@@ -778,18 +781,20 @@ define([
                 (new Promise(function (resolve) {
                     resolve();
                 })).then(function () {
-                    function _setReviewStatus(state, global) {
-                        me.view.turnChanges(state, global);
-                        me.api.asc_SetTrackRevisions(state);
-                        Common.Utils.InternalSettings.set(me.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
-                    };
+                    // function _setReviewStatus(state, global) {
+                    //     me.view.turnChanges(state, global);
+                    //     !global && me.api.asc_SetLocalTrackRevisions(state);
+                    //     Common.Utils.InternalSettings.set(me.view.appPrefix + "track-changes", (state ? 0 : 1) + (global ? 2 : 0));
+                    // };
 
-                    var trackChanges = typeof (me.appConfig.customization) == 'object' ? me.appConfig.customization.trackChanges : undefined,
-                        state = config.isReviewOnly || trackChanges===true || (trackChanges!==false) && me.api.asc_IsTrackRevisions(),
-                        global = !config.isReviewOnly && (trackChanges===undefined);
-
+                    var trackChanges = typeof (me.appConfig.customization) == 'object' ? me.appConfig.customization.trackChanges : undefined;
+                    if (config.isReviewOnly || trackChanges!==undefined)
+                        me.api.asc_SetLocalTrackRevisions(config.isReviewOnly || trackChanges===true);
+                    else
+                        me.onApiTrackRevisionsChange(me.api.asc_GetLocalTrackRevisions(), me.api.asc_GetGlobalTrackRevisions());
                     me.api.asc_HaveRevisionsChanges() && me.view.markChanges(true);
-                    _setReviewStatus(state, global);
+
+                    // _setReviewStatus(state, global);
 
                     if ( typeof (me.appConfig.customization) == 'object' && (me.appConfig.customization.showReviewChanges==true) ) {
                         me.dlgChanges = (new Common.Views.ReviewChangesDialog({
@@ -848,8 +853,10 @@ define([
                     offset: 30
                 });
                 this.tooltip.on('tooltip:hide', function(cmp){
-                    clearTimeout(me.tipTimeout);
-                    (cmp==me.tooltip) && setTimeout(showNextTip, 300);
+                    if (cmp==me.tooltip) {
+                        clearTimeout(me.tipTimeout);
+                        setTimeout(showNextTip, 300);
+                    }
                 });
             }
 

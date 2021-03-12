@@ -1694,13 +1694,28 @@ define([
                 // set menus
 
                 var me = this;
-
+                var levelTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div id="<%= options.previewId %>" class="menu-list-preview" style="width: 160px; height: 30px;"></div></a>');
+                var items = [], ids = [];
+                for (var i=0; i<9; i++) {
+                    ids.push('id-toolbar-menu-markers-level-' + i);
+                    items.push({template: levelTemplate, previewId: ids[i], level: i });
+                }
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         style: 'min-width: 139px',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 139px; margin: 0 9px;"></div>')},
+                            this.mnuMarkerChangeLevel = new Common.UI.MenuItem({
+                                caption: this.textChangeLevel,
+                                style: 'padding-right:20px;',
+                                menu: new Common.UI.Menu({
+                                    cls: 'list-settings-level',
+                                    menuAlign: 'tl-tr',
+                                    items: items,
+                                    previewIds: ids
+                                })
+                            }),
                             this.mnuMarkerSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuMarkersPicker.conf.index || 0)==0,
@@ -1710,11 +1725,26 @@ define([
                     })
                 );
 
+                items = [], ids = [];
+                for (var i=0; i<9; i++) {
+                    ids.push('id-toolbar-menu-numbering-level-' + i);
+                    items.push({template: levelTemplate, previewId: ids[i], level: i });
+                }
                 this.btnNumbers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 9px;"></div>')},
+                            this.mnuNumberChangeLevel = new Common.UI.MenuItem({
+                                caption: this.textChangeLevel,
+                                style: 'padding-right:20px;',
+                                menu: new Common.UI.Menu({
+                                    cls: 'list-settings-level',
+                                    menuAlign: 'tl-tr',
+                                    items: items,
+                                    previewIds: ids
+                                })
+                            }),
                             this.mnuNumberSettings = new Common.UI.MenuItem({
                                 caption: this.textListSettings,
                                 disabled: (this.mnuNumbersPicker.conf.index || 0)==0,
@@ -1981,7 +2011,7 @@ define([
                         colors: ['000000', '993300', '333300', '003300', '003366', '000080', '333399', '333333', '800000', 'FF6600',
                             '808000', '00FF00', '008080', '0000FF', '666699', '808080', 'FF0000', 'FF9900', '99CC00', '339966',
                             '33CCCC', '3366FF', '800080', '999999', 'FF00FF', 'FFCC00', 'FFFF00', '00FF00', '00FFFF', '00CCFF',
-                            '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', '99CCFF', 'CC99FF', 'FFFFFF'
+                            '993366', 'C0C0C0', 'FF99CC', 'FFCC99', 'FFFF99', 'CCFFCC', 'CCFFFF', 'C9C8FF', 'CC99FF', 'FFFFFF'
                         ]
                     });
                 }
@@ -2417,7 +2447,8 @@ define([
             mniLowerCase: 'lowercase',
             mniUpperCase: 'UPPERCASE',
             mniCapitalizeWords: 'Capitalize Each Word',
-            mniToggleCase: 'tOGGLE cASE'
+            mniToggleCase: 'tOGGLE cASE',
+            textChangeLevel: 'Change List Level'
         }
     })(), DE.Views.Toolbar || {}));
 });

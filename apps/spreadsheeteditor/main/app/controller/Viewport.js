@@ -327,22 +327,6 @@ define([
                     cls     : 'btn-toolbar'
                 })).on('click', _on_btn_zoom.bind(me, 'up'));
 
-                if ( Common.UI.Themes.available() ) {
-                    var mnuitemDarkTheme = new Common.UI.MenuItem({
-                        caption: me.header.textDarkTheme,
-                        checked: Common.UI.Themes.isDarkTheme(),
-                        checkable: true,
-                        value: 'theme:dark'
-                    });
-
-
-                    me.header.btnOptions.menu.insertItem(10, mnuitemDarkTheme);
-                    me.header.btnOptions.menu.insertItem(10, {caption:'--'});
-                    Common.NotificationCenter.on('uitheme:change', function (name) {
-                        mnuitemDarkTheme.setChecked(Common.UI.Themes.isDarkTheme());
-                    });
-                }
-
                 me.header.btnOptions.menu.on('item:click', me.onOptionsItemClick.bind(this));
             }
         },
@@ -474,6 +458,7 @@ define([
             var appConfig = me.viewport.mode;
             if ( !!appConfig && !appConfig.isEditDiagram && !appConfig.isEditMailMerge ) {
                 if (index == this.api.asc_getActiveWorksheetIndex()) {
+                    locked = locked || me.viewmode;
                     me.header.mnuitemHideHeadings.setDisabled(locked);
                     me.header.mnuitemHideGridlines.setDisabled(locked);
                     me.header.mnuitemFreezePanes.setDisabled(locked);
@@ -506,10 +491,6 @@ define([
                 Common.localStorage.setBool('sse-freeze-shadow', item.isChecked());
                 break;
             case 'advanced': me.header.fireEvent('file:settings', me.header); break;
-            case 'theme:dark':
-                if ( item.isChecked() != Common.UI.Themes.isDarkTheme() )
-                    Common.UI.Themes.toggleTheme();
-                break;
             }
         },
 
@@ -525,7 +506,10 @@ define([
         },
 
         disableEditing: function (disabled) {
-            this.header.btnOptions.menu.items[6].setDisabled(disabled);
+            this.viewmode = disabled;
+            this.header.mnuitemHideHeadings.setDisabled(disabled);
+            this.header.mnuitemHideGridlines.setDisabled(disabled);
+            this.header.mnuitemFreezePanes.setDisabled(disabled);
         },
 
         textHideFBar: 'Hide Formula Bar',

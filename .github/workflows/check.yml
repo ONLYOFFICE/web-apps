@@ -12,4 +12,7 @@ jobs:
       - name: Build using grunt
         run: |
           npm install --prefix build
+          cd ..
+          git clone --branch=develop --depth=1 https://github.com/ONLYOFFICE/sdkjs.git
+          cd web-apps
           grunt --level=ADVANCED --base build --gruntfile build/Gruntfile.js

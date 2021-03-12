@@ -70,7 +70,7 @@ define([
                         Common.localStorage.setBool('de-hidden-status', status);
 
                         Common.NotificationCenter.trigger('layout:changed', 'status');
-                        Common.NotificationCenter.trigger('edit:complete', this.statusbar);
+                        Common.NotificationCenter.trigger('edit:complete', me.statusbar);
                     }
                 }
             });
@@ -117,7 +117,6 @@ define([
             });
 
             Common.NotificationCenter.on('app:ready', me.onAppReady.bind(me));
-            Common.NotificationCenter.on('reviewchanges:turn', me.onTurnPreview.bind(me));
         },
 
         onAppReady: function (config) {
@@ -137,6 +136,7 @@ define([
                             if (me.changesTooltip === undefined)
                                 me.changesTooltip = me.createChangesTip(me.textTrackChanges, 'de-track-changes-tip');
 
+                            me.hideTips();
                             me.changesTooltip.show();
                         } else {
                             me.btnTurnReview.updateHint(me.tipReview);
@@ -155,6 +155,7 @@ define([
                             if (me.newChangesTooltip === undefined)
                                 me.newChangesTooltip = me.createChangesTip(me.textHasChanges, 'de-new-changes');
 
+                            me.hideTips();
                             me.newChangesTooltip.show();
                         } else
                             me.btnTurnReview.updateHint(me.tipReview);
@@ -163,14 +164,21 @@ define([
             });
         },
 
-        onTurnPreview: function(state, global, fromApi) {
-            if (!state && this.changesTooltip && this.changesTooltip.isVisible()) {
-                this.changesTooltip.hide();
-                this.btnTurnReview.updateHint(this.tipReview);
-            } else if (fromApi && state && global ) {
-                if (this.globalChangesTooltip === undefined)
-                    this.globalChangesTooltip = this.createChangesTip(this.textSetTrackChanges);
-                !this.globalChangesTooltip.isVisible() && this.globalChangesTooltip.show();
+        onApiTrackRevisionsChange: function(localFlag, globalFlag, userId) {
+            var global = (localFlag===null),
+                state = global ? globalFlag : localFlag;
+            if (this.btnTurnReview) {
+                if (!state) {
+                    this.hideTips();
+                    this.btnTurnReview.updateHint(this.tipReview);
+                } else if (userId && state && global ) {
+                    if (this.globalChangesTooltip === undefined)
+                        this.globalChangesTooltip = this.createChangesTip(this.textSetTrackChanges);
+                    if (!this.globalChangesTooltip.isVisible()) {
+                        this.hideTips();
+                        this.globalChangesTooltip.show();
+                    }
+                }
             }
         },
 
@@ -178,6 +186,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange',   _.bind(this._onZoomChange, this));
             this.api.asc_registerCallback('asc_onTextLanguage', _.bind(this._onTextLanguage, this));
+            this.api.asc_registerCallback('asc_onOnTrackRevisionsChange', _.bind(this.onApiTrackRevisionsChange, this));
 
             this.statusbar.setApi(api);
         },
@@ -255,6 +264,12 @@ define([
 
         synchronizeChanges: function() {
             this.setStatusCaption('');
+        },
+
+        hideTips: function () {
+            this.changesTooltip && this.changesTooltip.isVisible() && this.changesTooltip.hide();
+            this.newChangesTooltip && this.newChangesTooltip.isVisible() && this.newChangesTooltip.hide();
+            this.globalChangesTooltip && this.globalChangesTooltip.isVisible() && this.globalChangesTooltip.hide();
         },
 
         createChangesTip: function (text, storage) {

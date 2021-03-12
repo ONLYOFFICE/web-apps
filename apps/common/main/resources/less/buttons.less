@@ -1,5 +1,4 @@
 @x-huge-btn-height: 46px;
-@btn-disabled-opacity: .4;
 @x-huge-btn-icon-size: 28px;
 
 .btn {
@@ -40,7 +39,7 @@
     }
 
     &[disabled] {
-        opacity: @btn-disabled-opacity;
+        opacity: @component-disabled-opacity;
     }
     
     &:focus {
@@ -432,7 +431,7 @@
     &[disabled],
     &.disabled {
         //color: #000;  btn-category has no text
-        opacity: @btn-disabled-opacity;
+        opacity: @component-disabled-opacity;
     }
 }
 
@@ -502,7 +501,7 @@
                     }
                     &[disabled],
                     &.disabled {
-                        opacity: 0.65;
+                        opacity: @component-disabled-opacity;
                     }
                 }
 
@@ -519,7 +518,7 @@
         .dropdown-menu {
             &.scale-menu {
                 li.disabled {
-                    opacity: 0.65;
+                    opacity: @component-disabled-opacity;
                 }
             }
         }
@@ -614,7 +613,7 @@
 
     &[disabled],
     &.disabled {
-        opacity: 0.35;
+        opacity: @component-disabled-opacity;
     }
 
     .color-transparent {
@@ -721,7 +720,7 @@
 
     &[disabled],
     &.disabled {
-        opacity: 0.65;
+        opacity: @component-disabled-opacity;
     }
 }
 
@@ -759,7 +758,7 @@
 
     &[disabled],
     &.disabled {
-        opacity: 0.65;
+        opacity: @component-disabled-opacity;
     }
 }
 
@@ -798,7 +797,7 @@
 
     &[disabled],
     &.disabled {
-        opacity: 0.65;
+        opacity: @component-disabled-opacity;
     }
 }
 
@@ -838,7 +837,7 @@
 
     &[disabled],
     &.disabled {
-        opacity: 0.65;
+        opacity: @component-disabled-opacity;
     }
 }
 
@@ -905,7 +904,7 @@
 
     &[disabled],
     &.disabled {
-        opacity: 0.65;
+        opacity: @component-disabled-opacity;
     }
 }
 
@@ -943,7 +942,7 @@
     }
 
     &[disabled] {
-        opacity: 0.65;
+        opacity: @component-disabled-opacity;
     }
 
     &.custom {

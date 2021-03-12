@@ -27,7 +27,7 @@
   {
     "src": "UsageInstructions/OpenCreateNew.htm",
     "name": "Créer une nouvelle présentation ou ouvrir une présentation existante",
-    "headername": "Onglet Modules complémentaires"
+    "headername": "Opérations de base"
   },
   {
     "src": "UsageInstructions/CopyPasteUndoRedo.htm",
@@ -104,11 +104,16 @@
     "name": "Insérer des équations",
     "headername": "Équations mathématiques"
   },
-  {
-    "src": "HelpfulHints/CollaborativeEditing.htm",
-    "name": "Édition collaborative des présentations",
-    "headername": "Co-édition des présentations"
-  },
+    {
+        "src": "HelpfulHints/CollaborativeEditing.htm",
+        "name": "Édition collaborative des présentations",
+        "headername": "Co-édition des présentations"
+    },
+    {"src": "UsageInstructions/PhotoEditor.htm", "name": "Modification d'une image", "headername": "Plugins"},
+    {"src": "UsageInstructions/YouTube.htm", "name": "Insérer une vidéo" },
+    {"src": "UsageInstructions/HighlightedCode.htm", "name": "Insérer le code en surbrillance" },
+    {"src": "UsageInstructions/Translator.htm", "name": "Traduire un texte" },
+    {"src": "UsageInstructions/Thesaurus.htm", "name": "Remplacer un mot par synonyme" },
   {
     "src": "UsageInstructions/ViewPresentationInfo.htm",
     "name": "Afficher les informations sur la présentation",
@@ -130,10 +135,11 @@
     "src": "HelpfulHints/Search.htm",
     "name": "Fonction de recherche"
   },
-  {
-    "src": "HelpfulHints/SpellChecking.htm",
-    "name": "Vérification de l'orthographe"
-  },
+    {
+        "src": "HelpfulHints/SpellChecking.htm",
+        "name": "Vérification de l'orthographe"
+    },
+    {"src": "UsageInstructions/MathAutoCorrect.htm", "name": "Fonctionnalités de correction automatique" },
   {
     "src": "HelpfulHints/About.htm",
     "name": "A propos de Presentation Editor",

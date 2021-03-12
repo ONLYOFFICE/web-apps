@@ -170,6 +170,7 @@
   "PE.Controllers.Main.textContactUs": "Отдел продаж",
   "PE.Controllers.Main.textCustomLoader": "Обратите внимание, что по условиям лицензии у вас нет прав изменять экран, отображаемый при загрузке.<br>Пожалуйста, обратитесь в наш отдел продаж, чтобы сделать запрос.",
   "PE.Controllers.Main.textDone": "Готово",
+  "PE.Controllers.Main.textGuest": "Гость",
   "PE.Controllers.Main.textHasMacros": "Файл содержит автозапускаемые макросы.<br>Хотите запустить макросы?",
   "PE.Controllers.Main.textLoadingDocument": "Загрузка презентации",
   "PE.Controllers.Main.textNo": "Нет",

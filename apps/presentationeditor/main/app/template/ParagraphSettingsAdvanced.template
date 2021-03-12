@@ -16,7 +16,7 @@
                 <label class="input-label"><%= scope.strIndentsRightText %></label>
                 <div id="paragraphadv-spin-indent-right"></div>
             </div><!--
-         --><div class="padding-large" style="display: inline-block;">
+         --><div class="padding-large" style="display: inline-block;vertical-align: top">
                 <div>
                     <label class="input-label"><%= scope.strIndentsSpecial %></label>
                 </div>
@@ -36,7 +36,7 @@
                 <label class="input-label"><%= scope.strIndentsSpacingAfter %></label>
                 <div id="paragraphadv-spin-spacing-after"></div>
             </div><!--
-         --><div style="display: inline-block;">
+         --><div style="display: inline-block;vertical-align: top">
                 <div>
                     <label class="input-label"><%= scope.strIndentsLineSpacing %></label>
                 </div>

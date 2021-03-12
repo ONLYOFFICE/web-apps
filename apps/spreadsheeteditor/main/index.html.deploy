@@ -18,7 +18,8 @@
             width: 100%;
             overflow: hidden;
             border: none;
-            background-color: #f4f4f4;
+            background: #f0f0f0;
+            background: var(--canvas-background, #f0f0f0);
             z-index: 1001;
         }
 
@@ -26,6 +27,7 @@
             width: 100%;
             min-height: 28px;
             background: #40865c;
+            background: var(--toolbar-header-spreadsheet, #40865c);
         }
 
         .loadmask > .brendpanel > div {
@@ -61,7 +63,8 @@
         }
 
         .loadmask > .sktoolbar {
-            background: #f1f1f1;
+            background: #f7f7f7;
+            background: var(--background-toolbar, #f7f7f7);
             height: 46px;
             padding: 10px 6px;
             box-sizing: content-box;
@@ -75,7 +78,8 @@
         }
 
         .loadmask > .sktoolbar li {
-            background: #e2e2e2;
+            background: #ccc;
+            background: var(--highlight-button-pressed, #ccc);
             border-radius: 3px;
             width: 20px;
             height: 20px;
@@ -100,7 +104,8 @@
 
         .loadmask>.skformula {
             height: 24px;
-            background: #f1f1f1;
+            background: #f7f7f7;
+            background: var(--background-toolbar, #f7f7f7);
         }
 
         .loadmask>.skformula ul {
@@ -108,8 +113,10 @@
             font-size: 0;
             box-sizing: border-box;
             border-style: solid;
+            border-width: 1px;
             border-width: var(--scaled-one-px-value, 1px);
-            border-color: #e1e1e1 transparent;
+            border-color: #cbcbcb transparent;
+            border-color: var(--border-toolbar, #cbcbcb) transparent;
         }
 
         .loadmask>.skformula li {
@@ -118,10 +125,13 @@
             height: 19px;
             width: 100%;
             margin-left: 20px;
-            background: #f7f7f7;
+            background: #fff;
+            background: var(--background-normal, #fff);
             border-style: solid;
+            border-width: 1px;
             border-width: var(--scaled-one-px-value, 1px);
-            border-color: transparent #e1e1e1;
+            border-color: #cbcbcb;
+            border-color: transparent var(--border-toolbar, #cbcbcb);
         }
 
         .loadmask>.skformula li:first-child {
@@ -130,11 +140,13 @@
         }
 
         .loadmask > .placeholder {
-            background: #fbfbfb;
+            background: #fff;
+            background: var(--canvas-content-background, #fff);
             width: 100%;
             height: 100%;
             font-size: 0;
-            border: 1px solid #dfdfdf;
+            border: 1px solid #ccc;
+            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #ccc);
             white-space: nowrap;
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
