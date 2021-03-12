@@ -2247,6 +2247,7 @@
   "DE.Views.TableOfContentsSettings.strAlign": "Números de página alinhados à direita",
   "DE.Views.TableOfContentsSettings.strFullCaption": "Incluir etiqueta e número",
   "DE.Views.TableOfContentsSettings.strLinks": "Formatar tabela de conteúdo como links",
+  "DE.Views.TableOfContentsSettings.strLinksOF": "Formatar tabela de figuras como links",
   "DE.Views.TableOfContentsSettings.strShowPages": "Mostrar números de páginas",
   "DE.Views.TableOfContentsSettings.textBuildTable": "Construir tabela de conteúdo de",
   "DE.Views.TableOfContentsSettings.textBuildTableOF": "construir tabela de figuras de",

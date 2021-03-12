@@ -1291,7 +1291,7 @@
   "PE.Views.FileMenuPanels.Settings.txtCm": "ເຊັນຕິເມັດ",
   "PE.Views.FileMenuPanels.Settings.txtFitSlide": "ປັບສະໄລພໍດີ",
   "PE.Views.FileMenuPanels.Settings.txtFitWidth": "ຄວາມກວ້າງສະໄລພໍດີ",
-  "PE.Views.FileMenuPanels.Settings.txtInch": "ຫົວໜ່ວຍ(ຫົວໜ່ວຍວັດແທກ)1 Inch =2.54 cm",
+  "PE.Views.FileMenuPanels.Settings.txtInch": "ຫົວໜ່ວຍ(ຫົວໜ່ວຍວັດແທກ)",
   "PE.Views.FileMenuPanels.Settings.txtInput": "ອິນພຸດສຳຮອງ",
   "PE.Views.FileMenuPanels.Settings.txtLast": "ເບິ່ງຄັ້ງສຸດທ້າຍ",
   "PE.Views.FileMenuPanels.Settings.txtMac": "ເຊັ່ນ OS X",

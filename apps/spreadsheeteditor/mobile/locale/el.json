@@ -46,6 +46,7 @@
   "SSE.Controllers.AddOther.textEmptyImgUrl": "Πρέπει να καθορίσετε τη διεύθυνση URL της εικόνας.",
   "SSE.Controllers.AddOther.txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση με τη μορφή «http://www.example.com»",
   "SSE.Controllers.DocumentHolder.errorCopyCutPaste": "Οι ενέργειες αντιγραφής, αποκοπής και επικόλλησης χρησιμοποιώντας το μενού περιβάλλοντος θα εκτελούνται μόνο στο τρέχον αρχείο.",
+  "SSE.Controllers.DocumentHolder.errorInvalidLink": "Η παραπομπή του συνδέσμου δεν υπάρχει. Παρακαλούμε διορθώστε τον σύνδεσμο ή διαγράψτε τον.",
   "SSE.Controllers.DocumentHolder.menuAddComment": "Προσθήκη σχολίου",
   "SSE.Controllers.DocumentHolder.menuAddLink": "Προσθήκη συνδέσμου",
   "SSE.Controllers.DocumentHolder.menuCell": "Κελί",

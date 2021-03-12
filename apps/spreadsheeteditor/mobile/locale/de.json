@@ -253,6 +253,7 @@
   "SSE.Controllers.Main.textContactUs": "Verkaufsteam",
   "SSE.Controllers.Main.textCustomLoader": "Bitte beachten Sie, dass Sie gemäß den Lizenzbedingungen nicht berechtigt sind, den Loader zu wechseln. <br> Wenden Sie sich an unseren Vertrieb, um ein Angebot zu erhalten.",
   "SSE.Controllers.Main.textDone": "Fertig",
+  "SSE.Controllers.Main.textGuest": "Gast",
   "SSE.Controllers.Main.textHasMacros": "Diese Datei beinhaltet Makros.<br>Möchten Sie Makros ausführen?",
   "SSE.Controllers.Main.textLoadingDocument": "Tabelle wird geladen",
   "SSE.Controllers.Main.textNo": "Nein",

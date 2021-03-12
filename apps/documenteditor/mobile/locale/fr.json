@@ -241,6 +241,7 @@
   "DE.Controllers.Main.textContactUs": "L'équipe de ventes",
   "DE.Controllers.Main.textCustomLoader": "Veuillez noter que conformément aux clauses du contrat de licence vous n'êtes pas autorisé à changer le chargeur.<br>Veuillez contacter notre Service des Ventes pour obtenir le devis.",
   "DE.Controllers.Main.textDone": "Terminé",
+  "DE.Controllers.Main.textGuest": "Invité",
   "DE.Controllers.Main.textHasMacros": "Le fichier contient des macros automatiques.<br>Voulez-vous exécuter les macros ?",
   "DE.Controllers.Main.textLoadingDocument": "Chargement du document",
   "DE.Controllers.Main.textNo": "Non",
