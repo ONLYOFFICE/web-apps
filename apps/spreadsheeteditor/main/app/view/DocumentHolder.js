@@ -539,6 +539,10 @@ define([
                 })
             });
 
+            me.pmiCondFormat = new Common.UI.MenuItem({
+                caption     : me.txtCondFormat
+            });
+            
             me.ssMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 id          : 'id-context-menu-cell',
@@ -564,6 +568,7 @@ define([
                     me.pmiAddComment,
                     me.pmiCellMenuSeparator,
                     me.pmiNumFormat,
+                    me.pmiCondFormat,
                     me.pmiEntriesList,
                     me.pmiAddNamedRange,
                     me.pmiInsFunction,
@@ -1214,7 +1219,8 @@ define([
         textStdDev: 'StdDev',
         textVar: 'Var',
         textMore: 'More functions',
-        txtCustomSort: 'Custom sort'
+        txtCustomSort: 'Custom sort',
+        txtCondFormat: 'Conditional Formatting'
 
     }, SSE.Views.DocumentHolder || {}));
 });

@@ -196,6 +196,7 @@ define([
                 view.pmiSortCells.menu.on('item:click',             _.bind(me.onSortCells, me));
                 view.pmiFilterCells.menu.on('item:click',           _.bind(me.onFilterCells, me));
                 view.pmiReapply.on('click',                         _.bind(me.onReapply, me));
+                view.pmiCondFormat.on('click',                      _.bind(me.onCondFormat, me));
                 view.pmiClear.menu.on('item:click',                 _.bind(me.onClear, me));
                 view.pmiSelectTable.menu.on('item:click',           _.bind(me.onSelectTable, me));
                 view.pmiInsertTable.menu.on('item:click',           _.bind(me.onInsertTable, me));
@@ -472,6 +473,24 @@ define([
 
         onReapply: function() {
             this.api.asc_reapplyAutoFilter(this.documentHolder.ssMenu.formatTableName);
+        },
+
+        onCondFormat: function() {
+            var me = this,
+                value = me.api.asc_getLocale();
+            (!value) && (value = ((me.permissions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.permissions.lang)) : 0x0409));
+
+            (new SSE.Views.FormatRulesEditDlg({
+                api: me.api,
+                props   : null,
+                isEdit  : false,
+                langId  : value,
+                handler : function(result, settings) {
+                    if (result == 'ok' && settings) {
+                        me.api.asc_setCF([settings], []);
+                    }
+                }
+            })).show();
         },
 
         onClear: function(menu, item) {
@@ -1881,6 +1900,7 @@ define([
                 documentHolder.pmiSortCells.menu.items[4].setVisible(!internaleditor);
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !internaleditor);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !internaleditor);
+                documentHolder.pmiCondFormat.setVisible(!iscelledit && !internaleditor);
                 documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
@@ -1960,6 +1980,7 @@ define([
                 documentHolder.pmiFilterCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !filterInfo && !this.permissions.canModifyFilter);
                 documentHolder.pmiSortCells.setDisabled(isCellLocked || isTableLocked|| (filterInfo==null) || inPivot || !this.permissions.canModifyFilter);
                 documentHolder.pmiReapply.setDisabled(isCellLocked || isTableLocked|| (isApplyAutoFilter!==true));
+                documentHolder.pmiCondFormat.setDisabled(isCellLocked || isTableLocked);
                 documentHolder.menuHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.menuAddHyperlink.setDisabled(isCellLocked || inPivot);
                 documentHolder.pmiInsFunction.setDisabled(isCellLocked || inPivot);

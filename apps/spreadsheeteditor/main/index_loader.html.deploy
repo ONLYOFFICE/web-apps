@@ -315,6 +315,7 @@
     <inline src="resources/img/toolbar/charttypes.svg" />
     <inline src="resources/img/recent-file.svg" />
     <inline src="resources/img/file-template.svg" />
+    <inline src="resources/img/cf-icons.svg" />
 
     <div id="viewport"></div>
 
