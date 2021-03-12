@@ -241,6 +241,7 @@
   "DE.Controllers.Main.textContactUs": "Verkaufsteam",
   "DE.Controllers.Main.textCustomLoader": "Bitte beachten Sie, dass Sie gemäß den Lizenzbedingungen nicht berechtigt sind, den Loader zu wechseln. <br> Wenden Sie sich an unseren Vertrieb, um ein Angebot zu erhalten.",
   "DE.Controllers.Main.textDone": "Fertig",
+  "DE.Controllers.Main.textGuest": "Gast",
   "DE.Controllers.Main.textHasMacros": "Diese Datei beinhaltet Makros.<br>Möchten Sie Makros ausführen?",
   "DE.Controllers.Main.textLoadingDocument": "Dokument wird geladen",
   "DE.Controllers.Main.textNo": "Nein",

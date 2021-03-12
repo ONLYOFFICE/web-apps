@@ -2366,7 +2366,7 @@
   "DE.Views.TableSettingsAdvanced.tipTableOuterCellInner": "ກຳນົດເສັ້ນຂອບດ້ານນອກແລະເສັ້ນແນວຕັ້ງແລະແນວນອນສຳລັບແຊວດ້ານໃນ",
   "DE.Views.TableSettingsAdvanced.tipTableOuterCellOuter": "ຕັ້ງຄ່າເສັ້ນຂອບດ້ານນອກຂອງຕາຕະລາງແລະເສັ້ນຂອບດ້ານນອກສຳລັບແຊວດ້ານໃນ",
   "DE.Views.TableSettingsAdvanced.txtCm": "ເຊັນຕິເມັດ",
-  "DE.Views.TableSettingsAdvanced.txtInch": "ຫົວໜ່ວຍ(ຫົວໜ່ວຍວັດແທກ)1 Inch =2.54 cm",
+  "DE.Views.TableSettingsAdvanced.txtInch": "ຫົວໜ່ວຍ(ຫົວໜ່ວຍວັດແທກ)",
   "DE.Views.TableSettingsAdvanced.txtNoBorders": "ບໍ່ມີຂອບ",
   "DE.Views.TableSettingsAdvanced.txtPercent": "ເປີີເຊັນ",
   "DE.Views.TableSettingsAdvanced.txtPt": "ຈຸດ",

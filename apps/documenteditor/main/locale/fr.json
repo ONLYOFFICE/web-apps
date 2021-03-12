@@ -2035,6 +2035,7 @@
   "DE.Views.ParagraphSettings.textAuto": "Plusieurs",
   "DE.Views.ParagraphSettings.textBackColor": "Couleur d'arrière-plan",
   "DE.Views.ParagraphSettings.textExact": "Exactement",
+  "DE.Views.ParagraphSettings.textNoneSpecial": "(aucun)",
   "DE.Views.ParagraphSettings.txtAutoText": "Auto",
   "DE.Views.ParagraphSettingsAdvanced.noTabs": "Les onglets spécifiés s'affichent dans ce champ",
   "DE.Views.ParagraphSettingsAdvanced.strAllCaps": "Toutes en majuscules",
