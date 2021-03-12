@@ -258,7 +258,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                     for (var i=0; i<rules.length; i++) {
                         var rule = rules[i],
                             name = this.getRuleName(rule),
-                            location = rule.asc_getLocation();
+                            location = rule.asc_getLocation(),
+                            idlock = rule.asc_getIsLock();
                         arr.push({
                             ruleIndex: i, // connect store and list with controls. is not changed
                             ruleId: rule.asc_getId(),
@@ -269,8 +270,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                             priority: rule.asc_getPriority(), // priority of the rule, is changed when move or when new rule is added
                             ruleChanged: false, // true if was edited in FormatRulesEditDlg or was created, need to send this rule to sdk if true
                             props: rule,
-                            lock: false,
-                            lockuser: ''
+                            lock: (idlock!==null && idlock!==undefined),
+                            lockuser: (idlock) ? this.getUserName(idlock) : this.guestText
                         });
                     }
                 }

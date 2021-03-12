@@ -214,16 +214,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             });
             this.ruleStore = new Backbone.Collection(arrrules);
 
-            // this.txtScope = new Common.UI.InputFieldBtn({
-            //     el          : $('#format-rules-edit-txt-scope'),
-            //     name        : 'range',
-            //     style       : 'width: 150px;',
-            //     allowBlank  : true,
-            //     btnHint     : this.textSelectData,
-            //     validateOnChange: false
-            // });
-            // this.txtScope.on('button:click', _.bind(this.onSelectData, this));
-
             this.cmbCategory = new Common.UI.ComboBox({
                 el          : $('#format-rules-edit-combo-category'),
                 style       : 'width: 150px;',

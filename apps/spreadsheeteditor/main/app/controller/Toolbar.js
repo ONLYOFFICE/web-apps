@@ -187,7 +187,8 @@ define([
                 pgsize: [0, 0],
                 pgmargins: undefined,
                 pgorient: undefined,
-                lock_doc: undefined
+                lock_doc: undefined,
+                cf_locked: []
             };
             this.binding = {};
 
@@ -421,6 +422,8 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onLockDefNameManager',   _.bind(this.onLockDefNameManager, this));
+                this.api.asc_registerCallback('asc_onLockCFManager',        _.bind(this.onLockCFManager, this));
+                this.api.asc_registerCallback('asc_onUnLockCFManager',      _.bind(this.onUnLockCFManager, this));
                 this.api.asc_registerCallback('asc_onZoomChanged',          _.bind(this.onApiZoomChange, this));
                 Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
             } else if (config.isRestrictedEdit)
@@ -1731,6 +1734,7 @@ define([
                 (new SSE.Views.FormatRulesManagerDlg({
                     api: me.api,
                     langId: value,
+                    locked: !!me._state.cf_locked[this.api.asc_getActiveWorksheetIndex()],
                     handler: function (result, settings) {
                         if (me && me.api && result=='ok') {
                             me.api.asc_setCF(settings.rules, settings.deleted);
@@ -3534,6 +3538,14 @@ define([
 
             this.toolbar.lockToolbar(SSE.enumLock.printAreaLock, this.api.asc_isPrintAreaLocked(this.api.asc_getActiveWorksheetIndex()), {array: [this.toolbar.btnPrintArea]});
             this.toolbar.lockToolbar(SSE.enumLock.namedRangeLock, this._state.namedrange_locked, {array: [this.toolbar.btnPrintArea.menu.items[0], this.toolbar.btnPrintArea.menu.items[2]]});
+        },
+
+        onLockCFManager: function(index) {
+            this._state.cf_locked[index] = true;
+        },
+
+        onUnLockCFManager: function(index) {
+            this._state.cf_locked[index] = false;
         },
 
         activateControls: function() {
