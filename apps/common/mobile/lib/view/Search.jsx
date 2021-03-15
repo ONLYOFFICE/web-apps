@@ -74,7 +74,7 @@ class SearchSettingsView extends Component {
     }
 }
 
-@observer
+// @observer
 class SearchView extends Component {
     constructor(props) {
         super(props);
@@ -304,4 +304,6 @@ class SearchView extends Component {
     }
 }
 
-export {SearchView, SearchSettingsView};
+const SearchViewWithObserver = observer(SearchView);
+
+export {SearchViewWithObserver as SearchView, SearchSettingsView};

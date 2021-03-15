@@ -1,25 +1,40 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeChartSettings {
-
-    @observable borderColor = undefined;
+    constructor() {
+        makeObservable(this, {
+            borderColor: observable,
+            fillColor: observable,
+            chartStyles: observable,
+            setBorderColor: action,
+            initBorderColor: action,
+            setFillColor: action,
+            getFillColor: action,
+            clearChartStyles: action,
+            updateChartStyles: action,
+            styles: computed,
+            types: computed,
+        });
+    }
+    
+    borderColor = undefined;
 
     setBorderColor (color) {
         this.borderColor = color;
     }
 
-    @action initBorderColor(shapeProperties) {
+    initBorderColor(shapeProperties) {
         let stroke = shapeProperties.get_stroke();
         this.borderColor = (stroke && stroke.get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) ? this.resetColor(stroke.get_color()) : 'transparent';
     }
 
-    @observable fillColor = undefined;
+    fillColor = undefined;
 
     setFillColor (color) {
         this.fillColor = color;
     }
 
-    @action getFillColor (shapeProperties) {
+    getFillColor (shapeProperties) {
         const fill = shapeProperties.asc_getFill();
         const fillType = fill.asc_getType();
 
@@ -30,17 +45,17 @@ export class storeChartSettings {
         return this.fillColor;
     }
 
-    @observable chartStyles = null;
+    chartStyles = null;
 
-    @action clearChartStyles () {
+    clearChartStyles () {
         this.chartStyles = null;
     }
 
-    @action updateChartStyles (styles) {
+    updateChartStyles (styles) {
         this.chartStyles = styles;
     }
 
-    @computed get styles () {
+    get styles () {
         if (!this.chartStyles) return null;
         const widthContainer = document.querySelector(".page-content").clientWidth;
         const columns = parseInt(widthContainer / 70); // magic
@@ -58,7 +73,7 @@ export class storeChartSettings {
         return styles;
     }
 
-    @computed get types () {
+    get types () {
         const _types = [
             { type: Asc.c_oAscChartTypeSettings.barNormal,               thumb: 'bar-normal'},
             { type: Asc.c_oAscChartTypeSettings.barStacked,              thumb: 'bar-stacked'},

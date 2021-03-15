@@ -1,19 +1,35 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeSpreadsheetSettings {
+    constructor() {
+        makeObservable(this, {
+            isPortrait: observable,
+            widthDocument: observable,
+            heightDocument: observable,
+            allSchemes: observable,
+            isHideHeadings: observable,
+            isHideGridlines: observable,
+            resetPortrait: action,
+            changeDocSize: action,
+            pageSizesIndex: computed,
+            addSchemes: action,
+            changeHideHeadings: action,
+            changeHideGridlines: action
+        })
+    }
 
-    @observable isPortrait = true;
+    isPortrait = true;
 
-    @action resetPortrait (isPortrait) {
+    resetPortrait (isPortrait) {
         this.isPortrait = isPortrait === true;
     }
 
     // Spreadsheet Formats
 
-    @observable widthDocument;
-    @observable heightDocument;
+    widthDocument;
+    heightDocument;
 
-    @action changeDocSize (width, height) {
+    changeDocSize (width, height) {
         this.widthDocument = width;
         this.heightDocument = height;
     }
@@ -43,7 +59,7 @@ export class storeSpreadsheetSettings {
         return pageSizes;
     }
 
-    @computed get pageSizesIndex () {
+    get pageSizesIndex () {
         let w = this.widthDocument;
         let h = this.heightDocument;
         let ind;
@@ -60,20 +76,20 @@ export class storeSpreadsheetSettings {
 
     // Color Schemes
 
-    @observable allSchemes;
+    allSchemes;
 
-    @action addSchemes(arr) {
+    addSchemes(arr) {
         this.allSchemes = arr;
     }
 
-    @observable isHideHeadings;
-    @observable isHideGridlines;
+    isHideHeadings;
+    isHideGridlines;
 
-    @action changeHideHeadings(value) {
+    changeHideHeadings(value) {
         this.isHideHeadings = value;
     }
 
-    @action changeHideGridlines(value) {
+    changeHideGridlines(value) {
         this.isHideGridlines = value;
     }
 

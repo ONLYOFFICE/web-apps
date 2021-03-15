@@ -1,16 +1,30 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeFocusObjects {
-    @observable focusOn = undefined;
+    constructor() {
+        makeObservable(this, {
+            focusOn: observable,
+            _focusObjects: observable,
+            _cellInfo: observable,
+            resetFocusObjects: action,
+            objects: computed,
+            resetCellInfo: action,
+            selections: computed,
+            shapeObject: computed,
+            imageObject: computed,
+            chartObject: computed
+        });
+    }
 
-    @observable _focusObjects = [];
+    focusOn = undefined;
+    _focusObjects = [];
 
-    @action resetFocusObjects(objects) {
+    resetFocusObjects(objects) {
         this.focusOn = 'obj';
         this._focusObjects = objects;
     }
 
-    @computed get objects() {
+    get objects() {
         const _objects = [];
         for (let object of this._focusObjects) {
             const type = object.get_ObjectType();
@@ -39,14 +53,14 @@ export class storeFocusObjects {
         return resultArr;
     }
 
-    @observable _cellInfo;
+    _cellInfo;
 
-    @action resetCellInfo (cellInfo) {
+    resetCellInfo (cellInfo) {
         this.focusOn = 'cell';
         this._cellInfo = cellInfo;
     }
 
-    @computed get selections () {
+    get selections () {
         const _selections = [];
 
         let isCell, isRow, isCol, isAll, isChart, isImage, isTextShape, isShape, isTextChart,
@@ -134,7 +148,7 @@ export class storeFocusObjects {
         return _selections;
     }
 
-    @computed get shapeObject() {
+    get shapeObject() {
         const shapes = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
@@ -151,7 +165,7 @@ export class storeFocusObjects {
         }
     }
 
-    @computed get imageObject() {
+    get imageObject() {
         const images = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {
@@ -166,7 +180,7 @@ export class storeFocusObjects {
         }
     }
 
-    @computed get chartObject() {
+    get chartObject() {
         const charts = [];
         for (let object of this._focusObjects) {
             if (object.get_ObjectType() === Asc.c_oAscTypeSelectElement.Image) {

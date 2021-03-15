@@ -1,8 +1,8 @@
 
-import {observable, action} from 'mobx';
+import {observable, action, makeObservable} from 'mobx';
 
 class Worksheet {
-    @observable sheet = {
+    sheet = {
         index       : -1,
         active      : false,
         name        : '',
@@ -12,22 +12,30 @@ class Worksheet {
     };
 
     constructor(data = {}) {
+        makeObservable(this, {
+            sheet: observable
+        });
         this.sheet.merge(data);
     }
 }
 
 export class storeWorksheets {
-    @observable sheets;
+    sheets;
 
     constructor() {
+        makeObservable(this, {
+            sheets: observable,
+            reset: action,
+            setActiveWorksheet: action
+        });
         this.sheets = [];
     }
 
-    @action reset(sheets) {
+    reset(sheets) {
         this.sheets = Object.values(sheets)
     }
 
-    @action setActiveWorksheet(i) {
+    setActiveWorksheet(i) {
         if ( !this.sheets[i].active ) {
             this.sheets.forEach(model => {
                 if ( model.active )

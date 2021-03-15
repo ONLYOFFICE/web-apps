@@ -1,21 +1,42 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, makeObservable, computed} from 'mobx';
 
 export class storeTextSettings {
+    constructor() {
+        makeObservable(this, {
+            fontsArray: observable,
+            fontInfo: observable,
+            fontName: observable,
+            fontSize: observable,
+            isBold: observable,
+            isItalic: observable,
+            isUnderline: observable,
+            textColor: observable,
+            customTextColors: observable,
+            paragraphAlign: observable,
+            paragraphValign: observable,
+            textIn: observable,
+            initTextSettings: action,
+            initEditorFonts: action,
+            initFontInfo: action,
+            changeTextColor: action,
+            changeCustomTextColors: action
+        });
+    }
+    
+    fontsArray = [];
+    fontInfo = {};
+    fontName = '';
+    fontSize = undefined;
+    isBold = false;
+    isItalic = false;
+    isUnderline = false;
+    textColor = undefined;
+    customTextColors = [];
+    paragraphAlign = undefined;
+    paragraphValign = undefined;
+    textIn = undefined;
 
-    @observable fontsArray = [];
-    @observable fontInfo = {};
-    @observable fontName = '';
-    @observable fontSize = undefined;
-    @observable isBold = false;
-    @observable isItalic = false;
-    @observable isUnderline = false;
-    @observable textColor = undefined;
-    @observable customTextColors = [];
-    @observable paragraphAlign = undefined;
-    @observable paragraphValign = undefined;
-    @observable textIn = undefined;
-
-    @action initTextSettings(cellInfo) {
+    initTextSettings(cellInfo) {
         let xfs = cellInfo.asc_getXfs();
         let selectType = cellInfo.asc_getSelectionType();
 
@@ -40,7 +61,7 @@ export class storeTextSettings {
         this.paragraphValign = xfs.asc_getVertAlign();
     }
 
-    @action initEditorFonts (fonts, select) {
+    initEditorFonts (fonts, select) {
         let array = [];
         for (let font of fonts) {
             let fontId = font.asc_getFontId();
@@ -56,11 +77,11 @@ export class storeTextSettings {
         this.fontsArray = array;
     }
 
-    @action initFontInfo(fontObj) {
+    initFontInfo(fontObj) {
         this.fontInfo = fontObj;
     }
 
-    @action changeTextColor(value) {
+    changeTextColor(value) {
         this.textColor = value;
     }
 
@@ -85,7 +106,7 @@ export class storeTextSettings {
         return value;
     }
 
-    @action changeCustomTextColors (colors) {
+    changeCustomTextColors (colors) {
         this.customTextColors = colors;
     }
 }

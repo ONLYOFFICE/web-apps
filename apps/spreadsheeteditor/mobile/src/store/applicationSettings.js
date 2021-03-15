@@ -3,27 +3,26 @@ import {makeObservable, action, observable} from 'mobx';
 export class storeApplicationSettings {
     constructor() {
         makeObservable(this, {
-            unitMeasurement: observable
-            , macrosMode: observable
-            , formulaLang: observable
-            , regCode: observable
-            , regExample: observable
-            , regData: observable
-            , isRefStyle: observable
-            , isComments: observable
-            , isResolvedComments: observable
-            , initRegData: action
-            , getRegCode: action
-            , changeRegCode: action
-            , setRegExample: action
-            , changeUnitMeasurement: action
-            , changeMacrosSettings: action
-            , changeDisplayComments: action
-            , changeDisplayResolved: action
-            , changeRefStyle: action
-            , changeFormulaLang: action
-
-        })
+            unitMeasurement: observable, 
+            macrosMode: observable, 
+            formulaLang: observable, 
+            regCode: observable, 
+            regExample: observable, 
+            regData: observable, 
+            isRefStyle: observable, 
+            isComments: observable, 
+            isResolvedComments: observable, 
+            initRegData: action, 
+            getRegCode: action, 
+            changeRegCode: action, 
+            setRegExample: action, 
+            changeUnitMeasurement: action, 
+            changeMacrosSettings: action, 
+            changeDisplayComments: action, 
+            changeDisplayResolved: action, 
+            changeRefStyle: action, 
+            changeFormulaLang: action
+        });
     }
 
     unitMeasurement = Common.Utils.Metric.getCurrentMetric();

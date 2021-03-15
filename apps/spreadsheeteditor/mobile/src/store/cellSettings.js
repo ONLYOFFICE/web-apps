@@ -3,35 +3,35 @@ import {makeObservable, action, observable, computed} from 'mobx';
 export class storeCellSettings {
     constructor() {
         makeObservable(this, {
-            styleSize: observable
-            , borderInfo: observable
-            , borderStyle: observable
-            , cellStyles: observable
-            , fontsArray: observable
-            , fontInfo: observable
-            , fillColor: observable
-            , fontColor: observable
-            , styleName: observable
-            , isBold: observable
-            , isItalic: observable
-            , isUnderline: observable
-            , hAlignStr: observable
-            , vAlignStr: observable
-            , isWrapText: observable
-            , orientationStr: observable
-            , initCellSettings: action
-            , initTextFormat: action
-            , initTextOrientation: action
-            , initFontSettings: action
-            , initEditorFonts: action
-            , initCellStyles: action
-            , initFontInfo: action
-            , changeFontColor: action
-            , changeFillColor: action
-            , changeBorderColor: action
-            , changeBorderSize: action
-            , changeBorderStyle: action
-        })
+            styleSize: observable, 
+            borderInfo: observable, 
+            borderStyle: observable, 
+            cellStyles: observable, 
+            fontsArray: observable, 
+            fontInfo: observable, 
+            fillColor: observable, 
+            fontColor: observable, 
+            styleName: observable, 
+            isBold: observable, 
+            isItalic: observable, 
+            isUnderline: observable, 
+            hAlignStr: observable, 
+            vAlignStr: observable, 
+            isWrapText: observable, 
+            orientationStr: observable, 
+            initCellSettings: action, 
+            initTextFormat: action, 
+            initTextOrientation: action, 
+            initFontSettings: action, 
+            initEditorFonts: action, 
+            initCellStyles: action, 
+            initFontInfo: action, 
+            changeFontColor: action, 
+            changeFillColor: action, 
+            changeBorderColor: action, 
+            changeBorderSize: action, 
+            changeBorderStyle: action
+        });
     }
 
     styleSize = {
