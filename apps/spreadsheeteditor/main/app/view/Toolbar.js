@@ -1966,8 +1966,10 @@ define([
                             menu        : new Common.UI.Menu({
                                 menuAlign   : 'tl-tr',
                                 items: [
-                                    { caption: Common.define.conditionalData.textTop + ' 10',      type: Asc.c_oAscCFType.top10, value: 0 },
-                                    { caption: Common.define.conditionalData.textBottom + ' 10',   type: Asc.c_oAscCFType.top10, value: 1 }
+                                    { caption: Common.define.conditionalData.textTop + ' 10 ' + this.textItems,      type: Asc.c_oAscCFType.top10, value: 0, percent: false },
+                                    { caption: Common.define.conditionalData.textTop + ' 10%',      type: Asc.c_oAscCFType.top10, value: 0, percent: true },
+                                    { caption: Common.define.conditionalData.textBottom + ' 10 ' + this.textItems,   type: Asc.c_oAscCFType.top10, value: 1, percent: false },
+                                    { caption: Common.define.conditionalData.textBottom + ' 10%',   type: Asc.c_oAscCFType.top10, value: 1, percent: true }
                                 ]
                             })
                         },
@@ -2645,6 +2647,7 @@ define([
         textTabView: 'View',
         tipEditChartData: 'Select Data',
         tipEditChartType: 'Change Chart Type',
-        textAutoColor: 'Automatic'
+        textAutoColor: 'Automatic',
+        textItems: 'Items'
     }, SSE.Views.Toolbar || {}));
 });

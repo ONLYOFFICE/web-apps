@@ -1750,6 +1750,7 @@ define([
                     props   : null,
                     type    : item.options.type,
                     subtype : item.value,
+                    percent : item.options.percent,
                     isEdit  : false,
                     langId  : value,
                     handler : function(result, settings) {

@@ -74,7 +74,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.props      = options.props;
             this.type       = options.type; // rule category
             this.subtype    = options.subtype; // rule
-            this.langId     = options.langId; // rule
+            this.percent    = options.percent; //
+            this.langId     = options.langId; //
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -1048,7 +1049,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this._originalProps = props;
             var type = props ? props.asc_getType() : this.type,
                 ruleType,
-                subtype = this.subtype;
+                subtype = this.subtype,
+                isPercent = !!this.percent;
 
             if (props) {
                 var value;
@@ -1076,7 +1078,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                         break;
                     case Asc.c_oAscCFType.top10:
                         subtype = props.asc_getBottom() ? 1 : 0;
-                        this.cmbPercent.setValue(props.asc_getPercent() ? 1 : 0);
+                        isPercent = props.asc_getPercent();
                         this.numRank.setValue(props.asc_getRank() ? props.asc_getRank() : 10);
                         break;
                     case Asc.c_oAscCFType.cellIs:
@@ -1197,6 +1199,9 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             if (rec) {
                 this.cmbCategory.setValue(rec.get('index'));
                 this.refreshRules(rec.get('index'), ruleType);
+                if (type === Asc.c_oAscCFType.top10) {
+                    this.cmbPercent.setValue(isPercent ? 1 : 0);
+                }
             }
 
             rec = this.cmbFormats.getSelectedRecord();
