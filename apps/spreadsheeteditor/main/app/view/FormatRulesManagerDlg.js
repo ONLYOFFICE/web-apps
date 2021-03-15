@@ -226,17 +226,17 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 { value: Asc.c_oAscSelectionForCFType.table, displayValue: this.textThisTable, sheetIndex: -1 },
                 { value: Asc.c_oAscSelectionForCFType.pivot, displayValue: this.textThisPivot, sheetIndex: -1 }
             ];
-            if (wc>1) {
-                while (++i < wc) {
-                    if (!this.api.asc_isWorksheetHidden(i) && i!==this.currentSheet) {
-                        items.push({
-                            displayValue:this.api.asc_getWorksheetName(i),
-                            value: Asc.c_oAscSelectionForCFType.worksheet,
-                            sheetIndex: i
-                        });
-                    }
-                }
-            }
+            // if (wc>1) {
+            //     while (++i < wc) {
+            //         if (!this.api.asc_isWorksheetHidden(i) && i!==this.currentSheet) {
+            //             items.push({
+            //                 displayValue:this.api.asc_getWorksheetName(i),
+            //                 value: Asc.c_oAscSelectionForCFType.worksheet,
+            //                 sheetIndex: i
+            //             });
+            //         }
+            //     }
+            // }
             this.cmbScope.setData(items);
             this.cmbScope.setValue(Asc.c_oAscSelectionForCFType.selection);
         },
