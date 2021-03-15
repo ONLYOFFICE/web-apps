@@ -139,6 +139,9 @@ define([
                 'FormulaTab': {
                     'function:namedrange': this.onNamedRangeMenu,
                     'function:namedrange-open': this.onNamedRangeMenuOpen
+                },
+                'CellSettings': {
+                    'cf:init': this.onShowBeforeCondFormat
                 }
             });
             Common.NotificationCenter.on('page:settings', _.bind(this.onApiSheetChanged, this));
@@ -394,12 +397,7 @@ define([
                 });
                 toolbar.btnPrintTitles.on('click',                          _.bind(this.onPrintTitlesClick, this));
                 if (toolbar.btnCondFormat.rendered) {
-                    toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this));
-                    toolbar.btnCondFormat.menu.on('item:click',             _.bind(this.onCondFormatMenu, this));
-                    for (var i=0; i<7; i++) {
-                        toolbar.btnCondFormat.menu.items[i].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
-                    }
-                    toolbar.btnCondFormat.menu.items[15].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+                    toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
@@ -1592,9 +1590,15 @@ define([
             }
         },
 
-        onShowBeforeCondFormat: function() {
-            if (this.toolbar.mnuDataBars.menu.items.length>0) // menu is inited
+        onShowBeforeCondFormat: function(cmp, id) {
+            if (cmp.mnuDataBars.menu.items.length>0) // menu is inited
                 return;
+
+            cmp.btnCondFormat.menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+            for (var i=0; i<7; i++) {
+                cmp.btnCondFormat.menu.items[i].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+            }
+            cmp.btnCondFormat.menu.items[15].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
 
             var collectionPresets = SSE.getCollection('ConditionalFormatIconsPresets');
             if (collectionPresets.length<1)
@@ -1606,12 +1610,12 @@ define([
 
 
             var me = this;
-            var menuItem = this.toolbar.mnuDataBars;
+            var menuItem = cmp.mnuDataBars;
             menuItem.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-toolbar-menu-databar" class="menu-shapes" style="margin-left: 5px; width: 203px;"></div>')
+                template: _.template('<div id="id-' + id + '-menu-databar" class="menu-shapes" style="margin-left: 5px; width: 203px;"></div>')
             }));
             var picker = new Common.UI.DataViewSimple({
-                el: $('#id-toolbar-menu-databar', menuItem.$el),
+                el: $('#id-' + id + '-menu-databar', menuItem.$el),
                 parentMenu: menuItem.menu,
                 itemTemplate: _.template('<div class="item-databar" id="<%= id %>"><svg width="25" height="25" class=\"icon\"><use xlink:href=\"#bar-<%= data.name %>\"></use></svg></div>')
             });
@@ -1621,8 +1625,8 @@ define([
                         me.api.asc_setCF([], [], [Asc.c_oAscCFRuleTypeSettings.dataBar, record.get('data').index]);
                     }
                     if (e.type !== 'click')
-                        me.toolbar.btnCondFormat.menu.hide();
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnCondFormat);
+                        cmp.btnCondFormat.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', cmp, cmp.btnCondFormat);
                 }
             });
             var arr = [
@@ -1641,12 +1645,12 @@ define([
             ];
             picker.setStore(new Common.UI.DataViewStore(arr));
 
-            menuItem = this.toolbar.mnuColorScales;
+            menuItem = cmp.mnuColorScales;
             menuItem.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-toolbar-menu-colorscales" class="menu-shapes" style="margin-left: 5px; width: 136px;"></div>')
+                template: _.template('<div id="id-' + id + '-menu-colorscales" class="menu-shapes" style="margin-left: 5px; width: 136px;"></div>')
             }));
             picker = new Common.UI.DataViewSimple({
-                el: $('#id-toolbar-menu-colorscales', menuItem.$el),
+                el: $('#id-' + id + '-menu-colorscales', menuItem.$el),
                 parentMenu: menuItem.menu,
                 itemTemplate: _.template('<div class="item-colorscale" id="<%= id %>"><svg width="25" height="25" class=\"icon\"><use xlink:href=\"#color-scale-<%= data.name %>\"></use></svg></div>')
             });
@@ -1656,8 +1660,8 @@ define([
                         me.api.asc_setCF([], [], [Asc.c_oAscCFRuleTypeSettings.colorScale, record.get('data').index]);
                     }
                     if (e.type !== 'click')
-                        me.toolbar.btnCondFormat.menu.hide();
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnCondFormat);
+                        cmp.btnCondFormat.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', cmp, cmp.btnCondFormat);
                 }
             });
             arr = [
@@ -1676,9 +1680,9 @@ define([
             ];
             picker.setStore(new Common.UI.DataViewStore(arr));
 
-            menuItem = this.toolbar.mnuIconSets;
+            menuItem = cmp.mnuIconSets;
             menuItem.menu.addItem(new Common.UI.MenuItem({
-                template: _.template('<div id="id-toolbar-menu-iconsets" class="menu-iconsets" style="width: 227px;"></div>')
+                template: _.template('<div id="id-' + id + '-menu-iconsets" class="menu-iconsets" style="width: 227px;"></div>')
             }));
             arr = [];
             var indexes = [Asc.EIconSetType.Arrows3, Asc.EIconSetType.Arrows3Gray, Asc.EIconSetType.Triangles3, Asc.EIconSetType.Arrows4Gray, Asc.EIconSetType.Arrows4, Asc.EIconSetType.Arrows5Gray, Asc.EIconSetType.Arrows5];
@@ -1698,7 +1702,7 @@ define([
                 arr.push({group: 'menu-iconset-group-rating', data: {index: indexes[i], iconSet: collectionPresets.at([indexes[i]]).get('icons'), icons: collectionIcons}});
             }
             picker = new Common.UI.DataView({
-                el: $('#id-toolbar-menu-iconsets', menuItem.$el),
+                el: $('#id-' + id + '-menu-iconsets', menuItem.$el),
                 parentMenu: menuItem.menu,
                 groups: new Common.UI.DataViewGroupStore([
                     {id: 'menu-iconset-group-direct', caption: this.textDirectional},
@@ -1720,8 +1724,8 @@ define([
                         me.api.asc_setCF([], [], [Asc.c_oAscCFRuleTypeSettings.icons, record.get('data').index]);
                     }
                     if (e.type !== 'click')
-                        me.toolbar.btnCondFormat.menu.hide();
-                    Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnCondFormat);
+                        cmp.btnCondFormat.menu.hide();
+                    Common.NotificationCenter.trigger('edit:complete', cmp, cmp.btnCondFormat);
                 }
             });
         },
