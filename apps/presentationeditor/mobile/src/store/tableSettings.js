@@ -1,15 +1,27 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 import {f7} from 'framework7-react';
 
 export class storeTableSettings {
+    constructor() {
+        makeObservable(this, {
+            _templates: observable,
+            cellBorders: observable,
+            cellBorderWidth: observable,
+            cellBorderColor: observable,
+            initTableTemplates: action,
+            styles: computed,
+            updateCellBorderWidth: action,
+            updateCellBorderColor: action,
+        });
+    }
 
-    @observable _templates = [];
+    _templates = [];
 
-    @action initTableTemplates (templates) {
+    initTableTemplates (templates) {
         this._templates = templates;
     }
 
-    @computed get styles () {
+    get styles () {
         let styles = [];
         for (let template of this._templates) {
             styles.push({
@@ -52,9 +64,9 @@ export class storeTableSettings {
 
     // Border style
 
-    @observable cellBorders;
-    @observable cellBorderWidth = 0.5;
-    @observable cellBorderColor = '000000';
+    cellBorders;
+    cellBorderWidth = 0.5;
+    cellBorderColor = '000000';
 
     borderSizeTransform () {
         const _sizes = [0, 0.5, 1, 1.5, 2.25, 3, 4.5, 6];

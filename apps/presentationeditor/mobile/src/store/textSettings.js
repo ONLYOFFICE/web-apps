@@ -1,27 +1,69 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeTextSettings {
+    constructor() {
+        makeObservable(this, {
+            fontsArray: observable,
+            fontName: observable,
+            fontSize: observable,
+            isBold: observable,
+            isItalic: observable,
+            isUnderline: observable,
+            isStrikethrough: observable,
+            typeBaseline: observable,
+            listType: observable,
+            typeBullets: observable,
+            typeNumbers: observable,
+            paragraphAlign: observable,
+            paragraphValign: observable,
+            canIncreaseIndent: observable,
+            canDecreaseIndent: observable,
+            textColor: observable,
+            customTextColors: observable,
+            lineSpacing: observable,
+            initEditorFonts: action,
+            resetFontName: action,
+            resetFontSize: action,
+            resetIsBold: action,
+            resetIsItalic: action,
+            resetIsUnderline: action,
+            resetIsStrikeout: action,
+            resetIncreaseIndent: action,
+            resetDecreaseIndent: action,
+            resetTypeBaseline: action,
+            isSuperscript: computed,
+            isSubscript: computed,
+            resetListType: action,
+            resetBullets: action,
+            resetNumbers: action,
+            resetParagraphAlign: action,
+            resetParagraphValign: action,
+            resetTextColor: action,
+            changeCustomTextColors: action,
+            resetLineSpacing: action
+        });
+    }
 
-    @observable fontsArray = [];
-    @observable fontName = '';
-    @observable fontSize = undefined;
-    @observable isBold = false;
-    @observable isItalic = false;
-    @observable isUnderline = false;
-    @observable isStrikethrough = false;
-    @observable typeBaseline = undefined;
-    @observable listType = undefined;
-    @observable typeBullets = undefined;
-    @observable typeNumbers = undefined;
-    @observable paragraphAlign = undefined;
-    @observable paragraphValign = undefined;
-    @observable canIncreaseIndent = undefined;
-    @observable canDecreaseIndent = undefined;
-    @observable textColor = undefined;
-    @observable customTextColors = [];
-    @observable lineSpacing = undefined;
+    fontsArray = [];
+    fontName = '';
+    fontSize = undefined;
+    isBold = false;
+    isItalic = false;
+    isUnderline = false;
+    isStrikethrough = false;
+    typeBaseline = undefined;
+    listType = undefined;
+    typeBullets = undefined;
+    typeNumbers = undefined;
+    paragraphAlign = undefined;
+    paragraphValign = undefined;
+    canIncreaseIndent = undefined;
+    canDecreaseIndent = undefined;
+    textColor = undefined;
+    customTextColors = [];
+    lineSpacing = undefined;
 
-    @action initEditorFonts (fonts, select) {
+    initEditorFonts (fonts, select) {
         let array = [];
         for (let font of fonts) {
             let fontId = font.asc_getFontId();
@@ -35,59 +77,71 @@ export class storeTextSettings {
         }
         this.fontsArray = array;
     }
-    @action resetFontName (font) {
+
+    resetFontName (font) {
         let name = (typeof font.get_Name) === "function" ? font.get_Name() : font.asc_getName();
         this.fontName = name;
     }
-    @action resetFontSize (size) {
+
+    resetFontSize (size) {
         this.fontSize = size;
     }
-    @action resetIsBold (isBold) {
+
+    resetIsBold (isBold) {
         this.isBold = isBold;
     }
-    @action resetIsItalic (isItalic) {
+
+    resetIsItalic (isItalic) {
         this.isItalic = isItalic;
     }
-    @action resetIsUnderline (isUnderline) {
+
+    resetIsUnderline (isUnderline) {
         this.isUnderline = isUnderline;
     }
-    @action resetIsStrikeout (isStrikethrough) {
+
+    resetIsStrikeout (isStrikethrough) {
         this.isStrikethrough = isStrikethrough;
     }
 
     // Indent 
 
-    @action resetIncreaseIndent(value) {
+    resetIncreaseIndent(value) {
         this.canIncreaseIndent = value;
     }
 
-    @action resetDecreaseIndent(value) {
+    resetDecreaseIndent(value) {
         this.canDecreaseIndent = value;
     }
 
     // vertical align
-    @action resetTypeBaseline (typeBaseline) {
+
+    resetTypeBaseline (typeBaseline) {
         this.typeBaseline = typeBaseline;
     }
-    @computed get isSuperscript() {
+
+    get isSuperscript() {
         return (this.typeBaseline === 1);
     }
-    @computed get isSubscript() {
+
+    get isSubscript() {
         return (this.typeBaseline === 2);
     }
 
     // bullets
-    @action resetListType (type) {
+
+    resetListType (type) {
         this.listType = type;
     }
-    @action resetBullets (type) {
+
+    resetBullets (type) {
         this.typeBullets = type;
     }
-    @action resetNumbers (type) {
+
+    resetNumbers (type) {
         this.typeNumbers = type;
     }
 
-    @action resetParagraphAlign (align) {
+    resetParagraphAlign (align) {
         let value;
         switch (align) {
             case 0:
@@ -106,7 +160,7 @@ export class storeTextSettings {
         this.paragraphAlign = value;
     }
 
-    @action resetParagraphValign (align) {
+    resetParagraphValign (align) {
         let value;
         switch (align) {
             case 0:
@@ -122,7 +176,7 @@ export class storeTextSettings {
         this.paragraphValign = value;
     }
 
-    @action resetTextColor (color) {
+    resetTextColor (color) {
         let value;
         if (color) {
             if (color.get_auto()) {
@@ -141,11 +195,11 @@ export class storeTextSettings {
         this.textColor = value;
     }
 
-    @action changeCustomTextColors (colors) {
+    changeCustomTextColors (colors) {
         this.customTextColors = colors;
     }
 
-    @action resetLineSpacing (vc) {
+    resetLineSpacing (vc) {
         let line = (vc.get_Line() === null || vc.get_LineRule() === null || vc.get_LineRule() != 1) ? -1 : vc.get_Line();
         this.lineSpacing = line;
     }

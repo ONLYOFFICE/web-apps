@@ -1,20 +1,30 @@
-import {action, observable} from 'mobx';
+import {action, observable, makeObservable} from 'mobx';
 
 export class storeApplicationSettings {
-   
-    @observable unitMeasurement = 1;
-    @observable isSpellChecking = true;
-    @observable macrosMode = 0;
+    constructor() {
+        makeObservable(this, {
+            unitMeasurement: observable,
+            isSpellChecking: observable,
+            macrosMode: observable,
+            changeUnitMeasurement: action,
+            changeSpellCheck: action,
+            changeMacrosSettings: action
+        });
+    }
+
+    unitMeasurement = 1;
+    isSpellChecking = true;
+    macrosMode = 0;
     
-    @action changeUnitMeasurement(value) {
+    changeUnitMeasurement(value) {
         this.unitMeasurement = +value;
     }
 
-    @action changeSpellCheck(value) {
+    changeSpellCheck(value) {
         this.isSpellChecking = value;
     }
 
-    @action changeMacrosSettings(value) {
+    changeMacrosSettings(value) {
         this.macrosMode = +value;
     }
 }

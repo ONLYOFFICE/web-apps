@@ -1,10 +1,16 @@
-import { action, observable } from "mobx";
+import { action, observable, makeObservable } from "mobx";
 
 export class storePresentationInfo {
+    constructor() {
+      makeObservable(this, {
+        dataDoc: observable,
+        setDataDoc: action
+      });
+    }
 
-  @observable dataDoc;
+    dataDoc;
 
-  @action setDataDoc(obj) {
-    this.dataDoc = obj;
-  }
+    setDataDoc(obj) {
+      this.dataDoc = obj;
+    }
 }
