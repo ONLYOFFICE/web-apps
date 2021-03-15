@@ -129,6 +129,21 @@
       "textEditReply": "Edit Reply"
     }
   },
+  "ContextMenu": {
+    "menuViewComment": "View Comment",
+    "menuAddComment": "Add Comment",
+    "menuMerge": "Merge",
+    "menuSplit": "Split",
+    "menuDelete": "Delete",
+    "menuDeleteTable": "Delete Table",
+    "menuEdit": "Edit",
+    "menuAddLink": "Add Link",
+    "menuReviewChange": "Review Change",
+    "menuReview": "Review",
+    "menuOpenLink": "Open Link",
+    "menuMore": "More",
+    "menuCancel": "Cancel"
+  },
   "Settings": {
     "textCancel": "Cancel",
     "textSettings": "Settings",
