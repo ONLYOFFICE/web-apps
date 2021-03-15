@@ -2106,6 +2106,7 @@
   "SSE.Views.FormatRulesEditDlg.txtTime": "Time",
   "SSE.Views.FormatRulesEditDlg.txtTitleEdit": "Edit Formatting Rule",
   "SSE.Views.FormatRulesEditDlg.txtTitleNew": "New Formatting Rule",
+  "SSE.Views.FormatRulesEditDlg.textPresets": "Presets",
   "SSE.Views.FormatRulesManagerDlg.guestText": "Guest",
   "SSE.Views.FormatRulesManagerDlg.text1Above": "1 std dev above average",
   "SSE.Views.FormatRulesManagerDlg.text1Below": "1 std dev below average",

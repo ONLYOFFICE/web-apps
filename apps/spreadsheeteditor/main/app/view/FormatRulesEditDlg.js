@@ -300,27 +300,37 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.CFPresets = this.api.asc_getCFPresets();
             var formatPresets = this.CFPresets[Asc.c_oAscCFRuleTypeSettings.format];
             var color_data = [];
+            var presetTemplate = _.template(['<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding: 3px 10px;">',
+                                                '<div style="height: 22px;padding: 4px 0;<%= options.styleStr %>"><%= caption %></div>',
+                                            '</a>'].join(''));
             _.each(formatPresets, function(preset, index){
                 color_data.push({
                     value: index,
-                    fontColor: preset[0],
-                    fillColor: preset[1],
-                    borderColor: preset[2],
-                    displayValue: preset[0] ? Common.define.conditionalData.exampleText : '',
-                    styleObj: {'background-color': preset[1] ? '#' + preset[1] : 'transparent', color: preset[0] ? '#' + preset[0] : 'transparent', border: preset[2] ? '1px solid #' + preset[2] : '', 'text-align': 'center' },
+                    presetSettings: {
+                        fontColor: preset[0],
+                        fillColor: preset[1],
+                        borderColor: preset[2],
+                        styleObj: {'background-color': preset[1] ? '#' + preset[1] : 'transparent', color: preset[0] ? '#' + preset[0] : 'transparent', border: preset[2] ? '1px solid #' + preset[2] : '', 'text-align': 'center' }
+                    },
+                    caption: preset[0] ? Common.define.conditionalData.exampleText : '',
+                    template: presetTemplate,
                     styleStr: 'background-color: ' + (preset[1] ? '#' + preset[1] : 'transparent') + ';color:'  + (preset[0] ? '#' + preset[0] : 'transparent') + ';' + (preset[2] ? 'border: 1px solid #' + preset[2] + ';' : '' + 'text-align: center;')
                 });
             });
 
-            this.cmbFormats = new Common.UI.ComboBoxColor({
-                el          : $('#format-rules-format-preset'),
-                editable    : false,
-                style       : 'width: 150px;',
-                menuStyle   : 'min-width: 100%;max-height: 211px;',
-                data        : color_data
+            this.btnFormats = new Common.UI.Button({
+                parentEl: $('#format-rules-format-preset'),
+                cls: 'btn-text-menu-default',
+                caption: this.textPresets,
+                style: 'width: 150px;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 150px;',
+                    maxHeight: 211,
+                    additionalAlign: this.menuAddAlign,
+                    items: color_data
+                })
             });
-            this.cmbFormats.setValue(this.textCustom);
-            this.cmbFormats.on('selected', _.bind(this.onFormatsSelect, this));
+            this.btnFormats.menu.on('item:click', _.bind(this.onFormatsSelect, this));
 
             this.btnBold = new Common.UI.Button({
                 parentEl: $('#format-rules-bold'),
@@ -1162,7 +1172,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 if (props)
                     this.xfsFormat = props.asc_getDxf();
                 else {
-                    this.cmbFormats.setValue(0);
+                    this.onFormatsSelect(this.btnFormats.menu, this.btnFormats.menu.items[0]);
                 }
             }
 
@@ -1203,14 +1213,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     this.cmbPercent.setValue(isPercent ? 1 : 0);
                 }
             }
-
-            rec = this.cmbFormats.getSelectedRecord();
-            if (rec && rec.value>=0) {
-                this.onFormatsSelect(this.cmbFormats, rec);
-            } else {
-                var xfs = this.xfsFormat ? this.xfsFormat : (new AscCommonExcel.CellXfs());
-                this.fillXfsFormatInfo(xfs);
-            }
+            var xfs = this.xfsFormat ? this.xfsFormat : (new AscCommonExcel.CellXfs());
+            this.fillXfsFormatInfo(xfs);
             this.previewFormat();
         },
 
@@ -1523,14 +1527,15 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             }
         },
 
-        onFormatsSelect: function(combo, record) {
+        onFormatsSelect: function(menu, item) {
             var xfs = new AscCommonExcel.CellXfs();
-            record && record.fontColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(record.fontColor));
-            record && record.fillColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(record.fillColor));
-            if (record && record.borderColor) {
+            var settings = item.options.presetSettings;
+            settings && settings.fontColor && xfs.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(settings.fontColor));
+            settings && settings.fillColor && xfs.asc_setFillColor(Common.Utils.ThemeColor.getRgbColor(settings.fillColor));
+            if (settings && settings.borderColor) {
                 var new_borders = [],
                     bordersWidth = Asc.c_oAscBorderStyles.Thin,
-                    bordersColor = Common.Utils.ThemeColor.getRgbColor(record.borderColor);
+                    bordersColor = Common.Utils.ThemeColor.getRgbColor(settings.borderColor);
                 new_borders[Asc.c_oAscBorderOptions.Left]   = new Asc.asc_CBorder(bordersWidth, bordersColor);
                 new_borders[Asc.c_oAscBorderOptions.Top]    = new Asc.asc_CBorder(bordersWidth, bordersColor);
                 new_borders[Asc.c_oAscBorderOptions.Right]  = new Asc.asc_CBorder(bordersWidth, bordersColor);
@@ -1547,34 +1552,29 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             this.xfsFormat = null;
             this._changedProps && this._changedProps.asc_setDxf(null);
             this.fillXfsFormatInfo(new AscCommonExcel.CellXfs());
-            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
         onBoldClick: function() {
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontBold(this.btnBold.isActive());
-            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
         onItalicClick: function() {
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontItalic(this.btnItalic.isActive());
-            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
         onUnderlineClick: function() {
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontUnderline(this.btnUnderline.isActive());
-            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
         onStrikeoutClick: function() {
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontStrikeout(this.btnStrikeout.isActive());
-            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
@@ -1640,7 +1640,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 }
                 !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
                 this.xfsFormat.asc_setBorder(new_borders);
-                this.cmbFormats.setValue(this.textCustom);
                 this.previewFormat();
             }
         },
@@ -1653,7 +1652,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFontColor(Common.Utils.ThemeColor.getRgbColor(this.mnuTextColorPicker.currentColor));
-            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
@@ -1669,7 +1667,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             !this.xfsFormat && (this.xfsFormat = new AscCommonExcel.CellXfs());
             this.xfsFormat.asc_setFillColor(this.mnuFillColorPicker.currentColor == 'transparent' ? null : Common.Utils.ThemeColor.getRgbColor(this.mnuFillColorPicker.currentColor));
-            this.cmbFormats.setValue(this.textCustom);
             this.previewFormat();
         },
 
@@ -2139,7 +2136,8 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         textErrorGreater: 'The value for the {0} must be greater than the value for the {1}.',
         textInvalid: 'Invalid data range.',
         textClear: 'Clear',
-        textItem: 'Item'
+        textItem: 'Item',
+        textPresets: 'Presets'
 
     }, SSE.Views.FormatRulesEditDlg || {}));
 });
