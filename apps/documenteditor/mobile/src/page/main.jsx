@@ -71,7 +71,7 @@ export default class MainPage extends Component {
                       <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
                   </NavRight>
                   {/* { Device.phone ? null : <Search /> } */}
-                  <Search />
+                  <Search useSuspense={false} />
               </Navbar>
               {/* Page content */}
               <View id="editor_sdk">
@@ -80,7 +80,7 @@ export default class MainPage extends Component {
               {/* {
                   Device.phone ? null : <SearchSettings />
               } */}
-              <SearchSettings />
+              <SearchSettings useSuspense={false} />
               {
                   !this.state.editOptionsVisible ? null :
                       <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />

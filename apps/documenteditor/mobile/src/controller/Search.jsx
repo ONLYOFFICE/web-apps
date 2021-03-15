@@ -1,8 +1,9 @@
 import React from 'react';
-import { List, ListItem, Toggle } from 'framework7-react';
+import { List, ListItem, Toggle, Page, Navbar, NavRight, Link } from 'framework7-react';
 import { SearchController, SearchView, SearchSettingsView } from '../../../../common/mobile/lib/controller/Search';
 import { f7 } from 'framework7-react';
-import { useTranslation, withTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
+import { Device } from '../../../../common/mobile/utils/device';
 
 class SearchSettings extends SearchSettingsView {
     constructor(props) {
@@ -18,21 +19,43 @@ class SearchSettings extends SearchSettingsView {
 
     extraSearchOptions() {
         const anc_markup = super.extraSearchOptions();
+        const show_popover = !Device.phone;
+        const { t } = this.props;
+        const _t = t("Settings", {returnObjects: true});
 
-        const markup = <List>
-                        <ListItem title="Case sensitive">
+        const markup = (
+                <Page>
+                    <Navbar title={_t.textFindAndReplace}>
+                        {!show_popover &&
+                            <NavRight>
+                                <Link popupClose=".search-settings-popup">{_t.textDone}</Link>
+                            </NavRight>
+                        }
+                    </Navbar>
+                    <List>
+                        <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
+                        <ListItem radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} onClick={e => this.onFindReplaceClick('replace')} />
+                    </List>
+                    <List>
+                        <ListItem title={_t.textCaseSensitive}>
                             <Toggle slot="after" className="toggle-case-sensitive" />
                         </ListItem>
-                        <ListItem title="Highlight results">
+                        <ListItem title={_t.textHighlightResults}>
                             <Toggle slot="after" className="toggle-mark-results" defaultChecked onToggleChange={this.onToggleMarkResults} />
                         </ListItem>
-                    </List>;
+                    </List>
+                </Page>
+        );
 
         return {...anc_markup, ...markup};
     }
 }
 
 class DESearchView extends SearchView {
+    constructor(props) {
+        super(props);
+    }
+
     searchParams() {
         let params = super.searchParams();
 
@@ -57,16 +80,16 @@ class DESearchView extends SearchView {
     }
 }
 
-const Search = props => {
-    // const { t } = useTranslation();
-    // const _t = t('View.Settings', {returnObjects: true});
+const Search = withTranslation()(props => {
+    const { t } = props;
+    const _t = t('Settings', {returnObjects: true});
 
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
 
         if (params.find && params.find.length) {
             if (!api.asc_findText(params.find, params.forward, params.caseSensitive, params.highlight) ) {
-                f7.dialog.alert(null, 'Text not Found');
+                f7.dialog.alert(null, _t.textNoTextFound);
             }
         }
     };
@@ -87,7 +110,9 @@ const Search = props => {
         }
     }
 
-    return <DESearchView onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
-};
+    return <DESearchView _t={_t} onSearchQuery={onSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
+});
 
-export {Search, SearchSettings}
+const SearchSettingsWithTranslation = withTranslation()(SearchSettings);
+
+export {Search, SearchSettingsWithTranslation as SearchSettings}

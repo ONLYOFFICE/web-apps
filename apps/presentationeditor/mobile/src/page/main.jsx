@@ -64,12 +64,12 @@ export default class MainPage extends Component {
                     <Link id='btn-coauth' href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
                     <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
                 </NavRight>
-                <Search />
+                <Search useSuspense={false} />
             </Navbar>
             {/* Page content */}
             <View id="editor_sdk" />
 
-            <SearchSettings />
+            <SearchSettings useSuspense={false} />
 
             {
                 !this.state.editOptionsVisible ? null :
