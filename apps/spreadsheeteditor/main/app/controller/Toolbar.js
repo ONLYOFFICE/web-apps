@@ -396,9 +396,10 @@ define([
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this));
                     toolbar.btnCondFormat.menu.on('item:click',             _.bind(this.onCondFormatMenu, this));
-                    toolbar.btnCondFormat.menu.items[7].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
-                    toolbar.btnCondFormat.menu.items[9].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
-                    toolbar.btnCondFormat.menu.items[21].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+                    for (var i=0; i<7; i++) {
+                        toolbar.btnCondFormat.menu.items[i].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
+                    }
+                    toolbar.btnCondFormat.menu.items[15].menu.on('item:click', _.bind(this.onCondFormatMenu, this));
                 }
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 

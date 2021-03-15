@@ -91,7 +91,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
 
             var rules = [
                 {
-                    name: this.textValue,
+                    name: Common.define.conditionalData.textValue,
                     type: Asc.c_oAscCFType.cellIs,
                     rules: [
                         { name: Common.define.conditionalData.textGreater, subtype: Asc.c_oAscCFOperator.greaterThan},
@@ -105,7 +105,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                     ]
                 },
                 {
-                    name: this.textRanked,
+                    name: Common.define.conditionalData.textTop + '/' + Common.define.conditionalData.textBottom,
                     type: Asc.c_oAscCFType.top10,
                     rules: [
                         { name: Common.define.conditionalData.textTop, subtype: 0},
@@ -2045,8 +2045,6 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         textInvalidRange: 'ERROR! Invalid cells range',
         notcriticalErrorTitle: 'Warning',
         textFormat: 'Format',
-        textValue: 'Value is',
-        textRanked: 'Ranked',
         textCustom: 'Custom',
         textBold:    'Bold',
         textItalic:  'Italic',

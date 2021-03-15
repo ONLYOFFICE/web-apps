@@ -1945,32 +1945,50 @@ define([
                 this.btnCondFormat.setMenu( new Common.UI.Menu({
                     items: [
                         {
-                            caption     : Common.define.conditionalData.textGreater,
-                            type        : Asc.c_oAscCFType.cellIs,
-                            value       : Asc.c_oAscCFOperator.greaterThan
+                            caption     : Common.define.conditionalData.textValue,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    {   caption     : Common.define.conditionalData.textGreater,    type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.greaterThan },
+                                    {   caption     : Common.define.conditionalData.textGreaterEq,  type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.greaterThanOrEqual },
+                                    {   caption     : Common.define.conditionalData.textLess,       type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.lessThan },
+                                    {   caption     : Common.define.conditionalData.textLessEq,     type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.lessThanOrEqual },
+                                    {   caption     : Common.define.conditionalData.textEqual,      type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.equal },
+                                    {   caption     : Common.define.conditionalData.textNotEqual,   type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.notEqual },
+                                    {   caption     : Common.define.conditionalData.textBetween,    type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.between },
+                                    {   caption     : Common.define.conditionalData.textNotBetween, type        : Asc.c_oAscCFType.cellIs, value       : Asc.c_oAscCFOperator.notBetween }
+                                ]
+                            })
                         },
                         {
-                            caption     : Common.define.conditionalData.textLess,
-                            type        : Asc.c_oAscCFType.cellIs,
-                            value       : Asc.c_oAscCFOperator.lessThan
-                        },
-                        {
-                            caption     : Common.define.conditionalData.textEqual,
-                            type        : Asc.c_oAscCFType.cellIs,
-                            value       : Asc.c_oAscCFOperator.equal
-                        },
-                        {caption: '--'},
-                        {
-                            caption     : Common.define.conditionalData.textBetween,
-                            type        : Asc.c_oAscCFType.cellIs,
-                            value       : Asc.c_oAscCFOperator.between
-                        },
-                        {
-                            caption     : this.textTop10,
+                            caption     : Common.define.conditionalData.textTop + '/' + Common.define.conditionalData.textBottom,
                             type        : Asc.c_oAscCFType.top10,
-                            value       : 0
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textTop + ' 10',      type: Asc.c_oAscCFType.top10, value: 0 },
+                                    { caption: Common.define.conditionalData.textBottom + ' 10',   type: Asc.c_oAscCFType.top10, value: 1 }
+                                ]
+                            })
                         },
-                        {caption: '--'},
+                        {
+                            caption: Common.define.conditionalData.textAverage,
+                            menu: new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textAbove, type: Asc.c_oAscCFType.aboveAverage, value: 0},
+                                    { caption: Common.define.conditionalData.textBelow, type: Asc.c_oAscCFType.aboveAverage, value: 1},
+                                    { caption: Common.define.conditionalData.textEqAbove, type: Asc.c_oAscCFType.aboveAverage, value: 2},
+                                    { caption: Common.define.conditionalData.textEqBelow, type: Asc.c_oAscCFType.aboveAverage,value: 3},
+                                    { caption: Common.define.conditionalData.text1Above, type: Asc.c_oAscCFType.aboveAverage, value: 4},
+                                    { caption: Common.define.conditionalData.text1Below, type: Asc.c_oAscCFType.aboveAverage, value: 5},
+                                    { caption: Common.define.conditionalData.text2Above, type: Asc.c_oAscCFType.aboveAverage, value: 6},
+                                    { caption: Common.define.conditionalData.text2Below, type: Asc.c_oAscCFType.aboveAverage, value: 7},
+                                    { caption: Common.define.conditionalData.text3Above, type: Asc.c_oAscCFType.aboveAverage, value: 8},
+                                    { caption: Common.define.conditionalData.text3Below, type: Asc.c_oAscCFType.aboveAverage, value: 9}
+                                ]
+                            })
+                        },
                         {
                             caption     : Common.define.conditionalData.textText,
                             menu        : new Common.UI.Menu({
@@ -1983,7 +2001,6 @@ define([
                                 ]
                             })
                         },
-                        {caption: '--'},
                         {
                             caption     : Common.define.conditionalData.textDate,
                             menu        : new Common.UI.Menu({
@@ -2002,14 +2019,27 @@ define([
                                 ]
                             })
                         },
-                        {caption: '--'},
                         {
-                            caption     : Common.define.conditionalData.textBlank,
-                            type        : Asc.c_oAscCFType.containsBlanks
+                            caption: Common.define.conditionalData.textBlank + '/' + Common.define.conditionalData.textError,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textBlanks,   type: Asc.c_oAscCFType.containsBlanks },
+                                    { caption: Common.define.conditionalData.textNotBlanks,type: Asc.c_oAscCFType.notContainsBlanks },
+                                    { caption: Common.define.conditionalData.textErrors,   type: Asc.c_oAscCFType.containsErrors },
+                                    { caption: Common.define.conditionalData.textNotErrors,type: Asc.c_oAscCFType.notContainsErrors }
+                                ]
+                            })
                         },
                         {
-                            caption     : Common.define.conditionalData.textDuplicate,
-                            type        : Asc.c_oAscCFType.duplicateValues
+                            caption: Common.define.conditionalData.textDuplicate + '/' + Common.define.conditionalData.textUnique,
+                            menu        : new Common.UI.Menu({
+                                menuAlign   : 'tl-tr',
+                                items: [
+                                    { caption: Common.define.conditionalData.textDuplicate,    type: Asc.c_oAscCFType.duplicateValues },
+                                    { caption: Common.define.conditionalData.textUnique,       type: Asc.c_oAscCFType.uniqueValues }
+                                ]
+                            })
                         },
                         {caption: '--'},
                         this.mnuDataBars = new Common.UI.MenuItem({
@@ -2600,7 +2630,6 @@ define([
         tipPrintTitles: 'Print titles',
         capBtnColorSchemas: 'Color Scheme',
         tipCondFormat: 'Conditional formatting',
-        textTop10: 'Top 10',
         textDataBars: 'Data Bars',
         textColorScales: 'Color Scales',
         textNewRule: 'New Rule',

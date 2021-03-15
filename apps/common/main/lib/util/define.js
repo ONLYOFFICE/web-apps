@@ -593,7 +593,8 @@ define(function(){ 'use strict';
             textIconSets: 'Icon sets',
             textFormula: 'Formula',
             exampleText: 'AaBbCcYyZz',
-            noFormatText: 'No format set'
+            noFormatText: 'No format set',
+            textValue: 'Value is'
         }
     })(), Common.define.conditionalData || {});
 });
