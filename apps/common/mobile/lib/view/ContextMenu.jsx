@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Popover, List, ListItem, ListButton, Link, Icon } from 'framework7-react';
+import { Popover, List, ListItem, ListButton, Link, Icon, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
 import { f7 } from 'framework7-react';
+import { useTranslation } from 'react-i18next';
 
 const idContextMenuElement = "idx-context-menu-popover";
 
@@ -38,5 +39,24 @@ class ContextMenuView extends Component {
     }
 }
 
+const ActionsWithExtraItems = ({items, onMenuItemClick, opened, onActionClosed}) => {
+    const { t } = useTranslation();
+    const _t = t('ContextMenu', {returnObjects: true});
+    return (
+        <Actions opened={opened} onActionsClosed={() => onActionClosed()}>
+            <ActionsGroup>
+                {items.length > 0 && items.map((item, index)=>{
+                    return(
+                        <ActionsButton key={`act-${item.caption}`} onClick={() => {onMenuItemClick(item.event)}}>{item.caption}</ActionsButton>
+                    )
+                })}
+            </ActionsGroup>
+            <ActionsGroup>
+                <ActionsButton>{_t.menuCancel}</ActionsButton>
+            </ActionsGroup>
+        </Actions>
+    )
+};
+
 const exportedIdMenuElemen = `#${idContextMenuElement}`;
-export {ContextMenuView as default, exportedIdMenuElemen as idContextMenuElement};
+export {ContextMenuView as default, exportedIdMenuElemen as idContextMenuElement, ActionsWithExtraItems};
