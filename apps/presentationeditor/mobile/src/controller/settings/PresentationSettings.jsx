@@ -6,19 +6,35 @@ class PresentationSettingsController extends Component {
     constructor(props) {
         super(props);
         this.initSlideSize = this.initSlideSize.bind(this);
+        this.onSlideSize = this.onSlideSize.bind(this);
+        this.initSlideSize();
     }
 
     initSlideSize() {
         if (!this.init) {
             const api = Common.EditorApi.get();
+            const slideSizes = [
+                [9144000, 6858000, Asc.c_oAscSlideSZType.SzScreen4x3], 
+                [12192000, 6858000, Asc.c_oAscSlideSZType.SzCustom]
+            ];
+
             this.props.storePresentationSettings.changeSizeIndex(api.get_PresentationWidth(), api.get_PresentationHeight());
+            this.props.storePresentationSettings.initSlideSizes(slideSizes);
             this.init = true;
         }
     }
 
     onSlideSize(slideSizeArr) {
         const api = Common.EditorApi.get();
-        api.changeSlideSize(slideSizeArr[0], slideSizeArr[1]);
+
+        let ratio = slideSizeArr[1] / slideSizeArr[0];
+        let currentHeight = this.props.storePresentationSettings.currentPageSize.height;
+        let currentPageSize = {
+            width: (currentHeight || slideSizeArr[1]) / ratio,
+            height: currentHeight
+        };
+        // api.changeSlideSize(slideSizeArr[0], slideSizeArr[1], slideSizeArr[2]);
+        api.changeSlideSize(currentPageSize.width, currentPageSize.height, slideSizeArr[2]);
     }
 
     // Color Schemes

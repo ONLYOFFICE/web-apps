@@ -71,7 +71,14 @@
       "textAddress": "address:",
       "textEmail": "email:",
       "textTel": "tel:",
-      "textPoweredBy": "Powered By"
+      "textPoweredBy": "Powered By",
+      "textReplaceAll": "Replace All",
+      "textFind": "Find",
+      "textSearch": "Search",
+      "textCaseSensitive": "Case Sensitive",
+      "textHighlight": "Highlight Results",
+      "textReplace": "Replace",
+      "textNoTextFound": "Text not Found"
     },
     "Add": {
       "textSlide": "Slide",
@@ -244,7 +251,15 @@
       "textRemoveLink": "Remove Link",
       "textDisplay": "Display",
       "textScreenTip": "Screen Tip",
-      "textDefault": "Selected text"
+      "textDefault": "Selected text",
+      "textReplaceAll": "Replace All",
+      "textFind": "Find",
+      "textFindAndReplace": "Find and Replace",
+      "textDone": "Done",
+      "textSearch": "Search",
+      "textCaseSensitive": "Case Sensitive",
+      "textHighlight": "Highlight Results",
+      "textNoTextFound": "Text not Found"
     }
   },
   "Common": {

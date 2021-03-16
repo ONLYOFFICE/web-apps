@@ -1,6 +1,5 @@
 import React from 'react';
-import SearchView, {SearchSettingsView} from '../view/Search'
-
+import {SearchView, SearchSettingsView} from '../view/Search';
 
 const SearchController = props => {
     const onSearchQuery = params => {

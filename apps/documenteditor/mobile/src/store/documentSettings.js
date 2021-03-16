@@ -1,15 +1,31 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeDocumentSettings {
-    @observable isPortrait = true;
-    @action resetPortrait (isPortrait) {
+    constructor() {
+        makeObservable(this, {
+            isPortrait: observable,
+            widthDocument: observable,
+            heightDocument: observable,
+            allSchemes: observable,
+            resetPortrait: action,
+            changeDocSize: action,
+            pageSizesIndex: computed,
+            addSchemes: action
+        });
+    }
+
+    isPortrait = true;
+
+    resetPortrait (isPortrait) {
         this.isPortrait = isPortrait === true;
     }
 
     //Document Formats
-    @observable widthDocument;
-    @observable heightDocument;
-    @action changeDocSize (width, height) {
+
+    widthDocument;
+    heightDocument;
+
+    changeDocSize (width, height) {
         let w = width;
         let h = height;
         if (!this.isPortrait) {
@@ -20,6 +36,7 @@ export class storeDocumentSettings {
         this.widthDocument = w;
         this.heightDocument = h;
     }
+
     getPageSizesList () {
         const txtCm = Common.Utils.Metric.getMetricName(Common.Utils.Metric.c_MetricUnits.cm);
         const pageSizes = [
@@ -43,7 +60,8 @@ export class storeDocumentSettings {
             ];
         return pageSizes;
     }
-    @computed get pageSizesIndex () {
+    
+    get pageSizesIndex () {
         let w = this.widthDocument;
         let h = this.heightDocument;
         let ind = -1;
@@ -61,9 +79,9 @@ export class storeDocumentSettings {
 
     // Color Schemes
 
-    @observable allSchemes;
+    allSchemes;
 
-    @action addSchemes(arr) {
+    addSchemes(arr) {
         this.allSchemes = arr;
     }
 

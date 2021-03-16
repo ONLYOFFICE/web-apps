@@ -1,6 +1,17 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeShapeSettings {
+    constructor() {
+        makeObservable(this, {
+            fillColor: observable,
+            borderColorView: observable,
+            setFillColor: action,
+            getFillColor: action,
+            setBorderColor: action,
+            initBorderColorView: action
+        });
+    }
+
     getStyleGroups () {
         const styles = [
             {
@@ -136,6 +147,7 @@ export class storeShapeSettings {
         }
         return groups;
     }
+
     wrapTypesTransform () {
         const map = [
             { ui:'inline', sdk: Asc.c_oAscWrapStyle2.Inline },
@@ -191,10 +203,13 @@ export class storeShapeSettings {
     }
 
     // Fill Color
-    @observable fillColor = undefined;
+
+    fillColor = undefined;
+
     setFillColor (color) {
         this.fillColor = color;
     }
+    
     getFillColor (shapeObject) {
         let fill = shapeObject.get_ShapeProperties().get_fill();
         const fillType = fill.get_type();
@@ -215,10 +230,13 @@ export class storeShapeSettings {
     }
 
     // Border size and color
-    @observable borderColorView;
+
+    borderColorView;
+
     setBorderColor (color) {
         this.borderColorView = color;
     }
+
     initBorderColorView (shapeObject) {
         const stroke = shapeObject.get_ShapeProperties().get_stroke();
         let color = 'transparent';
@@ -236,6 +254,7 @@ export class storeShapeSettings {
         this.borderColorView = color;
         return color;
     }
+
     borderSizeTransform () {
         const _sizes = [0, 0.5, 1, 1.5, 2.25, 3, 4.5, 6];
 

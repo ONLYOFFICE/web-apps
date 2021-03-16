@@ -1,18 +1,33 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeParagraphSettings {
-    @observable styles = [];
-    @observable styleThumbSize = null;
-    @observable styleName = undefined;
+    constructor() {
+        makeObservable(this, {
+            styles: observable,
+            styleThumbSize: observable,
+            styleName: observable,
+            backColor: observable,
+            initEditorStyles: action,
+            paragraphStyles: computed,
+            changeParaStyleName: action,
+            setBackColor: action,
+            getBackgroundColor: action
+        });
+    }
 
-    @action initEditorStyles (styles) {
+    styles = [];
+    styleThumbSize = null;
+    styleName = undefined;
+
+    initEditorStyles (styles) {
         this.styles = styles.get_MergedStyles();
         this.styleThumbSize = {
             width   : styles.STYLE_THUMBNAIL_WIDTH,
             height  : styles.STYLE_THUMBNAIL_HEIGHT
         };
     }
-    @computed get paragraphStyles () {
+
+    get paragraphStyles () {
         let _styles = [];
         for (let style of this.styles) {
             _styles.push({
@@ -22,14 +37,17 @@ export class storeParagraphSettings {
         }
         return _styles;
     }
-    @action changeParaStyleName (name) {
+
+    changeParaStyleName (name) {
         this.styleName = name;
     }
 
-    @observable backColor = undefined;
+    backColor = undefined;
+
     setBackColor (color) {
         this.backColor = color;
     }
+
     getBackgroundColor (paragraphObject) {
         const shade = paragraphObject.get_Shade();
         let backColor = 'transparent';

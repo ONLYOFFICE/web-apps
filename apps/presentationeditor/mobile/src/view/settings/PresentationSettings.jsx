@@ -6,15 +6,13 @@ import { useTranslation } from "react-i18next";
 const PagePresentationSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    props.initSlideSize();
-    const store = props.storePresentationSettings;
-    const slideSizeArr = store.getSlideSizes;
-    const slideSizeIndex = store.slideSizeIndex;
+    const storePresentationSettings = props.storePresentationSettings;
+    const slideSizeArr = storePresentationSettings.slideSizes;
+    const slideSizeIndex = storePresentationSettings.slideSizeIndex;
 
     return (
         <Page>
             <Navbar title={_t.textPresentationSettings} backLink={_t.textBack} />
-
             <BlockTitle>{_t.textSlideSize}</BlockTitle>
             <List>
                 <ListItem radio name="slide-size" checked={slideSizeIndex === 0} 
@@ -22,7 +20,6 @@ const PagePresentationSettings = props => {
                 <ListItem radio name="slide-size" checked={slideSizeIndex === 1}
                     onChange={() => props.onSlideSize(slideSizeArr[1])} title={_t.mniSlideWide}></ListItem>
             </List>
-        
             <List mediaList>
                 <ListItem title={_t.textColorSchemes} link="/color-schemes/" routeProps={{
                     onColorSchemeChange: props.onColorSchemeChange,
@@ -38,8 +35,8 @@ const PagePresentationColorSchemes = props => {
     const curScheme = props.initPageColorSchemes();
     const [stateScheme, setScheme] = useState(curScheme);
     const _t = t('View.Settings', {returnObjects: true});
-    const store = props.storePresentationSettings;
-    const allSchemes = store.allSchemes;
+    const storePresentationSettings = props.storePresentationSettings;
+    const allSchemes = storePresentationSettings.allSchemes;
 
     return (
         <Page>

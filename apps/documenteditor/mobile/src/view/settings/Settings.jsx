@@ -64,6 +64,14 @@ const SettingsList = inject("storeAppOptions")( observer( withTranslation()( pro
             props.onOptionClick(page)
     };
 
+    const closeModal = () => {
+        if (Device.phone) {
+            f7.sheet.close('.settings-popup', true);
+        } else {
+            f7.popover.close('#settings-popover');
+        }
+    };
+
     useEffect(() => {
     });
 
@@ -100,7 +108,7 @@ const SettingsList = inject("storeAppOptions")( observer( withTranslation()( pro
                 {navbar}
                 <List>
                     {!props.inPopover &&
-                        <ListItem title={!_isEdit ? _t.textFind : _t.textFindAndReplace}>
+                        <ListItem title={!_isEdit ? _t.textFind : _t.textFindAndReplace} link="#" searchbarEnable='.searchbar' onClick={closeModal}>
                             <Icon slot="media" icon="icon-search"></Icon>
                         </ListItem>
                     }

@@ -7,15 +7,14 @@ import {Device} from "../../../../../common/mobile/utils/device";
 const PageTypeLink = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeLinkSettings = props.storeLinkSettings;
-    const typeLink = storeLinkSettings.typeLink;
+    const [typeLink, setTypeLink] = useState(props.curType);
 
     return (
         <Page>
             <Navbar title={_t.textLinkType} backLink={_t.textBack}/>
             <List>
-                <ListItem title={_t.textExternalLink} radio checked={typeLink === 1} onClick={() => {storeLinkSettings.changeLinkType(1);}}></ListItem>
-                <ListItem title={_t.textSlideInThisPresentation} radio checked={typeLink === 0} onClick={() => {storeLinkSettings.changeLinkType(0);}}></ListItem>
+                <ListItem title={_t.textExternalLink} radio checked={typeLink === 1} onClick={() => {setTypeLink(1); props.changeType(1); props.initLink();}}></ListItem>
+                <ListItem title={_t.textSlideInThisPresentation} radio checked={typeLink === 0} onClick={() => {setTypeLink(0); props.changeType(0); props.initLink();}}></ListItem>
             </List>
         </Page>
     )
@@ -25,23 +24,18 @@ const PageLinkTo = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const api = Common.EditorApi.get();
-    const slidesCount = api.getCountPages();
-    const storeLinkSettings = props.storeLinkSettings;
-    const slideLink = storeLinkSettings.slideLink;
-    // console.log(slideLink);
-    // const slideNum = storeLinkSettings.slideNum;
-    // const [stateTypeTo, setTypeTo] = useState(props.curTo);
+    const slidesCount = props.slidesCount;
+    const [stateTypeTo, setTypeTo] = useState(props.curTo);
 
     const changeTypeTo = (type) => {
-        storeLinkSettings.changeSlideLink(type);
+        setTypeTo(type);
         props.changeTo(type);
     };
 
     const [stateNumberTo, setNumberTo] = useState(0);
 
     const changeNumber = (curNumber, isDecrement) => {
-        storeLinkSettings.changeSlideLink(4);
+        setTypeTo(4);
         let value;
 
         if (isDecrement) {
@@ -51,7 +45,6 @@ const PageLinkTo = props => {
         }
 
         setNumberTo(value);
-        storeLinkSettings.changeSlideNum(value);
         props.changeTo(4, value);
     };
 
@@ -59,10 +52,10 @@ const PageLinkTo = props => {
         <Page>
             <Navbar title={_t.textLinkTo} backLink={_t.textBack}/>
             <List>
-                <ListItem title={_t.textNextSlide} radio checked={slideLink === 0} onClick={() => {changeTypeTo(0)}}></ListItem>
-                <ListItem title={_t.textPreviousSlide} radio checked={slideLink === 1} onClick={() => {changeTypeTo(1)}}></ListItem>
-                <ListItem title={_t.textFirstSlide} radio checked={slideLink === 2} onClick={() => {changeTypeTo(2)}}></ListItem>
-                <ListItem title={_t.textLastSlide} radio checked={slideLink === 3} onClick={() => {changeTypeTo(3)}}></ListItem>
+                <ListItem title={_t.textNextSlide} radio checked={stateTypeTo === 0} onClick={() => {changeTypeTo(0)}}></ListItem>
+                <ListItem title={_t.textPreviousSlide} radio checked={stateTypeTo === 1} onClick={() => {changeTypeTo(1)}}></ListItem>
+                <ListItem title={_t.textFirstSlide} radio checked={stateTypeTo === 2} onClick={() => {changeTypeTo(2)}}></ListItem>
+                <ListItem title={_t.textLastSlide} radio checked={stateTypeTo === 3} onClick={() => {changeTypeTo(3)}}></ListItem>
                 <ListItem title={_t.textSlideNumber}>
                     {!isAndroid && <div slot='after-start'>{stateNumberTo + 1}</div>}
                     <div slot='after'>
@@ -85,42 +78,44 @@ const PageLinkTo = props => {
 const PageLink = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const storeFocusObjects = props.storeFocusObjects;
-    const storeLinkSettings = props.storeLinkSettings;
-    const linkObject = storeFocusObjects.linkObject;
-    
-    useEffect(() => {
-        storeLinkSettings.initCategory(linkObject);
-    }, [linkObject]);
+    const url = props.url;
+    const tooltip = props.tooltip;
+    const display = props.display;
+    const slideNum = props.slideNum;
+    const slideLink = props.slideLink;
+    const valueTypeLink = props.typeLink;
 
-    const url = linkObject.get_Value();
-    const tooltip = linkObject.get_ToolTip();
-    const display = linkObject.get_Text();
-    const slideNum = storeLinkSettings.slideNum;
-    const slideLink = storeLinkSettings.slideLink;
-    const typeLink = storeLinkSettings.typeLink;
-    
-    if(typeLink === 1) {
-        storeLinkSettings.changeSlideName(_t.textNextSlide);
-        storeLinkSettings.changeSlideLink(0);
-    } 
+    const typesDisplayTo = {
+        0: `${_t.textNextSlide}`,
+        1: `${_t.textPreviousSlide}`,
+        2: `${_t.textFirstSlide}`,
+        3: `${_t.textLastSlide}`,
+        4: `${_t.textSlide} ${slideNum + 1}`
+    };
 
+    const [typeLink, setTypeLink] = useState(valueTypeLink);
     const textType = typeLink === 1 ? _t.textExternalLink : _t.textSlideInThisPresentation;
+
+    const changeType = (newType) => {
+        setTypeLink(newType);
+    };
+
     const [link, setLink] = useState(typeLink !== 0 ? url : '');
+    const [linkTo, setLinkTo] = useState(slideLink);
+    const [displayTo, setDisplayTo] = useState(typesDisplayTo[slideLink]);
+    const [numberTo, setNumberTo] = useState(slideNum);
 
-    const changeTo = (slideLink, number) => {
-        switch (slideLink) {
-            case 0 : storeLinkSettings.changeSlideName(_t.textNextSlide); break;
-            case 1 : storeLinkSettings.changeSlideName(_t.textPreviousSlide); break;
-            case 2 : storeLinkSettings.changeSlideName(_t.textFirstSlide); break;
-            case 3 : storeLinkSettings.changeSlideName(_t.textLastSlide); break;
-            case 4 : storeLinkSettings.changeSlideName(`${_t.textSlide} ${number + 1}`); storeLinkSettings.changeSlideNum(number);
+    const changeTo = (type, number) => {
+        setLinkTo(type);
+        switch (type) {
+            case 0 : setDisplayTo(_t.textNextSlide); break;
+            case 1 : setDisplayTo(_t.textPreviousSlide); break;
+            case 2 : setDisplayTo(_t.textFirstSlide); break;
+            case 3 : setDisplayTo(_t.textLastSlide); break;
+            case 4 : setDisplayTo(`${_t.textSlide} ${number + 1}`); setNumberTo(number); break;
         }
-    }
+    };
 
-    changeTo(slideLink, slideNum);
-    
-    const slideName = storeLinkSettings.slideName;
     const [screenTip, setScreenTip] = useState(tooltip);
     const displayDisabled = display !== false && display === null;
     const [stateDisplay, setDisplay] = useState(display !== false ? ((display !== null) ? display : _t.textDefault) : "");
@@ -130,7 +125,9 @@ const PageLink = props => {
             <Navbar title={_t.textLink} backLink={_t.textBack}/>
             <List inlineLabels className='inputs-list'>
                 <ListItem link={'/edit-link-type/'} title={_t.textLinkType} after={textType} routeProps={{
-                    curType: typeLink
+                    changeType,
+                    curType: typeLink,
+                    initLink: props.initLink
                 }} />
                 {typeLink !== 0 ?
                     <ListInput label={_t.textLink}
@@ -139,9 +136,11 @@ const PageLink = props => {
                                value={link}
                                onChange={(event) => {setLink(event.target.value)}}
                     /> :
-                    <ListItem link={'/edit-link-to/'} title={_t.textLinkTo} after={slideName} routeProps={{
+                    <ListItem link={'/edit-link-to/'} title={_t.textLinkTo} after={displayTo} routeProps={{
                         changeTo: changeTo,
-                        curTo: slideLink
+                        curTo: linkTo,
+                        initLink: props.initLink,
+                        slidesCount: props.slidesCount
                     }}/>
                 }
                 <ListInput label={_t.textDisplay}
@@ -164,7 +163,7 @@ const PageLink = props => {
                             onClick={() => {
                                 props.onEditLink(typeLink, (typeLink === 1 ?
                                     {url: link, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled } :
-                                    {linkTo: slideLink, numberTo: slideNum, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled}));
+                                    {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, tip: screenTip, displayDisabled: displayDisabled}));
                             }}
                 />
                 <ListButton title={_t.textRemoveLink}
@@ -178,10 +177,6 @@ const PageLink = props => {
     )
 };
 
-const EditLink = inject("storeFocusObjects", "storeLinkSettings")(observer(PageLink));
-const LinkTo = inject("storeFocusObjects", "storeLinkSettings")(observer(PageLinkTo));
-const TypeLink = inject("storeFocusObjects", "storeLinkSettings")(observer(PageTypeLink));
-
-export {EditLink,
-        LinkTo as PageLinkTo,
-        TypeLink as PageTypeLink}
+export {PageLink as EditLink,
+        PageLinkTo,
+        PageTypeLink}

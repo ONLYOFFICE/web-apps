@@ -1,6 +1,22 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeChartSettings {
+    constructor() {
+        makeObservable(this, {
+            chartStyles: observable,
+            fillColor: observable,
+            borderColor: observable,
+            clearChartStyles: action,
+            updateChartStyles: action,
+            styles: computed,
+            types: computed,
+            setFillColor: action,
+            getFillColor: action,
+            setBorderColor: action,
+            initBorderColor: action
+        });
+    }
+
     wrapTypesTransform () {
         const map = [
             { ui:'inline', sdk: Asc.c_oAscWrapStyle2.Inline },
@@ -56,14 +72,18 @@ export class storeChartSettings {
     }
 
     // style
-    @observable chartStyles = null;
-    @action clearChartStyles () {
+
+    chartStyles = null;
+
+    clearChartStyles () {
         this.chartStyles = null;
     }
-    @action updateChartStyles (styles) {
+
+    updateChartStyles (styles) {
         this.chartStyles = styles;
     }
-    @computed get styles () {
+
+    get styles () {
         if (!this.chartStyles) return null;
         const widthContainer = document.querySelector(".page-content").clientWidth;
         const columns = parseInt(widthContainer / 70); // magic
@@ -78,7 +98,8 @@ export class storeChartSettings {
         });
         return styles;
     }
-    @computed get types () {
+
+    get types () {
         const types = [
             { type: Asc.c_oAscChartTypeSettings.barNormal,               thumb: 'chart-03.png'},
             { type: Asc.c_oAscChartTypeSettings.barStacked,              thumb: 'chart-02.png'},
@@ -120,10 +141,13 @@ export class storeChartSettings {
     }
 
     // Fill Color
-    @observable fillColor = undefined;
+
+    fillColor = undefined;
+
     setFillColor (color) {
         this.fillColor = color;
     }
+
     getFillColor (shapeProperties) {
         let fill = shapeProperties.get_fill();
         const fillType = fill.get_type();
@@ -144,10 +168,13 @@ export class storeChartSettings {
     }
 
     // Border size and border color
-    @observable borderColor;
+
+    borderColor;
+
     setBorderColor (color) {
         this.borderColor = color;
     }
+
     initBorderColor (stroke) {
         let color = 'transparent';
         if (stroke && stroke.get_type() == Asc.c_oAscStrokeType.STROKE_COLOR) {
@@ -164,6 +191,7 @@ export class storeChartSettings {
         this.borderColor = color;
         return color;
     }
+
     borderSizeTransform () {
         const _sizes = [0, 0.5, 1, 1.5, 2.25, 3, 4.5, 6];
 
