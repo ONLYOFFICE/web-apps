@@ -38,10 +38,11 @@
  *
  */
 
-if (Common === undefined) {
-    var Common = {};
+if ( window.Common === undefined ) {
+    window.Common = {};
 }
 
+// TODO: move to Common.Utils
 Common.util = Common.util||{};
 
 Common.util.LanguageInfo = new(function() {

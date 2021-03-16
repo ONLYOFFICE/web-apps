@@ -8,6 +8,8 @@ import CellEditor from '../controller/CellEditor';
 import Statusbar from '../controller/StatusBar'
 import AddOptions from "../view/add/Add";
 import EditOptions from "../view/edit/Edit";
+import { Device } from '../../../../common/mobile/utils/device';
+import { Search, SearchSettings } from '../controller/Search';
 
 import {FunctionGroups} from "../controller/add/AddFunction";
 
@@ -56,44 +58,47 @@ export default class MainPage extends Component {
 
   render() {
       return (
-          <Page name="home">
+            <Page name="home">
               {/* Top Navbar */}
-              <Navbar id='editor-navbar'>
-                  {/*<div slot="before-inner" className="main-logo"><Icon icon="icon-logo"></Icon></div>*/}
-                  <NavLeft>
-                      <Link icon='icon-undo'></Link>
-                      <Link icon='icon-redo'></Link>
-                  </NavLeft>
-                  <NavRight>
-                      <Link id='btn-edit' icon='icon-edit-settings' href={false} onClick={e => this.handleClickToOpenOptions('edit')}></Link>
-                      <Link id='btn-add' icon='icon-plus' href={false} onClick={e => this.handleClickToOpenOptions('add')}></Link>
-                      <Link id='btn-coauth' href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
-                      <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
-                  </NavRight>
-              </Navbar>
-              <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
-              {/* Page content */}
-              <View id="editor_sdk" />
-            {
-                !this.state.editOptionsVisible ? null :
-                    <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
-            }
-            {
-                !this.state.addOptionsVisible ? null :
-                    <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
-            }
-            {
-                !this.state.settingsVisible ? null :
-                    <Settings onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
-            }
-            {
-                !this.state.collaborationVisible ? null :
-                    <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
-            }
-              <Statusbar />
+                <Navbar id='editor-navbar'>
+                    {/*<div slot="before-inner" className="main-logo"><Icon icon="icon-logo"></Icon></div>*/}
+                    <NavLeft>
+                        <Link icon='icon-undo'></Link>
+                        <Link icon='icon-redo'></Link>
+                    </NavLeft>
+                    <NavRight>
+                        <Link id='btn-edit' icon='icon-edit-settings' href={false} onClick={e => this.handleClickToOpenOptions('edit')}></Link>
+                        <Link id='btn-add' icon='icon-plus' href={false} onClick={e => this.handleClickToOpenOptions('add')}></Link>
+                        { Device.phone ? null : <Link icon='icon-search' searchbarEnable='.searchbar' href={false}></Link> }
+                        <Link href={false} icon='icon-collaboration' onClick={e => this.handleClickToOpenOptions('coauth')}></Link>
+                        <Link id='btn-settings' icon='icon-settings' href={false} onClick={e => this.handleClickToOpenOptions('settings')}></Link>
+                    </NavRight>
+                    <Search useSuspense={false} />
+                </Navbar>
+                <CellEditor onClickToOpenAddOptions={(panels, button) => this.handleClickToOpenOptions('add', {panels: panels, button: button})}/>
+                {/* Page content */}
+                <View id="editor_sdk" />
+                <SearchSettings useSuspense={false} />
+                {
+                    !this.state.editOptionsVisible ? null :
+                        <EditOptions onclosed={this.handleOptionsViewClosed.bind(this, 'edit')} />
+                }
+                {
+                    !this.state.addOptionsVisible ? null :
+                        <AddOptions onclosed={this.handleOptionsViewClosed.bind(this, 'add')} showOptions={this.state.addShowOptions} />
+                }
+                {
+                    !this.state.settingsVisible ? null :
+                        <Settings onclosed={this.handleOptionsViewClosed.bind(this, 'settings')} />
+                }
+                {
+                    !this.state.collaborationVisible ? null :
+                        <CollaborationView onclosed={this.handleOptionsViewClosed.bind(this, 'coauth')} />
+                }
+                <Statusbar />
 
-              <FunctionGroups /> {/* hidden component*/}
-          </Page>
+                <FunctionGroups /> {/* hidden component*/}
+            </Page>
       )
   }
 };

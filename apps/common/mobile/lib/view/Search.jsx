@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { Searchbar, Popover, Popup, View, Page, List, ListItem, Navbar, NavRight, Link } from 'framework7-react';
 import { Toggle } from 'framework7-react';
@@ -60,9 +61,9 @@ class SearchSettingsView extends Component {
         const extra = this.extraSearchOptions();
         const content =
             <View style={show_popover ? popoverStyle : null}>
-                {/* <Page> */}
-                    {/* {navbar} */}
-                    {extra}
+                {/* <Page>
+                    {navbar} */}
+                {extra}
                 {/* </Page> */}
             </View>;
         return (
@@ -108,13 +109,13 @@ class SearchView extends Component {
 
                 const $editor = $$('#editor_sdk');
                 // const $replaceLink = $$('#replace-link');
-               
-                if (false /*iOSVersion() < 13*/) {
-                    // $editor.single('mousedown touchstart', _.bind(me.onEditorTouchStart, me));
-                    // $editor.single('mouseup touchend',     _.bind(me.onEditorTouchEnd, me));
+
+                if (false /* iOSVersion < 13 */) {
+                    // $editor.on('mousedown touchstart', this.onEditorTouchStart.bind(this));
+                    // $editor.on('mouseup touchend', this.onEditorTouchEnd.bind(this));
                 } else {
-                    // $editor.single('pointerdown', this.onEditorTouchStart, me));
-                    // $editor.single('pointerup',     _.bind(me.onEditorTouchEnd, me));
+                    // $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
+                    // $editor.on('pointerup',   this.onEditorTouchEnd.bind(this));
                 }
 
                 $editor.on('pointerdown', this.onEditorTouchStart.bind(this));
@@ -213,7 +214,7 @@ class SearchView extends Component {
                 distance = 0;
             }
 
-            // const distance = (this.startPoint.x === undefined || this.startPoint.y === undefined) ? 0 :
+            // const distance = (this.startPoint === undefined || this.startPoint === undefined) ? 0 :
             //     Math.sqrt((endPoint.x -= this.startPoint.x) * endPoint.x + (endPoint.y -= this.startPoint.y) * endPoint.y);
 
             if (distance < 1) {

@@ -1,6 +1,16 @@
-import {action, observable, computed} from 'mobx';
+import {action, observable, computed, makeObservable} from 'mobx';
 
 export class storeShapeSettings {
+    constructor() {
+        makeObservable(this, {
+            fillColor: observable,
+            borderColorView: observable,
+            setFillColor: action,
+            getFillColor: action,
+            setBorderColor: action,
+            initBorderColorView: action
+        });
+    }
 
     getStyleGroups () {
         const styles = [
@@ -125,8 +135,10 @@ export class storeShapeSettings {
                 type: 'cloudCallout'
             }
         ];
+
         const groups = [];
         let i = 0;
+
         for (let row=0; row<Math.floor(styles.length/4); row++) {
             const group = [];
             for (let cell=0; cell<4; cell++) {
@@ -135,12 +147,13 @@ export class storeShapeSettings {
             }
             groups.push(group);
         }
+
         return groups;
     }
 
     // Fill Color
 
-    @observable fillColor = undefined;
+    fillColor = undefined;
 
     setFillColor (color) {
         this.fillColor = color;
@@ -169,7 +182,7 @@ export class storeShapeSettings {
 
     // Border size and color
 
-    @observable borderColorView;
+    borderColorView;
 
     setBorderColor (color) {
         this.borderColorView = color;
@@ -220,5 +233,4 @@ export class storeShapeSettings {
             }
         }
     }
-
 }

@@ -6,7 +6,7 @@ const SearchController = props => {
         console.log('on search: ' + params);
     };
 
-    return <SearchView onSearchQuery={onSearchQuery} />
+    return <SearchView onSearchQuery={onSearchQuery}  />
 };
 
 export {SearchController, SearchView, SearchSettingsView};

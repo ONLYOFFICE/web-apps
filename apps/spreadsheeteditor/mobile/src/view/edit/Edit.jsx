@@ -8,9 +8,16 @@ import {Device} from '../../../../../common/mobile/utils/device';
 import EditCellController from "../../controller/edit/EditCell";
 import EditShapeController from "../../controller/edit/EditShape";
 import EditImageController from "../../controller/edit/EditImage";
+import EditTextController from "../../controller/edit/EditText";
+import EditChartController from "../../controller/edit/EditChart";
+import { EditLinkController } from "../../controller/edit/EditLink";
 
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageLinkSettings } from './EditImage';
+import { TextColorCell, FillColorCell, CustomTextColorCell, CustomFillColorCell, FontsCell, TextFormatCell, TextOrientationCell, BorderStyleCell, BorderColorCell, CustomBorderColorCell, BorderSizeCell, PageFormatCell, PageAccountingFormatCell, PageCurrencyFormatCell, PageDateFormatCell, PageTimeFormatCell } from './EditCell';
+import { PageTextFonts, PageTextFontColor, PageTextCustomFontColor } from './EditText';
+import { PageChartStyle, PageChartCustomFillColor, PageChartBorderColor, PageChartCustomBorderColor, PageChartReorder, PageChartLayout, PageLegend, PageChartTitle, PageHorizontalAxisTitle, PageVerticalAxisTitle, PageHorizontalGridlines, PageVerticalGridlines, PageDataLabels, PageChartVerticalAxis, PageVertAxisCrosses, PageDisplayUnits, PageVertMajorType, PageVertMinorType, PageVertLabelPosition, PageChartHorizontalAxis, PageHorAxisCrosses, PageHorAxisPosition, PageHorMajorType, PageHorMinorType, PageHorLabelPosition } from './EditChart';
+import { PageTypeLink, PageSheet } from './EditLink';
 
 const routes = [
 
@@ -58,7 +65,210 @@ const routes = [
     {
         path: '/edit-image-link/',
         component: PageLinkSettings
+    },
+
+    // Cell
+
+    {
+        path: '/edit-cell-text-color/',
+        component: TextColorCell
+    },
+    {
+        path: '/edit-cell-fill-color/',
+        component: FillColorCell
+    },
+    {
+        path: '/edit-cell-text-custom-color/',
+        component: CustomTextColorCell
+    },
+    {
+        path: '/edit-cell-fill-custom-color/',
+        component: CustomFillColorCell
+    },
+    {
+        path: '/edit-cell-text-fonts/',
+        component: FontsCell
+    },
+    {
+        path: '/edit-cell-text-format/',
+        component: TextFormatCell
+    },
+    {
+        path: '/edit-cell-text-orientation/',
+        component: TextOrientationCell
+    },
+    {
+        path: '/edit-cell-border-style/',
+        component: BorderStyleCell
+    },
+    {
+        path: '/edit-border-color-cell/',
+        component: BorderColorCell
+    },
+    {
+        path: '/edit-border-custom-color-cell/',
+        component: CustomBorderColorCell
+    },
+    {
+        path: '/edit-border-size-cell/',
+        component: BorderSizeCell
+    },
+    {
+        path: '/edit-format-cell/',
+        component: PageFormatCell
+    },
+    {
+        path: '/edit-accounting-format-cell/',
+        component: PageAccountingFormatCell
+    },
+    {
+        path: '/edit-currency-format-cell/',
+        component: PageCurrencyFormatCell
+    },
+    {
+        path: '/edit-date-format-cell/',
+        component: PageDateFormatCell
+    },
+    {
+        path: '/edit-time-format-cell/',
+        component: PageTimeFormatCell
+    }, 
+
+    // Text
+
+    {
+        path: '/edit-text-fonts/',
+        component: PageTextFonts
+    },
+    {
+        path: '/edit-text-font-color/',
+        component: PageTextFontColor
+    }, 
+    {
+        path: '/edit-text-custom-font-color/',
+        component: PageTextCustomFontColor
+    },
+
+    // Chart 
+
+    {
+        path: '/edit-chart-style/',
+        component: PageChartStyle
+    },
+    {
+        path: '/edit-chart-border-color/',
+        component: PageChartBorderColor
+    },
+    {
+        path: '/edit-chart-custom-fill-color/',
+        component: PageChartCustomFillColor
+    },
+    {
+        path: '/edit-chart-custom-border-color/',
+        component: PageChartCustomBorderColor
+    },
+    {
+        path: '/edit-chart-reorder/',
+        component: PageChartReorder
+    },
+    {
+        path: '/edit-chart-layout/',
+        component: PageChartLayout
+    },
+    {
+        path: '/edit-chart-title/',
+        component: PageChartTitle
+    },
+    {
+        path: '/edit-chart-legend/',
+        component: PageLegend
+    },
+    {
+        path: '/edit-horizontal-axis-title/',
+        component: PageHorizontalAxisTitle
+    },
+    {
+        path: '/edit-vertical-axis-title/',
+        component: PageVerticalAxisTitle
+    },
+    {
+        path: '/edit-horizontal-gridlines/',
+        component: PageHorizontalGridlines
+    },
+    {
+        path: '/edit-vertical-gridlines/',
+        component: PageVerticalGridlines
+    },
+    {
+        path: '/edit-data-labels/',
+        component: PageDataLabels
+    },
+
+    // Vertical Axis
+
+    {
+        path: '/edit-chart-vertical-axis/',
+        component: PageChartVerticalAxis
+    },
+    {
+        path: '/edit-vert-axis-crosses/',
+        component: PageVertAxisCrosses
+    },
+    {
+        path: '/edit-display-units/',
+        component: PageDisplayUnits
+    },
+    {
+        path: '/edit-vert-major-type/',
+        component: PageVertMajorType
+    },
+    {
+        path: '/edit-vert-minor-type/',
+        component: PageVertMinorType
+    },
+    {
+        path: '/edit-vert-label-position/',
+        component: PageVertLabelPosition
+    },
+
+    // Horizontal Axis
+
+    {
+        path: '/edit-chart-horizontal-axis/',
+        component: PageChartHorizontalAxis
+    },
+    {
+        path: '/edit-hor-axis-crosses/',
+        component: PageHorAxisCrosses
+    },
+    {
+        path: '/edit-hor-axis-position/',
+        component: PageHorAxisPosition
+    },
+    {
+        path: '/edit-hor-major-type/',
+        component: PageHorMajorType
+    },
+    {
+        path: '/edit-hor-minor-type/',
+        component: PageHorMinorType
+    },
+    {
+        path: '/edit-hor-label-position/',
+        component: PageHorLabelPosition
+    },
+
+    // Link 
+
+    {
+        path: '/edit-link-type/',
+        component: PageTypeLink
+    },
+    {
+        path: '/edit-link-sheet',
+        component: PageSheet
     }
+
 
 ];
 
@@ -122,6 +332,7 @@ const EditTabs = props => {
     const store = props.storeFocusObjects;
     const settings = !store.focusOn ? [] : (store.focusOn === 'obj' ? store.objects : store.selections);
     let editors = [];
+
     if (settings.length < 1) {
         editors.push({
             caption: _t.textSettings,
@@ -147,6 +358,27 @@ const EditTabs = props => {
                 caption: _t.textImage,
                 id: 'edit-image',
                 component: <EditImageController />
+            })
+        }
+        if (settings.indexOf('text') > -1) {
+            editors.push({
+                caption: _t.textText,
+                id: 'edit-text',
+                component: <EditTextController />
+            })
+        }
+        if (settings.indexOf('chart') > -1) {
+            editors.push({
+                caption: _t.textChart,
+                id: 'edit-chart',
+                component: <EditChartController />
+            })
+        }
+        if (settings.indexOf('hyperlink') > -1) {
+            editors.push({
+                caption: _t.textHyperlink,
+                id: 'edit-link',
+                component: <EditLinkController />
             })
         }
     }
