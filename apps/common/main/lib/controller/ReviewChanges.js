@@ -464,17 +464,12 @@ define([
                         scope       : me.view,
                         hint        : !me.appConfig.canReview,
                         goto        : (item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveTo || item.get_MoveType() == Asc.c_oAscRevisionsMove.MoveFrom),
-                        editable    : me.appConfig.isReviewOnly && (item.get_UserId() == me.currentUserId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || me.checkUserGroups(item.get_UserName()))
+                        editable    : me.appConfig.isReviewOnly && (item.get_UserId() == me.currentUserId) || !me.appConfig.isReviewOnly && (!me.appConfig.canUseReviewPermissions || Common.Utils.UserInfoParser.canEditReview(item.get_UserName()))
                     });
 
                 arr.push(change);
             });
             return arr;
-        },
-
-        checkUserGroups: function(username) {
-            var groups = Common.Utils.UserInfoParser.getParsedGroups(username);
-            return Common.Utils.UserInfoParser.getCurrentGroups() && groups && (_.intersection(Common.Utils.UserInfoParser.getCurrentGroups(), (groups.length>0) ? groups : [""]).length>0);
         },
 
         getUserName: function(id){

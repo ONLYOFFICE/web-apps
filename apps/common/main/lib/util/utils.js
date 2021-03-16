@@ -1040,6 +1040,11 @@ Common.Utils.UserInfoParser = new(function() {
 
         getCurrentGroups: function() {
             return usergroups;
+        },
+
+        canEditReview: function(username) {
+            var groups = this.getParsedGroups(username);
+            return usergroups && groups && (_.intersection(usergroups, (groups.length>0) ? groups : [""]).length>0);
         }
     }
 })();
